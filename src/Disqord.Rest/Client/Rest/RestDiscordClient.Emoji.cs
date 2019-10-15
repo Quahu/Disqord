@@ -5,18 +5,19 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Disqord.Models;
 
 namespace Disqord.Rest
 {
     public partial class RestDiscordClient : IDiscordClient
     {
-        public async Task<IReadOnlyList<RestGuildEmoji>> GetEmojisAsync(Snowflake guildId, RestRequestOptions options = null)
+        public async Task<IReadOnlyList<RestGuildEmoji>> GetGuildEmojisAsync(Snowflake guildId, RestRequestOptions options = null)
         {
             var models = await ApiClient.ListGuildEmojisAsync(guildId, options).ConfigureAwait(false);
             return models.Select(x => new RestGuildEmoji(this, x, guildId)).ToImmutableArray();
         }
 
-        public async Task<RestGuildEmoji> GetEmojiAsync(Snowflake guildId, Snowflake emojiId, RestRequestOptions options = null)
+        public async Task<RestGuildEmoji> GetGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, RestRequestOptions options = null)
         {
             try
             {
@@ -29,7 +30,7 @@ namespace Disqord.Rest
             }
         }
 
-        public async Task<RestGuildEmoji> CreateEmojiAsync(Snowflake guildId, string name, LocalAttachment image, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null)
+        public async Task<RestGuildEmoji> CreateGuildEmojiAsync(Snowflake guildId, string name, LocalAttachment image, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
@@ -39,7 +40,13 @@ namespace Disqord.Rest
             return new RestGuildEmoji(this, model, guildId);
         }
 
-        public async Task<RestGuildEmoji> ModifyEmojiAsync(Snowflake guildId, Snowflake emojiId, Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null)
+        public async Task<RestGuildEmoji> ModifyGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null)
+        {
+            var model = await InternalModifyGuildEmojiAsync(guildId, emojiId, action, options).ConfigureAwait(false);
+            return new RestGuildEmoji(this, model, guildId);
+        }
+
+        internal async Task<EmojiModel> InternalModifyGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null)
         {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
@@ -47,10 +54,10 @@ namespace Disqord.Rest
             var properties = new ModifyGuildEmojiProperties();
             action(properties);
             var model = await ApiClient.ModifyGuildEmojiAsync(guildId, emojiId, properties, options).ConfigureAwait(false);
-            return new RestGuildEmoji(this, model, guildId);
+            return model;
         }
 
-        public Task DeleteEmojiAsync(Snowflake guildId, Snowflake emojiId, RestRequestOptions options = null)
+        public Task DeleteGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, RestRequestOptions options = null)
             => ApiClient.DeleteGuildEmojiAsync(guildId, emojiId, options);
     }
 }

@@ -44,8 +44,11 @@ namespace Disqord.Rest
             IsMentionable = model.Mentionable;
         }
 
-        public Task ModifyAsync(Action<ModifyRoleProperties> action, RestRequestOptions options = null)
-            => Client.ModifyRoleAsync(GuildId, Id, action, options);
+        public async Task ModifyAsync(Action<ModifyRoleProperties> action, RestRequestOptions options = null)
+        {
+            var model = await Client.InternalModifyRoleAsync(GuildId, Id, action, options).ConfigureAwait(false);
+            Update(model);
+        }
 
         public Task DeleteAsync(RestRequestOptions options = null)
             => Client.DeleteRoleAsync(GuildId, Id, options);

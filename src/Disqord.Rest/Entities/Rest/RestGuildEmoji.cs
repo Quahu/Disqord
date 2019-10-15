@@ -63,16 +63,12 @@ namespace Disqord.Rest
             => MessageFormat;
 
         public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.DeleteEmojiAsync(GuildId, Id, options);
+            => Client.DeleteGuildEmojiAsync(GuildId, Id, options);
 
         public async Task ModifyAsync(Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null)
         {
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
-
-            var properties = new ModifyGuildEmojiProperties();
-            action(properties);
-            Update(await Client.ApiClient.ModifyGuildEmojiAsync(GuildId, Id, properties, options).ConfigureAwait(false));
+            var model = await Client.InternalModifyGuildEmojiAsync(GuildId, Id, action, options).ConfigureAwait(false);
+            Update(model);
         }
     }
 }

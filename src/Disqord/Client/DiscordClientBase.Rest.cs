@@ -104,10 +104,10 @@ namespace Disqord
         public Task<IReadOnlyList<RestVoiceRegion>> GetVoiceRegionsAsync(RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetVoiceRegionsAsync(options);
         public Task<RestInvite> GetInviteAsync(string code, bool withCounts = true, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetInviteAsync(code, withCounts, options);
         public Task<RestInvite> DeleteInviteAsync(string code, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).DeleteInviteAsync(code, options);
-        public Task<IReadOnlyList<RestGuildEmoji>> GetEmojisAsync(Snowflake guildId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetEmojisAsync(guildId, options);
-        public Task<RestGuildEmoji> GetEmojiAsync(Snowflake guildId, Snowflake emojiId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetEmojiAsync(guildId, emojiId, options);
-        public Task<RestGuildEmoji> CreateEmojiAsync(Snowflake guildId, string name, LocalAttachment image, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).CreateEmojiAsync(guildId, name, image, roleIds, options);
-        public Task<RestGuildEmoji> ModifyEmojiAsync(Snowflake guildId, Snowflake emojiId, Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).ModifyEmojiAsync(guildId, emojiId, action, options);
-        public Task DeleteEmojiAsync(Snowflake guildId, Snowflake emojiId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).DeleteEmojiAsync(guildId, emojiId, options);
+        public Task<IReadOnlyList<RestGuildEmoji>> GetGuildEmojisAsync(Snowflake guildId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetGuildEmojisAsync(guildId, options);
+        public Task<RestGuildEmoji> GetGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetGuildEmojiAsync(guildId, emojiId, options);
+        public Task<RestGuildEmoji> CreateGuildEmojiAsync(Snowflake guildId, string name, LocalAttachment image, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).CreateGuildEmojiAsync(guildId, name, image, roleIds, options);
+        public Task<RestGuildEmoji> ModifyGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).ModifyGuildEmojiAsync(guildId, emojiId, action, options);
+        public Task DeleteGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).DeleteGuildEmojiAsync(guildId, emojiId, options);
     }
 }

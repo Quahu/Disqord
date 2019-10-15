@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Disqord.Models;
 using Qommon.Collections;
 
 namespace Disqord.Rest
@@ -38,13 +39,18 @@ namespace Disqord.Rest
 
         public async Task<RestChannel> ModifyChannelAsync(Snowflake channelId, Action<ModifyChannelProperties> action, RestRequestOptions options = null)
         {
+            var model = await InternalModifyChannelAsync(channelId, action, options).ConfigureAwait(false);
+            return RestChannel.Create(this, model);
+        }
+
+        internal async Task<ChannelModel> InternalModifyChannelAsync(Snowflake channelId, Action<ModifyChannelProperties> action, RestRequestOptions options = null)
+        {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
 
             var properties = new ModifyChannelProperties();
             action(properties);
-            var model = await ApiClient.ModifyChannelAsync(channelId, properties, options).ConfigureAwait(false);
-            return RestChannel.Create(this, model);
+            return await ApiClient.ModifyChannelAsync(channelId, properties, options).ConfigureAwait(false);
         }
 
         public Task DeleteOrCloseChannelAsync(Snowflake channelId, RestRequestOptions options = null)

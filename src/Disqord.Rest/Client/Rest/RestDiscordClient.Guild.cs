@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Disqord.Models;
 
 namespace Disqord.Rest
 {
@@ -33,13 +34,18 @@ namespace Disqord.Rest
 
         public async Task<RestGuild> ModifyGuildAsync(Snowflake guildId, Action<ModifyGuildProperties> action, RestRequestOptions options = null)
         {
+            var model = await InternalModifyGuildAsync(guildId, action, options).ConfigureAwait(false);
+            return new RestGuild(this, model);
+        }
+
+        internal async Task<GuildModel> InternalModifyGuildAsync(Snowflake guildId, Action<ModifyGuildProperties> action, RestRequestOptions options = null)
+        {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
 
             var properties = new ModifyGuildProperties();
             action(properties);
-            var model = await ApiClient.ModifyGuildAsync(guildId, properties, options).ConfigureAwait(false);
-            return new RestGuild(this, model);
+            return await ApiClient.ModifyGuildAsync(guildId, properties, options).ConfigureAwait(false);
         }
 
         public Task DeleteGuildAsync(Snowflake guildId, RestRequestOptions options = null)
@@ -208,6 +214,12 @@ namespace Disqord.Rest
 
         public async Task<RestRole> ModifyRoleAsync(Snowflake guildId, Snowflake roleId, Action<ModifyRoleProperties> action, RestRequestOptions options = null)
         {
+            var model = await InternalModifyRoleAsync(guildId, roleId, action, options).ConfigureAwait(false);
+            return new RestRole(this, model, guildId);
+        }
+
+        internal async Task<RoleModel> InternalModifyRoleAsync(Snowflake guildId, Snowflake roleId, Action<ModifyRoleProperties> action, RestRequestOptions options = null)
+        {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
 
@@ -221,8 +233,7 @@ namespace Disqord.Rest
                 }, options).ConfigureAwait(false);
             }
 
-            var model = await ApiClient.ModifyGuildRoleAsync(guildId, roleId, properties, options).ConfigureAwait(false);
-            return new RestRole(this, model, guildId);
+            return await ApiClient.ModifyGuildRoleAsync(guildId, roleId, properties, options).ConfigureAwait(false);
         }
 
         public Task DeleteRoleAsync(Snowflake guildId, Snowflake roleId, RestRequestOptions options = null)

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -46,12 +43,6 @@ namespace Disqord.Rest
         {
             var model = await ApiClient.CreateDmAsync(userId, options).ConfigureAwait(false);
             return new RestDmChannel(this, model);
-        }
-
-        public async Task<IReadOnlyList<RestVoiceRegion>> GetVoiceRegionsAsync(RestRequestOptions options = null)
-        {
-            var models = await ApiClient.ListVoiceRegionsAsync(options).ConfigureAwait(false);
-            return models.Select(x => new RestVoiceRegion(this, x)).ToImmutableArray();
         }
     }
 }
