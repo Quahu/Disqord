@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Models;
-using Disqord.Rest.AuditLogs;
 using Qommon.Collections;
 
 namespace Disqord.Rest
 {
-    public sealed class RestGuild : RestSnowflakeEntity, IGuild
+    public sealed partial class RestGuild : RestSnowflakeEntity, IGuild
     {
         public string Name { get; private set; }
 
@@ -174,43 +171,11 @@ namespace Disqord.Rest
                 PreferredLocale = CultureInfo.ReadOnly(new CultureInfo(model.PreferredLocale.Value));
         }
 
-        public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.DeleteGuildAsync(Id, options);
-
-        public async Task<RestMember> GetMemberAsync(Snowflake id, RestRequestOptions options = null)
-        {
-            var member = await Client.GetMemberAsync(Id, id, options).ConfigureAwait(false);
-            member.Guild.SetValue(this);
-            return member;
-        }
-
         public string GetIconUrl(ImageFormat? imageFormat = null, int size = 2048)
             => Discord.GetGuildIconUrl(Id, IconHash, imageFormat, size);
 
         public string GetSplashUrl(int size = 2048)
             => Discord.GetGuildSplashUrl(Id, SplashHash, ImageFormat.Png, 2048);
-
-        public Task<IReadOnlyList<RestAuditLog>> GetAuditLogsAsync(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null)
-            => GetAuditLogsAsync<RestAuditLog>(limit, userId, startFromId, options);
-
-        public Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog
-            => Client.GetAuditLogsAsync<T>(Id, limit, userId, startFromId, options);
-
-        public async Task<RestRole> CreateRoleAsync(Action<CreateRoleProperties> action = null, RestRequestOptions options = null)
-        {
-            var role = await Client.CreateRoleAsync(Id, action, options).ConfigureAwait(false);
-            role.Guild.SetValue(this);
-            return role;
-        }
-
-        public async Task<IReadOnlyList<RestBan>> GetBansAsync(RestRequestOptions options = null)
-        {
-            var bans = await Client.GetBansAsync(Id, options).ConfigureAwait(false);
-            for (var i = 0; i < bans.Count; i++)
-                bans[i].Guild.SetValue(this);
-
-            return bans;
-        }
 
         public override string ToString()
             => Name;
