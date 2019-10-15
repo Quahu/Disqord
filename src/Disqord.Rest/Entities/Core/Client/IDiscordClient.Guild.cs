@@ -63,7 +63,7 @@ namespace Disqord
 
         Task<int?> PruneAsync(Snowflake guildId, int days, bool computePruneCount = true, RestRequestOptions options = null);
 
-        Task<IReadOnlyList<RestVoiceRegion>> GetVoiceRegionsAsync(Snowflake guildId, RestRequestOptions options = null);
+        Task<IReadOnlyList<RestGuildVoiceRegion>> GetVoiceRegionsAsync(Snowflake guildId, RestRequestOptions options = null);
 
         Task<IReadOnlyList<RestInvite>> GetGuildInvitesAsync(Snowflake guildId, RestRequestOptions options = null);
 

@@ -28,12 +28,12 @@ namespace Disqord.Serialization.Json.Newtonsoft
             using (var streamReader = new StreamReader(stream, UTF8, leaveOpen: true))
             using (var jsonReader = new JsonTextReader(streamReader))
             {
-#if DEBUG
+#if DEBUG && false
                 var jObject = JToken.Load(jsonReader);
                 Console.WriteLine(jObject);
                 return jObject.ToObject<T>(_serializer);
 #else
-                return _serializer.Deserialize<JObject>(jsonReader);
+                return _serializer.Deserialize<T>(jsonReader);
 #endif
             }
         }

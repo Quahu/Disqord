@@ -59,7 +59,7 @@ namespace Disqord
         public Task DeleteRoleAsync(Snowflake guildId, Snowflake roleId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).DeleteRoleAsync(guildId, roleId, options);
         public Task<int> GetPruneCountAsync(Snowflake guildId, int days, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetPruneCountAsync(guildId, days, options);
         public Task<int?> PruneAsync(Snowflake guildId, int days, bool computePruneCount = true, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).PruneAsync(guildId, days, computePruneCount, options);
-        public Task<IReadOnlyList<RestVoiceRegion>> GetVoiceRegionsAsync(Snowflake guildId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetVoiceRegionsAsync(guildId, options);
+        public Task<IReadOnlyList<RestGuildVoiceRegion>> GetVoiceRegionsAsync(Snowflake guildId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetVoiceRegionsAsync(guildId, options);
         public Task<IReadOnlyList<RestInvite>> GetGuildInvitesAsync(Snowflake guildId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetGuildInvitesAsync(guildId, options);
         public Task<RestWidget> GetWidgetAsync(Snowflake guildId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetWidgetAsync(guildId, options);
         public Task<RestWidget> ModifyWidgetAsync(Snowflake guildId, Action<ModifyWidgetProperties> action, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).ModifyWidgetAsync(guildId, action, options);

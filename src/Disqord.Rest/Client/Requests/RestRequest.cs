@@ -16,6 +16,8 @@ namespace Disqord.Rest
 
         public int? RateLimitOverride { get; set; }
 
+        public bool BucketsMethod { get; set; }
+
         public RestRequestOptions Options { get; }
 
         private TaskCompletionSource<HttpResponseMessage> _tcs;
@@ -50,7 +52,7 @@ namespace Disqord.Rest
         public void Initialise(IJsonSerializer serializer)
         {
             HttpMessage?.Dispose();
-            var extractedUrl = ExtractUrl(_url, out var route, out var guildId, out var channelId, out var webhookId);
+            var extractedUrl = FormatUrl(_url, out var guildId, out var channelId, out var webhookId);
             var builtQueryString = BuildQueryString(_queryStringParameters);
             var message = new HttpRequestMessage
             {
@@ -66,7 +68,7 @@ namespace Disqord.Rest
                 message.Headers.Add("X-Audit-Log-Reason", Uri.EscapeDataString(reason));
 
             HttpMessage = message;
-            Identifier = RateLimitBucket.GenerateIdentifier(_method, route, guildId, channelId, webhookId);
+            Identifier = RateLimitBucket.GenerateIdentifier(_method, BucketsMethod, _url.Format, guildId, channelId, webhookId);
         }
 
         public Task<HttpResponseMessage> CompleteAsync()
@@ -92,78 +94,54 @@ namespace Disqord.Rest
             if (parameters == null || parameters.Count == 0)
                 return null;
 
-            return string.Concat('?', string.Join("&", parameters.Select(x => string.Concat(x.Key, '=', Uri.EscapeDataString(x.Value.ToString())))));
+            return string.Concat("?", string.Join('&', parameters.Select(x => string.Concat(x.Key, "=", Uri.EscapeDataString(x.Value.ToString())))));
         }
 
-        internal static string ExtractUrl(FormattableString formattableUrl, out string route, out ulong? guildId, out ulong? channelId, out ulong? webhookId)
+        internal static string FormatUrl(FormattableString formattable, out ulong guildId, out ulong channelId, out ulong webhookId)
         {
-            var raw = formattableUrl.Format;
-            var arguments = formattableUrl.GetArguments();
-            guildId = null;
-            channelId = null;
-            webhookId = null;
+            var raw = formattable.Format;
+            guildId = 0;
+            channelId = 0;
+            webhookId = 0;
 
-            if (arguments.Length == 0)
-            {
-                route = raw;
+            if (formattable.ArgumentCount == 0)
                 return raw;
-            }
 
-            var urlBuilder = new StringBuilder();
-            var routeBuilder = new StringBuilder();
-
-            var argumentPosition = 0;
-            var startPosition = 0;
-            int firstIndex;
-            var secondIndex = -1;
-            while ((firstIndex = raw.IndexOf('{', startPosition)) != -1)
+            var builder = new StringBuilder(raw.Length);
+            var rawSpan = raw.AsSpan();
+            int firstBracketIndex;
+            while ((firstBracketIndex = rawSpan.IndexOf('{')) != -1)
             {
-                var segment = raw.Substring(startPosition, firstIndex - startPosition);
-                urlBuilder.Append(segment);
-                routeBuilder.Append(segment);
-
-                startPosition = firstIndex + 1;
-                secondIndex = raw.IndexOf('}', startPosition);
-                if (secondIndex == -1)
-                    throw new Exception();
-
-                startPosition = secondIndex + 1;
-                var split = raw.Substring(firstIndex, secondIndex - firstIndex).Split(':');
-                if (split.Length != 2)
-                    throw new Exception();
-
-                var name = split[1];
-                var value = arguments[argumentPosition++];
-                switch (name)
+                builder.Append(rawSpan.Slice(0, firstBracketIndex));
+                rawSpan = rawSpan.Slice(firstBracketIndex + 1);
+                var secondBracketIndex = rawSpan.IndexOf('}');
+                var segment = rawSpan.Slice(0, secondBracketIndex);
+                int argumentIndex = segment[0] - '0';
+                var argument = formattable.GetArgument(argumentIndex);
+                builder.Append(argument);
+                if (segment.Length > 1)
                 {
-                    case "guild_id":
-                        guildId = Convert.ToUInt64(value);
-                        break;
+                    var nameSpan = segment.Slice(2);
+                    if (nameSpan.Equals("guild_id", StringComparison.Ordinal))
+                        guildId = Convert.ToUInt64(argument);
 
-                    case "channel_id":
-                        channelId = Convert.ToUInt64(value);
-                        break;
+                    else if (nameSpan.Equals("channel_id", StringComparison.Ordinal))
+                        channelId = Convert.ToUInt64(argument);
 
-                    case "webhook_id":
-                        webhookId = Convert.ToUInt64(value);
-                        break;
+                    else if (nameSpan.Equals("webhook_id", StringComparison.Ordinal))
+                        webhookId = Convert.ToUInt64(argument);
+
+                    else
+                        throw new ArgumentException($"Unrecognized url name '{nameSpan.ToString()}'.", nameof(formattable));
                 }
 
-                routeBuilder.Append(name);
-                urlBuilder.Append(value);
+                rawSpan = rawSpan.Slice(secondBracketIndex + 1);
             }
 
-            secondIndex++;
-            if (secondIndex < raw.Length - 1)
-            {
-                var rest = raw.Substring(secondIndex);
-                if (firstIndex == -1)
-                    routeBuilder.Append(rest);
-                urlBuilder.Append(rest);
-            }
+            if (rawSpan.Length > 0)
+                builder.Append(rawSpan);
 
-            route = routeBuilder.ToString();
-            return urlBuilder.ToString();
+            return builder.ToString();
         }
     }
 }
