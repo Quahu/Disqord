@@ -245,7 +245,7 @@ namespace Disqord.Rest
         public Task<int?> PruneAsync(Snowflake guildId, int days, bool computePruneCount = true, RestRequestOptions options = null)
             => ApiClient.BeginGuildPruneAsync(guildId, days, computePruneCount, options);
 
-        public async Task<IReadOnlyList<RestVoiceRegion>> GetVoiceRegionsAsync(Snowflake guildId, RestRequestOptions options = null)
+        public async Task<IReadOnlyList<RestGuildVoiceRegion>> GetVoiceRegionsAsync(Snowflake guildId, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetGuildVoiceRegionsAsync(guildId, options).ConfigureAwait(false);
             return models.Select(x => new RestGuildVoiceRegion(this, x, guildId)).ToImmutableArray();
