@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Disqord.Models;
 using Qommon.Collections;
-using Model = Disqord.Models.ActivityModel;
 
 namespace Disqord
 {
@@ -37,7 +37,7 @@ namespace Disqord
 
         public TimeSpan Remaining => EndsAt - DateTimeOffset.UtcNow;
 
-        internal SpotifyActivity(Model model) : base(model)
+        internal SpotifyActivity(ActivityModel model) : base(model)
         {
             PartyId = model.Party?.Id;
             TrackTitle = model.Details;

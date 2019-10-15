@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using Model = Disqord.Models.ActivityModel;
+using Disqord.Models;
 
 namespace Disqord
 {
@@ -43,7 +43,7 @@ namespace Disqord
 
         public ActivityFlags? Flags { get; }
 
-        internal RichActivity(Model model) : base(model)
+        internal RichActivity(ActivityModel model) : base(model)
         {
             State = model.State;
             Details = model.Details;
