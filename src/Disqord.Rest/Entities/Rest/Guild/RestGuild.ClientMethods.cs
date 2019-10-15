@@ -33,8 +33,11 @@ namespace Disqord.Rest
         public Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog
             => Client.GetAuditLogsAsync<T>(Id, limit, userId, startFromId, options);
 
-        public Task<RestGuild> ModifyAsync(Action<ModifyGuildProperties> action, RestRequestOptions options = null)
-            => Client.ModifyGuildAsync(Id, action, options);
+        public async Task ModifyAsync(Action<ModifyGuildProperties> action, RestRequestOptions options = null)
+        {
+            var model = await Client.InternalModifyGuildAsync(Id, action, options).ConfigureAwait(false);
+            Update(model);
+        }
 
         public Task ReorderChannelsAsync(IReadOnlyDictionary<Snowflake, int> positions, RestRequestOptions options = null)
             => Client.ReorderChannelsAsync(Id, positions, options);

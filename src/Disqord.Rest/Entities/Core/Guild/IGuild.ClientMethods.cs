@@ -18,7 +18,7 @@ namespace Disqord
 
         Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog;
 
-        Task<RestGuild> ModifyAsync(Action<ModifyGuildProperties> action, RestRequestOptions options = null);
+        Task ModifyAsync(Action<ModifyGuildProperties> action, RestRequestOptions options = null);
 
         Task ReorderChannelsAsync(IReadOnlyDictionary<Snowflake, int> positions, RestRequestOptions options = null);
 
