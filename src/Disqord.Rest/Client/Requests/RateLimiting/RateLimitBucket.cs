@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -69,7 +69,9 @@ namespace Disqord.Rest
             }
         }
 
-        public static string GenerateIdentifier(HttpMethod method, string route, ulong? guildId, ulong? channelId, ulong? webhookId)
-            => $"{method} {route}: ({guildId};{channelId};{webhookId})";
+        public static string GenerateIdentifier(HttpMethod method, bool usesMethod, string route, ulong guildId, ulong channelId, ulong webhookId)
+            => usesMethod
+                ? $"{method} {route}: ({guildId};{channelId};{webhookId})"
+                : $"{route}: ({guildId};{channelId};{webhookId})";
     }
 }
