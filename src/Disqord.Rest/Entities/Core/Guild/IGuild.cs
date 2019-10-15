@@ -7,7 +7,7 @@ using Disqord.Rest.AuditLogs;
 
 namespace Disqord
 {
-    public interface IGuild : ISnowflakeEntity, IDeletable
+    public partial interface IGuild : ISnowflakeEntity, IDeletable
     {
         string Name { get; }
 
@@ -65,16 +65,8 @@ namespace Disqord
 
         CultureInfo PreferredLocale { get; }
 
-        Task<RestMember> GetMemberAsync(Snowflake id, RestRequestOptions options = null);
-
         string GetIconUrl(ImageFormat? imageFormat = null, int size = 2048);
 
         string GetSplashUrl(int size = 2048);
-
-        Task<IReadOnlyList<RestAuditLog>> GetAuditLogsAsync(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null);
-
-        Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog;
-
-        Task<RestRole> CreateRoleAsync(Action<CreateRoleProperties> action, RestRequestOptions options = null);
     }
 }

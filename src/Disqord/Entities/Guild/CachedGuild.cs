@@ -8,13 +8,11 @@ using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Models;
 using Disqord.Models.Dispatches;
-using Disqord.Rest;
-using Disqord.Rest.AuditLogs;
 using Qommon.Collections;
 
 namespace Disqord
 {
-    public sealed class CachedGuild : CachedSnowflakeEntity, IGuild
+    public sealed partial class CachedGuild : CachedSnowflakeEntity, IGuild
     {
         public string Name { get; private set; }
 
@@ -391,26 +389,11 @@ namespace Disqord
         public CachedRole GetRole(Snowflake id)
             => _roles.TryGetValue(id, out var role) ? role : null;
 
-        public Task<RestMember> GetMemberAsync(Snowflake id, RestRequestOptions options = null)
-            => Client.RestClient.GetMemberAsync(Id, id, options);
-
-        public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.RestClient.DeleteGuildAsync(Id, options);
-
         public string GetIconUrl(ImageFormat? imageFormat = null, int size = 2048)
             => Discord.GetGuildIconUrl(Id, IconHash, imageFormat, size);
 
         public string GetSplashUrl(int size = 2048)
             => Discord.GetGuildSplashUrl(Id, SplashHash, ImageFormat.Png, 2048);
-
-        public Task<IReadOnlyList<RestAuditLog>> GetAuditLogsAsync(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null)
-            => GetAuditLogsAsync<RestAuditLog>(limit, userId, startFromId, options);
-
-        public Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog
-            => Client.RestClient.GetAuditLogsAsync<T>(Id, limit, userId, startFromId, options);
-
-        public Task<RestRole> CreateRoleAsync(Action<CreateRoleProperties> action = null, RestRequestOptions options = null)
-            => Client.RestClient.CreateRoleAsync(Id, action, options);
 
         public override string ToString()
             => Name;
