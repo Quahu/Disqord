@@ -2,7 +2,7 @@
 
 namespace Disqord.Rest
 {
-    public sealed class RestVoiceRegion : RestDiscordEntity
+    public class RestVoiceRegion : RestDiscordEntity
     {
         public string Id { get; }
 

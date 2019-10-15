@@ -248,7 +248,7 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestVoiceRegion>> GetVoiceRegionsAsync(Snowflake guildId, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetGuildVoiceRegionsAsync(guildId, options).ConfigureAwait(false);
-            return models.Select(x => new RestVoiceRegion(this, x)).ToImmutableArray();
+            return models.Select(x => new RestGuildVoiceRegion(this, x, guildId)).ToImmutableArray();
         }
 
         public async Task<IReadOnlyList<RestInvite>> GetGuildInvitesAsync(Snowflake guildId, RestRequestOptions options = null)
@@ -265,13 +265,18 @@ namespace Disqord.Rest
 
         public async Task<RestWidget> ModifyWidgetAsync(Snowflake guildId, Action<ModifyWidgetProperties> action, RestRequestOptions options = null)
         {
+            var model = await InternalModifyWidgetAsync(guildId, action, options).ConfigureAwait(false);
+            return new RestWidget(this, model, guildId);
+        }
+
+        internal async Task<WidgetModel> InternalModifyWidgetAsync(Snowflake guildId, Action<ModifyWidgetProperties> action, RestRequestOptions options = null)
+        {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
 
             var properties = new ModifyWidgetProperties();
             action(properties);
-            var model = await ApiClient.ModifyGuildEmbedAsync(guildId, properties, options).ConfigureAwait(false);
-            return new RestWidget(this, model, guildId);
+            return await ApiClient.ModifyGuildEmbedAsync(guildId, properties, options).ConfigureAwait(false);
         }
 
         public Task<string> GetVanityInviteAsync(Snowflake guildId, RestRequestOptions options = null)

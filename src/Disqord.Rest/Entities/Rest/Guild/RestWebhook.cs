@@ -49,16 +49,14 @@ namespace Disqord.Rest
 
         public async Task ModifyAsync(Action<ModifyWebhookProperties> action, RestRequestOptions options = null)
         {
-            var properties = new ModifyWebhookProperties();
-            action(properties);
-            Update(await Client.ApiClient.ModifyWebhookAsync(Id, properties, options).ConfigureAwait(false));
+            var model = await Client.InternalModifyWebhookAsync(Id, action, options).ConfigureAwait(false);
+            Update(model);
         }
 
         public async Task ModifyWithTokenAsync(Action<ModifyWebhookProperties> action, RestRequestOptions options = null)
         {
-            var properties = new ModifyWebhookProperties();
-            action(properties);
-            Update(await Client.ApiClient.ModifyWebhookWithTokenAsync(Id, Token, properties, options).ConfigureAwait(false));
+            var model = await Client.InternalModifyWebhookWithTokenAsync(Id, Token, action, options).ConfigureAwait(false);
+            Update(model);
         }
 
         public string GetAvatarUrl(ImageFormat? imageFormat = null, int size = 2048)
