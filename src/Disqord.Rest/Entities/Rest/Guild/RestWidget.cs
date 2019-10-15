@@ -6,24 +6,31 @@ namespace Disqord.Rest
 {
     public sealed class RestWidget : RestDiscordEntity
     {
+        public Snowflake GuildId { get; }
+
+        public RestDownloadable<RestGuild> Guild { get; }
+
         public bool IsEnabled { get; private set; }
 
         public Snowflake? ChannelId { get; private set; }
 
-        public Snowflake GuildId { get; }
-
         internal RestWidget(RestDiscordClient client, WidgetModel model, Snowflake guildId) : base(client)
+        {
+            GuildId = guildId;
+            Guild = new RestDownloadable<RestGuild>(options => Client.GetGuildAsync(GuildId, options));
+            Update(model);
+        }
+
+        internal void Update(WidgetModel model)
         {
             IsEnabled = model.Enabled;
             ChannelId = model.ChannelId;
-            GuildId = guildId;
         }
 
         public async Task ModifyAsync(Action<ModifyWidgetProperties> action, RestRequestOptions options = null)
         {
-            var widget = await Client.ModifyWidgetAsync(GuildId, action, options).ConfigureAwait(false);
-            IsEnabled = widget.IsEnabled;
-            ChannelId = widget.ChannelId;
+            var model = await Client.InternalModifyWidgetAsync(GuildId, action, options).ConfigureAwait(false);
+            Update(model);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Disqord.Models;
 
 namespace Disqord.Rest
 {
@@ -55,18 +56,28 @@ namespace Disqord.Rest
 
         public async Task<RestWebhook> ModifyWebhookAsync(Snowflake webhookId, Action<ModifyWebhookProperties> action, RestRequestOptions options = null)
         {
+            var model = await InternalModifyWebhookAsync(webhookId, action, options).ConfigureAwait(false);
+            return new RestWebhook(this, model);
+        }
+
+        internal async Task<WebhookModel> InternalModifyWebhookAsync(Snowflake webhookId, Action<ModifyWebhookProperties> action, RestRequestOptions options = null)
+        {
             var properties = new ModifyWebhookProperties();
             action(properties);
-            var model = await ApiClient.ModifyWebhookAsync(webhookId, properties, options).ConfigureAwait(false);
-            return new RestWebhook(this, model);
+            return await ApiClient.ModifyWebhookAsync(webhookId, properties, options).ConfigureAwait(false);
         }
 
         public async Task<RestWebhook> ModifyWebhookWithTokenAsync(Snowflake webhookId, string webhookToken, Action<ModifyWebhookProperties> action, RestRequestOptions options = null)
         {
+            var model = await InternalModifyWebhookWithTokenAsync(webhookId, webhookToken, action, options).ConfigureAwait(false);
+            return new RestWebhook(this, model);
+        }
+
+        internal async Task<WebhookModel> InternalModifyWebhookWithTokenAsync(Snowflake webhookId, string webhookToken, Action<ModifyWebhookProperties> action, RestRequestOptions options = null)
+        {
             var properties = new ModifyWebhookProperties();
             action(properties);
-            var model = await ApiClient.ModifyWebhookWithTokenAsync(webhookId, webhookToken, properties, options).ConfigureAwait(false);
-            return new RestWebhook(this, model);
+            return await ApiClient.ModifyWebhookWithTokenAsync(webhookId, webhookToken, properties, options).ConfigureAwait(false);
         }
 
         public Task DeleteWebhookAsync(Snowflake webhookId, RestRequestOptions options = null)
