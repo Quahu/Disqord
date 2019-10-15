@@ -176,6 +176,7 @@ namespace Disqord.Rest
             var emojis = await Client.GetGuildEmojisAsync(Id, options).ConfigureAwait(false);
             for (var i = 0; i < emojis.Count; i++)
                 emojis[i].Guild.SetValue(this);
+
             return emojis;
         }
 
