@@ -1,0 +1,64 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Disqord.Models;
+
+namespace Disqord.Rest
+{
+    public class RestUser : RestSnowflakeEntity, IUser
+    {
+        public string Name { get; private set; }
+
+        public string Discriminator { get; private set; }
+
+        public string AvatarHash { get; private set; }
+
+        public bool IsBot { get; }
+
+        public string Tag => $"{Name}#{Discriminator}";
+
+        public virtual string Mention => Discord.MentionUser(this);
+
+        internal RestUser(RestDiscordClient client, UserModel model) : base(client, model.Id)
+        {
+            IsBot = model.Bot;
+            Update(model);
+        }
+
+        internal virtual void Update(UserModel model)
+        {
+            Name = model.Username.Value;
+            Discriminator = model.Discriminator.Value;
+            AvatarHash = model.Avatar.Value;
+        }
+
+        public string GetAvatarUrl(ImageFormat? imageFormat = null, int size = 2048)
+            => Discord.Internal.GetAvatarUrl(this);
+
+        public Task SetNoteAsync(string note, RestRequestOptions options = null)
+            => Client.SetNoteAsync(Id, note, options);
+
+        public Task<RestDmChannel> CreateDmChannelAsync(RestRequestOptions options = null)
+            => Client.CreateDmChannelAsync(Id, options);
+
+        public async Task<RestUserMessage> SendMessageAsync(string content = null, bool textToSpeech = false, Embed embed = null, RestRequestOptions options = null)
+        {
+            var channel = await CreateDmChannelAsync(options).ConfigureAwait(false);
+            return await channel.SendMessageAsync(content, textToSpeech, embed, options).ConfigureAwait(false);
+        }
+
+        public async Task<RestUserMessage> SendMessageAsync(LocalAttachment attachment, string content = null, bool textToSpeech = false, Embed embed = null, RestRequestOptions options = null)
+        {
+            var channel = await CreateDmChannelAsync(options).ConfigureAwait(false);
+            return await channel.SendMessageAsync(attachment, content, textToSpeech, embed, options).ConfigureAwait(false);
+        }
+
+        public async Task<RestUserMessage> SendMessageAsync(IEnumerable<LocalAttachment> attachments, string content = null, bool textToSpeech = false, Embed embed = null, RestRequestOptions options = null)
+        {
+            var channel = await CreateDmChannelAsync(options).ConfigureAwait(false);
+            return await channel.SendMessageAsync(attachments, content, textToSpeech, embed, options).ConfigureAwait(false);
+        }
+
+        public override string ToString()
+            => Tag;
+    }
+}
