@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Disqord.Events;
-using Disqord.Logging;
-using Disqord.Rest;
+﻿using Disqord.Events;
 using Qommon.Events;
 
 namespace Disqord

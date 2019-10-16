@@ -37,18 +37,39 @@ namespace Disqord.Rest
             }
         }
 
-        public async Task<RestChannel> ModifyChannelAsync(Snowflake channelId, Action<ModifyChannelProperties> action, RestRequestOptions options = null)
+        public async Task<RestGroupChannel> ModifyGroupChannelAsync(Snowflake channelId, Action<ModifyGroupChannelProperties> action, RestRequestOptions options = null)
         {
             var model = await InternalModifyChannelAsync(channelId, action, options).ConfigureAwait(false);
-            return RestChannel.Create(this, model);
+            return new RestGroupChannel(this, model);
         }
 
-        internal async Task<ChannelModel> InternalModifyChannelAsync(Snowflake channelId, Action<ModifyChannelProperties> action, RestRequestOptions options = null)
+        public async Task<RestTextChannel> ModifyTextChannelAsync(Snowflake channelId, Action<ModifyTextChannelProperties> action, RestRequestOptions options = null)
+        {
+            var model = await InternalModifyChannelAsync(channelId, action, options).ConfigureAwait(false);
+            return new RestTextChannel(this, model);
+        }
+
+        public async Task<RestVoiceChannel> ModifyVoiceChannelAsync(Snowflake channelId, Action<ModifyVoiceChannelProperties> action, RestRequestOptions options = null)
+        {
+            var model = await InternalModifyChannelAsync(channelId, action, options).ConfigureAwait(false);
+            return new RestVoiceChannel(this, model);
+        }
+
+        public async Task<RestCategoryChannel> ModifyCategoryChannelAsync(Snowflake channelId, Action<ModifyCategoryChannelProperties> action, RestRequestOptions options = null)
+        {
+            var model = await InternalModifyChannelAsync(channelId, action, options).ConfigureAwait(false);
+            return new RestCategoryChannel(this, model);
+        }
+
+        internal async Task<ChannelModel> InternalModifyChannelAsync<T>(Snowflake channelId, Action<T> action, RestRequestOptions options = null)
+            where T : ModifyChannelProperties
         {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
 
-            var properties = new ModifyChannelProperties();
+            // Can't use the new() generic constraint because the constructors are internal.
+            // Can't use the generic CreateInstance either *because*.
+            var properties = (T) Activator.CreateInstance(typeof(T), true);
             action(properties);
             return await ApiClient.ModifyChannelAsync(channelId, properties, options).ConfigureAwait(false);
         }
@@ -369,9 +390,9 @@ namespace Disqord.Rest
             => ApiClient.DeletePinnedMessageAsync(channelId, messageId, options);
 
         public Task AddGroupRecipientAsync(Snowflake channelId, Snowflake userId, string nick = null, string accessToken = null, RestRequestOptions options = null)
-            => ApiClient.GroupDMRecipientAddAsync(channelId, userId, nick, accessToken, options);
+            => ApiClient.GroupDmRecipientAddAsync(channelId, userId, nick, accessToken, options);
 
         public Task RemoveGroupRecipientAsync(Snowflake channelId, Snowflake userId, RestRequestOptions options = null)
-            => ApiClient.GroupDMRecipientRemoveAsync(channelId, userId, options);
+            => ApiClient.GroupDmRecipientRemoveAsync(channelId, userId, options);
     }
 }

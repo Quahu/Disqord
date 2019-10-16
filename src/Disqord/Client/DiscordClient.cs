@@ -39,7 +39,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the global group DM channel cache for this <see cref="DiscordClient"/>.
         /// </summary>
-        public IReadOnlyDictionary<Snowflake, CachedGroupDmChannel> GroupDmChannels { get; }
+        public IReadOnlyDictionary<Snowflake, CachedGroupChannel> GroupChannels { get; }
 
         /// <summary>
         ///     Gets the global guild cache for this <see cref="DiscordClient"/>.
@@ -79,7 +79,7 @@ namespace Disqord
             Users = new ReadOnlyUpcastingDictionary<Snowflake, CachedSharedUser, CachedUser>(_users);
             PrivateChannels = new ReadOnlyDictionary<Snowflake, CachedPrivateChannel>(_privateChannels);
             DmChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedPrivateChannel, CachedDmChannel>(_privateChannels);
-            GroupDmChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedPrivateChannel, CachedGroupDmChannel>(_privateChannels);
+            GroupChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedPrivateChannel, CachedGroupChannel>(_privateChannels);
             Guilds = new ReadOnlyDictionary<Snowflake, CachedGuild>(_guilds);
             _ws = new WebSocketClient();
             _ws.MessageReceived += WebSocketMessageReceivedAsync;

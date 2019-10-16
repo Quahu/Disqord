@@ -9,7 +9,13 @@ namespace Disqord
     {
         Task<RestChannel> GetChannelAsync(Snowflake channelId, RestRequestOptions options = null);
 
-        Task<RestChannel> ModifyChannelAsync(Snowflake channelId, Action<ModifyChannelProperties> action, RestRequestOptions options = null);
+        Task<RestGroupChannel> ModifyGroupChannelAsync(Snowflake channelId, Action<ModifyGroupChannelProperties> action, RestRequestOptions options = null);
+
+        Task<RestTextChannel> ModifyTextChannelAsync(Snowflake channelId, Action<ModifyTextChannelProperties> action, RestRequestOptions options = null);
+
+        Task<RestVoiceChannel> ModifyVoiceChannelAsync(Snowflake channelId, Action<ModifyVoiceChannelProperties> action, RestRequestOptions options = null);
+
+        Task<RestCategoryChannel> ModifyCategoryChannelAsync(Snowflake channelId, Action<ModifyCategoryChannelProperties> action, RestRequestOptions options = null);
 
         Task DeleteOrCloseChannelAsync(Snowflake channelId, RestRequestOptions options = null);
 

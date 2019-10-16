@@ -9,6 +9,9 @@ namespace Disqord.Rest
         [JsonProperty("name")]
         public Optional<string> Name { get; set; }
 
+        [JsonProperty("icon")]
+        public Optional<LocalAttachment> Icon { get; set; }
+
         [JsonProperty("position")]
         public Optional<int> Position { get; set; }
 
@@ -28,7 +31,7 @@ namespace Disqord.Rest
         public Optional<int> UserLimit { get; set; }
 
         [JsonProperty("permission_overwrites")]
-        public Optional<IReadOnlyList<OverwriteModel>> PermissionOverwrites { get; set; }
+        public Optional<IEnumerable<OverwriteModel>> PermissionOverwrites { get; set; }
 
         [JsonProperty("parent_id")]
         public Optional<ulong> ParentId { get; set; }

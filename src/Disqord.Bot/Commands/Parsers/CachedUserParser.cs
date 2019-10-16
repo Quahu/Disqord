@@ -34,9 +34,9 @@ namespace Disqord.Bot.Parsers
                         [Context.Bot.CurrentUser.Id] = Context.Bot.CurrentUser
                     };
                 }
-                else if (Context.Channel is CachedGroupDmChannel groupDmChannel)
+                else if (Context.Channel is CachedGroupChannel groupChannel)
                 {
-                    var dictionary = groupDmChannel.Recipients.ToDictionary(x => x.Key, x => x.Value);
+                    var dictionary = groupChannel.Recipients.ToDictionary(x => x.Key, x => x.Value);
                     dictionary[Context.Bot.CurrentUser.Id] = Context.Bot.CurrentUser;
                     users = dictionary;
                 }

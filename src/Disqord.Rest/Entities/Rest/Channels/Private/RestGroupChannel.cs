@@ -7,21 +7,17 @@ using Qommon.Collections;
 
 namespace Disqord.Rest
 {
-    public sealed class RestGroupDmChannel : RestPrivateChannel, IGroupDmChannel
+    public sealed class RestGroupChannel : RestPrivateChannel, IGroupChannel
     {
-        public IReadOnlyDictionary<Snowflake, RestUser> Recipients { get; private set; }
-
         public string IconHash { get; private set; }
 
         public Snowflake OwnerId { get; private set; }
 
-        public RestUser Owner => Recipients.TryGetValue(OwnerId, out var owner) ? owner : null;
+        public IReadOnlyDictionary<Snowflake, RestUser> Recipients { get; private set; }
 
-        IReadOnlyDictionary<Snowflake, IUser> IGroupDmChannel.Recipients => new ReadOnlyUpcastingDictionary<Snowflake, RestUser, IUser>(Recipients);
+        IReadOnlyDictionary<Snowflake, IUser> IGroupChannel.Recipients => new ReadOnlyUpcastingDictionary<Snowflake, RestUser, IUser>(Recipients);
 
-        IUser IGroupDmChannel.Owner => Owner;
-
-        internal RestGroupDmChannel(RestDiscordClient client, ChannelModel model) : base(client, model)
+        internal RestGroupChannel(RestDiscordClient client, ChannelModel model) : base(client, model)
         {
             Update(model);
         }

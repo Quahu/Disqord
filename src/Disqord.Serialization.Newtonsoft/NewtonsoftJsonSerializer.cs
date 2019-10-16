@@ -65,7 +65,7 @@ namespace Disqord.Serialization.Json.Newtonsoft
 
         public T ToObject<T>(object value)
         {
-            if (value == default)
+            if (value == null || value is T tValue && tValue == default)
                 return default;
 
             var jObject = JToken.FromObject(value, _serializer);

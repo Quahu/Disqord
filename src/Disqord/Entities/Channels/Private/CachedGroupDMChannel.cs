@@ -7,7 +7,7 @@ using Qommon.Collections;
 
 namespace Disqord
 {
-    public sealed class CachedGroupDmChannel : CachedPrivateChannel, IGroupDmChannel
+    public sealed class CachedGroupChannel : CachedPrivateChannel, IGroupChannel
     {
         public IReadOnlyDictionary<Snowflake, CachedUser> Recipients { get; }
 
@@ -15,15 +15,11 @@ namespace Disqord
 
         public Snowflake OwnerId { get; private set; }
 
-        public CachedUser Owner => Recipients.TryGetValue(OwnerId, out var owner) ? owner : null;
-
         private readonly ConcurrentDictionary<Snowflake, CachedUser> _recipients;
 
-        IReadOnlyDictionary<Snowflake, IUser> IGroupDmChannel.Recipients => new ReadOnlyUpcastingDictionary<Snowflake, CachedUser, IUser>(Recipients);
+        IReadOnlyDictionary<Snowflake, IUser> IGroupChannel.Recipients => new ReadOnlyUpcastingDictionary<Snowflake, CachedUser, IUser>(Recipients);
 
-        IUser IGroupDmChannel.Owner => Owner;
-
-        internal CachedGroupDmChannel(DiscordClient client, ChannelModel model) : base(client, model)
+        internal CachedGroupChannel(DiscordClient client, ChannelModel model) : base(client, model)
         {
             _recipients = Extensions.CreateConcurrentDictionary<Snowflake, CachedUser>(model.Recipients.Value.Count);
             for (var i = 0; i < model.Recipients.Value.Count; i++)

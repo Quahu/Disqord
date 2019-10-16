@@ -175,17 +175,52 @@ namespace Disqord.Rest
             var requestContent = new ModifyChannelContent
             {
                 Name = properties.Name,
-                Position = properties.Position,
-                Topic = properties.Topic,
-                Nsfw = properties.IsNSFW,
-                RateLimitPerUser = properties.Slowmode,
-                Bitrate = properties.Bitrate,
-                UserLimit = properties.UserLimit,
-                PermissionOverwrites = properties.Overwrites.HasValue
-                    ? properties.Overwrites.Value.Select(x => x.ToModel()).ToArray()
-                    : Optional<IReadOnlyList<OverwriteModel>>.Empty,
-                ParentId = properties.CategoryId
             };
+
+            if (properties is ModifyGuildChannelProperties guildProperties)
+            {
+                requestContent.Position = guildProperties.Position;
+                requestContent.PermissionOverwrites = guildProperties.Overwrites.HasValue
+                    ? guildProperties.Overwrites.Value.Select(x => x.ToModel()).ToArray()
+                    : Optional<IEnumerable<OverwriteModel>>.Empty;
+
+                if (guildProperties is ModifyNestedChannelProperties nestedProperties)
+                {
+                    requestContent.ParentId = nestedProperties.CategoryId;
+
+                    if (nestedProperties is ModifyTextChannelProperties textProperties)
+                    {
+                        requestContent.Topic = textProperties.Topic;
+                        requestContent.Nsfw = textProperties.IsNsfw;
+                        requestContent.RateLimitPerUser = textProperties.Slowmode;
+                    }
+                    else if (nestedProperties is ModifyVoiceChannelProperties voiceProperties)
+                    {
+                        requestContent.Bitrate = voiceProperties.Bitrate;
+                        requestContent.UserLimit = voiceProperties.UserLimit;
+                    }
+                    else
+                    {
+                        Log(LogMessageSeverity.Error, $"Unknown nested channel properties provided to modify. ({properties.GetType()})");
+                    }
+                }
+                else if (guildProperties is ModifyCategoryChannelProperties categoryProperties)
+                {
+                    // No extra properties for category channels.
+                }
+                else
+                {
+                    Log(LogMessageSeverity.Error, $"Unknown guild channel properties provided to modify. ({properties.GetType()})");
+                }
+            }
+            else if (properties is ModifyGroupChannelProperties groupProperties)
+            {
+                requestContent.Icon = groupProperties.Icon;
+            }
+            else
+            {
+                Log(LogMessageSeverity.Error, $"Unknown channel properties provided to modify. ({properties.GetType()})");
+            }
 
             return SendRequestAsync<ChannelModel>(new RestRequest(PATCH, $"channels/{channelId:channel_id}", requestContent, options));
         }
@@ -342,7 +377,7 @@ namespace Disqord.Rest
 
         public Task DeleteMessageAsync(ulong channelId, ulong messageId, RestRequestOptions options)
             => SendRequestAsync(new RestRequest(DELETE, $"channels/{channelId:channel_id}/messages/{messageId}", options)
-            { 
+            {
                 BucketsMethod = true
             });
 
@@ -402,9 +437,9 @@ namespace Disqord.Rest
         public Task DeletePinnedMessageAsync(ulong channelId, ulong messageId, RestRequestOptions options)
             => SendRequestAsync(new RestRequest(DELETE, $"channels/{channelId:channel_id}/pins/{messageId}", options));
 
-        public Task GroupDMRecipientAddAsync(ulong channelId, ulong userId, string nick, string accessToken, RestRequestOptions options)
+        public Task GroupDmRecipientAddAsync(ulong channelId, ulong userId, string nick, string accessToken, RestRequestOptions options)
         {
-            var requestContent = new AddGroupDmRecipientContent
+            var requestContent = new AddGroupRecipientContent
             {
                 AccessToken = accessToken,
                 Nick = nick
@@ -412,7 +447,7 @@ namespace Disqord.Rest
             return SendRequestAsync(new RestRequest(PUT, $"channels/{channelId:channel_id}/recipients/{userId}", requestContent, options));
         }
 
-        public Task GroupDMRecipientRemoveAsync(ulong channelId, ulong userId, RestRequestOptions options)
+        public Task GroupDmRecipientRemoveAsync(ulong channelId, ulong userId, RestRequestOptions options)
             => SendRequestAsync(new RestRequest(DELETE, $"channels/{channelId:channel_id}/recipients/{userId}", options));
 
         // Emoji

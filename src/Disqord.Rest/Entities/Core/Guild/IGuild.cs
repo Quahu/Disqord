@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Threading.Tasks;
-using Disqord.Rest;
-using Disqord.Rest.AuditLogs;
 
 namespace Disqord
 {

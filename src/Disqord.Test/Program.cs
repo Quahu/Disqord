@@ -22,7 +22,6 @@ namespace Disqord.Test
             {
                 bot.Logger.MessageLogged += this.Logger_MessageLogged;
                 bot.AddModules(Assembly.GetExecutingAssembly());
-                await bot.AddReactionAsync(566751794148016148, 633054312611971104, new LocalEmoji("🎉"));
                 bot.Run();
             }
         }
