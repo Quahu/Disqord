@@ -14,8 +14,7 @@ namespace Disqord
 
         internal CachedCategoryChannel(DiscordClient client, ChannelModel model, CachedGuild guild) : base(client, model, guild)
         {
-            Channels = new ReadOnlyValuePredicateDictionary<Snowflake, CachedGuildChannel>(
-                new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedGuildChannel>(guild.Channels), x => x.CategoryId == Id);
+            Channels = new ReadOnlyValuePredicateDictionary<Snowflake, CachedGuildChannel>(guild._channels, x => x.CategoryId == Id);
             Update(model);
         }
 

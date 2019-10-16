@@ -1,22 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Disqord.Collections
 {
     internal readonly struct ReadOnlyUpcastingDictionary<TKey, TOriginalValue, TNewValue> : IReadOnlyDictionary<TKey, TNewValue>
-        where TOriginalValue : TNewValue
+        where TOriginalValue : class, TNewValue
     {
         public IEnumerable<TKey> Keys => _dictionary.Keys;
 
-        public IEnumerable<TNewValue> Values => _dictionary.Values.Select(x => (TNewValue) x);
+        public IEnumerable<TNewValue> Values => _dictionary.Values;
 
         public int Count => _dictionary.Count;
 
         private readonly IReadOnlyDictionary<TKey, TOriginalValue> _dictionary;
 
         public ReadOnlyUpcastingDictionary(IReadOnlyDictionary<TKey, TOriginalValue> dictionary)
-            => _dictionary = dictionary;
+        {
+            _dictionary = dictionary;
+        }
 
         public TNewValue this[TKey key]
             => _dictionary[key];

@@ -163,9 +163,9 @@ namespace Disqord
             Roles = new ReadOnlyDictionary<Snowflake, CachedRole>(_roles);
             Channels = new ReadOnlyDictionary<Snowflake, CachedGuildChannel>(_channels);
             Members = new ReadOnlyDictionary<Snowflake, CachedMember>(_members);
-            TextChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedTextChannel>(Channels);
-            VoiceChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedVoiceChannel>(Channels);
-            CategoryChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedCategoryChannel>(Channels);
+            TextChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedTextChannel>(_channels);
+            VoiceChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedVoiceChannel>(_channels);
+            CategoryChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedCategoryChannel>(_channels);
 
             Update(model);
             if (client.IsBot && IsLarge)
