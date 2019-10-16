@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Qmmands;
@@ -21,7 +20,7 @@ namespace Disqord.Bot.Parsers
             if (Context.Guild == null)
                 return new TypeParserResult<TChannel>("This command must be used a guild.");
 
-            var channels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, TChannel>(Context.Guild.Channels);
+            var channels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, TChannel>(Context.Guild._channels);
             TChannel channel = null;
             if (Discord.TryParseChannelMention(value, out var id) || Snowflake.TryParse(value, out id))
                 channels.TryGetValue(id, out channel);

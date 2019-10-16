@@ -14,7 +14,7 @@ namespace Disqord
 
         internal CachedVoiceChannel(DiscordClient client, ChannelModel model, CachedGuild guild) : base(client, model, guild)
         {
-            Members = new ReadOnlyValuePredicateDictionary<Snowflake, CachedMember>(guild.Members, x => x.VoiceChannelId == Id);
+            Members = new ReadOnlyValuePredicateDictionary<Snowflake, CachedMember>(guild._members, x => x.VoiceChannelId == Id);
             Update(model);
         }
 

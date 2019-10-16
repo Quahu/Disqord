@@ -7,23 +7,13 @@ namespace Disqord.Collections
 {
     internal readonly struct ReadOnlyValuePredicateDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
     {
-        public IEnumerable<TKey> Keys
-        {
-            get
-            {
-                Func<TKey, bool> containsKey = ContainsKey;
-                return _dictionary.Keys.Where(x => containsKey(x));
-            }
-        }
+        public IEnumerable<TKey> Keys => _dictionary is IDictionary<TKey, TValue> dictionary
+            ? new ReadOnlyPredicateCollection<TKey>(dictionary.Keys, ContainsKey)
+            : this.Select(x => x.Key);
 
-        public IEnumerable<TValue> Values
-        {
-            get
-            {
-                var predicate = _predicate;
-                return _dictionary.Values.Where(x => predicate(x));
-            }
-        }
+        public IEnumerable<TValue> Values => _dictionary is IDictionary<TKey, TValue> dictionary
+            ? new ReadOnlyPredicateCollection<TValue>(dictionary.Values, _predicate)
+            : this.Select(x => x.Value);
 
         public int Count => Values.Count();
 

@@ -24,7 +24,7 @@ namespace Disqord.Rest
             var lastRateLimit = bucket.LastRateLimit;
             if (lastRateLimit != null && lastRateLimit.RetryAfter != null)
             {
-                var delay = (lastRateLimit.Date + lastRateLimit.RetryAfter.Value) - DateTimeOffset.UtcNow;
+                var delay = lastRateLimit.Date + lastRateLimit.RetryAfter.Value - DateTimeOffset.UtcNow;
                 if (delay > TimeSpan.Zero)
                 {
                     await Task.Delay(delay).ConfigureAwait(false);

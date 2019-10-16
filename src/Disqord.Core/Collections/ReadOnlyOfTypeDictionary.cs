@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,22 +6,15 @@ namespace Disqord.Collections
 {
     internal readonly struct ReadOnlyOfTypeDictionary<TKey, TOriginal, TNew> : IReadOnlyDictionary<TKey, TNew> where TNew : class, TOriginal
     {
-        public IEnumerable<TKey> Keys
-        {
-            get
-            {
-                Func<TKey, bool> containsKey = ContainsKey;
-                return _dictionary.Keys.Where(x => containsKey(x));
-            }
-        }
+        public IEnumerable<TKey> Keys => new ReadOnlyPredicateCollection<TKey>(_dictionary.Keys, ContainsKey);
 
-        public IEnumerable<TNew> Values => _dictionary.Values.OfType<TNew>();
+        public IEnumerable<TNew> Values => new ReadOnlyOfTypeCollection<TOriginal, TNew>(_dictionary.Values);
 
         public int Count => Values.Count();
 
-        private readonly IReadOnlyDictionary<TKey, TOriginal> _dictionary;
+        private readonly IDictionary<TKey, TOriginal> _dictionary;
 
-        public ReadOnlyOfTypeDictionary(IReadOnlyDictionary<TKey, TOriginal> dictionary)
+        public ReadOnlyOfTypeDictionary(IDictionary<TKey, TOriginal> dictionary)
         {
             _dictionary = dictionary;
         }
