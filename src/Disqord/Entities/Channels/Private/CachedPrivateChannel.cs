@@ -56,7 +56,7 @@ namespace Disqord
                     return new CachedDmChannel(client, model);
 
                 case ChannelType.Group:
-                    return new CachedGroupDmChannel(client, model);
+                    return new CachedGroupChannel(client, model);
 
                 default:
                     return null;

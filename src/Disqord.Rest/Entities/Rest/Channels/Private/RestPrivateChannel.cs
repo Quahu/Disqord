@@ -37,7 +37,7 @@ namespace Disqord.Rest
                     return new RestDmChannel(client, model);
 
                 case ChannelType.Group:
-                    return new RestGroupDmChannel(client, model);
+                    return new RestGroupChannel(client, model);
 
                 default:
                     return null;
