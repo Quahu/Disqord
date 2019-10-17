@@ -1,34 +1,30 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Disqord.Models;
 
 namespace Disqord
 {
-    public abstract class CachedGuildChannel : CachedChannel, IGuildChannel
+    public abstract class CachedNestedChannel : CachedGuildChannel, IGuildChannel
     {
-        public int Position { get; private set; }
-
-        public CachedGuild Guild { get; }
-
-        public IReadOnlyList<CachedOverwrite> Overwrites { get; private set; }
-
-        IReadOnlyList<IOverwrite> IGuildChannel.Overwrites => Overwrites;
-        Snowflake IGuildChannel.GuildId => Guild.Id;
-
-        internal CachedGuildChannel(DiscordClient client, ChannelModel model, CachedGuild guild) : base(client, model)
+        public CachedCategoryChannel Category
         {
-            Guild = guild;
+            get
+            {
+                var categoryId = CategoryId;
+                return categoryId != null
+                    ? Guild.GetCategoryChannel(categoryId.Value)
+                    : null;
+            }
         }
+
+        public Snowflake? CategoryId { get; private set; }
+
+        internal CachedNestedChannel(DiscordClient client, ChannelModel model, CachedGuild guild) : base(client, model)
+        { }
 
         internal override void Update(ChannelModel model)
         {
-            if (model.Position.HasValue)
-                Position = model.Position.Value;
-
-            if (model.PermissionOverwrites.HasValue)
-                Overwrites = model.PermissionOverwrites.Value.Select(x => new CachedOverwrite(Client, x, this)).ToImmutableArray();
+            if (model.ParentId.HasValue)
+                CategoryId = model.ParentId.Value;
 
             base.Update(model);
         }

@@ -14,9 +14,7 @@ namespace Disqord.Rest
         public int Bitrate { get; private set; }
 
         internal RestPrivateChannel(RestDiscordClient client, ChannelModel model) : base(client, model)
-        {
-            Update(model);
-        }
+        { }
 
         internal override void Update(ChannelModel model)
         {
@@ -44,7 +42,7 @@ namespace Disqord.Rest
             }
         }
 
-        public Task TriggerTypingIndicatorAsync(RestRequestOptions options = null)
+        public Task TriggerTypingAsync(RestRequestOptions options = null)
             => Client.TriggerTypingIndicatorAsync(Id, options);
 
         public Task MarkAsReadAsync(RestRequestOptions options = null)

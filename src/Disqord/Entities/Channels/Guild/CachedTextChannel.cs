@@ -9,7 +9,7 @@ using Qommon.Collections;
 
 namespace Disqord
 {
-    public sealed class CachedTextChannel : CachedGuildChannel, ITextChannel, ICachedMessageChannel
+    public sealed class CachedTextChannel : CachedNestedChannel, ITextChannel, ICachedMessageChannel
     {
         public string Topic { get; private set; }
 
@@ -76,7 +76,7 @@ namespace Disqord
         public CachedUserMessage GetMessage(Snowflake id)
             => CachedMessages.FirstOrDefault(x => x.Id == id);
 
-        public Task TriggerTypingIndicatorAsync(RestRequestOptions options = null)
+        public Task TriggerTypingAsync(RestRequestOptions options = null)
             => Client.RestClient.TriggerTypingIndicatorAsync(Id, options);
 
         public Task MarkAsReadAsync(RestRequestOptions options = null)

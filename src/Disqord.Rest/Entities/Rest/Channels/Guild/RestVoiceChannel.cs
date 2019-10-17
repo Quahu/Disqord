@@ -2,13 +2,13 @@
 
 namespace Disqord.Rest
 {
-    public sealed class RestVoiceChannel : RestGuildChannel, IVoiceChannel
+    public sealed class RestVoiceChannel : RestNestedChannel, IVoiceChannel
     {
         public int Bitrate { get; private set; }
 
         public int UserLimit { get; private set; }
 
-        internal RestVoiceChannel(RestDiscordClient client, ChannelModel model, RestGuild guild = null) : base(client, model, guild)
+        internal RestVoiceChannel(RestDiscordClient client, ChannelModel model) : base(client, model)
         {
             Update(model);
         }

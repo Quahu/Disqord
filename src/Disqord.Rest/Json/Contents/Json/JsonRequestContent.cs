@@ -29,12 +29,11 @@ namespace Disqord.Rest
             }
 
             var bytes = serializer.Serialize(this, additionalFields);
-            var headerValue = new MediaTypeHeaderValue("application/json")
+            var content = new ByteArrayContent(bytes);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json")
             {
                 CharSet = Encoding.UTF8.WebName
             };
-            var content = new ByteArrayContent(bytes);
-            content.Headers.ContentType = headerValue;
             return content;
         }
     }

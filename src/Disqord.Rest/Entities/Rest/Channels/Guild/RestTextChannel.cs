@@ -5,7 +5,7 @@ using Disqord.Models;
 
 namespace Disqord.Rest
 {
-    public sealed class RestTextChannel : RestGuildChannel, IRestMessageChannel, ITextChannel
+    public sealed class RestTextChannel : RestNestedChannel, IRestMessageChannel, ITextChannel
     {
         public string Topic { get; private set; }
 
@@ -23,7 +23,7 @@ namespace Disqord.Rest
 
         public bool IsNews { get; private set; }
 
-        internal RestTextChannel(RestDiscordClient client, ChannelModel model, RestGuild guild = null) : base(client, model, guild)
+        internal RestTextChannel(RestDiscordClient client, ChannelModel model) : base(client, model)
         {
             Update(model);
         }
@@ -51,7 +51,7 @@ namespace Disqord.Rest
             base.Update(model);
         }
 
-        public Task TriggerTypingIndicatorAsync(RestRequestOptions options = null)
+        public Task TriggerTypingAsync(RestRequestOptions options = null)
             => Client.TriggerTypingIndicatorAsync(Id, options);
 
         public Task MarkAsReadAsync(RestRequestOptions options = null)
