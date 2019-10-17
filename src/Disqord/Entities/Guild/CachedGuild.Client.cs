@@ -1,8 +1,8 @@
-﻿using Disqord.Rest;
-using Disqord.Rest.AuditLogs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Disqord.Rest;
+using Disqord.Rest.AuditLogs;
 
 namespace Disqord
 {
@@ -33,6 +33,9 @@ namespace Disqord
             var model = await Client.RestClient.InternalModifyGuildAsync(Id, action, options).ConfigureAwait(false);
             Update(model);
         }
+
+        public Task<IReadOnlyList<RestGuildChannel>> GetChannelsAsync(RestRequestOptions options = null)
+            => Client.GetChannelsAsync(Id, options);
 
         public Task ReorderChannelsAsync(IReadOnlyDictionary<Snowflake, int> positions, RestRequestOptions options = null)
             => Client.ReorderChannelsAsync(Id, positions, options);

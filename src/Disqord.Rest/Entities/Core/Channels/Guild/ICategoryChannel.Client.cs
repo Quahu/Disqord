@@ -1,7 +1,7 @@
-﻿using Disqord.Rest;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Disqord.Rest;
 
 namespace Disqord
 {
