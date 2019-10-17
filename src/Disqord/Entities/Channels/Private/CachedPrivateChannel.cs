@@ -67,7 +67,7 @@ namespace Disqord
             => CachedMessages.FirstOrDefault(x => x.Id == id);
 
         public Task TriggerTypingAsync(RestRequestOptions options = null)
-            => Client.RestClient.TriggerTypingIndicatorAsync(Id, options);
+            => Client.RestClient.TriggerTypingAsync(Id, options);
 
         public Task MarkAsReadAsync(RestRequestOptions options = null)
             => RestImplementation.MarkAsReadAsync(this, options);

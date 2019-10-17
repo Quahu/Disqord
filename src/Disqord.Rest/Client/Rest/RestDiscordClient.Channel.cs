@@ -374,7 +374,7 @@ namespace Disqord.Rest
         public Task DeleteOverwriteAsync(Snowflake channelId, Snowflake targetId, RestRequestOptions options = null)
             => ApiClient.DeleteChannelPermissionAsync(channelId, targetId, options);
 
-        public Task TriggerTypingIndicatorAsync(Snowflake channelId, RestRequestOptions options = null)
+        public Task TriggerTypingAsync(Snowflake channelId, RestRequestOptions options = null)
             => ApiClient.TriggerTypingIndicatorAsync(channelId, options);
 
         public async Task<IReadOnlyList<RestUserMessage>> GetPinnedMessagesAsync(Snowflake channelId, RestRequestOptions options = null)
