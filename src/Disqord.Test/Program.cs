@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Disqord.Bot;
+using Disqord.Rest;
 
 namespace Disqord.Test
 {
@@ -22,6 +24,11 @@ namespace Disqord.Test
             {
                 bot.Logger.MessageLogged += this.Logger_MessageLogged;
                 bot.AddModules(Assembly.GetExecutingAssembly());
+
+                var guild = await bot.GetGuildAsync(416256456505950215);
+                var channels = await guild.GetChannelsAsync();
+                var channel = channels.OfType<RestTextChannel>().FirstOrDefault(x => x.Name == "general");
+
                 bot.Run();
             }
         }

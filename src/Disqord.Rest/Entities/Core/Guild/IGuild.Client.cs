@@ -1,8 +1,8 @@
-﻿using Disqord.Rest;
-using Disqord.Rest.AuditLogs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Disqord.Rest;
+using Disqord.Rest.AuditLogs;
 
 namespace Disqord
 {
@@ -19,6 +19,8 @@ namespace Disqord
         Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog;
 
         Task ModifyAsync(Action<ModifyGuildProperties> action, RestRequestOptions options = null);
+
+        Task<IReadOnlyList<RestGuildChannel>> GetChannelsAsync(RestRequestOptions options = null);
 
         Task ReorderChannelsAsync(IReadOnlyDictionary<Snowflake, int> positions, RestRequestOptions options = null);
 
@@ -43,7 +45,7 @@ namespace Disqord
         Task<RestBan> GetBanAsync(Snowflake userId, RestRequestOptions options = null);
 
         Task BanMemberAsync(Snowflake memberId, int? deleteMessageDays = null, string reason = null, RestRequestOptions options = null);
-        
+
         Task UnbanMemberAsync(Snowflake userId, RestRequestOptions options = null);
 
         Task<IReadOnlyList<RestRole>> GetRolesAsync(RestRequestOptions options = null);
@@ -73,13 +75,13 @@ namespace Disqord
         Task LeaveAsync(RestRequestOptions options = null);
 
         Task<IReadOnlyList<RestGuildEmoji>> GetEmojisAsync(RestRequestOptions options = null);
-        
+
         Task<RestGuildEmoji> GetEmojiAsync(Snowflake emojiId, RestRequestOptions options = null);
-        
+
         Task<RestGuildEmoji> CreateEmojiAsync(string name, LocalAttachment image, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null);
-        
+
         Task<RestGuildEmoji> ModifyEmojiAsync(Snowflake emojiId, Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null);
-        
+
         Task DeleteEmojiAsync(Snowflake emojiId, RestRequestOptions options = null);
     }
 }

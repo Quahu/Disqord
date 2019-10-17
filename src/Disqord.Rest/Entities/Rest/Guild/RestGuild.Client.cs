@@ -39,6 +39,15 @@ namespace Disqord.Rest
             Update(model);
         }
 
+        public async Task<IReadOnlyList<RestGuildChannel>> GetChannelsAsync(RestRequestOptions options = null)
+        {
+            var channels = await Client.GetChannelsAsync(Id, options).ConfigureAwait(false);
+            for (var i = 0; i < channels.Count; i++)
+                channels[i].Guild.SetValue(this);
+
+            return channels;
+        }
+
         public Task ReorderChannelsAsync(IReadOnlyDictionary<Snowflake, int> positions, RestRequestOptions options = null)
             => Client.ReorderChannelsAsync(Id, positions, options);
 
