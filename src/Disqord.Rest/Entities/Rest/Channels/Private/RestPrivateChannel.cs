@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Disqord.Models;
 
 namespace Disqord.Rest
 {
-    public abstract class RestPrivateChannel : RestChannel, IRestMessageChannel, IPrivateChannel
+    public abstract partial class RestPrivateChannel : RestChannel, IRestMessageChannel, IPrivateChannel
     {
         public Snowflake? LastMessageId { get; private set; }
 
@@ -41,23 +39,5 @@ namespace Disqord.Rest
                     return null;
             }
         }
-
-        public Task TriggerTypingAsync(RestRequestOptions options = null)
-            => Client.TriggerTypingAsync(Id, options);
-
-        public Task MarkAsReadAsync(RestRequestOptions options = null)
-            => RestImplementation.MarkAsReadAsync(this, options);
-
-        public IDisposable Typing()
-            => new TypingRepeater(Client, this);
-
-        public Task<RestUserMessage> SendMessageAsync(string content = null, bool isTTS = false, Embed embed = null, RestRequestOptions options = null)
-            => Client.SendMessageAsync(Id, content, isTTS, embed, options);
-
-        public Task<RestUserMessage> SendMessageAsync(LocalAttachment attachment, string content = null, bool isTTS = false, Embed embed = null, RestRequestOptions options = null)
-            => Client.SendMessageAsync(Id, attachment, content, isTTS, embed, options);
-
-        public Task<RestUserMessage> SendMessageAsync(IEnumerable<LocalAttachment> attachments, string content = null, bool isTTS = false, Embed embed = null, RestRequestOptions options = null)
-            => Client.SendMessageAsync(Id, attachments, content, isTTS, embed, options);
     }
 }

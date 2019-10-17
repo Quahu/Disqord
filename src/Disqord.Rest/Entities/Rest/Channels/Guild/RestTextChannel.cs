@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Disqord.Models;
 
 namespace Disqord.Rest
 {
-    public sealed class RestTextChannel : RestNestedChannel, IRestMessageChannel, ITextChannel
+    public sealed partial class RestTextChannel : RestNestedChannel, IRestMessageChannel, ITextChannel
     {
         public string Topic { get; private set; }
 
@@ -50,30 +48,6 @@ namespace Disqord.Rest
 
             base.Update(model);
         }
-
-        public Task TriggerTypingAsync(RestRequestOptions options = null)
-            => Client.TriggerTypingAsync(Id, options);
-
-        public Task MarkAsReadAsync(RestRequestOptions options = null)
-        {
-            var lastMessageId = LastMessageId;
-            if (!lastMessageId.HasValue)
-                throw new InvalidOperationException("Channel has no last message id.");
-
-            return Client.MarkMessageAsReadAsync(Id, lastMessageId.Value, options);
-        }
-
-        public IDisposable Typing()
-            => new TypingRepeater(Client, this);
-
-        public Task<RestUserMessage> SendMessageAsync(string content = null, bool isTTS = false, Embed embed = null, RestRequestOptions options = null)
-            => Client.SendMessageAsync(Id, content, isTTS, embed, options);
-
-        public Task<RestUserMessage> SendMessageAsync(LocalAttachment attachment, string content = null, bool isTTS = false, Embed embed = null, RestRequestOptions options = null)
-            => Client.SendMessageAsync(Id, attachment, content, isTTS, embed, options);
-
-        public Task<RestUserMessage> SendMessageAsync(IEnumerable<LocalAttachment> attachments, string content = null, bool isTTS = false, Embed embed = null, RestRequestOptions options = null)
-            => Client.SendMessageAsync(Id, attachments, content, isTTS, embed, options);
 
         public override string ToString()
             => Tag;

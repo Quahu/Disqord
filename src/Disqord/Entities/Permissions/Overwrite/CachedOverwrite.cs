@@ -24,7 +24,7 @@ namespace Disqord
         }
 
         public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.RestClient.DeleteOverwriteAsync(Channel.Id, TargetId, options);
+            => Client.DeleteOverwriteAsync(Channel.Id, TargetId, options);
 
         public override string ToString()
             => $"{TargetType} overwrite: {Permissions}";

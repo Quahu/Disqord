@@ -4,7 +4,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public sealed class CachedVoiceChannel : CachedNestedChannel, IVoiceChannel
+    public sealed partial class CachedVoiceChannel : CachedNestedChannel, IVoiceChannel
     {
         public int Bitrate { get; private set; }
 

@@ -212,24 +212,24 @@ namespace Disqord
             => Discord.Permissions.CalculatePermissions(Guild, channel, this, Roles.Values);
 
         public Task ModifyAsync(Action<ModifyMemberProperties> action, RestRequestOptions options = null)
-            => Client.RestClient.ModifyMemberAsync(Guild.Id, Id, action, options);
+            => Client.ModifyMemberAsync(Guild.Id, Id, action, options);
 
         public Task KickAsync(RestRequestOptions options = null)
-            => Client.RestClient.KickMemberAsync(Guild.Id, Id, options);
+            => Client.KickMemberAsync(Guild.Id, Id, options);
 
         public Task BanAsync(string reason = null, RestRequestOptions options = null)
-            => Client.RestClient.BanMemberAsync(Guild.Id, Id, null, reason, options);
+            => Client.BanMemberAsync(Guild.Id, Id, null, reason, options);
 
         public Task BanAsync(int messageDeleteDays, string reason = null, RestRequestOptions options = null)
-            => Client.RestClient.BanMemberAsync(Guild.Id, Id, messageDeleteDays, reason, options);
+            => Client.BanMemberAsync(Guild.Id, Id, messageDeleteDays, reason, options);
 
         public Task UnbanAsync(RestRequestOptions options = null)
-            => Client.RestClient.UnbanMemberAsync(Guild.Id, Id, options);
+            => Client.UnbanMemberAsync(Guild.Id, Id, options);
 
         public Task GrantRoleAsync(Snowflake roleId, RestRequestOptions options = null)
-            => Client.RestClient.GrantRoleAsync(Guild.Id, Id, roleId, options);
+            => Client.GrantRoleAsync(Guild.Id, Id, roleId, options);
 
         public Task RevokeRoleAsync(Snowflake roleId, RestRequestOptions options = null)
-            => Client.RestClient.RevokeRoleAsync(Guild.Id, Id, roleId, options);
+            => Client.RevokeRoleAsync(Guild.Id, Id, roleId, options);
     }
 }

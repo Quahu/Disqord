@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public interface IGuildChannel : IChannel, IDeletable
+    public partial interface IGuildChannel : IChannel, IDeletable
     {
         Snowflake GuildId { get; }
 

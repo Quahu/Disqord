@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Threading.Tasks;
 using Disqord.Models;
 
 namespace Disqord
 {
-    public abstract class CachedGuildChannel : CachedChannel, IGuildChannel
+    public abstract partial class CachedGuildChannel : CachedChannel, IGuildChannel
     {
         public int Position { get; private set; }
 
@@ -51,9 +50,6 @@ namespace Disqord
                     return null;
             }
         }
-
-        public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.RestClient.DeleteOrCloseChannelAsync(Id, options);
 
         public override string ToString()
             => Name;

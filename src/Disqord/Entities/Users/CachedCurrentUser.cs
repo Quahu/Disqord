@@ -126,6 +126,6 @@ namespace Disqord
         }
 
         public Task ModifyAsync(Action<ModifyCurrentUserProperties> action, RestRequestOptions options = null)
-            => Client.RestClient.ModifyCurrentUserAsync(action, options);
+            => Client.ModifyCurrentUserAsync(action, options);
     }
 }

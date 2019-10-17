@@ -90,16 +90,16 @@ namespace Disqord
                 : Discord.GetDefaultUserAvatarUrl(Discriminator);
 
         public Task SetNoteAsync(string note, RestRequestOptions options = null)
-            => Client.RestClient.SetNoteAsync(Id, note, options);
+            => Client.SetNoteAsync(Id, note, options);
 
         public async Task<IDmChannel> GetOrCreateDMChannelAsync(RestRequestOptions options = null)
         {
             var channel = Client.DmChannels.Values.FirstOrDefault(x => x.Recipient.Id == Id);
-            return channel ?? (IDmChannel) await Client.RestClient.CreateDmChannelAsync(Id, options).ConfigureAwait(false);
+            return channel ?? (IDmChannel) await Client.CreateDmChannelAsync(Id, options).ConfigureAwait(false);
         }
 
         public Task<RestDmChannel> CreateDmChannelAsync(RestRequestOptions options = null)
-            => Client.RestClient.CreateDmChannelAsync(Id, options);
+            => Client.CreateDmChannelAsync(Id, options);
 
         public async Task<RestUserMessage> SendMessageAsync(string content = null, bool isTts = false, Embed embed = null, RestRequestOptions options = null)
         {

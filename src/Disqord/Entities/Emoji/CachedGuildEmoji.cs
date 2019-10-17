@@ -58,7 +58,7 @@ namespace Disqord
         }
 
         public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.RestClient.DeleteGuildEmojiAsync(Guild.Id, Id, options);
+            => Client.DeleteGuildEmojiAsync(Guild.Id, Id, options);
 
         public async Task ModifyAsync(Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null)
         {
