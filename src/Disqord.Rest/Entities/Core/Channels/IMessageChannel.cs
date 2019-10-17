@@ -9,7 +9,7 @@ namespace Disqord
 
         DateTimeOffset? LastPinTimestamp { get; }
 
-        Task TriggerTypingIndicatorAsync(RestRequestOptions options = null);
+        Task TriggerTypingAsync(RestRequestOptions options = null);
 
         Task MarkAsReadAsync(RestRequestOptions options = null);
 

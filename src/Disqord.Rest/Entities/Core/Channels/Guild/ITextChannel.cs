@@ -1,6 +1,6 @@
 ﻿namespace Disqord
 {
-    public interface ITextChannel : IGuildChannel, IMessageChannel, IMentionable, ITaggable
+    public interface ITextChannel : INestedChannel, IMessageChannel, IMentionable, ITaggable
     {
         string Topic { get; }
 

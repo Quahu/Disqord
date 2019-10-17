@@ -18,7 +18,10 @@ namespace Disqord
             Update(model);
         }
 
-        public async Task<IReadOnlyList<RestGuildChannel>> GetChannelsAsync(RestRequestOptions options = null)
-            => (await Client.RestClient.GetChannelsAsync(Guild.Id, options).ConfigureAwait(false)).Where(x => x.CategoryId == Id).ToImmutableArray();
+        public async Task<IReadOnlyList<RestNestedChannel>> GetChannelsAsync(RestRequestOptions options = null)
+        {
+            var channels = await Client.GetChannelsAsync(Guild.Id, options).ConfigureAwait(false);
+            return channels.OfType<RestNestedChannel>().Where(x => x.CategoryId == Id).ToImmutableArray();
+        }
     }
 }

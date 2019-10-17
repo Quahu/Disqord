@@ -8,8 +8,6 @@ namespace Disqord
 
         int Position { get; }
 
-        Snowflake? CategoryId { get; }
-
         IReadOnlyList<IOverwrite> Overwrites { get; }
     }
 }

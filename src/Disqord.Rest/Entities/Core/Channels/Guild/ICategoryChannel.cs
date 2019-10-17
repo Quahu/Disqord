@@ -6,6 +6,6 @@ namespace Disqord
 {
     public interface ICategoryChannel : IGuildChannel
     {
-        Task<IReadOnlyList<RestGuildChannel>> GetChannelsAsync(RestRequestOptions options = null);
+        Task<IReadOnlyList<RestNestedChannel>> GetChannelsAsync(RestRequestOptions options = null);
     }
 }

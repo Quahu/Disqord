@@ -8,16 +8,15 @@ namespace Disqord.Rest
 {
     public sealed class RestCategoryChannel : RestGuildChannel, ICategoryChannel
     {
-        public RestDownloadable<IReadOnlyList<RestGuildChannel>> Channels { get; }
-
-        internal RestCategoryChannel(RestDiscordClient client, ChannelModel model, RestGuild guild = null) : base(client, model, guild)
+        internal RestCategoryChannel(RestDiscordClient client, ChannelModel model) : base(client, model)
         {
-            Channels = new RestDownloadable<IReadOnlyList<RestGuildChannel>>(async options =>
-                (await Client.GetChannelsAsync(GuildId, options).ConfigureAwait(false)).Where(x => x.CategoryId == Id).ToImmutableArray());
             Update(model);
         }
 
-        public Task<IReadOnlyList<RestGuildChannel>> GetChannelsAsync(RestRequestOptions options = null)
-            => Channels.DownloadAsync(options);
+        public async Task<IReadOnlyList<RestNestedChannel>> GetChannelsAsync(RestRequestOptions options = null)
+        {
+            var channels = await Client.GetChannelsAsync(GuildId, options).ConfigureAwait(false);
+            return channels.OfType<RestNestedChannel>().Where(x => x.CategoryId == Id).ToImmutableArray();
+        }
     }
 }

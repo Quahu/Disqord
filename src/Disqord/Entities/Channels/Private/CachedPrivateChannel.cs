@@ -66,7 +66,7 @@ namespace Disqord
         public CachedUserMessage GetMessage(Snowflake id)
             => CachedMessages.FirstOrDefault(x => x.Id == id);
 
-        public Task TriggerTypingIndicatorAsync(RestRequestOptions options = null)
+        public Task TriggerTypingAsync(RestRequestOptions options = null)
             => Client.RestClient.TriggerTypingIndicatorAsync(Id, options);
 
         public Task MarkAsReadAsync(RestRequestOptions options = null)

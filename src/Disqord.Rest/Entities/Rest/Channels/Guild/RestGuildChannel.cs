@@ -14,18 +14,14 @@ namespace Disqord.Rest
 
         public RestDownloadable<RestGuild> Guild { get; }
 
-        public Snowflake? CategoryId { get; private set; }
-
         public IReadOnlyList<RestOverwrite> Overwrites { get; private set; }
 
         IReadOnlyList<IOverwrite> IGuildChannel.Overwrites => Overwrites;
 
-        internal RestGuildChannel(RestDiscordClient client, ChannelModel model, RestGuild guild = null) : base(client, model)
+        internal RestGuildChannel(RestDiscordClient client, ChannelModel model) : base(client, model)
         {
             GuildId = model.GuildId.Value;
             Guild = new RestDownloadable<RestGuild>(options => Client.GetGuildAsync(GuildId, options));
-            if (guild != null)
-                Guild.SetValue(guild);
         }
 
         internal override void Update(ChannelModel model)
@@ -33,11 +29,13 @@ namespace Disqord.Rest
             if (model.Position.HasValue)
                 Position = model.Position.Value;
 
-            if (model.ParentId.HasValue)
-                CategoryId = model.ParentId.Value;
-
             if (model.PermissionOverwrites.HasValue)
-                Overwrites = model.PermissionOverwrites.Value.Select(x => new RestOverwrite(Client, x, this)).ToImmutableArray();
+                Overwrites = model.PermissionOverwrites.Value.Select(x =>
+                {
+                    var overwrite = new RestOverwrite(Client, x, Id);
+                    overwrite.Channel.SetValue(this);
+                    return overwrite;
+                }).ToImmutableArray();
 
             base.Update(model);
         }

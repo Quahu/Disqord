@@ -15,15 +15,10 @@ namespace Disqord.Rest
 
         public OverwriteTargetType TargetType { get; }
 
-        internal RestOverwrite(RestDiscordClient client, OverwriteModel model, RestGuildChannel channel) : this(client, model, channel.Id)
-        {
-            Channel.SetValue(channel);
-        }
-
         internal RestOverwrite(RestDiscordClient client, OverwriteModel model, Snowflake channelId) : base(client)
         {
             ChannelId = channelId;
-            Channel = new RestDownloadable<RestGuildChannel>(options => Client.GetChannelAsync<RestGuildChannel>(ChannelId));
+            Channel = new RestDownloadable<RestGuildChannel>(options => Client.GetChannelAsync<RestGuildChannel>(channelId, options));
             TargetId = model.Id;
             Permissions = (model.Allow, model.Deny);
             TargetType = model.Type;

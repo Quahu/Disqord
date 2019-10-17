@@ -7,6 +7,8 @@
         IDiscordClient IDiscordEntity.Client => Client;
 
         internal CachedDiscordEntity(DiscordClient client)
-            => Client = client;
+        {
+            Client = client;
+        }
     }
 }
