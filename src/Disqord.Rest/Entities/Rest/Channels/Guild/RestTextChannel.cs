@@ -52,7 +52,7 @@ namespace Disqord.Rest
         }
 
         public Task TriggerTypingAsync(RestRequestOptions options = null)
-            => Client.TriggerTypingIndicatorAsync(Id, options);
+            => Client.TriggerTypingAsync(Id, options);
 
         public Task MarkAsReadAsync(RestRequestOptions options = null)
         {

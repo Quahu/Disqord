@@ -61,7 +61,7 @@ namespace Disqord
 
         Task DeleteOverwriteAsync(Snowflake channelId, Snowflake targetId, RestRequestOptions options = null);
 
-        Task TriggerTypingIndicatorAsync(Snowflake channelId, RestRequestOptions options = null);
+        Task TriggerTypingAsync(Snowflake channelId, RestRequestOptions options = null);
 
         Task<IReadOnlyList<RestUserMessage>> GetPinnedMessagesAsync(Snowflake channelId, RestRequestOptions options = null);
 
