@@ -10,11 +10,11 @@ namespace Disqord
 {
     public sealed class CachedCategoryChannel : CachedGuildChannel, ICategoryChannel
     {
-        public IReadOnlyDictionary<Snowflake, CachedGuildChannel> Channels { get; }
+        public IReadOnlyDictionary<Snowflake, CachedNestedChannel> Channels { get; }
 
         internal CachedCategoryChannel(DiscordClient client, ChannelModel model, CachedGuild guild) : base(client, model, guild)
         {
-            Channels = new ReadOnlyValuePredicateDictionary<Snowflake, CachedGuildChannel>(guild._channels, x => x.CategoryId == Id);
+            Channels = new ReadOnlyValuePredicateDictionary<Snowflake, CachedNestedChannel>(guild.NestedChannels, x => x.CategoryId == Id);
             Update(model);
         }
 
