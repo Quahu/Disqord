@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord
 {
@@ -18,7 +17,7 @@ namespace Disqord
 
         public Snowflake? CategoryId { get; private set; }
 
-        internal CachedNestedChannel(DiscordClient client, ChannelModel model, CachedGuild guild) : base(client, model)
+        internal CachedNestedChannel(DiscordClient client, ChannelModel model, CachedGuild guild) : base(client, model, guild)
         { }
 
         internal override void Update(ChannelModel model)
@@ -28,28 +27,6 @@ namespace Disqord
 
             base.Update(model);
         }
-
-        internal static CachedGuildChannel Create(DiscordClient client, ChannelModel model, CachedGuild guild)
-        {
-            switch (model.Type.Value)
-            {
-                case ChannelType.Text:
-                case ChannelType.News:
-                    return new CachedTextChannel(client, model, guild);
-
-                case ChannelType.Voice:
-                    return new CachedVoiceChannel(client, model, guild);
-
-                case ChannelType.Category:
-                    return new CachedCategoryChannel(client, model, guild);
-
-                default:
-                    return null;
-            }
-        }
-
-        public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.RestClient.DeleteOrCloseChannelAsync(Id, options);
 
         public override string ToString()
             => Name;

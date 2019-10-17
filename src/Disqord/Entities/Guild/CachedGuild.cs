@@ -97,6 +97,8 @@ namespace Disqord
 
         public IReadOnlyDictionary<Snowflake, CachedGuildChannel> Channels { get; }
 
+        public IReadOnlyDictionary<Snowflake, CachedNestedChannel> NestedChannels { get; }
+
         public IReadOnlyDictionary<Snowflake, CachedTextChannel> TextChannels { get; }
 
         public IReadOnlyDictionary<Snowflake, CachedVoiceChannel> VoiceChannels { get; }
@@ -163,6 +165,7 @@ namespace Disqord
             Roles = new ReadOnlyDictionary<Snowflake, CachedRole>(_roles);
             Channels = new ReadOnlyDictionary<Snowflake, CachedGuildChannel>(_channels);
             Members = new ReadOnlyDictionary<Snowflake, CachedMember>(_members);
+            NestedChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedNestedChannel>(_channels);
             TextChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedTextChannel>(_channels);
             VoiceChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedVoiceChannel>(_channels);
             CategoryChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedCategoryChannel>(_channels);
