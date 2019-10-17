@@ -52,10 +52,10 @@ namespace Disqord
             => (CachedRole) MemberwiseClone();
 
         public Task ModifyAsync(Action<ModifyRoleProperties> action, RestRequestOptions options = null)
-            => Client.RestClient.ModifyRoleAsync(Guild.Id, Id, action, options);
+            => Client.ModifyRoleAsync(Guild.Id, Id, action, options);
 
         public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.RestClient.DeleteRoleAsync(Guild.Id, Id, options);
+            => Client.DeleteRoleAsync(Guild.Id, Id, options);
 
         public override string ToString()
             => Name;

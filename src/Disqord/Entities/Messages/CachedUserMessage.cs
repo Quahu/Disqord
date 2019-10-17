@@ -75,7 +75,7 @@ namespace Disqord
             => MemberwiseClone() as CachedUserMessage;
 
         public Task ModifyAsync(Action<ModifyMessageProperties> action, RestRequestOptions options = null)
-            => Client.RestClient.ModifyMessageAsync(Channel.Id, Id, action, options);
+            => Client.ModifyMessageAsync(Channel.Id, Id, action, options);
 
         public override string ToString()
             => $"{Author}: {Content}";

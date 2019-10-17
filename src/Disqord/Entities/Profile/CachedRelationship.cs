@@ -48,14 +48,14 @@ namespace Disqord
             if (Type != RelationshipType.IncomingFriendRequest)
                 throw new InvalidOperationException("Relationship's type must be an incoming friend request.");
 
-            return Client.RestClient.CreateRelationshipAsync(User.Id, options: options);
+            return Client.CreateRelationshipAsync(User.Id, options: options);
         }
 
         /// <summary>
         ///     Deletes this relationship regardless of <see cref="Type"/>.
         /// </summary>
         public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.RestClient.DeleteRelationshipAsync(User.Id, options);
+            => Client.DeleteRelationshipAsync(User.Id, options);
 
         public override string ToString()
             => $"{User}: {Type}";

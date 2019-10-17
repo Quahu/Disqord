@@ -1,6 +1,6 @@
 ﻿namespace Disqord
 {
-    public interface IVoiceChannel : INestedChannel
+    public partial interface IVoiceChannel : INestedChannel
     {
         int UserLimit { get; }
 

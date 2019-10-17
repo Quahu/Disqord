@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Threading.Tasks;
 using Disqord.Models;
 
 namespace Disqord.Rest
 {
-    public abstract class RestGuildChannel : RestChannel, IGuildChannel
+    public abstract partial class RestGuildChannel : RestChannel, IGuildChannel
     {
         public int Position { get; private set; }
 
@@ -58,8 +57,5 @@ namespace Disqord.Rest
                     return null;
             }
         }
-
-        public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.DeleteOrCloseChannelAsync(Id);
     }
 }

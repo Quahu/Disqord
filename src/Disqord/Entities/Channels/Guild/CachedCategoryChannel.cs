@@ -1,14 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Models;
-using Disqord.Rest;
 
 namespace Disqord
 {
-    public sealed class CachedCategoryChannel : CachedGuildChannel, ICategoryChannel
+    public sealed partial class CachedCategoryChannel : CachedGuildChannel, ICategoryChannel
     {
         public IReadOnlyDictionary<Snowflake, CachedNestedChannel> Channels { get; }
 
@@ -16,12 +12,6 @@ namespace Disqord
         {
             Channels = new ReadOnlyValuePredicateDictionary<Snowflake, CachedNestedChannel>(guild.NestedChannels, x => x.CategoryId == Id);
             Update(model);
-        }
-
-        public async Task<IReadOnlyList<RestNestedChannel>> GetChannelsAsync(RestRequestOptions options = null)
-        {
-            var channels = await Client.GetChannelsAsync(Guild.Id, options).ConfigureAwait(false);
-            return channels.OfType<RestNestedChannel>().Where(x => x.CategoryId == Id).ToImmutableArray();
         }
     }
 }

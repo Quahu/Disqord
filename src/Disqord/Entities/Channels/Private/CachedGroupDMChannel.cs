@@ -46,6 +46,6 @@ namespace Disqord
         }
 
         public Task LeaveAsync(RestRequestOptions options = null)
-            => Client.RestClient.DeleteOrCloseChannelAsync(Id, options);
+            => Client.DeleteOrCloseChannelAsync(Id, options);
     }
 }

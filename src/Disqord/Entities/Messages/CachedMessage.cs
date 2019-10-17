@@ -58,18 +58,18 @@ namespace Disqord
         }
 
         public Task AddReactionAsync(IEmoji emoji, RestRequestOptions options = null)
-            => Client.RestClient.AddReactionAsync(Channel.Id, Id, emoji, options);
+            => Client.AddReactionAsync(Channel.Id, Id, emoji, options);
 
         public Task RemoveOwnReactionAsync(IEmoji emoji, RestRequestOptions options = null)
-            => Client.RestClient.RemoveOwnReactionAsync(Channel.Id, Id, emoji, options);
+            => Client.RemoveOwnReactionAsync(Channel.Id, Id, emoji, options);
 
         public Task RemoveMemberReactionAsync(Snowflake memberId, IEmoji emoji, RestRequestOptions options = null)
-            => Client.RestClient.RemoveMemberReactionAsync(Channel.Id, Id, memberId, emoji, options);
+            => Client.RemoveMemberReactionAsync(Channel.Id, Id, memberId, emoji, options);
 
         public Task MarkAsReadAsync(RestRequestOptions options = null)
-            => Client.RestClient.MarkMessageAsReadAsync(Channel.Id, Id, options);
+            => Client.MarkMessageAsReadAsync(Channel.Id, Id, options);
 
         public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.RestClient.DeleteMessageAsync(Channel.Id, Id, options);
+            => Client.DeleteMessageAsync(Channel.Id, Id, options);
     }
 }

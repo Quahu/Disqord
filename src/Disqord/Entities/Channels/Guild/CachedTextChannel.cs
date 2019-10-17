@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Threading.Tasks;
 using Disqord.Models;
-using Disqord.Rest;
 using Qommon.Collections;
 
 namespace Disqord
 {
-    public sealed class CachedTextChannel : CachedNestedChannel, ITextChannel, ICachedMessageChannel
+    public sealed partial class CachedTextChannel : CachedNestedChannel, ITextChannel, ICachedMessageChannel
     {
         public string Topic { get; private set; }
 
@@ -75,24 +73,6 @@ namespace Disqord
 
         public CachedUserMessage GetMessage(Snowflake id)
             => CachedMessages.FirstOrDefault(x => x.Id == id);
-
-        public Task TriggerTypingAsync(RestRequestOptions options = null)
-            => Client.RestClient.TriggerTypingAsync(Id, options);
-
-        public Task MarkAsReadAsync(RestRequestOptions options = null)
-            => RestImplementation.MarkAsReadAsync(this, options);
-
-        public IDisposable Typing()
-            => new TypingRepeater(Client.RestClient, this);
-
-        public Task<RestUserMessage> SendMessageAsync(string content = null, bool isTTS = false, Embed embed = null, RestRequestOptions options = null)
-            => Client.RestClient.SendMessageAsync(Id, content, isTTS, embed, options);
-
-        public Task<RestUserMessage> SendMessageAsync(LocalAttachment attachment, string content = null, bool isTTS = false, Embed embed = null, RestRequestOptions options = null)
-            => Client.RestClient.SendMessageAsync(Id, attachment, content, isTTS, embed, options);
-
-        public Task<RestUserMessage> SendMessageAsync(IEnumerable<LocalAttachment> attachments, string content = null, bool isTTS = false, Embed embed = null, RestRequestOptions options = null)
-            => Client.RestClient.SendMessageAsync(Id, attachments, content, isTTS, embed, options);
 
         public override string ToString()
             => Tag;

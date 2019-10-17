@@ -2,7 +2,7 @@
 
 namespace Disqord.Rest
 {
-    public sealed class RestVoiceChannel : RestNestedChannel, IVoiceChannel
+    public sealed partial class RestVoiceChannel : RestNestedChannel, IVoiceChannel
     {
         public int Bitrate { get; private set; }
 
