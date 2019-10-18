@@ -382,7 +382,7 @@ namespace Disqord
 
             _lastSequenceNumber = payload.S;
             //if (IsBot)
-            Log(LogMessageSeverity.Debug, $"Dispatch: {gatewayEvent.Value}.");
+            Log(LogMessageSeverity.Trace, $"Dispatch: {gatewayEvent.Value}.");
             switch (gatewayEvent)
             {
                 case GatewayDispatch.Ready:

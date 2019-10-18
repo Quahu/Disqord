@@ -66,7 +66,7 @@ namespace Disqord.Serialization.Json.Newtonsoft
             }
             else if (type.IsEnum)
             {
-                var stringEnumAttribute = property.GetCustomAttribute<StringEnumAttribute>();
+                var stringEnumAttribute = type.GetCustomAttribute<StringEnumAttribute>();
                 if (stringEnumAttribute != null)
                     return _stringEnumConverter;
             }

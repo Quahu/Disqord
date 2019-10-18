@@ -182,7 +182,7 @@ namespace Disqord.Rest
                 requestContent.Position = guildProperties.Position;
                 requestContent.PermissionOverwrites = guildProperties.Overwrites.HasValue
                     ? guildProperties.Overwrites.Value.Select(x => x.ToModel()).ToArray()
-                    : Optional<IEnumerable<OverwriteModel>>.Empty;
+                    : Optional<IReadOnlyList<OverwriteModel>>.Empty;
 
                 if (guildProperties is ModifyNestedChannelProperties nestedProperties)
                 {
@@ -387,7 +387,7 @@ namespace Disqord.Rest
         {
             var requestContent = new BulkDeleteMessagesContent
             {
-                Messages = messageIds
+                Messages = messageIds.ToArray()
             };
             return SendRequestAsync(new RestRequest(POST, $"channels/{channelId:channel_id}/messages/bulk-delete", requestContent, options));
         }
@@ -465,7 +465,7 @@ namespace Disqord.Rest
             {
                 Name = name,
                 Image = image,
-                RoleIds = roleIds
+                RoleIds = roleIds.ToArray()
             };
             return SendRequestAsync<EmojiModel>(new RestRequest(POST, $"guilds/{guildId:guild_id}/emojis", requestContent, options));
         }
@@ -558,13 +558,14 @@ namespace Disqord.Rest
             {
                 Name = name,
                 Type = type,
-                PermissionOvewrites = overwrites?.Select(x => x.ToModel()).ToArray() ?? Optional<OverwriteModel[]>.Empty,
+                PermissionOvewrites = overwrites?.Select(x => x.ToModel()).ToArray() ?? Optional<IReadOnlyList<OverwriteModel>>.Empty,
                 Position = position ?? Optional<int>.Empty,
                 ParentId = categoryId ?? Optional<ulong>.Empty
             };
             switch (type)
             {
                 case ChannelType.Text:
+                {
                     if (topic != null && topic.Length > 1024)
                         throw new ArgumentOutOfRangeException(nameof(topic));
 
@@ -572,10 +573,15 @@ namespace Disqord.Rest
                     requestContent.RateLimitPerUser = slowmode;
                     requestContent.Nsfw = isNSFW;
                     break;
+                }
+
                 case ChannelType.Voice:
+                {
                     requestContent.Bitrate = bitrate;
                     requestContent.UserLimit = userLimit;
                     break;
+                }
+
                 case ChannelType.Category:
                     break;
 
@@ -1018,8 +1024,50 @@ namespace Disqord.Rest
             return "";
         }
 
-        public Task AcceptInviteAsync(string code, RestRequestOptions options = null)
+        public Task AcceptInviteAsync(string code, RestRequestOptions options)
             => SendRequestAsync(new RestRequest(POST, $"invites/{code}", options));
+
+        public Task<UserSettingsModel> GetUserSettingsAsync(RestRequestOptions options)
+            => SendRequestAsync<UserSettingsModel>(new RestRequest(GET, $"users/@me/settings", options));
+
+        public Task<UserSettingsModel> ModifyUserSettingsAsync(ModifyUserSettingsProperties properties, RestRequestOptions options)
+        {
+            var model = new UserSettingsModel
+            {
+                TimezoneOffset = properties.TimezoneOffset,
+                Theme = properties.Theme,
+                StreamNotificationsEnabled = properties.EnableStreamNotifications,
+                Status = properties.Status,
+                ShowCurrentGame = properties.ShowCurrentGame,
+                RestrictedGuilds = properties.RestrictedGuildIds.HasValue
+                    ? properties.RestrictedGuildIds.Value.Select(x => x.RawValue).ToArray()
+                    : Optional<ulong[]>.Empty,
+                RenderReactions = properties.RenderReactions,
+                RenderEmbeds = properties.RenderEmbeds,
+                MessageDisplayCompact = properties.EnableCompactMessages,
+                Locale = properties.Locale.HasValue
+                    ? properties.Locale.Value.Name
+                    : Optional<string>.Empty,
+                InlineEmbedMedia = properties.ShowEmbeds,
+                InlineAttachmentMedia = properties.ShowAttachments,
+                GifAutoPlay = properties.AutomaticallyPlayGifs,
+                FriendSourceFlags = properties.FriendSource.HasValue
+                    ? properties.FriendSource.Value.ToModel()
+                    : Optional<FriendSourceFlagsModel>.Empty,
+                ExplicitContentFilter = properties.ContentFilterLevel,
+                EnableTtsCommand = properties.EnableTts,
+                DisableGamesTab = properties.DisableGamesTab,
+                DeveloperMode = properties.EnableDeveloperMode,
+                DetectPlatformAccounts = properties.DetectPlatformAccounts,
+                DefaultGuildsRestricted = properties.RestrictGuildsByDefault,
+                ConvertEmoticons = properties.ConvertEmojis,
+                AnimateEmoji = properties.AnimateEmojis,
+                AfkTimeout = properties.AfkTimeout.HasValue
+                    ? (long) properties.AfkTimeout.Value.TotalSeconds
+                    : Optional<long>.Empty
+            };
+            return SendRequestAsync<UserSettingsModel>(new RestRequest(PATCH, $"users/@me/settings", new JsonObjectContent(model), options));
+        }
 
         public void Log(LogMessageSeverity severity, string message, Exception exception = null)
             => Logger.Log(this, new MessageLoggedEventArgs("Rest", severity, message, exception));

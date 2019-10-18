@@ -31,9 +31,9 @@ namespace Disqord.Serialization.Json.Newtonsoft
                 using (var jsonReader = new JsonTextReader(streamReader))
                 {
 #if DEBUG && false
-                var jObject = JToken.Load(jsonReader);
-                Console.WriteLine(jObject);
-                return jObject.ToObject<T>(_serializer);
+                    var jObject = JToken.Load(jsonReader);
+                    Console.WriteLine(jObject);
+                    return jObject.ToObject<T>(_serializer);
 #else
                     return _serializer.Deserialize<T>(jsonReader);
 #endif

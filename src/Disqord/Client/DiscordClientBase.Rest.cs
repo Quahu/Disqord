@@ -113,5 +113,7 @@ namespace Disqord
         public Task<RestGuildEmoji> ModifyGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).ModifyGuildEmojiAsync(guildId, emojiId, action, options);
         public Task DeleteGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).DeleteGuildEmojiAsync(guildId, emojiId, options);
         public Task AcceptInviteAsync(string code, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).AcceptInviteAsync(code, options);
+        public Task<RestUserSettings> GetUserSettingsAsync(RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetUserSettingsAsync(options);
+        public Task<RestUserSettings> ModifyUserSettingsAsync(Action<ModifyUserSettingsProperties> action, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).ModifyUserSettingsAsync(action, options);
     }
 }
