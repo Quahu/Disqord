@@ -31,7 +31,7 @@ namespace Disqord.Rest
         public Optional<int> UserLimit { get; set; }
 
         [JsonProperty("permission_overwrites")]
-        public Optional<IEnumerable<OverwriteModel>> PermissionOverwrites { get; set; }
+        public Optional<IReadOnlyList<OverwriteModel>> PermissionOverwrites { get; set; }
 
         [JsonProperty("parent_id")]
         public Optional<ulong> ParentId { get; set; }

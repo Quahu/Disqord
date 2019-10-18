@@ -186,7 +186,9 @@ namespace Disqord.Rest
 
                 if (guildProperties is ModifyNestedChannelProperties nestedProperties)
                 {
-                    requestContent.ParentId = nestedProperties.CategoryId;
+                    requestContent.ParentId = nestedProperties.CategoryId.HasValue
+                        ? nestedProperties.CategoryId.Value.RawValue
+                        : Optional<ulong>.Empty;
 
                     if (nestedProperties is ModifyTextChannelProperties textProperties)
                     {
@@ -473,7 +475,9 @@ namespace Disqord.Rest
             var requestContent = new ModifyGuildEmojiContent
             {
                 Name = properties.Name,
-                RoleIds = properties.RoleIds
+                RoleIds = properties.RoleIds.HasValue
+                    ? properties.RoleIds.Value.Select(x => x.RawValue).ToArray()
+                    : Optional<IReadOnlyList<ulong>>.Empty
             };
             return SendRequestAsync<EmojiModel>(new RestRequest(PATCH, $"guilds/{guildId:guild_id}/emojis/{emojiId}", requestContent, options));
         }
@@ -484,7 +488,7 @@ namespace Disqord.Rest
         // Guild
         public Task<GuildModel> CreateGuildAsync(
             string name, string voiceRegionId, LocalAttachment icon, VerificationLevel verificationLevel,
-            DefaultNotificationLevel defaultNotificationLevel, ExplicitFilterLevel explicitContentFilterLevel,
+            DefaultNotificationLevel defaultNotificationLevel, ContentFilterLevel contentFilterLevel,
             RestRequestOptions options)
         {
             if (name == null)
@@ -499,8 +503,8 @@ namespace Disqord.Rest
                 Region = voiceRegionId,
                 Icon = icon,
                 VerificationLevel = verificationLevel,
-                DefaultMessageNotifications = defaultNotificationLevel,
-                ExplicitContentFilter = explicitContentFilterLevel
+                DefaultNotificationLevel = defaultNotificationLevel,
+                ContentFilterLevel = contentFilterLevel
             };
             return SendRequestAsync<GuildModel>(new RestRequest(POST, $"guilds", requestContent, options));
         }
@@ -515,14 +519,20 @@ namespace Disqord.Rest
                 Name = properties.Name,
                 Region = properties.VoiceRegionId,
                 VerificationLevel = properties.VerificationLevel,
-                DefaultMessageNotifications = properties.DefaultMessageNotificationLevel,
-                ExplicitContentFilter = properties.ExplicitContentFilterLevel,
-                AfkChannelId = properties.AFKChannelId,
-                AfkTimeout = properties.AFKTimeout,
+                DefaultNotificationLevel = properties.DefaultNotificationLevel,
+                ContentFilterLevel = properties.ContentFilterLevel,
+                AfkChannelId = properties.AfkChannelId.HasValue
+                   ? properties.AfkChannelId.Value.RawValue
+                   : Optional<ulong>.Empty,
+                AfkTimeout = properties.AfkTimeout,
                 Icon = properties.Icon,
-                OwnerId = properties.OwnerId,
+                OwnerId = properties.OwnerId.HasValue
+                    ? properties.OwnerId.Value.RawValue
+                    : Optional<ulong>.Empty,
                 Splash = properties.Splash,
-                SystemChannelId = properties.SystemChannelId
+                SystemChannelId = properties.SystemChannelId.HasValue
+                    ? properties.SystemChannelId.Value.RawValue
+                    : Optional<ulong>.Empty
             };
             return SendRequestAsync<GuildModel>(new RestRequest(PATCH, $"guilds/{guildId:guild_id}", requestContent, options));
         }
@@ -616,10 +626,14 @@ namespace Disqord.Rest
             var requestContent = new ModifyGuildMemberContent
             {
                 Nick = properties.Nick.HasValue && properties.Nick.Value == null ? "" : properties.Nick,
-                RoleIds = properties.RoleIds.HasValue ? properties.RoleIds.Value.ToArray() : Optional<IReadOnlyList<ulong>>.Empty,
+                RoleIds = properties.RoleIds.HasValue
+                    ? properties.RoleIds.Value.Select(x => x.RawValue).ToArray()
+                    : Optional<IReadOnlyList<ulong>>.Empty,
                 Mute = properties.Mute,
                 Deaf = properties.Deaf,
-                VoiceChannelId = properties.VoiceChannelId
+                VoiceChannelId = properties.VoiceChannelId.HasValue
+                    ? properties.VoiceChannelId.Value.RawValue
+                    : Optional<ulong>.Empty
             };
             return SendRequestAsync(new RestRequest(PATCH, $"guilds/{guildId:guild_id}/members/{userId}", requestContent, options));
         }
@@ -745,7 +759,11 @@ namespace Disqord.Rest
             var requestContent = new ModifyGuildEmbedContent
             {
                 Enabled = properties.IsEnabled,
-                ChannelId = properties.ChannelId
+                ChannelId = properties.ChannelId.HasValue
+                    ? properties.ChannelId.Value != null
+                        ? properties.ChannelId.Value.Value.RawValue
+                        : (ulong?) null
+                    : Optional<ulong?>.Empty
             };
             return SendRequestAsync<WidgetModel>(new RestRequest(PATCH, $"guilds/{guildId:guild_id}/embed", requestContent, options));
         }
@@ -804,7 +822,7 @@ namespace Disqord.Rest
 
         public Task<ChannelModel> CreateDmAsync(ulong recipientId, RestRequestOptions options)
         {
-            var requestContent = new CreateDMContent
+            var requestContent = new CreateDmContent
             {
                 RecipientId = recipientId
             };
@@ -851,7 +869,9 @@ namespace Disqord.Rest
             {
                 Name = properties.Name,
                 Avatar = properties.Avatar,
-                ChannelId = properties.ChannelId
+                ChannelId = properties.ChannelId.HasValue
+                    ? properties.ChannelId.Value.RawValue
+                    : Optional<ulong>.Empty
             };
             return SendRequestAsync<WebhookModel>(new RestRequest(PATCH, $"webhooks/{webhookId:webhook_id}", requestContent, options));
         }
@@ -997,6 +1017,9 @@ namespace Disqord.Rest
             //return (string) json["token"];
             return "";
         }
+
+        public Task AcceptInviteAsync(string code, RestRequestOptions options = null)
+            => SendRequestAsync(new RestRequest(POST, $"invites/{code}", options));
 
         public void Log(LogMessageSeverity severity, string message, Exception exception = null)
             => Logger.Log(this, new MessageLoggedEventArgs("Rest", severity, message, exception));

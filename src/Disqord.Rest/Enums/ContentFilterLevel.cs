@@ -1,6 +1,6 @@
 ﻿namespace Disqord
 {
-    public enum ExplicitFilterLevel : byte
+    public enum ContentFilterLevel : byte
     {
         Disabled,
 

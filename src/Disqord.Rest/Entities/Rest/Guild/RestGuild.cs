@@ -32,7 +32,7 @@ namespace Disqord.Rest
 
         public DefaultNotificationLevel DefaultNotificationLevel { get; private set; }
 
-        public ExplicitFilterLevel ExplicitFilterLevel { get; private set; }
+        public ContentFilterLevel ContentFilterLevel { get; private set; }
 
         public IReadOnlyDictionary<Snowflake, RestRole> Roles { get; private set; }
 
@@ -109,8 +109,8 @@ namespace Disqord.Rest
             if (model.DefaultMessageNotifications.HasValue)
                 DefaultNotificationLevel = model.DefaultMessageNotifications.Value;
 
-            if (model.ExplicitContentFilterLevel.HasValue)
-                ExplicitFilterLevel = model.ExplicitContentFilterLevel.Value;
+            if (model.ExplicitContentFilter.HasValue)
+                ContentFilterLevel = model.ExplicitContentFilter.Value;
 
             if (model.Roles.HasValue)
                 Roles = new ReadOnlyDictionary<Snowflake, RestRole>(model.Roles.Value.ToDictionary(x => new Snowflake(x.Id), x =>

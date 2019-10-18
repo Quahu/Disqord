@@ -6,7 +6,7 @@
 
         public Optional<LocalAttachment> Avatar { internal get; set; }
 
-        public Optional<ulong> ChannelId { internal get; set; }
+        public Optional<Snowflake> ChannelId { internal get; set; }
 
         internal ModifyWebhookProperties()
         { }

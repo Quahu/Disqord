@@ -2,7 +2,7 @@
 {
     public abstract class ModifyNestedChannelProperties : ModifyGuildChannelProperties
     {
-        public Optional<ulong> CategoryId { internal get; set; }
+        public Optional<Snowflake> CategoryId { internal get; set; }
 
         internal ModifyNestedChannelProperties()
         { }

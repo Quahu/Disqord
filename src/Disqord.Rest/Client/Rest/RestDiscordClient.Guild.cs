@@ -12,10 +12,10 @@ namespace Disqord.Rest
     {
         public async Task<RestGuild> CreateGuildAsync(
             string name, string voiceRegionId = null, LocalAttachment icon = null, VerificationLevel verificationLevel = default,
-            DefaultNotificationLevel defaultNotificationLevel = default, ExplicitFilterLevel explicitContentFilterLevel = default,
+            DefaultNotificationLevel defaultNotificationLevel = default, ContentFilterLevel contentFilterLevel = default,
             RestRequestOptions options = null)
         {
-            var model = await ApiClient.CreateGuildAsync(name, voiceRegionId, icon, verificationLevel, defaultNotificationLevel, explicitContentFilterLevel, options).ConfigureAwait(false);
+            var model = await ApiClient.CreateGuildAsync(name, voiceRegionId, icon, verificationLevel, defaultNotificationLevel, contentFilterLevel, options).ConfigureAwait(false);
             return new RestGuild(this, model);
         }
 

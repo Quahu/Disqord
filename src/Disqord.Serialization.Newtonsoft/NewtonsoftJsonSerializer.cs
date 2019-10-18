@@ -25,51 +25,72 @@ namespace Disqord.Serialization.Json.Newtonsoft
 
         public T Deserialize<T>(Stream stream)
         {
-            using (var streamReader = new StreamReader(stream, UTF8, leaveOpen: true))
-            using (var jsonReader = new JsonTextReader(streamReader))
+            try
             {
+                using (var streamReader = new StreamReader(stream, UTF8, leaveOpen: true))
+                using (var jsonReader = new JsonTextReader(streamReader))
+                {
 #if DEBUG && false
                 var jObject = JToken.Load(jsonReader);
                 Console.WriteLine(jObject);
                 return jObject.ToObject<T>(_serializer);
 #else
-                return _serializer.Deserialize<T>(jsonReader);
+                    return _serializer.Deserialize<T>(jsonReader);
 #endif
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new SerializationException("An exception occured for Deserialize.", ex);
             }
         }
 
         public byte[] Serialize(object model, IReadOnlyDictionary<string, object> additionalFields = null)
         {
-            using (var memoryStream = new MemoryStream())
-            using (var streamWriter = new StreamWriter(memoryStream, UTF8))
-            using (var jsonWriter = new JsonTextWriter(streamWriter))
+            try
             {
-                if (additionalFields == null)
+                using (var memoryStream = new MemoryStream())
+                using (var streamWriter = new StreamWriter(memoryStream, UTF8))
+                using (var jsonWriter = new JsonTextWriter(streamWriter))
                 {
-                    _serializer.Serialize(jsonWriter, model);
+                    if (additionalFields == null)
+                    {
+                        _serializer.Serialize(jsonWriter, model);
+                    }
+                    else
+                    {
+                        var jObject = JObject.FromObject(model, _serializer);
+
+                        foreach (var kvp in additionalFields)
+                            jObject.Add(kvp.Key, JToken.FromObject(kvp.Value));
+
+                        _serializer.Serialize(jsonWriter, jObject);
+                    }
+
+                    jsonWriter.Flush();
+                    return memoryStream.ToArray();
                 }
-                else
-                {
-                    var jObject = JObject.FromObject(model, _serializer);
-
-                    foreach (var kvp in additionalFields)
-                        jObject.Add(kvp.Key, JToken.FromObject(kvp.Value));
-
-                    _serializer.Serialize(jsonWriter, jObject);
-                }
-
-                jsonWriter.Flush();
-                return memoryStream.ToArray();
+            }
+            catch (Exception ex)
+            {
+                throw new SerializationException("An exception occured for Serialize.", ex);
             }
         }
 
         public T ToObject<T>(object value)
         {
-            if (value == null || value is T tValue && tValue == default)
-                return default;
+            try
+            {
+                if (value == null || value is T tValue && tValue == default)
+                    return default;
 
-            var jObject = JToken.FromObject(value, _serializer);
-            return jObject.ToObject<T>(_serializer);
+                var jObject = JToken.FromObject(value, _serializer);
+                return jObject.ToObject<T>(_serializer);
+            }
+            catch (Exception ex)
+            {
+                throw new SerializationException("A serialization exception occurred for ToObject conversion.", ex);
+            }
         }
     }
 }

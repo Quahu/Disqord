@@ -8,7 +8,7 @@ namespace Disqord
     public partial interface IDiscordClient : IDisposable
     {
         Task<RestGuild> CreateGuildAsync(string name, string voiceRegionId = null, LocalAttachment icon = null, VerificationLevel verificationLevel = default,
-            DefaultNotificationLevel defaultNotificationLevel = default, ExplicitFilterLevel explicitContentFilterLevel = default,
+            DefaultNotificationLevel defaultNotificationLevel = default, ContentFilterLevel contentFilterLevel = default,
             RestRequestOptions options = null);
 
         Task<RestGuild> GetGuildAsync(Snowflake guildId, RestRequestOptions options = null);

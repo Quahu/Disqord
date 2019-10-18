@@ -1,4 +1,4 @@
-﻿using Disqord.Serialization.Json;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
@@ -47,7 +47,7 @@ namespace Disqord.Models
         public Optional<DefaultNotificationLevel> DefaultMessageNotifications { get; set; }
 
         [JsonProperty("explicit_content_filter")]
-        public Optional<ExplicitFilterLevel> ExplicitContentFilterLevel { get; set; }
+        public Optional<ContentFilterLevel> ExplicitContentFilter { get; set; }
 
         [JsonProperty("roles")]
         public Optional<RoleModel[]> Roles { get; set; }

@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System.Collections.Generic;
+using Disqord.Models;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Rest
@@ -21,6 +22,6 @@ namespace Disqord.Rest
         public bool TTS { get; set; }
 
         [JsonProperty("embeds", NullValueHandling = NullValueHandling.Ignore)]
-        public EmbedModel[] Embeds { get; set; }
+        public IReadOnlyList<EmbedModel> Embeds { get; set; }
     }
 }

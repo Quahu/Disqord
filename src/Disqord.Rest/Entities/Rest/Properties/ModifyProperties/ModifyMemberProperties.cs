@@ -6,13 +6,13 @@ namespace Disqord
     {
         public Optional<string> Nick { internal get; set; }
 
-        public Optional<IEnumerable<ulong>> RoleIds { internal get; set; }
+        public Optional<IEnumerable<Snowflake>> RoleIds { internal get; set; }
 
         public Optional<bool> Mute { internal get; set; }
 
         public Optional<bool> Deaf { internal get; set; }
 
-        public Optional<ulong> VoiceChannelId { internal get; set; }
+        public Optional<Snowflake> VoiceChannelId { internal get; set; }
 
         internal ModifyMemberProperties()
         { }

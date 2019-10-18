@@ -1,4 +1,4 @@
-﻿using Disqord.Serialization.Json;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Rest
 {
@@ -14,10 +14,10 @@ namespace Disqord.Rest
         public Optional<VerificationLevel> VerificationLevel { get; set; }
 
         [JsonProperty("default_message_notifications")]
-        public Optional<DefaultNotificationLevel> DefaultMessageNotifications { get; set; }
+        public Optional<DefaultNotificationLevel> DefaultNotificationLevel { get; set; }
 
         [JsonProperty("explicit_content_filter")]
-        public Optional<ExplicitFilterLevel> ExplicitContentFilter { get; set; }
+        public Optional<ContentFilterLevel> ContentFilterLevel { get; set; }
 
         [JsonProperty("afk_channel_id")]
         public Optional<ulong> AfkChannelId { get; set; }
