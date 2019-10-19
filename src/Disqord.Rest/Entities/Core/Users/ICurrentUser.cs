@@ -1,9 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Disqord
+﻿namespace Disqord
 {
-    public interface ICurrentUser : IUser
+    public partial interface ICurrentUser : IUser
     {
         string Locale { get; }
 
@@ -12,7 +9,5 @@ namespace Disqord
         string Email { get; }
 
         bool HasMfaEnabled { get; }
-
-        Task ModifyAsync(Action<ModifyCurrentUserProperties> action, RestRequestOptions options = null);
     }
 }

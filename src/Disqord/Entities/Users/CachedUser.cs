@@ -1,14 +1,11 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Disqord.Models;
-using Disqord.Rest;
 using PresenceUpdateDispatch = Disqord.Models.Dispatches.PresenceUpdateModel;
 
 namespace Disqord
 {
-    public abstract class CachedUser : CachedSnowflakeEntity, IUser
+    public abstract partial class CachedUser : CachedSnowflakeEntity, IUser
     {
         public virtual string Name { get; protected set; }
 
@@ -88,36 +85,6 @@ namespace Disqord
             => AvatarHash != null
                 ? Discord.GetUserAvatarUrl(Id, AvatarHash, imageFormat, size)
                 : Discord.GetDefaultUserAvatarUrl(Discriminator);
-
-        public Task SetNoteAsync(string note, RestRequestOptions options = null)
-            => Client.SetNoteAsync(Id, note, options);
-
-        public async Task<IDmChannel> GetOrCreateDMChannelAsync(RestRequestOptions options = null)
-        {
-            var channel = Client.DmChannels.Values.FirstOrDefault(x => x.Recipient.Id == Id);
-            return channel ?? (IDmChannel) await Client.CreateDmChannelAsync(Id, options).ConfigureAwait(false);
-        }
-
-        public Task<RestDmChannel> CreateDmChannelAsync(RestRequestOptions options = null)
-            => Client.CreateDmChannelAsync(Id, options);
-
-        public async Task<RestUserMessage> SendMessageAsync(string content = null, bool isTts = false, Embed embed = null, RestRequestOptions options = null)
-        {
-            var channel = await GetOrCreateDMChannelAsync(options).ConfigureAwait(false);
-            return await channel.SendMessageAsync(content, isTts, embed, options).ConfigureAwait(false);
-        }
-
-        public async Task<RestUserMessage> SendMessageAsync(LocalAttachment attachment, string content = null, bool isTts = false, Embed embed = null, RestRequestOptions options = null)
-        {
-            var channel = await GetOrCreateDMChannelAsync(options).ConfigureAwait(false);
-            return await channel.SendMessageAsync(attachment, content, isTts, embed, options).ConfigureAwait(false);
-        }
-
-        public async Task<RestUserMessage> SendMessageAsync(IEnumerable<LocalAttachment> attachments, string content = null, bool isTts = false, Embed embed = null, RestRequestOptions options = null)
-        {
-            var channel = await GetOrCreateDMChannelAsync(options).ConfigureAwait(false);
-            return await channel.SendMessageAsync(attachments, content, isTts, embed, options).ConfigureAwait(false);
-        }
 
         public override string ToString()
             => Tag;
