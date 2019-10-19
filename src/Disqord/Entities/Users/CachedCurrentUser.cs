@@ -2,13 +2,12 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using Disqord.Models;
 using Qommon.Collections;
 
 namespace Disqord
 {
-    public sealed class CachedCurrentUser : CachedUser, ICurrentUser
+    public sealed partial class CachedCurrentUser : CachedUser, ICurrentUser
     {
         public override string Name => SharedUser.Name;
 
@@ -124,8 +123,5 @@ namespace Disqord
         {
             _notes.AddOrUpdate(id, note, func);
         }
-
-        public Task ModifyAsync(Action<ModifyCurrentUserProperties> action, RestRequestOptions options = null)
-            => Client.ModifyCurrentUserAsync(action, options);
     }
 }

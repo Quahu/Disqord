@@ -1,9 +1,6 @@
-﻿using System.Threading.Tasks;
-using Disqord.Rest;
-
-namespace Disqord
+﻿namespace Disqord
 {
-    public interface IUser : IMessagable, IMentionable, ITaggable
+    public partial interface IUser : IMessagable, IMentionable, ITaggable
     {
         string Name { get; }
 
@@ -14,11 +11,5 @@ namespace Disqord
         bool IsBot { get; }
 
         string GetAvatarUrl(ImageFormat? imageFormat = null, int size = 2048);
-
-        Task SetNoteAsync(string note, RestRequestOptions options = null);
-
-        //Task SendFriendRequestAsync(RestRequestOptions options = null);
-
-        Task<RestDmChannel> CreateDmChannelAsync(RestRequestOptions options = null);
     }
 }

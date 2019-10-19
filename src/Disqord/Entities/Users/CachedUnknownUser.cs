@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public sealed class CachedUnknownUser : CachedUser
+    public sealed partial class CachedUnknownUser : CachedUser
     {
         public override string Name { get; protected set; }
 

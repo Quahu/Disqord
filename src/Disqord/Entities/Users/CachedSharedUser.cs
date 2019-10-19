@@ -4,7 +4,7 @@ using PresenceUpdateDispatch = Disqord.Models.Dispatches.PresenceUpdateModel;
 
 namespace Disqord
 {
-    internal sealed class CachedSharedUser : CachedUser
+    internal sealed partial class CachedSharedUser : CachedUser
     {
         public override string Name { get; protected set; }
 
