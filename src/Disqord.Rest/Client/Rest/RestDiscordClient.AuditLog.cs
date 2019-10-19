@@ -7,7 +7,7 @@ using Disqord.Rest.AuditLogs;
 
 namespace Disqord.Rest
 {
-    public partial class RestDiscordClient : IDiscordClient
+    public partial class RestDiscordClient : IRestDiscordClient
     {
         public RestRequestEnumerator<RestAuditLog> GetAuditLogsEnumerator(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null)
             => GetAuditLogsEnumerator<RestAuditLog>(guildId, limit, userId, startFromId);

@@ -82,7 +82,7 @@
 
         ProvidedTooFewOrTooManyMessagesToDeleteMustProvideAtLeast2AndFewerThan100MessagesToDelete = 50016,
 
-        AMessageCanOnlyBePinnedToTheChannelItWasSent= 50019,
+        AMessageCanOnlyBePinnedToTheChannelItWasSent = 50019,
 
         InviteCodeIsEitherInvalidOrTaken = 50020,
 
@@ -94,9 +94,19 @@
 
         InvalidFormBody = 50035,
 
-        AnInviteWasAcceptedToAGuildTheApplicationsBotIsNot= 50036,
+        AnInviteWasAcceptedToAGuildTheApplicationsBotIsNot = 50036,
 
         InvalidApiVersion = 50041,
+
+        IncomingFriendRequestsDisabled = 80000,
+
+        FriendRequestBlocked = 80001,
+
+        BotsCannotHaveFriends = 80002,
+
+        CannotSendFriendRequestToSelf = 80003,
+
+        NoUsersWithDiscordTagExist = 80004,
 
         ReactionBlocked = 90001
     }

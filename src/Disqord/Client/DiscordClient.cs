@@ -12,11 +12,6 @@ namespace Disqord
     public partial class DiscordClient : DiscordClientBase
     {
         /// <summary>
-        ///     Gets the underlying <see cref="RestDiscordClient"/> used to send REST requests.
-        /// </summary>
-        public override RestDiscordClient RestClient { get; protected set; }
-
-        /// <summary>
         ///     Gets the size of message caches per-channel.
         /// </summary>
         public int MessageCacheSize { get; }
@@ -45,6 +40,8 @@ namespace Disqord
         ///     Gets the global guild cache for this <see cref="DiscordClient"/>.
         /// </summary>
         public IReadOnlyDictionary<Snowflake, CachedGuild> Guilds { get; }
+
+        internal override RestDiscordClient RestClient { get; }
 
         internal IJsonSerializer Serializer => RestClient.Serializer;
 

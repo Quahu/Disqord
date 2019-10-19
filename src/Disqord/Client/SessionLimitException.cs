@@ -7,6 +7,8 @@ namespace Disqord
         public TimeSpan ResetsAfter { get; }
 
         public SessionLimitException(TimeSpan resetsAfter)
-            => ResetsAfter = resetsAfter;
+        {
+            ResetsAfter = resetsAfter;
+        }
     }
 }

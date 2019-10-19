@@ -4,7 +4,7 @@ using Disqord.Rest;
 
 namespace Disqord
 {
-    public partial interface IDiscordClient : IDisposable
+    public partial interface IRestDiscordClient : IDisposable
     {
         Task<RestUserProfile> GetUserProfileAsync(Snowflake userId, RestRequestOptions options = null);
 

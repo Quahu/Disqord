@@ -4,7 +4,7 @@ using Disqord.Rest;
 
 namespace Disqord
 {
-    public partial interface IDiscordClient : IDisposable
+    public partial interface IRestDiscordClient : IDisposable
     {
         Task<string> GetGatewayUrlAsync(RestRequestOptions options = null);
 

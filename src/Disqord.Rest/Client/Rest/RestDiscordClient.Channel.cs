@@ -9,7 +9,7 @@ using Qommon.Collections;
 
 namespace Disqord.Rest
 {
-    public partial class RestDiscordClient : IDiscordClient
+    public partial class RestDiscordClient : IRestDiscordClient
     {
         public async Task<RestChannel> GetChannelAsync(Snowflake channelId, RestRequestOptions options = null)
         {

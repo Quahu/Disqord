@@ -1242,7 +1242,6 @@ namespace Disqord
                 _ws.Dispose();
             }
             RestClient.Dispose();
-            RestClient = null;
         }
     }
 }
