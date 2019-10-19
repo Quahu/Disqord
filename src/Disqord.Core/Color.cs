@@ -82,7 +82,7 @@ namespace Disqord
             => $"#{RawValue:X6}";
 
         /// <summary>
-        ///     Returns a <see langword="bool"/> indicating whether the providen <see cref="object"/> is a <see cref="Color"/> instace and they have the same value.
+        ///     Returns a <see langword="bool"/> indicating if the provided <see cref="object"/> is a <see cref="Color"/> instace and they have the same value.
         /// </summary>
         /// <param name="obj">The object to perform the equality comparison.</param>
         /// <returns></returns>
@@ -97,7 +97,7 @@ namespace Disqord
             => RawValue;
 
         /// <summary>
-        ///     Returns a <see langword="bool"/> indicating whether this and the providen <see cref="Color"/> have the same value.
+        ///     Returns a <see langword="bool"/> indicating whether this and the provided <see cref="Color"/> have the same value.
         /// </summary>
         /// <param name="other">The <see cref="Color"/> to perform the equality comparison.</param>
         /// <returns></returns>
@@ -105,7 +105,7 @@ namespace Disqord
             => other.RawValue == RawValue;
 
         /// <summary>
-        ///     Returns a <see langword="int"/> which indicates if the providen <see cref="Color"/> is lower than, higher than or equal to the current color.
+        ///     Returns a <see langword="int"/> which indicates if the provided <see cref="Color"/> is lower than, higher than or equal to the current color.
         /// </summary>
         /// <param name="other">The <see cref="Color"/> to perform the inequality the comparison.</param>
         /// <returns></returns>
