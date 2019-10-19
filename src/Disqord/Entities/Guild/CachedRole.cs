@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord
 {
-    public sealed class CachedRole : CachedSnowflakeEntity, IRole
+    public sealed partial class CachedRole : CachedSnowflakeEntity, IRole
     {
         public string Name { get; private set; }
 
@@ -50,12 +48,6 @@ namespace Disqord
 
         internal CachedRole Clone()
             => (CachedRole) MemberwiseClone();
-
-        public Task ModifyAsync(Action<ModifyRoleProperties> action, RestRequestOptions options = null)
-            => Client.ModifyRoleAsync(Guild.Id, Id, action, options);
-
-        public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.DeleteRoleAsync(Guild.Id, Id, options);
 
         public override string ToString()
             => Name;

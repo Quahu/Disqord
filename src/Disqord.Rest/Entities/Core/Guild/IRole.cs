@@ -1,9 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Disqord
+﻿namespace Disqord
 {
-    public interface IRole : ISnowflakeEntity, IMentionable, IDeletable
+    public partial interface IRole : ISnowflakeEntity, IMentionable, IDeletable
     {
         string Name { get; }
 
@@ -20,7 +17,5 @@ namespace Disqord
         bool IsMentionable { get; }
 
         Snowflake GuildId { get; }
-
-        Task ModifyAsync(Action<ModifyRoleProperties> action, RestRequestOptions options = null);
     }
 }
