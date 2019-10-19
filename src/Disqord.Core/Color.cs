@@ -88,7 +88,7 @@ namespace Disqord
             => RawValue;
 
         public bool Equals(Color other)
-            => other.RawValue == RawValue;
+            => RawValue == other.RawValue;
 
         public int CompareTo(Color other)
             => RawValue.CompareTo(other.RawValue);
@@ -99,8 +99,17 @@ namespace Disqord
         public bool CompareTo(int other)
             => RawValue.CompareTo(RawValue);
 
-        public static int operator ~(Color color)
-            => new Color(~color.RawValue & 0xFFFFFF);
+        public static bool operator >(Color left, Color right)
+            => left.RawValue > right.RawValue;
+
+        public static bool operator <(Color left, Color right)
+            => left.RawValue < right.RawValue;
+
+        public static bool operator ==(Color left, Color right)
+            => left.RawValue == right.RawValue;
+
+        public static bool operator !=(Color left, Color right)
+            => left.RawValue != right.RawValue;
 
         /// <summary>
         ///     Implicitly initialises a new <see cref="Color"/> from this raw value.
