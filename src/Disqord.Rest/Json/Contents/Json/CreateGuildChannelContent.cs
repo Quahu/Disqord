@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System.Collections.Generic;
+using Disqord.Models;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Rest
@@ -27,7 +28,7 @@ namespace Disqord.Rest
         public Optional<int> Position { get; set; }
 
         [JsonProperty("permissions_overwrites")]
-        public Optional<OverwriteModel[]> PermissionOvewrites { get; set; }
+        public Optional<IReadOnlyList<OverwriteModel>> PermissionOvewrites { get; set; }
 
         [JsonProperty("parent_id")]
         public Optional<ulong> ParentId { get; set; }

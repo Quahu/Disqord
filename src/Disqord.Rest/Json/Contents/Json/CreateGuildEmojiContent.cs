@@ -12,6 +12,6 @@ namespace Disqord.Rest
         public LocalAttachment Image { get; set; }
 
         [JsonProperty("roles", NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<ulong> RoleIds { get; set; }
+        public IReadOnlyList<ulong> RoleIds { get; set; }
     }
 }

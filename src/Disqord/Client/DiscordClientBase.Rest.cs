@@ -34,7 +34,7 @@ namespace Disqord
         public Task<RestGatewayBotResponse> GetGatewayBotUrlAsync(RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetGatewayBotUrlAsync(options);
         public Task<RestUserProfile> GetUserProfileAsync(Snowflake userId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetUserProfileAsync(userId, options);
         public Task SetNoteAsync(Snowflake userId, string note, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).SetNoteAsync(userId, note, options);
-        public Task<RestGuild> CreateGuildAsync(string name, string voiceRegionId = null, LocalAttachment icon = null, VerificationLevel verificationLevel = VerificationLevel.None, DefaultNotificationLevel defaultNotificationLevel = DefaultNotificationLevel.AllMessages, ExplicitFilterLevel explicitContentFilterLevel = ExplicitFilterLevel.Disabled, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).CreateGuildAsync(name, voiceRegionId, icon, verificationLevel, defaultNotificationLevel, explicitContentFilterLevel, options);
+        public Task<RestGuild> CreateGuildAsync(string name, string voiceRegionId = null, LocalAttachment icon = null, VerificationLevel verificationLevel = VerificationLevel.None, DefaultNotificationLevel defaultNotificationLevel = DefaultNotificationLevel.AllMessages, ContentFilterLevel contentFilterLevel = ContentFilterLevel.Disabled, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).CreateGuildAsync(name, voiceRegionId, icon, verificationLevel, defaultNotificationLevel, contentFilterLevel, options);
         public Task<RestGuild> GetGuildAsync(Snowflake guildId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetGuildAsync(guildId, options);
         public Task<RestGuild> ModifyGuildAsync(Snowflake guildId, Action<ModifyGuildProperties> action, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).ModifyGuildAsync(guildId, action, options);
         public Task DeleteGuildAsync(Snowflake guildId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).DeleteGuildAsync(guildId, options);
@@ -112,5 +112,8 @@ namespace Disqord
         public Task<RestGuildEmoji> CreateGuildEmojiAsync(Snowflake guildId, string name, LocalAttachment image, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).CreateGuildEmojiAsync(guildId, name, image, roleIds, options);
         public Task<RestGuildEmoji> ModifyGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).ModifyGuildEmojiAsync(guildId, emojiId, action, options);
         public Task DeleteGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).DeleteGuildEmojiAsync(guildId, emojiId, options);
+        public Task AcceptInviteAsync(string code, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).AcceptInviteAsync(code, options);
+        public Task<RestUserSettings> GetUserSettingsAsync(RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).GetUserSettingsAsync(options);
+        public Task<RestUserSettings> ModifyUserSettingsAsync(Action<ModifyUserSettingsProperties> action, RestRequestOptions options = null) => ((IDiscordClient) this.RestClient).ModifyUserSettingsAsync(action, options);
     }
 }

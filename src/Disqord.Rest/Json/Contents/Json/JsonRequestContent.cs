@@ -9,6 +9,9 @@ namespace Disqord.Rest
     internal abstract class JsonRequestContent : IRequestContent
     {
         public HttpContent Prepare(IJsonSerializer serializer, RestRequestOptions options)
+            => PrepareFor(this, serializer, options);
+
+        public static HttpContent PrepareFor(object obj, IJsonSerializer serializer, RestRequestOptions options)
         {
             Dictionary<string, object> additionalFields = null;
             if (options != null)
@@ -28,7 +31,10 @@ namespace Disqord.Rest
                 }
             }
 
-            var bytes = serializer.Serialize(this, additionalFields);
+            var bytes = serializer.Serialize(obj, additionalFields);
+#if DEBUG
+            System.Console.WriteLine(Encoding.UTF8.GetString(bytes));
+#endif
             var content = new ByteArrayContent(bytes);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json")
             {

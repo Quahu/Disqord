@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Disqord.Logging;
 using Disqord.Rest;
 using Qmmands;
 
@@ -11,6 +12,29 @@ namespace Disqord.Bot
     public class DiscordModuleBase<TContext> : ModuleBase<TContext>
         where TContext : DiscordCommandContext
     {
+        protected override ValueTask BeforeExecutedAsync()
+        {
+#if DEBUG
+            Context.Bot.Log(LogMessageSeverity.Information, $"Executing {Context.Command} by {Context.User} in {FormatChannel()}.");
+#endif
+            return default;
+        }
+
+        protected override ValueTask AfterExecutedAsync()
+        {
+#if DEBUG
+            Context.Bot.Log(LogMessageSeverity.Information, $"Executed {Context.Command} by {Context.User} in {FormatChannel()}.");
+#endif
+            return default;
+        }
+
+#if DEBUG
+        private string FormatChannel()
+            => Context.Guild != null
+                ? $"{Context.Channel} ({Context.Channel.Id}); Guild: {Context.Guild} ({Context.Guild.Id})"
+                : $"{Context.Channel} ({Context.Channel.Id}).";
+#endif
+
         protected virtual Task<RestUserMessage> ReplyAsync(string content = null, bool isTts = false, Embed embed = null,
             RestRequestOptions options = null)
             => Context.Channel.SendMessageAsync(content, isTts, embed, options);

@@ -6,6 +6,6 @@ namespace Disqord.Rest
     internal sealed class BulkDeleteMessagesContent : JsonRequestContent
     {
         [JsonProperty("messages")]
-        public IEnumerable<ulong> Messages { get; set; }
+        public IReadOnlyList<ulong> Messages { get; set; }
     }
 }

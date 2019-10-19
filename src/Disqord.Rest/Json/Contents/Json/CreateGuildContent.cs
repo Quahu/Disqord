@@ -19,15 +19,15 @@ namespace Disqord.Rest
         public VerificationLevel VerificationLevel { get; set; }
 
         [JsonProperty("default_message_notifications")]
-        public DefaultNotificationLevel DefaultMessageNotifications { get; set; }
+        public DefaultNotificationLevel DefaultNotificationLevel { get; set; }
 
         [JsonProperty("explicit_content_filter")]
-        public ExplicitFilterLevel ExplicitContentFilter { get; set; }
+        public ContentFilterLevel ContentFilterLevel { get; set; }
 
         [JsonProperty("roles", NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<RoleModel> Roles { get; set; }
+        public IReadOnlyList<RoleModel> Roles { get; set; }
 
         [JsonProperty("channels", NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<ChannelModel> Channels { get; set; }
+        public IReadOnlyList<ChannelModel> Channels { get; set; }
     }
 }

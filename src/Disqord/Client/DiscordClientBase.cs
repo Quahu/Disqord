@@ -24,7 +24,7 @@ namespace Disqord
         /// </summary>
         public TokenType TokenType => RestClient.TokenType;
 
-        internal virtual void Log(LogMessageSeverity severity, string message, Exception exception = null)
+        internal void Log(LogMessageSeverity severity, string message, Exception exception = null)
             => Logger.Log(this, new MessageLoggedEventArgs("Gateway", severity, message, exception));
 
         public abstract void Dispose();

@@ -25,7 +25,7 @@ namespace Disqord.Rest.AuditLogs
 
         public AuditLogValue<VerificationLevel> VerificationLevel { get; }
 
-        public AuditLogValue<ExplicitFilterLevel> ExplicitFilterLevel { get; }
+        public AuditLogValue<ContentFilterLevel> ContentFilterLevel { get; }
 
         public AuditLogValue<DefaultNotificationLevel> DefaultNotificationLevel { get; }
 
@@ -109,7 +109,7 @@ namespace Disqord.Rest.AuditLogs
 
                     case "explicit_content_filter":
                     {
-                        ExplicitFilterLevel = new AuditLogValue<ExplicitFilterLevel>(change);
+                        ContentFilterLevel = new AuditLogValue<ContentFilterLevel>(change);
                         break;
                     }
 

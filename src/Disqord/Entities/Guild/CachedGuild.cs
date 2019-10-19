@@ -38,7 +38,7 @@ namespace Disqord
 
         public DefaultNotificationLevel DefaultNotificationLevel { get; private set; }
 
-        public ExplicitFilterLevel ExplicitFilterLevel { get; private set; }
+        public ContentFilterLevel ContentFilterLevel { get; private set; }
 
         public IReadOnlyList<CachedGuildEmoji> Emojis { get; private set; }
 
@@ -299,8 +299,8 @@ namespace Disqord
             if (model.DefaultMessageNotifications.HasValue)
                 DefaultNotificationLevel = model.DefaultMessageNotifications.Value;
 
-            if (model.ExplicitContentFilterLevel.HasValue)
-                ExplicitFilterLevel = model.ExplicitContentFilterLevel.Value;
+            if (model.ExplicitContentFilter.HasValue)
+                ContentFilterLevel = model.ExplicitContentFilter.Value;
 
             if (model.Roles.HasValue)
             {

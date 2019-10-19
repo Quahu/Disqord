@@ -137,7 +137,7 @@ namespace Disqord.Bot
         public void Run(CancellationToken token = default)
             => RunAsync(token).GetAwaiter().GetResult();
 
-        internal override void Log(LogMessageSeverity severity, string message, Exception exception = null)
+        internal new void Log(LogMessageSeverity severity, string message, Exception exception = null)
             => Logger.Log(this, new MessageLoggedEventArgs("Bot", severity, message, exception));
 
         public override void Dispose()

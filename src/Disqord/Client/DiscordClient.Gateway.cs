@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +11,7 @@ using Disqord.Logging;
 using Disqord.Models;
 using Disqord.Models.Dispatches;
 using Disqord.Rest;
+using Disqord.Serialization;
 using Disqord.WebSocket;
 
 namespace Disqord
@@ -22,7 +23,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the latency between heartbeats.
         /// </summary>
-        public double? Latency => (_lastHeartbeatAck - _lastHeartbeatSent)?.TotalMilliseconds;
+        public TimeSpan? Latency => _lastHeartbeatAck - _lastHeartbeatSent;
 
         internal UserStatus Status;
         internal ActivityModel Activity;
@@ -60,16 +61,20 @@ namespace Disqord
 
             if (TokenType == TokenType.Bot)
             {
-                var botGatewayResponse = await RestClient.GetGatewayBotUrlAsync().ConfigureAwait(false);
+                var botGatewayResponse = await GetGatewayBotUrlAsync().ConfigureAwait(false);
                 if (botGatewayResponse.RemainingSessionAmount == 0)
                     throw new SessionLimitException(botGatewayResponse.ResetAfter);
 
+                Log(LogMessageSeverity.Information,
+                    $"Using gateway session {botGatewayResponse.MaxSessionAmount - botGatewayResponse.RemainingSessionAmount}/{botGatewayResponse.MaxSessionAmount}. Limit resets in {botGatewayResponse.ResetAfter}.");
                 _gatewayUrl = botGatewayResponse.Url;
             }
             else if (_gatewayUrl == null)
             {
                 _gatewayUrl = await RestClient.GetGatewayUrlAsync().ConfigureAwait(false);
             }
+
+            Log(LogMessageSeverity.Information, $"Fetched the gateway url: {_gatewayUrl}.");
 
             await _resumeSemaphore.WaitAsync().ConfigureAwait(false);
             try
@@ -347,7 +352,13 @@ namespace Disqord
                 if (_lastSequenceNumber == payload.S)
                     Log(LogMessageSeverity.Warning, $"S is the same as the previous one: {payload.S}.");
 
-                gatewayEvent = Serializer.ToObject<GatewayDispatch?>(payload.T);
+                try
+                {
+                    gatewayEvent = Serializer.ToObject<GatewayDispatch>(payload.T);
+                }
+                catch (SerializationException)
+                { }
+
                 if (gatewayEvent == null)
                 {
                     Log(LogMessageSeverity.Warning, $"Unknown dispatch: {payload.T}\n{payload.D}.");
@@ -371,7 +382,7 @@ namespace Disqord
 
             _lastSequenceNumber = payload.S;
             //if (IsBot)
-            Log(LogMessageSeverity.Debug, $"Dispatch: {gatewayEvent.Value}.");
+            Log(LogMessageSeverity.Trace, $"Dispatch: {gatewayEvent.Value}.");
             switch (gatewayEvent)
             {
                 case GatewayDispatch.Ready:

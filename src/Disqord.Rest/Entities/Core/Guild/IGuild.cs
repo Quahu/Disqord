@@ -27,7 +27,7 @@ namespace Disqord
 
         DefaultNotificationLevel DefaultNotificationLevel { get; }
 
-        ExplicitFilterLevel ExplicitFilterLevel { get; }
+        ContentFilterLevel ContentFilterLevel { get; }
 
         IReadOnlyDictionary<Snowflake, IRole> Roles { get; }
 
