@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 
 namespace Disqord
@@ -6,7 +6,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a color used by Discord.
     /// </summary>
-    public readonly partial struct Color : IComparable<Color>, IEquatable<Color>
+    public readonly partial struct Color : IComparable<Color>, IEquatable<Color>, IComparable<int>, IEquatable<int>
     {
         /// <summary>
         ///     Gets the raw value of this <see cref="Color"/>.
@@ -81,36 +81,26 @@ namespace Disqord
         public override string ToString()
             => $"#{RawValue:X6}";
 
-        /// <summary>
-        ///     Returns a <see langword="bool"/> indicating if the provided <see cref="object"/> is a <see cref="Color"/> instace and they have the same value.
-        /// </summary>
-        /// <param name="obj">The object to perform the equality comparison.</param>
-        /// <returns></returns>
         public override bool Equals(object obj)
             => obj is Color color && Equals(color);
 
-        /// <summary>
-        ///     Gets the hashcode for this <see cref="Color"/>.
-        /// </summary>
-        /// <returns></returns>
         public override int GetHashCode()
             => RawValue;
 
-        /// <summary>
-        ///     Returns a <see langword="bool"/> indicating whether this and the provided <see cref="Color"/> have the same value.
-        /// </summary>
-        /// <param name="other">The <see cref="Color"/> to perform the equality comparison.</param>
-        /// <returns></returns>
         public bool Equals(Color other)
             => other.RawValue == RawValue;
 
-        /// <summary>
-        ///     Returns a <see langword="int"/> which indicates if the provided <see cref="Color"/> is lower than, higher than or equal to the current color.
-        /// </summary>
-        /// <param name="other">The <see cref="Color"/> to perform the inequality the comparison.</param>
-        /// <returns></returns>
         public int CompareTo(Color other)
-            => other.RawValue.CompareTo(RawValue);
+            => RawValue.CompareTo(other.RawValue);
+
+        public bool Equals(int other)
+            => RawValue == other;
+
+        public bool CompareTo(int other)
+            => RawValue.CompareTo(RawValue);
+
+        public static int operator ~(Color color)
+            => new Color(~color.RawValue & 0xFFFFFF);
 
         /// <summary>
         ///     Implicitly initialises a new <see cref="Color"/> from this raw value.
