@@ -6,7 +6,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a color used by Discord.
     /// </summary>
-    public readonly partial struct Color
+    public readonly partial struct Color : IComparable<Color>, IEquatable<Color>
     {
         /// <summary>
         ///     Gets the raw value of this <see cref="Color"/>.
@@ -80,6 +80,37 @@ namespace Disqord
         /// <returns></returns>
         public override string ToString()
             => $"#{RawValue:X6}";
+
+        /// <summary>
+        ///     Returns a <see langword="bool"/> indicating whether the providen <see cref="object"/> is a <see cref="Color"/> instace and they have the same value.
+        /// </summary>
+        /// <param name="obj">The object to perform the equality comparison.</param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+            => obj is Color color && Equals(color);
+
+        /// <summary>
+        ///     Gets the hashcode for this <see cref="Color"/>.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+            => RawValue;
+
+        /// <summary>
+        ///     Returns a <see langword="bool"/> indicating whether this and the providen <see cref="Color"/> have the same value.
+        /// </summary>
+        /// <param name="other">The <see cref="Color"/> to perform the equality comparison.</param>
+        /// <returns></returns>
+        public bool Equals(Color other)
+            => other.RawValue == RawValue;
+
+        /// <summary>
+        ///     Returns a <see langword="int"/> which indicates if the providen <see cref="Color"/> is lower than, higher than or equal to the current color.
+        /// </summary>
+        /// <param name="other">The <see cref="Color"/> to perform the inequality the comparison.</param>
+        /// <returns></returns>
+        public int CompareTo(Color other)
+            => other.RawValue.CompareTo(RawValue);
 
         /// <summary>
         ///     Implicitly initialises a new <see cref="Color"/> from this raw value.
