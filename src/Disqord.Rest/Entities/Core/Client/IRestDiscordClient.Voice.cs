@@ -5,7 +5,7 @@ using Disqord.Rest;
 
 namespace Disqord
 {
-    public partial interface IDiscordClient : IDisposable
+    public partial interface IRestDiscordClient : IDisposable
     {
         Task<IReadOnlyList<RestVoiceRegion>> GetVoiceRegionsAsync(RestRequestOptions options = null);
     }

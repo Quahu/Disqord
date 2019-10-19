@@ -4,9 +4,9 @@ using Disqord.Rest;
 
 namespace Disqord
 {
-    public abstract partial class DiscordClientBase : IDiscordClient
+    public abstract partial class DiscordClientBase : IRestDiscordClient
     {
-        public abstract RestDiscordClient RestClient { get; protected set; }
+        internal abstract RestDiscordClient RestClient { get; }
 
         /// <summary>
         ///     Gets the currently logged user.
@@ -17,7 +17,7 @@ namespace Disqord
 
         public ILogger Logger => RestClient.Logger;
 
-        RestDownloadable<RestCurrentUser> IDiscordClient.CurrentUser => RestClient.CurrentUser;
+        RestDownloadable<RestCurrentUser> IRestDiscordClient.CurrentUser => RestClient.CurrentUser;
 
         /// <summary>
         ///     Gets the <see cref="Disqord.TokenType"/> this client is using.

@@ -28,6 +28,7 @@ namespace Disqord.Bot
 
         private void Setup(DiscordBotConfiguration configuration)
         {
+            configuration = configuration ?? DiscordBotConfiguration.Default;
             _commandService = configuration.CommandService ?? new CommandService();
             _provider = configuration.ProviderFactory?.Invoke(this);
             Prefixes = configuration.Prefixes?.ToImmutableArray() ?? ImmutableArray<string>.Empty;

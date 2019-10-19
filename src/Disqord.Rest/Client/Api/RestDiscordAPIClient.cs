@@ -1019,9 +1019,8 @@ namespace Disqord.Rest
             {
                 Token = token
             };
-            //var json = await SendRequestAsync<JObject>(new RestRequest(POST, $"channels/{channelId:channel_id}/messages/{messageId}/ack", requestContent, options));
-            //return (string) json["token"];
-            return "";
+            var model = await SendRequestAsync<AckMessageContent>(new RestRequest(POST, $"channels/{channelId:channel_id}/messages/{messageId}/ack", requestContent, options));
+            return model.Token;
         }
 
         public Task AcceptInviteAsync(string code, RestRequestOptions options)

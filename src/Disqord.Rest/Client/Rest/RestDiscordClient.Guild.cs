@@ -8,7 +8,7 @@ using Disqord.Models;
 
 namespace Disqord.Rest
 {
-    public partial class RestDiscordClient : IDiscordClient
+    public partial class RestDiscordClient : IRestDiscordClient
     {
         public async Task<RestGuild> CreateGuildAsync(
             string name, string voiceRegionId = null, LocalAttachment icon = null, VerificationLevel verificationLevel = default,

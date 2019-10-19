@@ -5,7 +5,7 @@ using Disqord.Rest;
 
 namespace Disqord
 {
-    public partial interface IDiscordClient : IDisposable
+    public partial interface IRestDiscordClient : IDisposable
     {
         Task<RestGuild> CreateGuildAsync(string name, string voiceRegionId = null, LocalAttachment icon = null, VerificationLevel verificationLevel = default,
             DefaultNotificationLevel defaultNotificationLevel = default, ContentFilterLevel contentFilterLevel = default,

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Disqord.Rest
 {
-    public partial class RestDiscordClient : IDiscordClient
+    public partial class RestDiscordClient : IRestDiscordClient
     {
         public Task CreateRelationshipAsync(Snowflake userId, RelationshipType? type = null, RestRequestOptions options = null)
         {

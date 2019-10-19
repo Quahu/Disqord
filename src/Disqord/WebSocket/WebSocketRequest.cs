@@ -6,13 +6,13 @@ namespace Disqord.WebSocket
 {
     internal sealed class WebSocketRequest
     {
-        public byte[] Message { get; }
+        public ReadOnlyMemory<byte> Message { get; }
 
         public CancellationToken Token { get; }
 
         private readonly TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        public WebSocketRequest(byte[] message, CancellationToken cancellationToken)
+        public WebSocketRequest(ReadOnlyMemory<byte> message, CancellationToken cancellationToken)
         {
             Message = message;
             Token = cancellationToken;

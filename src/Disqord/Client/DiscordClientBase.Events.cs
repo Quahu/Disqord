@@ -3,7 +3,7 @@ using Qommon.Events;
 
 namespace Disqord
 {
-    public abstract partial class DiscordClientBase : IDiscordClient
+    public abstract partial class DiscordClientBase : IRestDiscordClient
     {
         public event AsynchronousEventHandler<ReadyEventArgs> Ready
         {

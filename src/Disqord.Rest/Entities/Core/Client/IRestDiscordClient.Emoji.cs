@@ -5,7 +5,7 @@ using Disqord.Rest;
 
 namespace Disqord
 {
-    public partial interface IDiscordClient : IDisposable
+    public partial interface IRestDiscordClient : IDisposable
     {
         Task<IReadOnlyList<RestGuildEmoji>> GetGuildEmojisAsync(Snowflake guildId, RestRequestOptions options = null);
 

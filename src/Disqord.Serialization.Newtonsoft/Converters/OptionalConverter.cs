@@ -41,6 +41,8 @@ namespace Disqord.Serialization.Json.Newtonsoft
         }
 
         public static OptionalConverter Create(JsonConverter converter = null)
-            => converter != null ? new OptionalConverter(converter) : Instance;
+            => converter != null
+                ? new OptionalConverter(converter)
+                : Instance;
     }
 }

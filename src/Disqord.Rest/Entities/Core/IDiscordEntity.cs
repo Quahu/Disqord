@@ -6,8 +6,8 @@
     public interface IDiscordEntity
     {
         /// <summary>
-        ///     Gets the <see cref="IDiscordClient"/> that created this <see cref="IDiscordEntity"/>.
+        ///     Gets the <see cref="IRestDiscordClient"/> that created this <see cref="IDiscordEntity"/>.
         /// </summary>
-        IDiscordClient Client { get; }
+        IRestDiscordClient Client { get; }
     }
 }

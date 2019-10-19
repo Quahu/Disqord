@@ -5,7 +5,7 @@ using Disqord.Rest;
 
 namespace Disqord
 {
-    public partial interface IDiscordClient : IDisposable
+    public partial interface IRestDiscordClient : IDisposable
     {
         Task<RestWebhook> CreateWebhookAsync(Snowflake channelId, string name, LocalAttachment avatar = null, RestRequestOptions options = null);
 

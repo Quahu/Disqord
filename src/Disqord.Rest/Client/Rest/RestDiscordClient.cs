@@ -4,7 +4,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Rest
 {
-    public partial class RestDiscordClient : IDiscordClient
+    public partial class RestDiscordClient : IRestDiscordClient
     {
         public RestDownloadable<RestCurrentUser> CurrentUser { get; }
 

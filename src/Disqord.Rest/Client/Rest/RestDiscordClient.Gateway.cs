@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Disqord.Rest
 {
-    public partial class RestDiscordClient : IDiscordClient
+    public partial class RestDiscordClient : IRestDiscordClient
     {
         public async Task<string> GetGatewayUrlAsync(RestRequestOptions options = null)
         {

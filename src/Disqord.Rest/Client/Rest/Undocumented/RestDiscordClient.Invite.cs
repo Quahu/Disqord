@@ -2,7 +2,7 @@
 
 namespace Disqord.Rest
 {
-    public partial class RestDiscordClient : IDiscordClient
+    public partial class RestDiscordClient : IRestDiscordClient
     {
         public Task AcceptInviteAsync(string code, RestRequestOptions options = null)
             => ApiClient.AcceptInviteAsync(code, options);

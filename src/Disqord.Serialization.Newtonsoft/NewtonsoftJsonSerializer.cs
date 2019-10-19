@@ -45,7 +45,7 @@ namespace Disqord.Serialization.Json.Newtonsoft
             }
         }
 
-        public byte[] Serialize(object model, IReadOnlyDictionary<string, object> additionalFields = null)
+        public ReadOnlyMemory<byte> Serialize(object model, IReadOnlyDictionary<string, object> additionalFields = null)
         {
             try
             {
@@ -68,7 +68,8 @@ namespace Disqord.Serialization.Json.Newtonsoft
                     }
 
                     jsonWriter.Flush();
-                    return memoryStream.ToArray();
+                    memoryStream.TryGetBuffer(out var streamBuffer);
+                    return streamBuffer.AsMemory(0, (int) memoryStream.Length);
                 }
             }
             catch (Exception ex)
