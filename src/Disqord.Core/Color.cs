@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 
 namespace Disqord
@@ -6,7 +6,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a color used by Discord.
     /// </summary>
-    public readonly partial struct Color
+    public readonly partial struct Color : IComparable<Color>, IEquatable<Color>, IComparable<int>, IEquatable<int>
     {
         /// <summary>
         ///     Gets the raw value of this <see cref="Color"/>.
@@ -80,6 +80,36 @@ namespace Disqord
         /// <returns></returns>
         public override string ToString()
             => $"#{RawValue:X6}";
+
+        public override bool Equals(object obj)
+            => obj is Color color && Equals(color);
+
+        public override int GetHashCode()
+            => RawValue;
+
+        public bool Equals(Color other)
+            => RawValue == other.RawValue;
+
+        public int CompareTo(Color other)
+            => RawValue.CompareTo(other.RawValue);
+
+        public bool Equals(int other)
+            => RawValue == other;
+
+        public int CompareTo(int other)
+            => RawValue.CompareTo(RawValue);
+
+        public static bool operator >(Color left, Color right)
+            => left.RawValue > right.RawValue;
+
+        public static bool operator <(Color left, Color right)
+            => left.RawValue < right.RawValue;
+
+        public static bool operator ==(Color left, Color right)
+            => left.RawValue == right.RawValue;
+
+        public static bool operator !=(Color left, Color right)
+            => left.RawValue != right.RawValue;
 
         /// <summary>
         ///     Implicitly initialises a new <see cref="Color"/> from this raw value.
