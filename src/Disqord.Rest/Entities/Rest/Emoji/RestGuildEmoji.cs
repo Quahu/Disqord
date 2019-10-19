@@ -49,15 +49,13 @@ namespace Disqord.Rest
             => Discord.GetCustomEmojiUrl(Id, IsAnimated, size);
 
         public bool Equals(IEmoji other)
-        {
-            if (other == null)
-                return false;
+            => other is ICustomEmoji emoji && Id == emoji.Id;
 
-            if (!(other is ICustomEmoji customEmoji))
-                return false;
+        public static bool operator ==(RestGuildEmoji left, RestGuildEmoji right)
+            => left.Id == right.Id;
 
-            return Id.Equals(customEmoji.Id);
-        }
+        public static bool operator !=(RestGuildEmoji left, RestGuildEmoji right)
+            => left.Id != right.Id;
 
         public override string ToString()
             => MessageFormat;

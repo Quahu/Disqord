@@ -80,17 +80,5 @@ namespace Disqord
 
         public static implicit operator DateTimeOffset(Snowflake value)
             => value.CreatedAt;
-
-        public static bool operator ==(Snowflake left, ulong right)
-            => left.Equals(right);
-
-        public static bool operator !=(Snowflake left, ulong right)
-            => !left.Equals(right);
-
-        public static bool operator >(Snowflake left, ulong right)
-            => left.RawValue > right;
-
-        public static bool operator <(Snowflake left, ulong right)
-            => left.RawValue < right;
     }
 }

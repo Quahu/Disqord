@@ -31,15 +31,13 @@
             => obj is IEmoji emoji && Equals(emoji);
 
         public bool Equals(IEmoji other)
-        {
-            if (other == null)
-                return false;
+            => !(other is ICustomEmoji) && Name == other.Name;
 
-            if (other is ICustomEmoji)
-                return false;
+        public static bool operator ==(LocalCustomEmoji left, LocalCustomEmoji right)
+            => left.Name == right.Name;
 
-            return Name.Equals(other.Name);
-        }
+        public static bool operator !=(LocalCustomEmoji left, LocalCustomEmoji right)
+            => left.Name == right.Name;
 
         public override string ToString()
             => MessageFormat;

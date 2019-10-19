@@ -21,26 +21,16 @@
             => Discord.GetCustomEmojiUrl(Id, IsAnimated, size);
 
         public bool Equals(IEmoji other)
-        {
-            if (other == null)
-                return false;
-
-            if (!(other is ICustomEmoji customEmoji))
-                return false;
-
-            return Id.Equals(customEmoji.Id);
-        }
+            => other is ICustomEmoji emoji && Id == emoji.Id;
 
         public override bool Equals(object obj)
-        {
-            if (obj == null)
-                return false;
+            => obj is ICustomEmoji emoji && Id == emoji.Id;
 
-            if (!(obj is ICustomEmoji emoji))
-                return false;
+        public static bool operator ==(CustomEmoji left, CustomEmoji right)
+            => left.Id == right.Id;
 
-            return Equals(emoji);
-        }
+        public static bool operator !=(CustomEmoji left, CustomEmoji right)
+            => left.Id != right.Id;
 
         public override int GetHashCode()
             => Id.GetHashCode();

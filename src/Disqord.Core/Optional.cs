@@ -57,7 +57,7 @@ namespace Disqord
         ///     The value of this <see cref="Optional{T}"/> or the default value of <typeparamref name="T"/>.
         /// </returns>
         public T GetValueOrDefault()
-            => HasValue ? _value : default;
+            => _value;
 
         /// <summary>
         ///     Returns a hash code for this <see cref="Optional{T}"/>.
@@ -85,15 +85,7 @@ namespace Disqord
         ///     The <see cref="bool"/> value reresenting whether the comparison succeeded.
         /// </returns>
         public override bool Equals(object obj)
-        {
-            if (obj is T value)
-                return Equals(value);
-
-            if (obj is Optional<T> optional)
-                return Equals(optional);
-
-            return false;
-        }
+            => obj is T value && Equals(value) || obj is Optional<T> optional && Equals(optional);
 
         /// <summary>
         ///     Checks whether this <see cref="Value"/> is equal to the specified <typeparamref name="T"/> value.
