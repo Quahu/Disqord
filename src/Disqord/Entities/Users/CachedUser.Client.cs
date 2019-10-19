@@ -6,14 +6,14 @@ namespace Disqord
 {
     public abstract partial class CachedUser : CachedSnowflakeEntity, IUser
     {
-        public Task CreateRelationshipAsync(RelationshipType? type = null, RestRequestOptions options = null)
-            => Client.CreateRelationshipAsync(Id, type, options);
+        public Task AddFriendAsync(RestRequestOptions options = null)
+            => Client.CreateRelationshipAsync(Id, options: options);
 
-        public Task DeleteRelationshipAsync(RestRequestOptions options = null)
+        public Task BlockAsync(RestRequestOptions options = null)
+            => Client.CreateRelationshipAsync(Id, RelationshipType.Blocked, options);
+
+        public Task UnfriendOrUnblockAsync(RestRequestOptions options = null)
             => Client.DeleteRelationshipAsync(Id, options);
-
-        public Task SendFriendRequestAsync(RestRequestOptions options = null)
-            => CreateRelationshipAsync(options: options);
 
         public Task<RestUserProfile> GetProfileAsync(RestRequestOptions options = null)
             => Client.GetUserProfileAsync(Id, options);

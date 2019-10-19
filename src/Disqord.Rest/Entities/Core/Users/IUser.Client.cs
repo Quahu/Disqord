@@ -5,11 +5,11 @@ namespace Disqord
 {
     public partial interface IUser : IMessagable, IMentionable, ITaggable
     {
-        Task CreateRelationshipAsync(RelationshipType? type = null, RestRequestOptions options = null);
+        Task AddFriendAsync(RestRequestOptions options = null);
 
-        Task DeleteRelationshipAsync(RestRequestOptions options = null);
+        Task BlockAsync(RestRequestOptions options = null);
 
-        Task SendFriendRequestAsync(RestRequestOptions options = null);
+        Task UnfriendOrUnblockAsync(RestRequestOptions options = null);
 
         Task<RestUserProfile> GetProfileAsync(RestRequestOptions options = null);
 
