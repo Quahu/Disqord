@@ -33,9 +33,9 @@ namespace Disqord.Rest
 
             var bytes = serializer.Serialize(obj, additionalFields);
 #if DEBUG
-            System.Console.WriteLine(Encoding.UTF8.GetString(bytes));
+            System.Console.WriteLine(Encoding.UTF8.GetString(bytes.Span));
 #endif
-            var content = new ByteArrayContent(bytes);
+            var content = new ReadOnlyMemoryContent(bytes);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json")
             {
                 CharSet = Encoding.UTF8.WebName

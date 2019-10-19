@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -12,6 +13,6 @@ namespace Disqord.Serialization.Json
 
         T Deserialize<T>(Stream stream);
 
-        byte[] Serialize(object model, IReadOnlyDictionary<string, object> additionalFields = null);
+        ReadOnlyMemory<byte> Serialize(object model, IReadOnlyDictionary<string, object> additionalFields = null);
     }
 }

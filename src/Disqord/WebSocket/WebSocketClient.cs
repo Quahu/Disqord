@@ -6,7 +6,6 @@ using System.IO.Compression;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Logging;
 using Qommon.Events;
 
 namespace Disqord.WebSocket
@@ -110,7 +109,7 @@ namespace Disqord.WebSocket
 
             _receiveCts = new CancellationTokenSource();
             var buffer = ArrayPool<byte>.Shared.Rent(RECEIVE_BUFFER_SIZE);
-            var bufferMemory = buffer.AsMemory();
+            var bufferMemory = buffer.AsMemory(0, RECEIVE_BUFFER_SIZE);
             try
             {
                 while (!_receiveCts.IsCancellationRequested && _ws.State == WebSocketState.Open)
