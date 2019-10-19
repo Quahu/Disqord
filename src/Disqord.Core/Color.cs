@@ -96,7 +96,7 @@ namespace Disqord
         public bool Equals(int other)
             => RawValue == other;
 
-        public bool CompareTo(int other)
+        public int CompareTo(int other)
             => RawValue.CompareTo(RawValue);
 
         public static bool operator >(Color left, Color right)
