@@ -44,7 +44,7 @@ namespace Disqord
 
         Task<RestBan> GetBanAsync(Snowflake userId, RestRequestOptions options = null);
 
-        Task BanMemberAsync(Snowflake memberId, int? deleteMessageDays = null, string reason = null, RestRequestOptions options = null);
+        Task BanMemberAsync(Snowflake memberId, string reason = null, int? deleteMessageDays = null, RestRequestOptions options = null);
 
         Task UnbanMemberAsync(Snowflake userId, RestRequestOptions options = null);
 

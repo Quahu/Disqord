@@ -217,11 +217,8 @@ namespace Disqord
         public Task KickAsync(RestRequestOptions options = null)
             => Client.KickMemberAsync(Guild.Id, Id, options);
 
-        public Task BanAsync(string reason = null, RestRequestOptions options = null)
-            => Client.BanMemberAsync(Guild.Id, Id, null, reason, options);
-
-        public Task BanAsync(int messageDeleteDays, string reason = null, RestRequestOptions options = null)
-            => Client.BanMemberAsync(Guild.Id, Id, messageDeleteDays, reason, options);
+        public Task BanAsync(string reason = null, int? messageDeleteDays = null, RestRequestOptions options = null)
+            => Client.BanMemberAsync(Guild.Id, Id, reason, messageDeleteDays, options);
 
         public Task UnbanAsync(RestRequestOptions options = null)
             => Client.UnbanMemberAsync(Guild.Id, Id, options);

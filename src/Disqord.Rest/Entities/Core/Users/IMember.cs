@@ -26,9 +26,7 @@ namespace Disqord
 
         Task KickAsync(RestRequestOptions options = null);
 
-        Task BanAsync(string reason = null, RestRequestOptions options = null);
-
-        Task BanAsync(int messageDeleteDays, string reason = null, RestRequestOptions options = null);
+        Task BanAsync(string reason = null, int? messageDeleteDays = null, RestRequestOptions options = null);
 
         Task UnbanAsync(RestRequestOptions options = null);
 

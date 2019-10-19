@@ -70,8 +70,8 @@ namespace Disqord
         public Task<RestBan> GetBanAsync(Snowflake userId, RestRequestOptions options = null)
             => Client.GetBanAsync(Id, userId, options);
 
-        public Task BanMemberAsync(Snowflake memberId, int? deleteMessageDays = null, string reason = null, RestRequestOptions options = null)
-            => Client.BanMemberAsync(Id, memberId, deleteMessageDays, reason, options);
+        public Task BanMemberAsync(Snowflake memberId, string reason = null, int? deleteMessageDays = null, RestRequestOptions options = null)
+            => Client.BanMemberAsync(Id, memberId, reason, deleteMessageDays, options);
 
         public Task UnbanMemberAsync(Snowflake userId, RestRequestOptions options = null)
             => Client.UnbanMemberAsync(Id, userId, options);

@@ -50,7 +50,7 @@ namespace Disqord
         public Task KickMemberAsync(Snowflake guildId, Snowflake memberId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).KickMemberAsync(guildId, memberId, options);
         public Task<IReadOnlyList<RestBan>> GetBansAsync(Snowflake guildId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetBansAsync(guildId, options);
         public Task<RestBan> GetBanAsync(Snowflake guildId, Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetBanAsync(guildId, userId, options);
-        public Task BanMemberAsync(Snowflake guildId, Snowflake memberId, int? deleteMessageDays = null, string reason = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).BanMemberAsync(guildId, memberId, deleteMessageDays, reason, options);
+        public Task BanMemberAsync(Snowflake guildId, Snowflake memberId, string reason = null, int? deleteMessageDays = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).BanMemberAsync(guildId, memberId, reason, deleteMessageDays, options);
         public Task UnbanMemberAsync(Snowflake guildId, Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).UnbanMemberAsync(guildId, userId, options);
         public Task<IReadOnlyList<RestRole>> GetRolesAsync(Snowflake guildId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetRolesAsync(guildId, options);
         public Task<RestRole> CreateRoleAsync(Snowflake guildId, Action<CreateRoleProperties> action = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateRoleAsync(guildId, action, options);
