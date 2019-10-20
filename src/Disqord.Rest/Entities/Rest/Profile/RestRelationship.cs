@@ -43,7 +43,7 @@ namespace Disqord.Rest
             if (Type != RelationshipType.IncomingFriendRequest)
                 throw new InvalidOperationException("Relationship's type must be an incoming friend request.");
 
-            return Client.CreateRelationshipAsync(User.Id, options: options);
+            return Client.SendOrAcceptFriendRequestAsync(User.Id, options: options);
         }
 
         /// <summary>

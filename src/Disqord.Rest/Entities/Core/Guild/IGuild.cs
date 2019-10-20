@@ -61,7 +61,7 @@ namespace Disqord
 
         CultureInfo PreferredLocale { get; }
 
-        string GetIconUrl(ImageFormat? imageFormat = null, int size = 2048);
+        string GetIconUrl(ImageFormat format = default, int size = 2048);
 
         string GetSplashUrl(int size = 2048);
     }

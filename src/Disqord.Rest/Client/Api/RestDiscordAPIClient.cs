@@ -977,6 +977,7 @@ namespace Disqord.Rest
             {
                 Type = type
             };
+
             return SendRequestAsync(new RestRequest(PUT, $"users/@me/relationships/{userId}", requestContent, options));
         }
 

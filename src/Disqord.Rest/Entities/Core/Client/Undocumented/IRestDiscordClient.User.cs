@@ -6,7 +6,7 @@ namespace Disqord
 {
     public partial interface IRestDiscordClient : IDisposable
     {
-        Task<RestUserProfile> GetUserProfileAsync(Snowflake userId, RestRequestOptions options = null);
+        Task<RestProfile> GetProfileAsync(Snowflake userId, RestRequestOptions options = null);
 
         Task SetNoteAsync(Snowflake userId, string note, RestRequestOptions options = null);
 

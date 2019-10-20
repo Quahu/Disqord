@@ -48,17 +48,12 @@ namespace Disqord
 
         internal static CachedPrivateChannel Create(DiscordClient client, ChannelModel model)
         {
-            switch (model.Type.Value)
+            return model.Type.Value switch
             {
-                case ChannelType.Dm:
-                    return new CachedDmChannel(client, model);
-
-                case ChannelType.Group:
-                    return new CachedGroupChannel(client, model);
-
-                default:
-                    return null;
-            }
+                ChannelType.Dm => new CachedDmChannel(client, model),
+                ChannelType.Group => new CachedGroupChannel(client, model),
+                _ => null,
+            };
         }
 
         public CachedUserMessage GetMessage(Snowflake id)

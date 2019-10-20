@@ -135,6 +135,18 @@ namespace Disqord
 
         public int BoostingMemberCount { get; private set; }
 
+        public int MaxPresenceCount { get; private set; }
+
+        public int MaxMemberCount { get; private set; }
+
+        public string VanityUrlCode { get; private set; }
+
+        public string Description { get; private set; }
+
+        public string BannerHash { get; private set; }
+
+        public CultureInfo PreferredLocale { get; private set; }
+
         internal TaskCompletionSource<bool> SyncTcs;
 
         internal int ChunksExpected;
@@ -149,13 +161,6 @@ namespace Disqord
 
         IReadOnlyDictionary<Snowflake, IRole> IGuild.Roles => new ReadOnlyUpcastingDictionary<Snowflake, CachedRole, IRole>(Roles);
         IReadOnlyList<IGuildEmoji> IGuild.Emojis => Emojis;
-
-        public int MaxPresenceCount { get; }
-        public int MaxMemberCount { get; }
-        public string VanityUrlCode { get; }
-        public string Description { get; }
-        public string BannerHash { get; }
-        public CultureInfo PreferredLocale { get; }
 
         internal CachedGuild(DiscordClient client, WebSocketGuildModel model) : base(client, model.Id)
         {
@@ -333,11 +338,29 @@ namespace Disqord
             if (model.SystemChannelId.HasValue)
                 SystemChannelId = model.SystemChannelId.Value;
 
+            if (model.MaxPresences.HasValue)
+                MaxPresenceCount = model.MaxPresences.Value ?? Discord.DEFAULT_MAX_PRESENCE_COUNT;
+
+            if (model.MaxMembers.HasValue)
+                MaxMemberCount = model.MaxMembers.Value;
+
+            if (model.VanityUrlCode.HasValue)
+                VanityUrlCode = model.VanityUrlCode.Value;
+
+            if (model.Description.HasValue)
+                Description = model.Description.Value;
+
+            if (model.Banner.HasValue)
+                BannerHash = model.Banner.Value;
+
             if (model.PremiumTier.HasValue)
                 BoostTier = model.PremiumTier.Value;
 
             if (model.PremiumSubscriptionCount.HasValue && model.PremiumSubscriptionCount.Value != null)
                 BoostingMemberCount = model.PremiumSubscriptionCount.Value.Value;
+
+            if (model.PreferredLocale.HasValue)
+                PreferredLocale = Discord.Internal.CreateLocale(model.PreferredLocale.Value);
         }
 
         internal bool TryAddMember(Snowflake id, CachedMember member, bool sync = false)
@@ -392,8 +415,8 @@ namespace Disqord
         public CachedRole GetRole(Snowflake id)
             => _roles.TryGetValue(id, out var role) ? role : null;
 
-        public string GetIconUrl(ImageFormat? imageFormat = null, int size = 2048)
-            => Discord.GetGuildIconUrl(Id, IconHash, imageFormat, size);
+        public string GetIconUrl(ImageFormat format = default, int size = 2048)
+            => Discord.GetGuildIconUrl(Id, IconHash, format, size);
 
         public string GetSplashUrl(int size = 2048)
             => Discord.GetGuildSplashUrl(Id, SplashHash, ImageFormat.Png, 2048);

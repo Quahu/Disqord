@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using Disqord.Rest;
 
@@ -12,18 +13,21 @@ namespace Disqord
     {
         internal static class Internal
         {
-            internal static string GetAvatarUrl(RestWebhook webhook, ImageFormat? imageFormat = null, int size = 2048)
+            internal static string GetAvatarUrl(RestWebhook webhook, ImageFormat format = default, int size = 2048)
                 => webhook.AvatarHash != null
-                    ? GetUserAvatarUrl(webhook.Id, webhook.AvatarHash, imageFormat, size)
+                    ? GetUserAvatarUrl(webhook.Id, webhook.AvatarHash, format, size)
                     : GetDefaultUserAvatarUrl(DefaultAvatarColor.Blurple);
 
-            internal static string GetAvatarUrl(IUser user, ImageFormat? imageFormat = null, int size = 2048)
+            internal static string GetAvatarUrl(IUser user, ImageFormat format = default, int size = 2048)
                 => user.AvatarHash != null
-                    ? GetUserAvatarUrl(user.Id, user.AvatarHash, imageFormat, size)
+                    ? GetUserAvatarUrl(user.Id, user.AvatarHash, format, size)
                     : GetDefaultUserAvatarUrl(user.Discriminator);
 
             internal static string Tag(IUser user)
                 => $"{user.Name}#{user.Discriminator}";
+
+            internal static CultureInfo CreateLocale(string locale)
+                => CultureInfo.ReadOnly(new CultureInfo(locale));
         }
 
         public const int DEFAULT_MAX_PRESENCE_COUNT = 5000;
@@ -50,13 +54,13 @@ namespace Disqord
         /// </summary>
         /// <param name="guildId"> The guild's id. </param>
         /// <param name="iconHash"> The guild's icon hash. </param>
-        /// <param name="imageFormat"> The format to use. </param>
+        /// <param name="format"> The format to use. </param>
         /// <param name="size"> The size of the guild icon. </param>
         /// <returns>
         ///     The url of the guild icon.
         /// </returns>
-        public static string GetGuildIconUrl(Snowflake guildId, string iconHash, ImageFormat? imageFormat = null, int size = 2048)
-            => FormatImageUrl($"icons/{guildId}/{iconHash}", imageFormat ?? ImageFormat.Png, size);
+        public static string GetGuildIconUrl(Snowflake guildId, string iconHash, ImageFormat format = default, int size = 2048)
+            => FormatImageUrl($"icons/{guildId}/{iconHash}", format != default ? format : ImageFormat.Png, size);
 
         /// <summary>
         ///     Returns the url for a guild's splash.
@@ -68,7 +72,7 @@ namespace Disqord
         /// <returns>
         ///     The url of the guild's splash.
         /// </returns>
-        public static string GetGuildSplashUrl(Snowflake guildId, string splashHash, ImageFormat imageFormat, int size = 2048)
+        public static string GetGuildSplashUrl(Snowflake guildId, string splashHash, ImageFormat imageFormat = default, int size = 2048)
             => FormatImageUrl($"splashes/{guildId}/{splashHash}", imageFormat, size);
 
         /// <summary>
@@ -106,26 +110,26 @@ namespace Disqord
         /// </summary>
         /// <param name="userId"> The user's id. </param>
         /// <param name="avatarHash"> The user's avatar hash. </param>
-        /// <param name="imageFormat"> The format to use. </param>
+        /// <param name="format"> The format to use. </param>
         /// <param name="size"> The size of the user's avatar. </param>
         /// <returns>
         ///     The url of the user's avatar.
         /// </returns>
-        public static string GetUserAvatarUrl(Snowflake userId, string avatarHash, ImageFormat? imageFormat = null, int size = 2048)
-            => FormatImageUrl($"avatars/{userId}/{avatarHash}", imageFormat ?? (avatarHash.StartsWith("a_") ? ImageFormat.Gif : default), size);
+        public static string GetUserAvatarUrl(Snowflake userId, string avatarHash, ImageFormat format = default, int size = 2048)
+            => FormatImageUrl($"avatars/{userId}/{avatarHash}", format != default ? format : (avatarHash.StartsWith("a_") ? ImageFormat.Gif : ImageFormat.Png), size);
 
         /// <summary>
         ///     Returns the url for an application's icon url.
         /// </summary>
         /// <param name="applicationId"> The application's id. </param>
         /// <param name="iconHash"> The application's icon hash. </param>
-        /// <param name="imageFormat"> The format to use. </param>
+        /// <param name="format"> The format to use. </param>
         /// <param name="size"> The size of the application's icon. </param>
         /// <returns>
         ///     The url of the application's icon.
         /// </returns>
-        public static string GetApplicationIconUrl(Snowflake applicationId, string iconHash, ImageFormat imageFormat, int size = 2048)
-            => FormatImageUrl($"app-icons/{applicationId}/{iconHash}", imageFormat, size);
+        public static string GetApplicationIconUrl(Snowflake applicationId, string iconHash, ImageFormat format = default, int size = 2048)
+            => FormatImageUrl($"app-icons/{applicationId}/{iconHash}", format != default ? format : ImageFormat.Png, size);
 
         private static string FormatImageUrl(string path, ImageFormat format, int size = 0)
         {
@@ -143,7 +147,7 @@ namespace Disqord
                 ImageFormat.Jpg => "jpg",
                 ImageFormat.WebP => "webp",
                 ImageFormat.Gif => "gif",
-                _ => throw new ArgumentOutOfRangeException(nameof(format), "Format must be a defined value of ImageFormat."),
+                _ => throw new ArgumentOutOfRangeException(nameof(format), "The image format must be set."),
             };
         }
 

@@ -7,7 +7,7 @@ using Qommon.Collections;
 
 namespace Disqord.Rest
 {
-    public sealed class RestUserProfile : RestDiscordEntity
+    public sealed class RestProfile : RestDiscordEntity
     {
         public DateTimeOffset? NitroSince { get; private set; }
 
@@ -15,9 +15,11 @@ namespace Disqord.Rest
 
         public RestUser User { get; private set; }
 
+        public UserFlags Flags { get; private set; }
+
         public IReadOnlyList<RestConnectedAccount> ConnectedAccounts { get; private set; }
 
-        internal RestUserProfile(RestDiscordClient client, ProfileModel model) : base(client)
+        internal RestProfile(RestDiscordClient client, ProfileModel model) : base(client)
         {
             Update(model);
         }
@@ -25,11 +27,13 @@ namespace Disqord.Rest
         internal void Update(ProfileModel model)
         {
             NitroSince = model.PremiumSince;
-            MutualGuilds = new ReadOnlyDictionary<Snowflake, RestMutualGuild>(model.MutualGuilds.ToDictionary(x => new Snowflake(x.Id), x => new RestMutualGuild(Client, x)));
+            MutualGuilds = new ReadOnlyDictionary<Snowflake, RestMutualGuild>(
+                model.MutualGuilds.ToDictionary(x => new Snowflake(x.Id), x => new RestMutualGuild(Client, x)));
             if (User != null)
                 User.Update(model.User);
             else
                 User = new RestUser(Client, model.User);
+            Flags = model.User.Flags.Value;
             ConnectedAccounts = model.ConnectedAccounts.Select(x => new RestConnectedAccount(Client, x)).ToImmutableArray();
         }
     }

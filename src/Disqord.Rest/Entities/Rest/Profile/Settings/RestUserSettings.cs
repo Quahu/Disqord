@@ -79,7 +79,7 @@ namespace Disqord.Rest
             RenderReactions = model.RenderReactions.Value;
             RenderEmbeds = model.RenderEmbeds.Value;
             EnableCompactMessages = model.MessageDisplayCompact.Value;
-            Locale = new CultureInfo(model.Locale.Value);
+            Locale = Discord.Internal.CreateLocale(model.Locale.Value);
             ShowEmbeds = model.InlineEmbedMedia.Value;
             ShowAttachments = model.InlineAttachmentMedia.Value;
 

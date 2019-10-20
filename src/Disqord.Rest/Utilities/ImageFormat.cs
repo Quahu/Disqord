@@ -6,6 +6,11 @@
     public enum ImageFormat : byte
     {
         /// <summary>
+        ///     The default format for the specific image.
+        /// </summary>
+        Default,
+
+        /// <summary>
         ///     The PNG format.
         /// </summary>
         Png,

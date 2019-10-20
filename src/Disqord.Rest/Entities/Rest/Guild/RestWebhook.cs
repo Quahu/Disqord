@@ -59,7 +59,7 @@ namespace Disqord.Rest
             Update(model);
         }
 
-        public string GetAvatarUrl(ImageFormat? imageFormat = null, int size = 2048)
-            => AvatarHash != null ? Discord.GetUserAvatarUrl(Id, AvatarHash, imageFormat, size) : Discord.GetDefaultUserAvatarUrl(DefaultAvatarColor.Blurple);
+        public string GetAvatarUrl(ImageFormat format = default, int size = 2048)
+            => Discord.Internal.GetAvatarUrl(this, format, size);
     }
 }

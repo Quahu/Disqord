@@ -27,17 +27,12 @@ namespace Disqord.Rest
 
         internal new static RestPrivateChannel Create(RestDiscordClient client, ChannelModel model)
         {
-            switch (model.Type.Value)
+            return model.Type.Value switch
             {
-                case ChannelType.Dm:
-                    return new RestDmChannel(client, model);
-
-                case ChannelType.Group:
-                    return new RestGroupChannel(client, model);
-
-                default:
-                    return null;
-            }
+                ChannelType.Dm => new RestDmChannel(client, model),
+                ChannelType.Group => new RestGroupChannel(client, model),
+                _ => null,
+            };
         }
     }
 }

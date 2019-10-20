@@ -10,6 +10,6 @@
 
         bool IsBot { get; }
 
-        string GetAvatarUrl(ImageFormat? imageFormat = null, int size = 2048);
+        string GetAvatarUrl(ImageFormat format = default, int size = 2048);
     }
 }

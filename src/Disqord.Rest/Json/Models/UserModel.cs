@@ -20,15 +20,27 @@ namespace Disqord.Models
         public bool Bot { get; set; }
 
         [JsonProperty("mfa_enabled")]
-        public Optional<bool?> MfaEnabled { get; set; }
+        public Optional<bool> MfaEnabled { get; set; }
 
         [JsonProperty("locale")]
         public Optional<string> Locale { get; set; }
 
         [JsonProperty("verified")]
-        public Optional<bool?> Verified { get; set; }
+        public Optional<bool> Verified { get; set; }
 
         [JsonProperty("email")]
         public Optional<string> Email { get; set; }
+
+        [JsonProperty("phone")]
+        public Optional<string> Phone { get; set; }
+
+        [JsonProperty("flags")]
+        public Optional<UserFlag> Flags { get; set; }
+
+        [JsonProperty("premium")]
+        public Optional<bool> Premium { get; set; }
+
+        [JsonProperty("premium_type")]
+        public Optional<NitroType?> PremiumType { get; set; }
     }
 }

@@ -6,10 +6,10 @@ namespace Disqord.Rest
 {
     public partial class RestDiscordClient : IRestDiscordClient
     {
-        public async Task<RestUserProfile> GetUserProfileAsync(Snowflake userId, RestRequestOptions options = null)
+        public async Task<RestProfile> GetProfileAsync(Snowflake userId, RestRequestOptions options = null)
         {
             var model = await ApiClient.GetUserProfileAsync(userId, options).ConfigureAwait(false);
-            return new RestUserProfile(this, model);
+            return new RestProfile(this, model);
         }
 
         public Task SetNoteAsync(Snowflake userId, string note, RestRequestOptions options = null)

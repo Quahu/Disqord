@@ -168,11 +168,11 @@ namespace Disqord.Rest
                 BoostingMemberCount = model.PremiumSubscriptionCount.Value.Value;
 
             if (model.PreferredLocale.HasValue)
-                PreferredLocale = CultureInfo.ReadOnly(new CultureInfo(model.PreferredLocale.Value));
+                PreferredLocale = Discord.Internal.CreateLocale(model.PreferredLocale.Value);
         }
 
-        public string GetIconUrl(ImageFormat? imageFormat = null, int size = 2048)
-            => Discord.GetGuildIconUrl(Id, IconHash, imageFormat, size);
+        public string GetIconUrl(ImageFormat format = default, int size = 2048)
+            => Discord.GetGuildIconUrl(Id, IconHash, format, size);
 
         public string GetSplashUrl(int size = 2048)
             => Discord.GetGuildSplashUrl(Id, SplashHash, ImageFormat.Png, 2048);

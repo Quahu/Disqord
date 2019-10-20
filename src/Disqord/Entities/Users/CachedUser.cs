@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq;
 using Disqord.Models;
-using PresenceUpdateDispatch = Disqord.Models.Dispatches.PresenceUpdateModel;
+using Disqord.Models.Dispatches;
 
 namespace Disqord
 {
@@ -70,7 +70,7 @@ namespace Disqord
 
         internal abstract void Update(UserModel model);
 
-        internal virtual void Update(PresenceUpdateDispatch model)
+        internal virtual void Update(PresenceUpdateModel model)
         {
             foreach (var (key, value) in model.ClientStatus)
             {
@@ -81,10 +81,8 @@ namespace Disqord
         internal CachedUser Clone()
             => (CachedUser) MemberwiseClone();
 
-        public string GetAvatarUrl(ImageFormat? imageFormat = null, int size = 2048)
-            => AvatarHash != null
-                ? Discord.GetUserAvatarUrl(Id, AvatarHash, imageFormat, size)
-                : Discord.GetDefaultUserAvatarUrl(Discriminator);
+        public string GetAvatarUrl(ImageFormat format = default, int size = 2048)
+            => Discord.Internal.GetAvatarUrl(this, format, size);
 
         public override string ToString()
             => Tag;

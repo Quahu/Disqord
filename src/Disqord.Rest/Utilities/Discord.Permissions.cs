@@ -1,30 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Disqord
 {
     public static partial class Discord
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasFlag(ulong rawValue, ulong flag)
+            => (rawValue & flag) == flag;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetFlag(ref ulong rawValue, ulong flag)
+            => rawValue |= flag;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void UnsetFlag(ref ulong rawValue, ulong flag)
+            => rawValue &= ~flag;
+
         public static class Permissions
         {
-            public static bool HasFlag(ulong rawValue, Permission flag)
-                => HasFlag(rawValue, (ulong) flag);
-
-            public static bool HasFlag(ulong rawValue, ulong flag)
-                => (rawValue & flag) == flag;
-
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void SetFlag(ref ulong rawValue, Permission flag)
-                => SetFlag(ref rawValue, (ulong) flag);
+                => Discord.SetFlag(ref rawValue, (ulong) flag);
 
-            public static void SetFlag(ref ulong rawValue, ulong flag)
-                => rawValue |= flag;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static bool HasFlag(ulong rawValue, Permission flag)
+                => Discord.HasFlag(rawValue, (ulong) flag);
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void UnsetFlag(ref ulong rawValue, Permission flag)
-                => UnsetFlag(ref rawValue, (ulong) flag);
-
-            public static void UnsetFlag(ref ulong rawValue, ulong flag)
-                => rawValue &= ~flag;
+                => Discord.UnsetFlag(ref rawValue, (ulong) flag);
 
             public static ChannelPermissions CalculatePermissions(IGuild guild, IGuildChannel channel, IMember member, IEnumerable<IRole> roles)
             {

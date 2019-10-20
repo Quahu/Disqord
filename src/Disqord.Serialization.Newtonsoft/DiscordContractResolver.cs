@@ -45,7 +45,7 @@ namespace Disqord.Serialization.Json.Newtonsoft
             }
             else
             {
-                jsonProperty.Converter = GetConverter(property.PropertyType, property) ?? jsonProperty.Converter;
+                jsonProperty.Converter = GetConverter(property.PropertyType) ?? jsonProperty.Converter;
             }
 
             return jsonProperty;
@@ -54,11 +54,11 @@ namespace Disqord.Serialization.Json.Newtonsoft
         private static OptionalConverter GetOptionalConverter(PropertyInfo property)
         {
             var optionalType = property.PropertyType.GenericTypeArguments[0];
-            var optionalTypeConverter = GetConverter(optionalType, property);
+            var optionalTypeConverter = GetConverter(optionalType);
             return OptionalConverter.Create(optionalTypeConverter);
         }
 
-        private static JsonConverter GetConverter(Type type, PropertyInfo property)
+        private static JsonConverter GetConverter(Type type)
         {
             if (typeof(ILocalAttachment).IsAssignableFrom(type))
             {

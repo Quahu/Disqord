@@ -9,9 +9,10 @@ namespace Disqord
     // TODO: sort or something
     public abstract partial class DiscordClientBase : IRestDiscordClient
     {
-        public Task CreateRelationshipAsync(Snowflake userId, RelationshipType? type = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateRelationshipAsync(userId, type, options);
+        public Task SendOrAcceptFriendRequestAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).SendOrAcceptFriendRequestAsync(userId, options);
+        public Task SendOrAcceptFriendRequestAsync(string name, string discriminator, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).SendOrAcceptFriendRequestAsync(name, discriminator, options);
+        public Task BlockUserAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).BlockUserAsync(userId, options);
         public Task DeleteRelationshipAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).DeleteRelationshipAsync(userId, options);
-        public Task SendFriendRequestAsync(string name, string discriminator, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).SendFriendRequestAsync(name, discriminator, options);
         public Task<IReadOnlyList<RestRelationship>> GetRelationshipsAsync(RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetRelationshipsAsync(options);
         public Task<IReadOnlyList<RestUser>> GetMutualFriendsAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetMutualFriendsAsync(userId, options);
         public Task<RestWebhook> CreateWebhookAsync(Snowflake channelId, string name, LocalAttachment avatar = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateWebhookAsync(channelId, name, avatar, options);
@@ -32,7 +33,7 @@ namespace Disqord
         public Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog => ((IRestDiscordClient) this.RestClient).GetAuditLogsAsync<T>(guildId, limit, userId, startFromId, options);
         public Task<string> GetGatewayUrlAsync(RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetGatewayUrlAsync(options);
         public Task<RestGatewayBotResponse> GetGatewayBotUrlAsync(RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetGatewayBotUrlAsync(options);
-        public Task<RestUserProfile> GetUserProfileAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetUserProfileAsync(userId, options);
+        public Task<RestProfile> GetProfileAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetProfileAsync(userId, options);
         public Task SetNoteAsync(Snowflake userId, string note, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).SetNoteAsync(userId, note, options);
         public Task<RestGuild> CreateGuildAsync(string name, string voiceRegionId = null, LocalAttachment icon = null, VerificationLevel verificationLevel = VerificationLevel.None, DefaultNotificationLevel defaultNotificationLevel = DefaultNotificationLevel.AllMessages, ContentFilterLevel contentFilterLevel = ContentFilterLevel.Disabled, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateGuildAsync(name, voiceRegionId, icon, verificationLevel, defaultNotificationLevel, contentFilterLevel, options);
         public Task<RestGuild> GetGuildAsync(Snowflake guildId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetGuildAsync(guildId, options);

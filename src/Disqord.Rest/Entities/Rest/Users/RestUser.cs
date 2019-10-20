@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord.Rest
 {
@@ -31,9 +29,9 @@ namespace Disqord.Rest
             AvatarHash = model.Avatar.Value;
         }
 
-        public string GetAvatarUrl(ImageFormat? imageFormat = null, int size = 2048)
-            => Discord.Internal.GetAvatarUrl(this);
-        
+        public string GetAvatarUrl(ImageFormat format = default, int size = 2048)
+            => Discord.Internal.GetAvatarUrl(this, format, size);
+
         public override string ToString()
             => Tag;
     }

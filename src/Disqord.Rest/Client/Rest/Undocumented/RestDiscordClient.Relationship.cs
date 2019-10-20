@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,22 +7,17 @@ namespace Disqord.Rest
 {
     public partial class RestDiscordClient : IRestDiscordClient
     {
-        public Task CreateRelationshipAsync(Snowflake userId, RelationshipType? type = null, RestRequestOptions options = null)
-        {
-            if (type != null && !Enum.IsDefined(typeof(RelationshipType), type.Value))
-                throw new ArgumentOutOfRangeException(nameof(type));
+        public Task SendOrAcceptFriendRequestAsync(Snowflake userId, RestRequestOptions options = null)
+            => ApiClient.CreateRelationshipAsync(userId, null, options);
 
-            if (type == RelationshipType.IncomingFriendRequest || type == RelationshipType.OutgoingFriendRequest)
-                throw new ArgumentOutOfRangeException(nameof(type), "The RelationshipType must not be an incoming or outgoing type.");
+        public Task SendOrAcceptFriendRequestAsync(string name, string discriminator, RestRequestOptions options = null)
+            => ApiClient.SendFriendRequestAsync(name, discriminator, options);
 
-            return ApiClient.CreateRelationshipAsync(userId, type, options);
-        }
+        public Task BlockUserAsync(Snowflake userId, RestRequestOptions options = null)
+            => ApiClient.CreateRelationshipAsync(userId, RelationshipType.Blocked, options);
 
         public Task DeleteRelationshipAsync(Snowflake userId, RestRequestOptions options = null)
             => ApiClient.DeleteRelationshipAsync(userId, options);
-
-        public Task SendFriendRequestAsync(string name, string discriminator, RestRequestOptions options = null)
-            => ApiClient.SendFriendRequestAsync(name, discriminator, options);
 
         public async Task<IReadOnlyList<RestRelationship>> GetRelationshipsAsync(RestRequestOptions options = null)
         {
