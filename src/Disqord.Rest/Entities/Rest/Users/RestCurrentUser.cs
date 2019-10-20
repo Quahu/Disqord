@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord.Rest
 {
-    public sealed class RestCurrentUser : RestUser, ICurrentUser
+    public sealed partial class RestCurrentUser : RestUser, ICurrentUser
     {
         public string Locale { get; private set; }
 
@@ -35,8 +33,5 @@ namespace Disqord.Rest
 
             base.Update(model);
         }
-
-        public Task ModifyAsync(Action<ModifyCurrentUserProperties> action, RestRequestOptions options = null)
-            => Client.ModifyCurrentUserAsync(action, options);
     }
 }

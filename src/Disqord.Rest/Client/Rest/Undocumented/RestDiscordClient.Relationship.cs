@@ -13,6 +13,9 @@ namespace Disqord.Rest
             if (type != null && !Enum.IsDefined(typeof(RelationshipType), type.Value))
                 throw new ArgumentOutOfRangeException(nameof(type));
 
+            if (type == RelationshipType.IncomingFriendRequest || type == RelationshipType.OutgoingFriendRequest)
+                throw new ArgumentOutOfRangeException(nameof(type), "The RelationshipType must not be an incoming or outgoing type.");
+
             return ApiClient.CreateRelationshipAsync(userId, type, options);
         }
 

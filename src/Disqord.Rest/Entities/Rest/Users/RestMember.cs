@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Threading.Tasks;
 using Disqord.Models;
 
 namespace Disqord.Rest
 {
-    public sealed class RestMember : RestUser, IMember
+    public sealed partial class RestMember : RestUser, IMember
     {
         public string Nick { get; private set; }
 
@@ -50,26 +49,5 @@ namespace Disqord.Rest
 
             base.Update(model.User);
         }
-
-        public Task ModifyAsync(Action<ModifyMemberProperties> action, RestRequestOptions options = null)
-            => Client.ModifyMemberAsync(GuildId, Id, action, options);
-
-        public Task KickAsync(RestRequestOptions options = null)
-            => Client.KickMemberAsync(GuildId, Id, options);
-
-        public Task BanAsync(string reason = null, RestRequestOptions options = null)
-            => Client.BanMemberAsync(GuildId, Id, null, reason, options);
-
-        public Task BanAsync(int messageDeleteDays, string reason = null, RestRequestOptions options = null)
-            => Client.BanMemberAsync(GuildId, Id, messageDeleteDays, reason, options);
-
-        public Task UnbanAsync(RestRequestOptions options = null)
-            => Client.UnbanMemberAsync(GuildId, Id, options);
-
-        public Task GrantRoleAsync(Snowflake roleId, RestRequestOptions options = null)
-            => Client.GrantRoleAsync(GuildId, Id, roleId, options);
-
-        public Task RevokeRoleAsync(Snowflake roleId, RestRequestOptions options = null)
-            => Client.RevokeRoleAsync(GuildId, Id, roleId, options);
     }
 }

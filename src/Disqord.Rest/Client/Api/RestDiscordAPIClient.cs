@@ -659,17 +659,17 @@ namespace Disqord.Rest
         public Task<BanModel> GetGuildBanAsync(ulong guildId, ulong userId, RestRequestOptions options)
             => SendRequestAsync<BanModel>(new RestRequest(GET, $"guilds/{guildId:guild_id}/bans/{userId}", options));
 
-        public Task CreateGuildBanAsync(ulong guildId, ulong userId, int? deleteMessageDays, string reason, RestRequestOptions options)
+        public Task CreateGuildBanAsync(ulong guildId, ulong userId, string reason, int? deleteMessageDays, RestRequestOptions options)
         {
             Dictionary<string, object> parameters = null;
-            if (deleteMessageDays != null || reason != null)
+            if (reason != null || deleteMessageDays != null)
             {
                 parameters = new Dictionary<string, object>();
-                if (deleteMessageDays != null)
-                    parameters["delete-message-days"] = deleteMessageDays.Value;
-
                 if (reason != null)
                     parameters["reason"] = reason;
+
+                if (deleteMessageDays != null)
+                    parameters["delete-message-days"] = deleteMessageDays.Value;
             }
             return SendRequestAsync(new RestRequest(PUT, $"guilds/{guildId:guild_id}/bans/{userId}", parameters, options));
         }

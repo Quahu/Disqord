@@ -183,8 +183,8 @@ namespace Disqord.Rest
             }
         }
 
-        public Task BanMemberAsync(Snowflake guildId, Snowflake memberId, int? deleteMessageDays = null, string reason = null, RestRequestOptions options = null)
-            => ApiClient.CreateGuildBanAsync(guildId, memberId, deleteMessageDays, reason, options);
+        public Task BanMemberAsync(Snowflake guildId, Snowflake memberId, string reason = null, int? deleteMessageDays = null, RestRequestOptions options = null)
+            => ApiClient.CreateGuildBanAsync(guildId, memberId, reason, deleteMessageDays, options);
 
         public Task UnbanMemberAsync(Snowflake guildId, Snowflake userId, RestRequestOptions options = null)
             => ApiClient.RemoveGuildBanAsync(guildId, userId, options);
