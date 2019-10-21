@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Disqord
 {
-    public interface IUserMessage : IMessage
+    public partial interface IUserMessage : IMessage
     {
         DateTimeOffset? EditedTimestamp { get; }
 
@@ -23,7 +22,5 @@ namespace Disqord
         IReadOnlyList<Attachment> Attachments { get; }
 
         IReadOnlyList<Embed> Embeds { get; }
-
-        Task ModifyAsync(Action<ModifyMessageProperties> action, RestRequestOptions options = null);
     }
 }
