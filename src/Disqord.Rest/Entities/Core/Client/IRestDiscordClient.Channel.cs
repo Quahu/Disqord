@@ -43,7 +43,7 @@ namespace Disqord
 
         Task RemoveAllReactionsAsync(Snowflake channelId, Snowflake messageId, RestRequestOptions options = null);
 
-        Task<RestMessage> ModifyMessageAsync(Snowflake channelId, Snowflake messageId, Action<ModifyMessageProperties> action, RestRequestOptions options = null);
+        Task<RestUserMessage> ModifyMessageAsync(Snowflake channelId, Snowflake messageId, Action<ModifyMessageProperties> action, RestRequestOptions options = null);
 
         Task DeleteMessageAsync(Snowflake channelId, Snowflake messageId, RestRequestOptions options = null);
 

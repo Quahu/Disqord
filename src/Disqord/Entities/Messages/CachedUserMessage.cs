@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Disqord.Models;
 
 namespace Disqord
 {
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
-    public sealed class CachedUserMessage : CachedMessage, IUserMessage
+    public sealed partial class CachedUserMessage : CachedMessage, IUserMessage
     {
         public override string Content => _content;
 
@@ -73,9 +72,6 @@ namespace Disqord
 
         internal CachedUserMessage Clone()
             => MemberwiseClone() as CachedUserMessage;
-
-        public Task ModifyAsync(Action<ModifyMessageProperties> action, RestRequestOptions options = null)
-            => Client.ModifyMessageAsync(Channel.Id, Id, action, options);
 
         public override string ToString()
             => $"{Author}: {Content}";

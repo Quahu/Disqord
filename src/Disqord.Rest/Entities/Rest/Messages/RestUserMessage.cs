@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Threading.Tasks;
-using Disqord.Collections;
 using Disqord.Models;
-using Qommon.Collections;
 
 namespace Disqord.Rest
 {
-    public sealed class RestUserMessage : RestMessage, IUserMessage
+    public sealed partial class RestUserMessage : RestMessage, IUserMessage
     {
         public override string Content => _content;
 
@@ -67,16 +64,6 @@ namespace Disqord.Rest
                 IsPinned = model.Pinned.Value;
 
             base.Update(model);
-        }
-
-        public async Task ModifyAsync(Action<ModifyMessageProperties> action, RestRequestOptions options = null)
-        {
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
-
-            var properties = new ModifyMessageProperties();
-            action(properties);
-            Update(await Client.ApiClient.EditMessageAsync(ChannelId, Id, properties, options).ConfigureAwait(false));
         }
 
         public override string ToString()

@@ -45,7 +45,7 @@ namespace Disqord.Rest
         public Task<IReadOnlyList<RestUser>> GetReactionsAsync(Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection? direction = null, Snowflake? startFromId = null, RestRequestOptions options = null)
             => Client.GetReactionsAsync(Id, messageId, emoji, limit, direction, startFromId, options);
 
-        public Task<RestMessage> ModifyMessageAsync(Snowflake messageId, Action<ModifyMessageProperties> action, RestRequestOptions options = null)
+        public Task<RestUserMessage> ModifyMessageAsync(Snowflake messageId, Action<ModifyMessageProperties> action, RestRequestOptions options = null)
             => Client.ModifyMessageAsync(Id, messageId, action, options);
 
         public Task DeleteMessageAsync(Snowflake messageId, RestRequestOptions options = null)

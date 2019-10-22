@@ -8,7 +8,7 @@ using Qommon.Collections;
 
 namespace Disqord.Rest
 {
-    public abstract class RestMessage : RestSnowflakeEntity, IMessage
+    public abstract partial class RestMessage : RestSnowflakeEntity, IMessage
     {
         public Snowflake ChannelId { get; }
 
@@ -54,20 +54,5 @@ namespace Disqord.Rest
                 _ => new RestSystemMessage(client, model),
             };
         }
-
-        public Task AddReactionAsync(IEmoji emoji, RestRequestOptions options = null)
-            => Client.AddReactionAsync(ChannelId, Id, emoji, options);
-
-        public Task RemoveOwnReactionAsync(IEmoji emoji, RestRequestOptions options = null)
-            => Client.RemoveOwnReactionAsync(ChannelId, Id, emoji, options);
-
-        public Task RemoveMemberReactionAsync(Snowflake memberId, IEmoji emoji, RestRequestOptions options = null)
-            => Client.RemoveMemberReactionAsync(ChannelId, Id, memberId, emoji, options);
-
-        public Task MarkAsReadAsync(RestRequestOptions options = null)
-            => Client.MarkMessageAsReadAsync(ChannelId, Id, options);
-
-        public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.DeleteMessageAsync(ChannelId, Id, options);
     }
 }

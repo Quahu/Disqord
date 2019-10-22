@@ -3,13 +3,12 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Threading.Tasks;
 using Disqord.Models;
 using Qommon.Collections;
 
 namespace Disqord
 {
-    public abstract class CachedMessage : CachedSnowflakeEntity, IMessage
+    public abstract partial class CachedMessage : CachedSnowflakeEntity, IMessage
     {
         public CachedGuild Guild => (Channel as CachedTextChannel)?.Guild;
 
@@ -56,20 +55,5 @@ namespace Disqord
             if (model.Mentions.HasValue)
                 UserMentions = model.Mentions.Value.Select(x => Client.GetUser(x.Id)).ToImmutableArray();
         }
-
-        public Task AddReactionAsync(IEmoji emoji, RestRequestOptions options = null)
-            => Client.AddReactionAsync(Channel.Id, Id, emoji, options);
-
-        public Task RemoveOwnReactionAsync(IEmoji emoji, RestRequestOptions options = null)
-            => Client.RemoveOwnReactionAsync(Channel.Id, Id, emoji, options);
-
-        public Task RemoveMemberReactionAsync(Snowflake memberId, IEmoji emoji, RestRequestOptions options = null)
-            => Client.RemoveMemberReactionAsync(Channel.Id, Id, memberId, emoji, options);
-
-        public Task MarkAsReadAsync(RestRequestOptions options = null)
-            => Client.MarkMessageAsReadAsync(Channel.Id, Id, options);
-
-        public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.DeleteMessageAsync(Channel.Id, Id, options);
     }
 }
