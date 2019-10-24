@@ -26,7 +26,7 @@ namespace Disqord.Rest
                 var model = await ApiClient.GetGuildAsync(guildId, options).ConfigureAwait(false);
                 return new RestGuild(this, model);
             }
-            catch (HttpDiscordException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
+            catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
@@ -82,7 +82,7 @@ namespace Disqord.Rest
                 var model = await ApiClient.GetMemberAsync(guildId, memberId, options).ConfigureAwait(false);
                 return new RestMember(this, model, guildId);
             }
-            catch (HttpDiscordException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
+            catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
@@ -177,7 +177,7 @@ namespace Disqord.Rest
                 var model = await ApiClient.GetGuildBanAsync(guildId, userId, options).ConfigureAwait(false);
                 return new RestBan(this, model, guildId);
             }
-            catch (HttpDiscordException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
+            catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
@@ -289,7 +289,7 @@ namespace Disqord.Rest
                 var model = await ApiClient.GetInviteAsync(code, withCounts, options).ConfigureAwait(false);
                 return new RestInvite(this, model);
             }
-            catch (HttpDiscordException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound || ex.JsonErrorCode == JsonErrorCode.InviteCodeIsEitherInvalidOrTaken)
+            catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound || ex.JsonErrorCode == JsonErrorCode.InviteCodeIsEitherInvalidOrTaken)
             {
                 return null;
             }

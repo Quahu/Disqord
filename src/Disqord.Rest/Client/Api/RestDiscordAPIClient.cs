@@ -126,7 +126,7 @@ namespace Disqord.Rest
             using (var jsonStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
             {
                 var error = Serializer.Deserialize<JsonErrorModel>(jsonStream);
-                request.SetException(new HttpDiscordException(response.StatusCode, (int?) error.Code, error.Message ?? response.ReasonPhrase));
+                request.SetException(new DiscordHttpException(response.StatusCode, (int?) error.Code, error.Message ?? response.ReasonPhrase));
             }
         }
 

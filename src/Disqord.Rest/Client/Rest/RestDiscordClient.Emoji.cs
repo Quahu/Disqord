@@ -24,7 +24,7 @@ namespace Disqord.Rest
                 var model = await ApiClient.GetGuildEmojiAsync(guildId, emojiId, options).ConfigureAwait(false);
                 return new RestGuildEmoji(this, model, guildId);
             }
-            catch (HttpDiscordException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound && ex.JsonErrorCode == JsonErrorCode.UnknownEmoji)
+            catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound && ex.JsonErrorCode == JsonErrorCode.UnknownEmoji)
             {
                 return null;
             }

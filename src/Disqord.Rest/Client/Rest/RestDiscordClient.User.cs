@@ -16,7 +16,7 @@ namespace Disqord.Rest
                 var model = await ApiClient.GetUserAsync(userId, options).ConfigureAwait(false);
                 return new RestUser(this, model);
             }
-            catch (HttpDiscordException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
+            catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }

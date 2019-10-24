@@ -18,7 +18,7 @@ namespace Disqord.Rest
                 var model = await ApiClient.GetChannelAsync(channelId, options).ConfigureAwait(false);
                 return RestChannel.Create(this, model);
             }
-            catch (HttpDiscordException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
+            catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
@@ -31,7 +31,7 @@ namespace Disqord.Rest
                 var model = await ApiClient.GetChannelAsync(channelId, options).ConfigureAwait(false);
                 return (T) RestChannel.Create(this, model);
             }
-            catch (HttpDiscordException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
+            catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
@@ -145,7 +145,7 @@ namespace Disqord.Rest
                 var model = await ApiClient.GetChannelMessageAsync(channelId, messageId, options).ConfigureAwait(false);
                 return RestMessage.Create(this, model);
             }
-            catch (HttpDiscordException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound && ex.JsonErrorCode == JsonErrorCode.UnknownMessage)
+            catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound && ex.JsonErrorCode == JsonErrorCode.UnknownMessage)
             {
                 return null;
             }

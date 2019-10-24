@@ -247,7 +247,12 @@ namespace Disqord
                 await DisconnectAsync().ConfigureAwait(false);
                 return;
             }
-            _heartbeatCts?.Cancel();
+
+            try
+            {
+                _heartbeatCts?.Cancel();
+            }
+            catch { }
             _heartbeatCts?.Dispose();
             _reconnecting = true;
             while (!_disposed)
@@ -260,13 +265,18 @@ namespace Disqord
                 }
                 catch (SessionLimitException ex)
                 {
-                    Log(LogMessageSeverity.Error, $"No sessions remaining. Resets after {ex.ResetsAfter}.", ex);
+                    Log(LogMessageSeverity.Critical, $"No available sessions. Resets after {ex.ResetsAfter}.", ex);
+                    return;
+                }
+                catch (DiscordHttpException ex) when ((int) ex.HttpStatusCode == 403)
+                {
+                    Log(LogMessageSeverity.Critical, "");
                     return;
                 }
                 catch (Exception ex)
                 {
-                    Log(LogMessageSeverity.Error, $"Failed to reconnect after closure:\n{ex.Message}\nRetrying in 5 seconds.");
-                    await Task.Delay(5000).ConfigureAwait(false);
+                    Log(LogMessageSeverity.Error, $"Failed to reconnect after closure. Retrying in 10 seconds.", ex);
+                    await Task.Delay(10000).ConfigureAwait(false);
                 }
             }
         }
@@ -276,22 +286,29 @@ namespace Disqord
             switch (payload.Op)
             {
                 case Opcode.Dispatch:
+                {
                     await HandleDispatchAsync(payload).ConfigureAwait(false);
                     break;
+                }
 
                 case Opcode.Heartbeat:
+                {
                     Log(LogMessageSeverity.Debug, "Heartbeat requested. Heartbeating...");
                     await SendHeartbeatAsync().ConfigureAwait(false);
                     break;
+                }
 
                 case Opcode.Reconnect:
+                {
                     Log(LogMessageSeverity.Information, "Reconnect requested, closing...");
                     _heartbeatCts?.Cancel();
                     _heartbeatCts?.Dispose();
                     await _ws.CloseAsync().ConfigureAwait(false);
                     break;
+                }
 
                 case Opcode.InvalidSession:
+                {
                     Log(LogMessageSeverity.Warning, "Received invalid session...");
                     if (_resuming)
                     {
@@ -314,8 +331,10 @@ namespace Disqord
                         }
                     }
                     break;
+                }
 
                 case Opcode.Hello:
+                {
                     var data = Serializer.ToObject<HelloModel>(payload.D);
                     _heartbeatInterval = data.HeartbeatInterval;
                     _ = RunHeartbeatAsync();
@@ -336,12 +355,15 @@ namespace Disqord
                     Log(LogMessageSeverity.Information, "Received Hello, identifying...");
                     await SendIdentifyAsync().ConfigureAwait(false);
                     break;
+                }
 
                 case Opcode.HeartbeatAck:
+                {
                     _lastHeartbeatSent = _lastHeartbeatSend;
                     _lastHeartbeatAck = DateTimeOffset.UtcNow;
                     Log(LogMessageSeverity.Debug, "Acknowledged Heartbeat.");
                     break;
+                }
             }
         }
 
@@ -1075,7 +1097,16 @@ namespace Disqord
             while (!_heartbeatCts.IsCancellationRequested)
             {
                 Log(LogMessageSeverity.Debug, $"Heartbeat: delaying for {_heartbeatInterval}ms.");
-                await Task.Delay(_heartbeatInterval, _heartbeatCts.Token).ConfigureAwait(false);
+                try
+                {
+                    await Task.Delay(_heartbeatInterval, _heartbeatCts.Token).ConfigureAwait(false);
+                }
+                catch (TaskCanceledException)
+                {
+                    Log(LogMessageSeverity.Warning, "Heartbeat: delay cancelled, returning.");
+                    return;
+                }
+
                 Log(LogMessageSeverity.Debug, "Heartbeat: Sending...");
                 var success = false;
                 while (!success && !_heartbeatCts.IsCancellationRequested)
@@ -1087,17 +1118,22 @@ namespace Disqord
                     }
                     catch (WebSocketException ex) when (ex.WebSocketErrorCode == WebSocketError.InvalidState)
                     {
-                        Log(LogMessageSeverity.Error, "Heartbeat send errored - websocket in an invalid state. Returning from heartbeat send task.");
+                        Log(LogMessageSeverity.Error, "Heartbeat: send errored - websocket in an invalid state. Returning.");
+                        return;
+                    }
+                    catch (WebSocketException ex)
+                    {
+                        Log(LogMessageSeverity.Error, $"Heartbeat: send errored - {ex.WebSocketErrorCode}. Returning.");
                         return;
                     }
                     catch (TaskCanceledException)
                     {
-                        Log(LogMessageSeverity.Error, "Heartbeat send cancelled. Returning from heartbeat send task.");
+                        Log(LogMessageSeverity.Error, "Heartbeat: send cancelled. Returning.");
                         return;
                     }
                     catch (Exception ex)
                     {
-                        Log(LogMessageSeverity.Error, $"Failed to send the heartbeat: {ex.Message}; Retrying in 5 seconds.");
+                        Log(LogMessageSeverity.Error, $"Heartbeat: send failed. Retrying in 5 seconds.", ex);
                         await Task.Delay(5000).ConfigureAwait(false);
                     }
                 }

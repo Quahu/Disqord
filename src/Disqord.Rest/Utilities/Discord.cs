@@ -67,13 +67,13 @@ namespace Disqord
         /// </summary>
         /// <param name="guildId"> The guild's id. </param>
         /// <param name="splashHash"> The guild's splash hash. </param>
-        /// <param name="imageFormat"> The format to use. </param>
+        /// <param name="format"> The format to use. </param>
         /// <param name="size"> The size of the guild splash. </param>
         /// <returns>
         ///     The url of the guild's splash.
         /// </returns>
-        public static string GetGuildSplashUrl(Snowflake guildId, string splashHash, ImageFormat imageFormat = default, int size = 2048)
-            => FormatImageUrl($"splashes/{guildId}/{splashHash}", imageFormat, size);
+        public static string GetGuildSplashUrl(Snowflake guildId, string splashHash, ImageFormat format = default, int size = 2048)
+            => FormatImageUrl($"splashes/{guildId}/{splashHash}", format != default ? format : ImageFormat.Png, size);
 
         /// <summary>
         ///     Returns the url for a default user avatar.
@@ -193,8 +193,8 @@ namespace Disqord
             return MentionUser(user.Id);
         }
 
-        public static string MentionUser(Snowflake id, bool nickname = false)
-            => nickname ? $"<@!{id}>" : $"<@{id}>";
+        public static string MentionUser(Snowflake id, bool hasNick = false)
+            => hasNick ? $"<@!{id}>" : $"<@{id}>";
 
         public static string MentionChannel(ITextChannel channel)
         {
@@ -275,8 +275,10 @@ namespace Disqord
 
         public static IEnumerable<Snowflake> ParseUserMentions(IUserMessage message)
         {
-            foreach (Match match in UserMentionsRegex.Matches(message.Content))
+            var matches = UserMentionsRegex.Matches(message.Content);
+            for (var i = 0; i < matches.Count; i++)
             {
+                var match = matches[i];
                 if (Snowflake.TryParse(match.Groups[1].Value, out var snowflake))
                     yield return snowflake;
             }
@@ -284,8 +286,10 @@ namespace Disqord
 
         public static IEnumerable<Snowflake> ParseChannelMentions(IUserMessage message)
         {
-            foreach (Match match in ChannelMentionsRegex.Matches(message.Content))
+            var matches = ChannelMentionsRegex.Matches(message.Content);
+            for (var i = 0; i < matches.Count; i++)
             {
+                var match = matches[i];
                 if (Snowflake.TryParse(match.Groups[1].Value, out var snowflake))
                     yield return snowflake;
             }
@@ -293,8 +297,10 @@ namespace Disqord
 
         public static IEnumerable<Snowflake> ParseRoleMentions(IUserMessage message)
         {
-            foreach (Match match in RoleMentionsRegex.Matches(message.Content))
+            var matches = RoleMentionsRegex.Matches(message.Content);
+            for (var i = 0; i < matches.Count; i++)
             {
+                var match = matches[i];
                 if (Snowflake.TryParse(match.Groups[1].Value, out var snowflake))
                     yield return snowflake;
             }

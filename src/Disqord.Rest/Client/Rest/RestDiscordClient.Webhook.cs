@@ -35,7 +35,7 @@ namespace Disqord.Rest
                 var model = await ApiClient.GetWebhookAsync(webhookId, options).ConfigureAwait(false);
                 return new RestWebhook(this, model);
             }
-            catch (HttpDiscordException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
+            catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
@@ -48,7 +48,7 @@ namespace Disqord.Rest
                 var model = await ApiClient.GetWebhookWithTokenAsync(webhookId, webhookToken, options).ConfigureAwait(false);
                 return new RestWebhook(this, model);
             }
-            catch (HttpDiscordException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
+            catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }

@@ -3,13 +3,13 @@ using System.Net;
 
 namespace Disqord.Rest
 {
-    public sealed class HttpDiscordException : Exception
+    public sealed class DiscordHttpException : Exception
     {
         public HttpStatusCode HttpStatusCode { get; }
 
         public JsonErrorCode? JsonErrorCode { get; }
 
-        public HttpDiscordException(HttpStatusCode httpStatusCode, int? jsonErrorCode, string message) : base(message)
+        public DiscordHttpException(HttpStatusCode httpStatusCode, int? jsonErrorCode, string message) : base(message)
         {
             HttpStatusCode = httpStatusCode;
             JsonErrorCode = (JsonErrorCode?) jsonErrorCode;

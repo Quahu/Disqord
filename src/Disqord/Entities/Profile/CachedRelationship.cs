@@ -23,12 +23,7 @@ namespace Disqord
 
         internal CachedRelationship(DiscordClient client, RelationshipModel model) : base(client, model.Id)
         {
-            User = client._users.GetOrAdd(model.Id, _ =>
-            {
-                var user = new CachedSharedUser(client, model.User);
-                user.References++;
-                return user;
-            });
+            User = client.CreateSharedUser(model.User);
             Update(model);
         }
 
@@ -48,7 +43,7 @@ namespace Disqord
             if (Type != RelationshipType.IncomingFriendRequest)
                 throw new InvalidOperationException("Relationship's type must be an incoming friend request.");
 
-            return Client.SendOrAcceptFriendRequestAsync(User.Id, options: options);
+            return Client.SendOrAcceptFriendRequestAsync(User.Id, options);
         }
 
         /// <summary>
