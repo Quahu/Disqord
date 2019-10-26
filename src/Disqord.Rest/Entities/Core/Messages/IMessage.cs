@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Disqord
 {
@@ -10,8 +9,6 @@ namespace Disqord
         IUser Author { get; }
 
         string Content { get; }
-
-        DateTimeOffset Timestamp { get; }
 
         IReadOnlyList<IUser> UserMentions { get; }
 

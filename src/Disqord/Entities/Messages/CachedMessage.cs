@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -18,8 +17,6 @@ namespace Disqord
 
         public abstract string Content { get; }
 
-        public DateTimeOffset Timestamp { get; }
-
         public IReadOnlyList<CachedUser> UserMentions { get; private set; }
 
         public IReadOnlyDictionary<IEmoji, ReactionData> Reactions { get; }
@@ -34,7 +31,6 @@ namespace Disqord
         {
             Channel = channel;
             Author = author;
-            Timestamp = model.Timestamp.HasValue ? model.Timestamp.Value : Id.CreatedAt;
             _reactions = Extensions.CreateConcurrentDictionary<IEmoji, ReactionData>(model.Reactions.HasValue
                 ? model.Reactions.Value.Length
                 : 0);

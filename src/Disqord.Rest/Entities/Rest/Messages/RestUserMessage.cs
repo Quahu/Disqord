@@ -10,7 +10,7 @@ namespace Disqord.Rest
     {
         public override string Content => _content;
 
-        public DateTimeOffset? EditedTimestamp { get; private set; }
+        public DateTimeOffset? EditedAt { get; private set; }
 
         public bool IsTextToSpeech { get; }
 
@@ -43,7 +43,7 @@ namespace Disqord.Rest
         internal override void Update(MessageModel model)
         {
             if (model.EditedTimestamp.HasValue)
-                EditedTimestamp = model.EditedTimestamp.Value;
+                EditedAt = model.EditedTimestamp.Value;
 
             if (model.Content.HasValue)
                 _content = model.Content.Value;

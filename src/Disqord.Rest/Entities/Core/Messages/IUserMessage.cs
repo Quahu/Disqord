@@ -5,7 +5,7 @@ namespace Disqord
 {
     public partial interface IUserMessage : IMessage
     {
-        DateTimeOffset? EditedTimestamp { get; }
+        DateTimeOffset? EditedAt { get; }
 
         Snowflake? WebhookId { get; }
 
