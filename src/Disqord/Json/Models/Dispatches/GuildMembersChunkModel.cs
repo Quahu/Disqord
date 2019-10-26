@@ -9,5 +9,8 @@ namespace Disqord.Models.Dispatches
 
         [JsonProperty("members")]
         public MemberModel[] Members { get; set; }
+
+        [JsonProperty("presences")]
+        public PresenceUpdateModel[] Presences { get; set; }
     }
 }

@@ -550,6 +550,9 @@ namespace Disqord
                     }
                     else
                     {
+                        if (guild.IsLarge)
+                            _ = SendRequestOfflineMembersAsync(guild.Id);
+
                         Log(LogMessageSeverity.Information, $"Joined guild '{guild}' ({guild.Id}).");
                         await _joinedGuild.InvokeAsync(new JoinedGuildEventArgs(guild)).ConfigureAwait(false);
                     }
@@ -674,7 +677,10 @@ namespace Disqord
                     var model = Serializer.ToObject<GuildMembersChunkModel>(payload.D);
                     var guild = GetGuild(model.GuildId);
                     if (--guild.ChunksExpected == 0)
+                    {
                         guild.ChunkTcs.SetResult(true);
+                        GC.Collect();
+                    }
 
                     guild.Update(model);
                     return;
@@ -1248,7 +1254,8 @@ namespace Disqord
                 {
                     GuildId = guildIds,
                     Query = "",
-                    Limit = 0
+                    Limit = 0,
+                    Presences = true
                 }
             });
 
@@ -1260,7 +1267,8 @@ namespace Disqord
                  {
                      GuildId = guildId,
                      Query = "",
-                     Limit = 0
+                     Limit = 0,
+                     Presences = true
                  }
              });
 
@@ -1350,6 +1358,7 @@ namespace Disqord
                 Log(LogMessageSeverity.Debug, $"Firing queued up payload: {queuedPayload.Item2} with S: {queuedPayload.Item1.S}.");
                 await HandleDispatchAsync(queuedPayload.Item1, queuedPayload.Item2).ConfigureAwait(false);
             }
+
             _readyTaskCompletionSource.SetResult(true);
             _readyTaskCompletionSource = null;
         }

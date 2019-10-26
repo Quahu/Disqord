@@ -179,6 +179,7 @@ namespace Disqord
             if (client.IsBot && IsLarge)
             {
                 ChunksExpected = (int) Math.Ceiling(model.MemberCount / 1000.0);
+                ChunkTcs = new TaskCompletionSource<bool>();
             }
             else if (!client.IsBot)
             {
@@ -199,6 +200,9 @@ namespace Disqord
                         return x;
                     });
             }
+
+            if (model.Presences != null)
+                Update(model.Presences);
         }
 
         internal void Update(GuildSyncModel model)
@@ -221,9 +225,14 @@ namespace Disqord
                     _members.TryRemove(key, out _);
             }
 
-            for (var i = 0; i < model.Presences.Length; i++)
+            Update(model.Presences);
+        }
+
+        internal void Update(PresenceUpdateModel[] models)
+        {
+            for (var i = 0; i < models.Length; i++)
             {
-                var presenceModel = model.Presences[i];
+                var presenceModel = models[i];
                 GetMember(presenceModel.User.Id).Update(presenceModel);
             }
         }
@@ -257,11 +266,7 @@ namespace Disqord
 
             if (!Client.IsBot)
             {
-                for (var i = 0; i < model.Presences.Length; i++)
-                {
-                    var presenceModel = model.Presences[i];
-                    GetMember(presenceModel.User.Id).Update(presenceModel);
-                }
+                Update(model.Presences);
             }
 
             MemberCount = model.MemberCount;

@@ -15,5 +15,8 @@ namespace Disqord.Models.Dispatches
 
         [JsonProperty("limit")]
         public int Limit { get; set; }
+
+        [JsonProperty("presences")]
+        public bool Presences { get; set; }
     }
 }
