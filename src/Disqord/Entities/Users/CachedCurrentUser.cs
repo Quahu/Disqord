@@ -79,10 +79,10 @@ namespace Disqord
         private readonly ConcurrentDictionary<Snowflake, string> _notes;
         private readonly ReadOnlyDictionary<Snowflake, string> _notesWrapper;
 
-        internal CachedCurrentUser(DiscordClient client, UserModel model, CachedSharedUser user, int relationshipCount, int noteCount) : base(client, user.Id)
+        internal CachedCurrentUser(CachedSharedUser user, UserModel model, int relationshipCount, int noteCount) : base(user)
         {
             SharedUser = user;
-            if (client.TokenType != TokenType.Bot)
+            if (Client.TokenType != TokenType.Bot)
             {
                 _relationships = Extensions.CreateConcurrentDictionary<Snowflake, CachedRelationship>(relationshipCount);
                 _relationshipsWrapper = new ReadOnlyDictionary<Snowflake, CachedRelationship>(_relationships);

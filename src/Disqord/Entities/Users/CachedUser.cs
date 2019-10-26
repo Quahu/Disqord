@@ -80,8 +80,15 @@ namespace Disqord
 
         internal abstract CachedSharedUser SharedUser { get; }
 
-        internal CachedUser(DiscordClient client, Snowflake id) : base(client, id)
-        { }
+        internal CachedUser(CachedSharedUser sharedUser) : base(sharedUser.Client, sharedUser.Id)
+        {
+            IsBot = sharedUser.IsBot;
+        }
+
+        internal CachedUser(DiscordClient client, UserModel model) : base(client, model.Id)
+        {
+            IsBot = model.Bot;
+        }
 
         internal virtual void Update(UserModel model)
         {

@@ -91,7 +91,7 @@ namespace Disqord
         Snowflake IMember.GuildId => Guild.Id;
         IReadOnlyCollection<Snowflake> IMember.RoleIds => new ReadOnlyCollection<Snowflake>(_roles.Keys);
 
-        internal CachedMember(CachedSharedUser user, CachedGuild guild, MemberModel model) : base(user.Client, user.Id)
+        internal CachedMember(CachedSharedUser user, CachedGuild guild, MemberModel model) : base(user)
         {
             _roles = Extensions.CreateConcurrentDictionary<Snowflake, CachedRole>(model.Roles.Value.Length);
             Roles = new ReadOnlyDictionary<Snowflake, CachedRole>(_roles);
