@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -20,6 +20,10 @@ namespace Disqord
         public IReadOnlyList<CachedUser> UserMentions { get; private set; }
 
         public IReadOnlyDictionary<IEmoji, ReactionData> Reactions { get; }
+
+        public string JumpUrl => Guild != null
+            ? $"https://discordapp.com/channels/{Guild.Id}/{Channel.Id}/{Id}"
+            : $"https://discordapp.com/channels/@me/{Channel.Id}/{Id}";
 
         internal readonly ConcurrentDictionary<IEmoji, ReactionData> _reactions;
 
