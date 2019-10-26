@@ -415,7 +415,7 @@ namespace Disqord
                     _trace = model.Trace;
                     RestClient.CurrentUser.SetValue(new RestCurrentUser(RestClient, model.User));
                     var sharedUser = new CachedSharedUser(this, model.User);
-                    CurrentUser = new CachedCurrentUser(this, model.User, sharedUser, model.Relationships?.Length ?? 0, model.Notes?.Count ?? 0);
+                    CurrentUser = new CachedCurrentUser(sharedUser, model.User, model.Relationships?.Length ?? 0, model.Notes?.Count ?? 0);
                     sharedUser.References++;
                     _users.TryAdd(model.User.Id, CurrentUser.SharedUser);
 
