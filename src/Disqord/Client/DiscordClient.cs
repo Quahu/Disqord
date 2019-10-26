@@ -53,18 +53,16 @@ namespace Disqord
 
         internal string Token => RestClient.ApiClient.Token;
 
-        internal readonly bool IsBot;
+        internal bool IsBot => TokenType == TokenType.Bot;
 
         public DiscordClient(TokenType tokenType, string token, DiscordClientConfiguration configuration = null) : this(configuration ?? DiscordClientConfiguration.Default)
         {
             RestClient = new RestDiscordClient(tokenType, token);
-            IsBot = RestClient.TokenType == TokenType.Bot;
         }
 
         public DiscordClient(RestDiscordClient restClient, DiscordClientConfiguration configuration = null) : this(configuration ?? DiscordClientConfiguration.Default)
         {
             RestClient = restClient;
-            IsBot = RestClient.TokenType == TokenType.Bot;
         }
 
         private DiscordClient(DiscordClientConfiguration configuration)
@@ -119,7 +117,7 @@ namespace Disqord
             return GetGuildChannel(id);
         }
 
-        internal CachedSharedUser CreateSharedUser(UserModel model)
+        internal CachedSharedUser GetOrAddSharedUser(UserModel model)
         {
             var user = _users.GetOrAdd(model.Id, _ => new CachedSharedUser(this, model));
             user.References++;
@@ -136,11 +134,11 @@ namespace Disqord
         }
 
         internal CachedMember GetOrCreateMember(CachedGuild guild, MemberModel memberModel, UserModel userModel, bool sync = false)
-            => guild.GetOrAddMember(userModel.Id, _ => new CachedMember(this, memberModel, guild, CreateSharedUser(userModel)), sync);
+            => guild.GetOrAddMember(userModel.Id, _ => new CachedMember(GetOrAddSharedUser(userModel), guild, memberModel), sync);
 
         internal CachedMember CreateMember(CachedGuild guild, MemberModel memberModel, UserModel usermodel, bool sync = false)
         {
-            var member = new CachedMember(this, memberModel, guild, CreateSharedUser(usermodel));
+            var member = new CachedMember(GetOrAddSharedUser(usermodel), guild, memberModel);
             guild.TryAddMember(usermodel.Id, member, sync);
             return member;
         }

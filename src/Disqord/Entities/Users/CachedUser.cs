@@ -1,7 +1,10 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Disqord.Models;
 using Disqord.Models.Dispatches;
+using Qommon.Collections;
 
 namespace Disqord
 {
@@ -43,39 +46,67 @@ namespace Disqord
 
         public virtual CachedDmChannel DmChannel => Client.DmChannels.Values.FirstOrDefault(x => x.Recipient.Id == Id);
 
-        public abstract UserStatus Status { get; }
+        public virtual UserStatus Status { get; private set; }
 
-        public abstract Activity Activity { get; }
+        public IReadOnlyDictionary<UserClient, UserStatus> Statuses
+        {
+            get
+            {
+                if (IsBot)
+                    throw new InvalidOperationException("Bots do not support multiple statuses.");
 
-        public UserStatus DesktopStatus => ClientStatus.TryGetValue("desktop", out var desktopStatus)
-                ? desktopStatus
-                : UserStatus.Offline;
+                return _statuses;
+            }
 
-        public UserStatus MobileStatus => ClientStatus.TryGetValue("mobile", out var mobileStatus)
-                ? mobileStatus
-                : UserStatus.Offline;
+            private set => _statuses = value;
+        }
+        private IReadOnlyDictionary<UserClient, UserStatus> _statuses;
 
-        public UserStatus WebStatus => ClientStatus.TryGetValue("web", out var webStatus)
-                ? webStatus
-                : UserStatus.Offline;
+        public virtual Activity Activity { get; private set; }
 
-        public bool IsOnMobile => ClientStatus.ContainsKey("mobile");
+        public virtual IReadOnlyList<Activity> Activities
+        {
+            get
+            {
+                if (IsBot)
+                    throw new InvalidOperationException("Bots do not support multiple activities.");
 
-        internal readonly ConcurrentDictionary<string, UserStatus> ClientStatus;
+                return _activities;
+            }
+
+            private set => _activities = value;
+        }
+        private IReadOnlyList<Activity> _activities;
 
         internal abstract CachedSharedUser SharedUser { get; }
 
         internal CachedUser(DiscordClient client, Snowflake id) : base(client, id)
         { }
 
-        internal abstract void Update(UserModel model);
+        internal virtual void Update(UserModel model)
+        {
+            if (model.Username.HasValue)
+                Name = model.Username.Value;
+
+            if (model.Discriminator.HasValue)
+                Discriminator = model.Discriminator.Value;
+
+            if (model.Avatar.HasValue)
+                AvatarHash = model.Avatar.Value;
+        }
 
         internal virtual void Update(PresenceUpdateModel model)
         {
-            foreach (var (key, value) in model.ClientStatus)
-            {
+            Status = model.Status;
+            Activity = model.Game != null
+                ? Activity.Create(model.Game)
+                : null;
 
-            }
+            if (IsBot)
+                return;
+
+            Statuses = new ReadOnlyDictionary<UserClient, UserStatus>(model.ClientStatus);
+            Activities = model.Activities?.Select(x => Activity.Create(x)).ToImmutableArray() ?? ImmutableArray<Activity>.Empty;
         }
 
         internal CachedUser Clone()

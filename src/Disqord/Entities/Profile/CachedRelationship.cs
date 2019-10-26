@@ -23,7 +23,7 @@ namespace Disqord
 
         internal CachedRelationship(DiscordClient client, RelationshipModel model) : base(client, model.Id)
         {
-            User = client.CreateSharedUser(model.User);
+            User = client.GetOrAddSharedUser(model.User);
             Update(model);
         }
 

@@ -91,7 +91,7 @@ namespace Disqord
         Snowflake IMember.GuildId => Guild.Id;
         IReadOnlyCollection<Snowflake> IMember.RoleIds => new ReadOnlyCollection<Snowflake>(_roles.Keys);
 
-        internal CachedMember(DiscordClient client, MemberModel model, CachedGuild guild, CachedSharedUser user) : base(client, user.Id)
+        internal CachedMember(CachedSharedUser user, CachedGuild guild, MemberModel model) : base(user.Client, user.Id)
         {
             _roles = Extensions.CreateConcurrentDictionary<Snowflake, CachedRole>(model.Roles.Value.Length);
             Roles = new ReadOnlyDictionary<Snowflake, CachedRole>(_roles);
@@ -196,12 +196,15 @@ namespace Disqord
 
         internal override void Update(PresenceUpdateModel model)
         {
-            _status = model.Status;
-            _activity = model.Activity != null
-                ? Activity.Create(model.Activity)
-                : null;
-
             base.Update(model);
+
+            if (IsBot)
+            {
+                _status = model.Status;
+                _activity = model.Game != null
+                    ? Activity.Create(model.Game)
+                    : null;
+            }
         }
 
         internal new CachedMember Clone()

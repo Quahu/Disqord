@@ -10,7 +10,7 @@ namespace Disqord
 
         internal CachedDmChannel(DiscordClient client, ChannelModel model) : base(client, model)
         {
-            Recipient = client.CreateSharedUser(model.Recipients.Value[0]);
+            Recipient = client.GetOrAddSharedUser(model.Recipients.Value[0]);
             Update(model);
         }
 

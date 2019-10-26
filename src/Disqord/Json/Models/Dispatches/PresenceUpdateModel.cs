@@ -5,28 +5,28 @@ namespace Disqord.Models.Dispatches
 {
     internal sealed class PresenceUpdateModel
     {
-        [JsonProperty("user", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("user")]
         public UserModel User { get; set; }
 
-        [JsonProperty("roles", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("roles")]
         public ulong[] Roles { get; set; }
 
-        [JsonProperty("nick", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("nick")]
         public string Nick { get; set; }
 
-        [JsonProperty("game", NullValueHandling = NullValueHandling.Ignore)]
-        public ActivityModel Activity { get; set; }
+        [JsonProperty("game")]
+        public ActivityModel Game { get; set; }
 
-        [JsonProperty("guild_id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("guild_id")]
         public ulong? GuildId { get; set; }
 
-        [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("status")]
         public UserStatus Status { get; set; }
 
-        [JsonProperty("client_status", NullValueHandling = NullValueHandling.Ignore)]
-        public Dictionary<string, UserStatus> ClientStatus { get; set; }
+        [JsonProperty("client_status")]
+        public Dictionary<UserClient, UserStatus> ClientStatus { get; set; }
 
-        [JsonProperty("activities", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("activities")]
         public ActivityModel[] Activities { get; set; }
     }
 }

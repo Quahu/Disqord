@@ -418,34 +418,41 @@ namespace Disqord
                     sharedUser.References++;
                     _users.TryAdd(model.User.Id, CurrentUser.SharedUser);
 
-                    switch (TokenType)
+                    try
                     {
-                        case TokenType.Bearer:
-                        case TokenType.User:
+                        switch (TokenType)
                         {
-                            foreach (var guildModel in model.Guilds)
-                                _guilds.TryAdd(guildModel.Id, new CachedGuild(this, guildModel));
-
-                            foreach (var note in model.Notes)
-                                CurrentUser.AddOrUpdateNote(note.Key, note.Value, (_, __) => note.Value);
-
-                            for (var i = 0; i < model.Relationships.Length; i++)
+                            case TokenType.Bearer:
+                            case TokenType.User:
                             {
-                                var relationshipModel = model.Relationships[i];
-                                var relationship = new CachedRelationship(this, relationshipModel);
-                                CurrentUser.TryAddRelationship(relationship);
-                            }
+                                foreach (var guildModel in model.Guilds)
+                                    _guilds.TryAdd(guildModel.Id, new CachedGuild(this, guildModel));
 
-                            for (var i = 0; i < model.PrivateChannels.Length; i++)
-                            {
-                                var channelModel = model.PrivateChannels[i];
-                                var channel = CachedPrivateChannel.Create(this, channelModel);
-                                _privateChannels.TryAdd(channel.Id, channel);
-                            }
+                                foreach (var note in model.Notes)
+                                    CurrentUser.AddOrUpdateNote(note.Key, note.Value, (_, __) => note.Value);
 
-                            await SendGuildSyncAsync(_guilds.Keys.Select(x => x.RawValue)).ConfigureAwait(false);
-                            break;
+                                for (var i = 0; i < model.Relationships.Length; i++)
+                                {
+                                    var relationshipModel = model.Relationships[i];
+                                    var relationship = new CachedRelationship(this, relationshipModel);
+                                    CurrentUser.TryAddRelationship(relationship);
+                                }
+
+                                for (var i = 0; i < model.PrivateChannels.Length; i++)
+                                {
+                                    var channelModel = model.PrivateChannels[i];
+                                    var channel = CachedPrivateChannel.Create(this, channelModel);
+                                    _privateChannels.TryAdd(channel.Id, channel);
+                                }
+
+                                await SendGuildSyncAsync(_guilds.Keys.Select(x => x.RawValue)).ConfigureAwait(false);
+                                break;
+                            }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log(LogMessageSeverity.Error, "An exception occurred while handling ready.", ex);
                     }
 
                     _readyTaskCompletionSource = new TaskCompletionSource<bool>();
@@ -950,7 +957,7 @@ namespace Disqord
                             if (!model.User.Username.HasValue)
                                 return;
 
-                            user = CreateSharedUser(model.User);
+                            user = GetOrAddSharedUser(model.User);
                         }
 
                         user.Update(model);

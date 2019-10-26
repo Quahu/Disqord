@@ -25,7 +25,7 @@ namespace Disqord
             for (var i = 0; i < model.Recipients.Value.Count; i++)
             {
                 var recipient = model.Recipients.Value[i];
-                _recipients.TryAdd(recipient.Id, client.CreateSharedUser(recipient));
+                _recipients.TryAdd(recipient.Id, client.GetOrAddSharedUser(recipient));
             }
             Recipients = new ReadOnlyDictionary<Snowflake, CachedUser>(_recipients);
             Update(model);

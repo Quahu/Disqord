@@ -28,6 +28,9 @@ namespace Disqord
                 case ActivityType.Listening when model.SyncId != null && model.SessionId != null:
                     return new SpotifyActivity(model);
 
+                case ActivityType.Custom:
+                    return new CustomActivity(model);
+
                 default:
                     return new RichActivity(model);
             }

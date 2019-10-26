@@ -45,5 +45,8 @@ namespace Disqord.Models
 
         [JsonProperty("flags", NullValueHandling = NullValueHandling.Ignore)]
         public ActivityFlags? Flags { get; set; }
+
+        [JsonProperty("emoji", NullValueHandling = NullValueHandling.Ignore)]
+        public EmojiModel Emoji { get; set; }
     }
 }

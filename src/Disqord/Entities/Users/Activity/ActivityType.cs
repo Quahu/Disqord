@@ -8,6 +8,8 @@
 
         Listening = 2,
 
-        Watching = 3
+        Watching = 3,
+
+        Custom = 4
     }
 }
