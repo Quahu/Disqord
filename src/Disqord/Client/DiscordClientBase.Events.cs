@@ -61,12 +61,19 @@ namespace Disqord
         }
         internal readonly AsynchronousEvent<JoinedGuildEventArgs> _joinedGuild = new AsynchronousEvent<JoinedGuildEventArgs>();
 
-        public event AsynchronousEventHandler<JoinedGuildEventArgs> LeftGuild
+        public event AsynchronousEventHandler<GuildUpdatedEventArgs> GuildUpdated
+        {
+            add => _guildUpdated.Hook(value);
+            remove => _guildUpdated.Unhook(value);
+        }
+        internal readonly AsynchronousEvent<GuildUpdatedEventArgs> _guildUpdated = new AsynchronousEvent<GuildUpdatedEventArgs>();
+
+        public event AsynchronousEventHandler<LeftGuildEventArgs> LeftGuild
         {
             add => _leftGuild.Hook(value);
             remove => _leftGuild.Unhook(value);
         }
-        internal readonly AsynchronousEvent<JoinedGuildEventArgs> _leftGuild = new AsynchronousEvent<JoinedGuildEventArgs>();
+        internal readonly AsynchronousEvent<LeftGuildEventArgs> _leftGuild = new AsynchronousEvent<LeftGuildEventArgs>();
 
         public event AsynchronousEventHandler<RoleCreatedEventArgs> RoleCreated
         {
@@ -117,6 +124,13 @@ namespace Disqord
         }
         internal readonly AsynchronousEvent<MemberLeftEventArgs> _memberLeft = new AsynchronousEvent<MemberLeftEventArgs>();
 
+        public event AsynchronousEventHandler<MemberUpdatedEventArgs> MemberUpdated
+        {
+            add => _memberUpdated.Hook(value);
+            remove => _memberUpdated.Unhook(value);
+        }
+        internal readonly AsynchronousEvent<MemberUpdatedEventArgs> _memberUpdated = new AsynchronousEvent<MemberUpdatedEventArgs>();
+
         public event AsynchronousEventHandler<MessageAcknowledgedEventArgs> MessageAcknowledged
         {
             add => _messageAcknowledged.Hook(value);
@@ -137,6 +151,13 @@ namespace Disqord
             remove => _messageDeleted.Unhook(value);
         }
         internal readonly AsynchronousEvent<MessageDeletedEventArgs> _messageDeleted = new AsynchronousEvent<MessageDeletedEventArgs>();
+
+        public event AsynchronousEventHandler<MessagesBulkDeletedEventArgs> MessagesBulkDeleted
+        {
+            add => _messagesBulkDeleted.Hook(value);
+            remove => _messagesBulkDeleted.Unhook(value);
+        }
+        internal readonly AsynchronousEvent<MessagesBulkDeletedEventArgs> _messagesBulkDeleted = new AsynchronousEvent<MessagesBulkDeletedEventArgs>();
 
         public event AsynchronousEventHandler<MessageUpdatedEventArgs> MessageUpdated
         {
@@ -159,12 +180,47 @@ namespace Disqord
         }
         internal readonly AsynchronousEvent<ReactionRemovedEventArgs> _reactionRemoved = new AsynchronousEvent<ReactionRemovedEventArgs>();
 
+        public event AsynchronousEventHandler<AllReactionsRemovedEventArgs> AllReactionsRemoved
+        {
+            add => _allReactionsRemoved.Hook(value);
+            remove => _allReactionsRemoved.Unhook(value);
+        }
+        internal readonly AsynchronousEvent<AllReactionsRemovedEventArgs> _allReactionsRemoved = new AsynchronousEvent<AllReactionsRemovedEventArgs>();
+
         public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
         {
             add => _typingStarted.Hook(value);
             remove => _typingStarted.Unhook(value);
         }
         internal readonly AsynchronousEvent<TypingStartedEventArgs> _typingStarted = new AsynchronousEvent<TypingStartedEventArgs>();
+
+        public event AsynchronousEventHandler<RelationshipCreatedEventArgs> RelationshipCreated
+        {
+            add => _relationshipCreated.Hook(value);
+            remove => _relationshipCreated.Unhook(value);
+        }
+        internal readonly AsynchronousEvent<RelationshipCreatedEventArgs> _relationshipCreated = new AsynchronousEvent<RelationshipCreatedEventArgs>();
+
+        public event AsynchronousEventHandler<RelationshipDeletedEventArgs> RelationshipDeleted
+        {
+            add => _relationshipDeleted.Hook(value);
+            remove => _relationshipDeleted.Unhook(value);
+        }
+        internal readonly AsynchronousEvent<RelationshipDeletedEventArgs> _relationshipDeleted = new AsynchronousEvent<RelationshipDeletedEventArgs>();
+
+        public event AsynchronousEventHandler<UserNoteUpdatedEventArgs> UserNoteUpdated
+        {
+            add => _userNoteUpdated.Hook(value);
+            remove => _userNoteUpdated.Unhook(value);
+        }
+        internal readonly AsynchronousEvent<UserNoteUpdatedEventArgs> _userNoteUpdated = new AsynchronousEvent<UserNoteUpdatedEventArgs>();
+
+        public event AsynchronousEventHandler<UserUpdatedEventArgs> UserUpdated
+        {
+            add => _userUpdated.Hook(value);
+            remove => _userUpdated.Unhook(value);
+        }
+        internal readonly AsynchronousEvent<UserUpdatedEventArgs> _userUpdated = new AsynchronousEvent<UserUpdatedEventArgs>();
 
         public event AsynchronousEventHandler<VoiceStateUpdatedEventArgs> VoiceStateUpdated
         {

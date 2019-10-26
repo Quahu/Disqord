@@ -31,7 +31,7 @@ namespace Disqord
         internal CachedRole(DiscordClient client, RoleModel model, CachedGuild guild) : base(client, model.Id)
         {
             Guild = guild;
-            Members = new ReadOnlyValuePredicateDictionary<Snowflake, CachedMember>(guild.Members, x => x.Roles.TryGetValue(Id, out _));
+            Members = new ReadOnlyValuePredicateDictionary<Snowflake, CachedMember>(guild.Members, x => x.Roles.ContainsKey(Id));
             Update(model);
         }
 

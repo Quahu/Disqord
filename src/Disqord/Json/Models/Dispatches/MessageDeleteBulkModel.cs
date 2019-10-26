@@ -2,10 +2,10 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class MessageDeleteModel
+    internal sealed class MessageDeleteBulkModel
     {
-        [JsonProperty("id")]
-        public ulong Id { get; set; }
+        [JsonProperty("ids")]
+        public ulong[] Ids { get; set; }
 
         [JsonProperty("channel_id")]
         public ulong ChannelId { get; set; }

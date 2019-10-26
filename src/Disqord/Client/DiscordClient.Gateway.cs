@@ -13,6 +13,7 @@ using Disqord.Models.Dispatches;
 using Disqord.Rest;
 using Disqord.Serialization;
 using Disqord.WebSocket;
+using Qommon.Collections;
 
 namespace Disqord
 {
@@ -559,20 +560,34 @@ namespace Disqord
                 {
                     var model = Serializer.ToObject<GuildModel>(payload.D);
                     var guild = GetGuild(model.Id);
+                    var oldGuild = guild.Clone();
                     guild.Update(model);
+
+                    await _guildUpdated.InvokeAsync(new GuildUpdatedEventArgs(oldGuild, guild)).ConfigureAwait(false);
                     return;
                 }
 
                 case GatewayDispatch.GuildDelete:
                 {
                     var model = Serializer.ToObject<WebSocketGuildModel>(payload.D);
-                    if (!model.Unavailable.HasValue || !model.Unavailable.Value)
+                    if (model.Unavailable.HasValue)
+                    {
+                        _guilds.TryGetValue(model.Id, out var guild);
+                        // TODO set unavailable or something
+                        Log(LogMessageSeverity.Information, $"Guild '{guild}' ({guild.Id}) became unavailable.");
+                        await _guildUnavailable.InvokeAsync(new GuildUnavailableEventArgs(guild)).ConfigureAwait(false);
+                        return;
+                    }
+                    else
                     {
                         _guilds.TryRemove(model.Id, out var guild);
                         foreach (var member in guild.Members.Values)
                             member.SharedUser.References--;
+
+                        Log(LogMessageSeverity.Information, $"Left guild '{guild}' ({guild.Id}).");
+                        await _leftGuild.InvokeAsync(new LeftGuildEventArgs(guild)).ConfigureAwait(false);
+                        return;
                     }
-                    return;
                 }
 
                 case GatewayDispatch.GuildBanAdd:
@@ -582,6 +597,7 @@ namespace Disqord
                     var user = guild._members.TryGetValue(model.User.Id, out var member)
                         ? member
                         : GetSharedOrUnknownUser(model.User);
+
                     await _memberBanned.InvokeAsync(new MemberBannedEventArgs(guild, user));
                     return;
                 }
@@ -591,6 +607,7 @@ namespace Disqord
                     var model = Serializer.ToObject<GuildBanRemoveModel>(payload.D);
                     var guild = GetGuild(model.GuildId);
                     var user = GetSharedOrUnknownUser(model.User);
+
                     await _memberBanned.InvokeAsync(new MemberBannedEventArgs(guild, user));
                     return;
                 }
@@ -610,6 +627,7 @@ namespace Disqord
                     var model = Serializer.ToObject<GuildMemberAddModel>(payload.D);
                     var guild = GetGuild(model.GuildId);
                     var member = CreateMember(guild, model, model.User);
+
                     await _memberJoined.InvokeAsync(new MemberJoinedEventArgs(member)).ConfigureAwait(false);
                     return;
                 }
@@ -621,6 +639,7 @@ namespace Disqord
                     var user = guild.TryRemoveMember(model.User.Id, out var member)
                         ? (CachedUser) member
                         : new CachedUnknownUser(this, model.User);
+
                     await _memberLeft.InvokeAsync(new MemberLeftEventArgs(guild, user));
                     return;
                 }
@@ -630,10 +649,23 @@ namespace Disqord
                     var model = Serializer.ToObject<GuildMemberUpdateModel>(payload.D);
                     var guild = GetGuild(model.GuildId);
                     var member = guild.GetMember(model.User.Id);
+                    CachedMember oldMember;
                     if (member != null)
                     {
+                        oldMember = member.Clone();
                         member.Update(model);
                     }
+                    else
+                    {
+                        oldMember = null;
+                        member = CreateMember(guild, new MemberModel
+                        {
+                            Nick = model.Nick,
+                            Roles = model.Roles
+                        }, model.User, true);
+                    }
+
+                    await _memberUpdated.InvokeAsync(new MemberUpdatedEventArgs(oldMember, member)).ConfigureAwait(false);
                     return;
                 }
 
@@ -667,6 +699,7 @@ namespace Disqord
                         old.Update(model.Role);
                         return old;
                     });
+
                     await _roleCreated.InvokeAsync(new RoleCreatedEventArgs(role)).ConfigureAwait(false);
                     return;
                 }
@@ -684,6 +717,7 @@ namespace Disqord
                             old.Update(model.Role);
                             return old;
                         });
+
                     await _roleUpdated.InvokeAsync(new RoleUpdatedEventArgs(before, after)).ConfigureAwait(false);
                     return;
                 }
@@ -693,6 +727,7 @@ namespace Disqord
                     var model = Serializer.ToObject<GuildRoleCreateModel>(payload.D);
                     var guild = GetGuild(model.GuildId);
                     guild._roles.TryRemove(model.Role.Id, out var role);
+
                     await _roleDeleted.InvokeAsync(new RoleDeletedEventArgs(role)).ConfigureAwait(false);
                     return;
                 }
@@ -707,7 +742,7 @@ namespace Disqord
 
                     var message = channel.GetMessage(model.MessageId);
                     await _messageAcknowledged.InvokeAsync(new MessageAcknowledgedEventArgs(channel,
-                        message != null ? new OptionalSnowflakeEntity<CachedMessage>(message) : new OptionalSnowflakeEntity<CachedMessage>(model.MessageId))).ConfigureAwait(false);
+                        new OptionalSnowflakeEntity<CachedMessage>(message, model.MessageId))).ConfigureAwait(false);
                     return;
                 }
 
@@ -715,21 +750,32 @@ namespace Disqord
                 {
                     var model = Serializer.ToObject<MessageModel>(payload.D);
                     ICachedMessageChannel channel;
-                    CachedUser author;
+                    CachedUser author = null;
                     CachedGuild guild = null;
+                    var isWebhook = model.WebhookId.HasValue && model.WebhookId.Value != null;
                     if (model.GuildId != null)
                     {
                         guild = GetGuild(model.GuildId.Value);
-                        channel = guild.Channels.TryGetValue(model.ChannelId, out var c) ? c as CachedTextChannel : null;
-                        author = model.Author.HasValue && model.Member.HasValue ? GetOrCreateMember(guild, model.Member.Value, model.Author.Value) : guild.Members.TryGetValue(model.Author.Value.Id, out var member) ? member : null;
+                        channel = guild.Channels.TryGetValue(model.ChannelId, out var c)
+                            ? c as CachedTextChannel
+                            : null;
+
+                        if (!isWebhook)
+                            author = model.Author.HasValue && model.Member.HasValue
+                                ? GetOrCreateMember(guild, model.Member.Value, model.Author.Value)
+                                : guild.Members.TryGetValue(model.Author.Value.Id, out var member)
+                                    ? member
+                                    : null;
                     }
                     else
                     {
                         channel = GetPrivateChannel(model.ChannelId);
-                        author = GetUser(model.Author.Value.Id);
+
+                        if (!isWebhook)
+                            author = GetUser(model.Author.Value.Id);
                     }
 
-                    if (author == null)
+                    if (author == null && !isWebhook)
                     {
                         Log(LogMessageSeverity.Warning, $"Uncached author and/or guild == null in MESSAGE_CREATE.\n{payload.D}");
                         return;
@@ -783,26 +829,41 @@ namespace Disqord
 
                     var message = channel.GetMessage(model.Id);
                     var before = message?.Clone();
+                    var isWebhook = model.WebhookId.HasValue && model.WebhookId.Value != null;
                     if (message == null)
                     {
-                        if (!model.Author.HasValue)
+                        CachedUser author = null;
+                        if (!model.Author.HasValue && !isWebhook)
                         {
                             Log(LogMessageSeverity.Warning, "Unknown message and author has no value in MessageUpdated.");
                             return;
                         }
-
-                        CachedUser author = null;
-                        if (guild != null)
+                        else if (!isWebhook)
                         {
-                            if (guild.Members.TryGetValue(model.Author.Value.Id, out var member))
-                                author = member;
+                            if (guild != null)
+                            {
+                                if (guild.Members.TryGetValue(model.Author.Value.Id, out var member))
+                                    author = member;
 
-                            else if (model.Member.HasValue)
-                                author = GetOrCreateMember(guild, model.Member.Value, model.Author.Value);
+                                else if (model.Member.HasValue)
+                                    author = GetOrCreateMember(guild, model.Member.Value, model.Author.Value);
+                            }
+                            else
+                            {
+                                author = GetUser(model.Author.Value.Id);
+                            }
                         }
                         else
                         {
-                            author = GetUser(model.Author.Value.Id);
+                            // TODO?
+                            return;
+                        }
+
+                        if (author == null)
+                        {
+                            // TODO
+                            Log(LogMessageSeverity.Error, "Author is still null in MessageUpdate.");
+                            return;
                         }
 
                         message = new CachedUserMessage(this, model, channel, author);
@@ -811,10 +872,9 @@ namespace Disqord
                     {
                         message.Update(model);
                     }
-                    var cachable = before != null
-                        ? new OptionalSnowflakeEntity<CachedUserMessage>(before)
-                        : new OptionalSnowflakeEntity<CachedUserMessage>(model.Id);
-                    await _messageUpdated.InvokeAsync(new MessageUpdatedEventArgs(channel, cachable, message)).ConfigureAwait(false);
+                    await _messageUpdated.InvokeAsync(new MessageUpdatedEventArgs(channel,
+                        new OptionalSnowflakeEntity<CachedUserMessage>(before, model.Id),
+                        message)).ConfigureAwait(false);
                     return;
                 }
 
@@ -832,16 +892,35 @@ namespace Disqord
                     }
 
                     var message = channel.GetMessage(model.Id);
-                    var cachable = message != null
-                        ? new OptionalSnowflakeEntity<CachedUserMessage>(message)
-                        : new OptionalSnowflakeEntity<CachedUserMessage>(model.Id);
-
-                    await _messageDeleted.InvokeAsync(new MessageDeletedEventArgs(channel, cachable)).ConfigureAwait(false);
+                    // TODO remove the deleted message from the cache
+                    await _messageDeleted.InvokeAsync(new MessageDeletedEventArgs(channel,
+                        new OptionalSnowflakeEntity<CachedUserMessage>(message, model.Id))).ConfigureAwait(false);
                     return;
                 }
 
                 case GatewayDispatch.MessageDeleteBulk:
+                {
+                    var model = Serializer.ToObject<MessageDeleteBulkModel>(payload.D);
+                    if (model.GuildId == null)
+                    {
+                        Log(LogMessageSeverity.Error, $"MessageDeleteBulk contains a null guild_id. Channel id: {model.ChannelId}.");
+                        return;
+                    }
+
+                    var guild = GetGuild(model.GuildId.Value);
+                    var channel = guild.GetTextChannel(model.ChannelId);
+                    var messages = new OptionalSnowflakeEntity<CachedUserMessage>[model.Ids.Length];
+                    for (var i = 0; i < model.Ids.Length; i++)
+                    {
+                        var id = model.Ids[i];
+                        messages[i] = new OptionalSnowflakeEntity<CachedUserMessage>(channel.GetMessage(id), id);
+                    }
+
+                    // TODO remove deleted messages from the cache
+                    await _messagesBulkDeleted.InvokeAsync(new MessagesBulkDeletedEventArgs(channel,
+                        new ReadOnlyList<OptionalSnowflakeEntity<CachedUserMessage>>(messages))).ConfigureAwait(false);
                     return;
+                }
 
                 case GatewayDispatch.MessageReactionAdd:
                 {
@@ -980,6 +1059,7 @@ namespace Disqord
 
                         member.Update(model);
                     }
+
                     return;
                 }
 
@@ -996,15 +1076,16 @@ namespace Disqord
                         CurrentUser.TryAddRelationship(relationship);
                     }
 
+                    await _relationshipCreated.InvokeAsync(new RelationshipCreatedEventArgs(relationship)).ConfigureAwait(false);
                     return;
                 }
 
                 case GatewayDispatch.RelationshipRemove:
                 {
                     var model = Serializer.ToObject<RelationshipModel>(payload.D);
-                    if (!CurrentUser.TryRemoveRelationship(model.Id, out var relationship))
-                        return;
+                    CurrentUser.TryRemoveRelationship(model.Id, out var relationship);
 
+                    await _relationshipDeleted.InvokeAsync(new RelationshipDeletedEventArgs(relationship));
                     return;
                 }
 
@@ -1032,6 +1113,7 @@ namespace Disqord
                             ? await guild.GetMemberAsync(model.UserId, options).ConfigureAwait(false)
                             : await RestClient.GetUserAsync(model.UserId, options).ConfigureAwait(false)),
                         DateTimeOffset.FromUnixTimeSeconds(model.Timestamp))).ConfigureAwait(false);
+
                     return;
                 }
 
@@ -1045,6 +1127,7 @@ namespace Disqord
                         return model.Note;
                     });
 
+                    await _userNoteUpdated.InvokeAsync(new UserNoteUpdatedEventArgs(this, model.Id, oldNote, model.Note)).ConfigureAwait(false);
                     return;
                 }
 
@@ -1055,6 +1138,7 @@ namespace Disqord
                     var userBefore = user.Clone();
                     user.Update(model);
 
+                    await _userUpdated.InvokeAsync(new UserUpdatedEventArgs(userBefore, user)).ConfigureAwait(false);
                     return;
                 }
 
@@ -1068,6 +1152,7 @@ namespace Disqord
                     var member = GetOrCreateMember(guild, model.Member, model.Member.User);
                     var oldMember = member.Clone();
                     member.Update(model);
+                    // TODO split voice states from members
                     await _voiceStateUpdatedEvent.InvokeAsync(new VoiceStateUpdatedEventArgs(oldMember, member)).ConfigureAwait(false);
                     return;
                 }

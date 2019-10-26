@@ -397,6 +397,9 @@ namespace Disqord
                 return member;
             });
 
+        internal CachedGuild Clone()
+            => (CachedGuild) MemberwiseClone();
+
         public CachedGuildChannel GetChannel(Snowflake id)
             => _channels.TryGetValue(id, out var channel) ? channel : null;
 
