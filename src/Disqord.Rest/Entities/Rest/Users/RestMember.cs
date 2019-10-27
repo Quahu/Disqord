@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using Disqord.Models;
@@ -8,6 +8,8 @@ namespace Disqord.Rest
     public sealed partial class RestMember : RestUser, IMember
     {
         public string Nick { get; private set; }
+
+        public string DisplayName => Nick ?? Name;
 
         public IReadOnlyCollection<Snowflake> RoleIds { get; private set; }
 

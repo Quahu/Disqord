@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Disqord
@@ -6,6 +6,8 @@ namespace Disqord
     public partial interface IMember : IUser
     {
         string Nick { get; }
+
+        string DisplayName { get; }
 
         IReadOnlyCollection<Snowflake> RoleIds { get; }
 
