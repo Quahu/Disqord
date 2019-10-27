@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -326,11 +326,12 @@ namespace Disqord
             {
                 SystemMessageType.RecipientAdded => $"{message.Author.Name} added {message.UserMentions[0].Name} to the group.",
                 SystemMessageType.RecipientRemoved => $"{message.Author.Name} removed {message.UserMentions[0].Name} from the group.",
+                // TODO
                 SystemMessageType.Call => throw new NotImplementedException(),
                 SystemMessageType.ChannelNameChanged => $"{message.Author.Name} changed the channel name: {message.RawContent}",
                 SystemMessageType.ChannelIconChanged => $"{message.Author.Name} changed the channel icon.",
                 SystemMessageType.ChannelMessagePinned => $"{message.Author.Name} pinned a message to this channel.",
-                SystemMessageType.MemberJoined => string.Format(MemberJoinFormats[message.Timestamp.ToUnixTimeMilliseconds() % MemberJoinFormats.Length], message.Author.Name),
+                SystemMessageType.MemberJoined => string.Format(MemberJoinFormats[message.Id.CreatedAt.ToUnixTimeMilliseconds() % MemberJoinFormats.Length], message.Author.Name),
                 SystemMessageType.GuildBoosted => $"{message.Author.Name} just boosted the server!",
                 SystemMessageType.GuildBoostedFirstTier => $"{message.Author.Name} just boosted the server! {guild?.Name ?? "The server"} has achieved **Level 1!**",
                 SystemMessageType.GuildBoostedSecondTier => $"{message.Author.Name} just boosted the server! {guild?.Name ?? "The server"} has achieved **Level 2!**",
