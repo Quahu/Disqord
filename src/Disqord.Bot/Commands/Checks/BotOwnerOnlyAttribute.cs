@@ -6,6 +6,9 @@ namespace Disqord.Bot
 {
     public sealed class BotOwnerOnlyAttribute : CheckAttribute
     {
+        public BotOwnerOnlyAttribute()
+        { }
+
         public override async ValueTask<CheckResult> CheckAsync(CommandContext _)
         {
             var context = _ as DiscordCommandContext;
@@ -23,7 +26,7 @@ namespace Disqord.Bot
                 {
                     return context.Bot.CurrentUser.Id == context.User.Id
                         ? CheckResult.Successful
-                        : CheckResult.Unsuccessful("This can only be executed by the currently logged user.");
+                        : CheckResult.Unsuccessful("This can only be executed by the currently logged in user.");
                 }
 
                 default:

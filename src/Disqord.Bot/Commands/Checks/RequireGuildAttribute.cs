@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Qmmands;
 
 namespace Disqord.Bot
 {
     public sealed class RequireGuildAttribute : GuildOnlyAttribute
     {
-        public IReadOnlyList<ulong> Ids { get; }
+        public Snowflake Id { get; }
 
-        public RequireGuildAttribute(params ulong[] ids)
+        public RequireGuildAttribute(ulong id)
         {
-            if (ids == null)
-                throw new ArgumentNullException(nameof(ids));
-
-            Ids = ids.ToImmutableArray();
+            Id = id;
         }
 
         public override ValueTask<CheckResult> CheckAsync(CommandContext _)
@@ -25,13 +19,9 @@ namespace Disqord.Bot
                 return baseResult;
 
             var context = _ as DiscordCommandContext;
-            for (var i = 0; i < Ids.Count; i++)
-            {
-                if (Ids[i] == context.Guild.Id)
-                    return CheckResult.Successful;
-            }
-
-            return CheckResult.Unsuccessful("This guild is not authorized to execute this.");
+            return Id == context.Guild.Id
+                ? CheckResult.Successful
+                : CheckResult.Unsuccessful("This cannot be executed in this guild.");
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Disqord.Bot.Parsers
         {
             var Context = (DiscordCommandContext) context;
             if (Context.Guild == null)
-                return new TypeParserResult<CachedRole>("This command must be used a guild.");
+                throw new InvalidOperationException("This can only be used in a guild.");
 
             CachedRole role = null;
             if (Discord.TryParseRoleMention(value, out var id) || Snowflake.TryParse(value, out id))

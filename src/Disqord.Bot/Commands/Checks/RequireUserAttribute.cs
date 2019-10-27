@@ -1,33 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Qmmands;
 
 namespace Disqord.Bot
 {
     public sealed class RequireUserAttribute : CheckAttribute
     {
-        public IReadOnlyList<ulong> Ids { get; }
+        public Snowflake Id { get; }
 
-        public RequireUserAttribute(params ulong[] ids)
+        public RequireUserAttribute(ulong id)
         {
-            if (ids == null)
-                throw new ArgumentNullException(nameof(ids));
-
-            Ids = ids.ToImmutableArray();
+            Id = id;
         }
 
         public override ValueTask<CheckResult> CheckAsync(CommandContext _)
         {
             var context = _ as DiscordCommandContext;
-            for (var i = 0; i < Ids.Count; i++)
-            {
-                if (Ids[i] == context.User.Id)
-                    return CheckResult.Successful;
-            }
-
-            return CheckResult.Unsuccessful("You are not authorized to execute this.");
+            return Id == context.User.Id
+                ? CheckResult.Successful
+                : CheckResult.Unsuccessful("You are not authorized to execute this.");
         }
     }
 }

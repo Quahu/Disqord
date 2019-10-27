@@ -15,7 +15,7 @@ namespace Disqord.Bot
             var context = _ as DiscordCommandContext;
             return context.Channel is CachedTextChannel textChannel && textChannel.IsNsfw || AllowPrivateChannels && context.Channel is CachedPrivateChannel
                 ? CheckResult.Successful
-                : CheckResult.Unsuccessful($"This command can only be used in NSFW{(AllowPrivateChannels ? " or private" : "")} channels.");
+                : CheckResult.Unsuccessful($"This can only be executed in NSFW{(AllowPrivateChannels ? " or private" : "")} channels.");
         }
     }
 }

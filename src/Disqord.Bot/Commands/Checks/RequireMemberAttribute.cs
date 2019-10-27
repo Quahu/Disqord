@@ -1,11 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Qmmands;
 
 namespace Disqord.Bot
 {
-    public sealed class GuildOwnerOnlyAttribute : GuildOnlyAttribute
+    public sealed class RequireMemberAttribute : GuildOnlyAttribute
     {
+        public Snowflake Id { get; }
+
+        public RequireMemberAttribute(ulong id)
+        {
+            Id = id;
+        }
+
         public override ValueTask<CheckResult> CheckAsync(CommandContext _)
         {
             var baseResult = base.CheckAsync(_).Result;
@@ -13,9 +19,9 @@ namespace Disqord.Bot
                 return baseResult;
 
             var context = _ as DiscordCommandContext;
-            return context.User.Id == context.Guild.OwnerId
+            return Id == context.Member.Id
                 ? CheckResult.Successful
-                : CheckResult.Unsuccessful("This command can only be used by the guild's owner.");
+                : CheckResult.Unsuccessful("You are not authorized to execute this.");
         }
     }
 }

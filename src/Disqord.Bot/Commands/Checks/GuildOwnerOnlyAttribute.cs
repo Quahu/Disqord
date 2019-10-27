@@ -3,14 +3,10 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
-    public sealed class RequireRoleAttribute : GuildOnlyAttribute
+    public sealed class GuildOwnerOnlyAttribute : GuildOnlyAttribute
     {
-        public Snowflake Id { get; }
-
-        public RequireRoleAttribute(ulong id)
-        {
-            Id = id;
-        }
+        public GuildOwnerOnlyAttribute()
+        { }
 
         public override ValueTask<CheckResult> CheckAsync(CommandContext _)
         {
@@ -19,10 +15,9 @@ namespace Disqord.Bot
                 return baseResult;
 
             var context = _ as DiscordCommandContext;
-            return context.Member.Roles.ContainsKey(Id)
+            return context.User.Id == context.Guild.OwnerId
                 ? CheckResult.Successful
-                : CheckResult.Unsuccessful($"You do not have the required role {Id}.");
-
+                : CheckResult.Unsuccessful("This can only be executed by the guild's owner.");
         }
     }
 }

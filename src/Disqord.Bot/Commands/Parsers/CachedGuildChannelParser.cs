@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Qmmands;
@@ -14,22 +15,23 @@ namespace Disqord.Bot.Parsers
         private CachedGuildChannelParser()
         { }
 
-        public override ValueTask<TypeParserResult<TChannel>> ParseAsync(Parameter parameter, string value, CommandContext context)
+        public override ValueTask<TypeParserResult<TChannel>> ParseAsync(Parameter parameter, string value, CommandContext _)
         {
-            var Context = (DiscordCommandContext) context;
-            if (Context.Guild == null)
-                return new TypeParserResult<TChannel>("This command must be used a guild.");
+            var context = (DiscordCommandContext) _;
+            if (context.Guild == null)
+                throw new InvalidOperationException("This can only be used in a guild.");
 
-            var channels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, TChannel>(Context.Guild._channels);
+            var channels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, TChannel>(context.Guild._channels);
             TChannel channel = null;
             if (Discord.TryParseChannelMention(value, out var id) || Snowflake.TryParse(value, out id))
                 channels.TryGetValue(id, out channel);
 
+            var values = channels.Values;
             if (channel == null)
-                channel = channels.Values.FirstOrDefault(x => x.Name == value);
+                channel = values.FirstOrDefault(x => x.Name == value);
 
             if (channel == null && typeof(CachedTextChannel).IsAssignableFrom(typeof(TChannel)) && value.StartsWith("#"))
-                channel = channels.Values.FirstOrDefault(x => x.Name == value.Substring(1));
+                channel = values.FirstOrDefault(x => x.Name.AsSpan().Equals(value.AsSpan().Slice(1), StringComparison.Ordinal));
 
             return channel == null
                 ? new TypeParserResult<TChannel>("No channel found matching the input.")

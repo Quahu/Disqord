@@ -16,22 +16,22 @@ namespace Disqord.Bot.Parsers
 
         public override ValueTask<TypeParserResult<Color>> ParseAsync(Parameter parameter, string value, CommandContext context)
         {
-            if (value.Length > 2)
+            var valueSpan = value.AsSpan();
+            if (valueSpan.Length > 2)
             {
                 var valid = false;
-                if (value[0] == '0' && (value[1] == 'x' || value[1] == 'X') && value.Length == 8)
+                if (valueSpan[0] == '0' && (valueSpan[1] == 'x' || valueSpan[1] == 'X') && valueSpan.Length == 8)
                 {
                     valid = true;
-                    value = value.Substring(2);
+                    valueSpan = valueSpan.Slice(2);
                 }
-
                 else if (value[0] == '#' && value.Length == 7)
                 {
                     valid = true;
-                    value = value.Substring(1);
+                    valueSpan = valueSpan.Slice(1);
                 }
 
-                if (valid && int.TryParse(value, NumberStyles.HexNumber, null, out var result))
+                if (valid && int.TryParse(valueSpan, NumberStyles.HexNumber, null, out var result))
                     return TypeParserResult<Color>.Successful(result);
             }
 
