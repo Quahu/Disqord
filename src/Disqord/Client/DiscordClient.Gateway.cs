@@ -111,9 +111,17 @@ namespace Disqord
             {
                 _manualDisconnection = true;
                 _sessionId = null;
-                _heartbeatCts?.Cancel();
+                try
+                {
+                    _heartbeatCts?.Cancel();
+                }
+                catch { }
                 _heartbeatCts?.Dispose();
-                _connectionCts?.Cancel();
+                try
+                {
+                    _connectionCts?.Cancel();
+                }
+                catch { }
                 _connectionCts?.Dispose();
             }
             await _ws.CloseAsync().ConfigureAwait(false);
@@ -302,7 +310,11 @@ namespace Disqord
                 case Opcode.Reconnect:
                 {
                     Log(LogMessageSeverity.Information, "Reconnect requested, closing...");
-                    _heartbeatCts?.Cancel();
+                    try
+                    {
+                        _heartbeatCts?.Cancel();
+                    }
+                    catch { }
                     _heartbeatCts?.Dispose();
                     await _ws.CloseAsync().ConfigureAwait(false);
                     break;
@@ -1373,7 +1385,11 @@ namespace Disqord
             lock (_reconnectionLock)
             {
                 _manualDisconnection = true;
-                _heartbeatCts?.Cancel();
+                try
+                {
+                    _heartbeatCts?.Cancel();
+                }
+                catch { }
                 _heartbeatCts?.Dispose();
                 _heartbeatCts = null;
                 _ws.Dispose();
