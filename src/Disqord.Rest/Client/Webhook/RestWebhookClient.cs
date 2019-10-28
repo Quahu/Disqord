@@ -54,14 +54,17 @@ namespace Disqord.Rest
         public Task<RestUserMessage> ExecuteAsync(string content = null, bool textToSpeech = false, params Embed[] embeds)
             => _client.ExecuteWebhookAsync(Id, Token, content, textToSpeech, embeds);
 
-        public Task<RestUserMessage> ExecuteAsync(string content = null, bool textToSpeech = false, IEnumerable<Embed> embeds = null, string name = null, string avatarUrl = null, bool wait = false)
-            => _client.ExecuteWebhookAsync(Id, Token, content, textToSpeech, embeds, name, avatarUrl, wait);
+        public Task<RestUserMessage> ExecuteAsync(string content = null, bool textToSpeech = false, IEnumerable<Embed> embeds = null,
+            string name = null, string avatarUrl = null, bool wait = false, RestRequestOptions options = null)
+            => _client.ExecuteWebhookAsync(Id, Token, content, textToSpeech, embeds, name, avatarUrl, wait, options);
 
-        public Task<RestUserMessage> ExecuteAsync(LocalAttachment attachment, string content = null, bool textToSpeech = false, params Embed[] embeds)
-            => _client.ExecuteWebhookAsync(Id, Token, attachment, content, textToSpeech, embeds);
+        public Task<RestUserMessage> ExecuteAsync(LocalAttachment attachment, string content = null, bool textToSpeech = false,
+            IEnumerable<Embed> embeds = null, string name = null, string avatarUrl = null, bool wait = false, RestRequestOptions options = null)
+            => _client.ExecuteWebhookAsync(Id, Token, attachment, content, textToSpeech, embeds, name, avatarUrl, wait, options);
 
-        public Task<RestUserMessage> ExecuteAsync(LocalAttachment attachment, string content = null, bool textToSpeech = false, IEnumerable<Embed> embeds = null, string name = null, string avatarUrl = null, bool wait = false)
-            => _client.ExecuteWebhookAsync(Id, Token, attachment, content, textToSpeech, embeds, name, avatarUrl, wait);
+        public Task<RestUserMessage> ExecuteAsync(IEnumerable<LocalAttachment> attachments, string content = null, bool textToSpeech = false,
+            IEnumerable<Embed> embeds = null, string name = null, string avatarUrl = null, bool wait = false, RestRequestOptions options = null)
+            => _client.ExecuteWebhookAsync(Id, Token, attachments, content, textToSpeech, embeds, name, avatarUrl, wait, options);
 
         public Task<RestWebhook> GetWebhookAsync()
             => Webhook.DownloadAsync();
