@@ -56,10 +56,6 @@ namespace Disqord
             }
         }
 
-        public override UserStatus Status => Client.Status;
-
-        public override Activity Activity => Activity.Create(Client.Activity);
-
         /// <summary>
         ///     Throws <see cref="InvalidOperationException"/>.
         /// </summary>
