@@ -33,6 +33,7 @@ namespace Disqord.Bot
             _provider = configuration.ProviderFactory?.Invoke(this);
             Prefixes = configuration.Prefixes?.ToImmutableArray() ?? ImmutableArray<string>.Empty;
             HasMentionPrefix = configuration.HasMentionPrefix;
+            AddTypeParser(CachedRoleParser.Instance);
             AddTypeParser(CachedMemberParser.Instance);
             AddTypeParser(CachedUserParser.Instance);
             AddTypeParser(CachedGuildChannelParser<CachedGuildChannel>.Instance);
