@@ -9,7 +9,7 @@ namespace Disqord
         internal abstract RestDiscordClient RestClient { get; }
 
         /// <summary>
-        ///     Gets the currently logged user.
+        ///     Gets the currently logged-in user.
         /// </summary>
         public CachedCurrentUser CurrentUser { get; protected set; }
 
