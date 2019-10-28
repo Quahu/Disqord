@@ -29,7 +29,7 @@ namespace Disqord
         public byte B => (byte) RawValue;
 
         /// <summary>
-        ///     Initialised a new <see cref="Color"/> using the given raw value.
+        ///     Initialises a new <see cref="Color"/> using the given raw value.
         /// </summary>
         /// <param name="rawValue"> The raw value. </param>
         /// <exception cref="ArgumentOutOfRangeException">
