@@ -18,8 +18,6 @@ namespace Disqord.Rest
 
         public abstract string Content { get; }
 
-        public DateTimeOffset Timestamp { get; }
-
         public IReadOnlyList<RestUser> UserMentions { get; private set; }
 
         public IReadOnlyDictionary<IEmoji, ReactionData> Reactions { get; private set; }
@@ -32,7 +30,6 @@ namespace Disqord.Rest
             ChannelId = model.ChannelId;
             GuildId = model.GuildId;
             Author = new RestUser(client, model.Author.Value);
-            Timestamp = model.Timestamp.Value;
         }
 
         internal virtual void Update(MessageModel model)
