@@ -264,10 +264,8 @@ namespace Disqord
                 }
             }
 
-            if (!Client.IsBot)
-            {
+            if (model.Presences != null)
                 Update(model.Presences);
-            }
 
             MemberCount = model.MemberCount;
             IsLarge = model.Large;
