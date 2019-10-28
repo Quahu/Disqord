@@ -106,6 +106,9 @@ namespace Disqord.Rest
             bool wait = false,
             RestRequestOptions options = null)
         {
+            if (attachment == null)
+                throw new ArgumentNullException(nameof(attachment));
+
             var model = await ApiClient.ExecuteWebhookAsync(webhookId, webhookToken, attachment, content, textToSpeech, embeds, name, avatarUrl, wait, options).ConfigureAwait(false);
             if (!wait)
                 return null;
@@ -120,6 +123,9 @@ namespace Disqord.Rest
             bool wait = false,
             RestRequestOptions options = null)
         {
+            if (attachments == null)
+                throw new ArgumentNullException(nameof(attachments));
+
             var model = await ApiClient.ExecuteWebhookAsync(webhookId, webhookToken, attachments, content, textToSpeech, embeds, name, avatarUrl, wait, options).ConfigureAwait(false);
             if (!wait)
                 return null;
