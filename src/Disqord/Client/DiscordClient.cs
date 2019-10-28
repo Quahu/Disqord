@@ -89,13 +89,13 @@ namespace Disqord
         ///     The found <see cref="CachedUser"/> or <see langword="null"/>.
         /// </returns>
         public CachedUser GetUser(Snowflake id)
-            => _users.TryGetValue(id, out var user) ? user : null;
+            => _users.GetValueOrDefault(id);
 
         public CachedPrivateChannel GetPrivateChannel(Snowflake id)
-            => _privateChannels.TryGetValue(id, out var channel) ? channel : null;
+            => _privateChannels.GetValueOrDefault(id);
 
         public CachedGuild GetGuild(Snowflake id)
-            => _guilds.TryGetValue(id, out var guild) ? guild : null;
+            => _guilds.GetValueOrDefault(id);
 
         public CachedGuildChannel GetGuildChannel(Snowflake id)
         {

@@ -774,16 +774,12 @@ namespace Disqord
                     if (model.GuildId != null)
                     {
                         guild = GetGuild(model.GuildId.Value);
-                        channel = guild.Channels.TryGetValue(model.ChannelId, out var c)
-                            ? c as CachedTextChannel
-                            : null;
+                        channel = guild.GetTextChannel(model.ChannelId);
 
                         if (!isWebhook)
                             author = model.Author.HasValue && model.Member.HasValue
                                 ? GetOrCreateMember(guild, model.Member.Value, model.Author.Value)
-                                : guild.Members.TryGetValue(model.Author.Value.Id, out var member)
-                                    ? member
-                                    : null;
+                                : guild.GetMember(model.Author.Value.Id);
                     }
                     else
                     {
@@ -832,7 +828,7 @@ namespace Disqord
                     if (model.GuildId != null)
                     {
                         guild = GetGuild(model.GuildId.Value);
-                        channel = guild.Channels.TryGetValue(model.ChannelId, out var c) ? c as CachedTextChannel : null;
+                        channel = guild.GetTextChannel(model.ChannelId);
                     }
                     else
                     {

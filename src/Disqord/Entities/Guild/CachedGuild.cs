@@ -82,16 +82,7 @@ namespace Disqord
 
         public bool IsUnavailable { get; private set; }
 
-        public CachedMember CurrentMember
-        {
-            get
-            {
-                var currentUser = Client.CurrentUser;
-                return currentUser != null
-                    ? GetMember(currentUser.Id)
-                    : null;
-            }
-        }
+        public CachedMember CurrentMember => Members.GetValueOrDefault(Client.CurrentUser.Id);
 
         public IReadOnlyDictionary<Snowflake, CachedRole> Roles { get; }
 
@@ -404,7 +395,7 @@ namespace Disqord
             => (CachedGuild) MemberwiseClone();
 
         public CachedGuildChannel GetChannel(Snowflake id)
-            => _channels.TryGetValue(id, out var channel) ? channel : null;
+            => _channels.GetValueOrDefault(id);
 
         public CachedTextChannel GetTextChannel(Snowflake id)
             => GetChannel(id) as CachedTextChannel;
@@ -416,10 +407,10 @@ namespace Disqord
             => GetChannel(id) as CachedCategoryChannel;
 
         public CachedMember GetMember(Snowflake id)
-            => _members.TryGetValue(id, out var member) ? member : null;
+            => _members.GetValueOrDefault(id);
 
         public CachedRole GetRole(Snowflake id)
-            => _roles.TryGetValue(id, out var role) ? role : null;
+            => _roles.GetValueOrDefault(id);
 
         public string GetIconUrl(ImageFormat format = default, int size = 2048)
             => Discord.GetGuildIconUrl(Id, IconHash, format, size);

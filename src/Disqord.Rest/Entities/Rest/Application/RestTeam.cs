@@ -13,7 +13,7 @@ namespace Disqord.Rest
 
         public Snowflake OwnerId { get; }
 
-        public RestTeamMember Owner => Members.TryGetValue(OwnerId, out var owner) ? owner : null;
+        public RestTeamMember Owner => Members.GetValueOrDefault(OwnerId);
 
         public IReadOnlyDictionary<Snowflake, RestTeamMember> Members { get; }
 

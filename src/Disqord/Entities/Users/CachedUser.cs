@@ -19,27 +19,9 @@ namespace Disqord
 
         public virtual string Mention => Discord.MentionUser(this);
 
-        public virtual CachedRelationship Relationship
-        {
-            get
-            {
-                var currentUser = Client.CurrentUser;
-                return currentUser != null && currentUser.Relationships.TryGetValue(Id, out var relationship)
-                    ? relationship
-                    : null;
-            }
-        }
+        public virtual CachedRelationship Relationship => Client.CurrentUser.Relationships.GetValueOrDefault(Id);
 
-        public string Note
-        {
-            get
-            {
-                var currentUser = Client.CurrentUser;
-                return currentUser != null && currentUser.Notes.TryGetValue(Id, out var note)
-                    ? note
-                    : null;
-            }
-        }
+        public string Note => Client.CurrentUser.Notes.GetValueOrDefault(Id);
 
         public virtual CachedDmChannel DmChannel => Client.DmChannels.Values.FirstOrDefault(x => x.Recipient.Id == Id);
 
