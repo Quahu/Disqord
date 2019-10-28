@@ -10,7 +10,7 @@ namespace Disqord
     public enum UserStatus
     {
         /// <summary>
-        ///     Represetns an offline user.
+        ///     Represents an offline user.
         /// </summary>
         [EnumMember(Value = "offline")]
         Offline,
