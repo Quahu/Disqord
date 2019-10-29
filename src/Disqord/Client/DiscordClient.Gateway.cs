@@ -979,7 +979,7 @@ namespace Disqord
                     await _reactionAdded.InvokeAsync(
                         new ReactionAddedEventArgs(
                             channel,
-                            new DownloadableOptionalSnowflakeEntity<CachedUserMessage, RestMessage>(
+                            new DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage>(
                                 message, model.MessageId, options => RestClient.GetMessageAsync(channel.Id, model.MessageId, options)),
                             new DownloadableOptionalSnowflakeEntity<CachedUser, RestUser>(message?.Author, model.UserId,
                             async options => model.GuildId != null
@@ -1026,7 +1026,7 @@ namespace Disqord
                     await _reactionRemoved.InvokeAsync(
                         new ReactionRemovedEventArgs(
                             channel,
-                            new DownloadableOptionalSnowflakeEntity<CachedUserMessage, RestMessage>(message, model.MessageId,
+                            new DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage>(message, model.MessageId,
                             options => RestClient.GetMessageAsync(channel.Id, model.MessageId, options)),
                             new DownloadableOptionalSnowflakeEntity<CachedUser, RestUser>(message?.Author, model.UserId,
                             async options => model.GuildId != null
