@@ -5,16 +5,16 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
-    public sealed class RequireBotChannelPermissions : GuildOnlyAttribute
+    public sealed class RequireBotGuildPermissionsAttribute : GuildOnlyAttribute
     {
-        public ChannelPermissions Permissions { get; }
+        public GuildPermissions Permissions { get; }
 
-        public RequireBotChannelPermissions(Permission permissions)
+        public RequireBotGuildPermissionsAttribute(Permission permissions)
         {
             Permissions = permissions;
         }
 
-        public RequireBotChannelPermissions(params Permission[] permissions)
+        public RequireBotGuildPermissionsAttribute(params Permission[] permissions)
         {
             if (permissions == null)
                 throw new ArgumentNullException(nameof(permissions));
@@ -29,10 +29,10 @@ namespace Disqord.Bot
                 return baseResult;
 
             var context = _ as DiscordCommandContext;
-            var permissions = context.Guild.CurrentMember.GetPermissionsFor(context.Channel as IGuildChannel);
+            var permissions = context.Guild.CurrentMember.Permissions;
             return permissions.Has(Permissions)
                 ? CheckResult.Successful
-                : CheckResult.Unsuccessful($"The bot lacks the necessary channel permissions ({Permissions - permissions}) to execute this.");
+                : CheckResult.Unsuccessful($"The bot lacks the necessary guild permissions ({Permissions - permissions}) to execute this.");
         }
     }
 }

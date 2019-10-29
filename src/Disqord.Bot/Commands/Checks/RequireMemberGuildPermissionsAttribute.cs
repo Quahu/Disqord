@@ -5,16 +5,16 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
-    public sealed class RequireMemberGuildPermissions : GuildOnlyAttribute
+    public sealed class RequireMemberGuildPermissionsAttribute : GuildOnlyAttribute
     {
         public GuildPermissions Permissions { get; }
 
-        public RequireMemberGuildPermissions(Permission permissions)
+        public RequireMemberGuildPermissionsAttribute(Permission permissions)
         {
             Permissions = permissions;
         }
 
-        public RequireMemberGuildPermissions(params Permission[] permissions)
+        public RequireMemberGuildPermissionsAttribute(params Permission[] permissions)
         {
             if (permissions == null)
                 throw new ArgumentNullException(nameof(permissions));
