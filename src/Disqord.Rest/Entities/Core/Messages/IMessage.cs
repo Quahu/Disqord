@@ -11,9 +11,5 @@ namespace Disqord
         string Content { get; }
 
         IReadOnlyList<IUser> UserMentions { get; }
-
-        // TODO: activity
-
-        // TODO: application
     }
 }

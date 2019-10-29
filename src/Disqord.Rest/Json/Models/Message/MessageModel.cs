@@ -57,15 +57,21 @@ namespace Disqord.Models
         public Optional<bool> Pinned { get; set; }
 
         [JsonProperty("webhook_id")]
-        public Optional<ulong?> WebhookId { get; set; }
+        public Optional<ulong> WebhookId { get; set; }
 
         [JsonProperty("type")]
         public MessageType Type { get; set; }
 
-        //[JsonProperty("activity", NullValueHandling = NullValueHandling.Ignore)]
-        //public string Title { get; set; }
+        [JsonProperty("activity")]
+        public Optional<MessageActivityModel> Activity { get; set; }
 
-        //[JsonProperty("application", NullValueHandling = NullValueHandling.Ignore)]
-        //public string Title { get; set; }
+        [JsonProperty("application")]
+        public Optional<MessageApplicationModel> Application { get; set; }
+
+        [JsonProperty("message_reference")]
+        public Optional<MessageReferenceModel> MessageReference { get; set; }
+
+        [JsonProperty("flags")]
+        public Optional<MessageFlags> Flags { get; set; }
     }
 }

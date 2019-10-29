@@ -22,5 +22,13 @@ namespace Disqord
         IReadOnlyList<Attachment> Attachments { get; }
 
         IReadOnlyList<Embed> Embeds { get; }
+
+        MessageFlags Flags { get; }
+
+        MessageActivity Activity { get; }
+
+        MessageApplication Application { get; }
+
+        MessageReference Reference { get; }
     }
 }

@@ -30,6 +30,14 @@ namespace Disqord
 
         public Snowflake? WebhookId { get; }
 
+        public MessageFlags Flags { get; private set; }
+
+        public MessageActivity Activity { get; private set; }
+
+        public MessageApplication Application { get; private set; }
+
+        public MessageReference Reference { get; private set; }
+
         private string _content;
 
         internal CachedUserMessage(DiscordClient client, MessageModel model, ICachedMessageChannel channel, CachedUser author) : base(client, model, channel, author)
@@ -60,12 +68,20 @@ namespace Disqord
             if (model.Embeds.HasValue)
                 Embeds = model.Embeds.Value.Select(x => x.ToEmbed()).ToImmutableArray();
 
-            // TODO: Are reactions ever available cached?
-            //if (model.Reactions.HasValue)
-            //    Reactions = model.Reactions.Value?.Select(x => CachedReaction.Create(Client, x)).ToImmutableArray() ?? ImmutableArray<CachedReaction>.Empty;
-
             if (model.Pinned.HasValue)
                 IsPinned = model.Pinned.Value;
+
+            if (model.Flags.HasValue)
+                Flags = model.Flags.Value;
+
+            if (model.Activity.HasValue)
+                Activity = model.Activity.Value.ToActivity();
+
+            if (model.Application.HasValue)
+                Application = model.Application.Value.ToApplication();
+
+            if (model.MessageReference.HasValue)
+                Reference = model.MessageReference.Value.ToReference();
 
             base.Update(model);
         }

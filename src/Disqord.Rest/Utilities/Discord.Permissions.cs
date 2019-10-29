@@ -19,6 +19,18 @@ namespace Disqord
         public static void UnsetFlag(ref ulong rawValue, ulong flag)
             => rawValue &= ~flag;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasFlag(uint rawValue, uint flag)
+            => (rawValue & flag) == flag;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetFlag(ref uint rawValue, uint flag)
+            => rawValue |= flag;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void UnsetFlag(ref uint rawValue, uint flag)
+            => rawValue &= ~flag;
+
         public static class Permissions
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
