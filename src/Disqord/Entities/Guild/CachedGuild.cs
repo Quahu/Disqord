@@ -84,6 +84,8 @@ namespace Disqord
 
         public CachedMember CurrentMember => Members.GetValueOrDefault(Client.CurrentUser.Id);
 
+        public CachedRole DefaultRole => Roles[Id];
+
         public IReadOnlyDictionary<Snowflake, CachedRole> Roles { get; }
 
         public IReadOnlyDictionary<Snowflake, CachedGuildChannel> Channels { get; }

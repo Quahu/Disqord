@@ -1,4 +1,4 @@
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord.Rest
 {
@@ -21,6 +21,8 @@ namespace Disqord.Rest
         public string Mention => Discord.MentionRole(this);
 
         public Snowflake GuildId { get; }
+
+        public bool IsDefault => Id == GuildId;
 
         public RestDownloadable<RestGuild> Guild { get; }
 

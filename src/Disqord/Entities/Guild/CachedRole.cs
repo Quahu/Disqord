@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Disqord.Collections;
 using Disqord.Models;
 
@@ -23,6 +23,8 @@ namespace Disqord
         public string Mention => Discord.MentionRole(this);
 
         public CachedGuild Guild { get; }
+
+        public bool IsDefault => Id == Guild.Id;
 
         public IReadOnlyDictionary<Snowflake, CachedMember> Members { get; }
 

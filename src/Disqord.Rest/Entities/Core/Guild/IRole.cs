@@ -1,4 +1,4 @@
-namespace Disqord
+﻿namespace Disqord
 {
     public partial interface IRole : ISnowflakeEntity, IMentionable, IDeletable
     {
@@ -17,5 +17,7 @@ namespace Disqord
         bool IsMentionable { get; }
 
         Snowflake GuildId { get; }
+
+        bool IsDefault { get; }
     }
 }
