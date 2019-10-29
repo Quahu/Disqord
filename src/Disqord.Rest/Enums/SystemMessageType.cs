@@ -60,6 +60,11 @@
         /// <summary>
         ///     Represents a system message indicating a member has boosted a guild and it achieved <see cref="BoostTier.Third"/>.
         /// </summary>
-        GuildBoostedThirdTier
+        GuildBoostedThirdTier,
+
+        /// <summary>
+        ///     Represents a system message indicating a member has followed another channel.
+        /// </summary>
+        ChannelFollowed
     }
 }
