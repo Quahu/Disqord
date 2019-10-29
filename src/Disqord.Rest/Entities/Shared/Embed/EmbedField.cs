@@ -10,12 +10,5 @@
 
         internal EmbedField()
         { }
-
-        internal EmbedField(EmbedFieldBuilder builder)
-        {
-            Name = builder.Name;
-            Value = builder.Value;
-            IsInline = builder.IsInline;
-        }
     }
 }

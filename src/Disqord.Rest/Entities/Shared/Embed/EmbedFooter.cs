@@ -10,11 +10,5 @@
 
         internal EmbedFooter()
         { }
-
-        internal EmbedFooter(EmbedFooterBuilder builder)
-        {
-            Text = builder.Text;
-            IconUrl = builder.IconUrl;
-        }
     }
 }

@@ -4,7 +4,7 @@
     {
         public Optional<string> Content { internal get; set; }
 
-        public Optional<Embed> Embed { internal get; set; }
+        public Optional<LocalEmbed> Embed { internal get; set; }
 
         internal ModifyMessageProperties()
         { }

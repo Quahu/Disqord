@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public sealed class EmbedFooterBuilder
+    public sealed class LocalEmbedFooterBuilder
     {
         public const int MAX_FOOTER_LENGTH = 2048;
 
@@ -11,7 +11,7 @@ namespace Disqord
             get => _text;
             set
             {
-                if (value?.Length > MAX_FOOTER_LENGTH)
+                if (value != null && value.Length > MAX_FOOTER_LENGTH)
                     throw new ArgumentOutOfRangeException(nameof(value), $"The text of the embed footer must not be longer than {MAX_FOOTER_LENGTH} characters.");
 
                 _text = value;
@@ -21,10 +21,10 @@ namespace Disqord
 
         public string IconUrl { get; set; }
 
-        public EmbedFooterBuilder()
+        public LocalEmbedFooterBuilder()
         { }
 
-        public EmbedFooterBuilder(EmbedFooterBuilder builder)
+        public LocalEmbedFooterBuilder(LocalEmbedFooterBuilder builder)
         {
             if (builder == null)
                 throw new ArgumentNullException(nameof(builder));
@@ -33,19 +33,19 @@ namespace Disqord
             IconUrl = builder.IconUrl;
         }
 
-        public EmbedFooterBuilder WithText(string text)
+        public LocalEmbedFooterBuilder WithText(string text)
         {
             Text = text;
             return this;
         }
 
-        public EmbedFooterBuilder WithIconUrl(string iconUrl)
+        public LocalEmbedFooterBuilder WithIconUrl(string iconUrl)
         {
             IconUrl = iconUrl;
             return this;
         }
 
-        public EmbedFooter Build()
-            => new EmbedFooter(this);
+        internal LocalEmbedFooter Build()
+            => new LocalEmbedFooter(this);
     }
 }

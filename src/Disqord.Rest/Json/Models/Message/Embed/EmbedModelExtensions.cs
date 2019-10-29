@@ -1,18 +1,18 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
 
-namespace Disqord
+namespace Disqord.Models
 {
     internal static partial class ModelExtensions
     {
-        public static EmbedProvider ToProvider(this Models.EmbedProviderModel model)
+        public static EmbedProvider ToProvider(this EmbedProviderModel model)
             => model == null ? null : new EmbedProvider
             {
                 Name = model.Name,
                 Url = model.Url
             };
 
-        public static EmbedField ToField(this Models.EmbedFieldModel model)
+        public static EmbedField ToField(this EmbedFieldModel model)
             => model == null ? null : new EmbedField
             {
                 Name = model.Name,
@@ -20,15 +20,15 @@ namespace Disqord
                 IsInline = model.Inline
             };
 
-        public static Models.EmbedFieldModel ToModel(this EmbedField field)
-            => field == null ? null : new Models.EmbedFieldModel
+        public static EmbedFieldModel ToModel(this EmbedField field)
+            => field == null ? null : new EmbedFieldModel
             {
                 Name = field.Name,
                 Value = field.Value,
                 Inline = field.IsInline
             };
 
-        public static EmbedVideo ToVideo(this Models.EmbedVideoModel model)
+        public static EmbedVideo ToVideo(this EmbedVideoModel model)
             => model == null ? null : new EmbedVideo
             {
                 Url = model.Url,
@@ -36,15 +36,15 @@ namespace Disqord
                 Width = model.Width
             };
 
-        public static Models.EmbedAuthorModel ToModel(this EmbedAuthor author)
-            => author == null ? null : new Models.EmbedAuthorModel
+        public static EmbedAuthorModel ToModel(this EmbedAuthor author)
+            => author == null ? null : new EmbedAuthorModel
             {
                 Name = author.Name,
                 Url = author.Url,
                 IconUrl = author.IconUrl
             };
 
-        public static EmbedAuthor ToAuthor(this Models.EmbedAuthorModel model)
+        public static EmbedAuthor ToAuthor(this EmbedAuthorModel model)
             => model == null ? null : new EmbedAuthor
             {
                 Name = model.Name,
@@ -53,14 +53,14 @@ namespace Disqord
                 ProxyIconUrl = model.ProxyIconUrl
             };
 
-        public static Models.EmbedFooterModel ToModel(this EmbedFooter footer)
-            => footer == null ? null : new Models.EmbedFooterModel
+        public static EmbedFooterModel ToModel(this EmbedFooter footer)
+            => footer == null ? null : new EmbedFooterModel
             {
                 Text = footer.Text,
                 IconUrl = footer.IconUrl
             };
 
-        public static EmbedFooter ToFooter(this Models.EmbedFooterModel model)
+        public static EmbedFooter ToFooter(this EmbedFooterModel model)
             => model == null ? null : new EmbedFooter
             {
                 Text = model.Text,
@@ -68,13 +68,13 @@ namespace Disqord
                 ProxyIconUrl = model.ProxyIconUrl,
             };
 
-        public static Models.EmbedThumbnailModel ToModel(this EmbedThumbnail thumbnail)
-            => thumbnail == null ? null : new Models.EmbedThumbnailModel
+        public static EmbedThumbnailModel ToModel(this EmbedThumbnail thumbnail)
+            => thumbnail == null ? null : new EmbedThumbnailModel
             {
                 Url = thumbnail.Url
             };
 
-        public static EmbedThumbnail ToThumbnail(this Models.EmbedThumbnailModel model)
+        public static EmbedThumbnail ToThumbnail(this EmbedThumbnailModel model)
             => model == null ? null : new EmbedThumbnail
             {
                 Url = model.Url,
@@ -83,13 +83,13 @@ namespace Disqord
                 Width = model.Width
             };
 
-        public static Models.EmbedImageModel ToModel(this EmbedImage image)
-            => image == null ? null : new Models.EmbedImageModel
+        public static EmbedImageModel ToModel(this EmbedImage image)
+            => image == null ? null : new EmbedImageModel
             {
                 Url = image.Url
             };
 
-        public static EmbedImage ToImage(this Models.EmbedImageModel model)
+        public static EmbedImage ToImage(this EmbedImageModel model)
             => model == null ? null : new EmbedImage
             {
                 Url = model.Url,
@@ -98,23 +98,47 @@ namespace Disqord
                 Width = model.Width
             };
 
-        public static Models.EmbedModel ToModel(this Embed embed)
-            => embed == null ? null : new Models.EmbedModel
+        public static EmbedModel ToModel(this LocalEmbed embed)
+            => embed == null ? null : new EmbedModel
             {
                 Title = embed.Title,
-                Type = embed.Type,
+                Type = "rich",
                 Description = embed.Description,
                 Url = embed.Url,
                 Timestamp = embed.Timestamp,
                 Color = embed.Color,
-                Image = embed.Image.ToModel(),
-                Thumbnail = embed.Thumbnail.ToModel(),
-                Footer = embed.Footer.ToModel(),
-                Author = embed.Author.ToModel(),
-                Fields = embed.Fields.Select(x => x.ToModel()).ToArray()
+                Image = embed.ImageUrl == null ? null
+                    : new EmbedImageModel
+                    {
+                        Url = embed.ImageUrl
+                    },
+                Thumbnail = embed.ThumbnailUrl == null ? null
+                    : new EmbedThumbnailModel
+                    {
+                        Url = embed.ThumbnailUrl
+                    },
+                Footer = embed.Footer == null ? null
+                    : new EmbedFooterModel
+                    {
+                        Text = embed.Footer.Text,
+                        IconUrl = embed.Footer.IconUrl
+                    },
+                Author = embed.Author == null ? null
+                    : new EmbedAuthorModel
+                    {
+                        Name = embed.Author.Name,
+                        Url = embed.Author.Url,
+                        IconUrl = embed.Author.IconUrl
+                    },
+                Fields = embed.Fields.Select(x => new EmbedFieldModel
+                {
+                    Name = x.Name,
+                    Value = x.Value,
+                    Inline = x.IsInline
+                })
             };
 
-        public static Embed ToEmbed(this Models.EmbedModel model)
+        public static Embed ToEmbed(this EmbedModel model)
             => model == null ? null : new Embed
             {
                 Title = model.Title,

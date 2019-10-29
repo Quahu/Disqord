@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Disqord
 {
-    public sealed class EmbedBuilder
+    public sealed class LocalEmbedBuilder
     {
         public const int MAX_FIELDS_AMOUNT = 25;
 
@@ -19,7 +19,7 @@ namespace Disqord
             get => _title;
             set
             {
-                if (value?.Length > MAX_TITLE_LENGTH)
+                if (value != null && value.Length > MAX_TITLE_LENGTH)
                     throw new ArgumentOutOfRangeException(nameof(value), $"The title of the embed must not be longer than {MAX_TITLE_LENGTH} characters.");
 
                 _title = value;
@@ -32,7 +32,7 @@ namespace Disqord
             get => _description;
             set
             {
-                if (value?.Length > MAX_DESCRIPTION_LENGTH)
+                if (value != null && value.Length > MAX_DESCRIPTION_LENGTH)
                     throw new ArgumentOutOfRangeException(nameof(value), $"The description of the embed must not be longer than {MAX_DESCRIPTION_LENGTH} characters.");
 
                 _description = value;
@@ -50,18 +50,18 @@ namespace Disqord
 
         public Color? Color { get; set; }
 
-        public EmbedFooterBuilder Footer { get; set; }
+        public LocalEmbedFooterBuilder Footer { get; set; }
 
-        public EmbedAuthorBuilder Author { get; set; }
+        public LocalEmbedAuthorBuilder Author { get; set; }
 
-        public List<EmbedFieldBuilder> Fields { get; }
+        public List<LocalEmbedFieldBuilder> Fields { get; }
 
-        public EmbedBuilder()
+        public LocalEmbedBuilder()
         {
-            Fields = new List<EmbedFieldBuilder>();
+            Fields = new List<LocalEmbedFieldBuilder>();
         }
 
-        public EmbedBuilder(EmbedBuilder builder)
+        public LocalEmbedBuilder(LocalEmbedBuilder builder)
         {
             Title = builder.Title;
             Description = builder.Description;
@@ -70,70 +70,75 @@ namespace Disqord
             ThumbnailUrl = builder.ThumbnailUrl;
             Timestamp = builder.Timestamp;
             Color = builder.Color;
-            Footer = new EmbedFooterBuilder(builder.Footer);
-            Author = new EmbedAuthorBuilder(builder.Author);
-            Fields = builder.Fields.Select(x => new EmbedFieldBuilder(x)).ToList();
+
+            if (builder.Footer != null)
+                Footer = new LocalEmbedFooterBuilder(builder.Footer);
+
+            if (builder.Author != null)
+                Author = new LocalEmbedAuthorBuilder(builder.Author);
+
+            Fields = builder.Fields.Select(x => new LocalEmbedFieldBuilder(x)).ToList();
         }
 
-        public EmbedBuilder WithTitle(string title)
+        public LocalEmbedBuilder WithTitle(string title)
         {
             Title = title;
             return this;
         }
 
-        public EmbedBuilder WithDescription(string description)
+        public LocalEmbedBuilder WithDescription(string description)
         {
             Description = description;
             return this;
         }
 
-        public EmbedBuilder WithUrl(string url)
+        public LocalEmbedBuilder WithUrl(string url)
         {
             Url = url;
             return this;
         }
 
-        public EmbedBuilder WithImageUrl(string imageUrl)
+        public LocalEmbedBuilder WithImageUrl(string imageUrl)
         {
             ImageUrl = imageUrl;
             return this;
         }
 
-        public EmbedBuilder WithThumbnailUrl(string thumbnailUrl)
+        public LocalEmbedBuilder WithThumbnailUrl(string thumbnailUrl)
         {
             ThumbnailUrl = thumbnailUrl;
             return this;
         }
 
-        public EmbedBuilder WithTimestamp(DateTimeOffset? timestamp)
+        public LocalEmbedBuilder WithTimestamp(DateTimeOffset? timestamp)
         {
             Timestamp = timestamp;
             return this;
         }
 
-        public EmbedBuilder WithColor(Color? color)
+        public LocalEmbedBuilder WithColor(Color? color)
         {
             Color = color;
             return this;
         }
 
-        public EmbedBuilder WithFooter(EmbedFooterBuilder footer)
+        public LocalEmbedBuilder WithFooter(LocalEmbedFooterBuilder footer)
         {
             Footer = footer;
             return this;
         }
 
-        public EmbedBuilder WithFooter(Action<EmbedFooterBuilder> action)
+        public LocalEmbedBuilder WithFooter(Action<LocalEmbedFooterBuilder> action)
         {
-            var footer = new EmbedFooterBuilder();
+            var footer = new LocalEmbedFooterBuilder();
             action(footer);
             Footer = footer;
             return this;
         }
 
-        public EmbedBuilder WithFooter(string text = null, string iconUrl = null)
+        public LocalEmbedBuilder WithFooter(string text = null, string iconUrl = null)
         {
-            Footer = new EmbedFooterBuilder
+            Footer = new LocalEmbedFooterBuilder
             {
                 Text = text,
                 IconUrl = iconUrl
@@ -141,23 +146,23 @@ namespace Disqord
             return this;
         }
 
-        public EmbedBuilder WithAuthor(EmbedAuthorBuilder author)
+        public LocalEmbedBuilder WithAuthor(LocalEmbedAuthorBuilder author)
         {
             Author = author;
             return this;
         }
 
-        public EmbedBuilder WithAuthor(Action<EmbedAuthorBuilder> action)
+        public LocalEmbedBuilder WithAuthor(Action<LocalEmbedAuthorBuilder> action)
         {
-            var author = new EmbedAuthorBuilder();
+            var author = new LocalEmbedAuthorBuilder();
             action(author);
             Author = author;
             return this;
         }
 
-        public EmbedBuilder WithAuthor(string name, string iconUrl = null, string url = null)
+        public LocalEmbedBuilder WithAuthor(string name, string iconUrl = null, string url = null)
         {
-            Author = new EmbedAuthorBuilder
+            Author = new LocalEmbedAuthorBuilder
             {
                 Name = name,
                 IconUrl = iconUrl,
@@ -166,12 +171,12 @@ namespace Disqord
             return this;
         }
 
-        public EmbedBuilder WithAuthor(IUser user)
+        public LocalEmbedBuilder WithAuthor(IUser user)
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
-            Author = new EmbedAuthorBuilder
+            Author = new LocalEmbedAuthorBuilder
             {
                 Name = user.Tag,
                 IconUrl = user.GetAvatarUrl(size: 128)
@@ -179,9 +184,9 @@ namespace Disqord
             return this;
         }
 
-        public EmbedBuilder AddField(string name, object value, bool isInline = false)
+        public LocalEmbedBuilder AddField(string name, object value, bool isInline = false)
         {
-            Fields.Add(new EmbedFieldBuilder
+            Fields.Add(new LocalEmbedFieldBuilder
             {
                 Name = name,
                 Value = value?.ToString(),
@@ -190,9 +195,9 @@ namespace Disqord
             return this;
         }
 
-        public static EmbedBuilder FromEmbed(Embed embed)
+        public static LocalEmbedBuilder FromEmbed(Embed embed)
         {
-            var embedBuilder = new EmbedBuilder
+            var embedBuilder = new LocalEmbedBuilder
             {
                 Title = embed.Title,
                 Description = embed.Description,
@@ -202,14 +207,14 @@ namespace Disqord
                 Timestamp = embed.Timestamp,
                 Color = embed.Color,
                 Footer = embed.Footer != null
-                    ? new EmbedFooterBuilder
+                    ? new LocalEmbedFooterBuilder
                     {
                         Text = embed.Footer.Text,
                         IconUrl = embed.Footer.IconUrl
                     }
                     : null,
                 Author = embed.Author != null
-                    ? new EmbedAuthorBuilder
+                    ? new LocalEmbedAuthorBuilder
                     {
                         Name = embed.Author.Name,
                         Url = embed.Author.Url,
@@ -227,13 +232,13 @@ namespace Disqord
             return embedBuilder;
         }
 
-        public Embed Build()
+        public LocalEmbed Build()
         {
             // TODO
             //if (TotalLength > MAX_TOTAL_LENGTH)
             //    throw new InvalidOperationException($"The total length of an embed must not exceed {MAX_TOTAL_LENGTH} characters.");
 
-            return new Embed(this);
+            return new LocalEmbed(this);
         }
     }
 }

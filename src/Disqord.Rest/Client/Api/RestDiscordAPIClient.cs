@@ -275,18 +275,18 @@ namespace Disqord.Rest
         public Task<MessageModel> GetChannelMessageAsync(ulong channelId, ulong messageId, RestRequestOptions options)
             => SendRequestAsync<MessageModel>(new RestRequest(GET, $"channels/{channelId:channel_id}/messages/{messageId}", options));
 
-        public Task<MessageModel> CreateMessageAsync(ulong channelId, string content, bool isTTS, Embed embed, RestRequestOptions options)
+        public Task<MessageModel> CreateMessageAsync(ulong channelId, string content, bool isTTS, LocalEmbed embed, RestRequestOptions options)
         {
             var requestContent = new CreateMessageContent
             {
                 Content = content,
                 Tts = isTTS,
-                Embed = embed?.ToModel()
+                Embed = embed.ToModel()
             };
             return SendRequestAsync<MessageModel>(new RestRequest(POST, $"channels/{channelId:channel_id}/messages", requestContent, options));
         }
 
-        public Task<MessageModel> CreateMessageAsync(ulong channelId, LocalAttachment attachment, string content, bool isTTS, Embed embed, RestRequestOptions options)
+        public Task<MessageModel> CreateMessageAsync(ulong channelId, LocalAttachment attachment, string content, bool isTTS, LocalEmbed embed, RestRequestOptions options)
         {
             var requestContent = new MultipartRequestContent<CreateMessageContent>
             {
@@ -294,14 +294,14 @@ namespace Disqord.Rest
                 {
                     Content = content,
                     Tts = isTTS,
-                    Embed = embed?.ToModel()
+                    Embed = embed.ToModel()
                 },
                 Attachment = attachment
             };
             return SendRequestAsync<MessageModel>(new RestRequest(POST, $"channels/{channelId:channel_id}/messages", requestContent, options));
         }
 
-        public Task<MessageModel> CreateMessageAsync(ulong channelId, IEnumerable<LocalAttachment> attachments, string content, bool isTTS, Embed embed, RestRequestOptions options)
+        public Task<MessageModel> CreateMessageAsync(ulong channelId, IEnumerable<LocalAttachment> attachments, string content, bool isTTS, LocalEmbed embed, RestRequestOptions options)
         {
             var requestContent = new MultipartRequestContent<CreateMessageContent>
             {
@@ -309,7 +309,7 @@ namespace Disqord.Rest
                 {
                     Content = content,
                     Tts = isTTS,
-                    Embed = embed?.ToModel()
+                    Embed = embed.ToModel()
                 },
                 Attachments = attachments.ToArray()
             };
@@ -899,7 +899,7 @@ namespace Disqord.Rest
             => SendRequestAsync(new RestRequest(DELETE, $"webhooks/{webhookId:webhook_id}/{webhookToken}", options));
 
         public Task<MessageModel> ExecuteWebhookAsync(ulong webhookId, string webhookToken,
-            string content, bool isTTS, IEnumerable<Embed> embeds,
+            string content, bool isTTS, IEnumerable<LocalEmbed> embeds,
             string name, string avatarUrl,
             bool wait,
             RestRequestOptions options)
@@ -920,7 +920,7 @@ namespace Disqord.Rest
 
         public Task<MessageModel> ExecuteWebhookAsync(ulong webhookId, string webhookToken,
             LocalAttachment attachment,
-            string content, bool isTTS, IEnumerable<Embed> embeds,
+            string content, bool isTTS, IEnumerable<LocalEmbed> embeds,
             string name, string avatarUrl,
             bool wait,
             RestRequestOptions options)
@@ -945,7 +945,7 @@ namespace Disqord.Rest
 
         public Task<MessageModel> ExecuteWebhookAsync(ulong webhookId, string webhookToken,
             IEnumerable<LocalAttachment> attachments,
-            string content, bool isTTS, IEnumerable<Embed> embeds,
+            string content, bool isTTS, IEnumerable<LocalEmbed> embeds,
             string name, string avatarUrl,
             bool wait,
             RestRequestOptions options)

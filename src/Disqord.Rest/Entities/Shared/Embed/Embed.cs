@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 
 namespace Disqord
 {
@@ -35,20 +33,5 @@ namespace Disqord
 
         internal Embed()
         { }
-
-        internal Embed(EmbedBuilder builder)
-        {
-            Title = builder.Title;
-            Type = "rich";
-            Description = builder.Description;
-            Url = builder.Url;
-            Image = builder.ImageUrl == null ? null : new EmbedImage { Url = builder.ImageUrl };
-            Thumbnail = builder.ThumbnailUrl == null ? null : new EmbedThumbnail { Url = builder.ThumbnailUrl };
-            Timestamp = builder.Timestamp;
-            Color = builder.Color;
-            Footer = builder.Footer?.Build();
-            Author = builder.Author?.Build();
-            Fields = builder.Fields?.Select(x => x.Build()).ToImmutableArray() ?? ImmutableArray<EmbedField>.Empty;
-        }
     }
 }

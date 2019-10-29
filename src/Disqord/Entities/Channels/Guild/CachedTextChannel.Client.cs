@@ -16,13 +16,13 @@ namespace Disqord
         public IDisposable Typing()
             => new TypingRepeater(Client.RestClient, this);
 
-        public Task<RestUserMessage> SendMessageAsync(string content = null, bool isTTS = false, Embed embed = null, RestRequestOptions options = null)
+        public Task<RestUserMessage> SendMessageAsync(string content = null, bool isTTS = false, LocalEmbed embed = null, RestRequestOptions options = null)
             => Client.SendMessageAsync(Id, content, isTTS, embed, options);
 
-        public Task<RestUserMessage> SendMessageAsync(LocalAttachment attachment, string content = null, bool isTTS = false, Embed embed = null, RestRequestOptions options = null)
+        public Task<RestUserMessage> SendMessageAsync(LocalAttachment attachment, string content = null, bool isTTS = false, LocalEmbed embed = null, RestRequestOptions options = null)
             => Client.SendMessageAsync(Id, attachment, content, isTTS, embed, options);
 
-        public Task<RestUserMessage> SendMessageAsync(IEnumerable<LocalAttachment> attachments, string content = null, bool isTTS = false, Embed embed = null, RestRequestOptions options = null)
+        public Task<RestUserMessage> SendMessageAsync(IEnumerable<LocalAttachment> attachments, string content = null, bool isTTS = false, LocalEmbed embed = null, RestRequestOptions options = null)
             => Client.SendMessageAsync(Id, attachments, content, isTTS, embed, options);
 
         public RestRequestEnumerator<RestMessage> GetMessagesEnumerator(int limit, RetrievalDirection? direction = null, Snowflake? startFromId = null)

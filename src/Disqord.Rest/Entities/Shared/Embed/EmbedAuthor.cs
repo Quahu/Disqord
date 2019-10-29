@@ -12,12 +12,5 @@
 
         internal EmbedAuthor()
         { }
-
-        internal EmbedAuthor(EmbedAuthorBuilder builder)
-        {
-            Name = builder.Name;
-            Url = builder.Url;
-            IconUrl = builder.IconUrl;
-        }
     }
 }

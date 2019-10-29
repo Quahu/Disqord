@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public sealed class EmbedFieldBuilder
+    public sealed class LocalEmbedFieldBuilder
     {
         public const int MAX_FIELD_NAME_LENGTH = 256;
 
@@ -13,7 +13,7 @@ namespace Disqord
             get => _name;
             set
             {
-                if (value?.Length > MAX_FIELD_NAME_LENGTH)
+                if (value != null && value.Length > MAX_FIELD_NAME_LENGTH)
                     throw new ArgumentOutOfRangeException(nameof(value), $"The name of the embed field must not be longer than {MAX_FIELD_NAME_LENGTH} characters.");
 
                 _name = value;
@@ -26,7 +26,7 @@ namespace Disqord
             get => _value;
             set
             {
-                if (value?.Length > MAX_FIELD_VALUE_LENGTH)
+                if (value != null && value.Length > MAX_FIELD_VALUE_LENGTH)
                     throw new ArgumentOutOfRangeException(nameof(value), $"The value of the embed field must not be longer than {MAX_FIELD_VALUE_LENGTH} characters.");
 
                 _value = value;
@@ -36,10 +36,10 @@ namespace Disqord
 
         public bool IsInline { get; set; }
 
-        public EmbedFieldBuilder()
+        public LocalEmbedFieldBuilder()
         { }
 
-        public EmbedFieldBuilder(EmbedFieldBuilder builder)
+        public LocalEmbedFieldBuilder(LocalEmbedFieldBuilder builder)
         {
             if (builder == null)
                 throw new ArgumentNullException(nameof(builder));
@@ -49,25 +49,31 @@ namespace Disqord
             IsInline = builder.IsInline;
         }
 
-        public EmbedFieldBuilder WithName(string name)
+        public LocalEmbedFieldBuilder WithName(string name)
         {
             Name = name;
             return this;
         }
 
-        public EmbedFieldBuilder WithValue(object value)
+        public LocalEmbedFieldBuilder WithValue(string value)
+        {
+            Value = value;
+            return this;
+        }
+
+        public LocalEmbedFieldBuilder WithValue(object value)
         {
             Value = value?.ToString();
             return this;
         }
 
-        public EmbedFieldBuilder WithIsInline(bool isInline)
+        public LocalEmbedFieldBuilder WithIsInline(bool isInline)
         {
             IsInline = isInline;
             return this;
         }
 
-        public EmbedField Build()
-            => new EmbedField(this);
+        internal LocalEmbedField Build()
+            => new LocalEmbedField(this);
     }
 }

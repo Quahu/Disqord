@@ -87,7 +87,7 @@ namespace Disqord.Rest
             => ApiClient.DeleteWebhookWithTokenAsync(webhookId, webhookToken, options);
 
         public async Task<RestUserMessage> ExecuteWebhookAsync(Snowflake webhookId, string webhookToken,
-            string content = null, bool textToSpeech = false, IEnumerable<Embed> embeds = null,
+            string content = null, bool textToSpeech = false, IEnumerable<LocalEmbed> embeds = null,
             string name = null, string avatarUrl = null,
             bool wait = false,
             RestRequestOptions options = null)
@@ -101,7 +101,7 @@ namespace Disqord.Rest
 
         public async Task<RestUserMessage> ExecuteWebhookAsync(Snowflake webhookId, string webhookToken,
             LocalAttachment attachment,
-            string content = null, bool textToSpeech = false, IEnumerable<Embed> embeds = null,
+            string content = null, bool textToSpeech = false, IEnumerable<LocalEmbed> embeds = null,
             string name = null, string avatarUrl = null,
             bool wait = false,
             RestRequestOptions options = null)
@@ -118,7 +118,7 @@ namespace Disqord.Rest
 
         public async Task<RestUserMessage> ExecuteWebhookAsync(Snowflake webhookId, string webhookToken,
             IEnumerable<LocalAttachment> attachments,
-            string content = null, bool textToSpeech = false, IEnumerable<Embed> embeds = null,
+            string content = null, bool textToSpeech = false, IEnumerable<LocalEmbed> embeds = null,
             string name = null, string avatarUrl = null,
             bool wait = false,
             RestRequestOptions options = null)

@@ -9,6 +9,8 @@ namespace Disqord
 {
     public sealed class CachedGuildEmoji : CachedSnowflakeEntity, IGuildEmoji
     {
+        public CachedGuild Guild { get; }
+
         public string Name { get; private set; }
 
         public IReadOnlyList<Snowflake> RoleIds { get; private set; }
@@ -18,8 +20,6 @@ namespace Disqord
         public bool IsManaged { get; }
 
         public bool IsAnimated { get; }
-
-        public CachedGuild Guild { get; }
 
         public string ReactionFormat => Discord.ToReactionFormat(this);
 

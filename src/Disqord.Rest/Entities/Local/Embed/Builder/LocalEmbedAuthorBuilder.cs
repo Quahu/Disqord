@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public sealed class EmbedAuthorBuilder
+    public sealed class LocalEmbedAuthorBuilder
     {
         public const int MAX_AUTHOR_NAME_LENGTH = 256;
 
@@ -11,7 +11,7 @@ namespace Disqord
             get => _name;
             set
             {
-                if (value?.Length > MAX_AUTHOR_NAME_LENGTH)
+                if (value != null && value.Length > MAX_AUTHOR_NAME_LENGTH)
                     throw new ArgumentOutOfRangeException(nameof(value), $"The name of the embed author must not be longer than {MAX_AUTHOR_NAME_LENGTH} characters.");
 
                 _name = value;
@@ -23,10 +23,10 @@ namespace Disqord
 
         public string IconUrl { get; set; }
 
-        public EmbedAuthorBuilder()
+        public LocalEmbedAuthorBuilder()
         { }
 
-        public EmbedAuthorBuilder(EmbedAuthorBuilder builder)
+        public LocalEmbedAuthorBuilder(LocalEmbedAuthorBuilder builder)
         {
             if (builder == null)
                 throw new ArgumentNullException(nameof(builder));
@@ -36,25 +36,25 @@ namespace Disqord
             IconUrl = builder.IconUrl;
         }
 
-        public EmbedAuthorBuilder WithName(string name)
+        public LocalEmbedAuthorBuilder WithName(string name)
         {
             Name = name;
             return this;
         }
 
-        public EmbedAuthorBuilder WithUrl(string url)
+        public LocalEmbedAuthorBuilder WithUrl(string url)
         {
             Url = url;
             return this;
         }
 
-        public EmbedAuthorBuilder WithIconUrl(string iconUrl)
+        public LocalEmbedAuthorBuilder WithIconUrl(string iconUrl)
         {
             IconUrl = iconUrl;
             return this;
         }
 
-        public EmbedAuthor Build()
-            => new EmbedAuthor(this);
+        internal LocalEmbedAuthor Build()
+            => new LocalEmbedAuthor(this);
     }
 }
