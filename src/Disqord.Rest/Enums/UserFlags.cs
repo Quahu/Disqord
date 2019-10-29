@@ -3,7 +3,7 @@
 namespace Disqord
 {
     [Flags]
-    public enum UserFlag
+    public enum UserFlags : uint
     {
         None                = 0,
 

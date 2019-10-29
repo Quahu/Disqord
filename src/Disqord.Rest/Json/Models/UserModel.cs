@@ -35,7 +35,7 @@ namespace Disqord.Models
         public Optional<string> Phone { get; set; }
 
         [JsonProperty("flags")]
-        public Optional<UserFlag> Flags { get; set; }
+        public Optional<UserFlags> Flags { get; set; }
 
         [JsonProperty("premium")]
         public Optional<bool> Premium { get; set; }
