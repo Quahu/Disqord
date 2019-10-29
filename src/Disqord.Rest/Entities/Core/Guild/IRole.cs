@@ -1,10 +1,10 @@
-﻿namespace Disqord
+namespace Disqord
 {
     public partial interface IRole : ISnowflakeEntity, IMentionable, IDeletable
     {
         string Name { get; }
 
-        Color Color { get; }
+        Color? Color { get; }
 
         bool IsHoisted { get; }
 

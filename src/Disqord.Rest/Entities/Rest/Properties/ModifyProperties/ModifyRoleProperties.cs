@@ -6,7 +6,7 @@
 
         public Optional<GuildPermissions> Permissions { internal get; set; }
 
-        public Optional<Color> Color { internal get; set; }
+        public Optional<Color?> Color { internal get; set; }
 
         public Optional<bool> IsHoisted { internal get; set; }
 

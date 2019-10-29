@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Disqord.Collections;
 using Disqord.Models;
 
@@ -8,7 +8,7 @@ namespace Disqord
     {
         public string Name { get; private set; }
 
-        public Color Color { get; private set; }
+        public Color? Color { get; private set; }
 
         public bool IsHoisted { get; private set; }
 
@@ -38,7 +38,9 @@ namespace Disqord
         internal void Update(RoleModel model)
         {
             Name = model.Name;
-            Color = model.Color;
+            Color = model.Color != 0
+                ? (int?) model.Color
+                : null;
             IsHoisted = model.Hoist;
             Position = model.Position;
             Permissions = model.Permissions;

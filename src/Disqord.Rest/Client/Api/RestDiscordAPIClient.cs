@@ -714,7 +714,9 @@ namespace Disqord.Rest
             {
                 Name = properties.Name,
                 Permissions = properties.Permissions.HasValue ? properties.Permissions.Value.RawValue : Optional<ulong>.Empty,
-                Color = properties.Color.HasValue ? properties.Color.Value.RawValue : Optional<int>.Empty,
+                Color = properties.Color.HasValue 
+                    ? properties.Color.Value?.RawValue ?? 0 
+                    : Optional<int>.Empty,
                 Hoist = properties.IsHoisted,
                 Mentionable = properties.IsMentionable
             };
