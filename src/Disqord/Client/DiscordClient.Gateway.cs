@@ -945,7 +945,7 @@ namespace Disqord
 
                     if (channel == null)
                     {
-                        Log(LogMessageSeverity.Warning, $"Uncached channel in MessageReactionAdded. Id: {model.ChannelId}");
+                        Log(LogMessageSeverity.Warning, $"Uncached channel in MessageReactionAdd. Id: {model.ChannelId}");
                         return;
                     }
 
@@ -979,7 +979,7 @@ namespace Disqord
                     await _reactionAdded.InvokeAsync(
                         new ReactionAddedEventArgs(
                             channel,
-                            new DownloadableOptionalSnowflakeEntity<CachedUserMessage, RestMessage>(
+                            new DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage>(
                                 message, model.MessageId, options => RestClient.GetMessageAsync(channel.Id, model.MessageId, options)),
                             new DownloadableOptionalSnowflakeEntity<CachedUser, RestUser>(message?.Author, model.UserId,
                             async options => model.GuildId != null
@@ -999,7 +999,7 @@ namespace Disqord
 
                     if (channel == null)
                     {
-                        Log(LogMessageSeverity.Warning, $"Uncached channel in MessageReactionAdded. Id: {model.ChannelId}");
+                        Log(LogMessageSeverity.Warning, $"Uncached channel in MessageReactionRemove. Id: {model.ChannelId}");
                         return;
                     }
 
@@ -1026,7 +1026,7 @@ namespace Disqord
                     await _reactionRemoved.InvokeAsync(
                         new ReactionRemovedEventArgs(
                             channel,
-                            new DownloadableOptionalSnowflakeEntity<CachedUserMessage, RestMessage>(message, model.MessageId,
+                            new DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage>(message, model.MessageId,
                             options => RestClient.GetMessageAsync(channel.Id, model.MessageId, options)),
                             new DownloadableOptionalSnowflakeEntity<CachedUser, RestUser>(message?.Author, model.UserId,
                             async options => model.GuildId != null
@@ -1038,7 +1038,26 @@ namespace Disqord
                 }
 
                 case GatewayDispatch.MessageReactionRemoveAll:
+                {
+                    var model = Serializer.ToObject<MessageReactionRemoveAllModel>(payload.D);
+                    var channel = model.GuildId != null
+                        ? GetGuildChannel(model.ChannelId) as ICachedMessageChannel
+                        : GetPrivateChannel(model.ChannelId);
+
+                    if (channel == null)
+                    {
+                        Log(LogMessageSeverity.Warning, $"Uncached channel in MessageReactionRemoveAll. Id: {model.ChannelId}");
+                        return;
+                    }
+
+                    var message = channel.GetMessage(model.MessageId);
+                    message?._reactions.Clear();
+                    await _allReactionsRemoved.InvokeAsync(new AllReactionsRemovedEventArgs(
+                        channel,
+                        new DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage>(message, model.MessageId,
+                            options => RestClient.GetMessageAsync(channel.Id, model.MessageId, options)))).ConfigureAwait(false);
                     return;
+                }
 
                 case GatewayDispatch.PresenceUpdate:
                 {
