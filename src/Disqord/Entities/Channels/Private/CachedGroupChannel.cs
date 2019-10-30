@@ -15,13 +15,13 @@ namespace Disqord
 
         public Snowflake OwnerId { get; private set; }
 
-        private readonly ConcurrentDictionary<Snowflake, CachedUser> _recipients;
+        private readonly LockedDictionary<Snowflake, CachedUser> _recipients;
 
         IReadOnlyDictionary<Snowflake, IUser> IGroupChannel.Recipients => new ReadOnlyUpcastingDictionary<Snowflake, CachedUser, IUser>(Recipients);
 
         internal CachedGroupChannel(DiscordClient client, ChannelModel model) : base(client, model)
         {
-            _recipients = Extensions.CreateConcurrentDictionary<Snowflake, CachedUser>(model.Recipients.Value.Count);
+            _recipients = new LockedDictionary<Snowflake, CachedUser>(model.Recipients.Value.Count);
             for (var i = 0; i < model.Recipients.Value.Count; i++)
             {
                 var recipient = model.Recipients.Value[i];

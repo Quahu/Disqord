@@ -1,7 +1,7 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Disqord.Collections;
 using Disqord.Models;
 using Qommon.Collections;
 
@@ -25,7 +25,7 @@ namespace Disqord
             ? $"https://discordapp.com/channels/{Guild.Id}/{Channel.Id}/{Id}"
             : $"https://discordapp.com/channels/@me/{Channel.Id}/{Id}";
 
-        internal readonly ConcurrentDictionary<IEmoji, ReactionData> _reactions;
+        internal readonly LockedDictionary<IEmoji, ReactionData> _reactions;
 
         IUser IMessage.Author => Author;
         IReadOnlyList<IUser> IMessage.UserMentions => UserMentions;
@@ -35,10 +35,10 @@ namespace Disqord
         {
             Channel = channel;
             Author = author;
-            _reactions = Extensions.CreateConcurrentDictionary<IEmoji, ReactionData>(model.Reactions.HasValue
+            _reactions = new LockedDictionary<IEmoji, ReactionData>(model.Reactions.HasValue
                 ? model.Reactions.Value.Length
                 : 0);
-            Reactions = new ReadOnlyConcurrentDictionary<IEmoji, ReactionData>(_reactions);
+            Reactions = new ReadOnlyDictionary<IEmoji, ReactionData>(_reactions);
         }
 
         internal static CachedMessage Create(DiscordClient client, MessageModel model, ICachedMessageChannel channel, CachedUser author)

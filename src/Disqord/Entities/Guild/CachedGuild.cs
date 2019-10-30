@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
@@ -146,20 +145,20 @@ namespace Disqord
 
         internal TaskCompletionSource<bool> ChunkTcs;
 
-        internal readonly ConcurrentDictionary<Snowflake, CachedRole> _roles;
+        internal readonly LockedDictionary<Snowflake, CachedRole> _roles;
 
-        internal readonly ConcurrentDictionary<Snowflake, CachedGuildChannel> _channels;
+        internal readonly LockedDictionary<Snowflake, CachedGuildChannel> _channels;
 
-        internal readonly ConcurrentDictionary<Snowflake, CachedMember> _members;
+        internal readonly LockedDictionary<Snowflake, CachedMember> _members;
 
         IReadOnlyDictionary<Snowflake, IRole> IGuild.Roles => new ReadOnlyUpcastingDictionary<Snowflake, CachedRole, IRole>(Roles);
         IReadOnlyList<IGuildEmoji> IGuild.Emojis => Emojis;
 
         internal CachedGuild(DiscordClient client, WebSocketGuildModel model) : base(client, model.Id)
         {
-            _roles = Extensions.CreateConcurrentDictionary<Snowflake, CachedRole>(model.Roles.Value.Length);
-            _channels = Extensions.CreateConcurrentDictionary<Snowflake, CachedGuildChannel>(model.Channels.Length);
-            _members = Extensions.CreateConcurrentDictionary<Snowflake, CachedMember>(model.Members.Length);
+            _roles = new LockedDictionary<Snowflake, CachedRole>(model.Roles.Value.Length);
+            _channels = new LockedDictionary<Snowflake, CachedGuildChannel>(model.Channels.Length);
+            _members = new LockedDictionary<Snowflake, CachedMember>(model.Members.Length);
             Roles = new ReadOnlyDictionary<Snowflake, CachedRole>(_roles);
             Channels = new ReadOnlyDictionary<Snowflake, CachedGuildChannel>(_channels);
             Members = new ReadOnlyDictionary<Snowflake, CachedMember>(_members);
@@ -186,7 +185,7 @@ namespace Disqord
             {
                 var memberModel = model.Members[i];
                 _members.AddOrUpdate(memberModel.User.Id,
-                    _ => Client.GetOrCreateMember(this, memberModel, memberModel.User, true),
+                    _ => Client.GetOrAddMember(this, memberModel, memberModel.User, true),
                     (_, x) =>
                     {
                         x.Update(memberModel);
@@ -203,13 +202,7 @@ namespace Disqord
             for (var i = 0; i < model.Members.Length; i++)
             {
                 var memberModel = model.Members[i];
-                _members.AddOrUpdate(memberModel.User.Id,
-                    _ => Client.GetOrCreateMember(this, memberModel, memberModel.User, true),
-                    (_, x) =>
-                    {
-                        x.Update(memberModel);
-                        return x;
-                    });
+                Client.AddOrUpdateMember(this, memberModel, memberModel.User, true);
             }
 
             if (_members.Count != model.Members.Length)
@@ -247,7 +240,7 @@ namespace Disqord
                 var memberModel = model.Members[i];
                 CachedMember member = null;
                 if (Client.IsBot || !Client.IsBot && !_members.ContainsKey(memberModel.User.Id))
-                    member = Client.GetOrCreateMember(this, memberModel, memberModel.User, true);
+                    member = Client.GetOrAddMember(this, memberModel, memberModel.User, true);
 
                 if (member != null)
                 {

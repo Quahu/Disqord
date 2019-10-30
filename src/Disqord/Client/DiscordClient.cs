@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Disqord.Collections;
 using Disqord.Models;
 using Disqord.Rest;
@@ -45,11 +44,11 @@ namespace Disqord
 
         internal IJsonSerializer Serializer => RestClient.Serializer;
 
-        internal readonly ConcurrentDictionary<Snowflake, CachedSharedUser> _users = Extensions.CreateConcurrentDictionary<Snowflake, CachedSharedUser>(1);
+        internal readonly LockedDictionary<Snowflake, CachedSharedUser> _users = new LockedDictionary<Snowflake, CachedSharedUser>(1);
 
-        internal readonly ConcurrentDictionary<Snowflake, CachedPrivateChannel> _privateChannels = Extensions.CreateConcurrentDictionary<Snowflake, CachedPrivateChannel>(0);
+        internal readonly LockedDictionary<Snowflake, CachedPrivateChannel> _privateChannels = new LockedDictionary<Snowflake, CachedPrivateChannel>();
 
-        internal readonly ConcurrentDictionary<Snowflake, CachedGuild> _guilds = Extensions.CreateConcurrentDictionary<Snowflake, CachedGuild>(0);
+        internal readonly LockedDictionary<Snowflake, CachedGuild> _guilds = new LockedDictionary<Snowflake, CachedGuild>();
 
         internal string Token => RestClient.ApiClient.Token;
 
@@ -133,10 +132,21 @@ namespace Disqord
             return new CachedUnknownUser(this, model);
         }
 
-        internal CachedMember GetOrCreateMember(CachedGuild guild, MemberModel memberModel, UserModel userModel, bool sync = false)
-            => guild.GetOrAddMember(userModel.Id, _ => new CachedMember(GetOrAddSharedUser(userModel), guild, memberModel), sync);
+        internal CachedMember CreateMember(CachedGuild guild, MemberModel memberModel, UserModel userModel)
+            => new CachedMember(GetOrAddSharedUser(userModel), guild, memberModel);
 
-        internal CachedMember CreateMember(CachedGuild guild, MemberModel memberModel, UserModel usermodel, bool sync = false)
+        internal CachedMember AddOrUpdateMember(CachedGuild guild, MemberModel memberModel, UserModel usermodel, bool sync = false)
+            => guild.AddOrUpdateMember(usermodel.Id, _ => CreateMember(guild, memberModel, usermodel), (_, x) =>
+            {
+                x.Update(memberModel);
+                x.Update(usermodel);
+                return x;
+            }, sync);
+
+        internal CachedMember GetOrAddMember(CachedGuild guild, MemberModel memberModel, UserModel userModel, bool sync = false)
+            => guild.GetOrAddMember(userModel.Id, _ => CreateMember(guild, memberModel, userModel), sync);
+
+        internal CachedMember AddMember(CachedGuild guild, MemberModel memberModel, UserModel usermodel, bool sync = false)
         {
             var member = new CachedMember(GetOrAddSharedUser(usermodel), guild, memberModel);
             guild.TryAddMember(usermodel.Id, member, sync);

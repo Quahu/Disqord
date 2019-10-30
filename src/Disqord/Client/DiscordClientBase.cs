@@ -1,10 +1,11 @@
-﻿using System;
+using System;
+using System.Threading.Tasks;
 using Disqord.Logging;
 using Disqord.Rest;
 
 namespace Disqord
 {
-    public abstract partial class DiscordClientBase : IRestDiscordClient
+    public abstract partial class DiscordClientBase : IRestDiscordClient, IAsyncDisposable
     {
         internal abstract RestDiscordClient RestClient { get; }
 
@@ -27,6 +28,9 @@ namespace Disqord
         internal void Log(LogMessageSeverity severity, string message, Exception exception = null)
             => Logger.Log(this, new MessageLoggedEventArgs("Gateway", severity, message, exception));
 
-        public abstract void Dispose();
+        void IDisposable.Dispose()
+            => DisposeAsync().GetAwaiter().GetResult();
+
+        public abstract ValueTask DisposeAsync();
     }
 }

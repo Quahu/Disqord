@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using Disqord.Collections;
 using Disqord.Logging;
 
 namespace Disqord.Rest
@@ -9,9 +10,9 @@ namespace Disqord.Rest
     {
         public readonly RestDiscordApiClient Client;
 
-        private readonly ConcurrentDictionary<string, RateLimitBucket> _buckets = Extensions.CreateConcurrentDictionary<string, RateLimitBucket>(0);
+        private readonly LockedDictionary<string, RateLimitBucket> _buckets = new LockedDictionary<string, RateLimitBucket>();
 
-        private static readonly ConcurrentDictionary<string, RateLimiter> _rateLimiters = Extensions.CreateConcurrentDictionary<string, RateLimiter>(1);
+        private static readonly LockedDictionary<string, RateLimiter> _rateLimiters = new LockedDictionary<string, RateLimiter>(1);
 
         private RateLimiter(RestDiscordApiClient client)
         {

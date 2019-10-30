@@ -19,7 +19,7 @@ namespace Disqord
 {
     public partial class DiscordClient : DiscordClientBase
     {
-        internal readonly ConcurrentDictionary<Snowflake, CircularBuffer<CachedUserMessage>> CachedMessages = Extensions.CreateConcurrentDictionary<Snowflake, CircularBuffer<CachedUserMessage>>(0);
+        internal readonly LockedDictionary<Snowflake, CircularBuffer<CachedUserMessage>> CachedMessages = new LockedDictionary<Snowflake, CircularBuffer<CachedUserMessage>>();
 
         /// <summary>
         ///     Gets the latency between heartbeats.
@@ -549,7 +549,7 @@ namespace Disqord
                 {
                     _lastGuildCreate = DateTimeOffset.UtcNow;
                     var model = Serializer.ToObject<WebSocketGuildModel>(payload.D);
-                    var guild = _guilds.AddOrUpdate(model.Id, new CachedGuild(this, model), (_, oldValue) =>
+                    var guild = _guilds.AddOrUpdate(model.Id, _ => new CachedGuild(this, model), (_, oldValue) =>
                     {
                         oldValue.Update(model);
                         return oldValue;
@@ -673,7 +673,7 @@ namespace Disqord
                     else
                     {
                         oldMember = null;
-                        member = CreateMember(guild, new MemberModel
+                        member = AddMember(guild, new MemberModel
                         {
                             Nick = model.Nick,
                             Roles = model.Roles
@@ -778,7 +778,7 @@ namespace Disqord
 
                         if (!isWebhook)
                             author = model.Author.HasValue && model.Member.HasValue
-                                ? GetOrCreateMember(guild, model.Member.Value, model.Author.Value)
+                                ? GetOrAddMember(guild, model.Member.Value, model.Author.Value)
                                 : guild.GetMember(model.Author.Value.Id);
                     }
                     else
@@ -860,7 +860,7 @@ namespace Disqord
                                     author = member;
 
                                 else if (model.Member.HasValue)
-                                    author = GetOrCreateMember(guild, model.Member.Value, model.Author.Value);
+                                    author = GetOrAddMember(guild, model.Member.Value, model.Author.Value);
                             }
                             else
                             {
@@ -1182,7 +1182,7 @@ namespace Disqord
                         return;
 
                     var guild = GetGuild(model.GuildId.Value);
-                    var member = GetOrCreateMember(guild, model.Member, model.Member.User);
+                    var member = GetOrAddMember(guild, model.Member, model.Member.User);
                     var oldMember = member.Clone();
                     member.Update(model);
                     // TODO split voice states from members
@@ -1390,10 +1390,11 @@ namespace Disqord
             _readyTaskCompletionSource = null;
         }
 
-        public override void Dispose()
+        // TODO
+        public override ValueTask DisposeAsync()
         {
             if (_disposed)
-                return;
+                return default;
 
             _disposed = true;
             CurrentUser = null;
@@ -1410,6 +1411,7 @@ namespace Disqord
                 _ws.Dispose();
             }
             RestClient.Dispose();
+            return default;
         }
     }
 }

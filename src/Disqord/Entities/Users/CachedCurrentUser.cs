@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using Disqord.Collections;
 using Disqord.Models;
 using Qommon.Collections;
 
@@ -70,9 +70,9 @@ namespace Disqord
 
         internal override CachedSharedUser SharedUser { get; }
 
-        private readonly ConcurrentDictionary<Snowflake, CachedRelationship> _relationships;
+        private readonly LockedDictionary<Snowflake, CachedRelationship> _relationships;
         private readonly ReadOnlyDictionary<Snowflake, CachedRelationship> _relationshipsWrapper;
-        private readonly ConcurrentDictionary<Snowflake, string> _notes;
+        private readonly LockedDictionary<Snowflake, string> _notes;
         private readonly ReadOnlyDictionary<Snowflake, string> _notesWrapper;
 
         internal CachedCurrentUser(CachedSharedUser user, UserModel model, int relationshipCount, int noteCount) : base(user)
@@ -80,9 +80,9 @@ namespace Disqord
             SharedUser = user;
             if (Client.TokenType != TokenType.Bot)
             {
-                _relationships = Extensions.CreateConcurrentDictionary<Snowflake, CachedRelationship>(relationshipCount);
+                _relationships = new LockedDictionary<Snowflake, CachedRelationship>(relationshipCount);
                 _relationshipsWrapper = new ReadOnlyDictionary<Snowflake, CachedRelationship>(_relationships);
-                _notes = Extensions.CreateConcurrentDictionary<Snowflake, string>(noteCount);
+                _notes = new LockedDictionary<Snowflake, string>(noteCount);
                 _notesWrapper = new ReadOnlyDictionary<Snowflake, string>(_notes);
             }
 

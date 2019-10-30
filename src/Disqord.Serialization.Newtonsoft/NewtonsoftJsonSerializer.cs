@@ -86,7 +86,7 @@ namespace Disqord.Serialization.Json.Newtonsoft
                 if (value == null || value is T tValue && tValue == default)
                     return default;
 
-                var jObject = JToken.FromObject(value, _serializer);
+                var jObject = value as JToken ?? JToken.FromObject(value, _serializer);
 #if DEBUG
                 if (Debug.DumpJson)
                     Console.WriteLine(jObject);

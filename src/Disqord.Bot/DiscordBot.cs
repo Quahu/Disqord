@@ -142,11 +142,11 @@ namespace Disqord.Bot
         internal new void Log(LogMessageSeverity severity, string message, Exception exception = null)
             => Logger.Log(this, new MessageLoggedEventArgs("Bot", severity, message, exception));
 
-        public override void Dispose()
+        public override ValueTask DisposeAsync()
         {
             MessageReceived -= MessageReceivedAsync;
             (_provider as IDisposable)?.Dispose();
-            base.Dispose();
+            return base.DisposeAsync();
         }
     }
 }

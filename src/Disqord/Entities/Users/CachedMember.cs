@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Disqord.Collections;
 using Disqord.Logging;
 using Disqord.Models;
 using Disqord.Models.Dispatches;
@@ -84,7 +84,7 @@ namespace Disqord
 
         public bool IsBoosting => BoostedAt != null;
 
-        private readonly ConcurrentDictionary<Snowflake, CachedRole> _roles;
+        private readonly LockedDictionary<Snowflake, CachedRole> _roles;
 
         internal override CachedSharedUser SharedUser { get; }
 
@@ -93,7 +93,7 @@ namespace Disqord
 
         internal CachedMember(CachedSharedUser user, CachedGuild guild, MemberModel model) : base(user)
         {
-            _roles = Extensions.CreateConcurrentDictionary<Snowflake, CachedRole>(model.Roles.Value.Length);
+            _roles = new LockedDictionary<Snowflake, CachedRole>(model.Roles.Value.Length);
             Roles = new ReadOnlyDictionary<Snowflake, CachedRole>(_roles);
             SharedUser = user;
             Guild = guild;
