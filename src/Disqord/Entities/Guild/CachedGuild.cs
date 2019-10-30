@@ -181,17 +181,7 @@ namespace Disqord
 
         internal void Update(GuildMembersChunkModel model)
         {
-            for (var i = 0; i < model.Members.Length; i++)
-            {
-                var memberModel = model.Members[i];
-                _members.AddOrUpdate(memberModel.User.Id,
-                    _ => Client.GetOrAddMember(this, memberModel, memberModel.User, true),
-                    (_, x) =>
-                    {
-                        x.Update(memberModel);
-                        return x;
-                    });
-            }
+            Update(model.Members);
 
             if (model.Presences != null)
                 Update(model.Presences);
@@ -199,11 +189,7 @@ namespace Disqord
 
         internal void Update(GuildSyncModel model)
         {
-            for (var i = 0; i < model.Members.Length; i++)
-            {
-                var memberModel = model.Members[i];
-                Client.AddOrUpdateMember(this, memberModel, memberModel.User, true);
-            }
+            Update(model.Members);
 
             if (_members.Count != model.Members.Length)
             {
@@ -212,6 +198,15 @@ namespace Disqord
             }
 
             Update(model.Presences);
+        }
+
+        internal void Update(MemberModel[] models)
+        {
+            for (var i = 0; i < models.Length; i++)
+            {
+                var memberModel = models[i];
+                Client.AddOrUpdateMember(this, memberModel, memberModel.User, true);
+            }
         }
 
         internal void Update(PresenceUpdateModel[] models)
@@ -238,16 +233,10 @@ namespace Disqord
             for (var i = 0; i < model.Members.Length; i++)
             {
                 var memberModel = model.Members[i];
-                CachedMember member = null;
-                if (Client.IsBot || !Client.IsBot && !_members.ContainsKey(memberModel.User.Id))
-                    member = Client.GetOrAddMember(this, memberModel, memberModel.User, true);
-
-                if (member != null)
-                {
-                    var voiceState = Array.Find(model.VoiceStates, x => x.UserId == member.Id);
-                    if (voiceState != null)
-                        member.Update(voiceState);
-                }
+                var member = Client.AddOrUpdateMember(this, memberModel, memberModel.User, true);
+                var voiceState = Array.Find(model.VoiceStates, x => x.UserId == member.Id);
+                if (voiceState != null)
+                    member.Update(voiceState);
             }
 
             if (model.Presences != null)
