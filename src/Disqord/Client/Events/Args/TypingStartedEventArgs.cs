@@ -11,7 +11,7 @@ namespace Disqord.Events
 
         public DateTimeOffset Timestamp { get; }
 
-        internal TypingStartedEventArgs(DiscordClient client,
+        internal TypingStartedEventArgs(DiscordClientBase client,
             OptionalSnowflakeEntity<ICachedMessageChannel> channel,
             DownloadableOptionalSnowflakeEntity<CachedUser, RestUser> user,
             DateTimeOffset timestamp) : base(client)

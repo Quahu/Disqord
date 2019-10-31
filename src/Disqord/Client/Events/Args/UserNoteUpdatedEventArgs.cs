@@ -8,7 +8,7 @@
 
         public string NewNote { get; }
 
-        internal UserNoteUpdatedEventArgs(DiscordClient client,
+        internal UserNoteUpdatedEventArgs(DiscordClientBase client,
             Snowflake userId,
             string oldNote,
             string newNote) : base(client)

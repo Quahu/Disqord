@@ -9,7 +9,7 @@ namespace Disqord.Events
 
         public IReadOnlyList<string> Trace { get; }
 
-        internal ReadyEventArgs(DiscordClient client, string sessionId, string[] trace) : base(client)
+        internal ReadyEventArgs(DiscordClientBase client, string sessionId, string[] trace) : base(client)
         {
             SessionId = sessionId;
             Trace = trace.ToImmutableArray();

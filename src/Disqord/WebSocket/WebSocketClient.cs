@@ -10,7 +10,7 @@ using Qommon.Events;
 
 namespace Disqord.WebSocket
 {
-    internal sealed class WebSocketClient : IDisposable
+    internal sealed class WebSocketClient : IWebSocketClient
     {
         public event AsynchronousEventHandler<WebSocketMessageReceivedEventArgs> MessageReceived
         {
@@ -46,7 +46,7 @@ namespace Disqord.WebSocket
 
         private readonly MemoryStream _compressed;
         private readonly DeflateStream _deflate;
-        private bool _disposed;
+        private bool _isDisposed;
 
         public WebSocketClient()
         {
@@ -56,7 +56,7 @@ namespace Disqord.WebSocket
 
         public async Task ConnectAsync(Uri url, CancellationToken token)
         {
-            if (_disposed)
+            if (_isDisposed)
                 throw new ObjectDisposedException(nameof(WebSocketClient));
 
             DisposeTokens();
@@ -70,7 +70,7 @@ namespace Disqord.WebSocket
 
         public Task SendAsync(WebSocketRequest request)
         {
-            if (_disposed)
+            if (_isDisposed)
                 throw new ObjectDisposedException(nameof(WebSocketClient));
 
             _messageQueue.Enqueue(request);
@@ -87,7 +87,7 @@ namespace Disqord.WebSocket
         {
             while (_messageQueue.TryDequeue(out var request) && !_sendCts.IsCancellationRequested)
             {
-                using (var linkedSource = CancellationTokenSource.CreateLinkedTokenSource(_sendCts.Token, request.Token))
+                using (var linkedSource = CancellationTokenSource.CreateLinkedTokenSource(_sendCts.Token, request.CancellationToken))
                 {
                     try
                     {
@@ -150,7 +150,7 @@ namespace Disqord.WebSocket
                             catch { }
                             try
                             {
-                                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, null)).ConfigureAwait(false);
+                                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs((int?) _ws.CloseStatus, _ws.CloseStatusDescription, null)).ConfigureAwait(false);
                             }
                             catch { }
                             return;
@@ -201,7 +201,7 @@ namespace Disqord.WebSocket
 
         public async Task CloseAsync()
         {
-            if (_disposed)
+            if (_isDisposed)
                 throw new ObjectDisposedException(nameof(WebSocketClient));
 
             lock (_closeLock)
@@ -222,7 +222,7 @@ namespace Disqord.WebSocket
                 {
                     //$"Exception while closing the websocket:";
                 }
-                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(WebSocketCloseStatus.NormalClosure, string.Empty, null)).ConfigureAwait(false);
+                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs((int) WebSocketCloseStatus.NormalClosure, string.Empty, null)).ConfigureAwait(false);
             }
 
             DisposeTokens();
@@ -246,10 +246,10 @@ namespace Disqord.WebSocket
 
         public void Dispose()
         {
-            if (_disposed)
+            if (_isDisposed)
                 return;
 
-            _disposed = true;
+            _isDisposed = true;
             DisposeTokens();
             _compressed.Dispose();
             _deflate.Dispose();

@@ -4,9 +4,9 @@ namespace Disqord.Events
 {
     public abstract class DiscordEventArgs : EventArgs
     {
-        public DiscordClient Client { get; }
+        public DiscordClientBase Client { get; }
 
-        internal DiscordEventArgs(DiscordClient client)
+        internal DiscordEventArgs(DiscordClientBase client)
         {
             Client = client;
         }
