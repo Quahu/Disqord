@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Disqord.Collections
 {
-    internal readonly struct ReadOnlyUpcastingDictionary<TKey, TOriginalValue, TNewValue> : IReadOnlyDictionary<TKey, TNewValue>
+    internal sealed class ReadOnlyUpcastingDictionary<TKey, TOriginalValue, TNewValue> : IReadOnlyDictionary<TKey, TNewValue>
         where TOriginalValue : class, TNewValue
     {
         public IEnumerable<TKey> Keys => _dictionary.Keys;

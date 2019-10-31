@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Disqord.Collections
 {
-    internal readonly struct ReadOnlyValuePredicateDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
+    internal sealed class ReadOnlyValuePredicateDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
     {
         public IEnumerable<TKey> Keys => _dictionary is IDictionary<TKey, TValue> dictionary
             ? new ReadOnlyPredicateCollection<TKey>(dictionary.Keys, ContainsKey)

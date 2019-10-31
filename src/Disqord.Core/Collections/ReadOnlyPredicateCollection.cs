@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Disqord.Collections
 {
-    internal readonly struct ReadOnlyPredicateCollection<T> : IReadOnlyCollection<T>
+    internal sealed class ReadOnlyPredicateCollection<T> : IReadOnlyCollection<T>
     {
         public int Count => this.Count();
 

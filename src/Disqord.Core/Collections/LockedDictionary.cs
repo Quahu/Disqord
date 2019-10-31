@@ -41,8 +41,8 @@ namespace Disqord.Collections
             }
         }
 
-        private readonly Dictionary<TKey, TValue> _dictionary;
         private readonly object _lock;
+        private readonly Dictionary<TKey, TValue> _dictionary;
         private readonly LockedDictionaryCollection<TKey> _keys;
         private readonly LockedDictionaryCollection<TValue> _values;
 
@@ -54,8 +54,8 @@ namespace Disqord.Collections
 
         public LockedDictionary(int capacity)
         {
-            _dictionary = new Dictionary<TKey, TValue>(capacity);
             _lock = new object();
+            _dictionary = new Dictionary<TKey, TValue>(capacity);
             _keys = new LockedDictionaryCollection<TKey>(_lock, _dictionary.Keys);
             _values = new LockedDictionaryCollection<TValue>(_lock, _dictionary.Values);
         }
