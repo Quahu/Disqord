@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Disqord.Collections;
 using Disqord.Models;
 using Disqord.Models.Dispatches;
 
@@ -19,6 +20,8 @@ namespace Disqord
 
         public virtual string Mention => Discord.MentionUser(this);
 
+        public IReadOnlyDictionary<Snowflake, CachedGuild> MutualGuilds { get; }
+
         public virtual CachedRelationship Relationship => Client.CurrentUser.Relationships.GetValueOrDefault(Id);
 
         public string Note => Client.CurrentUser.Notes.GetValueOrDefault(Id);
@@ -35,12 +38,13 @@ namespace Disqord
 
         internal abstract CachedSharedUser SharedUser { get; }
 
-        internal CachedUser(CachedSharedUser sharedUser) : base(sharedUser.Client, sharedUser.Id)
+        internal CachedUser(CachedSharedUser sharedUser) : this(sharedUser.Client, sharedUser.IsBot, sharedUser.Id)
         { }
 
-        internal CachedUser(DiscordClientBase client, UserModel model) : base(client, model.Id)
+        internal CachedUser(DiscordClientBase client, bool isBot, Snowflake id) : base(client, id)
         {
-            IsBot = model.Bot;
+            IsBot = isBot;
+            MutualGuilds = new ReadOnlyValuePredicateDictionary<Snowflake, CachedGuild>(Client.Guilds, x => x.Members.ContainsKey(Id));
         }
 
         internal virtual void Update(UserModel model)

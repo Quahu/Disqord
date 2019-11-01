@@ -18,7 +18,7 @@ namespace Disqord
 
         internal override CachedSharedUser SharedUser { get; }
 
-        internal CachedUnknownUser(DiscordClientBase client, UserModel model) : base(client, model)
+        internal CachedUnknownUser(DiscordClientBase client, UserModel model) : base(client, model.Bot, model.Id)
         {
             Update(model);
         }
