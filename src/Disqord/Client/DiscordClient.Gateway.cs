@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Logging;
 using Disqord.Models;
@@ -44,13 +45,13 @@ namespace Disqord
             await _gateway.DisconnectAsync().ConfigureAwait(false);
         }
 
-        public Task SetPresenceAsync(UserStatus status)
+        public override Task SetPresenceAsync(UserStatus status)
             => InternalSetPresenceAsync(status);
 
-        public Task SetPresenceAsync(LocalActivity activity)
+        public override Task SetPresenceAsync(LocalActivity activity)
             => InternalSetPresenceAsync(activity: activity);
 
-        public Task SetPresenceAsync(UserStatus status, LocalActivity activity)
+        public override Task SetPresenceAsync(UserStatus status, LocalActivity activity)
             => InternalSetPresenceAsync(status, activity);
 
         private Task InternalSetPresenceAsync(UserStatus? status = default, in Optional<LocalActivity> activity = default)

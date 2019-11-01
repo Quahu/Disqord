@@ -63,10 +63,6 @@ namespace Disqord
             }
         }
 
-        public abstract Task ConnectAsync();
-
-        public abstract Task DisconnectAsync();
-
         internal void Log(LogMessageSeverity severity, string message, Exception exception = null)
             => Logger.Log(this, new MessageLoggedEventArgs("Client", severity, message, exception));
 

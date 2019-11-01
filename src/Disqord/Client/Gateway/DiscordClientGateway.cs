@@ -52,9 +52,9 @@ namespace Disqord
 
         public async Task ConnectAsync(string gatewayUrl)
         {
-            await _resumeSemaphore.WaitAsync().ConfigureAwait(false);
             try
             {
+                await _resumeSemaphore.WaitAsync().ConfigureAwait(false);
                 var connectionCts = _connectionCts ?? (_connectionCts = new CancellationTokenSource());
                 using (var cts = new CancellationTokenSource(10000))
                 using (var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cts.Token, connectionCts.Token))
