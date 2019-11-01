@@ -142,6 +142,9 @@ namespace Disqord.Rest
             var response = await request.CompleteAsync().ConfigureAwait(false);
             using (var jsonStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
             {
+                if (jsonStream.Length == 0)
+                    return default;
+
                 return Serializer.Deserialize<T>(jsonStream);
             }
         }
@@ -714,8 +717,8 @@ namespace Disqord.Rest
             {
                 Name = properties.Name,
                 Permissions = properties.Permissions.HasValue ? properties.Permissions.Value.RawValue : Optional<ulong>.Empty,
-                Color = properties.Color.HasValue 
-                    ? properties.Color.Value?.RawValue ?? 0 
+                Color = properties.Color.HasValue
+                    ? properties.Color.Value?.RawValue ?? 0
                     : Optional<int>.Empty,
                 Hoist = properties.IsHoisted,
                 Mentionable = properties.IsMentionable
