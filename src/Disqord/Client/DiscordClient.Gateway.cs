@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Logging;
 using Disqord.Models;
@@ -9,6 +8,11 @@ namespace Disqord
 {
     public partial class DiscordClient : DiscordClientBase
     {
+        /// <summary>
+        ///     Gets the latency between heartbeats.
+        /// </summary>
+        public TimeSpan? Latency => _gateway.Latency;
+
         private readonly DiscordClientGateway _gateway;
         private string _gatewayUrl;
         private bool _isDisposed;

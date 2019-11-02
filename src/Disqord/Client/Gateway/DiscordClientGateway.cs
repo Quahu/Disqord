@@ -15,6 +15,8 @@ namespace Disqord
 {
     internal sealed partial class DiscordClientGateway : IDisposable
     {
+        public TimeSpan? Latency => _lastHeartbeatAck - _lastHeartbeatSent;
+
         internal (int ShardId, int ShardCount)? _shards;
         internal DiscordClientState State => _client.State;
         internal IJsonSerializer Serializer => _client.Serializer;
