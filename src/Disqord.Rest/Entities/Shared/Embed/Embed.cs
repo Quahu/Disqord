@@ -31,6 +31,11 @@ namespace Disqord
 
         public IReadOnlyList<EmbedField> Fields { get; internal set; }
 
+        /// <summary>
+        ///     Checks if <see cref="Type"/> equals 'rich'.
+        /// </summary>
+        public bool IsRich => Type == "rich";
+
         internal Embed()
         { }
     }
