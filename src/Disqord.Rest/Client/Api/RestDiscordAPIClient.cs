@@ -634,15 +634,19 @@ namespace Disqord.Rest
         {
             var requestContent = new ModifyGuildMemberContent
             {
-                Nick = properties.Nick.HasValue && properties.Nick.Value == null ? "" : properties.Nick,
+                Nick = properties.Nick.HasValue && properties.Nick.Value == null
+                    ? ""
+                    : properties.Nick,
                 RoleIds = properties.RoleIds.HasValue
                     ? properties.RoleIds.Value.Select(x => x.RawValue).ToArray()
                     : Optional<IReadOnlyList<ulong>>.Empty,
                 Mute = properties.Mute,
                 Deaf = properties.Deaf,
                 VoiceChannelId = properties.VoiceChannelId.HasValue
-                    ? properties.VoiceChannelId.Value.RawValue
-                    : Optional<ulong>.Empty
+                    ? properties.VoiceChannelId.Value != null
+                        ? properties.VoiceChannelId.Value.Value.RawValue
+                        : (ulong?) null
+                    : Optional<ulong?>.Empty
             };
             return SendRequestAsync(new RestRequest(PATCH, $"guilds/{guildId:guild_id}/members/{userId}", requestContent, options));
         }

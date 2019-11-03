@@ -18,6 +18,6 @@ namespace Disqord.Rest
         public Optional<bool> Deaf { get; set; }
 
         [JsonProperty("channel_id")]
-        public Optional<ulong> VoiceChannelId { get; set; }
+        public Optional<ulong?> VoiceChannelId { get; set; }
     }
 }

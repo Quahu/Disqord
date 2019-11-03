@@ -12,7 +12,7 @@ namespace Disqord
 
         public Optional<bool> Deaf { internal get; set; }
 
-        public Optional<Snowflake> VoiceChannelId { internal get; set; }
+        public Optional<Snowflake?> VoiceChannelId { internal get; set; }
 
         internal ModifyMemberProperties()
         { }
