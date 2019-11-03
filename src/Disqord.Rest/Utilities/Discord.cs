@@ -23,9 +23,6 @@ namespace Disqord
                     ? GetUserAvatarUrl(user.Id, user.AvatarHash, format, size)
                     : GetDefaultUserAvatarUrl(user.Discriminator);
 
-            internal static string Tag(IUser user)
-                => $"{user.Name}#{user.Discriminator}";
-
             internal static CultureInfo CreateLocale(string locale)
                 => CultureInfo.ReadOnly(new CultureInfo(locale));
         }
