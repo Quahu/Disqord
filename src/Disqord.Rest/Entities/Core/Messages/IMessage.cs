@@ -10,7 +10,7 @@ namespace Disqord
 
         string Content { get; }
 
-        IReadOnlyList<IUser> UserMentions { get; }
+        IReadOnlyList<IUser> MentionedUsers { get; }
 
         IReadOnlyDictionary<IEmoji, ReactionData> Reactions { get; }
     }

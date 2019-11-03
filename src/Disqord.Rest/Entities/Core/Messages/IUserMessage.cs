@@ -17,7 +17,7 @@ namespace Disqord
 
         bool MentionsEveryone { get; }
 
-        IReadOnlyList<Snowflake> RoleIdsMentioned { get; }
+        IReadOnlyList<Snowflake> MentionedRoleIds { get; }
 
         IReadOnlyList<Attachment> Attachments { get; }
 

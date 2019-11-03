@@ -16,12 +16,12 @@ namespace Disqord.Rest
 
         public abstract string Content { get; }
 
-        public IReadOnlyList<RestUser> UserMentions { get; private set; }
+        public IReadOnlyList<RestUser> MentionedUsers { get; private set; }
 
         public IReadOnlyDictionary<IEmoji, ReactionData> Reactions { get; private set; }
 
         IUser IMessage.Author => Author;
-        IReadOnlyList<IUser> IMessage.UserMentions => UserMentions;
+        IReadOnlyList<IUser> IMessage.MentionedUsers => MentionedUsers;
 
         internal RestMessage(RestDiscordClient client, MessageModel model) : base(client, model.Id)
         {
@@ -33,7 +33,7 @@ namespace Disqord.Rest
         internal virtual void Update(MessageModel model)
         {
             if (model.Mentions.HasValue)
-                UserMentions = model.Mentions.Value.Select(x => new RestUser(Client, x)).ToImmutableArray();
+                MentionedUsers = model.Mentions.Value.Select(x => new RestUser(Client, x)).ToImmutableArray();
 
             if (model.Reactions.HasValue)
                 Reactions = model.Reactions.HasValue && model.Reactions.Value != null

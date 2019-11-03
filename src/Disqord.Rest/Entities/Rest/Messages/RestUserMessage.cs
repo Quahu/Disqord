@@ -16,7 +16,7 @@ namespace Disqord.Rest
 
         public bool MentionsEveryone { get; private set; }
 
-        public IReadOnlyList<Snowflake> RoleIdsMentioned { get; private set; }
+        public IReadOnlyList<Snowflake> MentionedRoleIds { get; private set; }
 
         public IReadOnlyList<Attachment> Attachments { get; private set; }
 
@@ -60,7 +60,7 @@ namespace Disqord.Rest
                 MentionsEveryone = model.MentionEveryone.Value;
 
             if (model.RoleMentions.HasValue)
-                RoleIdsMentioned = model.RoleMentions.Value.Select(x => new Snowflake(x)).ToImmutableArray();
+                MentionedRoleIds = model.RoleMentions.Value.Select(x => new Snowflake(x)).ToImmutableArray();
 
             if (model.Attachments.HasValue)
                 Attachments = model.Attachments.Value.Select(x => x.ToAttachment()).ToImmutableArray();

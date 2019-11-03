@@ -17,7 +17,7 @@ namespace Disqord
 
         public abstract string Content { get; }
 
-        public IReadOnlyList<CachedUser> UserMentions { get; private set; }
+        public IReadOnlyList<CachedUser> MentionedUsers { get; private set; }
 
         public IReadOnlyDictionary<IEmoji, ReactionData> Reactions { get; }
 
@@ -28,7 +28,7 @@ namespace Disqord
         internal readonly LockedDictionary<IEmoji, ReactionData> _reactions;
 
         IUser IMessage.Author => Author;
-        IReadOnlyList<IUser> IMessage.UserMentions => UserMentions;
+        IReadOnlyList<IUser> IMessage.MentionedUsers => MentionedUsers;
         Snowflake IMessage.ChannelId => Channel.Id;
 
         internal CachedMessage(ICachedMessageChannel channel, CachedUser author, MessageModel model) : base(channel.Client, model.Id)
@@ -53,7 +53,7 @@ namespace Disqord
         internal virtual void Update(MessageModel model)
         {
             if (model.Mentions.HasValue)
-                UserMentions = model.Mentions.Value.Select(x => Client.GetUser(x.Id)).ToImmutableArray();
+                MentionedUsers = model.Mentions.Value.Select(x => Client.GetUser(x.Id)).ToImmutableArray();
         }
     }
 }
