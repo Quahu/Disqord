@@ -239,7 +239,7 @@ namespace Disqord.Collections
                 }
             }
 
-            public bool IsReadOnly => false;
+            public bool IsReadOnly => true;
 
             private readonly ICollection<T> _collection;
             private readonly object _lock;
@@ -250,21 +250,9 @@ namespace Disqord.Collections
                 _collection = collection;
             }
 
-            public void Add(T item)
-            {
-                lock (_lock)
-                {
-                    _collection.Add(item);
-                }
-            }
+            public void Add(T item) => throw new NotSupportedException();
 
-            public void Clear()
-            {
-                lock (_lock)
-                {
-                    _collection.Clear();
-                }
-            }
+            public void Clear() => throw new NotSupportedException();
 
             public bool Contains(T item)
             {
@@ -282,13 +270,7 @@ namespace Disqord.Collections
                 }
             }
 
-            public bool Remove(T item)
-            {
-                lock (_lock)
-                {
-                    return _collection.Remove(item);
-                }
-            }
+            public bool Remove(T item) => throw new NotSupportedException();
 
             public IEnumerator<T> GetEnumerator()
             {
