@@ -54,8 +54,7 @@ namespace Disqord
             }
 
             var artists = model.State?.Split("; ", StringSplitOptions.RemoveEmptyEntries);
-            if (artists != null)
-                Artists = new ReadOnlyList<string>(artists);
+            Artists = new ReadOnlyList<string>(artists ?? Array.Empty<string>());
 
             if (model.Timestamps != null)
             {
