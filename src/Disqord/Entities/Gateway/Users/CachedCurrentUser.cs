@@ -140,5 +140,11 @@ namespace Disqord
         {
             _notes.AddOrUpdate(id, note, func);
         }
+
+        public string GetNote(Snowflake userId)
+            => Notes.GetValueOrDefault(userId);
+
+        public CachedRelationship GetRelationship(Snowflake userId)
+            => Relationships.GetValueOrDefault(userId);
     }
 }

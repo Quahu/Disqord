@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Disqord.Collections;
 using Disqord.Models;
@@ -22,9 +22,9 @@ namespace Disqord
 
         public IReadOnlyDictionary<Snowflake, CachedGuild> MutualGuilds { get; }
 
-        public virtual CachedRelationship Relationship => Client.CurrentUser.Relationships.GetValueOrDefault(Id);
+        public virtual CachedRelationship Relationship => Client.CurrentUser.GetRelationship(Id);
 
-        public string Note => Client.CurrentUser.Notes.GetValueOrDefault(Id);
+        public string Note => Client.CurrentUser.GetNote(Id);
 
         public virtual CachedDmChannel DmChannel => Client.DmChannels.Values.FirstOrDefault(x => x.Recipient.Id == Id);
 
