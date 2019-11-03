@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Disqord.Events;
 using Disqord.Models;
 using Disqord.Models.Dispatches;
 
@@ -9,38 +10,66 @@ namespace Disqord
         public Task HandlePresenceUpdateAsync(PayloadModel payload)
         {
             var model = Serializer.ToObject<PresenceUpdateModel>(payload.D);
-            if (model.GuildId == null)
+            // If the name is set it's a user update.
+            // Otherwise it's an actual presence update.
+            if (model.User.Username.HasValue)
             {
-                if (!_users.TryGetValue(model.User.Id, out var user))
+                CachedUser user;
+                if (model.GuildId != null)
                 {
-                    if (!model.User.Username.HasValue)
-                        return Task.CompletedTask;
+                    var guild = GetGuild(model.GuildId.Value);
+                    var member = guild.GetMember(model.User.Id);
+                    if (member == null)
+                    {
+                        member = CreateMember(guild, new MemberModel
+                        {
+                            Nick = model.Nick,
+                            Roles = model.Roles
+                        }, model.User);
+                    }
 
+                    user = member;
+                }
+                else
+                {
                     user = GetOrAddSharedUser(model.User);
                 }
 
-                user.Update(model);
+                var oldUser = user.Clone();
+                // We have to check if any of the properties were changed,
+                // so we don't fire the event multiple times for each guild
+                // the 'presence' update was dispatched for.
+                if (user.Name != model.User.Username ||
+                    user.Discriminator != model.User.Discriminator ||
+                    user.AvatarHash != model.User.Avatar)
+                {
+                    user.Update(model.User);
+                    return _client._userUpdated.InvokeAsync(new UserUpdatedEventArgs(oldUser, user));
+                }
+
+                return Task.CompletedTask;
             }
             else
             {
-                var guild = GetGuild(model.GuildId.Value);
-                var member = guild.GetMember(model.User.Id);
-                if (member == null)
+                CachedUser user;
+                if (model.GuildId != null)
                 {
-                    if (!model.User.Username.HasValue)
-                        return Task.CompletedTask;
-
-                    member = CreateMember(guild, new MemberModel
-                    {
-                        Nick = model.Nick,
-                        Roles = model.Roles
-                    }, model.User);
+                    var guild = GetGuild(model.GuildId.Value);
+                    user = guild.GetMember(model.User.Id);
+                }
+                else
+                {
+                    user = GetUser(model.User.Id);
                 }
 
-                member.Update(model);
-            }
+                // We discard presence updates for uncached users.
+                if (user == null)
+                    return Task.CompletedTask;
 
-            return Task.CompletedTask;
+                var oldPresence = user.Presence;
+                user.Update(model);
+                return _client._presenceUpdated.InvokeAsync(new PresenceUpdatedEventArgs(user, oldPresence));
+            }
         }
     }
 }

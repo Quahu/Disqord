@@ -31,32 +31,10 @@ namespace Disqord
 
         public bool IsDeafened { get; private set; }
 
-        public Snowflake? VoiceChannelId { get; private set; }
+        public VoiceState VoiceState { get; private set; }
 
-        public CachedVoiceChannel VoiceChannel
-        {
-            get
-            {
-                var voiceChannelId = VoiceChannelId;
-                return voiceChannelId != null
-                    ? Guild.GetVoiceChannel(voiceChannelId.Value)
-                    : null;
-            }
-        }
-
-        public string VoiceSessionId { get; private set; }
-
-        public bool IsSelfDeafened { get; private set; }
-
-        public bool IsSelfMuted { get; private set; }
-
-        public bool IsSuppressed { get; private set; }
-
-        public override UserStatus Status => _status ?? SharedUser.Status;
-        private UserStatus? _status;
-
-        public override Activity Activity => _activity ?? SharedUser.Activity;
-        private Activity _activity;
+        public override Presence Presence => _presence ?? SharedUser.Presence;
+        private Presence _presence;
 
         public CachedGuild Guild { get; }
 
@@ -83,6 +61,17 @@ namespace Disqord
         public DateTimeOffset? BoostedAt { get; private set; }
 
         public bool IsBoosting => BoostedAt != null;
+
+        public CachedVoiceChannel VoiceChannel
+        {
+            get
+            {
+                var voiceState = VoiceState;
+                return voiceState != null
+                    ? Guild.GetVoiceChannel(voiceState.ChannelId)
+                    : null;
+            }
+        }
 
         private readonly LockedDictionary<Snowflake, CachedRole> _roles;
 
@@ -121,7 +110,7 @@ namespace Disqord
                     var roleId = model.Roles.Value[i];
                     if (!Guild.Roles.TryGetValue(roleId, out var role))
                     {
-                        Client.Log(LogMessageSeverity.Error, $"Guild has no role the member has. Id: {roleId} {Guild.Name}.");
+                        Client.Log(LogMessageSeverity.Warning, $"Guild has no role the member has. Id: {roleId} {Guild.Name}.");
                         continue;
                     }
                     _roles[roleId] = role;
@@ -149,7 +138,7 @@ namespace Disqord
                     var roleId = model.Roles.Value[i];
                     if (!Guild.Roles.TryGetValue(roleId, out var role))
                     {
-                        Client.Log(LogMessageSeverity.Error, $"Guild ({Guild.Name}) has no role the member has. Id: {roleId}.");
+                        Client.Log(LogMessageSeverity.Warning, $"Guild ({Guild.Name}) has no role the member has. Id: {roleId}.");
                         continue;
                     }
                     _roles[roleId] = role;
@@ -159,51 +148,45 @@ namespace Disqord
 
         internal void Update(VoiceStateModel model)
         {
-            if (model.ChannelId.HasValue)
-            {
-                VoiceChannelId = model.ChannelId.Value;
-
-                if (model.ChannelId.Value == null)
-                {
-                    VoiceSessionId = null;
-                    IsDeafened = false;
-                    IsMuted = false;
-                    IsSelfDeafened = false;
-                    IsSelfMuted = false;
-                    IsSuppressed = false;
-                    return;
-                }
-            }
-
-            if (model.SessionId.HasValue)
-                VoiceSessionId = model.SessionId.Value;
+            if (model.Mute.HasValue)
+                IsMuted = model.Mute.Value;
 
             if (model.Deaf.HasValue)
                 IsDeafened = model.Deaf.Value;
 
-            if (model.Mute.HasValue)
-                IsMuted = model.Mute.Value;
-
-            if (model.SelfDeaf.HasValue)
-                IsSelfDeafened = model.SelfDeaf.Value;
-
-            if (model.SelfMute.HasValue)
-                IsSelfMuted = model.SelfMute.Value;
-
-            if (model.Suppress.HasValue)
-                IsSuppressed = model.Suppress.Value;
+            if (model.ChannelId.HasValue)
+            {
+                if (model.ChannelId.Value != null)
+                {
+                    if (VoiceState != null)
+                    {
+                        VoiceState.Update(model);
+                    }
+                    else
+                    {
+                        VoiceState = new VoiceState(model);
+                    }
+                }
+                else
+                {
+                    VoiceState = null;
+                }
+            }
+            else
+            {
+                VoiceState?.Update(model);
+            }
         }
 
         internal override void Update(PresenceUpdateModel model)
         {
-            base.Update(model);
+            SharedUser.Update(model);
 
             if (IsBot)
             {
-                _status = model.Status;
-                _activity = model.Game != null
-                    ? Activity.Create(model.Game)
-                    : null;
+                // Users cannot have different statuses for different guilds
+                // due to the lack of sharding support.
+                _presence = new Presence(true, model);
             }
         }
 

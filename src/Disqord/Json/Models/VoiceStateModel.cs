@@ -31,6 +31,12 @@ namespace Disqord.Models
         [JsonProperty("self_mute")]
         public Optional<bool> SelfMute { get; set; }
 
+        [JsonProperty("self_stream")]
+        public Optional<bool> SelfStream { get; set; }
+
+        [JsonProperty("self_video")]
+        public Optional<bool> SelfVideo { get; set; }
+
         [JsonProperty("suppress")]
         public Optional<bool> Suppress { get; set; }
     }

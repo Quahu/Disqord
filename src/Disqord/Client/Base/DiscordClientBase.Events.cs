@@ -188,12 +188,19 @@ namespace Disqord
         }
         internal readonly AsynchronousEvent<ReactionRemovedEventArgs> _reactionRemoved = new AsynchronousEvent<ReactionRemovedEventArgs>();
 
-        public event AsynchronousEventHandler<AllReactionsRemovedEventArgs> AllReactionsRemoved
+        public event AsynchronousEventHandler<ReactionsClearedEventArgs> ReactionsCleared
         {
-            add => _allReactionsRemoved.Hook(value);
-            remove => _allReactionsRemoved.Unhook(value);
+            add => _reactionsCleared.Hook(value);
+            remove => _reactionsCleared.Unhook(value);
         }
-        internal readonly AsynchronousEvent<AllReactionsRemovedEventArgs> _allReactionsRemoved = new AsynchronousEvent<AllReactionsRemovedEventArgs>();
+        internal readonly AsynchronousEvent<ReactionsClearedEventArgs> _reactionsCleared = new AsynchronousEvent<ReactionsClearedEventArgs>();
+
+        public event AsynchronousEventHandler<PresenceUpdatedEventArgs> PresenceUpdated
+        {
+            add => _presenceUpdated.Hook(value);
+            remove => _presenceUpdated.Unhook(value);
+        }
+        internal readonly AsynchronousEvent<PresenceUpdatedEventArgs> _presenceUpdated = new AsynchronousEvent<PresenceUpdatedEventArgs>();
 
         public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
         {
@@ -232,16 +239,16 @@ namespace Disqord
 
         public event AsynchronousEventHandler<VoiceStateUpdatedEventArgs> VoiceStateUpdated
         {
-            add => _voiceStateUpdatedEvent.Hook(value);
-            remove => _voiceStateUpdatedEvent.Unhook(value);
+            add => _voiceStateUpdated.Hook(value);
+            remove => _voiceStateUpdated.Unhook(value);
         }
-        internal readonly AsynchronousEvent<VoiceStateUpdatedEventArgs> _voiceStateUpdatedEvent = new AsynchronousEvent<VoiceStateUpdatedEventArgs>();
+        internal readonly AsynchronousEvent<VoiceStateUpdatedEventArgs> _voiceStateUpdated = new AsynchronousEvent<VoiceStateUpdatedEventArgs>();
 
         public event AsynchronousEventHandler<VoiceServerUpdatedEventArgs> VoiceServerUpdated
         {
-            add => _voiceServerUpdatedEvent.Hook(value);
-            remove => _voiceServerUpdatedEvent.Unhook(value);
+            add => _voiceServerUpdated.Hook(value);
+            remove => _voiceServerUpdated.Unhook(value);
         }
-        internal readonly AsynchronousEvent<VoiceServerUpdatedEventArgs> _voiceServerUpdatedEvent = new AsynchronousEvent<VoiceServerUpdatedEventArgs>();
+        internal readonly AsynchronousEvent<VoiceServerUpdatedEventArgs> _voiceServerUpdated = new AsynchronousEvent<VoiceServerUpdatedEventArgs>();
     }
 }

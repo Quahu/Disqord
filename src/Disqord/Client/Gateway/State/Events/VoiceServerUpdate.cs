@@ -14,7 +14,7 @@ namespace Disqord
                 return Task.CompletedTask;
 
             var guild = GetGuild(model.GuildId.Value);
-            return _client._voiceServerUpdatedEvent.InvokeAsync(new VoiceServerUpdatedEventArgs(guild, model.Token, model.Endpoint));
+            return _client._voiceServerUpdated.InvokeAsync(new VoiceServerUpdatedEventArgs(guild, model.Token, model.Endpoint));
         }
     }
 }

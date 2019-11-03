@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
 using Disqord.Models;
@@ -23,12 +25,14 @@ namespace Disqord
             }
 
             var message = channel.GetMessage(model.MessageId);
+            var reactions = message?._reactions.ToDictionary(x => x.Key, x => x.Value);
             message?._reactions.Clear();
 
-            return _client._allReactionsRemoved.InvokeAsync(new AllReactionsRemovedEventArgs(
+            return _client._reactionsCleared.InvokeAsync(new ReactionsClearedEventArgs(
                 channel,
                 new DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage>(message, model.MessageId,
-                    options => _client.GetMessageAsync(channel.Id, model.MessageId, options))));
+                    options => _client.GetMessageAsync(channel.Id, model.MessageId, options)),
+                reactions ?? Optional<IReadOnlyDictionary<IEmoji, ReactionData>>.Empty));
         }
     }
 }

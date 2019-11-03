@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Disqord.Collections;
 using Disqord.Models;
@@ -28,13 +28,7 @@ namespace Disqord
 
         public virtual CachedDmChannel DmChannel => Client.DmChannels.Values.FirstOrDefault(x => x.Recipient.Id == Id);
 
-        public virtual UserStatus Status => SharedUser.Status;
-
-        public virtual IReadOnlyDictionary<UserClient, UserStatus> Statuses => SharedUser.Statuses;
-
-        public virtual Activity Activity => SharedUser.Activity;
-
-        public virtual IReadOnlyList<Activity> Activities => SharedUser.Activities;
+        public virtual Presence Presence { get; }
 
         internal abstract CachedSharedUser SharedUser { get; }
 
