@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -146,9 +146,9 @@ namespace Disqord
                 {
                     var flag = _perms[i];
                     if (flag > flags)
-                        yield return new KeyValuePair<Permission, bool>(flag, false);
+                        yield return KeyValuePair.Create(flag, false);
 
-                    yield return new KeyValuePair<Permission, bool>(flag, HasFlag(value, flag));
+                    yield return KeyValuePair.Create(flag, HasFlag(value, flag));
                 }
             }
 

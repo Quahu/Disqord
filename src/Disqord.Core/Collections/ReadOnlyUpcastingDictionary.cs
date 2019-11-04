@@ -40,7 +40,7 @@ namespace Disqord.Collections
         public IEnumerator<KeyValuePair<TKey, TNewValue>> GetEnumerator()
         {
             foreach (var kvp in _dictionary)
-                yield return new KeyValuePair<TKey, TNewValue>(kvp.Key, kvp.Value);
+                yield return KeyValuePair.Create(kvp.Key, (TNewValue) kvp.Value);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

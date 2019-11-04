@@ -43,7 +43,7 @@ namespace Disqord.Collections
             foreach (var kvp in _dictionary)
             {
                 if (kvp.Value is TNew newValue)
-                    yield return new KeyValuePair<TKey, TNew>(kvp.Key, newValue);
+                    yield return KeyValuePair.Create(kvp.Key, newValue);
             }
         }
 
