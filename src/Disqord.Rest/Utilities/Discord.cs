@@ -321,8 +321,8 @@ namespace Disqord
         {
             return message.Type switch
             {
-                SystemMessageType.RecipientAdded => $"{message.Author.Name} added {message.UserMentions[0].Name} to the group.",
-                SystemMessageType.RecipientRemoved => $"{message.Author.Name} removed {message.UserMentions[0].Name} from the group.",
+                SystemMessageType.RecipientAdded => $"{message.Author.Name} added {message.MentionedUsers[0].Name} to the group.",
+                SystemMessageType.RecipientRemoved => $"{message.Author.Name} removed {message.MentionedUsers[0].Name} from the group.",
                 // TODO
                 SystemMessageType.Call => throw new NotImplementedException(),
                 SystemMessageType.ChannelNameChanged => $"{message.Author.Name} changed the channel name: {message.RawContent}",
