@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -8,41 +8,41 @@ namespace Disqord
     public static partial class Discord
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool HasFlag(ulong rawValue, ulong flag)
+        internal static bool HasFlag(ulong rawValue, ulong flag)
             => (rawValue & flag) == flag;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetFlag(ref ulong rawValue, ulong flag)
+        internal static void SetFlag(ref ulong rawValue, ulong flag)
             => rawValue |= flag;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void UnsetFlag(ref ulong rawValue, ulong flag)
+        internal static void UnsetFlag(ref ulong rawValue, ulong flag)
             => rawValue &= ~flag;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool HasFlag(uint rawValue, uint flag)
+        internal static bool HasFlag(uint rawValue, uint flag)
             => (rawValue & flag) == flag;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetFlag(ref uint rawValue, uint flag)
+        internal static void SetFlag(ref uint rawValue, uint flag)
             => rawValue |= flag;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void UnsetFlag(ref uint rawValue, uint flag)
+        internal static void UnsetFlag(ref uint rawValue, uint flag)
             => rawValue &= ~flag;
 
         public static class Permissions
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void SetFlag(ref ulong rawValue, Permission flag)
+            internal static void SetFlag(ref ulong rawValue, Permission flag)
                 => Discord.SetFlag(ref rawValue, (ulong) flag);
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static bool HasFlag(ulong rawValue, Permission flag)
+            internal static bool HasFlag(ulong rawValue, Permission flag)
                 => Discord.HasFlag(rawValue, (ulong) flag);
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void UnsetFlag(ref ulong rawValue, Permission flag)
+            internal static void UnsetFlag(ref ulong rawValue, Permission flag)
                 => Discord.UnsetFlag(ref rawValue, (ulong) flag);
 
             public static ChannelPermissions CalculatePermissions(IGuild guild, IGuildChannel channel, IMember member, IEnumerable<IRole> roles)
