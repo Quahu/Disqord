@@ -4,11 +4,11 @@ namespace Disqord
 {
     public sealed class MessageReference
     {
-        public Snowflake? MessageId { get; internal set; }
+        public Snowflake? MessageId { get; }
 
-        public Snowflake ChannelId { get; internal set; }
+        public Snowflake ChannelId { get; }
 
-        public Snowflake? GuildId { get; internal set; }
+        public Snowflake? GuildId { get; }
 
         internal MessageReference(MessageReferenceModel model)
         {

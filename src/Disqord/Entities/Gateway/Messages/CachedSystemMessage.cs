@@ -4,7 +4,7 @@ namespace Disqord
 {
     public sealed class CachedSystemMessage : CachedMessage, ISystemMessage
     {
-        public override string Content => Discord.GetSystemMessageContent(this, Guild);
+        public override string Content => Discord.Internal.GetSystemMessageContent(this, Guild);
 
         public SystemMessageType Type { get; }
 

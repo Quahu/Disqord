@@ -4,7 +4,7 @@ namespace Disqord.Rest
 {
     public sealed class RestSystemMessage : RestMessage, ISystemMessage
     {
-        public override string Content => Discord.GetSystemMessageContent(this, null);
+        public override string Content => Discord.Internal.GetSystemMessageContent(this, null);
 
         public SystemMessageType Type { get; }
 
