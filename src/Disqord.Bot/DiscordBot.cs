@@ -40,7 +40,7 @@ namespace Disqord.Bot
             AddTypeParser(CachedGuildChannelParser<CachedTextChannel>.Instance);
             AddTypeParser(CachedGuildChannelParser<CachedVoiceChannel>.Instance);
             AddTypeParser(CachedGuildChannelParser<CachedCategoryChannel>.Instance);
-            //AddTypeParser(LocalEmojiParser.Instance);
+            AddTypeParser(LocalCustomEmojiParser.Instance);
             AddTypeParser(SnowflakeParser.Instance);
             AddTypeParser(ColorParser.Instance);
             //AddTypeParser(SanitaryContentParser.Instance);

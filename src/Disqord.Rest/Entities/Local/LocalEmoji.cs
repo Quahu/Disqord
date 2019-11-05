@@ -32,11 +32,5 @@
 
         public override string ToString()
             => MessageFormat;
-
-        //public static bool TryParse(string value, out LocalEmoji result)
-        //    => Discord.TryParseEmoji(value, out result);
-
-        //public static implicit operator LocalEmoji(string value)
-        //    => new LocalEmoji(value);
     }
 }

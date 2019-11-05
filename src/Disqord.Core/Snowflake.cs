@@ -7,8 +7,6 @@ namespace Disqord
     {
         public const ulong DISCORD_EPOCH = 1420070400000;
 
-        public const ulong MIN_VALUE = 1000000000000000;
-
         public ulong RawValue { get; }
 
         public DateTimeOffset CreatedAt => ToDateTimeOffset(RawValue);
