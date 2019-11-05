@@ -1,10 +1,26 @@
-﻿namespace Disqord
+﻿using System.Collections.Generic;
+using System.Text;
+using Qommon.Collections;
+
+namespace Disqord
 {
     public static class Markdown
     {
         public const char ZERO_WIDTH_SPACE = '\u200b';
 
-        private static readonly string[] _markdown = { "\\", "*", "`", "_", "~", "||" };
+        /// <summary>
+        ///     The set containing the escaped markdown characters.
+        /// </summary>
+        public static readonly ReadOnlySet<char> Characters = new ReadOnlySet<char>(_characters);
+
+        private static readonly HashSet<char> _characters = new HashSet<char>(5)
+        {
+            '\\',
+            '*',
+            '`',
+            '_',
+            '~'
+        };
 
         public static string Italics(string text)
             => $"*{text}*";
@@ -24,7 +40,7 @@
         public static string MaskedUrl(string title, string url)
             => $"[{title}]({url})";
 
-        public static string InlineCode(string code)
+        public static string Code(string code)
             => $"`{code}`";
 
         public static string CodeBlock(string code)
@@ -33,15 +49,19 @@
         public static string CodeBlock(string language, string code)
             => $"```{language}\n{code}```";
 
-        public static string EscapeMarkdown(string text)
+        public static string Escape(string text)
         {
-            for (var i = 0; i < _markdown.Length; i++)
+            var builder = new StringBuilder(text.Length);
+            for (var i = 0; i < text.Length; i++)
             {
-                var markdown = _markdown[i];
-                text = text.Replace(markdown, $"\\{markdown}");
+                var character = text[i];
+                if (_characters.Contains(character))
+                    builder.Append('\\');
+
+                builder.Append(character);
             }
 
-            return text;
+            return builder.ToString();
         }
     }
 }
