@@ -7,14 +7,14 @@ namespace Disqord
 {
     public abstract partial class CachedGuildChannel : CachedChannel, IGuildChannel
     {
-        public int Position { get; private set; }
-
         public CachedGuild Guild { get; }
+
+        public int Position { get; private set; }
 
         public IReadOnlyList<CachedOverwrite> Overwrites { get; private set; }
 
-        IReadOnlyList<IOverwrite> IGuildChannel.Overwrites => Overwrites;
         Snowflake IGuildChannel.GuildId => Guild.Id;
+        IReadOnlyList<IOverwrite> IGuildChannel.Overwrites => Overwrites;
 
         internal CachedGuildChannel(CachedGuild guild, ChannelModel model) : base(guild.Client, model)
         {
@@ -27,7 +27,7 @@ namespace Disqord
                 Position = model.Position.Value;
 
             if (model.PermissionOverwrites.HasValue)
-                Overwrites = model.PermissionOverwrites.Value.Select(x => new CachedOverwrite(x, this)).ToImmutableArray();
+                Overwrites = model.PermissionOverwrites.Value.Select(x => new CachedOverwrite(this, x)).ToImmutableArray();
 
             base.Update(model);
         }

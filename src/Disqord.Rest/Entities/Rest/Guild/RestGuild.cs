@@ -115,7 +115,7 @@ namespace Disqord.Rest
             if (model.Roles.HasValue)
                 Roles = new ReadOnlyDictionary<Snowflake, RestRole>(model.Roles.Value.ToDictionary(x => new Snowflake(x.Id), x =>
                 {
-                    var role = new RestRole(Client, x, Id);
+                    var role = new RestRole(Client, Id, x);
                     role.Guild.SetValue(this);
                     return role;
                 }));
@@ -123,7 +123,7 @@ namespace Disqord.Rest
             if (model.Emojis.HasValue)
                 Emojis = model.Emojis.Value.Select(x =>
                 {
-                    var emoji = new RestGuildEmoji(Client, x, Id);
+                    var emoji = new RestGuildEmoji(Client, Id, x);
                     emoji.Guild.SetValue(this);
                     return emoji;
                 }).ToImmutableArray();

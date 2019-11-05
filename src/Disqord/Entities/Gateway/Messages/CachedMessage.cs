@@ -41,7 +41,7 @@ namespace Disqord
             Reactions = new ReadOnlyDictionary<IEmoji, ReactionData>(_reactions);
         }
 
-        internal static CachedMessage Create(MessageModel model, ICachedMessageChannel channel, CachedUser author)
+        internal static CachedMessage Create(ICachedMessageChannel channel, CachedUser author, MessageModel model)
         {
             return model.Type switch
             {

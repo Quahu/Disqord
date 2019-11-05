@@ -4,6 +4,8 @@ namespace Disqord
 {
     public abstract class CachedNestedChannel : CachedGuildChannel, IGuildChannel
     {
+        public Snowflake? CategoryId { get; private set; }
+
         public CachedCategoryChannel Category
         {
             get
@@ -14,8 +16,6 @@ namespace Disqord
                     : null;
             }
         }
-
-        public Snowflake? CategoryId { get; private set; }
 
         internal CachedNestedChannel(CachedGuild guild, ChannelModel model) : base(guild, model)
         { }

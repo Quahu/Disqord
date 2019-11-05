@@ -31,7 +31,7 @@ namespace Disqord.Rest
             if (model.PermissionOverwrites.HasValue)
                 Overwrites = model.PermissionOverwrites.Value.Select(x =>
                 {
-                    var overwrite = new RestOverwrite(Client, x, Id);
+                    var overwrite = new RestOverwrite(Client, Id, x);
                     overwrite.Channel.SetValue(this);
                     return overwrite;
                 }).ToImmutableArray();

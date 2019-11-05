@@ -38,7 +38,7 @@ namespace Disqord
                 return Task.CompletedTask;
             }
 
-            var message = CachedMessage.Create(model, channel, author);
+            var message = CachedMessage.Create(channel, author, model);
             if (message is CachedUserMessage userMessage)
                 _messageCache?.TryAddMessage(userMessage);
 

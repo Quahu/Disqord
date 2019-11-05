@@ -28,7 +28,7 @@ namespace Disqord.Rest
         /// </summary>
         public string Reason { get; }
 
-        internal RestBan(RestDiscordClient client, BanModel model, Snowflake guildId) : base(client)
+        internal RestBan(RestDiscordClient client, Snowflake guildId, BanModel model) : base(client)
         {
             GuildId = guildId;
             Guild = new RestDownloadable<RestGuild>(options => Client.GetGuildAsync(guildId, options));

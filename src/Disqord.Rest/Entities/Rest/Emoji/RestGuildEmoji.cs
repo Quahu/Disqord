@@ -29,7 +29,7 @@ namespace Disqord.Rest
 
         public string Tag => MessageFormat;
 
-        internal RestGuildEmoji(RestDiscordClient client, EmojiModel model, ulong guildId) : base(client, model.Id.Value)
+        internal RestGuildEmoji(RestDiscordClient client, Snowflake guildId, EmojiModel model) : base(client, model.Id.Value)
         {
             GuildId = guildId;
             Guild = new RestDownloadable<RestGuild>(options => Client.GetGuildAsync(GuildId, options));

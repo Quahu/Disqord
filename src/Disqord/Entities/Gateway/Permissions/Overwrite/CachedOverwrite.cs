@@ -15,7 +15,7 @@ namespace Disqord
 
         Snowflake IOverwrite.ChannelId => Channel.Id;
 
-        internal CachedOverwrite(OverwriteModel model, CachedGuildChannel channel) : base(channel.Client, model.Id)
+        internal CachedOverwrite(CachedGuildChannel channel, OverwriteModel model) : base(channel.Client, model.Id)
         {
             Channel = channel;
             TargetId = model.Id;

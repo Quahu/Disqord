@@ -4,6 +4,10 @@ namespace Disqord.Rest
 {
     public sealed partial class RestRole : RestSnowflakeEntity, IRole
     {
+        public Snowflake GuildId { get; }
+
+        public RestDownloadable<RestGuild> Guild { get; }
+
         public string Name { get; private set; }
 
         public Color? Color { get; private set; }
@@ -20,13 +24,9 @@ namespace Disqord.Rest
 
         public string Mention => Discord.MentionRole(this);
 
-        public Snowflake GuildId { get; }
-
         public bool IsDefault => Id == GuildId;
 
-        public RestDownloadable<RestGuild> Guild { get; }
-
-        internal RestRole(RestDiscordClient client, RoleModel model, ulong guildId) : base(client, model.Id)
+        internal RestRole(RestDiscordClient client, Snowflake guildId, RoleModel model) : base(client, model.Id)
         {
             GuildId = guildId;
             Guild = new RestDownloadable<RestGuild>(options => Client.GetGuildAsync(GuildId, options));

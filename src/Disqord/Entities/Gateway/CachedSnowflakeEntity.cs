@@ -4,7 +4,7 @@
     {
         public Snowflake Id { get; }
 
-        internal CachedSnowflakeEntity(DiscordClientBase client, ulong id) : base(client)
+        internal CachedSnowflakeEntity(DiscordClientBase client, Snowflake id) : base(client)
         {
             Id = id;
         }
