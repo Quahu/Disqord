@@ -54,6 +54,8 @@ namespace Disqord
 
         public LocalEmbedAuthorBuilder Author { get; set; }
 
+        // TODO: Qommon list without Add()?
+        // TODO: internal constructors of builders
         public List<LocalEmbedFieldBuilder> Fields { get; }
 
         public LocalEmbedBuilder()
@@ -122,20 +124,6 @@ namespace Disqord
             return this;
         }
 
-        public LocalEmbedBuilder WithFooter(LocalEmbedFooterBuilder footer)
-        {
-            Footer = footer;
-            return this;
-        }
-
-        public LocalEmbedBuilder WithFooter(Action<LocalEmbedFooterBuilder> action)
-        {
-            var footer = new LocalEmbedFooterBuilder();
-            action(footer);
-            Footer = footer;
-            return this;
-        }
-
         public LocalEmbedBuilder WithFooter(string text = null, string iconUrl = null)
         {
             Footer = new LocalEmbedFooterBuilder
@@ -146,28 +134,20 @@ namespace Disqord
             return this;
         }
 
-        public LocalEmbedBuilder WithAuthor(LocalEmbedAuthorBuilder author)
+        public LocalEmbedBuilder WithFooter(LocalEmbedFooterBuilder footer)
         {
-            Author = author;
+            Footer = footer;
             return this;
         }
 
-        public LocalEmbedBuilder WithAuthor(Action<LocalEmbedAuthorBuilder> action)
+        public LocalEmbedBuilder WithFooter(Action<LocalEmbedFooterBuilder> action)
         {
-            var author = new LocalEmbedAuthorBuilder();
-            action(author);
-            Author = author;
-            return this;
-        }
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
-        public LocalEmbedBuilder WithAuthor(string name, string iconUrl = null, string url = null)
-        {
-            Author = new LocalEmbedAuthorBuilder
-            {
-                Name = name,
-                IconUrl = iconUrl,
-                Url = url
-            };
+            var footer = new LocalEmbedFooterBuilder();
+            action(footer);
+            Footer = footer;
             return this;
         }
 
@@ -184,6 +164,34 @@ namespace Disqord
             return this;
         }
 
+        public LocalEmbedBuilder WithAuthor(string name, string iconUrl = null, string url = null)
+        {
+            Author = new LocalEmbedAuthorBuilder
+            {
+                Name = name,
+                IconUrl = iconUrl,
+                Url = url
+            };
+            return this;
+        }
+
+        public LocalEmbedBuilder WithAuthor(LocalEmbedAuthorBuilder author)
+        {
+            Author = author;
+            return this;
+        }
+
+        public LocalEmbedBuilder WithAuthor(Action<LocalEmbedAuthorBuilder> action)
+        {
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
+
+            var author = new LocalEmbedAuthorBuilder();
+            action(author);
+            Author = author;
+            return this;
+        }
+
         public LocalEmbedBuilder AddField(string name, object value, bool isInline = false)
         {
             Fields.Add(new LocalEmbedFieldBuilder
@@ -192,6 +200,23 @@ namespace Disqord
                 Value = value?.ToString(),
                 IsInline = isInline
             });
+            return this;
+        }
+
+        public LocalEmbedBuilder AddField(LocalEmbedFieldBuilder field)
+        {
+            Fields.Add(field);
+            return this;
+        }
+
+        public LocalEmbedBuilder AddField(Action<LocalEmbedFieldBuilder> action)
+        {
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
+
+            var field = new LocalEmbedFieldBuilder();
+            action(field);
+            Fields.Add(field);
             return this;
         }
 
