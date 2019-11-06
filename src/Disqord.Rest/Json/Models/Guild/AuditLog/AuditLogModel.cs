@@ -1,16 +1,16 @@
-﻿using Disqord.Serialization.Json;
+﻿//using Disqord.Serialization.Json;
 
-namespace Disqord.Models
-{
-    internal sealed class AuditLogModel
-    {
-        [JsonProperty("webhooks")]
-        public WebhookModel[] Webhooks { get; set; }
+//namespace Disqord.Models
+//{
+//    internal sealed class AuditLogModel
+//    {
+//        [JsonProperty("webhooks")]
+//        public WebhookModel[] Webhooks { get; set; }
 
-        [JsonProperty("users")]
-        public UserModel[] Users { get; set; }
+//        [JsonProperty("users")]
+//        public UserModel[] Users { get; set; }
 
-        [JsonProperty("audit_log_entries")]
-        public AuditLogEntryModel[] AuditLogEntries { get; set; }
-    }
-}
+//        [JsonProperty("audit_log_entries")]
+//        public AuditLogEntryModel[] AuditLogEntries { get; set; }
+//    }
+//}

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Disqord.Rest;
-using Disqord.Rest.AuditLogs;
 
 namespace Disqord
 {
@@ -27,10 +26,10 @@ namespace Disqord
         public Task<RestUserMessage> ExecuteWebhookAsync(Snowflake webhookId, string webhookToken, string content = null, bool textToSpeech = false, IEnumerable<LocalEmbed> LocalEmbeds = null, string name = null, string avatarUrl = null, bool wait = false, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ExecuteWebhookAsync(webhookId, webhookToken, content, textToSpeech, LocalEmbeds, name, avatarUrl, wait, options);
         public Task<RestUserMessage> ExecuteWebhookAsync(Snowflake webhookId, string webhookToken, LocalAttachment attachment, string content = null, bool textToSpeech = false, IEnumerable<LocalEmbed> LocalEmbeds = null, string name = null, string avatarUrl = null, bool wait = false, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ExecuteWebhookAsync(webhookId, webhookToken, attachment, content, textToSpeech, LocalEmbeds, name, avatarUrl, wait, options);
         public Task<RestUserMessage> ExecuteWebhookAsync(Snowflake webhookId, string webhookToken, IEnumerable<LocalAttachment> attachments, string content = null, bool textToSpeech = false, IEnumerable<LocalEmbed> LocalEmbeds = null, string name = null, string avatarUrl = null, bool wait = false, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ExecuteWebhookAsync(webhookId, webhookToken, attachments, content, textToSpeech, LocalEmbeds, name, avatarUrl, wait, options);
-        public RestRequestEnumerator<RestAuditLog> GetAuditLogsEnumerator(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null) => ((IRestDiscordClient) this.RestClient).GetAuditLogsEnumerator(guildId, limit, userId, startFromId);
-        public RestRequestEnumerator<T> GetAuditLogsEnumerator<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null) where T : RestAuditLog => ((IRestDiscordClient) this.RestClient).GetAuditLogsEnumerator<T>(guildId, limit, userId, startFromId);
-        public Task<IReadOnlyList<RestAuditLog>> GetAuditLogsAsync(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetAuditLogsAsync(guildId, limit, userId, startFromId, options);
-        public Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog => ((IRestDiscordClient) this.RestClient).GetAuditLogsAsync<T>(guildId, limit, userId, startFromId, options);
+        //public RestRequestEnumerator<RestAuditLog> GetAuditLogsEnumerator(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null) => ((IRestDiscordClient) this.RestClient).GetAuditLogsEnumerator(guildId, limit, userId, startFromId);
+        //public RestRequestEnumerator<T> GetAuditLogsEnumerator<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null) where T : RestAuditLog => ((IRestDiscordClient) this.RestClient).GetAuditLogsEnumerator<T>(guildId, limit, userId, startFromId);
+        //public Task<IReadOnlyList<RestAuditLog>> GetAuditLogsAsync(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetAuditLogsAsync(guildId, limit, userId, startFromId, options);
+        //public Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog => ((IRestDiscordClient) this.RestClient).GetAuditLogsAsync<T>(guildId, limit, userId, startFromId, options);
         public Task<string> GetGatewayUrlAsync(RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetGatewayUrlAsync(options);
         public Task<RestGatewayBotResponse> GetGatewayBotUrlAsync(RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetGatewayBotUrlAsync(options);
         public Task<RestProfile> GetProfileAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetProfileAsync(userId, options);
