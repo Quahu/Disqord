@@ -22,6 +22,7 @@
             | Permission.ReadMessageHistory
             | Permission.MentionEveryone
             | Permission.UseExternalEmojis
+            | Permission.ViewGuildInsights
             | Permission.Connect
             | Permission.Speak
             | Permission.MuteMembers

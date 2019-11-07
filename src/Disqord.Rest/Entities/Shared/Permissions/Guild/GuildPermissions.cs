@@ -47,6 +47,8 @@ namespace Disqord
 
         public bool UseExternalEmojis => Discord.Permissions.HasFlag(RawValue, Permission.UseExternalEmojis);
 
+        public bool ViewGuildInsights => Discord.Permissions.HasFlag(RawValue, Permission.ViewGuildInsights);
+
         public bool Connect => Discord.Permissions.HasFlag(RawValue, Permission.Connect);
 
         public bool Speak => Discord.Permissions.HasFlag(RawValue, Permission.Speak);
