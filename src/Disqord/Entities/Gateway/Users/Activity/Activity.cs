@@ -25,6 +25,9 @@ namespace Disqord
                 case ActivityType.Playing:
                     return new Activity(model);
 
+                case ActivityType.Streaming:
+                    return new StreamingActivity(model);
+
                 case ActivityType.Listening when model.SyncId != null && model.SessionId != null:
                     return new SpotifyActivity(model);
 
