@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public sealed class LocalEmbedFieldBuilder
+    public sealed class LocalEmbedFieldBuilder : ICloneable
     {
         public const int MAX_FIELD_NAME_LENGTH = 256;
 
@@ -13,7 +13,10 @@ namespace Disqord
             get => _name;
             set
             {
-                if (value != null && value.Length > MAX_FIELD_NAME_LENGTH)
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "The embed field's name must not be null or whitespace.");
+
+                if (value.Length > MAX_FIELD_NAME_LENGTH)
                     throw new ArgumentOutOfRangeException(nameof(value), $"The name of the embed field must not be longer than {MAX_FIELD_NAME_LENGTH} characters.");
 
                 _name = value;
@@ -26,7 +29,10 @@ namespace Disqord
             get => _value;
             set
             {
-                if (value != null && value.Length > MAX_FIELD_VALUE_LENGTH)
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "The embed field's value must not be null or whitespace.");
+
+                if (value.Length > MAX_FIELD_VALUE_LENGTH)
                     throw new ArgumentOutOfRangeException(nameof(value), $"The value of the embed field must not be longer than {MAX_FIELD_VALUE_LENGTH} characters.");
 
                 _value = value;
@@ -39,13 +45,10 @@ namespace Disqord
         public LocalEmbedFieldBuilder()
         { }
 
-        public LocalEmbedFieldBuilder(LocalEmbedFieldBuilder builder)
+        internal LocalEmbedFieldBuilder(LocalEmbedFieldBuilder builder)
         {
-            if (builder == null)
-                throw new ArgumentNullException(nameof(builder));
-
-            Name = builder.Name;
-            Value = builder.Value;
+            _name = builder.Name;
+            _value = builder.Value;
             IsInline = builder.IsInline;
         }
 
@@ -73,7 +76,21 @@ namespace Disqord
             return this;
         }
 
+        public LocalEmbedFieldBuilder Clone()
+            => new LocalEmbedFieldBuilder(this);
+
+        object ICloneable.Clone()
+            => Clone();
+
         internal LocalEmbedField Build()
-            => new LocalEmbedField(this);
+        {
+            if (_name == null)
+                throw new InvalidOperationException("The embed field's name must be set.");
+
+            if (_value == null)
+                throw new InvalidOperationException("The embed field's value must be set.");
+
+            return new LocalEmbedField(this);
+        }
     }
 }

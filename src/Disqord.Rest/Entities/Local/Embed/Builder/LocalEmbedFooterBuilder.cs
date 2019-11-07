@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public sealed class LocalEmbedFooterBuilder
+    public sealed class LocalEmbedFooterBuilder : ICloneable
     {
         public const int MAX_FOOTER_LENGTH = 2048;
 
@@ -11,8 +11,11 @@ namespace Disqord
             get => _text;
             set
             {
-                if (value != null && value.Length > MAX_FOOTER_LENGTH)
-                    throw new ArgumentOutOfRangeException(nameof(value), $"The text of the embed footer must not be longer than {MAX_FOOTER_LENGTH} characters.");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "The embed footer's text must not be null or whitespace.");
+
+                if (value.Length > MAX_FOOTER_LENGTH)
+                    throw new ArgumentOutOfRangeException(nameof(value), $"The embed footer's text must not be longer than {MAX_FOOTER_LENGTH} characters.");
 
                 _text = value;
             }
@@ -24,12 +27,9 @@ namespace Disqord
         public LocalEmbedFooterBuilder()
         { }
 
-        public LocalEmbedFooterBuilder(LocalEmbedFooterBuilder builder)
+        internal LocalEmbedFooterBuilder(LocalEmbedFooterBuilder builder)
         {
-            if (builder == null)
-                throw new ArgumentNullException(nameof(builder));
-
-            Text = builder.Text;
+            _text = builder.Text;
             IconUrl = builder.IconUrl;
         }
 
@@ -45,7 +45,18 @@ namespace Disqord
             return this;
         }
 
+        public LocalEmbedFooterBuilder Clone()
+            => new LocalEmbedFooterBuilder(this);
+
+        object ICloneable.Clone()
+            => Clone();
+
         internal LocalEmbedFooter Build()
-            => new LocalEmbedFooter(this);
+        {
+            if (_text == null)
+                throw new InvalidOperationException("The embed footer's text must be set.");
+
+            return new LocalEmbedFooter(this);
+        }
     }
 }

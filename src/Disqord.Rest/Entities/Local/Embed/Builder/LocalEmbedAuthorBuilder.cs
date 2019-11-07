@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public sealed class LocalEmbedAuthorBuilder
+    public sealed class LocalEmbedAuthorBuilder : ICloneable
     {
         public const int MAX_AUTHOR_NAME_LENGTH = 256;
 
@@ -11,7 +11,10 @@ namespace Disqord
             get => _name;
             set
             {
-                if (value != null && value.Length > MAX_AUTHOR_NAME_LENGTH)
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "The embed author's name must not be null or whitespace.");
+
+                if (value.Length > MAX_AUTHOR_NAME_LENGTH)
                     throw new ArgumentOutOfRangeException(nameof(value), $"The name of the embed author must not be longer than {MAX_AUTHOR_NAME_LENGTH} characters.");
 
                 _name = value;
@@ -26,12 +29,9 @@ namespace Disqord
         public LocalEmbedAuthorBuilder()
         { }
 
-        public LocalEmbedAuthorBuilder(LocalEmbedAuthorBuilder builder)
+        internal LocalEmbedAuthorBuilder(LocalEmbedAuthorBuilder builder)
         {
-            if (builder == null)
-                throw new ArgumentNullException(nameof(builder));
-
-            Name = builder.Name;
+            _name = builder.Name;
             Url = builder.Url;
             IconUrl = builder.IconUrl;
         }
@@ -54,7 +54,18 @@ namespace Disqord
             return this;
         }
 
+        public LocalEmbedAuthorBuilder Clone()
+            => new LocalEmbedAuthorBuilder(this);
+
+        object ICloneable.Clone()
+            => Clone();
+
         internal LocalEmbedAuthor Build()
-            => new LocalEmbedAuthor(this);
+        {
+            if (_name == null)
+                throw new InvalidOperationException("The embed author's name must be set.");
+
+            return new LocalEmbedAuthor(this);
+        }
     }
 }

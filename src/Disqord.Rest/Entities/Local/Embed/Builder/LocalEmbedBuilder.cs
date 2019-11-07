@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Disqord
 {
-    public sealed class LocalEmbedBuilder
+    /// <summary>
+    ///     Allows for building of <see cref="LocalEmbed"/>s.
+    /// </summary>
+    public sealed class LocalEmbedBuilder : ICloneable
     {
         public const int MAX_FIELDS_AMOUNT = 25;
 
@@ -20,7 +21,7 @@ namespace Disqord
             set
             {
                 if (value != null && value.Length > MAX_TITLE_LENGTH)
-                    throw new ArgumentOutOfRangeException(nameof(value), $"The title of the embed must not be longer than {MAX_TITLE_LENGTH} characters.");
+                    throw new ArgumentOutOfRangeException(nameof(value), $"The embed's title must not be longer than {MAX_TITLE_LENGTH} characters.");
 
                 _title = value;
             }
@@ -33,7 +34,7 @@ namespace Disqord
             set
             {
                 if (value != null && value.Length > MAX_DESCRIPTION_LENGTH)
-                    throw new ArgumentOutOfRangeException(nameof(value), $"The description of the embed must not be longer than {MAX_DESCRIPTION_LENGTH} characters.");
+                    throw new ArgumentOutOfRangeException(nameof(value), $"The embed's description must not be longer than {MAX_DESCRIPTION_LENGTH} characters.");
 
                 _description = value;
             }
@@ -54,32 +55,27 @@ namespace Disqord
 
         public LocalEmbedAuthorBuilder Author { get; set; }
 
-        // TODO: Qommon list without Add()?
-        // TODO: internal constructors of builders
-        public List<LocalEmbedFieldBuilder> Fields { get; }
+        public LocalEmbedFieldBuilderCollection Fields { get; }
 
         public LocalEmbedBuilder()
         {
-            Fields = new List<LocalEmbedFieldBuilder>();
+            Fields = new LocalEmbedFieldBuilderCollection();
         }
 
-        public LocalEmbedBuilder(LocalEmbedBuilder builder)
+        internal LocalEmbedBuilder(LocalEmbedBuilder builder) : this()
         {
-            Title = builder.Title;
-            Description = builder.Description;
+            _title = builder.Title;
+            _description = builder.Description;
             Url = builder.Url;
             ImageUrl = builder.ImageUrl;
             ThumbnailUrl = builder.ThumbnailUrl;
             Timestamp = builder.Timestamp;
             Color = builder.Color;
+            Footer = builder.Footer?.Clone();
+            Author = builder.Author?.Clone();
 
-            if (builder.Footer != null)
-                Footer = new LocalEmbedFooterBuilder(builder.Footer);
-
-            if (builder.Author != null)
-                Author = new LocalEmbedAuthorBuilder(builder.Author);
-
-            Fields = builder.Fields.Select(x => new LocalEmbedFieldBuilder(x)).ToList();
+            for (var i = 0; i < Fields.Count; i++)
+                Fields.Add(Fields[i].Clone());
         }
 
         public LocalEmbedBuilder WithTitle(string title)
@@ -124,7 +120,7 @@ namespace Disqord
             return this;
         }
 
-        public LocalEmbedBuilder WithFooter(string text = null, string iconUrl = null)
+        public LocalEmbedBuilder WithFooter(string text, string iconUrl = null)
         {
             Footer = new LocalEmbedFooterBuilder
             {
@@ -148,19 +144,6 @@ namespace Disqord
             var footer = new LocalEmbedFooterBuilder();
             action(footer);
             Footer = footer;
-            return this;
-        }
-
-        public LocalEmbedBuilder WithAuthor(IUser user)
-        {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
-
-            Author = new LocalEmbedAuthorBuilder
-            {
-                Name = user.Tag,
-                IconUrl = user.GetAvatarUrl(size: 128)
-            };
             return this;
         }
 
@@ -192,6 +175,30 @@ namespace Disqord
             return this;
         }
 
+        public LocalEmbedBuilder WithAuthor(IUser user)
+        {
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+
+            Author = new LocalEmbedAuthorBuilder
+            {
+                Name = user.Tag,
+                IconUrl = user.GetAvatarUrl(size: 128)
+            };
+            return this;
+        }
+
+        public LocalEmbedBuilder AddField(string name, string value, bool isInline = false)
+        {
+            Fields.Add(new LocalEmbedFieldBuilder
+            {
+                Name = name,
+                Value = value,
+                IsInline = isInline
+            });
+            return this;
+        }
+
         public LocalEmbedBuilder AddField(string name, object value, bool isInline = false)
         {
             Fields.Add(new LocalEmbedFieldBuilder
@@ -220,9 +227,21 @@ namespace Disqord
             return this;
         }
 
+        /// <summary>
+        ///     Creates a deep copy of this <see cref="LocalEmbedBuilder"/>.
+        /// </summary>
+        /// <returns>
+        ///     A deep copy of this <see cref="LocalEmbedBuilder"/>.
+        /// </returns>
+        public LocalEmbedBuilder Clone()
+            => new LocalEmbedBuilder(this);
+
+        object ICloneable.Clone()
+            => Clone();
+
         public static LocalEmbedBuilder FromEmbed(Embed embed)
         {
-            var embedBuilder = new LocalEmbedBuilder
+            var builder = new LocalEmbedBuilder
             {
                 Title = embed.Title,
                 Description = embed.Description,
@@ -231,30 +250,21 @@ namespace Disqord
                 ThumbnailUrl = embed.Thumbnail?.Url,
                 Timestamp = embed.Timestamp,
                 Color = embed.Color,
-                Footer = embed.Footer != null
-                    ? new LocalEmbedFooterBuilder
-                    {
-                        Text = embed.Footer.Text,
-                        IconUrl = embed.Footer.IconUrl
-                    }
-                    : null,
-                Author = embed.Author != null
-                    ? new LocalEmbedAuthorBuilder
-                    {
-                        Name = embed.Author.Name,
-                        Url = embed.Author.Url,
-                        IconUrl = embed.Author.IconUrl
-                    }
-                    : null
             };
+
+            if (embed.Footer != null)
+                builder.WithFooter(embed.Footer.Text, embed.Footer.IconUrl);
+
+            if (embed.Author != null)
+                builder.WithAuthor(embed.Author.Name, embed.Author.IconUrl, embed.Author.Url);
 
             for (var i = 0; i < embed.Fields.Count; i++)
             {
                 var field = embed.Fields[i];
-                embedBuilder.AddField(field.Name, field.Value, field.IsInline);
+                builder.AddField(field.Name, field.Value, field.IsInline);
             }
 
-            return embedBuilder;
+            return builder;
         }
 
         public LocalEmbed Build()
