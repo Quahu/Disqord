@@ -73,8 +73,20 @@ namespace Disqord
             return _list.Remove(field);
         }
 
+        /// <exception cref="ArgumentNullException"></exception>
+        public int RemoveAll(Predicate<LocalEmbedFieldBuilder> predicate)
+            => _list.RemoveAll(predicate);
+
         public void RemoveAt(int index)
             => _list.RemoveAt(index);
+
+        /// <exception cref="ArgumentNullException"></exception>
+        public void Sort(Comparison<LocalEmbedFieldBuilder> comparison)
+            => _list.Sort(comparison);
+
+        /// <exception cref="ArgumentNullException"></exception>
+        public bool Exists(Predicate<LocalEmbedFieldBuilder> predicate)
+            => _list.Exists(predicate);
 
         public IEnumerator<LocalEmbedFieldBuilder> GetEnumerator()
             => _list.GetEnumerator();
