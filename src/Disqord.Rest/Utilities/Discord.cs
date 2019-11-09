@@ -26,7 +26,7 @@ namespace Disqord
         ///     The url of the custom emoji.
         /// </returns>
         public static string GetCustomEmojiUrl(Snowflake emojiId, bool isAnimated, int size = 2048)
-            => FormatImageUrl($"emoji/{emojiId}", isAnimated ? ImageFormat.Gif : ImageFormat.Png, size);
+            => FormatImageUrl($"emojis/{emojiId}", isAnimated ? ImageFormat.Gif : ImageFormat.Png, size);
 
         /// <summary>
         ///     Returns the url for a guild's icon.
