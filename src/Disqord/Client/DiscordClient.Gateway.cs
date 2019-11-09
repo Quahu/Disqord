@@ -22,7 +22,7 @@ namespace Disqord
             if (_isDisposed)
                 throw new ObjectDisposedException(nameof(DiscordClient));
 
-            if (TokenType == TokenType.Bot)
+            if (IsBot)
             {
                 var botGatewayResponse = await GetGatewayBotUrlAsync().ConfigureAwait(false);
                 if (botGatewayResponse.RemainingSessionAmount == 0)

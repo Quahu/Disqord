@@ -78,7 +78,8 @@ namespace Disqord
         internal CachedCurrentUser(CachedSharedUser user, UserModel model, int relationshipCount, int noteCount) : base(user)
         {
             SharedUser = user;
-            if (Client.TokenType != TokenType.Bot)
+
+            if (!Client.IsBot)
             {
                 _relationships = new LockedDictionary<Snowflake, CachedRelationship>(relationshipCount);
                 _relationshipsWrapper = new ReadOnlyDictionary<Snowflake, CachedRelationship>(_relationships);
