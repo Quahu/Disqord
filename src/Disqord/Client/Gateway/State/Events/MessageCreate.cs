@@ -11,25 +11,35 @@ namespace Disqord
         {
             var model = Serializer.ToObject<MessageModel>(payload.D);
             ICachedMessageChannel channel;
-            CachedUser author = null;
+            CachedUser author;
             CachedGuild guild = null;
             var isWebhook = model.WebhookId.HasValue;
             if (model.GuildId != null)
             {
                 guild = GetGuild(model.GuildId.Value);
                 channel = guild.GetTextChannel(model.ChannelId);
-
-                if (!isWebhook)
-                    author = model.Author.HasValue && model.Member.HasValue
-                        ? GetOrAddMember(guild, model.Member.Value, model.Author.Value)
-                        : guild.GetMember(model.Author.Value.Id);
             }
             else
             {
                 channel = GetPrivateChannel(model.ChannelId);
+            }
 
-                if (!isWebhook)
+            if (isWebhook)
+            {
+                author = new CachedUnknownUser(_client, model.Author.Value);
+            }
+            else
+            {
+                if (model.GuildId != null)
+                {
+                    author = model.Author.HasValue && model.Member.HasValue
+                        ? GetOrAddMember(guild, model.Member.Value, model.Author.Value)
+                        : guild.GetMember(model.Author.Value.Id);
+                }
+                else
+                {
                     author = GetUser(model.Author.Value.Id);
+                }
             }
 
             if (author == null && !isWebhook)
