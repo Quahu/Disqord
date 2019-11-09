@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -78,20 +78,15 @@ namespace Disqord
                     permissions += overwrite.Permissions.Allowed;
                 }
 
-                if (channel is ITextChannel)
-                {
-                    if (!permissions.ViewChannel)
-                    {
-                        return ChannelPermissions.None;
-                    }
+                if (!permissions.ViewChannel)
+                    return ChannelPermissions.None;
 
-                    else if (!permissions.SendMessages)
-                    {
-                        permissions -= Permission.AttachFiles;
-                        permissions -= Permission.EmbedLinks;
-                        permissions -= Permission.MentionEveryone;
-                        permissions -= Permission.SendTtsMessages;
-                    }
+                if (channel is ITextChannel && !permissions.SendMessages)
+                {
+                    permissions -= Permission.AttachFiles |
+                        Permission.EmbedLinks |
+                        Permission.MentionEveryone |
+                        Permission.SendTtsMessages;
                 }
 
                 return permissions;
