@@ -34,7 +34,7 @@ namespace Disqord
         public static string Underline(string text)
             => $"__{text}__";
 
-        public static string CrossOut(string text)
+        public static string Strikethrough(string text)
             => $"~~{text}~~";
 
         public static string MaskedUrl(string title, string url)
