@@ -818,7 +818,7 @@ namespace Disqord.Rest
             {
                 if ((properties.Name.HasValue || properties.Password.HasValue || properties.Discriminator.HasValue)
                     && options.Password == null)
-                    throw new ArgumentException("The password is required to change the username, discriminator, or to set a new password.");
+                    throw new ArgumentException("The password is required to change the name, discriminator, or to set a new password.");
             }
 
             var requestContent = new ModifyCurrentUserContent
