@@ -7,7 +7,7 @@ namespace Disqord.Models.Dispatches
         [JsonProperty("guild_id")]
         public ulong GuildId { get; set; }
 
-        [JsonProperty("role")]
-        public RoleModel Role { get; set; }
+        [JsonProperty("role_id")]
+        public ulong RoleId { get; set; }
     }
 }

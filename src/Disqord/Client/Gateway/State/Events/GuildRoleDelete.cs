@@ -9,9 +9,9 @@ namespace Disqord
     {
         public Task HandleGuildRoleDeleteAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<GuildRoleCreateModel>(payload.D);
+            var model = Serializer.ToObject<GuildRoleDeleteModel>(payload.D);
             var guild = GetGuild(model.GuildId);
-            guild._roles.TryRemove(model.Role.Id, out var role);
+            guild._roles.TryRemove(model.RoleId, out var role);
 
             return _client._roleDeleted.InvokeAsync(new RoleDeletedEventArgs(role));
         }
