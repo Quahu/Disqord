@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Disqord.Rest;
@@ -85,7 +85,7 @@ namespace Disqord
         public Task RemoveMemberReactionAsync(Snowflake messageId, Snowflake memberId, IEmoji emoji, RestRequestOptions options = null)
             => Client.RemoveMemberReactionAsync(Id, messageId, memberId, emoji, options);
 
-        public Task RemoveAllReactionsAsync(Snowflake messageId, RestRequestOptions options = null)
-            => Client.RemoveAllReactionsAsync(Id, messageId, options);
+        public Task ClearReactionsAsync(Snowflake messageId, RestRequestOptions options = null)
+            => Client.ClearReactionsAsync(Id, messageId, options);
     }
 }

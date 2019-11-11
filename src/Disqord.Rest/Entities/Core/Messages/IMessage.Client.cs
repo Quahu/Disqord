@@ -1,4 +1,4 @@
-using Disqord.Rest;
+﻿using Disqord.Rest;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,6 +16,6 @@ namespace Disqord
 
         Task<IReadOnlyList<RestUser>> GetReactionsAsync(IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null);
 
-        Task RemoveAllReactionsAsync(RestRequestOptions options = null);
+        Task ClearReactionsAsync(RestRequestOptions options = null);
     }
 }

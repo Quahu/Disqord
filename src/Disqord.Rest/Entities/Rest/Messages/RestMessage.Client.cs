@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Disqord.Rest
@@ -20,8 +20,8 @@ namespace Disqord.Rest
         public Task<IReadOnlyList<RestUser>> GetReactionsAsync(IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
             => Client.GetReactionsAsync(ChannelId, Id, emoji, limit, direction, startFromId, options);
 
-        public Task RemoveAllReactionsAsync(RestRequestOptions options = null)
-            => Client.RemoveAllReactionsAsync(ChannelId, Id, options);
+        public Task ClearReactionsAsync(RestRequestOptions options = null)
+            => Client.ClearReactionsAsync(ChannelId, Id, options);
 
         public Task DeleteAsync(RestRequestOptions options = null)
             => Client.DeleteMessageAsync(ChannelId, Id, options);

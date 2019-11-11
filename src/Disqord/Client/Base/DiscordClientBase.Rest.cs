@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Disqord.Rest;
@@ -81,7 +81,7 @@ namespace Disqord
         public Task RemoveMemberReactionAsync(Snowflake channelId, Snowflake messageId, Snowflake memberId, IEmoji emoji, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).RemoveMemberReactionAsync(channelId, messageId, memberId, emoji, options);
         public RestRequestEnumerator<RestUser> GetReactionEnumerator(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null) => ((IRestDiscordClient) this.RestClient).GetReactionEnumerator(channelId, messageId, emoji, limit, direction, startFromId);
         public Task<IReadOnlyList<RestUser>> GetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetReactionsAsync(channelId, messageId, emoji, limit, direction, startFromId, options);
-        public Task RemoveAllReactionsAsync(Snowflake channelId, Snowflake messageId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).RemoveAllReactionsAsync(channelId, messageId, options);
+        public Task ClearReactionsAsync(Snowflake channelId, Snowflake messageId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ClearReactionsAsync(channelId, messageId, options);
         public Task<RestUserMessage> ModifyMessageAsync(Snowflake channelId, Snowflake messageId, Action<ModifyMessageProperties> action, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ModifyMessageAsync(channelId, messageId, action, options);
         public Task DeleteMessageAsync(Snowflake channelId, Snowflake messageId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).DeleteMessageAsync(channelId, messageId, options);
         public RestRequestEnumerator<Snowflake> GetBulkMessageDeletionEnumerator(Snowflake channelId, IEnumerable<Snowflake> messageIds) => ((IRestDiscordClient) this.RestClient).GetBulkMessageDeletionEnumerator(channelId, messageIds);

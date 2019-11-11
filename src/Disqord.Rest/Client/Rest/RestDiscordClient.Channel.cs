@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -273,7 +273,7 @@ namespace Disqord.Rest
             return models.Select(x => new RestUser(this, x)).ToImmutableArray();
         }
 
-        public Task RemoveAllReactionsAsync(Snowflake channelId, Snowflake messageId, RestRequestOptions options = null)
+        public Task ClearReactionsAsync(Snowflake channelId, Snowflake messageId, RestRequestOptions options = null)
             => ApiClient.DeleteAllReactionsAsync(channelId, messageId, options);
 
         public async Task<RestUserMessage> ModifyMessageAsync(Snowflake channelId, Snowflake messageId, Action<ModifyMessageProperties> action, RestRequestOptions options = null)
