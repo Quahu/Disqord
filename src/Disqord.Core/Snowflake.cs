@@ -2,8 +2,7 @@
 
 namespace Disqord
 {
-    public readonly struct Snowflake : IEquatable<ulong>, IEquatable<DateTimeOffset>, IEquatable<Snowflake>,
-        IComparable<ulong>, IComparable<DateTimeOffset>, IComparable<Snowflake>
+    public readonly struct Snowflake : IEquatable<ulong>, IEquatable<Snowflake>, IComparable<ulong>, IComparable<Snowflake>
     {
         public const ulong DISCORD_EPOCH = 1420070400000;
 
@@ -25,14 +24,19 @@ namespace Disqord
         public bool Equals(ulong other)
             => RawValue == other;
 
-        public bool Equals(DateTimeOffset other)
-            => CreatedAt == other;
-
         public bool Equals(Snowflake other)
             => RawValue == other.RawValue;
 
         public override bool Equals(object obj)
-            => obj is Snowflake snowflake && Equals(snowflake) || obj is ulong rawValue && Equals(rawValue);
+        {
+            if (obj is Snowflake snowflake)
+                return snowflake.RawValue == RawValue;
+
+            if (obj is ulong rawValue)
+                return rawValue == RawValue;
+
+            return false;
+        }
 
         public override int GetHashCode()
             => RawValue.GetHashCode();
@@ -64,9 +68,6 @@ namespace Disqord
         public int CompareTo(ulong other)
             => RawValue.CompareTo(other);
 
-        public int CompareTo(DateTimeOffset other)
-            => CreatedAt.CompareTo(other);
-
         public int CompareTo(Snowflake other)
             => RawValue.CompareTo(other);
 
@@ -75,9 +76,6 @@ namespace Disqord
 
         public static implicit operator ulong(Snowflake value)
             => value.RawValue;
-
-        public static implicit operator DateTimeOffset(Snowflake value)
-            => value.CreatedAt;
 
         public static bool operator ==(Snowflake left, ulong right)
             => left.Equals(right);
