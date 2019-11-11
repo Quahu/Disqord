@@ -10,7 +10,7 @@ namespace Disqord
         { }
 
         public DiscordClient(RestDiscordClient restClient, DiscordClientConfiguration configuration = null)
-            : base(restClient, configuration?.MessageCache, configuration?.Logger, configuration?.Serializer, configuration?.Extensions)
+            : base(restClient, configuration?.MessageCache, configuration?.Logger, configuration?.Serializer)
         {
             configuration = configuration ?? DiscordClientConfiguration.Default;
 

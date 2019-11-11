@@ -33,8 +33,7 @@ namespace Disqord
         internal DiscordClientBase(RestDiscordClient restClient,
             MessageCache messageCache = null,
             ILogger logger = null,
-            IJsonSerializer serializer = null,
-            IEnumerable<DiscordClientExtension> extensions = null)
+            IJsonSerializer serializer = null)
         {
             if (restClient == null)
                 throw new ArgumentNullException(nameof(restClient));
@@ -49,18 +48,7 @@ namespace Disqord
             RestClient = restClient;
             Logger = logger ?? restClient.Logger;
             Serializer = serializer ?? restClient.Serializer;
-            Extensions = new Dictionary<Type, DiscordClientExtension>();
-            if (extensions != null)
-            {
-                foreach (var extension in extensions)
-                {
-                    extension.Setup();
-
-                    var type = extension.GetType();
-                    if (!Extensions.TryAdd(type, extension))
-                        throw new ArgumentException($"The extensions must not contain duplicate type instances ({type}).", nameof(extensions));
-                }
-            }
+            _extensions = new LockedDictionary<Type, DiscordClientExtension>();
         }
 
         internal void Log(LogMessageSeverity severity, string message, Exception exception = null)
@@ -71,7 +59,7 @@ namespace Disqord
 
         public virtual async ValueTask DisposeAsync()
         {
-            foreach (var extensionKvp in Extensions)
+            foreach (var extensionKvp in _extensions)
             {
                 try
                 {

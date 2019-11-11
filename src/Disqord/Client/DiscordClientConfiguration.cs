@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using Disqord.Logging;
+﻿using Disqord.Logging;
 using Disqord.Serialization.Json;
 using Disqord.WebSocket;
 
 namespace Disqord
 {
+    // TODO the default values would make more sense in the client's constructor probably
     public class DiscordClientConfiguration
     {
         /// <summary>
@@ -28,8 +28,6 @@ namespace Disqord
         public IJsonSerializer Serializer { get; set; }
 
         public IWebSocketClient WebSocketClient { get; set; }
-
-        public IEnumerable<DiscordClientExtension> Extensions { get; set; }
 
         public static DiscordClientConfiguration Default => new DiscordClientConfiguration();
     }

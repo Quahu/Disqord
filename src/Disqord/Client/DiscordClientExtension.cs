@@ -5,18 +5,11 @@ namespace Disqord
 {
     public abstract class DiscordClientExtension : IAsyncDisposable
     {
-        public DiscordClientBase Client { get; }
+        public DiscordClientBase Client { get; internal set; }
 
-        protected DiscordClientExtension(DiscordClientBase client)
-        {
-            if (client == null)
-                throw new ArgumentNullException(nameof(client));
+        protected internal abstract ValueTask SetupAsync();
 
-            Client = client;
-        }
-
-        protected internal abstract void Setup();
-
-        public abstract ValueTask DisposeAsync();
+        public virtual ValueTask DisposeAsync()
+            => default;
     }
 }
