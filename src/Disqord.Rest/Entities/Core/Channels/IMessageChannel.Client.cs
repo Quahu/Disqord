@@ -13,9 +13,9 @@ namespace Disqord
 
         IDisposable Typing();
 
-        RestRequestEnumerator<RestMessage> GetMessagesEnumerator(int limit, RetrievalDirection? direction = null, Snowflake? startFromId = null);
+        RestRequestEnumerator<RestMessage> GetMessagesEnumerator(int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null);
 
-        Task<IReadOnlyList<RestMessage>> GetMessagesAsync(int limit = 100, RetrievalDirection? direction = null, Snowflake? startFromId = null, RestRequestOptions options = null);
+        Task<IReadOnlyList<RestMessage>> GetMessagesAsync(int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null);
 
         Task<RestMessage> GetMessageAsync(Snowflake messageId, RestRequestOptions options = null);
 
@@ -23,9 +23,9 @@ namespace Disqord
         
         Task RemoveOwnReactionAsync(Snowflake messageId, IEmoji emoji, RestRequestOptions options = null);
         
-        RestRequestEnumerator<RestUser> GetReactionEnumerator(Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection? direction = null, Snowflake? startFromId = null);
+        RestRequestEnumerator<RestUser> GetReactionEnumerator(Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null);
         
-        Task<IReadOnlyList<RestUser>> GetReactionsAsync(Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection? direction = null, Snowflake? startFromId = null, RestRequestOptions options = null);
+        Task<IReadOnlyList<RestUser>> GetReactionsAsync(Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null);
         
         Task<RestUserMessage> ModifyMessageAsync(Snowflake messageId, Action<ModifyMessageProperties> action, RestRequestOptions options = null);
 
