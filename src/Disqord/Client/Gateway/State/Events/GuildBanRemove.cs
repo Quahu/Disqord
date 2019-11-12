@@ -13,7 +13,7 @@ namespace Disqord
             var guild = GetGuild(model.GuildId);
             var user = GetSharedOrUnknownUser(model.User);
 
-            return _client._memberBanned.InvokeAsync(new MemberBannedEventArgs(guild, user));
+            return _client._memberUnbanned.InvokeAsync(new MemberUnbannedEventArgs(guild, user));
         }
     }
 }
