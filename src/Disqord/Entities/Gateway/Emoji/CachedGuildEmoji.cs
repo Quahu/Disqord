@@ -35,6 +35,8 @@ namespace Disqord
             RequiresColons = model.RequireColons;
             IsManaged = model.Managed;
             IsAnimated = model.Animated;
+
+            Update(model);
         }
 
         internal void Update(EmojiModel model)
