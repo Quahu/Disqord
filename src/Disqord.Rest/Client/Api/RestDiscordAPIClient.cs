@@ -85,7 +85,7 @@ namespace Disqord.Rest
             HttpResponseMessage response;
             var options = request.Options;
             using (var cts = new CancellationTokenSource(options?.Timeout ?? _defaultTimeout))
-            using (var linkedCts = options?.CancellationToken != null ? CancellationTokenSource.CreateLinkedTokenSource(cts.Token, options.CancellationToken.Value) : null)
+            using (var linkedCts = options != null ? CancellationTokenSource.CreateLinkedTokenSource(cts.Token, options.CancellationToken) : null)
             {
                 var ticks = Environment.TickCount;
                 response = await Http.SendAsync(request.HttpMessage, linkedCts?.Token ?? cts.Token).ConfigureAwait(false);

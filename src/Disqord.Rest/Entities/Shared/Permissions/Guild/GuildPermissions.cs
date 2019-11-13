@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Disqord
 {
-    public readonly partial struct GuildPermissions : IEnumerable<Permission>
+    public readonly partial struct GuildPermissions : IEquatable<ulong>, IEquatable<Permission>, IEquatable<GuildPermissions>,
+        IEnumerable<Permission>
     {
         public static GuildPermissions All => ALL_PERMISSIONS_VALUE;
 
@@ -86,6 +88,24 @@ namespace Disqord
         public bool Has(Permission permission)
             => Discord.Permissions.HasFlag(RawValue, permission);
 
+        public bool Equals(ulong other)
+            => RawValue == other;
+
+        public bool Equals(Permission other)
+            => RawValue == (ulong) other;
+
+        public bool Equals(GuildPermissions other)
+            => RawValue == other.RawValue;
+
+        public override string ToString()
+            => Permissions.ToString();
+
+        public IEnumerator<Permission> GetEnumerator()
+            => Discord.Permissions.GetFlags(Permissions).GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
+
         public static implicit operator GuildPermissions(ulong value)
             => new GuildPermissions(value);
 
@@ -112,13 +132,10 @@ namespace Disqord
             return rawValue;
         }
 
-        public override string ToString()
-            => Permissions.ToString();
+        public static bool operator ==(GuildPermissions left, Permission right)
+            => left.Equals(right);
 
-        public IEnumerator<Permission> GetEnumerator()
-            => Discord.Permissions.GetFlags(Permissions).GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
+        public static bool operator !=(GuildPermissions left, Permission right)
+            => !left.Equals(right);
     }
 }
