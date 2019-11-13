@@ -11,7 +11,7 @@ namespace Disqord
 
         bool IsTextToSpeech { get; }
 
-        Snowflake? Nonce { get; }
+        string Nonce { get; }
 
         bool IsPinned { get; }
 

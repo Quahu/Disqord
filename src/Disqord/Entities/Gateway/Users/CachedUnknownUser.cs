@@ -10,7 +10,7 @@ namespace Disqord
 
         internal override CachedSharedUser SharedUser => throw new InvalidOperationException("An unknown user has no shared user tied to it.");
 
-        internal CachedUnknownUser(DiscordClientBase client, UserModel model) : base(client, model.Bot, model.Id)
+        internal CachedUnknownUser(DiscordClientBase client, UserModel model) : base(client, model)
         {
             Update(model);
         }

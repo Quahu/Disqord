@@ -53,9 +53,9 @@ namespace Disqord
                 _messageCache?.TryAddMessage(userMessage);
 
             if (guild != null)
-                ((CachedTextChannel) channel).LastMessageId = message.Id;
+                (channel as CachedTextChannel).LastMessageId = message.Id;
             else
-                ((CachedPrivateChannel) channel).LastMessageId = message.Id;
+                (channel as CachedPrivateChannel).LastMessageId = message.Id;
 
             return _client._messageReceived.InvokeAsync(new MessageReceivedEventArgs(message));
         }

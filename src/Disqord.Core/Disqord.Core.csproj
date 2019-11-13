@@ -16,7 +16,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Http\" />
-    <Folder Include="WebSocket\" />
     <Folder Include="Udp\" />
   </ItemGroup>
   <ItemGroup>

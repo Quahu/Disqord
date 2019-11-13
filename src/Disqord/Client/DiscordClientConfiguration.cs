@@ -27,8 +27,6 @@ namespace Disqord
 
         public IJsonSerializer Serializer { get; set; }
 
-        public IWebSocketClient WebSocketClient { get; set; }
-
         public static DiscordClientConfiguration Default => new DiscordClientConfiguration();
     }
 }

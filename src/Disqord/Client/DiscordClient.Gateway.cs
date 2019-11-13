@@ -1,6 +1,6 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Logging;
 using Disqord.Models;
 using Disqord.Models.Dispatches;
 
@@ -14,39 +14,18 @@ namespace Disqord
         public TimeSpan? Latency => _gateway.Latency;
 
         private readonly DiscordClientGateway _gateway;
-        private string _gatewayUrl;
         private bool _isDisposed;
 
-        public override async Task ConnectAsync()
+        public override Task RunAsync(CancellationToken cancellationToken = default)
         {
-            if (_isDisposed)
-                throw new ObjectDisposedException(nameof(DiscordClient));
-
-            if (IsBot)
-            {
-                var botGatewayResponse = await GetGatewayBotUrlAsync().ConfigureAwait(false);
-                if (botGatewayResponse.RemainingSessionAmount == 0)
-                    throw new SessionLimitException(botGatewayResponse.ResetAfter);
-
-                Log(LogMessageSeverity.Information,
-                    $"Using gateway session {botGatewayResponse.MaxSessionAmount - botGatewayResponse.RemainingSessionAmount}/{botGatewayResponse.MaxSessionAmount}. Limit resets in {botGatewayResponse.ResetAfter}.");
-                _gatewayUrl = botGatewayResponse.Url;
-            }
-            else if (_gatewayUrl == null)
-            {
-                _gatewayUrl = await RestClient.GetGatewayUrlAsync().ConfigureAwait(false);
-            }
-
-            Log(LogMessageSeverity.Information, $"Fetched the gateway url: {_gatewayUrl}.");
-            await _gateway.ConnectAsync(_gatewayUrl).ConfigureAwait(false);
+            ThrowIfDisposed();
+            return _gateway.RunAsync(cancellationToken);
         }
 
-        public override async Task DisconnectAsync()
+        public override async Task StopAsync()
         {
-            if (_isDisposed)
-                throw new ObjectDisposedException(nameof(DiscordClient));
-
-            await _gateway.DisconnectAsync().ConfigureAwait(false);
+            ThrowIfDisposed();
+            await _gateway.StopAsync().ConfigureAwait(false);
         }
 
         public override Task SetPresenceAsync(UserStatus status)
@@ -112,16 +91,15 @@ namespace Disqord
         }
 
         // TODO
-        public override ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (_isDisposed)
-                return default;
+                return;
 
             _isDisposed = true;
+            await _gateway.StopAsync().ConfigureAwait(false);
             _gateway.Dispose();
-            State.Reset();
-            RestClient.Dispose();
-            return default;
+            await base.DisposeAsync().ConfigureAwait(false);
         }
     }
 }

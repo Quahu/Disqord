@@ -1,5 +1,4 @@
 ﻿using Disqord.Rest;
-using Disqord.WebSocket;
 
 namespace Disqord
 {
@@ -17,7 +16,7 @@ namespace Disqord
             var shards = configuration.ShardId != null && configuration.ShardCount != null
                 ? ((int, int)?) (configuration.ShardId, configuration.ShardCount)
                 : null;
-            _gateway = new DiscordClientGateway(this, shards, configuration.WebSocketClient ?? new WebSocketClient());
+            _gateway = new DiscordClientGateway(this, shards);
             State._getGateway = (client, _) => (client as DiscordClient)._gateway;
             SetStatus(configuration.Status);
             SetActivity(configuration.Activity);

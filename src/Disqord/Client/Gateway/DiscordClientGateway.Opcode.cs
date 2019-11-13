@@ -8,6 +8,8 @@ namespace Disqord
 {
     internal sealed partial class DiscordClientGateway : IDisposable
     {
+        private readonly Random _random = new Random();
+
         private async Task HandleOpcodeAsync(PayloadModel payload)
         {
             switch (payload.Op)
@@ -20,7 +22,7 @@ namespace Disqord
 
                 case Opcode.Heartbeat:
                 {
-                    Log(LogMessageSeverity.Debug, "Heartbeat requested. Heartbeating...");
+                    Log(LogMessageSeverity.Debug, "Heartbeat requested. Sending...");
                     await SendHeartbeatAsync().ConfigureAwait(false);
                     break;
                 }
@@ -43,17 +45,18 @@ namespace Disqord
                     Log(LogMessageSeverity.Warning, "Received invalid session...");
                     if (_resuming)
                     {
-                        Log(LogMessageSeverity.Information, "Currently resuming, starting a new session...");
-                        await Task.Delay(_random.Next(1000, 5001)).ConfigureAwait(false);
+                        var delay = _random.Next(1000, 5001);
+                        Log(LogMessageSeverity.Information, $"Currently resuming, starting a new session in {delay}ms.");
+                        await Task.Delay(delay).ConfigureAwait(false);
                         await SendIdentifyAsync().ConfigureAwait(false);
                     }
                     else
                     {
-                        if ((bool) payload.D)
+                        if (Serializer.ToObject<bool>(payload.D))
                         {
                             Log(LogMessageSeverity.Information, "Session is resumable, resuming...");
-                            await SendResumeAsync().ConfigureAwait(false);
                             _resuming = true;
+                            await SendResumeAsync().ConfigureAwait(false);
                         }
                         else
                         {
@@ -66,33 +69,26 @@ namespace Disqord
 
                 case Opcode.Hello:
                 {
+                    Log(LogMessageSeverity.Debug, "Received Hello...");
                     var data = Serializer.ToObject<HelloModel>(payload.D);
                     _heartbeatInterval = data.HeartbeatInterval;
                     _ = RunHeartbeatAsync();
-                    try
+                    if (_resuming)
                     {
-                        await _resumeSemaphore.WaitAsync().ConfigureAwait(false);
-                        if (_resuming)
-                        {
-                            Log(LogMessageSeverity.Information, "Received Hello after requesting a resume, not identifying.");
-                            return;
-                        }
-                    }
-                    finally
-                    {
-                        _resumeSemaphore.Release();
+                        Log(LogMessageSeverity.Information, "Received Hello after requesting a resume, not identifying.");
+                        return;
                     }
 
-                    Log(LogMessageSeverity.Information, "Received Hello, identifying...");
+                    Log(LogMessageSeverity.Information, "Identifying...");
                     await SendIdentifyAsync().ConfigureAwait(false);
                     break;
                 }
 
                 case Opcode.HeartbeatAck:
                 {
-                    _lastHeartbeatSent = _lastHeartbeatSend;
-                    _lastHeartbeatAck = DateTimeOffset.UtcNow;
                     Log(LogMessageSeverity.Debug, "Acknowledged Heartbeat.");
+                    _lastHeartbeatAck = DateTimeOffset.UtcNow;
+                    _lastHeartbeatSent = _lastHeartbeatSend;
                     break;
                 }
             }

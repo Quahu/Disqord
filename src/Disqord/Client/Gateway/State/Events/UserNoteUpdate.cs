@@ -11,7 +11,7 @@ namespace Disqord
         {
             var model = Serializer.ToObject<UserNoteUpdateModel>(payload.D);
             string oldNote = null;
-            _currentUser.AddOrUpdateNote(model.Id, model.Note, (_, old) =>
+            _currentUser._notes.AddOrUpdate(model.Id, model.Note, (_, old) =>
             {
                 oldNote = old;
                 return model.Note;

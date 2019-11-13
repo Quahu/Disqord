@@ -11,6 +11,8 @@ namespace Disqord
 
         public ValueTask AddExtensionAsync<T>(T extension) where T : DiscordClientExtension
         {
+            ThrowIfDisposed();
+
             if (extension == null)
                 throw new ArgumentNullException(nameof(extension));
 
@@ -24,6 +26,8 @@ namespace Disqord
 
         public ValueTask RemoveExtensionAsync<T>() where T : DiscordClientExtension
         {
+            ThrowIfDisposed();
+
             var type = typeof(T);
             if (!_extensions.TryRemove(type, out var extension))
                 throw new ArgumentException($"The {type} extension has not been added to this client.");
@@ -32,6 +36,10 @@ namespace Disqord
         }
 
         public T GetExtension<T>() where T : DiscordClientExtension
-            => (T) _extensions.GetValueOrDefault(typeof(T));
+        {
+            ThrowIfDisposed();
+
+            return _extensions.GetValueOrDefault(typeof(T)) as T;
+        }
     }
 }

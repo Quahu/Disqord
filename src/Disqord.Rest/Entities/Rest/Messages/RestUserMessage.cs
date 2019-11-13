@@ -22,7 +22,7 @@ namespace Disqord.Rest
 
         public IReadOnlyList<Embed> Embeds { get; private set; }
 
-        public Snowflake? Nonce { get; }
+        public string Nonce { get; }
 
         public bool IsPinned { get; private set; }
 

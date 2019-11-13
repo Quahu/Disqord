@@ -41,7 +41,7 @@ namespace Disqord
                 if (Client.IsBot)
                     throw new NotSupportedException("Bots cannot have relationships.");
 
-                return _relationshipsWrapper;
+                return new ReadOnlyDictionary<Snowflake, CachedRelationship>(_relationships);
             }
         }
 
@@ -52,7 +52,7 @@ namespace Disqord
                 if (Client.IsBot)
                     throw new NotSupportedException("Bots cannot set notes.");
 
-                return _notesWrapper;
+                return new ReadOnlyDictionary<Snowflake, string>(_notes);
             }
         }
 
@@ -70,10 +70,8 @@ namespace Disqord
 
         internal override CachedSharedUser SharedUser { get; }
 
-        private readonly LockedDictionary<Snowflake, CachedRelationship> _relationships;
-        private readonly ReadOnlyDictionary<Snowflake, CachedRelationship> _relationshipsWrapper;
-        private readonly LockedDictionary<Snowflake, string> _notes;
-        private readonly ReadOnlyDictionary<Snowflake, string> _notesWrapper;
+        internal readonly LockedDictionary<Snowflake, CachedRelationship> _relationships;
+        internal readonly LockedDictionary<Snowflake, string> _notes;
 
         internal CachedCurrentUser(CachedSharedUser user, UserModel model, int relationshipCount, int noteCount) : base(user)
         {
@@ -82,12 +80,49 @@ namespace Disqord
             if (!Client.IsBot)
             {
                 _relationships = new LockedDictionary<Snowflake, CachedRelationship>(relationshipCount);
-                _relationshipsWrapper = new ReadOnlyDictionary<Snowflake, CachedRelationship>(_relationships);
                 _notes = new LockedDictionary<Snowflake, string>(noteCount);
-                _notesWrapper = new ReadOnlyDictionary<Snowflake, string>(_notes);
             }
 
             Update(model);
+        }
+
+        internal void Update(RelationshipModel[] models)
+        {
+            for (var i = 0; i < models.Length; i++)
+            {
+                var relationshipModel = models[i];
+                _relationships.AddOrUpdate(relationshipModel.Id, _ => new CachedRelationship(Client, relationshipModel), (_, old) =>
+                {
+                    old.Update(relationshipModel);
+                    return old;
+                });
+            }
+
+            if (models.Length != _relationships.Count)
+            {
+                foreach (var key in _relationships.Keys)
+                {
+                    var found = false;
+                    for (var i = 0; i < models.Length; i++)
+                    {
+                        if (key == models[i].Id)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                        _relationships.TryRemove(key, out _);
+                }
+            }
+        }
+
+        internal void Update(Dictionary<ulong, string> notes)
+        {
+            _notes.Clear();
+            foreach (var noteKvp in notes)
+                _notes.AddOrUpdate(noteKvp.Key, noteKvp.Value, (_, __) => noteKvp.Value);
         }
 
         internal override void Update(UserModel model)
@@ -117,29 +152,6 @@ namespace Disqord
                 NitroType = model.PremiumType.Value;
 
             SharedUser.Update(model);
-        }
-
-        internal bool TryAddRelationship(CachedRelationship relationship)
-        {
-            var result = _relationships.TryAdd(relationship.Id, relationship);
-            if (result)
-                relationship.User.SharedUser.References++;
-
-            return result;
-        }
-
-        internal bool TryRemoveRelationship(Snowflake id, out CachedRelationship relationship)
-        {
-            var result = _relationships.TryRemove(id, out relationship);
-            if (result)
-                relationship.User.SharedUser.References--;
-
-            return result;
-        }
-
-        internal void AddOrUpdateNote(Snowflake id, string note, Func<Snowflake, string, string> func)
-        {
-            _notes.AddOrUpdate(id, note, func);
         }
 
         public string GetNote(Snowflake userId)

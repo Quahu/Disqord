@@ -9,7 +9,8 @@ namespace Disqord
         public Task HandleRelationshipRemoveAsync(PayloadModel payload)
         {
             var model = Serializer.ToObject<RelationshipModel>(payload.D);
-            _currentUser.TryRemoveRelationship(model.Id, out var relationship);
+            _currentUser._relationships.TryRemove(model.Id, out var relationship);
+            relationship.User.SharedUser.References--;
 
             return _client._relationshipDeleted.InvokeAsync(new RelationshipDeletedEventArgs(relationship));
         }

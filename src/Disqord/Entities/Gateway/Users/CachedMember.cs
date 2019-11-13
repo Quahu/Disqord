@@ -96,26 +96,29 @@ namespace Disqord
         internal override void Update(UserModel model)
             => SharedUser.Update(model);
 
+        internal void Update(ulong[] roles)
+        {
+            _roles.Clear();
+            _roles[Guild.Id] = Guild.Roles[Guild.Id];
+            for (var i = 0; i < roles.Length; i++)
+            {
+                var roleId = roles[i];
+                if (!Guild.Roles.TryGetValue(roleId, out var role))
+                {
+                    Client.Log(LogMessageSeverity.Warning, $"Guild has no role the member has. Id: {roleId} {Guild.Name}.");
+                    continue;
+                }
+                _roles[roleId] = role;
+            }
+        }
+
         internal void Update(MemberModel model)
         {
             if (model.Nick.HasValue)
                 Nick = model.Nick.Value;
 
             if (model.Roles.HasValue)
-            {
-                _roles.Clear();
-                _roles[Guild.Id] = Guild.Roles[Guild.Id];
-                for (var i = 0; i < model.Roles.Value.Length; i++)
-                {
-                    var roleId = model.Roles.Value[i];
-                    if (!Guild.Roles.TryGetValue(roleId, out var role))
-                    {
-                        Client.Log(LogMessageSeverity.Warning, $"Guild has no role the member has. Id: {roleId} {Guild.Name}.");
-                        continue;
-                    }
-                    _roles[roleId] = role;
-                }
-            }
+                Update(model.Roles.Value);
 
             if (model.PremiumSince.HasValue)
                 BoostedAt = model.PremiumSince.Value;
@@ -130,20 +133,7 @@ namespace Disqord
                 Nick = model.Nick.Value;
 
             if (model.Roles.HasValue)
-            {
-                _roles.Clear();
-                _roles[Guild.Id] = Guild.Roles[Guild.Id];
-                for (var i = 0; i < model.Roles.Value.Length; i++)
-                {
-                    var roleId = model.Roles.Value[i];
-                    if (!Guild.Roles.TryGetValue(roleId, out var role))
-                    {
-                        Client.Log(LogMessageSeverity.Warning, $"Guild ({Guild.Name}) has no role the member has. Id: {roleId}.");
-                        continue;
-                    }
-                    _roles[roleId] = role;
-                }
-            }
+                Update(model.Roles.Value);
         }
 
         internal void Update(VoiceStateModel model)

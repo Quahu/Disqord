@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Events;
@@ -17,97 +17,112 @@ namespace Disqord
     {
         public TimeSpan? Latency => _lastHeartbeatAck - _lastHeartbeatSent;
 
-        internal (int ShardId, int ShardCount)? _shards;
-        internal DiscordClientState State => _client.State;
         internal IJsonSerializer Serializer => _client.Serializer;
-        internal ILogger Logger => _client.Logger;
+        internal DiscordClientState State => _client.State;
 
         private readonly DiscordClientBase _client;
-        private readonly IWebSocketClient _ws;
 
-        private CancellationTokenSource _connectionCts;
+        private bool _isDisposed;
         private DateTimeOffset? _lastGuildCreate;
-        private bool _disposed;
         private bool _manualDisconnection;
-        private readonly Random _random = new Random();
         private int? _lastSequenceNumber;
         private string _sessionId;
         private string[] _trace;
         private volatile bool _resuming;
         private volatile bool _reconnecting;
         private readonly object _reconnectionLock = new object();
-        private readonly SemaphoreSlim _resumeSemaphore = new SemaphoreSlim(1, 1);
         private TaskCompletionSource<bool> _readyTaskCompletionSource;
+        private CancellationTokenSource _combinedRunCts;
+        private CancellationTokenSource _runCts;
+        private TaskCompletionSource<bool> _runTcs;
+        private readonly WebSocketClient _ws;
+
         private readonly ConcurrentQueue<(PayloadModel, GatewayDispatch)> _readyPayloadQueue = new ConcurrentQueue<(PayloadModel, GatewayDispatch)>();
 
-        public DiscordClientGateway(DiscordClientBase client, (int ShardId, int ShardCount)? shards, IWebSocketClient websocket)
+        public DiscordClientGateway(DiscordClientBase client, (int ShardId, int ShardCount)? shards)
         {
             _client = client;
             _shards = shards;
-            _ws = websocket;
+            _ws = new WebSocketClient();
             _ws.MessageReceived += WebSocketMessageReceivedAsync;
             _ws.Closed += WebSocketClosedAsync;
         }
 
         internal void Log(LogMessageSeverity severity, string message, Exception exception = null)
-            => Logger.Log(this, new MessageLoggedEventArgs("Gateway", severity, message, exception));
+            => _client.Logger.Log(this, new MessageLoggedEventArgs("Gateway", severity, message, exception));
 
-        public async Task ConnectAsync(string gatewayUrl)
+        public async Task RunAsync(CancellationToken cancellationToken)
         {
-            try
-            {
-                await _resumeSemaphore.WaitAsync().ConfigureAwait(false);
-                var connectionCts = _connectionCts ?? (_connectionCts = new CancellationTokenSource());
-                using (var cts = new CancellationTokenSource(10000))
-                using (var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cts.Token, connectionCts.Token))
-                {
-                    await _ws.ConnectAsync(new Uri(gatewayUrl + RestRequest.BuildQueryString(new Dictionary<string, object>
-                    {
-                        ["compress"] = "zlib-stream"
-                    })), linkedCts.Token).ConfigureAwait(false);
-                }
+            if (_combinedRunCts != null)
+                throw new InvalidOperationException("The gateway is already running.");
 
-                if (_sessionId != null)
-                {
-                    _resuming = true;
-                    await SendResumeAsync().ConfigureAwait(false);
-                }
-            }
-            finally
+            _runCts = new CancellationTokenSource();
+            _runTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            _combinedRunCts = CancellationTokenSource.CreateLinkedTokenSource(_runCts.Token, cancellationToken);
+            _combinedRunCts.Token.Register(() => CancelRun(true));
+            await ConnectAsync().ConfigureAwait(false);
+            await _runTcs.Task.ConfigureAwait(false);
+        }
+
+        private async Task ConnectAsync()
+        {
+            Log(LogMessageSeverity.Debug, "Connecting...");
+            var gatewayUrl = await _client.GetGatewayAsync(_sessionId == null).ConfigureAwait(false);
+            await _ws.ConnectAsync(new Uri(string.Concat(gatewayUrl, "?compress=zlib-stream")), _combinedRunCts.Token).ConfigureAwait(false);
+
+            if (_sessionId != null)
             {
-                _resumeSemaphore.Release();
+                _resuming = true;
+                Log(LogMessageSeverity.Debug, "Session id is present, attempting to resume...");
+                await SendResumeAsync().ConfigureAwait(false);
             }
         }
 
-        public async Task DisconnectAsync()
+        private void CancelRun(bool forced)
         {
-            lock (_reconnectionLock)
+            if (_combinedRunCts == null)
+                return;
+
+            _manualDisconnection = true;
+            _sessionId = null;
+            try
             {
-                _manualDisconnection = true;
-                _sessionId = null;
-                try
-                {
-                    _heartbeatCts?.Cancel();
-                }
-                catch { }
-                _heartbeatCts?.Dispose();
-                try
-                {
-                    _connectionCts?.Cancel();
-                }
-                catch { }
-                _connectionCts?.Dispose();
+                _heartbeatCts?.Cancel();
             }
+            catch { }
+            _heartbeatCts?.Dispose();
+            try
+            {
+                _runCts?.Cancel();
+            }
+            catch { }
+            try
+            {
+                _combinedRunCts?.Cancel();
+            }
+            catch { }
+            _combinedRunCts?.Dispose();
+            _runCts?.Dispose();
+            if (forced)
+                _runTcs?.TrySetException(new TaskCanceledException());
+            else
+                _runTcs.TrySetResult(true);
+        }
+
+        public async Task StopAsync()
+        {
+            if (_combinedRunCts == null)
+                throw new InvalidOperationException("The gateway is not running.");
+
+            Log(LogMessageSeverity.Debug, "Stopping...");
             await _ws.CloseAsync().ConfigureAwait(false);
+            CancelRun(false);
         }
 
         private async Task WebSocketMessageReceivedAsync(WebSocketMessageReceivedEventArgs e)
         {
             var payload = Serializer.Deserialize<PayloadModel>(e.Stream);
-            if (_client.IsBot)
-            {
-                Log(LogMessageSeverity.Debug, $"Received opcode {payload.Op}.");
-            }
+            Log(LogMessageSeverity.Debug, $"Received opcode {payload.Op}.");
             try
             {
                 await HandleOpcodeAsync(payload).ConfigureAwait(false);
@@ -120,20 +135,11 @@ namespace Disqord
 
         private async Task WebSocketClosedAsync(WebSocketClosedEventArgs e)
         {
-            bool manualDisconnection;
-            bool reconnecting;
-
-            lock (_reconnectionLock)
-            {
-                manualDisconnection = _manualDisconnection;
-                reconnecting = _reconnecting;
-            }
-
-            if (manualDisconnection)
+            if (_manualDisconnection)
                 return;
 
             Log(LogMessageSeverity.Warning, $"Close: {e.Status} {e.Description}", e.Exception);
-            if (reconnecting)
+            if (_reconnecting)
                 return;
 
             GatewayCloseCode gatewayCloseCode = default;
@@ -162,9 +168,9 @@ namespace Disqord
 
             if (!shouldRetry && e.Status != null)
             {
-                Log(LogMessageSeverity.Error, $"Close {gatewayCloseCode} ({(int) gatewayCloseCode}) is unrecoverable, not retrying.");
+                Log(LogMessageSeverity.Error, $"Close {gatewayCloseCode} ({(int) gatewayCloseCode}) is unrecoverable, stopping.");
                 _reconnecting = false;
-                await _client.DisconnectAsync().ConfigureAwait(false);
+                await StopAsync().ConfigureAwait(false);
                 return;
             }
 
@@ -174,28 +180,40 @@ namespace Disqord
             }
             catch { }
             _heartbeatCts?.Dispose();
+            _sessionId = null;
             _reconnecting = true;
-            while (!_disposed)
+            while (!_combinedRunCts.IsCancellationRequested && !_isDisposed)
             {
                 try
                 {
-                    await _client.ConnectAsync().ConfigureAwait(false);
+                    Log(LogMessageSeverity.Information, "Attempting to reconnect after the close...");
+                    await ConnectAsync().ConfigureAwait(false);
                     _reconnecting = false;
                     return;
                 }
                 catch (SessionLimitException ex)
                 {
                     Log(LogMessageSeverity.Critical, $"No available sessions. Resets after {ex.ResetsAfter}.", ex);
+                    _runTcs.TrySetException(ex);
                     return;
                 }
-                catch (DiscordHttpException ex) when ((int) ex.HttpStatusCode == 403)
+                catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.Unauthorized)
                 {
-                    Log(LogMessageSeverity.Critical, "The token is invalid.");
+                    Log(LogMessageSeverity.Critical, "Invalid token.");
+                    _runTcs.TrySetException(ex);
+                    return;
+                }
+                catch (ObjectDisposedException)
+                {
+                    return;
+                }
+                catch (TaskCanceledException)
+                {
                     return;
                 }
                 catch (Exception ex)
                 {
-                    Log(LogMessageSeverity.Error, $"Failed to reconnect after closure. Retrying in 10 seconds.", ex);
+                    Log(LogMessageSeverity.Error, $"Failed to reconnect. Retrying in 10 seconds.", ex);
                     await Task.Delay(10000).ConfigureAwait(false);
                 }
             }
@@ -252,7 +270,13 @@ namespace Disqord
 
         public void Dispose()
         {
+            _isDisposed = true;
 
+            if (!_isDisposed)
+            {
+                CancelRun(true);
+                _ws.Dispose();
+            }
         }
     }
 }

@@ -128,16 +128,10 @@ namespace Disqord.Bot
             return _provider?.GetService(serviceType);
         }
 
-        /// <exception cref="TaskCanceledException"></exception>
-        public async Task RunAsync(CancellationToken token = default)
-        {
-            await ConnectAsync().ConfigureAwait(false);
-            await Task.Delay(-1, token).ConfigureAwait(false);
-        }
 
         /// <exception cref="TaskCanceledException"></exception>
-        public void Run(CancellationToken token = default)
-            => RunAsync(token).GetAwaiter().GetResult();
+        public void Run(CancellationToken cancellationToken = default)
+            => RunAsync(cancellationToken).GetAwaiter().GetResult();
 
         internal new void Log(LogMessageSeverity severity, string message, Exception exception = null)
             => Logger.Log(this, new MessageLoggedEventArgs("Bot", severity, message, exception));

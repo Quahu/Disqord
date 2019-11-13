@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Net.WebSockets;
 
 namespace Disqord.WebSocket
 {
-    public sealed class WebSocketClosedEventArgs : EventArgs
+    internal sealed class WebSocketClosedEventArgs : EventArgs
     {
-        public int? Status { get; }
+        public WebSocketCloseStatus? Status { get; }
 
         public string Description { get; }
 
         public Exception Exception { get; }
 
-        public WebSocketClosedEventArgs(int? status, string description, Exception exception)
+        public WebSocketClosedEventArgs(WebSocketCloseStatus? status, string description, Exception exception)
         {
             Status = status;
             Description = description;

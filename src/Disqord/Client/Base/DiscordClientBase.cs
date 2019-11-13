@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Logging;
@@ -28,6 +27,8 @@ namespace Disqord
 
         internal bool IsBot => TokenType == TokenType.Bot;
 
+        internal bool IsDisposed { get; private set; }
+
         RestDownloadable<RestCurrentUser> IRestDiscordClient.CurrentUser => RestClient.CurrentUser;
 
         internal DiscordClientBase(RestDiscordClient restClient,
@@ -51,6 +52,12 @@ namespace Disqord
             _extensions = new LockedDictionary<Type, DiscordClientExtension>();
         }
 
+        internal void ThrowIfDisposed()
+        {
+            if (IsDisposed)
+                throw new ObjectDisposedException(null, "The client has been disposed.");
+        }
+
         internal void Log(LogMessageSeverity severity, string message, Exception exception = null)
             => Logger.Log(this, new MessageLoggedEventArgs("Client", severity, message, exception));
 
@@ -59,16 +66,25 @@ namespace Disqord
 
         public virtual async ValueTask DisposeAsync()
         {
-            foreach (var extensionKvp in _extensions)
+            IsDisposed = true;
+            if (!IsDisposed)
             {
-                try
-                {
-                    await extensionKvp.Value.DisposeAsync().ConfigureAwait(false);
-                }
-                catch { }
-            }
+                State.Reset();
 
-            RestClient.Dispose();
+                foreach (var extensionKvp in _extensions)
+                {
+                    try
+                    {
+                        await extensionKvp.Value.DisposeAsync().ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log(LogMessageSeverity.Error, $"An exception occurred while disposing the {extensionKvp.Key} extension.", ex);
+                    }
+                }
+
+                RestClient.Dispose();
+            }
         }
     }
 }

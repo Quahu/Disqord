@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Disqord.Collections;
 using Disqord.Models;
@@ -32,13 +33,17 @@ namespace Disqord
 
         internal abstract CachedSharedUser SharedUser { get; }
 
-        internal CachedUser(CachedSharedUser sharedUser) : this(sharedUser.Client, sharedUser.IsBot, sharedUser.Id)
-        { }
+        private static readonly Func<CachedGuild, Snowflake, bool> _mutualGuildsPredicate = (x, id) => x.Members.ContainsKey(id);
 
-        internal CachedUser(DiscordClientBase client, bool isBot, Snowflake id) : base(client, id)
+        internal CachedUser(CachedSharedUser sharedUser) : base(sharedUser.Client, sharedUser.Id)
         {
-            IsBot = isBot;
-            MutualGuilds = new ReadOnlyValuePredicateDictionary<Snowflake, CachedGuild>(Client.Guilds, x => x.Members.ContainsKey(Id));
+            IsBot = sharedUser.IsBot;
+        }
+
+        internal CachedUser(DiscordClientBase client, UserModel model) : base(client, model.Id)
+        {
+            IsBot = model.Bot;
+            MutualGuilds = new ReadOnlyValuePredicateArgumentDictionary<Snowflake, CachedGuild, Snowflake>(Client.Guilds, _mutualGuildsPredicate, Id);
         }
 
         internal virtual void Update(UserModel model)

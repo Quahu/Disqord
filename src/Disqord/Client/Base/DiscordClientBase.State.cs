@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Disqord
 {
-    public abstract partial class DiscordClientBase
+    public abstract partial class DiscordClientBase : IRestDiscordClient, IAsyncDisposable
     {
         /// <summary>
         ///     Gets the currently logged-in user.

@@ -24,6 +24,7 @@ namespace Disqord
         internal CachedRelationship(DiscordClientBase client, RelationshipModel model) : base(client, model.Id)
         {
             User = client.State.GetOrAddSharedUser(model.User);
+            User.SharedUser.References++;
             Update(model);
         }
 

@@ -51,7 +51,7 @@ namespace Disqord.Models
         public Optional<ReactionModel[]> Reactions { get; set; }
 
         [JsonProperty("nonce")]
-        public Optional<ulong?> Nonce { get; set; }
+        public Optional<string> Nonce { get; set; }
 
         [JsonProperty("pinned")]
         public Optional<bool> Pinned { get; set; }

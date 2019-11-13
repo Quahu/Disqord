@@ -10,6 +10,7 @@ namespace Disqord
 {
     internal sealed partial class DiscordClientGateway : IDisposable
     {
+        private readonly (int ShardId, int ShardCount)? _shards;
         internal UserStatus? _status;
         internal ActivityModel _activity;
 

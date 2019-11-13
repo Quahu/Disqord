@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Models.Dispatches;
 using Disqord.Rest;
@@ -10,31 +11,92 @@ namespace Disqord
         public Task HandleReadyAsync(ReadyModel model)
         {
             _client.RestClient.CurrentUser.SetValue(new RestCurrentUser(_client.RestClient, model.User));
-            var sharedUser = new CachedSharedUser(_client, model.User);
-            _currentUser = new CachedCurrentUser(sharedUser, model.User, model.Relationships?.Length ?? 0, model.Notes?.Count ?? 0);
-            sharedUser.References++;
-            _users.TryAdd(model.User.Id, _currentUser.SharedUser);
+            if (_currentUser == null)
+            {
+                var sharedUser = new CachedSharedUser(_client, model.User);
+                _currentUser = new CachedCurrentUser(sharedUser, model.User, model.Relationships?.Length ?? 0, model.Notes?.Count ?? 0);
+                sharedUser.References++;
+                _users.TryAdd(model.User.Id, _currentUser.SharedUser);
+            }
+            else
+            {
+                _currentUser.Update(model.User);
+            }
+
+            // TODO: more, more, more stale checking
+            foreach (var guild in _guilds.Values)
+            {
+                if (_client.IsBot)
+                {
+                    guild.ChunksExpected = (int) Math.Ceiling(guild.MemberCount / 1000.0);
+                    guild.ChunkTcs = new TaskCompletionSource<bool>();
+                }
+                else
+                    guild.SyncTcs = new TaskCompletionSource<bool>();
+            }
 
             if (!_client.IsBot)
             {
-                foreach (var guildModel in model.Guilds)
-                    _guilds.TryAdd(guildModel.Id, new CachedGuild(_client, guildModel));
-
-                foreach (var note in model.Notes)
-                    _currentUser.AddOrUpdateNote(note.Key, note.Value, (_, __) => note.Value);
-
-                for (var i = 0; i < model.Relationships.Length; i++)
+                for (var i = 0; i < model.Guilds.Length; i++)
                 {
-                    var relationshipModel = model.Relationships[i];
-                    var relationship = new CachedRelationship(_client, relationshipModel);
-                    _currentUser.TryAddRelationship(relationship);
+                    var guildModel = model.Guilds[i];
+                    _guilds.AddOrUpdate(guildModel.Id, _ => new CachedGuild(_client, guildModel), (_, old) =>
+                    {
+                        old.Update(guildModel);
+                        return old;
+                    });
                 }
+
+                if (model.Guilds.Length != _guilds.Count)
+                {
+                    foreach (var key in _guilds.Keys)
+                    {
+                        var found = false;
+                        for (var i = 0; i < model.Guilds.Length; i++)
+                        {
+                            if (key == model.Guilds[i].Id)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found)
+                            _guilds.TryRemove(key, out _);
+                    }
+                }
+
+                _currentUser.Update(model.Relationships);
+
+                _currentUser.Update(model.Notes);
 
                 for (var i = 0; i < model.PrivateChannels.Length; i++)
                 {
                     var channelModel = model.PrivateChannels[i];
-                    var channel = CachedPrivateChannel.Create(_client, channelModel);
-                    _privateChannels.TryAdd(channel.Id, channel);
+                    _privateChannels.AddOrUpdate(channelModel.Id, _ => CachedPrivateChannel.Create(_client, channelModel), (_, old) =>
+                    {
+                        old.Update(channelModel);
+                        return old;
+                    });
+                }
+
+                if (model.PrivateChannels.Length != _privateChannels.Count)
+                {
+                    foreach (var key in _privateChannels.Keys)
+                    {
+                        var found = false;
+                        for (var i = 0; i < model.PrivateChannels.Length; i++)
+                        {
+                            if (key == model.PrivateChannels[i].Id)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found)
+                            _privateChannels.TryRemove(key, out _);
+                    }
                 }
 
                 return _getGateway(_client, 0).SendGuildSyncAsync(_guilds.Keys.Select(x => x.RawValue));

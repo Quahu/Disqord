@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Disqord.WebSocket
 {
-    public sealed class WebSocketRequest
+    internal sealed class WebSocketRequest
     {
         public ReadOnlyMemory<byte> Message { get; }
 

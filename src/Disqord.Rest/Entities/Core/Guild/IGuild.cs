@@ -31,7 +31,7 @@ namespace Disqord
 
         IReadOnlyDictionary<Snowflake, IRole> Roles { get; }
 
-        IReadOnlyList<IGuildEmoji> Emojis { get; }
+        IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis { get; }
 
         IReadOnlyList<string> Features { get; }
 

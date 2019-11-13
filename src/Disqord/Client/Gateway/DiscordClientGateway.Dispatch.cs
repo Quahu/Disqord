@@ -50,9 +50,11 @@ namespace Disqord
             {
                 case GatewayDispatch.Ready:
                 {
+                    Log(LogMessageSeverity.Information, "Successfully identified.");
                     var model = Serializer.ToObject<ReadyModel>(payload.D);
                     _sessionId = model.SessionId;
                     _trace = model.Trace;
+
                     try
                     {
                         await State.HandleReadyAsync(model).ConfigureAwait(false);

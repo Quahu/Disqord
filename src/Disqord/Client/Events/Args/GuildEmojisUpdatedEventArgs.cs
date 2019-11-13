@@ -6,11 +6,11 @@ namespace Disqord.Events
     {
         public CachedGuild Guild { get; }
 
-        public IReadOnlyList<CachedGuildEmoji> OldEmojis { get; }
+        public IReadOnlyDictionary<Snowflake, CachedGuildEmoji> OldEmojis { get; }
 
-        public IReadOnlyList<CachedGuildEmoji> NewEmojis { get; }
+        public IReadOnlyDictionary<Snowflake, CachedGuildEmoji> NewEmojis { get; }
 
-        internal GuildEmojisUpdatedEventArgs(CachedGuild guild, IReadOnlyList<CachedGuildEmoji> oldEmojis) : base(guild.Client)
+        internal GuildEmojisUpdatedEventArgs(CachedGuild guild, IReadOnlyDictionary<Snowflake, CachedGuildEmoji> oldEmojis) : base(guild.Client)
         {
             Guild = guild;
             OldEmojis = oldEmojis;

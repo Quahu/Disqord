@@ -9,15 +9,11 @@ namespace Disqord
         public Task HandleRelationshipAddAsync(PayloadModel payload)
         {
             var model = Serializer.ToObject<RelationshipModel>(payload.D);
-            if (_currentUser.Relationships.TryGetValue(model.Id, out var relationship))
+            var relationship = _currentUser._relationships.AddOrUpdate(model.Id, _ => new CachedRelationship(_client, model), (_, old) =>
             {
-                relationship.Update(model);
-            }
-            else
-            {
-                relationship = new CachedRelationship(_client, model);
-                _currentUser.TryAddRelationship(relationship);
-            }
+                old.Update(model);
+                return old;
+            });
 
             return _client._relationshipCreated.InvokeAsync(new RelationshipCreatedEventArgs(relationship));
         }

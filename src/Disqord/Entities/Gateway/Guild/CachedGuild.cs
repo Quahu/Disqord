@@ -39,8 +39,6 @@ namespace Disqord
 
         public ContentFilterLevel ContentFilterLevel { get; private set; }
 
-        public IReadOnlyList<CachedGuildEmoji> Emojis { get; private set; }
-
         public IReadOnlyList<string> Features { get; private set; }
 
         public MfaLevel MfaLevel { get; private set; }
@@ -86,6 +84,8 @@ namespace Disqord
         public CachedRole DefaultRole => Roles[Id];
 
         public IReadOnlyDictionary<Snowflake, CachedRole> Roles { get; }
+
+        public IReadOnlyDictionary<Snowflake, CachedGuildEmoji> Emojis { get; }
 
         public IReadOnlyDictionary<Snowflake, CachedGuildChannel> Channels { get; }
 
@@ -145,6 +145,8 @@ namespace Disqord
 
         internal TaskCompletionSource<bool> ChunkTcs;
 
+        internal readonly LockedDictionary<Snowflake, CachedGuildEmoji> _emojis;
+
         internal readonly LockedDictionary<Snowflake, CachedRole> _roles;
 
         internal readonly LockedDictionary<Snowflake, CachedGuildChannel> _channels;
@@ -152,14 +154,16 @@ namespace Disqord
         internal readonly LockedDictionary<Snowflake, CachedMember> _members;
 
         IReadOnlyDictionary<Snowflake, IRole> IGuild.Roles => new ReadOnlyUpcastingDictionary<Snowflake, CachedRole, IRole>(Roles);
-        IReadOnlyList<IGuildEmoji> IGuild.Emojis => Emojis;
+        IReadOnlyDictionary<Snowflake, IGuildEmoji> IGuild.Emojis => new ReadOnlyUpcastingDictionary<Snowflake, CachedGuildEmoji, IGuildEmoji>(Emojis);
 
         internal CachedGuild(DiscordClientBase client, WebSocketGuildModel model) : base(client, model.Id)
         {
             _roles = new LockedDictionary<Snowflake, CachedRole>(model.Roles.Value.Length);
+            _emojis = new LockedDictionary<Snowflake, CachedGuildEmoji>(model.Emojis.Value.Length);
             _channels = new LockedDictionary<Snowflake, CachedGuildChannel>(model.Channels.Length);
             _members = new LockedDictionary<Snowflake, CachedMember>(model.Members.Length);
             Roles = new ReadOnlyDictionary<Snowflake, CachedRole>(_roles);
+            Emojis = new ReadOnlyDictionary<Snowflake, CachedGuildEmoji>(_emojis);
             Channels = new ReadOnlyDictionary<Snowflake, CachedGuildChannel>(_channels);
             Members = new ReadOnlyDictionary<Snowflake, CachedMember>(_members);
             NestedChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedNestedChannel>(_channels);
@@ -200,15 +204,68 @@ namespace Disqord
             Update(model.Presences);
         }
 
-        internal void Update(EmojiModel[] models)
+        internal void Update(RoleModel[] models)
         {
-            var builder = ImmutableArray.CreateBuilder<CachedGuildEmoji>(models.Length);
             for (var i = 0; i < models.Length; i++)
             {
-                builder.Add(new CachedGuildEmoji(this, models[i]));
+                var roleModel = models[i];
+                _roles.AddOrUpdate(roleModel.Id, _ => new CachedRole(this, roleModel), (_, old) =>
+                {
+                    old.Update(roleModel);
+                    return old;
+                });
             }
 
-            Emojis = builder.MoveToImmutable();
+            if (models.Length != _roles.Count)
+            {
+                foreach (var key in _roles.Keys)
+                {
+                    var found = false;
+                    for (var i = 0; i < models.Length; i++)
+                    {
+                        if (key == models[i].Id)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                        _roles.TryRemove(key, out _);
+                }
+            }
+        }
+
+        internal void Update(EmojiModel[] models)
+        {
+            for (var i = 0; i < models.Length; i++)
+            {
+                var emojiModel = models[i];
+                _emojis.AddOrUpdate(emojiModel.Id.Value, _ => new CachedGuildEmoji(this, emojiModel), (_, old) =>
+                {
+                    old.Update(emojiModel);
+                    return old;
+                });
+            }
+
+            if (models.Length != _emojis.Count)
+            {
+                foreach (var key in _emojis.Keys)
+                {
+                    var found = false;
+                    for (var i = 0; i < models.Length; i++)
+                    {
+                        if (key == models[i].Id)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                        _emojis.TryRemove(key, out _);
+                }
+            }
         }
 
         internal void Update(MemberModel[] models)
@@ -225,7 +282,7 @@ namespace Disqord
             for (var i = 0; i < models.Length; i++)
             {
                 var presenceModel = models[i];
-                GetMember(presenceModel.User.Id).Update(presenceModel);
+                _members[presenceModel.User.Id].Update(presenceModel);
             }
         }
 
@@ -233,21 +290,22 @@ namespace Disqord
         {
             Update(model as GuildModel);
 
-            _channels.Clear();
             for (var i = 0; i < model.Channels.Length; i++)
             {
                 var channelModel = model.Channels[i];
-                _channels.TryAdd(channelModel.Id, CachedGuildChannel.Create(this, channelModel));
+                _channels.AddOrUpdate(channelModel.Id, _ => CachedGuildChannel.Create(this, channelModel), (_, old) =>
+                {
+                    old.Update(channelModel);
+                    return old;
+                });
             }
 
-            _members.Clear();
-            for (var i = 0; i < model.Members.Length; i++)
+            Update(model.Members);
+
+            for (var i = 0; i < model.VoiceStates.Length; i++)
             {
-                var memberModel = model.Members[i];
-                var member = Client.State.AddOrUpdateMember(this, memberModel, memberModel.User, true);
-                var voiceState = Array.Find(model.VoiceStates, x => x.UserId == member.Id);
-                if (voiceState != null)
-                    member.Update(voiceState);
+                var voiceState = model.VoiceStates[i];
+                _members[voiceState.UserId].Update(voiceState);
             }
 
             if (model.Presences != null)
@@ -297,14 +355,7 @@ namespace Disqord
                 ContentFilterLevel = model.ExplicitContentFilter.Value;
 
             if (model.Roles.HasValue)
-            {
-                _roles.Clear();
-                for (var i = 0; i < model.Roles.Value.Length; i++)
-                {
-                    var roleModel = model.Roles.Value[i];
-                    _roles.TryAdd(roleModel.Id, new CachedRole(this, roleModel));
-                }
-            }
+                Update(model.Roles.Value);
 
             if (model.Emojis.HasValue)
                 Update(model.Emojis.Value);

@@ -10,7 +10,7 @@ using Qommon.Events;
 
 namespace Disqord.WebSocket
 {
-    internal sealed class WebSocketClient : IWebSocketClient
+    internal sealed class WebSocketClient : IDisposable
     {
         public event AsynchronousEventHandler<WebSocketMessageReceivedEventArgs> MessageReceived
         {
@@ -150,7 +150,7 @@ namespace Disqord.WebSocket
                             catch { }
                             try
                             {
-                                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs((int?) _ws.CloseStatus, _ws.CloseStatusDescription, null)).ConfigureAwait(false);
+                                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, null)).ConfigureAwait(false);
                             }
                             catch { }
                             return;
@@ -222,13 +222,13 @@ namespace Disqord.WebSocket
                 {
                     //$"Exception while closing the websocket:";
                 }
-                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs((int) WebSocketCloseStatus.NormalClosure, string.Empty, null)).ConfigureAwait(false);
+                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(WebSocketCloseStatus.NormalClosure, string.Empty, null)).ConfigureAwait(false);
             }
 
             DisposeTokens();
         }
 
-        private void DisposeTokens()
+        public void DisposeTokens()
         {
             try
             {
