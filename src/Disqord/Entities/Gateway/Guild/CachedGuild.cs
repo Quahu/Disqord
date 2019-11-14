@@ -415,7 +415,10 @@ namespace Disqord
         {
             var result = _members.TryRemove(id, out member);
             if (result)
+            {
                 MemberCount--;
+                member.SharedUser.References--;
+            }
             return result;
         }
 

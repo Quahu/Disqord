@@ -36,10 +36,10 @@ namespace Disqord.Rest
             _cts.Cancel();
         }
 
-        public ValueTask<IReadOnlyList<T>> FlattenAsync(RestRequestOptions options = null)
+        public Task<IReadOnlyList<T>> FlattenAsync(RestRequestOptions options = null)
             => FlattenAsync(CancellationToken.None, options);
 
-        public async ValueTask<IReadOnlyList<T>> FlattenAsync(CancellationToken cancellationToken, RestRequestOptions options = null)
+        public async Task<IReadOnlyList<T>> FlattenAsync(CancellationToken cancellationToken, RestRequestOptions options = null)
         {
             if (_isDisposed)
                 throw new ObjectDisposedException(null);
@@ -62,7 +62,7 @@ namespace Disqord.Rest
             if (_isDisposed)
                 throw new ObjectDisposedException(null);
 
-            if (_cts.IsCancellationRequested || options?.CancellationToken?.IsCancellationRequested == true || !_queue.TryDequeue(out var page))
+            if (_cts.IsCancellationRequested || options?.CancellationToken.IsCancellationRequested == true || !_queue.TryDequeue(out var page))
             {
                 Current = default;
                 return false;

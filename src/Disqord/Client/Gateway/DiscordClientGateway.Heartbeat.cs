@@ -6,7 +6,7 @@ using Disqord.Logging;
 
 namespace Disqord
 {
-    internal sealed partial class DiscordClientGateway : IDisposable
+    internal sealed partial class DiscordClientGateway
     {
         private DateTimeOffset? _lastHeartbeatAck;
         private DateTimeOffset? _lastHeartbeatSent;

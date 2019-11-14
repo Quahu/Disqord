@@ -80,6 +80,7 @@ namespace Disqord.WebSocket
                 _sendCts = new CancellationTokenSource();
                 _sendTask = Task.Run(RunSendAsync);
             }
+
             return request.WaitAsync();
         }
 
@@ -236,12 +237,14 @@ namespace Disqord.WebSocket
             }
             catch { }
             _sendCts?.Dispose();
+            _sendCts = null;
             try
             {
                 _receiveCts?.Cancel();
             }
             catch { }
             _receiveCts?.Dispose();
+            _receiveCts = null;
         }
 
         public void Dispose()

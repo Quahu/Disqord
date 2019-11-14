@@ -8,7 +8,7 @@ using Disqord.WebSocket;
 
 namespace Disqord
 {
-    internal sealed partial class DiscordClientGateway : IDisposable
+    internal sealed partial class DiscordClientGateway
     {
         private readonly (int ShardId, int ShardCount)? _shards;
         internal UserStatus? _status;

@@ -6,7 +6,7 @@ using Disqord.Models.Dispatches;
 
 namespace Disqord
 {
-    internal sealed partial class DiscordClientGateway : IDisposable
+    internal sealed partial class DiscordClientGateway
     {
         private readonly Random _random = new Random();
 
@@ -45,6 +45,7 @@ namespace Disqord
                     Log(LogMessageSeverity.Warning, "Received invalid session...");
                     if (_resuming)
                     {
+                        _sessionId = null;
                         var delay = _random.Next(1000, 5001);
                         Log(LogMessageSeverity.Information, $"Currently resuming, starting a new session in {delay}ms.");
                         await Task.Delay(delay).ConfigureAwait(false);
@@ -60,6 +61,7 @@ namespace Disqord
                         }
                         else
                         {
+                            _sessionId = null;
                             Log(LogMessageSeverity.Information, "Session is not resumable, identifying...");
                             await SendIdentifyAsync().ConfigureAwait(false);
                         }

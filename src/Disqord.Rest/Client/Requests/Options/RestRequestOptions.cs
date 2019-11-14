@@ -12,12 +12,12 @@ namespace Disqord
         /// <summary>
         ///     Gets the <see cref="TimeSpan"/> representing how long the REST client should wait before timing out the request.
         /// </summary>
-        public TimeSpan? Timeout { get; }
+        public TimeSpan Timeout { get; }
 
         /// <summary>
         ///     Gets the <see cref="System.Threading.CancellationToken"/> representing the cancellation token for the REST request.
         /// </summary>
-        public CancellationToken? CancellationToken { get; }
+        public CancellationToken CancellationToken { get; }
 
         /// <summary>
         ///     Gets the six-digit numeric MFA code to be used with <see cref="TokenType.User"/> clients,

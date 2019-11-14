@@ -28,11 +28,29 @@ namespace Disqord
             {
                 if (_client.IsBot)
                 {
-                    guild.ChunksExpected = (int) Math.Ceiling(guild.MemberCount / 1000.0);
-                    guild.ChunkTcs = new TaskCompletionSource<bool>();
+                    if (guild.IsLarge)
+                    {
+                        guild.ChunksExpected = (int) Math.Ceiling(guild.MemberCount / 1000.0);
+                        guild.ChunkTcs = new TaskCompletionSource<bool>();
+                    }
                 }
                 else
+                {
                     guild.SyncTcs = new TaskCompletionSource<bool>();
+                }
+
+                var found = false;
+                for (var i = 0; i < model.Guilds.Length; i++)
+                {
+                    if (guild.Id == model.Guilds[i].Id)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                    _guilds.TryRemove(guild.Id, out _);
             }
 
             if (!_client.IsBot)

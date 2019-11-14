@@ -84,7 +84,7 @@ namespace Disqord.Rest
             Log(LogMessageSeverity.Debug, $"Handling {request}.");
             HttpResponseMessage response;
             var options = request.Options;
-            using (var cts = new CancellationTokenSource(options?.Timeout ?? _defaultTimeout))
+            using (var cts = new CancellationTokenSource(options != null && options.Timeout != default ? options.Timeout : _defaultTimeout))
             using (var linkedCts = options != null ? CancellationTokenSource.CreateLinkedTokenSource(cts.Token, options.CancellationToken) : null)
             {
                 var ticks = Environment.TickCount;

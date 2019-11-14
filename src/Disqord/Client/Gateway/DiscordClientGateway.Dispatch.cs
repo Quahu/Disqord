@@ -7,7 +7,7 @@ using Disqord.Serialization;
 
 namespace Disqord
 {
-    internal sealed partial class DiscordClientGateway : IDisposable
+    internal sealed partial class DiscordClientGateway
     {
         private async Task HandleDispatchAsync(PayloadModel payload, GatewayDispatch? gatewayEvent = null)
         {
@@ -71,8 +71,8 @@ namespace Disqord
 
                 case GatewayDispatch.Resumed:
                 {
-                    _resuming = false;
                     Log(LogMessageSeverity.Information, "Resumed.");
+                    _resuming = false;
                     break;
                 }
 

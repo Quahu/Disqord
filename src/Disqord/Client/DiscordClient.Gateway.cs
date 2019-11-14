@@ -97,8 +97,7 @@ namespace Disqord
                 return;
 
             _isDisposed = true;
-            await _gateway.StopAsync().ConfigureAwait(false);
-            _gateway.Dispose();
+            await _gateway.DisposeAsync().ConfigureAwait(false);
             await base.DisposeAsync().ConfigureAwait(false);
         }
     }

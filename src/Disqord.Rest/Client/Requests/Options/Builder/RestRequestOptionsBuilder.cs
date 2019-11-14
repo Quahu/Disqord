@@ -8,12 +8,12 @@ namespace Disqord.Rest
         /// <summary>
         ///     Gets or sets the <see cref="TimeSpan"/> representing how long the REST client should wait before timing out the request.
         /// </summary>
-        public TimeSpan? Timeout { get; set; }
+        public TimeSpan Timeout { get; set; }
 
         /// <summary>
         ///     Gets or sets the <see cref="System.Threading.CancellationToken"/> representing the cancellation token for the REST request.
         /// </summary>
-        public CancellationToken? CancellationToken { get; set; }
+        public CancellationToken CancellationToken { get; set; }
 
         /// <summary>
         ///     Gets or sets the six-digit numeric MFA code to be used with <see cref="TokenType.User"/> clients,
@@ -38,7 +38,7 @@ namespace Disqord.Rest
         public RestRequestOptionsBuilder()
         { }
 
-        public RestRequestOptionsBuilder WithTimeout(TimeSpan? timeout)
+        public RestRequestOptionsBuilder WithTimeout(TimeSpan timeout)
         {
             Timeout = timeout;
             return this;
