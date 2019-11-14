@@ -37,7 +37,7 @@ namespace Disqord
         public static string Strikethrough(string text)
             => $"~~{text}~~";
 
-        public static string MaskedUrl(string title, string url)
+        public static string Link(string title, string url)
             => $"[{title}]({url})";
 
         public static string Code(string code)
