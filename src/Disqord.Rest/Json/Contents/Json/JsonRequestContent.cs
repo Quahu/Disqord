@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -32,9 +33,10 @@ namespace Disqord.Rest
             }
 
             var bytes = serializer.Serialize(obj, additionalFields);
-#if DEBUG
-            System.Console.WriteLine(Encoding.UTF8.GetString(bytes.Span));
-#endif
+
+            if (Library.Debug.DumpJson)
+                Console.WriteLine(Encoding.UTF8.GetString(bytes.Span));
+
             var content = new ReadOnlyMemoryContent(bytes);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json")
             {
