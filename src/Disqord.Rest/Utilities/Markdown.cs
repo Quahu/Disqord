@@ -21,7 +21,6 @@ namespace Disqord
             '~'
         };
 
-        private const char ZERO_WIDTH_SPACE = '\u200b';
         private const int STACK_TEXT_LENGTH = 2000;
 
         // *text*
