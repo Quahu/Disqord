@@ -6,40 +6,40 @@ namespace Disqord.Models
 {
     internal sealed class EmbedModel
     {
-        [JsonProperty("title")]
+        [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
         public string Title { get; set; }
 
-        [JsonProperty("description")]
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
 
-        [JsonProperty("type")]
+        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
         public string Type { get; set; }
 
-        [JsonProperty("url")]
+        [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
         public string Url { get; set; }
 
-        [JsonProperty("timestamp")]
+        [JsonProperty("timestamp", NullValueHandling = NullValueHandling.Ignore)]
         public DateTimeOffset? Timestamp { get; set; }
 
-        [JsonProperty("color")]
+        [JsonProperty("color", NullValueHandling = NullValueHandling.Ignore)]
         public int? Color { get; set; }
 
-        [JsonProperty("footer")]
+        [JsonProperty("footer", NullValueHandling = NullValueHandling.Ignore)]
         public EmbedFooterModel Footer { get; set; }
 
-        [JsonProperty("image")]
+        [JsonProperty("image", NullValueHandling = NullValueHandling.Ignore)]
         public EmbedImageModel Image { get; set; }
 
-        [JsonProperty("thumbnail")]
+        [JsonProperty("thumbnail", NullValueHandling = NullValueHandling.Ignore)]
         public EmbedThumbnailModel Thumbnail { get; set; }
 
-        [JsonProperty("video")]
+        [JsonProperty("video", NullValueHandling = NullValueHandling.Ignore)]
         public EmbedVideoModel Video { get; set; }
 
-        [JsonProperty("provider")]
+        [JsonProperty("provider", NullValueHandling = NullValueHandling.Ignore)]
         public EmbedProviderModel Provider { get; set; }
 
-        [JsonProperty("author")]
+        [JsonProperty("author", NullValueHandling = NullValueHandling.Ignore)]
         public EmbedAuthorModel Author { get; set; }
 
         [JsonProperty("fields")]
