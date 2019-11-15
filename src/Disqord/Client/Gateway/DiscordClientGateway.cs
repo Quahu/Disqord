@@ -78,7 +78,7 @@ namespace Disqord
             }
             catch (TaskCanceledException)
             {
-                await _ws.CloseAsync().ConfigureAwait(false);
+                await DisconnectAsync().ConfigureAwait(false);
                 throw;
             }
         }
@@ -97,10 +97,10 @@ namespace Disqord
             }
         }
 
-        private async Task DisconnectAsync()
+        private Task DisconnectAsync()
         {
             Log(LogMessageSeverity.Information, "Disconnecting...");
-            await _ws.CloseAsync().ConfigureAwait(false);
+            return _ws.CloseAsync();
         }
 
         private void CancelRun(Optional<Exception> exception = default)
