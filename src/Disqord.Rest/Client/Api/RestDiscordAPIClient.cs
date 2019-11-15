@@ -88,7 +88,7 @@ namespace Disqord.Rest
             using (var linkedCts = options != null ? CancellationTokenSource.CreateLinkedTokenSource(cts.Token, options.CancellationToken) : null)
             {
                 var ticks = Environment.TickCount;
-                response = await Http.SendAsync(request.HttpMessage, linkedCts?.Token ?? cts.Token).ConfigureAwait(false);
+                response = await Http.SendAsync(request.HttpMessage, HttpCompletionOption.ResponseHeadersRead, linkedCts?.Token ?? cts.Token).ConfigureAwait(false);
                 var ms = Environment.TickCount - ticks;
                 Log(LogMessageSeverity.Debug, $"Handling {request}; completed after {ms}ms.");
             }
@@ -139,12 +139,12 @@ namespace Disqord.Rest
         {
             await EnqueueRequestAsync(request).ConfigureAwait(false);
             var response = await request.CompleteAsync().ConfigureAwait(false);
+            if (response.StatusCode == HttpStatusCode.NoContent)
+                return null;
+
             using (var jsonStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
             {
-                if (jsonStream.Length == 0)
-                    return default;
-
-                return Serializer.Deserialize<T>(jsonStream);
+                return await Serializer.DeserializeAsync<T>(jsonStream).ConfigureAwait(false);
             }
         }
 

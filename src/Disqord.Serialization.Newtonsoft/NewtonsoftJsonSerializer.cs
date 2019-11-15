@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -45,6 +46,27 @@ namespace Disqord.Serialization.Json.Newtonsoft
             catch (Exception ex)
             {
                 throw new SerializationException("An exception occured for Deserialize.", ex);
+            }
+        }
+
+        public async Task<T> DeserializeAsync<T>(Stream stream)
+        {
+            try
+            {
+                using (var streamReader = new StreamReader(stream, UTF8, leaveOpen: true))
+                using (var jsonReader = new JsonTextReader(streamReader))
+                {
+                    var token = await JToken.LoadAsync(jsonReader).ConfigureAwait(false);
+
+                    if (Library.Debug.DumpJson)
+                        Console.WriteLine(token);
+
+                    return token.ToObject<T>(_serializer);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new SerializationException("An exception occured for DeserializeAsync.", ex);
             }
         }
 
