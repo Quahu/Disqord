@@ -33,6 +33,8 @@ namespace Disqord
 
         public VoiceState VoiceState { get; private set; }
 
+        public override IReadOnlyDictionary<Snowflake, CachedGuild> MutualGuilds => SharedUser.MutualGuilds;
+
         public override Presence Presence => _presence ?? SharedUser.Presence;
         private Presence _presence;
 

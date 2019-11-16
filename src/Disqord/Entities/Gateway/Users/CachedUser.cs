@@ -21,7 +21,7 @@ namespace Disqord
 
         public virtual string Mention => Discord.MentionUser(this);
 
-        public IReadOnlyDictionary<Snowflake, CachedGuild> MutualGuilds { get; }
+        public virtual IReadOnlyDictionary<Snowflake, CachedGuild> MutualGuilds { get; }
 
         public virtual CachedRelationship Relationship => Client.CurrentUser.GetRelationship(Id);
 
