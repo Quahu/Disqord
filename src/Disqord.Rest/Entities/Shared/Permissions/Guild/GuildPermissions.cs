@@ -97,6 +97,23 @@ namespace Disqord
         public bool Equals(GuildPermissions other)
             => RawValue == other.RawValue;
 
+        public override bool Equals(object obj)
+        {
+            if (obj is GuildPermissions guildPermissions)
+                return Equals(guildPermissions);
+
+            if (obj is Permission permission)
+                return Equals(permission);
+
+            if (obj is ulong rawValue)
+                return Equals(rawValue);
+
+            return false;
+        }
+
+        public override int GetHashCode()
+            => RawValue.GetHashCode();
+
         public override string ToString()
             => Permissions.ToString();
 
