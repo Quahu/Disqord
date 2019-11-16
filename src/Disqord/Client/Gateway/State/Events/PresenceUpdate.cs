@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Disqord.Events;
+using Disqord.Logging;
 using Disqord.Models;
 using Disqord.Models.Dispatches;
 
@@ -9,7 +11,29 @@ namespace Disqord
     {
         public Task HandlePresenceUpdateAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<PresenceUpdateModel>(payload.D);
+            PresenceUpdateModel model;
+            try
+            {
+                model = Serializer.ToObject<PresenceUpdateModel>(payload.D);
+            }
+            catch (Exception ex)
+            {
+                MemberModel memberModel;
+                try
+                {
+                    memberModel = Serializer.ToObject<MemberModel>(payload.D);
+                }
+                catch
+                {
+                    // Just to be safe?
+                    Log(LogMessageSeverity.Warning, $"Discarding an invalid presence update for an unknown user.", ex);
+                    return Task.CompletedTask;
+                }
+
+                Log(LogMessageSeverity.Warning, $"Discarding an invalid presence update for user {memberModel.User.Id}.", ex);
+                return Task.CompletedTask;
+            }
+
             // If the name is set it's a user update.
             // Otherwise it's an actual presence update.
             if (model.User.Username.HasValue)
