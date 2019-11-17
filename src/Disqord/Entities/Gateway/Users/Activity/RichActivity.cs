@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using Disqord.Models;
 
 namespace Disqord
@@ -25,7 +23,9 @@ namespace Disqord
 
         public string PartyId { get; }
 
-        public IReadOnlyList<int> Size { get; }
+        public int? PartySize { get; }
+
+        public int? PartyMaxSize { get; }
 
         public string MatchSecret { get; }
 
@@ -68,7 +68,12 @@ namespace Disqord
             if (model.Party != null)
             {
                 PartyId = model.Party.Id;
-                Size = model.Party.Size?.ToImmutableArray();
+
+                if (model.Party.Size != null)
+                {
+                    PartySize = model.Party.Size[0];
+                    PartyMaxSize = model.Party.Size[1];
+                }
             }
 
             if (model.Secrets != null)
