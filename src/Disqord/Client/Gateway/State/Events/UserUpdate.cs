@@ -9,11 +9,10 @@ namespace Disqord
         public Task HandleUserUpdateAsync(PayloadModel payload)
         {
             var model = Serializer.ToObject<UserModel>(payload.D);
-            var user = GetUser(model.Id);
-            var userBefore = user.Clone();
-            user.Update(model);
+            var currentUserBefore = _currentUser.Clone();
+            _currentUser.Update(model);
 
-            return _client._userUpdated.InvokeAsync(new UserUpdatedEventArgs(userBefore, user));
+            return _client._userUpdated.InvokeAsync(new UserUpdatedEventArgs(currentUserBefore, _currentUser));
         }
     }
 }
