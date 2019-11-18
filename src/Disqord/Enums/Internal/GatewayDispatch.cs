@@ -102,6 +102,9 @@ namespace Disqord
         [EnumMember(Value = "PRESENCE_UPDATE")]
         PresenceUpdate,
 
+        [EnumMember(Value = "PRESENCES_REPLACE")]
+        PresencesReplace,
+
         [EnumMember(Value = "RELATIONSHIP_ADD")]
         RelationshipAdd,
 

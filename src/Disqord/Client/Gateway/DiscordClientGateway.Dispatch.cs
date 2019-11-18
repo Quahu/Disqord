@@ -246,6 +246,12 @@ namespace Disqord
                     return;
                 }
 
+                case GatewayDispatch.PresencesReplace:
+                {
+                    // TODO: implement for users?
+                    return;
+                }
+
                 case GatewayDispatch.RelationshipAdd:
                 {
                     await State.HandleRelationshipAddAsync(payload).ConfigureAwait(false);
