@@ -1,12 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
 
 namespace Disqord
 {
     /// <summary>
     ///     Provides utilities related to the Disqord library.
     /// </summary>
-    public static class Library
+    public static partial class Library
     {
         /// <summary>
         ///     Disqord build's version.
@@ -23,25 +22,5 @@ namespace Disqord
         ///     Disqord's repository url.
         /// </summary>
         public static readonly string RepositoryUrl = "https://github.com/Quahu/Disqord";
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal static class Debug
-        {
-            public static bool DumpJson;
-
-            public static IDisposable DumpingJson()
-                => new DumpingJsonBlock();
-
-            private sealed class DumpingJsonBlock : IDisposable
-            {
-                public DumpingJsonBlock()
-                {
-                    DumpJson = true;
-                }
-
-                public void Dispose()
-                    => DumpJson = false;
-            }
-        }
     }
 }

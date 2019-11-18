@@ -92,7 +92,11 @@ namespace Disqord.Rest
                 var ms = Environment.TickCount - ticks;
                 Log(LogMessageSeverity.Debug, $"Handling {request}; completed after {ms}ms.");
             }
+
             var rateLimit = new RateLimit(response.Headers);
+            if (Library.Debug.DumpRateLimits)
+                Console.WriteLine(rateLimit);
+
             if (!response.IsSuccessStatusCode)
             {
                 switch ((int) response.StatusCode)
