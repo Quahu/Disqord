@@ -471,7 +471,7 @@ namespace Disqord.Rest
             {
                 Name = name,
                 Image = image,
-                RoleIds = roleIds.ToArray()
+                RoleIds = roleIds
             };
             return SendRequestAsync<EmojiModel>(new RestRequest(POST, $"guilds/{guildId:guild_id}/emojis", requestContent, options));
         }

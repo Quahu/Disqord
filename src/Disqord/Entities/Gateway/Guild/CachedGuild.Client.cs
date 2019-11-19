@@ -120,8 +120,8 @@ namespace Disqord
         public Task<RestGuildEmoji> GetEmojiAsync(Snowflake emojiId, RestRequestOptions options = null)
             => Client.GetGuildEmojiAsync(Id, emojiId, options);
 
-        public Task<RestGuildEmoji> CreateEmojiAsync(string name, LocalAttachment image, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null)
-            => Client.CreateGuildEmojiAsync(Id, name, image, roleIds, options);
+        public Task<RestGuildEmoji> CreateEmojiAsync(LocalAttachment image, string name = null, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null)
+            => Client.CreateGuildEmojiAsync(Id, image, name, roleIds, options);
 
         public Task<RestGuildEmoji> ModifyEmojiAsync(Snowflake emojiId, Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null)
             => Client.ModifyGuildEmojiAsync(Id, emojiId, action, options);

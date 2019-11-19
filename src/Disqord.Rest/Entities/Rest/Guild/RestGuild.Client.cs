@@ -195,9 +195,9 @@ namespace Disqord.Rest
             return emoji;
         }
 
-        public async Task<RestGuildEmoji> CreateEmojiAsync(string name, LocalAttachment image, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null)
+        public async Task<RestGuildEmoji> CreateEmojiAsync(LocalAttachment image, string name = null, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null)
         {
-            var emoji = await Client.CreateGuildEmojiAsync(Id, name, image, roleIds, options).ConfigureAwait(false);
+            var emoji = await Client.CreateGuildEmojiAsync(Id, image, name, roleIds, options).ConfigureAwait(false);
             emoji.Guild.SetValue(this);
             return emoji;
         }

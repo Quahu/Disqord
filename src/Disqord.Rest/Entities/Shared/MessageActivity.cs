@@ -15,6 +15,6 @@ namespace Disqord
         }
 
         public override string ToString()
-            => $"{Type}: {(PartyId != null ? PartyId : "<no party id>")}";
+            => $"{Type}: {PartyId ?? "<no party id>"}";
     }
 }

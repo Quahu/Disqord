@@ -90,22 +90,13 @@ namespace Disqord.Rest
                     var startFrom = startFromId;
                     if (previous != null && previous.Count > 0)
                     {
-                        switch (direction)
+                        startFrom = direction switch
                         {
-                            case RetrievalDirection.Before:
-                                startFrom = previous[previous.Count - 1].Id;
-                                break;
-
-                            case RetrievalDirection.After:
-                                startFrom = previous[0].Id;
-                                break;
-
-                            case RetrievalDirection.Around:
-                                throw new NotImplementedException();
-
-                            default:
-                                throw new ArgumentOutOfRangeException(nameof(direction));
-                        }
+                            RetrievalDirection.Before => previous[previous.Count - 1].Id,
+                            RetrievalDirection.After => previous[0].Id,
+                            RetrievalDirection.Around => throw new NotImplementedException(),
+                            _ => throw new ArgumentOutOfRangeException(nameof(direction)),
+                        };
                     }
                     var messages = await InternalGetMessagesAsync(channelId, amount, direction, startFrom, options).ConfigureAwait(false);
                     if (messages.Count < 100)
@@ -221,22 +212,13 @@ namespace Disqord.Rest
                     var startFrom = startFromId;
                     if (previous != null && previous.Count > 0)
                     {
-                        switch (direction)
+                        startFrom = direction switch
                         {
-                            case RetrievalDirection.Before:
-                                startFrom = previous[previous.Count - 1].Id;
-                                break;
-
-                            case RetrievalDirection.After:
-                                startFrom = previous[0].Id;
-                                break;
-
-                            case RetrievalDirection.Around:
-                                throw new NotSupportedException();
-
-                            default:
-                                throw new ArgumentOutOfRangeException(nameof(direction));
-                        }
+                            RetrievalDirection.Before => previous[previous.Count - 1].Id,
+                            RetrievalDirection.After => previous[0].Id,
+                            RetrievalDirection.Around => throw new NotSupportedException(),
+                            _ => throw new ArgumentOutOfRangeException(nameof(direction)),
+                        };
                     }
                     var users = await InternalGetReactionsAsync(channelId, messageId, emoji, amount, direction, startFrom, options).ConfigureAwait(false);
                     if (users.Count != 100)

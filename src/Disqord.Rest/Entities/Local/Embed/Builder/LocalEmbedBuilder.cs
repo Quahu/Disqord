@@ -4,6 +4,7 @@ namespace Disqord
 {
     /// <summary>
     ///     Allows for building of <see cref="LocalEmbed"/>s.
+    ///     This class is not thread-safe.
     /// </summary>
     public sealed class LocalEmbedBuilder : ICloneable
     {
