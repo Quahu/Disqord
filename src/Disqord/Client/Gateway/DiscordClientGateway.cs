@@ -215,6 +215,7 @@ namespace Disqord
                 }
                 catch { }
                 _heartbeatCts?.Dispose();
+
                 while (!_combinedRunCts.IsCancellationRequested && !_isDisposed)
                 {
                     try

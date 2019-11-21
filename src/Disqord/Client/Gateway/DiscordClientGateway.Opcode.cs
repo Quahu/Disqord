@@ -46,6 +46,7 @@ namespace Disqord
                     if (_resuming)
                     {
                         _sessionId = null;
+                        _resuming = false;
                         var delay = _random.Next(1000, 5001);
                         Log(LogMessageSeverity.Information, $"Currently resuming, starting a new session in {delay}ms.");
                         await Task.Delay(delay).ConfigureAwait(false);
