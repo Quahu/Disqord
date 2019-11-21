@@ -2,7 +2,7 @@
 {
     public readonly struct OverwritePermissions
     {
-        public static OverwritePermissions None => (0, 0);
+        public static OverwritePermissions None => new OverwritePermissions(0, 0);
 
         public ChannelPermissions Allowed { get; }
 
@@ -14,20 +14,26 @@
             Denied = denied;
         }
 
+        public static implicit operator OverwritePermissions((Permission Allowed, Permission Denied) value)
+            => new OverwritePermissions(value.Allowed, value.Denied);
+
         public static implicit operator OverwritePermissions((ulong Allowed, ulong Denied) value)
             => new OverwritePermissions(value.Allowed, value.Denied);
+
+        public static implicit operator (Permission, Permission)(OverwritePermissions value)
+            => (value.Allowed, value.Denied);
 
         public static implicit operator (ulong, ulong)(OverwritePermissions value)
             => (value.Allowed, value.Denied);
 
         public OverwritePermissions Allow(Permission permission)
-            => (Allowed + permission, Denied - permission);
+            => new OverwritePermissions(Allowed + permission, Denied - permission);
 
         public OverwritePermissions Deny(Permission permission)
-            => (Allowed - permission, Denied + permission);
+            => new OverwritePermissions(Allowed - permission, Denied + permission);
 
         public OverwritePermissions Unset(Permission permission)
-            => (Allowed - permission, Denied - permission);
+            => new OverwritePermissions(Allowed - permission, Denied - permission);
 
         public static OverwritePermissions operator +(OverwritePermissions left, Permission right)
             => left.Allow(right);
