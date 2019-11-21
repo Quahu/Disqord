@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -471,7 +471,7 @@ namespace Disqord.Rest
             {
                 Name = name,
                 Image = image,
-                RoleIds = roleIds
+                RoleIds = roleIds?.ToArray()
             };
             return SendRequestAsync<EmojiModel>(new RestRequest(POST, $"guilds/{guildId:guild_id}/emojis", requestContent, options));
         }
@@ -549,51 +549,59 @@ namespace Disqord.Rest
         public Task<ChannelModel[]> GetGuildChannelsAsync(ulong guildId, RestRequestOptions options)
             => SendRequestAsync<ChannelModel[]>(new RestRequest(GET, $"guilds/{guildId:guild_id}/channels", options));
 
-        public Task<ChannelModel> CreateGuildChannelAsync(ulong guildId, ChannelType type, string name,
-            string topic, int bitrate, int userLimit, int slowmode, bool isNSFW,
-            IEnumerable<LocalOverwrite> overwrites, int? position, ulong? categoryId,
-            RestRequestOptions options)
+        public Task<ChannelModel> CreateGuildChannelAsync(ulong guildId, string name, CreateGuildChannelProperties properties, RestRequestOptions options)
         {
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
 
             if (name.Length < 2 || name.Length > 100)
-                throw new ArgumentOutOfRangeException(nameof(name));
+                throw new ArgumentOutOfRangeException(nameof(name), $"The name must be between 2 and 100 characters long.");
 
             var requestContent = new CreateGuildChannelContent
             {
                 Name = name,
-                Type = type,
-                PermissionOvewrites = overwrites?.Select(x => x.ToModel()).ToArray() ?? Optional<IReadOnlyList<OverwriteModel>>.Empty,
-                Position = position ?? Optional<int>.Empty,
-                ParentId = categoryId ?? Optional<ulong>.Empty
+                PermissionOvewrites = properties.Overwrites.HasValue
+                    ? properties.Overwrites.Value.Select(x => x.ToModel()).ToArray()
+                    : Optional<IReadOnlyList<OverwriteModel>>.Empty
             };
-            switch (type)
+
+            if (properties is CreateNestedChannelProperties nestedProperties)
             {
-                case ChannelType.Text:
+                requestContent.ParentId = nestedProperties.ParentId.HasValue
+                    ? nestedProperties.ParentId.Value.RawValue
+                    : Optional<ulong>.Empty;
+
+                if (properties is CreateTextChannelProperties textProperties)
                 {
-                    if (topic != null && topic.Length > 1024)
-                        throw new ArgumentOutOfRangeException(nameof(topic));
+                    if (textProperties.Topic.HasValue && textProperties.Topic.Value != null && textProperties.Topic.Value.Length > 1024)
+                        throw new ArgumentOutOfRangeException("Topic");
 
-                    requestContent.Topic = topic;
-                    requestContent.RateLimitPerUser = slowmode;
-                    requestContent.Nsfw = isNSFW;
-                    break;
+                    requestContent.Type = ChannelType.Text;
+                    requestContent.Topic = textProperties.Topic;
+                    requestContent.RateLimitPerUser = textProperties.Slowmode;
+                    requestContent.Nsfw = textProperties.IsNsfw;
                 }
-
-                case ChannelType.Voice:
+                else if (properties is CreateVoiceChannelProperties voiceProperties)
                 {
-                    requestContent.Bitrate = bitrate;
-                    requestContent.UserLimit = userLimit;
-                    break;
+                    requestContent.Type = ChannelType.Voice;
+                    requestContent.Bitrate = voiceProperties.Bitrate;
+                    requestContent.UserLimit = voiceProperties.UserLimit;
                 }
-
-                case ChannelType.Category:
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type));
+                else
+                {
+                    Log(LogMessageSeverity.Error, $"Unknown nested channel properties provided to modify. ({properties.GetType()})");
+                }
             }
+            else if (properties is CreateCategoryChannelProperties categoryProperties)
+            {
+                requestContent.Type = ChannelType.Category;
+                // No extra properties for category channels.
+            }
+            else
+            {
+                Log(LogMessageSeverity.Error, $"Unknown nested channel properties provided to modify. ({properties.GetType()})");
+            }
+
             return SendRequestAsync<ChannelModel>(new RestRequest(POST, $"guilds/{guildId:guild_id}/channels", requestContent, options));
         }
 

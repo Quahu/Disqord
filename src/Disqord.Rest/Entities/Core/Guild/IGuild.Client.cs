@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Disqord.Rest;
@@ -20,6 +20,12 @@ namespace Disqord
         Task ModifyAsync(Action<ModifyGuildProperties> action, RestRequestOptions options = null);
 
         Task<IReadOnlyList<RestGuildChannel>> GetChannelsAsync(RestRequestOptions options = null);
+
+        Task<RestTextChannel> CreateTextChannelAsync(string name, Action<CreateTextChannelProperties> action = null, RestRequestOptions options = null);
+
+        Task<RestVoiceChannel> CreateVoiceChannelAsync(string name, Action<CreateVoiceChannelProperties> action = null, RestRequestOptions options = null);
+
+        Task<RestCategoryChannel> CreateCategoryChannelAsync(string name, Action<CreateCategoryChannelProperties> action = null, RestRequestOptions options = null);
 
         Task ReorderChannelsAsync(IReadOnlyDictionary<Snowflake, int> positions, RestRequestOptions options = null);
 

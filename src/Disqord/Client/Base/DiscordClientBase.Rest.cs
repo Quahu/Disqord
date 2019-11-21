@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Disqord.Rest;
@@ -39,6 +39,9 @@ namespace Disqord
         public Task<RestGuild> ModifyGuildAsync(Snowflake guildId, Action<ModifyGuildProperties> action, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ModifyGuildAsync(guildId, action, options);
         public Task DeleteGuildAsync(Snowflake guildId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).DeleteGuildAsync(guildId, options);
         public Task<IReadOnlyList<RestGuildChannel>> GetChannelsAsync(Snowflake guildId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetChannelsAsync(guildId, options);
+        public Task<RestTextChannel> CreateTextChannelAsync(Snowflake guildId, string name, Action<CreateTextChannelProperties> action = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateTextChannelAsync(guildId, name, action, options);
+        public Task<RestVoiceChannel> CreateVoiceChannelAsync(Snowflake guildId, string name, Action<CreateVoiceChannelProperties> action = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateVoiceChannelAsync(guildId, name, action, options);
+        public Task<RestCategoryChannel> CreateCategoryChannelAsync(Snowflake guildId, string name, Action<CreateCategoryChannelProperties> action = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateCategoryChannelAsync(guildId, name, action, options);
         public Task ReorderChannelsAsync(Snowflake guildId, IReadOnlyDictionary<Snowflake, int> positions, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ReorderChannelsAsync(guildId, positions, options);
         public Task<RestMember> GetMemberAsync(Snowflake guildId, Snowflake memberId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetMemberAsync(guildId, memberId, options);
         public RestRequestEnumerator<RestMember> GetMembersEnumerator(Snowflake guildId, int limit, Snowflake? startFromId = null) => ((IRestDiscordClient) this.RestClient).GetMembersEnumerator(guildId, limit, startFromId);

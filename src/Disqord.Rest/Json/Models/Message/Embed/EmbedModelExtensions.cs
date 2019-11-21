@@ -135,7 +135,7 @@ namespace Disqord.Models
                     Name = x.Name,
                     Value = x.Value,
                     Inline = x.IsInline
-                })
+                }).ToArray()
             };
 
         public static Embed ToEmbed(this EmbedModel model)

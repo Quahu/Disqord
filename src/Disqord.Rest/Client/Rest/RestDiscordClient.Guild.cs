@@ -57,15 +57,33 @@ namespace Disqord.Rest
             return models.Select(x => RestGuildChannel.Create(this, x)).ToImmutableArray();
         }
 
-        //public async Task<RestTextChannel> CreateTextChannelAsync(Snowflake  guildId, string name,
-        //    string topic = null, int slowmode = 0, bool isNSFW = false,
-        //    IEnumerable<LocalOverwrite> overwrites = null, int? position = null, Snowflake ? categoryId = null,
-        //    RestRequestOptions options = null)
-        //{
-        //    var model = await ApiClient.CreateGuildChannelAsync();
-        //    return new RestTextChannel(this, model);
-        //}
+        public async Task<RestTextChannel> CreateTextChannelAsync(Snowflake guildId, string name, Action<CreateTextChannelProperties> action = null, RestRequestOptions options = null)
+        {
+            var model = await InternalCreateGuildChannelAsync(guildId, name, action, options).ConfigureAwait(false);
+            return new RestTextChannel(this, model);
+        }
 
+        public async Task<RestVoiceChannel> CreateVoiceChannelAsync(Snowflake guildId, string name, Action<CreateVoiceChannelProperties> action = null, RestRequestOptions options = null)
+        {
+            var model = await InternalCreateGuildChannelAsync(guildId, name, action, options).ConfigureAwait(false);
+            return new RestVoiceChannel(this, model);
+        }
+
+        public async Task<RestCategoryChannel> CreateCategoryChannelAsync(Snowflake guildId, string name, Action<CreateCategoryChannelProperties> action = null, RestRequestOptions options = null)
+        {
+            var model = await InternalCreateGuildChannelAsync(guildId, name, action, options).ConfigureAwait(false);
+            return new RestCategoryChannel(this, model);
+        }
+
+        internal async Task<ChannelModel> InternalCreateGuildChannelAsync<T>(Snowflake guildId, string name, Action<T> action, RestRequestOptions options = null)
+            where T : CreateGuildChannelProperties
+        {
+            // Can't use the new() generic constraint because the constructors are internal.
+            // Can't use the generic CreateInstance either *because*.
+            var properties = (T) Activator.CreateInstance(typeof(T), true);
+            action?.Invoke(properties);
+            return await ApiClient.CreateGuildChannelAsync(guildId, name, properties, options).ConfigureAwait(false);
+        }
 
         public Task ReorderChannelsAsync(Snowflake guildId, IReadOnlyDictionary<Snowflake, int> positions, RestRequestOptions options = null)
         {

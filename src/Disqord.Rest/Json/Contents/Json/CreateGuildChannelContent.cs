@@ -27,7 +27,7 @@ namespace Disqord.Rest
         [JsonProperty("position")]
         public Optional<int> Position { get; set; }
 
-        [JsonProperty("permissions_overwrites")]
+        [JsonProperty("permission_overwrites")]
         public Optional<IReadOnlyList<OverwriteModel>> PermissionOvewrites { get; set; }
 
         [JsonProperty("parent_id")]
