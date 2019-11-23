@@ -14,7 +14,7 @@ namespace Disqord.Models
         [JsonProperty("roles")]
         public Optional<ulong[]> Roles { get; set; }
 
-        [JsonProperty("joined_at", NullValueHandling = NullValueHandling.Ignore)] // TODO: null?
+        [JsonProperty("joined_at", NullValueHandling.Ignore)] // TODO: null?
         public DateTimeOffset JoinedAt { get; set; }
 
         [JsonProperty("deaf")]

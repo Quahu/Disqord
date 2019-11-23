@@ -6,22 +6,22 @@ namespace Disqord.Rest
 {
     internal sealed class ExecuteWebhookContent : JsonRequestContent
     {
-        [JsonProperty("username", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("username", NullValueHandling.Ignore)]
         public string Username { get; set; }
 
-        [JsonProperty("avatar_url", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("avatar_url", NullValueHandling.Ignore)]
         public string AvatarUrl { get; set; }
 
-        [JsonProperty("content", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("content", NullValueHandling.Ignore)]
         public string Content { get; set; }
 
-        [JsonProperty("nonce", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("nonce", NullValueHandling.Ignore)]
         public ulong? Nonce { get; set; }
 
-        [JsonProperty("tts", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("tts", NullValueHandling.Ignore)]
         public bool TTS { get; set; }
 
-        [JsonProperty("embeds", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("embeds", NullValueHandling.Ignore)]
         public IReadOnlyList<EmbedModel> Embeds { get; set; }
     }
 }

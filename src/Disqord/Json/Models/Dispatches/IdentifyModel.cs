@@ -4,22 +4,22 @@ namespace Disqord.Models.Dispatches
 {
     internal sealed class IdentifyModel
     {
-        [JsonProperty("token", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("token", NullValueHandling.Ignore)]
         public string Token { get; set; }
 
-        [JsonProperty("properties", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("properties", NullValueHandling.Ignore)]
         public ConnectionProperties Properties { get; set; } = new ConnectionProperties();
 
-        [JsonProperty("compress", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("compress", NullValueHandling.Ignore)]
         public bool? Compress { get; set; }
 
-        [JsonProperty("large_threshold", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("large_threshold", NullValueHandling.Ignore)]
         public int? LargeThreshold { get; set; }
 
-        [JsonProperty("shards", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("shards", NullValueHandling.Ignore)]
         public int[] Shards { get; set; }
 
-        [JsonProperty("presence", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("presence", NullValueHandling.Ignore)]
         public UpdateStatusModel Presence { get; set; }
 
         [JsonProperty("guild_subscriptions")]
@@ -27,13 +27,13 @@ namespace Disqord.Models.Dispatches
 
         public sealed class ConnectionProperties
         {
-            [JsonProperty("$os", NullValueHandling = NullValueHandling.Ignore)]
+            [JsonProperty("$os", NullValueHandling.Ignore)]
             public string Os { get; set; }
 
-            [JsonProperty("$browser", NullValueHandling = NullValueHandling.Ignore)]
+            [JsonProperty("$browser", NullValueHandling.Ignore)]
             public string Browser { get; set; }
 
-            [JsonProperty("$device", NullValueHandling = NullValueHandling.Ignore)]
+            [JsonProperty("$device", NullValueHandling.Ignore)]
             public string Device { get; set; }
         }
     }

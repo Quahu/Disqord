@@ -7,11 +7,12 @@ namespace Disqord.Serialization.Json
     {
         public string Name { get; }
 
-        public NullValueHandling NullValueHandling { get; set; }
+        public NullValueHandling NullValueHandling { get; }
 
-        internal JsonPropertyAttribute(string name)
+        internal JsonPropertyAttribute(string name, NullValueHandling nullValueHandling = NullValueHandling.Include)
         {
             Name = name;
+            NullValueHandling = nullValueHandling;
         }
     }
 }

@@ -5,28 +5,28 @@ namespace Disqord.Models.Dispatches
 {
     internal sealed class ReadyModel
     {
-        [JsonProperty("v", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("v", NullValueHandling.Ignore)]
         public int V { get; set; }
 
-        [JsonProperty("user", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("user", NullValueHandling.Ignore)]
         public UserModel User { get; set; }
 
-        [JsonProperty("private_channels", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("private_channels", NullValueHandling.Ignore)]
         public ChannelModel[] PrivateChannels { get; set; }
 
-        [JsonProperty("guilds", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("guilds", NullValueHandling.Ignore)]
         public WebSocketGuildModel[] Guilds { get; set; }
 
         [JsonProperty("notes")]
         public Dictionary<ulong, string> Notes { get; set; }
 
-        [JsonProperty("relationships", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("relationships", NullValueHandling.Ignore)]
         public RelationshipModel[] Relationships { get; set; }
 
-        [JsonProperty("session_id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("session_id", NullValueHandling.Ignore)]
         public string SessionId { get; set; }
 
-        [JsonProperty("_trace", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("_trace", NullValueHandling.Ignore)]
         public string[] Trace { get; set; }
     }
 }

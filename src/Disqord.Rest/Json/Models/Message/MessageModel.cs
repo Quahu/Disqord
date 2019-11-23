@@ -11,7 +11,7 @@ namespace Disqord.Models
         [JsonProperty("channel_id")]
         public ulong ChannelId { get; set; }
 
-        [JsonProperty("guild_id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("guild_id", NullValueHandling.Ignore)]
         public ulong? GuildId { get; set; }
 
         [JsonProperty("author")]

@@ -4,49 +4,49 @@ namespace Disqord.Models
 {
     internal sealed class ActivityModel
     {
-        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("name", NullValueHandling.Ignore)]
         public string Name { get; set; }
 
-        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("type", NullValueHandling.Ignore)]
         public ActivityType Type { get; set; }
 
-        [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("url", NullValueHandling.Ignore)]
         public string Url { get; set; }
 
-        [JsonProperty("timestamps", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("timestamps", NullValueHandling.Ignore)]
         public TimestampsModel Timestamps { get; set; }
 
-        [JsonProperty("application_id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("application_id", NullValueHandling.Ignore)]
         public string ApplicationId { get; set; }
 
-        [JsonProperty("details", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("details", NullValueHandling.Ignore)]
         public string Details { get; set; }
 
-        [JsonProperty("state", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("state", NullValueHandling.Ignore)]
         public string State { get; set; }
 
-        [JsonProperty("party", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("party", NullValueHandling.Ignore)]
         public PartyModel Party { get; set; }
 
-        [JsonProperty("Assets", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("Assets", NullValueHandling.Ignore)]
         public AssetsModel Assets { get; set; }
 
-        [JsonProperty("Secrets", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("Secrets", NullValueHandling.Ignore)]
         public SecretsModel Secrets { get; set; }
 
-        [JsonProperty("instance", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("instance", NullValueHandling.Ignore)]
         public bool Instance { get; set; }
 
-        [JsonProperty("sync_id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("sync_id", NullValueHandling.Ignore)]
         public string SyncId { get; set; }
 
-        [JsonProperty("session_id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("session_id", NullValueHandling.Ignore)]
         public string SessionId { get; set; }
 
-        [JsonProperty("flags", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("flags", NullValueHandling.Ignore)]
         public ActivityFlags? Flags { get; set; }
 
-        [JsonProperty("emoji", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("emoji", NullValueHandling.Ignore)]
         public EmojiModel Emoji { get; set; }
     }
 }

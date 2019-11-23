@@ -7,25 +7,25 @@ namespace Disqord.Models
         /// <summary>
         ///     Gets or sets the opcode for the payload.
         /// </summary>
-        [JsonProperty("op", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("op", NullValueHandling.Ignore)]
         public Opcode Op { get; set; }
 
         /// <summary>
         ///     Gets or sets the event data.
         /// </summary>
-        [JsonProperty("d", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("d", NullValueHandling.Ignore)]
         public object D { get; set; }
 
         /// <summary>
         ///     Gets or sets the sequence number, used for resuming sessions and heartbeats.
         /// </summary>
-        [JsonProperty("s", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("s", NullValueHandling.Ignore)]
         public int? S { get; set; }
 
         /// <summary>
         ///     Gets or sets the event name for this payload.
         /// </summary>
-        [JsonProperty("T", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("T", NullValueHandling.Ignore)]
         public object T { get; set; }
     }
 }

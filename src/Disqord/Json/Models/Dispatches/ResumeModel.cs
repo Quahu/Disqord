@@ -4,13 +4,13 @@ namespace Disqord.Models.Dispatches
 {
     internal sealed class ResumeModel
     {
-        [JsonProperty("token", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("token", NullValueHandling.Ignore)]
         public string Token { get; set; }
 
-        [JsonProperty("session_id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("session_id", NullValueHandling.Ignore)]
         public string SessionId { get; set; }
 
-        [JsonProperty("seq", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("seq", NullValueHandling.Ignore)]
         public int? Seq { get; set; }
     }
 }

@@ -4,10 +4,10 @@ namespace Disqord.Models
 {
     internal sealed class PartyModel
     {
-        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("id", NullValueHandling.Ignore)]
         public string Id { get; set; }
 
-        [JsonProperty("size", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("size", NullValueHandling.Ignore)]
         public int[] Size { get; set; }
     }
 }

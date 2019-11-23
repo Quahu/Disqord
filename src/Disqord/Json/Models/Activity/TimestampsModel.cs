@@ -4,10 +4,10 @@ namespace Disqord.Models
 {
     internal sealed class TimestampsModel
     {
-        [JsonProperty("start", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("start", NullValueHandling.Ignore)]
         public long? Start { get; set; }
 
-        [JsonProperty("end", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("end", NullValueHandling.Ignore)]
         public long? End { get; set; }
     }
 }

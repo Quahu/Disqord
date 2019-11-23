@@ -9,10 +9,10 @@ namespace Disqord.Rest
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("region", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("region", NullValueHandling.Ignore)]
         public string Region { get; set; }
 
-        [JsonProperty("icon", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("icon", NullValueHandling.Ignore)]
         public LocalAttachment Icon { get; set; }
 
         [JsonProperty("verification_level")]
@@ -24,10 +24,10 @@ namespace Disqord.Rest
         [JsonProperty("explicit_content_filter")]
         public ContentFilterLevel ContentFilterLevel { get; set; }
 
-        [JsonProperty("roles", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("roles", NullValueHandling.Ignore)]
         public IReadOnlyList<RoleModel> Roles { get; set; }
 
-        [JsonProperty("channels", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("channels", NullValueHandling.Ignore)]
         public IReadOnlyList<ChannelModel> Channels { get; set; }
     }
 }
