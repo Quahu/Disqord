@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Disqord.Rest;
+using Disqord.Rest.AuditLogs;
 
 namespace Disqord
 {
@@ -15,17 +16,17 @@ namespace Disqord
         public Task<IReadOnlyList<RestWebhook>> GetWebhooksAsync(RestRequestOptions options = null)
             => Client.GetGuildWebhooksAsync(Id, options);
 
-        //public RestRequestEnumerator<RestAuditLog> GetAuditLogsEnumerator(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null)
-        //    => Client.GetAuditLogsEnumerator(Id, limit, userId, startFromId);
+        public RestRequestEnumerator<RestAuditLog> GetAuditLogsEnumerator(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null)
+            => Client.GetAuditLogsEnumerator(Id, limit, userId, startFromId);
 
-        //public RestRequestEnumerator<T> GetAuditLogsEnumerator<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null) where T : RestAuditLog
-        //    => Client.GetAuditLogsEnumerator<T>(Id, limit, userId, startFromId);
+        public RestRequestEnumerator<T> GetAuditLogsEnumerator<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null) where T : RestAuditLog
+            => Client.GetAuditLogsEnumerator<T>(Id, limit, userId, startFromId);
 
-        //public Task<IReadOnlyList<RestAuditLog>> GetAuditLogsAsync(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null)
-        //    => Client.GetAuditLogsAsync(Id, limit, userId, startFromId, options);
+        public Task<IReadOnlyList<RestAuditLog>> GetAuditLogsAsync(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null)
+            => Client.GetAuditLogsAsync(Id, limit, userId, startFromId, options);
 
-        //public Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog
-        //    => Client.GetAuditLogsAsync<T>(Id, limit, userId, startFromId, options);
+        public Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog
+            => Client.GetAuditLogsAsync<T>(Id, limit, userId, startFromId, options);
 
         public async Task ModifyAsync(Action<ModifyGuildProperties> action, RestRequestOptions options = null)
         {

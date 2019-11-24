@@ -1,84 +1,198 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Collections.Immutable;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using Disqord.Rest.AuditLogs;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Threading.Tasks;
+using Disqord.Rest.AuditLogs;
 
-//namespace Disqord.Rest
-//{
-//    public partial class RestDiscordClient : IRestDiscordClient
-//    {
-//        public RestRequestEnumerator<RestAuditLog> GetAuditLogsEnumerator(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null)
-//            => GetAuditLogsEnumerator<RestAuditLog>(guildId, limit, userId, startFromId);
+namespace Disqord.Rest
+{
+    public partial class RestDiscordClient : IRestDiscordClient
+    {
+        public RestRequestEnumerator<RestAuditLog> GetAuditLogsEnumerator(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null)
+            => GetAuditLogsEnumerator<RestAuditLog>(guildId, limit, userId, startFromId);
 
-//        public RestRequestEnumerator<T> GetAuditLogsEnumerator<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null) where T : RestAuditLog
-//        {
-//            var enumerator = new RestRequestEnumerator<T>();
-//            var remaining = limit;
-//            do
-//            {
-//                var amount = remaining > 100 ? 100 : remaining;
-//                remaining -= amount;
-//                enumerator.Enqueue(async (previous, options) =>
-//                {
-//                    var startFrom = startFromId;
-//                    if (previous != null && previous.Count > 0)
-//                        startFrom = previous[previous.Count - 1].Id;
+        public RestRequestEnumerator<T> GetAuditLogsEnumerator<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null) where T : RestAuditLog
+        {
+            var enumerator = new RestRequestEnumerator<T>();
+            var remaining = limit;
+            do
+            {
+                var amount = remaining > 100 ? 100 : remaining;
+                remaining -= amount;
+                enumerator.Enqueue(async (previous, options) =>
+                {
+                    var startFrom = startFromId;
+                    if (previous != null && previous.Count > 0)
+                        startFrom = previous[previous.Count - 1].Id;
 
-//                    var auditLogs = await InternalGetAuditLogsAsync<T>(guildId, amount, userId, startFrom, options).ConfigureAwait(false);
-//                    if (auditLogs.Count < 100)
-//                        enumerator.Cancel();
+                    var auditLogs = await InternalGetAuditLogsAsync<T>(guildId, amount, userId, startFrom, options).ConfigureAwait(false);
+                    if (auditLogs.Count < 100)
+                        enumerator.Cancel();
 
-//                    return auditLogs;
-//                });
-//            }
-//            while (remaining > 0);
-//            return enumerator;
-//        }
+                    return auditLogs;
+                });
+            }
+            while (remaining > 0);
+            return enumerator;
+        }
 
-//        public Task<IReadOnlyList<RestAuditLog>> GetAuditLogsAsync(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null)
-//            => GetAuditLogsAsync<RestAuditLog>(guildId, limit, userId, startFromId, options);
+        public Task<IReadOnlyList<RestAuditLog>> GetAuditLogsAsync(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null)
+            => GetAuditLogsAsync<RestAuditLog>(guildId, limit, userId, startFromId, options);
 
-//        public async Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog
-//        {
-//            if (limit == 0)
-//                return ImmutableArray<T>.Empty;
+        public async Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog
+        {
+            if (limit == 0)
+                return ImmutableArray<T>.Empty;
 
-//            if (limit <= 100)
-//                return await InternalGetAuditLogsAsync<T>(guildId, limit, userId, startFromId, options).ConfigureAwait(false);
+            if (limit <= 100)
+                return await InternalGetAuditLogsAsync<T>(guildId, limit, userId, startFromId, options).ConfigureAwait(false);
 
-//            var enumerator = GetAuditLogsEnumerator<T>(guildId, limit, userId, startFromId);
-//            await using (enumerator.ConfigureAwait(false))
-//            {
-//                return await enumerator.FlattenAsync(options).ConfigureAwait(false);
-//            }
-//        }
+            var enumerator = GetAuditLogsEnumerator<T>(guildId, limit, userId, startFromId);
+            await using (enumerator.ConfigureAwait(false))
+            {
+                return await enumerator.FlattenAsync(options).ConfigureAwait(false);
+            }
+        }
 
-//        internal async Task<IReadOnlyList<T>> InternalGetAuditLogsAsync<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog
-//        {
-//            var model = await ApiClient.GetGuildAuditLogAsync(guildId, limit, userId, GetAuditLogAction(typeof(T)), startFromId, options).ConfigureAwait(false);
-//            return model.AuditLogEntries.Select(x => RestAuditLog.Create(this, model, x)).OfType<T>().ToImmutableArray();
-//        }
+        internal async Task<IReadOnlyList<T>> InternalGetAuditLogsAsync<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog
+        {
+            var model = await ApiClient.GetGuildAuditLogAsync(guildId, limit, userId, GetAuditLogAction(typeof(T)), startFromId, options).ConfigureAwait(false);
+            return model.AuditLogEntries.Select(x => RestAuditLog.Create(this, model, x)).OfType<T>().ToImmutableArray();
+        }
 
-//        private AuditLogAction? GetAuditLogAction(Type type)
-//        {
-//            if (type == typeof(RestAuditLog) || type == typeof(RestUnknownAuditLog))
-//                return null;
+        private AuditLogType? GetAuditLogAction(Type type)
+        {
+            // Any
+            if (type == typeof(RestAuditLog) || type == typeof(RestUnknownAuditLog))
+                return null;
 
-//            if (type == typeof(RestGuildUpdatedAuditLog))
-//                return AuditLogAction.GuildUpdated;
 
-//            if (type == typeof(RestChannelCreatedAuditLog))
-//                return AuditLogAction.ChannelCreated;
+            // Guild
+            if (type == typeof(RestGuildUpdatedAuditLog))
+                return AuditLogType.GuildUpdated;
 
-//            if (type == typeof(RestChannelUpdatedAuditLog))
-//                return AuditLogAction.ChannelUpdated;
 
-//            if (type == typeof(RestChannelDeletedAuditLog))
-//                return AuditLogAction.ChannelDeleted;
+            // Channel
+            if (type == typeof(RestChannelCreatedAuditLog))
+                return AuditLogType.ChannelCreated;
 
-//            throw new ArgumentOutOfRangeException(nameof(type));
-//        }
-//    }
-//}
+            if (type == typeof(RestChannelUpdatedAuditLog))
+                return AuditLogType.ChannelUpdated;
+
+            if (type == typeof(RestChannelDeletedAuditLog))
+                return AuditLogType.ChannelDeleted;
+
+
+            // Overwrite
+            if (type == typeof(RestOverwriteCreatedAuditLog))
+                return AuditLogType.OverwriteCreated;
+
+            if (type == typeof(RestOverwriteUpdatedAuditLog))
+                return AuditLogType.OverwriteUpdated;
+
+            if (type == typeof(RestOverwriteDeletedAuditLog))
+                return AuditLogType.OverwriteDeleted;
+
+
+            // Member
+            if (type == typeof(RestMemberKickedAuditLog))
+                return AuditLogType.MemberKicked;
+
+            if (type == typeof(RestMembersPrunedAuditLog))
+                return AuditLogType.MembersPruned;
+
+            if (type == typeof(RestMemberBannedAuditLog))
+                return AuditLogType.MemberBanned;
+
+            if (type == typeof(RestMemberUnbannedAuditLog))
+                return AuditLogType.MemberUnbanned;
+
+            if (type == typeof(RestMemberUpdatedAuditLog))
+                return AuditLogType.MemberUpdated;
+
+            if (type == typeof(RestMemberRolesUpdatedAuditLog))
+                return AuditLogType.MemberRolesUpdated;
+
+            if (type == typeof(RestMembersMovedAuditLog))
+                return AuditLogType.MembersMoved;
+
+            if (type == typeof(RestMembersDisconnectedAuditLog))
+                return AuditLogType.MembersDisconnected;
+
+            if (type == typeof(RestBotAddedAuditLog))
+                return AuditLogType.BotAdded;
+
+
+            // Role
+            if (type == typeof(RestRoleCreatedAuditLog))
+                return AuditLogType.RoleCreated;
+
+            if (type == typeof(RestRoleUpdatedAuditLog))
+                return AuditLogType.RoleUpdated;
+
+            if (type == typeof(RestRoleDeletedAuditLog))
+                return AuditLogType.RoleDeleted;
+
+
+            // Invite
+            if (type == typeof(RestInviteCreatedAuditLog))
+                return AuditLogType.InviteCreated;
+
+            if (type == typeof(RestInviteUpdatedAuditLog))
+                return AuditLogType.InviteUpdated;
+
+            if (type == typeof(RestInviteDeletedAuditLog))
+                return AuditLogType.InviteDeleted;
+
+
+            // Webhook
+            if (type == typeof(RestWebhookCreatedAuditLog))
+                return AuditLogType.WebhookCreated;
+
+            if (type == typeof(RestWebhookUpdatedAuditLog))
+                return AuditLogType.WebhookUpdated;
+
+            if (type == typeof(RestWebhookDeletedAuditLog))
+                return AuditLogType.WebhookDeleted;
+
+
+            // Emoji
+            if (type == typeof(RestEmojiCreatedAuditLog))
+                return AuditLogType.EmojiCreated;
+
+            if (type == typeof(RestEmojiUpdatedAuditLog))
+                return AuditLogType.EmojiUpdated;
+
+            if (type == typeof(RestEmojiDeletedAuditLog))
+                return AuditLogType.EmojiDeleted;
+
+
+            // Message
+            if (type == typeof(RestMessagesDeletedAuditLog))
+                return AuditLogType.MessagesDeleted;
+
+            if (type == typeof(RestMessagesBulkDeletedAuditLog))
+                return AuditLogType.MessagesBulkDeleted;
+
+            if (type == typeof(RestMessagePinnedAuditLog))
+                return AuditLogType.MessagePinned;
+
+            if (type == typeof(RestMessageUnpinnedAuditLog))
+                return AuditLogType.MessageUnpinned;
+
+
+            // Integration
+            if (type == typeof(RestIntegrationCreatedAuditLog))
+                return AuditLogType.IntegrationCreated;
+
+            if (type == typeof(RestIntegrationUpdatedAuditLog))
+                return AuditLogType.IntegrationUpdated;
+
+            if (type == typeof(RestIntegrationDeletedAuditLog))
+                return AuditLogType.IntegrationDeleted;
+
+            throw new ArgumentOutOfRangeException(nameof(type));
+        }
+    }
+}

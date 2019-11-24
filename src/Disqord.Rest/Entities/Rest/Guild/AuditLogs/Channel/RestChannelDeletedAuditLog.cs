@@ -1,14 +1,14 @@
-﻿//using Disqord.Models;
+﻿using Disqord.Models;
 
-//namespace Disqord.Rest.AuditLogs
-//{
-//    public sealed class RestChannelDeletedAuditLog : RestAuditLog
-//    {
-//        public RestAuditLogChannelMetadata Metadata { get; }
+namespace Disqord.Rest.AuditLogs
+{
+    public sealed class RestChannelDeletedAuditLog : RestAuditLog
+    {
+        public ChannelData Data { get; }
 
-//        internal RestChannelDeletedAuditLog(RestDiscordClient client, AuditLogModel auditLogModel, AuditLogEntryModel model) : base(client, auditLogModel, model)
-//        {
-//            Metadata = new RestAuditLogChannelMetadata(this, auditLogModel, model);
-//        }
-//    }
-//}
+        internal RestChannelDeletedAuditLog(RestDiscordClient client, AuditLogModel log, AuditLogEntryModel entry) : base(client, log, entry)
+        {
+            Data = new ChannelData(client, entry, false);
+        }
+    }
+}

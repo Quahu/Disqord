@@ -153,24 +153,24 @@ namespace Disqord.Rest
         }
 
         // Audit Log
-        //public Task<AuditLogModel> GetGuildAuditLogAsync(ulong guildId, int limit, ulong? userId, AuditLogAction? type, ulong? snowflake, RestRequestOptions options)
-        //{
-        //    var parameters = new Dictionary<string, object>
-        //    {
-        //        ["limit"] = limit
-        //    };
+        public Task<AuditLogModel> GetGuildAuditLogAsync(ulong guildId, int limit, ulong? userId, AuditLogType? type, ulong? before, RestRequestOptions options)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                ["limit"] = limit
+            };
 
-        //    if (userId != null)
-        //        parameters["user_id"] = userId;
+            if (userId != null)
+                parameters["user_id"] = userId;
 
-        //    if (type != null)
-        //        parameters["action_type"] = (int) type;
+            if (type != null)
+                parameters["action_type"] = (int) type;
 
-        //    if (snowflake != null)
-        //        parameters["before"] = snowflake;
+            if (before != null)
+                parameters["before"] = before;
 
-        //    return SendRequestAsync<AuditLogModel>(new RestRequest(GET, $"guilds/{guildId:guild_id}/audit-logs", parameters, options));
-        //}
+            return SendRequestAsync<AuditLogModel>(new RestRequest(GET, $"guilds/{guildId:guild_id}/audit-logs", parameters, options));
+        }
 
         // Channel
         public Task<ChannelModel> GetChannelAsync(ulong channelId, RestRequestOptions options)

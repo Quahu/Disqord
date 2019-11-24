@@ -1,14 +1,13 @@
-﻿//using Disqord.Models;
+﻿using Disqord.Logging;
+using Disqord.Models;
 
-//namespace Disqord.Rest.AuditLogs
-//{
-//    public sealed class RestUnknownAuditLog : RestAuditLog
-//    {
-//        public int Type { get; }
-
-//        internal RestUnknownAuditLog(RestDiscordClient client, AuditLogModel model, AuditLogEntryModel entryModel) : base(client, model, entryModel)
-//        {
-//            Type = (int) entryModel.ActionType;
-//        }
-//    }
-//}
+namespace Disqord.Rest.AuditLogs
+{
+    public sealed class RestUnknownAuditLog : RestAuditLog
+    {
+        internal RestUnknownAuditLog(RestDiscordClient client, AuditLogModel log, AuditLogEntryModel entry) : base(client, log, entry)
+        {
+            Client.Log(LogMessageSeverity.Error, $"Unknown audit log type received: {(int) entry.ActionType}.");
+        }
+    }
+}

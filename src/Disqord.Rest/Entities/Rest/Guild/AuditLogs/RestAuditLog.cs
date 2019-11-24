@@ -1,117 +1,160 @@
-﻿//using System;
-//using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 
-//namespace Disqord.Rest.AuditLogs
-//{
-//    public abstract class RestAuditLog : RestSnowflakeEntity
-//    {
-//        public Snowflake TargetId { get; }
+namespace Disqord.Rest.AuditLogs
+{
+    public abstract class RestAuditLog : RestSnowflakeEntity
+    {
+        public Snowflake? TargetId { get; }
 
-//        public Snowflake ResponsibleUserId { get; }
+        public Snowflake ResponsibleUserId { get; }
 
-//        public RestDownloadable<RestUser> ResponsibleUser { get; }
+        public RestDownloadable<RestUser> ResponsibleUser { get; }
 
-//        public string Reason { get; }
+        public string Reason { get; }
 
-//        internal RestAuditLog(RestDiscordClient client, AuditLogModel log, AuditLogEntryModel entry) : base(client, entry.Id)
-//        {
-//            TargetId = entry.TargetId;
-//            ResponsibleUserId = entry.UserId;
-//            ResponsibleUser = new RestDownloadable<RestUser>(options => Client.GetUserAsync(ResponsibleUserId, options));
-//            var userModel = Array.Find(log.Users, x => x.Id == entry.UserId);
-//            if (userModel != null)
-//                ResponsibleUser.SetValue(new RestUser(client, userModel));
+        internal RestAuditLog(RestDiscordClient client, AuditLogModel log, AuditLogEntryModel entry) : base(client, entry.Id)
+        {
+            TargetId = entry.TargetId;
+            ResponsibleUserId = entry.UserId;
+            ResponsibleUser = new RestDownloadable<RestUser>(options => Client.GetUserAsync(ResponsibleUserId, options));
+            var userModel = Array.Find(log.Users, x => x.Id == entry.UserId);
+            if (userModel != null)
+                ResponsibleUser.SetValue(new RestUser(client, userModel));
 
-//            Reason = entry.Reason;
-//        }
+            Reason = entry.Reason;
+        }
 
-//        internal static RestAuditLog Create(RestDiscordClient client, AuditLogModel log, AuditLogEntryModel entry)
-//        {
-//            switch (entry.ActionType)
-//            {
-//                case AuditLogAction.GuildUpdated:
-//                    return new RestGuildUpdatedAuditLog(client, log, entry);
+        internal static RestAuditLog Create(RestDiscordClient client, AuditLogModel log, AuditLogEntryModel entry)
+        {
+            switch (entry.ActionType)
+            {
+                // Guild
+                case AuditLogType.GuildUpdated:
+                    return new RestGuildUpdatedAuditLog(client, log, entry);
 
-//                case AuditLogAction.ChannelCreated:
-//                    return new RestChannelCreatedAuditLog(client, log, entry);
 
-//                case AuditLogAction.ChannelUpdated:
-//                    return new RestChannelUpdatedAuditLog(client, log, entry);
+                // Channel
+                case AuditLogType.ChannelCreated:
+                    return new RestChannelCreatedAuditLog(client, log, entry);
 
-//                case AuditLogAction.ChannelDeleted:
-//                    return new RestChannelDeletedAuditLog(client, log, entry);
+                case AuditLogType.ChannelUpdated:
+                    return new RestChannelUpdatedAuditLog(client, log, entry);
 
-//                case AuditLogAction.OverwriteCreated:
-//                    break;
+                case AuditLogType.ChannelDeleted:
+                    return new RestChannelDeletedAuditLog(client, log, entry);
 
-//                case AuditLogAction.OverwriteUpdated:
-//                    break;
 
-//                case AuditLogAction.OverwriteDeleted:
-//                    break;
+                // Overwrite
+                case AuditLogType.OverwriteCreated:
+                    return new RestOverwriteCreatedAuditLog(client, log, entry);
 
-//                case AuditLogAction.MemberKicked:
-//                    break;
+                case AuditLogType.OverwriteUpdated:
+                    return new RestOverwriteUpdatedAuditLog(client, log, entry);
 
-//                case AuditLogAction.MembersPruned:
-//                    break;
+                case AuditLogType.OverwriteDeleted:
+                    return new RestOverwriteDeletedAuditLog(client, log, entry);
 
-//                case AuditLogAction.MemberBanned:
-//                    break;
 
-//                case AuditLogAction.MemberUnbanned:
-//                    break;
+                // Member
+                case AuditLogType.MemberKicked:
+                    return new RestMemberKickedAuditLog(client, log, entry);
 
-//                case AuditLogAction.MemberUpdated:
-//                    break;
+                case AuditLogType.MembersPruned:
+                    return new RestMembersPrunedAuditLog(client, log, entry);
 
-//                case AuditLogAction.MemberRolesUpdated:
-//                    break;
+                case AuditLogType.MemberBanned:
+                    return new RestMemberBannedAuditLog(client, log, entry);
 
-//                case AuditLogAction.RoleCreated:
-//                    break;
+                case AuditLogType.MemberUnbanned:
+                    return new RestMemberUnbannedAuditLog(client, log, entry);
 
-//                case AuditLogAction.RoleUpdated:
-//                    break;
+                case AuditLogType.MemberUpdated:
+                    return new RestMemberUpdatedAuditLog(client, log, entry);
 
-//                case AuditLogAction.RoleDeleted:
-//                    break;
+                case AuditLogType.MemberRolesUpdated:
+                    return new RestMemberRolesUpdatedAuditLog(client, log, entry);
 
-//                case AuditLogAction.InviteCreated:
-//                    break;
+                case AuditLogType.MembersMoved:
+                    return new RestMembersMovedAuditLog(client, log, entry);
 
-//                case AuditLogAction.InviteUpdated:
-//                    break;
+                case AuditLogType.MembersDisconnected:
+                    return new RestMembersDisconnectedAuditLog(client, log, entry);
 
-//                case AuditLogAction.InviteDeleted:
-//                    break;
+                case AuditLogType.BotAdded:
+                    return new RestBotAddedAuditLog(client, log, entry);
 
-//                case AuditLogAction.WebhookCreated:
-//                    break;
 
-//                case AuditLogAction.WebhookUpdated:
-//                    break;
+                // Role
+                case AuditLogType.RoleCreated:
+                    return new RestRoleCreatedAuditLog(client, log, entry);
 
-//                case AuditLogAction.WebhookDeleted:
-//                    break;
+                case AuditLogType.RoleUpdated:
+                    return new RestRoleUpdatedAuditLog(client, log, entry);
 
-//                case AuditLogAction.GuildEmojiCreated:
-//                    break;
+                case AuditLogType.RoleDeleted:
+                    return new RestRoleDeletedAuditLog(client, log, entry);
 
-//                case AuditLogAction.GuildEmojiUpdated:
-//                    break;
 
-//                case AuditLogAction.GuildEmojiDeleted:
-//                    break;
+                // Invite (TODO)
+                case AuditLogType.InviteCreated:
+                    return new RestInviteCreatedAuditLog(client, log, entry);
 
-//                case AuditLogAction.MessagesDeleted:
-//                    break;
+                case AuditLogType.InviteUpdated:
+                    return new RestInviteUpdatedAuditLog(client, log, entry);
 
-//                default:
-//                    return new RestUnknownAuditLog(client, log, entry);
-//            }
+                case AuditLogType.InviteDeleted:
+                    return new RestInviteDeletedAuditLog(client, log, entry);
 
-//            return new RestUnknownAuditLog(client, log, entry);
-//        }
-//    }
-//}
+
+                // Webhook
+                case AuditLogType.WebhookCreated:
+                    return new RestWebhookCreatedAuditLog(client, log, entry);
+
+                case AuditLogType.WebhookUpdated:
+                    return new RestWebhookUpdatedAuditLog(client, log, entry);
+
+                case AuditLogType.WebhookDeleted:
+                    return new RestWebhookDeletedAuditLog(client, log, entry);
+
+
+                // Emoji
+                case AuditLogType.EmojiCreated:
+                    return new RestEmojiCreatedAuditLog(client, log, entry);
+
+                case AuditLogType.EmojiUpdated:
+                    return new RestEmojiUpdatedAuditLog(client, log, entry);
+
+                case AuditLogType.EmojiDeleted:
+                    return new RestEmojiDeletedAuditLog(client, log, entry);
+
+
+                // Message
+                case AuditLogType.MessagesDeleted:
+                    return new RestMessagesDeletedAuditLog(client, log, entry);
+
+                case AuditLogType.MessagesBulkDeleted:
+                    return new RestMessagesBulkDeletedAuditLog(client, log, entry);
+
+                case AuditLogType.MessagePinned:
+                    return new RestMessagePinnedAuditLog(client, log, entry);
+
+                case AuditLogType.MessageUnpinned:
+                    return new RestMessageUnpinnedAuditLog(client, log, entry);
+
+
+                // Integration (TODO)
+                case AuditLogType.IntegrationCreated:
+                    return new RestIntegrationCreatedAuditLog(client, log, entry);
+
+                case AuditLogType.IntegrationUpdated:
+                    return new RestIntegrationUpdatedAuditLog(client, log, entry);
+
+                case AuditLogType.IntegrationDeleted:
+                    return new RestIntegrationDeletedAuditLog(client, log, entry);
+            }
+
+            return new RestUnknownAuditLog(client, log, entry);
+        }
+    }
+}
