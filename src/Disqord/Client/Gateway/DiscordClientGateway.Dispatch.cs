@@ -296,7 +296,7 @@ namespace Disqord
 
                 case GatewayDispatch.WebhooksUpdate:
                 {
-                    // TODO
+                    await State.HandleWebhooksUpdateAsync(payload).ConfigureAwait(false);
                     return;
                 }
 

@@ -250,5 +250,12 @@ namespace Disqord
             remove => _voiceServerUpdated.Unhook(value);
         }
         internal readonly AsynchronousEvent<VoiceServerUpdatedEventArgs> _voiceServerUpdated = new AsynchronousEvent<VoiceServerUpdatedEventArgs>();
+
+        public event AsynchronousEventHandler<WebhooksUpdatedEventArgs> WebhooksUpdated
+        {
+            add => _webhooksUpdated.Hook(value);
+            remove => _webhooksUpdated.Unhook(value);
+        }
+        internal readonly AsynchronousEvent<WebhooksUpdatedEventArgs> _webhooksUpdated = new AsynchronousEvent<WebhooksUpdatedEventArgs>();
     }
 }
