@@ -45,6 +45,7 @@ namespace Disqord
             IsTextToSpeech = model.Tts.GetValueOrDefault();
             Nonce = model.Nonce.GetValueOrDefault();
             WebhookId = model.WebhookId.GetValueOrDefault();
+
             Update(model);
         }
 

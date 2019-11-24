@@ -14,6 +14,8 @@ namespace Disqord
         {
             Type = (SystemMessageType) (model.Type - 1);
             RawContent = model.Content.GetValueOrDefault();
+
+            Update(model);
         }
     }
 }

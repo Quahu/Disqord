@@ -16,7 +16,14 @@ namespace Disqord
             {
                 case Opcode.Dispatch:
                 {
-                    await HandleDispatchAsync(payload).ConfigureAwait(false);
+                    try
+                    {
+                        await HandleDispatchAsync(payload).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log(LogMessageSeverity.Error, $"An exception occurred while handling a {payload.T} dispatch.\n{payload.D}", ex);
+                    }
                     break;
                 }
 
