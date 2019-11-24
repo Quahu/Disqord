@@ -10,6 +10,8 @@ namespace Disqord.Rest
 
         public RestDownloadable<RestGuild> Guild { get; }
 
+        public WebhookType Type { get; }
+
         public Snowflake ChannelId { get; private set; }
 
         public RestDownloadable<RestTextChannel> Channel { get; }
@@ -24,6 +26,7 @@ namespace Disqord.Rest
 
         internal RestWebhook(RestDiscordClient client, WebhookModel model) : base(client, model.Id)
         {
+            Type = model.Type;
             Token = model.Token;
             GuildId = model.GuildId;
             Guild = new RestDownloadable<RestGuild>(options => Client.GetGuildAsync(GuildId, options));

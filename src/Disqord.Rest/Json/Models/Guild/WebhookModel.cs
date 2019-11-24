@@ -7,6 +7,9 @@ namespace Disqord.Models
         [JsonProperty("id")]
         public ulong Id { get; set; }
 
+        [JsonProperty("type")]
+        public WebhookType Type { get; set; }
+
         [JsonProperty("guild_id")]
         public ulong GuildId { get; set; }
 
