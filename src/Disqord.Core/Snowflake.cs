@@ -76,17 +76,5 @@ namespace Disqord
 
         public static implicit operator ulong(Snowflake value)
             => value.RawValue;
-
-        public static bool operator ==(Snowflake left, ulong right)
-            => left.Equals(right);
-
-        public static bool operator !=(Snowflake left, ulong right)
-            => !left.Equals(right);
-
-        public static bool operator >(Snowflake left, ulong right)
-            => left.RawValue > right;
-
-        public static bool operator <(Snowflake left, ulong right)
-            => left.RawValue < right;
     }
 }
