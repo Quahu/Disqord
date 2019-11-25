@@ -6,7 +6,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a color used by Discord.
     /// </summary>
-    public readonly partial struct Color : IComparable<Color>, IEquatable<Color>, IComparable<int>, IEquatable<int>
+    public readonly partial struct Color : IEquatable<int>, IEquatable<Color>, IComparable<int>, IComparable<Color>
     {
         /// <summary>
         ///     Gets the raw value of this <see cref="Color"/>.
@@ -74,19 +74,6 @@ namespace Disqord
             RawValue = ((byte) (r * 255) << 16) | ((byte) (g * 255) << 8) | (byte) (b * 255);
         }
 
-        /// <summary>
-        ///     Returns a hexadecimal representation of this <see cref="Color"/>.
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-            => $"#{RawValue:X6}";
-
-        public override bool Equals(object obj)
-            => obj is Color color && Equals(color);
-
-        public override int GetHashCode()
-            => RawValue;
-
         public bool Equals(Color other)
             => RawValue == other.RawValue;
 
@@ -97,7 +84,20 @@ namespace Disqord
             => RawValue == other;
 
         public int CompareTo(int other)
-            => RawValue.CompareTo(RawValue);
+            => RawValue.CompareTo(other);
+
+        public override bool Equals(object obj)
+            => obj is Color color && Equals(color);
+
+        public override int GetHashCode()
+            => RawValue;
+
+        /// <summary>
+        ///     Returns a hexadecimal representation of this <see cref="Color"/>.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+            => $"#{RawValue:X6}";
 
         public static bool operator >(Color left, Color right)
             => left.RawValue > right.RawValue;
