@@ -49,15 +49,13 @@ namespace Disqord
             => Discord.GetCustomEmojiUrl(Id, IsAnimated, size);
 
         public bool Equals(IEmoji other)
-        {
-            if (other == null)
-                return false;
+            => Discord.Comparers.Emoji.Equals(this, other);
 
-            if (!(other is ICustomEmoji customEmoji))
-                return false;
+        public override bool Equals(object obj)
+            => obj is IEmoji emoji && Equals(emoji);
 
-            return Id.Equals(customEmoji.Id);
-        }
+        public override int GetHashCode()
+            => Discord.Comparers.Emoji.GetHashCode(this);
 
         public Task DeleteAsync(RestRequestOptions options = null)
             => Client.DeleteGuildEmojiAsync(Guild.Id, Id, options);

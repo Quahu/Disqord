@@ -589,7 +589,7 @@ namespace Disqord.Rest
                 }
                 else
                 {
-                    Log(LogMessageSeverity.Error, $"Unknown nested channel properties provided to modify. ({properties.GetType()})");
+                    Log(LogMessageSeverity.Error, $"Unknown nested channel properties provided to modify ({properties.GetType()}).");
                 }
             }
             else if (properties is CreateCategoryChannelProperties categoryProperties)
@@ -599,7 +599,7 @@ namespace Disqord.Rest
             }
             else
             {
-                Log(LogMessageSeverity.Error, $"Unknown nested channel properties provided to modify. ({properties.GetType()})");
+                Log(LogMessageSeverity.Error, $"Unknown channel properties provided to modify ({properties.GetType()}).");
             }
 
             return SendRequestAsync<ChannelModel>(new RestRequest(POST, $"guilds/{guildId:guild_id}/channels", requestContent, options));
@@ -776,6 +776,19 @@ namespace Disqord.Rest
 
         public Task<InviteModel[]> GetGuildInvitesAsync(ulong guildId, RestRequestOptions options)
             => SendRequestAsync<InviteModel[]>(new RestRequest(GET, $"guilds/{guildId:guild_id}/invites", options));
+
+        public Task<IntegrationModel[]> GetGuildIntegrationsAsync(ulong guildId, RestRequestOptions options)
+            => SendRequestAsync<IntegrationModel[]>(new RestRequest(GET, $"guilds/{guildId:guild_id}/integrations", options));
+
+        public Task CreateGuildIntegrationsAsync(ulong guildId, string type, string id, RestRequestOptions options)
+        {
+            var requestContent = new CreateGuildIntegrationContent
+            {
+                Type = type,
+                Id = id
+            };
+            return SendRequestAsync(new RestRequest(POST, $"guilds/{guildId:guild_id}/integrations", requestContent, options));
+        }
 
         public Task<WidgetModel> GetGuildEmbedAsync(ulong guildId, RestRequestOptions options)
             => SendRequestAsync<WidgetModel>(new RestRequest(GET, $"guilds/{guildId:guild_id}/embed", options));

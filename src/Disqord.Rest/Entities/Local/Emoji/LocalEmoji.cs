@@ -13,22 +13,14 @@
             Name = unicode;
         }
 
-        public override int GetHashCode()
-            => Name.GetHashCode();
+        public bool Equals(IEmoji other)
+            => Discord.Comparers.Emoji.Equals(this, other);
 
         public override bool Equals(object obj)
             => obj is IEmoji emoji && Equals(emoji);
 
-        public bool Equals(IEmoji other)
-        {
-            if (other == null)
-                return false;
-
-            if (other is ICustomEmoji)
-                return false;
-
-            return Name.Equals(other.Name);
-        }
+        public override int GetHashCode()
+            => Discord.Comparers.Emoji.GetHashCode(this);
 
         public override string ToString()
             => MessageFormat;
