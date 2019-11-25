@@ -91,16 +91,16 @@ namespace Disqord
         public IEnumerator<LocalEmbedFieldBuilder> GetEnumerator()
             => _list.GetEnumerator();
 
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
+
+        void ICollection<LocalEmbedFieldBuilder>.CopyTo(LocalEmbedFieldBuilder[] array, int arrayIndex)
+            => _list.CopyTo(array, arrayIndex);
+
         int IList<LocalEmbedFieldBuilder>.IndexOf(LocalEmbedFieldBuilder item)
             => throw new NotSupportedException();
 
         bool ICollection<LocalEmbedFieldBuilder>.Contains(LocalEmbedFieldBuilder item)
             => throw new NotSupportedException();
-
-        void ICollection<LocalEmbedFieldBuilder>.CopyTo(LocalEmbedFieldBuilder[] array, int arrayIndex)
-            => throw new NotSupportedException();
-
-        IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
     }
 }
