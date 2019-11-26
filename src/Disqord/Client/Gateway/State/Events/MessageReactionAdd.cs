@@ -55,10 +55,14 @@ namespace Disqord
                     channel,
                     new DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage>(
                         message, model.MessageId, options => _client.GetMessageAsync(channel.Id, model.MessageId, options)),
-                    new DownloadableOptionalSnowflakeEntity<CachedUser, RestUser>(message?.Author, model.UserId,
-                    async options => model.GuildId != null
-                        ? await _client.GetMemberAsync(model.GuildId.Value, model.UserId, options).ConfigureAwait(false)
-                        : await _client.GetUserAsync(model.UserId, options).ConfigureAwait(false)),
+                    new DownloadableOptionalSnowflakeEntity<CachedUser, RestUser>(
+                        channel is CachedTextChannel textChannel
+                            ? textChannel.Guild.GetMember(model.UserId)
+                            : GetUser(model.UserId),
+                        model.UserId,
+                        async options => model.GuildId != null
+                            ? await _client.GetMemberAsync(model.GuildId.Value, model.UserId, options).ConfigureAwait(false)
+                            : await _client.GetUserAsync(model.UserId, options).ConfigureAwait(false)),
                     reaction ?? Optional<ReactionData>.Empty,
                     emoji));
         }
