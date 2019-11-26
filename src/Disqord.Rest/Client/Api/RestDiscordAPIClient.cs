@@ -538,7 +538,8 @@ namespace Disqord.Rest
                 Splash = properties.Splash,
                 SystemChannelId = properties.SystemChannelId.HasValue
                     ? properties.SystemChannelId.Value.RawValue
-                    : Optional<ulong>.Empty
+                    : Optional<ulong>.Empty,
+                Banner = properties.Banner
             };
             return SendRequestAsync<GuildModel>(new RestRequest(PATCH, $"guilds/{guildId:guild_id}", requestContent, options));
         }

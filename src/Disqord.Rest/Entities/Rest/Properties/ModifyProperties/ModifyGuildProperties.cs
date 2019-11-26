@@ -24,6 +24,8 @@
 
         public Optional<Snowflake> SystemChannelId { internal get; set; }
 
+        public Optional<LocalAttachment> Banner { internal get; set; }
+
         internal ModifyGuildProperties()
         { }
     }

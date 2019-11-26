@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://github.com/Quahu/Disqord</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/Quahu/Disqord/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>Git</RepositoryType>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Disqord\Disqord.csproj" />

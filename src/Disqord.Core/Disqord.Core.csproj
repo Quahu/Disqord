@@ -15,10 +15,6 @@
     <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Http\" />
-    <Folder Include="Udp\" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Qommon" Version="1.0.1" />
   </ItemGroup>
 </Project>

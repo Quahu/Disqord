@@ -36,5 +36,8 @@ namespace Disqord.Rest
 
         [JsonProperty("system_channel_id")]
         public Optional<ulong> SystemChannelId { get; set; }
+
+        [JsonProperty("banner")]
+        public Optional<LocalAttachment> Banner { get; set; }
     }
 }
