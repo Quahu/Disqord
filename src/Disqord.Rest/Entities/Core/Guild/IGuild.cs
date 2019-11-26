@@ -64,5 +64,7 @@ namespace Disqord
         string GetIconUrl(ImageFormat format = default, int size = 2048);
 
         string GetSplashUrl(int size = 2048);
+
+        string GetBannerUrl(int size = 2048);
     }
 }

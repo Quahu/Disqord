@@ -55,6 +55,19 @@ namespace Disqord
             => FormatImageUrl($"splashes/{guildId}/{splashHash}", format != default ? format : ImageFormat.Png, size);
 
         /// <summary>
+        ///     Returns the url for a guild's banner.
+        /// </summary>
+        /// <param name="guildId"> The guild's id. </param>
+        /// <param name="bannerHash"> The guild's banner hash. </param>
+        /// <param name="format"> The format to use. </param>
+        /// <param name="size"> The size of the guild banner. </param>
+        /// <returns>
+        ///     The url of the guild's banner.
+        /// </returns>
+        public static string GetGuildBannerUrl(Snowflake guildId, string bannerHash, ImageFormat format = default, int size = 2048)
+            => FormatImageUrl($"banners/{guildId}/{bannerHash}", format != default ? format : ImageFormat.Png, size);
+
+        /// <summary>
         ///     Returns the url for a default user avatar.
         /// </summary>
         /// <param name="userDiscriminator"> The user's discriminator. </param>

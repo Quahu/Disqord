@@ -467,6 +467,9 @@ namespace Disqord
         public string GetSplashUrl(int size = 2048)
             => Discord.GetGuildSplashUrl(Id, SplashHash, ImageFormat.Png, 2048);
 
+        public string GetBannerUrl(int size = 2048)
+            => Discord.GetGuildBannerUrl(Id, SplashHash, ImageFormat.Png, 2048);
+
         public override string ToString()
             => Name;
     }
