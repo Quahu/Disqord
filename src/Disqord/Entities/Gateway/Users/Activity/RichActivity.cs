@@ -13,19 +13,11 @@ namespace Disqord
 
         public DateTimeOffset? EndsAt { get; }
 
-        public string LargeImageUrl { get; }
+        public RichAsset LargeAsset { get; }
 
-        public string LargeText { get; }
+        public RichAsset SmallAsset { get; }
 
-        public string SmallImageUrl { get; }
-
-        public string SmallText { get; }
-
-        public string PartyId { get; }
-
-        public int? PartySize { get; }
-
-        public int? PartyMaxSize { get; }
+        public RichParty Party { get; }
 
         public string MatchSecret { get; }
 
@@ -59,21 +51,25 @@ namespace Disqord
 
             if (model.Assets != null)
             {
-                LargeImageUrl = model.Assets.LargeImage;
-                LargeText = model.Assets.LargeText;
-                SmallImageUrl = model.Assets.SmallImage;
-                SmallText = model.Assets.SmallText;
+                if (model.Assets.LargeImage != null)
+                    LargeAsset = new RichAsset(model.ApplicationId, model.Assets.LargeImage, model.Assets.LargeText);
+
+                if (model.Assets.SmallImage != null)
+                    SmallAsset = new RichAsset(model.ApplicationId, model.Assets.SmallImage, model.Assets.SmallText);
             }
 
             if (model.Party != null)
             {
-                PartyId = model.Party.Id;
-
+                var partyId = model.Party.Id;
+                int? partySize = null;
+                int? partyMaxSize = null;
                 if (model.Party.Size != null)
                 {
-                    PartySize = model.Party.Size[0];
-                    PartyMaxSize = model.Party.Size[1];
+                    partySize = model.Party.Size[0];
+                    partyMaxSize = model.Party.Size[1];
                 }
+
+                Party = new RichParty(partyId, partySize, partyMaxSize);
             }
 
             if (model.Secrets != null)
@@ -88,6 +84,41 @@ namespace Disqord
             SyncId = model.SyncId;
             SessionId = model.SessionId;
             Flags = model.Flags;
+        }
+
+        public sealed class RichAsset
+        {
+            public string Id { get; }
+
+            public string Text { get; }
+
+            // TODO: move to CDN urls?
+            public string Url => $"https://cdn.discordapp.com/app-assets/{_applicationId}/{Id}.png";
+
+            private readonly string _applicationId;
+
+            internal RichAsset(string applicationId, string id, string text)
+            {
+                _applicationId = applicationId;
+                Id = id;
+                Text = text;
+            }
+        }
+
+        public sealed class RichParty
+        {
+            public string Id { get; }
+
+            public int? Size { get; }
+
+            public int? MaxSize { get; }
+
+            internal RichParty(string id, int? size, int? maxSize)
+            {
+                Id = id;
+                Size = size;
+                MaxSize = maxSize;
+            }
         }
     }
 }
