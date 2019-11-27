@@ -40,7 +40,10 @@ namespace Disqord.Rest
         private sealed class CustomStreamContent : StreamContent
         {
             public CustomStreamContent(Stream content) : base(content)
-            { }
+            {
+                if (content.CanSeek && content.Length != 0 && content.Position == content.Length)
+                    throw new InvalidDataException("The attachment stream's position is the same as its length. Did you forget to rewind it?");
+            }
 
             // Prevents the original stream from being disposed.
             protected override void Dispose(bool disposing)
