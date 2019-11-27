@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using Disqord.Serialization.Json;
 
@@ -22,18 +23,28 @@ namespace Disqord.Rest
 
             if (Attachment != null)
             {
-                content.Add(new StreamContent(Attachment.Stream), "file", Attachment.FileName);
+                content.Add(new CustomStreamContent(Attachment.Stream), "file", Attachment.FileName);
             }
             else if (Attachments != null)
             {
                 for (var i = 0; i < Attachments.Count; i++)
                 {
                     var attachment = Attachments[i];
-                    content.Add(new StreamContent(attachment.Stream), $"file{i}", attachment.FileName);
+                    content.Add(new CustomStreamContent(attachment.Stream), $"file{i}", attachment.FileName);
                 }
             }
 
             return content;
+        }
+
+        private sealed class CustomStreamContent : StreamContent
+        {
+            public CustomStreamContent(Stream content) : base(content)
+            { }
+
+            // Prevents the original stream from being disposed.
+            protected override void Dispose(bool disposing)
+                => base.Dispose(false);
         }
     }
 }
