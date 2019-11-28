@@ -8,7 +8,7 @@ namespace Disqord
     {
         public Snowflake? LastMessageId { get; internal set; }
 
-        public DateTimeOffset? LastPinTimestamp { get; private set; }
+        public DateTimeOffset? LastPinTimestamp { get; internal set; }
 
         internal CachedPrivateChannel(DiscordClientBase client, ChannelModel model) : base(client, model)
         { }

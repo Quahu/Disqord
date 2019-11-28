@@ -16,7 +16,7 @@ namespace Disqord
 
         public Snowflake? LastMessageId { get; internal set; }
 
-        public DateTimeOffset? LastPinTimestamp { get; private set; }
+        public DateTimeOffset? LastPinTimestamp { get; internal set; }
 
         public string Mention => Discord.MentionChannel(this);
 

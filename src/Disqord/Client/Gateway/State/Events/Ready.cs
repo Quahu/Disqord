@@ -24,6 +24,7 @@ namespace Disqord
             }
 
             // TODO: more, more, more stale checking
+            // I can't remember what I was supposed to be checking though
             foreach (var guild in _guilds.Values)
             {
                 if (_client.IsBot)
