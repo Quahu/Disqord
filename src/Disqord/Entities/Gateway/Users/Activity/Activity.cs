@@ -1,17 +1,24 @@
-﻿using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 
 namespace Disqord
 {
+    /// <summary>
+    ///     Represents a user's activity.
+    /// </summary>
     public class Activity
     {
         public virtual string Name { get; }
 
         public ActivityType Type { get; }
 
+        public DateTimeOffset CreatedAt { get; }
+
         internal Activity(ActivityModel model)
         {
             Name = model.Name;
             Type = model.Type;
+            CreatedAt = DateTimeOffset.FromUnixTimeMilliseconds(model.CreatedAt);
         }
 
         internal static Activity Create(ActivityModel model)

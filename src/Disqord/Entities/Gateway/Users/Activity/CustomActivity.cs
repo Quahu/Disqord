@@ -2,6 +2,9 @@
 
 namespace Disqord
 {
+    /// <summary>
+    ///     Represents a user's custom activity.
+    /// </summary>
     public sealed class CustomActivity : Activity
     {
         public string Text { get; }

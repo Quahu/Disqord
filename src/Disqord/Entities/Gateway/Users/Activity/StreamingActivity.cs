@@ -2,6 +2,9 @@
 
 namespace Disqord
 {
+    /// <summary>
+    ///     Represents a user's streaming activity.
+    /// </summary>
     public sealed class StreamingActivity : Activity
     {
         public string Url { get; }

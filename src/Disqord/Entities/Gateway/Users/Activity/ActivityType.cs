@@ -1,5 +1,8 @@
 ﻿namespace Disqord
 {
+    /// <summary>
+    ///     Represents the type of a user's activity.
+    /// </summary>
     public enum ActivityType
     {
         Playing = 0,

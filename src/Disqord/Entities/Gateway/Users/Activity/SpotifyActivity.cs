@@ -5,6 +5,9 @@ using Qommon.Collections;
 
 namespace Disqord
 {
+    /// <summary>
+    ///     Represents a user's Spotify activity.
+    /// </summary>
     public sealed class SpotifyActivity : Activity
     {
         public override string Name => "Spotify";

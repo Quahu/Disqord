@@ -3,6 +3,9 @@ using Disqord.Models;
 
 namespace Disqord
 {
+    /// <summary>
+    ///     Represents a user's rich activity.
+    /// </summary>
     public sealed class RichActivity : Activity
     {
         public string State { get; }
@@ -27,7 +30,7 @@ namespace Disqord
 
         public bool IsInstance { get; }
 
-        public string ApplicationId { get; }
+        public Snowflake? ApplicationId { get; }
 
         public string SyncId { get; }
 
@@ -93,11 +96,13 @@ namespace Disqord
             public string Text { get; }
 
             // TODO: move to CDN urls?
-            public string Url => $"https://cdn.discordapp.com/app-assets/{_applicationId}/{Id}.png";
+            public string Url => _applicationId != null
+                ? $"https://cdn.discordapp.com/app-assets/{_applicationId}/{Id}.png"
+                : null;
 
-            private readonly string _applicationId;
+            private readonly ulong? _applicationId;
 
-            internal RichAsset(string applicationId, string id, string text)
+            internal RichAsset(ulong? applicationId, string id, string text)
             {
                 _applicationId = applicationId;
                 Id = id;

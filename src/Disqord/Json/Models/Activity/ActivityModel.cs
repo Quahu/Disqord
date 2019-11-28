@@ -10,6 +10,9 @@ namespace Disqord.Models
         [JsonProperty("type", NullValueHandling.Ignore)]
         public ActivityType Type { get; set; }
 
+        [JsonProperty("created_at")]
+        public long CreatedAt { get; set; }
+
         [JsonProperty("url", NullValueHandling.Ignore)]
         public string Url { get; set; }
 
@@ -17,7 +20,7 @@ namespace Disqord.Models
         public TimestampsModel Timestamps { get; set; }
 
         [JsonProperty("application_id", NullValueHandling.Ignore)]
-        public string ApplicationId { get; set; }
+        public ulong? ApplicationId { get; set; }
 
         [JsonProperty("details", NullValueHandling.Ignore)]
         public string Details { get; set; }
