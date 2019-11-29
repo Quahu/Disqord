@@ -17,7 +17,7 @@ namespace Disqord
                 ? ((int, int)?) (configuration.ShardId, configuration.ShardCount)
                 : null;
             _gateway = new DiscordClientGateway(this, shards);
-            State._getGateway = (client, _) => (client as DiscordClient)._gateway;
+            _getGateway = (client, _) => (client as DiscordClient)._gateway;
             SetStatus(configuration.Status);
             SetActivity(configuration.Activity);
         }

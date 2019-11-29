@@ -29,6 +29,8 @@ namespace Disqord
 
         internal bool IsDisposed { get; private set; }
 
+        internal Func<DiscordClientBase, ulong, DiscordClientGateway> _getGateway;
+
         RestDownloadable<RestCurrentUser> IRestDiscordClient.CurrentUser => RestClient.CurrentUser;
 
         internal DiscordClientBase(RestDiscordClient restClient,
@@ -60,6 +62,9 @@ namespace Disqord
 
         internal void Log(LogMessageSeverity severity, string message, Exception exception = null)
             => Logger.Log(this, new MessageLoggedEventArgs("Client", severity, message, exception));
+
+        internal DiscordClientGateway GetGateway(ulong guildId)
+            => _getGateway(this, guildId);
 
         public void Dispose()
             => DisposeAsync().GetAwaiter().GetResult();

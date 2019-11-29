@@ -118,7 +118,7 @@ namespace Disqord
                     }
                 }
 
-                return _getGateway(_client, 0).SendGuildSyncAsync(_guilds.Keys.Select(x => x.RawValue));
+                return _client.GetGateway(0).SendGuildSyncAsync(_guilds.Keys.Select(x => x.RawValue));
             }
 
             return Task.CompletedTask;

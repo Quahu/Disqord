@@ -16,8 +16,6 @@ namespace Disqord
         internal readonly LockedDictionary<Snowflake, CachedSharedUser> _users;
         internal readonly LockedDictionary<Snowflake, CachedPrivateChannel> _privateChannels;
 
-        internal Func<DiscordClientBase, ulong, DiscordClientGateway> _getGateway;
-
         private IJsonSerializer Serializer => _client.Serializer;
         private readonly DiscordClientBase _client;
 

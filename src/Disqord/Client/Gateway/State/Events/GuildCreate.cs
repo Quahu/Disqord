@@ -26,7 +26,7 @@ namespace Disqord
             else
             {
                 if (guild.IsLarge)
-                    _ = _getGateway(_client, guild.Id).SendRequestOfflineMembersAsync(guild.Id);
+                    _ = _client.GetGateway(guild.Id).SendRequestOfflineMembersAsync(guild.Id);
 
                 Log(LogMessageSeverity.Information, $"Joined guild '{guild}' ({guild.Id}).");
                 return _client._joinedGuild.InvokeAsync(new JoinedGuildEventArgs(guild));
