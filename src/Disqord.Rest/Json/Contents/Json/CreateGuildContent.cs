@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Disqord.Models;
 using Disqord.Serialization.Json;
 
@@ -13,7 +14,7 @@ namespace Disqord.Rest
         public string Region { get; set; }
 
         [JsonProperty("icon", NullValueHandling.Ignore)]
-        public LocalAttachment Icon { get; set; }
+        public Stream Icon { get; set; }
 
         [JsonProperty("verification_level")]
         public VerificationLevel VerificationLevel { get; set; }

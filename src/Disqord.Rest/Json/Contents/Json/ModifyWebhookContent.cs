@@ -1,4 +1,5 @@
-﻿using Disqord.Serialization.Json;
+﻿using System.IO;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Rest
 {
@@ -8,7 +9,7 @@ namespace Disqord.Rest
         public Optional<string> Name { get; set; }
 
         [JsonProperty("avatar")]
-        public Optional<LocalAttachment> Avatar { get; set; }
+        public Optional<Stream> Avatar { get; set; }
 
         [JsonProperty("channel_id")]
         public Optional<ulong> ChannelId { get; set; }

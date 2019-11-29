@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Disqord.Rest
 {
     public partial class RestDiscordClient : IRestDiscordClient
     {
-        public async Task<RestWebhook> CreateWebhookAsync(Snowflake channelId, string name, LocalAttachment avatar = null, RestRequestOptions options = null)
+        public async Task<RestWebhook> CreateWebhookAsync(Snowflake channelId, string name, Stream avatar = null, RestRequestOptions options = null)
         {
             var model = await ApiClient.CreateWebhookAsync(channelId, name, avatar, options).ConfigureAwait(false);
             return new RestWebhook(this, model);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Rest
@@ -9,7 +10,7 @@ namespace Disqord.Rest
         public string Name { get; set; }
 
         [JsonProperty("image")]
-        public LocalAttachment Image { get; set; }
+        public Stream Image { get; set; }
 
         [JsonProperty("roles", NullValueHandling.Ignore)]
         public IReadOnlyList<ulong> RoleIds { get; set; }

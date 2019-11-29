@@ -1,4 +1,6 @@
-﻿namespace Disqord
+﻿using System.IO;
+
+namespace Disqord
 {
     public sealed class ModifyGuildProperties
     {
@@ -16,15 +18,15 @@
 
         public Optional<int> AfkTimeout { internal get; set; }
 
-        public Optional<LocalAttachment> Icon { internal get; set; }
+        public Optional<Stream> Icon { internal get; set; }
 
         public Optional<Snowflake> OwnerId { internal get; set; }
 
-        public Optional<LocalAttachment> Splash { internal get; set; }
+        public Optional<Stream> Splash { internal get; set; }
 
         public Optional<Snowflake> SystemChannelId { internal get; set; }
 
-        public Optional<LocalAttachment> Banner { internal get; set; }
+        public Optional<Stream> Banner { internal get; set; }
 
         internal ModifyGuildProperties()
         { }

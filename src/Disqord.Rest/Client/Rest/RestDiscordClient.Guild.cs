@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Disqord.Rest
     public partial class RestDiscordClient : IRestDiscordClient
     {
         public async Task<RestGuild> CreateGuildAsync(
-            string name, string voiceRegionId = null, LocalAttachment icon = null, VerificationLevel verificationLevel = default,
+            string name, string voiceRegionId = null, Stream icon = null, VerificationLevel verificationLevel = default,
             DefaultNotificationLevel defaultNotificationLevel = default, ContentFilterLevel contentFilterLevel = default,
             RestRequestOptions options = null)
         {

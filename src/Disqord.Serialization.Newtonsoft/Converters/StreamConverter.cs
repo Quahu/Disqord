@@ -5,14 +5,14 @@ using Newtonsoft.Json;
 
 namespace Disqord.Serialization.Json.Newtonsoft
 {
-    internal sealed class LocalAttachmentConverter : JsonConverter
+    internal sealed class StreamConverter : JsonConverter
     {
         // This header works regardless of the actual type of the attachment.
         public const string HEADER = "data:image/jpeg;base64,";
 
-        public static readonly LocalAttachmentConverter Instance = new LocalAttachmentConverter();
+        public static readonly StreamConverter Instance = new StreamConverter();
 
-        private LocalAttachmentConverter()
+        private StreamConverter()
         { }
 
         public override bool CanRead => false;
@@ -26,15 +26,14 @@ namespace Disqord.Serialization.Json.Newtonsoft
         public override unsafe void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             // Also serves as a null check.
-            if (!(value is ILocalAttachment attachment))
+            if (!(value is Stream stream))
             {
                 writer.WriteNull();
                 return;
             }
 
-            var stream = attachment.Stream;
             if (!stream.CanRead)
-                throw new InvalidDataException("The attachment stream is not readable.");
+                throw new InvalidDataException("The stream is not readable.");
 
             StringBuilder base64Builder;
             if (!stream.CanSeek)
@@ -53,7 +52,7 @@ namespace Disqord.Serialization.Json.Newtonsoft
 
                 // Check if the user didn't rewind the stream.
                 if (stream.Position == stream.Length)
-                    throw new InvalidDataException("The attachment stream's position is the same as its length. Did you forget to rewind it?");
+                    throw new InvalidDataException("The stream's position is the same as its length. Did you forget to rewind it?");
 
                 // Check if the stream is a memory stream and the underlying buffer is retrievable,
                 // so we can skip the reading as all of the memory is already allocated anyways.
@@ -68,6 +67,9 @@ namespace Disqord.Serialization.Json.Newtonsoft
                 base64Builder = new StringBuilder(HEADER, (int) ((stream.Length - stream.Position) * 1.37f) + HEADER.Length);
             }
 
+            // TODO: Do something about both not fully downloaded http streams
+            //       and buffer underflowing.
+
             // Allocate a 3 bytes span buffer for reading data from the stream
             // and a 4 chars span buffer for the base64 encoded bytes.
             Span<byte> byteSpan = stackalloc byte[3];
@@ -76,7 +78,7 @@ namespace Disqord.Serialization.Json.Newtonsoft
             while ((bytesRead = stream.Read(byteSpan)) != 0)
             {
                 if (!Convert.TryToBase64Chars(byteSpan.Slice(0, bytesRead), charSpan, out var charsWritten))
-                    throw new InvalidDataException("The attachment's stream could not be converted to base64.");
+                    throw new InvalidDataException("The stream could not be converted to base64.");
 
                 base64Builder.Append(charSpan.Slice(0, charsWritten));
             }

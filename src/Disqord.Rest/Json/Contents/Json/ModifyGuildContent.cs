@@ -1,3 +1,4 @@
+using System.IO;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Rest
@@ -26,18 +27,18 @@ namespace Disqord.Rest
         public Optional<int> AfkTimeout { get; set; }
 
         [JsonProperty("icon")]
-        public Optional<LocalAttachment> Icon { get; set; }
+        public Optional<Stream> Icon { get; set; }
 
         [JsonProperty("owner_id")]
         public Optional<ulong> OwnerId { get; set; }
 
         [JsonProperty("splash")]
-        public Optional<LocalAttachment> Splash { get; set; }
+        public Optional<Stream> Splash { get; set; }
 
         [JsonProperty("system_channel_id")]
         public Optional<ulong> SystemChannelId { get; set; }
 
         [JsonProperty("banner")]
-        public Optional<LocalAttachment> Banner { get; set; }
+        public Optional<Stream> Banner { get; set; }
     }
 }

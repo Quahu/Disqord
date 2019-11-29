@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Disqord.Models;
 using Disqord.Serialization.Json;
 
@@ -10,7 +11,7 @@ namespace Disqord.Rest
         public Optional<string> Name { get; set; }
 
         [JsonProperty("icon")]
-        public Optional<LocalAttachment> Icon { get; set; }
+        public Optional<Stream> Icon { get; set; }
 
         [JsonProperty("position")]
         public Optional<int> Position { get; set; }

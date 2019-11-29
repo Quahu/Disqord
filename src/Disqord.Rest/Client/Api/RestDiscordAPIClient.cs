@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -465,12 +466,12 @@ namespace Disqord.Rest
         public Task<EmojiModel> GetGuildEmojiAsync(ulong guildId, ulong emojiId, RestRequestOptions options)
             => SendRequestAsync<EmojiModel>(new RestRequest(GET, $"guilds/{guildId:guild_id}/emojis/{emojiId}", options));
 
-        public Task<EmojiModel> CreateGuildEmojiAsync(ulong guildId, string name, LocalAttachment image, IEnumerable<ulong> roleIds, RestRequestOptions options)
+        public Task<EmojiModel> CreateGuildEmojiAsync(ulong guildId, Stream image, string name, IEnumerable<ulong> roleIds, RestRequestOptions options)
         {
             var requestContent = new CreateGuildEmojiContent
             {
-                Name = name,
                 Image = image,
+                Name = name,
                 RoleIds = roleIds?.ToArray()
             };
             return SendRequestAsync<EmojiModel>(new RestRequest(POST, $"guilds/{guildId:guild_id}/emojis", requestContent, options));
@@ -493,7 +494,7 @@ namespace Disqord.Rest
 
         // Guild
         public Task<GuildModel> CreateGuildAsync(
-            string name, string voiceRegionId, LocalAttachment icon, VerificationLevel verificationLevel,
+            string name, string voiceRegionId, Stream icon, VerificationLevel verificationLevel,
             DefaultNotificationLevel defaultNotificationLevel, ContentFilterLevel contentFilterLevel,
             RestRequestOptions options)
         {
@@ -881,7 +882,7 @@ namespace Disqord.Rest
         public Task<GatewayBotModel> GetGatewayBotAsync(RestRequestOptions options)
             => SendRequestAsync<GatewayBotModel>(new RestRequest(GET, $"gateway/bot", options));
 
-        public Task<WebhookModel> CreateWebhookAsync(ulong channelId, string name, LocalAttachment avatar, RestRequestOptions options)
+        public Task<WebhookModel> CreateWebhookAsync(ulong channelId, string name, Stream avatar, RestRequestOptions options)
         {
             var requestContent = new CreateWebhookContent
             {

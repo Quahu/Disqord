@@ -1,8 +1,10 @@
-﻿namespace Disqord
+﻿using System.IO;
+
+namespace Disqord
 {
     public class ModifyGroupChannelProperties : ModifyChannelProperties
     {
-        public Optional<LocalAttachment> Icon { internal get; set; }
+        public Optional<Stream> Icon { internal get; set; }
 
         internal ModifyGroupChannelProperties()
         { }

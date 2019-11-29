@@ -30,13 +30,15 @@ namespace Disqord.Rest
             }
         }
 
-        public async Task<RestGuildEmoji> CreateGuildEmojiAsync(Snowflake guildId, LocalAttachment image, string name = null, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null)
+        public async Task<RestGuildEmoji> CreateGuildEmojiAsync(Snowflake guildId, Stream image, string name, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
 
-            name = name ?? Path.GetFileNameWithoutExtension(image.FileName);
-            var model = await ApiClient.CreateGuildEmojiAsync(guildId, name, image, roleIds?.Select(x => x.RawValue), options).ConfigureAwait(false);
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
+            var model = await ApiClient.CreateGuildEmojiAsync(guildId, image, name, roleIds?.Select(x => x.RawValue), options).ConfigureAwait(false);
             return new RestGuildEmoji(this, guildId, model);
         }
 

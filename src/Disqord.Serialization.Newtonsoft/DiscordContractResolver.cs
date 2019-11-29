@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -60,9 +61,9 @@ namespace Disqord.Serialization.Json.Newtonsoft
 
         private static JsonConverter GetConverter(Type type)
         {
-            if (typeof(ILocalAttachment).IsAssignableFrom(type))
+            if (typeof(Stream).IsAssignableFrom(type))
             {
-                return LocalAttachmentConverter.Instance;
+                return StreamConverter.Instance;
             }
             else if (type.IsEnum)
             {

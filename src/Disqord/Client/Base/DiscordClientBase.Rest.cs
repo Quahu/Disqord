@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Disqord.Rest;
 using Disqord.Rest.AuditLogs;
@@ -15,7 +16,7 @@ namespace Disqord
         public Task DeleteRelationshipAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).DeleteRelationshipAsync(userId, options);
         public Task<IReadOnlyList<RestRelationship>> GetRelationshipsAsync(RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetRelationshipsAsync(options);
         public Task<IReadOnlyList<RestUser>> GetMutualFriendsAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetMutualFriendsAsync(userId, options);
-        public Task<RestWebhook> CreateWebhookAsync(Snowflake channelId, string name, LocalAttachment avatar = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateWebhookAsync(channelId, name, avatar, options);
+        public Task<RestWebhook> CreateWebhookAsync(Snowflake channelId, string name, Stream avatar = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateWebhookAsync(channelId, name, avatar, options);
         public Task<IReadOnlyList<RestWebhook>> GetChannelWebhooksAsync(Snowflake channelId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetChannelWebhooksAsync(channelId, options);
         public Task<IReadOnlyList<RestWebhook>> GetGuildWebhooksAsync(Snowflake guildId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetGuildWebhooksAsync(guildId, options);
         public Task<RestWebhook> GetWebhookAsync(Snowflake webhookId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetWebhookAsync(webhookId, options);
@@ -35,7 +36,7 @@ namespace Disqord
         public Task<RestGatewayBotResponse> GetGatewayBotUrlAsync(RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetGatewayBotUrlAsync(options);
         public Task<RestProfile> GetProfileAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetProfileAsync(userId, options);
         public Task SetNoteAsync(Snowflake userId, string note, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).SetNoteAsync(userId, note, options);
-        public Task<RestGuild> CreateGuildAsync(string name, string voiceRegionId = null, LocalAttachment icon = null, VerificationLevel verificationLevel = VerificationLevel.None, DefaultNotificationLevel defaultNotificationLevel = DefaultNotificationLevel.AllMessages, ContentFilterLevel contentFilterLevel = ContentFilterLevel.Disabled, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateGuildAsync(name, voiceRegionId, icon, verificationLevel, defaultNotificationLevel, contentFilterLevel, options);
+        public Task<RestGuild> CreateGuildAsync(string name, string voiceRegionId = null, Stream icon = null, VerificationLevel verificationLevel = VerificationLevel.None, DefaultNotificationLevel defaultNotificationLevel = DefaultNotificationLevel.AllMessages, ContentFilterLevel contentFilterLevel = ContentFilterLevel.Disabled, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateGuildAsync(name, voiceRegionId, icon, verificationLevel, defaultNotificationLevel, contentFilterLevel, options);
         public Task<RestGuild> GetGuildAsync(Snowflake guildId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetGuildAsync(guildId, options);
         public Task<RestGuild> ModifyGuildAsync(Snowflake guildId, Action<ModifyGuildProperties> action, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ModifyGuildAsync(guildId, action, options);
         public Task DeleteGuildAsync(Snowflake guildId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).DeleteGuildAsync(guildId, options);
@@ -113,7 +114,7 @@ namespace Disqord
         public Task<RestInvite> DeleteInviteAsync(string code, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).DeleteInviteAsync(code, options);
         public Task<IReadOnlyList<RestGuildEmoji>> GetGuildEmojisAsync(Snowflake guildId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetGuildEmojisAsync(guildId, options);
         public Task<RestGuildEmoji> GetGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetGuildEmojiAsync(guildId, emojiId, options);
-        public Task<RestGuildEmoji> CreateGuildEmojiAsync(Snowflake guildId, LocalAttachment image, string name = null, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateGuildEmojiAsync(guildId, image, name, roleIds, options);
+        public Task<RestGuildEmoji> CreateGuildEmojiAsync(Snowflake guildId, Stream image, string name, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateGuildEmojiAsync(guildId, image, name, roleIds, options);
         public Task<RestGuildEmoji> ModifyGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ModifyGuildEmojiAsync(guildId, emojiId, action, options);
         public Task DeleteGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).DeleteGuildEmojiAsync(guildId, emojiId, options);
         public Task AcceptInviteAsync(string code, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).AcceptInviteAsync(code, options);

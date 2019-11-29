@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Disqord.Rest.AuditLogs;
 
@@ -205,7 +206,7 @@ namespace Disqord.Rest
             return emoji;
         }
 
-        public async Task<RestGuildEmoji> CreateEmojiAsync(LocalAttachment image, string name = null, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null)
+        public async Task<RestGuildEmoji> CreateEmojiAsync(Stream image, string name, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null)
         {
             var emoji = await Client.CreateGuildEmojiAsync(Id, image, name, roleIds, options).ConfigureAwait(false);
             emoji.Guild.SetValue(this);

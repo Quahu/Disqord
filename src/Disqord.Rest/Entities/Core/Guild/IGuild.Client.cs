@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Disqord.Rest;
 using Disqord.Rest.AuditLogs;
@@ -84,7 +85,7 @@ namespace Disqord
 
         Task<RestGuildEmoji> GetEmojiAsync(Snowflake emojiId, RestRequestOptions options = null);
 
-        Task<RestGuildEmoji> CreateEmojiAsync(LocalAttachment image, string name = null, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null);
+        Task<RestGuildEmoji> CreateEmojiAsync(Stream image, string name, IEnumerable<Snowflake> roleIds = null, RestRequestOptions options = null);
 
         Task<RestGuildEmoji> ModifyEmojiAsync(Snowflake emojiId, Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null);
 
