@@ -11,7 +11,7 @@ namespace Disqord
         {
             var model = Serializer.ToObject<GuildMemberAddModel>(payload.D);
             var guild = GetGuild(model.GuildId);
-            var member = CreateMember(guild, model, model.User);
+            var member = AddMember(guild, model, model.User);
 
             return _client._memberJoined.InvokeAsync(new MemberJoinedEventArgs(member));
         }

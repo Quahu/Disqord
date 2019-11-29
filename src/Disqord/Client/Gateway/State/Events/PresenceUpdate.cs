@@ -45,6 +45,7 @@ namespace Disqord
                     var member = guild.GetMember(model.User.Id);
                     if (member == null)
                     {
+                        // TODO: cache the incomplete member?
                         member = CreateMember(guild, new MemberModel
                         {
                             Nick = model.Nick,
