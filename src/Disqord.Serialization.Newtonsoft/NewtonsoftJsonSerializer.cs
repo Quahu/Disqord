@@ -94,7 +94,7 @@ namespace Disqord.Serialization.Json.Newtonsoft
 
                     jsonWriter.Flush();
                     memoryStream.TryGetBuffer(out var streamBuffer);
-                    return streamBuffer.AsMemory(0, (int) memoryStream.Length);
+                    return streamBuffer.AsMemory();
                 }
             }
             catch (Exception ex)

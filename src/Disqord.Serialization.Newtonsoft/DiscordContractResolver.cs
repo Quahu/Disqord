@@ -65,11 +65,18 @@ namespace Disqord.Serialization.Json.Newtonsoft
             {
                 return StreamConverter.Instance;
             }
-            else if (type.IsEnum)
+            else if (!type.IsClass)
             {
-                var stringEnumAttribute = type.GetCustomAttribute<StringEnumAttribute>();
-                if (stringEnumAttribute != null)
-                    return _stringEnumConverter;
+                var nullableType = Nullable.GetUnderlyingType(type);
+                if (nullableType != null)
+                    type = nullableType;
+
+                if (type.IsEnum)
+                {
+                    var stringEnumAttribute = type.GetCustomAttribute<StringEnumAttribute>();
+                    if (stringEnumAttribute != null)
+                        return _stringEnumConverter;
+                }
             }
 
             return null;
