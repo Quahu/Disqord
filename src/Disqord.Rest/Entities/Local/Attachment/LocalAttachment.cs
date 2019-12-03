@@ -41,16 +41,13 @@ namespace Disqord
             IsSpoiler = isSpoiler;
         }
 
-        public LocalAttachment(string path, string fileName = null, bool isSpoiler = false)
-        {
-            if (path == null)
-                throw new ArgumentNullException(nameof(path));
+        public LocalAttachment(FileStream fileStream, string fileName = null, bool isSpoiler = false)
+            : this(fileStream as Stream, fileName ?? Path.GetFileName(fileStream.Name), isSpoiler)
+        { }
 
-            var fileStream = File.OpenRead(path);
-            Stream = fileStream;
-            FileName = fileName ?? Path.GetFileName(fileStream.Name);
-            IsSpoiler = isSpoiler;
-        }
+        public LocalAttachment(string path, string fileName = null, bool isSpoiler = false)
+            : this(File.OpenRead(path), fileName, isSpoiler)
+        { }
 
         public LocalAttachment(byte[] bytes, string fileName, bool isSpoiler = false)
             : this(new MemoryStream(bytes), fileName, isSpoiler)
