@@ -23,14 +23,14 @@ namespace Disqord.Rest
 
             if (Attachment != null)
             {
-                content.Add(new CustomStreamContent(Attachment.Stream), "file", Attachment.FileName);
+                content.Add(new CustomStreamContent(Attachment.Stream), "file", Attachment.GetFileName());
             }
             else if (Attachments != null)
             {
                 for (var i = 0; i < Attachments.Count; i++)
                 {
                     var attachment = Attachments[i];
-                    content.Add(new CustomStreamContent(attachment.Stream), $"file{i}", attachment.FileName);
+                    content.Add(new CustomStreamContent(attachment.Stream), $"file{i}", attachment.GetFileName());
                 }
             }
 
