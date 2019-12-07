@@ -96,7 +96,7 @@ namespace Disqord.Rest
 
             var rateLimit = new RateLimit(response.Headers);
             if (Library.Debug.DumpRateLimits)
-                Console.WriteLine(rateLimit);
+                Library.Debug.DumpWriter.WriteLine(rateLimit);
 
             if (!response.IsSuccessStatusCode)
             {

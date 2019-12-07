@@ -90,7 +90,7 @@ namespace Disqord
         {
             var json = Serializer.Serialize(payload);
 #if DEBUG
-            Console.WriteLine(Serializer.UTF8.GetString(json.Span));
+            Library.Debug.DumpWriter.WriteLine(Serializer.UTF8.GetString(json.Span));
 #endif
             await _ws.SendAsync(new WebSocketRequest(json, cancellationToken)).ConfigureAwait(false);
         }

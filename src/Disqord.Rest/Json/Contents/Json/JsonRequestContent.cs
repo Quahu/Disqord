@@ -35,7 +35,7 @@ namespace Disqord.Rest
             var bytes = serializer.Serialize(obj, additionalFields);
 
             if (Library.Debug.DumpJson)
-                Console.WriteLine(Encoding.UTF8.GetString(bytes.Span));
+                Library.Debug.DumpWriter.WriteLine(Encoding.UTF8.GetString(bytes.Span));
 
             var content = new ReadOnlyMemoryContent(bytes);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json")
