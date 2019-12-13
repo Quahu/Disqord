@@ -246,7 +246,7 @@ namespace Disqord.Rest
             action(properties);
             if (properties.Position.HasValue)
             {
-                await ReorderChannelsAsync(guildId, new Dictionary<Snowflake, int>
+                await ReorderRolesAsync(guildId, new Dictionary<Snowflake, int>
                 {
                     [roleId] = properties.Position.Value
                 }, options).ConfigureAwait(false);
