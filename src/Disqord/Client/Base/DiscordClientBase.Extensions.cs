@@ -21,7 +21,7 @@ namespace Disqord
                 throw new ArgumentException($"The {type} extension has already been added to this client.", nameof(extension));
 
             extension.Client = this;
-            return extension.SetupAsync();
+            return extension.InitialiseAsync();
         }
 
         public ValueTask RemoveExtensionAsync<T>() where T : DiscordClientExtension

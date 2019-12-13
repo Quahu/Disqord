@@ -7,7 +7,7 @@ namespace Disqord
     {
         public DiscordClientBase Client { get; internal set; }
 
-        protected internal abstract ValueTask SetupAsync();
+        protected internal abstract ValueTask InitialiseAsync();
 
         public virtual ValueTask DisposeAsync()
             => default;
