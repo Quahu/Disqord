@@ -48,10 +48,13 @@ namespace Disqord.Bot
             MessageReceived += MessageReceivedAsync;
         }
 
-        protected virtual ValueTask<bool> BeforeExecutedAsync(CachedUserMessage message)
+        protected virtual ValueTask<bool> CheckMessageAsync(CachedUserMessage message)
             => new ValueTask<bool>(IsBot
                 ? !message.Author.IsBot
                 : message.Author.Id == CurrentUser.Id);
+
+        protected virtual ValueTask<bool> BeforeExecutedAsync(DiscordCommandContext context)
+            => new ValueTask<bool>(true);
 
         protected virtual ValueTask AfterExecutedAsync(IResult result, DiscordCommandContext context)
             => default;
@@ -74,12 +77,12 @@ namespace Disqord.Bot
 
             try
             {
-                if (!await BeforeExecutedAsync(message).ConfigureAwait(false))
+                if (!await CheckMessageAsync(message).ConfigureAwait(false))
                     return;
             }
             catch (Exception ex)
             {
-                Log(LogMessageSeverity.Error, $"Exception occurred while running the before executed callback:\n{ex}");
+                Log(LogMessageSeverity.Error, "An exception occurred while running the check message callback.", ex);
                 return;
             }
 
@@ -92,7 +95,7 @@ namespace Disqord.Bot
             }
             catch (Exception ex)
             {
-                Log(LogMessageSeverity.Error, $"Exception occurred while finding the prefix:\n{ex}");
+                Log(LogMessageSeverity.Error, "An exception occurred while finding the prefix.", ex);
                 return;
             }
 
@@ -105,7 +108,18 @@ namespace Disqord.Bot
             }
             catch (Exception ex)
             {
-                Log(LogMessageSeverity.Error, $"Exception occurred while getting the context:\n{ex}");
+                Log(LogMessageSeverity.Error, "An exception occurred while getting the context.", ex);
+                return;
+            }
+
+            try
+            {
+                if (!await BeforeExecutedAsync(context).ConfigureAwait(false))
+                    return;
+            }
+            catch (Exception ex)
+            {
+                Log(LogMessageSeverity.Error, "An exception occurred while running the before executed callback.", ex);
                 return;
             }
 
@@ -116,7 +130,7 @@ namespace Disqord.Bot
             }
             catch (Exception ex)
             {
-                Log(LogMessageSeverity.Error, $"Exception occurred while running the after executed callback:\n{ex}");
+                Log(LogMessageSeverity.Error, "An exception occurred while running the after executed callback.", ex);
             }
         }
 
