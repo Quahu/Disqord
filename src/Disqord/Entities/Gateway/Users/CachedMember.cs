@@ -21,7 +21,7 @@ namespace Disqord
 
         public string Nick { get; private set; }
 
-        public IReadOnlyDictionary<Snowflake, CachedRole> Roles { get; }
+        public IReadOnlyDictionary<Snowflake, CachedRole> Roles { get; private set; }
 
         public DateTimeOffset JoinedAt { get; }
 
@@ -75,7 +75,7 @@ namespace Disqord
             }
         }
 
-        private readonly LockedDictionary<Snowflake, CachedRole> _roles;
+        private LockedDictionary<Snowflake, CachedRole> _roles;
 
         internal override CachedSharedUser SharedUser { get; }
 
@@ -183,7 +183,15 @@ namespace Disqord
         }
 
         internal new CachedMember Clone()
-            => (CachedMember) MemberwiseClone();
+        {
+            var member = (CachedMember) MemberwiseClone();
+
+            // TODO: cleanup
+            member._roles = new LockedDictionary<Snowflake, CachedRole>(_roles);
+            member.Roles = new ReadOnlyDictionary<Snowflake, CachedRole>(member._roles);
+
+            return member;
+        }
 
         public ChannelPermissions GetPermissionsFor(IGuildChannel channel)
             => Discord.Permissions.CalculatePermissions(Guild, channel, this, Roles.Values);

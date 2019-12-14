@@ -6,9 +6,33 @@ namespace Disqord.Collections
 {
     internal sealed class LockedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
     {
-        public ICollection<TKey> Keys => _keys;
+        public ICollection<TKey> Keys
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    ICollection<TKey> keys = _dictionary.Keys;
+                    var array = new TKey[keys.Count];
+                    keys.CopyTo(array, 0);
+                    return array;
+                }
+            }
+        }
 
-        public ICollection<TValue> Values => _values;
+        public ICollection<TValue> Values
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    ICollection<TValue> values = _dictionary.Values;
+                    var array = new TValue[values.Count];
+                    values.CopyTo(array, 0);
+                    return array;
+                }
+            }
+        }
 
         public int Count
         {
@@ -43,8 +67,6 @@ namespace Disqord.Collections
 
         private readonly object _lock;
         private readonly Dictionary<TKey, TValue> _dictionary;
-        private readonly LockedDictionaryCollection<TKey> _keys;
-        private readonly LockedDictionaryCollection<TValue> _values;
 
         IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => Keys;
         IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => Values;
@@ -56,8 +78,12 @@ namespace Disqord.Collections
         {
             _lock = new object();
             _dictionary = new Dictionary<TKey, TValue>(capacity);
-            _keys = new LockedDictionaryCollection<TKey>(_lock, _dictionary.Keys);
-            _values = new LockedDictionaryCollection<TValue>(_lock, _dictionary.Values);
+        }
+
+        public LockedDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection)
+        {
+            _lock = new object();
+            _dictionary = new Dictionary<TKey, TValue>(collection);
         }
 
         public TValue GetOrAdd(TKey key, Func<TKey, TValue> factory)
@@ -224,68 +250,6 @@ namespace Disqord.Collections
             {
                 return (_dictionary as ICollection<KeyValuePair<TKey, TValue>>).Remove(item);
             }
-        }
-
-        private sealed class LockedDictionaryCollection<T> : ICollection<T>
-        {
-            public int Count
-            {
-                get
-                {
-                    lock (_lock)
-                    {
-                        return _collection.Count;
-                    }
-                }
-            }
-
-            public bool IsReadOnly => true;
-
-            private readonly ICollection<T> _collection;
-            private readonly object _lock;
-
-            public LockedDictionaryCollection(object @lock, ICollection<T> collection)
-            {
-                _lock = @lock;
-                _collection = collection;
-            }
-
-            public void Add(T item) => throw new NotSupportedException();
-
-            public void Clear() => throw new NotSupportedException();
-
-            public bool Contains(T item)
-            {
-                lock (_lock)
-                {
-                    return this._collection.Contains(item);
-                }
-            }
-
-            public void CopyTo(T[] array, int arrayIndex)
-            {
-                lock (_lock)
-                {
-                    _collection.CopyTo(array, arrayIndex);
-                }
-            }
-
-            public bool Remove(T item) => throw new NotSupportedException();
-
-            public IEnumerator<T> GetEnumerator()
-            {
-                T[] array;
-                lock (_lock)
-                {
-                    array = new T[Count];
-                    _collection.CopyTo(array, 0);
-                }
-
-                return (array as IReadOnlyList<T>).GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-                => GetEnumerator();
         }
     }
 }
