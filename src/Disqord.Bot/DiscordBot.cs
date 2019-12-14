@@ -61,7 +61,27 @@ namespace Disqord.Bot
 
         protected virtual ValueTask<(string Prefix, string Output)> FindPrefixAsync(CachedUserMessage message)
         {
-            if (CommandUtilities.HasAnyPrefix(message.Content, Prefixes, out var prefix, out var output))
+            var content = message.Content.AsSpan();
+            if (HasMentionPrefix
+                && content.Length > 17
+                && content[0] == '<'
+                && content[1] == '@')
+            {
+                var closingBracketIndex = content.IndexOf('>');
+                if (closingBracketIndex != -1)
+                {
+                    var idSpan = content[2] == '!'
+                            ? content.Slice(3, closingBracketIndex - 3)
+                            : content.Slice(2, closingBracketIndex - 2);
+
+                    if (Snowflake.TryParse(idSpan, out var id) && id == CurrentUser.Id)
+                        return new ValueTask<(string, string)>((
+                            new string(content.Slice(0, closingBracketIndex + 1)),
+                            new string(content.Slice(closingBracketIndex + 1))));
+                }
+            }
+
+            if (CommandUtilities.HasAnyPrefix(content, Prefixes, out var prefix, out var output))
                 return new ValueTask<(string, string)>((prefix, output));
 
             return default;
