@@ -30,7 +30,7 @@ namespace Disqord.Rest
             UserSettings = userSettings;
         }
 
-        Task IDeletable.DeleteAsync(RestRequestOptions options = null)
+        Task IDeletable.DeleteAsync(RestRequestOptions options)
             => throw new NotImplementedException();
     }
 }

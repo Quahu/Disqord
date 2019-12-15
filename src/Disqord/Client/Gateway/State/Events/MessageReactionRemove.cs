@@ -51,10 +51,12 @@ namespace Disqord
                     new DownloadableOptionalSnowflakeEntity<CachedUser, RestUser>(
                         channel is CachedTextChannel textChannel
                             ? textChannel.Guild.GetMember(model.UserId)
+                                ?? GetUser(model.UserId)
                             : GetUser(model.UserId),
                         model.UserId,
                         async options => model.GuildId != null
-                            ? await _client.GetMemberAsync(model.GuildId.Value, model.UserId, options).ConfigureAwait(false)
+                            ? await _client.GetMemberAsync(model.GuildId.Value, model.UserId, options).ConfigureAwait(false) 
+                                ?? await _client.GetUserAsync(model.UserId, options).ConfigureAwait(false)
                             : await _client.GetUserAsync(model.UserId, options).ConfigureAwait(false)),
                     reaction ?? Optional<ReactionData>.Empty,
                     model.Emoji.ToEmoji()));

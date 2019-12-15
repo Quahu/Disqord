@@ -59,13 +59,11 @@ namespace Disqord
                     {
                         await State.HandleReadyAsync(model).ConfigureAwait(false);
                     }
-                    catch (Exception ex)
+                    finally
                     {
-                        Log(LogMessageSeverity.Critical, "An exception occurred while handling ready.", ex);
+                        _readyTaskCompletionSource = new TaskCompletionSource<bool>();
+                        _ = DelayedInvokeReadyAsync();
                     }
-
-                    _readyTaskCompletionSource = new TaskCompletionSource<bool>();
-                    _ = DelayedInvokeReadyAsync();
                     break;
                 }
 

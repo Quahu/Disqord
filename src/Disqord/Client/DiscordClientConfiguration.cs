@@ -21,8 +21,6 @@ namespace Disqord
 
         public LocalActivity Activity { get; set; }
 
-        public bool GuildSubscriptions { get; set; } = true;
-
         public ILogger Logger { get; set; }
 
         public IJsonSerializer Serializer { get; set; }
