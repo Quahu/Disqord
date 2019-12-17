@@ -39,6 +39,13 @@ namespace Disqord.Rest
             }
 
             Current = await NextPageAsync(Current, options).ConfigureAwait(false);
+            if (Current.Count == 0)
+            {
+                Remaining = 0;
+                Current = default;
+                return false;
+            }
+
             if (Current.Count != _pageSize)
             {
                 Remaining = 0;
