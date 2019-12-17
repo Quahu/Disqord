@@ -32,23 +32,43 @@
 
         UnknownWebhook = 10015,
 
+        UnknownSku = 10027,
+
+        UnknownStoreListing = 10028,
+
+        UnknownEntitlement = 10029,
+
+        UnknownBuild = 10030,
+
+        UnknownLobby = 10031,
+
+        UnknownBranch = 10032,
+
+        UnknownRedistributable = 10036,
+
         UserOnlyEndpoint = 20001,
 
         BotOnlyEndpoint = 20002,
 
-        MaximumGuildAmount = 30001,
+        MaximumGuildAmountReached = 30001,
 
-        MaximumFriendAmount = 30002,
+        MaximumFriendAmountReached = 30002,
 
-        MaximumPinAmount = 30003,
+        MaximumPinAmountReached = 30003,
 
-        MaximumRoleAmount = 30005,
+        MaximumRoleAmountReached = 30005,
 
-        MaximumReactionAmount = 30010,
+        MaximumReactionAmountReached = 30010,
 
-        MaximumGuildChannelAmount = 30013,
+        MaximumGuildChannelAmountReached = 30013,
+
+        MaximumInviteAmountReached = 30013,
 
         Unauthorized = 40001,
+
+        FeatureTemporarilyDisabled = 40006,
+
+        UserBanned = 40007,
 
         MissingAccess = 50001,
 
@@ -68,9 +88,9 @@
 
         ChannelVerificationLevelIsTooHigh = 50009,
 
-        OAuth2ApplicationdDesNotHaveABot = 50010,
+        OAuth2ApplicationdDoesNotHaveABot = 50010,
 
-        OAuth2ApplicationLimitRseached = 50011,
+        OAuth2ApplicationLimitReached = 50011,
 
         InvalidOAuthState = 50012,
 
@@ -94,7 +114,7 @@
 
         InvalidFormBody = 50035,
 
-        AnInviteWasAcceptedToAGuildTheApplicationsBotIsNot = 50036,
+        AnInviteWasAcceptedToAGuildTheApplicationsBotIsNotIn = 50036,
 
         InvalidApiVersion = 50041,
 
@@ -108,6 +128,8 @@
 
         NoUsersWithDiscordTagExist = 80004,
 
-        ReactionBlocked = 90001
+        ReactionBlocked = 90001,
+
+        ResourceOverloaded = 130000
     }
 }
