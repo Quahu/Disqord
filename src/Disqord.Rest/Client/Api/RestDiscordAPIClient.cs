@@ -379,7 +379,9 @@ namespace Disqord.Rest
             var requestContent = new EditMessageContent
             {
                 Content = properties.Content,
-                Embed = properties.Embed.HasValue ? properties.Embed.Value.ToModel() : Optional<EmbedModel>.Empty
+                Embed = properties.Embed.HasValue
+                    ? properties.Embed.Value.ToModel()
+                    : Optional<EmbedModel>.Empty
             };
             return SendRequestAsync<MessageModel>(new RestRequest(PATCH, $"channels/{channelId:channel_id}/messages/{messageId}", requestContent, options));
         }
@@ -394,7 +396,7 @@ namespace Disqord.Rest
         {
             var requestContent = new BulkDeleteMessagesContent
             {
-                Messages = messageIds.ToArray()
+                Messages = messageIds
             };
             return SendRequestAsync(new RestRequest(POST, $"channels/{channelId:channel_id}/messages/bulk-delete", requestContent, options));
         }

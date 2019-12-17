@@ -107,40 +107,19 @@ namespace Disqord.Rest
             }
         }
 
-        public RestRequestEnumerator<RestMember> GetMembersEnumerator(Snowflake guildId, int limit, Snowflake? startFromId = null)
-        {
-            var enumerator = new RestRequestEnumerator<RestMember>();
-            var remaining = limit;
-            do
-            {
-                var amount = remaining > 1000 ? 1000 : remaining;
-                remaining -= amount;
-                enumerator.Enqueue(async (previous, options) =>
-                {
-                    var members = await InternalGetMembersAsync(guildId, amount, previous?.Count > 0 ? previous.Max(x => x.Id) : startFromId, options).ConfigureAwait(false);
-                    if (members.Count < 1000)
-                        enumerator.Cancel();
+        public RestRequestEnumerable<RestMember> GetMembersEnumerable(Snowflake guildId, int limit, Snowflake? startFromId = null)
+            => new RestRequestEnumerable<RestMember>(new RestMembersRequestEnumerator(this, guildId, limit, startFromId));
 
-                    return members;
-                });
-            }
-            while (remaining > 0);
-            return enumerator;
-        }
-
-        public async Task<IReadOnlyList<RestMember>> GetMembersAsync(Snowflake guildId, int limit = 1000, Snowflake? startFromId = null, RestRequestOptions options = null)
+        public Task<IReadOnlyList<RestMember>> GetMembersAsync(Snowflake guildId, int limit = 1000, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
             if (limit == 0)
-                return ImmutableArray<RestMember>.Empty;
+                return Task.FromResult<IReadOnlyList<RestMember>>(ImmutableArray<RestMember>.Empty);
 
             if (limit <= 1000)
-                return await InternalGetMembersAsync(guildId, limit, startFromId, options).ConfigureAwait(false);
+                return InternalGetMembersAsync(guildId, limit, startFromId, options);
 
-            var enumerator = GetMembersEnumerator(guildId, limit, startFromId);
-            await using (enumerator.ConfigureAwait(false))
-            {
-                return await enumerator.FlattenAsync(options).ConfigureAwait(false);
-            }
+            var enumerator = GetMembersEnumerable(guildId, limit, startFromId);
+            return enumerator.FlattenAsync(options);
         }
 
         internal async Task<IReadOnlyList<RestMember>> InternalGetMembersAsync(Snowflake guildId, int limit, Snowflake? startFromId, RestRequestOptions options)

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Models;
+using Disqord.Rest;
 using Qommon.Collections;
 
 namespace Disqord

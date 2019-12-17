@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Models;
+using Disqord.Rest;
 
 namespace Disqord
 {

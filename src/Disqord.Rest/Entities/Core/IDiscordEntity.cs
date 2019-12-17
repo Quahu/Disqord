@@ -1,4 +1,6 @@
-﻿namespace Disqord
+﻿using Disqord.Rest;
+
+namespace Disqord
 {
     /// <summary>
     ///     Represents a Discord entity.

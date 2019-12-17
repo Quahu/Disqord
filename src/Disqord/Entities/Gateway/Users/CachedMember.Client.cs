@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Disqord.Rest;
 
 namespace Disqord
 {

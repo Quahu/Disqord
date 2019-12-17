@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Disqord
+namespace Disqord.Rest
 {
     public partial interface IRestDiscordClient : IDisposable
     {

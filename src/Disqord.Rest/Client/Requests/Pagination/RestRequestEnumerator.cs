@@ -1,74 +1,53 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Disqord.Rest
 {
     internal delegate ValueTask<IReadOnlyList<T>> RestRequestPage<T>(IReadOnlyList<T> previousPage, RestRequestOptions options = null);
 
-    public sealed class RestRequestEnumerator<T> : IAsyncEnumerator<IReadOnlyList<T>>
+    public abstract class RestRequestEnumerator<T> : IAsyncEnumerator<IReadOnlyList<T>>
     {
         public IReadOnlyList<T> Current { get; private set; }
 
-        private readonly ConcurrentQueue<RestRequestPage<T>> _queue;
+        protected readonly RestDiscordClient Client;
 
-        private readonly CancellationTokenSource _cts;
+        private readonly int _pageSize;
+
+        protected int Remaining { get; private set; }
 
         private bool _isDisposed;
 
-        internal RestRequestEnumerator()
+        internal RestRequestEnumerator(RestDiscordClient client, int pageSize, int remaining)
         {
-            _queue = new ConcurrentQueue<RestRequestPage<T>>();
-            _cts = new CancellationTokenSource();
+            Client = client;
+            _pageSize = pageSize;
+            Remaining = remaining;
         }
 
-        internal void Enqueue(RestRequestPage<T> page)
-            => _queue.Enqueue(page);
-
-        internal void Cancel()
-        {
-            if (_isDisposed)
-                throw new ObjectDisposedException(null);
-
-            _cts.Cancel();
-        }
-
-        public Task<IReadOnlyList<T>> FlattenAsync(RestRequestOptions options = null)
-            => FlattenAsync(CancellationToken.None, options);
-
-        public async Task<IReadOnlyList<T>> FlattenAsync(CancellationToken cancellationToken, RestRequestOptions options = null)
-        {
-            if (_isDisposed)
-                throw new ObjectDisposedException(null);
-
-            if (cancellationToken.IsCancellationRequested || _cts.IsCancellationRequested)
-                return ImmutableArray<T>.Empty;
-
-            var builder = ImmutableArray.CreateBuilder<T>();
-            while (!cancellationToken.IsCancellationRequested && !_cts.IsCancellationRequested
-                && await MoveNextAsync(options).ConfigureAwait(false))
-            {
-                builder.AddRange(Current);
-            }
-
-            return builder.ToImmutable();
-        }
+        protected abstract Task<IReadOnlyList<T>> NextPageAsync(IReadOnlyList<T> previous, RestRequestOptions options = null);
 
         public async ValueTask<bool> MoveNextAsync(RestRequestOptions options = null)
         {
             if (_isDisposed)
                 throw new ObjectDisposedException(null);
 
-            if (_cts.IsCancellationRequested || options?.CancellationToken.IsCancellationRequested == true || !_queue.TryDequeue(out var page))
+            if (Remaining == 0)
             {
                 Current = default;
                 return false;
             }
 
-            Current = await page(Current, options).ConfigureAwait(false);
+            Current = await NextPageAsync(Current, options).ConfigureAwait(false);
+            if (Current.Count != _pageSize)
+            {
+                Remaining = 0;
+            }
+            else
+            {
+                Remaining -= Current.Count;
+            }
+
             return true;
         }
 
@@ -81,7 +60,6 @@ namespace Disqord.Rest
                 return default;
 
             _isDisposed = true;
-            _cts.Dispose();
             return default;
         }
     }

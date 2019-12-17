@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Disqord.Rest;
 
-namespace Disqord
+namespace Disqord.Rest
 {
     public partial interface IRestDiscordClient : IDisposable
     {
@@ -19,7 +18,7 @@ namespace Disqord
 
         Task DeleteOrCloseChannelAsync(Snowflake channelId, RestRequestOptions options = null);
 
-        RestRequestEnumerator<RestMessage> GetMessagesEnumerator(Snowflake channelId, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null);
+        RestRequestEnumerable<RestMessage> GetMessagesEnumerable(Snowflake channelId, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null);
 
         Task<IReadOnlyList<RestMessage>> GetMessagesAsync(Snowflake channelId, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null);
 
@@ -37,7 +36,7 @@ namespace Disqord
 
         Task RemoveMemberReactionAsync(Snowflake channelId, Snowflake messageId, Snowflake memberId, IEmoji emoji, RestRequestOptions options = null);
 
-        RestRequestEnumerator<RestUser> GetReactionEnumerator(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null);
+        RestRequestEnumerable<RestUser> GetReactionsEnumerable(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null);
 
         Task<IReadOnlyList<RestUser>> GetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null);
 

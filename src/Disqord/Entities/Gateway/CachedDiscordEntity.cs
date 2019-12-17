@@ -1,4 +1,6 @@
-﻿namespace Disqord
+﻿using Disqord.Rest;
+
+namespace Disqord
 {
     public abstract class CachedDiscordEntity : IDiscordEntity
     {

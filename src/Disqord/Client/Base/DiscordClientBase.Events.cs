@@ -1,5 +1,6 @@
 ﻿using System;
 using Disqord.Events;
+using Disqord.Rest;
 using Qommon.Events;
 
 namespace Disqord

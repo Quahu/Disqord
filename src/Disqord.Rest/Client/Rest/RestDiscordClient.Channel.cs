@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Disqord.Models;
-using Qommon.Collections;
 
 namespace Disqord.Rest
 {
@@ -77,51 +76,19 @@ namespace Disqord.Rest
         public Task DeleteOrCloseChannelAsync(Snowflake channelId, RestRequestOptions options = null)
             => ApiClient.DeleteOrCloseChannelAsync(channelId, options);
 
-        public RestRequestEnumerator<RestMessage> GetMessagesEnumerator(Snowflake channelId, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null)
-        {
-            var enumerator = new RestRequestEnumerator<RestMessage>();
-            var remaining = limit;
-            do
-            {
-                var amount = remaining > 100 ? 100 : remaining;
-                remaining -= amount;
-                enumerator.Enqueue(async (previous, options) =>
-                {
-                    var startFrom = startFromId;
-                    if (previous != null && previous.Count > 0)
-                    {
-                        startFrom = direction switch
-                        {
-                            RetrievalDirection.Before => previous[previous.Count - 1].Id,
-                            RetrievalDirection.After => previous[0].Id,
-                            RetrievalDirection.Around => throw new NotImplementedException(),
-                            _ => throw new ArgumentOutOfRangeException(nameof(direction)),
-                        };
-                    }
-                    var messages = await InternalGetMessagesAsync(channelId, amount, direction, startFrom, options).ConfigureAwait(false);
-                    if (messages.Count < 100)
-                        enumerator.Cancel();
+        public RestRequestEnumerable<RestMessage> GetMessagesEnumerable(Snowflake channelId, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null)
+            => new RestRequestEnumerable<RestMessage>(new RestMessagesRequestEnumerator(this, channelId, limit, direction, startFromId));
 
-                    return messages;
-                });
-            }
-            while (remaining > 0);
-            return enumerator;
-        }
-
-        public async Task<IReadOnlyList<RestMessage>> GetMessagesAsync(Snowflake channelId, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
+        public Task<IReadOnlyList<RestMessage>> GetMessagesAsync(Snowflake channelId, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
             if (limit == 0)
-                return ImmutableArray<RestMessage>.Empty;
+                return Task.FromResult<IReadOnlyList<RestMessage>>(ImmutableArray<RestMessage>.Empty);
 
             if (limit <= 100)
-                return await InternalGetMessagesAsync(channelId, limit, direction, startFromId, options).ConfigureAwait(false);
+                return InternalGetMessagesAsync(channelId, limit, direction, startFromId, options);
 
-            var enumerator = GetMessagesEnumerator(channelId, limit, direction, startFromId);
-            await using (enumerator.ConfigureAwait(false))
-            {
-                return await enumerator.FlattenAsync(options).ConfigureAwait(false);
-            }
+            var enumerable = GetMessagesEnumerable(channelId, limit, direction, startFromId);
+            return enumerable.FlattenAsync();
         }
 
         internal async Task<IReadOnlyList<RestMessage>> InternalGetMessagesAsync(Snowflake channelId, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
@@ -196,57 +163,27 @@ namespace Disqord.Rest
                 await ApiClient.DeleteUserReactionAsync(channelId, messageId, memberId, emoji.ReactionFormat, options).ConfigureAwait(false);
         }
 
-        public RestRequestEnumerator<RestUser> GetReactionEnumerator(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null)
+        public RestRequestEnumerable<RestUser> GetReactionsEnumerable(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            var enumerator = new RestRequestEnumerator<RestUser>();
-            var remaining = limit;
-            do
-            {
-                var amount = remaining > 100 ? 100 : remaining;
-                remaining -= amount;
-                enumerator.Enqueue(async (previous, options) =>
-                {
-                    var startFrom = startFromId;
-                    if (previous != null && previous.Count > 0)
-                    {
-                        startFrom = direction switch
-                        {
-                            RetrievalDirection.Before => previous[previous.Count - 1].Id,
-                            RetrievalDirection.After => previous[0].Id,
-                            RetrievalDirection.Around => throw new NotSupportedException(),
-                            _ => throw new ArgumentOutOfRangeException(nameof(direction)),
-                        };
-                    }
-                    var users = await InternalGetReactionsAsync(channelId, messageId, emoji, amount, direction, startFrom, options).ConfigureAwait(false);
-                    if (users.Count != 100)
-                        enumerator.Cancel();
-
-                    return users;
-                });
-            }
-            while (remaining > 0);
-            return enumerator;
+            return new RestRequestEnumerable<RestUser>(new RestReactionsRequestEnumerator(this, channelId, messageId, emoji, limit, direction, startFromId));
         }
 
-        public async Task<IReadOnlyList<RestUser>> GetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
+        public Task<IReadOnlyList<RestUser>> GetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
             if (limit == 0)
-                return ImmutableArray<RestUser>.Empty;
+                return Task.FromResult<IReadOnlyList<RestUser>>(ImmutableArray<RestUser>.Empty);
 
             if (limit <= 100)
-                return await InternalGetReactionsAsync(channelId, messageId, emoji, limit, direction, startFromId).ConfigureAwait(false);
+                return InternalGetReactionsAsync(channelId, messageId, emoji, limit, direction, startFromId);
 
-            var enumerator = GetReactionEnumerator(channelId, messageId, emoji, limit, direction, startFromId);
-            await using (enumerator.ConfigureAwait(false))
-            {
-                return await enumerator.FlattenAsync(options).ConfigureAwait(false);
-            }
+            var enumerable = GetReactionsEnumerable(channelId, messageId, emoji, limit, direction, startFromId);
+            return enumerable.FlattenAsync(options);
         }
 
         internal async Task<IReadOnlyList<RestUser>> InternalGetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
@@ -283,9 +220,6 @@ namespace Disqord.Rest
                 throw new ArgumentNullException(nameof(messageIds));
 
             var messages = messageIds.ToArray();
-            if (messages.Length == 0)
-                return new RestRequestEnumerator<Snowflake>();
-
             return InternalGetBulkMessageDeletionEnumerator(channelId, messages);
         }
 
@@ -313,34 +247,14 @@ namespace Disqord.Rest
             var enumerator = InternalGetBulkMessageDeletionEnumerator(channelId, messages);
             await using (enumerator.ConfigureAwait(false))
             {
-                await enumerator.FlattenAsync(options).ConfigureAwait(false);
+                // Exhaust the enumerator.
+                while (await enumerator.MoveNextAsync(options).ConfigureAwait(false))
+                { }
             }
         }
 
         internal RestRequestEnumerator<Snowflake> InternalGetBulkMessageDeletionEnumerator(Snowflake channelId, Snowflake[] messageIds)
-        {
-            var enumerator = new RestRequestEnumerator<Snowflake>();
-            var remaining = messageIds.Length;
-            var offset = 0;
-            do
-            {
-                var amount = remaining > 100 ? 100 : remaining;
-                var segment = new ArraySegment<Snowflake>(messageIds, offset, amount);
-                enumerator.Enqueue(async (_, options) =>
-                {
-                    if (amount == 1)
-                        await DeleteMessageAsync(channelId, segment[0], options).ConfigureAwait(false);
-                    else
-                        await ApiClient.BulkDeleteMessagesAsync(channelId, segment.Select(x => x.RawValue), options).ConfigureAwait(false);
-
-                    return new ReadOnlyList<Snowflake>(segment);
-                });
-                remaining -= amount;
-                offset += amount;
-            }
-            while (remaining > 0);
-            return enumerator;
-        }
+            => new RestBulkDeleteMessagesRequestEnumerator(this, channelId, messageIds);
 
         public Task AddOrModifyOverwriteAsync(Snowflake channelId, LocalOverwrite overwrite, RestRequestOptions options = null)
             => ApiClient.EditChannelPermissionsAsync(channelId, overwrite, options);

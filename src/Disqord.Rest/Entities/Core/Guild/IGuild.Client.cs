@@ -11,9 +11,9 @@ namespace Disqord
     {
         Task<IReadOnlyList<RestWebhook>> GetWebhooksAsync(RestRequestOptions options = null);
 
-        RestRequestEnumerator<RestAuditLog> GetAuditLogsEnumerator(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null);
+        RestRequestEnumerable<RestAuditLog> GetAuditLogsEnumerable(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null);
 
-        RestRequestEnumerator<T> GetAuditLogsEnumerator<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null) where T : RestAuditLog;
+        RestRequestEnumerable<T> GetAuditLogsEnumerable<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null) where T : RestAuditLog;
 
         Task<IReadOnlyList<RestAuditLog>> GetAuditLogsAsync(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null);
 
@@ -33,7 +33,7 @@ namespace Disqord
 
         Task<RestMember> GetMemberAsync(Snowflake memberId, RestRequestOptions options = null);
 
-        RestRequestEnumerator<RestMember> GetMembersEnumerator(int limit, Snowflake? startFromId = null);
+        RestRequestEnumerable<RestMember> GetMembersEnumerable(int limit, Snowflake? startFromId = null);
 
         Task<IReadOnlyList<RestMember>> GetMembersAsync(int limit = 1000, Snowflake? startFromId = null, RestRequestOptions options = null);
 

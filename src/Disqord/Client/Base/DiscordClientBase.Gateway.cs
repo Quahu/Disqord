@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Logging;
+using Disqord.Rest;
 
 namespace Disqord
 {

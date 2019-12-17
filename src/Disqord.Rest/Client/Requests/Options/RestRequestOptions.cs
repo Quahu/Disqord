@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading;
-using Disqord.Rest;
 
-namespace Disqord
+namespace Disqord.Rest
 {
     /// <summary>
     ///     Represents a set of options that can be used to customise REST requests.
