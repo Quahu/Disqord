@@ -616,7 +616,7 @@ namespace Disqord.Rest
                 Id = x.Key.RawValue,
                 Position = x.Value
             });
-            var requestContent = new RawJsonContent(Serializer.Serialize(positions));
+            var requestContent = new JsonObjectContent(positions);
             return SendRequestAsync(new RestRequest(PATCH, $"guilds/{guildId:guild_id}/channels", requestContent, options));
         }
 
@@ -726,7 +726,7 @@ namespace Disqord.Rest
                 Id = x.Key.RawValue,
                 Position = x.Value
             });
-            var requestContent = new RawJsonContent(Serializer.Serialize(positions));
+            var requestContent = new JsonObjectContent(positions);
             return SendRequestAsync<RoleModel[]>(new RestRequest(PATCH, $"guilds/{guildId:guild_id}/roles", requestContent, options));
         }
 
