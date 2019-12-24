@@ -10,7 +10,8 @@ namespace Disqord
 
         internal CachedCategoryChannel(CachedGuild guild, ChannelModel model) : base(guild, model)
         {
-            Channels = new ReadOnlyValuePredicateDictionary<Snowflake, CachedNestedChannel>(guild.NestedChannels, x => x.CategoryId == Id);
+            Channels = new ReadOnlyValuePredicateArgumentDictionary<Snowflake, CachedNestedChannel, Snowflake>(
+                guild.NestedChannels, (x, id) => x.CategoryId == id, Id);
             Update(model);
         }
     }

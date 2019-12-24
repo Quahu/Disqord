@@ -33,7 +33,8 @@ namespace Disqord
         internal CachedRole(CachedGuild guild, RoleModel model) : base(guild.Client, model.Id)
         {
             Guild = guild;
-            Members = new ReadOnlyValuePredicateDictionary<Snowflake, CachedMember>(guild.Members, x => x.Roles.ContainsKey(Id));
+            Members = new ReadOnlyValuePredicateArgumentDictionary<Snowflake, CachedMember, Snowflake>(
+                guild.Members, (x, id) => x.Roles.ContainsKey(id), Id);
             Update(model);
         }
 
