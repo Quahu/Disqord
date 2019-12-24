@@ -19,7 +19,9 @@ namespace Disqord
                     : GetDefaultUserAvatarUrl(user.Discriminator);
 
             internal static CultureInfo CreateLocale(string locale)
-                => CultureInfo.ReadOnly(new CultureInfo(locale));
+                => locale != null
+                    ? CultureInfo.ReadOnly(new CultureInfo(locale))
+                    : null;
 
             internal static string GetSystemMessageContent(ISystemMessage message, IGuild guild)
             {
