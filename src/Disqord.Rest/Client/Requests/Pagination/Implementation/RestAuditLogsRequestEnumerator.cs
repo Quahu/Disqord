@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Disqord.Rest.AuditLogs;
 
@@ -9,7 +8,6 @@ namespace Disqord.Rest
         where T : RestAuditLog
     {
         private readonly Snowflake _guildId;
-        private readonly RetrievalDirection _direction;
         private readonly Snowflake? _userId;
         private readonly Snowflake? _startFromId;
 
@@ -29,15 +27,7 @@ namespace Disqord.Rest
                 : Remaining;
             var startFromId = _startFromId;
             if (previous != null && previous.Count > 0)
-            {
-                startFromId = _direction switch
-                {
-                    RetrievalDirection.Before => previous[previous.Count - 1].Id,
-                    RetrievalDirection.After => previous[0].Id,
-                    RetrievalDirection.Around => throw new NotImplementedException(),
-                    _ => throw new ArgumentOutOfRangeException("direction"),
-                };
-            }
+                startFromId = previous[previous.Count - 1].Id;
 
             return Client.InternalGetAuditLogsAsync<T>(_guildId, amount, _userId, startFromId, options);
         }
