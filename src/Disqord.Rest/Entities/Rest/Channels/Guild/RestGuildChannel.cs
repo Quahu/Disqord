@@ -45,6 +45,7 @@ namespace Disqord.Rest
             {
                 case ChannelType.Text:
                 case ChannelType.News:
+                case ChannelType.Store:
                     return new RestTextChannel(client, model);
 
                 case ChannelType.Voice:
@@ -54,7 +55,7 @@ namespace Disqord.Rest
                     return new RestCategoryChannel(client, model);
 
                 default:
-                    return null;
+                    return new RestUnknownGuildChannel(client, model);
             }
         }
     }

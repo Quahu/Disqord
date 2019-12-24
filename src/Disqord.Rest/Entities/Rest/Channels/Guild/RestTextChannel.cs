@@ -11,6 +11,10 @@ namespace Disqord.Rest
 
         public int Slowmode { get; private set; }
 
+        public bool IsNews { get; private set; }
+
+        public bool IsStore { get; private set; }
+
         public Snowflake? LastMessageId { get; private set; }
 
         public DateTimeOffset? LastPinTimestamp { get; private set; }
@@ -18,8 +22,6 @@ namespace Disqord.Rest
         public string Mention => Discord.MentionChannel(this);
 
         public string Tag => $"#{Name}";
-
-        public bool IsNews { get; private set; }
 
         internal RestTextChannel(RestDiscordClient client, ChannelModel model) : base(client, model)
         {
@@ -37,8 +39,14 @@ namespace Disqord.Rest
             if (model.RateLimitPerUser.HasValue)
                 Slowmode = model.RateLimitPerUser.Value;
 
-            if (model.Type.HasValue && model.Type == (IsNews ? ChannelType.Text : ChannelType.News))
-                IsNews = !IsNews;
+            if (model.Type.HasValue)
+            {
+                if (model.Type == (IsNews ? ChannelType.Text : ChannelType.News))
+                    IsNews = !IsNews;
+
+                else if (model.Type == (IsStore ? ChannelType.Text : ChannelType.Store))
+                    IsStore = !IsStore;
+            }
 
             if (model.LastMessageId.HasValue)
                 LastMessageId = model.LastMessageId.Value;

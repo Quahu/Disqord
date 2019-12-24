@@ -38,6 +38,7 @@ namespace Disqord
             {
                 case ChannelType.Text:
                 case ChannelType.News:
+                case ChannelType.Store:
                     return new CachedTextChannel(guild, model);
 
                 case ChannelType.Voice:
@@ -47,7 +48,7 @@ namespace Disqord
                     return new CachedCategoryChannel(guild, model);
 
                 default:
-                    return null;
+                    return new CachedUnknownGuildChannel(guild, model);
             }
         }
     }

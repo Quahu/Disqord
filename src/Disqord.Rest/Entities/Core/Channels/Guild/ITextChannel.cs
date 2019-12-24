@@ -9,5 +9,8 @@
         int Slowmode { get; }
 
         bool IsNews { get; }
+
+        // TODO: confirm
+        bool IsStore { get; }
     }
 }

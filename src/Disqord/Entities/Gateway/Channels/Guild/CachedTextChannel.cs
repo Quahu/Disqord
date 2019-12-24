@@ -14,6 +14,8 @@ namespace Disqord
 
         public bool IsNews { get; private set; }
 
+        public bool IsStore { get; private set; }
+
         public Snowflake? LastMessageId { get; internal set; }
 
         public DateTimeOffset? LastPinTimestamp { get; internal set; }
@@ -38,8 +40,14 @@ namespace Disqord
             if (model.RateLimitPerUser.HasValue)
                 Slowmode = model.RateLimitPerUser.Value;
 
-            if (model.Type.HasValue && model.Type == (IsNews ? ChannelType.Text : ChannelType.News))
-                IsNews = !IsNews;
+            if (model.Type.HasValue)
+            {
+                if (model.Type == (IsNews ? ChannelType.Text : ChannelType.News))
+                    IsNews = !IsNews;
+
+                else if (model.Type == (IsStore ? ChannelType.Text : ChannelType.Store))
+                    IsStore = !IsStore;
+            }
 
             if (model.LastMessageId.HasValue)
                 LastMessageId = model.LastMessageId.Value;
