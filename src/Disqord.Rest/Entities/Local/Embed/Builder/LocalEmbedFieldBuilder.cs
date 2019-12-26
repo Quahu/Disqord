@@ -58,6 +58,9 @@ namespace Disqord
             return this;
         }
 
+        public LocalEmbedFieldBuilder WithBlankName()
+            => WithName("\u200b");
+
         public LocalEmbedFieldBuilder WithValue(string value)
         {
             Value = value;
@@ -69,6 +72,9 @@ namespace Disqord
             Value = value?.ToString();
             return this;
         }
+
+        public LocalEmbedFieldBuilder WithBlankValue()
+            => WithValue("\u200b");
 
         public LocalEmbedFieldBuilder WithIsInline(bool isInline)
         {

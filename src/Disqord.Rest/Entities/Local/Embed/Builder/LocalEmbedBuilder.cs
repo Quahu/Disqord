@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Disqord
 {
@@ -227,6 +227,9 @@ namespace Disqord
             Fields.Add(field);
             return this;
         }
+
+        public LocalEmbedBuilder AddBlankField(bool isInline = false)
+            => AddField("\u200b", "\u200b", isInline);
 
         /// <summary>
         ///     Creates a deep copy of this <see cref="LocalEmbedBuilder"/>.
