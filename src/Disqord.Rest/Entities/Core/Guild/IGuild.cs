@@ -11,6 +11,8 @@ namespace Disqord
 
         string SplashHash { get; }
 
+        string DiscoverySplashHash { get; }
+
         Snowflake OwnerId { get; }
 
         string VoiceRegionId { get; }
@@ -64,6 +66,8 @@ namespace Disqord
         string GetIconUrl(ImageFormat format = default, int size = 2048);
 
         string GetSplashUrl(int size = 2048);
+
+        string GetDiscoverySplashUrl(int size = 2048);
 
         string GetBannerUrl(int size = 2048);
     }

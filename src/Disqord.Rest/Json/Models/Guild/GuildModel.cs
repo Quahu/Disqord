@@ -16,6 +16,9 @@ namespace Disqord.Models
         [JsonProperty("splash")]
         public Optional<string> Splash { get; set; }
 
+        [JsonProperty("discovery_splash")]
+        public Optional<string> DiscoverySplash { get; set; }
+
         [JsonProperty("owner")]
         public Optional<bool?> Owner { get; set; }
 

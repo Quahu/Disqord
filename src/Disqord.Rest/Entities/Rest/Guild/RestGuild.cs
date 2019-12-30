@@ -16,6 +16,8 @@ namespace Disqord.Rest
 
         public string SplashHash { get; private set; }
 
+        public string DiscoverySplashHash { get; private set; }
+
         public Snowflake OwnerId { get; private set; }
 
         public string VoiceRegionId { get; private set; }
@@ -84,6 +86,9 @@ namespace Disqord.Rest
 
             if (model.Splash.HasValue)
                 SplashHash = model.Splash.Value;
+
+            if (model.DiscoverySplash.HasValue)
+                DiscoverySplashHash = model.DiscoverySplash.Value;
 
             if (model.OwnerId.HasValue)
                 OwnerId = model.OwnerId.Value;
@@ -175,10 +180,13 @@ namespace Disqord.Rest
             => Discord.GetGuildIconUrl(Id, IconHash, format, size);
 
         public string GetSplashUrl(int size = 2048)
-            => Discord.GetGuildSplashUrl(Id, SplashHash, ImageFormat.Png, 2048);
+            => Discord.GetGuildSplashUrl(Id, SplashHash, ImageFormat.Png, size);
+
+        public string GetDiscoverySplashUrl(int size = 2048)
+            => Discord.GetGuildDiscoverySplashUrl(Id, SplashHash, ImageFormat.Png, size);
 
         public string GetBannerUrl(int size = 2048)
-            => Discord.GetGuildBannerUrl(Id, SplashHash, ImageFormat.Png, 2048);
+            => Discord.GetGuildBannerUrl(Id, SplashHash, ImageFormat.Png, size);
 
         public override string ToString()
             => Name;
