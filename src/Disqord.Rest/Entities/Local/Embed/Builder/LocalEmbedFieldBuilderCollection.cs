@@ -36,7 +36,12 @@ namespace Disqord
             _list = new List<LocalEmbedFieldBuilder>();
         }
 
+        internal LocalEmbedFieldBuilderCollection(IEnumerable<LocalEmbedFieldBuilder> fields)
+        {
+            _list = new List<LocalEmbedFieldBuilder>(fields);
+        }
 
+        /// <inheritdoc cref="List{T}.Add(T)"/>
         /// <exception cref="ArgumentNullException"></exception>
         public void Add(LocalEmbedFieldBuilder field)
         {
@@ -49,9 +54,11 @@ namespace Disqord
             _list.Add(field);
         }
 
+        /// <inheritdoc cref="List{T}.Clear()"/>
         public void Clear()
             => _list.Clear();
 
+        /// <inheritdoc cref="List{T}.Insert(int, T)"/>
         /// <exception cref="ArgumentNullException"></exception>
         public void Insert(int index, LocalEmbedFieldBuilder field)
         {
@@ -64,6 +71,7 @@ namespace Disqord
             _list.Insert(index, field);
         }
 
+        /// <inheritdoc cref="List{T}.Remove(T)"/>
         /// <exception cref="ArgumentNullException"></exception>
         public bool Remove(LocalEmbedFieldBuilder field)
         {
@@ -73,21 +81,23 @@ namespace Disqord
             return _list.Remove(field);
         }
 
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <inheritdoc cref="List{T}.RemoveAll(Predicate{T})"/>
         public int RemoveAll(Predicate<LocalEmbedFieldBuilder> predicate)
             => _list.RemoveAll(predicate);
 
+        /// <inheritdoc cref="List{T}.RemoveAt(int)"/>
         public void RemoveAt(int index)
             => _list.RemoveAt(index);
 
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <inheritdoc cref="List{T}.Sort(Comparison{T})"/>
         public void Sort(Comparison<LocalEmbedFieldBuilder> comparison)
             => _list.Sort(comparison);
 
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <inheritdoc cref="List{T}.Exists(Predicate{T})"/>
         public bool Exists(Predicate<LocalEmbedFieldBuilder> predicate)
             => _list.Exists(predicate);
 
+        /// <inheritdoc cref="List{T}.GetEnumerator()"/>
         public IEnumerator<LocalEmbedFieldBuilder> GetEnumerator()
             => _list.GetEnumerator();
 

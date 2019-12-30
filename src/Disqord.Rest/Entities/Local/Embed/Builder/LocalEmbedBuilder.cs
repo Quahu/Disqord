@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Linq;
 
 namespace Disqord
 {
@@ -63,7 +64,7 @@ namespace Disqord
             Fields = new LocalEmbedFieldBuilderCollection();
         }
 
-        internal LocalEmbedBuilder(LocalEmbedBuilder builder) : this()
+        internal LocalEmbedBuilder(LocalEmbedBuilder builder)
         {
             _title = builder.Title;
             _description = builder.Description;
@@ -75,8 +76,7 @@ namespace Disqord
             Footer = builder.Footer?.Clone();
             Author = builder.Author?.Clone();
 
-            for (var i = 0; i < Fields.Count; i++)
-                Fields.Add(Fields[i].Clone());
+            Fields = new LocalEmbedFieldBuilderCollection(builder.Fields.Select(x => x.Clone()));
         }
 
         public LocalEmbedBuilder WithTitle(string title)

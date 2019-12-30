@@ -7,6 +7,8 @@ namespace Disqord
 {
     public sealed class LocalEmbed
     {
+        public static LocalEmbed Empty => new LocalEmbedBuilder().Build();
+
         public string Title { get; }
 
         public string Description { get; }
