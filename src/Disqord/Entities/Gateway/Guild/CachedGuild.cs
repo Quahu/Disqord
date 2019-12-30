@@ -282,7 +282,8 @@ namespace Disqord
             for (var i = 0; i < models.Length; i++)
             {
                 var presenceModel = models[i];
-                _members[presenceModel.User.Id].Update(presenceModel);
+                if (_members.TryGetValue(presenceModel.User.Id, out var member))
+                    member.Update(presenceModel);
             }
         }
 
@@ -293,11 +294,13 @@ namespace Disqord
             for (var i = 0; i < model.Channels.Length; i++)
             {
                 var channelModel = model.Channels[i];
-                _channels.AddOrUpdate(channelModel.Id, _ => CachedGuildChannel.Create(this, channelModel), (_, old) =>
-                {
-                    old.Update(channelModel);
-                    return old;
-                });
+                _channels.AddOrUpdate(channelModel.Id,
+                    _ => CachedGuildChannel.Create(this, channelModel),
+                    (_, old) =>
+                    {
+                        old.Update(channelModel);
+                        return old;
+                    });
             }
 
             Update(model.Members);
