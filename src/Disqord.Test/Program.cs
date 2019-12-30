@@ -1,41 +1,29 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using Disqord.Bot;
-using Disqord.Rest;
+using Disqord.Bot.Prefixes;
+using Disqord.Bot.Sharding;
 
 namespace Disqord.Test
 {
-    internal sealed class Program
+    internal sealed class Program : DiscordBotSharder
     {
-        private static void Main(string[] args)
-        {
-            new Program().MainAsync().GetAwaiter().GetResult();
-        }
+        private static void Main()
+            => new Program().Run();
 
-        private async Task MainAsync()
-        {
-            var token = Environment.GetEnvironmentVariable("NOT_QUAHU", EnvironmentVariableTarget.User);
-            using (var bot = new DiscordBot(TokenType.Bot, token, new DiscordBotConfiguration
+        private Program() : base(TokenType.Bot, Environment.GetEnvironmentVariable("NOT_QUAHU", EnvironmentVariableTarget.Machine),
+            new DefaultPrefixProvider()
+                .AddPrefix("~~")
+                .AddMentionPrefix(),
+            new DiscordBotConfiguration
             {
-                Prefixes = new[] { "~~" }
-            }))
-            {
-                bot.Logger.MessageLogged += this.Logger_MessageLogged;
-                bot.AddModules(Assembly.GetExecutingAssembly());
-
-                var guild = await bot.GetGuildAsync(416256456505950215);
-                var channels = await guild.GetChannelsAsync();
-                var channel = channels.OfType<RestTextChannel>().FirstOrDefault(x => x.Name == "general");
-
-                bot.Run();
-            }
-        }
-
-        private void Logger_MessageLogged(object sender, Logging.MessageLoggedEventArgs e)
+                Status = UserStatus.Invisible
+            })
         {
-            Console.WriteLine(e);
+            Logger.MessageLogged += MessageLogged;
+            AddModules(typeof(Program).Assembly);
         }
+
+        private void MessageLogged(object sender, Logging.MessageLoggedEventArgs e)
+            => Console.WriteLine(e);
     }
 }
