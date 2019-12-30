@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 
 namespace Disqord.Rest
 {
-    internal delegate ValueTask<IReadOnlyList<T>> RestRequestPage<T>(IReadOnlyList<T> previousPage, RestRequestOptions options = null);
-
     public abstract class RestRequestEnumerator<T> : IAsyncEnumerator<IReadOnlyList<T>>
     {
         public IReadOnlyList<T> Current { get; private set; }
