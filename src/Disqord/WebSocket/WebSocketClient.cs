@@ -71,7 +71,15 @@ namespace Disqord.WebSocket
             _ws?.Dispose();
             _ws = new ClientWebSocket();
             _ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(10);
-            await _ws.ConnectAsync(url, token).ConfigureAwait(false);
+            try
+            {
+                await _ws.ConnectAsync(url, token).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _ = _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(null, null, ex));
+                return;
+            }
             _ = Task.Run(RunReceiveAsync);
         }
 
@@ -151,11 +159,7 @@ namespace Disqord.WebSocket
                                 }
                                 catch { }
                             }
-                            try
-                            {
-                                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(null, null, ex)).ConfigureAwait(false);
-                            }
-                            catch { }
+                            await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(null, null, ex)).ConfigureAwait(false);
                             return;
                         }
 
@@ -167,11 +171,7 @@ namespace Disqord.WebSocket
                                 await CloseAsync().ConfigureAwait(false);
                             }
                             catch { }
-                            try
-                            {
-                                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, null)).ConfigureAwait(false);
-                            }
-                            catch { }
+                            await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, null)).ConfigureAwait(false);
                             return;
                         }
                         else

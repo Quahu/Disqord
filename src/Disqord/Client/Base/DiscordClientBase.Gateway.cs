@@ -7,7 +7,7 @@ namespace Disqord
 {
     public abstract partial class DiscordClientBase : IRestDiscordClient, IAsyncDisposable
     {
-        public abstract TimeSpan? Latency { get; }
+        public virtual TimeSpan? Latency => _client?.Latency;
 
         public virtual Task RunAsync(CancellationToken cancellationToken = default)
             => _client?.RunAsync(cancellationToken) ?? throw new PlatformNotSupportedException();

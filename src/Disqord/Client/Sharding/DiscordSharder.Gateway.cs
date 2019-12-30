@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Logging;
 using Disqord.Rest;
+using Qommon.Collections;
 
 namespace Disqord.Sharding
 {
@@ -30,13 +30,14 @@ namespace Disqord.Sharding
             _gatewayBotResponse = await GetGatewayBotUrlAsync().ConfigureAwait(false);
             Log(LogMessageSeverity.Information, $"Starting sharder with {_gatewayBotResponse.ShardAmount / 2 + 1} shards. There's {_gatewayBotResponse.RemainingSessionAmount} sessions left.");
             _gateways = new DiscordClientGateway[_gatewayBotResponse.ShardAmount / 2 + 1];
-            Shards = _gateways.Select(x => new Shard(this, x)).ToImmutableArray();
+            var shards = new Shard[_gateways.Length];
+            Shards = new ReadOnlyList<Shard>(shards);
             var tasks = new Task[_gateways.Length];
             for (var i = 0; i < _gateways.Length; i++)
             {
                 var gateway = new DiscordClientGateway(this, (i, _gateways.Length));
-                gateway._status = UserStatus.Invisible;
                 _gateways[i] = gateway;
+                shards[i] = new Shard(this, gateway);
                 tasks[i] = gateway.RunAsync(cancellationToken);
 
                 await gateway.WaitForIdentifyAsync().ConfigureAwait(false);
