@@ -1,8 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Models;
-using Disqord.Models.Dispatches;
+using Disqord.Logging;
 
 namespace Disqord
 {
@@ -11,10 +10,10 @@ namespace Disqord
         /// <summary>
         ///     Gets the latency between heartbeats.
         /// </summary>
-        public TimeSpan? Latency => _gateway.Latency;
+        public override TimeSpan? Latency => _gateway.Latency;
 
         private readonly DiscordClientGateway _gateway;
-        private bool _isDisposed;
+        private string _gatewayUrl;
 
         public override Task RunAsync(CancellationToken cancellationToken = default)
         {
@@ -37,68 +36,45 @@ namespace Disqord
         public override Task SetPresenceAsync(UserStatus status, LocalActivity activity)
             => InternalSetPresenceAsync(status, activity);
 
-        private Task InternalSetPresenceAsync(UserStatus? status = default, in Optional<LocalActivity> activity = default)
+        internal override async Task<string> GetGatewayAsync(bool isNewSession)
         {
-            if (_isDisposed)
-                throw new ObjectDisposedException(nameof(DiscordClient));
+            ThrowIfDisposed();
+
+            if (IsBot && isNewSession)
+            {
+                var botGatewayResponse = await GetGatewayBotUrlAsync().ConfigureAwait(false);
+                if (botGatewayResponse.RemainingSessionAmount == 0)
+                    throw new SessionLimitException(botGatewayResponse.ResetAfter);
+
+                Log(LogMessageSeverity.Information,
+                    $"Sessions used: {botGatewayResponse.MaxSessionAmount - botGatewayResponse.RemainingSessionAmount}/{botGatewayResponse.MaxSessionAmount}. " +
+                    $"Resets in {botGatewayResponse.ResetAfter}.");
+                return _gatewayUrl = botGatewayResponse.Url;
+            }
+            else if (_gatewayUrl == null)
+            {
+                return _gatewayUrl = await GetGatewayUrlAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                return _gatewayUrl;
+            }
+        }
+
+        private Task InternalSetPresenceAsync(UserStatus? status = default, Optional<LocalActivity> activity = default)
+        {
+            ThrowIfDisposed();
 
             if (!status.HasValue && !activity.HasValue)
                 return Task.CompletedTask;
 
             if (status.HasValue)
-                SetStatus(status.Value);
+                _gateway.SetStatus(status.Value);
 
             if (activity.HasValue)
-                SetActivity(activity.Value);
+                _gateway.SetActivity(activity.Value);
 
-            return _gateway.SendAsync(new PayloadModel
-            {
-                Op = Opcode.StatusUpdate,
-                D = new UpdateStatusModel
-                {
-                    Status = _gateway._status,
-                    Game = _gateway._activity
-                }
-            });
-        }
-
-        private void SetStatus(UserStatus status)
-        {
-            switch (status)
-            {
-                case UserStatus.Invisible:
-                case UserStatus.Idle:
-                case UserStatus.DoNotDisturb:
-                case UserStatus.Online:
-                    _gateway._status = status;
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(status));
-            }
-        }
-
-        private void SetActivity(LocalActivity activity)
-        {
-            _gateway._activity = activity == null
-                ? null
-                : new ActivityModel
-                {
-                    Name = activity.Name,
-                    Url = activity.Url,
-                    Type = activity.Type
-                };
-        }
-
-        // TODO
-        public override async ValueTask DisposeAsync()
-        {
-            if (_isDisposed)
-                return;
-
-            _isDisposed = true;
-            await _gateway.DisposeAsync().ConfigureAwait(false);
-            await base.DisposeAsync().ConfigureAwait(false);
+            return _gateway.SendPresenceAsync();
         }
     }
 }

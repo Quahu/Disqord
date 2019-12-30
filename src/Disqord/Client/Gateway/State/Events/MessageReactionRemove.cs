@@ -55,7 +55,7 @@ namespace Disqord
                             : GetUser(model.UserId),
                         model.UserId,
                         async options => model.GuildId != null
-                            ? await _client.GetMemberAsync(model.GuildId.Value, model.UserId, options).ConfigureAwait(false) 
+                            ? await _client.GetMemberAsync(model.GuildId.Value, model.UserId, options).ConfigureAwait(false)
                                 ?? await _client.GetUserAsync(model.UserId, options).ConfigureAwait(false)
                             : await _client.GetUserAsync(model.UserId, options).ConfigureAwait(false)),
                     reaction ?? Optional<ReactionData>.Empty,

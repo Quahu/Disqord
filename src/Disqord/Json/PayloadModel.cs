@@ -8,7 +8,7 @@ namespace Disqord.Models
         ///     Gets or sets the opcode for the payload.
         /// </summary>
         [JsonProperty("op", NullValueHandling.Ignore)]
-        public Opcode Op { get; set; }
+        public GatewayOperationCode Op { get; set; }
 
         /// <summary>
         ///     Gets or sets the event data.
@@ -26,6 +26,6 @@ namespace Disqord.Models
         ///     Gets or sets the event name for this payload.
         /// </summary>
         [JsonProperty("T", NullValueHandling.Ignore)]
-        public object T { get; set; }
+        public string T { get; set; }
     }
 }

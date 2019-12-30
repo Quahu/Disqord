@@ -1,48 +1,30 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Logging;
 using Disqord.Rest;
 
 namespace Disqord
 {
     public abstract partial class DiscordClientBase : IRestDiscordClient, IAsyncDisposable
     {
-        private string _gatewayUrl;
+        public abstract TimeSpan? Latency { get; }
 
-        public abstract Task RunAsync(CancellationToken cancellationToken = default);
+        public virtual Task RunAsync(CancellationToken cancellationToken = default)
+            => _client?.RunAsync(cancellationToken) ?? throw new PlatformNotSupportedException();
 
-        public abstract Task StopAsync();
+        public virtual Task StopAsync()
+            => _client?.StopAsync() ?? throw new PlatformNotSupportedException();
 
-        public abstract Task SetPresenceAsync(UserStatus status);
+        public virtual Task SetPresenceAsync(UserStatus status)
+            => _client?.SetPresenceAsync(status) ?? throw new PlatformNotSupportedException();
 
-        public abstract Task SetPresenceAsync(LocalActivity activity);
+        public virtual Task SetPresenceAsync(LocalActivity activity)
+            => _client?.SetPresenceAsync(activity) ?? throw new PlatformNotSupportedException();
 
-        public abstract Task SetPresenceAsync(UserStatus status, LocalActivity activity);
+        public virtual Task SetPresenceAsync(UserStatus status, LocalActivity activity)
+            => _client?.SetPresenceAsync(status, activity) ?? throw new PlatformNotSupportedException();
 
-        internal async Task<string> GetGatewayAsync(bool isNewSession)
-        {
-            ThrowIfDisposed();
-
-            if (IsBot && isNewSession)
-            {
-                var botGatewayResponse = await GetGatewayBotUrlAsync().ConfigureAwait(false);
-                if (botGatewayResponse.RemainingSessionAmount == 0)
-                    throw new SessionLimitException(botGatewayResponse.ResetAfter);
-
-                Log(LogMessageSeverity.Information,
-                    $"Sessions used: {botGatewayResponse.MaxSessionAmount - botGatewayResponse.RemainingSessionAmount}/{botGatewayResponse.MaxSessionAmount}. " +
-                    $"Resets in {botGatewayResponse.ResetAfter}.");
-                return _gatewayUrl = botGatewayResponse.Url;
-            }
-            else if (_gatewayUrl == null)
-            {
-                return _gatewayUrl = await GetGatewayUrlAsync().ConfigureAwait(false);
-            }
-            else
-            {
-                return _gatewayUrl;
-            }
-        }
+        internal virtual Task<string> GetGatewayAsync(bool isNewSession)
+            => _client.GetGatewayAsync(isNewSession) ?? throw new PlatformNotSupportedException();
     }
 }

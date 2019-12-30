@@ -1,6 +1,6 @@
 ﻿namespace Disqord.Models
 {
-    internal enum Opcode : byte
+    internal enum GatewayOperationCode : byte
     {
         Dispatch = 0,
 

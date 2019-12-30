@@ -12,12 +12,12 @@ namespace Disqord
         public UserStatus Status { get; }
 
         public IReadOnlyDictionary<UserClient, UserStatus> Statuses => _statuses ?? throw new InvalidOperationException("Bots cannot have multiple statuses.");
-        private IReadOnlyDictionary<UserClient, UserStatus> _statuses;
+        private readonly IReadOnlyDictionary<UserClient, UserStatus> _statuses;
 
         public Activity Activity { get; }
 
         public IReadOnlyList<Activity> Activities => _activities ?? throw new InvalidOperationException("Bots cannot have multiple activities.");
-        private IReadOnlyList<Activity> _activities;
+        private readonly IReadOnlyList<Activity> _activities;
 
         internal Presence(bool isBot, PresenceUpdateModel model)
         {

@@ -36,7 +36,7 @@ namespace Disqord
             Channel = channel;
             Author = author;
             _reactions = new LockedDictionary<IEmoji, ReactionData>(model.Reactions.HasValue
-                ? model.Reactions.Value.Length
+                ? model.Reactions.Value?.Length ?? 0
                 : 0);
             Reactions = new ReadOnlyDictionary<IEmoji, ReactionData>(_reactions);
         }

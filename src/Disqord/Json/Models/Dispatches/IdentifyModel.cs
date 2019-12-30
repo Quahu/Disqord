@@ -16,14 +16,14 @@ namespace Disqord.Models.Dispatches
         [JsonProperty("large_threshold", NullValueHandling.Ignore)]
         public int? LargeThreshold { get; set; }
 
-        [JsonProperty("shards", NullValueHandling.Ignore)]
-        public int[] Shards { get; set; }
+        [JsonProperty("shard", NullValueHandling.Ignore)]
+        public int[] Shard { get; set; }
 
         [JsonProperty("presence", NullValueHandling.Ignore)]
         public UpdateStatusModel Presence { get; set; }
 
         [JsonProperty("guild_subscriptions")]
-        public bool GuildSubscriptions { get; set; }
+        public bool GuildSubscriptions { get; set; } = true;
 
         public sealed class ConnectionProperties
         {

@@ -14,27 +14,27 @@ namespace Disqord
         /// <summary>
         ///     Gets the guilds for this client.
         /// </summary>
-        public IReadOnlyDictionary<Snowflake, CachedGuild> Guilds { get; }
+        public IReadOnlyDictionary<Snowflake, CachedGuild> Guilds => State.Guilds;
 
         /// <summary>
         ///     Gets the users for this client.
         /// </summary>
-        public IReadOnlyDictionary<Snowflake, CachedUser> Users { get; }
+        public IReadOnlyDictionary<Snowflake, CachedUser> Users => State.Users;
 
         /// <summary>
         ///     Gets the private channels for this client.
         /// </summary>
-        public IReadOnlyDictionary<Snowflake, CachedPrivateChannel> PrivateChannels { get; }
+        public IReadOnlyDictionary<Snowflake, CachedPrivateChannel> PrivateChannels => State.PrivateChannels;
 
         /// <summary>
         ///     Gets the DM channels for this client.
         /// </summary>
-        public IReadOnlyDictionary<Snowflake, CachedDmChannel> DmChannels { get; }
+        public IReadOnlyDictionary<Snowflake, CachedDmChannel> DmChannels => State.DmChannels;
 
         /// <summary>
         ///     Gets the group DM channels for this client.
         /// </summary>
-        public IReadOnlyDictionary<Snowflake, CachedGroupChannel> GroupChannels { get; }
+        public IReadOnlyDictionary<Snowflake, CachedGroupChannel> GroupChannels => State.GroupChannels;
 
         internal DiscordClientState State { get; }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Models.Dispatches;
 using Disqord.Rest;
@@ -10,9 +9,9 @@ namespace Disqord
     {
         public Task HandleReadyAsync(ReadyModel model)
         {
-            _client.RestClient.CurrentUser.SetValue(new RestCurrentUser(_client.RestClient, model.User));
             if (_currentUser == null)
             {
+                _client.RestClient.CurrentUser.SetValue(new RestCurrentUser(_client.RestClient, model.User));
                 var sharedUser = new CachedSharedUser(_client, model.User);
                 _currentUser = new CachedCurrentUser(sharedUser, model.User, model.Relationships?.Length ?? 0, model.Notes?.Count ?? 0);
                 sharedUser.References++;
@@ -20,39 +19,41 @@ namespace Disqord
             }
             else
             {
+                _client.RestClient.CurrentUser.Value.Update(model.User);
                 _currentUser.Update(model.User);
             }
 
-            // TODO: more, more, more stale checking
-            // I can't remember what I was supposed to be checking though
-            foreach (var guild in _guilds.Values)
-            {
-                if (_client.IsBot)
-                {
-                    if (guild.IsLarge)
-                    {
-                        guild.ChunksExpected = (int) Math.Ceiling(guild.MemberCount / 1000.0);
-                        guild.ChunkTcs = new TaskCompletionSource<bool>();
-                    }
-                }
-                else
-                {
-                    guild.SyncTcs = new TaskCompletionSource<bool>();
-                }
+            // TODO: this won't work for the sharder
+            //// TODO: more, more, more stale checking
+            //// I can't remember what I was supposed to be checking though
+            //foreach (var guild in _guilds.Values)
+            //{
+            //    if (_client.IsBot)
+            //    {
+            //        if (guild.IsLarge)
+            //        {
+            //            guild.ChunksExpected = (int) Math.Ceiling(guild.MemberCount / 1000.0);
+            //            guild.ChunkTcs = new TaskCompletionSource<bool>();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        guild.SyncTcs = new TaskCompletionSource<bool>();
+            //    }
 
-                var found = false;
-                for (var i = 0; i < model.Guilds.Length; i++)
-                {
-                    if (guild.Id == model.Guilds[i].Id)
-                    {
-                        found = true;
-                        break;
-                    }
-                }
+            //    var found = false;
+            //    for (var i = 0; i < model.Guilds.Length; i++)
+            //    {
+            //        if (guild.Id == model.Guilds[i].Id)
+            //        {
+            //            found = true;
+            //            break;
+            //        }
+            //    }
 
-                if (!found)
-                    _guilds.TryRemove(guild.Id, out _);
-            }
+            //    if (!found)
+            //        _guilds.TryRemove(guild.Id, out _);
+            //}
 
             if (!_client.IsBot)
             {

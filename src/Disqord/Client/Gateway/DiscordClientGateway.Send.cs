@@ -10,21 +10,51 @@ namespace Disqord
 {
     internal sealed partial class DiscordClientGateway
     {
-        private readonly (int ShardId, int ShardCount)? _shards;
+        public int? ShardId => _shard?[0];
+
+        private readonly int[] _shard;
         internal UserStatus? _status;
         internal ActivityModel _activity;
+
+        internal void SetStatus(UserStatus status)
+        {
+            switch (status)
+            {
+                case UserStatus.Invisible:
+                case UserStatus.Idle:
+                case UserStatus.DoNotDisturb:
+                case UserStatus.Online:
+                    _status = status;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(status));
+            }
+        }
+
+        internal void SetActivity(LocalActivity activity)
+        {
+            _activity = activity == null
+                ? null
+                : new ActivityModel
+                {
+                    Name = activity.Name,
+                    Url = activity.Url,
+                    Type = activity.Type
+                };
+        }
 
         internal Task SendGuildSyncAsync(IEnumerable<ulong> guildIds)
             => SendAsync(new PayloadModel
             {
-                Op = Opcode.GuildSync,
+                Op = GatewayOperationCode.GuildSync,
                 D = guildIds
             });
 
         internal Task SendRequestOfflineMembersAsync(IEnumerable<ulong> guildIds)
             => SendAsync(new PayloadModel
             {
-                Op = Opcode.RequestGuildMembers,
+                Op = GatewayOperationCode.RequestGuildMembers,
                 D = new RequestOfflineMembersModel
                 {
                     GuildId = guildIds,
@@ -37,7 +67,7 @@ namespace Disqord
         internal Task SendRequestOfflineMembersAsync(ulong guildId)
              => SendAsync(new PayloadModel
              {
-                 Op = Opcode.RequestGuildMembers,
+                 Op = GatewayOperationCode.RequestGuildMembers,
                  D = new RequestOfflineMembersModel
                  {
                      GuildId = guildId,
@@ -50,7 +80,7 @@ namespace Disqord
         internal Task SendResumeAsync()
             => SendAsync(new PayloadModel
             {
-                Op = Opcode.Resume,
+                Op = GatewayOperationCode.Resume,
                 D = new ResumeModel
                 {
                     Token = _client.Token,
@@ -62,14 +92,16 @@ namespace Disqord
         internal Task SendHeartbeatAsync()
             => SendAsync(new PayloadModel
             {
-                Op = Opcode.Heartbeat,
+                Op = GatewayOperationCode.Heartbeat,
                 D = _lastSequenceNumber
             }, _heartbeatCts.Token);
 
-        internal Task SendIdentifyAsync()
-            => SendAsync(new PayloadModel
+        internal async Task SendIdentifyAsync()
+        {
+            await _identifyLock.WaitAsync().ConfigureAwait(false);
+            await SendAsync(new PayloadModel
             {
-                Op = Opcode.Identify,
+                Op = GatewayOperationCode.Identify,
                 D = new IdentifyModel
                 {
                     Token = _client.Token,
@@ -79,9 +111,22 @@ namespace Disqord
                         Status = _status,
                         Game = _activity ?? Optional<ActivityModel>.Empty
                     },
+                    Shard = _shard,
                     GuildSubscriptions = true
                 }
-            });
+            }).ConfigureAwait(false);
+        }
+
+        internal Task SendPresenceAsync(CancellationToken cancellationToken = default)
+            => SendAsync(new PayloadModel
+            {
+                Op = GatewayOperationCode.StatusUpdate,
+                D = new UpdateStatusModel
+                {
+                    Status = _status,
+                    Game = _activity
+                }
+            }, cancellationToken);
 
         internal Task SendAsync(PayloadModel payload)
             => SendAsync(payload, CancellationToken.None);

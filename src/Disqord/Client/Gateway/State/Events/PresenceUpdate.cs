@@ -64,9 +64,9 @@ namespace Disqord
                 // We have to check if any of the properties were changed,
                 // so we don't fire the event multiple times for each guild
                 // the 'presence' update was dispatched for.
-                if (user.Name != model.User.Username ||
-                    user.Discriminator != model.User.Discriminator ||
-                    user.AvatarHash != model.User.Avatar)
+                if (user.Name != model.User.Username.Value ||
+                    user.Discriminator != model.User.Discriminator.Value ||
+                    user.AvatarHash != model.User.Avatar.Value)
                 {
                     user.Update(model.User);
                     return _client._userUpdated.InvokeAsync(new UserUpdatedEventArgs(oldUser, user));

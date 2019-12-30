@@ -38,6 +38,7 @@ namespace Disqord.WebSocket
 
         private bool _closed;
         private readonly object _closeLock = new object();
+        private readonly object _sendLock = new object();
 
         private CancellationTokenSource _sendCts;
         private Task _sendTask;
@@ -54,13 +55,19 @@ namespace Disqord.WebSocket
             _deflate = new DeflateStream(_compressed, CompressionMode.Decompress, true);
         }
 
-        public async Task ConnectAsync(Uri url, CancellationToken token)
+        private void ThrowIfDisposed()
         {
             if (_isDisposed)
-                throw new ObjectDisposedException(nameof(WebSocketClient));
+                throw new ObjectDisposedException(null, "The web socket client has been disposed.");
+        }
+
+        public async Task ConnectAsync(Uri url, CancellationToken token)
+        {
+            ThrowIfDisposed();
 
             DisposeTokens();
             _closed = false;
+            _ws?.Abort();
             _ws?.Dispose();
             _ws = new ClientWebSocket();
             _ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(10);
@@ -70,15 +77,17 @@ namespace Disqord.WebSocket
 
         public Task SendAsync(WebSocketRequest request)
         {
-            if (_isDisposed)
-                throw new ObjectDisposedException(nameof(WebSocketClient));
+            ThrowIfDisposed();
 
             _messageQueue.Enqueue(request);
-            if (_sendTask == null || _sendTask.IsCompleted)
+            lock (_sendLock)
             {
-                _sendCts?.Dispose();
-                _sendCts = new CancellationTokenSource();
-                _sendTask = Task.Run(RunSendAsync);
+                if (_sendTask == null || _sendTask.IsCompleted)
+                {
+                    _sendCts?.Dispose();
+                    _sendCts = new CancellationTokenSource();
+                    _sendTask = Task.Run(RunSendAsync);
+                }
             }
 
             return request.WaitAsync();
@@ -86,9 +95,17 @@ namespace Disqord.WebSocket
 
         private async Task RunSendAsync()
         {
-            while (_messageQueue.TryDequeue(out var request) && !_sendCts.IsCancellationRequested)
+            CancellationTokenSource cts;
+            lock (_sendLock)
             {
-                using (var linkedSource = CancellationTokenSource.CreateLinkedTokenSource(_sendCts.Token, request.CancellationToken))
+                cts = _sendCts;
+                if (cts == null)
+                    return;
+            }
+
+            while (!cts.IsCancellationRequested && _messageQueue.TryDequeue(out var request))
+            {
+                using (var linkedSource = CancellationTokenSource.CreateLinkedTokenSource(cts.Token, request.CancellationToken))
                 {
                     try
                     {
@@ -108,19 +125,20 @@ namespace Disqord.WebSocket
             _compressed.Position = 0;
             _compressed.SetLength(0);
 
-            _receiveCts = new CancellationTokenSource();
+            var receiveCts = new CancellationTokenSource();
+            _receiveCts = receiveCts;
             var buffer = ArrayPool<byte>.Shared.Rent(RECEIVE_BUFFER_SIZE);
             var bufferMemory = buffer.AsMemory(0, RECEIVE_BUFFER_SIZE);
             try
             {
-                while (!_receiveCts.IsCancellationRequested && _ws.State == WebSocketState.Open)
+                while (!receiveCts.IsCancellationRequested && _ws.State == WebSocketState.Open)
                 {
                     ValueWebSocketReceiveResult result;
                     do
                     {
                         try
                         {
-                            result = await _ws.ReceiveAsync(bufferMemory, _receiveCts.Token).ConfigureAwait(false);
+                            result = await _ws.ReceiveAsync(bufferMemory, receiveCts.Token).ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {
@@ -158,10 +176,10 @@ namespace Disqord.WebSocket
                         }
                         else
                         {
-                            await _compressed.WriteAsync(bufferMemory.Slice(0, result.Count), _receiveCts.Token).ConfigureAwait(false);
+                            await _compressed.WriteAsync(bufferMemory.Slice(0, result.Count), receiveCts.Token).ConfigureAwait(false);
                         }
                     }
-                    while (!result.EndOfMessage && !_receiveCts.IsCancellationRequested);
+                    while (!result.EndOfMessage && !receiveCts.IsCancellationRequested);
 
                     var isZlib = false;
                     var hasZlibHeader = false;
@@ -202,8 +220,7 @@ namespace Disqord.WebSocket
 
         public async Task CloseAsync()
         {
-            if (_isDisposed)
-                throw new ObjectDisposedException(nameof(WebSocketClient));
+            ThrowIfDisposed();
 
             lock (_closeLock)
             {

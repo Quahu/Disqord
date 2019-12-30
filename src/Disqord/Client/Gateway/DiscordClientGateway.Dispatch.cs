@@ -50,6 +50,7 @@ namespace Disqord
             {
                 case GatewayDispatch.Ready:
                 {
+                    _identifyTcs.TrySetResult(true);
                     Log(LogMessageSeverity.Information, "Successfully identified.");
                     var model = Serializer.ToObject<ReadyModel>(payload.D);
                     _sessionId = model.SessionId;
@@ -69,6 +70,7 @@ namespace Disqord
 
                 case GatewayDispatch.Resumed:
                 {
+                    _identifyTcs.TrySetResult(true);
                     Log(LogMessageSeverity.Information, "Resumed.");
                     _resuming = false;
                     break;
