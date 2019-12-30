@@ -1,0 +1,1117 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class DiscordSharder
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class DiscordSharder
+   ">
+    <meta name="generator" content="docfx 2.48.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Disqord.Sharding.DiscordSharder">
+  
+  
+  <h1 id="Disqord_Sharding_DiscordSharder" data-uid="Disqord.Sharding.DiscordSharder" class="text-break">Class DiscordSharder
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><a class="xref" href="Disqord.DiscordClientBase.html">DiscordClientBase</a></div>
+    <div class="level2"><span class="xref">DiscordSharder</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Disqord.Rest.IRestDiscordClient.html">IRestDiscordClient</a></div>
+    <div><span class="xref">IDisposable</span></div>
+    <div><span class="xref">IAsyncDisposable</span></div>
+    <div><a class="xref" href="Disqord.Sharding.IDiscordSharder.html">IDiscordSharder</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_CurrentApplication">DiscordClientBase.CurrentApplication</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_TokenType">DiscordClientBase.TokenType</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_Logger">DiscordClientBase.Logger</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_Serializer">DiscordClientBase.Serializer</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_Disqord_Rest_IRestDiscordClient_CurrentUser">DiscordClientBase.IRestDiscordClient.CurrentUser</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_Dispose">DiscordClientBase.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_Ready">DiscordClientBase.Ready</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ChannelCreated">DiscordClientBase.ChannelCreated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ChannelUpdated">DiscordClientBase.ChannelUpdated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ChannelDeleted">DiscordClientBase.ChannelDeleted</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ChannelPinsUpdated">DiscordClientBase.ChannelPinsUpdated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GuildAvailable">DiscordClientBase.GuildAvailable</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GuildUnavailable">DiscordClientBase.GuildUnavailable</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_JoinedGuild">DiscordClientBase.JoinedGuild</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GuildUpdated">DiscordClientBase.GuildUpdated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_LeftGuild">DiscordClientBase.LeftGuild</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_RoleCreated">DiscordClientBase.RoleCreated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_RoleUpdated">DiscordClientBase.RoleUpdated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_RoleDeleted">DiscordClientBase.RoleDeleted</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_MemberBanned">DiscordClientBase.MemberBanned</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_MemberUnbanned">DiscordClientBase.MemberUnbanned</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GuildEmojisUpdated">DiscordClientBase.GuildEmojisUpdated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_MemberJoined">DiscordClientBase.MemberJoined</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_MemberLeft">DiscordClientBase.MemberLeft</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_MemberUpdated">DiscordClientBase.MemberUpdated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_MessageAcknowledged">DiscordClientBase.MessageAcknowledged</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_MessageReceived">DiscordClientBase.MessageReceived</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_MessageDeleted">DiscordClientBase.MessageDeleted</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_MessagesBulkDeleted">DiscordClientBase.MessagesBulkDeleted</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_MessageUpdated">DiscordClientBase.MessageUpdated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ReactionAdded">DiscordClientBase.ReactionAdded</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ReactionRemoved">DiscordClientBase.ReactionRemoved</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ReactionsCleared">DiscordClientBase.ReactionsCleared</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_PresenceUpdated">DiscordClientBase.PresenceUpdated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_TypingStarted">DiscordClientBase.TypingStarted</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_RelationshipCreated">DiscordClientBase.RelationshipCreated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_RelationshipDeleted">DiscordClientBase.RelationshipDeleted</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_UserNoteUpdated">DiscordClientBase.UserNoteUpdated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_UserUpdated">DiscordClientBase.UserUpdated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_VoiceStateUpdated">DiscordClientBase.VoiceStateUpdated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_VoiceServerUpdated">DiscordClientBase.VoiceServerUpdated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_WebhooksUpdated">DiscordClientBase.WebhooksUpdated</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_AddExtensionAsync__1___0_">DiscordClientBase.AddExtensionAsync&lt;T&gt;(T)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_RemoveExtensionAsync__1">DiscordClientBase.RemoveExtensionAsync&lt;T&gt;()</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetExtension__1">DiscordClientBase.GetExtension&lt;T&gt;()</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SendOrAcceptFriendRequestAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.SendOrAcceptFriendRequestAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SendOrAcceptFriendRequestAsync_System_String_System_String_Disqord_Rest_RestRequestOptions_">DiscordClientBase.SendOrAcceptFriendRequestAsync(String, String, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_BlockUserAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.BlockUserAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteRelationshipAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.DeleteRelationshipAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetRelationshipsAsync_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetRelationshipsAsync(RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMutualFriendsAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetMutualFriendsAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_CreateWebhookAsync_Snowflake_System_String_Stream_Disqord_Rest_RestRequestOptions_">DiscordClientBase.CreateWebhookAsync(Snowflake, String, Stream, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetChannelWebhooksAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetChannelWebhooksAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildWebhooksAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetGuildWebhooksAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetWebhookAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetWebhookAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetWebhookWithTokenAsync_Snowflake_System_String_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyWebhookAsync_Snowflake_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyWebhookAsync(Snowflake, Action&lt;ModifyWebhookProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyWebhookWithTokenAsync_Snowflake_System_String_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyWebhookWithTokenAsync(Snowflake, String, Action&lt;ModifyWebhookProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteWebhookAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.DeleteWebhookAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteWebhookWithTokenAsync_Snowflake_System_String_Disqord_Rest_RestRequestOptions_">DiscordClientBase.DeleteWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ExecuteWebhookAsync_Snowflake_System_String_System_String_System_Boolean_IEnumerable_Disqord_LocalEmbed__System_String_System_String_System_Boolean_Disqord_Rest_RestRequestOptions_">DiscordClientBase.ExecuteWebhookAsync(Snowflake, String, String, Boolean, IEnumerable&lt;LocalEmbed&gt;, String, String, Boolean, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ExecuteWebhookAsync_Snowflake_System_String_Disqord_LocalAttachment_System_String_System_Boolean_IEnumerable_Disqord_LocalEmbed__System_String_System_String_System_Boolean_Disqord_Rest_RestRequestOptions_">DiscordClientBase.ExecuteWebhookAsync(Snowflake, String, LocalAttachment, String, Boolean, IEnumerable&lt;LocalEmbed&gt;, String, String, Boolean, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ExecuteWebhookAsync_Snowflake_System_String_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_IEnumerable_Disqord_LocalEmbed__System_String_System_String_System_Boolean_Disqord_Rest_RestRequestOptions_">DiscordClientBase.ExecuteWebhookAsync(Snowflake, String, IEnumerable&lt;LocalAttachment&gt;, String, Boolean, IEnumerable&lt;LocalEmbed&gt;, String, String, Boolean, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetAuditLogsEnumerable_Snowflake_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__">DiscordClientBase.GetAuditLogsEnumerable(Snowflake, Int32, Nullable&lt;Snowflake&gt;, Nullable&lt;Snowflake&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetAuditLogsEnumerable__1_Snowflake_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__">DiscordClientBase.GetAuditLogsEnumerable&lt;T&gt;(Snowflake, Int32, Nullable&lt;Snowflake&gt;, Nullable&lt;Snowflake&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetAuditLogsAsync_Snowflake_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetAuditLogsAsync(Snowflake, Int32, Nullable&lt;Snowflake&gt;, Nullable&lt;Snowflake&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetAuditLogsAsync__1_Snowflake_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetAuditLogsAsync&lt;T&gt;(Snowflake, Int32, Nullable&lt;Snowflake&gt;, Nullable&lt;Snowflake&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGatewayUrlAsync_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetGatewayUrlAsync(RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGatewayBotUrlAsync_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetGatewayBotUrlAsync(RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetProfileAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetProfileAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SetNoteAsync_Snowflake_System_String_Disqord_Rest_RestRequestOptions_">DiscordClientBase.SetNoteAsync(Snowflake, String, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_CreateGuildAsync_System_String_System_String_Stream_Disqord_VerificationLevel_Disqord_DefaultNotificationLevel_Disqord_ContentFilterLevel_Disqord_Rest_RestRequestOptions_">DiscordClientBase.CreateGuildAsync(String, String, Stream, VerificationLevel, DefaultNotificationLevel, ContentFilterLevel, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetGuildAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyGuildAsync_Snowflake_Action_Disqord_ModifyGuildProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyGuildAsync(Snowflake, Action&lt;ModifyGuildProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteGuildAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.DeleteGuildAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetChannelsAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetChannelsAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_CreateTextChannelAsync_Snowflake_System_String_Action_Disqord_CreateTextChannelProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.CreateTextChannelAsync(Snowflake, String, Action&lt;CreateTextChannelProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_CreateVoiceChannelAsync_Snowflake_System_String_Action_Disqord_CreateVoiceChannelProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.CreateVoiceChannelAsync(Snowflake, String, Action&lt;CreateVoiceChannelProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_CreateCategoryChannelAsync_Snowflake_System_String_Action_Disqord_CreateCategoryChannelProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.CreateCategoryChannelAsync(Snowflake, String, Action&lt;CreateCategoryChannelProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ReorderChannelsAsync_Snowflake_IReadOnlyDictionary_Snowflake_System_Int32__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ReorderChannelsAsync(Snowflake, IReadOnlyDictionary&lt;Snowflake, Int32&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMemberAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetMemberAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMembersEnumerable_Snowflake_System_Int32_System_Nullable_Snowflake__">DiscordClientBase.GetMembersEnumerable(Snowflake, Int32, Nullable&lt;Snowflake&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMembersAsync_Snowflake_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetMembersAsync(Snowflake, Int32, Nullable&lt;Snowflake&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyMemberAsync_Snowflake_Snowflake_Action_Disqord_ModifyMemberProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyMemberAsync(Snowflake, Snowflake, Action&lt;ModifyMemberProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyOwnNickAsync_Snowflake_System_String_Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyOwnNickAsync(Snowflake, String, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GrantRoleAsync_Snowflake_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GrantRoleAsync(Snowflake, Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_RevokeRoleAsync_Snowflake_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.RevokeRoleAsync(Snowflake, Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_KickMemberAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.KickMemberAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetBansAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetBansAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetBanAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetBanAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_BanMemberAsync_Snowflake_Snowflake_System_String_System_Nullable_System_Int32__Disqord_Rest_RestRequestOptions_">DiscordClientBase.BanMemberAsync(Snowflake, Snowflake, String, Nullable&lt;Int32&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_UnbanMemberAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.UnbanMemberAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetRolesAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetRolesAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_CreateRoleAsync_Snowflake_Action_Disqord_CreateRoleProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.CreateRoleAsync(Snowflake, Action&lt;CreateRoleProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ReorderRolesAsync_Snowflake_IReadOnlyDictionary_Snowflake_System_Int32__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ReorderRolesAsync(Snowflake, IReadOnlyDictionary&lt;Snowflake, Int32&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyRoleAsync_Snowflake_Snowflake_Action_Disqord_ModifyRoleProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyRoleAsync(Snowflake, Snowflake, Action&lt;ModifyRoleProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteRoleAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.DeleteRoleAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetPruneCountAsync_Snowflake_System_Int32_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetPruneCountAsync(Snowflake, Int32, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_PruneAsync_Snowflake_System_Int32_System_Boolean_Disqord_Rest_RestRequestOptions_">DiscordClientBase.PruneAsync(Snowflake, Int32, Boolean, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetVoiceRegionsAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetVoiceRegionsAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildInvitesAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetGuildInvitesAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetWidgetAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetWidgetAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyWidgetAsync_Snowflake_Action_Disqord_ModifyWidgetProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyWidgetAsync(Snowflake, Action&lt;ModifyWidgetProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetVanityInviteAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetVanityInviteAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetChannelAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetChannelAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyGroupChannelAsync_Snowflake_Action_Disqord_ModifyGroupChannelProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyGroupChannelAsync(Snowflake, Action&lt;ModifyGroupChannelProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyTextChannelAsync_Snowflake_Action_Disqord_ModifyTextChannelProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyTextChannelAsync(Snowflake, Action&lt;ModifyTextChannelProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyVoiceChannelAsync_Snowflake_Action_Disqord_ModifyVoiceChannelProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyVoiceChannelAsync(Snowflake, Action&lt;ModifyVoiceChannelProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyCategoryChannelAsync_Snowflake_Action_Disqord_ModifyCategoryChannelProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyCategoryChannelAsync(Snowflake, Action&lt;ModifyCategoryChannelProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteOrCloseChannelAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.DeleteOrCloseChannelAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMessagesEnumerable_Snowflake_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__">DiscordClientBase.GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable&lt;Snowflake&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMessagesAsync_Snowflake_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetMessagesAsync(Snowflake, Int32, RetrievalDirection, Nullable&lt;Snowflake&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMessageAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetMessageAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SendMessageAsync_Snowflake_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_">DiscordClientBase.SendMessageAsync(Snowflake, String, Boolean, LocalEmbed, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SendMessageAsync_Snowflake_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_">DiscordClientBase.SendMessageAsync(Snowflake, LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SendMessageAsync_Snowflake_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_">DiscordClientBase.SendMessageAsync(Snowflake, IEnumerable&lt;LocalAttachment&gt;, String, Boolean, LocalEmbed, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_AddReactionAsync_Snowflake_Snowflake_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_">DiscordClientBase.AddReactionAsync(Snowflake, Snowflake, IEmoji, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_RemoveOwnReactionAsync_Snowflake_Snowflake_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_">DiscordClientBase.RemoveOwnReactionAsync(Snowflake, Snowflake, IEmoji, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_RemoveMemberReactionAsync_Snowflake_Snowflake_Snowflake_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_">DiscordClientBase.RemoveMemberReactionAsync(Snowflake, Snowflake, Snowflake, IEmoji, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetReactionsEnumerable_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__">DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable&lt;Snowflake&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetReactionsAsync_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable&lt;Snowflake&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ClearReactionsAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.ClearReactionsAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyMessageAsync_Snowflake_Snowflake_Action_Disqord_ModifyMessageProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyMessageAsync(Snowflake, Snowflake, Action&lt;ModifyMessageProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteMessageAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.DeleteMessageAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetBulkMessageDeletionEnumerator_Snowflake_IEnumerable_Snowflake__">DiscordClientBase.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable&lt;Snowflake&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteMessagesAsync_Snowflake_IEnumerable_Snowflake__Disqord_Rest_RestRequestOptions_">DiscordClientBase.DeleteMessagesAsync(Snowflake, IEnumerable&lt;Snowflake&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_AddOrModifyOverwriteAsync_Snowflake_Disqord_LocalOverwrite_Disqord_Rest_RestRequestOptions_">DiscordClientBase.AddOrModifyOverwriteAsync(Snowflake, LocalOverwrite, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetChannelInvitesAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetChannelInvitesAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_CreateInviteAsync_Snowflake_System_Int32_System_Int32_System_Boolean_System_Boolean_Disqord_Rest_RestRequestOptions_">DiscordClientBase.CreateInviteAsync(Snowflake, Int32, Int32, Boolean, Boolean, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_CreateInviteAsync_Snowflake_TimeSpan_System_Int32_System_Boolean_System_Boolean_Disqord_Rest_RestRequestOptions_">DiscordClientBase.CreateInviteAsync(Snowflake, TimeSpan, Int32, Boolean, Boolean, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteOverwriteAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.DeleteOverwriteAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_TriggerTypingAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.TriggerTypingAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetPinnedMessagesAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetPinnedMessagesAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_PinMessageAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.PinMessageAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_UnpinMessageAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.UnpinMessageAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_AddGroupRecipientAsync_Snowflake_Snowflake_System_String_System_String_Disqord_Rest_RestRequestOptions_">DiscordClientBase.AddGroupRecipientAsync(Snowflake, Snowflake, String, String, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_RemoveGroupRecipientAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.RemoveGroupRecipientAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_MarkMessageAsReadAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.MarkMessageAsReadAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetCurrentApplicationAsync">DiscordClientBase.GetCurrentApplicationAsync()</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetCurrentUserAsync_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetCurrentUserAsync(RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetUserAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetUserAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyCurrentUserAsync_Action_Disqord_ModifyCurrentUserProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyCurrentUserAsync(Action&lt;ModifyCurrentUserProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_LeaveGuildAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.LeaveGuildAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_CreateDmChannelAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.CreateDmChannelAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetVoiceRegionsAsync_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetVoiceRegionsAsync(RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetInviteAsync_System_String_System_Boolean_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetInviteAsync(String, Boolean, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteInviteAsync_System_String_Disqord_Rest_RestRequestOptions_">DiscordClientBase.DeleteInviteAsync(String, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildEmojisAsync_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetGuildEmojisAsync(Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildEmojiAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetGuildEmojiAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_CreateGuildEmojiAsync_Snowflake_Stream_System_String_IEnumerable_Snowflake__Disqord_Rest_RestRequestOptions_">DiscordClientBase.CreateGuildEmojiAsync(Snowflake, Stream, String, IEnumerable&lt;Snowflake&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyGuildEmojiAsync_Snowflake_Snowflake_Action_Disqord_ModifyGuildEmojiProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyGuildEmojiAsync(Snowflake, Snowflake, Action&lt;ModifyGuildEmojiProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteGuildEmojiAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_">DiscordClientBase.DeleteGuildEmojiAsync(Snowflake, Snowflake, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_AcceptInviteAsync_System_String_Disqord_Rest_RestRequestOptions_">DiscordClientBase.AcceptInviteAsync(String, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetUserSettingsAsync_Disqord_Rest_RestRequestOptions_">DiscordClientBase.GetUserSettingsAsync(RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyUserSettingsAsync_Action_Disqord_ModifyUserSettingsProperties__Disqord_Rest_RestRequestOptions_">DiscordClientBase.ModifyUserSettingsAsync(Action&lt;ModifyUserSettingsProperties&gt;, RestRequestOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_CurrentUser">DiscordClientBase.CurrentUser</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_Guilds">DiscordClientBase.Guilds</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_Users">DiscordClientBase.Users</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_PrivateChannels">DiscordClientBase.PrivateChannels</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DmChannels">DiscordClientBase.DmChannels</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GroupChannels">DiscordClientBase.GroupChannels</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMessage_Snowflake_Snowflake_">DiscordClientBase.GetMessage(Snowflake, Snowflake)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMessages_Snowflake_">DiscordClientBase.GetMessages(Snowflake)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuild_Snowflake_">DiscordClientBase.GetGuild(Snowflake)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildChannel_Snowflake_">DiscordClientBase.GetGuildChannel(Snowflake)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetUser_Snowflake_">DiscordClientBase.GetUser(Snowflake)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetPrivateChannel_Snowflake_">DiscordClientBase.GetPrivateChannel(Snowflake)</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetChannel_Snowflake_">DiscordClientBase.GetChannel(Snowflake)</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Disqord.Sharding.html">Disqord.Sharding</a></h6>
+  <h6><strong>Assembly</strong>: Disqord.dll</h6>
+  <h5 id="Disqord_Sharding_DiscordSharder_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class DiscordSharder : DiscordClientBase, IRestDiscordClient, IDisposable, IAsyncDisposable, IDiscordSharder</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharder__ctor_Disqord_Rest_RestDiscordClient_Disqord_DiscordClientConfiguration_.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharder.%23ctor(Disqord.Rest.RestDiscordClient%2CDisqord.DiscordClientConfiguration)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharder.cs/#L16">View Source</a>
+  </span>
+  <a id="Disqord_Sharding_DiscordSharder__ctor_" data-uid="Disqord.Sharding.DiscordSharder.#ctor*"></a>
+  <h4 id="Disqord_Sharding_DiscordSharder__ctor_Disqord_Rest_RestDiscordClient_Disqord_DiscordClientConfiguration_" data-uid="Disqord.Sharding.DiscordSharder.#ctor(Disqord.Rest.RestDiscordClient,Disqord.DiscordClientConfiguration)">DiscordSharder(RestDiscordClient, DiscordClientConfiguration)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DiscordSharder(RestDiscordClient restClient, DiscordClientConfiguration configuration = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestDiscordClient.html">RestDiscordClient</a></td>
+        <td><span class="parametername">restClient</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.DiscordClientConfiguration.html">DiscordClientConfiguration</a></td>
+        <td><span class="parametername">configuration</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharder__ctor_Disqord_TokenType_System_String_Disqord_DiscordClientConfiguration_.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharder.%23ctor(Disqord.TokenType%2CSystem.String%2CDisqord.DiscordClientConfiguration)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharder.cs/#L12">View Source</a>
+  </span>
+  <a id="Disqord_Sharding_DiscordSharder__ctor_" data-uid="Disqord.Sharding.DiscordSharder.#ctor*"></a>
+  <h4 id="Disqord_Sharding_DiscordSharder__ctor_Disqord_TokenType_System_String_Disqord_DiscordClientConfiguration_" data-uid="Disqord.Sharding.DiscordSharder.#ctor(Disqord.TokenType,System.String,Disqord.DiscordClientConfiguration)">DiscordSharder(TokenType, String, DiscordClientConfiguration)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DiscordSharder(TokenType tokenType, string token, DiscordClientConfiguration configuration = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.TokenType.html">TokenType</a></td>
+        <td><span class="parametername">tokenType</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">token</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.DiscordClientConfiguration.html">DiscordClientConfiguration</a></td>
+        <td><span class="parametername">configuration</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharder_Latency.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharder.Latency%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharder.Gateway.cs/#L14">View Source</a>
+  </span>
+  <a id="Disqord_Sharding_DiscordSharder_Latency_" data-uid="Disqord.Sharding.DiscordSharder.Latency*"></a>
+  <h4 id="Disqord_Sharding_DiscordSharder_Latency" data-uid="Disqord.Sharding.DiscordSharder.Latency">Latency</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override TimeSpan? Latency { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<span class="xref">TimeSpan</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_Latency">DiscordClientBase.Latency</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharder_Shards.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharder.Shards%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharder.cs/#L10">View Source</a>
+  </span>
+  <a id="Disqord_Sharding_DiscordSharder_Shards_" data-uid="Disqord.Sharding.DiscordSharder.Shards*"></a>
+  <h4 id="Disqord_Sharding_DiscordSharder_Shards" data-uid="Disqord.Sharding.DiscordSharder.Shards">Shards</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;DiscordSharder.Shard&gt; Shards { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IReadOnlyList</span>&lt;<a class="xref" href="Disqord.Sharding.DiscordSharder.Shard.html">DiscordSharder.Shard</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharder_DisposeAsync.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharder.DisposeAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharder.cs/#L32">View Source</a>
+  </span>
+  <a id="Disqord_Sharding_DiscordSharder_DisposeAsync_" data-uid="Disqord.Sharding.DiscordSharder.DisposeAsync*"></a>
+  <h4 id="Disqord_Sharding_DiscordSharder_DisposeAsync" data-uid="Disqord.Sharding.DiscordSharder.DisposeAsync">DisposeAsync()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override ValueTask DisposeAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ValueTask</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DisposeAsync">DiscordClientBase.DisposeAsync()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharder_GetShardId_Snowflake_.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharder.GetShardId(Snowflake)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharder.Gateway.cs/#L104">View Source</a>
+  </span>
+  <a id="Disqord_Sharding_DiscordSharder_GetShardId_" data-uid="Disqord.Sharding.DiscordSharder.GetShardId*"></a>
+  <h4 id="Disqord_Sharding_DiscordSharder_GetShardId_Snowflake_" data-uid="Disqord.Sharding.DiscordSharder.GetShardId(Snowflake)">GetShardId(Snowflake)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetShardId(Snowflake guildId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Snowflake</span></td>
+        <td><span class="parametername">guildId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharder_RunAsync_CancellationToken_.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharder.RunAsync(CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharder.Gateway.cs/#L28">View Source</a>
+  </span>
+  <a id="Disqord_Sharding_DiscordSharder_RunAsync_" data-uid="Disqord.Sharding.DiscordSharder.RunAsync*"></a>
+  <h4 id="Disqord_Sharding_DiscordSharder_RunAsync_CancellationToken_" data-uid="Disqord.Sharding.DiscordSharder.RunAsync(CancellationToken)">RunAsync(CancellationToken)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task RunAsync(CancellationToken cancellationToken = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_RunAsync_CancellationToken_">DiscordClientBase.RunAsync(CancellationToken)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharder_SetPresenceAsync_Disqord_LocalActivity_.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharder.SetPresenceAsync(Disqord.LocalActivity)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharder.Gateway.cs/#L55">View Source</a>
+  </span>
+  <a id="Disqord_Sharding_DiscordSharder_SetPresenceAsync_" data-uid="Disqord.Sharding.DiscordSharder.SetPresenceAsync*"></a>
+  <h4 id="Disqord_Sharding_DiscordSharder_SetPresenceAsync_Disqord_LocalActivity_" data-uid="Disqord.Sharding.DiscordSharder.SetPresenceAsync(Disqord.LocalActivity)">SetPresenceAsync(LocalActivity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task SetPresenceAsync(LocalActivity activity)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.LocalActivity.html">LocalActivity</a></td>
+        <td><span class="parametername">activity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SetPresenceAsync_Disqord_LocalActivity_">DiscordClientBase.SetPresenceAsync(LocalActivity)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharder_SetPresenceAsync_Disqord_UserStatus_.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharder.SetPresenceAsync(Disqord.UserStatus)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharder.Gateway.cs/#L52">View Source</a>
+  </span>
+  <a id="Disqord_Sharding_DiscordSharder_SetPresenceAsync_" data-uid="Disqord.Sharding.DiscordSharder.SetPresenceAsync*"></a>
+  <h4 id="Disqord_Sharding_DiscordSharder_SetPresenceAsync_Disqord_UserStatus_" data-uid="Disqord.Sharding.DiscordSharder.SetPresenceAsync(Disqord.UserStatus)">SetPresenceAsync(UserStatus)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task SetPresenceAsync(UserStatus status)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.UserStatus.html">UserStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SetPresenceAsync_Disqord_UserStatus_">DiscordClientBase.SetPresenceAsync(UserStatus)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharder_SetPresenceAsync_Disqord_UserStatus_Disqord_LocalActivity_.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharder.SetPresenceAsync(Disqord.UserStatus%2CDisqord.LocalActivity)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharder.Gateway.cs/#L58">View Source</a>
+  </span>
+  <a id="Disqord_Sharding_DiscordSharder_SetPresenceAsync_" data-uid="Disqord.Sharding.DiscordSharder.SetPresenceAsync*"></a>
+  <h4 id="Disqord_Sharding_DiscordSharder_SetPresenceAsync_Disqord_UserStatus_Disqord_LocalActivity_" data-uid="Disqord.Sharding.DiscordSharder.SetPresenceAsync(Disqord.UserStatus,Disqord.LocalActivity)">SetPresenceAsync(UserStatus, LocalActivity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task SetPresenceAsync(UserStatus status, LocalActivity activity)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.UserStatus.html">UserStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.LocalActivity.html">LocalActivity</a></td>
+        <td><span class="parametername">activity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SetPresenceAsync_Disqord_UserStatus_Disqord_LocalActivity_">DiscordClientBase.SetPresenceAsync(UserStatus, LocalActivity)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharder_StopAsync.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharder.StopAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharder.Gateway.cs/#L49">View Source</a>
+  </span>
+  <a id="Disqord_Sharding_DiscordSharder_StopAsync_" data-uid="Disqord.Sharding.DiscordSharder.StopAsync*"></a>
+  <h4 id="Disqord_Sharding_DiscordSharder_StopAsync" data-uid="Disqord.Sharding.DiscordSharder.StopAsync">StopAsync()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task StopAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_StopAsync">DiscordClientBase.StopAsync()</a></div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Disqord.Rest.IRestDiscordClient.html">IRestDiscordClient</a>
+  </div>
+  <div>
+      <span class="xref">IDisposable</span>
+  </div>
+  <div>
+      <span class="xref">IAsyncDisposable</span>
+  </div>
+  <div>
+      <a class="xref" href="Disqord.Sharding.IDiscordSharder.html">IDiscordSharder</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharder.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharder%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharder.Shard.cs/#L7" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

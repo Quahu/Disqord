@@ -1,0 +1,724 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class CachedGuildEmoji
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class CachedGuildEmoji
+   ">
+    <meta name="generator" content="docfx 2.48.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Disqord.CachedGuildEmoji">
+  
+  
+  <h1 id="Disqord_CachedGuildEmoji" data-uid="Disqord.CachedGuildEmoji" class="text-break">Class CachedGuildEmoji
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><a class="xref" href="Disqord.CachedDiscordEntity.html">CachedDiscordEntity</a></div>
+    <div class="level2"><a class="xref" href="Disqord.CachedSnowflakeEntity.html">CachedSnowflakeEntity</a></div>
+    <div class="level3"><span class="xref">CachedGuildEmoji</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Disqord.IGuildEmoji.html">IGuildEmoji</a></div>
+    <div><a class="xref" href="Disqord.ISnowflakeEntity.html">ISnowflakeEntity</a></div>
+    <div><a class="xref" href="Disqord.ICustomEmoji.html">ICustomEmoji</a></div>
+    <div><a class="xref" href="Disqord.IEmoji.html">IEmoji</a></div>
+    <div><span class="xref">IEquatable</span>&lt;<a class="xref" href="Disqord.IEmoji.html">IEmoji</a>&gt;</div>
+    <div><a class="xref" href="Disqord.ITaggable.html">ITaggable</a></div>
+    <div><a class="xref" href="Disqord.IDeletable.html">IDeletable</a></div>
+    <div><a class="xref" href="Disqord.IDiscordEntity.html">IDiscordEntity</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Disqord.CachedSnowflakeEntity.html#Disqord_CachedSnowflakeEntity_Id">CachedSnowflakeEntity.Id</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.CachedDiscordEntity.html#Disqord_CachedDiscordEntity_Client">CachedDiscordEntity.Client</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.CachedDiscordEntity.html#Disqord_CachedDiscordEntity_Disqord_IDiscordEntity_Client">CachedDiscordEntity.IDiscordEntity.Client</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Disqord.html">Disqord</a></h6>
+  <h6><strong>Assembly</strong>: Disqord.dll</h6>
+  <h5 id="Disqord_CachedGuildEmoji_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class CachedGuildEmoji : CachedSnowflakeEntity, IGuildEmoji, ISnowflakeEntity, ICustomEmoji, IEmoji, IEquatable&lt;IEmoji&gt;, ITaggable, IDeletable, IDiscordEntity</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_Guild.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.Guild%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L13">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_Guild_" data-uid="Disqord.CachedGuildEmoji.Guild*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_Guild" data-uid="Disqord.CachedGuildEmoji.Guild">Guild</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CachedGuild Guild { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.CachedGuild.html">CachedGuild</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_IsAnimated.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.IsAnimated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L23">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_IsAnimated_" data-uid="Disqord.CachedGuildEmoji.IsAnimated*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_IsAnimated" data-uid="Disqord.CachedGuildEmoji.IsAnimated">IsAnimated</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsAnimated { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_IsManaged.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.IsManaged%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L21">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_IsManaged_" data-uid="Disqord.CachedGuildEmoji.IsManaged*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_IsManaged" data-uid="Disqord.CachedGuildEmoji.IsManaged">IsManaged</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsManaged { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_MessageFormat.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.MessageFormat%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L27">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_MessageFormat_" data-uid="Disqord.CachedGuildEmoji.MessageFormat*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_MessageFormat" data-uid="Disqord.CachedGuildEmoji.MessageFormat">MessageFormat</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string MessageFormat { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_Name.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L15">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_Name_" data-uid="Disqord.CachedGuildEmoji.Name*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_Name" data-uid="Disqord.CachedGuildEmoji.Name">Name</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Name { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_ReactionFormat.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.ReactionFormat%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L25">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_ReactionFormat_" data-uid="Disqord.CachedGuildEmoji.ReactionFormat*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_ReactionFormat" data-uid="Disqord.CachedGuildEmoji.ReactionFormat">ReactionFormat</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string ReactionFormat { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_RequiresColons.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.RequiresColons%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L19">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_RequiresColons_" data-uid="Disqord.CachedGuildEmoji.RequiresColons*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_RequiresColons" data-uid="Disqord.CachedGuildEmoji.RequiresColons">RequiresColons</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool RequiresColons { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_RoleIds.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.RoleIds%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L17">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_RoleIds_" data-uid="Disqord.CachedGuildEmoji.RoleIds*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_RoleIds" data-uid="Disqord.CachedGuildEmoji.RoleIds">RoleIds</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;Snowflake&gt; RoleIds { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IReadOnlyList</span>&lt;<span class="xref">Snowflake</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_Tag.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.Tag%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L29">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_Tag_" data-uid="Disqord.CachedGuildEmoji.Tag*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_Tag" data-uid="Disqord.CachedGuildEmoji.Tag">Tag</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Tag { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_DeleteAsync_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.DeleteAsync(Disqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L61">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_DeleteAsync_" data-uid="Disqord.CachedGuildEmoji.DeleteAsync*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_DeleteAsync_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.CachedGuildEmoji.DeleteAsync(Disqord.Rest.RestRequestOptions)">DeleteAsync(RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task DeleteAsync(RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_Equals_Disqord_IEmoji_.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.Equals(Disqord.IEmoji)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L52">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_Equals_" data-uid="Disqord.CachedGuildEmoji.Equals*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_Equals_Disqord_IEmoji_" data-uid="Disqord.CachedGuildEmoji.Equals(Disqord.IEmoji)">Equals(IEmoji)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Equals(IEmoji other)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.IEmoji.html">IEmoji</a></td>
+        <td><span class="parametername">other</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_Equals_System_Object_.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L55">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_Equals_" data-uid="Disqord.CachedGuildEmoji.Equals*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_Equals_System_Object_" data-uid="Disqord.CachedGuildEmoji.Equals(System.Object)">Equals(Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object obj)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_GetHashCode.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L58">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_GetHashCode_" data-uid="Disqord.CachedGuildEmoji.GetHashCode*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_GetHashCode" data-uid="Disqord.CachedGuildEmoji.GetHashCode">GetHashCode()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_GetUrl_System_Int32_.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.GetUrl(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L49">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_GetUrl_" data-uid="Disqord.CachedGuildEmoji.GetUrl*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_GetUrl_System_Int32_" data-uid="Disqord.CachedGuildEmoji.GetUrl(System.Int32)">GetUrl(Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string GetUrl(int size = 2048)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">size</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji_ModifyAsync_Action_Disqord_ModifyGuildEmojiProperties__Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji.ModifyAsync(Action%7BDisqord.ModifyGuildEmojiProperties%7D%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L64">View Source</a>
+  </span>
+  <a id="Disqord_CachedGuildEmoji_ModifyAsync_" data-uid="Disqord.CachedGuildEmoji.ModifyAsync*"></a>
+  <h4 id="Disqord_CachedGuildEmoji_ModifyAsync_Action_Disqord_ModifyGuildEmojiProperties__Disqord_Rest_RestRequestOptions_" data-uid="Disqord.CachedGuildEmoji.ModifyAsync(Action{Disqord.ModifyGuildEmojiProperties},Disqord.Rest.RestRequestOptions)">ModifyAsync(Action&lt;ModifyGuildEmojiProperties&gt;, RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task ModifyAsync(Action&lt;ModifyGuildEmojiProperties&gt; action, RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Action</span>&lt;<a class="xref" href="Disqord.ModifyGuildEmojiProperties.html">ModifyGuildEmojiProperties</a>&gt;</td>
+        <td><span class="parametername">action</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Disqord.IGuildEmoji.html">IGuildEmoji</a>
+  </div>
+  <div>
+      <a class="xref" href="Disqord.ISnowflakeEntity.html">ISnowflakeEntity</a>
+  </div>
+  <div>
+      <a class="xref" href="Disqord.ICustomEmoji.html">ICustomEmoji</a>
+  </div>
+  <div>
+      <a class="xref" href="Disqord.IEmoji.html">IEmoji</a>
+  </div>
+  <div>
+      <span class="xref">IEquatable&lt;&gt;</span>
+  </div>
+  <div>
+      <a class="xref" href="Disqord.ITaggable.html">ITaggable</a>
+  </div>
+  <div>
+      <a class="xref" href="Disqord.IDeletable.html">IDeletable</a>
+  </div>
+  <div>
+      <a class="xref" href="Disqord.IDiscordEntity.html">IDiscordEntity</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuildEmoji.md&amp;value=---%0Auid%3A%20Disqord.CachedGuildEmoji%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Emoji/CachedGuildEmoji.cs/#L11" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

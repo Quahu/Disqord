@@ -1,0 +1,924 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class RestUser
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class RestUser
+   ">
+    <meta name="generator" content="docfx 2.48.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Disqord.Rest.RestUser">
+  
+  
+  <h1 id="Disqord_Rest_RestUser" data-uid="Disqord.Rest.RestUser" class="text-break">Class RestUser
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><a class="xref" href="Disqord.Rest.RestDiscordEntity.html">RestDiscordEntity</a></div>
+    <div class="level2"><a class="xref" href="Disqord.Rest.RestSnowflakeEntity.html">RestSnowflakeEntity</a></div>
+    <div class="level3"><span class="xref">RestUser</span></div>
+      <div class="level4"><a class="xref" href="Disqord.Rest.RestCurrentUser.html">RestCurrentUser</a></div>
+      <div class="level4"><a class="xref" href="Disqord.Rest.RestMember.html">RestMember</a></div>
+      <div class="level4"><a class="xref" href="Disqord.Rest.RestTeamMember.html">RestTeamMember</a></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Disqord.IUser.html">IUser</a></div>
+    <div><a class="xref" href="Disqord.IMessagable.html">IMessagable</a></div>
+    <div><a class="xref" href="Disqord.ISnowflakeEntity.html">ISnowflakeEntity</a></div>
+    <div><a class="xref" href="Disqord.IDiscordEntity.html">IDiscordEntity</a></div>
+    <div><a class="xref" href="Disqord.IMentionable.html">IMentionable</a></div>
+    <div><a class="xref" href="Disqord.ITaggable.html">ITaggable</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Disqord.Rest.RestSnowflakeEntity.html#Disqord_Rest_RestSnowflakeEntity_Id">RestSnowflakeEntity.Id</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.Rest.RestDiscordEntity.html#Disqord_Rest_RestDiscordEntity_Client">RestDiscordEntity.Client</a>
+    </div>
+    <div>
+      <a class="xref" href="Disqord.Rest.RestDiscordEntity.html#Disqord_Rest_RestDiscordEntity_Disqord_IDiscordEntity_Client">RestDiscordEntity.IDiscordEntity.Client</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Disqord.Rest.html">Disqord.Rest</a></h6>
+  <h6><strong>Assembly</strong>: Disqord.Rest.dll</h6>
+  <h5 id="Disqord_Rest_RestUser_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class RestUser : RestSnowflakeEntity, IUser, IMessagable, ISnowflakeEntity, IDiscordEntity, IMentionable, ITaggable</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_AvatarHash.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.AvatarHash%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.cs/#L11">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_AvatarHash_" data-uid="Disqord.Rest.RestUser.AvatarHash*"></a>
+  <h4 id="Disqord_Rest_RestUser_AvatarHash" data-uid="Disqord.Rest.RestUser.AvatarHash">AvatarHash</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string AvatarHash { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_Discriminator.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.Discriminator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.cs/#L9">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_Discriminator_" data-uid="Disqord.Rest.RestUser.Discriminator*"></a>
+  <h4 id="Disqord_Rest_RestUser_Discriminator" data-uid="Disqord.Rest.RestUser.Discriminator">Discriminator</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Discriminator { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_IsBot.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.IsBot%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.cs/#L13">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_IsBot_" data-uid="Disqord.Rest.RestUser.IsBot*"></a>
+  <h4 id="Disqord_Rest_RestUser_IsBot" data-uid="Disqord.Rest.RestUser.IsBot">IsBot</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsBot { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_Mention.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.Mention%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.cs/#L17">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_Mention_" data-uid="Disqord.Rest.RestUser.Mention*"></a>
+  <h4 id="Disqord_Rest_RestUser_Mention" data-uid="Disqord.Rest.RestUser.Mention">Mention</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual string Mention { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_Name.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.cs/#L7">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_Name_" data-uid="Disqord.Rest.RestUser.Name*"></a>
+  <h4 id="Disqord_Rest_RestUser_Name" data-uid="Disqord.Rest.RestUser.Name">Name</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Name { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_Tag.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.Tag%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.cs/#L15">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_Tag_" data-uid="Disqord.Rest.RestUser.Tag*"></a>
+  <h4 id="Disqord_Rest_RestUser_Tag" data-uid="Disqord.Rest.RestUser.Tag">Tag</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Tag { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_BlockAsync_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.BlockAsync(Disqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.Client.cs/#L11">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_BlockAsync_" data-uid="Disqord.Rest.RestUser.BlockAsync*"></a>
+  <h4 id="Disqord_Rest_RestUser_BlockAsync_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestUser.BlockAsync(Disqord.Rest.RestRequestOptions)">BlockAsync(RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task BlockAsync(RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_CreateDmChannelAsync_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.CreateDmChannelAsync(Disqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.Client.cs/#L23">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_CreateDmChannelAsync_" data-uid="Disqord.Rest.RestUser.CreateDmChannelAsync*"></a>
+  <h4 id="Disqord_Rest_RestUser_CreateDmChannelAsync_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestUser.CreateDmChannelAsync(Disqord.Rest.RestRequestOptions)">CreateDmChannelAsync(RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;RestDmChannel&gt; CreateDmChannelAsync(RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span>&lt;<a class="xref" href="Disqord.Rest.RestDmChannel.html">RestDmChannel</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_DeleteRelationshipAsync_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.DeleteRelationshipAsync(Disqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.Client.cs/#L14">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_DeleteRelationshipAsync_" data-uid="Disqord.Rest.RestUser.DeleteRelationshipAsync*"></a>
+  <h4 id="Disqord_Rest_RestUser_DeleteRelationshipAsync_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestUser.DeleteRelationshipAsync(Disqord.Rest.RestRequestOptions)">DeleteRelationshipAsync(RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task DeleteRelationshipAsync(RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_GetAvatarUrl_Disqord_ImageFormat_System_Int32_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.GetAvatarUrl(Disqord.ImageFormat%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.cs/#L32">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_GetAvatarUrl_" data-uid="Disqord.Rest.RestUser.GetAvatarUrl*"></a>
+  <h4 id="Disqord_Rest_RestUser_GetAvatarUrl_Disqord_ImageFormat_System_Int32_" data-uid="Disqord.Rest.RestUser.GetAvatarUrl(Disqord.ImageFormat,System.Int32)">GetAvatarUrl(ImageFormat, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string GetAvatarUrl(ImageFormat format = ImageFormat.Default, int size = 2048)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.ImageFormat.html">ImageFormat</a></td>
+        <td><span class="parametername">format</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">size</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_GetProfileAsync_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.GetProfileAsync(Disqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.Client.cs/#L17">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_GetProfileAsync_" data-uid="Disqord.Rest.RestUser.GetProfileAsync*"></a>
+  <h4 id="Disqord_Rest_RestUser_GetProfileAsync_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestUser.GetProfileAsync(Disqord.Rest.RestRequestOptions)">GetProfileAsync(RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;RestProfile&gt; GetProfileAsync(RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span>&lt;<a class="xref" href="Disqord.Rest.RestProfile.html">RestProfile</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.SendMessageAsync(Disqord.LocalAttachment%2CSystem.String%2CSystem.Boolean%2CDisqord.LocalEmbed%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.Client.cs/#L32">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_SendMessageAsync_" data-uid="Disqord.Rest.RestUser.SendMessageAsync*"></a>
+  <h4 id="Disqord_Rest_RestUser_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestUser.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)">SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;RestUserMessage&gt; SendMessageAsync(LocalAttachment attachment, string content = null, bool textToSpeech = false, LocalEmbed embed = null, RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.LocalAttachment.html">LocalAttachment</a></td>
+        <td><span class="parametername">attachment</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">content</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">textToSpeech</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.LocalEmbed.html">LocalEmbed</a></td>
+        <td><span class="parametername">embed</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span>&lt;<a class="xref" href="Disqord.Rest.RestUserMessage.html">RestUserMessage</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.SendMessageAsync(IEnumerable%7BDisqord.LocalAttachment%7D%2CSystem.String%2CSystem.Boolean%2CDisqord.LocalEmbed%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.Client.cs/#L38">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_SendMessageAsync_" data-uid="Disqord.Rest.RestUser.SendMessageAsync*"></a>
+  <h4 id="Disqord_Rest_RestUser_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestUser.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)">SendMessageAsync(IEnumerable&lt;LocalAttachment&gt;, String, Boolean, LocalEmbed, RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;RestUserMessage&gt; SendMessageAsync(IEnumerable&lt;LocalAttachment&gt; attachments, string content = null, bool textToSpeech = false, LocalEmbed embed = null, RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Disqord.LocalAttachment.html">LocalAttachment</a>&gt;</td>
+        <td><span class="parametername">attachments</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">content</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">textToSpeech</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.LocalEmbed.html">LocalEmbed</a></td>
+        <td><span class="parametername">embed</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span>&lt;<a class="xref" href="Disqord.Rest.RestUserMessage.html">RestUserMessage</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.SendMessageAsync(System.String%2CSystem.Boolean%2CDisqord.LocalEmbed%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.Client.cs/#L26">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_SendMessageAsync_" data-uid="Disqord.Rest.RestUser.SendMessageAsync*"></a>
+  <h4 id="Disqord_Rest_RestUser_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestUser.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)">SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;RestUserMessage&gt; SendMessageAsync(string content = null, bool textToSpeech = false, LocalEmbed embed = null, RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">content</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">textToSpeech</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.LocalEmbed.html">LocalEmbed</a></td>
+        <td><span class="parametername">embed</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span>&lt;<a class="xref" href="Disqord.Rest.RestUserMessage.html">RestUserMessage</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_SendOrAcceptFriendRequestAsync_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.SendOrAcceptFriendRequestAsync(Disqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.Client.cs/#L8">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_SendOrAcceptFriendRequestAsync_" data-uid="Disqord.Rest.RestUser.SendOrAcceptFriendRequestAsync*"></a>
+  <h4 id="Disqord_Rest_RestUser_SendOrAcceptFriendRequestAsync_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestUser.SendOrAcceptFriendRequestAsync(Disqord.Rest.RestRequestOptions)">SendOrAcceptFriendRequestAsync(RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task SendOrAcceptFriendRequestAsync(RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_SetNoteAsync_System_String_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.SetNoteAsync(System.String%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.Client.cs/#L20">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_SetNoteAsync_" data-uid="Disqord.Rest.RestUser.SetNoteAsync*"></a>
+  <h4 id="Disqord_Rest_RestUser_SetNoteAsync_System_String_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestUser.SetNoteAsync(System.String,Disqord.Rest.RestRequestOptions)">SetNoteAsync(String, RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task SetNoteAsync(string note, RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">note</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser_ToString.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.cs/#L35">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestUser_ToString_" data-uid="Disqord.Rest.RestUser.ToString*"></a>
+  <h4 id="Disqord_Rest_RestUser_ToString" data-uid="Disqord.Rest.RestUser.ToString">ToString()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Disqord.IUser.html">IUser</a>
+  </div>
+  <div>
+      <a class="xref" href="Disqord.IMessagable.html">IMessagable</a>
+  </div>
+  <div>
+      <a class="xref" href="Disqord.ISnowflakeEntity.html">ISnowflakeEntity</a>
+  </div>
+  <div>
+      <a class="xref" href="Disqord.IDiscordEntity.html">IDiscordEntity</a>
+  </div>
+  <div>
+      <a class="xref" href="Disqord.IMentionable.html">IMentionable</a>
+  </div>
+  <div>
+      <a class="xref" href="Disqord.ITaggable.html">ITaggable</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestUser.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestUser%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Rest/Users/RestUser.cs/#L5" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
