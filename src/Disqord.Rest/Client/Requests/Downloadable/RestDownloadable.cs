@@ -35,14 +35,12 @@ namespace Disqord.Rest
             return value;
         }
 
-        public async Task<T> GetOrDownloadAsync(RestRequestOptions options = null)
+        public ValueTask<T> GetOrDownloadAsync(RestRequestOptions options = null)
         {
             if (HasValue)
-                return Value;
+                return new ValueTask<T>(Value);
 
-            var value = await _delegate(options).ConfigureAwait(false);
-            SetValue(value);
-            return value;
+            return new ValueTask<T>(DownloadAsync(options));
         }
 
         public override string ToString()
