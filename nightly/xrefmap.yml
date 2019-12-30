@@ -37383,19 +37383,6 @@ references:
   commentId: T:Disqord.SessionLimitException
   fullName: Disqord.SessionLimitException
   nameWithType: SessionLimitException
-- uid: Disqord.SessionLimitException.#ctor(TimeSpan)
-  name: SessionLimitException(TimeSpan)
-  href: api/Disqord.SessionLimitException.html#Disqord_SessionLimitException__ctor_TimeSpan_
-  commentId: M:Disqord.SessionLimitException.#ctor(TimeSpan)
-  fullName: Disqord.SessionLimitException.SessionLimitException(TimeSpan)
-  nameWithType: SessionLimitException.SessionLimitException(TimeSpan)
-- uid: Disqord.SessionLimitException.#ctor*
-  name: SessionLimitException
-  href: api/Disqord.SessionLimitException.html#Disqord_SessionLimitException__ctor_
-  commentId: Overload:Disqord.SessionLimitException.#ctor
-  isSpec: "True"
-  fullName: Disqord.SessionLimitException.SessionLimitException
-  nameWithType: SessionLimitException.SessionLimitException
 - uid: Disqord.SessionLimitException.ResetsAfter
   name: ResetsAfter
   href: api/Disqord.SessionLimitException.html#Disqord_SessionLimitException_ResetsAfter
