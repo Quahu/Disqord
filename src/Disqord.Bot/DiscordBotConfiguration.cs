@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Qmmands;
 
 namespace Disqord.Bot
@@ -8,11 +7,7 @@ namespace Disqord.Bot
     {
         public CommandService CommandService { get; set; }
 
-        public Func<DiscordBot, IServiceProvider> ProviderFactory { get; set; }
-
-        public IEnumerable<string> Prefixes { get; set; }
-
-        public bool HasMentionPrefix { get; set; } = true;
+        public Func<DiscordBotBase, IServiceProvider> ProviderFactory { get; set; }
 
         public static new DiscordBotConfiguration Default => new DiscordBotConfiguration();
     }

@@ -1,12 +1,13 @@
-﻿using Qmmands;
+﻿using Disqord.Bot.Prefixes;
+using Qmmands;
 
 namespace Disqord.Bot
 {
     public class DiscordCommandContext : CommandContext
     {
-        public virtual DiscordBot Bot { get; }
+        public virtual DiscordBotBase Bot { get; }
 
-        public virtual string Prefix { get; }
+        public virtual IPrefix Prefix { get; }
 
         public virtual CachedUserMessage Message { get; }
 
@@ -18,7 +19,7 @@ namespace Disqord.Bot
 
         public virtual CachedGuild Guild => Member?.Guild;
 
-        public DiscordCommandContext(DiscordBot bot, string prefix, CachedUserMessage message) : base(bot)
+        public DiscordCommandContext(DiscordBotBase bot, IPrefix prefix, CachedUserMessage message) : base(bot)
         {
             Bot = bot;
             Prefix = prefix;

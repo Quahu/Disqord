@@ -9,7 +9,7 @@ using Module = Qmmands.Module;
 
 namespace Disqord.Bot
 {
-    public partial class DiscordBot : DiscordClient, ICommandService
+    public abstract partial class DiscordBotBase : DiscordClientBase, ICommandService
     {
         public StringComparison StringComparison => _commandService.StringComparison;
 
@@ -52,37 +52,37 @@ namespace Disqord.Bot
         public Module AddModule<TModule>(Action<ModuleBuilder> action = null)
             => _commandService.AddModule<TModule>(action);
 
-        public Module AddModule(Type type, Action<ModuleBuilder> action = null) 
+        public Module AddModule(Type type, Action<ModuleBuilder> action = null)
             => _commandService.AddModule(type, action);
 
         public IReadOnlyList<Module> AddModules(Assembly assembly, Predicate<TypeInfo> predicate = null, Action<ModuleBuilder> action = null)
             => _commandService.AddModules(assembly, predicate, action);
 
-        public void SetDefaultArgumentParser<T>() where T : IArgumentParser 
+        public void SetDefaultArgumentParser<T>() where T : IArgumentParser
             => _commandService.SetDefaultArgumentParser<T>();
 
-        public void SetDefaultArgumentParser(Type type) 
+        public void SetDefaultArgumentParser(Type type)
             => _commandService.SetDefaultArgumentParser(type);
 
-        public void SetDefaultArgumentParser(IArgumentParser parser) 
+        public void SetDefaultArgumentParser(IArgumentParser parser)
             => _commandService.SetDefaultArgumentParser(parser);
 
-        public void AddArgumentParser(IArgumentParser parser) 
+        public void AddArgumentParser(IArgumentParser parser)
             => _commandService.AddArgumentParser(parser);
 
-        public void RemoveArgumentParser<T>() where T : IArgumentParser 
+        public void RemoveArgumentParser<T>() where T : IArgumentParser
             => _commandService.RemoveArgumentParser<T>();
 
-        public void RemoveArgumentParser(Type type) 
+        public void RemoveArgumentParser(Type type)
             => _commandService.RemoveArgumentParser(type);
 
-        public IArgumentParser GetArgumentParser<T>() where T : IArgumentParser 
+        public IArgumentParser GetArgumentParser<T>() where T : IArgumentParser
             => _commandService.GetArgumentParser<T>();
 
-        public IArgumentParser GetArgumentParser(Type type) 
+        public IArgumentParser GetArgumentParser(Type type)
             => _commandService.GetArgumentParser(type);
 
-        public void AddTypeParser<T>(TypeParser<T> parser, bool replacePrimitive = false) 
+        public void AddTypeParser<T>(TypeParser<T> parser, bool replacePrimitive = false)
             => _commandService.AddTypeParser(parser, replacePrimitive);
 
         public Task<IResult> ExecuteAsync(string input, CommandContext context)
