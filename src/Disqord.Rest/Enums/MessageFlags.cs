@@ -7,10 +7,12 @@ namespace Disqord
     {
         None                = 0,
 
-        IsCrossposted       = 0b001,
+        IsCrossposted       = 0b0001,
 
-        IsCrosspost         = 0b010,
+        IsCrosspost         = 0b0010,
 
-        HasSuppressedEmbeds = 0b100
+        HasSuppressedEmbeds = 0b0100,
+
+        IsUrgent            = 0b1000
     }
 }

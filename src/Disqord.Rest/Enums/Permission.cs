@@ -5,7 +5,7 @@ namespace Disqord
     [Flags]
     public enum Permission
     {
-        None                = 0b00000000000000000000000000000000,
+        None                = 0,
 
         CreateInstantInvite = 0b00000000000000000000000000000001,
 
