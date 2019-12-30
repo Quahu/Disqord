@@ -29,7 +29,7 @@ namespace Disqord.Interactivity
         {
             if (_paginators.TryGetValue(e.Message.Id, out var wrapper))
             {
-                var page = await wrapper.Paginator.GetPageAsync(e);
+                var page = await wrapper.Paginator.GetPageAsync(e).ConfigureAwait(false);
                 if (page != null)
                 {
                     wrapper.Update();

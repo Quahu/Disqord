@@ -42,7 +42,7 @@ namespace Disqord.Interactivity.Pagination
         protected internal override async ValueTask InitialiseAsync()
         {
             foreach (var emoji in _pages.Keys)
-                await Message.AddReactionAsync(emoji);
+                await Message.AddReactionAsync(emoji).ConfigureAwait(false);
         }
 
         protected internal override ValueTask ExpiredAsync()

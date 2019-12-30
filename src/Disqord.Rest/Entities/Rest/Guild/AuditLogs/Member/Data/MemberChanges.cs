@@ -36,7 +36,6 @@ namespace Disqord.Rest.AuditLogs
                         break;
                     }
 
-
                     default:
                     {
                         client.Log(LogMessageSeverity.Error, $"Unknown change key for {nameof(MemberChanges)}: '{change.Key}'.");

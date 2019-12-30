@@ -1057,7 +1057,7 @@ namespace Disqord.Rest
             {
                 Token = token
             };
-            var model = await SendRequestAsync<AckMessageContent>(new RestRequest(POST, $"channels/{channelId:channel_id}/messages/{messageId}/ack", requestContent, options));
+            var model = await SendRequestAsync<AckMessageContent>(new RestRequest(POST, $"channels/{channelId:channel_id}/messages/{messageId}/ack", requestContent, options)).ConfigureAwait(false);
             return model.Token;
         }
 

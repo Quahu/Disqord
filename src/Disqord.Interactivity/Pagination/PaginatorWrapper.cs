@@ -25,14 +25,14 @@ namespace Disqord.Interactivity.Pagination
         {
             try
             {
-                await Task.Delay(-1, _cts.Token);
+                await Task.Delay(-1, _cts.Token).ConfigureAwait(false);
             }
             catch { }
 
             if (_isDisposed)
                 return;
 
-            await _extension.ClosePaginatorAsync(Paginator.Message.Id);
+            await _extension.ClosePaginatorAsync(Paginator.Message.Id).ConfigureAwait(false);
         }
 
         public void Update()
