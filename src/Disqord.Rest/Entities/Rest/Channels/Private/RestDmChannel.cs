@@ -4,7 +4,7 @@ namespace Disqord.Rest
 {
     public sealed class RestDmChannel : RestPrivateChannel, IDmChannel
     {
-        public RestUser Recipient { get; private set; }
+        public RestUser Recipient { get; }
 
         IUser IDmChannel.Recipient => Recipient;
 

@@ -11,7 +11,7 @@ namespace Disqord.Rest
         private readonly TimeSpan _delay;
         private bool _disposed;
 
-        public RequestRepeater(Func<CancellationToken, Task> func, TimeSpan delay, TimeSpan cancelAfter)
+        protected RequestRepeater(Func<CancellationToken, Task> func, TimeSpan delay, TimeSpan cancelAfter)
         {
             _func = func;
             _delay = delay;
@@ -19,7 +19,7 @@ namespace Disqord.Rest
             _ = Task.Run(SendAsync);
         }
 
-        public RequestRepeater(Func<CancellationToken, Task> func, TimeSpan delay)
+        protected RequestRepeater(Func<CancellationToken, Task> func, TimeSpan delay)
         {
             _func = func;
             _delay = delay;

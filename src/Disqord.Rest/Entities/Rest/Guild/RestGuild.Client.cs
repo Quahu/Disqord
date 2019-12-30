@@ -128,7 +128,7 @@ namespace Disqord.Rest
 
         public async Task<RestRole> CreateRoleAsync(Action<CreateRoleProperties> action = null, RestRequestOptions options = null)
         {
-            var role = await Client.CreateRoleAsync(Id, action, options);
+            var role = await Client.CreateRoleAsync(Id, action, options).ConfigureAwait(false);
             role.Guild.SetValue(this);
             return role;
         }
