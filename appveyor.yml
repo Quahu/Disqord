@@ -25,11 +25,11 @@ after_build:
 
     if ($HasRepoTag)
     {
-        dotnet pack .\src\Disqord -c Release -o .\artifacts --no-restore --no-build | Out-Host
+        dotnet pack .\src\Disqord.sln -c Release -o .\artifacts --no-restore --no-build | Out-Host
     }
     else
     {
-        dotnet pack .\src\Disqord -c Release -o .\artifacts --no-restore --no-build --version-suffix="$VersionSuffix" | Out-Host
+        dotnet pack .\src\Disqord.sln -c Release -o .\artifacts --no-restore --no-build --version-suffix="$VersionSuffix" | Out-Host
     }
 
     docfx docs/docfx.json | Out-Host
