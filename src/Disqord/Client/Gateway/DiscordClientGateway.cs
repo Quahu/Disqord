@@ -10,7 +10,6 @@ using Disqord.Logging;
 using Disqord.Models;
 using Disqord.Rest;
 using Disqord.Serialization.Json;
-using Disqord.Sharding;
 using Disqord.WebSocket;
 
 namespace Disqord
@@ -288,14 +287,7 @@ namespace Disqord
                     last = _lastGuildCreate;
                 }
 
-                var batches = State._guilds.Values.Where(x =>
-                {
-                    var isShard = true;
-                    if (x.Client is DiscordSharder client)
-                        isShard = client.GetShardId(x.Id) == ShardId.Value;
-
-                    return isShard && !x.IsChunked;
-                }).Batch(75).Select(x => x.ToArray()).ToArray();
+                var batches = State._guilds.Values.Where(x => x.Client.GetGateway(x.Id) == this && !x.IsChunked).Batch(75).Select(x => x.ToArray()).ToArray();
                 var tasks = new Task[batches.Length];
                 for (var i = 0; i < batches.Length; i++)
                 {
@@ -326,7 +318,14 @@ namespace Disqord
             while (_readyPayloadQueue.TryDequeue(out var queuedPayload))
             {
                 Log(LogMessageSeverity.Debug, $"Firing queued up payload: {queuedPayload.Item2} with S: {queuedPayload.Item1.S}.");
-                await HandleDispatchAsync(queuedPayload.Item1, queuedPayload.Item2).ConfigureAwait(false);
+                try
+                {
+                    await HandleDispatchAsync(queuedPayload.Item1, queuedPayload.Item2).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    Log(LogMessageSeverity.Error, $"An exception occurred while handling a queued {queuedPayload.Item1.T} dispatch.\n{queuedPayload.Item1.D}", ex);
+                }
             }
 
             _readyTaskCompletionSource.SetResult(true);
