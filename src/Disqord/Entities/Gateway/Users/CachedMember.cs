@@ -19,8 +19,7 @@ namespace Disqord
 
         public string Nick { get; private set; }
 
-        public IReadOnlyDictionary<Snowflake, CachedRole> Roles => _roles;
-        private RoleCollection _roles;
+        public RoleCollection Roles { get; private set; }
 
         public DateTimeOffset JoinedAt { get; }
 
@@ -95,10 +94,10 @@ namespace Disqord
 
         internal void Update(ulong[] roles)
         {
-            if (_roles == null)
-                _roles = new RoleCollection(Guild, roles);
+            if (Roles == null)
+                Roles = new RoleCollection(Guild, roles);
             else
-                _roles.Update(roles);
+                Roles.Update(roles);
         }
 
         internal void Update(MemberModel model)

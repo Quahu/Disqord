@@ -1,17 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Qommon.Collections;
 
 namespace Disqord
 {
     public sealed partial class CachedMember : CachedUser, IMember
     {
-        internal sealed class RoleCollection : IReadOnlyDictionary<Snowflake, CachedRole>
+        // TODO: LINQ opt and so on
+        public sealed class RoleCollection : IReadOnlyDictionary<Snowflake, CachedRole>
         {
-            public int Count => _ids.Count;
+            public int Count
+            {
+                get
+                {
+                    lock (_ids)
+                    {
+                        return _ids.Count;
+                    }
+                }
+            }
 
-            public IEnumerable<Snowflake> Keys => new ReadOnlySet<Snowflake>(_ids);
+            public IEnumerable<Snowflake> Keys
+            {
+                get
+                {
+                    lock (_ids)
+                    {
+                        return _ids.ToArray();
+                    }
+                }
+            }
 
             public IEnumerable<CachedRole> Values => this.Select(x => x.Value);
 
@@ -19,7 +37,7 @@ namespace Disqord
             {
                 get
                 {
-                    if (_ids.Contains(key))
+                    if (ContainsKey(key))
                         return _guild.Roles[key];
 
                     throw new KeyNotFoundException();
@@ -27,35 +45,49 @@ namespace Disqord
             }
 
             private readonly CachedGuild _guild;
-            private readonly HashSet<Snowflake> _ids;
+            private readonly List<Snowflake> _ids;
 
             public RoleCollection(CachedGuild guild, ulong[] ids)
             {
                 _guild = guild;
-                _ids = new HashSet<Snowflake>(ids.Length + 1);
-                Update(ids);
-            }
-
-            public void Update(ulong[] ids)
-            {
-                _ids.Clear();
-                _ids.Add(_guild.Id);
+                _ids = new List<Snowflake>(ids.Length);
                 for (var i = 0; i < ids.Length; i++)
                 {
                     var id = ids[i];
-                    if (!_guild.Roles.ContainsKey(id))
+                    if (!guild.Roles.ContainsKey(id))
                         continue;
 
                     _ids.Add(id);
                 }
             }
 
+            internal void Update(ulong[] ids)
+            {
+                lock (_ids)
+                {
+                    _ids.Clear();
+                    for (var i = 0; i < ids.Length; i++)
+                    {
+                        var id = ids[i];
+                        if (!_guild.Roles.ContainsKey(id))
+                            continue;
+
+                        _ids.Add(id);
+                    }
+                }
+            }
+
             public bool ContainsKey(Snowflake key)
-                => _ids.Contains(key);
+            {
+                lock (_ids)
+                {
+                    return _ids.Contains(key);
+                }
+            }
 
             public bool TryGetValue(Snowflake key, out CachedRole value)
             {
-                if (_ids.Contains(key) && _guild.Roles.TryGetValue(key, out value))
+                if (ContainsKey(key) && _guild.Roles.TryGetValue(key, out value))
                     return true;
 
                 value = null;
@@ -64,8 +96,15 @@ namespace Disqord
 
             public IEnumerator<KeyValuePair<Snowflake, CachedRole>> GetEnumerator()
             {
-                foreach (var id in _ids)
+                Snowflake[] ids;
+                lock (_ids)
                 {
+                    ids = _ids.ToArray();
+                }
+
+                for (var i = 0; i < ids.Length; i++)
+                {
+                    var id = ids[i];
                     if (_guild.Roles.TryGetValue(id, out var role))
                         yield return KeyValuePair.Create(id, role);
                 }
