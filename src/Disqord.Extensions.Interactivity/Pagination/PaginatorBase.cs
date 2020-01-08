@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Rest;
 
-namespace Disqord.Interactivity.Pagination
+namespace Disqord.Extensions.Interactivity.Pagination
 {
     public abstract class PaginatorBase : IAsyncDisposable
     {

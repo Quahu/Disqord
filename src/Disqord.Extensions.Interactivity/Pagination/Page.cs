@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Disqord.Interactivity.Pagination
+namespace Disqord.Extensions.Interactivity.Pagination
 {
     public class Page
     {

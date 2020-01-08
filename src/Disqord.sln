@@ -9,15 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Rest", "Disqord.Res
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Bot", "Disqord.Bot\Disqord.Bot.csproj", "{8E9B63EA-AD4F-442D-9CD0-A8C65C3A34B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Audio", "Disqord.Audio\Disqord.Audio.csproj", "{2CE2445F-ED2E-483E-958C-61D8A2119C0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Extensions.Audio", "Disqord.Extensions.Audio\Disqord.Extensions.Audio.csproj", "{2CE2445F-ED2E-483E-958C-61D8A2119C0D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Interactivity", "Disqord.Interactivity\Disqord.Interactivity.csproj", "{32A7BAE5-C5C4-4413-97AF-E6A810CCABC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Extensions.Interactivity", "Disqord.Extensions.Interactivity\Disqord.Extensions.Interactivity.csproj", "{32A7BAE5-C5C4-4413-97AF-E6A810CCABC3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Core", "Disqord.Core\Disqord.Core.csproj", "{8854D6D7-DE00-4297-9DB4-E0A2D3A73587}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Serialization.Json.Newtonsoft", "Disqord.Serialization.Newtonsoft\Disqord.Serialization.Json.Newtonsoft.csproj", "{EB5B5FFC-F02F-438F-8DD5-2578ADFBB8B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disqord.Test", "Disqord.Test\Disqord.Test.csproj", "{ADA9A39D-1CB1-426A-9D35-2E0D3214B4C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Test", "Disqord.Test\Disqord.Test.csproj", "{ADA9A39D-1CB1-426A-9D35-2E0D3214B4C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

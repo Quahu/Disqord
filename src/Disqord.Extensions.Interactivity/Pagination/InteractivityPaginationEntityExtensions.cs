@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace Disqord.Interactivity.Pagination
+namespace Disqord.Extensions.Interactivity.Pagination
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class InteractivityPaginationEntityExtensions

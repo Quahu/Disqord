@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Disqord.Interactivity.Pagination
+namespace Disqord.Extensions.Interactivity.Pagination
 {
     internal sealed class PaginatorWrapper : IAsyncDisposable
     {

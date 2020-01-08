@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Disqord.Events;
 using Qommon.Collections;
 
-namespace Disqord.Interactivity.Pagination
+namespace Disqord.Extensions.Interactivity.Pagination
 {
     public sealed partial class StaticPaginator : PaginatorBase
     {

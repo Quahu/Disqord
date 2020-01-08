@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Disqord.Events;
 
-namespace Disqord.Interactivity
+namespace Disqord.Extensions.Interactivity
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class InteractivityEntityExtensions

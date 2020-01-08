@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Events;
-using Disqord.Interactivity.Pagination;
+using Disqord.Extensions.Interactivity.Pagination;
 
-namespace Disqord.Interactivity
+namespace Disqord.Extensions.Interactivity
 {
     public sealed class InteractivityExtension : DiscordClientExtension
     {

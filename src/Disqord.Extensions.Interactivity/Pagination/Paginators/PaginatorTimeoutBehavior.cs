@@ -1,4 +1,4 @@
-﻿namespace Disqord.Interactivity.Pagination
+﻿namespace Disqord.Extensions.Interactivity.Pagination
 {
     public enum PaginatorTimeoutBehavior
     {
