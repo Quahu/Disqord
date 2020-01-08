@@ -641,11 +641,23 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.CachedMember.RoleCollection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.CachedMember.RoleCollection.html",
+          "hash": "6ox9ezHVowOpJUtoplkO9g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Disqord.CachedMember.yml",
       "output": {
         ".html": {
           "relative_path": "api/Disqord.CachedMember.html",
-          "hash": "6snBRWzO2bxmJxoF86XjPg=="
+          "hash": "nKTeaaZ9hK9ShOq5lkFByg=="
         }
       },
       "is_incremental": false,
@@ -1077,7 +1089,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.DiscordClientExtension.html",
-          "hash": "wgI4mW5ukb6dtYja5xgwfg=="
+          "hash": "uOusAZ9nShCyGyoSZdClHw=="
         }
       },
       "is_incremental": false,
@@ -1673,6 +1685,114 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.InteractivityEntityExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.InteractivityEntityExtensions.html",
+          "hash": "yKJwucKD6sdELzVkpsKcpA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.InteractivityExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.InteractivityExtension.html",
+          "hash": "uKb/EQwwJ70/VtaIEbPoLQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions.html",
+          "hash": "P4RCJjjavGntvUTtgio/jQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Pagination.Page.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Pagination.Page.html",
+          "hash": "PEluTR2wpClAfUqhklWUIw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html",
+          "hash": "NqM4MfdwXEoy00b8vvWsZg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.html",
+          "hash": "n8vTFQEVeoX2da27ldtm0g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html",
+          "hash": "/46yjoc3EOzxYTGQ8/pM0w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Pagination.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Pagination.html",
+          "hash": "fmHceAjQEakToDVaQrIstg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.html",
+          "hash": "7tLv7FfKd7r9qr7Bas7e4A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Disqord.FriendSource.yml",
       "output": {
         ".html": {
@@ -1725,7 +1845,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.ICachedMessageChannel.html",
-          "hash": "HR4yhiZj9UPYLJs4EV2rbQ=="
+          "hash": "91dwh+tfqcmhWqCc3Nq7DQ=="
         }
       },
       "is_incremental": false,
@@ -2122,114 +2242,6 @@
         ".html": {
           "relative_path": "api/Disqord.ImageFormat.html",
           "hash": "/UEZp6hnXVOzqudIxJnnqg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Interactivity.InteractivityEntityExtensions.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Disqord.Interactivity.InteractivityEntityExtensions.html",
-          "hash": "cZj0J/nI3Sfk+P4oTfolrQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Interactivity.InteractivityExtension.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Disqord.Interactivity.InteractivityExtension.html",
-          "hash": "HfrEa/uMSJRqQ0DVI2+Z5A=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Interactivity.Pagination.InteractivityPaginationEntityExtensions.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Disqord.Interactivity.Pagination.InteractivityPaginationEntityExtensions.html",
-          "hash": "m+DXR4VpMvK5EaloDE9zhQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Interactivity.Pagination.Page.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Disqord.Interactivity.Pagination.Page.html",
-          "hash": "W0V1i5x0xWdXpo5uRoXdhg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Interactivity.Pagination.PaginatorBase.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Disqord.Interactivity.Pagination.PaginatorBase.html",
-          "hash": "UJU9GQU4bo5pIKLpfz/CVA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Interactivity.Pagination.PaginatorTimeoutBehavior.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Disqord.Interactivity.Pagination.PaginatorTimeoutBehavior.html",
-          "hash": "bkEkRlqCfRKDaWZYXNRyZw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Interactivity.Pagination.StaticPaginator.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Disqord.Interactivity.Pagination.StaticPaginator.html",
-          "hash": "3F8KMZljyKm6pWOu6TLFcw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Interactivity.Pagination.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Disqord.Interactivity.Pagination.html",
-          "hash": "XA4dxpiBMQa3uIzqUP/fhA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Interactivity.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Disqord.Interactivity.html",
-          "hash": "Bim8jA5+lVG13xKUVIinLA=="
         }
       },
       "is_incremental": false,
@@ -4641,7 +4653,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.html",
-          "hash": "OjKfVpiub4sSmEN1bUFdgQ=="
+          "hash": "D3abIxTV6pInayDqlWBgLQ=="
         }
       },
       "is_incremental": false,
@@ -4665,7 +4677,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "8kEARIDd/CKEpQdZm6ZuvA=="
+          "hash": "KF6+pvDuRWvgGJreIfkhUA=="
         }
       },
       "is_incremental": false,
@@ -4731,16 +4743,16 @@
         "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 388,
+          "skipped_file_count": 0
+        },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 3,
-          "skipped_file_count": 0
-        },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 387,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
