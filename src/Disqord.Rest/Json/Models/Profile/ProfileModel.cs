@@ -8,6 +8,9 @@ namespace Disqord.Models
         [JsonProperty("premium_since")]
         public DateTimeOffset? PremiumSince { get; set; }
 
+        [JsonProperty("premium_guild_since")]
+        public DateTimeOffset? PremiumGuildSince { get; set; }
+
         [JsonProperty("mutual_guilds")]
         public MutualGuildModel[] MutualGuilds { get; set; }
 

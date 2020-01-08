@@ -11,6 +11,8 @@ namespace Disqord.Rest
     {
         public DateTimeOffset? NitroSince { get; private set; }
 
+        public DateTimeOffset? BoostingSince { get; private set; }
+
         public IReadOnlyDictionary<Snowflake, RestMutualGuild> MutualGuilds { get; private set; }
 
         public RestUser User { get; private set; }
@@ -21,12 +23,8 @@ namespace Disqord.Rest
 
         internal RestProfile(RestDiscordClient client, ProfileModel model) : base(client)
         {
-            Update(model);
-        }
-
-        internal void Update(ProfileModel model)
-        {
             NitroSince = model.PremiumSince;
+            BoostingSince = model.PremiumGuildSince;
             MutualGuilds = new ReadOnlyDictionary<Snowflake, RestMutualGuild>(
                 model.MutualGuilds.ToDictionary(x => new Snowflake(x.Id), x => new RestMutualGuild(Client, x)));
             if (User != null)
