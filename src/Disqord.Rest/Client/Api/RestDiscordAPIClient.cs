@@ -860,6 +860,45 @@ namespace Disqord.Rest
             return SendRequestAsync<UserModel>(new RestRequest(PATCH, $"users/@me", requestContent, options));
         }
 
+        public Task<GuildModel[]> GetCurrentUserGuildsAsync(int limit, RetrievalDirection? direction, ulong? snowflake, RestRequestOptions options)
+        {
+            if (limit < 1 || limit > 100)
+                throw new ArgumentOutOfRangeException(nameof(limit), "Limit must be a positive number not larger than 100.");
+
+            var parameters = new Dictionary<string, object>
+            {
+                ["limit"] = limit
+            };
+
+            if (direction != null)
+            {
+                switch (direction.Value)
+                {
+                    case RetrievalDirection.Around:
+                        throw new NotSupportedException("Guilds does not support Direction.Around.");
+
+                    case RetrievalDirection.Before:
+                    {
+                        if (snowflake != null)
+                            parameters["before"] = snowflake;
+
+                        break;
+                    }
+
+                    case RetrievalDirection.After:
+                    {
+                        parameters["after"] = snowflake ?? throw new ArgumentNullException(nameof(snowflake), "The snowflake to get guilds after must not be null.");
+                        break;
+                    }
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(direction), "Invalid guilds direction.");
+                }
+            }
+
+            return SendRequestAsync<GuildModel[]>(new RestRequest(GET, $"users/@me/guilds", parameters, options));
+        }
+
         public Task LeaveGuildAsync(ulong guildId, RestRequestOptions options)
             => SendRequestAsync(new RestRequest(DELETE, $"users/@me/guilds/{guildId:guild_id}", options));
 

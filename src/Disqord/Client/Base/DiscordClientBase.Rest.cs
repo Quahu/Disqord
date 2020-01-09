@@ -107,6 +107,8 @@ namespace Disqord
         public Task<RestCurrentUser> GetCurrentUserAsync(RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetCurrentUserAsync(options);
         public Task<RestUser> GetUserAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetUserAsync(userId, options);
         public Task<RestCurrentUser> ModifyCurrentUserAsync(Action<ModifyCurrentUserProperties> action, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ModifyCurrentUserAsync(action, options);
+        public RestRequestEnumerable<RestPartialGuild> GetGuildsEnumerable(int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null) => ((IRestDiscordClient) RestClient).GetGuildsEnumerable(limit, direction, startFromId);
+        public Task<IReadOnlyList<RestPartialGuild>> GetGuildsAsync(int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null) => ((IRestDiscordClient) RestClient).GetGuildsAsync(limit, direction, startFromId, options);
         public Task LeaveGuildAsync(Snowflake guildId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).LeaveGuildAsync(guildId, options);
         public Task<IReadOnlyList<RestPrivateChannel>> GetPrivateChannelsAsync(RestRequestOptions options = null) => ((IRestDiscordClient) RestClient).GetPrivateChannelsAsync(options);
         public Task<RestDmChannel> CreateDmChannelAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateDmChannelAsync(userId, options);

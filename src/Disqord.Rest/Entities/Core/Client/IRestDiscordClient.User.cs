@@ -12,7 +12,9 @@ namespace Disqord.Rest
 
         Task<RestCurrentUser> ModifyCurrentUserAsync(Action<ModifyCurrentUserProperties> action, RestRequestOptions options = null);
 
-        // TODO: get current user guilds
+        RestRequestEnumerable<RestPartialGuild> GetGuildsEnumerable(int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null);
+
+        Task<IReadOnlyList<RestPartialGuild>> GetGuildsAsync(int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null);
 
         Task LeaveGuildAsync(Snowflake guildId, RestRequestOptions options = null);
 
