@@ -24,5 +24,8 @@ namespace Disqord.Models
 
         [JsonProperty("animated")]
         public bool Animated { get; set; }
+
+        [JsonProperty("available")]
+        public bool Available { get; set; }
     }
 }

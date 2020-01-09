@@ -22,6 +22,8 @@ namespace Disqord
 
         public bool IsAnimated { get; }
 
+        public bool IsAvailable { get; private set; }
+
         public string ReactionFormat => Discord.ToReactionFormat(this);
 
         public string MessageFormat => Discord.ToMessageFormat(this);
@@ -44,6 +46,7 @@ namespace Disqord
         {
             Name = model.Name;
             RoleIds = model.Roles.Select(x => new Snowflake(x)).ToImmutableArray();
+            IsAvailable = model.Available;
         }
 
         public string GetUrl(int size = 2048)

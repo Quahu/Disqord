@@ -15,6 +15,8 @@ namespace Disqord
 
         bool IsManaged { get; }
 
+        bool IsAvailable { get; }
+
         Task ModifyAsync(Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null);
     }
 }

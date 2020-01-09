@@ -19,6 +19,8 @@ namespace Disqord.Rest
 
         public bool IsAnimated { get; }
 
+        public bool IsAvailable { get; private set; }
+
         public Snowflake GuildId { get; }
 
         public RestDownloadable<RestGuild> Guild { get; }
@@ -36,6 +38,7 @@ namespace Disqord.Rest
             RequiresColons = model.RequireColons;
             IsManaged = model.Managed;
             IsAnimated = model.Animated;
+
             Update(model);
         }
 
@@ -43,6 +46,7 @@ namespace Disqord.Rest
         {
             Name = model.Name;
             RoleIds = model.Roles.Select(x => new Snowflake(x)).ToImmutableArray();
+            IsAvailable = model.Available;
         }
 
         public string GetUrl(int size = 2048)
