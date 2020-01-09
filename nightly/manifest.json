@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.DiscordBot.html",
-          "hash": "GJZMi0L1NLfb2Sna+QHg5g=="
+          "hash": "27sK1Si2f/Y6+p6YN8wc8Q=="
         }
       },
       "is_incremental": false,
@@ -93,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.DiscordBotBase.html",
-          "hash": "Gj1MyKFzXfnvbVCQymPC0w=="
+          "hash": "J29/a9KrHkcAi1Hc8Z50xQ=="
         }
       },
       "is_incremental": false,
@@ -501,7 +501,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.Sharding.DiscordBotSharder.html",
-          "hash": "+Wb1boahOeWFBx57oMtY3g=="
+          "hash": "GVQ9UJfCMlNn3drJmb0WTw=="
         }
       },
       "is_incremental": false,
@@ -869,6 +869,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.ConnectionVisibility.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.ConnectionVisibility.html",
+          "hash": "e3cfCMDRGrbAtI8hFD9MsA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Disqord.ContentFilterLevel.yml",
       "output": {
         ".html": {
@@ -1053,7 +1065,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.DiscordClient.html",
-          "hash": "8Yl3lwOFJ2i7HcBIkSTRoQ=="
+          "hash": "Z8xhOZt87iqVUVST4urR1w=="
         }
       },
       "is_incremental": false,
@@ -1065,7 +1077,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.DiscordClientBase.html",
-          "hash": "4xqS3O1OuI2m2TaL9ou2+Q=="
+          "hash": "6MOB0YOGWeompQqK9KFppw=="
         }
       },
       "is_incremental": false,
@@ -3549,7 +3561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.IRestDiscordClient.html",
-          "hash": "S7Ky317vwnc1BiNm/7XtZA=="
+          "hash": "vUz8lqhkzBJJg+BEPwH0LQ=="
         }
       },
       "is_incremental": false,
@@ -3633,7 +3645,19 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestConnectedAccount.html",
-          "hash": "Uaxhc/fmyxRZJlSRxlMHcA=="
+          "hash": "J6LZJuF3QvFaqNqx8BIo8g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Rest.RestConnection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Rest.RestConnection.html",
+          "hash": "FqK5v7eDka32PELzA/PYGw=="
         }
       },
       "is_incremental": false,
@@ -3657,7 +3681,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestDiscordClient.html",
-          "hash": "+izvYpvHfl7kBgER3HCzbA=="
+          "hash": "Oc/pJlCkizLOl4N2UNKH3A=="
         }
       },
       "is_incremental": false,
@@ -3681,7 +3705,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestDmChannel.html",
-          "hash": "17eAq+UItC3WbW+gfORq9A=="
+          "hash": "25VCJ2hLMs2mwCHp57lHYg=="
         }
       },
       "is_incremental": false,
@@ -3717,7 +3741,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestGroupChannel.html",
-          "hash": "qWk3vUX7mqAhfzhKUk2xmQ=="
+          "hash": "LofSyo/sPJEsiUCgJ1ndww=="
         }
       },
       "is_incremental": false,
@@ -3897,7 +3921,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestPrivateChannel.html",
-          "hash": "FEV8t2UGEHL6ASjy5HlB/w=="
+          "hash": "7gEN6rSIWIR0luJpyUWuRg=="
         }
       },
       "is_incremental": false,
@@ -3909,7 +3933,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestProfile.html",
-          "hash": "VjbINqWrFLH4Q5YCe8vnnQ=="
+          "hash": "5vy3Xj5FKE56YWrna11tGA=="
         }
       },
       "is_incremental": false,
@@ -4197,7 +4221,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.html",
-          "hash": "jgBiQ3G2XFe+CCSlQ4+UNA=="
+          "hash": "QcX/iOygaZCZRx81k/6Cgg=="
         }
       },
       "is_incremental": false,
@@ -4413,7 +4437,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Sharding.DiscordSharder.html",
-          "hash": "hxZi+UjTz5IH8n5sZRX9xw=="
+          "hash": "Y/qZmkRaWXyn9Xne3xzfNw=="
         }
       },
       "is_incremental": false,
@@ -4653,7 +4677,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.html",
-          "hash": "D3abIxTV6pInayDqlWBgLQ=="
+          "hash": "Ppgz2D5n1uN0HONnOHCXHg=="
         }
       },
       "is_incremental": false,
@@ -4677,7 +4701,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "KF6+pvDuRWvgGJreIfkhUA=="
+          "hash": "AFEckZBWHeCvglJ/lbmz9A=="
         }
       },
       "is_incremental": false,
@@ -4743,10 +4767,11 @@
         "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
-        "ManagedReferenceDocumentProcessor": {
+        "TocDocumentProcessor": {
           "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
-          "total_file_count": 388,
+          "total_file_count": 0,
           "skipped_file_count": 0
         },
         "ConceptualDocumentProcessor": {
@@ -4755,11 +4780,10 @@
           "total_file_count": 3,
           "skipped_file_count": 0
         },
-        "TocDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
-          "total_file_count": 0,
+          "total_file_count": 390,
           "skipped_file_count": 0
         }
       }

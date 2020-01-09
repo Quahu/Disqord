@@ -9925,6 +9925,24 @@ references:
   isSpec: "True"
   fullName: Disqord.Color.YellowGreen
   nameWithType: Color.YellowGreen
+- uid: Disqord.ConnectionVisibility
+  name: ConnectionVisibility
+  href: api/Disqord.ConnectionVisibility.html
+  commentId: T:Disqord.ConnectionVisibility
+  fullName: Disqord.ConnectionVisibility
+  nameWithType: ConnectionVisibility
+- uid: Disqord.ConnectionVisibility.Everyone
+  name: Everyone
+  href: api/Disqord.ConnectionVisibility.html#Disqord_ConnectionVisibility_Everyone
+  commentId: F:Disqord.ConnectionVisibility.Everyone
+  fullName: Disqord.ConnectionVisibility.Everyone
+  nameWithType: ConnectionVisibility.Everyone
+- uid: Disqord.ConnectionVisibility.None
+  name: None
+  href: api/Disqord.ConnectionVisibility.html#Disqord_ConnectionVisibility_None
+  commentId: F:Disqord.ConnectionVisibility.None
+  fullName: Disqord.ConnectionVisibility.None
+  nameWithType: ConnectionVisibility.None
 - uid: Disqord.ContentFilterLevel
   name: ContentFilterLevel
   href: api/Disqord.ContentFilterLevel.html
@@ -11738,6 +11756,19 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetChannelWebhooksAsync
   nameWithType: DiscordClientBase.GetChannelWebhooksAsync
+- uid: Disqord.DiscordClientBase.GetConnectionsAsync(Disqord.Rest.RestRequestOptions)
+  name: GetConnectionsAsync(RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetConnectionsAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetConnectionsAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetConnectionsAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetConnectionsAsync(RestRequestOptions)
+- uid: Disqord.DiscordClientBase.GetConnectionsAsync*
+  name: GetConnectionsAsync
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetConnectionsAsync_
+  commentId: Overload:Disqord.DiscordClientBase.GetConnectionsAsync
+  isSpec: "True"
+  fullName: Disqord.DiscordClientBase.GetConnectionsAsync
+  nameWithType: DiscordClientBase.GetConnectionsAsync
 - uid: Disqord.DiscordClientBase.GetCurrentApplicationAsync
   name: GetCurrentApplicationAsync()
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetCurrentApplicationAsync
@@ -12065,6 +12096,19 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetPrivateChannel
   nameWithType: DiscordClientBase.GetPrivateChannel
+- uid: Disqord.DiscordClientBase.GetPrivateChannelsAsync(Disqord.Rest.RestRequestOptions)
+  name: GetPrivateChannelsAsync(RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetPrivateChannelsAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetPrivateChannelsAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetPrivateChannelsAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetPrivateChannelsAsync(RestRequestOptions)
+- uid: Disqord.DiscordClientBase.GetPrivateChannelsAsync*
+  name: GetPrivateChannelsAsync
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetPrivateChannelsAsync_
+  commentId: Overload:Disqord.DiscordClientBase.GetPrivateChannelsAsync
+  isSpec: "True"
+  fullName: Disqord.DiscordClientBase.GetPrivateChannelsAsync
+  nameWithType: DiscordClientBase.GetPrivateChannelsAsync
 - uid: Disqord.DiscordClientBase.GetProfileAsync(Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetProfileAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetProfileAsync_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -27213,6 +27257,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetChannelWebhooksAsync
   nameWithType: IRestDiscordClient.GetChannelWebhooksAsync
+- uid: Disqord.Rest.IRestDiscordClient.GetConnectionsAsync(Disqord.Rest.RestRequestOptions)
+  name: GetConnectionsAsync(RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetConnectionsAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetConnectionsAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetConnectionsAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetConnectionsAsync(RestRequestOptions)
+- uid: Disqord.Rest.IRestDiscordClient.GetConnectionsAsync*
+  name: GetConnectionsAsync
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetConnectionsAsync_
+  commentId: Overload:Disqord.Rest.IRestDiscordClient.GetConnectionsAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.IRestDiscordClient.GetConnectionsAsync
+  nameWithType: IRestDiscordClient.GetConnectionsAsync
 - uid: Disqord.Rest.IRestDiscordClient.GetCurrentApplicationAsync
   name: GetCurrentApplicationAsync()
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetCurrentApplicationAsync
@@ -27459,6 +27516,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetPinnedMessagesAsync
   nameWithType: IRestDiscordClient.GetPinnedMessagesAsync
+- uid: Disqord.Rest.IRestDiscordClient.GetPrivateChannelsAsync(Disqord.Rest.RestRequestOptions)
+  name: GetPrivateChannelsAsync(RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetPrivateChannelsAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetPrivateChannelsAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetPrivateChannelsAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetPrivateChannelsAsync(RestRequestOptions)
+- uid: Disqord.Rest.IRestDiscordClient.GetPrivateChannelsAsync*
+  name: GetPrivateChannelsAsync
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetPrivateChannelsAsync_
+  commentId: Overload:Disqord.Rest.IRestDiscordClient.GetPrivateChannelsAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.IRestDiscordClient.GetPrivateChannelsAsync
+  nameWithType: IRestDiscordClient.GetPrivateChannelsAsync
 - uid: Disqord.Rest.IRestDiscordClient.GetProfileAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetProfileAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetProfileAsync_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -28993,6 +29063,77 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestConnectedAccount.Type
   nameWithType: RestConnectedAccount.Type
+- uid: Disqord.Rest.RestConnection
+  name: RestConnection
+  href: api/Disqord.Rest.RestConnection.html
+  commentId: T:Disqord.Rest.RestConnection
+  fullName: Disqord.Rest.RestConnection
+  nameWithType: RestConnection
+- uid: Disqord.Rest.RestConnection.HasFriendSync
+  name: HasFriendSync
+  href: api/Disqord.Rest.RestConnection.html#Disqord_Rest_RestConnection_HasFriendSync
+  commentId: P:Disqord.Rest.RestConnection.HasFriendSync
+  fullName: Disqord.Rest.RestConnection.HasFriendSync
+  nameWithType: RestConnection.HasFriendSync
+- uid: Disqord.Rest.RestConnection.HasFriendSync*
+  name: HasFriendSync
+  href: api/Disqord.Rest.RestConnection.html#Disqord_Rest_RestConnection_HasFriendSync_
+  commentId: Overload:Disqord.Rest.RestConnection.HasFriendSync
+  isSpec: "True"
+  fullName: Disqord.Rest.RestConnection.HasFriendSync
+  nameWithType: RestConnection.HasFriendSync
+- uid: Disqord.Rest.RestConnection.Integrations
+  name: Integrations
+  href: api/Disqord.Rest.RestConnection.html#Disqord_Rest_RestConnection_Integrations
+  commentId: P:Disqord.Rest.RestConnection.Integrations
+  fullName: Disqord.Rest.RestConnection.Integrations
+  nameWithType: RestConnection.Integrations
+- uid: Disqord.Rest.RestConnection.Integrations*
+  name: Integrations
+  href: api/Disqord.Rest.RestConnection.html#Disqord_Rest_RestConnection_Integrations_
+  commentId: Overload:Disqord.Rest.RestConnection.Integrations
+  isSpec: "True"
+  fullName: Disqord.Rest.RestConnection.Integrations
+  nameWithType: RestConnection.Integrations
+- uid: Disqord.Rest.RestConnection.IsRevoked
+  name: IsRevoked
+  href: api/Disqord.Rest.RestConnection.html#Disqord_Rest_RestConnection_IsRevoked
+  commentId: P:Disqord.Rest.RestConnection.IsRevoked
+  fullName: Disqord.Rest.RestConnection.IsRevoked
+  nameWithType: RestConnection.IsRevoked
+- uid: Disqord.Rest.RestConnection.IsRevoked*
+  name: IsRevoked
+  href: api/Disqord.Rest.RestConnection.html#Disqord_Rest_RestConnection_IsRevoked_
+  commentId: Overload:Disqord.Rest.RestConnection.IsRevoked
+  isSpec: "True"
+  fullName: Disqord.Rest.RestConnection.IsRevoked
+  nameWithType: RestConnection.IsRevoked
+- uid: Disqord.Rest.RestConnection.ShowsActivity
+  name: ShowsActivity
+  href: api/Disqord.Rest.RestConnection.html#Disqord_Rest_RestConnection_ShowsActivity
+  commentId: P:Disqord.Rest.RestConnection.ShowsActivity
+  fullName: Disqord.Rest.RestConnection.ShowsActivity
+  nameWithType: RestConnection.ShowsActivity
+- uid: Disqord.Rest.RestConnection.ShowsActivity*
+  name: ShowsActivity
+  href: api/Disqord.Rest.RestConnection.html#Disqord_Rest_RestConnection_ShowsActivity_
+  commentId: Overload:Disqord.Rest.RestConnection.ShowsActivity
+  isSpec: "True"
+  fullName: Disqord.Rest.RestConnection.ShowsActivity
+  nameWithType: RestConnection.ShowsActivity
+- uid: Disqord.Rest.RestConnection.Visibility
+  name: Visibility
+  href: api/Disqord.Rest.RestConnection.html#Disqord_Rest_RestConnection_Visibility
+  commentId: P:Disqord.Rest.RestConnection.Visibility
+  fullName: Disqord.Rest.RestConnection.Visibility
+  nameWithType: RestConnection.Visibility
+- uid: Disqord.Rest.RestConnection.Visibility*
+  name: Visibility
+  href: api/Disqord.Rest.RestConnection.html#Disqord_Rest_RestConnection_Visibility_
+  commentId: Overload:Disqord.Rest.RestConnection.Visibility
+  isSpec: "True"
+  fullName: Disqord.Rest.RestConnection.Visibility
+  nameWithType: RestConnection.Visibility
 - uid: Disqord.Rest.RestCurrentUser
   name: RestCurrentUser
   href: api/Disqord.Rest.RestCurrentUser.html
@@ -29755,6 +29896,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetChannelWebhooksAsync
   nameWithType: RestDiscordClient.GetChannelWebhooksAsync
+- uid: Disqord.Rest.RestDiscordClient.GetConnectionsAsync(Disqord.Rest.RestRequestOptions)
+  name: GetConnectionsAsync(RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetConnectionsAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetConnectionsAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetConnectionsAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetConnectionsAsync(RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.GetConnectionsAsync*
+  name: GetConnectionsAsync
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetConnectionsAsync_
+  commentId: Overload:Disqord.Rest.RestDiscordClient.GetConnectionsAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.RestDiscordClient.GetConnectionsAsync
+  nameWithType: RestDiscordClient.GetConnectionsAsync
 - uid: Disqord.Rest.RestDiscordClient.GetCurrentApplicationAsync
   name: GetCurrentApplicationAsync()
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetCurrentApplicationAsync
@@ -30001,6 +30155,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetPinnedMessagesAsync
   nameWithType: RestDiscordClient.GetPinnedMessagesAsync
+- uid: Disqord.Rest.RestDiscordClient.GetPrivateChannelsAsync(Disqord.Rest.RestRequestOptions)
+  name: GetPrivateChannelsAsync(RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetPrivateChannelsAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetPrivateChannelsAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetPrivateChannelsAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetPrivateChannelsAsync(RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.GetPrivateChannelsAsync*
+  name: GetPrivateChannelsAsync
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetPrivateChannelsAsync_
+  commentId: Overload:Disqord.Rest.RestDiscordClient.GetPrivateChannelsAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.RestDiscordClient.GetPrivateChannelsAsync
+  nameWithType: RestDiscordClient.GetPrivateChannelsAsync
 - uid: Disqord.Rest.RestDiscordClient.GetProfileAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetProfileAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetProfileAsync_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -33644,19 +33811,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestPrivateChannel.AddReactionAsync
   nameWithType: RestPrivateChannel.AddReactionAsync
-- uid: Disqord.Rest.RestPrivateChannel.Bitrate
-  name: Bitrate
-  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_Bitrate
-  commentId: P:Disqord.Rest.RestPrivateChannel.Bitrate
-  fullName: Disqord.Rest.RestPrivateChannel.Bitrate
-  nameWithType: RestPrivateChannel.Bitrate
-- uid: Disqord.Rest.RestPrivateChannel.Bitrate*
-  name: Bitrate
-  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_Bitrate_
-  commentId: Overload:Disqord.Rest.RestPrivateChannel.Bitrate
-  isSpec: "True"
-  fullName: Disqord.Rest.RestPrivateChannel.Bitrate
-  nameWithType: RestPrivateChannel.Bitrate
 - uid: Disqord.Rest.RestPrivateChannel.DeleteMessageAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   name: DeleteMessageAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_DeleteMessageAsync_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -33914,6 +34068,19 @@ references:
   commentId: T:Disqord.Rest.RestProfile
   fullName: Disqord.Rest.RestProfile
   nameWithType: RestProfile
+- uid: Disqord.Rest.RestProfile.BoostingSince
+  name: BoostingSince
+  href: api/Disqord.Rest.RestProfile.html#Disqord_Rest_RestProfile_BoostingSince
+  commentId: P:Disqord.Rest.RestProfile.BoostingSince
+  fullName: Disqord.Rest.RestProfile.BoostingSince
+  nameWithType: RestProfile.BoostingSince
+- uid: Disqord.Rest.RestProfile.BoostingSince*
+  name: BoostingSince
+  href: api/Disqord.Rest.RestProfile.html#Disqord_Rest_RestProfile_BoostingSince_
+  commentId: Overload:Disqord.Rest.RestProfile.BoostingSince
+  isSpec: "True"
+  fullName: Disqord.Rest.RestProfile.BoostingSince
+  nameWithType: RestProfile.BoostingSince
 - uid: Disqord.Rest.RestProfile.ConnectedAccounts
   name: ConnectedAccounts
   href: api/Disqord.Rest.RestProfile.html#Disqord_Rest_RestProfile_ConnectedAccounts
