@@ -863,6 +863,9 @@ namespace Disqord.Rest
         public Task LeaveGuildAsync(ulong guildId, RestRequestOptions options)
             => SendRequestAsync(new RestRequest(DELETE, $"users/@me/guilds/{guildId:guild_id}", options));
 
+        public Task<ChannelModel[]> GetUserDmsAsync(RestRequestOptions options)
+            => SendRequestAsync<ChannelModel[]>(new RestRequest(GET, $"users/@me/channels", options));
+
         public Task<ChannelModel> CreateDmAsync(ulong recipientId, RestRequestOptions options)
         {
             var requestContent = new CreateDmContent

@@ -1,4 +1,7 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -38,6 +41,12 @@ namespace Disqord.Rest
 
         public Task LeaveGuildAsync(Snowflake guildId, RestRequestOptions options = null)
             => ApiClient.LeaveGuildAsync(guildId, options);
+
+        public async Task<IReadOnlyList<RestPrivateChannel>> GetPrivateChannelsAsync(RestRequestOptions options = null)
+        {
+            var models = await ApiClient.GetUserDmsAsync(options).ConfigureAwait(false);
+            return models.Select(x => RestPrivateChannel.Create(this, x)).ToImmutableArray();
+        }
 
         public async Task<RestDmChannel> CreateDmChannelAsync(Snowflake userId, RestRequestOptions options = null)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Disqord.Rest
@@ -15,7 +16,7 @@ namespace Disqord.Rest
 
         Task LeaveGuildAsync(Snowflake guildId, RestRequestOptions options = null);
 
-        // TODO: get user dms
+        Task<IReadOnlyList<RestPrivateChannel>> GetPrivateChannelsAsync(RestRequestOptions options = null);
 
         Task<RestDmChannel> CreateDmChannelAsync(Snowflake userId, RestRequestOptions options = null);
 
