@@ -9,8 +9,6 @@ namespace Disqord.Rest
 
         public DateTimeOffset? LastPinTimestamp { get; private set; }
 
-        public int Bitrate { get; private set; }
-
         internal RestPrivateChannel(RestDiscordClient client, ChannelModel model) : base(client, model)
         { }
 
