@@ -4481,6 +4481,19 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedGuildEmoji.IsAnimated
   nameWithType: CachedGuildEmoji.IsAnimated
+- uid: Disqord.CachedGuildEmoji.IsAvailable
+  name: IsAvailable
+  href: api/Disqord.CachedGuildEmoji.html#Disqord_CachedGuildEmoji_IsAvailable
+  commentId: P:Disqord.CachedGuildEmoji.IsAvailable
+  fullName: Disqord.CachedGuildEmoji.IsAvailable
+  nameWithType: CachedGuildEmoji.IsAvailable
+- uid: Disqord.CachedGuildEmoji.IsAvailable*
+  name: IsAvailable
+  href: api/Disqord.CachedGuildEmoji.html#Disqord_CachedGuildEmoji_IsAvailable_
+  commentId: Overload:Disqord.CachedGuildEmoji.IsAvailable
+  isSpec: "True"
+  fullName: Disqord.CachedGuildEmoji.IsAvailable
+  nameWithType: CachedGuildEmoji.IsAvailable
 - uid: Disqord.CachedGuildEmoji.IsManaged
   name: IsManaged
   href: api/Disqord.CachedGuildEmoji.html#Disqord_CachedGuildEmoji_IsManaged
@@ -11915,6 +11928,38 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetGuildInvitesAsync
   nameWithType: DiscordClientBase.GetGuildInvitesAsync
+- uid: Disqord.DiscordClientBase.GetGuildsAsync(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetGuildsAsync(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildsAsync_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetGuildsAsync(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetGuildsAsync(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetGuildsAsync(System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.DiscordClientBase.GetGuildsAsync(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetGuildsAsync(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: DiscordClientBase.GetGuildsAsync(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.DiscordClientBase.GetGuildsAsync*
+  name: GetGuildsAsync
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildsAsync_
+  commentId: Overload:Disqord.DiscordClientBase.GetGuildsAsync
+  isSpec: "True"
+  fullName: Disqord.DiscordClientBase.GetGuildsAsync
+  nameWithType: DiscordClientBase.GetGuildsAsync
+- uid: Disqord.DiscordClientBase.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
+  name: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildsEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__
+  commentId: M:Disqord.DiscordClientBase.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
+  name.vb: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+  fullName: Disqord.DiscordClientBase.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>)
+  fullName.vb: Disqord.DiscordClientBase.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake))
+  nameWithType: DiscordClientBase.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
+  nameWithType.vb: DiscordClientBase.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.DiscordClientBase.GetGuildsEnumerable*
+  name: GetGuildsEnumerable
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildsEnumerable_
+  commentId: Overload:Disqord.DiscordClientBase.GetGuildsEnumerable
+  isSpec: "True"
+  fullName: Disqord.DiscordClientBase.GetGuildsEnumerable
+  nameWithType: DiscordClientBase.GetGuildsEnumerable
 - uid: Disqord.DiscordClientBase.GetGuildWebhooksAsync(Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetGuildWebhooksAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildWebhooksAsync_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -18192,6 +18237,19 @@ references:
   isSpec: "True"
   fullName: Disqord.IGuildEmoji.GuildId
   nameWithType: IGuildEmoji.GuildId
+- uid: Disqord.IGuildEmoji.IsAvailable
+  name: IsAvailable
+  href: api/Disqord.IGuildEmoji.html#Disqord_IGuildEmoji_IsAvailable
+  commentId: P:Disqord.IGuildEmoji.IsAvailable
+  fullName: Disqord.IGuildEmoji.IsAvailable
+  nameWithType: IGuildEmoji.IsAvailable
+- uid: Disqord.IGuildEmoji.IsAvailable*
+  name: IsAvailable
+  href: api/Disqord.IGuildEmoji.html#Disqord_IGuildEmoji_IsAvailable_
+  commentId: Overload:Disqord.IGuildEmoji.IsAvailable
+  isSpec: "True"
+  fullName: Disqord.IGuildEmoji.IsAvailable
+  nameWithType: IGuildEmoji.IsAvailable
 - uid: Disqord.IGuildEmoji.IsManaged
   name: IsManaged
   href: api/Disqord.IGuildEmoji.html#Disqord_IGuildEmoji_IsManaged
@@ -27374,6 +27432,38 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetGuildInvitesAsync
   nameWithType: IRestDiscordClient.GetGuildInvitesAsync
+- uid: Disqord.Rest.IRestDiscordClient.GetGuildsAsync(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetGuildsAsync(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetGuildsAsync_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetGuildsAsync(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetGuildsAsync(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetGuildsAsync(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.IRestDiscordClient.GetGuildsAsync(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetGuildsAsync(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IRestDiscordClient.GetGuildsAsync(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.Rest.IRestDiscordClient.GetGuildsAsync*
+  name: GetGuildsAsync
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetGuildsAsync_
+  commentId: Overload:Disqord.Rest.IRestDiscordClient.GetGuildsAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.IRestDiscordClient.GetGuildsAsync
+  nameWithType: IRestDiscordClient.GetGuildsAsync
+- uid: Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
+  name: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetGuildsEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
+  name.vb: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+  fullName: Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
+  fullName.vb: Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
+  nameWithType: IRestDiscordClient.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
+  nameWithType.vb: IRestDiscordClient.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable*
+  name: GetGuildsEnumerable
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetGuildsEnumerable_
+  commentId: Overload:Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable
+  isSpec: "True"
+  fullName: Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable
+  nameWithType: IRestDiscordClient.GetGuildsEnumerable
 - uid: Disqord.Rest.IRestDiscordClient.GetGuildWebhooksAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetGuildWebhooksAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetGuildWebhooksAsync_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -30013,6 +30103,38 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetGuildInvitesAsync
   nameWithType: RestDiscordClient.GetGuildInvitesAsync
+- uid: Disqord.Rest.RestDiscordClient.GetGuildsAsync(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetGuildsAsync(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetGuildsAsync_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetGuildsAsync(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetGuildsAsync(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetGuildsAsync(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestDiscordClient.GetGuildsAsync(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetGuildsAsync(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestDiscordClient.GetGuildsAsync(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.GetGuildsAsync*
+  name: GetGuildsAsync
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetGuildsAsync_
+  commentId: Overload:Disqord.Rest.RestDiscordClient.GetGuildsAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.RestDiscordClient.GetGuildsAsync
+  nameWithType: RestDiscordClient.GetGuildsAsync
+- uid: Disqord.Rest.RestDiscordClient.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
+  name: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetGuildsEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
+  commentId: M:Disqord.Rest.RestDiscordClient.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
+  name.vb: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+  fullName: Disqord.Rest.RestDiscordClient.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
+  fullName.vb: Disqord.Rest.RestDiscordClient.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
+  nameWithType: RestDiscordClient.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
+  nameWithType.vb: RestDiscordClient.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestDiscordClient.GetGuildsEnumerable*
+  name: GetGuildsEnumerable
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetGuildsEnumerable_
+  commentId: Overload:Disqord.Rest.RestDiscordClient.GetGuildsEnumerable
+  isSpec: "True"
+  fullName: Disqord.Rest.RestDiscordClient.GetGuildsEnumerable
+  nameWithType: RestDiscordClient.GetGuildsEnumerable
 - uid: Disqord.Rest.RestDiscordClient.GetGuildWebhooksAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetGuildWebhooksAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetGuildWebhooksAsync_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -32564,6 +32686,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestGuildEmoji.IsAnimated
   nameWithType: RestGuildEmoji.IsAnimated
+- uid: Disqord.Rest.RestGuildEmoji.IsAvailable
+  name: IsAvailable
+  href: api/Disqord.Rest.RestGuildEmoji.html#Disqord_Rest_RestGuildEmoji_IsAvailable
+  commentId: P:Disqord.Rest.RestGuildEmoji.IsAvailable
+  fullName: Disqord.Rest.RestGuildEmoji.IsAvailable
+  nameWithType: RestGuildEmoji.IsAvailable
+- uid: Disqord.Rest.RestGuildEmoji.IsAvailable*
+  name: IsAvailable
+  href: api/Disqord.Rest.RestGuildEmoji.html#Disqord_Rest_RestGuildEmoji_IsAvailable_
+  commentId: Overload:Disqord.Rest.RestGuildEmoji.IsAvailable
+  isSpec: "True"
+  fullName: Disqord.Rest.RestGuildEmoji.IsAvailable
+  nameWithType: RestGuildEmoji.IsAvailable
 - uid: Disqord.Rest.RestGuildEmoji.IsManaged
   name: IsManaged
   href: api/Disqord.Rest.RestGuildEmoji.html#Disqord_Rest_RestGuildEmoji_IsManaged
@@ -33792,6 +33927,103 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestOverwrite.ToString
   nameWithType: RestOverwrite.ToString
+- uid: Disqord.Rest.RestPartialGuild
+  name: RestPartialGuild
+  href: api/Disqord.Rest.RestPartialGuild.html
+  commentId: T:Disqord.Rest.RestPartialGuild
+  fullName: Disqord.Rest.RestPartialGuild
+  nameWithType: RestPartialGuild
+- uid: Disqord.Rest.RestPartialGuild.Features
+  name: Features
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_Features
+  commentId: P:Disqord.Rest.RestPartialGuild.Features
+  fullName: Disqord.Rest.RestPartialGuild.Features
+  nameWithType: RestPartialGuild.Features
+- uid: Disqord.Rest.RestPartialGuild.Features*
+  name: Features
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_Features_
+  commentId: Overload:Disqord.Rest.RestPartialGuild.Features
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPartialGuild.Features
+  nameWithType: RestPartialGuild.Features
+- uid: Disqord.Rest.RestPartialGuild.GetIconUrl(Disqord.ImageFormat,System.Int32)
+  name: GetIconUrl(ImageFormat, Int32)
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_GetIconUrl_Disqord_ImageFormat_System_Int32_
+  commentId: M:Disqord.Rest.RestPartialGuild.GetIconUrl(Disqord.ImageFormat,System.Int32)
+  fullName: Disqord.Rest.RestPartialGuild.GetIconUrl(Disqord.ImageFormat, System.Int32)
+  nameWithType: RestPartialGuild.GetIconUrl(ImageFormat, Int32)
+- uid: Disqord.Rest.RestPartialGuild.GetIconUrl*
+  name: GetIconUrl
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_GetIconUrl_
+  commentId: Overload:Disqord.Rest.RestPartialGuild.GetIconUrl
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPartialGuild.GetIconUrl
+  nameWithType: RestPartialGuild.GetIconUrl
+- uid: Disqord.Rest.RestPartialGuild.IconHash
+  name: IconHash
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_IconHash
+  commentId: P:Disqord.Rest.RestPartialGuild.IconHash
+  fullName: Disqord.Rest.RestPartialGuild.IconHash
+  nameWithType: RestPartialGuild.IconHash
+- uid: Disqord.Rest.RestPartialGuild.IconHash*
+  name: IconHash
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_IconHash_
+  commentId: Overload:Disqord.Rest.RestPartialGuild.IconHash
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPartialGuild.IconHash
+  nameWithType: RestPartialGuild.IconHash
+- uid: Disqord.Rest.RestPartialGuild.IsOwner
+  name: IsOwner
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_IsOwner
+  commentId: P:Disqord.Rest.RestPartialGuild.IsOwner
+  fullName: Disqord.Rest.RestPartialGuild.IsOwner
+  nameWithType: RestPartialGuild.IsOwner
+- uid: Disqord.Rest.RestPartialGuild.IsOwner*
+  name: IsOwner
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_IsOwner_
+  commentId: Overload:Disqord.Rest.RestPartialGuild.IsOwner
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPartialGuild.IsOwner
+  nameWithType: RestPartialGuild.IsOwner
+- uid: Disqord.Rest.RestPartialGuild.Name
+  name: Name
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_Name
+  commentId: P:Disqord.Rest.RestPartialGuild.Name
+  fullName: Disqord.Rest.RestPartialGuild.Name
+  nameWithType: RestPartialGuild.Name
+- uid: Disqord.Rest.RestPartialGuild.Name*
+  name: Name
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_Name_
+  commentId: Overload:Disqord.Rest.RestPartialGuild.Name
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPartialGuild.Name
+  nameWithType: RestPartialGuild.Name
+- uid: Disqord.Rest.RestPartialGuild.Permissions
+  name: Permissions
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_Permissions
+  commentId: P:Disqord.Rest.RestPartialGuild.Permissions
+  fullName: Disqord.Rest.RestPartialGuild.Permissions
+  nameWithType: RestPartialGuild.Permissions
+- uid: Disqord.Rest.RestPartialGuild.Permissions*
+  name: Permissions
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_Permissions_
+  commentId: Overload:Disqord.Rest.RestPartialGuild.Permissions
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPartialGuild.Permissions
+  nameWithType: RestPartialGuild.Permissions
+- uid: Disqord.Rest.RestPartialGuild.ToString
+  name: ToString()
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_ToString
+  commentId: M:Disqord.Rest.RestPartialGuild.ToString
+  fullName: Disqord.Rest.RestPartialGuild.ToString()
+  nameWithType: RestPartialGuild.ToString()
+- uid: Disqord.Rest.RestPartialGuild.ToString*
+  name: ToString
+  href: api/Disqord.Rest.RestPartialGuild.html#Disqord_Rest_RestPartialGuild_ToString_
+  commentId: Overload:Disqord.Rest.RestPartialGuild.ToString
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPartialGuild.ToString
+  nameWithType: RestPartialGuild.ToString
 - uid: Disqord.Rest.RestPrivateChannel
   name: RestPrivateChannel
   href: api/Disqord.Rest.RestPrivateChannel.html

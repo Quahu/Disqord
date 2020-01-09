@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.DiscordBot.html",
-          "hash": "27sK1Si2f/Y6+p6YN8wc8Q=="
+          "hash": "tKOiwVhXh3vTaBlpPE8ELg=="
         }
       },
       "is_incremental": false,
@@ -93,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.DiscordBotBase.html",
-          "hash": "J29/a9KrHkcAi1Hc8Z50xQ=="
+          "hash": "kedfdZ4MsCFfqsGkHbgUSQ=="
         }
       },
       "is_incremental": false,
@@ -501,7 +501,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.Sharding.DiscordBotSharder.html",
-          "hash": "GVQ9UJfCMlNn3drJmb0WTw=="
+          "hash": "00P517DsZefAqyRJkxYflg=="
         }
       },
       "is_incremental": false,
@@ -633,7 +633,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.CachedGuildEmoji.html",
-          "hash": "mlojOig4RHpFjsN6r2cDvA=="
+          "hash": "5Il6vZzMSDszIylgBJaXlw=="
         }
       },
       "is_incremental": false,
@@ -1065,7 +1065,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.DiscordClient.html",
-          "hash": "Z8xhOZt87iqVUVST4urR1w=="
+          "hash": "Tl49pFA1mX2svmng2VDGZg=="
         }
       },
       "is_incremental": false,
@@ -1077,7 +1077,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.DiscordClientBase.html",
-          "hash": "6MOB0YOGWeompQqK9KFppw=="
+          "hash": "mcu3QilPaNQnR8oWXWT0dA=="
         }
       },
       "is_incremental": false,
@@ -2001,7 +2001,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.IGuildEmoji.html",
-          "hash": "zy3vwPGdNqEMhkohCp2dBg=="
+          "hash": "A2Ul7tm/jmzsaxsSpKK/DQ=="
         }
       },
       "is_incremental": false,
@@ -3561,7 +3561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.IRestDiscordClient.html",
-          "hash": "vUz8lqhkzBJJg+BEPwH0LQ=="
+          "hash": "3qjYDBmLMdwTvGVzjFeiOQ=="
         }
       },
       "is_incremental": false,
@@ -3681,7 +3681,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestDiscordClient.html",
-          "hash": "Oc/pJlCkizLOl4N2UNKH3A=="
+          "hash": "ivJEMFNPepQatl5D1ENirQ=="
         }
       },
       "is_incremental": false,
@@ -3777,7 +3777,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestGuildEmoji.html",
-          "hash": "sbxeB4Hn0vjrxlUM74HEeA=="
+          "hash": "SIYLUjLHxGKIkNelaztfVg=="
         }
       },
       "is_incremental": false,
@@ -3917,6 +3917,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Rest.RestPartialGuild.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Rest.RestPartialGuild.html",
+          "hash": "6zrwVEflthRl4KDMMvi9lg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Disqord.Rest.RestPrivateChannel.yml",
       "output": {
         ".html": {
@@ -4041,7 +4053,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestSnowflakeEntity.html",
-          "hash": "aGbezFgic3YkaSqNqfeZ4Q=="
+          "hash": "8D5VEQowmBAFN/Ip23c1Pw=="
         }
       },
       "is_incremental": false,
@@ -4221,7 +4233,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.html",
-          "hash": "QcX/iOygaZCZRx81k/6Cgg=="
+          "hash": "c9X8pCgxmjXhR7ki3dn66Q=="
         }
       },
       "is_incremental": false,
@@ -4437,7 +4449,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Sharding.DiscordSharder.html",
-          "hash": "Y/qZmkRaWXyn9Xne3xzfNw=="
+          "hash": "r6G3AH6mBP+JDJz5tuxz0A=="
         }
       },
       "is_incremental": false,
@@ -4701,7 +4713,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "AFEckZBWHeCvglJ/lbmz9A=="
+          "hash": "EzYp/vHND7q8F1y+QB78uw=="
         }
       },
       "is_incremental": false,
@@ -4783,7 +4795,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 390,
+          "total_file_count": 391,
           "skipped_file_count": 0
         }
       }
