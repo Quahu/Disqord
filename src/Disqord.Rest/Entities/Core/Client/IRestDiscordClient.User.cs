@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,6 +21,7 @@ namespace Disqord.Rest
         Task<RestDmChannel> CreateDmChannelAsync(Snowflake userId, RestRequestOptions options = null);
 
         // TODO: create group dm
-        // TODO: get user connections
+
+        Task<IReadOnlyList<RestConnection>> GetConnectionsAsync(RestRequestOptions options = null);
     }
 }

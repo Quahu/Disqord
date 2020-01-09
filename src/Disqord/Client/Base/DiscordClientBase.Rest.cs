@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -110,6 +110,7 @@ namespace Disqord
         public Task LeaveGuildAsync(Snowflake guildId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).LeaveGuildAsync(guildId, options);
         public Task<IReadOnlyList<RestPrivateChannel>> GetPrivateChannelsAsync(RestRequestOptions options = null) => ((IRestDiscordClient) RestClient).GetPrivateChannelsAsync(options);
         public Task<RestDmChannel> CreateDmChannelAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).CreateDmChannelAsync(userId, options);
+        public Task<IReadOnlyList<RestConnection>> GetConnectionsAsync(RestRequestOptions options = null) => ((IRestDiscordClient) RestClient).GetConnectionsAsync(options);
         public Task<IReadOnlyList<RestVoiceRegion>> GetVoiceRegionsAsync(RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetVoiceRegionsAsync(options);
         public Task<RestInvite> GetInviteAsync(string code, bool withCounts = true, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetInviteAsync(code, withCounts, options);
         public Task<RestInvite> DeleteInviteAsync(string code, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).DeleteInviteAsync(code, options);

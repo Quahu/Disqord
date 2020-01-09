@@ -875,6 +875,9 @@ namespace Disqord.Rest
             return SendRequestAsync<ChannelModel>(new RestRequest(POST, $"users/@me/channels", requestContent, options));
         }
 
+        public Task<ConnectionModel[]> GetUserConnectionsAsync(RestRequestOptions options)
+            => SendRequestAsync<ConnectionModel[]>(new RestRequest(GET, $"users/@me/connections", options));
+
         // Voice
         public Task<VoiceRegionModel[]> ListVoiceRegionsAsync(RestRequestOptions options)
             => SendRequestAsync<VoiceRegionModel[]>(new RestRequest(GET, $"voice/regions", options));
