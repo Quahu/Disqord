@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Logging;
 using Disqord.Models.Dispatches;
 using Disqord.Rest;
 
@@ -60,6 +61,12 @@ namespace Disqord
                 for (var i = 0; i < model.Guilds.Length; i++)
                 {
                     var guildModel = model.Guilds[i];
+                    if (guildModel.Unavailable.HasValue && guildModel.Unavailable.Value)
+                    {
+                        Log(LogMessageSeverity.Information, $"Guild {guildModel.Id} is unavailable.");
+                        continue;
+                    }
+
                     _guilds.AddOrUpdate(guildModel.Id, _ => new CachedGuild(_client, guildModel), (_, old) =>
                     {
                         old.Update(guildModel);
