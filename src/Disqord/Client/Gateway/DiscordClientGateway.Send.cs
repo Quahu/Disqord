@@ -134,9 +134,10 @@ namespace Disqord
         internal async Task SendAsync(PayloadModel payload, CancellationToken cancellationToken)
         {
             var json = Serializer.Serialize(payload);
-#if DEBUG
-            Library.Debug.DumpWriter.WriteLine(Serializer.UTF8.GetString(json.Span));
-#endif
+
+            if (Library.Debug.DumpJson)
+                Library.Debug.DumpWriter.WriteLine(Serializer.UTF8.GetString(json.Span));
+
             await _ws.SendAsync(new WebSocketRequest(json, cancellationToken)).ConfigureAwait(false);
         }
     }

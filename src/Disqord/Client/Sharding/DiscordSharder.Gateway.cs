@@ -28,8 +28,8 @@ namespace Disqord.Sharding
         public override async Task RunAsync(CancellationToken cancellationToken = default)
         {
             _gatewayBotResponse = await GetGatewayBotUrlAsync().ConfigureAwait(false);
-            Log(LogMessageSeverity.Information, $"Starting sharder with {_gatewayBotResponse.ShardAmount / 2 + 1} shards. There's {_gatewayBotResponse.RemainingSessionAmount} sessions left.");
-            _gateways = new DiscordClientGateway[_gatewayBotResponse.ShardAmount / 2 + 1];
+            Log(LogMessageSeverity.Information, $"Starting sharder with {_gatewayBotResponse.ShardAmount} shards. There's {_gatewayBotResponse.RemainingSessionAmount} sessions left.");
+            _gateways = new DiscordClientGateway[_gatewayBotResponse.ShardAmount];
             var shards = new Shard[_gateways.Length];
             Shards = new ReadOnlyList<Shard>(shards);
             var tasks = new Task[_gateways.Length];
