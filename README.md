@@ -22,11 +22,12 @@ There's currently no official documentation for Disqord except for the bundled X
 ### A Simple Ping-Pong Bot Example
 Typing `?ping` or `@YourBot ping` in the chat would reply with `Pong!`.
 
-**Program.cs**
 ```cs
+using System.Threading.Tasks;
 using Disqord;
 using Disqord.Bot;
 using Disqord.Bot.Prefixes;
+using Qmmands;
 
 namespace Example
 {
@@ -44,16 +45,7 @@ namespace Example
             }
         }
     }
-}
-```
-**Commands.cs**
-```cs
-using System.Threading.Tasks;
-using Disqord.Bot;
-using Qmmands;
 
-namespace Example
-{
     public sealed class Commands : DiscordModuleBase
     {
         [Command("ping")]
