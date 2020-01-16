@@ -7198,25 +7198,6 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedVoiceChannel.UserLimit
   nameWithType: CachedVoiceChannel.UserLimit
-- uid: Disqord.CachedVoiceState
-  name: CachedVoiceState
-  href: api/Disqord.CachedVoiceState.html
-  commentId: T:Disqord.CachedVoiceState
-  fullName: Disqord.CachedVoiceState
-  nameWithType: CachedVoiceState
-- uid: Disqord.CachedVoiceState.Member
-  name: Member
-  href: api/Disqord.CachedVoiceState.html#Disqord_CachedVoiceState_Member
-  commentId: P:Disqord.CachedVoiceState.Member
-  fullName: Disqord.CachedVoiceState.Member
-  nameWithType: CachedVoiceState.Member
-- uid: Disqord.CachedVoiceState.Member*
-  name: Member
-  href: api/Disqord.CachedVoiceState.html#Disqord_CachedVoiceState_Member_
-  commentId: Overload:Disqord.CachedVoiceState.Member
-  isSpec: "True"
-  fullName: Disqord.CachedVoiceState.Member
-  nameWithType: CachedVoiceState.Member
 - uid: Disqord.ChannelPermissions
   name: ChannelPermissions
   href: api/Disqord.ChannelPermissions.html
@@ -21013,6 +20994,19 @@ references:
   isSpec: "True"
   fullName: Disqord.LocalEmbedAuthorBuilder.IconUrl
   nameWithType: LocalEmbedAuthorBuilder.IconUrl
+- uid: Disqord.LocalEmbedAuthorBuilder.Length
+  name: Length
+  href: api/Disqord.LocalEmbedAuthorBuilder.html#Disqord_LocalEmbedAuthorBuilder_Length
+  commentId: P:Disqord.LocalEmbedAuthorBuilder.Length
+  fullName: Disqord.LocalEmbedAuthorBuilder.Length
+  nameWithType: LocalEmbedAuthorBuilder.Length
+- uid: Disqord.LocalEmbedAuthorBuilder.Length*
+  name: Length
+  href: api/Disqord.LocalEmbedAuthorBuilder.html#Disqord_LocalEmbedAuthorBuilder_Length_
+  commentId: Overload:Disqord.LocalEmbedAuthorBuilder.Length
+  isSpec: "True"
+  fullName: Disqord.LocalEmbedAuthorBuilder.Length
+  nameWithType: LocalEmbedAuthorBuilder.Length
 - uid: Disqord.LocalEmbedAuthorBuilder.MAX_AUTHOR_NAME_LENGTH
   name: MAX_AUTHOR_NAME_LENGTH
   href: api/Disqord.LocalEmbedAuthorBuilder.html#Disqord_LocalEmbedAuthorBuilder_MAX_AUTHOR_NAME_LENGTH
@@ -21267,6 +21261,19 @@ references:
   isSpec: "True"
   fullName: Disqord.LocalEmbedBuilder.ImageUrl
   nameWithType: LocalEmbedBuilder.ImageUrl
+- uid: Disqord.LocalEmbedBuilder.Length
+  name: Length
+  href: api/Disqord.LocalEmbedBuilder.html#Disqord_LocalEmbedBuilder_Length
+  commentId: P:Disqord.LocalEmbedBuilder.Length
+  fullName: Disqord.LocalEmbedBuilder.Length
+  nameWithType: LocalEmbedBuilder.Length
+- uid: Disqord.LocalEmbedBuilder.Length*
+  name: Length
+  href: api/Disqord.LocalEmbedBuilder.html#Disqord_LocalEmbedBuilder_Length_
+  commentId: Overload:Disqord.LocalEmbedBuilder.Length
+  isSpec: "True"
+  fullName: Disqord.LocalEmbedBuilder.Length
+  nameWithType: LocalEmbedBuilder.Length
 - uid: Disqord.LocalEmbedBuilder.MAX_DESCRIPTION_LENGTH
   name: MAX_DESCRIPTION_LENGTH
   href: api/Disqord.LocalEmbedBuilder.html#Disqord_LocalEmbedBuilder_MAX_DESCRIPTION_LENGTH
@@ -21279,18 +21286,18 @@ references:
   commentId: F:Disqord.LocalEmbedBuilder.MAX_FIELDS_AMOUNT
   fullName: Disqord.LocalEmbedBuilder.MAX_FIELDS_AMOUNT
   nameWithType: LocalEmbedBuilder.MAX_FIELDS_AMOUNT
+- uid: Disqord.LocalEmbedBuilder.MAX_LENGTH
+  name: MAX_LENGTH
+  href: api/Disqord.LocalEmbedBuilder.html#Disqord_LocalEmbedBuilder_MAX_LENGTH
+  commentId: F:Disqord.LocalEmbedBuilder.MAX_LENGTH
+  fullName: Disqord.LocalEmbedBuilder.MAX_LENGTH
+  nameWithType: LocalEmbedBuilder.MAX_LENGTH
 - uid: Disqord.LocalEmbedBuilder.MAX_TITLE_LENGTH
   name: MAX_TITLE_LENGTH
   href: api/Disqord.LocalEmbedBuilder.html#Disqord_LocalEmbedBuilder_MAX_TITLE_LENGTH
   commentId: F:Disqord.LocalEmbedBuilder.MAX_TITLE_LENGTH
   fullName: Disqord.LocalEmbedBuilder.MAX_TITLE_LENGTH
   nameWithType: LocalEmbedBuilder.MAX_TITLE_LENGTH
-- uid: Disqord.LocalEmbedBuilder.MAX_TOTAL_LENGTH
-  name: MAX_TOTAL_LENGTH
-  href: api/Disqord.LocalEmbedBuilder.html#Disqord_LocalEmbedBuilder_MAX_TOTAL_LENGTH
-  commentId: F:Disqord.LocalEmbedBuilder.MAX_TOTAL_LENGTH
-  fullName: Disqord.LocalEmbedBuilder.MAX_TOTAL_LENGTH
-  nameWithType: LocalEmbedBuilder.MAX_TOTAL_LENGTH
 - uid: Disqord.LocalEmbedBuilder.ThumbnailUrl
   name: ThumbnailUrl
   href: api/Disqord.LocalEmbedBuilder.html#Disqord_LocalEmbedBuilder_ThumbnailUrl
@@ -21592,6 +21599,19 @@ references:
   isSpec: "True"
   fullName: Disqord.LocalEmbedFieldBuilder.IsInline
   nameWithType: LocalEmbedFieldBuilder.IsInline
+- uid: Disqord.LocalEmbedFieldBuilder.Length
+  name: Length
+  href: api/Disqord.LocalEmbedFieldBuilder.html#Disqord_LocalEmbedFieldBuilder_Length
+  commentId: P:Disqord.LocalEmbedFieldBuilder.Length
+  fullName: Disqord.LocalEmbedFieldBuilder.Length
+  nameWithType: LocalEmbedFieldBuilder.Length
+- uid: Disqord.LocalEmbedFieldBuilder.Length*
+  name: Length
+  href: api/Disqord.LocalEmbedFieldBuilder.html#Disqord_LocalEmbedFieldBuilder_Length_
+  commentId: Overload:Disqord.LocalEmbedFieldBuilder.Length
+  isSpec: "True"
+  fullName: Disqord.LocalEmbedFieldBuilder.Length
+  nameWithType: LocalEmbedFieldBuilder.Length
 - uid: Disqord.LocalEmbedFieldBuilder.MAX_FIELD_NAME_LENGTH
   name: MAX_FIELD_NAME_LENGTH
   href: api/Disqord.LocalEmbedFieldBuilder.html#Disqord_LocalEmbedFieldBuilder_MAX_FIELD_NAME_LENGTH
@@ -21939,6 +21959,19 @@ references:
   isSpec: "True"
   fullName: Disqord.LocalEmbedFooterBuilder.IconUrl
   nameWithType: LocalEmbedFooterBuilder.IconUrl
+- uid: Disqord.LocalEmbedFooterBuilder.Length
+  name: Length
+  href: api/Disqord.LocalEmbedFooterBuilder.html#Disqord_LocalEmbedFooterBuilder_Length
+  commentId: P:Disqord.LocalEmbedFooterBuilder.Length
+  fullName: Disqord.LocalEmbedFooterBuilder.Length
+  nameWithType: LocalEmbedFooterBuilder.Length
+- uid: Disqord.LocalEmbedFooterBuilder.Length*
+  name: Length
+  href: api/Disqord.LocalEmbedFooterBuilder.html#Disqord_LocalEmbedFooterBuilder_Length_
+  commentId: Overload:Disqord.LocalEmbedFooterBuilder.Length
+  isSpec: "True"
+  fullName: Disqord.LocalEmbedFooterBuilder.Length
+  nameWithType: LocalEmbedFooterBuilder.Length
 - uid: Disqord.LocalEmbedFooterBuilder.MAX_FOOTER_LENGTH
   name: MAX_FOOTER_LENGTH
   href: api/Disqord.LocalEmbedFooterBuilder.html#Disqord_LocalEmbedFooterBuilder_MAX_FOOTER_LENGTH
