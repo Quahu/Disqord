@@ -31,26 +31,7 @@ namespace Disqord.Bot.Prefixes
             return this;
         }
 
-        public bool TryFind(CachedUserMessage message, out IPrefix foundPrefix, out string output)
-        {
-            if (!string.IsNullOrEmpty(message.Content))
-            {
-                foreach (var prefix in Prefixes)
-                {
-                    if (prefix.TryFind(message, out output))
-                    {
-                        foundPrefix = prefix;
-                        return true;
-                    }
-                }
-            }
-
-            foundPrefix = null;
-            output = null;
-            return false;
-        }
-
         public ValueTask<IEnumerable<IPrefix>> GetPrefixesAsync(CachedUserMessage message)
-            => new ValueTask<IEnumerable<IPrefix>>(Prefixes);
+            => new ValueTask<IEnumerable<IPrefix>>(Prefixes.ToArray());
     }
 }
