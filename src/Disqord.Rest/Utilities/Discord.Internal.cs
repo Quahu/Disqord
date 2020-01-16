@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using Disqord.Rest;
 
@@ -23,26 +23,22 @@ namespace Disqord
                     ? CultureInfo.ReadOnly(new CultureInfo(locale))
                     : null;
 
-            internal static string GetSystemMessageContent(ISystemMessage message, IGuild guild)
+            internal static string GetSystemMessageContent(ISystemMessage message, IGuild guild) => message.Type switch
             {
-                return message.Type switch
-                {
-                    SystemMessageType.RecipientAdded => $"{message.Author.Name} added {message.MentionedUsers[0].Name} to the group.",
-                    SystemMessageType.RecipientRemoved => $"{message.Author.Name} removed {message.MentionedUsers[0].Name} from the group.",
-                    // TODO
-                    SystemMessageType.Call => throw new NotImplementedException(),
-                    SystemMessageType.ChannelNameChanged => $"{message.Author.Name} changed the channel name: {message.RawContent}",
-                    SystemMessageType.ChannelIconChanged => $"{message.Author.Name} changed the channel icon.",
-                    SystemMessageType.ChannelMessagePinned => $"{message.Author.Name} pinned a message to this channel.",
-                    SystemMessageType.MemberJoined => string.Format(MemberJoinFormats[message.Id.CreatedAt.ToUnixTimeMilliseconds() % MemberJoinFormats.Length], message.Author.Name),
-                    SystemMessageType.GuildBoosted => $"{message.Author.Name} just boosted the server!",
-                    SystemMessageType.GuildBoostedFirstTier => $"{message.Author.Name} just boosted the server! {guild?.Name ?? "The server"} has achieved **Level 1!**",
-                    SystemMessageType.GuildBoostedSecondTier => $"{message.Author.Name} just boosted the server! {guild?.Name ?? "The server"} has achieved **Level 2!**",
-                    SystemMessageType.GuildBoostedThirdTier => $"{message.Author.Name} just boosted the server! {guild?.Name ?? "The server"} has achieved **Level 3!**",
-                    SystemMessageType.ChannelFollowed => $"{message.Author.Name} has added {message.RawContent} to this channel.",
-                    _ => string.Empty,
-                };
-            }
+                SystemMessageType.RecipientAdded => $"{message.Author.Name} added {message.MentionedUsers[0].Name} to the group.",
+                SystemMessageType.RecipientRemoved => $"{message.Author.Name} removed {message.MentionedUsers[0].Name} from the group.",
+                SystemMessageType.Call => throw new NotImplementedException(), // TODO
+                SystemMessageType.ChannelNameChanged => $"{message.Author.Name} changed the channel name: {message.RawContent}",
+                SystemMessageType.ChannelIconChanged => $"{message.Author.Name} changed the channel icon.",
+                SystemMessageType.ChannelMessagePinned => $"{message.Author.Name} pinned a message to this channel.",
+                SystemMessageType.MemberJoined => string.Format(MemberJoinFormats[message.Id.CreatedAt.ToUnixTimeMilliseconds() % MemberJoinFormats.Length], message.Author.Name),
+                SystemMessageType.GuildBoosted => $"{message.Author.Name} just boosted the server!",
+                SystemMessageType.GuildBoostedFirstTier => $"{message.Author.Name} just boosted the server! {guild?.Name ?? "The server"} has achieved **Level 1!**",
+                SystemMessageType.GuildBoostedSecondTier => $"{message.Author.Name} just boosted the server! {guild?.Name ?? "The server"} has achieved **Level 2!**",
+                SystemMessageType.GuildBoostedThirdTier => $"{message.Author.Name} just boosted the server! {guild?.Name ?? "The server"} has achieved **Level 3!**",
+                SystemMessageType.ChannelFollowed => $"{message.Author.Name} has added {message.RawContent} to this channel.",
+                _ => string.Empty,
+            };
 
             internal static readonly string[] MemberJoinFormats =
             {
@@ -62,9 +58,9 @@ namespace Disqord
                 "{0} just joined... or did they?",
                 "{0} just arrived. Seems OP - please nerf.",
                 "{0} just slid into the server.",
-                "A {0} has spawned the server.",
+                "A {0} has spawned in the server.",
                 "Big {0} showed up!",
-                "Where’s {0}? the server!",
+                "Where’s {0}? In the server!",
                 "{0} hopped into the server. Kangaroo!!",
                 "{0} just showed up. Hold my beer.",
                 "Challenger approaching - {0} has appeared!",
