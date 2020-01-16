@@ -18,5 +18,10 @@ namespace Disqord
             if (model.Emoji != null)
                 Emoji = model.Emoji.ToEmoji();
         }
+
+        public override string ToString()
+            => Emoji != null
+                ? $"{Emoji} {Text}"
+                : Text;
     }
 }
