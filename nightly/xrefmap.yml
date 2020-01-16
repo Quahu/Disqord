@@ -1719,22 +1719,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Bot.Prefixes.DefaultPrefixProvider.Prefixes
   nameWithType: DefaultPrefixProvider.Prefixes
-- uid: Disqord.Bot.Prefixes.DefaultPrefixProvider.TryFind(Disqord.CachedUserMessage,Disqord.Bot.Prefixes.IPrefix@,System.String@)
-  name: TryFind(CachedUserMessage, out IPrefix, out String)
-  href: api/Disqord.Bot.Prefixes.DefaultPrefixProvider.html#Disqord_Bot_Prefixes_DefaultPrefixProvider_TryFind_Disqord_CachedUserMessage_Disqord_Bot_Prefixes_IPrefix__System_String__
-  commentId: M:Disqord.Bot.Prefixes.DefaultPrefixProvider.TryFind(Disqord.CachedUserMessage,Disqord.Bot.Prefixes.IPrefix@,System.String@)
-  name.vb: TryFind(CachedUserMessage, ByRef IPrefix, ByRef String)
-  fullName: Disqord.Bot.Prefixes.DefaultPrefixProvider.TryFind(Disqord.CachedUserMessage, out Disqord.Bot.Prefixes.IPrefix, out System.String)
-  fullName.vb: Disqord.Bot.Prefixes.DefaultPrefixProvider.TryFind(Disqord.CachedUserMessage, ByRef Disqord.Bot.Prefixes.IPrefix, ByRef System.String)
-  nameWithType: DefaultPrefixProvider.TryFind(CachedUserMessage, out IPrefix, out String)
-  nameWithType.vb: DefaultPrefixProvider.TryFind(CachedUserMessage, ByRef IPrefix, ByRef String)
-- uid: Disqord.Bot.Prefixes.DefaultPrefixProvider.TryFind*
-  name: TryFind
-  href: api/Disqord.Bot.Prefixes.DefaultPrefixProvider.html#Disqord_Bot_Prefixes_DefaultPrefixProvider_TryFind_
-  commentId: Overload:Disqord.Bot.Prefixes.DefaultPrefixProvider.TryFind
-  isSpec: "True"
-  fullName: Disqord.Bot.Prefixes.DefaultPrefixProvider.TryFind
-  nameWithType: DefaultPrefixProvider.TryFind
 - uid: Disqord.Bot.Prefixes.IPrefix
   name: IPrefix
   href: api/Disqord.Bot.Prefixes.IPrefix.html
@@ -10198,6 +10182,19 @@ references:
   isSpec: "True"
   fullName: Disqord.CustomActivity.Text
   nameWithType: CustomActivity.Text
+- uid: Disqord.CustomActivity.ToString
+  name: ToString()
+  href: api/Disqord.CustomActivity.html#Disqord_CustomActivity_ToString
+  commentId: M:Disqord.CustomActivity.ToString
+  fullName: Disqord.CustomActivity.ToString()
+  nameWithType: CustomActivity.ToString()
+- uid: Disqord.CustomActivity.ToString*
+  name: ToString
+  href: api/Disqord.CustomActivity.html#Disqord_CustomActivity_ToString_
+  commentId: Overload:Disqord.CustomActivity.ToString
+  isSpec: "True"
+  fullName: Disqord.CustomActivity.ToString
+  nameWithType: CustomActivity.ToString
 - uid: Disqord.CustomEmoji
   name: CustomEmoji
   href: api/Disqord.CustomEmoji.html

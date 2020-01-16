@@ -297,7 +297,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.Prefixes.DefaultPrefixProvider.html",
-          "hash": "GJh6hQyvJWYlILFDdN7iwA=="
+          "hash": "H/hjlY15Wo9WllMvrzXcqg=="
         }
       },
       "is_incremental": false,
@@ -609,7 +609,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.CachedGuild.html",
-          "hash": "qZ05+7ezQxUEfluARE9jag=="
+          "hash": "8d2aP5G8wCtHyeJnPDNWjQ=="
         }
       },
       "is_incremental": false,
@@ -633,7 +633,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.CachedGuildEmoji.html",
-          "hash": "5Il6vZzMSDszIylgBJaXlw=="
+          "hash": "bW0oF7L9HAOVwsgpZIEYUg=="
         }
       },
       "is_incremental": false,
@@ -801,7 +801,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.CachedUser.html",
-          "hash": "OqrME559zIFQsgh7vMwTOw=="
+          "hash": "ChkfULVWvFaMxtUqhxw1Zg=="
         }
       },
       "is_incremental": false,
@@ -957,7 +957,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.CustomActivity.html",
-          "hash": "sQROnaHpwcZClw6PSvxhdQ=="
+          "hash": "HEU4QOX4U/cPGrpmcavPiA=="
         }
       },
       "is_incremental": false,
@@ -1989,7 +1989,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.IGuildEmoji.html",
-          "hash": "A2Ul7tm/jmzsaxsSpKK/DQ=="
+          "hash": "8xAcjKlNhu+ZG0T4aka4Lg=="
         }
       },
       "is_incremental": false,
@@ -2301,7 +2301,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.LocalCustomEmoji.html",
-          "hash": "WSaFB6QfvcblsVPhPrZIpQ=="
+          "hash": "+N3hExKF6gKMsy22a9TOKQ=="
         }
       },
       "is_incremental": false,
@@ -3765,7 +3765,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestGuildEmoji.html",
-          "hash": "SIYLUjLHxGKIkNelaztfVg=="
+          "hash": "g3DntUhmj+yDYxvWPxKBIg=="
         }
       },
       "is_incremental": false,
@@ -4125,7 +4125,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestUserMessage.html",
-          "hash": "g558AMkdYgWUjAy47Bjl+g=="
+          "hash": "tLLGcgxA8RfRcC3/XXm4+A=="
         }
       },
       "is_incremental": false,
@@ -4245,7 +4245,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.RichActivity.RichAsset.html",
-          "hash": "q9zezXdeFh+nFXI2kwlr/A=="
+          "hash": "ML06olGEqz2CcJUxgDRiGA=="
         }
       },
       "is_incremental": false,
@@ -4257,7 +4257,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.RichActivity.RichParty.html",
-          "hash": "XANZB+i7qWkHMrn4bupPtg=="
+          "hash": "Vx1HV4m5nmpDeWZaGdUlXA=="
         }
       },
       "is_incremental": false,
@@ -4269,7 +4269,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.RichActivity.html",
-          "hash": "UM9o/7x6L27kVKoGBlbtUw=="
+          "hash": "ZDzGmvoObbRIGNHkPOMHKw=="
         }
       },
       "is_incremental": false,
@@ -4767,10 +4767,11 @@
         "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
-        "ManagedReferenceDocumentProcessor": {
+        "TocDocumentProcessor": {
           "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
-          "total_file_count": 390,
+          "total_file_count": 0,
           "skipped_file_count": 0
         },
         "ConceptualDocumentProcessor": {
@@ -4779,11 +4780,10 @@
           "total_file_count": 3,
           "skipped_file_count": 0
         },
-        "TocDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
-          "total_file_count": 0,
+          "total_file_count": 390,
           "skipped_file_count": 0
         }
       }
