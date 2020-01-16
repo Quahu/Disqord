@@ -10,12 +10,12 @@ namespace Disqord
 
         public int UserLimit { get; private set; }
 
-        public IReadOnlyDictionary<Snowflake, CachedMember> Members { get; }
+        public IReadOnlyDictionary<Snowflake, CachedMember> Members
+            => new ReadOnlyValuePredicateArgumentDictionary<Snowflake, CachedMember, Snowflake>(
+                Guild._members, (x, id) => x.VoiceChannel != null && x.VoiceChannel.Id == id, Id);
 
         internal CachedVoiceChannel(CachedGuild guild, ChannelModel model) : base(guild, model)
         {
-            Members = new ReadOnlyValuePredicateArgumentDictionary<Snowflake, CachedMember, Snowflake>(
-                guild._members, (x, id) => x.VoiceChannel != null && x.VoiceChannel.Id == id, Id);
             Update(model);
         }
 

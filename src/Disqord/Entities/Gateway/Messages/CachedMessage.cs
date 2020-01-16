@@ -19,7 +19,7 @@ namespace Disqord
 
         public IReadOnlyList<CachedUser> MentionedUsers { get; private set; }
 
-        public IReadOnlyDictionary<IEmoji, ReactionData> Reactions { get; }
+        public IReadOnlyDictionary<IEmoji, ReactionData> Reactions => new ReadOnlyDictionary<IEmoji, ReactionData>(_reactions);
 
         public string JumpUrl => Guild != null
             ? $"https://discordapp.com/channels/{Guild.Id}/{Channel.Id}/{Id}"
@@ -38,7 +38,6 @@ namespace Disqord
             _reactions = new LockedDictionary<IEmoji, ReactionData>(model.Reactions.HasValue
                 ? model.Reactions.Value?.Length ?? 0
                 : 0);
-            Reactions = new ReadOnlyDictionary<IEmoji, ReactionData>(_reactions);
         }
 
         internal static CachedMessage Create(ICachedMessageChannel channel, CachedUser author, MessageModel model)

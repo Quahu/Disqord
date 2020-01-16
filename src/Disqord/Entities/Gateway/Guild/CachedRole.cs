@@ -26,15 +26,15 @@ namespace Disqord
 
         public bool IsDefault => Id == Guild.Id;
 
-        public IReadOnlyDictionary<Snowflake, CachedMember> Members { get; }
+        public IReadOnlyDictionary<Snowflake, CachedMember> Members
+            => new ReadOnlyValuePredicateArgumentDictionary<Snowflake, CachedMember, Snowflake>(
+                Guild.Members, (x, id) => x.Roles.ContainsKey(id), Id);
 
         Snowflake IRole.GuildId => Guild.OwnerId;
 
         internal CachedRole(CachedGuild guild, RoleModel model) : base(guild.Client, model.Id)
         {
             Guild = guild;
-            Members = new ReadOnlyValuePredicateArgumentDictionary<Snowflake, CachedMember, Snowflake>(
-                guild.Members, (x, id) => x.Roles.ContainsKey(id), Id);
             Update(model);
         }
 

@@ -91,13 +91,17 @@ namespace Disqord
 
         public IReadOnlyDictionary<Snowflake, CachedGuildChannel> Channels { get; }
 
-        public IReadOnlyDictionary<Snowflake, CachedNestedChannel> NestedChannels { get; }
+        public IReadOnlyDictionary<Snowflake, CachedNestedChannel> NestedChannels
+            => new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedNestedChannel>(_channels);
 
-        public IReadOnlyDictionary<Snowflake, CachedTextChannel> TextChannels { get; }
+        public IReadOnlyDictionary<Snowflake, CachedTextChannel> TextChannels
+            => new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedTextChannel>(_channels);
 
-        public IReadOnlyDictionary<Snowflake, CachedVoiceChannel> VoiceChannels { get; }
+        public IReadOnlyDictionary<Snowflake, CachedVoiceChannel> VoiceChannels
+            => new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedVoiceChannel>(_channels);
 
-        public IReadOnlyDictionary<Snowflake, CachedCategoryChannel> CategoryChannels { get; }
+        public IReadOnlyDictionary<Snowflake, CachedCategoryChannel> CategoryChannels
+            => new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedCategoryChannel>(_channels);
 
         public IReadOnlyDictionary<Snowflake, CachedMember> Members { get; }
 
@@ -168,10 +172,6 @@ namespace Disqord
             Emojis = new ReadOnlyDictionary<Snowflake, CachedGuildEmoji>(_emojis);
             Channels = new ReadOnlyDictionary<Snowflake, CachedGuildChannel>(_channels);
             Members = new ReadOnlyDictionary<Snowflake, CachedMember>(_members);
-            NestedChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedNestedChannel>(_channels);
-            TextChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedTextChannel>(_channels);
-            VoiceChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedVoiceChannel>(_channels);
-            CategoryChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedCategoryChannel>(_channels);
 
             Update(model);
             if (client.IsBot && IsLarge)
