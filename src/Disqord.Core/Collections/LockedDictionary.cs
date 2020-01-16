@@ -205,17 +205,18 @@ namespace Disqord.Collections
             }
         }
 
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        public KeyValuePair<TKey, TValue>[] ToArray()
         {
-            KeyValuePair<TKey, TValue>[] array;
             lock (_lock)
             {
-                array = new KeyValuePair<TKey, TValue>[Count];
+                var array = new KeyValuePair<TKey, TValue>[_dictionary.Count];
                 (_dictionary as ICollection<KeyValuePair<TKey, TValue>>).CopyTo(array, 0);
+                return array;
             }
-
-            return (array as IReadOnlyList<KeyValuePair<TKey, TValue>>).GetEnumerator();
         }
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+            => (ToArray() as IReadOnlyList<KeyValuePair<TKey, TValue>>).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
