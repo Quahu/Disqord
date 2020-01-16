@@ -15,7 +15,7 @@ namespace Disqord
 
         public const int MAX_DESCRIPTION_LENGTH = 2048;
 
-        public const int MAX_TOTAL_LENGTH = 6000;
+        public const int MAX_LENGTH = 6000;
 
         public string Title
         {
@@ -58,6 +58,19 @@ namespace Disqord
         public LocalEmbedAuthorBuilder Author { get; set; }
 
         public LocalEmbedFieldBuilderCollection Fields { get; }
+
+        public int Length
+        {
+            get
+            {
+                var titleLength = _title?.Length ?? 0;
+                var descriptionLength = _description?.Length ?? 0;
+                var footerLength = Footer?.Length ?? 0;
+                var authorLength = Author?.Length ?? 0;
+                var fieldsLength = Fields.Sum(x => x.Length);
+                return titleLength + descriptionLength + footerLength + authorLength + fieldsLength;
+            }
+        }
 
         public LocalEmbedBuilder()
         {
@@ -273,9 +286,8 @@ namespace Disqord
 
         public LocalEmbed Build()
         {
-            // TODO
-            //if (TotalLength > MAX_TOTAL_LENGTH)
-            //    throw new InvalidOperationException($"The total length of an embed must not exceed {MAX_TOTAL_LENGTH} characters.");
+            if (Length > MAX_LENGTH)
+                throw new InvalidOperationException($"The length of an embed must not exceed {MAX_LENGTH} characters.");
 
             return new LocalEmbed(this);
         }

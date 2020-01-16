@@ -24,6 +24,8 @@ namespace Disqord
 
         public string IconUrl { get; set; }
 
+        public int Length => _text?.Length ?? 0;
+
         public LocalEmbedFooterBuilder()
         { }
 

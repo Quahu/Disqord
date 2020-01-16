@@ -42,6 +42,16 @@ namespace Disqord
 
         public bool IsInline { get; set; }
 
+        public int Length
+        {
+            get
+            {
+                var nameLength = _name?.Length ?? 0;
+                var valueLength = _value?.Length ?? 0;
+                return nameLength + valueLength;
+            }
+        }
+
         public LocalEmbedFieldBuilder()
         { }
 
