@@ -6,7 +6,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a user's rich activity.
     /// </summary>
-    public sealed class RichActivity : Activity
+    public sealed partial class RichActivity : Activity
     {
         public string State { get; }
 
@@ -87,43 +87,6 @@ namespace Disqord
             SyncId = model.SyncId;
             SessionId = model.SessionId;
             Flags = model.Flags;
-        }
-
-        public sealed class RichAsset
-        {
-            public string Id { get; }
-
-            public string Text { get; }
-
-            // TODO: move to CDN urls?
-            public string Url => _applicationId != null
-                ? $"https://cdn.discordapp.com/app-assets/{_applicationId}/{Id}.png"
-                : null;
-
-            private readonly ulong? _applicationId;
-
-            internal RichAsset(ulong? applicationId, string id, string text)
-            {
-                _applicationId = applicationId;
-                Id = id;
-                Text = text;
-            }
-        }
-
-        public sealed class RichParty
-        {
-            public string Id { get; }
-
-            public int? Size { get; }
-
-            public int? MaxSize { get; }
-
-            internal RichParty(string id, int? size, int? maxSize)
-            {
-                Id = id;
-                Size = size;
-                MaxSize = maxSize;
-            }
         }
     }
 }
