@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Threading.Tasks;
 using Disqord.Models;
-using Disqord.Rest;
 
 namespace Disqord
 {
-    public sealed class CachedGuildEmoji : CachedSnowflakeEntity, IGuildEmoji
+    public sealed partial class CachedGuildEmoji : CachedSnowflakeEntity, IGuildEmoji
     {
         public CachedGuild Guild { get; }
 
@@ -60,18 +57,5 @@ namespace Disqord
 
         public override int GetHashCode()
             => Discord.Comparers.Emoji.GetHashCode(this);
-
-        public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.DeleteGuildEmojiAsync(Guild.Id, Id, options);
-
-        public async Task ModifyAsync(Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null)
-        {
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
-
-            var properties = new ModifyGuildEmojiProperties();
-            action(properties);
-            Update(await Client.RestClient.ApiClient.ModifyGuildEmojiAsync(Guild.Id, Id, properties, options).ConfigureAwait(false));
-        }
     }
 }

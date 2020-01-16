@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Threading.Tasks;
 using Disqord.Models;
 
 namespace Disqord.Rest
 {
-    public sealed class RestGuildEmoji : RestSnowflakeEntity, IGuildEmoji
+    public sealed partial class RestGuildEmoji : RestSnowflakeEntity, IGuildEmoji
     {
         public string Name { get; private set; }
 
@@ -63,14 +61,5 @@ namespace Disqord.Rest
 
         public override string ToString()
             => MessageFormat;
-
-        public Task DeleteAsync(RestRequestOptions options = null)
-            => Client.DeleteGuildEmojiAsync(GuildId, Id, options);
-
-        public async Task ModifyAsync(Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null)
-        {
-            var model = await Client.InternalModifyGuildEmojiAsync(GuildId, Id, action, options).ConfigureAwait(false);
-            Update(model);
-        }
     }
 }

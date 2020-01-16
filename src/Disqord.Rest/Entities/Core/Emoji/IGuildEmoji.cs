@@ -5,7 +5,7 @@ using Disqord.Rest;
 
 namespace Disqord
 {
-    public interface IGuildEmoji : ISnowflakeEntity, ICustomEmoji, IDeletable
+    public partial interface IGuildEmoji : ISnowflakeEntity, ICustomEmoji, IDeletable
     {
         IReadOnlyList<Snowflake> RoleIds { get; }
 
@@ -16,7 +16,5 @@ namespace Disqord
         bool IsManaged { get; }
 
         bool IsAvailable { get; }
-
-        Task ModifyAsync(Action<ModifyGuildEmojiProperties> action, RestRequestOptions options = null);
     }
 }
