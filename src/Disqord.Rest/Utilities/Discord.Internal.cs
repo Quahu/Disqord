@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using Disqord.Rest;
 
@@ -19,9 +19,9 @@ namespace Disqord
                     : GetDefaultUserAvatarUrl(user.Discriminator);
 
             internal static CultureInfo CreateLocale(string locale)
-                => locale != null
-                    ? CultureInfo.ReadOnly(new CultureInfo(locale))
-                    : null;
+                => CultureInfo.ReadOnly(locale != null
+                    ? new CultureInfo(locale)
+                    : new CultureInfo("en-US"));
 
             internal static string GetSystemMessageContent(ISystemMessage message, IGuild guild) => message.Type switch
             {
