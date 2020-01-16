@@ -77,7 +77,7 @@ namespace Disqord.WebSocket
             }
             catch (Exception ex)
             {
-                _ = _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(null, null, ex));
+                _ = _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, ex));
                 return;
             }
             _ = Task.Run(RunReceiveAsync);
@@ -159,7 +159,7 @@ namespace Disqord.WebSocket
                                 }
                                 catch { }
                             }
-                            await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(null, null, ex)).ConfigureAwait(false);
+                            await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, ex)).ConfigureAwait(false);
                             return;
                         }
 
@@ -240,7 +240,7 @@ namespace Disqord.WebSocket
                 {
                     //$"Exception while closing the websocket:";
                 }
-                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(WebSocketCloseStatus.NormalClosure, string.Empty, null)).ConfigureAwait(false);
+                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, null)).ConfigureAwait(false);
             }
 
             DisposeTokens();
