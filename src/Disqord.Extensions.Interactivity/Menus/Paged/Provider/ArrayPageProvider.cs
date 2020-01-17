@@ -64,14 +64,14 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
                     return $"{i + segment.Offset + 1}. {item}";
                 })))
-                .WithFooter($"Page {menu.CurrentPageNumber + 1}/{menu.PageProvider.PageCount}")
+                .WithFooter($"Page {menu.CurrentPageIndex + 1}/{menu.PageProvider.PageCount}")
                 .Build());
         }
 
         /// <inheritdoc/>
         public ValueTask<Page> GetPageAsync(PagedMenu menu)
         {
-            var offset = menu.CurrentPageNumber * ItemsPerPage;
+            var offset = menu.CurrentPageIndex * ItemsPerPage;
             var remainder = Array.Length - offset;
             var segment = new ArraySegment<T>(Array, offset, ItemsPerPage > remainder
                 ? remainder

@@ -32,6 +32,6 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
         /// <inheritdoc/>
         public ValueTask<Page> GetPageAsync(PagedMenu menu)
-            => new ValueTask<Page>(Pages[menu.CurrentPageNumber]);
+            => new ValueTask<Page>(Pages[menu.CurrentPageIndex]);
     }
 }

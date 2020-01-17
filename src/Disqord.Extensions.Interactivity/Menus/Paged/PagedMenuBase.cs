@@ -8,7 +8,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
         public IPageProvider PageProvider { get; }
 
-        public int CurrentPageNumber { get; private set; }
+        public int CurrentPageIndex { get; private set; }
 
         public PagedMenu(Snowflake userId, IPageProvider pageProvider, bool addDefaultButtons = true) : base(true, true)
         {
@@ -19,8 +19,8 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             {
                 // these contain the variation selectors
                 AddButtonAsync(new Button(new LocalEmoji("⏮️"), e => ShowPageAsync(0), 0));
-                AddButtonAsync(new Button(new LocalEmoji("◀️"), e => ShowPageAsync(CurrentPageNumber - 1), 1));
-                AddButtonAsync(new Button(new LocalEmoji("▶️"), e => ShowPageAsync(CurrentPageNumber + 1), 2));
+                AddButtonAsync(new Button(new LocalEmoji("◀️"), e => ShowPageAsync(CurrentPageIndex - 1), 1));
+                AddButtonAsync(new Button(new LocalEmoji("▶️"), e => ShowPageAsync(CurrentPageIndex + 1), 2));
                 AddButtonAsync(new Button(new LocalEmoji("⏭️"), e => ShowPageAsync(PageProvider.PageCount - 1), 3));
                 AddButtonAsync(new Button(new LocalEmoji("⏹️"), async e =>
                 {
@@ -44,12 +44,12 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             return message;
         }
 
-        protected async Task ShowPageAsync(int pageNumber)
+        protected async Task ShowPageAsync(int pageIndex)
         {
-            if (pageNumber < 0 || pageNumber > PageProvider.PageCount - 1)
+            if (pageIndex < 0 || pageIndex > PageProvider.PageCount - 1)
                 return;
 
-            CurrentPageNumber = pageNumber;
+            CurrentPageIndex = pageIndex;
             var page = await PageProvider.GetPageAsync(this).ConfigureAwait(false);
             await Message.ModifyAsync(x =>
             {
