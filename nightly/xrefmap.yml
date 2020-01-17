@@ -15366,6 +15366,19 @@ references:
   commentId: T:Disqord.Extensions.Interactivity.InteractivityEntityExtensions
   fullName: Disqord.Extensions.Interactivity.InteractivityEntityExtensions
   nameWithType: InteractivityEntityExtensions
+- uid: Disqord.Extensions.Interactivity.InteractivityEntityExtensions.GetInteractivity(Disqord.DiscordClientBase)
+  name: GetInteractivity(DiscordClientBase)
+  href: api/Disqord.Extensions.Interactivity.InteractivityEntityExtensions.html#Disqord_Extensions_Interactivity_InteractivityEntityExtensions_GetInteractivity_Disqord_DiscordClientBase_
+  commentId: M:Disqord.Extensions.Interactivity.InteractivityEntityExtensions.GetInteractivity(Disqord.DiscordClientBase)
+  fullName: Disqord.Extensions.Interactivity.InteractivityEntityExtensions.GetInteractivity(Disqord.DiscordClientBase)
+  nameWithType: InteractivityEntityExtensions.GetInteractivity(DiscordClientBase)
+- uid: Disqord.Extensions.Interactivity.InteractivityEntityExtensions.GetInteractivity*
+  name: GetInteractivity
+  href: api/Disqord.Extensions.Interactivity.InteractivityEntityExtensions.html#Disqord_Extensions_Interactivity_InteractivityEntityExtensions_GetInteractivity_
+  commentId: Overload:Disqord.Extensions.Interactivity.InteractivityEntityExtensions.GetInteractivity
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.InteractivityEntityExtensions.GetInteractivity
+  nameWithType: InteractivityEntityExtensions.GetInteractivity
 - uid: Disqord.Extensions.Interactivity.InteractivityEntityExtensions.WaitForMessageAsync(Disqord.ICachedMessageChannel,Predicate{Disqord.Events.MessageReceivedEventArgs},TimeSpan)
   name: WaitForMessageAsync(ICachedMessageChannel, Predicate<MessageReceivedEventArgs>, TimeSpan)
   href: api/Disqord.Extensions.Interactivity.InteractivityEntityExtensions.html#Disqord_Extensions_Interactivity_InteractivityEntityExtensions_WaitForMessageAsync_Disqord_ICachedMessageChannel_Predicate_Disqord_Events_MessageReceivedEventArgs__TimeSpan_
@@ -15417,31 +15430,18 @@ references:
   isSpec: "True"
   fullName: Disqord.Extensions.Interactivity.InteractivityExtension.InteractivityExtension
   nameWithType: InteractivityExtension.InteractivityExtension
-- uid: Disqord.Extensions.Interactivity.InteractivityExtension.ClosePaginatorAsync(Snowflake)
-  name: ClosePaginatorAsync(Snowflake)
-  href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_ClosePaginatorAsync_Snowflake_
-  commentId: M:Disqord.Extensions.Interactivity.InteractivityExtension.ClosePaginatorAsync(Snowflake)
-  fullName: Disqord.Extensions.Interactivity.InteractivityExtension.ClosePaginatorAsync(Snowflake)
-  nameWithType: InteractivityExtension.ClosePaginatorAsync(Snowflake)
-- uid: Disqord.Extensions.Interactivity.InteractivityExtension.ClosePaginatorAsync*
-  name: ClosePaginatorAsync
-  href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_ClosePaginatorAsync_
-  commentId: Overload:Disqord.Extensions.Interactivity.InteractivityExtension.ClosePaginatorAsync
-  isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.InteractivityExtension.ClosePaginatorAsync
-  nameWithType: InteractivityExtension.ClosePaginatorAsync
+- uid: Disqord.Extensions.Interactivity.InteractivityExtension.DefaultMenuTimeout
+  name: DefaultMenuTimeout
+  href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_DefaultMenuTimeout
+  commentId: F:Disqord.Extensions.Interactivity.InteractivityExtension.DefaultMenuTimeout
+  fullName: Disqord.Extensions.Interactivity.InteractivityExtension.DefaultMenuTimeout
+  nameWithType: InteractivityExtension.DefaultMenuTimeout
 - uid: Disqord.Extensions.Interactivity.InteractivityExtension.DefaultMessageTimeout
   name: DefaultMessageTimeout
   href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_DefaultMessageTimeout
   commentId: F:Disqord.Extensions.Interactivity.InteractivityExtension.DefaultMessageTimeout
   fullName: Disqord.Extensions.Interactivity.InteractivityExtension.DefaultMessageTimeout
   nameWithType: InteractivityExtension.DefaultMessageTimeout
-- uid: Disqord.Extensions.Interactivity.InteractivityExtension.DefaultPaginatorTimeout
-  name: DefaultPaginatorTimeout
-  href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_DefaultPaginatorTimeout
-  commentId: F:Disqord.Extensions.Interactivity.InteractivityExtension.DefaultPaginatorTimeout
-  fullName: Disqord.Extensions.Interactivity.InteractivityExtension.DefaultPaginatorTimeout
-  nameWithType: InteractivityExtension.DefaultPaginatorTimeout
 - uid: Disqord.Extensions.Interactivity.InteractivityExtension.DefaultReactionTimeout
   name: DefaultReactionTimeout
   href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_DefaultReactionTimeout
@@ -15461,19 +15461,32 @@ references:
   isSpec: "True"
   fullName: Disqord.Extensions.Interactivity.InteractivityExtension.InitialiseAsync
   nameWithType: InteractivityExtension.InitialiseAsync
-- uid: Disqord.Extensions.Interactivity.InteractivityExtension.SendPaginatorAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Pagination.PaginatorBase,TimeSpan)
-  name: SendPaginatorAsync(ICachedMessageChannel, PaginatorBase, TimeSpan)
-  href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_SendPaginatorAsync_Disqord_ICachedMessageChannel_Disqord_Extensions_Interactivity_Pagination_PaginatorBase_TimeSpan_
-  commentId: M:Disqord.Extensions.Interactivity.InteractivityExtension.SendPaginatorAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Pagination.PaginatorBase,TimeSpan)
-  fullName: Disqord.Extensions.Interactivity.InteractivityExtension.SendPaginatorAsync(Disqord.ICachedMessageChannel, Disqord.Extensions.Interactivity.Pagination.PaginatorBase, TimeSpan)
-  nameWithType: InteractivityExtension.SendPaginatorAsync(ICachedMessageChannel, PaginatorBase, TimeSpan)
-- uid: Disqord.Extensions.Interactivity.InteractivityExtension.SendPaginatorAsync*
-  name: SendPaginatorAsync
-  href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_SendPaginatorAsync_
-  commentId: Overload:Disqord.Extensions.Interactivity.InteractivityExtension.SendPaginatorAsync
+- uid: Disqord.Extensions.Interactivity.InteractivityExtension.StartMenuAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Menus.MenuBase,System.Boolean,TimeSpan)
+  name: StartMenuAsync(ICachedMessageChannel, MenuBase, Boolean, TimeSpan)
+  href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_StartMenuAsync_Disqord_ICachedMessageChannel_Disqord_Extensions_Interactivity_Menus_MenuBase_System_Boolean_TimeSpan_
+  commentId: M:Disqord.Extensions.Interactivity.InteractivityExtension.StartMenuAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Menus.MenuBase,System.Boolean,TimeSpan)
+  fullName: Disqord.Extensions.Interactivity.InteractivityExtension.StartMenuAsync(Disqord.ICachedMessageChannel, Disqord.Extensions.Interactivity.Menus.MenuBase, System.Boolean, TimeSpan)
+  nameWithType: InteractivityExtension.StartMenuAsync(ICachedMessageChannel, MenuBase, Boolean, TimeSpan)
+- uid: Disqord.Extensions.Interactivity.InteractivityExtension.StartMenuAsync*
+  name: StartMenuAsync
+  href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_StartMenuAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.InteractivityExtension.StartMenuAsync
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.InteractivityExtension.SendPaginatorAsync
-  nameWithType: InteractivityExtension.SendPaginatorAsync
+  fullName: Disqord.Extensions.Interactivity.InteractivityExtension.StartMenuAsync
+  nameWithType: InteractivityExtension.StartMenuAsync
+- uid: Disqord.Extensions.Interactivity.InteractivityExtension.StopMenuAsync(Snowflake)
+  name: StopMenuAsync(Snowflake)
+  href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_StopMenuAsync_Snowflake_
+  commentId: M:Disqord.Extensions.Interactivity.InteractivityExtension.StopMenuAsync(Snowflake)
+  fullName: Disqord.Extensions.Interactivity.InteractivityExtension.StopMenuAsync(Snowflake)
+  nameWithType: InteractivityExtension.StopMenuAsync(Snowflake)
+- uid: Disqord.Extensions.Interactivity.InteractivityExtension.StopMenuAsync*
+  name: StopMenuAsync
+  href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_StopMenuAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.InteractivityExtension.StopMenuAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.InteractivityExtension.StopMenuAsync
+  nameWithType: InteractivityExtension.StopMenuAsync
 - uid: Disqord.Extensions.Interactivity.InteractivityExtension.WaitForMessageAsync(Predicate{Disqord.Events.MessageReceivedEventArgs},TimeSpan)
   name: WaitForMessageAsync(Predicate<MessageReceivedEventArgs>, TimeSpan)
   href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_WaitForMessageAsync_Predicate_Disqord_Events_MessageReceivedEventArgs__TimeSpan_
@@ -15506,361 +15519,809 @@ references:
   isSpec: "True"
   fullName: Disqord.Extensions.Interactivity.InteractivityExtension.WaitForReactionAsync
   nameWithType: InteractivityExtension.WaitForReactionAsync
-- uid: Disqord.Extensions.Interactivity.Pagination
-  name: Disqord.Extensions.Interactivity.Pagination
-  href: api/Disqord.Extensions.Interactivity.Pagination.html
-  commentId: N:Disqord.Extensions.Interactivity.Pagination
-  fullName: Disqord.Extensions.Interactivity.Pagination
-  nameWithType: Disqord.Extensions.Interactivity.Pagination
-- uid: Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions
-  name: InteractivityPaginationEntityExtensions
-  href: api/Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions.html
-  commentId: T:Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions
-  fullName: Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions
-  nameWithType: InteractivityPaginationEntityExtensions
-- uid: Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions.SendPaginatorAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Pagination.PaginatorBase,TimeSpan)
-  name: SendPaginatorAsync(ICachedMessageChannel, PaginatorBase, TimeSpan)
-  href: api/Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions.html#Disqord_Extensions_Interactivity_Pagination_InteractivityPaginationEntityExtensions_SendPaginatorAsync_Disqord_ICachedMessageChannel_Disqord_Extensions_Interactivity_Pagination_PaginatorBase_TimeSpan_
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions.SendPaginatorAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Pagination.PaginatorBase,TimeSpan)
-  fullName: Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions.SendPaginatorAsync(Disqord.ICachedMessageChannel, Disqord.Extensions.Interactivity.Pagination.PaginatorBase, TimeSpan)
-  nameWithType: InteractivityPaginationEntityExtensions.SendPaginatorAsync(ICachedMessageChannel, PaginatorBase, TimeSpan)
-- uid: Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions.SendPaginatorAsync*
-  name: SendPaginatorAsync
-  href: api/Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions.html#Disqord_Extensions_Interactivity_Pagination_InteractivityPaginationEntityExtensions_SendPaginatorAsync_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions.SendPaginatorAsync
+- uid: Disqord.Extensions.Interactivity.Menus
+  name: Disqord.Extensions.Interactivity.Menus
+  href: api/Disqord.Extensions.Interactivity.Menus.html
+  commentId: N:Disqord.Extensions.Interactivity.Menus
+  fullName: Disqord.Extensions.Interactivity.Menus
+  nameWithType: Disqord.Extensions.Interactivity.Menus
+- uid: Disqord.Extensions.Interactivity.Menus.Button
+  name: Button
+  href: api/Disqord.Extensions.Interactivity.Menus.Button.html
+  commentId: T:Disqord.Extensions.Interactivity.Menus.Button
+  fullName: Disqord.Extensions.Interactivity.Menus.Button
+  nameWithType: Button
+- uid: Disqord.Extensions.Interactivity.Menus.Button.#ctor(IEmoji,Disqord.Extensions.Interactivity.Menus.ButtonCallback,System.Int32)
+  name: Button(IEmoji, ButtonCallback, Int32)
+  href: api/Disqord.Extensions.Interactivity.Menus.Button.html#Disqord_Extensions_Interactivity_Menus_Button__ctor_IEmoji_Disqord_Extensions_Interactivity_Menus_ButtonCallback_System_Int32_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Button.#ctor(IEmoji,Disqord.Extensions.Interactivity.Menus.ButtonCallback,System.Int32)
+  fullName: Disqord.Extensions.Interactivity.Menus.Button.Button(IEmoji, Disqord.Extensions.Interactivity.Menus.ButtonCallback, System.Int32)
+  nameWithType: Button.Button(IEmoji, ButtonCallback, Int32)
+- uid: Disqord.Extensions.Interactivity.Menus.Button.#ctor*
+  name: Button
+  href: api/Disqord.Extensions.Interactivity.Menus.Button.html#Disqord_Extensions_Interactivity_Menus_Button__ctor_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Button.#ctor
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions.SendPaginatorAsync
-  nameWithType: InteractivityPaginationEntityExtensions.SendPaginatorAsync
-- uid: Disqord.Extensions.Interactivity.Pagination.Page
+  fullName: Disqord.Extensions.Interactivity.Menus.Button.Button
+  nameWithType: Button.Button
+- uid: Disqord.Extensions.Interactivity.Menus.Button.Callback
+  name: Callback
+  href: api/Disqord.Extensions.Interactivity.Menus.Button.html#Disqord_Extensions_Interactivity_Menus_Button_Callback
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Button.Callback
+  fullName: Disqord.Extensions.Interactivity.Menus.Button.Callback
+  nameWithType: Button.Callback
+- uid: Disqord.Extensions.Interactivity.Menus.Button.Callback*
+  name: Callback
+  href: api/Disqord.Extensions.Interactivity.Menus.Button.html#Disqord_Extensions_Interactivity_Menus_Button_Callback_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Button.Callback
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Button.Callback
+  nameWithType: Button.Callback
+- uid: Disqord.Extensions.Interactivity.Menus.Button.Emoji
+  name: Emoji
+  href: api/Disqord.Extensions.Interactivity.Menus.Button.html#Disqord_Extensions_Interactivity_Menus_Button_Emoji
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Button.Emoji
+  fullName: Disqord.Extensions.Interactivity.Menus.Button.Emoji
+  nameWithType: Button.Emoji
+- uid: Disqord.Extensions.Interactivity.Menus.Button.Emoji*
+  name: Emoji
+  href: api/Disqord.Extensions.Interactivity.Menus.Button.html#Disqord_Extensions_Interactivity_Menus_Button_Emoji_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Button.Emoji
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Button.Emoji
+  nameWithType: Button.Emoji
+- uid: Disqord.Extensions.Interactivity.Menus.Button.Position
+  name: Position
+  href: api/Disqord.Extensions.Interactivity.Menus.Button.html#Disqord_Extensions_Interactivity_Menus_Button_Position
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Button.Position
+  fullName: Disqord.Extensions.Interactivity.Menus.Button.Position
+  nameWithType: Button.Position
+- uid: Disqord.Extensions.Interactivity.Menus.Button.Position*
+  name: Position
+  href: api/Disqord.Extensions.Interactivity.Menus.Button.html#Disqord_Extensions_Interactivity_Menus_Button_Position_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Button.Position
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Button.Position
+  nameWithType: Button.Position
+- uid: Disqord.Extensions.Interactivity.Menus.Button.ToString
+  name: ToString()
+  href: api/Disqord.Extensions.Interactivity.Menus.Button.html#Disqord_Extensions_Interactivity_Menus_Button_ToString
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Button.ToString
+  fullName: Disqord.Extensions.Interactivity.Menus.Button.ToString()
+  nameWithType: Button.ToString()
+- uid: Disqord.Extensions.Interactivity.Menus.Button.ToString*
+  name: ToString
+  href: api/Disqord.Extensions.Interactivity.Menus.Button.html#Disqord_Extensions_Interactivity_Menus_Button_ToString_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Button.ToString
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Button.ToString
+  nameWithType: Button.ToString
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonAttribute
+  name: ButtonAttribute
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonAttribute.html
+  commentId: T:Disqord.Extensions.Interactivity.Menus.ButtonAttribute
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonAttribute
+  nameWithType: ButtonAttribute
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.#ctor(System.String)
+  name: ButtonAttribute(String)
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonAttribute.html#Disqord_Extensions_Interactivity_Menus_ButtonAttribute__ctor_System_String_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.ButtonAttribute.#ctor(System.String)
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.ButtonAttribute(System.String)
+  nameWithType: ButtonAttribute.ButtonAttribute(String)
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.#ctor(System.UInt64,System.String)
+  name: ButtonAttribute(UInt64, String)
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonAttribute.html#Disqord_Extensions_Interactivity_Menus_ButtonAttribute__ctor_System_UInt64_System_String_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.ButtonAttribute.#ctor(System.UInt64,System.String)
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.ButtonAttribute(System.UInt64, System.String)
+  nameWithType: ButtonAttribute.ButtonAttribute(UInt64, String)
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.#ctor*
+  name: ButtonAttribute
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonAttribute.html#Disqord_Extensions_Interactivity_Menus_ButtonAttribute__ctor_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.ButtonAttribute.#ctor
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.ButtonAttribute
+  nameWithType: ButtonAttribute.ButtonAttribute
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.Emoji
+  name: Emoji
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonAttribute.html#Disqord_Extensions_Interactivity_Menus_ButtonAttribute_Emoji
+  commentId: P:Disqord.Extensions.Interactivity.Menus.ButtonAttribute.Emoji
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.Emoji
+  nameWithType: ButtonAttribute.Emoji
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.Emoji*
+  name: Emoji
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonAttribute.html#Disqord_Extensions_Interactivity_Menus_ButtonAttribute_Emoji_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.ButtonAttribute.Emoji
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.Emoji
+  nameWithType: ButtonAttribute.Emoji
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonCallback
+  name: ButtonCallback
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonCallback.html
+  commentId: T:Disqord.Extensions.Interactivity.Menus.ButtonCallback
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonCallback
+  nameWithType: ButtonCallback
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs
+  name: ButtonEventArgs
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.html
+  commentId: T:Disqord.Extensions.Interactivity.Menus.ButtonEventArgs
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs
+  nameWithType: ButtonEventArgs
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Emoji
+  name: Emoji
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.html#Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_Emoji
+  commentId: P:Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Emoji
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Emoji
+  nameWithType: ButtonEventArgs.Emoji
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Emoji*
+  name: Emoji
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.html#Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_Emoji_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Emoji
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Emoji
+  nameWithType: ButtonEventArgs.Emoji
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Message
+  name: Message
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.html#Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_Message
+  commentId: P:Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Message
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Message
+  nameWithType: ButtonEventArgs.Message
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Message*
+  name: Message
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.html#Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_Message_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Message
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Message
+  nameWithType: ButtonEventArgs.Message
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Reaction
+  name: Reaction
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.html#Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_Reaction
+  commentId: P:Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Reaction
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Reaction
+  nameWithType: ButtonEventArgs.Reaction
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Reaction*
+  name: Reaction
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.html#Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_Reaction_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Reaction
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.Reaction
+  nameWithType: ButtonEventArgs.Reaction
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.User
+  name: User
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.html#Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_User
+  commentId: P:Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.User
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.User
+  nameWithType: ButtonEventArgs.User
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.User*
+  name: User
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.html#Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_User_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.User
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.User
+  nameWithType: ButtonEventArgs.User
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.WasAdded
+  name: WasAdded
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.html#Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_WasAdded
+  commentId: P:Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.WasAdded
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.WasAdded
+  nameWithType: ButtonEventArgs.WasAdded
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.WasAdded*
+  name: WasAdded
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.html#Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_WasAdded_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.WasAdded
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.WasAdded
+  nameWithType: ButtonEventArgs.WasAdded
+- uid: Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions
+  name: InteractivityMenuEntityExtensions
+  href: api/Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.html
+  commentId: T:Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions
+  fullName: Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions
+  nameWithType: InteractivityMenuEntityExtensions
+- uid: Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.StartMenuAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Menus.MenuBase,System.Boolean,TimeSpan)
+  name: StartMenuAsync(ICachedMessageChannel, MenuBase, Boolean, TimeSpan)
+  href: api/Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.html#Disqord_Extensions_Interactivity_Menus_InteractivityMenuEntityExtensions_StartMenuAsync_Disqord_ICachedMessageChannel_Disqord_Extensions_Interactivity_Menus_MenuBase_System_Boolean_TimeSpan_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.StartMenuAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Menus.MenuBase,System.Boolean,TimeSpan)
+  fullName: Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.StartMenuAsync(Disqord.ICachedMessageChannel, Disqord.Extensions.Interactivity.Menus.MenuBase, System.Boolean, TimeSpan)
+  nameWithType: InteractivityMenuEntityExtensions.StartMenuAsync(ICachedMessageChannel, MenuBase, Boolean, TimeSpan)
+- uid: Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.StartMenuAsync*
+  name: StartMenuAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.html#Disqord_Extensions_Interactivity_Menus_InteractivityMenuEntityExtensions_StartMenuAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.StartMenuAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.StartMenuAsync
+  nameWithType: InteractivityMenuEntityExtensions.StartMenuAsync
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase
+  name: MenuBase
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html
+  commentId: T:Disqord.Extensions.Interactivity.Menus.MenuBase
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase
+  nameWithType: MenuBase
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.#ctor(System.Boolean,System.Boolean)
+  name: MenuBase(Boolean, Boolean)
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase__ctor_System_Boolean_System_Boolean_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.MenuBase.#ctor(System.Boolean,System.Boolean)
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.MenuBase(System.Boolean, System.Boolean)
+  nameWithType: MenuBase.MenuBase(Boolean, Boolean)
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.#ctor*
+  name: MenuBase
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase__ctor_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.#ctor
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.MenuBase
+  nameWithType: MenuBase.MenuBase
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.AddButtonAsync(Disqord.Extensions.Interactivity.Menus.Button)
+  name: AddButtonAsync(Button)
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_AddButtonAsync_Disqord_Extensions_Interactivity_Menus_Button_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.MenuBase.AddButtonAsync(Disqord.Extensions.Interactivity.Menus.Button)
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.AddButtonAsync(Disqord.Extensions.Interactivity.Menus.Button)
+  nameWithType: MenuBase.AddButtonAsync(Button)
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.AddButtonAsync*
+  name: AddButtonAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_AddButtonAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.AddButtonAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.AddButtonAsync
+  nameWithType: MenuBase.AddButtonAsync
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.AddsReactions
+  name: AddsReactions
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_AddsReactions
+  commentId: P:Disqord.Extensions.Interactivity.Menus.MenuBase.AddsReactions
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.AddsReactions
+  nameWithType: MenuBase.AddsReactions
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.AddsReactions*
+  name: AddsReactions
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_AddsReactions_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.AddsReactions
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.AddsReactions
+  nameWithType: MenuBase.AddsReactions
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.Channel
+  name: Channel
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_Channel
+  commentId: P:Disqord.Extensions.Interactivity.Menus.MenuBase.Channel
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.Channel
+  nameWithType: MenuBase.Channel
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.Channel*
+  name: Channel
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_Channel_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.Channel
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.Channel
+  nameWithType: MenuBase.Channel
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.CheckReactionAsync(Disqord.Extensions.Interactivity.Menus.ButtonEventArgs)
+  name: CheckReactionAsync(ButtonEventArgs)
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_CheckReactionAsync_Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.MenuBase.CheckReactionAsync(Disqord.Extensions.Interactivity.Menus.ButtonEventArgs)
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.CheckReactionAsync(Disqord.Extensions.Interactivity.Menus.ButtonEventArgs)
+  nameWithType: MenuBase.CheckReactionAsync(ButtonEventArgs)
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.CheckReactionAsync*
+  name: CheckReactionAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_CheckReactionAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.CheckReactionAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.CheckReactionAsync
+  nameWithType: MenuBase.CheckReactionAsync
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.ClearButtonsAsync
+  name: ClearButtonsAsync()
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_ClearButtonsAsync
+  commentId: M:Disqord.Extensions.Interactivity.Menus.MenuBase.ClearButtonsAsync
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.ClearButtonsAsync()
+  nameWithType: MenuBase.ClearButtonsAsync()
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.ClearButtonsAsync*
+  name: ClearButtonsAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_ClearButtonsAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.ClearButtonsAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.ClearButtonsAsync
+  nameWithType: MenuBase.ClearButtonsAsync
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.Client
+  name: Client
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_Client
+  commentId: P:Disqord.Extensions.Interactivity.Menus.MenuBase.Client
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.Client
+  nameWithType: MenuBase.Client
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.Client*
+  name: Client
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_Client_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.Client
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.Client
+  nameWithType: MenuBase.Client
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.DisposeAsync
+  name: DisposeAsync()
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_DisposeAsync
+  commentId: M:Disqord.Extensions.Interactivity.Menus.MenuBase.DisposeAsync
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.DisposeAsync()
+  nameWithType: MenuBase.DisposeAsync()
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.DisposeAsync*
+  name: DisposeAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_DisposeAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.DisposeAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.DisposeAsync
+  nameWithType: MenuBase.DisposeAsync
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.InitialiseAsync
+  name: InitialiseAsync()
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_InitialiseAsync
+  commentId: M:Disqord.Extensions.Interactivity.Menus.MenuBase.InitialiseAsync
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.InitialiseAsync()
+  nameWithType: MenuBase.InitialiseAsync()
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.InitialiseAsync*
+  name: InitialiseAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_InitialiseAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.InitialiseAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.InitialiseAsync
+  nameWithType: MenuBase.InitialiseAsync
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId
+  name: MessageId
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_MessageId
+  commentId: P:Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId
+  nameWithType: MenuBase.MessageId
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId*
+  name: MessageId
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_MessageId_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId
+  nameWithType: MenuBase.MessageId
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync(Disqord.Extensions.Interactivity.Menus.Button)
+  name: RemoveButtonAsync(Button)
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_RemoveButtonAsync_Disqord_Extensions_Interactivity_Menus_Button_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync(Disqord.Extensions.Interactivity.Menus.Button)
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync(Disqord.Extensions.Interactivity.Menus.Button)
+  nameWithType: MenuBase.RemoveButtonAsync(Button)
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync(IEmoji)
+  name: RemoveButtonAsync(IEmoji)
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_RemoveButtonAsync_IEmoji_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync(IEmoji)
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync(IEmoji)
+  nameWithType: MenuBase.RemoveButtonAsync(IEmoji)
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync*
+  name: RemoveButtonAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_RemoveButtonAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync
+  nameWithType: MenuBase.RemoveButtonAsync
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.StopAsync
+  name: StopAsync()
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_StopAsync
+  commentId: M:Disqord.Extensions.Interactivity.Menus.MenuBase.StopAsync
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.StopAsync()
+  nameWithType: MenuBase.StopAsync()
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.StopAsync*
+  name: StopAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_StopAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.StopAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.StopAsync
+  nameWithType: MenuBase.StopAsync
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.TriggersOnRemoval
+  name: TriggersOnRemoval
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_TriggersOnRemoval
+  commentId: P:Disqord.Extensions.Interactivity.Menus.MenuBase.TriggersOnRemoval
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.TriggersOnRemoval
+  nameWithType: MenuBase.TriggersOnRemoval
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.TriggersOnRemoval*
+  name: TriggersOnRemoval
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_TriggersOnRemoval_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.TriggersOnRemoval
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.TriggersOnRemoval
+  nameWithType: MenuBase.TriggersOnRemoval
+- uid: Disqord.Extensions.Interactivity.Menus.Paged
+  name: Disqord.Extensions.Interactivity.Menus.Paged
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.html
+  commentId: N:Disqord.Extensions.Interactivity.Menus.Paged
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged
+  nameWithType: Disqord.Extensions.Interactivity.Menus.Paged
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1
+  name: ArrayPageProvider<T>
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html
+  commentId: T:Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1
+  name.vb: ArrayPageProvider(Of T)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider<T>
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T)
+  nameWithType: ArrayPageProvider<T>
+  nameWithType.vb: ArrayPageProvider(Of T)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.#ctor(`0[],Disqord.Extensions.Interactivity.Menus.Paged.PageFormatter{ArraySegment{`0}},System.Int32)
+  name: ArrayPageProvider(T[], PageFormatter<ArraySegment<T>>, Int32)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html#Disqord_Extensions_Interactivity_Menus_Paged_ArrayPageProvider_1__ctor__0___Disqord_Extensions_Interactivity_Menus_Paged_PageFormatter_ArraySegment__0___System_Int32_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.#ctor(`0[],Disqord.Extensions.Interactivity.Menus.Paged.PageFormatter{ArraySegment{`0}},System.Int32)
+  name.vb: ArrayPageProvider(T(), PageFormatter(Of ArraySegment(Of T)), Int32)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider<T>.ArrayPageProvider(T[], Disqord.Extensions.Interactivity.Menus.Paged.PageFormatter<ArraySegment<T>>, System.Int32)
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T).ArrayPageProvider(T(), Disqord.Extensions.Interactivity.Menus.Paged.PageFormatter(Of ArraySegment(Of T)), System.Int32)
+  nameWithType: ArrayPageProvider<T>.ArrayPageProvider(T[], PageFormatter<ArraySegment<T>>, Int32)
+  nameWithType.vb: ArrayPageProvider(Of T).ArrayPageProvider(T(), PageFormatter(Of ArraySegment(Of T)), Int32)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.#ctor*
+  name: ArrayPageProvider
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html#Disqord_Extensions_Interactivity_Menus_Paged_ArrayPageProvider_1__ctor_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.#ctor
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider<T>.ArrayPageProvider
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T).ArrayPageProvider
+  nameWithType: ArrayPageProvider<T>.ArrayPageProvider
+  nameWithType.vb: ArrayPageProvider(Of T).ArrayPageProvider
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.Array
+  name: Array
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html#Disqord_Extensions_Interactivity_Menus_Paged_ArrayPageProvider_1_Array
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.Array
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider<T>.Array
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T).Array
+  nameWithType: ArrayPageProvider<T>.Array
+  nameWithType.vb: ArrayPageProvider(Of T).Array
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.Array*
+  name: Array
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html#Disqord_Extensions_Interactivity_Menus_Paged_ArrayPageProvider_1_Array_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.Array
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider<T>.Array
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T).Array
+  nameWithType: ArrayPageProvider<T>.Array
+  nameWithType.vb: ArrayPageProvider(Of T).Array
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.Formatter
+  name: Formatter
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html#Disqord_Extensions_Interactivity_Menus_Paged_ArrayPageProvider_1_Formatter
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.Formatter
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider<T>.Formatter
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T).Formatter
+  nameWithType: ArrayPageProvider<T>.Formatter
+  nameWithType.vb: ArrayPageProvider(Of T).Formatter
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.Formatter*
+  name: Formatter
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html#Disqord_Extensions_Interactivity_Menus_Paged_ArrayPageProvider_1_Formatter_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.Formatter
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider<T>.Formatter
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T).Formatter
+  nameWithType: ArrayPageProvider<T>.Formatter
+  nameWithType.vb: ArrayPageProvider(Of T).Formatter
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
+  name: GetPageAsync(PagedMenu)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html#Disqord_Extensions_Interactivity_Menus_Paged_ArrayPageProvider_1_GetPageAsync_Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider<T>.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T).GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
+  nameWithType: ArrayPageProvider<T>.GetPageAsync(PagedMenu)
+  nameWithType.vb: ArrayPageProvider(Of T).GetPageAsync(PagedMenu)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.GetPageAsync*
+  name: GetPageAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html#Disqord_Extensions_Interactivity_Menus_Paged_ArrayPageProvider_1_GetPageAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.GetPageAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider<T>.GetPageAsync
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T).GetPageAsync
+  nameWithType: ArrayPageProvider<T>.GetPageAsync
+  nameWithType.vb: ArrayPageProvider(Of T).GetPageAsync
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.ItemsPerPage
+  name: ItemsPerPage
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html#Disqord_Extensions_Interactivity_Menus_Paged_ArrayPageProvider_1_ItemsPerPage
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.ItemsPerPage
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider<T>.ItemsPerPage
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T).ItemsPerPage
+  nameWithType: ArrayPageProvider<T>.ItemsPerPage
+  nameWithType.vb: ArrayPageProvider(Of T).ItemsPerPage
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.ItemsPerPage*
+  name: ItemsPerPage
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html#Disqord_Extensions_Interactivity_Menus_Paged_ArrayPageProvider_1_ItemsPerPage_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.ItemsPerPage
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider<T>.ItemsPerPage
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T).ItemsPerPage
+  nameWithType: ArrayPageProvider<T>.ItemsPerPage
+  nameWithType.vb: ArrayPageProvider(Of T).ItemsPerPage
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.PageCount
+  name: PageCount
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html#Disqord_Extensions_Interactivity_Menus_Paged_ArrayPageProvider_1_PageCount
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.PageCount
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider<T>.PageCount
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T).PageCount
+  nameWithType: ArrayPageProvider<T>.PageCount
+  nameWithType.vb: ArrayPageProvider(Of T).PageCount
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.PageCount*
+  name: PageCount
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html#Disqord_Extensions_Interactivity_Menus_Paged_ArrayPageProvider_1_PageCount_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider`1.PageCount
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider<T>.PageCount
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T).PageCount
+  nameWithType: ArrayPageProvider<T>.PageCount
+  nameWithType.vb: ArrayPageProvider(Of T).PageCount
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider
+  name: IPageProvider
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.html
+  commentId: T:Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider
+  nameWithType: IPageProvider
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
+  name: GetPageAsync(PagedMenu)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_IPageProvider_GetPageAsync_Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
+  nameWithType: IPageProvider.GetPageAsync(PagedMenu)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.GetPageAsync*
+  name: GetPageAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_IPageProvider_GetPageAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.GetPageAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.GetPageAsync
+  nameWithType: IPageProvider.GetPageAsync
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.PageCount
+  name: PageCount
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_IPageProvider_PageCount
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.PageCount
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.PageCount
+  nameWithType: IPageProvider.PageCount
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.PageCount*
+  name: PageCount
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_IPageProvider_PageCount_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.PageCount
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.PageCount
+  nameWithType: IPageProvider.PageCount
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.Page
   name: Page
-  href: api/Disqord.Extensions.Interactivity.Pagination.Page.html
-  commentId: T:Disqord.Extensions.Interactivity.Pagination.Page
-  fullName: Disqord.Extensions.Interactivity.Pagination.Page
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html
+  commentId: T:Disqord.Extensions.Interactivity.Menus.Paged.Page
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.Page
   nameWithType: Page
-- uid: Disqord.Extensions.Interactivity.Pagination.Page.#ctor(LocalEmbed)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.Page.#ctor(LocalEmbed)
   name: Page(LocalEmbed)
-  href: api/Disqord.Extensions.Interactivity.Pagination.Page.html#Disqord_Extensions_Interactivity_Pagination_Page__ctor_LocalEmbed_
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.Page.#ctor(LocalEmbed)
-  fullName: Disqord.Extensions.Interactivity.Pagination.Page.Page(LocalEmbed)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html#Disqord_Extensions_Interactivity_Menus_Paged_Page__ctor_LocalEmbed_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.Page.#ctor(LocalEmbed)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.Page.Page(LocalEmbed)
   nameWithType: Page.Page(LocalEmbed)
-- uid: Disqord.Extensions.Interactivity.Pagination.Page.#ctor(System.String)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.Page.#ctor(System.String)
   name: Page(String)
-  href: api/Disqord.Extensions.Interactivity.Pagination.Page.html#Disqord_Extensions_Interactivity_Pagination_Page__ctor_System_String_
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.Page.#ctor(System.String)
-  fullName: Disqord.Extensions.Interactivity.Pagination.Page.Page(System.String)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html#Disqord_Extensions_Interactivity_Menus_Paged_Page__ctor_System_String_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.Page.#ctor(System.String)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.Page.Page(System.String)
   nameWithType: Page.Page(String)
-- uid: Disqord.Extensions.Interactivity.Pagination.Page.#ctor(System.String,LocalEmbed)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.Page.#ctor(System.String,LocalEmbed)
   name: Page(String, LocalEmbed)
-  href: api/Disqord.Extensions.Interactivity.Pagination.Page.html#Disqord_Extensions_Interactivity_Pagination_Page__ctor_System_String_LocalEmbed_
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.Page.#ctor(System.String,LocalEmbed)
-  fullName: Disqord.Extensions.Interactivity.Pagination.Page.Page(System.String, LocalEmbed)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html#Disqord_Extensions_Interactivity_Menus_Paged_Page__ctor_System_String_LocalEmbed_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.Page.#ctor(System.String,LocalEmbed)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.Page.Page(System.String, LocalEmbed)
   nameWithType: Page.Page(String, LocalEmbed)
-- uid: Disqord.Extensions.Interactivity.Pagination.Page.#ctor*
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.Page.#ctor*
   name: Page
-  href: api/Disqord.Extensions.Interactivity.Pagination.Page.html#Disqord_Extensions_Interactivity_Pagination_Page__ctor_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.Page.#ctor
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html#Disqord_Extensions_Interactivity_Menus_Paged_Page__ctor_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.Page.#ctor
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.Page.Page
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.Page.Page
   nameWithType: Page.Page
-- uid: Disqord.Extensions.Interactivity.Pagination.Page.Content
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.Page.Content
   name: Content
-  href: api/Disqord.Extensions.Interactivity.Pagination.Page.html#Disqord_Extensions_Interactivity_Pagination_Page_Content
-  commentId: P:Disqord.Extensions.Interactivity.Pagination.Page.Content
-  fullName: Disqord.Extensions.Interactivity.Pagination.Page.Content
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html#Disqord_Extensions_Interactivity_Menus_Paged_Page_Content
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.Page.Content
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.Page.Content
   nameWithType: Page.Content
-- uid: Disqord.Extensions.Interactivity.Pagination.Page.Content*
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.Page.Content*
   name: Content
-  href: api/Disqord.Extensions.Interactivity.Pagination.Page.html#Disqord_Extensions_Interactivity_Pagination_Page_Content_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.Page.Content
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html#Disqord_Extensions_Interactivity_Menus_Paged_Page_Content_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.Page.Content
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.Page.Content
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.Page.Content
   nameWithType: Page.Content
-- uid: Disqord.Extensions.Interactivity.Pagination.Page.Embed
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.Page.Embed
   name: Embed
-  href: api/Disqord.Extensions.Interactivity.Pagination.Page.html#Disqord_Extensions_Interactivity_Pagination_Page_Embed
-  commentId: P:Disqord.Extensions.Interactivity.Pagination.Page.Embed
-  fullName: Disqord.Extensions.Interactivity.Pagination.Page.Embed
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html#Disqord_Extensions_Interactivity_Menus_Paged_Page_Embed
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.Page.Embed
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.Page.Embed
   nameWithType: Page.Embed
-- uid: Disqord.Extensions.Interactivity.Pagination.Page.Embed*
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.Page.Embed*
   name: Embed
-  href: api/Disqord.Extensions.Interactivity.Pagination.Page.html#Disqord_Extensions_Interactivity_Pagination_Page_Embed_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.Page.Embed
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html#Disqord_Extensions_Interactivity_Menus_Paged_Page_Embed_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.Page.Embed
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.Page.Embed
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.Page.Embed
   nameWithType: Page.Embed
-- uid: Disqord.Extensions.Interactivity.Pagination.Page.op_Implicit(LocalEmbed)~Disqord.Extensions.Interactivity.Pagination.Page
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.Page.op_Implicit(LocalEmbed)~Disqord.Extensions.Interactivity.Menus.Paged.Page
   name: Implicit(LocalEmbed to Page)
-  href: api/Disqord.Extensions.Interactivity.Pagination.Page.html#Disqord_Extensions_Interactivity_Pagination_Page_op_Implicit_LocalEmbed__Disqord_Extensions_Interactivity_Pagination_Page
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.Page.op_Implicit(LocalEmbed)~Disqord.Extensions.Interactivity.Pagination.Page
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html#Disqord_Extensions_Interactivity_Menus_Paged_Page_op_Implicit_LocalEmbed__Disqord_Extensions_Interactivity_Menus_Paged_Page
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.Page.op_Implicit(LocalEmbed)~Disqord.Extensions.Interactivity.Menus.Paged.Page
   name.vb: Widening(LocalEmbed to Page)
-  fullName: Disqord.Extensions.Interactivity.Pagination.Page.Implicit(LocalEmbed to Disqord.Extensions.Interactivity.Pagination.Page)
-  fullName.vb: Disqord.Extensions.Interactivity.Pagination.Page.Widening(LocalEmbed to Disqord.Extensions.Interactivity.Pagination.Page)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.Page.Implicit(LocalEmbed to Disqord.Extensions.Interactivity.Menus.Paged.Page)
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.Page.Widening(LocalEmbed to Disqord.Extensions.Interactivity.Menus.Paged.Page)
   nameWithType: Page.Implicit(LocalEmbed to Page)
   nameWithType.vb: Page.Widening(LocalEmbed to Page)
-- uid: Disqord.Extensions.Interactivity.Pagination.Page.op_Implicit(System.String)~Disqord.Extensions.Interactivity.Pagination.Page
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.Page.op_Implicit(System.String)~Disqord.Extensions.Interactivity.Menus.Paged.Page
   name: Implicit(String to Page)
-  href: api/Disqord.Extensions.Interactivity.Pagination.Page.html#Disqord_Extensions_Interactivity_Pagination_Page_op_Implicit_System_String__Disqord_Extensions_Interactivity_Pagination_Page
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.Page.op_Implicit(System.String)~Disqord.Extensions.Interactivity.Pagination.Page
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html#Disqord_Extensions_Interactivity_Menus_Paged_Page_op_Implicit_System_String__Disqord_Extensions_Interactivity_Menus_Paged_Page
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.Page.op_Implicit(System.String)~Disqord.Extensions.Interactivity.Menus.Paged.Page
   name.vb: Widening(String to Page)
-  fullName: Disqord.Extensions.Interactivity.Pagination.Page.Implicit(System.String to Disqord.Extensions.Interactivity.Pagination.Page)
-  fullName.vb: Disqord.Extensions.Interactivity.Pagination.Page.Widening(System.String to Disqord.Extensions.Interactivity.Pagination.Page)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.Page.Implicit(System.String to Disqord.Extensions.Interactivity.Menus.Paged.Page)
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.Page.Widening(System.String to Disqord.Extensions.Interactivity.Menus.Paged.Page)
   nameWithType: Page.Implicit(String to Page)
   nameWithType.vb: Page.Widening(String to Page)
-- uid: Disqord.Extensions.Interactivity.Pagination.Page.op_Implicit(System.ValueTuple{System.String,LocalEmbed})~Disqord.Extensions.Interactivity.Pagination.Page
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.Page.op_Implicit(System.ValueTuple{System.String,LocalEmbed})~Disqord.Extensions.Interactivity.Menus.Paged.Page
   name: Implicit((String Content, LocalEmbed Embed) to Page)
-  href: api/Disqord.Extensions.Interactivity.Pagination.Page.html#Disqord_Extensions_Interactivity_Pagination_Page_op_Implicit_System_ValueTuple_System_String_LocalEmbed___Disqord_Extensions_Interactivity_Pagination_Page
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.Page.op_Implicit(System.ValueTuple{System.String,LocalEmbed})~Disqord.Extensions.Interactivity.Pagination.Page
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html#Disqord_Extensions_Interactivity_Menus_Paged_Page_op_Implicit_System_ValueTuple_System_String_LocalEmbed___Disqord_Extensions_Interactivity_Menus_Paged_Page
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.Page.op_Implicit(System.ValueTuple{System.String,LocalEmbed})~Disqord.Extensions.Interactivity.Menus.Paged.Page
   name.vb: Widening((Content As String, Embed As LocalEmbed) to Page)
-  fullName: Disqord.Extensions.Interactivity.Pagination.Page.Implicit(System.ValueTuple<System.String, LocalEmbed> to Disqord.Extensions.Interactivity.Pagination.Page)
-  fullName.vb: Disqord.Extensions.Interactivity.Pagination.Page.Widening(System.ValueTuple(Of System.String, LocalEmbed) to Disqord.Extensions.Interactivity.Pagination.Page)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.Page.Implicit(System.ValueTuple<System.String, LocalEmbed> to Disqord.Extensions.Interactivity.Menus.Paged.Page)
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.Page.Widening(System.ValueTuple(Of System.String, LocalEmbed) to Disqord.Extensions.Interactivity.Menus.Paged.Page)
   nameWithType: Page.Implicit((String Content, LocalEmbed Embed) to Page)
   nameWithType.vb: Page.Widening((Content As String, Embed As LocalEmbed) to Page)
-- uid: Disqord.Extensions.Interactivity.Pagination.Page.op_Implicit*
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.Page.op_Implicit*
   name: Implicit
-  href: api/Disqord.Extensions.Interactivity.Pagination.Page.html#Disqord_Extensions_Interactivity_Pagination_Page_op_Implicit_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.Page.op_Implicit
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html#Disqord_Extensions_Interactivity_Menus_Paged_Page_op_Implicit_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.Page.op_Implicit
   isSpec: "True"
   name.vb: Widening
-  fullName: Disqord.Extensions.Interactivity.Pagination.Page.Implicit
-  fullName.vb: Disqord.Extensions.Interactivity.Pagination.Page.Widening
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.Page.Implicit
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.Page.Widening
   nameWithType: Page.Implicit
   nameWithType.vb: Page.Widening
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase
-  name: PaginatorBase
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html
-  commentId: T:Disqord.Extensions.Interactivity.Pagination.PaginatorBase
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase
-  nameWithType: PaginatorBase
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.Channel
-  name: Channel
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_Channel
-  commentId: P:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.Channel
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.Channel
-  nameWithType: PaginatorBase.Channel
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.Channel*
-  name: Channel
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_Channel_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.Channel
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu
+  name: PagedMenu
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html
+  commentId: T:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu
+  nameWithType: PagedMenu
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.#ctor(Snowflake,Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider,System.Boolean)
+  name: PagedMenu(Snowflake, IPageProvider, Boolean)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu__ctor_Snowflake_Disqord_Extensions_Interactivity_Menus_Paged_IPageProvider_System_Boolean_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.#ctor(Snowflake,Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider,System.Boolean)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PagedMenu(Snowflake, Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider, System.Boolean)
+  nameWithType: PagedMenu.PagedMenu(Snowflake, IPageProvider, Boolean)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.#ctor*
+  name: PagedMenu
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu__ctor_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.#ctor
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.Channel
-  nameWithType: PaginatorBase.Channel
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.DefaultPage
-  name: DefaultPage
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_DefaultPage
-  commentId: P:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.DefaultPage
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.DefaultPage
-  nameWithType: PaginatorBase.DefaultPage
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.DefaultPage*
-  name: DefaultPage
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_DefaultPage_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.DefaultPage
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PagedMenu
+  nameWithType: PagedMenu.PagedMenu
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CheckReactionAsync(Disqord.Extensions.Interactivity.Menus.ButtonEventArgs)
+  name: CheckReactionAsync(ButtonEventArgs)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_CheckReactionAsync_Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CheckReactionAsync(Disqord.Extensions.Interactivity.Menus.ButtonEventArgs)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CheckReactionAsync(Disqord.Extensions.Interactivity.Menus.ButtonEventArgs)
+  nameWithType: PagedMenu.CheckReactionAsync(ButtonEventArgs)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CheckReactionAsync*
+  name: CheckReactionAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_CheckReactionAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CheckReactionAsync
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.DefaultPage
-  nameWithType: PaginatorBase.DefaultPage
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.DisposeAsync
-  name: DisposeAsync()
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_DisposeAsync
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.DisposeAsync
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.DisposeAsync()
-  nameWithType: PaginatorBase.DisposeAsync()
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.DisposeAsync*
-  name: DisposeAsync
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_DisposeAsync_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.DisposeAsync
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CheckReactionAsync
+  nameWithType: PagedMenu.CheckReactionAsync
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageNumber
+  name: CurrentPageNumber
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_CurrentPageNumber
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageNumber
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageNumber
+  nameWithType: PagedMenu.CurrentPageNumber
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageNumber*
+  name: CurrentPageNumber
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_CurrentPageNumber_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageNumber
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.DisposeAsync
-  nameWithType: PaginatorBase.DisposeAsync
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.ExpiredAsync
-  name: ExpiredAsync()
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_ExpiredAsync
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.ExpiredAsync
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.ExpiredAsync()
-  nameWithType: PaginatorBase.ExpiredAsync()
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.ExpiredAsync*
-  name: ExpiredAsync
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_ExpiredAsync_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.ExpiredAsync
-  isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.ExpiredAsync
-  nameWithType: PaginatorBase.ExpiredAsync
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.GetPageAsync(Disqord.Events.ReactionAddedEventArgs)
-  name: GetPageAsync(ReactionAddedEventArgs)
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_GetPageAsync_Disqord_Events_ReactionAddedEventArgs_
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.GetPageAsync(Disqord.Events.ReactionAddedEventArgs)
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.GetPageAsync(Disqord.Events.ReactionAddedEventArgs)
-  nameWithType: PaginatorBase.GetPageAsync(ReactionAddedEventArgs)
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.GetPageAsync*
-  name: GetPageAsync
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_GetPageAsync_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.GetPageAsync
-  isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.GetPageAsync
-  nameWithType: PaginatorBase.GetPageAsync
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.InitialiseAsync
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageNumber
+  nameWithType: PagedMenu.CurrentPageNumber
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.InitialiseAsync
   name: InitialiseAsync()
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_InitialiseAsync
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.InitialiseAsync
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.InitialiseAsync()
-  nameWithType: PaginatorBase.InitialiseAsync()
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.InitialiseAsync*
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_InitialiseAsync
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.InitialiseAsync
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.InitialiseAsync()
+  nameWithType: PagedMenu.InitialiseAsync()
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.InitialiseAsync*
   name: InitialiseAsync
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_InitialiseAsync_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.InitialiseAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_InitialiseAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.InitialiseAsync
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.InitialiseAsync
-  nameWithType: PaginatorBase.InitialiseAsync
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.Message
-  name: Message
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_Message
-  commentId: P:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.Message
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.Message
-  nameWithType: PaginatorBase.Message
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.Message*
-  name: Message
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html#Disqord_Extensions_Interactivity_Pagination_PaginatorBase_Message_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.PaginatorBase.Message
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.InitialiseAsync
+  nameWithType: PagedMenu.InitialiseAsync
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageProvider
+  name: PageProvider
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_PageProvider
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageProvider
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageProvider
+  nameWithType: PagedMenu.PageProvider
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageProvider*
+  name: PageProvider
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_PageProvider_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageProvider
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorBase.Message
-  nameWithType: PaginatorBase.Message
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior
-  name: PaginatorTimeoutBehavior
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.html
-  commentId: T:Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior
-  nameWithType: PaginatorTimeoutBehavior
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.ClearReactions
-  name: ClearReactions
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.html#Disqord_Extensions_Interactivity_Pagination_PaginatorTimeoutBehavior_ClearReactions
-  commentId: F:Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.ClearReactions
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.ClearReactions
-  nameWithType: PaginatorTimeoutBehavior.ClearReactions
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.DeleteMessage
-  name: DeleteMessage
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.html#Disqord_Extensions_Interactivity_Pagination_PaginatorTimeoutBehavior_DeleteMessage
-  commentId: F:Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.DeleteMessage
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.DeleteMessage
-  nameWithType: PaginatorTimeoutBehavior.DeleteMessage
-- uid: Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.None
-  name: None
-  href: api/Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.html#Disqord_Extensions_Interactivity_Pagination_PaginatorTimeoutBehavior_None
-  commentId: F:Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.None
-  fullName: Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.None
-  nameWithType: PaginatorTimeoutBehavior.None
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator
-  name: StaticPaginator
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html
-  commentId: T:Disqord.Extensions.Interactivity.Pagination.StaticPaginator
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator
-  nameWithType: StaticPaginator
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.#ctor(IReadOnlyDictionary{IEmoji,Disqord.Extensions.Interactivity.Pagination.Page},Disqord.Extensions.Interactivity.Pagination.Page)
-  name: StaticPaginator(IReadOnlyDictionary<IEmoji, Page>, Page)
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator__ctor_IReadOnlyDictionary_IEmoji_Disqord_Extensions_Interactivity_Pagination_Page__Disqord_Extensions_Interactivity_Pagination_Page_
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.#ctor(IReadOnlyDictionary{IEmoji,Disqord.Extensions.Interactivity.Pagination.Page},Disqord.Extensions.Interactivity.Pagination.Page)
-  name.vb: StaticPaginator(IReadOnlyDictionary(Of IEmoji, Page), Page)
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.StaticPaginator(IReadOnlyDictionary<IEmoji, Disqord.Extensions.Interactivity.Pagination.Page>, Disqord.Extensions.Interactivity.Pagination.Page)
-  fullName.vb: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.StaticPaginator(IReadOnlyDictionary(Of IEmoji, Disqord.Extensions.Interactivity.Pagination.Page), Disqord.Extensions.Interactivity.Pagination.Page)
-  nameWithType: StaticPaginator.StaticPaginator(IReadOnlyDictionary<IEmoji, Page>, Page)
-  nameWithType.vb: StaticPaginator.StaticPaginator(IReadOnlyDictionary(Of IEmoji, Page), Page)
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.#ctor(IReadOnlyDictionary{IEmoji,Disqord.Extensions.Interactivity.Pagination.Page},Disqord.Extensions.Interactivity.Pagination.Page,Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior)
-  name: StaticPaginator(IReadOnlyDictionary<IEmoji, Page>, Page, PaginatorTimeoutBehavior)
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator__ctor_IReadOnlyDictionary_IEmoji_Disqord_Extensions_Interactivity_Pagination_Page__Disqord_Extensions_Interactivity_Pagination_Page_Disqord_Extensions_Interactivity_Pagination_PaginatorTimeoutBehavior_
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.#ctor(IReadOnlyDictionary{IEmoji,Disqord.Extensions.Interactivity.Pagination.Page},Disqord.Extensions.Interactivity.Pagination.Page,Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior)
-  name.vb: StaticPaginator(IReadOnlyDictionary(Of IEmoji, Page), Page, PaginatorTimeoutBehavior)
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.StaticPaginator(IReadOnlyDictionary<IEmoji, Disqord.Extensions.Interactivity.Pagination.Page>, Disqord.Extensions.Interactivity.Pagination.Page, Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior)
-  fullName.vb: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.StaticPaginator(IReadOnlyDictionary(Of IEmoji, Disqord.Extensions.Interactivity.Pagination.Page), Disqord.Extensions.Interactivity.Pagination.Page, Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior)
-  nameWithType: StaticPaginator.StaticPaginator(IReadOnlyDictionary<IEmoji, Page>, Page, PaginatorTimeoutBehavior)
-  nameWithType.vb: StaticPaginator.StaticPaginator(IReadOnlyDictionary(Of IEmoji, Page), Page, PaginatorTimeoutBehavior)
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.#ctor*
-  name: StaticPaginator
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator__ctor_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.#ctor
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageProvider
+  nameWithType: PagedMenu.PageProvider
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ShowPageAsync(System.Int32)
+  name: ShowPageAsync(Int32)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_ShowPageAsync_System_Int32_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ShowPageAsync(System.Int32)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ShowPageAsync(System.Int32)
+  nameWithType: PagedMenu.ShowPageAsync(Int32)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ShowPageAsync*
+  name: ShowPageAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_ShowPageAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ShowPageAsync
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.StaticPaginator
-  nameWithType: StaticPaginator.StaticPaginator
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.DefaultPage
-  name: DefaultPage
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator_DefaultPage
-  commentId: P:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.DefaultPage
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.DefaultPage
-  nameWithType: StaticPaginator.DefaultPage
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.DefaultPage*
-  name: DefaultPage
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator_DefaultPage_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.DefaultPage
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ShowPageAsync
+  nameWithType: PagedMenu.ShowPageAsync
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.UserId
+  name: UserId
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_UserId
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.UserId
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.UserId
+  nameWithType: PagedMenu.UserId
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.UserId*
+  name: UserId
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_UserId_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.UserId
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.DefaultPage
-  nameWithType: StaticPaginator.DefaultPage
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.DefaultTimeoutBehavior
-  name: DefaultTimeoutBehavior
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator_DefaultTimeoutBehavior
-  commentId: F:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.DefaultTimeoutBehavior
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.DefaultTimeoutBehavior
-  nameWithType: StaticPaginator.DefaultTimeoutBehavior
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.ExpiredAsync
-  name: ExpiredAsync()
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator_ExpiredAsync
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.ExpiredAsync
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.ExpiredAsync()
-  nameWithType: StaticPaginator.ExpiredAsync()
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.ExpiredAsync*
-  name: ExpiredAsync
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator_ExpiredAsync_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.ExpiredAsync
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.UserId
+  nameWithType: PagedMenu.UserId
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageFormatter`1
+  name: PageFormatter<T>
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageFormatter-1.html
+  commentId: T:Disqord.Extensions.Interactivity.Menus.Paged.PageFormatter`1
+  name.vb: PageFormatter(Of T)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageFormatter<T>
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.PageFormatter(Of T)
+  nameWithType: PageFormatter<T>
+  nameWithType.vb: PageFormatter(Of T)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider
+  name: PageProvider
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html
+  commentId: T:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider
+  nameWithType: PageProvider
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.#ctor(IEnumerable{Disqord.Extensions.Interactivity.Menus.Paged.Page})
+  name: PageProvider(IEnumerable<Page>)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider__ctor_IEnumerable_Disqord_Extensions_Interactivity_Menus_Paged_Page__
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.#ctor(IEnumerable{Disqord.Extensions.Interactivity.Menus.Paged.Page})
+  name.vb: PageProvider(IEnumerable(Of Page))
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageProvider(IEnumerable<Disqord.Extensions.Interactivity.Menus.Paged.Page>)
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageProvider(IEnumerable(Of Disqord.Extensions.Interactivity.Menus.Paged.Page))
+  nameWithType: PageProvider.PageProvider(IEnumerable<Page>)
+  nameWithType.vb: PageProvider.PageProvider(IEnumerable(Of Page))
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.#ctor*
+  name: PageProvider
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider__ctor_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.#ctor
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.ExpiredAsync
-  nameWithType: StaticPaginator.ExpiredAsync
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.GetPageAsync(Disqord.Events.ReactionAddedEventArgs)
-  name: GetPageAsync(ReactionAddedEventArgs)
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator_GetPageAsync_Disqord_Events_ReactionAddedEventArgs_
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.GetPageAsync(Disqord.Events.ReactionAddedEventArgs)
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.GetPageAsync(Disqord.Events.ReactionAddedEventArgs)
-  nameWithType: StaticPaginator.GetPageAsync(ReactionAddedEventArgs)
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.GetPageAsync*
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageProvider
+  nameWithType: PageProvider.PageProvider
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
+  name: GetPageAsync(PagedMenu)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider_GetPageAsync_Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
+  nameWithType: PageProvider.GetPageAsync(PagedMenu)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.GetPageAsync*
   name: GetPageAsync
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator_GetPageAsync_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.GetPageAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider_GetPageAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.GetPageAsync
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.GetPageAsync
-  nameWithType: StaticPaginator.GetPageAsync
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.InitialiseAsync
-  name: InitialiseAsync()
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator_InitialiseAsync
-  commentId: M:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.InitialiseAsync
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.InitialiseAsync()
-  nameWithType: StaticPaginator.InitialiseAsync()
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.InitialiseAsync*
-  name: InitialiseAsync
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator_InitialiseAsync_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.InitialiseAsync
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.GetPageAsync
+  nameWithType: PageProvider.GetPageAsync
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageCount
+  name: PageCount
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider_PageCount
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageCount
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageCount
+  nameWithType: PageProvider.PageCount
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageCount*
+  name: PageCount
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider_PageCount_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageCount
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.InitialiseAsync
-  nameWithType: StaticPaginator.InitialiseAsync
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.Pages
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageCount
+  nameWithType: PageProvider.PageCount
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.Pages
   name: Pages
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator_Pages
-  commentId: P:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.Pages
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.Pages
-  nameWithType: StaticPaginator.Pages
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.Pages*
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider_Pages
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.Pages
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.Pages
+  nameWithType: PageProvider.Pages
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.Pages*
   name: Pages
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator_Pages_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.Pages
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider_Pages_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.Pages
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.Pages
-  nameWithType: StaticPaginator.Pages
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.TimeoutBehavior
-  name: TimeoutBehavior
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator_TimeoutBehavior
-  commentId: P:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.TimeoutBehavior
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.TimeoutBehavior
-  nameWithType: StaticPaginator.TimeoutBehavior
-- uid: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.TimeoutBehavior*
-  name: TimeoutBehavior
-  href: api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html#Disqord_Extensions_Interactivity_Pagination_StaticPaginator_TimeoutBehavior_
-  commentId: Overload:Disqord.Extensions.Interactivity.Pagination.StaticPaginator.TimeoutBehavior
-  isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Pagination.StaticPaginator.TimeoutBehavior
-  nameWithType: StaticPaginator.TimeoutBehavior
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.Pages
+  nameWithType: PageProvider.Pages
 - uid: Disqord.FriendSource
   name: FriendSource
   href: api/Disqord.FriendSource.html
@@ -38741,6 +39202,32 @@ references:
   isSpec: "True"
   fullName: Disqord.Test.Modules.GeneralModule.GetModule.GetBanAsync
   nameWithType: GeneralModule.GetModule.GetBanAsync
+- uid: Disqord.Test.Modules.GeneralModule.PagedMembersMenuAsync
+  name: PagedMembersMenuAsync()
+  href: api/Disqord.Test.Modules.GeneralModule.html#Disqord_Test_Modules_GeneralModule_PagedMembersMenuAsync
+  commentId: M:Disqord.Test.Modules.GeneralModule.PagedMembersMenuAsync
+  fullName: Disqord.Test.Modules.GeneralModule.PagedMembersMenuAsync()
+  nameWithType: GeneralModule.PagedMembersMenuAsync()
+- uid: Disqord.Test.Modules.GeneralModule.PagedMembersMenuAsync*
+  name: PagedMembersMenuAsync
+  href: api/Disqord.Test.Modules.GeneralModule.html#Disqord_Test_Modules_GeneralModule_PagedMembersMenuAsync_
+  commentId: Overload:Disqord.Test.Modules.GeneralModule.PagedMembersMenuAsync
+  isSpec: "True"
+  fullName: Disqord.Test.Modules.GeneralModule.PagedMembersMenuAsync
+  nameWithType: GeneralModule.PagedMembersMenuAsync
+- uid: Disqord.Test.Modules.GeneralModule.PagedMenuAsync
+  name: PagedMenuAsync()
+  href: api/Disqord.Test.Modules.GeneralModule.html#Disqord_Test_Modules_GeneralModule_PagedMenuAsync
+  commentId: M:Disqord.Test.Modules.GeneralModule.PagedMenuAsync
+  fullName: Disqord.Test.Modules.GeneralModule.PagedMenuAsync()
+  nameWithType: GeneralModule.PagedMenuAsync()
+- uid: Disqord.Test.Modules.GeneralModule.PagedMenuAsync*
+  name: PagedMenuAsync
+  href: api/Disqord.Test.Modules.GeneralModule.html#Disqord_Test_Modules_GeneralModule_PagedMenuAsync_
+  commentId: Overload:Disqord.Test.Modules.GeneralModule.PagedMenuAsync
+  isSpec: "True"
+  fullName: Disqord.Test.Modules.GeneralModule.PagedMenuAsync
+  nameWithType: GeneralModule.PagedMenuAsync
 - uid: Disqord.Test.Modules.GeneralModule.PingAsync
   name: PingAsync()
   href: api/Disqord.Test.Modules.GeneralModule.html#Disqord_Test_Modules_GeneralModule_PingAsync

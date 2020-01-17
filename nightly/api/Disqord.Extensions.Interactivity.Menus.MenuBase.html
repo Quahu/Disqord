@@ -1,0 +1,632 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class MenuBase
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class MenuBase
+   ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase">
+  
+  
+  <h1 id="Disqord_Extensions_Interactivity_Menus_MenuBase" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase" class="text-break">Class MenuBase
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><span class="xref">MenuBase</span></div>
+      <div class="level2"><a class="xref" href="Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html">PagedMenu</a></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Disqord.Extensions.Interactivity.Menus.html">Disqord.Extensions.Interactivity.Menus</a></h6>
+  <h6><strong>Assembly</strong>: Disqord.Extensions.Interactivity.dll</h6>
+  <h5 id="Disqord_Extensions_Interactivity_Menus_MenuBase_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class MenuBase : IAsyncDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase__ctor_System_Boolean_System_Boolean_.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.%23ctor(System.Boolean%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L32">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase__ctor_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.#ctor*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase__ctor_System_Boolean_System_Boolean_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.#ctor(System.Boolean,System.Boolean)">MenuBase(Boolean, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MenuBase(bool addReactions = true, bool triggerOnRemoval = true)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">addReactions</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">triggerOnRemoval</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase_AddsReactions.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.AddsReactions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L19">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase_AddsReactions_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.AddsReactions*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase_AddsReactions" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.AddsReactions">AddsReactions</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool AddsReactions { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase_Channel.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.Channel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L15">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase_Channel_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.Channel*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase_Channel" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.Channel">Channel</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ICachedMessageChannel Channel { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.ICachedMessageChannel.html">ICachedMessageChannel</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase_Client.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.Client%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L13">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase_Client_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.Client*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase_Client" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.Client">Client</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DiscordClientBase Client { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.DiscordClientBase.html">DiscordClientBase</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase_MessageId.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L17">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase_MessageId_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase_MessageId" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId">MessageId</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Snowflake MessageId { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Snowflake</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase_TriggersOnRemoval.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.TriggersOnRemoval%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L21">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase_TriggersOnRemoval_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.TriggersOnRemoval*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase_TriggersOnRemoval" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.TriggersOnRemoval">TriggersOnRemoval</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TriggersOnRemoval { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase_AddButtonAsync_Disqord_Extensions_Interactivity_Menus_Button_.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.AddButtonAsync(Disqord.Extensions.Interactivity.Menus.Button)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L129">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase_AddButtonAsync_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.AddButtonAsync*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase_AddButtonAsync_Disqord_Extensions_Interactivity_Menus_Button_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.AddButtonAsync(Disqord.Extensions.Interactivity.Menus.Button)">AddButtonAsync(Button)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ValueTask AddButtonAsync(Button button)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Extensions.Interactivity.Menus.Button.html">Button</a></td>
+        <td><span class="parametername">button</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ValueTask</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase_CheckReactionAsync_Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.CheckReactionAsync(Disqord.Extensions.Interactivity.Menus.ButtonEventArgs)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L126">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase_CheckReactionAsync_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.CheckReactionAsync*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase_CheckReactionAsync_Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.CheckReactionAsync(Disqord.Extensions.Interactivity.Menus.ButtonEventArgs)">CheckReactionAsync(ButtonEventArgs)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual ValueTask&lt;bool&gt; CheckReactionAsync(ButtonEventArgs e)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.html">ButtonEventArgs</a></td>
+        <td><span class="parametername">e</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ValueTask</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase_ClearButtonsAsync.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.ClearButtonsAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L170">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase_ClearButtonsAsync_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.ClearButtonsAsync*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase_ClearButtonsAsync" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.ClearButtonsAsync">ClearButtonsAsync()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ValueTask ClearButtonsAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ValueTask</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase_DisposeAsync.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.DisposeAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L211">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase_DisposeAsync_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.DisposeAsync*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase_DisposeAsync" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.DisposeAsync">DisposeAsync()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual ValueTask DisposeAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ValueTask</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase_InitialiseAsync.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.InitialiseAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L209">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase_InitialiseAsync_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.InitialiseAsync*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase_InitialiseAsync" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.InitialiseAsync">InitialiseAsync()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract Task&lt;Snowflake&gt; InitialiseAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span>&lt;<span class="xref">Snowflake</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase_RemoveButtonAsync_Disqord_Extensions_Interactivity_Menus_Button_.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync(Disqord.Extensions.Interactivity.Menus.Button)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L154">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase_RemoveButtonAsync_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase_RemoveButtonAsync_Disqord_Extensions_Interactivity_Menus_Button_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync(Disqord.Extensions.Interactivity.Menus.Button)">RemoveButtonAsync(Button)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ValueTask RemoveButtonAsync(Button button)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Extensions.Interactivity.Menus.Button.html">Button</a></td>
+        <td><span class="parametername">button</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ValueTask</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase_RemoveButtonAsync_IEmoji_.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync(IEmoji)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L157">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase_RemoveButtonAsync_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase_RemoveButtonAsync_IEmoji_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync(IEmoji)">RemoveButtonAsync(IEmoji)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ValueTask RemoveButtonAsync(IEmoji emoji)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEmoji</span></td>
+        <td><span class="parametername">emoji</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ValueTask</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase_StopAsync.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase.StopAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L193">View Source</a>
+  </span>
+  <a id="Disqord_Extensions_Interactivity_Menus_MenuBase_StopAsync_" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.StopAsync*"></a>
+  <h4 id="Disqord_Extensions_Interactivity_Menus_MenuBase_StopAsync" data-uid="Disqord.Extensions.Interactivity.Menus.MenuBase.StopAsync">StopAsync()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task StopAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Extensions_Interactivity_Menus_MenuBase.md&amp;value=---%0Auid%3A%20Disqord.Extensions.Interactivity.Menus.MenuBase%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Extensions.Interactivity/Menus/MenuBase.cs/#L11" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

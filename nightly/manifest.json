@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.DiscordBot.html",
-          "hash": "tKOiwVhXh3vTaBlpPE8ELg=="
+          "hash": "IiCeh0WfOOGgjls7u7Kryw=="
         }
       },
       "is_incremental": false,
@@ -93,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.DiscordBotBase.html",
-          "hash": "kedfdZ4MsCFfqsGkHbgUSQ=="
+          "hash": "E7MVhUCw4u4DZ4iwSEAVfA=="
         }
       },
       "is_incremental": false,
@@ -501,7 +501,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.Sharding.DiscordBotSharder.html",
-          "hash": "00P517DsZefAqyRJkxYflg=="
+          "hash": "dt+NtYkMvsrrJMLhF2VWxg=="
         }
       },
       "is_incremental": false,
@@ -1053,7 +1053,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.DiscordClient.html",
-          "hash": "Tl49pFA1mX2svmng2VDGZg=="
+          "hash": "Bs0U0g9+vz8q/NGJk/rl/A=="
         }
       },
       "is_incremental": false,
@@ -1065,7 +1065,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.DiscordClientBase.html",
-          "hash": "mcu3QilPaNQnR8oWXWT0dA=="
+          "hash": "uROyWhHy9c5Q9+ormIn1mg=="
         }
       },
       "is_incremental": false,
@@ -1281,7 +1281,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Events.DiscordEventArgs.html",
-          "hash": "QcHWL2MQ06HVdhXU8tBPHg=="
+          "hash": "UwgjbNVV8zQ6UTGrC/9Xxg=="
         }
       },
       "is_incremental": false,
@@ -1689,7 +1689,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Extensions.Interactivity.InteractivityEntityExtensions.html",
-          "hash": "yKJwucKD6sdELzVkpsKcpA=="
+          "hash": "UceYz84shMEeyLjvoPgUOQ=="
         }
       },
       "is_incremental": false,
@@ -1701,7 +1701,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Extensions.Interactivity.InteractivityExtension.html",
-          "hash": "uKb/EQwwJ70/VtaIEbPoLQ=="
+          "hash": "98esnVIUfPyAo6/jNzgdNQ=="
         }
       },
       "is_incremental": false,
@@ -1709,11 +1709,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions.yml",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.Button.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Disqord.Extensions.Interactivity.Pagination.InteractivityPaginationEntityExtensions.html",
-          "hash": "P4RCJjjavGntvUTtgio/jQ=="
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.Button.html",
+          "hash": "hw/gXosF4GbnE6bycyrscA=="
         }
       },
       "is_incremental": false,
@@ -1721,11 +1721,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Extensions.Interactivity.Pagination.Page.yml",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.ButtonAttribute.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Disqord.Extensions.Interactivity.Pagination.Page.html",
-          "hash": "PEluTR2wpClAfUqhklWUIw=="
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.ButtonAttribute.html",
+          "hash": "rXF7q9A4BYsk7qXHULWeZQ=="
         }
       },
       "is_incremental": false,
@@ -1733,11 +1733,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.yml",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.ButtonCallback.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Disqord.Extensions.Interactivity.Pagination.PaginatorBase.html",
-          "hash": "NqM4MfdwXEoy00b8vvWsZg=="
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.ButtonCallback.html",
+          "hash": "iiAzk75kfbanSoRlmwbooQ=="
         }
       },
       "is_incremental": false,
@@ -1745,11 +1745,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.yml",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Disqord.Extensions.Interactivity.Pagination.PaginatorTimeoutBehavior.html",
-          "hash": "n8vTFQEVeoX2da27ldtm0g=="
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.ButtonEventArgs.html",
+          "hash": "ipVeBqZpkypQxTw8dflaAA=="
         }
       },
       "is_incremental": false,
@@ -1757,11 +1757,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.yml",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Disqord.Extensions.Interactivity.Pagination.StaticPaginator.html",
-          "hash": "/46yjoc3EOzxYTGQ8/pM0w=="
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.html",
+          "hash": "D1QfJJst2cec3of7tsd+Tg=="
         }
       },
       "is_incremental": false,
@@ -1769,11 +1769,107 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Extensions.Interactivity.Pagination.yml",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.MenuBase.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Disqord.Extensions.Interactivity.Pagination.html",
-          "hash": "fmHceAjQEakToDVaQrIstg=="
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.MenuBase.html",
+          "hash": "N3tHvILkTuRvTxeNESLTaA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider-1.html",
+          "hash": "CcbJ81lwSuVTlzqUZpEL3Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.html",
+          "hash": "kfziS5WOUT/9vTy5ZLnewQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.Page.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.Page.html",
+          "hash": "DkdOwupPiyv7uqG8/CG4Kg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.PageFormatter-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.PageFormatter-1.html",
+          "hash": "FcZ4PYUSAZAvKkqXpKEh0g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html",
+          "hash": "iear1Ym8c3sUOtQUFktnjA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html",
+          "hash": "R96W3MMGFhhdiWARs/jJyw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.Paged.html",
+          "hash": "UphQRSXr6GNwOrjR4J4CCA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Extensions.Interactivity.Menus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Extensions.Interactivity.Menus.html",
+          "hash": "rgpJ/DsdBSNQueHnp8B3ow=="
         }
       },
       "is_incremental": false,
@@ -1845,7 +1941,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.ICachedMessageChannel.html",
-          "hash": "91dwh+tfqcmhWqCc3Nq7DQ=="
+          "hash": "aE75lw2O7c7wPk4M8z2Adw=="
         }
       },
       "is_incremental": false,
@@ -4437,7 +4533,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Sharding.DiscordSharder.html",
-          "hash": "r6G3AH6mBP+JDJz5tuxz0A=="
+          "hash": "VToxrPUF52bBGS8ZmtLTcw=="
         }
       },
       "is_incremental": false,
@@ -4533,7 +4629,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Test.Modules.GeneralModule.GetModule.html",
-          "hash": "4Y+tm/lFiVJE5C9r4d2Gcg=="
+          "hash": "koP2hjrkucbitfQM/qh9wg=="
         }
       },
       "is_incremental": false,
@@ -4545,7 +4641,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Test.Modules.GeneralModule.html",
-          "hash": "ClPYfhv2j03xqsk2MJN7XA=="
+          "hash": "lDDXbjKq6iaSpApwCfW3bw=="
         }
       },
       "is_incremental": false,
@@ -4701,7 +4797,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "MlDShZ6JrdsZmSWIfiF98A=="
+          "hash": "tAGPyFc6OcWIiuMrDVzyzA=="
         }
       },
       "is_incremental": false,
@@ -4767,11 +4863,10 @@
         "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
-        "TocDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
-          "total_file_count": 0,
+          "total_file_count": 398,
           "skipped_file_count": 0
         },
         "ConceptualDocumentProcessor": {
@@ -4780,10 +4875,11 @@
           "total_file_count": 3,
           "skipped_file_count": 0
         },
-        "ManagedReferenceDocumentProcessor": {
+        "TocDocumentProcessor": {
           "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
-          "total_file_count": 390,
+          "total_file_count": 0,
           "skipped_file_count": 0
         }
       }
