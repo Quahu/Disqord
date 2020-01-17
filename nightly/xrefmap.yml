@@ -16187,6 +16187,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PagedMenu
   nameWithType: PagedMenu.PagedMenu
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ChangePageAsync(System.Int32)
+  name: ChangePageAsync(Int32)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_ChangePageAsync_System_Int32_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ChangePageAsync(System.Int32)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ChangePageAsync(System.Int32)
+  nameWithType: PagedMenu.ChangePageAsync(Int32)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ChangePageAsync*
+  name: ChangePageAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_ChangePageAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ChangePageAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ChangePageAsync
+  nameWithType: PagedMenu.ChangePageAsync
 - uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CheckReactionAsync(Disqord.Extensions.Interactivity.Menus.ButtonEventArgs)
   name: CheckReactionAsync(ButtonEventArgs)
   href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_CheckReactionAsync_Disqord_Extensions_Interactivity_Menus_ButtonEventArgs_
@@ -16226,6 +16239,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.InitialiseAsync
   nameWithType: PagedMenu.InitialiseAsync
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageChangedAsync
+  name: PageChangedAsync()
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_PageChangedAsync
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageChangedAsync
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageChangedAsync()
+  nameWithType: PagedMenu.PageChangedAsync()
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageChangedAsync*
+  name: PageChangedAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_PageChangedAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageChangedAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageChangedAsync
+  nameWithType: PagedMenu.PageChangedAsync
 - uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageProvider
   name: PageProvider
   href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_PageProvider
@@ -16239,19 +16265,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.PageProvider
   nameWithType: PagedMenu.PageProvider
-- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ShowPageAsync(System.Int32)
-  name: ShowPageAsync(Int32)
-  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_ShowPageAsync_System_Int32_
-  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ShowPageAsync(System.Int32)
-  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ShowPageAsync(System.Int32)
-  nameWithType: PagedMenu.ShowPageAsync(Int32)
-- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ShowPageAsync*
-  name: ShowPageAsync
-  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_ShowPageAsync_
-  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ShowPageAsync
-  isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.ShowPageAsync
-  nameWithType: PagedMenu.ShowPageAsync
 - uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.UserId
   name: UserId
   href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_UserId
