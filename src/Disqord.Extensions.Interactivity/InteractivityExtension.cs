@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Events;
+using Disqord.Extensions.Interactivity.Menus;
 using Disqord.Extensions.Interactivity.Pagination;
 
 namespace Disqord.Extensions.Interactivity
@@ -12,9 +13,9 @@ namespace Disqord.Extensions.Interactivity
 
         public static readonly TimeSpan DefaultReactionTimeout = TimeSpan.FromSeconds(15);
 
-        public static readonly TimeSpan DefaultPaginatorTimeout = TimeSpan.FromSeconds(30);
+        public static readonly TimeSpan DefaultMenuTimeout = TimeSpan.FromMinutes(1);
 
-        private readonly LockedDictionary<Snowflake, PaginatorWrapper> _paginators = new LockedDictionary<Snowflake, PaginatorWrapper>();
+        private readonly LockedDictionary<Snowflake, MenuWrapper> _menus = new LockedDictionary<Snowflake, MenuWrapper>();
 
         public InteractivityExtension()
         { }
@@ -22,53 +23,61 @@ namespace Disqord.Extensions.Interactivity
         protected internal override ValueTask InitialiseAsync()
         {
             Client.ReactionAdded += ReactionAddedAsync;
+            Client.ReactionRemoved += ReactionRemovedAsync;
             return default;
         }
 
-        private async Task ReactionAddedAsync(ReactionAddedEventArgs e)
+        private Task ReactionAddedAsync(ReactionAddedEventArgs e)
         {
-            if (_paginators.TryGetValue(e.Message.Id, out var wrapper))
-            {
-                var page = await wrapper.Paginator.GetPageAsync(e).ConfigureAwait(false);
-                if (page != null)
-                {
-                    wrapper.Update();
-                    await wrapper.Paginator.Message.ModifyAsync(x =>
-                    {
-                        x.Content = page.Content;
-                        x.Embed = page.Embed;
-                    }).ConfigureAwait(false);
-                }
-            }
+            if (e.User.Id == Client.CurrentUser.Id)
+                return Task.CompletedTask;
+
+            if (!_menus.TryGetValue(e.Message.Id, out var wrapper))
+                return Task.CompletedTask;
+
+            var args = new ButtonEventArgs(e);
+            return wrapper.Menu.OnButtonAsync(args);
         }
 
-        public async Task SendPaginatorAsync(ICachedMessageChannel channel, PaginatorBase paginator, TimeSpan timeout = default)
+        private Task ReactionRemovedAsync(ReactionRemovedEventArgs e)
+        {
+            if (e.User.Id == Client.CurrentUser.Id)
+                return Task.CompletedTask;
+
+            if (!_menus.TryGetValue(e.Message.Id, out var wrapper))
+                return Task.CompletedTask;
+
+            var args = new ButtonEventArgs(e);
+            return wrapper.Menu.OnButtonAsync(args);
+        }
+
+        public async Task StartMenuAsync(ICachedMessageChannel channel, MenuBase menu, bool wait = false, TimeSpan timeout = default)
         {
             if (channel == null)
                 throw new ArgumentNullException(nameof(channel));
 
-            if (paginator == null)
-                throw new ArgumentNullException(nameof(paginator));
+            if (menu == null)
+                throw new ArgumentNullException(nameof(menu));
 
             timeout = timeout == default
-                ? DefaultPaginatorTimeout
+                ? DefaultMenuTimeout
                 : timeout;
 
-            paginator.Channel = channel;
-            var defaultPage = paginator.DefaultPage;
-            var message = await channel.SendMessageAsync(defaultPage.Content, embed: defaultPage.Embed).ConfigureAwait(false);
-            _paginators.Add(message.Id, new PaginatorWrapper(this, paginator, timeout));
-            paginator.Message = message;
-            await paginator.InitialiseAsync().ConfigureAwait(false);
+            var wrapper = new MenuWrapper(this, menu, timeout);
+            menu._wrapper = wrapper;
+            menu.Channel = channel;
+            menu.MessageId = await menu.InitialiseAsync().ConfigureAwait(false);
+            _menus.Add(menu.MessageId, wrapper);
+            await menu.StartAsync(wrapper, channel, wait).ConfigureAwait(false);
         }
 
-        public async Task<PaginatorBase> ClosePaginatorAsync(Snowflake messageId)
+        public async Task<MenuBase> StopMenuAsync(Snowflake messageId)
         {
-            if (!_paginators.TryRemove(messageId, out var wrapper))
+            if (!_menus.TryRemove(messageId, out var wrapper))
                 return null;
 
-            await wrapper.DisposeAsync().ConfigureAwait(false);
-            return wrapper.Paginator;
+            await wrapper.Menu.StopAsync().ConfigureAwait(false);
+            return wrapper.Menu;
         }
 
         public async Task<MessageReceivedEventArgs> WaitForMessageAsync(Predicate<MessageReceivedEventArgs> predicate, TimeSpan timeout = default)

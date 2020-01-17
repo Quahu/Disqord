@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Disqord.Bot;
+using Disqord.Extensions.Interactivity.Menus;
+using Disqord.Extensions.Interactivity.Menus.Paged;
 using Qmmands;
 
 namespace Disqord.Test.Modules
@@ -31,6 +33,29 @@ namespace Disqord.Test.Modules
                 else
                     await ReplyAsync($"`{id}` ({ban.User}) is banned.");
             }
+        }
+
+        [Command("paged")]
+        public async Task PagedMenuAsync()
+        {
+            var pages = new Page[]
+            {
+                /* string */ "First page!",
+                /* embed  */ new LocalEmbedBuilder().WithDescription("Second page!").Build(),
+                /* tuple  */ ("Third page!", new LocalEmbedBuilder().WithAuthor(Context.User).Build())
+            };
+            var pageProvider = new PageProvider(pages);
+            var menu = new PagedMenu(Context.User.Id, pageProvider);
+            await Context.Channel.StartMenuAsync(menu);
+        }
+
+        [Command("pagedmembers")]
+        public async Task PagedMembersMenuAsync()
+        {
+            var members = Context.Guild.Members.Values as CachedMember[];
+            var pageProvider = new ArrayPageProvider<CachedMember>(members);
+            var menu = new PagedMenu(Context.User.Id, pageProvider);
+            await Context.Channel.StartMenuAsync(menu);
         }
     }
 }

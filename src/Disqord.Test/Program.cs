@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Disqord.Bot;
 using Disqord.Bot.Prefixes;
 using Disqord.Bot.Sharding;
@@ -21,6 +21,7 @@ namespace Disqord.Test
         {
             Logger.MessageLogged += MessageLogged;
             AddModules(typeof(Program).Assembly);
+            AddExtensionAsync(new InteractivityExtension()).GetAwaiter().GetResult();
         }
 
         private void MessageLogged(object sender, Logging.MessageLoggedEventArgs e)

@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Disqord.Extensions.Interactivity.Menus;
 
 namespace Disqord.Extensions.Interactivity.Pagination
 {
-    internal sealed class PaginatorWrapper : IAsyncDisposable
+    internal sealed class MenuWrapper : IAsyncDisposable
     {
-        public readonly PaginatorBase Paginator;
+        public readonly MenuBase Menu;
         private readonly InteractivityExtension _extension;
         private readonly CancellationTokenSource _cts;
         private readonly TimeSpan _timeout;
         private bool _isDisposed;
 
-        public PaginatorWrapper(InteractivityExtension extension, PaginatorBase paginator, TimeSpan timeout)
+        public MenuWrapper(InteractivityExtension extension, MenuBase menu, TimeSpan timeout)
         {
-            Paginator = paginator;
+            Menu = menu;
             _extension = extension;
             _cts = new CancellationTokenSource(timeout);
             _timeout = timeout;
@@ -32,7 +33,7 @@ namespace Disqord.Extensions.Interactivity.Pagination
             if (_isDisposed)
                 return;
 
-            await _extension.ClosePaginatorAsync(Paginator.Message.Id).ConfigureAwait(false);
+            await _extension.StopMenuAsync(Menu.MessageId).ConfigureAwait(false);
         }
 
         public void Update()
@@ -50,7 +51,7 @@ namespace Disqord.Extensions.Interactivity.Pagination
             }
             catch { }
             _cts.Dispose();
-            await Paginator.DisposeAsync().ConfigureAwait(false);
+            await Menu.DisposeAsync().ConfigureAwait(false);
         }
     }
 }

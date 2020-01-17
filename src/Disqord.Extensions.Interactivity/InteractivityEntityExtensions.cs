@@ -18,7 +18,7 @@ namespace Disqord.Extensions.Interactivity
                 ? channelPredicate
                 : predicate + channelPredicate;
 
-            var extension = GetExtension(channel.Client);
+            var extension = channel.Client.GetInteractivity();
             return extension.WaitForMessageAsync(predicate, timeout);
         }
 
@@ -32,11 +32,11 @@ namespace Disqord.Extensions.Interactivity
                 ? channelPredicate
                 : predicate + channelPredicate;
 
-            var extension = GetExtension(channel.Client);
+            var extension = channel.Client.GetInteractivity();
             return extension.WaitForReactionAsync(predicate, timeout);
         }
 
-        private static InteractivityExtension GetExtension(DiscordClientBase client)
+        public static InteractivityExtension GetInteractivity(this DiscordClientBase client)
         {
             var extension = client.GetExtension<InteractivityExtension>();
             if (extension == null)
