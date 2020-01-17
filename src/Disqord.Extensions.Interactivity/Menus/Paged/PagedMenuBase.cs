@@ -18,10 +18,10 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             if (addDefaultButtons)
             {
                 // these contain the variation selectors
-                AddButtonAsync(new Button(new LocalEmoji("⏮️"), e => ShowPageAsync(0), 0));
-                AddButtonAsync(new Button(new LocalEmoji("◀️"), e => ShowPageAsync(CurrentPageIndex - 1), 1));
-                AddButtonAsync(new Button(new LocalEmoji("▶️"), e => ShowPageAsync(CurrentPageIndex + 1), 2));
-                AddButtonAsync(new Button(new LocalEmoji("⏭️"), e => ShowPageAsync(PageProvider.PageCount - 1), 3));
+                AddButtonAsync(new Button(new LocalEmoji("⏮️"), e => ChangePageAsync(0), 0));
+                AddButtonAsync(new Button(new LocalEmoji("◀️"), e => ChangePageAsync(CurrentPageIndex - 1), 1));
+                AddButtonAsync(new Button(new LocalEmoji("▶️"), e => ChangePageAsync(CurrentPageIndex + 1), 2));
+                AddButtonAsync(new Button(new LocalEmoji("⏭️"), e => ChangePageAsync(PageProvider.PageCount - 1), 3));
                 AddButtonAsync(new Button(new LocalEmoji("⏹️"), async e =>
                 {
                     try
@@ -44,7 +44,10 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             return message;
         }
 
-        protected async Task ShowPageAsync(int pageIndex)
+        protected virtual ValueTask PageChangedAsync()
+            => default;
+
+        public async Task ChangePageAsync(int pageIndex)
         {
             if (pageIndex < 0 || pageIndex > PageProvider.PageCount - 1)
                 return;
@@ -56,6 +59,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
                 x.Content = page.Content;
                 x.Embed = page.Embed;
             }).ConfigureAwait(false);
+            await PageChangedAsync().ConfigureAwait(false);
         }
     }
 }
