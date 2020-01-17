@@ -16200,19 +16200,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CheckReactionAsync
   nameWithType: PagedMenu.CheckReactionAsync
-- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageNumber
-  name: CurrentPageNumber
-  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_CurrentPageNumber
-  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageNumber
-  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageNumber
-  nameWithType: PagedMenu.CurrentPageNumber
-- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageNumber*
-  name: CurrentPageNumber
-  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_CurrentPageNumber_
-  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageNumber
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageIndex
+  name: CurrentPageIndex
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_CurrentPageIndex
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageIndex
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageIndex
+  nameWithType: PagedMenu.CurrentPageIndex
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageIndex*
+  name: CurrentPageIndex
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_CurrentPageIndex_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageIndex
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageNumber
-  nameWithType: PagedMenu.CurrentPageNumber
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.CurrentPageIndex
+  nameWithType: PagedMenu.CurrentPageIndex
 - uid: Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.InitialiseAsync
   name: InitialiseAsync()
   href: api/Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu.html#Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_InitialiseAsync
