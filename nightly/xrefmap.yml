@@ -15461,12 +15461,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Extensions.Interactivity.InteractivityExtension.InitialiseAsync
   nameWithType: InteractivityExtension.InitialiseAsync
-- uid: Disqord.Extensions.Interactivity.InteractivityExtension.StartMenuAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Menus.MenuBase,System.Boolean,TimeSpan)
-  name: StartMenuAsync(ICachedMessageChannel, MenuBase, Boolean, TimeSpan)
-  href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_StartMenuAsync_Disqord_ICachedMessageChannel_Disqord_Extensions_Interactivity_Menus_MenuBase_System_Boolean_TimeSpan_
-  commentId: M:Disqord.Extensions.Interactivity.InteractivityExtension.StartMenuAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Menus.MenuBase,System.Boolean,TimeSpan)
-  fullName: Disqord.Extensions.Interactivity.InteractivityExtension.StartMenuAsync(Disqord.ICachedMessageChannel, Disqord.Extensions.Interactivity.Menus.MenuBase, System.Boolean, TimeSpan)
-  nameWithType: InteractivityExtension.StartMenuAsync(ICachedMessageChannel, MenuBase, Boolean, TimeSpan)
+- uid: Disqord.Extensions.Interactivity.InteractivityExtension.StartMenuAsync(IMessageChannel,Disqord.Extensions.Interactivity.Menus.MenuBase,TimeSpan)
+  name: StartMenuAsync(IMessageChannel, MenuBase, TimeSpan)
+  href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_StartMenuAsync_IMessageChannel_Disqord_Extensions_Interactivity_Menus_MenuBase_TimeSpan_
+  commentId: M:Disqord.Extensions.Interactivity.InteractivityExtension.StartMenuAsync(IMessageChannel,Disqord.Extensions.Interactivity.Menus.MenuBase,TimeSpan)
+  fullName: Disqord.Extensions.Interactivity.InteractivityExtension.StartMenuAsync(IMessageChannel, Disqord.Extensions.Interactivity.Menus.MenuBase, TimeSpan)
+  nameWithType: InteractivityExtension.StartMenuAsync(IMessageChannel, MenuBase, TimeSpan)
 - uid: Disqord.Extensions.Interactivity.InteractivityExtension.StartMenuAsync*
   name: StartMenuAsync
   href: api/Disqord.Extensions.Interactivity.InteractivityExtension.html#Disqord_Extensions_Interactivity_InteractivityExtension_StartMenuAsync_
@@ -15717,12 +15717,12 @@ references:
   commentId: T:Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions
   fullName: Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions
   nameWithType: InteractivityMenuEntityExtensions
-- uid: Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.StartMenuAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Menus.MenuBase,System.Boolean,TimeSpan)
-  name: StartMenuAsync(ICachedMessageChannel, MenuBase, Boolean, TimeSpan)
-  href: api/Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.html#Disqord_Extensions_Interactivity_Menus_InteractivityMenuEntityExtensions_StartMenuAsync_Disqord_ICachedMessageChannel_Disqord_Extensions_Interactivity_Menus_MenuBase_System_Boolean_TimeSpan_
-  commentId: M:Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.StartMenuAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Menus.MenuBase,System.Boolean,TimeSpan)
-  fullName: Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.StartMenuAsync(Disqord.ICachedMessageChannel, Disqord.Extensions.Interactivity.Menus.MenuBase, System.Boolean, TimeSpan)
-  nameWithType: InteractivityMenuEntityExtensions.StartMenuAsync(ICachedMessageChannel, MenuBase, Boolean, TimeSpan)
+- uid: Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.StartMenuAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Menus.MenuBase,TimeSpan)
+  name: StartMenuAsync(ICachedMessageChannel, MenuBase, TimeSpan)
+  href: api/Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.html#Disqord_Extensions_Interactivity_Menus_InteractivityMenuEntityExtensions_StartMenuAsync_Disqord_ICachedMessageChannel_Disqord_Extensions_Interactivity_Menus_MenuBase_TimeSpan_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.StartMenuAsync(Disqord.ICachedMessageChannel,Disqord.Extensions.Interactivity.Menus.MenuBase,TimeSpan)
+  fullName: Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.StartMenuAsync(Disqord.ICachedMessageChannel, Disqord.Extensions.Interactivity.Menus.MenuBase, TimeSpan)
+  nameWithType: InteractivityMenuEntityExtensions.StartMenuAsync(ICachedMessageChannel, MenuBase, TimeSpan)
 - uid: Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.StartMenuAsync*
   name: StartMenuAsync
   href: api/Disqord.Extensions.Interactivity.Menus.InteractivityMenuEntityExtensions.html#Disqord_Extensions_Interactivity_Menus_InteractivityMenuEntityExtensions_StartMenuAsync_
@@ -15853,19 +15853,32 @@ references:
   isSpec: "True"
   fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.InitialiseAsync
   nameWithType: MenuBase.InitialiseAsync
-- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId
-  name: MessageId
-  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_MessageId
-  commentId: P:Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId
-  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId
-  nameWithType: MenuBase.MessageId
-- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId*
-  name: MessageId
-  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_MessageId_
-  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.Interactivity
+  name: Interactivity
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_Interactivity
+  commentId: P:Disqord.Extensions.Interactivity.Menus.MenuBase.Interactivity
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.Interactivity
+  nameWithType: MenuBase.Interactivity
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.Interactivity*
+  name: Interactivity
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_Interactivity_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.Interactivity
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.MessageId
-  nameWithType: MenuBase.MessageId
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.Interactivity
+  nameWithType: MenuBase.Interactivity
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.Message
+  name: Message
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_Message
+  commentId: P:Disqord.Extensions.Interactivity.Menus.MenuBase.Message
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.Message
+  nameWithType: MenuBase.Message
+- uid: Disqord.Extensions.Interactivity.Menus.MenuBase.Message*
+  name: Message
+  href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_Message_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.MenuBase.Message
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.MenuBase.Message
+  nameWithType: MenuBase.Message
 - uid: Disqord.Extensions.Interactivity.Menus.MenuBase.RemoveButtonAsync(Disqord.Extensions.Interactivity.Menus.Button)
   name: RemoveButtonAsync(Button)
   href: api/Disqord.Extensions.Interactivity.Menus.MenuBase.html#Disqord_Extensions_Interactivity_Menus_MenuBase_RemoveButtonAsync_Disqord_Extensions_Interactivity_Menus_Button_
