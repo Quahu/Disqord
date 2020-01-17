@@ -51,7 +51,7 @@ namespace Disqord.Extensions.Interactivity
             return wrapper.Menu.OnButtonAsync(args);
         }
 
-        public async Task StartMenuAsync(ICachedMessageChannel channel, MenuBase menu, bool wait = false, TimeSpan timeout = default)
+        public async Task StartMenuAsync(IMessageChannel channel, MenuBase menu, TimeSpan timeout = default)
         {
             if (channel == null)
                 throw new ArgumentNullException(nameof(channel));
@@ -64,11 +64,16 @@ namespace Disqord.Extensions.Interactivity
                 : timeout;
 
             var wrapper = new MenuWrapper(this, menu, timeout);
-            menu._wrapper = wrapper;
+            menu.Interactivity = this;
             menu.Channel = channel;
-            menu.MessageId = await menu.InitialiseAsync().ConfigureAwait(false);
-            _menus.Add(menu.MessageId, wrapper);
-            await menu.StartAsync(wrapper, channel, wait).ConfigureAwait(false);
+            menu._wrapper = wrapper;
+            var message = await menu.InitialiseAsync().ConfigureAwait(false);
+            if (message == null)
+                throw new InvalidOperationException("Message returned from the menu's InitialiseAsync was null.");
+
+            menu.Message = message;
+            _menus.Add(message.Id, wrapper);
+            await menu.StartAsync().ConfigureAwait(false);
         }
 
         public async Task<MenuBase> StopMenuAsync(Snowflake messageId)

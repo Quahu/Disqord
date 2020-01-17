@@ -33,7 +33,7 @@ namespace Disqord.Extensions.Interactivity.Pagination
             if (_isDisposed)
                 return;
 
-            await _extension.StopMenuAsync(Menu.MessageId).ConfigureAwait(false);
+            await _extension.StopMenuAsync(Menu.Message.Id).ConfigureAwait(false);
         }
 
         public void Update()

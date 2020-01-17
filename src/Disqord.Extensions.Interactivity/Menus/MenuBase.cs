@@ -10,11 +10,13 @@ namespace Disqord.Extensions.Interactivity.Menus
 {
     public abstract class MenuBase : IAsyncDisposable
     {
-        public DiscordClientBase Client => Channel.Client;
+        public InteractivityExtension Interactivity { get; internal set; }
 
-        public ICachedMessageChannel Channel { get; internal set; }
+        public DiscordClientBase Client => Interactivity.Client;
 
-        public Snowflake MessageId { get; internal set; }
+        public IMessageChannel Channel { get; internal set; }
+
+        public IUserMessage Message { get; internal set; }
 
         public bool AddsReactions { get; }
 
@@ -147,7 +149,7 @@ namespace Disqord.Extensions.Interactivity.Menus
 
         private async Task InternalAddButtonAsync(Button button)
         {
-            await Channel.AddReactionAsync(MessageId, button.Emoji).ConfigureAwait(false);
+            await Message.AddReactionAsync(button.Emoji).ConfigureAwait(false);
             _buttons.Add(button.Emoji, button);
         }
 
@@ -164,7 +166,7 @@ namespace Disqord.Extensions.Interactivity.Menus
 
             return !_isRunning || !AddsReactions
                 ? default
-                : new ValueTask(Channel.RemoveOwnReactionAsync(MessageId, button.Emoji));
+                : new ValueTask(Message.RemoveOwnReactionAsync(button.Emoji));
         }
 
         public ValueTask ClearButtonsAsync()
@@ -173,11 +175,11 @@ namespace Disqord.Extensions.Interactivity.Menus
             return !_isRunning
                 ? default
                 : Channel is CachedTextChannel textChannel && textChannel.Guild.CurrentMember.GetPermissionsFor(textChannel).ManageMessages
-                    ? new ValueTask(textChannel.ClearReactionsAsync(MessageId))
+                    ? new ValueTask(Message.ClearReactionsAsync())
                     : default;
         }
 
-        internal async Task StartAsync(MenuWrapper wrapper, ICachedMessageChannel channel, bool wait = false)
+        internal async Task StartAsync()
         {
             // TODO: wait
             if (AddsReactions)
@@ -185,7 +187,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                 var kvps = _buttons.ToArray();
                 Array.Sort(kvps, (a, b) => a.Value.Position.CompareTo(b.Value.Position));
                 foreach (var kvp in kvps)
-                    await Channel.AddReactionAsync(MessageId, kvp.Key).ConfigureAwait(false);
+                    await Message.AddReactionAsync(kvp.Key).ConfigureAwait(false);
             }
             _isRunning = true;
         }
@@ -206,7 +208,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             }
         }
 
-        protected internal abstract Task<Snowflake> InitialiseAsync();
+        protected internal abstract Task<IUserMessage> InitialiseAsync();
 
         public virtual ValueTask DisposeAsync()
             => default;

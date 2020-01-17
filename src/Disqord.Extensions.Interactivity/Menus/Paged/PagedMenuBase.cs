@@ -26,7 +26,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
                 {
                     try
                     {
-                        await Channel.DeleteMessageAsync(MessageId).ConfigureAwait(false);
+                        await Message.DeleteAsync().ConfigureAwait(false);
                     }
                     catch { }
                     await StopAsync().ConfigureAwait(false);
@@ -37,11 +37,11 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         protected override ValueTask<bool> CheckReactionAsync(ButtonEventArgs e)
             => new ValueTask<bool>(e.User.Id == UserId);
 
-        protected internal override sealed async Task<Snowflake> InitialiseAsync()
+        protected internal override sealed async Task<IUserMessage> InitialiseAsync()
         {
             var page = await PageProvider.GetPageAsync(this).ConfigureAwait(false);
             var message = await Channel.SendMessageAsync(page.Content, embed: page.Embed).ConfigureAwait(false);
-            return message.Id;
+            return message;
         }
 
         protected async Task ShowPageAsync(int pageNumber)
@@ -51,7 +51,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
             CurrentPageNumber = pageNumber;
             var page = await PageProvider.GetPageAsync(this).ConfigureAwait(false);
-            await Channel.ModifyMessageAsync(MessageId, x =>
+            await Message.ModifyAsync(x =>
             {
                 x.Content = page.Content;
                 x.Embed = page.Embed;
