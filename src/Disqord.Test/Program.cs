@@ -2,6 +2,7 @@ using System;
 using Disqord.Bot;
 using Disqord.Bot.Prefixes;
 using Disqord.Bot.Sharding;
+using Disqord.Extensions.Interactivity;
 
 namespace Disqord.Test
 {
