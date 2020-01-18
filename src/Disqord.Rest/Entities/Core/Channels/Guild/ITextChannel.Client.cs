@@ -20,6 +20,6 @@ namespace Disqord
 
         Task RemoveMemberReactionAsync(Snowflake messageId, Snowflake memberId, IEmoji emoji, RestRequestOptions options = null);
 
-        Task ClearReactionsAsync(Snowflake messageId, RestRequestOptions options = null);
+        Task ClearReactionsAsync(Snowflake messageId, IEmoji emoji = null, RestRequestOptions options = null);
     }
 }

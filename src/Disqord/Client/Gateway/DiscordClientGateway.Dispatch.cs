@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Disqord.Logging;
 using Disqord.Models;
@@ -237,6 +237,12 @@ namespace Disqord
                 case GatewayDispatch.MessageReactionRemoveAll:
                 {
                     await State.HandleMessageReactionRemoveAllAsync(payload).ConfigureAwait(false);
+                    return;
+                }
+
+                case GatewayDispatch.MessageReactionRemoveEmoji:
+                {
+                    await State.HandleMessageReactionRemoveEmojiAsync(payload).ConfigureAwait(false);
                     return;
                 }
 

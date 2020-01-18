@@ -91,7 +91,7 @@ namespace Disqord.Rest
         public Task RemoveMemberReactionAsync(Snowflake messageId, Snowflake memberId, IEmoji emoji, RestRequestOptions options = null)
             => Client.RemoveMemberReactionAsync(Id, messageId, memberId, emoji, options);
 
-        public Task ClearReactionsAsync(Snowflake messageId, RestRequestOptions options = null)
-            => Client.ClearReactionsAsync(Id, messageId, options);
+        public Task ClearReactionsAsync(Snowflake messageId, IEmoji emoji = null, RestRequestOptions options = null)
+            => Client.ClearReactionsAsync(Id, messageId, emoji, options);
     }
 }

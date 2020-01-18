@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Disqord.Events;
 using Disqord.Rest;
 using Qommon.Events;
@@ -195,6 +195,13 @@ namespace Disqord
             remove => _reactionsCleared.Unhook(value);
         }
         internal readonly AsynchronousEvent<ReactionsClearedEventArgs> _reactionsCleared;
+
+        public event AsynchronousEventHandler<EmojiReactionsClearedEventArgs> EmojiReactionsCleared
+        {
+            add => _emojiReactionsCleared.Hook(value);
+            remove => _emojiReactionsCleared.Unhook(value);
+        }
+        internal readonly AsynchronousEvent<EmojiReactionsClearedEventArgs> _emojiReactionsCleared;
 
         public event AsynchronousEventHandler<PresenceUpdatedEventArgs> PresenceUpdated
         {

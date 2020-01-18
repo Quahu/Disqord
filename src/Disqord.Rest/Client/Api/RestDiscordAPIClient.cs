@@ -374,6 +374,9 @@ namespace Disqord.Rest
         public Task DeleteAllReactionsAsync(ulong channelId, ulong messageId, RestRequestOptions options)
             => SendRequestAsync(new RestRequest(DELETE, $"channels/{channelId:channel_id}/messages/{messageId}/reactions", options));
 
+        public Task DeleteAllReactionsForEmojiAsync(ulong channelId, ulong messageId, string emoji, RestRequestOptions options)
+            => SendRequestAsync(new RestRequest(DELETE, $"channels/{channelId:channel_id}/messages/{messageId}/reactions/{emoji}", options));
+
         public Task<MessageModel> EditMessageAsync(ulong channelId, ulong messageId, ModifyMessageProperties properties, RestRequestOptions options)
         {
             var requestContent = new EditMessageContent

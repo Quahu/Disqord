@@ -1,4 +1,4 @@
-﻿using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 using Disqord.Serialization.Json;
 
 namespace Disqord
@@ -98,6 +98,9 @@ namespace Disqord
 
         [EnumMember(Value = "MESSAGE_REACTION_REMOVE_ALL")]
         MessageReactionRemoveAll,
+
+        [EnumMember(Value = "MESSAGE_REACTION_REMOVE_EMOJI")]
+        MessageReactionRemoveEmoji,
 
         [EnumMember(Value = "PRESENCE_UPDATE")]
         PresenceUpdate,

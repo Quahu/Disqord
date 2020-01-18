@@ -192,8 +192,10 @@ namespace Disqord.Rest
             return models.Select(x => new RestUser(this, x)).ToImmutableArray();
         }
 
-        public Task ClearReactionsAsync(Snowflake channelId, Snowflake messageId, RestRequestOptions options = null)
-            => ApiClient.DeleteAllReactionsAsync(channelId, messageId, options);
+        public Task ClearReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji = null, RestRequestOptions options = null)
+            => emoji != null
+                ? ApiClient.DeleteAllReactionsForEmojiAsync(channelId, messageId, emoji.ReactionFormat, options)
+                : ApiClient.DeleteAllReactionsAsync(channelId, messageId, options);
 
         public async Task<RestUserMessage> ModifyMessageAsync(Snowflake channelId, Snowflake messageId, Action<ModifyMessageProperties> action, RestRequestOptions options = null)
         {
