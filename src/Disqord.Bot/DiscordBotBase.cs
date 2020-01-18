@@ -146,7 +146,7 @@ namespace Disqord.Bot
 
         public virtual object GetService(Type serviceType)
         {
-            if (serviceType == typeof(DiscordBot) || serviceType == GetType())
+            if (serviceType == typeof(DiscordBotBase) || serviceType == GetType())
                 return this;
 
             return _provider?.GetService(serviceType);
