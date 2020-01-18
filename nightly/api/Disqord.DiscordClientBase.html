@@ -858,18 +858,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_ClearReactionsAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.ClearReactionsAsync(Snowflake%2CSnowflake%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_ClearReactionsAsync_Snowflake_Snowflake_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.ClearReactionsAsync(Snowflake%2CSnowflake%2CDisqord.IEmoji%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Rest.cs/#L89">View Source</a>
   </span>
   <a id="Disqord_DiscordClientBase_ClearReactionsAsync_" data-uid="Disqord.DiscordClientBase.ClearReactionsAsync*"></a>
-  <h4 id="Disqord_DiscordClientBase_ClearReactionsAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.DiscordClientBase.ClearReactionsAsync(Snowflake,Snowflake,Disqord.Rest.RestRequestOptions)">ClearReactionsAsync(Snowflake, Snowflake, RestRequestOptions)</h4>
+  <h4 id="Disqord_DiscordClientBase_ClearReactionsAsync_Snowflake_Snowflake_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.DiscordClientBase.ClearReactionsAsync(Snowflake,Snowflake,Disqord.IEmoji,Disqord.Rest.RestRequestOptions)">ClearReactionsAsync(Snowflake, Snowflake, IEmoji, RestRequestOptions)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task ClearReactionsAsync(Snowflake channelId, Snowflake messageId, RestRequestOptions options = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task ClearReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji = null, RestRequestOptions options = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -889,6 +889,11 @@
       <tr>
         <td><span class="xref">Snowflake</span></td>
         <td><span class="parametername">messageId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.IEmoji.html">IEmoji</a></td>
+        <td><span class="parametername">emoji</span></td>
         <td></td>
       </tr>
       <tr>
@@ -2165,7 +2170,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_Dispose.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.cs/#L157">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.cs/#L163">View Source</a>
   </span>
   <a id="Disqord_DiscordClientBase_Dispose_" data-uid="Disqord.DiscordClientBase.Dispose*"></a>
   <h4 id="Disqord_DiscordClientBase_Dispose" data-uid="Disqord.DiscordClientBase.Dispose">Dispose()</h4>
@@ -2180,7 +2185,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_DisposeAsync.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.DisposeAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.cs/#L160">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.cs/#L166">View Source</a>
   </span>
   <a id="Disqord_DiscordClientBase_DisposeAsync_" data-uid="Disqord.DiscordClientBase.DisposeAsync*"></a>
   <h4 id="Disqord_DiscordClientBase_DisposeAsync" data-uid="Disqord.DiscordClientBase.DisposeAsync">DisposeAsync()</h4>
@@ -7969,6 +7974,35 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_EmojiReactionsCleared.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.EmojiReactionsCleared%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L213">View Source</a>
+  </span>
+  <h4 id="Disqord_DiscordClientBase_EmojiReactionsCleared" data-uid="Disqord.DiscordClientBase.EmojiReactionsCleared">EmojiReactionsCleared</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event AsynchronousEventHandler&lt;EmojiReactionsClearedEventArgs&gt; EmojiReactionsCleared</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">AsynchronousEventHandler</span>&lt;<a class="xref" href="Disqord.Events.EmojiReactionsClearedEventArgs.html">EmojiReactionsClearedEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_GuildAvailable.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.GuildAvailable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
@@ -8001,7 +8035,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_GuildEmojisUpdated.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.GuildEmojisUpdated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L115">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L129">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_GuildEmojisUpdated" data-uid="Disqord.DiscordClientBase.GuildEmojisUpdated">GuildEmojisUpdated</h4>
   <div class="markdown level1 summary"></div>
@@ -8085,6 +8119,64 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_InviteCreated.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.InviteCreated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L101">View Source</a>
+  </span>
+  <h4 id="Disqord_DiscordClientBase_InviteCreated" data-uid="Disqord.DiscordClientBase.InviteCreated">InviteCreated</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event AsynchronousEventHandler&lt;InviteCreatedEventArgs&gt; InviteCreated</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">AsynchronousEventHandler</span>&lt;<a class="xref" href="Disqord.Events.InviteCreatedEventArgs.html">InviteCreatedEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_InviteDeleted.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.InviteDeleted%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L108">View Source</a>
+  </span>
+  <h4 id="Disqord_DiscordClientBase_InviteDeleted" data-uid="Disqord.DiscordClientBase.InviteDeleted">InviteDeleted</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event AsynchronousEventHandler&lt;InviteDeletedEventArgs&gt; InviteDeleted</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">AsynchronousEventHandler</span>&lt;<a class="xref" href="Disqord.Events.InviteDeletedEventArgs.html">InviteDeletedEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_JoinedGuild.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.JoinedGuild%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
@@ -8146,7 +8238,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_MemberBanned.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.MemberBanned%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L101">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L115">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_MemberBanned" data-uid="Disqord.DiscordClientBase.MemberBanned">MemberBanned</h4>
   <div class="markdown level1 summary"></div>
@@ -8175,7 +8267,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_MemberJoined.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.MemberJoined%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L122">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L136">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_MemberJoined" data-uid="Disqord.DiscordClientBase.MemberJoined">MemberJoined</h4>
   <div class="markdown level1 summary"></div>
@@ -8204,7 +8296,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_MemberLeft.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.MemberLeft%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L129">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L143">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_MemberLeft" data-uid="Disqord.DiscordClientBase.MemberLeft">MemberLeft</h4>
   <div class="markdown level1 summary"></div>
@@ -8233,7 +8325,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_MemberUnbanned.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.MemberUnbanned%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L108">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L122">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_MemberUnbanned" data-uid="Disqord.DiscordClientBase.MemberUnbanned">MemberUnbanned</h4>
   <div class="markdown level1 summary"></div>
@@ -8262,7 +8354,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_MemberUpdated.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.MemberUpdated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L136">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L150">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_MemberUpdated" data-uid="Disqord.DiscordClientBase.MemberUpdated">MemberUpdated</h4>
   <div class="markdown level1 summary"></div>
@@ -8291,7 +8383,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_MessageAcknowledged.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.MessageAcknowledged%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L143">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L157">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_MessageAcknowledged" data-uid="Disqord.DiscordClientBase.MessageAcknowledged">MessageAcknowledged</h4>
   <div class="markdown level1 summary"></div>
@@ -8320,7 +8412,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_MessageDeleted.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.MessageDeleted%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L157">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L171">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_MessageDeleted" data-uid="Disqord.DiscordClientBase.MessageDeleted">MessageDeleted</h4>
   <div class="markdown level1 summary"></div>
@@ -8349,7 +8441,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_MessageReceived.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.MessageReceived%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L150">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L164">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_MessageReceived" data-uid="Disqord.DiscordClientBase.MessageReceived">MessageReceived</h4>
   <div class="markdown level1 summary"></div>
@@ -8378,7 +8470,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_MessagesBulkDeleted.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.MessagesBulkDeleted%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L164">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L178">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_MessagesBulkDeleted" data-uid="Disqord.DiscordClientBase.MessagesBulkDeleted">MessagesBulkDeleted</h4>
   <div class="markdown level1 summary"></div>
@@ -8407,7 +8499,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_MessageUpdated.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.MessageUpdated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L171">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L185">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_MessageUpdated" data-uid="Disqord.DiscordClientBase.MessageUpdated">MessageUpdated</h4>
   <div class="markdown level1 summary"></div>
@@ -8436,7 +8528,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_PresenceUpdated.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.PresenceUpdated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L199">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L220">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_PresenceUpdated" data-uid="Disqord.DiscordClientBase.PresenceUpdated">PresenceUpdated</h4>
   <div class="markdown level1 summary"></div>
@@ -8465,7 +8557,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_ReactionAdded.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.ReactionAdded%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L178">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L192">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_ReactionAdded" data-uid="Disqord.DiscordClientBase.ReactionAdded">ReactionAdded</h4>
   <div class="markdown level1 summary"></div>
@@ -8494,7 +8586,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_ReactionRemoved.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.ReactionRemoved%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L185">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L199">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_ReactionRemoved" data-uid="Disqord.DiscordClientBase.ReactionRemoved">ReactionRemoved</h4>
   <div class="markdown level1 summary"></div>
@@ -8523,7 +8615,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_ReactionsCleared.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.ReactionsCleared%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L192">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L206">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_ReactionsCleared" data-uid="Disqord.DiscordClientBase.ReactionsCleared">ReactionsCleared</h4>
   <div class="markdown level1 summary"></div>
@@ -8581,7 +8673,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_RelationshipCreated.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.RelationshipCreated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L213">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L234">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_RelationshipCreated" data-uid="Disqord.DiscordClientBase.RelationshipCreated">RelationshipCreated</h4>
   <div class="markdown level1 summary"></div>
@@ -8610,7 +8702,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_RelationshipDeleted.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.RelationshipDeleted%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L220">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L241">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_RelationshipDeleted" data-uid="Disqord.DiscordClientBase.RelationshipDeleted">RelationshipDeleted</h4>
   <div class="markdown level1 summary"></div>
@@ -8726,7 +8818,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_TypingStarted.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.TypingStarted%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L206">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L227">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_TypingStarted" data-uid="Disqord.DiscordClientBase.TypingStarted">TypingStarted</h4>
   <div class="markdown level1 summary"></div>
@@ -8755,7 +8847,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_UserNoteUpdated.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.UserNoteUpdated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L227">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L248">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_UserNoteUpdated" data-uid="Disqord.DiscordClientBase.UserNoteUpdated">UserNoteUpdated</h4>
   <div class="markdown level1 summary"></div>
@@ -8784,7 +8876,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_UserUpdated.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.UserUpdated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L234">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L255">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_UserUpdated" data-uid="Disqord.DiscordClientBase.UserUpdated">UserUpdated</h4>
   <div class="markdown level1 summary"></div>
@@ -8813,7 +8905,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_VoiceServerUpdated.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.VoiceServerUpdated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L248">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L269">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_VoiceServerUpdated" data-uid="Disqord.DiscordClientBase.VoiceServerUpdated">VoiceServerUpdated</h4>
   <div class="markdown level1 summary"></div>
@@ -8842,7 +8934,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_VoiceStateUpdated.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.VoiceStateUpdated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L241">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L262">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_VoiceStateUpdated" data-uid="Disqord.DiscordClientBase.VoiceStateUpdated">VoiceStateUpdated</h4>
   <div class="markdown level1 summary"></div>
@@ -8871,7 +8963,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_WebhooksUpdated.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.WebhooksUpdated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L255">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Events.cs/#L276">View Source</a>
   </span>
   <h4 id="Disqord_DiscordClientBase_WebhooksUpdated" data-uid="Disqord.DiscordClientBase.WebhooksUpdated">WebhooksUpdated</h4>
   <div class="markdown level1 summary"></div>

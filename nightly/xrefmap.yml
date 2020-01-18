@@ -5125,12 +5125,12 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedMessage.Channel
   nameWithType: CachedMessage.Channel
-- uid: Disqord.CachedMessage.ClearReactionsAsync(Disqord.Rest.RestRequestOptions)
-  name: ClearReactionsAsync(RestRequestOptions)
-  href: api/Disqord.CachedMessage.html#Disqord_CachedMessage_ClearReactionsAsync_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedMessage.ClearReactionsAsync(Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.CachedMessage.ClearReactionsAsync(Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedMessage.ClearReactionsAsync(RestRequestOptions)
+- uid: Disqord.CachedMessage.ClearReactionsAsync(Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  name: ClearReactionsAsync(IEmoji, RestRequestOptions)
+  href: api/Disqord.CachedMessage.html#Disqord_CachedMessage_ClearReactionsAsync_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedMessage.ClearReactionsAsync(Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.CachedMessage.ClearReactionsAsync(Disqord.IEmoji, Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedMessage.ClearReactionsAsync(IEmoji, RestRequestOptions)
 - uid: Disqord.CachedMessage.ClearReactionsAsync*
   name: ClearReactionsAsync
   href: api/Disqord.CachedMessage.html#Disqord_CachedMessage_ClearReactionsAsync_
@@ -6078,12 +6078,12 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedTextChannel.AddReactionAsync
   nameWithType: CachedTextChannel.AddReactionAsync
-- uid: Disqord.CachedTextChannel.ClearReactionsAsync(Snowflake,Disqord.Rest.RestRequestOptions)
-  name: ClearReactionsAsync(Snowflake, RestRequestOptions)
-  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_ClearReactionsAsync_Snowflake_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedTextChannel.ClearReactionsAsync(Snowflake,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.CachedTextChannel.ClearReactionsAsync(Snowflake, Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedTextChannel.ClearReactionsAsync(Snowflake, RestRequestOptions)
+- uid: Disqord.CachedTextChannel.ClearReactionsAsync(Snowflake,Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  name: ClearReactionsAsync(Snowflake, IEmoji, RestRequestOptions)
+  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_ClearReactionsAsync_Snowflake_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedTextChannel.ClearReactionsAsync(Snowflake,Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.CachedTextChannel.ClearReactionsAsync(Snowflake, Disqord.IEmoji, Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedTextChannel.ClearReactionsAsync(Snowflake, IEmoji, RestRequestOptions)
 - uid: Disqord.CachedTextChannel.ClearReactionsAsync*
   name: ClearReactionsAsync
   href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_ClearReactionsAsync_
@@ -11177,12 +11177,12 @@ references:
   commentId: E:Disqord.DiscordClientBase.ChannelUpdated
   fullName: Disqord.DiscordClientBase.ChannelUpdated
   nameWithType: DiscordClientBase.ChannelUpdated
-- uid: Disqord.DiscordClientBase.ClearReactionsAsync(Snowflake,Snowflake,Disqord.Rest.RestRequestOptions)
-  name: ClearReactionsAsync(Snowflake, Snowflake, RestRequestOptions)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ClearReactionsAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.DiscordClientBase.ClearReactionsAsync(Snowflake,Snowflake,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.DiscordClientBase.ClearReactionsAsync(Snowflake, Snowflake, Disqord.Rest.RestRequestOptions)
-  nameWithType: DiscordClientBase.ClearReactionsAsync(Snowflake, Snowflake, RestRequestOptions)
+- uid: Disqord.DiscordClientBase.ClearReactionsAsync(Snowflake,Snowflake,Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  name: ClearReactionsAsync(Snowflake, Snowflake, IEmoji, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ClearReactionsAsync_Snowflake_Snowflake_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.ClearReactionsAsync(Snowflake,Snowflake,Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.ClearReactionsAsync(Snowflake, Snowflake, Disqord.IEmoji, Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.ClearReactionsAsync(Snowflake, Snowflake, IEmoji, RestRequestOptions)
 - uid: Disqord.DiscordClientBase.ClearReactionsAsync*
   name: ClearReactionsAsync
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ClearReactionsAsync_
@@ -11556,6 +11556,12 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.DmChannels
   nameWithType: DiscordClientBase.DmChannels
+- uid: Disqord.DiscordClientBase.EmojiReactionsCleared
+  name: EmojiReactionsCleared
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_EmojiReactionsCleared
+  commentId: E:Disqord.DiscordClientBase.EmojiReactionsCleared
+  fullName: Disqord.DiscordClientBase.EmojiReactionsCleared
+  nameWithType: DiscordClientBase.EmojiReactionsCleared
 - uid: Disqord.DiscordClientBase.ExecuteWebhookAsync(Snowflake,System.String,Disqord.LocalAttachment,System.String,System.Boolean,IEnumerable{Disqord.LocalEmbed},System.String,System.String,System.Boolean,Disqord.Rest.RestRequestOptions)
   name: ExecuteWebhookAsync(Snowflake, String, LocalAttachment, String, Boolean, IEnumerable<LocalEmbed>, String, String, Boolean, RestRequestOptions)
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ExecuteWebhookAsync_Snowflake_System_String_Disqord_LocalAttachment_System_String_System_Boolean_IEnumerable_Disqord_LocalEmbed__System_String_System_String_System_Boolean_Disqord_Rest_RestRequestOptions_
@@ -12389,6 +12395,18 @@ references:
   commentId: E:Disqord.DiscordClientBase.GuildUpdated
   fullName: Disqord.DiscordClientBase.GuildUpdated
   nameWithType: DiscordClientBase.GuildUpdated
+- uid: Disqord.DiscordClientBase.InviteCreated
+  name: InviteCreated
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_InviteCreated
+  commentId: E:Disqord.DiscordClientBase.InviteCreated
+  fullName: Disqord.DiscordClientBase.InviteCreated
+  nameWithType: DiscordClientBase.InviteCreated
+- uid: Disqord.DiscordClientBase.InviteDeleted
+  name: InviteDeleted
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_InviteDeleted
+  commentId: E:Disqord.DiscordClientBase.InviteDeleted
+  fullName: Disqord.DiscordClientBase.InviteDeleted
+  nameWithType: DiscordClientBase.InviteDeleted
 - uid: Disqord.DiscordClientBase.JoinedGuild
   name: JoinedGuild
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_JoinedGuild
@@ -14278,6 +14296,64 @@ references:
   isSpec: "True"
   fullName: Disqord.Events.DiscordEventArgs.Client
   nameWithType: DiscordEventArgs.Client
+- uid: Disqord.Events.EmojiReactionsClearedEventArgs
+  name: EmojiReactionsClearedEventArgs
+  href: api/Disqord.Events.EmojiReactionsClearedEventArgs.html
+  commentId: T:Disqord.Events.EmojiReactionsClearedEventArgs
+  fullName: Disqord.Events.EmojiReactionsClearedEventArgs
+  nameWithType: EmojiReactionsClearedEventArgs
+- uid: Disqord.Events.EmojiReactionsClearedEventArgs.Channel
+  name: Channel
+  href: api/Disqord.Events.EmojiReactionsClearedEventArgs.html#Disqord_Events_EmojiReactionsClearedEventArgs_Channel
+  commentId: P:Disqord.Events.EmojiReactionsClearedEventArgs.Channel
+  fullName: Disqord.Events.EmojiReactionsClearedEventArgs.Channel
+  nameWithType: EmojiReactionsClearedEventArgs.Channel
+- uid: Disqord.Events.EmojiReactionsClearedEventArgs.Channel*
+  name: Channel
+  href: api/Disqord.Events.EmojiReactionsClearedEventArgs.html#Disqord_Events_EmojiReactionsClearedEventArgs_Channel_
+  commentId: Overload:Disqord.Events.EmojiReactionsClearedEventArgs.Channel
+  isSpec: "True"
+  fullName: Disqord.Events.EmojiReactionsClearedEventArgs.Channel
+  nameWithType: EmojiReactionsClearedEventArgs.Channel
+- uid: Disqord.Events.EmojiReactionsClearedEventArgs.Data
+  name: Data
+  href: api/Disqord.Events.EmojiReactionsClearedEventArgs.html#Disqord_Events_EmojiReactionsClearedEventArgs_Data
+  commentId: P:Disqord.Events.EmojiReactionsClearedEventArgs.Data
+  fullName: Disqord.Events.EmojiReactionsClearedEventArgs.Data
+  nameWithType: EmojiReactionsClearedEventArgs.Data
+- uid: Disqord.Events.EmojiReactionsClearedEventArgs.Data*
+  name: Data
+  href: api/Disqord.Events.EmojiReactionsClearedEventArgs.html#Disqord_Events_EmojiReactionsClearedEventArgs_Data_
+  commentId: Overload:Disqord.Events.EmojiReactionsClearedEventArgs.Data
+  isSpec: "True"
+  fullName: Disqord.Events.EmojiReactionsClearedEventArgs.Data
+  nameWithType: EmojiReactionsClearedEventArgs.Data
+- uid: Disqord.Events.EmojiReactionsClearedEventArgs.Emoji
+  name: Emoji
+  href: api/Disqord.Events.EmojiReactionsClearedEventArgs.html#Disqord_Events_EmojiReactionsClearedEventArgs_Emoji
+  commentId: P:Disqord.Events.EmojiReactionsClearedEventArgs.Emoji
+  fullName: Disqord.Events.EmojiReactionsClearedEventArgs.Emoji
+  nameWithType: EmojiReactionsClearedEventArgs.Emoji
+- uid: Disqord.Events.EmojiReactionsClearedEventArgs.Emoji*
+  name: Emoji
+  href: api/Disqord.Events.EmojiReactionsClearedEventArgs.html#Disqord_Events_EmojiReactionsClearedEventArgs_Emoji_
+  commentId: Overload:Disqord.Events.EmojiReactionsClearedEventArgs.Emoji
+  isSpec: "True"
+  fullName: Disqord.Events.EmojiReactionsClearedEventArgs.Emoji
+  nameWithType: EmojiReactionsClearedEventArgs.Emoji
+- uid: Disqord.Events.EmojiReactionsClearedEventArgs.Message
+  name: Message
+  href: api/Disqord.Events.EmojiReactionsClearedEventArgs.html#Disqord_Events_EmojiReactionsClearedEventArgs_Message
+  commentId: P:Disqord.Events.EmojiReactionsClearedEventArgs.Message
+  fullName: Disqord.Events.EmojiReactionsClearedEventArgs.Message
+  nameWithType: EmojiReactionsClearedEventArgs.Message
+- uid: Disqord.Events.EmojiReactionsClearedEventArgs.Message*
+  name: Message
+  href: api/Disqord.Events.EmojiReactionsClearedEventArgs.html#Disqord_Events_EmojiReactionsClearedEventArgs_Message_
+  commentId: Overload:Disqord.Events.EmojiReactionsClearedEventArgs.Message
+  isSpec: "True"
+  fullName: Disqord.Events.EmojiReactionsClearedEventArgs.Message
+  nameWithType: EmojiReactionsClearedEventArgs.Message
 - uid: Disqord.Events.GuildAvailableEventArgs
   name: GuildAvailableEventArgs
   href: api/Disqord.Events.GuildAvailableEventArgs.html
@@ -14393,6 +14469,161 @@ references:
   isSpec: "True"
   fullName: Disqord.Events.GuildUpdatedEventArgs.OldGuild
   nameWithType: GuildUpdatedEventArgs.OldGuild
+- uid: Disqord.Events.InviteCreatedEventArgs
+  name: InviteCreatedEventArgs
+  href: api/Disqord.Events.InviteCreatedEventArgs.html
+  commentId: T:Disqord.Events.InviteCreatedEventArgs
+  fullName: Disqord.Events.InviteCreatedEventArgs
+  nameWithType: InviteCreatedEventArgs
+- uid: Disqord.Events.InviteCreatedEventArgs.Channel
+  name: Channel
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_Channel
+  commentId: P:Disqord.Events.InviteCreatedEventArgs.Channel
+  fullName: Disqord.Events.InviteCreatedEventArgs.Channel
+  nameWithType: InviteCreatedEventArgs.Channel
+- uid: Disqord.Events.InviteCreatedEventArgs.Channel*
+  name: Channel
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_Channel_
+  commentId: Overload:Disqord.Events.InviteCreatedEventArgs.Channel
+  isSpec: "True"
+  fullName: Disqord.Events.InviteCreatedEventArgs.Channel
+  nameWithType: InviteCreatedEventArgs.Channel
+- uid: Disqord.Events.InviteCreatedEventArgs.Code
+  name: Code
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_Code
+  commentId: P:Disqord.Events.InviteCreatedEventArgs.Code
+  fullName: Disqord.Events.InviteCreatedEventArgs.Code
+  nameWithType: InviteCreatedEventArgs.Code
+- uid: Disqord.Events.InviteCreatedEventArgs.Code*
+  name: Code
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_Code_
+  commentId: Overload:Disqord.Events.InviteCreatedEventArgs.Code
+  isSpec: "True"
+  fullName: Disqord.Events.InviteCreatedEventArgs.Code
+  nameWithType: InviteCreatedEventArgs.Code
+- uid: Disqord.Events.InviteCreatedEventArgs.CreatedAt
+  name: CreatedAt
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_CreatedAt
+  commentId: P:Disqord.Events.InviteCreatedEventArgs.CreatedAt
+  fullName: Disqord.Events.InviteCreatedEventArgs.CreatedAt
+  nameWithType: InviteCreatedEventArgs.CreatedAt
+- uid: Disqord.Events.InviteCreatedEventArgs.CreatedAt*
+  name: CreatedAt
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_CreatedAt_
+  commentId: Overload:Disqord.Events.InviteCreatedEventArgs.CreatedAt
+  isSpec: "True"
+  fullName: Disqord.Events.InviteCreatedEventArgs.CreatedAt
+  nameWithType: InviteCreatedEventArgs.CreatedAt
+- uid: Disqord.Events.InviteCreatedEventArgs.Guild
+  name: Guild
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_Guild
+  commentId: P:Disqord.Events.InviteCreatedEventArgs.Guild
+  fullName: Disqord.Events.InviteCreatedEventArgs.Guild
+  nameWithType: InviteCreatedEventArgs.Guild
+- uid: Disqord.Events.InviteCreatedEventArgs.Guild*
+  name: Guild
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_Guild_
+  commentId: Overload:Disqord.Events.InviteCreatedEventArgs.Guild
+  isSpec: "True"
+  fullName: Disqord.Events.InviteCreatedEventArgs.Guild
+  nameWithType: InviteCreatedEventArgs.Guild
+- uid: Disqord.Events.InviteCreatedEventArgs.Inviter
+  name: Inviter
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_Inviter
+  commentId: P:Disqord.Events.InviteCreatedEventArgs.Inviter
+  fullName: Disqord.Events.InviteCreatedEventArgs.Inviter
+  nameWithType: InviteCreatedEventArgs.Inviter
+- uid: Disqord.Events.InviteCreatedEventArgs.Inviter*
+  name: Inviter
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_Inviter_
+  commentId: Overload:Disqord.Events.InviteCreatedEventArgs.Inviter
+  isSpec: "True"
+  fullName: Disqord.Events.InviteCreatedEventArgs.Inviter
+  nameWithType: InviteCreatedEventArgs.Inviter
+- uid: Disqord.Events.InviteCreatedEventArgs.IsTemporary
+  name: IsTemporary
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_IsTemporary
+  commentId: P:Disqord.Events.InviteCreatedEventArgs.IsTemporary
+  fullName: Disqord.Events.InviteCreatedEventArgs.IsTemporary
+  nameWithType: InviteCreatedEventArgs.IsTemporary
+- uid: Disqord.Events.InviteCreatedEventArgs.IsTemporary*
+  name: IsTemporary
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_IsTemporary_
+  commentId: Overload:Disqord.Events.InviteCreatedEventArgs.IsTemporary
+  isSpec: "True"
+  fullName: Disqord.Events.InviteCreatedEventArgs.IsTemporary
+  nameWithType: InviteCreatedEventArgs.IsTemporary
+- uid: Disqord.Events.InviteCreatedEventArgs.MaxAge
+  name: MaxAge
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_MaxAge
+  commentId: P:Disqord.Events.InviteCreatedEventArgs.MaxAge
+  fullName: Disqord.Events.InviteCreatedEventArgs.MaxAge
+  nameWithType: InviteCreatedEventArgs.MaxAge
+- uid: Disqord.Events.InviteCreatedEventArgs.MaxAge*
+  name: MaxAge
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_MaxAge_
+  commentId: Overload:Disqord.Events.InviteCreatedEventArgs.MaxAge
+  isSpec: "True"
+  fullName: Disqord.Events.InviteCreatedEventArgs.MaxAge
+  nameWithType: InviteCreatedEventArgs.MaxAge
+- uid: Disqord.Events.InviteCreatedEventArgs.MaxUses
+  name: MaxUses
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_MaxUses
+  commentId: P:Disqord.Events.InviteCreatedEventArgs.MaxUses
+  fullName: Disqord.Events.InviteCreatedEventArgs.MaxUses
+  nameWithType: InviteCreatedEventArgs.MaxUses
+- uid: Disqord.Events.InviteCreatedEventArgs.MaxUses*
+  name: MaxUses
+  href: api/Disqord.Events.InviteCreatedEventArgs.html#Disqord_Events_InviteCreatedEventArgs_MaxUses_
+  commentId: Overload:Disqord.Events.InviteCreatedEventArgs.MaxUses
+  isSpec: "True"
+  fullName: Disqord.Events.InviteCreatedEventArgs.MaxUses
+  nameWithType: InviteCreatedEventArgs.MaxUses
+- uid: Disqord.Events.InviteDeletedEventArgs
+  name: InviteDeletedEventArgs
+  href: api/Disqord.Events.InviteDeletedEventArgs.html
+  commentId: T:Disqord.Events.InviteDeletedEventArgs
+  fullName: Disqord.Events.InviteDeletedEventArgs
+  nameWithType: InviteDeletedEventArgs
+- uid: Disqord.Events.InviteDeletedEventArgs.ChannelId
+  name: ChannelId
+  href: api/Disqord.Events.InviteDeletedEventArgs.html#Disqord_Events_InviteDeletedEventArgs_ChannelId
+  commentId: P:Disqord.Events.InviteDeletedEventArgs.ChannelId
+  fullName: Disqord.Events.InviteDeletedEventArgs.ChannelId
+  nameWithType: InviteDeletedEventArgs.ChannelId
+- uid: Disqord.Events.InviteDeletedEventArgs.ChannelId*
+  name: ChannelId
+  href: api/Disqord.Events.InviteDeletedEventArgs.html#Disqord_Events_InviteDeletedEventArgs_ChannelId_
+  commentId: Overload:Disqord.Events.InviteDeletedEventArgs.ChannelId
+  isSpec: "True"
+  fullName: Disqord.Events.InviteDeletedEventArgs.ChannelId
+  nameWithType: InviteDeletedEventArgs.ChannelId
+- uid: Disqord.Events.InviteDeletedEventArgs.Code
+  name: Code
+  href: api/Disqord.Events.InviteDeletedEventArgs.html#Disqord_Events_InviteDeletedEventArgs_Code
+  commentId: P:Disqord.Events.InviteDeletedEventArgs.Code
+  fullName: Disqord.Events.InviteDeletedEventArgs.Code
+  nameWithType: InviteDeletedEventArgs.Code
+- uid: Disqord.Events.InviteDeletedEventArgs.Code*
+  name: Code
+  href: api/Disqord.Events.InviteDeletedEventArgs.html#Disqord_Events_InviteDeletedEventArgs_Code_
+  commentId: Overload:Disqord.Events.InviteDeletedEventArgs.Code
+  isSpec: "True"
+  fullName: Disqord.Events.InviteDeletedEventArgs.Code
+  nameWithType: InviteDeletedEventArgs.Code
+- uid: Disqord.Events.InviteDeletedEventArgs.GuildId
+  name: GuildId
+  href: api/Disqord.Events.InviteDeletedEventArgs.html#Disqord_Events_InviteDeletedEventArgs_GuildId
+  commentId: P:Disqord.Events.InviteDeletedEventArgs.GuildId
+  fullName: Disqord.Events.InviteDeletedEventArgs.GuildId
+  nameWithType: InviteDeletedEventArgs.GuildId
+- uid: Disqord.Events.InviteDeletedEventArgs.GuildId*
+  name: GuildId
+  href: api/Disqord.Events.InviteDeletedEventArgs.html#Disqord_Events_InviteDeletedEventArgs_GuildId_
+  commentId: Overload:Disqord.Events.InviteDeletedEventArgs.GuildId
+  isSpec: "True"
+  fullName: Disqord.Events.InviteDeletedEventArgs.GuildId
+  nameWithType: InviteDeletedEventArgs.GuildId
 - uid: Disqord.Events.JoinedGuildEventArgs
   name: JoinedGuildEventArgs
   href: api/Disqord.Events.JoinedGuildEventArgs.html
@@ -19182,12 +19413,12 @@ references:
   isSpec: "True"
   fullName: Disqord.IMessage.ChannelId
   nameWithType: IMessage.ChannelId
-- uid: Disqord.IMessage.ClearReactionsAsync(Disqord.Rest.RestRequestOptions)
-  name: ClearReactionsAsync(RestRequestOptions)
-  href: api/Disqord.IMessage.html#Disqord_IMessage_ClearReactionsAsync_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.IMessage.ClearReactionsAsync(Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.IMessage.ClearReactionsAsync(Disqord.Rest.RestRequestOptions)
-  nameWithType: IMessage.ClearReactionsAsync(RestRequestOptions)
+- uid: Disqord.IMessage.ClearReactionsAsync(Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  name: ClearReactionsAsync(IEmoji, RestRequestOptions)
+  href: api/Disqord.IMessage.html#Disqord_IMessage_ClearReactionsAsync_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IMessage.ClearReactionsAsync(Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.IMessage.ClearReactionsAsync(Disqord.IEmoji, Disqord.Rest.RestRequestOptions)
+  nameWithType: IMessage.ClearReactionsAsync(IEmoji, RestRequestOptions)
 - uid: Disqord.IMessage.ClearReactionsAsync*
   name: ClearReactionsAsync
   href: api/Disqord.IMessage.html#Disqord_IMessage_ClearReactionsAsync_
@@ -19877,12 +20108,12 @@ references:
   commentId: T:Disqord.ITextChannel
   fullName: Disqord.ITextChannel
   nameWithType: ITextChannel
-- uid: Disqord.ITextChannel.ClearReactionsAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
-  name: ClearReactionsAsync(Snowflake, RestRequestOptions)
-  href: api/Disqord.ITextChannel.html#Disqord_ITextChannel_ClearReactionsAsync_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.ITextChannel.ClearReactionsAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.ITextChannel.ClearReactionsAsync(Disqord.Snowflake, Disqord.Rest.RestRequestOptions)
-  nameWithType: ITextChannel.ClearReactionsAsync(Snowflake, RestRequestOptions)
+- uid: Disqord.ITextChannel.ClearReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  name: ClearReactionsAsync(Snowflake, IEmoji, RestRequestOptions)
+  href: api/Disqord.ITextChannel.html#Disqord_ITextChannel_ClearReactionsAsync_Disqord_Snowflake_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.ITextChannel.ClearReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.ITextChannel.ClearReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, Disqord.Rest.RestRequestOptions)
+  nameWithType: ITextChannel.ClearReactionsAsync(Snowflake, IEmoji, RestRequestOptions)
 - uid: Disqord.ITextChannel.ClearReactionsAsync*
   name: ClearReactionsAsync
   href: api/Disqord.ITextChannel.html#Disqord_ITextChannel_ClearReactionsAsync_
@@ -27331,12 +27562,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.BlockUserAsync
   nameWithType: IRestDiscordClient.BlockUserAsync
-- uid: Disqord.Rest.IRestDiscordClient.ClearReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
-  name: ClearReactionsAsync(Snowflake, Snowflake, RestRequestOptions)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_ClearReactionsAsync_Disqord_Snowflake_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.IRestDiscordClient.ClearReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.IRestDiscordClient.ClearReactionsAsync(Disqord.Snowflake, Disqord.Snowflake, Disqord.Rest.RestRequestOptions)
-  nameWithType: IRestDiscordClient.ClearReactionsAsync(Snowflake, Snowflake, RestRequestOptions)
+- uid: Disqord.Rest.IRestDiscordClient.ClearReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  name: ClearReactionsAsync(Snowflake, Snowflake, IEmoji, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_ClearReactionsAsync_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.ClearReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.ClearReactionsAsync(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.ClearReactionsAsync(Snowflake, Snowflake, IEmoji, RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.ClearReactionsAsync*
   name: ClearReactionsAsync
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_ClearReactionsAsync_
@@ -29967,12 +30198,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.BlockUserAsync
   nameWithType: RestDiscordClient.BlockUserAsync
-- uid: Disqord.Rest.RestDiscordClient.ClearReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
-  name: ClearReactionsAsync(Snowflake, Snowflake, RestRequestOptions)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_ClearReactionsAsync_Disqord_Snowflake_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestDiscordClient.ClearReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestDiscordClient.ClearReactionsAsync(Disqord.Snowflake, Disqord.Snowflake, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestDiscordClient.ClearReactionsAsync(Snowflake, Snowflake, RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.ClearReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  name: ClearReactionsAsync(Snowflake, Snowflake, IEmoji, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_ClearReactionsAsync_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.ClearReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.ClearReactionsAsync(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.ClearReactionsAsync(Snowflake, Snowflake, IEmoji, RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.ClearReactionsAsync*
   name: ClearReactionsAsync
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_ClearReactionsAsync_
@@ -34139,12 +34370,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestMessage.ChannelId
   nameWithType: RestMessage.ChannelId
-- uid: Disqord.Rest.RestMessage.ClearReactionsAsync(Disqord.Rest.RestRequestOptions)
-  name: ClearReactionsAsync(RestRequestOptions)
-  href: api/Disqord.Rest.RestMessage.html#Disqord_Rest_RestMessage_ClearReactionsAsync_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestMessage.ClearReactionsAsync(Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestMessage.ClearReactionsAsync(Disqord.Rest.RestRequestOptions)
-  nameWithType: RestMessage.ClearReactionsAsync(RestRequestOptions)
+- uid: Disqord.Rest.RestMessage.ClearReactionsAsync(Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  name: ClearReactionsAsync(IEmoji, RestRequestOptions)
+  href: api/Disqord.Rest.RestMessage.html#Disqord_Rest_RestMessage_ClearReactionsAsync_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestMessage.ClearReactionsAsync(Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestMessage.ClearReactionsAsync(Disqord.IEmoji, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestMessage.ClearReactionsAsync(IEmoji, RestRequestOptions)
 - uid: Disqord.Rest.RestMessage.ClearReactionsAsync*
   name: ClearReactionsAsync
   href: api/Disqord.Rest.RestMessage.html#Disqord_Rest_RestMessage_ClearReactionsAsync_
@@ -35876,12 +36107,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestTextChannel.AddReactionAsync
   nameWithType: RestTextChannel.AddReactionAsync
-- uid: Disqord.Rest.RestTextChannel.ClearReactionsAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
-  name: ClearReactionsAsync(Snowflake, RestRequestOptions)
-  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_ClearReactionsAsync_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestTextChannel.ClearReactionsAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestTextChannel.ClearReactionsAsync(Disqord.Snowflake, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestTextChannel.ClearReactionsAsync(Snowflake, RestRequestOptions)
+- uid: Disqord.Rest.RestTextChannel.ClearReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  name: ClearReactionsAsync(Snowflake, IEmoji, RestRequestOptions)
+  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_ClearReactionsAsync_Disqord_Snowflake_Disqord_IEmoji_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestTextChannel.ClearReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestTextChannel.ClearReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestTextChannel.ClearReactionsAsync(Snowflake, IEmoji, RestRequestOptions)
 - uid: Disqord.Rest.RestTextChannel.ClearReactionsAsync*
   name: ClearReactionsAsync
   href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_ClearReactionsAsync_
