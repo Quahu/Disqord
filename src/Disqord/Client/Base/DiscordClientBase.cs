@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Events;
@@ -61,6 +61,8 @@ namespace Disqord
             _roleCreated = new AsynchronousEvent<RoleCreatedEventArgs>();
             _roleUpdated = new AsynchronousEvent<RoleUpdatedEventArgs>();
             _roleDeleted = new AsynchronousEvent<RoleDeletedEventArgs>();
+            _inviteCreated = new AsynchronousEvent<InviteCreatedEventArgs>();
+            _inviteDeleted = new AsynchronousEvent<InviteDeletedEventArgs>();
             _memberBanned = new AsynchronousEvent<MemberBannedEventArgs>();
             _memberUnbanned = new AsynchronousEvent<MemberUnbannedEventArgs>();
             _guildEmojisUpdated = new AsynchronousEvent<GuildEmojisUpdatedEventArgs>();
@@ -118,6 +120,8 @@ namespace Disqord
             _roleCreated = client._roleCreated;
             _roleUpdated = client._roleUpdated;
             _roleDeleted = client._roleDeleted;
+            _inviteCreated = client._inviteCreated;
+            _inviteDeleted = client._inviteDeleted;
             _memberBanned = client._memberBanned;
             _memberUnbanned = client._memberUnbanned;
             _guildEmojisUpdated = client._guildEmojisUpdated;

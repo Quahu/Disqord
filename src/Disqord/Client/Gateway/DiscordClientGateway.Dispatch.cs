@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Disqord.Logging;
 using Disqord.Models;
@@ -189,6 +189,18 @@ namespace Disqord
                 case GatewayDispatch.GuildRoleDelete:
                 {
                     await State.HandleGuildRoleDeleteAsync(payload).ConfigureAwait(false);
+                    return;
+                }
+
+                case GatewayDispatch.InviteCreate:
+                {
+                    await State.HandleInviteCreateAsync(payload).ConfigureAwait(false);
+                    return;
+                }
+
+                case GatewayDispatch.InviteDelete:
+                {
+                    await State.HandleInviteDeleteAsync(payload).ConfigureAwait(false);
                     return;
                 }
 

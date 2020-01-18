@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Disqord.Events;
 using Disqord.Rest;
 using Qommon.Events;
@@ -97,6 +97,20 @@ namespace Disqord
             remove => _roleDeleted.Unhook(value);
         }
         internal readonly AsynchronousEvent<RoleDeletedEventArgs> _roleDeleted;
+
+        public event AsynchronousEventHandler<InviteCreatedEventArgs> InviteCreated
+        {
+            add => _inviteCreated.Hook(value);
+            remove => _inviteCreated.Unhook(value);
+        }
+        internal readonly AsynchronousEvent<InviteCreatedEventArgs> _inviteCreated;
+
+        public event AsynchronousEventHandler<InviteDeletedEventArgs> InviteDeleted
+        {
+            add => _inviteDeleted.Hook(value);
+            remove => _inviteDeleted.Unhook(value);
+        }
+        internal readonly AsynchronousEvent<InviteDeletedEventArgs> _inviteDeleted;
 
         public event AsynchronousEventHandler<MemberBannedEventArgs> MemberBanned
         {

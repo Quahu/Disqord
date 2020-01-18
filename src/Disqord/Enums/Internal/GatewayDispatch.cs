@@ -1,4 +1,4 @@
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using Disqord.Serialization.Json;
 
 namespace Disqord
@@ -71,6 +71,12 @@ namespace Disqord
 
         [EnumMember(Value = "GUILD_ROLE_DELETE")]
         GuildRoleDelete,
+
+        [EnumMember(Value = "INVITE_CREATE")]
+        InviteCreate,
+
+        [EnumMember(Value = "INVITE_DELETE")]
+        InviteDelete,
 
         [EnumMember(Value = "GUILD_SYNC")]
         GuildSync,
