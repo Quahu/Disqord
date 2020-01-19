@@ -23590,36 +23590,36 @@ references:
   commentId: T:Disqord.MessageFlags
   fullName: Disqord.MessageFlags
   nameWithType: MessageFlags
-- uid: Disqord.MessageFlags.HasSuppressedEmbeds
-  name: HasSuppressedEmbeds
-  href: api/Disqord.MessageFlags.html#Disqord_MessageFlags_HasSuppressedEmbeds
-  commentId: F:Disqord.MessageFlags.HasSuppressedEmbeds
-  fullName: Disqord.MessageFlags.HasSuppressedEmbeds
-  nameWithType: MessageFlags.HasSuppressedEmbeds
-- uid: Disqord.MessageFlags.IsCrosspost
-  name: IsCrosspost
-  href: api/Disqord.MessageFlags.html#Disqord_MessageFlags_IsCrosspost
-  commentId: F:Disqord.MessageFlags.IsCrosspost
-  fullName: Disqord.MessageFlags.IsCrosspost
-  nameWithType: MessageFlags.IsCrosspost
-- uid: Disqord.MessageFlags.IsCrossposted
-  name: IsCrossposted
-  href: api/Disqord.MessageFlags.html#Disqord_MessageFlags_IsCrossposted
-  commentId: F:Disqord.MessageFlags.IsCrossposted
-  fullName: Disqord.MessageFlags.IsCrossposted
-  nameWithType: MessageFlags.IsCrossposted
-- uid: Disqord.MessageFlags.IsUrgent
-  name: IsUrgent
-  href: api/Disqord.MessageFlags.html#Disqord_MessageFlags_IsUrgent
-  commentId: F:Disqord.MessageFlags.IsUrgent
-  fullName: Disqord.MessageFlags.IsUrgent
-  nameWithType: MessageFlags.IsUrgent
+- uid: Disqord.MessageFlags.Crosspost
+  name: Crosspost
+  href: api/Disqord.MessageFlags.html#Disqord_MessageFlags_Crosspost
+  commentId: F:Disqord.MessageFlags.Crosspost
+  fullName: Disqord.MessageFlags.Crosspost
+  nameWithType: MessageFlags.Crosspost
+- uid: Disqord.MessageFlags.Crossposted
+  name: Crossposted
+  href: api/Disqord.MessageFlags.html#Disqord_MessageFlags_Crossposted
+  commentId: F:Disqord.MessageFlags.Crossposted
+  fullName: Disqord.MessageFlags.Crossposted
+  nameWithType: MessageFlags.Crossposted
 - uid: Disqord.MessageFlags.None
   name: None
   href: api/Disqord.MessageFlags.html#Disqord_MessageFlags_None
   commentId: F:Disqord.MessageFlags.None
   fullName: Disqord.MessageFlags.None
   nameWithType: MessageFlags.None
+- uid: Disqord.MessageFlags.SuppressedEmbeds
+  name: SuppressedEmbeds
+  href: api/Disqord.MessageFlags.html#Disqord_MessageFlags_SuppressedEmbeds
+  commentId: F:Disqord.MessageFlags.SuppressedEmbeds
+  fullName: Disqord.MessageFlags.SuppressedEmbeds
+  nameWithType: MessageFlags.SuppressedEmbeds
+- uid: Disqord.MessageFlags.Urgent
+  name: Urgent
+  href: api/Disqord.MessageFlags.html#Disqord_MessageFlags_Urgent
+  commentId: F:Disqord.MessageFlags.Urgent
+  fullName: Disqord.MessageFlags.Urgent
+  nameWithType: MessageFlags.Urgent
 - uid: Disqord.MessageReference
   name: MessageReference
   href: api/Disqord.MessageReference.html
@@ -24114,6 +24114,19 @@ references:
   isSpec: "True"
   fullName: Disqord.ModifyMessageProperties.Embed
   nameWithType: ModifyMessageProperties.Embed
+- uid: Disqord.ModifyMessageProperties.Flags
+  name: Flags
+  href: api/Disqord.ModifyMessageProperties.html#Disqord_ModifyMessageProperties_Flags
+  commentId: P:Disqord.ModifyMessageProperties.Flags
+  fullName: Disqord.ModifyMessageProperties.Flags
+  nameWithType: ModifyMessageProperties.Flags
+- uid: Disqord.ModifyMessageProperties.Flags*
+  name: Flags
+  href: api/Disqord.ModifyMessageProperties.html#Disqord_ModifyMessageProperties_Flags_
+  commentId: Overload:Disqord.ModifyMessageProperties.Flags
+  isSpec: "True"
+  fullName: Disqord.ModifyMessageProperties.Flags
+  nameWithType: ModifyMessageProperties.Flags
 - uid: Disqord.ModifyNestedChannelProperties
   name: ModifyNestedChannelProperties
   href: api/Disqord.ModifyNestedChannelProperties.html
