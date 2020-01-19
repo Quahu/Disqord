@@ -384,7 +384,8 @@ namespace Disqord.Rest
                 Content = properties.Content,
                 Embed = properties.Embed.HasValue
                     ? properties.Embed.Value.ToModel()
-                    : Optional<EmbedModel>.Empty
+                    : Optional<EmbedModel>.Empty,
+                Flags = properties.Flags
             };
             return SendRequestAsync<MessageModel>(new RestRequest(PATCH, $"channels/{channelId:channel_id}/messages/{messageId}", requestContent, options));
         }

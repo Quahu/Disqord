@@ -10,5 +10,8 @@ namespace Disqord.Rest
 
         [JsonProperty("embed")]
         public Optional<EmbedModel> Embed { get; set; }
+
+        [JsonProperty("flags")]
+        public Optional<MessageFlags> Flags { get; set; }
     }
 }
