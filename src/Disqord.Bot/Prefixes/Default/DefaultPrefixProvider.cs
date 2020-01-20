@@ -19,9 +19,9 @@ namespace Disqord.Bot.Prefixes
             return this;
         }
 
-        public DefaultPrefixProvider AddPrefix(char value, bool ignoreCase = true)
+        public DefaultPrefixProvider AddPrefix(char value, bool caseSensitive = false)
         {
-            Prefixes.Add(new CharPrefix(value, ignoreCase));
+            Prefixes.Add(new CharPrefix(value, caseSensitive));
             return this;
         }
 

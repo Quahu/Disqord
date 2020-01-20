@@ -1,32 +1,25 @@
-﻿namespace Disqord.Bot.Prefixes
+﻿using Qmmands;
+
+namespace Disqord.Bot.Prefixes
 {
     public sealed class CharPrefix : IPrefix
     {
         public char Value { get; }
 
-        public bool IgnoreCase { get; }
+        public bool IsCaseSensitive { get; }
 
-        public CharPrefix(char value, bool ignoreCase)
+        public CharPrefix(char value, bool caseSensitive)
         {
             Value = value;
-            IgnoreCase = ignoreCase;
+            IsCaseSensitive = caseSensitive;
         }
 
         internal bool InternalEquals(char character)
-            => IgnoreCase && char.ToUpperInvariant(character) == char.ToUpperInvariant(Value)
+            => !IsCaseSensitive && char.ToUpperInvariant(character) == char.ToUpperInvariant(Value)
                 || character == Value;
 
         public bool TryFind(CachedUserMessage message, out string output)
-        {
-            if (InternalEquals(message.Content[0]))
-            {
-                output = message.Content.Substring(1);
-                return true;
-            }
-
-            output = null;
-            return false;
-        }
+            => CommandUtilities.HasPrefix(message.Content, Value, IsCaseSensitive, out output);
 
         public override int GetHashCode()
             => Value.GetHashCode();
