@@ -1474,19 +1474,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Bot.Prefixes.CharPrefix.GetHashCode
   nameWithType: CharPrefix.GetHashCode
-- uid: Disqord.Bot.Prefixes.CharPrefix.IgnoreCase
-  name: IgnoreCase
-  href: api/Disqord.Bot.Prefixes.CharPrefix.html#Disqord_Bot_Prefixes_CharPrefix_IgnoreCase
-  commentId: P:Disqord.Bot.Prefixes.CharPrefix.IgnoreCase
-  fullName: Disqord.Bot.Prefixes.CharPrefix.IgnoreCase
-  nameWithType: CharPrefix.IgnoreCase
-- uid: Disqord.Bot.Prefixes.CharPrefix.IgnoreCase*
-  name: IgnoreCase
-  href: api/Disqord.Bot.Prefixes.CharPrefix.html#Disqord_Bot_Prefixes_CharPrefix_IgnoreCase_
-  commentId: Overload:Disqord.Bot.Prefixes.CharPrefix.IgnoreCase
+- uid: Disqord.Bot.Prefixes.CharPrefix.IsCaseSensitive
+  name: IsCaseSensitive
+  href: api/Disqord.Bot.Prefixes.CharPrefix.html#Disqord_Bot_Prefixes_CharPrefix_IsCaseSensitive
+  commentId: P:Disqord.Bot.Prefixes.CharPrefix.IsCaseSensitive
+  fullName: Disqord.Bot.Prefixes.CharPrefix.IsCaseSensitive
+  nameWithType: CharPrefix.IsCaseSensitive
+- uid: Disqord.Bot.Prefixes.CharPrefix.IsCaseSensitive*
+  name: IsCaseSensitive
+  href: api/Disqord.Bot.Prefixes.CharPrefix.html#Disqord_Bot_Prefixes_CharPrefix_IsCaseSensitive_
+  commentId: Overload:Disqord.Bot.Prefixes.CharPrefix.IsCaseSensitive
   isSpec: "True"
-  fullName: Disqord.Bot.Prefixes.CharPrefix.IgnoreCase
-  nameWithType: CharPrefix.IgnoreCase
+  fullName: Disqord.Bot.Prefixes.CharPrefix.IsCaseSensitive
+  nameWithType: CharPrefix.IsCaseSensitive
 - uid: Disqord.Bot.Prefixes.CharPrefix.ToString
   name: ToString()
   href: api/Disqord.Bot.Prefixes.CharPrefix.html#Disqord_Bot_Prefixes_CharPrefix_ToString
