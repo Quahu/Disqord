@@ -11766,12 +11766,12 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetConnectionsAsync
   nameWithType: DiscordClientBase.GetConnectionsAsync
-- uid: Disqord.DiscordClientBase.GetCurrentApplicationAsync
-  name: GetCurrentApplicationAsync()
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetCurrentApplicationAsync
-  commentId: M:Disqord.DiscordClientBase.GetCurrentApplicationAsync
-  fullName: Disqord.DiscordClientBase.GetCurrentApplicationAsync()
-  nameWithType: DiscordClientBase.GetCurrentApplicationAsync()
+- uid: Disqord.DiscordClientBase.GetCurrentApplicationAsync(Disqord.Rest.RestRequestOptions)
+  name: GetCurrentApplicationAsync(RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetCurrentApplicationAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetCurrentApplicationAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetCurrentApplicationAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetCurrentApplicationAsync(RestRequestOptions)
 - uid: Disqord.DiscordClientBase.GetCurrentApplicationAsync*
   name: GetCurrentApplicationAsync
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetCurrentApplicationAsync_
@@ -21122,6 +21122,12 @@ references:
   commentId: F:Disqord.Library.RepositoryUrl
   fullName: Disqord.Library.RepositoryUrl
   nameWithType: Library.RepositoryUrl
+- uid: Disqord.Library.UserAgent
+  name: UserAgent
+  href: api/Disqord.Library.html#Disqord_Library_UserAgent
+  commentId: F:Disqord.Library.UserAgent
+  fullName: Disqord.Library.UserAgent
+  nameWithType: Library.UserAgent
 - uid: Disqord.Library.Version
   name: Version
   href: api/Disqord.Library.html#Disqord_Library_Version
@@ -28089,12 +28095,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetConnectionsAsync
   nameWithType: IRestDiscordClient.GetConnectionsAsync
-- uid: Disqord.Rest.IRestDiscordClient.GetCurrentApplicationAsync
-  name: GetCurrentApplicationAsync()
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetCurrentApplicationAsync
-  commentId: M:Disqord.Rest.IRestDiscordClient.GetCurrentApplicationAsync
-  fullName: Disqord.Rest.IRestDiscordClient.GetCurrentApplicationAsync()
-  nameWithType: IRestDiscordClient.GetCurrentApplicationAsync()
+- uid: Disqord.Rest.IRestDiscordClient.GetCurrentApplicationAsync(Disqord.Rest.RestRequestOptions)
+  name: GetCurrentApplicationAsync(RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetCurrentApplicationAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetCurrentApplicationAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetCurrentApplicationAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetCurrentApplicationAsync(RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.GetCurrentApplicationAsync*
   name: GetCurrentApplicationAsync
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetCurrentApplicationAsync_
@@ -30760,12 +30766,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetConnectionsAsync
   nameWithType: RestDiscordClient.GetConnectionsAsync
-- uid: Disqord.Rest.RestDiscordClient.GetCurrentApplicationAsync
-  name: GetCurrentApplicationAsync()
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetCurrentApplicationAsync
-  commentId: M:Disqord.Rest.RestDiscordClient.GetCurrentApplicationAsync
-  fullName: Disqord.Rest.RestDiscordClient.GetCurrentApplicationAsync()
-  nameWithType: RestDiscordClient.GetCurrentApplicationAsync()
+- uid: Disqord.Rest.RestDiscordClient.GetCurrentApplicationAsync(Disqord.Rest.RestRequestOptions)
+  name: GetCurrentApplicationAsync(RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetCurrentApplicationAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetCurrentApplicationAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetCurrentApplicationAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetCurrentApplicationAsync(RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.GetCurrentApplicationAsync*
   name: GetCurrentApplicationAsync
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetCurrentApplicationAsync_
@@ -31245,6 +31251,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GrantRoleAsync
   nameWithType: RestDiscordClient.GrantRoleAsync
+- uid: Disqord.Rest.RestDiscordClient.HasAuthorization
+  name: HasAuthorization
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_HasAuthorization
+  commentId: P:Disqord.Rest.RestDiscordClient.HasAuthorization
+  fullName: Disqord.Rest.RestDiscordClient.HasAuthorization
+  nameWithType: RestDiscordClient.HasAuthorization
+- uid: Disqord.Rest.RestDiscordClient.HasAuthorization*
+  name: HasAuthorization
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_HasAuthorization_
+  commentId: Overload:Disqord.Rest.RestDiscordClient.HasAuthorization
+  isSpec: "True"
+  fullName: Disqord.Rest.RestDiscordClient.HasAuthorization
+  nameWithType: RestDiscordClient.HasAuthorization
 - uid: Disqord.Rest.RestDiscordClient.KickMemberAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   name: KickMemberAsync(Snowflake, Snowflake, RestRequestOptions)
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_KickMemberAsync_Disqord_Snowflake_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -31284,6 +31303,32 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.Logger
   nameWithType: RestDiscordClient.Logger
+- uid: Disqord.Rest.RestDiscordClient.LoginAsync(System.String,System.String,Disqord.Rest.RestRequestOptions)
+  name: LoginAsync(String, String, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_LoginAsync_System_String_System_String_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.LoginAsync(System.String,System.String,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.LoginAsync(System.String, System.String, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.LoginAsync(String, String, RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.LoginAsync*
+  name: LoginAsync
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_LoginAsync_
+  commentId: Overload:Disqord.Rest.RestDiscordClient.LoginAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.RestDiscordClient.LoginAsync
+  nameWithType: RestDiscordClient.LoginAsync
+- uid: Disqord.Rest.RestDiscordClient.LogoutAsync(Disqord.Rest.RestRequestOptions)
+  name: LogoutAsync(RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_LogoutAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.LogoutAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.LogoutAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.LogoutAsync(RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.LogoutAsync*
+  name: LogoutAsync
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_LogoutAsync_
+  commentId: Overload:Disqord.Rest.RestDiscordClient.LogoutAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.RestDiscordClient.LogoutAsync
+  nameWithType: RestDiscordClient.LogoutAsync
 - uid: Disqord.Rest.RestDiscordClient.MarkMessageAsReadAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   name: MarkMessageAsReadAsync(Snowflake, Snowflake, RestRequestOptions)
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_MarkMessageAsReadAsync_Disqord_Snowflake_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_

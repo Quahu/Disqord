@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.DiscordBot.html",
-          "hash": "oPienHhNe3Qb4PtVBso6UA=="
+          "hash": "shyeF5xy+/NjEGJoUT9kxQ=="
         }
       },
       "is_incremental": false,
@@ -93,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.DiscordBotBase.html",
-          "hash": "JYpzUv6wnQjCUrw1+hjHDg=="
+          "hash": "QKreCR8w8pvRPrcRUc9/iQ=="
         }
       },
       "is_incremental": false,
@@ -501,7 +501,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.Sharding.DiscordBotSharder.html",
-          "hash": "UsePA/mukGyHiu2BRUffDQ=="
+          "hash": "8mLO9c+X8IDzUtjrLXki6g=="
         }
       },
       "is_incremental": false,
@@ -1053,7 +1053,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.DiscordClient.html",
-          "hash": "CV/iDre9Hs+aiMWscJF3AA=="
+          "hash": "tGsZ05+FQjyvv/YmYuxrGw=="
         }
       },
       "is_incremental": false,
@@ -1065,7 +1065,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.DiscordClientBase.html",
-          "hash": "e5+MTua3HeKxXBlUYW+QCw=="
+          "hash": "/vPgTeQttea2L/PJMcjBXw=="
         }
       },
       "is_incremental": false,
@@ -2397,7 +2397,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Library.html",
-          "hash": "Ml7DT4Blz0qosLW5tl5+YQ=="
+          "hash": "ea4Zio5LxbGehy6LPpwKZw=="
         }
       },
       "is_incremental": false,
@@ -3681,7 +3681,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.IRestDiscordClient.html",
-          "hash": "5irrSGwrbOsXDIqoojo1jw=="
+          "hash": "vijqKnue/zU5Xc4qDV0a+w=="
         }
       },
       "is_incremental": false,
@@ -3801,7 +3801,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestDiscordClient.html",
-          "hash": "FnyPqpFN0TDNxO8SyCj54A=="
+          "hash": "a5IpVpsKJb1JQl12MrVuhw=="
         }
       },
       "is_incremental": false,
@@ -4569,7 +4569,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Sharding.DiscordSharder.html",
-          "hash": "SWJKYEaBHT2YPTvUJ1XAeg=="
+          "hash": "tt7GABkTlBredAHOqWjVVg=="
         }
       },
       "is_incremental": false,
