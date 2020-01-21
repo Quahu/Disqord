@@ -17,7 +17,7 @@ namespace Disqord
             var shards = configuration.ShardId != null && configuration.ShardCount != null
                 ? ((int, int)?) (configuration.ShardId, configuration.ShardCount)
                 : null;
-            _gateway = new DiscordClientGateway(this, shards);
+            _gateway = new DiscordClientGateway(State, shards);
             _gateway.SetStatus(configuration.Status);
             _gateway.SetActivity(configuration.Activity);
             _getGateway = (client, _) => (client as DiscordClient)._gateway;

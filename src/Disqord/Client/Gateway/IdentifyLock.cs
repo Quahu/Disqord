@@ -16,7 +16,7 @@ namespace Disqord.Client.Gateway
         public IdentifyLock(DiscordClientGateway gateway)
         {
             _gateway = gateway;
-            _semaphore = _semaphores.GetOrAdd(gateway._client.Token, _ => new SemaphoreSlim(1, 1));
+            _semaphore = _semaphores.GetOrAdd(gateway.Client.Token, _ => new SemaphoreSlim(1, 1));
         }
 
         public async Task WaitAsync()

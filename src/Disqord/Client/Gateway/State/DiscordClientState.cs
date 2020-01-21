@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using Disqord.Collections;
@@ -23,7 +23,8 @@ namespace Disqord
         internal readonly LockedDictionary<Snowflake, CachedSharedUser> _users;
         internal readonly LockedDictionary<Snowflake, CachedPrivateChannel> _privateChannels;
 
-        private IJsonSerializer Serializer => _client.Serializer;
+        internal IJsonSerializer Serializer => _client.Serializer;
+        internal ILogger Logger => _client.Logger;
 
         internal DiscordClientBase _client;
 

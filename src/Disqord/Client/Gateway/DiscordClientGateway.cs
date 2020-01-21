@@ -18,11 +18,11 @@ namespace Disqord
     {
         public TimeSpan? Latency => _lastHeartbeatAck - _lastHeartbeatSent;
 
-        internal IJsonSerializer Serializer => _client.Serializer;
-        internal DiscordClientState State => _client.State;
+        internal IJsonSerializer Serializer => State.Serializer;
+        internal DiscordClientBase Client => State._client;
+        internal readonly DiscordClientState State;
 
         private readonly IdentifyLock _identifyLock;
-        internal readonly DiscordClientBase _client;
 
         private bool _isDisposed;
         private DateTimeOffset? _lastGuildCreate;
@@ -42,9 +42,9 @@ namespace Disqord
 
         private readonly ConcurrentQueue<(PayloadModel, GatewayDispatch)> _readyPayloadQueue = new ConcurrentQueue<(PayloadModel, GatewayDispatch)>();
 
-        public DiscordClientGateway(DiscordClientBase client, (int ShardId, int ShardCount)? shards)
+        public DiscordClientGateway(DiscordClientState state, (int ShardId, int ShardCount)? shards)
         {
-            _client = client;
+            State = state;
             _identifyLock = new IdentifyLock(this);
             _shard = shards != null
                 ? new[] { shards.Value.ShardId, shards.Value.ShardCount }
@@ -56,7 +56,7 @@ namespace Disqord
         }
 
         internal void Log(LogMessageSeverity severity, string message, Exception exception = null)
-            => _client.Logger.Log(_client, new MessageLoggedEventArgs(_shard != null
+            => State.Logger.Log(Client, new MessageLoggedEventArgs(_shard != null
                 ? $"Gateway #{_shard[0]}"
                 : "Gateway", severity, message, exception));
 
@@ -98,7 +98,7 @@ namespace Disqord
                 _identifyTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             Log(LogMessageSeverity.Information, "Connecting...");
-            var gatewayUrl = await _client.GetGatewayAsync(_sessionId == null).ConfigureAwait(false);
+            var gatewayUrl = await Client.GetGatewayAsync(_sessionId == null).ConfigureAwait(false);
             await _ws.ConnectAsync(new Uri(string.Concat(gatewayUrl, "?compress=zlib-stream")), _combinedRunCts.Token).ConfigureAwait(false);
 
             if (_sessionId != null)
@@ -278,7 +278,7 @@ namespace Disqord
         private async Task DelayedInvokeReadyAsync()
         {
             // TODO: break out on connection interruption
-            if (_client.IsBot)
+            if (Client.IsBot)
             {
                 var last = _lastGuildCreate;
                 while (last == null || (DateTimeOffset.UtcNow - last).Value.TotalSeconds < 3)
@@ -313,7 +313,7 @@ namespace Disqord
 
             // TODO
             if (_shard == null)
-                await _client._ready.InvokeAsync(new ReadyEventArgs(_client, _sessionId, _trace)).ConfigureAwait(false);
+                await Client._ready.InvokeAsync(new ReadyEventArgs(Client, _sessionId, _trace)).ConfigureAwait(false);
 
             while (_readyPayloadQueue.TryDequeue(out var queuedPayload))
             {

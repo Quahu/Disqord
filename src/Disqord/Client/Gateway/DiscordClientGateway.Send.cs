@@ -83,7 +83,7 @@ namespace Disqord
                 Op = GatewayOperationCode.Resume,
                 D = new ResumeModel
                 {
-                    Token = _client.Token,
+                    Token = Client.Token,
                     Seq = _lastSequenceNumber,
                     SessionId = _sessionId
                 }
@@ -104,7 +104,7 @@ namespace Disqord
                 Op = GatewayOperationCode.Identify,
                 D = new IdentifyModel
                 {
-                    Token = _client.Token,
+                    Token = Client.Token,
                     LargeThreshold = 250,
                     Presence = new UpdateStatusModel
                     {

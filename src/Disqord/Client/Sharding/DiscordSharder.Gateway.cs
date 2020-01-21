@@ -35,7 +35,7 @@ namespace Disqord.Sharding
             var tasks = new Task[_gateways.Length];
             for (var i = 0; i < _gateways.Length; i++)
             {
-                var gateway = new DiscordClientGateway(this, (i, _gateways.Length));
+                var gateway = new DiscordClientGateway(State, (i, _gateways.Length));
                 _gateways[i] = gateway;
                 shards[i] = new Shard(this, gateway);
                 tasks[i] = gateway.RunAsync(cancellationToken);
