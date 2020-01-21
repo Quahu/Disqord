@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Logging;
@@ -27,20 +28,16 @@ namespace Disqord.Rest
         private static readonly TimeSpan _defaultTimeout = TimeSpan.FromSeconds(20);
 
         internal readonly HttpClient Http;
-
-        internal readonly TokenType TokenType;
-
-        internal readonly string Token;
-
         internal readonly ILogger Logger;
-
         internal readonly IJsonSerializer Serializer;
+
+        internal TokenType? _tokenType;
+        internal string _token;
 
         private readonly RateLimiter _rateLimiter;
 
-        public RestDiscordApiClient(TokenType tokenType, string token, ILogger logger, IJsonSerializer serializer)
+        public RestDiscordApiClient(TokenType? tokenType, string token, ILogger logger, IJsonSerializer serializer)
         {
-            TokenType = tokenType;
             Http = new HttpClient(new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
@@ -51,10 +48,10 @@ namespace Disqord.Rest
             };
             Http.DefaultRequestHeaders.Add("Accept-Encoding", "deflate, gzip");
 
-            if (token != null)
+            if (tokenType != null)
             {
-                Token = PrefixToken(tokenType, token);
-                Http.DefaultRequestHeaders.Add("Authorization", Token);
+                SetTokenType(tokenType.Value);
+                SetToken(token);
             }
 
             Logger = logger ?? new DefaultLogger();
@@ -62,17 +59,50 @@ namespace Disqord.Rest
             _rateLimiter = RateLimiter.GetOrCreate(this);
         }
 
-        private IJsonSerializer GetDefaultSerializer()
-            => NewtonsoftJsonSerializer.Instance;
+        public void ResetToken()
+        {
+            _tokenType = null;
+            _token = null;
+            SetUserAgent();
+            SetAuthorization();
+        }
 
-        internal static string PrefixToken(TokenType tokenType, string token)
-            => tokenType switch
+        public void SetTokenType(TokenType tokenType)
+        {
+            _tokenType = tokenType;
+            SetUserAgent();
+        }
+
+        public void SetToken(string token)
+        {
+            _token = _tokenType switch
             {
                 TokenType.Bearer => $"Bearer {token}",
                 TokenType.Bot => $"Bot {token}",
                 TokenType.User => token,
-                _ => throw new ArgumentOutOfRangeException(nameof(tokenType), "Invalid token type."),
+                _ => throw new ArgumentOutOfRangeException(nameof(_tokenType), "Invalid token type."),
             };
+            SetAuthorization();
+        }
+
+        private void SetUserAgent()
+        {
+            var userAgent = Http.DefaultRequestHeaders.UserAgent;
+            userAgent.Clear();
+            userAgent.ParseAdd(_tokenType == TokenType.User
+                ? "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36"
+                : Library.UserAgent);
+        }
+
+        private void SetAuthorization()
+        {
+            Http.DefaultRequestHeaders.Authorization = _tokenType != null
+                ? AuthenticationHeaderValue.Parse(_token)
+                : null;
+        }
+
+        private IJsonSerializer GetDefaultSerializer()
+            => NewtonsoftJsonSerializer.Instance;
 
         private async Task EnqueueRequestAsync(RestRequest request)
         {
@@ -847,7 +877,7 @@ namespace Disqord.Rest
 
         public Task<UserModel> ModifyCurrentUserAsync(ModifyCurrentUserProperties properties, RestRequestOptions options)
         {
-            if (TokenType == TokenType.User)
+            if (_tokenType == TokenType.User)
             {
                 if ((properties.Name.HasValue || properties.Password.HasValue || properties.Discriminator.HasValue)
                     && options.Password == null)
@@ -1153,6 +1183,39 @@ namespace Disqord.Rest
                     : Optional<long>.Empty
             };
             return SendRequestAsync<UserSettingsModel>(new RestRequest(PATCH, $"users/@me/settings", new JsonObjectContent(model), options));
+        }
+
+        public Task<LoginModel> LoginAsync(string email, string password, RestRequestOptions options)
+        {
+            var content = new LoginContent
+            {
+                Email = email,
+                Password = password
+            };
+
+            return SendRequestAsync<LoginModel>(new RestRequest(POST, $"auth/login", content, options));
+        }
+
+        public Task LogoutAsync(RestRequestOptions options)
+        {
+            var content = new LogoutContent
+            {
+                Provider = null,
+                VoipProvider = null
+            };
+
+            return SendRequestAsync(new RestRequest(POST, $"auth/logout", content, options));
+        }
+
+        public Task<LoginModel> TotpAsync(string ticket, string mfaCode, RestRequestOptions options)
+        {
+            var content = new TotpContent
+            {
+                Ticket = ticket,
+                Code = mfaCode
+            };
+
+            return SendRequestAsync<LoginModel>(new RestRequest(POST, $"auth/mfa/totp", content, options));
         }
 
         public void Log(LogMessageSeverity severity, string message, Exception exception = null)

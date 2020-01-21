@@ -24,7 +24,7 @@ namespace Disqord
 
         internal RestDiscordClient RestClient { get; }
 
-        internal string Token => RestClient.ApiClient.Token;
+        internal string Token => RestClient.ApiClient._token;
 
         internal bool IsBot => TokenType == TokenType.Bot;
 
@@ -41,6 +41,9 @@ namespace Disqord
         {
             if (restClient == null)
                 throw new ArgumentNullException(nameof(restClient));
+
+            if (!restClient.HasAuthorization)
+                throw new ArgumentException("Clients without authorization are not supported.", nameof(restClient));
 
             State = new DiscordClientState(this, messageCache);
             RestClient = restClient;

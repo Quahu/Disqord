@@ -45,10 +45,10 @@ namespace Disqord.Rest
 
         public static RateLimiter GetOrCreate(RestDiscordApiClient client)
         {
-            if (client.Token == null)
+            if (client._token == null)
                 return new RateLimiter(client);
 
-            return _rateLimiters.GetOrAdd(client.Token, (_, x) => new RateLimiter(x), client);
+            return _rateLimiters.GetOrAdd(client._token, (_, x) => new RateLimiter(x), client);
         }
     }
 }

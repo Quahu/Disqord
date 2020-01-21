@@ -12,8 +12,28 @@ namespace Disqord.Rest
 
         /// <summary>
         ///     Gets the token type this client is using.
+        ///     Will throw an exception, if <see cref="HasAuthorization"/> returns <see langword="false"/>.
         /// </summary>
-        public TokenType TokenType => ApiClient.TokenType;
+        /// <exception cref="InvalidOperationException">
+        ///     This client has no authorization.
+        /// </exception>
+        public TokenType TokenType
+        {
+            get
+            {
+                if (!HasAuthorization)
+                    throw new InvalidOperationException("This client has no authorization.");
+
+                return ApiClient._tokenType.Value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets whether this client has an authorization token.
+        ///     Returns <see langword="true"/> for all normal clients and for logged in
+        ///     clients created using <see cref="CreateWithoutAuthorization(ILogger, IJsonSerializer)"/>.
+        /// </summary>
+        public bool HasAuthorization => ApiClient._tokenType != null;
 
         public ILogger Logger => ApiClient.Logger;
 
@@ -31,11 +51,9 @@ namespace Disqord.Rest
 
         private RestDiscordClient(ILogger logger = null, IJsonSerializer serializer = null)
         {
-            ApiClient = new RestDiscordApiClient(default, null, logger, serializer);
-            CurrentUser = new RestDownloadable<RestCurrentUser>(
-                _ => throw new InvalidOperationException("Cannot download the current user without providing an authorization token."));
-            CurrentApplication = new RestDownloadable<RestApplication>(
-                _ => throw new InvalidOperationException("Cannot download the current application without providing an authorization token."));
+            ApiClient = new RestDiscordApiClient(null, null, logger, serializer);
+            CurrentUser = new RestDownloadable<RestCurrentUser>(GetCurrentUserAsync);
+            CurrentApplication = new RestDownloadable<RestApplication>(GetCurrentApplicationAsync);
         }
 
         public RestDiscordClient(TokenType tokenType, string token, ILogger logger = null, IJsonSerializer serializer = null)
@@ -44,20 +62,8 @@ namespace Disqord.Rest
                 throw new ArgumentNullException(nameof(token));
 
             ApiClient = new RestDiscordApiClient(tokenType, token, logger, serializer);
-            CurrentUser = new RestDownloadable<RestCurrentUser>(async options =>
-            {
-                var model = await ApiClient.GetCurrentUserAsync(options).ConfigureAwait(false);
-                return new RestCurrentUser(this, model);
-            });
-
-            CurrentApplication = tokenType == TokenType.Bot
-                ? new RestDownloadable<RestApplication>(async options =>
-                {
-                    var model = await ApiClient.GetCurrentApplicationInformationAsync(options).ConfigureAwait(false);
-                    return new RestApplication(this, model);
-                })
-                : new RestDownloadable<RestApplication>(
-                    _ => throw new InvalidOperationException("Cannot download the current application without a bot authorization token."));
+            CurrentUser = new RestDownloadable<RestCurrentUser>(GetCurrentUserAsync);
+            CurrentApplication = new RestDownloadable<RestApplication>(GetCurrentApplicationAsync);
         }
 
         internal void Log(LogMessageSeverity severity, string message, Exception exception = null)

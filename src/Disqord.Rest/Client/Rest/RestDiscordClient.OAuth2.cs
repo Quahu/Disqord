@@ -1,10 +1,17 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Disqord.Rest
 {
     public partial class RestDiscordClient : IRestDiscordClient
     {
-        public Task<RestApplication> GetCurrentApplicationAsync()
-            => CurrentApplication.DownloadAsync();
+        public async Task<RestApplication> GetCurrentApplicationAsync(RestRequestOptions options = null)
+        {
+            if (TokenType != TokenType.Bot)
+                throw new InvalidOperationException("Cannot download the current application without a bot authorization token.");
+
+            var model = await ApiClient.GetCurrentApplicationInformationAsync(options).ConfigureAwait(false);
+            return new RestApplication(this, model);
+        }
     }
 }

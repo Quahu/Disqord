@@ -9,8 +9,11 @@ namespace Disqord.Rest
 {
     public partial class RestDiscordClient : IRestDiscordClient
     {
-        public Task<RestCurrentUser> GetCurrentUserAsync(RestRequestOptions options = null)
-            => CurrentUser.DownloadAsync(options);
+        public async Task<RestCurrentUser> GetCurrentUserAsync(RestRequestOptions options = null)
+        {
+            var model = await ApiClient.GetCurrentUserAsync(options).ConfigureAwait(false);
+            return new RestCurrentUser(this, model);
+        }
 
         public async Task<RestUser> GetUserAsync(Snowflake userId, RestRequestOptions options = null)
         {
@@ -39,7 +42,7 @@ namespace Disqord.Rest
             return user;
         }
 
-        public RestRequestEnumerable<RestPartialGuild> GetGuildsEnumerable(int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null) 
+        public RestRequestEnumerable<RestPartialGuild> GetGuildsEnumerable(int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null)
             => new RestRequestEnumerable<RestPartialGuild>(new RestGuildsRequestEnumerator(this, limit, direction, startFromId));
 
         public Task<IReadOnlyList<RestPartialGuild>> GetGuildsAsync(int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)

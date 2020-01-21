@@ -103,7 +103,7 @@ namespace Disqord
         public Task AddGroupRecipientAsync(Snowflake channelId, Snowflake userId, string nick = null, string accessToken = null, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).AddGroupRecipientAsync(channelId, userId, nick, accessToken, options);
         public Task RemoveGroupRecipientAsync(Snowflake channelId, Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).RemoveGroupRecipientAsync(channelId, userId, options);
         public Task MarkMessageAsReadAsync(Snowflake channelId, Snowflake messageId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).MarkMessageAsReadAsync(channelId, messageId, options);
-        public Task<RestApplication> GetCurrentApplicationAsync() => ((IRestDiscordClient) this.RestClient).GetCurrentApplicationAsync();
+        public Task<RestApplication> GetCurrentApplicationAsync(RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetCurrentApplicationAsync(options);
         public Task<RestCurrentUser> GetCurrentUserAsync(RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetCurrentUserAsync(options);
         public Task<RestUser> GetUserAsync(Snowflake userId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetUserAsync(userId, options);
         public Task<RestCurrentUser> ModifyCurrentUserAsync(Action<ModifyCurrentUserProperties> action, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ModifyCurrentUserAsync(action, options);

@@ -22,5 +22,10 @@ namespace Disqord
         ///     Disqord's repository url.
         /// </summary>
         public const string RepositoryUrl = "https://github.com/Quahu/Disqord";
+
+        /// <summary>
+        ///     Disqord's user agent.
+        /// </summary>
+        public static readonly string UserAgent = $"DiscordBot ({RepositoryUrl}, {Version.ToString(3)})";
     }
 }
