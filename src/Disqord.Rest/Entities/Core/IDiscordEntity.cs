@@ -8,7 +8,7 @@ namespace Disqord
     public interface IDiscordEntity
     {
         /// <summary>
-        ///     Gets the <see cref="IRestDiscordClient"/> that created this <see cref="IDiscordEntity"/>.
+        ///     Gets the client that created this entity.
         /// </summary>
         IRestDiscordClient Client { get; }
     }
