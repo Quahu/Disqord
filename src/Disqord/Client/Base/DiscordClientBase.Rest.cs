@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -20,11 +20,11 @@ namespace Disqord
         public Task<IReadOnlyList<RestWebhook>> GetChannelWebhooksAsync(Snowflake channelId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetChannelWebhooksAsync(channelId, options);
         public Task<IReadOnlyList<RestWebhook>> GetGuildWebhooksAsync(Snowflake guildId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetGuildWebhooksAsync(guildId, options);
         public Task<RestWebhook> GetWebhookAsync(Snowflake webhookId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetWebhookAsync(webhookId, options);
-        public Task<RestWebhook> GetWebhookWithTokenAsync(Snowflake webhookId, string webhookToken, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetWebhookWithTokenAsync(webhookId, webhookToken, options);
+        public Task<RestWebhook> GetWebhookAsync(Snowflake webhookId, string webhookToken, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).GetWebhookAsync(webhookId, webhookToken, options);
         public Task<RestWebhook> ModifyWebhookAsync(Snowflake webhookId, Action<ModifyWebhookProperties> action, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ModifyWebhookAsync(webhookId, action, options);
-        public Task<RestWebhook> ModifyWebhookWithTokenAsync(Snowflake webhookId, string webhookToken, Action<ModifyWebhookProperties> action, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ModifyWebhookWithTokenAsync(webhookId, webhookToken, action, options);
+        public Task<RestWebhook> ModifyWebhookAsync(Snowflake webhookId, string webhookToken, Action<ModifyWebhookProperties> action, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ModifyWebhookAsync(webhookId, webhookToken, action, options);
         public Task DeleteWebhookAsync(Snowflake webhookId, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).DeleteWebhookAsync(webhookId, options);
-        public Task DeleteWebhookWithTokenAsync(Snowflake webhookId, string webhookToken, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).DeleteWebhookWithTokenAsync(webhookId, webhookToken, options);
+        public Task DeleteWebhookAsync(Snowflake webhookId, string webhookToken, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).DeleteWebhookAsync(webhookId, webhookToken, options);
         public Task<RestUserMessage> ExecuteWebhookAsync(Snowflake webhookId, string webhookToken, string content = null, bool textToSpeech = false, IEnumerable<LocalEmbed> LocalEmbeds = null, string name = null, string avatarUrl = null, bool wait = false, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ExecuteWebhookAsync(webhookId, webhookToken, content, textToSpeech, LocalEmbeds, name, avatarUrl, wait, options);
         public Task<RestUserMessage> ExecuteWebhookAsync(Snowflake webhookId, string webhookToken, LocalAttachment attachment, string content = null, bool textToSpeech = false, IEnumerable<LocalEmbed> LocalEmbeds = null, string name = null, string avatarUrl = null, bool wait = false, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ExecuteWebhookAsync(webhookId, webhookToken, attachment, content, textToSpeech, LocalEmbeds, name, avatarUrl, wait, options);
         public Task<RestUserMessage> ExecuteWebhookAsync(Snowflake webhookId, string webhookToken, IEnumerable<LocalAttachment> attachments, string content = null, bool textToSpeech = false, IEnumerable<LocalEmbed> LocalEmbeds = null, string name = null, string avatarUrl = null, bool wait = false, RestRequestOptions options = null) => ((IRestDiscordClient) this.RestClient).ExecuteWebhookAsync(webhookId, webhookToken, attachments, content, textToSpeech, LocalEmbeds, name, avatarUrl, wait, options);

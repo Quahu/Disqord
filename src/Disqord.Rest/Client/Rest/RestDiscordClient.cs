@@ -47,11 +47,11 @@ namespace Disqord.Rest
         ///     Initialises a new <see cref="RestDiscordClient"/> without authorization.
         /// </summary>
         public static RestDiscordClient CreateWithoutAuthorization(ILogger logger = null, IJsonSerializer serializer = null)
-            => new RestDiscordClient(logger, serializer);
+            => new RestDiscordClient(null, null, logger, serializer);
 
-        private RestDiscordClient(ILogger logger = null, IJsonSerializer serializer = null)
+        private RestDiscordClient(TokenType? optionalTokenType, string token, ILogger logger = null, IJsonSerializer serializer = null)
         {
-            ApiClient = new RestDiscordApiClient(logger, serializer);
+            ApiClient = new RestDiscordApiClient(optionalTokenType, token, logger, serializer);
             CurrentUser = new RestDownloadable<RestCurrentUser>(async options =>
             {
                 var model = await ApiClient.GetCurrentUserAsync(options).ConfigureAwait(false);
@@ -68,14 +68,8 @@ namespace Disqord.Rest
         }
 
         public RestDiscordClient(TokenType tokenType, string token, ILogger logger = null, IJsonSerializer serializer = null)
-            : this(logger, serializer)
-        {
-            if (token == null)
-                throw new ArgumentNullException(nameof(token));
-
-            ApiClient.SetTokenType(tokenType);
-            ApiClient.SetToken(token);
-        }
+            : this(optionalTokenType: tokenType, token ?? throw new ArgumentNullException(nameof(token)), logger, serializer)
+        { }
 
         internal void Log(LogMessageSeverity severity, string message, Exception exception = null)
             => Logger.Log(this, new MessageLoggedEventArgs("Rest", severity, message, exception));

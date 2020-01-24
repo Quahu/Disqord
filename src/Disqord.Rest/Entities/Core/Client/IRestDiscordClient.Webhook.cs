@@ -15,15 +15,15 @@ namespace Disqord.Rest
 
         Task<RestWebhook> GetWebhookAsync(Snowflake webhookId, RestRequestOptions options = null);
 
-        Task<RestWebhook> GetWebhookWithTokenAsync(Snowflake webhookId, string webhookToken, RestRequestOptions options = null);
+        Task<RestWebhook> GetWebhookAsync(Snowflake webhookId, string webhookToken, RestRequestOptions options = null);
 
         Task<RestWebhook> ModifyWebhookAsync(Snowflake webhookId, Action<ModifyWebhookProperties> action, RestRequestOptions options = null);
 
-        Task<RestWebhook> ModifyWebhookWithTokenAsync(Snowflake webhookId, string webhookToken, Action<ModifyWebhookProperties> action, RestRequestOptions options = null);
+        Task<RestWebhook> ModifyWebhookAsync(Snowflake webhookId, string webhookToken, Action<ModifyWebhookProperties> action, RestRequestOptions options = null);
 
         Task DeleteWebhookAsync(Snowflake webhookId, RestRequestOptions options = null);
 
-        Task DeleteWebhookWithTokenAsync(Snowflake webhookId, string webhookToken, RestRequestOptions options = null);
+        Task DeleteWebhookAsync(Snowflake webhookId, string webhookToken, RestRequestOptions options = null);
 
         Task<RestUserMessage> ExecuteWebhookAsync(Snowflake webhookId, string webhookToken,
             string content = null, bool textToSpeech = false, IEnumerable<LocalEmbed> embeds = null,
