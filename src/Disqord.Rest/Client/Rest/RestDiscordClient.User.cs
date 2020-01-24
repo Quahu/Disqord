@@ -9,11 +9,8 @@ namespace Disqord.Rest
 {
     public partial class RestDiscordClient : IRestDiscordClient
     {
-        public async Task<RestCurrentUser> GetCurrentUserAsync(RestRequestOptions options = null)
-        {
-            var model = await ApiClient.GetCurrentUserAsync(options).ConfigureAwait(false);
-            return new RestCurrentUser(this, model);
-        }
+        public Task<RestCurrentUser> GetCurrentUserAsync(RestRequestOptions options = null)
+            => CurrentUser.DownloadAsync(options);
 
         public async Task<RestUser> GetUserAsync(Snowflake userId, RestRequestOptions options = null)
         {

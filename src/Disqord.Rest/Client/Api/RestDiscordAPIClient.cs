@@ -36,7 +36,7 @@ namespace Disqord.Rest
 
         private readonly RateLimiter _rateLimiter;
 
-        public RestDiscordApiClient(TokenType? tokenType, string token, ILogger logger, IJsonSerializer serializer)
+        public RestDiscordApiClient(ILogger logger, IJsonSerializer serializer)
         {
             Http = new HttpClient(new HttpClientHandler
             {
@@ -47,12 +47,6 @@ namespace Disqord.Rest
                 Timeout = Timeout.InfiniteTimeSpan
             };
             Http.DefaultRequestHeaders.Add("Accept-Encoding", "deflate, gzip");
-
-            if (tokenType != null)
-            {
-                SetTokenType(tokenType.Value);
-                SetToken(token);
-            }
 
             Logger = logger ?? new DefaultLogger();
             Serializer = serializer ?? GetDefaultSerializer();
