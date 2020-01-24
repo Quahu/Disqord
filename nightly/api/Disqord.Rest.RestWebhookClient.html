@@ -90,18 +90,60 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient__ctor_Disqord_Rest_RestWebhook_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.%23ctor(Disqord.Rest.RestWebhook%2CDisqord.Logging.ILogger%2CDisqord.Serialization.Json.IJsonSerializer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient__ctor_Disqord_Rest_RestDiscordClient_Disqord_Snowflake_System_String_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.%23ctor(Disqord.Rest.RestDiscordClient%2CDisqord.Snowflake%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L32">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestWebhookClient__ctor_" data-uid="Disqord.Rest.RestWebhookClient.#ctor*"></a>
+  <h4 id="Disqord_Rest_RestWebhookClient__ctor_Disqord_Rest_RestDiscordClient_Disqord_Snowflake_System_String_" data-uid="Disqord.Rest.RestWebhookClient.#ctor(Disqord.Rest.RestDiscordClient,Disqord.Snowflake,System.String)">RestWebhookClient(RestDiscordClient, Snowflake, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RestWebhookClient(RestDiscordClient client, Snowflake id, string token)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestDiscordClient.html">RestDiscordClient</a></td>
+        <td><span class="parametername">client</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Snowflake.html">Snowflake</a></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">token</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient__ctor_Disqord_Rest_RestWebhook_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.%23ctor(Disqord.Rest.RestWebhook)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L22">View Source</a>
   </span>
   <a id="Disqord_Rest_RestWebhookClient__ctor_" data-uid="Disqord.Rest.RestWebhookClient.#ctor*"></a>
-  <h4 id="Disqord_Rest_RestWebhookClient__ctor_Disqord_Rest_RestWebhook_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_" data-uid="Disqord.Rest.RestWebhookClient.#ctor(Disqord.Rest.RestWebhook,Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)">RestWebhookClient(RestWebhook, ILogger, IJsonSerializer)</h4>
+  <h4 id="Disqord_Rest_RestWebhookClient__ctor_Disqord_Rest_RestWebhook_" data-uid="Disqord.Rest.RestWebhookClient.#ctor(Disqord.Rest.RestWebhook)">RestWebhookClient(RestWebhook)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RestWebhookClient(RestWebhook webhook, ILogger logger = null, IJsonSerializer serializer = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public RestWebhookClient(RestWebhook webhook)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -118,32 +160,22 @@
         <td><span class="parametername">webhook</span></td>
         <td></td>
       </tr>
-      <tr>
-        <td><a class="xref" href="Disqord.Logging.ILogger.html">ILogger</a></td>
-        <td><span class="parametername">logger</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Disqord.Serialization.Json.IJsonSerializer.html">IJsonSerializer</a></td>
-        <td><span class="parametername">serializer</span></td>
-        <td></td>
-      </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient__ctor_System_String_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.%23ctor(System.String%2CDisqord.Logging.ILogger%2CDisqord.Serialization.Json.IJsonSerializer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient__ctor_Disqord_Snowflake_System_String_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.%23ctor(Disqord.Snowflake%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L38">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L28">View Source</a>
   </span>
   <a id="Disqord_Rest_RestWebhookClient__ctor_" data-uid="Disqord.Rest.RestWebhookClient.#ctor*"></a>
-  <h4 id="Disqord_Rest_RestWebhookClient__ctor_System_String_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_" data-uid="Disqord.Rest.RestWebhookClient.#ctor(System.String,Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)">RestWebhookClient(String, ILogger, IJsonSerializer)</h4>
+  <h4 id="Disqord_Rest_RestWebhookClient__ctor_Disqord_Snowflake_System_String_" data-uid="Disqord.Rest.RestWebhookClient.#ctor(Disqord.Snowflake,System.String)">RestWebhookClient(Snowflake, String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RestWebhookClient(string url, ILogger logger = null, IJsonSerializer serializer = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public RestWebhookClient(Snowflake id, string token)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -156,49 +188,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td><span class="parametername">url</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Disqord.Logging.ILogger.html">ILogger</a></td>
-        <td><span class="parametername">logger</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Disqord.Serialization.Json.IJsonSerializer.html">IJsonSerializer</a></td>
-        <td><span class="parametername">serializer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient__ctor_System_UInt64_System_String_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.%23ctor(System.UInt64%2CSystem.String%2CDisqord.Logging.ILogger%2CDisqord.Serialization.Json.IJsonSerializer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L32">View Source</a>
-  </span>
-  <a id="Disqord_Rest_RestWebhookClient__ctor_" data-uid="Disqord.Rest.RestWebhookClient.#ctor*"></a>
-  <h4 id="Disqord_Rest_RestWebhookClient__ctor_System_UInt64_System_String_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_" data-uid="Disqord.Rest.RestWebhookClient.#ctor(System.UInt64,System.String,Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)">RestWebhookClient(UInt64, String, ILogger, IJsonSerializer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RestWebhookClient(ulong id, string token, ILogger logger = null, IJsonSerializer serializer = null)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.uint64">UInt64</a></td>
+        <td><a class="xref" href="Disqord.Snowflake.html">Snowflake</a></td>
         <td><span class="parametername">id</span></td>
         <td></td>
       </tr>
@@ -207,14 +197,35 @@
         <td><span class="parametername">token</span></td>
         <td></td>
       </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_WebhookUrlRegex.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.WebhookUrlRegex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L10">View Source</a>
+  </span>
+  <h4 id="Disqord_Rest_RestWebhookClient_WebhookUrlRegex" data-uid="Disqord.Rest.RestWebhookClient.WebhookUrlRegex">WebhookUrlRegex</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Regex WebhookUrlRegex</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
       <tr>
-        <td><a class="xref" href="Disqord.Logging.ILogger.html">ILogger</a></td>
-        <td><span class="parametername">logger</span></td>
-        <td></td>
+        <th>Type</th>
+        <th>Description</th>
       </tr>
+    </thead>
+    <tbody>
       <tr>
-        <td><a class="xref" href="Disqord.Serialization.Json.IJsonSerializer.html">IJsonSerializer</a></td>
-        <td><span class="parametername">serializer</span></td>
+        <td><span class="xref">Regex</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -315,19 +326,83 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_DeleteAsync.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.DeleteAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_DeleteAsync_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.DeleteAsync(Disqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L87">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L99">View Source</a>
   </span>
   <a id="Disqord_Rest_RestWebhookClient_DeleteAsync_" data-uid="Disqord.Rest.RestWebhookClient.DeleteAsync*"></a>
-  <h4 id="Disqord_Rest_RestWebhookClient_DeleteAsync" data-uid="Disqord.Rest.RestWebhookClient.DeleteAsync">DeleteAsync()</h4>
+  <h4 id="Disqord_Rest_RestWebhookClient_DeleteAsync_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestWebhookClient.DeleteAsync(Disqord.Rest.RestRequestOptions)">DeleteAsync(RestRequestOptions)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task DeleteAsync()</code></pre>
+    <pre><code class="lang-csharp hljs">public Task DeleteAsync(RestRequestOptions options = null)</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_DeleteWithTokenAsync_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.DeleteWithTokenAsync(Disqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L102">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestWebhookClient_DeleteWithTokenAsync_" data-uid="Disqord.Rest.RestWebhookClient.DeleteWithTokenAsync*"></a>
+  <h4 id="Disqord_Rest_RestWebhookClient_DeleteWithTokenAsync_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestWebhookClient.DeleteWithTokenAsync(Disqord.Rest.RestRequestOptions)">DeleteWithTokenAsync(RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task DeleteWithTokenAsync(RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -348,7 +423,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_Dispose.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L90">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L105">View Source</a>
   </span>
   <a id="Disqord_Rest_RestWebhookClient_Dispose_" data-uid="Disqord.Rest.RestWebhookClient.Dispose*"></a>
   <h4 id="Disqord_Rest_RestWebhookClient_Dispose" data-uid="Disqord.Rest.RestWebhookClient.Dispose">Dispose()</h4>
@@ -363,7 +438,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_ExecuteAsync_Disqord_LocalAttachment_System_String_System_Boolean_IEnumerable_Disqord_LocalEmbed__System_String_System_String_System_Boolean_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.ExecuteAsync(Disqord.LocalAttachment%2CSystem.String%2CSystem.Boolean%2CIEnumerable%7BDisqord.LocalEmbed%7D%2CSystem.String%2CSystem.String%2CSystem.Boolean%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L61">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L56">View Source</a>
   </span>
   <a id="Disqord_Rest_RestWebhookClient_ExecuteAsync_" data-uid="Disqord.Rest.RestWebhookClient.ExecuteAsync*"></a>
   <h4 id="Disqord_Rest_RestWebhookClient_ExecuteAsync_Disqord_LocalAttachment_System_String_System_Boolean_IEnumerable_Disqord_LocalEmbed__System_String_System_String_System_Boolean_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestWebhookClient.ExecuteAsync(Disqord.LocalAttachment,System.String,System.Boolean,IEnumerable{Disqord.LocalEmbed},System.String,System.String,System.Boolean,Disqord.Rest.RestRequestOptions)">ExecuteAsync(LocalAttachment, String, Boolean, IEnumerable&lt;LocalEmbed&gt;, String, String, Boolean, RestRequestOptions)</h4>
@@ -445,7 +520,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_ExecuteAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_IEnumerable_Disqord_LocalEmbed__System_String_System_String_System_Boolean_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.ExecuteAsync(IEnumerable%7BDisqord.LocalAttachment%7D%2CSystem.String%2CSystem.Boolean%2CIEnumerable%7BDisqord.LocalEmbed%7D%2CSystem.String%2CSystem.String%2CSystem.Boolean%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L65">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L61">View Source</a>
   </span>
   <a id="Disqord_Rest_RestWebhookClient_ExecuteAsync_" data-uid="Disqord.Rest.RestWebhookClient.ExecuteAsync*"></a>
   <h4 id="Disqord_Rest_RestWebhookClient_ExecuteAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_IEnumerable_Disqord_LocalEmbed__System_String_System_String_System_Boolean_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestWebhookClient.ExecuteAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,IEnumerable{Disqord.LocalEmbed},System.String,System.String,System.Boolean,Disqord.Rest.RestRequestOptions)">ExecuteAsync(IEnumerable&lt;LocalAttachment&gt;, String, Boolean, IEnumerable&lt;LocalEmbed&gt;, String, String, Boolean, RestRequestOptions)</h4>
@@ -527,7 +602,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_ExecuteAsync_System_String_System_Boolean_Disqord_LocalEmbed___.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.ExecuteAsync(System.String%2CSystem.Boolean%2CDisqord.LocalEmbed%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L54">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L48">View Source</a>
   </span>
   <a id="Disqord_Rest_RestWebhookClient_ExecuteAsync_" data-uid="Disqord.Rest.RestWebhookClient.ExecuteAsync*"></a>
   <h4 id="Disqord_Rest_RestWebhookClient_ExecuteAsync_System_String_System_Boolean_Disqord_LocalEmbed___" data-uid="Disqord.Rest.RestWebhookClient.ExecuteAsync(System.String,System.Boolean,Disqord.LocalEmbed[])">ExecuteAsync(String, Boolean, LocalEmbed[])</h4>
@@ -584,7 +659,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_ExecuteAsync_System_String_System_Boolean_IEnumerable_Disqord_LocalEmbed__System_String_System_String_System_Boolean_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.ExecuteAsync(System.String%2CSystem.Boolean%2CIEnumerable%7BDisqord.LocalEmbed%7D%2CSystem.String%2CSystem.String%2CSystem.Boolean%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L57">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L51">View Source</a>
   </span>
   <a id="Disqord_Rest_RestWebhookClient_ExecuteAsync_" data-uid="Disqord.Rest.RestWebhookClient.ExecuteAsync*"></a>
   <h4 id="Disqord_Rest_RestWebhookClient_ExecuteAsync_System_String_System_Boolean_IEnumerable_Disqord_LocalEmbed__System_String_System_String_System_Boolean_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestWebhookClient.ExecuteAsync(System.String,System.Boolean,IEnumerable{Disqord.LocalEmbed},System.String,System.String,System.Boolean,Disqord.Rest.RestRequestOptions)">ExecuteAsync(String, Boolean, IEnumerable&lt;LocalEmbed&gt;, String, String, Boolean, RestRequestOptions)</h4>
@@ -658,19 +733,83 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_GetWebhookAsync.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.GetWebhookAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_FromUrl_System_String_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.FromUrl(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L69">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L110">View Source</a>
   </span>
-  <a id="Disqord_Rest_RestWebhookClient_GetWebhookAsync_" data-uid="Disqord.Rest.RestWebhookClient.GetWebhookAsync*"></a>
-  <h4 id="Disqord_Rest_RestWebhookClient_GetWebhookAsync" data-uid="Disqord.Rest.RestWebhookClient.GetWebhookAsync">GetWebhookAsync()</h4>
+  <a id="Disqord_Rest_RestWebhookClient_FromUrl_" data-uid="Disqord.Rest.RestWebhookClient.FromUrl*"></a>
+  <h4 id="Disqord_Rest_RestWebhookClient_FromUrl_System_String_" data-uid="Disqord.Rest.RestWebhookClient.FromUrl(System.String)">FromUrl(String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;RestWebhook&gt; GetWebhookAsync()</code></pre>
+    <pre><code class="lang-csharp hljs">public static RestWebhookClient FromUrl(string url)</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">url</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestWebhookClient.html">RestWebhookClient</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_GetWebhookAsync_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.GetWebhookAsync(Disqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L66">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestWebhookClient_GetWebhookAsync_" data-uid="Disqord.Rest.RestWebhookClient.GetWebhookAsync*"></a>
+  <h4 id="Disqord_Rest_RestWebhookClient_GetWebhookAsync_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestWebhookClient.GetWebhookAsync(Disqord.Rest.RestRequestOptions)">GetWebhookAsync(RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;RestWebhook&gt; GetWebhookAsync(RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -688,18 +827,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_ModifyAsync_Action_Disqord_ModifyWebhookProperties__.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.ModifyAsync(Action%7BDisqord.ModifyWebhookProperties%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_ModifyAsync_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.ModifyAsync(Action%7BDisqord.ModifyWebhookProperties%7D%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L72">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L69">View Source</a>
   </span>
   <a id="Disqord_Rest_RestWebhookClient_ModifyAsync_" data-uid="Disqord.Rest.RestWebhookClient.ModifyAsync*"></a>
-  <h4 id="Disqord_Rest_RestWebhookClient_ModifyAsync_Action_Disqord_ModifyWebhookProperties__" data-uid="Disqord.Rest.RestWebhookClient.ModifyAsync(Action{Disqord.ModifyWebhookProperties})">ModifyAsync(Action&lt;ModifyWebhookProperties&gt;)</h4>
+  <h4 id="Disqord_Rest_RestWebhookClient_ModifyAsync_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestWebhookClient.ModifyAsync(Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)">ModifyAsync(Action&lt;ModifyWebhookProperties&gt;, RestRequestOptions)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;RestWebhook&gt; ModifyAsync(Action&lt;ModifyWebhookProperties&gt; action)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;RestWebhook&gt; ModifyAsync(Action&lt;ModifyWebhookProperties&gt; action, RestRequestOptions options = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -714,6 +853,63 @@
       <tr>
         <td><span class="xref">Action</span>&lt;<a class="xref" href="Disqord.ModifyWebhookProperties.html">ModifyWebhookProperties</a>&gt;</td>
         <td><span class="parametername">action</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span>&lt;<a class="xref" href="Disqord.Rest.RestWebhook.html">RestWebhook</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient_ModifyWithTokenAsync_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient.ModifyWithTokenAsync(Action%7BDisqord.ModifyWebhookProperties%7D%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L84">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestWebhookClient_ModifyWithTokenAsync_" data-uid="Disqord.Rest.RestWebhookClient.ModifyWithTokenAsync*"></a>
+  <h4 id="Disqord_Rest_RestWebhookClient_ModifyWithTokenAsync_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestWebhookClient.ModifyWithTokenAsync(Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)">ModifyWithTokenAsync(Action&lt;ModifyWebhookProperties&gt;, RestRequestOptions)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;RestWebhook&gt; ModifyWithTokenAsync(Action&lt;ModifyWebhookProperties&gt; action, RestRequestOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Action</span>&lt;<a class="xref" href="Disqord.ModifyWebhookProperties.html">ModifyWebhookProperties</a>&gt;</td>
+        <td><span class="parametername">action</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -744,7 +940,7 @@
                     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestWebhookClient.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestWebhookClient%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Webhook/RestWebhookClient.cs/#L8" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

@@ -3355,15 +3355,15 @@ references:
   fullName.vb: Disqord.CachedGuild.GetAuditLogsAsync(Of T)(System.Int32, System.Nullable(Of Snowflake), System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
   nameWithType: CachedGuild.GetAuditLogsAsync<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
   nameWithType.vb: CachedGuild.GetAuditLogsAsync(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
-- uid: Disqord.CachedGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake})
-  name: GetAuditLogsEnumerable(Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  href: api/Disqord.CachedGuild.html#Disqord_CachedGuild_GetAuditLogsEnumerable_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__
-  commentId: M:Disqord.CachedGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake})
-  name.vb: GetAuditLogsEnumerable(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
-  fullName: Disqord.CachedGuild.GetAuditLogsEnumerable(System.Int32, System.Nullable<Snowflake>, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.CachedGuild.GetAuditLogsEnumerable(System.Int32, System.Nullable(Of Snowflake), System.Nullable(Of Snowflake))
-  nameWithType: CachedGuild.GetAuditLogsEnumerable(Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  nameWithType.vb: CachedGuild.GetAuditLogsEnumerable(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
+- uid: Disqord.CachedGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetAuditLogsEnumerable(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedGuild.html#Disqord_CachedGuild_GetAuditLogsEnumerable_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetAuditLogsEnumerable(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedGuild.GetAuditLogsEnumerable(System.Int32, System.Nullable<Snowflake>, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedGuild.GetAuditLogsEnumerable(System.Int32, System.Nullable(Of Snowflake), System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedGuild.GetAuditLogsEnumerable(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedGuild.GetAuditLogsEnumerable(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedGuild.GetAuditLogsEnumerable*
   name: GetAuditLogsEnumerable
   href: api/Disqord.CachedGuild.html#Disqord_CachedGuild_GetAuditLogsEnumerable_
@@ -3371,15 +3371,15 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedGuild.GetAuditLogsEnumerable
   nameWithType: CachedGuild.GetAuditLogsEnumerable
-- uid: Disqord.CachedGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake})
-  name: GetAuditLogsEnumerable<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  href: api/Disqord.CachedGuild.html#Disqord_CachedGuild_GetAuditLogsEnumerable__1_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__
-  commentId: M:Disqord.CachedGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake})
-  name.vb: GetAuditLogsEnumerable(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
-  fullName: Disqord.CachedGuild.GetAuditLogsEnumerable<T>(System.Int32, System.Nullable<Snowflake>, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.CachedGuild.GetAuditLogsEnumerable(Of T)(System.Int32, System.Nullable(Of Snowflake), System.Nullable(Of Snowflake))
-  nameWithType: CachedGuild.GetAuditLogsEnumerable<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  nameWithType.vb: CachedGuild.GetAuditLogsEnumerable(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
+- uid: Disqord.CachedGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetAuditLogsEnumerable<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedGuild.html#Disqord_CachedGuild_GetAuditLogsEnumerable__1_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetAuditLogsEnumerable(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedGuild.GetAuditLogsEnumerable<T>(System.Int32, System.Nullable<Snowflake>, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedGuild.GetAuditLogsEnumerable(Of T)(System.Int32, System.Nullable(Of Snowflake), System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedGuild.GetAuditLogsEnumerable<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedGuild.GetAuditLogsEnumerable(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedGuild.GetBanAsync(Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetBanAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.CachedGuild.html#Disqord_CachedGuild_GetBanAsync_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -3565,15 +3565,15 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedGuild.GetMembersAsync
   nameWithType: CachedGuild.GetMembersAsync
-- uid: Disqord.CachedGuild.GetMembersEnumerable(System.Int32,System.Nullable{Snowflake})
-  name: GetMembersEnumerable(Int32, Nullable<Snowflake>)
-  href: api/Disqord.CachedGuild.html#Disqord_CachedGuild_GetMembersEnumerable_System_Int32_System_Nullable_Snowflake__
-  commentId: M:Disqord.CachedGuild.GetMembersEnumerable(System.Int32,System.Nullable{Snowflake})
-  name.vb: GetMembersEnumerable(Int32, Nullable(Of Snowflake))
-  fullName: Disqord.CachedGuild.GetMembersEnumerable(System.Int32, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.CachedGuild.GetMembersEnumerable(System.Int32, System.Nullable(Of Snowflake))
-  nameWithType: CachedGuild.GetMembersEnumerable(Int32, Nullable<Snowflake>)
-  nameWithType.vb: CachedGuild.GetMembersEnumerable(Int32, Nullable(Of Snowflake))
+- uid: Disqord.CachedGuild.GetMembersEnumerable(System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMembersEnumerable(Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedGuild.html#Disqord_CachedGuild_GetMembersEnumerable_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedGuild.GetMembersEnumerable(System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMembersEnumerable(Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedGuild.GetMembersEnumerable(System.Int32, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedGuild.GetMembersEnumerable(System.Int32, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedGuild.GetMembersEnumerable(Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedGuild.GetMembersEnumerable(Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedGuild.GetMembersEnumerable*
   name: GetMembersEnumerable
   href: api/Disqord.CachedGuild.html#Disqord_CachedGuild_GetMembersEnumerable_
@@ -5197,15 +5197,15 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedMessage.GetReactionsAsync
   nameWithType: CachedMessage.GetReactionsAsync
-- uid: Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.CachedMessage.html#Disqord_CachedMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__
-  commentId: M:Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name.vb: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake))
-  nameWithType: CachedMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: CachedMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedMessage.html#Disqord_CachedMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedMessage.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.CachedMessage.html#Disqord_CachedMessage_GetReactionsEnumerable_
@@ -5507,15 +5507,15 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedPrivateChannel.GetMessagesAsync
   nameWithType: CachedPrivateChannel.GetMessagesAsync
-- uid: Disqord.CachedPrivateChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_GetMessagesEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__
-  commentId: M:Disqord.CachedPrivateChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name.vb: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.CachedPrivateChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.CachedPrivateChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake))
-  nameWithType: CachedPrivateChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: CachedPrivateChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.CachedPrivateChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_GetMessagesEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedPrivateChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedPrivateChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedPrivateChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedPrivateChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedPrivateChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedPrivateChannel.GetMessagesEnumerable*
   name: GetMessagesEnumerable
   href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_GetMessagesEnumerable_
@@ -5552,15 +5552,15 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedPrivateChannel.GetReactionsAsync
   nameWithType: CachedPrivateChannel.GetReactionsAsync
-- uid: Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_GetReactionsEnumerable_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__
-  commentId: M:Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake))
-  nameWithType: CachedPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: CachedPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_GetReactionsEnumerable_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedPrivateChannel.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_GetReactionsEnumerable_
@@ -6001,6 +6001,19 @@ references:
   commentId: T:Disqord.CachedSnowflakeEntity
   fullName: Disqord.CachedSnowflakeEntity
   nameWithType: CachedSnowflakeEntity
+- uid: Disqord.CachedSnowflakeEntity.CreatedAt
+  name: CreatedAt
+  href: api/Disqord.CachedSnowflakeEntity.html#Disqord_CachedSnowflakeEntity_CreatedAt
+  commentId: P:Disqord.CachedSnowflakeEntity.CreatedAt
+  fullName: Disqord.CachedSnowflakeEntity.CreatedAt
+  nameWithType: CachedSnowflakeEntity.CreatedAt
+- uid: Disqord.CachedSnowflakeEntity.CreatedAt*
+  name: CreatedAt
+  href: api/Disqord.CachedSnowflakeEntity.html#Disqord_CachedSnowflakeEntity_CreatedAt_
+  commentId: Overload:Disqord.CachedSnowflakeEntity.CreatedAt
+  isSpec: "True"
+  fullName: Disqord.CachedSnowflakeEntity.CreatedAt
+  nameWithType: CachedSnowflakeEntity.CreatedAt
 - uid: Disqord.CachedSnowflakeEntity.Id
   name: Id
   href: api/Disqord.CachedSnowflakeEntity.html#Disqord_CachedSnowflakeEntity_Id
@@ -6133,15 +6146,15 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedTextChannel.DeleteMessagesAsync
   nameWithType: CachedTextChannel.DeleteMessagesAsync
-- uid: Disqord.CachedTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable{Snowflake})
-  name: GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>)
-  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetBulkMessageDeletionEnumerator_IEnumerable_Snowflake__
-  commentId: M:Disqord.CachedTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable{Snowflake})
-  name.vb: GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake))
-  fullName: Disqord.CachedTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>)
-  fullName.vb: Disqord.CachedTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake))
-  nameWithType: CachedTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>)
-  nameWithType.vb: CachedTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake))
+- uid: Disqord.CachedTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetBulkMessageDeletionEnumerator_IEnumerable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedTextChannel.GetBulkMessageDeletionEnumerator*
   name: GetBulkMessageDeletionEnumerator
   href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetBulkMessageDeletionEnumerator_
@@ -6204,15 +6217,15 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedTextChannel.GetMessagesAsync
   nameWithType: CachedTextChannel.GetMessagesAsync
-- uid: Disqord.CachedTextChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetMessagesEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__
-  commentId: M:Disqord.CachedTextChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name.vb: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.CachedTextChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.CachedTextChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake))
-  nameWithType: CachedTextChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: CachedTextChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.CachedTextChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetMessagesEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedTextChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedTextChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedTextChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedTextChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedTextChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedTextChannel.GetMessagesEnumerable*
   name: GetMessagesEnumerable
   href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetMessagesEnumerable_
@@ -6249,15 +6262,15 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedTextChannel.GetReactionsAsync
   nameWithType: CachedTextChannel.GetReactionsAsync
-- uid: Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetReactionsEnumerable_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__
-  commentId: M:Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake))
-  nameWithType: CachedTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: CachedTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetReactionsEnumerable_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedTextChannel.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetReactionsEnumerable_
@@ -11480,6 +11493,12 @@ references:
   commentId: M:Disqord.DiscordClientBase.DeleteWebhookAsync(Snowflake,Disqord.Rest.RestRequestOptions)
   fullName: Disqord.DiscordClientBase.DeleteWebhookAsync(Snowflake, Disqord.Rest.RestRequestOptions)
   nameWithType: DiscordClientBase.DeleteWebhookAsync(Snowflake, RestRequestOptions)
+- uid: Disqord.DiscordClientBase.DeleteWebhookAsync(Snowflake,System.String,Disqord.Rest.RestRequestOptions)
+  name: DeleteWebhookAsync(Snowflake, String, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteWebhookAsync_Snowflake_System_String_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.DeleteWebhookAsync(Snowflake,System.String,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.DeleteWebhookAsync(Snowflake, System.String, Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.DeleteWebhookAsync(Snowflake, String, RestRequestOptions)
 - uid: Disqord.DiscordClientBase.DeleteWebhookAsync*
   name: DeleteWebhookAsync
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteWebhookAsync_
@@ -11487,19 +11506,6 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.DeleteWebhookAsync
   nameWithType: DiscordClientBase.DeleteWebhookAsync
-- uid: Disqord.DiscordClientBase.DeleteWebhookWithTokenAsync(Snowflake,System.String,Disqord.Rest.RestRequestOptions)
-  name: DeleteWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteWebhookWithTokenAsync_Snowflake_System_String_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.DiscordClientBase.DeleteWebhookWithTokenAsync(Snowflake,System.String,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.DiscordClientBase.DeleteWebhookWithTokenAsync(Snowflake, System.String, Disqord.Rest.RestRequestOptions)
-  nameWithType: DiscordClientBase.DeleteWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)
-- uid: Disqord.DiscordClientBase.DeleteWebhookWithTokenAsync*
-  name: DeleteWebhookWithTokenAsync
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_DeleteWebhookWithTokenAsync_
-  commentId: Overload:Disqord.DiscordClientBase.DeleteWebhookWithTokenAsync
-  isSpec: "True"
-  fullName: Disqord.DiscordClientBase.DeleteWebhookWithTokenAsync
-  nameWithType: DiscordClientBase.DeleteWebhookWithTokenAsync
 - uid: Disqord.DiscordClientBase.Dispose
   name: Dispose()
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_Dispose
@@ -11621,15 +11627,15 @@ references:
   fullName.vb: Disqord.DiscordClientBase.GetAuditLogsAsync(Of T)(Snowflake, System.Int32, System.Nullable(Of Snowflake), System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
   nameWithType: DiscordClientBase.GetAuditLogsAsync<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
   nameWithType.vb: DiscordClientBase.GetAuditLogsAsync(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
-- uid: Disqord.DiscordClientBase.GetAuditLogsEnumerable(Snowflake,System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake})
-  name: GetAuditLogsEnumerable(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetAuditLogsEnumerable_Snowflake_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__
-  commentId: M:Disqord.DiscordClientBase.GetAuditLogsEnumerable(Snowflake,System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake})
-  name.vb: GetAuditLogsEnumerable(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
-  fullName: Disqord.DiscordClientBase.GetAuditLogsEnumerable(Snowflake, System.Int32, System.Nullable<Snowflake>, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.DiscordClientBase.GetAuditLogsEnumerable(Snowflake, System.Int32, System.Nullable(Of Snowflake), System.Nullable(Of Snowflake))
-  nameWithType: DiscordClientBase.GetAuditLogsEnumerable(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  nameWithType.vb: DiscordClientBase.GetAuditLogsEnumerable(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
+- uid: Disqord.DiscordClientBase.GetAuditLogsEnumerable(Snowflake,System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetAuditLogsEnumerable(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetAuditLogsEnumerable_Snowflake_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetAuditLogsEnumerable(Snowflake,System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetAuditLogsEnumerable(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetAuditLogsEnumerable(Snowflake, System.Int32, System.Nullable<Snowflake>, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.DiscordClientBase.GetAuditLogsEnumerable(Snowflake, System.Int32, System.Nullable(Of Snowflake), System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetAuditLogsEnumerable(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: DiscordClientBase.GetAuditLogsEnumerable(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.DiscordClientBase.GetAuditLogsEnumerable*
   name: GetAuditLogsEnumerable
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetAuditLogsEnumerable_
@@ -11637,15 +11643,15 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetAuditLogsEnumerable
   nameWithType: DiscordClientBase.GetAuditLogsEnumerable
-- uid: Disqord.DiscordClientBase.GetAuditLogsEnumerable``1(Snowflake,System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake})
-  name: GetAuditLogsEnumerable<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetAuditLogsEnumerable__1_Snowflake_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__
-  commentId: M:Disqord.DiscordClientBase.GetAuditLogsEnumerable``1(Snowflake,System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake})
-  name.vb: GetAuditLogsEnumerable(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
-  fullName: Disqord.DiscordClientBase.GetAuditLogsEnumerable<T>(Snowflake, System.Int32, System.Nullable<Snowflake>, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.DiscordClientBase.GetAuditLogsEnumerable(Of T)(Snowflake, System.Int32, System.Nullable(Of Snowflake), System.Nullable(Of Snowflake))
-  nameWithType: DiscordClientBase.GetAuditLogsEnumerable<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  nameWithType.vb: DiscordClientBase.GetAuditLogsEnumerable(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
+- uid: Disqord.DiscordClientBase.GetAuditLogsEnumerable``1(Snowflake,System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetAuditLogsEnumerable<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetAuditLogsEnumerable__1_Snowflake_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetAuditLogsEnumerable``1(Snowflake,System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetAuditLogsEnumerable(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetAuditLogsEnumerable<T>(Snowflake, System.Int32, System.Nullable<Snowflake>, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.DiscordClientBase.GetAuditLogsEnumerable(Of T)(Snowflake, System.Int32, System.Nullable(Of Snowflake), System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetAuditLogsEnumerable<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: DiscordClientBase.GetAuditLogsEnumerable(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.DiscordClientBase.GetBanAsync(Snowflake,Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetBanAsync(Snowflake, Snowflake, RestRequestOptions)
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetBanAsync_Snowflake_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -11672,15 +11678,15 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetBansAsync
   nameWithType: DiscordClientBase.GetBansAsync
-- uid: Disqord.DiscordClientBase.GetBulkMessageDeletionEnumerator(Snowflake,IEnumerable{Snowflake})
-  name: GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetBulkMessageDeletionEnumerator_Snowflake_IEnumerable_Snowflake__
-  commentId: M:Disqord.DiscordClientBase.GetBulkMessageDeletionEnumerator(Snowflake,IEnumerable{Snowflake})
-  name.vb: GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake))
-  fullName: Disqord.DiscordClientBase.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>)
-  fullName.vb: Disqord.DiscordClientBase.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake))
-  nameWithType: DiscordClientBase.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>)
-  nameWithType.vb: DiscordClientBase.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake))
+- uid: Disqord.DiscordClientBase.GetBulkMessageDeletionEnumerator(Snowflake,IEnumerable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetBulkMessageDeletionEnumerator_Snowflake_IEnumerable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetBulkMessageDeletionEnumerator(Snowflake,IEnumerable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.DiscordClientBase.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: DiscordClientBase.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.DiscordClientBase.GetBulkMessageDeletionEnumerator*
   name: GetBulkMessageDeletionEnumerator
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetBulkMessageDeletionEnumerator_
@@ -11928,15 +11934,15 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetGuildsAsync
   nameWithType: DiscordClientBase.GetGuildsAsync
-- uid: Disqord.DiscordClientBase.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildsEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__
-  commentId: M:Disqord.DiscordClientBase.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name.vb: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.DiscordClientBase.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.DiscordClientBase.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake))
-  nameWithType: DiscordClientBase.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: DiscordClientBase.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.DiscordClientBase.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildsEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.DiscordClientBase.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: DiscordClientBase.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.DiscordClientBase.GetGuildsEnumerable*
   name: GetGuildsEnumerable
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetGuildsEnumerable_
@@ -11999,15 +12005,15 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetMembersAsync
   nameWithType: DiscordClientBase.GetMembersAsync
-- uid: Disqord.DiscordClientBase.GetMembersEnumerable(Snowflake,System.Int32,System.Nullable{Snowflake})
-  name: GetMembersEnumerable(Snowflake, Int32, Nullable<Snowflake>)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMembersEnumerable_Snowflake_System_Int32_System_Nullable_Snowflake__
-  commentId: M:Disqord.DiscordClientBase.GetMembersEnumerable(Snowflake,System.Int32,System.Nullable{Snowflake})
-  name.vb: GetMembersEnumerable(Snowflake, Int32, Nullable(Of Snowflake))
-  fullName: Disqord.DiscordClientBase.GetMembersEnumerable(Snowflake, System.Int32, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.DiscordClientBase.GetMembersEnumerable(Snowflake, System.Int32, System.Nullable(Of Snowflake))
-  nameWithType: DiscordClientBase.GetMembersEnumerable(Snowflake, Int32, Nullable<Snowflake>)
-  nameWithType.vb: DiscordClientBase.GetMembersEnumerable(Snowflake, Int32, Nullable(Of Snowflake))
+- uid: Disqord.DiscordClientBase.GetMembersEnumerable(Snowflake,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMembersEnumerable(Snowflake, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMembersEnumerable_Snowflake_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetMembersEnumerable(Snowflake,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMembersEnumerable(Snowflake, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetMembersEnumerable(Snowflake, System.Int32, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.DiscordClientBase.GetMembersEnumerable(Snowflake, System.Int32, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetMembersEnumerable(Snowflake, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: DiscordClientBase.GetMembersEnumerable(Snowflake, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.DiscordClientBase.GetMembersEnumerable*
   name: GetMembersEnumerable
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMembersEnumerable_
@@ -12070,15 +12076,15 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetMessagesAsync
   nameWithType: DiscordClientBase.GetMessagesAsync
-- uid: Disqord.DiscordClientBase.GetMessagesEnumerable(Snowflake,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name: GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMessagesEnumerable_Snowflake_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__
-  commentId: M:Disqord.DiscordClientBase.GetMessagesEnumerable(Snowflake,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name.vb: GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.DiscordClientBase.GetMessagesEnumerable(Snowflake, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.DiscordClientBase.GetMessagesEnumerable(Snowflake, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake))
-  nameWithType: DiscordClientBase.GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: DiscordClientBase.GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.DiscordClientBase.GetMessagesEnumerable(Snowflake,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMessagesEnumerable_Snowflake_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetMessagesEnumerable(Snowflake,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetMessagesEnumerable(Snowflake, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.DiscordClientBase.GetMessagesEnumerable(Snowflake, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: DiscordClientBase.GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.DiscordClientBase.GetMessagesEnumerable*
   name: GetMessagesEnumerable
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetMessagesEnumerable_
@@ -12180,15 +12186,15 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetReactionsAsync
   nameWithType: DiscordClientBase.GetReactionsAsync
-- uid: Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetReactionsEnumerable_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__
-  commentId: M:Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake})
-  name.vb: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>)
-  fullName.vb: Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake))
-  nameWithType: DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetReactionsEnumerable_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.DiscordClientBase.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetReactionsEnumerable_
@@ -12299,6 +12305,12 @@ references:
   commentId: M:Disqord.DiscordClientBase.GetWebhookAsync(Snowflake,Disqord.Rest.RestRequestOptions)
   fullName: Disqord.DiscordClientBase.GetWebhookAsync(Snowflake, Disqord.Rest.RestRequestOptions)
   nameWithType: DiscordClientBase.GetWebhookAsync(Snowflake, RestRequestOptions)
+- uid: Disqord.DiscordClientBase.GetWebhookAsync(Snowflake,System.String,Disqord.Rest.RestRequestOptions)
+  name: GetWebhookAsync(Snowflake, String, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetWebhookAsync_Snowflake_System_String_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetWebhookAsync(Snowflake,System.String,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetWebhookAsync(Snowflake, System.String, Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetWebhookAsync(Snowflake, String, RestRequestOptions)
 - uid: Disqord.DiscordClientBase.GetWebhookAsync*
   name: GetWebhookAsync
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetWebhookAsync_
@@ -12306,19 +12318,6 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetWebhookAsync
   nameWithType: DiscordClientBase.GetWebhookAsync
-- uid: Disqord.DiscordClientBase.GetWebhookWithTokenAsync(Snowflake,System.String,Disqord.Rest.RestRequestOptions)
-  name: GetWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetWebhookWithTokenAsync_Snowflake_System_String_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.DiscordClientBase.GetWebhookWithTokenAsync(Snowflake,System.String,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.DiscordClientBase.GetWebhookWithTokenAsync(Snowflake, System.String, Disqord.Rest.RestRequestOptions)
-  nameWithType: DiscordClientBase.GetWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)
-- uid: Disqord.DiscordClientBase.GetWebhookWithTokenAsync*
-  name: GetWebhookWithTokenAsync
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetWebhookWithTokenAsync_
-  commentId: Overload:Disqord.DiscordClientBase.GetWebhookWithTokenAsync
-  isSpec: "True"
-  fullName: Disqord.DiscordClientBase.GetWebhookWithTokenAsync
-  nameWithType: DiscordClientBase.GetWebhookWithTokenAsync
 - uid: Disqord.DiscordClientBase.GetWidgetAsync(Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetWidgetAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetWidgetAsync_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -12742,6 +12741,15 @@ references:
   fullName.vb: Disqord.DiscordClientBase.ModifyWebhookAsync(Snowflake, Action(Of Disqord.ModifyWebhookProperties), Disqord.Rest.RestRequestOptions)
   nameWithType: DiscordClientBase.ModifyWebhookAsync(Snowflake, Action<ModifyWebhookProperties>, RestRequestOptions)
   nameWithType.vb: DiscordClientBase.ModifyWebhookAsync(Snowflake, Action(Of ModifyWebhookProperties), RestRequestOptions)
+- uid: Disqord.DiscordClientBase.ModifyWebhookAsync(Snowflake,System.String,Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
+  name: ModifyWebhookAsync(Snowflake, String, Action<ModifyWebhookProperties>, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyWebhookAsync_Snowflake_System_String_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.ModifyWebhookAsync(Snowflake,System.String,Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
+  name.vb: ModifyWebhookAsync(Snowflake, String, Action(Of ModifyWebhookProperties), RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.ModifyWebhookAsync(Snowflake, System.String, Action<Disqord.ModifyWebhookProperties>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.DiscordClientBase.ModifyWebhookAsync(Snowflake, System.String, Action(Of Disqord.ModifyWebhookProperties), Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.ModifyWebhookAsync(Snowflake, String, Action<ModifyWebhookProperties>, RestRequestOptions)
+  nameWithType.vb: DiscordClientBase.ModifyWebhookAsync(Snowflake, String, Action(Of ModifyWebhookProperties), RestRequestOptions)
 - uid: Disqord.DiscordClientBase.ModifyWebhookAsync*
   name: ModifyWebhookAsync
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyWebhookAsync_
@@ -12749,22 +12757,6 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.ModifyWebhookAsync
   nameWithType: DiscordClientBase.ModifyWebhookAsync
-- uid: Disqord.DiscordClientBase.ModifyWebhookWithTokenAsync(Snowflake,System.String,Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
-  name: ModifyWebhookWithTokenAsync(Snowflake, String, Action<ModifyWebhookProperties>, RestRequestOptions)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyWebhookWithTokenAsync_Snowflake_System_String_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.DiscordClientBase.ModifyWebhookWithTokenAsync(Snowflake,System.String,Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
-  name.vb: ModifyWebhookWithTokenAsync(Snowflake, String, Action(Of ModifyWebhookProperties), RestRequestOptions)
-  fullName: Disqord.DiscordClientBase.ModifyWebhookWithTokenAsync(Snowflake, System.String, Action<Disqord.ModifyWebhookProperties>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.DiscordClientBase.ModifyWebhookWithTokenAsync(Snowflake, System.String, Action(Of Disqord.ModifyWebhookProperties), Disqord.Rest.RestRequestOptions)
-  nameWithType: DiscordClientBase.ModifyWebhookWithTokenAsync(Snowflake, String, Action<ModifyWebhookProperties>, RestRequestOptions)
-  nameWithType.vb: DiscordClientBase.ModifyWebhookWithTokenAsync(Snowflake, String, Action(Of ModifyWebhookProperties), RestRequestOptions)
-- uid: Disqord.DiscordClientBase.ModifyWebhookWithTokenAsync*
-  name: ModifyWebhookWithTokenAsync
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyWebhookWithTokenAsync_
-  commentId: Overload:Disqord.DiscordClientBase.ModifyWebhookWithTokenAsync
-  isSpec: "True"
-  fullName: Disqord.DiscordClientBase.ModifyWebhookWithTokenAsync
-  nameWithType: DiscordClientBase.ModifyWebhookWithTokenAsync
 - uid: Disqord.DiscordClientBase.ModifyWidgetAsync(Snowflake,Action{Disqord.ModifyWidgetProperties},Disqord.Rest.RestRequestOptions)
   name: ModifyWidgetAsync(Snowflake, Action<ModifyWidgetProperties>, RestRequestOptions)
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_ModifyWidgetAsync_Snowflake_Action_Disqord_ModifyWidgetProperties__Disqord_Rest_RestRequestOptions_
@@ -18154,15 +18146,15 @@ references:
   fullName.vb: Disqord.IGuild.GetAuditLogsAsync(Of T)(System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
   nameWithType: IGuild.GetAuditLogsAsync<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
   nameWithType.vb: IGuild.GetAuditLogsAsync(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
-- uid: Disqord.IGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name: GetAuditLogsEnumerable(Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  href: api/Disqord.IGuild.html#Disqord_IGuild_GetAuditLogsEnumerable_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.IGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name.vb: GetAuditLogsEnumerable(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
-  fullName: Disqord.IGuild.GetAuditLogsEnumerable(System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.IGuild.GetAuditLogsEnumerable(System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake))
-  nameWithType: IGuild.GetAuditLogsEnumerable(Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  nameWithType.vb: IGuild.GetAuditLogsEnumerable(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
+- uid: Disqord.IGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetAuditLogsEnumerable(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.IGuild.html#Disqord_IGuild_GetAuditLogsEnumerable_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetAuditLogsEnumerable(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.IGuild.GetAuditLogsEnumerable(System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.IGuild.GetAuditLogsEnumerable(System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IGuild.GetAuditLogsEnumerable(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IGuild.GetAuditLogsEnumerable(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.IGuild.GetAuditLogsEnumerable*
   name: GetAuditLogsEnumerable
   href: api/Disqord.IGuild.html#Disqord_IGuild_GetAuditLogsEnumerable_
@@ -18170,15 +18162,15 @@ references:
   isSpec: "True"
   fullName: Disqord.IGuild.GetAuditLogsEnumerable
   nameWithType: IGuild.GetAuditLogsEnumerable
-- uid: Disqord.IGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name: GetAuditLogsEnumerable<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  href: api/Disqord.IGuild.html#Disqord_IGuild_GetAuditLogsEnumerable__1_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.IGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name.vb: GetAuditLogsEnumerable(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
-  fullName: Disqord.IGuild.GetAuditLogsEnumerable<T>(System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.IGuild.GetAuditLogsEnumerable(Of T)(System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake))
-  nameWithType: IGuild.GetAuditLogsEnumerable<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  nameWithType.vb: IGuild.GetAuditLogsEnumerable(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
+- uid: Disqord.IGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetAuditLogsEnumerable<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.IGuild.html#Disqord_IGuild_GetAuditLogsEnumerable__1_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetAuditLogsEnumerable(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.IGuild.GetAuditLogsEnumerable<T>(System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.IGuild.GetAuditLogsEnumerable(Of T)(System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IGuild.GetAuditLogsEnumerable<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IGuild.GetAuditLogsEnumerable(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.IGuild.GetBanAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetBanAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.IGuild.html#Disqord_IGuild_GetBanAsync_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -18325,15 +18317,15 @@ references:
   isSpec: "True"
   fullName: Disqord.IGuild.GetMembersAsync
   nameWithType: IGuild.GetMembersAsync
-- uid: Disqord.IGuild.GetMembersEnumerable(System.Int32,System.Nullable{Disqord.Snowflake})
-  name: GetMembersEnumerable(Int32, Nullable<Snowflake>)
-  href: api/Disqord.IGuild.html#Disqord_IGuild_GetMembersEnumerable_System_Int32_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.IGuild.GetMembersEnumerable(System.Int32,System.Nullable{Disqord.Snowflake})
-  name.vb: GetMembersEnumerable(Int32, Nullable(Of Snowflake))
-  fullName: Disqord.IGuild.GetMembersEnumerable(System.Int32, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.IGuild.GetMembersEnumerable(System.Int32, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: IGuild.GetMembersEnumerable(Int32, Nullable<Snowflake>)
-  nameWithType.vb: IGuild.GetMembersEnumerable(Int32, Nullable(Of Snowflake))
+- uid: Disqord.IGuild.GetMembersEnumerable(System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMembersEnumerable(Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.IGuild.html#Disqord_IGuild_GetMembersEnumerable_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IGuild.GetMembersEnumerable(System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMembersEnumerable(Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.IGuild.GetMembersEnumerable(System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.IGuild.GetMembersEnumerable(System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IGuild.GetMembersEnumerable(Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IGuild.GetMembersEnumerable(Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.IGuild.GetMembersEnumerable*
   name: GetMembersEnumerable
   href: api/Disqord.IGuild.html#Disqord_IGuild_GetMembersEnumerable_
@@ -19455,15 +19447,15 @@ references:
   isSpec: "True"
   fullName: Disqord.IMessage.GetReactionsAsync
   nameWithType: IMessage.GetReactionsAsync
-- uid: Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.IMessage.html#Disqord_IMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: IMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: IMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.IMessage.html#Disqord_IMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.IMessage.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.IMessage.html#Disqord_IMessage_GetReactionsEnumerable_
@@ -19584,15 +19576,15 @@ references:
   isSpec: "True"
   fullName: Disqord.IMessageChannel.GetMessagesAsync
   nameWithType: IMessageChannel.GetMessagesAsync
-- uid: Disqord.IMessageChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.IMessageChannel.html#Disqord_IMessageChannel_GetMessagesEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.IMessageChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.IMessageChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.IMessageChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: IMessageChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: IMessageChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.IMessageChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.IMessageChannel.html#Disqord_IMessageChannel_GetMessagesEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IMessageChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.IMessageChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.IMessageChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IMessageChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IMessageChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.IMessageChannel.GetMessagesEnumerable*
   name: GetMessagesEnumerable
   href: api/Disqord.IMessageChannel.html#Disqord_IMessageChannel_GetMessagesEnumerable_
@@ -19629,15 +19621,15 @@ references:
   isSpec: "True"
   fullName: Disqord.IMessageChannel.GetReactionsAsync
   nameWithType: IMessageChannel.GetReactionsAsync
-- uid: Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.IMessageChannel.html#Disqord_IMessageChannel_GetReactionsEnumerable_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: IMessageChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: IMessageChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.IMessageChannel.html#Disqord_IMessageChannel_GetReactionsEnumerable_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IMessageChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IMessageChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.IMessageChannel.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.IMessageChannel.html#Disqord_IMessageChannel_GetReactionsEnumerable_
@@ -20038,6 +20030,19 @@ references:
   commentId: T:Disqord.ISnowflakeEntity
   fullName: Disqord.ISnowflakeEntity
   nameWithType: ISnowflakeEntity
+- uid: Disqord.ISnowflakeEntity.CreatedAt
+  name: CreatedAt
+  href: api/Disqord.ISnowflakeEntity.html#Disqord_ISnowflakeEntity_CreatedAt
+  commentId: P:Disqord.ISnowflakeEntity.CreatedAt
+  fullName: Disqord.ISnowflakeEntity.CreatedAt
+  nameWithType: ISnowflakeEntity.CreatedAt
+- uid: Disqord.ISnowflakeEntity.CreatedAt*
+  name: CreatedAt
+  href: api/Disqord.ISnowflakeEntity.html#Disqord_ISnowflakeEntity_CreatedAt_
+  commentId: Overload:Disqord.ISnowflakeEntity.CreatedAt
+  isSpec: "True"
+  fullName: Disqord.ISnowflakeEntity.CreatedAt
+  nameWithType: ISnowflakeEntity.CreatedAt
 - uid: Disqord.ISnowflakeEntity.Id
   name: Id
   href: api/Disqord.ISnowflakeEntity.html#Disqord_ISnowflakeEntity_Id
@@ -20150,15 +20155,15 @@ references:
   isSpec: "True"
   fullName: Disqord.ITextChannel.DeleteMessagesAsync
   nameWithType: ITextChannel.DeleteMessagesAsync
-- uid: Disqord.ITextChannel.GetBulkMessageDeletionEnumerator(IEnumerable{Disqord.Snowflake})
-  name: GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>)
-  href: api/Disqord.ITextChannel.html#Disqord_ITextChannel_GetBulkMessageDeletionEnumerator_IEnumerable_Disqord_Snowflake__
-  commentId: M:Disqord.ITextChannel.GetBulkMessageDeletionEnumerator(IEnumerable{Disqord.Snowflake})
-  name.vb: GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake))
-  fullName: Disqord.ITextChannel.GetBulkMessageDeletionEnumerator(IEnumerable<Disqord.Snowflake>)
-  fullName.vb: Disqord.ITextChannel.GetBulkMessageDeletionEnumerator(IEnumerable(Of Disqord.Snowflake))
-  nameWithType: ITextChannel.GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>)
-  nameWithType.vb: ITextChannel.GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake))
+- uid: Disqord.ITextChannel.GetBulkMessageDeletionEnumerator(IEnumerable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.ITextChannel.html#Disqord_ITextChannel_GetBulkMessageDeletionEnumerator_IEnumerable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.ITextChannel.GetBulkMessageDeletionEnumerator(IEnumerable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.ITextChannel.GetBulkMessageDeletionEnumerator(IEnumerable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.ITextChannel.GetBulkMessageDeletionEnumerator(IEnumerable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: ITextChannel.GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: ITextChannel.GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.ITextChannel.GetBulkMessageDeletionEnumerator*
   name: GetBulkMessageDeletionEnumerator
   href: api/Disqord.ITextChannel.html#Disqord_ITextChannel_GetBulkMessageDeletionEnumerator_
@@ -27884,6 +27889,12 @@ references:
   commentId: M:Disqord.Rest.IRestDiscordClient.DeleteWebhookAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   fullName: Disqord.Rest.IRestDiscordClient.DeleteWebhookAsync(Disqord.Snowflake, Disqord.Rest.RestRequestOptions)
   nameWithType: IRestDiscordClient.DeleteWebhookAsync(Snowflake, RestRequestOptions)
+- uid: Disqord.Rest.IRestDiscordClient.DeleteWebhookAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
+  name: DeleteWebhookAsync(Snowflake, String, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_DeleteWebhookAsync_Disqord_Snowflake_System_String_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.DeleteWebhookAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.DeleteWebhookAsync(Disqord.Snowflake, System.String, Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.DeleteWebhookAsync(Snowflake, String, RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.DeleteWebhookAsync*
   name: DeleteWebhookAsync
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_DeleteWebhookAsync_
@@ -27891,19 +27902,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.DeleteWebhookAsync
   nameWithType: IRestDiscordClient.DeleteWebhookAsync
-- uid: Disqord.Rest.IRestDiscordClient.DeleteWebhookWithTokenAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
-  name: DeleteWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_DeleteWebhookWithTokenAsync_Disqord_Snowflake_System_String_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.IRestDiscordClient.DeleteWebhookWithTokenAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.IRestDiscordClient.DeleteWebhookWithTokenAsync(Disqord.Snowflake, System.String, Disqord.Rest.RestRequestOptions)
-  nameWithType: IRestDiscordClient.DeleteWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)
-- uid: Disqord.Rest.IRestDiscordClient.DeleteWebhookWithTokenAsync*
-  name: DeleteWebhookWithTokenAsync
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_DeleteWebhookWithTokenAsync_
-  commentId: Overload:Disqord.Rest.IRestDiscordClient.DeleteWebhookWithTokenAsync
-  isSpec: "True"
-  fullName: Disqord.Rest.IRestDiscordClient.DeleteWebhookWithTokenAsync
-  nameWithType: IRestDiscordClient.DeleteWebhookWithTokenAsync
 - uid: Disqord.Rest.IRestDiscordClient.ExecuteWebhookAsync(Disqord.Snowflake,System.String,Disqord.LocalAttachment,System.String,System.Boolean,IEnumerable{Disqord.LocalEmbed},System.String,System.String,System.Boolean,Disqord.Rest.RestRequestOptions)
   name: ExecuteWebhookAsync(Snowflake, String, LocalAttachment, String, Boolean, IEnumerable<LocalEmbed>, String, String, Boolean, RestRequestOptions)
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_ExecuteWebhookAsync_Disqord_Snowflake_System_String_Disqord_LocalAttachment_System_String_System_Boolean_IEnumerable_Disqord_LocalEmbed__System_String_System_String_System_Boolean_Disqord_Rest_RestRequestOptions_
@@ -27963,15 +27961,15 @@ references:
   fullName.vb: Disqord.Rest.IRestDiscordClient.GetAuditLogsAsync(Of T)(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
   nameWithType: IRestDiscordClient.GetAuditLogsAsync<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
   nameWithType.vb: IRestDiscordClient.GetAuditLogsAsync(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
-- uid: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name: GetAuditLogsEnumerable(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetAuditLogsEnumerable_Disqord_Snowflake_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name.vb: GetAuditLogsEnumerable(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
-  fullName: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake, System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake))
-  nameWithType: IRestDiscordClient.GetAuditLogsEnumerable(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  nameWithType.vb: IRestDiscordClient.GetAuditLogsEnumerable(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
+- uid: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetAuditLogsEnumerable(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetAuditLogsEnumerable_Disqord_Snowflake_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetAuditLogsEnumerable(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake, System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetAuditLogsEnumerable(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IRestDiscordClient.GetAuditLogsEnumerable(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable*
   name: GetAuditLogsEnumerable
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetAuditLogsEnumerable_
@@ -27979,15 +27977,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable
   nameWithType: IRestDiscordClient.GetAuditLogsEnumerable
-- uid: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable``1(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name: GetAuditLogsEnumerable<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetAuditLogsEnumerable__1_Disqord_Snowflake_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable``1(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name.vb: GetAuditLogsEnumerable(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
-  fullName: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable<T>(Disqord.Snowflake, System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable(Of T)(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake))
-  nameWithType: IRestDiscordClient.GetAuditLogsEnumerable<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  nameWithType.vb: IRestDiscordClient.GetAuditLogsEnumerable(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
+- uid: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable``1(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetAuditLogsEnumerable<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetAuditLogsEnumerable__1_Disqord_Snowflake_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable``1(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetAuditLogsEnumerable(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable<T>(Disqord.Snowflake, System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.IRestDiscordClient.GetAuditLogsEnumerable(Of T)(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetAuditLogsEnumerable<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IRestDiscordClient.GetAuditLogsEnumerable(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.GetBanAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetBanAsync(Snowflake, Snowflake, RestRequestOptions)
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetBanAsync_Disqord_Snowflake_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -28014,15 +28012,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetBansAsync
   nameWithType: IRestDiscordClient.GetBansAsync
-- uid: Disqord.Rest.IRestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake,IEnumerable{Disqord.Snowflake})
-  name: GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetBulkMessageDeletionEnumerator_Disqord_Snowflake_IEnumerable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.IRestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake,IEnumerable{Disqord.Snowflake})
-  name.vb: GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake))
-  fullName: Disqord.Rest.IRestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake, IEnumerable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.IRestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake, IEnumerable(Of Disqord.Snowflake))
-  nameWithType: IRestDiscordClient.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>)
-  nameWithType.vb: IRestDiscordClient.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake))
+- uid: Disqord.Rest.IRestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake,IEnumerable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetBulkMessageDeletionEnumerator_Disqord_Snowflake_IEnumerable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake,IEnumerable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake, IEnumerable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.IRestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake, IEnumerable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IRestDiscordClient.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.GetBulkMessageDeletionEnumerator*
   name: GetBulkMessageDeletionEnumerator
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetBulkMessageDeletionEnumerator_
@@ -28215,15 +28213,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetGuildsAsync
   nameWithType: IRestDiscordClient.GetGuildsAsync
-- uid: Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetGuildsEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: IRestDiscordClient.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: IRestDiscordClient.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetGuildsEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IRestDiscordClient.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.GetGuildsEnumerable*
   name: GetGuildsEnumerable
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetGuildsEnumerable_
@@ -28286,15 +28284,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetMembersAsync
   nameWithType: IRestDiscordClient.GetMembersAsync
-- uid: Disqord.Rest.IRestDiscordClient.GetMembersEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake})
-  name: GetMembersEnumerable(Snowflake, Int32, Nullable<Snowflake>)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetMembersEnumerable_Disqord_Snowflake_System_Int32_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.IRestDiscordClient.GetMembersEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake})
-  name.vb: GetMembersEnumerable(Snowflake, Int32, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.IRestDiscordClient.GetMembersEnumerable(Disqord.Snowflake, System.Int32, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.IRestDiscordClient.GetMembersEnumerable(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: IRestDiscordClient.GetMembersEnumerable(Snowflake, Int32, Nullable<Snowflake>)
-  nameWithType.vb: IRestDiscordClient.GetMembersEnumerable(Snowflake, Int32, Nullable(Of Snowflake))
+- uid: Disqord.Rest.IRestDiscordClient.GetMembersEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMembersEnumerable(Snowflake, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetMembersEnumerable_Disqord_Snowflake_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetMembersEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMembersEnumerable(Snowflake, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetMembersEnumerable(Disqord.Snowflake, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.IRestDiscordClient.GetMembersEnumerable(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetMembersEnumerable(Snowflake, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IRestDiscordClient.GetMembersEnumerable(Snowflake, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.GetMembersEnumerable*
   name: GetMembersEnumerable
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetMembersEnumerable_
@@ -28331,15 +28329,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetMessagesAsync
   nameWithType: IRestDiscordClient.GetMessagesAsync
-- uid: Disqord.Rest.IRestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetMessagesEnumerable_Disqord_Snowflake_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.IRestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.IRestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.IRestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: IRestDiscordClient.GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: IRestDiscordClient.GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.Rest.IRestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetMessagesEnumerable_Disqord_Snowflake_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.IRestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IRestDiscordClient.GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.GetMessagesEnumerable*
   name: GetMessagesEnumerable
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetMessagesEnumerable_
@@ -28428,15 +28426,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetReactionsAsync
   nameWithType: IRestDiscordClient.GetReactionsAsync
-- uid: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetReactionsEnumerable_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: IRestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: IRestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetReactionsEnumerable_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IRestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetReactionsEnumerable_
@@ -28534,6 +28532,12 @@ references:
   commentId: M:Disqord.Rest.IRestDiscordClient.GetWebhookAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   fullName: Disqord.Rest.IRestDiscordClient.GetWebhookAsync(Disqord.Snowflake, Disqord.Rest.RestRequestOptions)
   nameWithType: IRestDiscordClient.GetWebhookAsync(Snowflake, RestRequestOptions)
+- uid: Disqord.Rest.IRestDiscordClient.GetWebhookAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
+  name: GetWebhookAsync(Snowflake, String, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetWebhookAsync_Disqord_Snowflake_System_String_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetWebhookAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetWebhookAsync(Disqord.Snowflake, System.String, Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetWebhookAsync(Snowflake, String, RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.GetWebhookAsync*
   name: GetWebhookAsync
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetWebhookAsync_
@@ -28541,19 +28545,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetWebhookAsync
   nameWithType: IRestDiscordClient.GetWebhookAsync
-- uid: Disqord.Rest.IRestDiscordClient.GetWebhookWithTokenAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
-  name: GetWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetWebhookWithTokenAsync_Disqord_Snowflake_System_String_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.IRestDiscordClient.GetWebhookWithTokenAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.IRestDiscordClient.GetWebhookWithTokenAsync(Disqord.Snowflake, System.String, Disqord.Rest.RestRequestOptions)
-  nameWithType: IRestDiscordClient.GetWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)
-- uid: Disqord.Rest.IRestDiscordClient.GetWebhookWithTokenAsync*
-  name: GetWebhookWithTokenAsync
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetWebhookWithTokenAsync_
-  commentId: Overload:Disqord.Rest.IRestDiscordClient.GetWebhookWithTokenAsync
-  isSpec: "True"
-  fullName: Disqord.Rest.IRestDiscordClient.GetWebhookWithTokenAsync
-  nameWithType: IRestDiscordClient.GetWebhookWithTokenAsync
 - uid: Disqord.Rest.IRestDiscordClient.GetWidgetAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetWidgetAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetWidgetAsync_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -28830,6 +28821,15 @@ references:
   fullName.vb: Disqord.Rest.IRestDiscordClient.ModifyWebhookAsync(Disqord.Snowflake, Action(Of Disqord.ModifyWebhookProperties), Disqord.Rest.RestRequestOptions)
   nameWithType: IRestDiscordClient.ModifyWebhookAsync(Snowflake, Action<ModifyWebhookProperties>, RestRequestOptions)
   nameWithType.vb: IRestDiscordClient.ModifyWebhookAsync(Snowflake, Action(Of ModifyWebhookProperties), RestRequestOptions)
+- uid: Disqord.Rest.IRestDiscordClient.ModifyWebhookAsync(Disqord.Snowflake,System.String,Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
+  name: ModifyWebhookAsync(Snowflake, String, Action<ModifyWebhookProperties>, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_ModifyWebhookAsync_Disqord_Snowflake_System_String_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.ModifyWebhookAsync(Disqord.Snowflake,System.String,Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
+  name.vb: ModifyWebhookAsync(Snowflake, String, Action(Of ModifyWebhookProperties), RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.ModifyWebhookAsync(Disqord.Snowflake, System.String, Action<Disqord.ModifyWebhookProperties>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.IRestDiscordClient.ModifyWebhookAsync(Disqord.Snowflake, System.String, Action(Of Disqord.ModifyWebhookProperties), Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.ModifyWebhookAsync(Snowflake, String, Action<ModifyWebhookProperties>, RestRequestOptions)
+  nameWithType.vb: IRestDiscordClient.ModifyWebhookAsync(Snowflake, String, Action(Of ModifyWebhookProperties), RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.ModifyWebhookAsync*
   name: ModifyWebhookAsync
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_ModifyWebhookAsync_
@@ -28837,22 +28837,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.ModifyWebhookAsync
   nameWithType: IRestDiscordClient.ModifyWebhookAsync
-- uid: Disqord.Rest.IRestDiscordClient.ModifyWebhookWithTokenAsync(Disqord.Snowflake,System.String,Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
-  name: ModifyWebhookWithTokenAsync(Snowflake, String, Action<ModifyWebhookProperties>, RestRequestOptions)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_ModifyWebhookWithTokenAsync_Disqord_Snowflake_System_String_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.IRestDiscordClient.ModifyWebhookWithTokenAsync(Disqord.Snowflake,System.String,Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
-  name.vb: ModifyWebhookWithTokenAsync(Snowflake, String, Action(Of ModifyWebhookProperties), RestRequestOptions)
-  fullName: Disqord.Rest.IRestDiscordClient.ModifyWebhookWithTokenAsync(Disqord.Snowflake, System.String, Action<Disqord.ModifyWebhookProperties>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.IRestDiscordClient.ModifyWebhookWithTokenAsync(Disqord.Snowflake, System.String, Action(Of Disqord.ModifyWebhookProperties), Disqord.Rest.RestRequestOptions)
-  nameWithType: IRestDiscordClient.ModifyWebhookWithTokenAsync(Snowflake, String, Action<ModifyWebhookProperties>, RestRequestOptions)
-  nameWithType.vb: IRestDiscordClient.ModifyWebhookWithTokenAsync(Snowflake, String, Action(Of ModifyWebhookProperties), RestRequestOptions)
-- uid: Disqord.Rest.IRestDiscordClient.ModifyWebhookWithTokenAsync*
-  name: ModifyWebhookWithTokenAsync
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_ModifyWebhookWithTokenAsync_
-  commentId: Overload:Disqord.Rest.IRestDiscordClient.ModifyWebhookWithTokenAsync
-  isSpec: "True"
-  fullName: Disqord.Rest.IRestDiscordClient.ModifyWebhookWithTokenAsync
-  nameWithType: IRestDiscordClient.ModifyWebhookWithTokenAsync
 - uid: Disqord.Rest.IRestDiscordClient.ModifyWidgetAsync(Disqord.Snowflake,Action{Disqord.ModifyWidgetProperties},Disqord.Rest.RestRequestOptions)
   name: ModifyWidgetAsync(Snowflake, Action<ModifyWidgetProperties>, RestRequestOptions)
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_ModifyWidgetAsync_Disqord_Snowflake_Action_Disqord_ModifyWidgetProperties__Disqord_Rest_RestRequestOptions_
@@ -30533,6 +30517,12 @@ references:
   commentId: M:Disqord.Rest.RestDiscordClient.DeleteWebhookAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   fullName: Disqord.Rest.RestDiscordClient.DeleteWebhookAsync(Disqord.Snowflake, Disqord.Rest.RestRequestOptions)
   nameWithType: RestDiscordClient.DeleteWebhookAsync(Snowflake, RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.DeleteWebhookAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
+  name: DeleteWebhookAsync(Snowflake, String, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_DeleteWebhookAsync_Disqord_Snowflake_System_String_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.DeleteWebhookAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.DeleteWebhookAsync(Disqord.Snowflake, System.String, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.DeleteWebhookAsync(Snowflake, String, RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.DeleteWebhookAsync*
   name: DeleteWebhookAsync
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_DeleteWebhookAsync_
@@ -30540,19 +30530,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.DeleteWebhookAsync
   nameWithType: RestDiscordClient.DeleteWebhookAsync
-- uid: Disqord.Rest.RestDiscordClient.DeleteWebhookWithTokenAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
-  name: DeleteWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_DeleteWebhookWithTokenAsync_Disqord_Snowflake_System_String_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestDiscordClient.DeleteWebhookWithTokenAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestDiscordClient.DeleteWebhookWithTokenAsync(Disqord.Snowflake, System.String, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestDiscordClient.DeleteWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)
-- uid: Disqord.Rest.RestDiscordClient.DeleteWebhookWithTokenAsync*
-  name: DeleteWebhookWithTokenAsync
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_DeleteWebhookWithTokenAsync_
-  commentId: Overload:Disqord.Rest.RestDiscordClient.DeleteWebhookWithTokenAsync
-  isSpec: "True"
-  fullName: Disqord.Rest.RestDiscordClient.DeleteWebhookWithTokenAsync
-  nameWithType: RestDiscordClient.DeleteWebhookWithTokenAsync
 - uid: Disqord.Rest.RestDiscordClient.Dispose
   name: Dispose()
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_Dispose
@@ -30625,15 +30602,15 @@ references:
   fullName.vb: Disqord.Rest.RestDiscordClient.GetAuditLogsAsync(Of T)(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
   nameWithType: RestDiscordClient.GetAuditLogsAsync<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
   nameWithType.vb: RestDiscordClient.GetAuditLogsAsync(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
-- uid: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name: GetAuditLogsEnumerable(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetAuditLogsEnumerable_Disqord_Snowflake_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name.vb: GetAuditLogsEnumerable(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake, System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestDiscordClient.GetAuditLogsEnumerable(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  nameWithType.vb: RestDiscordClient.GetAuditLogsEnumerable(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetAuditLogsEnumerable(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetAuditLogsEnumerable_Disqord_Snowflake_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetAuditLogsEnumerable(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake, System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetAuditLogsEnumerable(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestDiscordClient.GetAuditLogsEnumerable(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable*
   name: GetAuditLogsEnumerable
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetAuditLogsEnumerable_
@@ -30641,15 +30618,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable
   nameWithType: RestDiscordClient.GetAuditLogsEnumerable
-- uid: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable``1(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name: GetAuditLogsEnumerable<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetAuditLogsEnumerable__1_Disqord_Snowflake_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable``1(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name.vb: GetAuditLogsEnumerable(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable<T>(Disqord.Snowflake, System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable(Of T)(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestDiscordClient.GetAuditLogsEnumerable<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  nameWithType.vb: RestDiscordClient.GetAuditLogsEnumerable(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable``1(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetAuditLogsEnumerable<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetAuditLogsEnumerable__1_Disqord_Snowflake_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable``1(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetAuditLogsEnumerable(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable<T>(Disqord.Snowflake, System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestDiscordClient.GetAuditLogsEnumerable(Of T)(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetAuditLogsEnumerable<T>(Snowflake, Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestDiscordClient.GetAuditLogsEnumerable(Of T)(Snowflake, Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.GetBanAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetBanAsync(Snowflake, Snowflake, RestRequestOptions)
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetBanAsync_Disqord_Snowflake_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -30676,15 +30653,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetBansAsync
   nameWithType: RestDiscordClient.GetBansAsync
-- uid: Disqord.Rest.RestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake,IEnumerable{Disqord.Snowflake})
-  name: GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetBulkMessageDeletionEnumerator_Disqord_Snowflake_IEnumerable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake,IEnumerable{Disqord.Snowflake})
-  name.vb: GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake))
-  fullName: Disqord.Rest.RestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake, IEnumerable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake, IEnumerable(Of Disqord.Snowflake))
-  nameWithType: RestDiscordClient.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>)
-  nameWithType.vb: RestDiscordClient.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake))
+- uid: Disqord.Rest.RestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake,IEnumerable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetBulkMessageDeletionEnumerator_Disqord_Snowflake_IEnumerable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake,IEnumerable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake, IEnumerable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestDiscordClient.GetBulkMessageDeletionEnumerator(Disqord.Snowflake, IEnumerable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestDiscordClient.GetBulkMessageDeletionEnumerator(Snowflake, IEnumerable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.GetBulkMessageDeletionEnumerator*
   name: GetBulkMessageDeletionEnumerator
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetBulkMessageDeletionEnumerator_
@@ -30886,15 +30863,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetGuildsAsync
   nameWithType: RestDiscordClient.GetGuildsAsync
-- uid: Disqord.Rest.RestDiscordClient.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetGuildsEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestDiscordClient.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestDiscordClient.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestDiscordClient.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestDiscordClient.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: RestDiscordClient.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestDiscordClient.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetGuildsEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetGuildsEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestDiscordClient.GetGuildsEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestDiscordClient.GetGuildsEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.GetGuildsEnumerable*
   name: GetGuildsEnumerable
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetGuildsEnumerable_
@@ -30957,15 +30934,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetMembersAsync
   nameWithType: RestDiscordClient.GetMembersAsync
-- uid: Disqord.Rest.RestDiscordClient.GetMembersEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake})
-  name: GetMembersEnumerable(Snowflake, Int32, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetMembersEnumerable_Disqord_Snowflake_System_Int32_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestDiscordClient.GetMembersEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake})
-  name.vb: GetMembersEnumerable(Snowflake, Int32, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestDiscordClient.GetMembersEnumerable(Disqord.Snowflake, System.Int32, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestDiscordClient.GetMembersEnumerable(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestDiscordClient.GetMembersEnumerable(Snowflake, Int32, Nullable<Snowflake>)
-  nameWithType.vb: RestDiscordClient.GetMembersEnumerable(Snowflake, Int32, Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestDiscordClient.GetMembersEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMembersEnumerable(Snowflake, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetMembersEnumerable_Disqord_Snowflake_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetMembersEnumerable(Disqord.Snowflake,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMembersEnumerable(Snowflake, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetMembersEnumerable(Disqord.Snowflake, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestDiscordClient.GetMembersEnumerable(Disqord.Snowflake, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetMembersEnumerable(Snowflake, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestDiscordClient.GetMembersEnumerable(Snowflake, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.GetMembersEnumerable*
   name: GetMembersEnumerable
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetMembersEnumerable_
@@ -31002,15 +30979,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetMessagesAsync
   nameWithType: RestDiscordClient.GetMessagesAsync
-- uid: Disqord.Rest.RestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetMessagesEnumerable_Disqord_Snowflake_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestDiscordClient.GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: RestDiscordClient.GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetMessagesEnumerable_Disqord_Snowflake_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestDiscordClient.GetMessagesEnumerable(Disqord.Snowflake, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestDiscordClient.GetMessagesEnumerable(Snowflake, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.GetMessagesEnumerable*
   name: GetMessagesEnumerable
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetMessagesEnumerable_
@@ -31099,15 +31076,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetReactionsAsync
   nameWithType: RestDiscordClient.GetReactionsAsync
-- uid: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetReactionsEnumerable_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: RestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetReactionsEnumerable_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetReactionsEnumerable_
@@ -31205,6 +31182,12 @@ references:
   commentId: M:Disqord.Rest.RestDiscordClient.GetWebhookAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   fullName: Disqord.Rest.RestDiscordClient.GetWebhookAsync(Disqord.Snowflake, Disqord.Rest.RestRequestOptions)
   nameWithType: RestDiscordClient.GetWebhookAsync(Snowflake, RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.GetWebhookAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
+  name: GetWebhookAsync(Snowflake, String, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetWebhookAsync_Disqord_Snowflake_System_String_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetWebhookAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetWebhookAsync(Disqord.Snowflake, System.String, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetWebhookAsync(Snowflake, String, RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.GetWebhookAsync*
   name: GetWebhookAsync
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetWebhookAsync_
@@ -31212,19 +31195,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetWebhookAsync
   nameWithType: RestDiscordClient.GetWebhookAsync
-- uid: Disqord.Rest.RestDiscordClient.GetWebhookWithTokenAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
-  name: GetWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetWebhookWithTokenAsync_Disqord_Snowflake_System_String_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestDiscordClient.GetWebhookWithTokenAsync(Disqord.Snowflake,System.String,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestDiscordClient.GetWebhookWithTokenAsync(Disqord.Snowflake, System.String, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestDiscordClient.GetWebhookWithTokenAsync(Snowflake, String, RestRequestOptions)
-- uid: Disqord.Rest.RestDiscordClient.GetWebhookWithTokenAsync*
-  name: GetWebhookWithTokenAsync
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetWebhookWithTokenAsync_
-  commentId: Overload:Disqord.Rest.RestDiscordClient.GetWebhookWithTokenAsync
-  isSpec: "True"
-  fullName: Disqord.Rest.RestDiscordClient.GetWebhookWithTokenAsync
-  nameWithType: RestDiscordClient.GetWebhookWithTokenAsync
 - uid: Disqord.Rest.RestDiscordClient.GetWidgetAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetWidgetAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetWidgetAsync_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -31540,6 +31510,15 @@ references:
   fullName.vb: Disqord.Rest.RestDiscordClient.ModifyWebhookAsync(Disqord.Snowflake, Action(Of Disqord.ModifyWebhookProperties), Disqord.Rest.RestRequestOptions)
   nameWithType: RestDiscordClient.ModifyWebhookAsync(Snowflake, Action<ModifyWebhookProperties>, RestRequestOptions)
   nameWithType.vb: RestDiscordClient.ModifyWebhookAsync(Snowflake, Action(Of ModifyWebhookProperties), RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.ModifyWebhookAsync(Disqord.Snowflake,System.String,Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
+  name: ModifyWebhookAsync(Snowflake, String, Action<ModifyWebhookProperties>, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_ModifyWebhookAsync_Disqord_Snowflake_System_String_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.ModifyWebhookAsync(Disqord.Snowflake,System.String,Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
+  name.vb: ModifyWebhookAsync(Snowflake, String, Action(Of ModifyWebhookProperties), RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.ModifyWebhookAsync(Disqord.Snowflake, System.String, Action<Disqord.ModifyWebhookProperties>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestDiscordClient.ModifyWebhookAsync(Disqord.Snowflake, System.String, Action(Of Disqord.ModifyWebhookProperties), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.ModifyWebhookAsync(Snowflake, String, Action<ModifyWebhookProperties>, RestRequestOptions)
+  nameWithType.vb: RestDiscordClient.ModifyWebhookAsync(Snowflake, String, Action(Of ModifyWebhookProperties), RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.ModifyWebhookAsync*
   name: ModifyWebhookAsync
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_ModifyWebhookAsync_
@@ -31547,22 +31526,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.ModifyWebhookAsync
   nameWithType: RestDiscordClient.ModifyWebhookAsync
-- uid: Disqord.Rest.RestDiscordClient.ModifyWebhookWithTokenAsync(Disqord.Snowflake,System.String,Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
-  name: ModifyWebhookWithTokenAsync(Snowflake, String, Action<ModifyWebhookProperties>, RestRequestOptions)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_ModifyWebhookWithTokenAsync_Disqord_Snowflake_System_String_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestDiscordClient.ModifyWebhookWithTokenAsync(Disqord.Snowflake,System.String,Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
-  name.vb: ModifyWebhookWithTokenAsync(Snowflake, String, Action(Of ModifyWebhookProperties), RestRequestOptions)
-  fullName: Disqord.Rest.RestDiscordClient.ModifyWebhookWithTokenAsync(Disqord.Snowflake, System.String, Action<Disqord.ModifyWebhookProperties>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestDiscordClient.ModifyWebhookWithTokenAsync(Disqord.Snowflake, System.String, Action(Of Disqord.ModifyWebhookProperties), Disqord.Rest.RestRequestOptions)
-  nameWithType: RestDiscordClient.ModifyWebhookWithTokenAsync(Snowflake, String, Action<ModifyWebhookProperties>, RestRequestOptions)
-  nameWithType.vb: RestDiscordClient.ModifyWebhookWithTokenAsync(Snowflake, String, Action(Of ModifyWebhookProperties), RestRequestOptions)
-- uid: Disqord.Rest.RestDiscordClient.ModifyWebhookWithTokenAsync*
-  name: ModifyWebhookWithTokenAsync
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_ModifyWebhookWithTokenAsync_
-  commentId: Overload:Disqord.Rest.RestDiscordClient.ModifyWebhookWithTokenAsync
-  isSpec: "True"
-  fullName: Disqord.Rest.RestDiscordClient.ModifyWebhookWithTokenAsync
-  nameWithType: RestDiscordClient.ModifyWebhookWithTokenAsync
 - uid: Disqord.Rest.RestDiscordClient.ModifyWidgetAsync(Disqord.Snowflake,Action{Disqord.ModifyWidgetProperties},Disqord.Rest.RestRequestOptions)
   name: ModifyWidgetAsync(Snowflake, Action<ModifyWidgetProperties>, RestRequestOptions)
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_ModifyWidgetAsync_Disqord_Snowflake_Action_Disqord_ModifyWidgetProperties__Disqord_Rest_RestRequestOptions_
@@ -32573,15 +32536,15 @@ references:
   fullName.vb: Disqord.Rest.RestGuild.GetAuditLogsAsync(Of T)(System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
   nameWithType: RestGuild.GetAuditLogsAsync<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
   nameWithType.vb: RestGuild.GetAuditLogsAsync(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
-- uid: Disqord.Rest.RestGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name: GetAuditLogsEnumerable(Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestGuild.html#Disqord_Rest_RestGuild_GetAuditLogsEnumerable_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name.vb: GetAuditLogsEnumerable(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestGuild.GetAuditLogsEnumerable(System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestGuild.GetAuditLogsEnumerable(System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestGuild.GetAuditLogsEnumerable(Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  nameWithType.vb: RestGuild.GetAuditLogsEnumerable(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetAuditLogsEnumerable(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestGuild.html#Disqord_Rest_RestGuild_GetAuditLogsEnumerable_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetAuditLogsEnumerable(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestGuild.GetAuditLogsEnumerable(System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestGuild.GetAuditLogsEnumerable(System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestGuild.GetAuditLogsEnumerable(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestGuild.GetAuditLogsEnumerable(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestGuild.GetAuditLogsEnumerable*
   name: GetAuditLogsEnumerable
   href: api/Disqord.Rest.RestGuild.html#Disqord_Rest_RestGuild_GetAuditLogsEnumerable_
@@ -32589,15 +32552,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestGuild.GetAuditLogsEnumerable
   nameWithType: RestGuild.GetAuditLogsEnumerable
-- uid: Disqord.Rest.RestGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name: GetAuditLogsEnumerable<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestGuild.html#Disqord_Rest_RestGuild_GetAuditLogsEnumerable__1_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake})
-  name.vb: GetAuditLogsEnumerable(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestGuild.GetAuditLogsEnumerable<T>(System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestGuild.GetAuditLogsEnumerable(Of T)(System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestGuild.GetAuditLogsEnumerable<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>)
-  nameWithType.vb: RestGuild.GetAuditLogsEnumerable(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetAuditLogsEnumerable<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestGuild.html#Disqord_Rest_RestGuild_GetAuditLogsEnumerable__1_System_Int32_System_Nullable_Disqord_Snowflake__System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Disqord.Snowflake},System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetAuditLogsEnumerable(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestGuild.GetAuditLogsEnumerable<T>(System.Int32, System.Nullable<Disqord.Snowflake>, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestGuild.GetAuditLogsEnumerable(Of T)(System.Int32, System.Nullable(Of Disqord.Snowflake), System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestGuild.GetAuditLogsEnumerable<T>(Int32, Nullable<Snowflake>, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestGuild.GetAuditLogsEnumerable(Of T)(Int32, Nullable(Of Snowflake), Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestGuild.GetBanAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
   name: GetBanAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.Rest.RestGuild.html#Disqord_Rest_RestGuild_GetBanAsync_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -32744,15 +32707,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestGuild.GetMembersAsync
   nameWithType: RestGuild.GetMembersAsync
-- uid: Disqord.Rest.RestGuild.GetMembersEnumerable(System.Int32,System.Nullable{Disqord.Snowflake})
-  name: GetMembersEnumerable(Int32, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestGuild.html#Disqord_Rest_RestGuild_GetMembersEnumerable_System_Int32_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestGuild.GetMembersEnumerable(System.Int32,System.Nullable{Disqord.Snowflake})
-  name.vb: GetMembersEnumerable(Int32, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestGuild.GetMembersEnumerable(System.Int32, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestGuild.GetMembersEnumerable(System.Int32, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestGuild.GetMembersEnumerable(Int32, Nullable<Snowflake>)
-  nameWithType.vb: RestGuild.GetMembersEnumerable(Int32, Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestGuild.GetMembersEnumerable(System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMembersEnumerable(Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestGuild.html#Disqord_Rest_RestGuild_GetMembersEnumerable_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestGuild.GetMembersEnumerable(System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMembersEnumerable(Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestGuild.GetMembersEnumerable(System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestGuild.GetMembersEnumerable(System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestGuild.GetMembersEnumerable(Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestGuild.GetMembersEnumerable(Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestGuild.GetMembersEnumerable*
   name: GetMembersEnumerable
   href: api/Disqord.Rest.RestGuild.html#Disqord_Rest_RestGuild_GetMembersEnumerable_
@@ -34517,15 +34480,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestMessage.GetReactionsAsync
   nameWithType: RestMessage.GetReactionsAsync
-- uid: Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestMessage.html#Disqord_Rest_RestMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: RestMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestMessage.html#Disqord_Rest_RestMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestMessage.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.Rest.RestMessage.html#Disqord_Rest_RestMessage_GetReactionsEnumerable_
@@ -34891,15 +34854,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestPrivateChannel.GetMessagesAsync
   nameWithType: RestPrivateChannel.GetMessagesAsync
-- uid: Disqord.Rest.RestPrivateChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_GetMessagesEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestPrivateChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestPrivateChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestPrivateChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestPrivateChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: RestPrivateChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestPrivateChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_GetMessagesEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestPrivateChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestPrivateChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestPrivateChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestPrivateChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestPrivateChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestPrivateChannel.GetMessagesEnumerable*
   name: GetMessagesEnumerable
   href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_GetMessagesEnumerable_
@@ -34936,15 +34899,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestPrivateChannel.GetReactionsAsync
   nameWithType: RestPrivateChannel.GetReactionsAsync
-- uid: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_GetReactionsEnumerable_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: RestPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_GetReactionsEnumerable_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_GetReactionsEnumerable_
@@ -35281,108 +35244,50 @@ references:
   fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T)
   nameWithType: RestRequestEnumerable<T>
   nameWithType.vb: RestRequestEnumerable(Of T)
-- uid: Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable
-  name: RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable
-  href: api/Disqord.Rest.RestRequestEnumerable-1.ConfiguredRestRequestEnumerable.html
-  commentId: T:Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable
-  name.vb: RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable
-  nameWithType: RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable
-  nameWithType.vb: RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable
-- uid: Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator
-  name: RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator
-  href: api/Disqord.Rest.RestRequestEnumerable-1.ConfiguredRestRequestEnumerable.Enumerator.html
-  commentId: T:Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator
-  name.vb: RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator
-  nameWithType: RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator
-  nameWithType.vb: RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator
-- uid: Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator.Current
-  name: Current
-  href: api/Disqord.Rest.RestRequestEnumerable-1.ConfiguredRestRequestEnumerable.Enumerator.html#Disqord_Rest_RestRequestEnumerable_1_ConfiguredRestRequestEnumerable_Enumerator_Current
-  commentId: P:Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator.Current
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator.Current
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator.Current
-  nameWithType: RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator.Current
-  nameWithType.vb: RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator.Current
-- uid: Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator.Current*
-  name: Current
-  href: api/Disqord.Rest.RestRequestEnumerable-1.ConfiguredRestRequestEnumerable.Enumerator.html#Disqord_Rest_RestRequestEnumerable_1_ConfiguredRestRequestEnumerable_Enumerator_Current_
-  commentId: Overload:Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator.Current
+- uid: Disqord.Rest.RestRequestEnumerable`1.FirstOrDefaultAsync(Predicate{`0})
+  name: FirstOrDefaultAsync(Predicate<T>)
+  href: api/Disqord.Rest.RestRequestEnumerable-1.html#Disqord_Rest_RestRequestEnumerable_1_FirstOrDefaultAsync_Predicate__0__
+  commentId: M:Disqord.Rest.RestRequestEnumerable`1.FirstOrDefaultAsync(Predicate{`0})
+  name.vb: FirstOrDefaultAsync(Predicate(Of T))
+  fullName: Disqord.Rest.RestRequestEnumerable<T>.FirstOrDefaultAsync(Predicate<T>)
+  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).FirstOrDefaultAsync(Predicate(Of T))
+  nameWithType: RestRequestEnumerable<T>.FirstOrDefaultAsync(Predicate<T>)
+  nameWithType.vb: RestRequestEnumerable(Of T).FirstOrDefaultAsync(Predicate(Of T))
+- uid: Disqord.Rest.RestRequestEnumerable`1.FirstOrDefaultAsync*
+  name: FirstOrDefaultAsync
+  href: api/Disqord.Rest.RestRequestEnumerable-1.html#Disqord_Rest_RestRequestEnumerable_1_FirstOrDefaultAsync_
+  commentId: Overload:Disqord.Rest.RestRequestEnumerable`1.FirstOrDefaultAsync
   isSpec: "True"
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator.Current
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator.Current
-  nameWithType: RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator.Current
-  nameWithType.vb: RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator.Current
-- uid: Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator.DisposeAsync
-  name: DisposeAsync()
-  href: api/Disqord.Rest.RestRequestEnumerable-1.ConfiguredRestRequestEnumerable.Enumerator.html#Disqord_Rest_RestRequestEnumerable_1_ConfiguredRestRequestEnumerable_Enumerator_DisposeAsync
-  commentId: M:Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator.DisposeAsync
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator.DisposeAsync()
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator.DisposeAsync()
-  nameWithType: RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator.DisposeAsync()
-  nameWithType.vb: RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator.DisposeAsync()
-- uid: Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator.DisposeAsync*
-  name: DisposeAsync
-  href: api/Disqord.Rest.RestRequestEnumerable-1.ConfiguredRestRequestEnumerable.Enumerator.html#Disqord_Rest_RestRequestEnumerable_1_ConfiguredRestRequestEnumerable_Enumerator_DisposeAsync_
-  commentId: Overload:Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator.DisposeAsync
+  fullName: Disqord.Rest.RestRequestEnumerable<T>.FirstOrDefaultAsync
+  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).FirstOrDefaultAsync
+  nameWithType: RestRequestEnumerable<T>.FirstOrDefaultAsync
+  nameWithType.vb: RestRequestEnumerable(Of T).FirstOrDefaultAsync
+- uid: Disqord.Rest.RestRequestEnumerable`1.FirstOrDefaultPageAsync(Predicate{IReadOnlyList{`0}})
+  name: FirstOrDefaultPageAsync(Predicate<IReadOnlyList<T>>)
+  href: api/Disqord.Rest.RestRequestEnumerable-1.html#Disqord_Rest_RestRequestEnumerable_1_FirstOrDefaultPageAsync_Predicate_IReadOnlyList__0___
+  commentId: M:Disqord.Rest.RestRequestEnumerable`1.FirstOrDefaultPageAsync(Predicate{IReadOnlyList{`0}})
+  name.vb: FirstOrDefaultPageAsync(Predicate(Of IReadOnlyList(Of T)))
+  fullName: Disqord.Rest.RestRequestEnumerable<T>.FirstOrDefaultPageAsync(Predicate<IReadOnlyList<T>>)
+  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).FirstOrDefaultPageAsync(Predicate(Of IReadOnlyList(Of T)))
+  nameWithType: RestRequestEnumerable<T>.FirstOrDefaultPageAsync(Predicate<IReadOnlyList<T>>)
+  nameWithType.vb: RestRequestEnumerable(Of T).FirstOrDefaultPageAsync(Predicate(Of IReadOnlyList(Of T)))
+- uid: Disqord.Rest.RestRequestEnumerable`1.FirstOrDefaultPageAsync*
+  name: FirstOrDefaultPageAsync
+  href: api/Disqord.Rest.RestRequestEnumerable-1.html#Disqord_Rest_RestRequestEnumerable_1_FirstOrDefaultPageAsync_
+  commentId: Overload:Disqord.Rest.RestRequestEnumerable`1.FirstOrDefaultPageAsync
   isSpec: "True"
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator.DisposeAsync
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator.DisposeAsync
-  nameWithType: RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator.DisposeAsync
-  nameWithType.vb: RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator.DisposeAsync
-- uid: Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator.MoveNextAsync
-  name: MoveNextAsync()
-  href: api/Disqord.Rest.RestRequestEnumerable-1.ConfiguredRestRequestEnumerable.Enumerator.html#Disqord_Rest_RestRequestEnumerable_1_ConfiguredRestRequestEnumerable_Enumerator_MoveNextAsync
-  commentId: M:Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator.MoveNextAsync
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator.MoveNextAsync()
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator.MoveNextAsync()
-  nameWithType: RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator.MoveNextAsync()
-  nameWithType.vb: RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator.MoveNextAsync()
-- uid: Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator.MoveNextAsync*
-  name: MoveNextAsync
-  href: api/Disqord.Rest.RestRequestEnumerable-1.ConfiguredRestRequestEnumerable.Enumerator.html#Disqord_Rest_RestRequestEnumerable_1_ConfiguredRestRequestEnumerable_Enumerator_MoveNextAsync_
-  commentId: Overload:Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.Enumerator.MoveNextAsync
-  isSpec: "True"
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator.MoveNextAsync
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator.MoveNextAsync
-  nameWithType: RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.Enumerator.MoveNextAsync
-  nameWithType.vb: RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.Enumerator.MoveNextAsync
-- uid: Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.GetAsyncEnumerator(CancellationToken)
-  name: GetAsyncEnumerator(CancellationToken)
-  href: api/Disqord.Rest.RestRequestEnumerable-1.ConfiguredRestRequestEnumerable.html#Disqord_Rest_RestRequestEnumerable_1_ConfiguredRestRequestEnumerable_GetAsyncEnumerator_CancellationToken_
-  commentId: M:Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.GetAsyncEnumerator(CancellationToken)
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.GetAsyncEnumerator(CancellationToken)
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.GetAsyncEnumerator(CancellationToken)
-  nameWithType: RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.GetAsyncEnumerator(CancellationToken)
-  nameWithType.vb: RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.GetAsyncEnumerator(CancellationToken)
-- uid: Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.GetAsyncEnumerator*
-  name: GetAsyncEnumerator
-  href: api/Disqord.Rest.RestRequestEnumerable-1.ConfiguredRestRequestEnumerable.html#Disqord_Rest_RestRequestEnumerable_1_ConfiguredRestRequestEnumerable_GetAsyncEnumerator_
-  commentId: Overload:Disqord.Rest.RestRequestEnumerable`1.ConfiguredRestRequestEnumerable.GetAsyncEnumerator
-  isSpec: "True"
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.GetAsyncEnumerator
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.GetAsyncEnumerator
-  nameWithType: RestRequestEnumerable<T>.ConfiguredRestRequestEnumerable.GetAsyncEnumerator
-  nameWithType.vb: RestRequestEnumerable(Of T).ConfiguredRestRequestEnumerable.GetAsyncEnumerator
-- uid: Disqord.Rest.RestRequestEnumerable`1.FlattenAsync(CancellationToken,Disqord.Rest.RestRequestOptions)
-  name: FlattenAsync(CancellationToken, RestRequestOptions)
-  href: api/Disqord.Rest.RestRequestEnumerable-1.html#Disqord_Rest_RestRequestEnumerable_1_FlattenAsync_CancellationToken_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestRequestEnumerable`1.FlattenAsync(CancellationToken,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.FlattenAsync(CancellationToken, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).FlattenAsync(CancellationToken, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestRequestEnumerable<T>.FlattenAsync(CancellationToken, RestRequestOptions)
-  nameWithType.vb: RestRequestEnumerable(Of T).FlattenAsync(CancellationToken, RestRequestOptions)
-- uid: Disqord.Rest.RestRequestEnumerable`1.FlattenAsync(Disqord.Rest.RestRequestOptions)
-  name: FlattenAsync(RestRequestOptions)
-  href: api/Disqord.Rest.RestRequestEnumerable-1.html#Disqord_Rest_RestRequestEnumerable_1_FlattenAsync_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestRequestEnumerable`1.FlattenAsync(Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.FlattenAsync(Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).FlattenAsync(Disqord.Rest.RestRequestOptions)
-  nameWithType: RestRequestEnumerable<T>.FlattenAsync(RestRequestOptions)
-  nameWithType.vb: RestRequestEnumerable(Of T).FlattenAsync(RestRequestOptions)
+  fullName: Disqord.Rest.RestRequestEnumerable<T>.FirstOrDefaultPageAsync
+  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).FirstOrDefaultPageAsync
+  nameWithType: RestRequestEnumerable<T>.FirstOrDefaultPageAsync
+  nameWithType.vb: RestRequestEnumerable(Of T).FirstOrDefaultPageAsync
+- uid: Disqord.Rest.RestRequestEnumerable`1.FlattenAsync
+  name: FlattenAsync()
+  href: api/Disqord.Rest.RestRequestEnumerable-1.html#Disqord_Rest_RestRequestEnumerable_1_FlattenAsync
+  commentId: M:Disqord.Rest.RestRequestEnumerable`1.FlattenAsync
+  fullName: Disqord.Rest.RestRequestEnumerable<T>.FlattenAsync()
+  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).FlattenAsync()
+  nameWithType: RestRequestEnumerable<T>.FlattenAsync()
+  nameWithType.vb: RestRequestEnumerable(Of T).FlattenAsync()
 - uid: Disqord.Rest.RestRequestEnumerable`1.FlattenAsync*
   name: FlattenAsync
   href: api/Disqord.Rest.RestRequestEnumerable-1.html#Disqord_Rest_RestRequestEnumerable_1_FlattenAsync_
@@ -35392,14 +35297,14 @@ references:
   fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).FlattenAsync
   nameWithType: RestRequestEnumerable<T>.FlattenAsync
   nameWithType.vb: RestRequestEnumerable(Of T).FlattenAsync
-- uid: Disqord.Rest.RestRequestEnumerable`1.GetAsyncEnumerator(CancellationToken)
-  name: GetAsyncEnumerator(CancellationToken)
-  href: api/Disqord.Rest.RestRequestEnumerable-1.html#Disqord_Rest_RestRequestEnumerable_1_GetAsyncEnumerator_CancellationToken_
-  commentId: M:Disqord.Rest.RestRequestEnumerable`1.GetAsyncEnumerator(CancellationToken)
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.GetAsyncEnumerator(CancellationToken)
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).GetAsyncEnumerator(CancellationToken)
-  nameWithType: RestRequestEnumerable<T>.GetAsyncEnumerator(CancellationToken)
-  nameWithType.vb: RestRequestEnumerable(Of T).GetAsyncEnumerator(CancellationToken)
+- uid: Disqord.Rest.RestRequestEnumerable`1.GetAsyncEnumerator
+  name: GetAsyncEnumerator()
+  href: api/Disqord.Rest.RestRequestEnumerable-1.html#Disqord_Rest_RestRequestEnumerable_1_GetAsyncEnumerator
+  commentId: M:Disqord.Rest.RestRequestEnumerable`1.GetAsyncEnumerator
+  fullName: Disqord.Rest.RestRequestEnumerable<T>.GetAsyncEnumerator()
+  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).GetAsyncEnumerator()
+  nameWithType: RestRequestEnumerable<T>.GetAsyncEnumerator()
+  nameWithType.vb: RestRequestEnumerable(Of T).GetAsyncEnumerator()
 - uid: Disqord.Rest.RestRequestEnumerable`1.GetAsyncEnumerator*
   name: GetAsyncEnumerator
   href: api/Disqord.Rest.RestRequestEnumerable-1.html#Disqord_Rest_RestRequestEnumerable_1_GetAsyncEnumerator_
@@ -35409,23 +35314,6 @@ references:
   fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).GetAsyncEnumerator
   nameWithType: RestRequestEnumerable<T>.GetAsyncEnumerator
   nameWithType.vb: RestRequestEnumerable(Of T).GetAsyncEnumerator
-- uid: Disqord.Rest.RestRequestEnumerable`1.WithOptions(Disqord.Rest.RestRequestOptions)
-  name: WithOptions(RestRequestOptions)
-  href: api/Disqord.Rest.RestRequestEnumerable-1.html#Disqord_Rest_RestRequestEnumerable_1_WithOptions_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestRequestEnumerable`1.WithOptions(Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.WithOptions(Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).WithOptions(Disqord.Rest.RestRequestOptions)
-  nameWithType: RestRequestEnumerable<T>.WithOptions(RestRequestOptions)
-  nameWithType.vb: RestRequestEnumerable(Of T).WithOptions(RestRequestOptions)
-- uid: Disqord.Rest.RestRequestEnumerable`1.WithOptions*
-  name: WithOptions
-  href: api/Disqord.Rest.RestRequestEnumerable-1.html#Disqord_Rest_RestRequestEnumerable_1_WithOptions_
-  commentId: Overload:Disqord.Rest.RestRequestEnumerable`1.WithOptions
-  isSpec: "True"
-  fullName: Disqord.Rest.RestRequestEnumerable<T>.WithOptions
-  fullName.vb: Disqord.Rest.RestRequestEnumerable(Of T).WithOptions
-  nameWithType: RestRequestEnumerable<T>.WithOptions
-  nameWithType.vb: RestRequestEnumerable(Of T).WithOptions
 - uid: Disqord.Rest.RestRequestEnumerator`1
   name: RestRequestEnumerator<T>
   href: api/Disqord.Rest.RestRequestEnumerator-1.html
@@ -35512,6 +35400,23 @@ references:
   fullName.vb: Disqord.Rest.RestRequestEnumerator(Of T).NextPageAsync
   nameWithType: RestRequestEnumerator<T>.NextPageAsync
   nameWithType.vb: RestRequestEnumerator(Of T).NextPageAsync
+- uid: Disqord.Rest.RestRequestEnumerator`1.PageSize
+  name: PageSize
+  href: api/Disqord.Rest.RestRequestEnumerator-1.html#Disqord_Rest_RestRequestEnumerator_1_PageSize
+  commentId: P:Disqord.Rest.RestRequestEnumerator`1.PageSize
+  fullName: Disqord.Rest.RestRequestEnumerator<T>.PageSize
+  fullName.vb: Disqord.Rest.RestRequestEnumerator(Of T).PageSize
+  nameWithType: RestRequestEnumerator<T>.PageSize
+  nameWithType.vb: RestRequestEnumerator(Of T).PageSize
+- uid: Disqord.Rest.RestRequestEnumerator`1.PageSize*
+  name: PageSize
+  href: api/Disqord.Rest.RestRequestEnumerator-1.html#Disqord_Rest_RestRequestEnumerator_1_PageSize_
+  commentId: Overload:Disqord.Rest.RestRequestEnumerator`1.PageSize
+  isSpec: "True"
+  fullName: Disqord.Rest.RestRequestEnumerator<T>.PageSize
+  fullName.vb: Disqord.Rest.RestRequestEnumerator(Of T).PageSize
+  nameWithType: RestRequestEnumerator<T>.PageSize
+  nameWithType.vb: RestRequestEnumerator(Of T).PageSize
 - uid: Disqord.Rest.RestRequestEnumerator`1.Remaining
   name: Remaining
   href: api/Disqord.Rest.RestRequestEnumerator-1.html#Disqord_Rest_RestRequestEnumerator_1_Remaining
@@ -35985,6 +35890,19 @@ references:
   commentId: T:Disqord.Rest.RestSnowflakeEntity
   fullName: Disqord.Rest.RestSnowflakeEntity
   nameWithType: RestSnowflakeEntity
+- uid: Disqord.Rest.RestSnowflakeEntity.CreatedAt
+  name: CreatedAt
+  href: api/Disqord.Rest.RestSnowflakeEntity.html#Disqord_Rest_RestSnowflakeEntity_CreatedAt
+  commentId: P:Disqord.Rest.RestSnowflakeEntity.CreatedAt
+  fullName: Disqord.Rest.RestSnowflakeEntity.CreatedAt
+  nameWithType: RestSnowflakeEntity.CreatedAt
+- uid: Disqord.Rest.RestSnowflakeEntity.CreatedAt*
+  name: CreatedAt
+  href: api/Disqord.Rest.RestSnowflakeEntity.html#Disqord_Rest_RestSnowflakeEntity_CreatedAt_
+  commentId: Overload:Disqord.Rest.RestSnowflakeEntity.CreatedAt
+  isSpec: "True"
+  fullName: Disqord.Rest.RestSnowflakeEntity.CreatedAt
+  nameWithType: RestSnowflakeEntity.CreatedAt
 - uid: Disqord.Rest.RestSnowflakeEntity.Id
   name: Id
   href: api/Disqord.Rest.RestSnowflakeEntity.html#Disqord_Rest_RestSnowflakeEntity_Id
@@ -36220,15 +36138,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestTextChannel.DeleteMessagesAsync
   nameWithType: RestTextChannel.DeleteMessagesAsync
-- uid: Disqord.Rest.RestTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable{Disqord.Snowflake})
-  name: GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>)
-  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetBulkMessageDeletionEnumerator_IEnumerable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable{Disqord.Snowflake})
-  name.vb: GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake))
-  fullName: Disqord.Rest.RestTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable(Of Disqord.Snowflake))
-  nameWithType: RestTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>)
-  nameWithType.vb: RestTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake))
+- uid: Disqord.Rest.RestTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetBulkMessageDeletionEnumerator_IEnumerable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestTextChannel.GetBulkMessageDeletionEnumerator(IEnumerable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestTextChannel.GetBulkMessageDeletionEnumerator*
   name: GetBulkMessageDeletionEnumerator
   href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetBulkMessageDeletionEnumerator_
@@ -36265,15 +36183,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestTextChannel.GetMessagesAsync
   nameWithType: RestTextChannel.GetMessagesAsync
-- uid: Disqord.Rest.RestTextChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetMessagesEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestTextChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestTextChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestTextChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestTextChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: RestTextChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestTextChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetMessagesEnumerable_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestTextChannel.GetMessagesEnumerable(System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestTextChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestTextChannel.GetMessagesEnumerable(System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestTextChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestTextChannel.GetMessagesEnumerable(Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestTextChannel.GetMessagesEnumerable*
   name: GetMessagesEnumerable
   href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetMessagesEnumerable_
@@ -36310,15 +36228,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestTextChannel.GetReactionsAsync
   nameWithType: RestTextChannel.GetReactionsAsync
-- uid: Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetReactionsEnumerable_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__
-  commentId: M:Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})
-  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
-  fullName: Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>)
-  fullName.vb: Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake))
-  nameWithType: RestTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>)
-  nameWithType.vb: RestTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake))
+- uid: Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetReactionsEnumerable_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestTextChannel.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetReactionsEnumerable_
@@ -37811,24 +37729,24 @@ references:
   commentId: T:Disqord.Rest.RestWebhookClient
   fullName: Disqord.Rest.RestWebhookClient
   nameWithType: RestWebhookClient
-- uid: Disqord.Rest.RestWebhookClient.#ctor(Disqord.Rest.RestWebhook,Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)
-  name: RestWebhookClient(RestWebhook, ILogger, IJsonSerializer)
-  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient__ctor_Disqord_Rest_RestWebhook_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_
-  commentId: M:Disqord.Rest.RestWebhookClient.#ctor(Disqord.Rest.RestWebhook,Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)
-  fullName: Disqord.Rest.RestWebhookClient.RestWebhookClient(Disqord.Rest.RestWebhook, Disqord.Logging.ILogger, Disqord.Serialization.Json.IJsonSerializer)
-  nameWithType: RestWebhookClient.RestWebhookClient(RestWebhook, ILogger, IJsonSerializer)
-- uid: Disqord.Rest.RestWebhookClient.#ctor(System.String,Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)
-  name: RestWebhookClient(String, ILogger, IJsonSerializer)
-  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient__ctor_System_String_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_
-  commentId: M:Disqord.Rest.RestWebhookClient.#ctor(System.String,Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)
-  fullName: Disqord.Rest.RestWebhookClient.RestWebhookClient(System.String, Disqord.Logging.ILogger, Disqord.Serialization.Json.IJsonSerializer)
-  nameWithType: RestWebhookClient.RestWebhookClient(String, ILogger, IJsonSerializer)
-- uid: Disqord.Rest.RestWebhookClient.#ctor(System.UInt64,System.String,Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)
-  name: RestWebhookClient(UInt64, String, ILogger, IJsonSerializer)
-  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient__ctor_System_UInt64_System_String_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_
-  commentId: M:Disqord.Rest.RestWebhookClient.#ctor(System.UInt64,System.String,Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)
-  fullName: Disqord.Rest.RestWebhookClient.RestWebhookClient(System.UInt64, System.String, Disqord.Logging.ILogger, Disqord.Serialization.Json.IJsonSerializer)
-  nameWithType: RestWebhookClient.RestWebhookClient(UInt64, String, ILogger, IJsonSerializer)
+- uid: Disqord.Rest.RestWebhookClient.#ctor(Disqord.Rest.RestDiscordClient,Disqord.Snowflake,System.String)
+  name: RestWebhookClient(RestDiscordClient, Snowflake, String)
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient__ctor_Disqord_Rest_RestDiscordClient_Disqord_Snowflake_System_String_
+  commentId: M:Disqord.Rest.RestWebhookClient.#ctor(Disqord.Rest.RestDiscordClient,Disqord.Snowflake,System.String)
+  fullName: Disqord.Rest.RestWebhookClient.RestWebhookClient(Disqord.Rest.RestDiscordClient, Disqord.Snowflake, System.String)
+  nameWithType: RestWebhookClient.RestWebhookClient(RestDiscordClient, Snowflake, String)
+- uid: Disqord.Rest.RestWebhookClient.#ctor(Disqord.Rest.RestWebhook)
+  name: RestWebhookClient(RestWebhook)
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient__ctor_Disqord_Rest_RestWebhook_
+  commentId: M:Disqord.Rest.RestWebhookClient.#ctor(Disqord.Rest.RestWebhook)
+  fullName: Disqord.Rest.RestWebhookClient.RestWebhookClient(Disqord.Rest.RestWebhook)
+  nameWithType: RestWebhookClient.RestWebhookClient(RestWebhook)
+- uid: Disqord.Rest.RestWebhookClient.#ctor(Disqord.Snowflake,System.String)
+  name: RestWebhookClient(Snowflake, String)
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient__ctor_Disqord_Snowflake_System_String_
+  commentId: M:Disqord.Rest.RestWebhookClient.#ctor(Disqord.Snowflake,System.String)
+  fullName: Disqord.Rest.RestWebhookClient.RestWebhookClient(Disqord.Snowflake, System.String)
+  nameWithType: RestWebhookClient.RestWebhookClient(Snowflake, String)
 - uid: Disqord.Rest.RestWebhookClient.#ctor*
   name: RestWebhookClient
   href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient__ctor_
@@ -37836,12 +37754,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestWebhookClient.RestWebhookClient
   nameWithType: RestWebhookClient.RestWebhookClient
-- uid: Disqord.Rest.RestWebhookClient.DeleteAsync
-  name: DeleteAsync()
-  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_DeleteAsync
-  commentId: M:Disqord.Rest.RestWebhookClient.DeleteAsync
-  fullName: Disqord.Rest.RestWebhookClient.DeleteAsync()
-  nameWithType: RestWebhookClient.DeleteAsync()
+- uid: Disqord.Rest.RestWebhookClient.DeleteAsync(Disqord.Rest.RestRequestOptions)
+  name: DeleteAsync(RestRequestOptions)
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_DeleteAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestWebhookClient.DeleteAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestWebhookClient.DeleteAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: RestWebhookClient.DeleteAsync(RestRequestOptions)
 - uid: Disqord.Rest.RestWebhookClient.DeleteAsync*
   name: DeleteAsync
   href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_DeleteAsync_
@@ -37849,6 +37767,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestWebhookClient.DeleteAsync
   nameWithType: RestWebhookClient.DeleteAsync
+- uid: Disqord.Rest.RestWebhookClient.DeleteWithTokenAsync(Disqord.Rest.RestRequestOptions)
+  name: DeleteWithTokenAsync(RestRequestOptions)
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_DeleteWithTokenAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestWebhookClient.DeleteWithTokenAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestWebhookClient.DeleteWithTokenAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: RestWebhookClient.DeleteWithTokenAsync(RestRequestOptions)
+- uid: Disqord.Rest.RestWebhookClient.DeleteWithTokenAsync*
+  name: DeleteWithTokenAsync
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_DeleteWithTokenAsync_
+  commentId: Overload:Disqord.Rest.RestWebhookClient.DeleteWithTokenAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.RestWebhookClient.DeleteWithTokenAsync
+  nameWithType: RestWebhookClient.DeleteWithTokenAsync
 - uid: Disqord.Rest.RestWebhookClient.Dispose
   name: Dispose()
   href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_Dispose
@@ -37905,12 +37836,25 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestWebhookClient.ExecuteAsync
   nameWithType: RestWebhookClient.ExecuteAsync
-- uid: Disqord.Rest.RestWebhookClient.GetWebhookAsync
-  name: GetWebhookAsync()
-  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_GetWebhookAsync
-  commentId: M:Disqord.Rest.RestWebhookClient.GetWebhookAsync
-  fullName: Disqord.Rest.RestWebhookClient.GetWebhookAsync()
-  nameWithType: RestWebhookClient.GetWebhookAsync()
+- uid: Disqord.Rest.RestWebhookClient.FromUrl(System.String)
+  name: FromUrl(String)
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_FromUrl_System_String_
+  commentId: M:Disqord.Rest.RestWebhookClient.FromUrl(System.String)
+  fullName: Disqord.Rest.RestWebhookClient.FromUrl(System.String)
+  nameWithType: RestWebhookClient.FromUrl(String)
+- uid: Disqord.Rest.RestWebhookClient.FromUrl*
+  name: FromUrl
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_FromUrl_
+  commentId: Overload:Disqord.Rest.RestWebhookClient.FromUrl
+  isSpec: "True"
+  fullName: Disqord.Rest.RestWebhookClient.FromUrl
+  nameWithType: RestWebhookClient.FromUrl
+- uid: Disqord.Rest.RestWebhookClient.GetWebhookAsync(Disqord.Rest.RestRequestOptions)
+  name: GetWebhookAsync(RestRequestOptions)
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_GetWebhookAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestWebhookClient.GetWebhookAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestWebhookClient.GetWebhookAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: RestWebhookClient.GetWebhookAsync(RestRequestOptions)
 - uid: Disqord.Rest.RestWebhookClient.GetWebhookAsync*
   name: GetWebhookAsync
   href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_GetWebhookAsync_
@@ -37931,15 +37875,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestWebhookClient.Id
   nameWithType: RestWebhookClient.Id
-- uid: Disqord.Rest.RestWebhookClient.ModifyAsync(Action{Disqord.ModifyWebhookProperties})
-  name: ModifyAsync(Action<ModifyWebhookProperties>)
-  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_ModifyAsync_Action_Disqord_ModifyWebhookProperties__
-  commentId: M:Disqord.Rest.RestWebhookClient.ModifyAsync(Action{Disqord.ModifyWebhookProperties})
-  name.vb: ModifyAsync(Action(Of ModifyWebhookProperties))
-  fullName: Disqord.Rest.RestWebhookClient.ModifyAsync(Action<Disqord.ModifyWebhookProperties>)
-  fullName.vb: Disqord.Rest.RestWebhookClient.ModifyAsync(Action(Of Disqord.ModifyWebhookProperties))
-  nameWithType: RestWebhookClient.ModifyAsync(Action<ModifyWebhookProperties>)
-  nameWithType.vb: RestWebhookClient.ModifyAsync(Action(Of ModifyWebhookProperties))
+- uid: Disqord.Rest.RestWebhookClient.ModifyAsync(Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
+  name: ModifyAsync(Action<ModifyWebhookProperties>, RestRequestOptions)
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_ModifyAsync_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestWebhookClient.ModifyAsync(Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
+  name.vb: ModifyAsync(Action(Of ModifyWebhookProperties), RestRequestOptions)
+  fullName: Disqord.Rest.RestWebhookClient.ModifyAsync(Action<Disqord.ModifyWebhookProperties>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestWebhookClient.ModifyAsync(Action(Of Disqord.ModifyWebhookProperties), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestWebhookClient.ModifyAsync(Action<ModifyWebhookProperties>, RestRequestOptions)
+  nameWithType.vb: RestWebhookClient.ModifyAsync(Action(Of ModifyWebhookProperties), RestRequestOptions)
 - uid: Disqord.Rest.RestWebhookClient.ModifyAsync*
   name: ModifyAsync
   href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_ModifyAsync_
@@ -37947,6 +37891,22 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestWebhookClient.ModifyAsync
   nameWithType: RestWebhookClient.ModifyAsync
+- uid: Disqord.Rest.RestWebhookClient.ModifyWithTokenAsync(Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
+  name: ModifyWithTokenAsync(Action<ModifyWebhookProperties>, RestRequestOptions)
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_ModifyWithTokenAsync_Action_Disqord_ModifyWebhookProperties__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestWebhookClient.ModifyWithTokenAsync(Action{Disqord.ModifyWebhookProperties},Disqord.Rest.RestRequestOptions)
+  name.vb: ModifyWithTokenAsync(Action(Of ModifyWebhookProperties), RestRequestOptions)
+  fullName: Disqord.Rest.RestWebhookClient.ModifyWithTokenAsync(Action<Disqord.ModifyWebhookProperties>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestWebhookClient.ModifyWithTokenAsync(Action(Of Disqord.ModifyWebhookProperties), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestWebhookClient.ModifyWithTokenAsync(Action<ModifyWebhookProperties>, RestRequestOptions)
+  nameWithType.vb: RestWebhookClient.ModifyWithTokenAsync(Action(Of ModifyWebhookProperties), RestRequestOptions)
+- uid: Disqord.Rest.RestWebhookClient.ModifyWithTokenAsync*
+  name: ModifyWithTokenAsync
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_ModifyWithTokenAsync_
+  commentId: Overload:Disqord.Rest.RestWebhookClient.ModifyWithTokenAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.RestWebhookClient.ModifyWithTokenAsync
+  nameWithType: RestWebhookClient.ModifyWithTokenAsync
 - uid: Disqord.Rest.RestWebhookClient.Token
   name: Token
   href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_Token
@@ -37973,6 +37933,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestWebhookClient.Webhook
   nameWithType: RestWebhookClient.Webhook
+- uid: Disqord.Rest.RestWebhookClient.WebhookUrlRegex
+  name: WebhookUrlRegex
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_WebhookUrlRegex
+  commentId: F:Disqord.Rest.RestWebhookClient.WebhookUrlRegex
+  fullName: Disqord.Rest.RestWebhookClient.WebhookUrlRegex
+  nameWithType: RestWebhookClient.WebhookUrlRegex
 - uid: Disqord.Rest.RestWidget
   name: RestWidget
   href: api/Disqord.Rest.RestWidget.html

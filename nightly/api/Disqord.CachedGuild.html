@@ -95,6 +95,9 @@
       <a class="xref" href="Disqord.CachedSnowflakeEntity.html#Disqord_CachedSnowflakeEntity_Id">CachedSnowflakeEntity.Id</a>
     </div>
     <div>
+      <a class="xref" href="Disqord.CachedSnowflakeEntity.html#Disqord_CachedSnowflakeEntity_CreatedAt">CachedSnowflakeEntity.CreatedAt</a>
+    </div>
+    <div>
       <a class="xref" href="Disqord.CachedDiscordEntity.html#Disqord_CachedDiscordEntity_Client">CachedDiscordEntity.Client</a>
     </div>
     <div>
@@ -2101,18 +2104,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuild_GetAuditLogsEnumerable_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__.md&amp;value=---%0Auid%3A%20Disqord.CachedGuild.GetAuditLogsEnumerable(System.Int32%2CSystem.Nullable%7BSnowflake%7D%2CSystem.Nullable%7BSnowflake%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuild_GetAuditLogsEnumerable_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.CachedGuild.GetAuditLogsEnumerable(System.Int32%2CSystem.Nullable%7BSnowflake%7D%2CSystem.Nullable%7BSnowflake%7D%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Guild/CachedGuild.Client.cs/#L20">View Source</a>
   </span>
   <a id="Disqord_CachedGuild_GetAuditLogsEnumerable_" data-uid="Disqord.CachedGuild.GetAuditLogsEnumerable*"></a>
-  <h4 id="Disqord_CachedGuild_GetAuditLogsEnumerable_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__" data-uid="Disqord.CachedGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake})">GetAuditLogsEnumerable(Int32, Nullable&lt;Snowflake&gt;, Nullable&lt;Snowflake&gt;)</h4>
+  <h4 id="Disqord_CachedGuild_GetAuditLogsEnumerable_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_" data-uid="Disqord.CachedGuild.GetAuditLogsEnumerable(System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)">GetAuditLogsEnumerable(Int32, Nullable&lt;Snowflake&gt;, Nullable&lt;Snowflake&gt;, RestRequestOptions)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RestRequestEnumerable&lt;RestAuditLog&gt; GetAuditLogsEnumerable(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public RestRequestEnumerable&lt;RestAuditLog&gt; GetAuditLogsEnumerable(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -2139,6 +2142,11 @@
         <td><span class="parametername">startFromId</span></td>
         <td></td>
       </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -2158,18 +2166,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuild_GetAuditLogsEnumerable__1_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__.md&amp;value=---%0Auid%3A%20Disqord.CachedGuild.GetAuditLogsEnumerable%60%601(System.Int32%2CSystem.Nullable%7BSnowflake%7D%2CSystem.Nullable%7BSnowflake%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuild_GetAuditLogsEnumerable__1_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.CachedGuild.GetAuditLogsEnumerable%60%601(System.Int32%2CSystem.Nullable%7BSnowflake%7D%2CSystem.Nullable%7BSnowflake%7D%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Guild/CachedGuild.Client.cs/#L23">View Source</a>
   </span>
   <a id="Disqord_CachedGuild_GetAuditLogsEnumerable_" data-uid="Disqord.CachedGuild.GetAuditLogsEnumerable*"></a>
-  <h4 id="Disqord_CachedGuild_GetAuditLogsEnumerable__1_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__" data-uid="Disqord.CachedGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake})">GetAuditLogsEnumerable&lt;T&gt;(Int32, Nullable&lt;Snowflake&gt;, Nullable&lt;Snowflake&gt;)</h4>
+  <h4 id="Disqord_CachedGuild_GetAuditLogsEnumerable__1_System_Int32_System_Nullable_Snowflake__System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_" data-uid="Disqord.CachedGuild.GetAuditLogsEnumerable``1(System.Int32,System.Nullable{Snowflake},System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)">GetAuditLogsEnumerable&lt;T&gt;(Int32, Nullable&lt;Snowflake&gt;, Nullable&lt;Snowflake&gt;, RestRequestOptions)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RestRequestEnumerable&lt;T&gt; GetAuditLogsEnumerable&lt;T&gt;(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null)
+    <pre><code class="lang-csharp hljs">public RestRequestEnumerable&lt;T&gt; GetAuditLogsEnumerable&lt;T&gt;(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null)
     where T : RestAuditLog</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
@@ -2195,6 +2203,11 @@
       <tr>
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<span class="xref">Snowflake</span>&gt;</td>
         <td><span class="parametername">startFromId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -2919,18 +2932,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuild_GetMembersEnumerable_System_Int32_System_Nullable_Snowflake__.md&amp;value=---%0Auid%3A%20Disqord.CachedGuild.GetMembersEnumerable(System.Int32%2CSystem.Nullable%7BSnowflake%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_CachedGuild_GetMembersEnumerable_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.CachedGuild.GetMembersEnumerable(System.Int32%2CSystem.Nullable%7BSnowflake%7D%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Entities/Gateway/Guild/CachedGuild.Client.cs/#L56">View Source</a>
   </span>
   <a id="Disqord_CachedGuild_GetMembersEnumerable_" data-uid="Disqord.CachedGuild.GetMembersEnumerable*"></a>
-  <h4 id="Disqord_CachedGuild_GetMembersEnumerable_System_Int32_System_Nullable_Snowflake__" data-uid="Disqord.CachedGuild.GetMembersEnumerable(System.Int32,System.Nullable{Snowflake})">GetMembersEnumerable(Int32, Nullable&lt;Snowflake&gt;)</h4>
+  <h4 id="Disqord_CachedGuild_GetMembersEnumerable_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_" data-uid="Disqord.CachedGuild.GetMembersEnumerable(System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)">GetMembersEnumerable(Int32, Nullable&lt;Snowflake&gt;, RestRequestOptions)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RestRequestEnumerable&lt;RestMember&gt; GetMembersEnumerable(int limit, Snowflake? startFromId = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public RestRequestEnumerable&lt;RestMember&gt; GetMembersEnumerable(int limit, Snowflake? startFromId = null, RestRequestOptions options = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -2950,6 +2963,11 @@
       <tr>
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<span class="xref">Snowflake</span>&gt;</td>
         <td><span class="parametername">startFromId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
         <td></td>
       </tr>
     </tbody>

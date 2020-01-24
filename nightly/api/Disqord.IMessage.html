@@ -81,6 +81,9 @@
       <a class="xref" href="Disqord.ISnowflakeEntity.html#Disqord_ISnowflakeEntity_Id">ISnowflakeEntity.Id</a>
     </div>
     <div>
+      <a class="xref" href="Disqord.ISnowflakeEntity.html#Disqord_ISnowflakeEntity_CreatedAt">ISnowflakeEntity.CreatedAt</a>
+    </div>
+    <div>
       <a class="xref" href="Disqord.IDeletable.html#Disqord_IDeletable_DeleteAsync_Disqord_Rest_RestRequestOptions_">IDeletable.DeleteAsync(RestRequestOptions)</a>
     </div>
     <div>
@@ -420,18 +423,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_IMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__.md&amp;value=---%0Auid%3A%20Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji%2CSystem.Int32%2CDisqord.RetrievalDirection%2CSystem.Nullable%7BDisqord.Snowflake%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_IMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji%2CSystem.Int32%2CDisqord.RetrievalDirection%2CSystem.Nullable%7BDisqord.Snowflake%7D%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Entities/Core/Messages/IMessage.Client.cs/#L15">View Source</a>
   </span>
   <a id="Disqord_IMessage_GetReactionsEnumerable_" data-uid="Disqord.IMessage.GetReactionsEnumerable*"></a>
-  <h4 id="Disqord_IMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__" data-uid="Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake})">GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable&lt;Snowflake&gt;)</h4>
+  <h4 id="Disqord_IMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_" data-uid="Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)">GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable&lt;Snowflake&gt;, RestRequestOptions)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">RestRequestEnumerable&lt;RestUser&gt; GetReactionsEnumerable(IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null)</code></pre>
+    <pre><code class="lang-csharp hljs">RestRequestEnumerable&lt;RestUser&gt; GetReactionsEnumerable(IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -461,6 +464,11 @@
       <tr>
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<a class="xref" href="Disqord.Snowflake.html">Snowflake</a>&gt;</td>
         <td><span class="parametername">startFromId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
+        <td><span class="parametername">options</span></td>
         <td></td>
       </tr>
     </tbody>

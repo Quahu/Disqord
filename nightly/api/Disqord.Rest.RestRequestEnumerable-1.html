@@ -86,7 +86,7 @@ Does not support multiple enumerations.</p>
   <h6><strong>Assembly</strong>: Disqord.Rest.dll</h6>
   <h5 id="Disqord_Rest_RestRequestEnumerable_1_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public sealed class RestRequestEnumerable&lt;T&gt; : IAsyncEnumerable&lt;IReadOnlyList&lt;T&gt;&gt;</code></pre>
+    <pre><code class="lang-csharp hljs">public sealed class RestRequestEnumerable&lt;T&gt; : IAsyncEnumerable&lt;IReadOnlyList&lt;T&gt;&gt; where T : class</code></pre>
   </div>
   <h5 class="typeParameters">Type Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -108,124 +108,18 @@ Does not support multiple enumerations.</p>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestRequestEnumerable_1_FlattenAsync_CancellationToken_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestRequestEnumerable%601.FlattenAsync(CancellationToken%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestRequestEnumerable_1_FirstOrDefaultAsync_Predicate__0__.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestRequestEnumerable%601.FirstOrDefaultAsync(Predicate%7B%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Requests/Pagination/RestRequestEnumerable.cs/#L44">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Requests/Pagination/RestRequestEnumerable.cs/#L39">View Source</a>
   </span>
-  <a id="Disqord_Rest_RestRequestEnumerable_1_FlattenAsync_" data-uid="Disqord.Rest.RestRequestEnumerable`1.FlattenAsync*"></a>
-  <h4 id="Disqord_Rest_RestRequestEnumerable_1_FlattenAsync_CancellationToken_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestRequestEnumerable`1.FlattenAsync(CancellationToken,Disqord.Rest.RestRequestOptions)">FlattenAsync(CancellationToken, RestRequestOptions)</h4>
-  <div class="markdown level1 summary"><p>Flattens this <a class="xref" href="Disqord.Rest.RestRequestEnumerable-1.html">RestRequestEnumerable&lt;T&gt;</a> into a single read-only list.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;IReadOnlyList&lt;T&gt;&gt; FlattenAsync(CancellationToken cancellationToken, RestRequestOptions options = null)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">CancellationToken</span></td>
-        <td><span class="parametername">cancellationToken</span></td>
-        <td><p>The <see cref="!:CancellationToken"></see> to use for requests. </p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
-        <td><span class="parametername">options</span></td>
-        <td><p>The <a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a> to use for requests. </p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Task</span>&lt;<span class="xref">IReadOnlyList</span>&lt;T&gt;&gt;</td>
-        <td><p>A flattened list of <code data-dev-comment-type="typeparamref" class="typeparamref">T</code>s.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestRequestEnumerable_1_FlattenAsync_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestRequestEnumerable%601.FlattenAsync(Disqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Requests/Pagination/RestRequestEnumerable.cs/#L33">View Source</a>
-  </span>
-  <a id="Disqord_Rest_RestRequestEnumerable_1_FlattenAsync_" data-uid="Disqord.Rest.RestRequestEnumerable`1.FlattenAsync*"></a>
-  <h4 id="Disqord_Rest_RestRequestEnumerable_1_FlattenAsync_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestRequestEnumerable`1.FlattenAsync(Disqord.Rest.RestRequestOptions)">FlattenAsync(RestRequestOptions)</h4>
-  <div class="markdown level1 summary"><p>Flattens this <a class="xref" href="Disqord.Rest.RestRequestEnumerable-1.html">RestRequestEnumerable&lt;T&gt;</a> into a single read-only list.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;IReadOnlyList&lt;T&gt;&gt; FlattenAsync(RestRequestOptions options = null)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
-        <td><span class="parametername">options</span></td>
-        <td><p>The <a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a> to use for requests. </p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Task</span>&lt;<span class="xref">IReadOnlyList</span>&lt;T&gt;&gt;</td>
-        <td><p>A flattened list of <code data-dev-comment-type="typeparamref" class="typeparamref">T</code>s.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestRequestEnumerable_1_GetAsyncEnumerator_CancellationToken_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestRequestEnumerable%601.GetAsyncEnumerator(CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Requests/Pagination/RestRequestEnumerable.cs/#L53">View Source</a>
-  </span>
-  <a id="Disqord_Rest_RestRequestEnumerable_1_GetAsyncEnumerator_" data-uid="Disqord.Rest.RestRequestEnumerable`1.GetAsyncEnumerator*"></a>
-  <h4 id="Disqord_Rest_RestRequestEnumerable_1_GetAsyncEnumerator_CancellationToken_" data-uid="Disqord.Rest.RestRequestEnumerable`1.GetAsyncEnumerator(CancellationToken)">GetAsyncEnumerator(CancellationToken)</h4>
+  <a id="Disqord_Rest_RestRequestEnumerable_1_FirstOrDefaultAsync_" data-uid="Disqord.Rest.RestRequestEnumerable`1.FirstOrDefaultAsync*"></a>
+  <h4 id="Disqord_Rest_RestRequestEnumerable_1_FirstOrDefaultAsync_Predicate__0__" data-uid="Disqord.Rest.RestRequestEnumerable`1.FirstOrDefaultAsync(Predicate{`0})">FirstOrDefaultAsync(Predicate&lt;T&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RestRequestEnumerator&lt;T&gt; GetAsyncEnumerator(CancellationToken cancellationToken = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;T&gt; FirstOrDefaultAsync(Predicate&lt;T&gt; predicate)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -238,12 +132,121 @@ Does not support multiple enumerations.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
-        <td><span class="parametername">cancellationToken</span></td>
+        <td><span class="xref">Predicate</span>&lt;T&gt;</td>
+        <td><span class="parametername">predicate</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestRequestEnumerable_1_FirstOrDefaultPageAsync_Predicate_IReadOnlyList__0___.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestRequestEnumerable%601.FirstOrDefaultPageAsync(Predicate%7BIReadOnlyList%7B%600%7D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Requests/Pagination/RestRequestEnumerable.cs/#L54">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestRequestEnumerable_1_FirstOrDefaultPageAsync_" data-uid="Disqord.Rest.RestRequestEnumerable`1.FirstOrDefaultPageAsync*"></a>
+  <h4 id="Disqord_Rest_RestRequestEnumerable_1_FirstOrDefaultPageAsync_Predicate_IReadOnlyList__0___" data-uid="Disqord.Rest.RestRequestEnumerable`1.FirstOrDefaultPageAsync(Predicate{IReadOnlyList{`0}})">FirstOrDefaultPageAsync(Predicate&lt;IReadOnlyList&lt;T&gt;&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;IReadOnlyList&lt;T&gt;&gt; FirstOrDefaultPageAsync(Predicate&lt;IReadOnlyList&lt;T&gt;&gt; predicate)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Predicate</span>&lt;<span class="xref">IReadOnlyList</span>&lt;T&gt;&gt;</td>
+        <td><span class="parametername">predicate</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span>&lt;<span class="xref">IReadOnlyList</span>&lt;T&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestRequestEnumerable_1_FlattenAsync.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestRequestEnumerable%601.FlattenAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Requests/Pagination/RestRequestEnumerable.cs/#L30">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestRequestEnumerable_1_FlattenAsync_" data-uid="Disqord.Rest.RestRequestEnumerable`1.FlattenAsync*"></a>
+  <h4 id="Disqord_Rest_RestRequestEnumerable_1_FlattenAsync" data-uid="Disqord.Rest.RestRequestEnumerable`1.FlattenAsync">FlattenAsync()</h4>
+  <div class="markdown level1 summary"><p>Flattens this <a class="xref" href="Disqord.Rest.RestRequestEnumerable-1.html">RestRequestEnumerable&lt;T&gt;</a> into a single read-only list.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;IReadOnlyList&lt;T&gt;&gt; FlattenAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span>&lt;<span class="xref">IReadOnlyList</span>&lt;T&gt;&gt;</td>
+        <td><p>A flattened list of <code data-dev-comment-type="typeparamref" class="typeparamref">T</code>s.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestRequestEnumerable_1_GetAsyncEnumerator.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestRequestEnumerable%601.GetAsyncEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Requests/Pagination/RestRequestEnumerable.cs/#L65">View Source</a>
+  </span>
+  <a id="Disqord_Rest_RestRequestEnumerable_1_GetAsyncEnumerator_" data-uid="Disqord.Rest.RestRequestEnumerable`1.GetAsyncEnumerator*"></a>
+  <h4 id="Disqord_Rest_RestRequestEnumerable_1_GetAsyncEnumerator" data-uid="Disqord.Rest.RestRequestEnumerable`1.GetAsyncEnumerator">GetAsyncEnumerator()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RestRequestEnumerator&lt;T&gt; GetAsyncEnumerator()</code></pre>
+  </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -255,53 +258,6 @@ Does not support multiple enumerations.</p>
     <tbody>
       <tr>
         <td><a class="xref" href="Disqord.Rest.RestRequestEnumerator-1.html">RestRequestEnumerator</a>&lt;T&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestRequestEnumerable_1_WithOptions_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestRequestEnumerable%601.WithOptions(Disqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Requests/Pagination/RestRequestEnumerable.cs/#L23">View Source</a>
-  </span>
-  <a id="Disqord_Rest_RestRequestEnumerable_1_WithOptions_" data-uid="Disqord.Rest.RestRequestEnumerable`1.WithOptions*"></a>
-  <h4 id="Disqord_Rest_RestRequestEnumerable_1_WithOptions_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestRequestEnumerable`1.WithOptions(Disqord.Rest.RestRequestOptions)">WithOptions(RestRequestOptions)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RestRequestEnumerable&lt;T&gt;.ConfiguredRestRequestEnumerable WithOptions(RestRequestOptions options)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Disqord.Rest.RestRequestOptions.html">RestRequestOptions</a></td>
-        <td><span class="parametername">options</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Disqord.Rest.RestRequestEnumerable-1.ConfiguredRestRequestEnumerable.html">RestRequestEnumerable.ConfiguredRestRequestEnumerable</a>&lt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
