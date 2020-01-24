@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Qommon.Collections;
 
 namespace Disqord.Rest
 {
@@ -13,7 +13,9 @@ namespace Disqord.Rest
         private int _offset;
 
         public RestBulkDeleteMessagesRequestEnumerator(RestDiscordClient client,
-            Snowflake channelId, Snowflake[] messageIds) : base(client, 100, messageIds.Length)
+            Snowflake channelId, Snowflake[] messageIds,
+            RestRequestOptions options)
+            : base(client, 100, messageIds.Length, options)
         {
             _channelId = channelId;
             _messageIds = messageIds;
@@ -22,7 +24,7 @@ namespace Disqord.Rest
         }
 
         protected override async Task<IReadOnlyList<Snowflake>> NextPageAsync(
-            IReadOnlyList<Snowflake> previous, RestRequestOptions options = null)
+            IReadOnlyList<Snowflake> previous, RestRequestOptions options)
         {
             var amount = Remaining > 100
                 ? 100
@@ -31,11 +33,11 @@ namespace Disqord.Rest
             _offset += amount;
 
             if (amount == 1)
-                await Client.DeleteMessageAsync(_channelId, segment[0], options).ConfigureAwait(false);
+                await Client.ApiClient.DeleteMessageAsync(_channelId, segment[0], options).ConfigureAwait(false);
             else
-                await Client.DeleteMessagesAsync(_channelId, segment, options).ConfigureAwait(false);
+                await Client.ApiClient.BulkDeleteMessagesAsync(_channelId, segment.Select(x => x.RawValue), options).ConfigureAwait(false);
 
-            return new ReadOnlyList<Snowflake>(segment);
+            return segment;
         }
     }
 }

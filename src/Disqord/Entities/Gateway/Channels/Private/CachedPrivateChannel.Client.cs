@@ -28,8 +28,8 @@ namespace Disqord
         public Task<RestUserMessage> SendMessageAsync(IEnumerable<LocalAttachment> attachments, string content = null, bool isTTS = false, LocalEmbed embed = null, RestRequestOptions options = null)
             => Client.SendMessageAsync(Id, attachments, content, isTTS, embed, options);
 
-        public RestRequestEnumerable<RestMessage> GetMessagesEnumerable(int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null)
-            => Client.GetMessagesEnumerable(Id, limit, direction, startFromId);
+        public RestRequestEnumerable<RestMessage> GetMessagesEnumerable(int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
+            => Client.GetMessagesEnumerable(Id, limit, direction, startFromId, options);
 
         public Task<IReadOnlyList<RestMessage>> GetMessagesAsync(int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
             => Client.GetMessagesAsync(Id, limit, direction, startFromId, options);
@@ -43,8 +43,8 @@ namespace Disqord
         public Task RemoveOwnReactionAsync(Snowflake messageId, IEmoji emoji, RestRequestOptions options = null)
             => Client.RemoveOwnReactionAsync(Id, messageId, emoji, options);
 
-        public RestRequestEnumerable<RestUser> GetReactionsEnumerable(Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null)
-            => Client.GetReactionsEnumerable(Id, messageId, emoji, limit, direction, startFromId);
+        public RestRequestEnumerable<RestUser> GetReactionsEnumerable(Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
+            => Client.GetReactionsEnumerable(Id, messageId, emoji, limit, direction, startFromId, options);
 
         public Task<IReadOnlyList<RestUser>> GetReactionsAsync(Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
             => Client.GetReactionsAsync(Id, messageId, emoji, limit, direction, startFromId, options);

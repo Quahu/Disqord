@@ -9,11 +9,11 @@ namespace Disqord.Rest
 {
     public partial class RestDiscordClient : IRestDiscordClient
     {
-        public RestRequestEnumerable<RestAuditLog> GetAuditLogsEnumerable(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null)
-            => GetAuditLogsEnumerable<RestAuditLog>(guildId, limit, userId, startFromId);
+        public RestRequestEnumerable<RestAuditLog> GetAuditLogsEnumerable(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null)
+            => GetAuditLogsEnumerable<RestAuditLog>(guildId, limit, userId, startFromId, options);
 
-        public RestRequestEnumerable<T> GetAuditLogsEnumerable<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null) where T : RestAuditLog
-            => new RestRequestEnumerable<T>(new RestAuditLogsRequestEnumerator<T>(this, guildId, limit, userId, startFromId));
+        public RestRequestEnumerable<T> GetAuditLogsEnumerable<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog
+            => new RestRequestEnumerable<T>(new RestAuditLogsRequestEnumerator<T>(this, guildId, limit, userId, startFromId, options));
 
         public Task<IReadOnlyList<RestAuditLog>> GetAuditLogsAsync(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null)
             => GetAuditLogsAsync<RestAuditLog>(guildId, limit, userId, startFromId, options);
@@ -26,8 +26,8 @@ namespace Disqord.Rest
             if (limit <= 100)
                 return InternalGetAuditLogsAsync<T>(guildId, limit, userId, startFromId, options);
 
-            var enumerable = GetAuditLogsEnumerable<T>(guildId, limit, userId, startFromId);
-            return enumerable.FlattenAsync(options);
+            var enumerable = GetAuditLogsEnumerable<T>(guildId, limit, userId, startFromId, options);
+            return enumerable.FlattenAsync();
         }
 
         internal async Task<IReadOnlyList<T>> InternalGetAuditLogsAsync<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog

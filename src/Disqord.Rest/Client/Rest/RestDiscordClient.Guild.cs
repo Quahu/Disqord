@@ -107,8 +107,8 @@ namespace Disqord.Rest
             }
         }
 
-        public RestRequestEnumerable<RestMember> GetMembersEnumerable(Snowflake guildId, int limit, Snowflake? startFromId = null)
-            => new RestRequestEnumerable<RestMember>(new RestMembersRequestEnumerator(this, guildId, limit, startFromId));
+        public RestRequestEnumerable<RestMember> GetMembersEnumerable(Snowflake guildId, int limit, Snowflake? startFromId = null, RestRequestOptions options = null)
+            => new RestRequestEnumerable<RestMember>(new RestMembersRequestEnumerator(this, guildId, limit, startFromId, options));
 
         public Task<IReadOnlyList<RestMember>> GetMembersAsync(Snowflake guildId, int limit = 1000, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
@@ -118,8 +118,8 @@ namespace Disqord.Rest
             if (limit <= 1000)
                 return InternalGetMembersAsync(guildId, limit, startFromId, options);
 
-            var enumerator = GetMembersEnumerable(guildId, limit, startFromId);
-            return enumerator.FlattenAsync(options);
+            var enumerator = GetMembersEnumerable(guildId, limit, startFromId, options);
+            return enumerator.FlattenAsync();
         }
 
         internal async Task<IReadOnlyList<RestMember>> InternalGetMembersAsync(Snowflake guildId, int limit, Snowflake? startFromId, RestRequestOptions options)

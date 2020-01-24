@@ -14,7 +14,7 @@ namespace Disqord
 
         Task<IReadOnlyList<RestWebhook>> GetWebhooksAsync(RestRequestOptions options = null);
 
-        RestRequestEnumerator<Snowflake> GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake> messageIds);
+        RestRequestEnumerator<Snowflake> GetBulkMessageDeletionEnumerator(IEnumerable<Snowflake> messageIds, RestRequestOptions options = null);
 
         Task DeleteMessagesAsync(IEnumerable<Snowflake> messageIds, RestRequestOptions options = null);
 

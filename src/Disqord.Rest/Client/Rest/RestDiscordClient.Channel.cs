@@ -76,8 +76,8 @@ namespace Disqord.Rest
         public Task DeleteOrCloseChannelAsync(Snowflake channelId, RestRequestOptions options = null)
             => ApiClient.DeleteOrCloseChannelAsync(channelId, options);
 
-        public RestRequestEnumerable<RestMessage> GetMessagesEnumerable(Snowflake channelId, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null)
-            => new RestRequestEnumerable<RestMessage>(new RestMessagesRequestEnumerator(this, channelId, limit, direction, startFromId));
+        public RestRequestEnumerable<RestMessage> GetMessagesEnumerable(Snowflake channelId, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
+            => new RestRequestEnumerable<RestMessage>(new RestMessagesRequestEnumerator(this, channelId, limit, direction, startFromId, options));
 
         public Task<IReadOnlyList<RestMessage>> GetMessagesAsync(Snowflake channelId, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
@@ -87,7 +87,7 @@ namespace Disqord.Rest
             if (limit <= 100)
                 return InternalGetMessagesAsync(channelId, limit, direction, startFromId, options);
 
-            var enumerable = GetMessagesEnumerable(channelId, limit, direction, startFromId);
+            var enumerable = GetMessagesEnumerable(channelId, limit, direction, startFromId, options);
             return enumerable.FlattenAsync();
         }
 
@@ -163,12 +163,12 @@ namespace Disqord.Rest
                 await ApiClient.DeleteUserReactionAsync(channelId, messageId, memberId, emoji.ReactionFormat, options).ConfigureAwait(false);
         }
 
-        public RestRequestEnumerable<RestUser> GetReactionsEnumerable(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null)
+        public RestRequestEnumerable<RestUser> GetReactionsEnumerable(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            return new RestRequestEnumerable<RestUser>(new RestReactionsRequestEnumerator(this, channelId, messageId, emoji, limit, direction, startFromId));
+            return new RestRequestEnumerable<RestUser>(new RestReactionsRequestEnumerator(this, channelId, messageId, emoji, limit, direction, startFromId, options));
         }
 
         public Task<IReadOnlyList<RestUser>> GetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
@@ -180,10 +180,10 @@ namespace Disqord.Rest
                 return Task.FromResult<IReadOnlyList<RestUser>>(ImmutableArray<RestUser>.Empty);
 
             if (limit <= 100)
-                return InternalGetReactionsAsync(channelId, messageId, emoji, limit, direction, startFromId);
+                return InternalGetReactionsAsync(channelId, messageId, emoji, limit, direction, startFromId, options);
 
-            var enumerable = GetReactionsEnumerable(channelId, messageId, emoji, limit, direction, startFromId);
-            return enumerable.FlattenAsync(options);
+            var enumerable = GetReactionsEnumerable(channelId, messageId, emoji, limit, direction, startFromId, options);
+            return enumerable.FlattenAsync();
         }
 
         internal async Task<IReadOnlyList<RestUser>> InternalGetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
@@ -216,13 +216,13 @@ namespace Disqord.Rest
         public Task DeleteMessageAsync(Snowflake channelId, Snowflake messageId, RestRequestOptions options = null)
             => ApiClient.DeleteMessageAsync(channelId, messageId, options);
 
-        public RestRequestEnumerator<Snowflake> GetBulkMessageDeletionEnumerator(Snowflake channelId, IEnumerable<Snowflake> messageIds)
+        public RestRequestEnumerator<Snowflake> GetBulkMessageDeletionEnumerator(Snowflake channelId, IEnumerable<Snowflake> messageIds, RestRequestOptions options)
         {
             if (messageIds == null)
                 throw new ArgumentNullException(nameof(messageIds));
 
             var messages = messageIds.ToArray();
-            return InternalGetBulkMessageDeletionEnumerator(channelId, messages);
+            return InternalGetBulkMessageDeletionEnumerator(channelId, messages, options);
         }
 
         public async Task DeleteMessagesAsync(Snowflake channelId, IEnumerable<Snowflake> messageIds, RestRequestOptions options = null)
@@ -246,17 +246,17 @@ namespace Disqord.Rest
                 return;
             }
 
-            var enumerator = InternalGetBulkMessageDeletionEnumerator(channelId, messages);
+            var enumerator = InternalGetBulkMessageDeletionEnumerator(channelId, messages, options);
             await using (enumerator.ConfigureAwait(false))
             {
                 // Exhaust the enumerator.
-                while (await enumerator.MoveNextAsync(options).ConfigureAwait(false))
+                while (await enumerator.MoveNextAsync().ConfigureAwait(false))
                 { }
             }
         }
 
-        internal RestRequestEnumerator<Snowflake> InternalGetBulkMessageDeletionEnumerator(Snowflake channelId, Snowflake[] messageIds)
-            => new RestBulkDeleteMessagesRequestEnumerator(this, channelId, messageIds);
+        internal RestRequestEnumerator<Snowflake> InternalGetBulkMessageDeletionEnumerator(Snowflake channelId, Snowflake[] messageIds, RestRequestOptions options)
+            => new RestBulkDeleteMessagesRequestEnumerator(this, channelId, messageIds, options);
 
         public Task AddOrModifyOverwriteAsync(Snowflake channelId, LocalOverwrite overwrite, RestRequestOptions options = null)
             => ApiClient.EditChannelPermissionsAsync(channelId, overwrite, options);

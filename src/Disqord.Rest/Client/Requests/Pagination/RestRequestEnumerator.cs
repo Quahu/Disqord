@@ -8,22 +8,25 @@ namespace Disqord.Rest
     {
         public IReadOnlyList<T> Current { get; private set; }
 
-        protected readonly RestDiscordClient Client;
+        public int PageSize { get; }
 
-        private readonly int _pageSize;
+        protected readonly RestDiscordClient Client;
 
         protected int Remaining { get; private set; }
 
+        private RestRequestOptions _options;
+
         private bool _isDisposed;
 
-        internal RestRequestEnumerator(RestDiscordClient client, int pageSize, int remaining)
+        internal RestRequestEnumerator(RestDiscordClient client, int pageSize, int remaining, RestRequestOptions options)
         {
             Client = client;
-            _pageSize = pageSize;
+            PageSize = pageSize;
             Remaining = remaining;
+            _options = options;
         }
 
-        protected abstract Task<IReadOnlyList<T>> NextPageAsync(IReadOnlyList<T> previous, RestRequestOptions options = null);
+        protected abstract Task<IReadOnlyList<T>> NextPageAsync(IReadOnlyList<T> previous, RestRequestOptions options);
 
         public async ValueTask<bool> MoveNextAsync(RestRequestOptions options = null)
         {
@@ -36,7 +39,7 @@ namespace Disqord.Rest
                 return false;
             }
 
-            Current = await NextPageAsync(Current, options).ConfigureAwait(false);
+            Current = await NextPageAsync(Current, options ?? _options).ConfigureAwait(false);
             if (Current.Count == 0)
             {
                 Remaining = 0;
@@ -44,7 +47,7 @@ namespace Disqord.Rest
                 return false;
             }
 
-            if (Current.Count != _pageSize)
+            if (Current.Count != PageSize)
             {
                 Remaining = 0;
             }

@@ -10,14 +10,16 @@ namespace Disqord.Rest
         private readonly Snowflake? _startFromId;
 
         public RestMembersRequestEnumerator(RestDiscordClient client,
-            Snowflake guildId, int limit, Snowflake? startFromId) : base(client, 1000, limit)
+            Snowflake guildId, int limit, Snowflake? startFromId,
+            RestRequestOptions options) 
+            : base(client, 1000, limit, options)
         {
             _guildId = guildId;
             _startFromId = startFromId;
         }
 
         protected override Task<IReadOnlyList<RestMember>> NextPageAsync(
-            IReadOnlyList<RestMember> previous, RestRequestOptions options = null)
+            IReadOnlyList<RestMember> previous, RestRequestOptions options)
         {
             var amount = Remaining > 100
                 ? 100

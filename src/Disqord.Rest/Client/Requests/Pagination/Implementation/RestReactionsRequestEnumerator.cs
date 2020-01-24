@@ -13,7 +13,9 @@ namespace Disqord.Rest
         private readonly Snowflake? _startFromId;
 
         public RestReactionsRequestEnumerator(RestDiscordClient client,
-            Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction, Snowflake? startFromId) : base(client, 100, limit)
+            Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction, Snowflake? startFromId,
+            RestRequestOptions options)
+            : base(client, 100, limit, options)
         {
             _channelId = channelId;
             _messageId = messageId;
@@ -23,7 +25,7 @@ namespace Disqord.Rest
         }
 
         protected override Task<IReadOnlyList<RestUser>> NextPageAsync(
-            IReadOnlyList<RestUser> previous, RestRequestOptions options = null)
+            IReadOnlyList<RestUser> previous, RestRequestOptions options)
         {
             var amount = Remaining > 100
                 ? 100

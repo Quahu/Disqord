@@ -9,14 +9,17 @@ namespace Disqord.Rest
         private readonly RetrievalDirection _direction;
         private readonly Snowflake? _startFromId;
 
-        public RestGuildsRequestEnumerator(RestDiscordClient client, int limit, RetrievalDirection direction, Snowflake? startFromId) : base(client, 100, limit)
+        public RestGuildsRequestEnumerator(RestDiscordClient client,
+            int limit, RetrievalDirection direction, Snowflake? startFromId,
+            RestRequestOptions options) 
+            : base(client, 100, limit, options)
         {
             _direction = direction;
             _startFromId = startFromId;
         }
 
         protected override Task<IReadOnlyList<RestPartialGuild>> NextPageAsync(
-            IReadOnlyList<RestPartialGuild> previous, RestRequestOptions options = null)
+            IReadOnlyList<RestPartialGuild> previous, RestRequestOptions options)
         {
             var amount = Remaining > 100
                 ? 100

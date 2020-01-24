@@ -17,11 +17,11 @@ namespace Disqord
         public Task<IReadOnlyList<RestWebhook>> GetWebhooksAsync(RestRequestOptions options = null)
             => Client.GetGuildWebhooksAsync(Id, options);
 
-        public RestRequestEnumerable<RestAuditLog> GetAuditLogsEnumerable(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null)
-            => Client.GetAuditLogsEnumerable(Id, limit, userId, startFromId);
+        public RestRequestEnumerable<RestAuditLog> GetAuditLogsEnumerable(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null)
+            => Client.GetAuditLogsEnumerable(Id, limit, userId, startFromId, options);
 
-        public RestRequestEnumerable<T> GetAuditLogsEnumerable<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null) where T : RestAuditLog
-            => Client.GetAuditLogsEnumerable<T>(Id, limit, userId, startFromId);
+        public RestRequestEnumerable<T> GetAuditLogsEnumerable<T>(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog
+            => Client.GetAuditLogsEnumerable<T>(Id, limit, userId, startFromId, options);
 
         public Task<IReadOnlyList<RestAuditLog>> GetAuditLogsAsync(int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null)
             => Client.GetAuditLogsAsync(Id, limit, userId, startFromId, options);
@@ -53,8 +53,8 @@ namespace Disqord
         public Task<RestMember> GetMemberAsync(Snowflake memberId, RestRequestOptions options = null)
             => Client.GetMemberAsync(Id, memberId, options);
 
-        public RestRequestEnumerable<RestMember> GetMembersEnumerable(int limit, Snowflake? startFromId = null)
-            => Client.GetMembersEnumerable(Id, limit, startFromId);
+        public RestRequestEnumerable<RestMember> GetMembersEnumerable(int limit, Snowflake? startFromId = null, RestRequestOptions options = null)
+            => Client.GetMembersEnumerable(Id, limit, startFromId, options);
 
         public Task<IReadOnlyList<RestMember>> GetMembersAsync(int limit = 1000, Snowflake? startFromId = null, RestRequestOptions options = null)
             => Client.GetMembersAsync(Id, limit, startFromId, options);
