@@ -216,26 +216,14 @@ namespace Disqord.Collections
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-            => (ToArray() as IReadOnlyList<KeyValuePair<TKey, TValue>>).GetEnumerator();
+            => LockedEnumerator.Create(_dictionary.GetEnumerator(), _lock);
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
 
-        void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
-        {
-            lock (_lock)
-            {
-                (_dictionary as ICollection<KeyValuePair<TKey, TValue>>).Add(item);
-            }
-        }
-
+        // Unused internally.
         bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
-        {
-            lock (_lock)
-            {
-                return (_dictionary as ICollection<KeyValuePair<TKey, TValue>>).Contains(item);
-            }
-        }
+            => ContainsKey(item.Key);
 
         void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
@@ -245,12 +233,11 @@ namespace Disqord.Collections
             }
         }
 
+        // Unused both internally and externally.
+        void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
+            => throw new NotSupportedException();
+
         bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
-        {
-            lock (_lock)
-            {
-                return (_dictionary as ICollection<KeyValuePair<TKey, TValue>>).Remove(item);
-            }
-        }
+            => throw new NotSupportedException();
     }
 }
