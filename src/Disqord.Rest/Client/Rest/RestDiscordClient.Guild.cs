@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord.Rest
@@ -55,7 +55,7 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestGuildChannel>> GetChannelsAsync(Snowflake guildId, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetGuildChannelsAsync(guildId, options).ConfigureAwait(false);
-            return models.Select(x => RestGuildChannel.Create(this, x)).ToImmutableArray();
+            return models.ToReadOnlyList(this, (x, @this) => RestGuildChannel.Create(@this, x));
         }
 
         public async Task<RestTextChannel> CreateTextChannelAsync(Snowflake guildId, string name, Action<CreateTextChannelProperties> action = null, RestRequestOptions options = null)
@@ -113,7 +113,7 @@ namespace Disqord.Rest
         public Task<IReadOnlyList<RestMember>> GetMembersAsync(Snowflake guildId, int limit = 1000, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
             if (limit == 0)
-                return Task.FromResult<IReadOnlyList<RestMember>>(ImmutableArray<RestMember>.Empty);
+                return Task.FromResult(ReadOnlyList<RestMember>.Empty);
 
             if (limit <= 1000)
                 return InternalGetMembersAsync(guildId, limit, startFromId, options);
@@ -125,7 +125,11 @@ namespace Disqord.Rest
         internal async Task<IReadOnlyList<RestMember>> InternalGetMembersAsync(Snowflake guildId, int limit, Snowflake? startFromId, RestRequestOptions options)
         {
             var models = await ApiClient.ListGuildMembersAsync(guildId, limit, startFromId ?? 0, options).ConfigureAwait(false);
-            return models.Select(x => new RestMember(this, guildId, x)).ToImmutableArray();
+            return models.ToReadOnlyList((this, guildId), (x, tuple) =>
+            {
+                var (@this, guildId) = tuple;
+                return new RestMember(@this, guildId, x);
+            });
         }
 
         public Task ModifyOwnNickAsync(Snowflake guildId, string nick, RestRequestOptions options = null)
@@ -141,7 +145,7 @@ namespace Disqord.Rest
 
             if (properties.Nick.HasValue)
             {
-                var currentUser = await CurrentUser.GetOrDownloadAsync(options).ConfigureAwait(false);
+                var currentUser = await CurrentUser.GetAsync(options).ConfigureAwait(false);
                 if (currentUser.Id == memberId)
                 {
                     await ApiClient.ModifyCurrentUserNickAsync(guildId, properties.Nick.Value, options).ConfigureAwait(false);
@@ -165,7 +169,11 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestBan>> GetBansAsync(Snowflake guildId, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetGuildBansAsync(guildId, options).ConfigureAwait(false);
-            return models.Select(x => new RestBan(this, guildId, x)).ToImmutableArray();
+            return models.ToReadOnlyList((this, guildId), (x, tuple) =>
+            {
+                var (@this, guildId) = tuple;
+                return new RestBan(@this, guildId, x);
+            });
         }
 
         public async Task<RestBan> GetBanAsync(Snowflake guildId, Snowflake userId, RestRequestOptions options = null)
@@ -190,7 +198,11 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestRole>> GetRolesAsync(Snowflake guildId, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetGuildRolesAsync(guildId, options).ConfigureAwait(false);
-            return models.Select(x => new RestRole(this, guildId, x)).ToImmutableArray();
+            return models.ToReadOnlyList((this, guildId), (x, tuple) =>
+            {
+                var (@this, guildId) = tuple;
+                return new RestRole(@this, guildId, x);
+            });
         }
 
         public async Task<RestRole> CreateRoleAsync(Snowflake guildId, Action<CreateRoleProperties> action = null, RestRequestOptions options = null)
@@ -207,7 +219,11 @@ namespace Disqord.Rest
                 throw new ArgumentNullException(nameof(positions));
 
             var models = await ApiClient.ModifyGuildRolePositionsAsync(guildId, positions, options).ConfigureAwait(false);
-            return models.Select(x => new RestRole(this, guildId, x)).ToImmutableArray();
+            return models.ToReadOnlyList((this, guildId), (x, tuple) =>
+            {
+                var (@this, guildId) = tuple;
+                return new RestRole(@this, guildId, x);
+            });
         }
 
         public async Task<RestRole> ModifyRoleAsync(Snowflake guildId, Snowflake roleId, Action<ModifyRoleProperties> action, RestRequestOptions options = null)
@@ -246,13 +262,17 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestGuildVoiceRegion>> GetVoiceRegionsAsync(Snowflake guildId, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetGuildVoiceRegionsAsync(guildId, options).ConfigureAwait(false);
-            return models.Select(x => new RestGuildVoiceRegion(this, guildId, x)).ToImmutableArray();
+            return models.ToReadOnlyList((this, guildId), (x, tuple) =>
+            {
+                var (@this, guildId) = tuple;
+                return new RestGuildVoiceRegion(@this, guildId, x);
+            });
         }
 
         public async Task<IReadOnlyList<RestInvite>> GetGuildInvitesAsync(Snowflake guildId, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetGuildInvitesAsync(guildId, options).ConfigureAwait(false);
-            return models.Select(x => new RestInvite(this, x)).ToImmutableArray();
+            return models.ToReadOnlyList(this, (x, @this) => new RestInvite(@this, x));
         }
 
         public async Task<RestWidget> GetWidgetAsync(Snowflake guildId, RestRequestOptions options = null)

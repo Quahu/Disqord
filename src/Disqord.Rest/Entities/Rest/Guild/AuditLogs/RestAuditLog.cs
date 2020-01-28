@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Disqord.Models;
 
 namespace Disqord.Rest.AuditLogs
@@ -26,136 +26,64 @@ namespace Disqord.Rest.AuditLogs
             Reason = entry.Reason;
         }
 
-        internal static RestAuditLog Create(RestDiscordClient client, AuditLogModel log, AuditLogEntryModel entry)
+        internal static RestAuditLog Create(RestDiscordClient client, AuditLogModel log, AuditLogEntryModel entry) => entry.ActionType switch
         {
-            switch (entry.ActionType)
-            {
-                // Guild
-                case AuditLogType.GuildUpdated:
-                    return new RestGuildUpdatedAuditLog(client, log, entry);
+            // Guild
+            AuditLogType.GuildUpdated => new RestGuildUpdatedAuditLog(client, log, entry),
 
+            // Channel
+            AuditLogType.ChannelCreated => new RestChannelCreatedAuditLog(client, log, entry),
+            AuditLogType.ChannelUpdated => new RestChannelUpdatedAuditLog(client, log, entry),
+            AuditLogType.ChannelDeleted => new RestChannelDeletedAuditLog(client, log, entry),
 
-                // Channel
-                case AuditLogType.ChannelCreated:
-                    return new RestChannelCreatedAuditLog(client, log, entry);
+            // Overwrite
+            AuditLogType.OverwriteCreated => new RestOverwriteCreatedAuditLog(client, log, entry),
+            AuditLogType.OverwriteUpdated => new RestOverwriteUpdatedAuditLog(client, log, entry),
+            AuditLogType.OverwriteDeleted => new RestOverwriteDeletedAuditLog(client, log, entry),
 
-                case AuditLogType.ChannelUpdated:
-                    return new RestChannelUpdatedAuditLog(client, log, entry);
+            // Member
+            AuditLogType.MemberKicked => new RestMemberKickedAuditLog(client, log, entry),
+            AuditLogType.MembersPruned => new RestMembersPrunedAuditLog(client, log, entry),
+            AuditLogType.MemberBanned => new RestMemberBannedAuditLog(client, log, entry),
+            AuditLogType.MemberUnbanned => new RestMemberUnbannedAuditLog(client, log, entry),
+            AuditLogType.MemberUpdated => new RestMemberUpdatedAuditLog(client, log, entry),
+            AuditLogType.MemberRolesUpdated => new RestMemberRolesUpdatedAuditLog(client, log, entry),
+            AuditLogType.MembersMoved => new RestMembersMovedAuditLog(client, log, entry),
+            AuditLogType.MembersDisconnected => new RestMembersDisconnectedAuditLog(client, log, entry),
+            AuditLogType.BotAdded => new RestBotAddedAuditLog(client, log, entry),
 
-                case AuditLogType.ChannelDeleted:
-                    return new RestChannelDeletedAuditLog(client, log, entry);
+            // Role
+            AuditLogType.RoleCreated => new RestRoleCreatedAuditLog(client, log, entry),
+            AuditLogType.RoleUpdated => new RestRoleUpdatedAuditLog(client, log, entry),
+            AuditLogType.RoleDeleted => new RestRoleDeletedAuditLog(client, log, entry),
 
+            // TODO: Invite
+            AuditLogType.InviteCreated => new RestInviteCreatedAuditLog(client, log, entry),
+            AuditLogType.InviteUpdated => new RestInviteUpdatedAuditLog(client, log, entry),
+            AuditLogType.InviteDeleted => new RestInviteDeletedAuditLog(client, log, entry),
 
-                // Overwrite
-                case AuditLogType.OverwriteCreated:
-                    return new RestOverwriteCreatedAuditLog(client, log, entry);
+            // Webhook
+            AuditLogType.WebhookCreated => new RestWebhookCreatedAuditLog(client, log, entry),
+            AuditLogType.WebhookUpdated => new RestWebhookUpdatedAuditLog(client, log, entry),
+            AuditLogType.WebhookDeleted => new RestWebhookDeletedAuditLog(client, log, entry),
 
-                case AuditLogType.OverwriteUpdated:
-                    return new RestOverwriteUpdatedAuditLog(client, log, entry);
+            // Emoji
+            AuditLogType.EmojiCreated => new RestEmojiCreatedAuditLog(client, log, entry),
+            AuditLogType.EmojiUpdated => new RestEmojiUpdatedAuditLog(client, log, entry),
+            AuditLogType.EmojiDeleted => new RestEmojiDeletedAuditLog(client, log, entry),
 
-                case AuditLogType.OverwriteDeleted:
-                    return new RestOverwriteDeletedAuditLog(client, log, entry);
+            // Message
+            AuditLogType.MessagesDeleted => new RestMessagesDeletedAuditLog(client, log, entry),
+            AuditLogType.MessagesBulkDeleted => new RestMessagesBulkDeletedAuditLog(client, log, entry),
+            AuditLogType.MessagePinned => new RestMessagePinnedAuditLog(client, log, entry),
+            AuditLogType.MessageUnpinned => new RestMessageUnpinnedAuditLog(client, log, entry),
 
+            // TODO: Integration
+            AuditLogType.IntegrationCreated => new RestIntegrationCreatedAuditLog(client, log, entry),
+            AuditLogType.IntegrationUpdated => new RestIntegrationUpdatedAuditLog(client, log, entry),
+            AuditLogType.IntegrationDeleted => new RestIntegrationDeletedAuditLog(client, log, entry),
 
-                // Member
-                case AuditLogType.MemberKicked:
-                    return new RestMemberKickedAuditLog(client, log, entry);
-
-                case AuditLogType.MembersPruned:
-                    return new RestMembersPrunedAuditLog(client, log, entry);
-
-                case AuditLogType.MemberBanned:
-                    return new RestMemberBannedAuditLog(client, log, entry);
-
-                case AuditLogType.MemberUnbanned:
-                    return new RestMemberUnbannedAuditLog(client, log, entry);
-
-                case AuditLogType.MemberUpdated:
-                    return new RestMemberUpdatedAuditLog(client, log, entry);
-
-                case AuditLogType.MemberRolesUpdated:
-                    return new RestMemberRolesUpdatedAuditLog(client, log, entry);
-
-                case AuditLogType.MembersMoved:
-                    return new RestMembersMovedAuditLog(client, log, entry);
-
-                case AuditLogType.MembersDisconnected:
-                    return new RestMembersDisconnectedAuditLog(client, log, entry);
-
-                case AuditLogType.BotAdded:
-                    return new RestBotAddedAuditLog(client, log, entry);
-
-
-                // Role
-                case AuditLogType.RoleCreated:
-                    return new RestRoleCreatedAuditLog(client, log, entry);
-
-                case AuditLogType.RoleUpdated:
-                    return new RestRoleUpdatedAuditLog(client, log, entry);
-
-                case AuditLogType.RoleDeleted:
-                    return new RestRoleDeletedAuditLog(client, log, entry);
-
-
-                // Invite (TODO)
-                case AuditLogType.InviteCreated:
-                    return new RestInviteCreatedAuditLog(client, log, entry);
-
-                case AuditLogType.InviteUpdated:
-                    return new RestInviteUpdatedAuditLog(client, log, entry);
-
-                case AuditLogType.InviteDeleted:
-                    return new RestInviteDeletedAuditLog(client, log, entry);
-
-
-                // Webhook
-                case AuditLogType.WebhookCreated:
-                    return new RestWebhookCreatedAuditLog(client, log, entry);
-
-                case AuditLogType.WebhookUpdated:
-                    return new RestWebhookUpdatedAuditLog(client, log, entry);
-
-                case AuditLogType.WebhookDeleted:
-                    return new RestWebhookDeletedAuditLog(client, log, entry);
-
-
-                // Emoji
-                case AuditLogType.EmojiCreated:
-                    return new RestEmojiCreatedAuditLog(client, log, entry);
-
-                case AuditLogType.EmojiUpdated:
-                    return new RestEmojiUpdatedAuditLog(client, log, entry);
-
-                case AuditLogType.EmojiDeleted:
-                    return new RestEmojiDeletedAuditLog(client, log, entry);
-
-
-                // Message
-                case AuditLogType.MessagesDeleted:
-                    return new RestMessagesDeletedAuditLog(client, log, entry);
-
-                case AuditLogType.MessagesBulkDeleted:
-                    return new RestMessagesBulkDeletedAuditLog(client, log, entry);
-
-                case AuditLogType.MessagePinned:
-                    return new RestMessagePinnedAuditLog(client, log, entry);
-
-                case AuditLogType.MessageUnpinned:
-                    return new RestMessageUnpinnedAuditLog(client, log, entry);
-
-
-                // Integration (TODO)
-                case AuditLogType.IntegrationCreated:
-                    return new RestIntegrationCreatedAuditLog(client, log, entry);
-
-                case AuditLogType.IntegrationUpdated:
-                    return new RestIntegrationUpdatedAuditLog(client, log, entry);
-
-                case AuditLogType.IntegrationDeleted:
-                    return new RestIntegrationDeletedAuditLog(client, log, entry);
-            }
-
-            return new RestUnknownAuditLog(client, log, entry);
-        }
+            _ => new RestUnknownAuditLog(client, log, entry),
+        };
     }
 }

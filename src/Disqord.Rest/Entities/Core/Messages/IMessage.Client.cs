@@ -12,9 +12,9 @@ namespace Disqord
 
         Task RemoveMemberReactionAsync(Snowflake memberId, IEmoji emoji, RestRequestOptions options = null);
 
-        RestRequestEnumerable<RestUser> GetReactionsEnumerable(IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null);
+        RestRequestEnumerable<RestUser> GetReactionsEnumerable(IEmoji emoji, int limit, Snowflake? startFromId = null, RestRequestOptions options = null);
 
-        Task<IReadOnlyList<RestUser>> GetReactionsAsync(IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null);
+        Task<IReadOnlyList<RestUser>> GetReactionsAsync(IEmoji emoji, int limit = 100, Snowflake? startFromId = null, RestRequestOptions options = null);
 
         Task ClearReactionsAsync(IEmoji emoji = null, RestRequestOptions options = null);
     }

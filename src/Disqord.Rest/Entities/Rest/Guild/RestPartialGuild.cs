@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord.Rest
@@ -20,7 +20,7 @@ namespace Disqord.Rest
         {
             Name = model.Name.Value;
             IconHash = model.Icon.Value;
-            Features = model.Features.Value.ToImmutableArray();
+            Features = model.Features.Value.ReadOnly();
             IsOwner = model.Owner.Value;
             Permissions = model.Permissions.Value;
         }

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Models;
 using Disqord.Models.Dispatches;
-using Qommon.Collections;
 
 namespace Disqord
 {
@@ -85,11 +83,11 @@ namespace Disqord
 
         public CachedRole DefaultRole => Roles[Id];
 
-        public IReadOnlyDictionary<Snowflake, CachedRole> Roles { get; }
+        public IReadOnlyDictionary<Snowflake, CachedRole> Roles => _roles.ReadOnly();
 
-        public IReadOnlyDictionary<Snowflake, CachedGuildEmoji> Emojis { get; }
+        public IReadOnlyDictionary<Snowflake, CachedGuildEmoji> Emojis => _emojis.ReadOnly();
 
-        public IReadOnlyDictionary<Snowflake, CachedGuildChannel> Channels { get; }
+        public IReadOnlyDictionary<Snowflake, CachedGuildChannel> Channels => _channels.ReadOnly();
 
         public IReadOnlyDictionary<Snowflake, CachedNestedChannel> NestedChannels
             => new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedNestedChannel>(_channels);
@@ -103,7 +101,7 @@ namespace Disqord
         public IReadOnlyDictionary<Snowflake, CachedCategoryChannel> CategoryChannels
             => new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, CachedCategoryChannel>(_channels);
 
-        public IReadOnlyDictionary<Snowflake, CachedMember> Members { get; }
+        public IReadOnlyDictionary<Snowflake, CachedMember> Members => _members.ReadOnly();
 
         public bool IsSynced
         {
@@ -168,10 +166,6 @@ namespace Disqord
             _emojis = new LockedDictionary<Snowflake, CachedGuildEmoji>(model.Emojis.Value.Length);
             _channels = new LockedDictionary<Snowflake, CachedGuildChannel>(model.Channels.Length);
             _members = new LockedDictionary<Snowflake, CachedMember>(model.Members.Length);
-            Roles = new ReadOnlyDictionary<Snowflake, CachedRole>(_roles);
-            Emojis = new ReadOnlyDictionary<Snowflake, CachedGuildEmoji>(_emojis);
-            Channels = new ReadOnlyDictionary<Snowflake, CachedGuildChannel>(_channels);
-            Members = new ReadOnlyDictionary<Snowflake, CachedMember>(_members);
 
             Update(model);
             if (client.IsBot && IsLarge)
@@ -369,7 +363,7 @@ namespace Disqord
                 Update(model.Emojis.Value);
 
             if (model.Features.HasValue)
-                Features = model.Features.Value.ToImmutableArray();
+                Features = model.Features.Value.ReadOnly();
 
             if (model.MfaLevel.HasValue)
                 MfaLevel = model.MfaLevel.Value;

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
+using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord.Rest
@@ -43,11 +43,13 @@ namespace Disqord.Rest
         internal void Update(MemberModel model)
         {
             Nick = model.Nick.Value;
-            var builder = ImmutableArray.CreateBuilder<Snowflake>();
-            builder.Add(GuildId);
+            var list = new List<Snowflake>(model.Roles.Value.Length)
+            {
+                GuildId
+            };
             for (var i = 0; i < model.Roles.Value.Length; i++)
-                builder.Add(model.Roles.Value[i]);
-            RoleIds = builder.ToImmutable();
+                list.Add(model.Roles.Value[i]);
+            RoleIds = list.ReadOnly();
             BoostedAt = model.PremiumSince.Value;
 
             base.Update(model.User);

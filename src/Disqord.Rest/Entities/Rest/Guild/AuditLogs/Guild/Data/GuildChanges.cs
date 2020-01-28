@@ -14,7 +14,7 @@ namespace Disqord.Rest.AuditLogs
 
         public AuditLogChange<Snowflake> OwnerId { get; }
 
-        public AuditLogChange<OptionalSnowflakeEntity<RestUser>> Owner { get; }
+        public AuditLogChange<SnowflakeOptional<RestUser>> Owner { get; }
 
         public AuditLogChange<string> VoiceRegionId { get; }
 
@@ -68,13 +68,13 @@ namespace Disqord.Rest.AuditLogs
                         OwnerId = AuditLogChange<Snowflake>.DoubleConvert<ulong>(change, client.Serializer, x => x);
                         var ownerBeforeModel = Array.Find(log.Users, x => x.Id == OwnerId.OldValue.Value);
                         var ownerAfterModel = Array.Find(log.Users, x => x.Id == OwnerId.NewValue.Value);
-                        Owner = new AuditLogChange<OptionalSnowflakeEntity<RestUser>>(
+                        Owner = new AuditLogChange<SnowflakeOptional<RestUser>>(
                             ownerBeforeModel != null
-                                ? new OptionalSnowflakeEntity<RestUser>(new RestUser(client, ownerBeforeModel))
-                                : new OptionalSnowflakeEntity<RestUser>(OwnerId.OldValue.Value),
+                                ? new SnowflakeOptional<RestUser>(new RestUser(client, ownerBeforeModel))
+                                : new SnowflakeOptional<RestUser>(OwnerId.OldValue.Value),
                             ownerAfterModel != null
-                                ? new OptionalSnowflakeEntity<RestUser>(new RestUser(client, ownerAfterModel))
-                                : new OptionalSnowflakeEntity<RestUser>(OwnerId.NewValue.Value));
+                                ? new SnowflakeOptional<RestUser>(new RestUser(client, ownerAfterModel))
+                                : new SnowflakeOptional<RestUser>(OwnerId.NewValue.Value));
                         break;
                     }
 

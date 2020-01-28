@@ -35,6 +35,7 @@ namespace Disqord
         internal CachedRole(CachedGuild guild, RoleModel model) : base(guild.Client, model.Id)
         {
             Guild = guild;
+
             Update(model);
         }
 

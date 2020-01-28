@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Collections;
 
 namespace Disqord.Rest
 {
@@ -17,7 +17,7 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestNestedChannel>> GetChannelsAsync(RestRequestOptions options = null)
         {
             var channels = await Client.GetChannelsAsync(GuildId, options).ConfigureAwait(false);
-            return channels.OfType<RestNestedChannel>().Where(x => x.CategoryId == Id).ToImmutableArray();
+            return channels.OfType<RestNestedChannel>().Where(x => x.CategoryId == Id).ToReadOnlyList();
         }
     }
 }

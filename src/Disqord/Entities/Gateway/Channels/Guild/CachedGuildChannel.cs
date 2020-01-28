@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
+using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord
@@ -27,7 +27,8 @@ namespace Disqord
                 Position = model.Position.Value;
 
             if (model.PermissionOverwrites.HasValue)
-                Overwrites = model.PermissionOverwrites.Value.Select(x => new CachedOverwrite(this, x)).ToImmutableArray();
+                Overwrites = model.PermissionOverwrites.Value.ToReadOnlyList(
+                    this, (x, @this) => new CachedOverwrite(@this, x));
 
             base.Update(model);
         }

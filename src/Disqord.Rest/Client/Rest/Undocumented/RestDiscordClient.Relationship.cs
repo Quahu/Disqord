@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Collections;
 
 namespace Disqord.Rest
 {
@@ -22,13 +21,13 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestRelationship>> GetRelationshipsAsync(RestRequestOptions options = null)
         {
             var models = await ApiClient.GetRelationshipsAsync(options).ConfigureAwait(false);
-            return models.Select(x => new RestRelationship(this, x)).ToImmutableArray();
+            return models.ToReadOnlyList(this, (x, @this) => new RestRelationship(@this, x));
         }
 
         public async Task<IReadOnlyList<RestUser>> GetMutualFriendsAsync(Snowflake userId, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetMutualFriendsAsync(userId, options).ConfigureAwait(false);
-            return models.Select(x => new RestUser(this, x)).ToImmutableArray();
+            return models.ToReadOnlyList(this, (x, @this) => new RestUser(@this, x));
         }
     }
 }

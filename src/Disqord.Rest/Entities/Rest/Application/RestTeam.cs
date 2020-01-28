@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using Disqord.Collections;
 using Disqord.Models;
-using Qommon.Collections;
 
 namespace Disqord.Rest
 {
@@ -22,8 +21,8 @@ namespace Disqord.Rest
             Name = model.Name;
             IconHash = model.Icon;
             OwnerId = model.OwnerUserId;
-            Members = new ReadOnlyDictionary<Snowflake, RestTeamMember>(
-                model.Members.ToDictionary(x => new Snowflake(x.Id), x => new RestTeamMember(client, x)));
+            Members = model.Members.ToReadOnlyDictionary(
+                (x, _) => new Snowflake(x.Id), (x, client) => new RestTeamMember(client, x), client);
         }
     }
 }

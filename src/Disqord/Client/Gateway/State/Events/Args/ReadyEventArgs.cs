@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+using Disqord.Collections;
 
 namespace Disqord.Events
 {
@@ -12,7 +12,7 @@ namespace Disqord.Events
         internal ReadyEventArgs(DiscordClientBase client, string sessionId, string[] trace) : base(client)
         {
             SessionId = sessionId;
-            Trace = trace.ToImmutableArray();
+            Trace = trace.ReadOnly();
         }
     }
 }

@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Globalization;
 using Disqord.Collections;
 using Disqord.Models;
-using Qommon.Collections;
 
 namespace Disqord
 {
@@ -41,7 +40,7 @@ namespace Disqord
                 if (Client.IsBot)
                     throw new NotSupportedException("Bots cannot have relationships.");
 
-                return new ReadOnlyDictionary<Snowflake, CachedRelationship>(_relationships);
+                return _relationships.ReadOnly();
             }
         }
 
@@ -52,7 +51,7 @@ namespace Disqord
                 if (Client.IsBot)
                     throw new NotSupportedException("Bots cannot set notes.");
 
-                return new ReadOnlyDictionary<Snowflake, string>(_notes);
+                return _notes.ReadOnly();
             }
         }
 

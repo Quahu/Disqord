@@ -1,6 +1,6 @@
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord.Rest
@@ -44,7 +44,7 @@ namespace Disqord.Rest
         internal void Update(EmojiModel model)
         {
             Name = model.Name;
-            RoleIds = model.Roles.Select(x => new Snowflake(x)).ToImmutableArray();
+            RoleIds = model.Roles.Snowflakes();
             IsAvailable = model.Available;
         }
 

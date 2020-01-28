@@ -43,6 +43,6 @@ namespace Disqord.Models
         public EmbedAuthorModel Author { get; set; }
 
         [JsonProperty("fields")]
-        public IReadOnlyList<EmbedFieldModel> Fields { get; set; } = Array.Empty<EmbedFieldModel>();
+        public EmbedFieldModel[] Fields { get; set; } = Array.Empty<EmbedFieldModel>();
     }
 }

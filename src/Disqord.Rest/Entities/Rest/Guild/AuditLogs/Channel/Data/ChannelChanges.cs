@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
+using Disqord.Collections;
 using Disqord.Logging;
 using Disqord.Models;
 
@@ -53,14 +52,24 @@ namespace Disqord.Rest.AuditLogs
                         if (change.OldValue.HasValue)
                         {
                             var models = client.Serializer.ToObject<OverwriteModel[]>(change.OldValue.Value);
-                            overwritesBefore = models.Select(x => new RestOverwrite(client, model.TargetId.Value, x)).ToImmutableArray();
+                            overwritesBefore = new Optional<IReadOnlyList<RestOverwrite>>(
+                                models.ToReadOnlyList((client, model), (x, tuple) =>
+                                {
+                                    var (client, model) = tuple;
+                                    return new RestOverwrite(client, model.TargetId.Value, x);
+                                }));
                         }
 
                         var overwritesAfter = Optional<IReadOnlyList<RestOverwrite>>.Empty;
                         if (change.NewValue.HasValue)
                         {
                             var models = client.Serializer.ToObject<OverwriteModel[]>(change.NewValue.Value);
-                            overwritesAfter = models.Select(x => new RestOverwrite(client, model.TargetId.Value, x)).ToImmutableArray();
+                            overwritesAfter = new Optional<IReadOnlyList<RestOverwrite>>(
+                                models.ToReadOnlyList((client, model), (x, tuple) =>
+                                {
+                                    var (client, model) = tuple;
+                                    return new RestOverwrite(client, model.TargetId.Value, x);
+                                }));
                         }
 
                         Overwrites = new AuditLogChange<IReadOnlyList<RestOverwrite>>(overwritesBefore, overwritesAfter);

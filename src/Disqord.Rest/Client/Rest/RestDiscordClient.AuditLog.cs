@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Collections;
 using Disqord.Rest.AuditLogs;
 
 namespace Disqord.Rest
@@ -21,7 +21,7 @@ namespace Disqord.Rest
         public Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog
         {
             if (limit == 0)
-                return Task.FromResult<IReadOnlyList<T>>(ImmutableArray<T>.Empty);
+                return Task.FromResult(ReadOnlyList<T>.Empty);
 
             if (limit <= 100)
                 return InternalGetAuditLogsAsync<T>(guildId, limit, userId, startFromId, options);
@@ -33,7 +33,7 @@ namespace Disqord.Rest
         internal async Task<IReadOnlyList<T>> InternalGetAuditLogsAsync<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog
         {
             var model = await ApiClient.GetGuildAuditLogAsync(guildId, limit, userId, GetAuditLogAction(typeof(T)), startFromId, options).ConfigureAwait(false);
-            return model.AuditLogEntries.Select(x => RestAuditLog.Create(this, model, x)).OfType<T>().ToImmutableArray();
+            return model.AuditLogEntries.Select(x => RestAuditLog.Create(this, model, x)).OfType<T>().ToReadOnlyList();
         }
 
         private AuditLogType? GetAuditLogAction(Type type)

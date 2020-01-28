@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Models;
-using Qommon.Collections;
 
 namespace Disqord.Rest
 {
@@ -24,7 +23,8 @@ namespace Disqord.Rest
 
         internal override void Update(ChannelModel model)
         {
-            Recipients = new ReadOnlyDictionary<Snowflake, RestUser>(model.Recipients.Value.ToDictionary(x => new Snowflake(x.Id), x => new RestUser(Client, x)));
+            Recipients = model.Recipients.Value.ToDictionary(
+                x => new Snowflake(x.Id), x => new RestUser(Client, x)).ReadOnly();
             IconHash = model.Icon.Value;
             OwnerId = model.OwnerId.Value;
 

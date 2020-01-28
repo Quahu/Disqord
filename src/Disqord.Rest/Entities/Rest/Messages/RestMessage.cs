@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
+using Disqord.Collections;
 using Disqord.Models;
-using Qommon.Collections;
 
 namespace Disqord.Rest
 {
@@ -36,12 +35,12 @@ namespace Disqord.Rest
                 Author.Update(model.Author.Value);
 
             if (model.Mentions.HasValue)
-                MentionedUsers = model.Mentions.Value.Select(x => new RestUser(Client, x)).ToImmutableArray();
+                MentionedUsers = model.Mentions.Value.ToReadOnlyList(this, (x, @this) => new RestUser(@this.Client, x));
 
             // TODO: still no idea when this is present and when not
             Reactions = model.Reactions.HasValue && model.Reactions.Value != null
-                ? new ReadOnlyDictionary<IEmoji, ReactionData>(model.Reactions.Value.Select(x => new ReactionData(x)).ToDictionary(x => x.Emoji, x => x))
-                : ImmutableDictionary<IEmoji, ReactionData>.Empty as IReadOnlyDictionary<IEmoji, ReactionData>;
+                ? model.Reactions.Value.Select(x => new ReactionData(x)).ToReadOnlyDictionary(x => x.Emoji, x => x)
+                : ReadOnlyDictionary<IEmoji, ReactionData>.Empty;
         }
 
         internal static RestMessage Create(RestDiscordClient client, MessageModel model)

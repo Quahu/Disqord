@@ -1,5 +1,5 @@
-﻿using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Linq;
+using Disqord.Collections;
 
 namespace Disqord.Models
 {
@@ -152,7 +152,7 @@ namespace Disqord.Models
                 Footer = model.Footer.ToFooter(),
                 Author = model.Author.ToAuthor(),
                 Video = model.Video.ToVideo(),
-                Fields = model.Fields.Select(ToField).ToImmutableArray(),
+                Fields = model.Fields.ToReadOnlyList(ToField),
                 Provider = model.Provider.ToProvider(),
             };
     }

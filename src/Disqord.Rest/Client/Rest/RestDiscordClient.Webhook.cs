@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord.Rest
@@ -20,13 +20,13 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestWebhook>> GetChannelWebhooksAsync(Snowflake channelId, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetChannelWebhooksAsync(channelId, options).ConfigureAwait(false);
-            return models.Select(x => new RestWebhook(this, x)).ToImmutableArray();
+            return models.ToReadOnlyList(this, (x, @this) => new RestWebhook(@this, x));
         }
 
         public async Task<IReadOnlyList<RestWebhook>> GetGuildWebhooksAsync(Snowflake guildId, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetGuildWebhooksAsync(guildId, options).ConfigureAwait(false);
-            return models.Select(x => new RestWebhook(this, x)).ToImmutableArray();
+            return models.ToReadOnlyList(this, (x, @this) => new RestWebhook(@this, x));
         }
 
         public async Task<RestWebhook> GetWebhookAsync(Snowflake webhookId, RestRequestOptions options = null)
@@ -94,10 +94,9 @@ namespace Disqord.Rest
             RestRequestOptions options = null)
         {
             var model = await ApiClient.ExecuteWebhookAsync(webhookId, webhookToken, content, textToSpeech, embeds, name, avatarUrl, wait, options).ConfigureAwait(false);
-            if (!wait)
-                return null;
-
-            return new RestUserMessage(this, model);
+            return wait
+                ? new RestUserMessage(this, model)
+                : null;
         }
 
         public async Task<RestUserMessage> ExecuteWebhookAsync(Snowflake webhookId, string webhookToken,
@@ -111,10 +110,9 @@ namespace Disqord.Rest
                 throw new ArgumentNullException(nameof(attachment));
 
             var model = await ApiClient.ExecuteWebhookAsync(webhookId, webhookToken, attachment, content, textToSpeech, embeds, name, avatarUrl, wait, options).ConfigureAwait(false);
-            if (!wait)
-                return null;
-
-            return new RestUserMessage(this, model);
+            return wait
+                ? new RestUserMessage(this, model)
+                : null;
         }
 
         public async Task<RestUserMessage> ExecuteWebhookAsync(Snowflake webhookId, string webhookToken,
@@ -128,10 +126,9 @@ namespace Disqord.Rest
                 throw new ArgumentNullException(nameof(attachments));
 
             var model = await ApiClient.ExecuteWebhookAsync(webhookId, webhookToken, attachments, content, textToSpeech, embeds, name, avatarUrl, wait, options).ConfigureAwait(false);
-            if (!wait)
-                return null;
-
-            return new RestUserMessage(this, model);
+            return wait ?
+                new RestUserMessage(this, model)
+                : null;
         }
     }
 }

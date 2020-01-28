@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord.Rest
@@ -25,7 +25,7 @@ namespace Disqord.Rest
         {
             Id = model.Id.Value;
             Name = model.Name;
-            GuildIds = model.GuildIds.Select(x => new Snowflake(x)).ToImmutableArray();
+            GuildIds = model.GuildIds.Snowflakes();
             Color = model.Color;
             UserSettings = userSettings;
         }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord.Rest
@@ -82,7 +82,7 @@ namespace Disqord.Rest
         public Task<IReadOnlyList<RestMessage>> GetMessagesAsync(Snowflake channelId, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
             if (limit == 0)
-                return Task.FromResult<IReadOnlyList<RestMessage>>(ImmutableArray<RestMessage>.Empty);
+                return Task.FromResult<IReadOnlyList<RestMessage>>(ReadOnlyList<RestMessage>.Empty);
 
             if (limit <= 100)
                 return InternalGetMessagesAsync(channelId, limit, direction, startFromId, options);
@@ -94,7 +94,7 @@ namespace Disqord.Rest
         internal async Task<IReadOnlyList<RestMessage>> InternalGetMessagesAsync(Snowflake channelId, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetChannelMessagesAsync(channelId, limit, direction, startFromId, options).ConfigureAwait(false);
-            return models.Select(x => RestMessage.Create(this, x)).ToImmutableArray();
+            return models.ToReadOnlyList(this, (x, @this) => RestMessage.Create(@this, x));
         }
 
         public async Task<RestMessage> GetMessageAsync(Snowflake channelId, Snowflake messageId, RestRequestOptions options = null)
@@ -155,7 +155,7 @@ namespace Disqord.Rest
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            var currentUser = await CurrentUser.GetOrDownloadAsync(options).ConfigureAwait(false);
+            var currentUser = await CurrentUser.GetAsync(options).ConfigureAwait(false);
             if (currentUser.Id == memberId)
                 await ApiClient.DeleteOwnReactionAsync(channelId, messageId, emoji.ReactionFormat, options).ConfigureAwait(false);
 
@@ -163,33 +163,33 @@ namespace Disqord.Rest
                 await ApiClient.DeleteUserReactionAsync(channelId, messageId, memberId, emoji.ReactionFormat, options).ConfigureAwait(false);
         }
 
-        public RestRequestEnumerable<RestUser> GetReactionsEnumerable(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
+        public RestRequestEnumerable<RestUser> GetReactionsEnumerable(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            return new RestRequestEnumerable<RestUser>(new RestReactionsRequestEnumerator(this, channelId, messageId, emoji, limit, direction, startFromId, options));
+            return new RestRequestEnumerable<RestUser>(new RestReactionsRequestEnumerator(this, channelId, messageId, emoji, limit, startFromId, options));
         }
 
-        public Task<IReadOnlyList<RestUser>> GetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
+        public Task<IReadOnlyList<RestUser>> GetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
             if (limit == 0)
-                return Task.FromResult<IReadOnlyList<RestUser>>(ImmutableArray<RestUser>.Empty);
+                return Task.FromResult(ReadOnlyList<RestUser>.Empty);
 
             if (limit <= 100)
-                return InternalGetReactionsAsync(channelId, messageId, emoji, limit, direction, startFromId, options);
+                return InternalGetReactionsAsync(channelId, messageId, emoji, limit, startFromId, options);
 
-            var enumerable = GetReactionsEnumerable(channelId, messageId, emoji, limit, direction, startFromId, options);
+            var enumerable = GetReactionsEnumerable(channelId, messageId, emoji, limit, startFromId, options);
             return enumerable.FlattenAsync();
         }
 
-        internal async Task<IReadOnlyList<RestUser>> InternalGetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
+        internal async Task<IReadOnlyList<RestUser>> InternalGetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
-            var models = await ApiClient.GetReactionsAsync(channelId, messageId, emoji.ReactionFormat, limit, direction, startFromId, options).ConfigureAwait(false);
-            return models.Select(x => new RestUser(this, x)).ToImmutableArray();
+            var models = await ApiClient.GetReactionsAsync(channelId, messageId, emoji.ReactionFormat, limit, startFromId, options).ConfigureAwait(false);
+            return models.ToReadOnlyList(this, (x, @this) => new RestUser(@this, x));
         }
 
         public Task ClearReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji = null, RestRequestOptions options = null)
@@ -264,7 +264,7 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestInvite>> GetChannelInvitesAsync(Snowflake channelId, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetChannelInvitesAsync(channelId, options).ConfigureAwait(false);
-            return models.Select(x => new RestInvite(this, x)).ToImmutableArray();
+            return models.ToReadOnlyList(this, (x, @this) => new RestInvite(@this, x));
         }
 
         public async Task<RestInvite> CreateInviteAsync(Snowflake channelId, int maxAgeSeconds = 86400, int maxUses = 0, bool isTemporaryMembership = false, bool isUnique = false, RestRequestOptions options = null)
@@ -285,7 +285,7 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestUserMessage>> GetPinnedMessagesAsync(Snowflake channelId, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetPinnedMessagesAsync(channelId, options).ConfigureAwait(false);
-            return models.Select(x => new RestUserMessage(this, x)).ToImmutableArray();
+            return models.ToReadOnlyList(this, (x, @this) => new RestUserMessage(@this, x));
         }
 
         public Task PinMessageAsync(Snowflake channelId, Snowflake messageId, RestRequestOptions options = null)

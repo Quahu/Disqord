@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using Disqord.Collections;
 using Disqord.Logging;
 using Disqord.Models;
 using Disqord.Serialization.Json;
-using Qommon.Collections;
 
 namespace Disqord
 {
@@ -61,8 +59,8 @@ namespace Disqord
                 return null;
 
             return _messageCache.TryGetMessages(channelId, out var messages)
-                ? messages.ToImmutableArray()
-                : ImmutableArray<CachedUserMessage>.Empty;
+                ? messages.ToReadOnlyList()
+                : ReadOnlyList<CachedUserMessage>.Empty;
         }
 
         public CachedGuild GetGuild(Snowflake id)

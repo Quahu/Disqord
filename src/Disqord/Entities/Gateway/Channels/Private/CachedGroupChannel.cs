@@ -3,13 +3,12 @@ using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Models;
 using Disqord.Rest;
-using Qommon.Collections;
 
 namespace Disqord
 {
     public sealed class CachedGroupChannel : CachedPrivateChannel, IGroupChannel
     {
-        public IReadOnlyDictionary<Snowflake, CachedUser> Recipients { get; }
+        public IReadOnlyDictionary<Snowflake, CachedUser> Recipients => _recipients.ReadOnly();
 
         public string IconHash { get; private set; }
 
@@ -21,13 +20,13 @@ namespace Disqord
 
         internal CachedGroupChannel(DiscordClientBase client, ChannelModel model) : base(client, model)
         {
-            _recipients = new LockedDictionary<Snowflake, CachedUser>(model.Recipients.Value.Count);
-            for (var i = 0; i < model.Recipients.Value.Count; i++)
+            _recipients = new LockedDictionary<Snowflake, CachedUser>(model.Recipients.Value.Length);
+            for (var i = 0; i < model.Recipients.Value.Length; i++)
             {
                 var recipient = model.Recipients.Value[i];
                 _recipients.TryAdd(recipient.Id, client.State.GetOrAddSharedUser(recipient));
             }
-            Recipients = new ReadOnlyDictionary<Snowflake, CachedUser>(_recipients);
+
             Update(model);
         }
 

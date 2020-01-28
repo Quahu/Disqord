@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Disqord.Collections;
-using Qommon.Collections;
 
 namespace Disqord
 {
@@ -117,7 +116,7 @@ namespace Disqord
                 return false;
             }
 
-            messages = new ReadOnlyList<CachedUserMessage>(cache);
+            messages = cache.ReadOnly();
             return true;
         }
 

@@ -16,7 +16,7 @@ namespace Disqord.Bot
             {
                 case TokenType.Bot:
                 {
-                    return (await context.Bot.CurrentApplication.GetOrDownloadAsync().ConfigureAwait(false)).Owner.Id == context.User.Id
+                    return (await context.Bot.CurrentApplication.GetAsync().ConfigureAwait(false)).Owner.Id == context.User.Id
                         ? CheckResult.Successful
                         : CheckResult.Unsuccessful("This can only be executed by the bot's owner.");
                 }

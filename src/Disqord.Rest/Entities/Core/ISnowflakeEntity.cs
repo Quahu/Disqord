@@ -3,12 +3,12 @@
 namespace Disqord
 {
     /// <summary>
-    ///     Represents a Discord entity with a unique <see cref="Snowflake"/> id.
+    ///     Represents a Discord entity with a unique <see cref="Snowflake"/> ID.
     /// </summary>
     public interface ISnowflakeEntity : IDiscordEntity
     {
         /// <summary>
-        ///     Gets the id of this entity.
+        ///     Gets the ID of this entity.
         /// </summary>
         Snowflake Id { get; }
 

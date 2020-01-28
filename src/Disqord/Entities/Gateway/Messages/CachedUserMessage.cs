@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Linq;
+using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord
@@ -61,13 +60,13 @@ namespace Disqord
                 MentionsEveryone = model.MentionEveryone.Value;
 
             if (model.RoleMentions.HasValue)
-                MentionedRoleIds = model.RoleMentions.Value.Select(x => new Snowflake(x)).ToImmutableArray();
+                MentionedRoleIds = model.RoleMentions.Value.Snowflakes();
 
             if (model.Attachments.HasValue)
-                Attachments = model.Attachments.Value.Select(x => x.ToAttachment()).ToImmutableArray();
+                Attachments = model.Attachments.Value.ToReadOnlyList(x => x.ToAttachment());
 
             if (model.Embeds.HasValue)
-                Embeds = model.Embeds.Value.Select(x => x.ToEmbed()).ToImmutableArray();
+                Embeds = model.Embeds.Value.ToReadOnlyList(x => x.ToEmbed());
 
             if (model.Pinned.HasValue)
                 IsPinned = model.Pinned.Value;

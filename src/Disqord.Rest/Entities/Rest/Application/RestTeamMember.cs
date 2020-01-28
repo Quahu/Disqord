@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord.Rest
@@ -13,7 +13,7 @@ namespace Disqord.Rest
         internal RestTeamMember(RestDiscordClient client, TeamMemberModel model) : base(client, model)
         {
             MembershipState = model.MembershipState;
-            Permissions = model.Permissions.ToImmutableArray();
+            Permissions = model.Permissions.ReadOnly();
         }
     }
 }

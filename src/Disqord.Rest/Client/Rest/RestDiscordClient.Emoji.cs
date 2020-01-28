@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord.Rest
@@ -14,7 +14,11 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestGuildEmoji>> GetGuildEmojisAsync(Snowflake guildId, RestRequestOptions options = null)
         {
             var models = await ApiClient.ListGuildEmojisAsync(guildId, options).ConfigureAwait(false);
-            return models.Select(x => new RestGuildEmoji(this, guildId, x)).ToImmutableArray();
+            return models.ToReadOnlyList((this, guildId), (x, tuple) =>
+            {
+                var (@this, guildId) = tuple;
+                return new RestGuildEmoji(@this, guildId, x);
+            });
         }
 
         public async Task<RestGuildEmoji> GetGuildEmojiAsync(Snowflake guildId, Snowflake emojiId, RestRequestOptions options = null)

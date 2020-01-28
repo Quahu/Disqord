@@ -36,9 +36,9 @@ namespace Disqord.Rest
 
         Task RemoveMemberReactionAsync(Snowflake channelId, Snowflake messageId, Snowflake memberId, IEmoji emoji, RestRequestOptions options = null);
 
-        RestRequestEnumerable<RestUser> GetReactionsEnumerable(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null);
+        RestRequestEnumerable<RestUser> GetReactionsEnumerable(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, Snowflake? startFromId = null, RestRequestOptions options = null);
 
-        Task<IReadOnlyList<RestUser>> GetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null);
+        Task<IReadOnlyList<RestUser>> GetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, Snowflake? startFromId = null, RestRequestOptions options = null);
 
         Task ClearReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji = null, RestRequestOptions options = null);
 

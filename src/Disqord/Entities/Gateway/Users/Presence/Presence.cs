@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
+using Disqord.Collections;
 using Disqord.Models.Dispatches;
-using Qommon.Collections;
 
 namespace Disqord
 {
@@ -28,10 +27,10 @@ namespace Disqord
 
             if (!isBot)
             {
-                _statuses = new ReadOnlyDictionary<UserClient, UserStatus>(model.ClientStatus);
+                _statuses = model.ClientStatus.ReadOnly();
                 _activities = model.Game != null
-                    ? model.Activities.Select(x => Activity.Create(x)).ToImmutableArray()
-                    : ImmutableArray<Activity>.Empty;
+                    ? model.Activities.ToReadOnlyList(x => Activity.Create(x))
+                    : ReadOnlyList<Activity>.Empty;
             }
         }
     }

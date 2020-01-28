@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Collections.Generic;
+using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord.Rest
@@ -30,12 +29,12 @@ namespace Disqord.Rest
                 Position = model.Position.Value;
 
             if (model.PermissionOverwrites.HasValue)
-                Overwrites = model.PermissionOverwrites.Value.Select(x =>
+                Overwrites = model.PermissionOverwrites.Value.ToReadOnlyList(this, (x, @this) =>
                 {
-                    var overwrite = new RestOverwrite(Client, Id, x);
-                    overwrite.Channel.SetValue(this);
+                    var overwrite = new RestOverwrite(@this.Client, @this.Id, x);
+                    overwrite.Channel.Value = @this;
                     return overwrite;
-                }).ToImmutableArray();
+                });
 
             base.Update(model);
         }

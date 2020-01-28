@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
+using Disqord.Collections;
 using Disqord.Logging;
 using Disqord.Models;
 
@@ -22,14 +22,14 @@ namespace Disqord.Rest.AuditLogs
                     case "$add":
                     {
                         RolesAdded = AuditLogChange<IReadOnlyList<Role>>.DoubleConvert<RoleModel[]>(
-                            change, client.Serializer, x => x.Select(y => new Role(y)).ToImmutableArray()).NewValue;
+                            change, client.Serializer, x => x.ToReadOnlyList(y => new Role(y))).NewValue;
                         break;
                     }
 
                     case "$remove":
                     {
                         RolesRemoved = AuditLogChange<IReadOnlyList<Role>>.DoubleConvert<RoleModel[]>(
-                            change, client.Serializer, x => x.Select(y => new Role(y)).ToImmutableArray()).NewValue;
+                            change, client.Serializer, x => x.ToReadOnlyList(y => new Role(y))).NewValue;
                         break;
                     }
 

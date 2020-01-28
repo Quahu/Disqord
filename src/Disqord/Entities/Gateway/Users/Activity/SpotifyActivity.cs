@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Disqord.Collections;
 using Disqord.Models;
-using Qommon.Collections;
 
 namespace Disqord
 {
@@ -57,7 +57,7 @@ namespace Disqord
             }
 
             var artists = model.State?.Split("; ", StringSplitOptions.RemoveEmptyEntries);
-            Artists = new ReadOnlyList<string>(artists ?? Array.Empty<string>());
+            Artists = artists?.ReadOnly() ?? ReadOnlyList<string>.Empty;
 
             if (model.Timestamps != null)
             {

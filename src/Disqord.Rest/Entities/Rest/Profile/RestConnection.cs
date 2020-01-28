@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
+using Disqord.Collections;
 using Disqord.Logging;
 using Disqord.Models;
 
@@ -24,11 +23,12 @@ namespace Disqord.Rest
             IsRevoked = model.Revoked;
             try
             {
-                Integrations = model.Integrations.Select(x => new RestIntegration(Client, x)).ToImmutableArray();
+                Integrations = model.Integrations.ToReadOnlyList(
+                    this, (x, @this) => new RestIntegration(@this.Client, x));
             }
             catch (Exception ex)
             {
-                Integrations = ImmutableArray<RestIntegration>.Empty;
+                Integrations = ReadOnlyList<RestIntegration>.Empty;
                 client.Log(LogMessageSeverity.Error, $"Failed to create integrations for connection {this}.", ex);
             }
             HasFriendSync = model.FriendSync;

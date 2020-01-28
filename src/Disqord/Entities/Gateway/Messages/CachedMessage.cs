@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using Disqord.Collections;
 using Disqord.Models;
-using Qommon.Collections;
 
 namespace Disqord
 {
@@ -19,7 +17,7 @@ namespace Disqord
 
         public IReadOnlyList<CachedUser> MentionedUsers { get; private set; }
 
-        public IReadOnlyDictionary<IEmoji, ReactionData> Reactions => new ReadOnlyDictionary<IEmoji, ReactionData>(_reactions);
+        public IReadOnlyDictionary<IEmoji, ReactionData> Reactions => _reactions.ReadOnly();
 
         public string JumpUrl => Guild != null
             ? $"https://discordapp.com/channels/{Guild.Id}/{Channel.Id}/{Id}"
@@ -52,7 +50,8 @@ namespace Disqord
         internal virtual void Update(MessageModel model)
         {
             if (model.Mentions.HasValue)
-                MentionedUsers = model.Mentions.Value.Select(x => Client.GetUser(x.Id)).ToImmutableArray();
+                MentionedUsers = model.Mentions.Value.ToReadOnlyList(
+                    this, (x, @this) => @this.Client.State.GetSharedOrUnknownUser(x));
         }
     }
 }

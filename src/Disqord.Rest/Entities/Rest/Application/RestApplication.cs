@@ -1,5 +1,5 @@
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Generic;
+using Disqord.Collections;
 using Disqord.Models;
 
 namespace Disqord.Rest
@@ -51,8 +51,8 @@ namespace Disqord.Rest
             IconHash = model.Icon;
             Description = model.Description;
             RpcOrigins = RpcOrigins != null
-                ? model.RpcOrigins.ToImmutableArray()
-                : ImmutableArray<string>.Empty;
+                ? model.RpcOrigins.ReadOnly()
+                : ReadOnlyList<string>.Empty;
             IsBotPublic = model.BotPublic;
             BotRequiresCodeGrant = model.BotRequireCodeGrant;
 

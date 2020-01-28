@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
+using Disqord.Collections;
 using Disqord.Models;
-using Qommon.Collections;
 
 namespace Disqord.Rest
 {
@@ -25,14 +24,15 @@ namespace Disqord.Rest
         {
             NitroSince = model.PremiumSince;
             BoostingSince = model.PremiumGuildSince;
-            MutualGuilds = new ReadOnlyDictionary<Snowflake, RestMutualGuild>(
-                model.MutualGuilds.ToDictionary(x => new Snowflake(x.Id), x => new RestMutualGuild(Client, x)));
-            if (User != null)
-                User.Update(model.User);
-            else
+            MutualGuilds = model.MutualGuilds.ToDictionary(
+                x => new Snowflake(x.Id), x => new RestMutualGuild(Client, x)).ReadOnly();
+            if (User == null)
                 User = new RestUser(Client, model.User);
+            else
+                User.Update(model.User);
             Flags = model.User.Flags.Value;
-            ConnectedAccounts = model.ConnectedAccounts.Select(x => new RestConnectedAccount(Client, x)).ToImmutableArray();
+            ConnectedAccounts = model.ConnectedAccounts.ToReadOnlyList(
+                this, (x, @this) => new RestConnectedAccount(@this.Client, x));
         }
     }
 }

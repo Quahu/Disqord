@@ -3,9 +3,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Disqord.Collections;
 using Disqord.Logging;
 using Disqord.Rest;
-using Qommon.Collections;
 
 namespace Disqord.Sharding
 {
@@ -31,7 +31,7 @@ namespace Disqord.Sharding
             Log(LogMessageSeverity.Information, $"Starting sharder with {_gatewayBotResponse.ShardAmount} shards. There's {_gatewayBotResponse.RemainingSessionAmount} sessions left.");
             _gateways = new DiscordClientGateway[_gatewayBotResponse.ShardAmount];
             var shards = new Shard[_gateways.Length];
-            Shards = new ReadOnlyList<Shard>(shards);
+            Shards = shards.ReadOnly();
             var tasks = new Task[_gateways.Length];
             for (var i = 0; i < _gateways.Length; i++)
             {

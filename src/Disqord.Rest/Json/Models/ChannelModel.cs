@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Models
@@ -19,7 +18,7 @@ namespace Disqord.Models
         public Optional<int> Position { get; set; }
 
         [JsonProperty("permission_overwrites")]
-        public Optional<IReadOnlyList<OverwriteModel>> PermissionOverwrites { get; set; }
+        public Optional<OverwriteModel[]> PermissionOverwrites { get; set; }
 
         [JsonProperty("name")]
         public Optional<string> Name { get; set; }
@@ -43,7 +42,7 @@ namespace Disqord.Models
         public Optional<int> RateLimitPerUser { get; set; }
 
         [JsonProperty("recipients")]
-        public Optional<IReadOnlyList<UserModel>> Recipients { get; set; }
+        public Optional<UserModel[]> Recipients { get; set; }
 
         [JsonProperty("icon")]
         public Optional<string> Icon { get; set; }

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Collections;
 using Disqord.Models;
-using Qommon.Collections;
 
 namespace Disqord.Rest
 {
@@ -75,7 +74,7 @@ namespace Disqord.Rest
             EnableStreamNotifications = model.StreamNotificationsEnabled.Value;
             Status = model.Status.Value;
             ShowCurrentGame = model.ShowCurrentGame.Value;
-            RestrictedGuildIds = model.RestrictedGuilds.Value.Select(x => new Snowflake(x)).ToImmutableArray();
+            RestrictedGuildIds = model.RestrictedGuilds.Value.Snowflakes();
             RenderReactions = model.RenderReactions.Value;
             RenderEmbeds = model.RenderEmbeds.Value;
             EnableCompactMessages = model.MessageDisplayCompact.Value;
@@ -84,7 +83,7 @@ namespace Disqord.Rest
             ShowAttachments = model.InlineAttachmentMedia.Value;
 
             var guildPositions = new Dictionary<Snowflake, int>();
-            var guildFolders = ImmutableArray.CreateBuilder<RestGuildFolder>();
+            var guildFolders = new List<RestGuildFolder>();
             var guildPosition = 0;
             for (var i = 0; i < model.GuildFolders.Value.Length; i++)
             {
@@ -96,9 +95,8 @@ namespace Disqord.Rest
                 if (guildFolderModel.Id != null)
                     guildFolders.Add(new RestGuildFolder(this, guildFolderModel));
             }
-
-            GuildPositions = new ReadOnlyDictionary<Snowflake, int>(guildPositions);
-            GuildFolders = guildFolders.ToImmutable();
+            GuildPositions = guildPositions.ReadOnly();
+            GuildFolders = guildFolders.ReadOnly();
             AutomaticallyPlayGifs = model.GifAutoPlay.Value;
             FriendSource = model.FriendSourceFlags.Value.ToFriendSource();
             ContentFilterLevel = model.ExplicitContentFilter.Value;

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Collections;
 
 namespace Disqord.Rest
 {
@@ -10,7 +10,7 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestVoiceRegion>> GetVoiceRegionsAsync(RestRequestOptions options = null)
         {
             var models = await ApiClient.ListVoiceRegionsAsync(options).ConfigureAwait(false);
-            return models.Select(x => new RestVoiceRegion(this, x)).ToImmutableArray();
+            return models.ToReadOnlyList(this, (x, @this) => new RestVoiceRegion(@this, x));
         }
     }
 }

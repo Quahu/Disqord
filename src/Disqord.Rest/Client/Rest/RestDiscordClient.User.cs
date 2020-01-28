@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Disqord.Collections;
 
 namespace Disqord.Rest
 {
@@ -45,7 +45,7 @@ namespace Disqord.Rest
         public Task<IReadOnlyList<RestPartialGuild>> GetGuildsAsync(int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
             if (limit == 0)
-                return Task.FromResult<IReadOnlyList<RestPartialGuild>>(ImmutableArray<RestPartialGuild>.Empty);
+                return Task.FromResult(ReadOnlyList<RestPartialGuild>.Empty);
 
             if (limit <= 100)
                 return InternalGetGuildsAsync(limit, direction, startFromId, options);
@@ -57,7 +57,7 @@ namespace Disqord.Rest
         internal async Task<IReadOnlyList<RestPartialGuild>> InternalGetGuildsAsync(int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
         {
             var models = await ApiClient.GetCurrentUserGuildsAsync(limit, direction, startFromId, options).ConfigureAwait(false);
-            return models.Select(x => new RestPartialGuild(this, x)).ToImmutableArray();
+            return models.ToReadOnlyList(this, (x, @this) => new RestPartialGuild(@this, x));
         }
 
         public Task LeaveGuildAsync(Snowflake guildId, RestRequestOptions options = null)
@@ -66,7 +66,7 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestPrivateChannel>> GetPrivateChannelsAsync(RestRequestOptions options = null)
         {
             var models = await ApiClient.GetUserDmsAsync(options).ConfigureAwait(false);
-            return models.Select(x => RestPrivateChannel.Create(this, x)).ToImmutableArray();
+            return models.ToReadOnlyList(this, (x, @this) => RestPrivateChannel.Create(@this, x));
         }
 
         public async Task<RestDmChannel> CreateDmChannelAsync(Snowflake userId, RestRequestOptions options = null)
@@ -78,7 +78,7 @@ namespace Disqord.Rest
         public async Task<IReadOnlyList<RestConnection>> GetConnectionsAsync(RestRequestOptions options = null)
         {
             var models = await ApiClient.GetUserConnectionsAsync(options).ConfigureAwait(false);
-            return models.Select(x => new RestConnection(this, x)).ToImmutableArray();
+            return models.ToReadOnlyList(this, (x, @this) => new RestConnection(@this, x));
         }
     }
 }

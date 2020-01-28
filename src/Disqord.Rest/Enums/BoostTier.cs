@@ -1,6 +1,6 @@
 ﻿namespace Disqord
 {
-    public enum BoostTier
+    public enum BoostTier : byte
     {
         None = 0,
 
