@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Threading;
 using System.Threading.Tasks;
+using Disqord.Collections;
 
 namespace Disqord.Rest
 {
@@ -29,11 +29,11 @@ namespace Disqord.Rest
         /// </returns>
         public async Task<IReadOnlyList<T>> FlattenAsync()
         {
-            var builder = ImmutableArray.CreateBuilder<T>();
+            var list = new List<T>(_enumerator.PageSize);
             await foreach (var items in this.ConfigureAwait(false))
-                builder.AddRange(items);
+                list.AddRange(items);
 
-            return builder.ToImmutable();
+            return list.ReadOnly();
         }
 
         public async Task<T> FirstOrDefaultAsync(Predicate<T> predicate)

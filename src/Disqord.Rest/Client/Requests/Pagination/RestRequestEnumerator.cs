@@ -14,7 +14,7 @@ namespace Disqord.Rest
 
         protected int Remaining { get; private set; }
 
-        private RestRequestOptions _options;
+        private readonly RestRequestOptions _options;
 
         private bool _isDisposed;
 
