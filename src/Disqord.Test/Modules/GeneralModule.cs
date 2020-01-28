@@ -44,7 +44,7 @@ namespace Disqord.Test.Modules
                 /* embed  */ new LocalEmbedBuilder().WithDescription("Second page!").Build(),
                 /* tuple  */ ("Third page!", new LocalEmbedBuilder().WithAuthor(Context.User).Build())
             };
-            var pageProvider = new PageProvider(pages);
+            var pageProvider = new DefaultPageProvider(pages);
             var menu = new PagedMenu(Context.User.Id, pageProvider);
             await Context.Channel.StartMenuAsync(menu);
         }
