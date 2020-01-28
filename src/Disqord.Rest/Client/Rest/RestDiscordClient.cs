@@ -6,9 +6,9 @@ namespace Disqord.Rest
 {
     public partial class RestDiscordClient : IRestDiscordClient
     {
-        public RestDownloadable<RestCurrentUser> CurrentUser { get; }
+        public RestFetchable<RestCurrentUser> CurrentUser { get; }
 
-        public RestDownloadable<RestApplication> CurrentApplication { get; }
+        public RestFetchable<RestApplication> CurrentApplication { get; }
 
         /// <summary>
         ///     Gets the token type this client is using.
@@ -52,18 +52,18 @@ namespace Disqord.Rest
         private RestDiscordClient(TokenType? optionalTokenType, string token, ILogger logger = null, IJsonSerializer serializer = null)
         {
             ApiClient = new RestDiscordApiClient(optionalTokenType, token, logger, serializer);
-            CurrentUser = new RestDownloadable<RestCurrentUser>(async options =>
+            CurrentUser = RestFetchable.Create(this, async (@this, options) =>
             {
-                var model = await ApiClient.GetCurrentUserAsync(options).ConfigureAwait(false);
-                return new RestCurrentUser(this, model);
+                var model = await @this.ApiClient.GetCurrentUserAsync(options).ConfigureAwait(false);
+                return new RestCurrentUser(@this, model);
             });
-            CurrentApplication = new RestDownloadable<RestApplication>(async options =>
+            CurrentApplication = RestFetchable.Create(this, async (@this, options) =>
             {
                 //if (TokenType != TokenType.Bot)
                 //    throw new InvalidOperationException("Cannot download the current application without a bot authorization token.");
 
-                var model = await ApiClient.GetCurrentApplicationInformationAsync(options).ConfigureAwait(false);
-                return new RestApplication(this, model);
+                var model = await @this.ApiClient.GetCurrentApplicationInformationAsync(options).ConfigureAwait(false);
+                return new RestApplication(@this, model);
             });
         }
 

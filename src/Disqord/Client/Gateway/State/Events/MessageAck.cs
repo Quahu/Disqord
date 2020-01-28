@@ -15,7 +15,7 @@ namespace Disqord
 
             var message = channel.GetMessage(model.MessageId);
             return _client._messageAcknowledged.InvokeAsync(new MessageAcknowledgedEventArgs(channel,
-                new OptionalSnowflakeEntity<CachedMessage>(message, model.MessageId)));
+                new SnowflakeOptional<CachedMessage>(message, model.MessageId)));
         }
     }
 }

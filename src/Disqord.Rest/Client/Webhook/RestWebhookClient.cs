@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -15,14 +15,14 @@ namespace Disqord.Rest
 
         public string Token { get; }
 
-        public RestDownloadable<RestWebhook> Webhook { get; }
+        public RestFetchable<RestWebhook> Webhook { get; }
 
         private readonly RestDiscordClient _client;
 
         public RestWebhookClient(RestWebhook webhook)
             : this((webhook ?? throw new ArgumentNullException(nameof(webhook))).Client, webhook.Id, webhook.Token)
         {
-            Webhook.SetValue(webhook);
+            Webhook.Value = webhook;
         }
 
         public RestWebhookClient(Snowflake id, string token)
@@ -42,7 +42,8 @@ namespace Disqord.Rest
         private RestWebhookClient(RestDiscordClient client)
         {
             _client = client;
-            Webhook = new RestDownloadable<RestWebhook>(options => _client.GetWebhookAsync(Id, Token, options));
+            Webhook = RestFetchable.Create(this, (@this, options) =>
+                @this._client.GetWebhookAsync(@this.Id, @this.Token, options));
         }
 
         public Task<RestUserMessage> ExecuteAsync(string content = null, bool textToSpeech = false, params LocalEmbed[] embeds)
@@ -63,37 +64,41 @@ namespace Disqord.Rest
             RestRequestOptions options = null)
             => _client.ExecuteWebhookAsync(Id, Token, attachments, content, textToSpeech, embeds, name, avatarUrl, wait, options);
 
-        public Task<RestWebhook> GetWebhookAsync(RestRequestOptions options = null)
-            => Webhook.DownloadAsync(options);
+        public Task<RestWebhook> FetchWebhookAsync(RestRequestOptions options = null)
+            => Webhook.FetchAsync(options);
 
         public async Task<RestWebhook> ModifyAsync(Action<ModifyWebhookProperties> action, RestRequestOptions options = null)
         {
-            if (Webhook.HasValue)
+            RestWebhook webhook;
+            if (Webhook.IsFetched)
             {
-                await Webhook.Value.ModifyAsync(action, options).ConfigureAwait(false);
-                return Webhook.Value;
+                webhook = Webhook.Value;
+                await webhook.ModifyAsync(action, options).ConfigureAwait(false);
             }
             else
             {
-                var webhook = await _client.ModifyWebhookAsync(Id, action, options).ConfigureAwait(false);
-                Webhook.SetValue(webhook);
-                return webhook;
+                webhook = await _client.ModifyWebhookAsync(Id, action, options).ConfigureAwait(false);
+                Webhook.Value = webhook;
             }
+
+            return webhook;
         }
 
         public async Task<RestWebhook> ModifyWithTokenAsync(Action<ModifyWebhookProperties> action, RestRequestOptions options = null)
         {
-            if (Webhook.HasValue)
+            RestWebhook webhook;
+            if (Webhook.IsFetched)
             {
-                await Webhook.Value.ModifyWithTokenAsync(action, options).ConfigureAwait(false);
-                return Webhook.Value;
+                webhook = Webhook.Value;
+                await webhook.ModifyWithTokenAsync(action, options).ConfigureAwait(false);
             }
             else
             {
-                var webhook = await _client.ModifyWebhookAsync(Id, Token, action, options).ConfigureAwait(false);
-                Webhook.SetValue(webhook);
-                return webhook;
+                webhook = await _client.ModifyWebhookAsync(Id, Token, action, options).ConfigureAwait(false);
+                Webhook.Value = webhook;
             }
+
+            return webhook;
         }
 
         public Task DeleteAsync(RestRequestOptions options = null)

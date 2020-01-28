@@ -1,14 +1,12 @@
-﻿using Disqord.Rest;
-
-namespace Disqord.Events
+﻿namespace Disqord.Events
 {
     public sealed class ReactionAddedEventArgs : DiscordEventArgs
     {
         public ICachedMessageChannel Channel { get; }
 
-        public DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage> Message { get; }
+        public FetchableSnowflakeOptional<IMessage> Message { get; }
 
-        public DownloadableOptionalSnowflakeEntity<CachedUser, RestUser> User { get; }
+        public FetchableSnowflakeOptional<IUser> User { get; }
 
         public Optional<ReactionData> Reaction { get; }
 
@@ -16,8 +14,8 @@ namespace Disqord.Events
 
         internal ReactionAddedEventArgs(
             ICachedMessageChannel channel,
-            DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage> message,
-            DownloadableOptionalSnowflakeEntity<CachedUser, RestUser> user,
+            FetchableSnowflakeOptional<IMessage> message,
+            FetchableSnowflakeOptional<IUser> user,
             Optional<ReactionData> reaction,
             IEmoji emoji) : base(channel.Client)
         {

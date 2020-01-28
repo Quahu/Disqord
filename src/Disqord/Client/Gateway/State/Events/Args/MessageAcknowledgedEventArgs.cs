@@ -6,9 +6,9 @@ namespace Disqord.Events
     {
         public ICachedMessageChannel Channel { get; }
 
-        public OptionalSnowflakeEntity<CachedMessage> Message { get; }
+        public SnowflakeOptional<CachedMessage> Message { get; }
 
-        internal MessageAcknowledgedEventArgs(ICachedMessageChannel channel, OptionalSnowflakeEntity<CachedMessage> message) : base(channel.Client)
+        internal MessageAcknowledgedEventArgs(ICachedMessageChannel channel, SnowflakeOptional<CachedMessage> message) : base(channel.Client)
         {
             Channel = channel;
             Message = message;

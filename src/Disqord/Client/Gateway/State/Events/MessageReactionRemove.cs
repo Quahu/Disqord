@@ -43,23 +43,26 @@ namespace Disqord
                 }
             }
 
-            return _client._reactionRemoved.InvokeAsync(
-                new ReactionRemovedEventArgs(
-                    channel,
-                    new DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage>(message, model.MessageId,
-                        options => _client.GetMessageAsync(channel.Id, model.MessageId, options)),
-                    new DownloadableOptionalSnowflakeEntity<CachedUser, RestUser>(
-                        channel is CachedTextChannel textChannel
-                            ? textChannel.Guild.GetMember(model.UserId)
-                                ?? GetUser(model.UserId)
-                            : GetUser(model.UserId),
-                        model.UserId,
-                        async options => model.GuildId != null
-                            ? await _client.GetMemberAsync(model.GuildId.Value, model.UserId, options).ConfigureAwait(false)
-                                ?? await _client.GetUserAsync(model.UserId, options).ConfigureAwait(false)
-                            : await _client.GetUserAsync(model.UserId, options).ConfigureAwait(false)),
-                    reaction ?? Optional<ReactionData>.Empty,
-                    model.Emoji.ToEmoji()));
+            var messageOptional = FetchableSnowflakeOptional.Create<CachedMessage, RestMessage, IMessage>(
+                model.MessageId, message, RestFetchable.Create((this, model), (tuple, options) =>
+                {
+                    var (@this, model) = tuple;
+                    return @this._client.GetMessageAsync(model.ChannelId, model.MessageId, options);
+                }));
+            var userOptional = FetchableSnowflakeOptional.Create<CachedUser, RestUser, IUser>(
+                model.UserId, channel is CachedTextChannel textChannel
+                    ? textChannel.Guild.GetMember(model.UserId) ?? GetUser(model.UserId)
+                    : GetUser(model.UserId),
+                RestFetchable.Create((this, model), async (tuple, options) =>
+                {
+                    var (@this, model) = tuple;
+                    return model.GuildId != null
+                        ? await @this._client.GetMemberAsync(model.GuildId.Value, model.UserId, options).ConfigureAwait(false)
+                            ?? await @this._client.GetUserAsync(model.UserId, options).ConfigureAwait(false)
+                        : await @this._client.GetUserAsync(model.UserId, options).ConfigureAwait(false);
+                }));
+            return _client._reactionRemoved.InvokeAsync(new ReactionRemovedEventArgs(
+                channel, messageOptional, userOptional, reaction ?? Optional<ReactionData>.Empty, model.Emoji.ToEmoji()));
         }
     }
 }

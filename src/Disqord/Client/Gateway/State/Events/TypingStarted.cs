@@ -27,12 +27,21 @@ namespace Disqord
                 user = GetUser(model.UserId);
             }
 
+            var userOptional = FetchableSnowflakeOptional.Create<CachedUser, RestUser, IUser>(
+                model.UserId, channel is CachedTextChannel textChannel
+                    ? textChannel.Guild.GetMember(model.UserId) ?? GetUser(model.UserId)
+                    : GetUser(model.UserId),
+                RestFetchable.Create((this, model), async (tuple, options) =>
+                {
+                    var (@this, model) = tuple;
+                    return model.GuildId != null
+                        ? await @this._client.GetMemberAsync(model.GuildId.Value, model.UserId, options).ConfigureAwait(false)
+                            ?? await @this._client.GetUserAsync(model.UserId, options).ConfigureAwait(false)
+                        : await @this._client.GetUserAsync(model.UserId, options).ConfigureAwait(false);
+                }));
             return _client._typingStarted.InvokeAsync(new TypingStartedEventArgs(_client,
-                new OptionalSnowflakeEntity<ICachedMessageChannel>(channel, model.ChannelId),
-                new DownloadableOptionalSnowflakeEntity<CachedUser, RestUser>(user, model.UserId,
-                async options => guild != null
-                    ? await guild.GetMemberAsync(model.UserId, options).ConfigureAwait(false)
-                    : await _client.GetUserAsync(model.UserId, options).ConfigureAwait(false)),
+                new SnowflakeOptional<ICachedMessageChannel>(channel, model.ChannelId),
+                userOptional,
                 DateTimeOffset.FromUnixTimeSeconds(model.Timestamp)));
         }
     }

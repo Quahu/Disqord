@@ -6,7 +6,7 @@ namespace Disqord.Events
     {
         public CachedTextChannel Channel { get; }
 
-        public OptionalSnowflakeEntity<CachedMessage> Message { get; }
+        public FetchableSnowflakeOptional<IMessage> Message { get; }
 
         /// <summary>
         ///     Gets the cleared reactions.
@@ -16,7 +16,7 @@ namespace Disqord.Events
 
         internal ReactionsClearedEventArgs(
             CachedTextChannel channel,
-            OptionalSnowflakeEntity<CachedMessage> message,
+            FetchableSnowflakeOptional<IMessage> message,
             IReadOnlyDictionary<IEmoji, ReactionData> reactions) : base(channel.Client)
         {
             Channel = channel;

@@ -79,7 +79,7 @@ namespace Disqord
             }
 
             return _client._messageUpdated.InvokeAsync(new MessageUpdatedEventArgs(channel,
-                new OptionalSnowflakeEntity<CachedUserMessage>(before, model.Id),
+                new SnowflakeOptional<CachedUserMessage>(before, model.Id),
                 message));
         }
     }

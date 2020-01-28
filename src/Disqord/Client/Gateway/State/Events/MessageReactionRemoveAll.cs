@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Collections;
 using Disqord.Events;
 using Disqord.Models;
 using Disqord.Models.Dispatches;
 using Disqord.Rest;
-using Qommon.Collections;
 
 namespace Disqord
 {
@@ -19,11 +18,14 @@ namespace Disqord
             var reactions = message?._reactions.ToDictionary(x => x.Key, x => x.Value);
             message?._reactions.Clear();
 
+            var messageOptional = FetchableSnowflakeOptional.Create<CachedMessage, RestMessage, IMessage>(
+                model.MessageId, message, RestFetchable.Create((this, model), (tuple, options) =>
+                {
+                    var (@this, model) = tuple;
+                    return @this._client.GetMessageAsync(model.ChannelId, model.MessageId, options);
+                }));
             return _client._reactionsCleared.InvokeAsync(new ReactionsClearedEventArgs(
-                channel,
-                new DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage>(message, model.MessageId,
-                    options => _client.GetMessageAsync(channel.Id, model.MessageId, options)),
-                new ReadOnlyDictionary<IEmoji, ReactionData>(reactions ?? new Dictionary<IEmoji, ReactionData>())));
+                channel, messageOptional, reactions?.ReadOnly() ?? ReadOnlyDictionary<IEmoji, ReactionData>.Empty));
         }
     }
 }

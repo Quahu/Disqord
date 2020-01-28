@@ -6,10 +6,10 @@ namespace Disqord.Events
     {
         public CachedTextChannel Channel { get; }
 
-        public IReadOnlyList<OptionalSnowflakeEntity<CachedUserMessage>> Messages { get; }
+        public IReadOnlyList<SnowflakeOptional<CachedUserMessage>> Messages { get; }
 
         internal MessagesBulkDeletedEventArgs(CachedTextChannel channel,
-            IReadOnlyList<OptionalSnowflakeEntity<CachedUserMessage>> messages) : base(channel.Client)
+            IReadOnlyList<SnowflakeOptional<CachedUserMessage>> messages) : base(channel.Client)
         {
             Channel = channel;
             Messages = messages;

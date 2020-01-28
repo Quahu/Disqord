@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Disqord.Models;
 
 namespace Disqord.Rest.AuditLogs
@@ -9,7 +9,7 @@ namespace Disqord.Rest.AuditLogs
 
         public Snowflake ResponsibleUserId { get; }
 
-        public RestDownloadable<RestUser> ResponsibleUser { get; }
+        public RestFetchable<RestUser> ResponsibleUser { get; }
 
         public string Reason { get; }
 
@@ -17,10 +17,11 @@ namespace Disqord.Rest.AuditLogs
         {
             TargetId = entry.TargetId;
             ResponsibleUserId = entry.UserId;
-            ResponsibleUser = new RestDownloadable<RestUser>(options => Client.GetUserAsync(ResponsibleUserId, options));
+            ResponsibleUser = RestFetchable.Create(this, (@this, options) =>
+                @this.Client.GetUserAsync(@this.ResponsibleUserId, options));
             var userModel = Array.Find(log.Users, x => x.Id == entry.UserId);
             if (userModel != null)
-                ResponsibleUser.SetValue(new RestUser(client, userModel));
+                ResponsibleUser.Value = new RestUser(client, userModel);
 
             Reason = entry.Reason;
         }

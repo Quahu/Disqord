@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace Disqord.Rest
     public partial class RestDiscordClient : IRestDiscordClient
     {
         public Task<RestCurrentUser> GetCurrentUserAsync(RestRequestOptions options = null)
-            => CurrentUser.DownloadAsync(options);
+            => CurrentUser.FetchAsync(options);
 
         public async Task<RestUser> GetUserAsync(Snowflake userId, RestRequestOptions options = null)
         {
@@ -31,8 +31,8 @@ namespace Disqord.Rest
             action(properties);
             var model = await ApiClient.ModifyCurrentUserAsync(properties, options).ConfigureAwait(false);
             var user = new RestCurrentUser(this, model);
-            if (!CurrentUser.HasValue)
-                CurrentUser.SetValue(user);
+            if (!CurrentUser.IsFetched)
+                CurrentUser.Value = user;
             else
                 CurrentUser.Value.Update(model);
 

@@ -16,7 +16,7 @@ namespace Disqord.Rest
         /// <summary>
         ///     Gets the guild.
         /// </summary>
-        public RestDownloadable<RestGuild> Guild { get; }
+        public RestFetchable<RestGuild> Guild { get; }
 
         /// <summary>
         ///     Gets the banned user.
@@ -31,7 +31,8 @@ namespace Disqord.Rest
         internal RestBan(RestDiscordClient client, Snowflake guildId, BanModel model) : base(client)
         {
             GuildId = guildId;
-            Guild = new RestDownloadable<RestGuild>(options => Client.GetGuildAsync(guildId, options));
+            Guild = RestFetchable.Create(this, (@this, options) =>
+                @this.Client.GetGuildAsync(@this.GuildId, options));
             User = new RestUser(client, model.User);
             Reason = model.Reason;
         }

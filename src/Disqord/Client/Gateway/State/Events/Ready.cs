@@ -12,7 +12,7 @@ namespace Disqord
         {
             if (_currentUser == null)
             {
-                _client.RestClient.CurrentUser.SetValue(new RestCurrentUser(_client.RestClient, model.User));
+                _client.RestClient.CurrentUser.Value = new RestCurrentUser(_client.RestClient, model.User);
                 var sharedUser = new CachedSharedUser(_client, model.User);
                 _currentUser = new CachedCurrentUser(sharedUser, model.User, model.Relationships?.Length ?? 0, model.Notes?.Count ?? 0);
                 sharedUser.References++;

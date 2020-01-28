@@ -5,9 +5,9 @@ namespace Disqord.Extensions.Interactivity.Menus
 {
     public sealed class ButtonEventArgs : DiscordEventArgs
     {
-        public DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage> Message { get; }
+        public FetchableSnowflakeOptional<IMessage> Message { get; }
 
-        public DownloadableOptionalSnowflakeEntity<CachedUser, RestUser> User { get; }
+        public FetchableSnowflakeOptional<IUser> User { get; }
 
         public Optional<ReactionData> Reaction { get; }
 

@@ -18,12 +18,14 @@ namespace Disqord
             ReactionData data = null;
             message?._reactions.TryRemove(emoji, out data);
 
+            var messageOptional = FetchableSnowflakeOptional.Create<CachedMessage, RestMessage, IMessage>(
+                model.MessageId, message, RestFetchable.Create((this, model), (tuple, options) =>
+                {
+                    var (@this, model) = tuple;
+                    return @this._client.GetMessageAsync(model.ChannelId, model.MessageId, options);
+                }));
             return _client._emojiReactionsCleared.InvokeAsync(new EmojiReactionsClearedEventArgs(
-                channel,
-                new DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage>(message, model.MessageId,
-                    options => _client.GetMessageAsync(channel.Id, model.MessageId, options)),
-                emoji,
-                data));
+                channel, messageOptional, emoji, data));
         }
     }
 }

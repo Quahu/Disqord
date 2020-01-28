@@ -6,9 +6,9 @@ namespace Disqord.Events
     {
         public ICachedMessageChannel Channel { get; }
 
-        public DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage> Message { get; }
+        public FetchableSnowflakeOptional<IMessage> Message { get; }
 
-        public DownloadableOptionalSnowflakeEntity<CachedUser, RestUser> User { get; }
+        public FetchableSnowflakeOptional<IUser> User { get; }
 
         public Optional<ReactionData> Reaction { get; }
 
@@ -16,8 +16,8 @@ namespace Disqord.Events
 
         internal ReactionRemovedEventArgs(
             ICachedMessageChannel channel,
-            DownloadableOptionalSnowflakeEntity<CachedMessage, RestMessage> message,
-            DownloadableOptionalSnowflakeEntity<CachedUser, RestUser> user,
+            FetchableSnowflakeOptional<IMessage> message,
+            FetchableSnowflakeOptional<IUser> user,
             Optional<ReactionData> reaction,
             IEmoji emoji) : base(channel.Client)
         {

@@ -8,7 +8,7 @@ namespace Disqord.Rest
     {
         public Snowflake GuildId { get; }
 
-        public RestDownloadable<RestGuild> Guild { get; }
+        public RestFetchable<RestGuild> Guild { get; }
 
         public bool IsEnabled { get; private set; }
 
@@ -17,7 +17,8 @@ namespace Disqord.Rest
         internal RestWidget(RestDiscordClient client, WidgetModel model, Snowflake guildId) : base(client)
         {
             GuildId = guildId;
-            Guild = new RestDownloadable<RestGuild>(options => Client.GetGuildAsync(GuildId, options));
+            Guild = RestFetchable.Create(this, (@this, options) =>
+                @this.Client.GetGuildAsync(@this.GuildId, options));
             Update(model);
         }
 

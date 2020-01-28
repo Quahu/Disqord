@@ -4,11 +4,11 @@
     {
         public ICachedMessageChannel Channel { get; }
 
-        public OptionalSnowflakeEntity<CachedUserMessage> OldMessage { get; }
+        public SnowflakeOptional<CachedUserMessage> OldMessage { get; }
 
         public CachedUserMessage NewMessage { get; }
 
-        internal MessageUpdatedEventArgs(ICachedMessageChannel channel, OptionalSnowflakeEntity<CachedUserMessage> oldMessage, CachedUserMessage newMessage)
+        internal MessageUpdatedEventArgs(ICachedMessageChannel channel, SnowflakeOptional<CachedUserMessage> oldMessage, CachedUserMessage newMessage)
             : base(channel.Client)
         {
             Channel = channel;

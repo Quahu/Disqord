@@ -9,7 +9,7 @@ namespace Disqord.Rest
     {
         public Snowflake GuildId { get; }
 
-        public RestDownloadable<RestGuild> Guild { get; }
+        public RestFetchable<RestGuild> Guild { get; }
 
         public string Nick { get; private set; }
 
@@ -32,7 +32,8 @@ namespace Disqord.Rest
         internal RestMember(RestDiscordClient client, Snowflake guildId, MemberModel model) : base(client, model.User)
         {
             GuildId = guildId;
-            Guild = new RestDownloadable<RestGuild>(options => Client.GetGuildAsync(GuildId, options));
+            Guild = RestFetchable.Create(this, (@this, options) =>
+                @this.Client.GetGuildAsync(@this.GuildId, options));
             JoinedAt = model.JoinedAt;
             IsMuted = model.Mute;
             IsDeafened = model.Deaf;

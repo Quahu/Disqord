@@ -5,94 +5,68 @@ namespace Disqord
     /// <summary>
     ///     Represents an always present <see cref="Snowflake"/> and an optional <see cref="ISnowflakeEntity"/>.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class OptionalSnowflakeEntity<T> : IEquatable<OptionalSnowflakeEntity<T>>, IEquatable<T>
+    /// <typeparam name="T"> The type of the entity. </typeparam>
+    public readonly struct SnowflakeOptional<T> : IEquatable<T>
         where T : class, ISnowflakeEntity
     {
-        /// <summary>
-        ///     Gets the <see cref="Snowflake"/> of the entity.
-        /// </summary>
+        /// <inheritdoc cref="ISnowflakeEntity.Id"/>
         public Snowflake Id { get; }
 
         /// <summary>
-        ///     Gets whether this <see cref="OptionalSnowflakeEntity{T}"/> has a value.
+        ///     Gets whether this <see cref="SnowflakeOptional{T}"/> has a value.
         /// </summary>
-        public bool HasValue { get; }
+        public bool HasValue => _value != null;
 
         /// <summary>
-        ///     Gets the value of this <see cref="OptionalSnowflakeEntity{T}"/>.
+        ///     Gets the value of this <see cref="SnowflakeOptional{T}"/>.
         /// </summary>
         /// <exception cref="InvalidOperationException">
         ///     This optional snowflake entity does not have a value.
         /// </exception>
-        public T Value
-        {
-            get
-            {
-                if (!HasValue)
-                    throw new InvalidOperationException("This optional snowflake entity does not have a value.");
-
-                return _value;
-            }
-        }
+        public T Value => _value ?? throw new InvalidOperationException("This optional snowflake entity does not have a value.");
         private readonly T _value;
 
-        internal OptionalSnowflakeEntity(Snowflake id)
-        {
-            Id = id;
-            _value = default;
-            HasValue = false;
-        }
+        internal SnowflakeOptional(Snowflake id)
+            : this(null, id)
+        { }
 
-        internal OptionalSnowflakeEntity(T value)
-        {
-            _value = value ?? throw new ArgumentNullException(nameof(value));
-            Id = value.Id;
-            HasValue = true;
-        }
+        internal SnowflakeOptional(T value)
+            : this(value ?? throw new ArgumentNullException(nameof(value)), value.Id)
+        { }
 
-        internal OptionalSnowflakeEntity(T value, Snowflake id)
+        internal SnowflakeOptional(T value, Snowflake id)
         {
             _value = value;
             Id = id;
-            HasValue = value != null;
         }
 
         /// <summary>
-        ///     Returns a hash code for this <see cref="OptionalSnowflakeEntity{T}"/>.
+        ///     Returns a hash code for this <see cref="SnowflakeOptional{T}"/>.
         /// </summary>
         /// <returns>
         ///     The hash code.
         /// </returns>
         public override int GetHashCode()
-            => HasValue ? _value.GetHashCode() : -1;
+            => _value?.GetHashCode() ?? -1;
 
         /// <summary>
-        ///     Returns the string representation of this <see cref="OptionalSnowflakeEntity{T}"/>.
+        ///     Returns the string representation of this <see cref="SnowflakeOptional{T}"/>.
         /// </summary>
         /// <returns>
-        ///     The string representation of this <see cref="OptionalSnowflakeEntity{T}"/>.
+        ///     The string representation of this <see cref="SnowflakeOptional{T}"/>.
         /// </returns>
         public override string ToString()
-            => HasValue ? _value.ToString() : "<no value>";
+            => _value?.ToString() ?? "<no value>";
 
         /// <summary>
-        ///     Checks whether this <see cref="OptionalSnowflakeEntity{T}"/> or this <see cref="Value"/> are equal to the specified <see cref="object"/>.
+        ///     Checks whether this <see cref="SnowflakeOptional{T}"/> or this <see cref="Value"/> are equal to the specified <see cref="object"/>.
         /// </summary>
         /// <param name="obj"> The <see cref="object"/> to compare against. </param>
         /// <returns>
         ///     The <see cref="bool"/> value reresenting whether the comparison succeeded.
         /// </returns>
         public override bool Equals(object obj)
-        {
-            if (obj is T value)
-                return Equals(value);
-
-            if (obj is OptionalSnowflakeEntity<T> Cachable)
-                return Equals(Cachable);
-
-            return false;
-        }
+            => obj is T value && Equals(value);
 
         /// <summary>
         ///     Checks whether this <see cref="Value"/> is equal to the specified <typeparamref name="T"/> value.
@@ -102,60 +76,12 @@ namespace Disqord
         ///     The <see cref="bool"/> value reresenting whether the comparison succeeded.
         /// </returns>
         public bool Equals(T other)
-        {
-            if (!HasValue && other == null)
-                return true;
+            => !HasValue && other == null || HasValue && ReferenceEquals(_value, other);
 
-            if (!HasValue)
-                return false;
-
-            return ReferenceEquals(_value, other);
-        }
-
-        /// <summary>
-        ///     Checks whether this <see cref="Value"/> is equal to the specified <see cref="OptionalSnowflakeEntity{T}"/>.
-        /// </summary>
-        /// <param name="other"> The <see cref="OptionalSnowflakeEntity{T}"/> to compare against. </param>
-        /// <returns>
-        ///     The <see cref="bool"/> value reresenting whether the comparison succeeded.
-        /// </returns>
-        public bool Equals(OptionalSnowflakeEntity<T> other)
-        {
-            if (!HasValue && !other.HasValue)
-                return true;
-
-            if (HasValue != other.HasValue)
-                return false;
-
-            return _value.Equals(other._value);
-        }
-
-        /// <summary>
-        ///     Checks if this <see cref="OptionalSnowflakeEntity{T}"/> is equal to another <see cref="OptionalSnowflakeEntity{T}"/>.
-        /// </summary>
-        /// <param name="left"> The left-hand side <see cref="OptionalSnowflakeEntity{T}"/>. </param>
-        /// <param name="right"> The right-hand side <see cref="OptionalSnowflakeEntity{T}"/> to compare against. </param>
-        /// <returns>
-        ///     The <see cref="bool"/> value reresenting whether the comparison succeeded.
-        /// </returns>
-        public static bool operator ==(OptionalSnowflakeEntity<T> left, OptionalSnowflakeEntity<T> right)
+        public static bool operator ==(SnowflakeOptional<T> left, T right)
             => left.Equals(right);
 
-        /// <summary>
-        ///     Checks if this <see cref="OptionalSnowflakeEntity{T}"/> isn't equal to another <see cref="OptionalSnowflakeEntity{T}"/>.
-        /// </summary>
-        /// <param name="left"> The left-hand side <see cref="OptionalSnowflakeEntity{T}"/>. </param>
-        /// <param name="right"> The right-hand side <see cref="OptionalSnowflakeEntity{T}"/> to compare against. </param>
-        /// <returns>
-        ///     The <see cref="bool"/> value reresenting whether the comparison succeeded.
-        /// </returns>
-        public static bool operator !=(OptionalSnowflakeEntity<T> left, OptionalSnowflakeEntity<T> right)
-            => !left.Equals(right);
-
-        public static bool operator ==(OptionalSnowflakeEntity<T> left, T right)
-            => left.Equals(right);
-
-        public static bool operator !=(OptionalSnowflakeEntity<T> left, T right)
+        public static bool operator !=(SnowflakeOptional<T> left, T right)
             => !left.Equals(right);
     }
 }

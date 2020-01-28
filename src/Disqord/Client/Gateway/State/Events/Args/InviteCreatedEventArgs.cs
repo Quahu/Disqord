@@ -6,7 +6,7 @@ namespace Disqord.Events
     {
         public CachedGuild Guild { get; }
 
-        public OptionalSnowflakeEntity<CachedChannel> Channel { get; }
+        public SnowflakeOptional<CachedChannel> Channel { get; }
 
         public CachedUser Inviter { get; }
 
@@ -23,7 +23,7 @@ namespace Disqord.Events
         internal InviteCreatedEventArgs(
             DiscordClientBase client,
             CachedGuild guild,
-            OptionalSnowflakeEntity<CachedChannel> channel,
+            SnowflakeOptional<CachedChannel> channel,
             CachedUser inviter,
             string code,
             bool isTemporary,

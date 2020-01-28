@@ -4,7 +4,7 @@
     {
         public CachedTextChannel Channel { get; }
 
-        public OptionalSnowflakeEntity<CachedMessage> Message { get; }
+        public FetchableSnowflakeOptional<IMessage> Message { get; }
 
         /// <summary>
         ///     Gets the cleared <see cref="IEmoji"/>.
@@ -19,7 +19,7 @@
 
         internal EmojiReactionsClearedEventArgs(
             CachedTextChannel channel,
-            OptionalSnowflakeEntity<CachedMessage> message,
+            FetchableSnowflakeOptional<IMessage> message,
             IEmoji emoji,
             ReactionData data) : base(channel.Client)
         {

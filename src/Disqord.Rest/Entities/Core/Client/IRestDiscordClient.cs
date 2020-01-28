@@ -7,9 +7,9 @@ namespace Disqord.Rest
     {
         ILogger Logger { get; }
 
-        RestDownloadable<RestApplication> CurrentApplication { get; }
+        RestFetchable<RestApplication> CurrentApplication { get; }
 
-        RestDownloadable<RestCurrentUser> CurrentUser { get; }
+        RestFetchable<RestCurrentUser> CurrentUser { get; }
 
         TokenType TokenType { get; }
     }

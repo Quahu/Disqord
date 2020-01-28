@@ -7,7 +7,7 @@ namespace Disqord.Rest
     {
         public Snowflake ChannelId { get; }
 
-        public RestDownloadable<RestGuildChannel> Channel { get; }
+        public RestFetchable<RestGuildChannel> Channel { get; }
 
         public Snowflake TargetId { get; }
 
@@ -18,7 +18,8 @@ namespace Disqord.Rest
         internal RestOverwrite(RestDiscordClient client, Snowflake channelId, OverwriteModel model) : base(client)
         {
             ChannelId = channelId;
-            Channel = new RestDownloadable<RestGuildChannel>(options => Client.GetChannelAsync<RestGuildChannel>(ChannelId, options));
+            Channel = RestFetchable.Create(this, (@this, options) =>
+                @this.Client.GetChannelAsync<RestGuildChannel>(@this.ChannelId, options));
             TargetId = model.Id;
             Permissions = (model.Allow, model.Deny);
             TargetType = model.Type;

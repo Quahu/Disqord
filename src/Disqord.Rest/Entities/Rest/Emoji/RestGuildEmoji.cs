@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Disqord.Models;
@@ -21,7 +21,7 @@ namespace Disqord.Rest
 
         public Snowflake GuildId { get; }
 
-        public RestDownloadable<RestGuild> Guild { get; }
+        public RestFetchable<RestGuild> Guild { get; }
 
         public string ReactionFormat => Discord.ToReactionFormat(this);
 
@@ -32,7 +32,8 @@ namespace Disqord.Rest
         internal RestGuildEmoji(RestDiscordClient client, Snowflake guildId, EmojiModel model) : base(client, model.Id.Value)
         {
             GuildId = guildId;
-            Guild = new RestDownloadable<RestGuild>(options => Client.GetGuildAsync(GuildId, options));
+            Guild = RestFetchable.Create(this, (@this, options) =>
+                @this.Client.GetGuildAsync(@this.GuildId, options));
             RequiresColons = model.RequireColons;
             IsManaged = model.Managed;
             IsAnimated = model.Animated;

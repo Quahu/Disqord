@@ -29,7 +29,7 @@ namespace Disqord
                 inviter = new CachedUnknownUser(_client, model.Inviter);
 
             return _client._inviteCreated.InvokeAsync(new InviteCreatedEventArgs(
-                _client, guild, new OptionalSnowflakeEntity<CachedChannel>(channel, model.ChannelId),
+                _client, guild, new SnowflakeOptional<CachedChannel>(channel, model.ChannelId),
                 inviter, model.Code, model.Temporary, model.MaxUses, model.MaxAge, model.CreatedAt));
         }
     }

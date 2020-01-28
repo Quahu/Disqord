@@ -6,12 +6,13 @@ namespace Disqord.Rest
     {
         public Snowflake GuildId { get; }
 
-        public RestDownloadable<RestGuild> Guild { get; }
+        public RestFetchable<RestGuild> Guild { get; }
 
         internal RestGuildVoiceRegion(RestDiscordClient client, Snowflake guildId, VoiceRegionModel model) : base(client, model)
         {
             GuildId = guildId;
-            Guild = new RestDownloadable<RestGuild>(options => Client.GetGuildAsync(GuildId, options));
+            Guild = RestFetchable.Create(this, (@this, options) =>
+                @this.Client.GetGuildAsync(@this.GuildId, options));
         }
     }
 }

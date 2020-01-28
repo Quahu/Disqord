@@ -25,7 +25,7 @@ namespace Disqord
             _messageCache?.TryRemoveMessage(channel.Id, model.Id, out message);
 
             return _client._messageDeleted.InvokeAsync(new MessageDeletedEventArgs(channel,
-                new OptionalSnowflakeEntity<CachedUserMessage>(message, model.Id)));
+                new SnowflakeOptional<CachedUserMessage>(message, model.Id)));
         }
     }
 }

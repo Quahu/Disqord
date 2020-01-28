@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using Disqord.Models;
 
@@ -28,7 +28,7 @@ namespace Disqord.Rest
 
         public Snowflake GuildId { get; }
 
-        public RestDownloadable<RestGuild> Guild { get; }
+        public RestFetchable<RestGuild> Guild { get; }
 
         public Snowflake PrimarySkuId { get; private set; }
 
@@ -39,7 +39,8 @@ namespace Disqord.Rest
         internal RestApplication(RestDiscordClient client, ApplicationModel model) : base(client, model.Id)
         {
             GuildId = model.GuildId;
-            Guild = new RestDownloadable<RestGuild>(options => Client.GetGuildAsync(GuildId, options));
+            Guild = RestFetchable.Create(this, (@this, options) =>
+                @this.Client.GetGuildAsync(@this.GuildId, options));
 
             Update(model);
         }

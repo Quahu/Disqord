@@ -11,7 +11,7 @@ namespace Disqord
 {
     public abstract partial class DiscordClientBase : IRestDiscordClient, IAsyncDisposable
     {
-        public RestDownloadable<RestApplication> CurrentApplication => RestClient.CurrentApplication;
+        public RestFetchable<RestApplication> CurrentApplication => RestClient.CurrentApplication;
 
         /// <summary>
         ///     Gets the token type this client is using.
@@ -32,7 +32,7 @@ namespace Disqord
 
         internal Func<DiscordClientBase, ulong, DiscordClientGateway> _getGateway;
 
-        RestDownloadable<RestCurrentUser> IRestDiscordClient.CurrentUser => RestClient.CurrentUser;
+        RestFetchable<RestCurrentUser> IRestDiscordClient.CurrentUser => RestClient.CurrentUser;
 
         internal DiscordClientBase(RestDiscordClient restClient,
             MessageCache messageCache,

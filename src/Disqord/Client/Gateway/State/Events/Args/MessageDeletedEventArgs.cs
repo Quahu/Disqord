@@ -4,9 +4,9 @@
     {
         public ICachedMessageChannel Channel { get; }
 
-        public OptionalSnowflakeEntity<CachedUserMessage> Message { get; }
+        public SnowflakeOptional<CachedUserMessage> Message { get; }
 
-        internal MessageDeletedEventArgs(ICachedMessageChannel channel, OptionalSnowflakeEntity<CachedUserMessage> message) : base(channel.Client)
+        internal MessageDeletedEventArgs(ICachedMessageChannel channel, SnowflakeOptional<CachedUserMessage> message) : base(channel.Client)
         {
             Channel = channel;
             Message = message;
