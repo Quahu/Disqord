@@ -110,7 +110,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RestDownloadable&lt;RestApplication&gt; CurrentApplication { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public RestFetchable&lt;RestApplication&gt; CurrentApplication { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -122,7 +122,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Disqord.Rest.RestDownloadable-1.html">RestDownloadable</a>&lt;<a class="xref" href="Disqord.Rest.RestApplication.html">RestApplication</a>&gt;</td>
+        <td><a class="xref" href="Disqord.Rest.RestFetchable-1.html">RestFetchable</a>&lt;<a class="xref" href="Disqord.Rest.RestApplication.html">RestApplication</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -4803,18 +4803,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_GetReactionsAsync_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.GetReactionsAsync(Snowflake%2CSnowflake%2CDisqord.IEmoji%2CSystem.Int32%2CDisqord.RetrievalDirection%2CSystem.Nullable%7BSnowflake%7D%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_GetReactionsAsync_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.GetReactionsAsync(Snowflake%2CSnowflake%2CDisqord.IEmoji%2CSystem.Int32%2CSystem.Nullable%7BSnowflake%7D%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Rest.cs/#L88">View Source</a>
   </span>
   <a id="Disqord_DiscordClientBase_GetReactionsAsync_" data-uid="Disqord.DiscordClientBase.GetReactionsAsync*"></a>
-  <h4 id="Disqord_DiscordClientBase_GetReactionsAsync_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_" data-uid="Disqord.DiscordClientBase.GetReactionsAsync(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)">GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable&lt;Snowflake&gt;, RestRequestOptions)</h4>
+  <h4 id="Disqord_DiscordClientBase_GetReactionsAsync_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_" data-uid="Disqord.DiscordClientBase.GetReactionsAsync(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)">GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, Nullable&lt;Snowflake&gt;, RestRequestOptions)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;IReadOnlyList&lt;RestUser&gt;&gt; GetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;IReadOnlyList&lt;RestUser&gt;&gt; GetReactionsAsync(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, Snowflake? startFromId = null, RestRequestOptions options = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -4844,11 +4844,6 @@
       <tr>
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
         <td><span class="parametername">limit</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Disqord.RetrievalDirection.html">RetrievalDirection</a></td>
-        <td><span class="parametername">direction</span></td>
         <td></td>
       </tr>
       <tr>
@@ -4880,18 +4875,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_GetReactionsEnumerable_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake%2CSnowflake%2CDisqord.IEmoji%2CSystem.Int32%2CDisqord.RetrievalDirection%2CSystem.Nullable%7BSnowflake%7D%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBase_GetReactionsEnumerable_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake%2CSnowflake%2CDisqord.IEmoji%2CSystem.Int32%2CSystem.Nullable%7BSnowflake%7D%2CDisqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBase.Rest.cs/#L87">View Source</a>
   </span>
   <a id="Disqord_DiscordClientBase_GetReactionsEnumerable_" data-uid="Disqord.DiscordClientBase.GetReactionsEnumerable*"></a>
-  <h4 id="Disqord_DiscordClientBase_GetReactionsEnumerable_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_" data-uid="Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)">GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable&lt;Snowflake&gt;, RestRequestOptions)</h4>
+  <h4 id="Disqord_DiscordClientBase_GetReactionsEnumerable_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_" data-uid="Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)">GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, Nullable&lt;Snowflake&gt;, RestRequestOptions)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RestRequestEnumerable&lt;RestUser&gt; GetReactionsEnumerable(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public RestRequestEnumerable&lt;RestUser&gt; GetReactionsEnumerable(Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, Snowflake? startFromId = null, RestRequestOptions options = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -4921,11 +4916,6 @@
       <tr>
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
         <td><span class="parametername">limit</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Disqord.RetrievalDirection.html">RetrievalDirection</a></td>
-        <td><span class="parametername">direction</span></td>
         <td></td>
       </tr>
       <tr>
@@ -9054,7 +9044,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">RestDownloadable&lt;RestCurrentUser&gt; IRestDiscordClient.CurrentUser { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">RestFetchable&lt;RestCurrentUser&gt; IRestDiscordClient.CurrentUser { get; }</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -9066,7 +9056,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Disqord.Rest.RestDownloadable-1.html">RestDownloadable</a>&lt;<a class="xref" href="Disqord.Rest.RestCurrentUser.html">RestCurrentUser</a>&gt;</td>
+        <td><a class="xref" href="Disqord.Rest.RestFetchable-1.html">RestFetchable</a>&lt;<a class="xref" href="Disqord.Rest.RestCurrentUser.html">RestCurrentUser</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>

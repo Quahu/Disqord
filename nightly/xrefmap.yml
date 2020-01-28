@@ -4685,6 +4685,19 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedMember.GetPermissionsFor
   nameWithType: CachedMember.GetPermissionsFor
+- uid: Disqord.CachedMember.GetRole(Snowflake)
+  name: GetRole(Snowflake)
+  href: api/Disqord.CachedMember.html#Disqord_CachedMember_GetRole_Snowflake_
+  commentId: M:Disqord.CachedMember.GetRole(Snowflake)
+  fullName: Disqord.CachedMember.GetRole(Snowflake)
+  nameWithType: CachedMember.GetRole(Snowflake)
+- uid: Disqord.CachedMember.GetRole*
+  name: GetRole
+  href: api/Disqord.CachedMember.html#Disqord_CachedMember_GetRole_
+  commentId: Overload:Disqord.CachedMember.GetRole
+  isSpec: "True"
+  fullName: Disqord.CachedMember.GetRole
+  nameWithType: CachedMember.GetRole
 - uid: Disqord.CachedMember.GrantRoleAsync(Snowflake,Disqord.Rest.RestRequestOptions)
   name: GrantRoleAsync(Snowflake, RestRequestOptions)
   href: api/Disqord.CachedMember.html#Disqord_CachedMember_GrantRoleAsync_Snowflake_Disqord_Rest_RestRequestOptions_
@@ -4909,125 +4922,6 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedMember.RevokeRoleAsync
   nameWithType: CachedMember.RevokeRoleAsync
-- uid: Disqord.CachedMember.RoleCollection
-  name: CachedMember.RoleCollection
-  href: api/Disqord.CachedMember.RoleCollection.html
-  commentId: T:Disqord.CachedMember.RoleCollection
-  fullName: Disqord.CachedMember.RoleCollection
-  nameWithType: CachedMember.RoleCollection
-- uid: Disqord.CachedMember.RoleCollection.#ctor(Disqord.CachedGuild,System.UInt64[])
-  name: RoleCollection(CachedGuild, UInt64[])
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection__ctor_Disqord_CachedGuild_System_UInt64___
-  commentId: M:Disqord.CachedMember.RoleCollection.#ctor(Disqord.CachedGuild,System.UInt64[])
-  name.vb: RoleCollection(CachedGuild, UInt64())
-  fullName: Disqord.CachedMember.RoleCollection.RoleCollection(Disqord.CachedGuild, System.UInt64[])
-  fullName.vb: Disqord.CachedMember.RoleCollection.RoleCollection(Disqord.CachedGuild, System.UInt64())
-  nameWithType: CachedMember.RoleCollection.RoleCollection(CachedGuild, UInt64[])
-  nameWithType.vb: CachedMember.RoleCollection.RoleCollection(CachedGuild, UInt64())
-- uid: Disqord.CachedMember.RoleCollection.#ctor*
-  name: RoleCollection
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection__ctor_
-  commentId: Overload:Disqord.CachedMember.RoleCollection.#ctor
-  isSpec: "True"
-  fullName: Disqord.CachedMember.RoleCollection.RoleCollection
-  nameWithType: CachedMember.RoleCollection.RoleCollection
-- uid: Disqord.CachedMember.RoleCollection.ContainsKey(Snowflake)
-  name: ContainsKey(Snowflake)
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_ContainsKey_Snowflake_
-  commentId: M:Disqord.CachedMember.RoleCollection.ContainsKey(Snowflake)
-  fullName: Disqord.CachedMember.RoleCollection.ContainsKey(Snowflake)
-  nameWithType: CachedMember.RoleCollection.ContainsKey(Snowflake)
-- uid: Disqord.CachedMember.RoleCollection.ContainsKey*
-  name: ContainsKey
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_ContainsKey_
-  commentId: Overload:Disqord.CachedMember.RoleCollection.ContainsKey
-  isSpec: "True"
-  fullName: Disqord.CachedMember.RoleCollection.ContainsKey
-  nameWithType: CachedMember.RoleCollection.ContainsKey
-- uid: Disqord.CachedMember.RoleCollection.Count
-  name: Count
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_Count
-  commentId: P:Disqord.CachedMember.RoleCollection.Count
-  fullName: Disqord.CachedMember.RoleCollection.Count
-  nameWithType: CachedMember.RoleCollection.Count
-- uid: Disqord.CachedMember.RoleCollection.Count*
-  name: Count
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_Count_
-  commentId: Overload:Disqord.CachedMember.RoleCollection.Count
-  isSpec: "True"
-  fullName: Disqord.CachedMember.RoleCollection.Count
-  nameWithType: CachedMember.RoleCollection.Count
-- uid: Disqord.CachedMember.RoleCollection.GetEnumerator
-  name: GetEnumerator()
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_GetEnumerator
-  commentId: M:Disqord.CachedMember.RoleCollection.GetEnumerator
-  fullName: Disqord.CachedMember.RoleCollection.GetEnumerator()
-  nameWithType: CachedMember.RoleCollection.GetEnumerator()
-- uid: Disqord.CachedMember.RoleCollection.GetEnumerator*
-  name: GetEnumerator
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_GetEnumerator_
-  commentId: Overload:Disqord.CachedMember.RoleCollection.GetEnumerator
-  isSpec: "True"
-  fullName: Disqord.CachedMember.RoleCollection.GetEnumerator
-  nameWithType: CachedMember.RoleCollection.GetEnumerator
-- uid: Disqord.CachedMember.RoleCollection.Item(Snowflake)
-  name: Item[Snowflake]
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_Item_Snowflake_
-  commentId: P:Disqord.CachedMember.RoleCollection.Item(Snowflake)
-  name.vb: Item(Snowflake)
-  fullName: Disqord.CachedMember.RoleCollection.Item[Snowflake]
-  fullName.vb: Disqord.CachedMember.RoleCollection.Item(Snowflake)
-  nameWithType: CachedMember.RoleCollection.Item[Snowflake]
-  nameWithType.vb: CachedMember.RoleCollection.Item(Snowflake)
-- uid: Disqord.CachedMember.RoleCollection.Item*
-  name: Item
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_Item_
-  commentId: Overload:Disqord.CachedMember.RoleCollection.Item
-  isSpec: "True"
-  fullName: Disqord.CachedMember.RoleCollection.Item
-  nameWithType: CachedMember.RoleCollection.Item
-- uid: Disqord.CachedMember.RoleCollection.Keys
-  name: Keys
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_Keys
-  commentId: P:Disqord.CachedMember.RoleCollection.Keys
-  fullName: Disqord.CachedMember.RoleCollection.Keys
-  nameWithType: CachedMember.RoleCollection.Keys
-- uid: Disqord.CachedMember.RoleCollection.Keys*
-  name: Keys
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_Keys_
-  commentId: Overload:Disqord.CachedMember.RoleCollection.Keys
-  isSpec: "True"
-  fullName: Disqord.CachedMember.RoleCollection.Keys
-  nameWithType: CachedMember.RoleCollection.Keys
-- uid: Disqord.CachedMember.RoleCollection.TryGetValue(Snowflake,Disqord.CachedRole@)
-  name: TryGetValue(Snowflake, out CachedRole)
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_TryGetValue_Snowflake_Disqord_CachedRole__
-  commentId: M:Disqord.CachedMember.RoleCollection.TryGetValue(Snowflake,Disqord.CachedRole@)
-  name.vb: TryGetValue(Snowflake, ByRef CachedRole)
-  fullName: Disqord.CachedMember.RoleCollection.TryGetValue(Snowflake, out Disqord.CachedRole)
-  fullName.vb: Disqord.CachedMember.RoleCollection.TryGetValue(Snowflake, ByRef Disqord.CachedRole)
-  nameWithType: CachedMember.RoleCollection.TryGetValue(Snowflake, out CachedRole)
-  nameWithType.vb: CachedMember.RoleCollection.TryGetValue(Snowflake, ByRef CachedRole)
-- uid: Disqord.CachedMember.RoleCollection.TryGetValue*
-  name: TryGetValue
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_TryGetValue_
-  commentId: Overload:Disqord.CachedMember.RoleCollection.TryGetValue
-  isSpec: "True"
-  fullName: Disqord.CachedMember.RoleCollection.TryGetValue
-  nameWithType: CachedMember.RoleCollection.TryGetValue
-- uid: Disqord.CachedMember.RoleCollection.Values
-  name: Values
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_Values
-  commentId: P:Disqord.CachedMember.RoleCollection.Values
-  fullName: Disqord.CachedMember.RoleCollection.Values
-  nameWithType: CachedMember.RoleCollection.Values
-- uid: Disqord.CachedMember.RoleCollection.Values*
-  name: Values
-  href: api/Disqord.CachedMember.RoleCollection.html#Disqord_CachedMember_RoleCollection_Values_
-  commentId: Overload:Disqord.CachedMember.RoleCollection.Values
-  isSpec: "True"
-  fullName: Disqord.CachedMember.RoleCollection.Values
-  nameWithType: CachedMember.RoleCollection.Values
 - uid: Disqord.CachedMember.Roles
   name: Roles
   href: api/Disqord.CachedMember.html#Disqord_CachedMember_Roles
@@ -5181,15 +5075,15 @@ references:
   fullName: Disqord.CachedMessage.Disqord.IMessage.Author
   nameWithType: CachedMessage.IMessage.Author
   nameWithType.vb: CachedMessage.Disqord.IMessage.Author
-- uid: Disqord.CachedMessage.GetReactionsAsync(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsAsync(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.CachedMessage.html#Disqord_CachedMessage_GetReactionsAsync_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedMessage.GetReactionsAsync(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsAsync(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.CachedMessage.GetReactionsAsync(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.CachedMessage.GetReactionsAsync(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedMessage.GetReactionsAsync(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: CachedMessage.GetReactionsAsync(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.CachedMessage.GetReactionsAsync(Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsAsync(IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedMessage.html#Disqord_CachedMessage_GetReactionsAsync_Disqord_IEmoji_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedMessage.GetReactionsAsync(Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsAsync(IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedMessage.GetReactionsAsync(Disqord.IEmoji, System.Int32, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedMessage.GetReactionsAsync(Disqord.IEmoji, System.Int32, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedMessage.GetReactionsAsync(IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedMessage.GetReactionsAsync(IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedMessage.GetReactionsAsync*
   name: GetReactionsAsync
   href: api/Disqord.CachedMessage.html#Disqord_CachedMessage_GetReactionsAsync_
@@ -5197,15 +5091,15 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedMessage.GetReactionsAsync
   nameWithType: CachedMessage.GetReactionsAsync
-- uid: Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.CachedMessage.html#Disqord_CachedMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: CachedMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedMessage.html#Disqord_CachedMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedMessage.GetReactionsEnumerable(IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedMessage.GetReactionsEnumerable(IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedMessage.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.CachedMessage.html#Disqord_CachedMessage_GetReactionsEnumerable_
@@ -5536,15 +5430,15 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedPrivateChannel.GetPinnedMessagesAsync
   nameWithType: CachedPrivateChannel.GetPinnedMessagesAsync
-- uid: Disqord.CachedPrivateChannel.GetReactionsAsync(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_GetReactionsAsync_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedPrivateChannel.GetReactionsAsync(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.CachedPrivateChannel.GetReactionsAsync(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.CachedPrivateChannel.GetReactionsAsync(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedPrivateChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: CachedPrivateChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.CachedPrivateChannel.GetReactionsAsync(Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_GetReactionsAsync_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedPrivateChannel.GetReactionsAsync(Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedPrivateChannel.GetReactionsAsync(Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedPrivateChannel.GetReactionsAsync(Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedPrivateChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedPrivateChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedPrivateChannel.GetReactionsAsync*
   name: GetReactionsAsync
   href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_GetReactionsAsync_
@@ -5552,15 +5446,15 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedPrivateChannel.GetReactionsAsync
   nameWithType: CachedPrivateChannel.GetReactionsAsync
-- uid: Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_GetReactionsEnumerable_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: CachedPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_GetReactionsEnumerable_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedPrivateChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedPrivateChannel.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_GetReactionsEnumerable_
@@ -6246,15 +6140,15 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedTextChannel.GetPinnedMessagesAsync
   nameWithType: CachedTextChannel.GetPinnedMessagesAsync
-- uid: Disqord.CachedTextChannel.GetReactionsAsync(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetReactionsAsync_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedTextChannel.GetReactionsAsync(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.CachedTextChannel.GetReactionsAsync(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.CachedTextChannel.GetReactionsAsync(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedTextChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: CachedTextChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.CachedTextChannel.GetReactionsAsync(Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetReactionsAsync_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedTextChannel.GetReactionsAsync(Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedTextChannel.GetReactionsAsync(Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedTextChannel.GetReactionsAsync(Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedTextChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedTextChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedTextChannel.GetReactionsAsync*
   name: GetReactionsAsync
   href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetReactionsAsync_
@@ -6262,15 +6156,15 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedTextChannel.GetReactionsAsync
   nameWithType: CachedTextChannel.GetReactionsAsync
-- uid: Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetReactionsEnumerable_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: CachedTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetReactionsEnumerable_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedTextChannel.GetReactionsEnumerable(Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: CachedTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.CachedTextChannel.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_GetReactionsEnumerable_
@@ -12170,15 +12064,15 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetPruneCountAsync
   nameWithType: DiscordClientBase.GetPruneCountAsync
-- uid: Disqord.DiscordClientBase.GetReactionsAsync(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetReactionsAsync_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.DiscordClientBase.GetReactionsAsync(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.DiscordClientBase.GetReactionsAsync(Snowflake, Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.DiscordClientBase.GetReactionsAsync(Snowflake, Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: DiscordClientBase.GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: DiscordClientBase.GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.DiscordClientBase.GetReactionsAsync(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetReactionsAsync_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetReactionsAsync(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetReactionsAsync(Snowflake, Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.DiscordClientBase.GetReactionsAsync(Snowflake, Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: DiscordClientBase.GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.DiscordClientBase.GetReactionsAsync*
   name: GetReactionsAsync
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetReactionsAsync_
@@ -12186,15 +12080,15 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetReactionsAsync
   nameWithType: DiscordClientBase.GetReactionsAsync
-- uid: Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetReactionsEnumerable_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetReactionsEnumerable_Snowflake_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake,Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: DiscordClientBase.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.DiscordClientBase.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetReactionsEnumerable_
@@ -13352,146 +13246,6 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientExtension.InitialiseAsync
   nameWithType: DiscordClientExtension.InitialiseAsync
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2
-  name: DownloadableOptionalSnowflakeEntity<T, TDownloadable>
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html
-  commentId: T:Disqord.DownloadableOptionalSnowflakeEntity`2
-  name.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable)
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable)
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable)
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.Downloadable
-  name: Downloadable
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_Downloadable
-  commentId: P:Disqord.DownloadableOptionalSnowflakeEntity`2.Downloadable
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Downloadable
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Downloadable
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Downloadable
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Downloadable
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.Downloadable*
-  name: Downloadable
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_Downloadable_
-  commentId: Overload:Disqord.DownloadableOptionalSnowflakeEntity`2.Downloadable
-  isSpec: "True"
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Downloadable
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Downloadable
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Downloadable
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Downloadable
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.Equals(Disqord.DownloadableOptionalSnowflakeEntity{`0,`1})
-  name: Equals(DownloadableOptionalSnowflakeEntity<T, TDownloadable>)
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_Equals_Disqord_DownloadableOptionalSnowflakeEntity__0__1__
-  commentId: M:Disqord.DownloadableOptionalSnowflakeEntity`2.Equals(Disqord.DownloadableOptionalSnowflakeEntity{`0,`1})
-  name.vb: Equals(DownloadableOptionalSnowflakeEntity(Of T, TDownloadable))
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Equals(Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>)
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Equals(Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable))
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Equals(DownloadableOptionalSnowflakeEntity<T, TDownloadable>)
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Equals(DownloadableOptionalSnowflakeEntity(Of T, TDownloadable))
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.Equals(System.Object)
-  name: Equals(Object)
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_Equals_System_Object_
-  commentId: M:Disqord.DownloadableOptionalSnowflakeEntity`2.Equals(System.Object)
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Equals(System.Object)
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Equals(System.Object)
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Equals(Object)
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Equals(Object)
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.Equals*
-  name: Equals
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_Equals_
-  commentId: Overload:Disqord.DownloadableOptionalSnowflakeEntity`2.Equals
-  isSpec: "True"
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Equals
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Equals
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Equals
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Equals
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.GetHashCode
-  name: GetHashCode()
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_GetHashCode
-  commentId: M:Disqord.DownloadableOptionalSnowflakeEntity`2.GetHashCode
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.GetHashCode()
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).GetHashCode()
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.GetHashCode()
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).GetHashCode()
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.GetHashCode*
-  name: GetHashCode
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_GetHashCode_
-  commentId: Overload:Disqord.DownloadableOptionalSnowflakeEntity`2.GetHashCode
-  isSpec: "True"
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.GetHashCode
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).GetHashCode
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.GetHashCode
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).GetHashCode
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.op_Equality(Disqord.DownloadableOptionalSnowflakeEntity{`0,`1},`0)
-  name: Equality(DownloadableOptionalSnowflakeEntity<T, TDownloadable>, T)
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_op_Equality_Disqord_DownloadableOptionalSnowflakeEntity__0__1___0_
-  commentId: M:Disqord.DownloadableOptionalSnowflakeEntity`2.op_Equality(Disqord.DownloadableOptionalSnowflakeEntity{`0,`1},`0)
-  name.vb: Equality(DownloadableOptionalSnowflakeEntity(Of T, TDownloadable), T)
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Equality(Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>, T)
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Equality(Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable), T)
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Equality(DownloadableOptionalSnowflakeEntity<T, TDownloadable>, T)
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Equality(DownloadableOptionalSnowflakeEntity(Of T, TDownloadable), T)
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.op_Equality(Disqord.DownloadableOptionalSnowflakeEntity{`0,`1},Disqord.DownloadableOptionalSnowflakeEntity{`0,`1})
-  name: Equality(DownloadableOptionalSnowflakeEntity<T, TDownloadable>, DownloadableOptionalSnowflakeEntity<T, TDownloadable>)
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_op_Equality_Disqord_DownloadableOptionalSnowflakeEntity__0__1__Disqord_DownloadableOptionalSnowflakeEntity__0__1__
-  commentId: M:Disqord.DownloadableOptionalSnowflakeEntity`2.op_Equality(Disqord.DownloadableOptionalSnowflakeEntity{`0,`1},Disqord.DownloadableOptionalSnowflakeEntity{`0,`1})
-  name.vb: Equality(DownloadableOptionalSnowflakeEntity(Of T, TDownloadable), DownloadableOptionalSnowflakeEntity(Of T, TDownloadable))
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Equality(Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>, Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>)
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Equality(Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable), Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable))
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Equality(DownloadableOptionalSnowflakeEntity<T, TDownloadable>, DownloadableOptionalSnowflakeEntity<T, TDownloadable>)
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Equality(DownloadableOptionalSnowflakeEntity(Of T, TDownloadable), DownloadableOptionalSnowflakeEntity(Of T, TDownloadable))
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.op_Equality*
-  name: Equality
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_op_Equality_
-  commentId: Overload:Disqord.DownloadableOptionalSnowflakeEntity`2.op_Equality
-  isSpec: "True"
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Equality
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Equality
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Equality
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Equality
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.op_Inequality(Disqord.DownloadableOptionalSnowflakeEntity{`0,`1},`0)
-  name: Inequality(DownloadableOptionalSnowflakeEntity<T, TDownloadable>, T)
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_op_Inequality_Disqord_DownloadableOptionalSnowflakeEntity__0__1___0_
-  commentId: M:Disqord.DownloadableOptionalSnowflakeEntity`2.op_Inequality(Disqord.DownloadableOptionalSnowflakeEntity{`0,`1},`0)
-  name.vb: Inequality(DownloadableOptionalSnowflakeEntity(Of T, TDownloadable), T)
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Inequality(Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>, T)
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Inequality(Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable), T)
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Inequality(DownloadableOptionalSnowflakeEntity<T, TDownloadable>, T)
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Inequality(DownloadableOptionalSnowflakeEntity(Of T, TDownloadable), T)
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.op_Inequality(Disqord.DownloadableOptionalSnowflakeEntity{`0,`1},Disqord.DownloadableOptionalSnowflakeEntity{`0,`1})
-  name: Inequality(DownloadableOptionalSnowflakeEntity<T, TDownloadable>, DownloadableOptionalSnowflakeEntity<T, TDownloadable>)
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_op_Inequality_Disqord_DownloadableOptionalSnowflakeEntity__0__1__Disqord_DownloadableOptionalSnowflakeEntity__0__1__
-  commentId: M:Disqord.DownloadableOptionalSnowflakeEntity`2.op_Inequality(Disqord.DownloadableOptionalSnowflakeEntity{`0,`1},Disqord.DownloadableOptionalSnowflakeEntity{`0,`1})
-  name.vb: Inequality(DownloadableOptionalSnowflakeEntity(Of T, TDownloadable), DownloadableOptionalSnowflakeEntity(Of T, TDownloadable))
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Inequality(Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>, Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>)
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Inequality(Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable), Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable))
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Inequality(DownloadableOptionalSnowflakeEntity<T, TDownloadable>, DownloadableOptionalSnowflakeEntity<T, TDownloadable>)
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Inequality(DownloadableOptionalSnowflakeEntity(Of T, TDownloadable), DownloadableOptionalSnowflakeEntity(Of T, TDownloadable))
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.op_Inequality*
-  name: Inequality
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_op_Inequality_
-  commentId: Overload:Disqord.DownloadableOptionalSnowflakeEntity`2.op_Inequality
-  isSpec: "True"
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Inequality
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Inequality
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.Inequality
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).Inequality
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.ToString
-  name: ToString()
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_ToString
-  commentId: M:Disqord.DownloadableOptionalSnowflakeEntity`2.ToString
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.ToString()
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).ToString()
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.ToString()
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).ToString()
-- uid: Disqord.DownloadableOptionalSnowflakeEntity`2.ToString*
-  name: ToString
-  href: api/Disqord.DownloadableOptionalSnowflakeEntity-2.html#Disqord_DownloadableOptionalSnowflakeEntity_2_ToString_
-  commentId: Overload:Disqord.DownloadableOptionalSnowflakeEntity`2.ToString
-  isSpec: "True"
-  fullName: Disqord.DownloadableOptionalSnowflakeEntity<T, TDownloadable>.ToString
-  fullName.vb: Disqord.DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).ToString
-  nameWithType: DownloadableOptionalSnowflakeEntity<T, TDownloadable>.ToString
-  nameWithType.vb: DownloadableOptionalSnowflakeEntity(Of T, TDownloadable).ToString
 - uid: Disqord.Embed
   name: Embed
   href: api/Disqord.Embed.html
@@ -16265,6 +16019,67 @@ references:
   fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.ArrayPageProvider(Of T).PageCount
   nameWithType: ArrayPageProvider<T>.PageCount
   nameWithType.vb: ArrayPageProvider(Of T).PageCount
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider
+  name: DefaultPageProvider
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.html
+  commentId: T:Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider
+  nameWithType: DefaultPageProvider
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.#ctor(IEnumerable{Disqord.Extensions.Interactivity.Menus.Paged.Page})
+  name: DefaultPageProvider(IEnumerable<Page>)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_DefaultPageProvider__ctor_IEnumerable_Disqord_Extensions_Interactivity_Menus_Paged_Page__
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.#ctor(IEnumerable{Disqord.Extensions.Interactivity.Menus.Paged.Page})
+  name.vb: DefaultPageProvider(IEnumerable(Of Page))
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.DefaultPageProvider(IEnumerable<Disqord.Extensions.Interactivity.Menus.Paged.Page>)
+  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.DefaultPageProvider(IEnumerable(Of Disqord.Extensions.Interactivity.Menus.Paged.Page))
+  nameWithType: DefaultPageProvider.DefaultPageProvider(IEnumerable<Page>)
+  nameWithType.vb: DefaultPageProvider.DefaultPageProvider(IEnumerable(Of Page))
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.#ctor*
+  name: DefaultPageProvider
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_DefaultPageProvider__ctor_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.#ctor
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.DefaultPageProvider
+  nameWithType: DefaultPageProvider.DefaultPageProvider
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
+  name: GetPageAsync(PagedMenu)
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_DefaultPageProvider_GetPageAsync_Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
+  nameWithType: DefaultPageProvider.GetPageAsync(PagedMenu)
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.GetPageAsync*
+  name: GetPageAsync
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_DefaultPageProvider_GetPageAsync_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.GetPageAsync
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.GetPageAsync
+  nameWithType: DefaultPageProvider.GetPageAsync
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.PageCount
+  name: PageCount
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_DefaultPageProvider_PageCount
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.PageCount
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.PageCount
+  nameWithType: DefaultPageProvider.PageCount
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.PageCount*
+  name: PageCount
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_DefaultPageProvider_PageCount_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.PageCount
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.PageCount
+  nameWithType: DefaultPageProvider.PageCount
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.Pages
+  name: Pages
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_DefaultPageProvider_Pages
+  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.Pages
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.Pages
+  nameWithType: DefaultPageProvider.Pages
+- uid: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.Pages*
+  name: Pages
+  href: api/Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_DefaultPageProvider_Pages_
+  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.Pages
+  isSpec: "True"
+  fullName: Disqord.Extensions.Interactivity.Menus.Paged.DefaultPageProvider.Pages
+  nameWithType: DefaultPageProvider.Pages
 - uid: Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider
   name: IPageProvider
   href: api/Disqord.Extensions.Interactivity.Menus.Paged.IPageProvider.html
@@ -16510,67 +16325,134 @@ references:
   fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.PageFormatter(Of T)
   nameWithType: PageFormatter<T>
   nameWithType.vb: PageFormatter(Of T)
-- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider
-  name: PageProvider
-  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html
-  commentId: T:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider
-  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider
-  nameWithType: PageProvider
-- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.#ctor(IEnumerable{Disqord.Extensions.Interactivity.Menus.Paged.Page})
-  name: PageProvider(IEnumerable<Page>)
-  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider__ctor_IEnumerable_Disqord_Extensions_Interactivity_Menus_Paged_Page__
-  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.#ctor(IEnumerable{Disqord.Extensions.Interactivity.Menus.Paged.Page})
-  name.vb: PageProvider(IEnumerable(Of Page))
-  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageProvider(IEnumerable<Disqord.Extensions.Interactivity.Menus.Paged.Page>)
-  fullName.vb: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageProvider(IEnumerable(Of Disqord.Extensions.Interactivity.Menus.Paged.Page))
-  nameWithType: PageProvider.PageProvider(IEnumerable<Page>)
-  nameWithType.vb: PageProvider.PageProvider(IEnumerable(Of Page))
-- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.#ctor*
-  name: PageProvider
-  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider__ctor_
-  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.#ctor
+- uid: Disqord.FetchableSnowflakeOptional`1
+  name: FetchableSnowflakeOptional<T>
+  href: api/Disqord.FetchableSnowflakeOptional-1.html
+  commentId: T:Disqord.FetchableSnowflakeOptional`1
+  name.vb: FetchableSnowflakeOptional(Of T)
+  fullName: Disqord.FetchableSnowflakeOptional<T>
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T)
+  nameWithType: FetchableSnowflakeOptional<T>
+  nameWithType.vb: FetchableSnowflakeOptional(Of T)
+- uid: Disqord.FetchableSnowflakeOptional`1.FetchAsync(Disqord.Rest.RestRequestOptions)
+  name: FetchAsync(RestRequestOptions)
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_FetchAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.FetchableSnowflakeOptional`1.FetchAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.FetchableSnowflakeOptional<T>.FetchAsync(Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).FetchAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: FetchableSnowflakeOptional<T>.FetchAsync(RestRequestOptions)
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).FetchAsync(RestRequestOptions)
+- uid: Disqord.FetchableSnowflakeOptional`1.FetchAsync*
+  name: FetchAsync
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_FetchAsync_
+  commentId: Overload:Disqord.FetchableSnowflakeOptional`1.FetchAsync
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageProvider
-  nameWithType: PageProvider.PageProvider
-- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
-  name: GetPageAsync(PagedMenu)
-  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider_GetPageAsync_Disqord_Extensions_Interactivity_Menus_Paged_PagedMenu_
-  commentId: M:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
-  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.GetPageAsync(Disqord.Extensions.Interactivity.Menus.Paged.PagedMenu)
-  nameWithType: PageProvider.GetPageAsync(PagedMenu)
-- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.GetPageAsync*
-  name: GetPageAsync
-  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider_GetPageAsync_
-  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.GetPageAsync
+  fullName: Disqord.FetchableSnowflakeOptional<T>.FetchAsync
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).FetchAsync
+  nameWithType: FetchableSnowflakeOptional<T>.FetchAsync
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).FetchAsync
+- uid: Disqord.FetchableSnowflakeOptional`1.GetAsync(Disqord.Rest.RestRequestOptions)
+  name: GetAsync(RestRequestOptions)
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_GetAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.FetchableSnowflakeOptional`1.GetAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.FetchableSnowflakeOptional<T>.GetAsync(Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).GetAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: FetchableSnowflakeOptional<T>.GetAsync(RestRequestOptions)
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).GetAsync(RestRequestOptions)
+- uid: Disqord.FetchableSnowflakeOptional`1.GetAsync*
+  name: GetAsync
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_GetAsync_
+  commentId: Overload:Disqord.FetchableSnowflakeOptional`1.GetAsync
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.GetPageAsync
-  nameWithType: PageProvider.GetPageAsync
-- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageCount
-  name: PageCount
-  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider_PageCount
-  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageCount
-  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageCount
-  nameWithType: PageProvider.PageCount
-- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageCount*
-  name: PageCount
-  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider_PageCount_
-  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageCount
+  fullName: Disqord.FetchableSnowflakeOptional<T>.GetAsync
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).GetAsync
+  nameWithType: FetchableSnowflakeOptional<T>.GetAsync
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).GetAsync
+- uid: Disqord.FetchableSnowflakeOptional`1.HasValue
+  name: HasValue
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_HasValue
+  commentId: P:Disqord.FetchableSnowflakeOptional`1.HasValue
+  fullName: Disqord.FetchableSnowflakeOptional<T>.HasValue
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).HasValue
+  nameWithType: FetchableSnowflakeOptional<T>.HasValue
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).HasValue
+- uid: Disqord.FetchableSnowflakeOptional`1.HasValue*
+  name: HasValue
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_HasValue_
+  commentId: Overload:Disqord.FetchableSnowflakeOptional`1.HasValue
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.PageCount
-  nameWithType: PageProvider.PageCount
-- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.Pages
-  name: Pages
-  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider_Pages
-  commentId: P:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.Pages
-  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.Pages
-  nameWithType: PageProvider.Pages
-- uid: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.Pages*
-  name: Pages
-  href: api/Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.html#Disqord_Extensions_Interactivity_Menus_Paged_PageProvider_Pages_
-  commentId: Overload:Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.Pages
+  fullName: Disqord.FetchableSnowflakeOptional<T>.HasValue
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).HasValue
+  nameWithType: FetchableSnowflakeOptional<T>.HasValue
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).HasValue
+- uid: Disqord.FetchableSnowflakeOptional`1.Id
+  name: Id
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_Id
+  commentId: P:Disqord.FetchableSnowflakeOptional`1.Id
+  fullName: Disqord.FetchableSnowflakeOptional<T>.Id
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).Id
+  nameWithType: FetchableSnowflakeOptional<T>.Id
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).Id
+- uid: Disqord.FetchableSnowflakeOptional`1.Id*
+  name: Id
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_Id_
+  commentId: Overload:Disqord.FetchableSnowflakeOptional`1.Id
   isSpec: "True"
-  fullName: Disqord.Extensions.Interactivity.Menus.Paged.PageProvider.Pages
-  nameWithType: PageProvider.Pages
+  fullName: Disqord.FetchableSnowflakeOptional<T>.Id
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).Id
+  nameWithType: FetchableSnowflakeOptional<T>.Id
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).Id
+- uid: Disqord.FetchableSnowflakeOptional`1.IsCached
+  name: IsCached
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_IsCached
+  commentId: P:Disqord.FetchableSnowflakeOptional`1.IsCached
+  fullName: Disqord.FetchableSnowflakeOptional<T>.IsCached
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).IsCached
+  nameWithType: FetchableSnowflakeOptional<T>.IsCached
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).IsCached
+- uid: Disqord.FetchableSnowflakeOptional`1.IsCached*
+  name: IsCached
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_IsCached_
+  commentId: Overload:Disqord.FetchableSnowflakeOptional`1.IsCached
+  isSpec: "True"
+  fullName: Disqord.FetchableSnowflakeOptional<T>.IsCached
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).IsCached
+  nameWithType: FetchableSnowflakeOptional<T>.IsCached
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).IsCached
+- uid: Disqord.FetchableSnowflakeOptional`1.IsFetched
+  name: IsFetched
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_IsFetched
+  commentId: P:Disqord.FetchableSnowflakeOptional`1.IsFetched
+  fullName: Disqord.FetchableSnowflakeOptional<T>.IsFetched
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).IsFetched
+  nameWithType: FetchableSnowflakeOptional<T>.IsFetched
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).IsFetched
+- uid: Disqord.FetchableSnowflakeOptional`1.IsFetched*
+  name: IsFetched
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_IsFetched_
+  commentId: Overload:Disqord.FetchableSnowflakeOptional`1.IsFetched
+  isSpec: "True"
+  fullName: Disqord.FetchableSnowflakeOptional<T>.IsFetched
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).IsFetched
+  nameWithType: FetchableSnowflakeOptional<T>.IsFetched
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).IsFetched
+- uid: Disqord.FetchableSnowflakeOptional`1.Value
+  name: Value
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_Value
+  commentId: P:Disqord.FetchableSnowflakeOptional`1.Value
+  fullName: Disqord.FetchableSnowflakeOptional<T>.Value
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).Value
+  nameWithType: FetchableSnowflakeOptional<T>.Value
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).Value
+- uid: Disqord.FetchableSnowflakeOptional`1.Value*
+  name: Value
+  href: api/Disqord.FetchableSnowflakeOptional-1.html#Disqord_FetchableSnowflakeOptional_1_Value_
+  commentId: Overload:Disqord.FetchableSnowflakeOptional`1.Value
+  isSpec: "True"
+  fullName: Disqord.FetchableSnowflakeOptional<T>.Value
+  fullName.vb: Disqord.FetchableSnowflakeOptional(Of T).Value
+  nameWithType: FetchableSnowflakeOptional<T>.Value
+  nameWithType.vb: FetchableSnowflakeOptional(Of T).Value
 - uid: Disqord.FriendSource
   name: FriendSource
   href: api/Disqord.FriendSource.html
@@ -19431,15 +19313,15 @@ references:
   isSpec: "True"
   fullName: Disqord.IMessage.Content
   nameWithType: IMessage.Content
-- uid: Disqord.IMessage.GetReactionsAsync(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsAsync(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.IMessage.html#Disqord_IMessage_GetReactionsAsync_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.IMessage.GetReactionsAsync(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsAsync(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.IMessage.GetReactionsAsync(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.IMessage.GetReactionsAsync(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: IMessage.GetReactionsAsync(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: IMessage.GetReactionsAsync(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.IMessage.GetReactionsAsync(Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsAsync(IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.IMessage.html#Disqord_IMessage_GetReactionsAsync_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IMessage.GetReactionsAsync(Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsAsync(IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.IMessage.GetReactionsAsync(Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.IMessage.GetReactionsAsync(Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IMessage.GetReactionsAsync(IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IMessage.GetReactionsAsync(IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.IMessage.GetReactionsAsync*
   name: GetReactionsAsync
   href: api/Disqord.IMessage.html#Disqord_IMessage_GetReactionsAsync_
@@ -19447,15 +19329,15 @@ references:
   isSpec: "True"
   fullName: Disqord.IMessage.GetReactionsAsync
   nameWithType: IMessage.GetReactionsAsync
-- uid: Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.IMessage.html#Disqord_IMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: IMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: IMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.IMessage.html#Disqord_IMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.IMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IMessage.GetReactionsEnumerable(IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IMessage.GetReactionsEnumerable(IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.IMessage.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.IMessage.html#Disqord_IMessage_GetReactionsEnumerable_
@@ -19605,15 +19487,15 @@ references:
   isSpec: "True"
   fullName: Disqord.IMessageChannel.GetPinnedMessagesAsync
   nameWithType: IMessageChannel.GetPinnedMessagesAsync
-- uid: Disqord.IMessageChannel.GetReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.IMessageChannel.html#Disqord_IMessageChannel_GetReactionsAsync_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.IMessageChannel.GetReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.IMessageChannel.GetReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.IMessageChannel.GetReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: IMessageChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: IMessageChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.IMessageChannel.GetReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.IMessageChannel.html#Disqord_IMessageChannel_GetReactionsAsync_Disqord_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IMessageChannel.GetReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.IMessageChannel.GetReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.IMessageChannel.GetReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IMessageChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IMessageChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.IMessageChannel.GetReactionsAsync*
   name: GetReactionsAsync
   href: api/Disqord.IMessageChannel.html#Disqord_IMessageChannel_GetReactionsAsync_
@@ -19621,15 +19503,15 @@ references:
   isSpec: "True"
   fullName: Disqord.IMessageChannel.GetReactionsAsync
   nameWithType: IMessageChannel.GetReactionsAsync
-- uid: Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.IMessageChannel.html#Disqord_IMessageChannel_GetReactionsEnumerable_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: IMessageChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: IMessageChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.IMessageChannel.html#Disqord_IMessageChannel_GetReactionsEnumerable_Disqord_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.IMessageChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IMessageChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IMessageChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.IMessageChannel.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.IMessageChannel.html#Disqord_IMessageChannel_GetReactionsEnumerable_
@@ -25000,188 +24882,6 @@ references:
   fullName.vb: Disqord.Optional(Of T).Value
   nameWithType: Optional<T>.Value
   nameWithType.vb: Optional(Of T).Value
-- uid: Disqord.OptionalSnowflakeEntity`1
-  name: OptionalSnowflakeEntity<T>
-  href: api/Disqord.OptionalSnowflakeEntity-1.html
-  commentId: T:Disqord.OptionalSnowflakeEntity`1
-  name.vb: OptionalSnowflakeEntity(Of T)
-  fullName: Disqord.OptionalSnowflakeEntity<T>
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T)
-  nameWithType: OptionalSnowflakeEntity<T>
-  nameWithType.vb: OptionalSnowflakeEntity(Of T)
-- uid: Disqord.OptionalSnowflakeEntity`1.Equals(`0)
-  name: Equals(T)
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_Equals__0_
-  commentId: M:Disqord.OptionalSnowflakeEntity`1.Equals(`0)
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Equals(T)
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Equals(T)
-  nameWithType: OptionalSnowflakeEntity<T>.Equals(T)
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Equals(T)
-- uid: Disqord.OptionalSnowflakeEntity`1.Equals(Disqord.OptionalSnowflakeEntity{`0})
-  name: Equals(OptionalSnowflakeEntity<T>)
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_Equals_Disqord_OptionalSnowflakeEntity__0__
-  commentId: M:Disqord.OptionalSnowflakeEntity`1.Equals(Disqord.OptionalSnowflakeEntity{`0})
-  name.vb: Equals(OptionalSnowflakeEntity(Of T))
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Equals(Disqord.OptionalSnowflakeEntity<T>)
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Equals(Disqord.OptionalSnowflakeEntity(Of T))
-  nameWithType: OptionalSnowflakeEntity<T>.Equals(OptionalSnowflakeEntity<T>)
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Equals(OptionalSnowflakeEntity(Of T))
-- uid: Disqord.OptionalSnowflakeEntity`1.Equals(System.Object)
-  name: Equals(Object)
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_Equals_System_Object_
-  commentId: M:Disqord.OptionalSnowflakeEntity`1.Equals(System.Object)
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Equals(System.Object)
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Equals(System.Object)
-  nameWithType: OptionalSnowflakeEntity<T>.Equals(Object)
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Equals(Object)
-- uid: Disqord.OptionalSnowflakeEntity`1.Equals*
-  name: Equals
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_Equals_
-  commentId: Overload:Disqord.OptionalSnowflakeEntity`1.Equals
-  isSpec: "True"
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Equals
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Equals
-  nameWithType: OptionalSnowflakeEntity<T>.Equals
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Equals
-- uid: Disqord.OptionalSnowflakeEntity`1.GetHashCode
-  name: GetHashCode()
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_GetHashCode
-  commentId: M:Disqord.OptionalSnowflakeEntity`1.GetHashCode
-  fullName: Disqord.OptionalSnowflakeEntity<T>.GetHashCode()
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).GetHashCode()
-  nameWithType: OptionalSnowflakeEntity<T>.GetHashCode()
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).GetHashCode()
-- uid: Disqord.OptionalSnowflakeEntity`1.GetHashCode*
-  name: GetHashCode
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_GetHashCode_
-  commentId: Overload:Disqord.OptionalSnowflakeEntity`1.GetHashCode
-  isSpec: "True"
-  fullName: Disqord.OptionalSnowflakeEntity<T>.GetHashCode
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).GetHashCode
-  nameWithType: OptionalSnowflakeEntity<T>.GetHashCode
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).GetHashCode
-- uid: Disqord.OptionalSnowflakeEntity`1.HasValue
-  name: HasValue
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_HasValue
-  commentId: P:Disqord.OptionalSnowflakeEntity`1.HasValue
-  fullName: Disqord.OptionalSnowflakeEntity<T>.HasValue
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).HasValue
-  nameWithType: OptionalSnowflakeEntity<T>.HasValue
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).HasValue
-- uid: Disqord.OptionalSnowflakeEntity`1.HasValue*
-  name: HasValue
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_HasValue_
-  commentId: Overload:Disqord.OptionalSnowflakeEntity`1.HasValue
-  isSpec: "True"
-  fullName: Disqord.OptionalSnowflakeEntity<T>.HasValue
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).HasValue
-  nameWithType: OptionalSnowflakeEntity<T>.HasValue
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).HasValue
-- uid: Disqord.OptionalSnowflakeEntity`1.Id
-  name: Id
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_Id
-  commentId: P:Disqord.OptionalSnowflakeEntity`1.Id
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Id
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Id
-  nameWithType: OptionalSnowflakeEntity<T>.Id
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Id
-- uid: Disqord.OptionalSnowflakeEntity`1.Id*
-  name: Id
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_Id_
-  commentId: Overload:Disqord.OptionalSnowflakeEntity`1.Id
-  isSpec: "True"
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Id
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Id
-  nameWithType: OptionalSnowflakeEntity<T>.Id
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Id
-- uid: Disqord.OptionalSnowflakeEntity`1.op_Equality(Disqord.OptionalSnowflakeEntity{`0},`0)
-  name: Equality(OptionalSnowflakeEntity<T>, T)
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_op_Equality_Disqord_OptionalSnowflakeEntity__0___0_
-  commentId: M:Disqord.OptionalSnowflakeEntity`1.op_Equality(Disqord.OptionalSnowflakeEntity{`0},`0)
-  name.vb: Equality(OptionalSnowflakeEntity(Of T), T)
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Equality(Disqord.OptionalSnowflakeEntity<T>, T)
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Equality(Disqord.OptionalSnowflakeEntity(Of T), T)
-  nameWithType: OptionalSnowflakeEntity<T>.Equality(OptionalSnowflakeEntity<T>, T)
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Equality(OptionalSnowflakeEntity(Of T), T)
-- uid: Disqord.OptionalSnowflakeEntity`1.op_Equality(Disqord.OptionalSnowflakeEntity{`0},Disqord.OptionalSnowflakeEntity{`0})
-  name: Equality(OptionalSnowflakeEntity<T>, OptionalSnowflakeEntity<T>)
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_op_Equality_Disqord_OptionalSnowflakeEntity__0__Disqord_OptionalSnowflakeEntity__0__
-  commentId: M:Disqord.OptionalSnowflakeEntity`1.op_Equality(Disqord.OptionalSnowflakeEntity{`0},Disqord.OptionalSnowflakeEntity{`0})
-  name.vb: Equality(OptionalSnowflakeEntity(Of T), OptionalSnowflakeEntity(Of T))
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Equality(Disqord.OptionalSnowflakeEntity<T>, Disqord.OptionalSnowflakeEntity<T>)
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Equality(Disqord.OptionalSnowflakeEntity(Of T), Disqord.OptionalSnowflakeEntity(Of T))
-  nameWithType: OptionalSnowflakeEntity<T>.Equality(OptionalSnowflakeEntity<T>, OptionalSnowflakeEntity<T>)
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Equality(OptionalSnowflakeEntity(Of T), OptionalSnowflakeEntity(Of T))
-- uid: Disqord.OptionalSnowflakeEntity`1.op_Equality*
-  name: Equality
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_op_Equality_
-  commentId: Overload:Disqord.OptionalSnowflakeEntity`1.op_Equality
-  isSpec: "True"
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Equality
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Equality
-  nameWithType: OptionalSnowflakeEntity<T>.Equality
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Equality
-- uid: Disqord.OptionalSnowflakeEntity`1.op_Inequality(Disqord.OptionalSnowflakeEntity{`0},`0)
-  name: Inequality(OptionalSnowflakeEntity<T>, T)
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_op_Inequality_Disqord_OptionalSnowflakeEntity__0___0_
-  commentId: M:Disqord.OptionalSnowflakeEntity`1.op_Inequality(Disqord.OptionalSnowflakeEntity{`0},`0)
-  name.vb: Inequality(OptionalSnowflakeEntity(Of T), T)
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Inequality(Disqord.OptionalSnowflakeEntity<T>, T)
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Inequality(Disqord.OptionalSnowflakeEntity(Of T), T)
-  nameWithType: OptionalSnowflakeEntity<T>.Inequality(OptionalSnowflakeEntity<T>, T)
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Inequality(OptionalSnowflakeEntity(Of T), T)
-- uid: Disqord.OptionalSnowflakeEntity`1.op_Inequality(Disqord.OptionalSnowflakeEntity{`0},Disqord.OptionalSnowflakeEntity{`0})
-  name: Inequality(OptionalSnowflakeEntity<T>, OptionalSnowflakeEntity<T>)
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_op_Inequality_Disqord_OptionalSnowflakeEntity__0__Disqord_OptionalSnowflakeEntity__0__
-  commentId: M:Disqord.OptionalSnowflakeEntity`1.op_Inequality(Disqord.OptionalSnowflakeEntity{`0},Disqord.OptionalSnowflakeEntity{`0})
-  name.vb: Inequality(OptionalSnowflakeEntity(Of T), OptionalSnowflakeEntity(Of T))
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Inequality(Disqord.OptionalSnowflakeEntity<T>, Disqord.OptionalSnowflakeEntity<T>)
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Inequality(Disqord.OptionalSnowflakeEntity(Of T), Disqord.OptionalSnowflakeEntity(Of T))
-  nameWithType: OptionalSnowflakeEntity<T>.Inequality(OptionalSnowflakeEntity<T>, OptionalSnowflakeEntity<T>)
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Inequality(OptionalSnowflakeEntity(Of T), OptionalSnowflakeEntity(Of T))
-- uid: Disqord.OptionalSnowflakeEntity`1.op_Inequality*
-  name: Inequality
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_op_Inequality_
-  commentId: Overload:Disqord.OptionalSnowflakeEntity`1.op_Inequality
-  isSpec: "True"
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Inequality
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Inequality
-  nameWithType: OptionalSnowflakeEntity<T>.Inequality
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Inequality
-- uid: Disqord.OptionalSnowflakeEntity`1.ToString
-  name: ToString()
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_ToString
-  commentId: M:Disqord.OptionalSnowflakeEntity`1.ToString
-  fullName: Disqord.OptionalSnowflakeEntity<T>.ToString()
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).ToString()
-  nameWithType: OptionalSnowflakeEntity<T>.ToString()
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).ToString()
-- uid: Disqord.OptionalSnowflakeEntity`1.ToString*
-  name: ToString
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_ToString_
-  commentId: Overload:Disqord.OptionalSnowflakeEntity`1.ToString
-  isSpec: "True"
-  fullName: Disqord.OptionalSnowflakeEntity<T>.ToString
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).ToString
-  nameWithType: OptionalSnowflakeEntity<T>.ToString
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).ToString
-- uid: Disqord.OptionalSnowflakeEntity`1.Value
-  name: Value
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_Value
-  commentId: P:Disqord.OptionalSnowflakeEntity`1.Value
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Value
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Value
-  nameWithType: OptionalSnowflakeEntity<T>.Value
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Value
-- uid: Disqord.OptionalSnowflakeEntity`1.Value*
-  name: Value
-  href: api/Disqord.OptionalSnowflakeEntity-1.html#Disqord_OptionalSnowflakeEntity_1_Value_
-  commentId: Overload:Disqord.OptionalSnowflakeEntity`1.Value
-  isSpec: "True"
-  fullName: Disqord.OptionalSnowflakeEntity<T>.Value
-  fullName.vb: Disqord.OptionalSnowflakeEntity(Of T).Value
-  nameWithType: OptionalSnowflakeEntity<T>.Value
-  nameWithType.vb: OptionalSnowflakeEntity(Of T).Value
 - uid: Disqord.OverwritePermissions
   name: OverwritePermissions
   href: api/Disqord.OverwritePermissions.html
@@ -28410,15 +28110,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetPruneCountAsync
   nameWithType: IRestDiscordClient.GetPruneCountAsync
-- uid: Disqord.Rest.IRestDiscordClient.GetReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetReactionsAsync_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.IRestDiscordClient.GetReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.Rest.IRestDiscordClient.GetReactionsAsync(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.IRestDiscordClient.GetReactionsAsync(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: IRestDiscordClient.GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: IRestDiscordClient.GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.Rest.IRestDiscordClient.GetReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetReactionsAsync_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetReactionsAsync(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.IRestDiscordClient.GetReactionsAsync(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IRestDiscordClient.GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.GetReactionsAsync*
   name: GetReactionsAsync
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetReactionsAsync_
@@ -28426,15 +28126,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetReactionsAsync
   nameWithType: IRestDiscordClient.GetReactionsAsync
-- uid: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetReactionsEnumerable_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: IRestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: IRestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetReactionsEnumerable_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: IRestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetReactionsEnumerable_
@@ -29177,6 +28877,12 @@ references:
   commentId: F:Disqord.Rest.JsonErrorCode.IncomingFriendRequestsDisabled
   fullName: Disqord.Rest.JsonErrorCode.IncomingFriendRequestsDisabled
   nameWithType: JsonErrorCode.IncomingFriendRequestsDisabled
+- uid: Disqord.Rest.JsonErrorCode.IndexNotYetAvailable
+  name: IndexNotYetAvailable
+  href: api/Disqord.Rest.JsonErrorCode.html#Disqord_Rest_JsonErrorCode_IndexNotYetAvailable
+  commentId: F:Disqord.Rest.JsonErrorCode.IndexNotYetAvailable
+  fullName: Disqord.Rest.JsonErrorCode.IndexNotYetAvailable
+  nameWithType: JsonErrorCode.IndexNotYetAvailable
 - uid: Disqord.Rest.JsonErrorCode.InvalidAccountType
   name: InvalidAccountType
   href: api/Disqord.Rest.JsonErrorCode.html#Disqord_Rest_JsonErrorCode_InvalidAccountType
@@ -31060,15 +30766,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetPruneCountAsync
   nameWithType: RestDiscordClient.GetPruneCountAsync
-- uid: Disqord.Rest.RestDiscordClient.GetReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetReactionsAsync_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestDiscordClient.GetReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.Rest.RestDiscordClient.GetReactionsAsync(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestDiscordClient.GetReactionsAsync(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: RestDiscordClient.GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: RestDiscordClient.GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.GetReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetReactionsAsync_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetReactionsAsync(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetReactionsAsync(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestDiscordClient.GetReactionsAsync(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestDiscordClient.GetReactionsAsync(Snowflake, Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.GetReactionsAsync*
   name: GetReactionsAsync
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetReactionsAsync_
@@ -31076,15 +30782,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetReactionsAsync
   nameWithType: RestDiscordClient.GetReactionsAsync
-- uid: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetReactionsEnumerable_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: RestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: RestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetReactionsEnumerable_Disqord_Snowflake_Disqord_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake,Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable(Disqord.Snowflake, Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestDiscordClient.GetReactionsEnumerable(Snowflake, Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetReactionsEnumerable_
@@ -31849,178 +31555,178 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDmChannel.Recipient
   nameWithType: RestDmChannel.Recipient
-- uid: Disqord.Rest.RestDownloadable`1
-  name: RestDownloadable<T>
-  href: api/Disqord.Rest.RestDownloadable-1.html
-  commentId: T:Disqord.Rest.RestDownloadable`1
-  name.vb: RestDownloadable(Of T)
-  fullName: Disqord.Rest.RestDownloadable<T>
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T)
-  nameWithType: RestDownloadable<T>
-  nameWithType.vb: RestDownloadable(Of T)
-- uid: Disqord.Rest.RestDownloadable`1.DownloadAsync(Disqord.Rest.RestRequestOptions)
-  name: DownloadAsync(RestRequestOptions)
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_DownloadAsync_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestDownloadable`1.DownloadAsync(Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestDownloadable<T>.DownloadAsync(Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).DownloadAsync(Disqord.Rest.RestRequestOptions)
-  nameWithType: RestDownloadable<T>.DownloadAsync(RestRequestOptions)
-  nameWithType.vb: RestDownloadable(Of T).DownloadAsync(RestRequestOptions)
-- uid: Disqord.Rest.RestDownloadable`1.DownloadAsync*
-  name: DownloadAsync
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_DownloadAsync_
-  commentId: Overload:Disqord.Rest.RestDownloadable`1.DownloadAsync
-  isSpec: "True"
-  fullName: Disqord.Rest.RestDownloadable<T>.DownloadAsync
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).DownloadAsync
-  nameWithType: RestDownloadable<T>.DownloadAsync
-  nameWithType.vb: RestDownloadable(Of T).DownloadAsync
-- uid: Disqord.Rest.RestDownloadable`1.Equals(`0)
+- uid: Disqord.Rest.RestFetchable`1
+  name: RestFetchable<T>
+  href: api/Disqord.Rest.RestFetchable-1.html
+  commentId: T:Disqord.Rest.RestFetchable`1
+  name.vb: RestFetchable(Of T)
+  fullName: Disqord.Rest.RestFetchable<T>
+  fullName.vb: Disqord.Rest.RestFetchable(Of T)
+  nameWithType: RestFetchable<T>
+  nameWithType.vb: RestFetchable(Of T)
+- uid: Disqord.Rest.RestFetchable`1.Equals(`0)
   name: Equals(T)
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_Equals__0_
-  commentId: M:Disqord.Rest.RestDownloadable`1.Equals(`0)
-  fullName: Disqord.Rest.RestDownloadable<T>.Equals(T)
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).Equals(T)
-  nameWithType: RestDownloadable<T>.Equals(T)
-  nameWithType.vb: RestDownloadable(Of T).Equals(T)
-- uid: Disqord.Rest.RestDownloadable`1.Equals(System.Object)
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_Equals__0_
+  commentId: M:Disqord.Rest.RestFetchable`1.Equals(`0)
+  fullName: Disqord.Rest.RestFetchable<T>.Equals(T)
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).Equals(T)
+  nameWithType: RestFetchable<T>.Equals(T)
+  nameWithType.vb: RestFetchable(Of T).Equals(T)
+- uid: Disqord.Rest.RestFetchable`1.Equals(System.Object)
   name: Equals(Object)
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_Equals_System_Object_
-  commentId: M:Disqord.Rest.RestDownloadable`1.Equals(System.Object)
-  fullName: Disqord.Rest.RestDownloadable<T>.Equals(System.Object)
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).Equals(System.Object)
-  nameWithType: RestDownloadable<T>.Equals(Object)
-  nameWithType.vb: RestDownloadable(Of T).Equals(Object)
-- uid: Disqord.Rest.RestDownloadable`1.Equals*
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_Equals_System_Object_
+  commentId: M:Disqord.Rest.RestFetchable`1.Equals(System.Object)
+  fullName: Disqord.Rest.RestFetchable<T>.Equals(System.Object)
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).Equals(System.Object)
+  nameWithType: RestFetchable<T>.Equals(Object)
+  nameWithType.vb: RestFetchable(Of T).Equals(Object)
+- uid: Disqord.Rest.RestFetchable`1.Equals*
   name: Equals
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_Equals_
-  commentId: Overload:Disqord.Rest.RestDownloadable`1.Equals
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_Equals_
+  commentId: Overload:Disqord.Rest.RestFetchable`1.Equals
   isSpec: "True"
-  fullName: Disqord.Rest.RestDownloadable<T>.Equals
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).Equals
-  nameWithType: RestDownloadable<T>.Equals
-  nameWithType.vb: RestDownloadable(Of T).Equals
-- uid: Disqord.Rest.RestDownloadable`1.GetHashCode
+  fullName: Disqord.Rest.RestFetchable<T>.Equals
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).Equals
+  nameWithType: RestFetchable<T>.Equals
+  nameWithType.vb: RestFetchable(Of T).Equals
+- uid: Disqord.Rest.RestFetchable`1.FetchAsync(Disqord.Rest.RestRequestOptions)
+  name: FetchAsync(RestRequestOptions)
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_FetchAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestFetchable`1.FetchAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestFetchable<T>.FetchAsync(Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).FetchAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: RestFetchable<T>.FetchAsync(RestRequestOptions)
+  nameWithType.vb: RestFetchable(Of T).FetchAsync(RestRequestOptions)
+- uid: Disqord.Rest.RestFetchable`1.FetchAsync*
+  name: FetchAsync
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_FetchAsync_
+  commentId: Overload:Disqord.Rest.RestFetchable`1.FetchAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.RestFetchable<T>.FetchAsync
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).FetchAsync
+  nameWithType: RestFetchable<T>.FetchAsync
+  nameWithType.vb: RestFetchable(Of T).FetchAsync
+- uid: Disqord.Rest.RestFetchable`1.GetAsync(Disqord.Rest.RestRequestOptions)
+  name: GetAsync(RestRequestOptions)
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_GetAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestFetchable`1.GetAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestFetchable<T>.GetAsync(Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).GetAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: RestFetchable<T>.GetAsync(RestRequestOptions)
+  nameWithType.vb: RestFetchable(Of T).GetAsync(RestRequestOptions)
+- uid: Disqord.Rest.RestFetchable`1.GetAsync*
+  name: GetAsync
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_GetAsync_
+  commentId: Overload:Disqord.Rest.RestFetchable`1.GetAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.RestFetchable<T>.GetAsync
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).GetAsync
+  nameWithType: RestFetchable<T>.GetAsync
+  nameWithType.vb: RestFetchable(Of T).GetAsync
+- uid: Disqord.Rest.RestFetchable`1.GetHashCode
   name: GetHashCode()
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_GetHashCode
-  commentId: M:Disqord.Rest.RestDownloadable`1.GetHashCode
-  fullName: Disqord.Rest.RestDownloadable<T>.GetHashCode()
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).GetHashCode()
-  nameWithType: RestDownloadable<T>.GetHashCode()
-  nameWithType.vb: RestDownloadable(Of T).GetHashCode()
-- uid: Disqord.Rest.RestDownloadable`1.GetHashCode*
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_GetHashCode
+  commentId: M:Disqord.Rest.RestFetchable`1.GetHashCode
+  fullName: Disqord.Rest.RestFetchable<T>.GetHashCode()
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).GetHashCode()
+  nameWithType: RestFetchable<T>.GetHashCode()
+  nameWithType.vb: RestFetchable(Of T).GetHashCode()
+- uid: Disqord.Rest.RestFetchable`1.GetHashCode*
   name: GetHashCode
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_GetHashCode_
-  commentId: Overload:Disqord.Rest.RestDownloadable`1.GetHashCode
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_GetHashCode_
+  commentId: Overload:Disqord.Rest.RestFetchable`1.GetHashCode
   isSpec: "True"
-  fullName: Disqord.Rest.RestDownloadable<T>.GetHashCode
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).GetHashCode
-  nameWithType: RestDownloadable<T>.GetHashCode
-  nameWithType.vb: RestDownloadable(Of T).GetHashCode
-- uid: Disqord.Rest.RestDownloadable`1.GetOrDownloadAsync(Disqord.Rest.RestRequestOptions)
-  name: GetOrDownloadAsync(RestRequestOptions)
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_GetOrDownloadAsync_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestDownloadable`1.GetOrDownloadAsync(Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestDownloadable<T>.GetOrDownloadAsync(Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).GetOrDownloadAsync(Disqord.Rest.RestRequestOptions)
-  nameWithType: RestDownloadable<T>.GetOrDownloadAsync(RestRequestOptions)
-  nameWithType.vb: RestDownloadable(Of T).GetOrDownloadAsync(RestRequestOptions)
-- uid: Disqord.Rest.RestDownloadable`1.GetOrDownloadAsync*
-  name: GetOrDownloadAsync
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_GetOrDownloadAsync_
-  commentId: Overload:Disqord.Rest.RestDownloadable`1.GetOrDownloadAsync
+  fullName: Disqord.Rest.RestFetchable<T>.GetHashCode
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).GetHashCode
+  nameWithType: RestFetchable<T>.GetHashCode
+  nameWithType.vb: RestFetchable(Of T).GetHashCode
+- uid: Disqord.Rest.RestFetchable`1.IsFetched
+  name: IsFetched
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_IsFetched
+  commentId: P:Disqord.Rest.RestFetchable`1.IsFetched
+  fullName: Disqord.Rest.RestFetchable<T>.IsFetched
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).IsFetched
+  nameWithType: RestFetchable<T>.IsFetched
+  nameWithType.vb: RestFetchable(Of T).IsFetched
+- uid: Disqord.Rest.RestFetchable`1.IsFetched*
+  name: IsFetched
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_IsFetched_
+  commentId: Overload:Disqord.Rest.RestFetchable`1.IsFetched
   isSpec: "True"
-  fullName: Disqord.Rest.RestDownloadable<T>.GetOrDownloadAsync
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).GetOrDownloadAsync
-  nameWithType: RestDownloadable<T>.GetOrDownloadAsync
-  nameWithType.vb: RestDownloadable(Of T).GetOrDownloadAsync
-- uid: Disqord.Rest.RestDownloadable`1.HasValue
-  name: HasValue
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_HasValue
-  commentId: P:Disqord.Rest.RestDownloadable`1.HasValue
-  fullName: Disqord.Rest.RestDownloadable<T>.HasValue
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).HasValue
-  nameWithType: RestDownloadable<T>.HasValue
-  nameWithType.vb: RestDownloadable(Of T).HasValue
-- uid: Disqord.Rest.RestDownloadable`1.HasValue*
-  name: HasValue
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_HasValue_
-  commentId: Overload:Disqord.Rest.RestDownloadable`1.HasValue
-  isSpec: "True"
-  fullName: Disqord.Rest.RestDownloadable<T>.HasValue
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).HasValue
-  nameWithType: RestDownloadable<T>.HasValue
-  nameWithType.vb: RestDownloadable(Of T).HasValue
-- uid: Disqord.Rest.RestDownloadable`1.op_Equality(Disqord.Rest.RestDownloadable{`0},`0)
-  name: Equality(RestDownloadable<T>, T)
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_op_Equality_Disqord_Rest_RestDownloadable__0___0_
-  commentId: M:Disqord.Rest.RestDownloadable`1.op_Equality(Disqord.Rest.RestDownloadable{`0},`0)
-  name.vb: Equality(RestDownloadable(Of T), T)
-  fullName: Disqord.Rest.RestDownloadable<T>.Equality(Disqord.Rest.RestDownloadable<T>, T)
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).Equality(Disqord.Rest.RestDownloadable(Of T), T)
-  nameWithType: RestDownloadable<T>.Equality(RestDownloadable<T>, T)
-  nameWithType.vb: RestDownloadable(Of T).Equality(RestDownloadable(Of T), T)
-- uid: Disqord.Rest.RestDownloadable`1.op_Equality*
+  fullName: Disqord.Rest.RestFetchable<T>.IsFetched
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).IsFetched
+  nameWithType: RestFetchable<T>.IsFetched
+  nameWithType.vb: RestFetchable(Of T).IsFetched
+- uid: Disqord.Rest.RestFetchable`1.op_Equality(Disqord.Rest.RestFetchable{`0},`0)
+  name: Equality(RestFetchable<T>, T)
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_op_Equality_Disqord_Rest_RestFetchable__0___0_
+  commentId: M:Disqord.Rest.RestFetchable`1.op_Equality(Disqord.Rest.RestFetchable{`0},`0)
+  name.vb: Equality(RestFetchable(Of T), T)
+  fullName: Disqord.Rest.RestFetchable<T>.Equality(Disqord.Rest.RestFetchable<T>, T)
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).Equality(Disqord.Rest.RestFetchable(Of T), T)
+  nameWithType: RestFetchable<T>.Equality(RestFetchable<T>, T)
+  nameWithType.vb: RestFetchable(Of T).Equality(RestFetchable(Of T), T)
+- uid: Disqord.Rest.RestFetchable`1.op_Equality*
   name: Equality
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_op_Equality_
-  commentId: Overload:Disqord.Rest.RestDownloadable`1.op_Equality
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_op_Equality_
+  commentId: Overload:Disqord.Rest.RestFetchable`1.op_Equality
   isSpec: "True"
-  fullName: Disqord.Rest.RestDownloadable<T>.Equality
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).Equality
-  nameWithType: RestDownloadable<T>.Equality
-  nameWithType.vb: RestDownloadable(Of T).Equality
-- uid: Disqord.Rest.RestDownloadable`1.op_Inequality(Disqord.Rest.RestDownloadable{`0},`0)
-  name: Inequality(RestDownloadable<T>, T)
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_op_Inequality_Disqord_Rest_RestDownloadable__0___0_
-  commentId: M:Disqord.Rest.RestDownloadable`1.op_Inequality(Disqord.Rest.RestDownloadable{`0},`0)
-  name.vb: Inequality(RestDownloadable(Of T), T)
-  fullName: Disqord.Rest.RestDownloadable<T>.Inequality(Disqord.Rest.RestDownloadable<T>, T)
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).Inequality(Disqord.Rest.RestDownloadable(Of T), T)
-  nameWithType: RestDownloadable<T>.Inequality(RestDownloadable<T>, T)
-  nameWithType.vb: RestDownloadable(Of T).Inequality(RestDownloadable(Of T), T)
-- uid: Disqord.Rest.RestDownloadable`1.op_Inequality*
+  fullName: Disqord.Rest.RestFetchable<T>.Equality
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).Equality
+  nameWithType: RestFetchable<T>.Equality
+  nameWithType.vb: RestFetchable(Of T).Equality
+- uid: Disqord.Rest.RestFetchable`1.op_Inequality(Disqord.Rest.RestFetchable{`0},`0)
+  name: Inequality(RestFetchable<T>, T)
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_op_Inequality_Disqord_Rest_RestFetchable__0___0_
+  commentId: M:Disqord.Rest.RestFetchable`1.op_Inequality(Disqord.Rest.RestFetchable{`0},`0)
+  name.vb: Inequality(RestFetchable(Of T), T)
+  fullName: Disqord.Rest.RestFetchable<T>.Inequality(Disqord.Rest.RestFetchable<T>, T)
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).Inequality(Disqord.Rest.RestFetchable(Of T), T)
+  nameWithType: RestFetchable<T>.Inequality(RestFetchable<T>, T)
+  nameWithType.vb: RestFetchable(Of T).Inequality(RestFetchable(Of T), T)
+- uid: Disqord.Rest.RestFetchable`1.op_Inequality*
   name: Inequality
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_op_Inequality_
-  commentId: Overload:Disqord.Rest.RestDownloadable`1.op_Inequality
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_op_Inequality_
+  commentId: Overload:Disqord.Rest.RestFetchable`1.op_Inequality
   isSpec: "True"
-  fullName: Disqord.Rest.RestDownloadable<T>.Inequality
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).Inequality
-  nameWithType: RestDownloadable<T>.Inequality
-  nameWithType.vb: RestDownloadable(Of T).Inequality
-- uid: Disqord.Rest.RestDownloadable`1.ToString
+  fullName: Disqord.Rest.RestFetchable<T>.Inequality
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).Inequality
+  nameWithType: RestFetchable<T>.Inequality
+  nameWithType.vb: RestFetchable(Of T).Inequality
+- uid: Disqord.Rest.RestFetchable`1.ToString
   name: ToString()
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_ToString
-  commentId: M:Disqord.Rest.RestDownloadable`1.ToString
-  fullName: Disqord.Rest.RestDownloadable<T>.ToString()
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).ToString()
-  nameWithType: RestDownloadable<T>.ToString()
-  nameWithType.vb: RestDownloadable(Of T).ToString()
-- uid: Disqord.Rest.RestDownloadable`1.ToString*
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_ToString
+  commentId: M:Disqord.Rest.RestFetchable`1.ToString
+  fullName: Disqord.Rest.RestFetchable<T>.ToString()
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).ToString()
+  nameWithType: RestFetchable<T>.ToString()
+  nameWithType.vb: RestFetchable(Of T).ToString()
+- uid: Disqord.Rest.RestFetchable`1.ToString*
   name: ToString
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_ToString_
-  commentId: Overload:Disqord.Rest.RestDownloadable`1.ToString
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_ToString_
+  commentId: Overload:Disqord.Rest.RestFetchable`1.ToString
   isSpec: "True"
-  fullName: Disqord.Rest.RestDownloadable<T>.ToString
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).ToString
-  nameWithType: RestDownloadable<T>.ToString
-  nameWithType.vb: RestDownloadable(Of T).ToString
-- uid: Disqord.Rest.RestDownloadable`1.Value
+  fullName: Disqord.Rest.RestFetchable<T>.ToString
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).ToString
+  nameWithType: RestFetchable<T>.ToString
+  nameWithType.vb: RestFetchable(Of T).ToString
+- uid: Disqord.Rest.RestFetchable`1.Value
   name: Value
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_Value
-  commentId: P:Disqord.Rest.RestDownloadable`1.Value
-  fullName: Disqord.Rest.RestDownloadable<T>.Value
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).Value
-  nameWithType: RestDownloadable<T>.Value
-  nameWithType.vb: RestDownloadable(Of T).Value
-- uid: Disqord.Rest.RestDownloadable`1.Value*
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_Value
+  commentId: P:Disqord.Rest.RestFetchable`1.Value
+  fullName: Disqord.Rest.RestFetchable<T>.Value
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).Value
+  nameWithType: RestFetchable<T>.Value
+  nameWithType.vb: RestFetchable(Of T).Value
+- uid: Disqord.Rest.RestFetchable`1.Value*
   name: Value
-  href: api/Disqord.Rest.RestDownloadable-1.html#Disqord_Rest_RestDownloadable_1_Value_
-  commentId: Overload:Disqord.Rest.RestDownloadable`1.Value
+  href: api/Disqord.Rest.RestFetchable-1.html#Disqord_Rest_RestFetchable_1_Value_
+  commentId: Overload:Disqord.Rest.RestFetchable`1.Value
   isSpec: "True"
-  fullName: Disqord.Rest.RestDownloadable<T>.Value
-  fullName.vb: Disqord.Rest.RestDownloadable(Of T).Value
-  nameWithType: RestDownloadable<T>.Value
-  nameWithType.vb: RestDownloadable(Of T).Value
+  fullName: Disqord.Rest.RestFetchable<T>.Value
+  fullName.vb: Disqord.Rest.RestFetchable(Of T).Value
+  nameWithType: RestFetchable<T>.Value
+  nameWithType.vb: RestFetchable(Of T).Value
 - uid: Disqord.Rest.RestGatewayBotResponse
   name: RestGatewayBotResponse
   href: api/Disqord.Rest.RestGatewayBotResponse.html
@@ -34464,15 +34170,15 @@ references:
   fullName: Disqord.Rest.RestMessage.Disqord.IMessage.MentionedUsers
   nameWithType: RestMessage.IMessage.MentionedUsers
   nameWithType.vb: RestMessage.Disqord.IMessage.MentionedUsers
-- uid: Disqord.Rest.RestMessage.GetReactionsAsync(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsAsync(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.Rest.RestMessage.html#Disqord_Rest_RestMessage_GetReactionsAsync_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestMessage.GetReactionsAsync(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsAsync(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.Rest.RestMessage.GetReactionsAsync(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestMessage.GetReactionsAsync(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: RestMessage.GetReactionsAsync(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: RestMessage.GetReactionsAsync(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.Rest.RestMessage.GetReactionsAsync(Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsAsync(IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestMessage.html#Disqord_Rest_RestMessage_GetReactionsAsync_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestMessage.GetReactionsAsync(Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsAsync(IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestMessage.GetReactionsAsync(Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestMessage.GetReactionsAsync(Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestMessage.GetReactionsAsync(IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestMessage.GetReactionsAsync(IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestMessage.GetReactionsAsync*
   name: GetReactionsAsync
   href: api/Disqord.Rest.RestMessage.html#Disqord_Rest_RestMessage_GetReactionsAsync_
@@ -34480,15 +34186,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestMessage.GetReactionsAsync
   nameWithType: RestMessage.GetReactionsAsync
-- uid: Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.Rest.RestMessage.html#Disqord_Rest_RestMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: RestMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: RestMessage.GetReactionsEnumerable(IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestMessage.html#Disqord_Rest_RestMessage_GetReactionsEnumerable_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestMessage.GetReactionsEnumerable(Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestMessage.GetReactionsEnumerable(IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestMessage.GetReactionsEnumerable(IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestMessage.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.Rest.RestMessage.html#Disqord_Rest_RestMessage_GetReactionsEnumerable_
@@ -34883,15 +34589,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestPrivateChannel.GetPinnedMessagesAsync
   nameWithType: RestPrivateChannel.GetPinnedMessagesAsync
-- uid: Disqord.Rest.RestPrivateChannel.GetReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_GetReactionsAsync_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestPrivateChannel.GetReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.Rest.RestPrivateChannel.GetReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestPrivateChannel.GetReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: RestPrivateChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: RestPrivateChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.Rest.RestPrivateChannel.GetReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_GetReactionsAsync_Disqord_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestPrivateChannel.GetReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestPrivateChannel.GetReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestPrivateChannel.GetReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestPrivateChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestPrivateChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestPrivateChannel.GetReactionsAsync*
   name: GetReactionsAsync
   href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_GetReactionsAsync_
@@ -34899,15 +34605,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestPrivateChannel.GetReactionsAsync
   nameWithType: RestPrivateChannel.GetReactionsAsync
-- uid: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_GetReactionsEnumerable_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: RestPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: RestPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_GetReactionsEnumerable_Disqord_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestPrivateChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestPrivateChannel.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_GetReactionsEnumerable_
@@ -36212,15 +35918,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestTextChannel.GetPinnedMessagesAsync
   nameWithType: RestTextChannel.GetPinnedMessagesAsync
-- uid: Disqord.Rest.RestTextChannel.GetReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetReactionsAsync_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestTextChannel.GetReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.Rest.RestTextChannel.GetReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestTextChannel.GetReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: RestTextChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: RestTextChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.Rest.RestTextChannel.GetReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetReactionsAsync_Disqord_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestTextChannel.GetReactionsAsync(Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestTextChannel.GetReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestTextChannel.GetReactionsAsync(Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestTextChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestTextChannel.GetReactionsAsync(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestTextChannel.GetReactionsAsync*
   name: GetReactionsAsync
   href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetReactionsAsync_
@@ -36228,15 +35934,15 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestTextChannel.GetReactionsAsync
   nameWithType: RestTextChannel.GetReactionsAsync
-- uid: Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetReactionsEnumerable_Disqord_Snowflake_Disqord_IEmoji_System_Int32_Disqord_RetrievalDirection_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,Disqord.RetrievalDirection,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
-  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
-  fullName: Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, Disqord.RetrievalDirection, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
-  nameWithType: RestTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable<Snowflake>, RestRequestOptions)
-  nameWithType.vb: RestTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, RetrievalDirection, Nullable(Of Snowflake), RestRequestOptions)
+- uid: Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name: GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetReactionsEnumerable_Disqord_Snowflake_Disqord_IEmoji_System_Int32_System_Nullable_Disqord_Snowflake__Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake,Disqord.IEmoji,System.Int32,System.Nullable{Disqord.Snowflake},Disqord.Rest.RestRequestOptions)
+  name.vb: GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
+  fullName: Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable<Disqord.Snowflake>, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestTextChannel.GetReactionsEnumerable(Disqord.Snowflake, Disqord.IEmoji, System.Int32, System.Nullable(Of Disqord.Snowflake), Disqord.Rest.RestRequestOptions)
+  nameWithType: RestTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable<Snowflake>, RestRequestOptions)
+  nameWithType.vb: RestTextChannel.GetReactionsEnumerable(Snowflake, IEmoji, Int32, Nullable(Of Snowflake), RestRequestOptions)
 - uid: Disqord.Rest.RestTextChannel.GetReactionsEnumerable*
   name: GetReactionsEnumerable
   href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_GetReactionsEnumerable_
@@ -37836,6 +37542,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestWebhookClient.ExecuteAsync
   nameWithType: RestWebhookClient.ExecuteAsync
+- uid: Disqord.Rest.RestWebhookClient.FetchWebhookAsync(Disqord.Rest.RestRequestOptions)
+  name: FetchWebhookAsync(RestRequestOptions)
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_FetchWebhookAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestWebhookClient.FetchWebhookAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestWebhookClient.FetchWebhookAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: RestWebhookClient.FetchWebhookAsync(RestRequestOptions)
+- uid: Disqord.Rest.RestWebhookClient.FetchWebhookAsync*
+  name: FetchWebhookAsync
+  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_FetchWebhookAsync_
+  commentId: Overload:Disqord.Rest.RestWebhookClient.FetchWebhookAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.RestWebhookClient.FetchWebhookAsync
+  nameWithType: RestWebhookClient.FetchWebhookAsync
 - uid: Disqord.Rest.RestWebhookClient.FromUrl(System.String)
   name: FromUrl(String)
   href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_FromUrl_System_String_
@@ -37849,19 +37568,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestWebhookClient.FromUrl
   nameWithType: RestWebhookClient.FromUrl
-- uid: Disqord.Rest.RestWebhookClient.GetWebhookAsync(Disqord.Rest.RestRequestOptions)
-  name: GetWebhookAsync(RestRequestOptions)
-  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_GetWebhookAsync_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestWebhookClient.GetWebhookAsync(Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestWebhookClient.GetWebhookAsync(Disqord.Rest.RestRequestOptions)
-  nameWithType: RestWebhookClient.GetWebhookAsync(RestRequestOptions)
-- uid: Disqord.Rest.RestWebhookClient.GetWebhookAsync*
-  name: GetWebhookAsync
-  href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_GetWebhookAsync_
-  commentId: Overload:Disqord.Rest.RestWebhookClient.GetWebhookAsync
-  isSpec: "True"
-  fullName: Disqord.Rest.RestWebhookClient.GetWebhookAsync
-  nameWithType: RestWebhookClient.GetWebhookAsync
 - uid: Disqord.Rest.RestWebhookClient.Id
   name: Id
   href: api/Disqord.Rest.RestWebhookClient.html#Disqord_Rest_RestWebhookClient_Id
@@ -39154,6 +38860,161 @@ references:
   isSpec: "True"
   fullName: Disqord.Snowflake.TryParse
   nameWithType: Snowflake.TryParse
+- uid: Disqord.SnowflakeOptional`1
+  name: SnowflakeOptional<T>
+  href: api/Disqord.SnowflakeOptional-1.html
+  commentId: T:Disqord.SnowflakeOptional`1
+  name.vb: SnowflakeOptional(Of T)
+  fullName: Disqord.SnowflakeOptional<T>
+  fullName.vb: Disqord.SnowflakeOptional(Of T)
+  nameWithType: SnowflakeOptional<T>
+  nameWithType.vb: SnowflakeOptional(Of T)
+- uid: Disqord.SnowflakeOptional`1.Equals(`0)
+  name: Equals(T)
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_Equals__0_
+  commentId: M:Disqord.SnowflakeOptional`1.Equals(`0)
+  fullName: Disqord.SnowflakeOptional<T>.Equals(T)
+  fullName.vb: Disqord.SnowflakeOptional(Of T).Equals(T)
+  nameWithType: SnowflakeOptional<T>.Equals(T)
+  nameWithType.vb: SnowflakeOptional(Of T).Equals(T)
+- uid: Disqord.SnowflakeOptional`1.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_Equals_System_Object_
+  commentId: M:Disqord.SnowflakeOptional`1.Equals(System.Object)
+  fullName: Disqord.SnowflakeOptional<T>.Equals(System.Object)
+  fullName.vb: Disqord.SnowflakeOptional(Of T).Equals(System.Object)
+  nameWithType: SnowflakeOptional<T>.Equals(Object)
+  nameWithType.vb: SnowflakeOptional(Of T).Equals(Object)
+- uid: Disqord.SnowflakeOptional`1.Equals*
+  name: Equals
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_Equals_
+  commentId: Overload:Disqord.SnowflakeOptional`1.Equals
+  isSpec: "True"
+  fullName: Disqord.SnowflakeOptional<T>.Equals
+  fullName.vb: Disqord.SnowflakeOptional(Of T).Equals
+  nameWithType: SnowflakeOptional<T>.Equals
+  nameWithType.vb: SnowflakeOptional(Of T).Equals
+- uid: Disqord.SnowflakeOptional`1.GetHashCode
+  name: GetHashCode()
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_GetHashCode
+  commentId: M:Disqord.SnowflakeOptional`1.GetHashCode
+  fullName: Disqord.SnowflakeOptional<T>.GetHashCode()
+  fullName.vb: Disqord.SnowflakeOptional(Of T).GetHashCode()
+  nameWithType: SnowflakeOptional<T>.GetHashCode()
+  nameWithType.vb: SnowflakeOptional(Of T).GetHashCode()
+- uid: Disqord.SnowflakeOptional`1.GetHashCode*
+  name: GetHashCode
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_GetHashCode_
+  commentId: Overload:Disqord.SnowflakeOptional`1.GetHashCode
+  isSpec: "True"
+  fullName: Disqord.SnowflakeOptional<T>.GetHashCode
+  fullName.vb: Disqord.SnowflakeOptional(Of T).GetHashCode
+  nameWithType: SnowflakeOptional<T>.GetHashCode
+  nameWithType.vb: SnowflakeOptional(Of T).GetHashCode
+- uid: Disqord.SnowflakeOptional`1.HasValue
+  name: HasValue
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_HasValue
+  commentId: P:Disqord.SnowflakeOptional`1.HasValue
+  fullName: Disqord.SnowflakeOptional<T>.HasValue
+  fullName.vb: Disqord.SnowflakeOptional(Of T).HasValue
+  nameWithType: SnowflakeOptional<T>.HasValue
+  nameWithType.vb: SnowflakeOptional(Of T).HasValue
+- uid: Disqord.SnowflakeOptional`1.HasValue*
+  name: HasValue
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_HasValue_
+  commentId: Overload:Disqord.SnowflakeOptional`1.HasValue
+  isSpec: "True"
+  fullName: Disqord.SnowflakeOptional<T>.HasValue
+  fullName.vb: Disqord.SnowflakeOptional(Of T).HasValue
+  nameWithType: SnowflakeOptional<T>.HasValue
+  nameWithType.vb: SnowflakeOptional(Of T).HasValue
+- uid: Disqord.SnowflakeOptional`1.Id
+  name: Id
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_Id
+  commentId: P:Disqord.SnowflakeOptional`1.Id
+  fullName: Disqord.SnowflakeOptional<T>.Id
+  fullName.vb: Disqord.SnowflakeOptional(Of T).Id
+  nameWithType: SnowflakeOptional<T>.Id
+  nameWithType.vb: SnowflakeOptional(Of T).Id
+- uid: Disqord.SnowflakeOptional`1.Id*
+  name: Id
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_Id_
+  commentId: Overload:Disqord.SnowflakeOptional`1.Id
+  isSpec: "True"
+  fullName: Disqord.SnowflakeOptional<T>.Id
+  fullName.vb: Disqord.SnowflakeOptional(Of T).Id
+  nameWithType: SnowflakeOptional<T>.Id
+  nameWithType.vb: SnowflakeOptional(Of T).Id
+- uid: Disqord.SnowflakeOptional`1.op_Equality(Disqord.SnowflakeOptional{`0},`0)
+  name: Equality(SnowflakeOptional<T>, T)
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_op_Equality_Disqord_SnowflakeOptional__0___0_
+  commentId: M:Disqord.SnowflakeOptional`1.op_Equality(Disqord.SnowflakeOptional{`0},`0)
+  name.vb: Equality(SnowflakeOptional(Of T), T)
+  fullName: Disqord.SnowflakeOptional<T>.Equality(Disqord.SnowflakeOptional<T>, T)
+  fullName.vb: Disqord.SnowflakeOptional(Of T).Equality(Disqord.SnowflakeOptional(Of T), T)
+  nameWithType: SnowflakeOptional<T>.Equality(SnowflakeOptional<T>, T)
+  nameWithType.vb: SnowflakeOptional(Of T).Equality(SnowflakeOptional(Of T), T)
+- uid: Disqord.SnowflakeOptional`1.op_Equality*
+  name: Equality
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_op_Equality_
+  commentId: Overload:Disqord.SnowflakeOptional`1.op_Equality
+  isSpec: "True"
+  fullName: Disqord.SnowflakeOptional<T>.Equality
+  fullName.vb: Disqord.SnowflakeOptional(Of T).Equality
+  nameWithType: SnowflakeOptional<T>.Equality
+  nameWithType.vb: SnowflakeOptional(Of T).Equality
+- uid: Disqord.SnowflakeOptional`1.op_Inequality(Disqord.SnowflakeOptional{`0},`0)
+  name: Inequality(SnowflakeOptional<T>, T)
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_op_Inequality_Disqord_SnowflakeOptional__0___0_
+  commentId: M:Disqord.SnowflakeOptional`1.op_Inequality(Disqord.SnowflakeOptional{`0},`0)
+  name.vb: Inequality(SnowflakeOptional(Of T), T)
+  fullName: Disqord.SnowflakeOptional<T>.Inequality(Disqord.SnowflakeOptional<T>, T)
+  fullName.vb: Disqord.SnowflakeOptional(Of T).Inequality(Disqord.SnowflakeOptional(Of T), T)
+  nameWithType: SnowflakeOptional<T>.Inequality(SnowflakeOptional<T>, T)
+  nameWithType.vb: SnowflakeOptional(Of T).Inequality(SnowflakeOptional(Of T), T)
+- uid: Disqord.SnowflakeOptional`1.op_Inequality*
+  name: Inequality
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_op_Inequality_
+  commentId: Overload:Disqord.SnowflakeOptional`1.op_Inequality
+  isSpec: "True"
+  fullName: Disqord.SnowflakeOptional<T>.Inequality
+  fullName.vb: Disqord.SnowflakeOptional(Of T).Inequality
+  nameWithType: SnowflakeOptional<T>.Inequality
+  nameWithType.vb: SnowflakeOptional(Of T).Inequality
+- uid: Disqord.SnowflakeOptional`1.ToString
+  name: ToString()
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_ToString
+  commentId: M:Disqord.SnowflakeOptional`1.ToString
+  fullName: Disqord.SnowflakeOptional<T>.ToString()
+  fullName.vb: Disqord.SnowflakeOptional(Of T).ToString()
+  nameWithType: SnowflakeOptional<T>.ToString()
+  nameWithType.vb: SnowflakeOptional(Of T).ToString()
+- uid: Disqord.SnowflakeOptional`1.ToString*
+  name: ToString
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_ToString_
+  commentId: Overload:Disqord.SnowflakeOptional`1.ToString
+  isSpec: "True"
+  fullName: Disqord.SnowflakeOptional<T>.ToString
+  fullName.vb: Disqord.SnowflakeOptional(Of T).ToString
+  nameWithType: SnowflakeOptional<T>.ToString
+  nameWithType.vb: SnowflakeOptional(Of T).ToString
+- uid: Disqord.SnowflakeOptional`1.Value
+  name: Value
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_Value
+  commentId: P:Disqord.SnowflakeOptional`1.Value
+  fullName: Disqord.SnowflakeOptional<T>.Value
+  fullName.vb: Disqord.SnowflakeOptional(Of T).Value
+  nameWithType: SnowflakeOptional<T>.Value
+  nameWithType.vb: SnowflakeOptional(Of T).Value
+- uid: Disqord.SnowflakeOptional`1.Value*
+  name: Value
+  href: api/Disqord.SnowflakeOptional-1.html#Disqord_SnowflakeOptional_1_Value_
+  commentId: Overload:Disqord.SnowflakeOptional`1.Value
+  isSpec: "True"
+  fullName: Disqord.SnowflakeOptional<T>.Value
+  fullName.vb: Disqord.SnowflakeOptional(Of T).Value
+  nameWithType: SnowflakeOptional<T>.Value
+  nameWithType.vb: SnowflakeOptional(Of T).Value
 - uid: Disqord.SpotifyActivity
   name: SpotifyActivity
   href: api/Disqord.SpotifyActivity.html
