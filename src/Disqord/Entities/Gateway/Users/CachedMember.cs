@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Disqord.Collections;
 using Disqord.Models;
 using Disqord.Models.Dispatches;
-using Qommon.Collections;
 
 namespace Disqord
 {
@@ -19,11 +19,12 @@ namespace Disqord
 
         public string Nick { get; private set; }
 
-        public RoleCollection Roles { get; private set; }
+        public IReadOnlyDictionary<Snowflake, CachedRole> Roles => _roles.ReadOnly();
+        private RoleCollection _roles;
 
         public DateTimeOffset JoinedAt { get; }
 
-        public GuildPermissions Permissions => Discord.Permissions.CalculatePermissions(Guild, this, Roles.Values);
+        public GuildPermissions Permissions => Discord.Permissions.CalculatePermissions(Guild, this, _roles.Values);
 
         public bool IsMuted { get; private set; }
 
@@ -42,16 +43,16 @@ namespace Disqord
 
         public int Hierarchy => Id == Guild.OwnerId
             ? int.MaxValue
-            : Roles.Values.Max(x => x.Position);
+            : _roles.Values.Max(x => x.Position);
 
         public Color? Color
         {
             get
             {
-                if (Roles.Count == 1)
+                if (_roles.Count == 1)
                     return null;
 
-                var role = Roles.Values.OrderByDescending(x => x.Position).FirstOrDefault(x => x.Color != default);
+                var role = _roles.Values.OrderByDescending(x => x.Position).FirstOrDefault(x => x.Color != null);
                 return role?.Color;
             }
         }
@@ -76,7 +77,7 @@ namespace Disqord
         internal override CachedSharedUser SharedUser { get; }
 
         Snowflake IMember.GuildId => Guild.Id;
-        IReadOnlyCollection<Snowflake> IMember.RoleIds => new ReadOnlyCollection<Snowflake>(Roles.Keys as ICollection<Snowflake>);
+        IReadOnlyCollection<Snowflake> IMember.RoleIds => new ReadOnlyCollection<Snowflake>(_roles.Keys as ICollection<Snowflake>);
 
         internal CachedMember(CachedSharedUser user, CachedGuild guild, MemberModel model) : base(user)
         {
@@ -94,10 +95,10 @@ namespace Disqord
 
         internal void Update(ulong[] roles)
         {
-            if (Roles == null)
-                Roles = new RoleCollection(Guild, roles);
+            if (_roles == null)
+                _roles = new RoleCollection(Guild, roles);
             else
-                Roles.Update(roles);
+                _roles.Update(roles);
         }
 
         internal void Update(MemberModel model)
@@ -172,6 +173,9 @@ namespace Disqord
             => (CachedMember) MemberwiseClone();
 
         public ChannelPermissions GetPermissionsFor(IGuildChannel channel)
-            => Discord.Permissions.CalculatePermissions(Guild, channel, this, Roles.Values);
+            => Discord.Permissions.CalculatePermissions(Guild, channel, this, _roles.Values);
+
+        public CachedRole GetRole(Snowflake roleId)
+            => _roles.GetValueOrDefault(roleId);
     }
 }

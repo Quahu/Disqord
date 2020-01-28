@@ -1,13 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Disqord.Collections;
 
 namespace Disqord
 {
     public sealed partial class CachedMember : CachedUser, IMember
     {
-        // TODO: LINQ opt and so on
-        public sealed class RoleCollection : IReadOnlyDictionary<Snowflake, CachedRole>
+        private sealed class RoleCollection : IDictionary<Snowflake, CachedRole>, IReadOnlyDictionary<Snowflake, CachedRole>
         {
             public int Count
             {
@@ -20,7 +21,7 @@ namespace Disqord
                 }
             }
 
-            public IEnumerable<Snowflake> Keys
+            public ICollection<Snowflake> Keys
             {
                 get
                 {
@@ -31,7 +32,7 @@ namespace Disqord
                 }
             }
 
-            public IEnumerable<CachedRole> Values => this.Select(x => x.Value);
+            public ICollection<CachedRole> Values => this.Select(x => x.Value).ToArray();
 
             public CachedRole this[Snowflake key]
             {
@@ -77,6 +78,22 @@ namespace Disqord
                 }
             }
 
+            public bool Contains(KeyValuePair<Snowflake, CachedRole> item)
+                => ContainsKey(item.Key);
+
+            public void CopyTo(KeyValuePair<Snowflake, CachedRole>[] array, int arrayIndex)
+            {
+                if (array == null)
+                    throw new ArgumentNullException(nameof(array));
+
+                if (arrayIndex < 0 || arrayIndex >= array.Length)
+                    throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+
+                var index = arrayIndex;
+                foreach (var kvp in this)
+                    array[index++] = kvp;
+            }
+
             public bool ContainsKey(Snowflake key)
             {
                 lock (_ids)
@@ -96,22 +113,45 @@ namespace Disqord
 
             public IEnumerator<KeyValuePair<Snowflake, CachedRole>> GetEnumerator()
             {
-                Snowflake[] ids;
-                lock (_ids)
+                static IEnumerable<KeyValuePair<Snowflake, CachedRole>> GetEnumerable(RoleCollection collection)
                 {
-                    ids = _ids.ToArray();
+                    for (var i = 0; i < collection._ids.Count; i++)
+                    {
+                        var id = collection._ids[i];
+                        if (collection._guild.Roles.TryGetValue(id, out var role))
+                            yield return KeyValuePair.Create(id, role);
+                    }
                 }
 
-                for (var i = 0; i < ids.Length; i++)
-                {
-                    var id = ids[i];
-                    if (_guild.Roles.TryGetValue(id, out var role))
-                        yield return KeyValuePair.Create(id, role);
-                }
+                return LockedEnumerator.Create(GetEnumerable(this).GetEnumerator(), _ids);
             }
 
             IEnumerator IEnumerable.GetEnumerator()
                 => GetEnumerator();
+
+            IEnumerable<Snowflake> IReadOnlyDictionary<Snowflake, CachedRole>.Keys => Keys;
+            IEnumerable<CachedRole> IReadOnlyDictionary<Snowflake, CachedRole>.Values => Values;
+            bool ICollection<KeyValuePair<Snowflake, CachedRole>>.IsReadOnly => true;
+            CachedRole IDictionary<Snowflake, CachedRole>.this[Snowflake key]
+            {
+                get => this[key];
+                set => throw new NotSupportedException();
+            }
+
+            void IDictionary<Snowflake, CachedRole>.Add(Snowflake key, CachedRole value)
+                => throw new NotSupportedException();
+
+            bool IDictionary<Snowflake, CachedRole>.Remove(Snowflake key)
+                => throw new NotSupportedException();
+
+            void ICollection<KeyValuePair<Snowflake, CachedRole>>.Add(KeyValuePair<Snowflake, CachedRole> item)
+                => throw new NotSupportedException();
+
+            bool ICollection<KeyValuePair<Snowflake, CachedRole>>.Remove(KeyValuePair<Snowflake, CachedRole> item)
+                => throw new NotSupportedException();
+
+            void ICollection<KeyValuePair<Snowflake, CachedRole>>.Clear()
+                => throw new NotSupportedException();
         }
     }
 }
