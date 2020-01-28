@@ -130,6 +130,8 @@
 
         ReactionBlocked = 90001,
 
+        IndexNotYetAvailable = 110000,
+
         ResourceOverloaded = 130000
     }
 }
