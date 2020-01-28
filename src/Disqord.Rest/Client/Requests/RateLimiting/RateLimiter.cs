@@ -18,19 +18,9 @@ namespace Disqord.Rest
             Client = client;
         }
 
-        public async Task EnqueueRequestAsync(RestRequest request)
+        public void EnqueueRequest(RestRequest request)
         {
             var bucket = _buckets.GetOrAdd(request.Identifier, (_, x) => new RateLimitBucket(x), this);
-            var lastRateLimit = bucket.LastRateLimit;
-            if (lastRateLimit != null && lastRateLimit.RetryAfter != null)
-            {
-                var delay = lastRateLimit.Date + lastRateLimit.RetryAfter.Value - DateTimeOffset.UtcNow;
-                if (delay > TimeSpan.Zero)
-                {
-                    await Task.Delay(delay).ConfigureAwait(false);
-                }
-            }
-
             bucket.EnqueueRequest(request);
         }
 
@@ -40,7 +30,7 @@ namespace Disqord.Rest
             Client.Log(rateLimit.IsGlobal
                 ? LogMessageSeverity.Error
                 : LogMessageSeverity.Warning,
-                $"{(rateLimit.IsGlobal ? "Globally rate" : "Rate")} limited - will be delaying for {rateLimit.RetryAfter}.");
+                $"{(rateLimit.IsGlobal ? "Globally rate" : "Rate")} limited - will be delaying for {rateLimit.ResetsAfter}.");
         }
 
         public static RateLimiter GetOrCreate(RestDiscordApiClient client)

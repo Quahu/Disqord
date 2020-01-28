@@ -110,7 +110,7 @@ namespace Disqord.Rest
         private async Task EnqueueRequestAsync(RestRequest request)
         {
             request.Initialise(Serializer);
-            await _rateLimiter.EnqueueRequestAsync(request).ConfigureAwait(false);
+            _rateLimiter.EnqueueRequest(request);
         }
 
         internal async Task<RateLimit> HandleRequestAsync(RestRequest request)

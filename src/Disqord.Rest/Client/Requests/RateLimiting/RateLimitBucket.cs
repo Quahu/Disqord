@@ -47,8 +47,7 @@ namespace Disqord.Rest
                         }
                         else
                         {
-                            //delay = _rateLimit.ResetsAt.Value - _rateLimit.Date;
-                            delay = TimeSpan.FromSeconds(LastRateLimit.ResetsAfter);
+                            delay = LastRateLimit.ResetsAfter;
                         }
 
                         if (delay > TimeSpan.Zero)

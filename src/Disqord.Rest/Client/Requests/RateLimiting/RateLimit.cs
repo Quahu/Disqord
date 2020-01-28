@@ -12,15 +12,13 @@ namespace Disqord.Rest
 
         public int? Remaining { get; }
 
-        public TimeSpan? RetryAfter { get; }
-
         public DateTimeOffset? ResetsAt { get; }
 
-        public double ResetsAfter { get; }
+        public TimeSpan ResetsAfter { get; }
 
         public string Bucket { get; }
 
-        public DateTimeOffset? ServerDate { get; }
+        public DateTimeOffset ServerDate { get; }
 
         public DateTimeOffset Date { get; }
 
@@ -38,14 +36,11 @@ namespace Disqord.Rest
             if (headers.TryGetValues("X-RateLimit-Remaining", out values) && int.TryParse(values.First(), out var remaining))
                 Remaining = remaining;
 
-            if (headers.TryGetValues("Retry-After", out values) && int.TryParse(values.First(), out var retryAfter))
-                RetryAfter = TimeSpan.FromMilliseconds(retryAfter);
-
-            if (headers.TryGetValues("X-RateLimit-Reset", out values) && long.TryParse(values.First(), out var resetsAt))
-                ResetsAt = DateTimeOffset.FromUnixTimeSeconds(resetsAt);
+            if (headers.TryGetValues("X-RateLimit-Reset", out values) && double.TryParse(values.First(), out var resetsAt))
+                ResetsAt = DateTimeOffset.UnixEpoch + TimeSpan.FromSeconds(resetsAt);
 
             if (headers.TryGetValues("X-RateLimit-Reset-After", out values) && double.TryParse(values.First(), out var resetsAfter))
-                ResetsAfter = resetsAfter;
+                ResetsAfter = TimeSpan.FromSeconds(resetsAfter);
 
             if (headers.TryGetValues("X-RateLimit-Bucket", out values))
                 Bucket = values.First();
@@ -60,7 +55,6 @@ namespace Disqord.Rest
             => $"IsGlobal:    {IsGlobal}\n" +
                $"Limit:       {Limit}\n" +
                $"Remaining:   {Remaining}\n" +
-               $"RetryAfter:  {RetryAfter}\n" +
                $"ResetsAt:    {ResetsAt}\n" +
                $"ResetsAfter: {ResetsAfter}\n" +
                $"Bucket:      {Bucket}\n" +
