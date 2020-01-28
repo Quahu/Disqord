@@ -29,7 +29,7 @@ namespace Disqord.Rest
                 : Remaining;
             var startFromId = _startFromId;
             if (previous != null && previous.Count > 0)
-                startFromId = previous[previous.Count - 1].Id;
+                startFromId = previous[^1].Id;
 
             return Client.InternalGetAuditLogsAsync<T>(_guildId, amount, _userId, startFromId, options);
         }

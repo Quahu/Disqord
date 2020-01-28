@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Disqord.Rest
@@ -11,7 +10,7 @@ namespace Disqord.Rest
 
         public RestMembersRequestEnumerator(RestDiscordClient client,
             Snowflake guildId, int limit, Snowflake? startFromId,
-            RestRequestOptions options) 
+            RestRequestOptions options)
             : base(client, 1000, limit, options)
         {
             _guildId = guildId;
@@ -26,7 +25,7 @@ namespace Disqord.Rest
                 : Remaining;
             var startFromId = _startFromId;
             if (previous != null && previous.Count > 0)
-                startFromId = previous.Max(x => x.Id);
+                startFromId = previous[^1].Id;
 
             return Client.InternalGetMembersAsync(_guildId, amount, startFromId, options);
         }

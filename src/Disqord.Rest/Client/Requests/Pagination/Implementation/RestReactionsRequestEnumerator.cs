@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Disqord.Rest
@@ -9,18 +8,16 @@ namespace Disqord.Rest
         private readonly Snowflake _channelId;
         private readonly Snowflake _messageId;
         private readonly IEmoji _emoji;
-        private readonly RetrievalDirection _direction;
         private readonly Snowflake? _startFromId;
 
         public RestReactionsRequestEnumerator(RestDiscordClient client,
-            Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction, Snowflake? startFromId,
+            Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, Snowflake? startFromId,
             RestRequestOptions options)
             : base(client, 100, limit, options)
         {
             _channelId = channelId;
             _messageId = messageId;
             _emoji = emoji;
-            _direction = direction;
             _startFromId = startFromId;
         }
 
@@ -32,17 +29,9 @@ namespace Disqord.Rest
                 : Remaining;
             var startFromId = _startFromId;
             if (previous != null && previous.Count > 0)
-            {
-                startFromId = _direction switch
-                {
-                    RetrievalDirection.Before => previous[previous.Count - 1].Id,
-                    RetrievalDirection.After => previous[0].Id,
-                    RetrievalDirection.Around => throw new NotImplementedException(),
-                    _ => throw new ArgumentOutOfRangeException("direction"),
-                };
-            }
+                startFromId = previous[^1].Id;
 
-            return Client.InternalGetReactionsAsync(_channelId, _messageId, _emoji, amount, _direction, startFromId, options);
+            return Client.InternalGetReactionsAsync(_channelId, _messageId, _emoji, amount, startFromId, options);
         }
     }
 }

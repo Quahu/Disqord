@@ -365,7 +365,7 @@ namespace Disqord.Rest
         public Task DeleteUserReactionAsync(ulong channelId, ulong messageId, ulong userId, string emoji, RestRequestOptions options)
             => SendRequestAsync(new RestRequest(DELETE, $"channels/{channelId:channel_id}/messages/{messageId}/reactions/{emoji}/{userId}", options));
 
-        public Task<UserModel[]> GetReactionsAsync(ulong channelId, ulong messageId, string emoji, int limit, RetrievalDirection? direction, ulong? snowflake, RestRequestOptions options)
+        public Task<UserModel[]> GetReactionsAsync(ulong channelId, ulong messageId, string emoji, int limit, ulong? snowflake, RestRequestOptions options)
         {
             if (limit < 1 || limit > 100)
                 throw new ArgumentOutOfRangeException(nameof(limit), "Reaction users limit must be a positive number not larger than 100.");
@@ -375,31 +375,8 @@ namespace Disqord.Rest
                 ["limit"] = limit
             };
 
-            if (direction != null)
-            {
-                switch (direction.Value)
-                {
-                    case RetrievalDirection.Around:
-                        throw new NotSupportedException("Reaction users does not support Direction.Around.");
-
-                    case RetrievalDirection.Before:
-                    {
-                        if (snowflake != null)
-                            parameters["before"] = snowflake;
-
-                        break;
-                    }
-
-                    case RetrievalDirection.After:
-                    {
-                        parameters["after"] = snowflake ?? throw new ArgumentNullException(nameof(snowflake), "The snowflake to get reaction users after must not be null.");
-                        break;
-                    }
-
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(direction), "Invalid reaction users direction.");
-                }
-            }
+            if (snowflake != null)
+                parameters["after"] = snowflake;
 
             return SendRequestAsync<UserModel[]>(new RestRequest(GET, $"channels/{channelId:channel_id}/messages/{messageId}/reactions/{emoji}", parameters, options));
         }

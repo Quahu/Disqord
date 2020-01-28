@@ -29,7 +29,7 @@ namespace Disqord.Rest
             {
                 startFromId = _direction switch
                 {
-                    RetrievalDirection.Before => previous[previous.Count - 1].Id,
+                    RetrievalDirection.Before => previous[^1].Id,
                     RetrievalDirection.After => previous[0].Id,
                     RetrievalDirection.Around => throw new NotImplementedException(),
                     _ => throw new ArgumentOutOfRangeException("direction"),
