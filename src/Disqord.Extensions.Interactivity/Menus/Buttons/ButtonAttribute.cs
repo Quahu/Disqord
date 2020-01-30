@@ -17,9 +17,9 @@ namespace Disqord.Extensions.Interactivity.Menus
                 : new LocalEmoji(emoji);
         }
 
-        public ButtonAttribute(ulong emojiId, string name = null)
+        public ButtonAttribute(ulong emojiId, string name = null, bool isAnimated = false)
         {
-            Emoji = new LocalCustomEmoji(emojiId, name);
+            Emoji = new LocalCustomEmoji(emojiId, name, isAnimated);
         }
     }
 }
