@@ -19,5 +19,8 @@
 
         public override int GetHashCode()
             => Discord.Comparers.Emoji.GetHashCode(this);
+
+        public override string ToString()
+            => Name;
     }
 }
