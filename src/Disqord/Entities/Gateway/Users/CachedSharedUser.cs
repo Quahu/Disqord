@@ -30,7 +30,9 @@ namespace Disqord
 
         internal override void Update(PresenceUpdateModel model)
         {
-            _presence = new Presence(IsBot, model);
+            _presence = model.Status != UserStatus.Offline
+                ? new Presence(IsBot, model)
+                : null;
         }
     }
 }

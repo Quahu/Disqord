@@ -165,7 +165,9 @@ namespace Disqord
             {
                 // Users cannot have different statuses for different guilds
                 // due to the lack of sharding support.
-                _presence = new Presence(true, model);
+                _presence = model.Status != UserStatus.Offline
+                    ? new Presence(true, model)
+                    : null;
             }
         }
 
