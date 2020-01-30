@@ -10231,6 +10231,19 @@ references:
   isSpec: "True"
   fullName: Disqord.CustomEmoji.Tag
   nameWithType: CustomEmoji.Tag
+- uid: Disqord.CustomEmoji.ToString
+  name: ToString()
+  href: api/Disqord.CustomEmoji.html#Disqord_CustomEmoji_ToString
+  commentId: M:Disqord.CustomEmoji.ToString
+  fullName: Disqord.CustomEmoji.ToString()
+  nameWithType: CustomEmoji.ToString()
+- uid: Disqord.CustomEmoji.ToString*
+  name: ToString
+  href: api/Disqord.CustomEmoji.html#Disqord_CustomEmoji_ToString_
+  commentId: Overload:Disqord.CustomEmoji.ToString
+  isSpec: "True"
+  fullName: Disqord.CustomEmoji.ToString
+  nameWithType: CustomEmoji.ToString
 - uid: Disqord.DefaultAvatarColor
   name: DefaultAvatarColor
   href: api/Disqord.DefaultAvatarColor.html
@@ -13852,6 +13865,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Emoji.ReactionFormat
   nameWithType: Emoji.ReactionFormat
+- uid: Disqord.Emoji.ToString
+  name: ToString()
+  href: api/Disqord.Emoji.html#Disqord_Emoji_ToString
+  commentId: M:Disqord.Emoji.ToString
+  fullName: Disqord.Emoji.ToString()
+  nameWithType: Emoji.ToString()
+- uid: Disqord.Emoji.ToString*
+  name: ToString
+  href: api/Disqord.Emoji.html#Disqord_Emoji_ToString_
+  commentId: Overload:Disqord.Emoji.ToString
+  isSpec: "True"
+  fullName: Disqord.Emoji.ToString
+  nameWithType: Emoji.ToString
 - uid: Disqord.EmojiEqualityComparer
   name: EmojiEqualityComparer
   href: api/Disqord.EmojiEqualityComparer.html
@@ -15585,12 +15611,12 @@ references:
   commentId: M:Disqord.Extensions.Interactivity.Menus.ButtonAttribute.#ctor(System.String)
   fullName: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.ButtonAttribute(System.String)
   nameWithType: ButtonAttribute.ButtonAttribute(String)
-- uid: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.#ctor(System.UInt64,System.String)
-  name: ButtonAttribute(UInt64, String)
-  href: api/Disqord.Extensions.Interactivity.Menus.ButtonAttribute.html#Disqord_Extensions_Interactivity_Menus_ButtonAttribute__ctor_System_UInt64_System_String_
-  commentId: M:Disqord.Extensions.Interactivity.Menus.ButtonAttribute.#ctor(System.UInt64,System.String)
-  fullName: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.ButtonAttribute(System.UInt64, System.String)
-  nameWithType: ButtonAttribute.ButtonAttribute(UInt64, String)
+- uid: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.#ctor(System.UInt64,System.String,System.Boolean)
+  name: ButtonAttribute(UInt64, String, Boolean)
+  href: api/Disqord.Extensions.Interactivity.Menus.ButtonAttribute.html#Disqord_Extensions_Interactivity_Menus_ButtonAttribute__ctor_System_UInt64_System_String_System_Boolean_
+  commentId: M:Disqord.Extensions.Interactivity.Menus.ButtonAttribute.#ctor(System.UInt64,System.String,System.Boolean)
+  fullName: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.ButtonAttribute(System.UInt64, System.String, System.Boolean)
+  nameWithType: ButtonAttribute.ButtonAttribute(UInt64, String, Boolean)
 - uid: Disqord.Extensions.Interactivity.Menus.ButtonAttribute.#ctor*
   name: ButtonAttribute
   href: api/Disqord.Extensions.Interactivity.Menus.ButtonAttribute.html#Disqord_Extensions_Interactivity_Menus_ButtonAttribute__ctor_
