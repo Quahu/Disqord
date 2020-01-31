@@ -29,7 +29,7 @@ namespace Disqord
         public DiscordClientState(DiscordClientBase client, MessageCache messageCache)
         {
             _client = client;
-            _messageCache = messageCache;
+            _messageCache = messageCache ?? DummyMessageCache.Instance;
 
             _guilds = new LockedDictionary<Snowflake, CachedGuild>();
             _users = new LockedDictionary<Snowflake, CachedSharedUser>();

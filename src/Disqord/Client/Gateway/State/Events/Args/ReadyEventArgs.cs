@@ -3,7 +3,7 @@ using Disqord.Collections;
 
 namespace Disqord.Events
 {
-    public sealed class ReadyEventArgs : DiscordEventArgs
+    public class ReadyEventArgs : DiscordEventArgs
     {
         public string SessionId { get; }
 

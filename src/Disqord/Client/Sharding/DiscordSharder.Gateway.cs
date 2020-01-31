@@ -9,7 +9,7 @@ using Disqord.Rest;
 
 namespace Disqord.Sharding
 {
-    public partial class DiscordSharder : DiscordClientBase
+    public partial class DiscordSharder : DiscordClientBase, IDiscordSharder
     {
         public override TimeSpan? Latency
         {
@@ -28,8 +28,11 @@ namespace Disqord.Sharding
         public override async Task RunAsync(CancellationToken cancellationToken = default)
         {
             _gatewayBotResponse = await GetGatewayBotUrlAsync().ConfigureAwait(false);
-            Log(LogMessageSeverity.Information, $"Starting sharder with {_gatewayBotResponse.ShardAmount} shards. There's {_gatewayBotResponse.RemainingSessionAmount} sessions left.");
-            _gateways = new DiscordClientGateway[_gatewayBotResponse.ShardAmount];
+            var shardCount = _shardCount != 0
+                ? _shardCount
+                : _gatewayBotResponse.ShardCount;
+            Log(LogMessageSeverity.Information, $"Starting sharder with {shardCount} shards. There's {_gatewayBotResponse.RemainingSessionAmount} sessions left.");
+            _gateways = new DiscordClientGateway[shardCount];
             var shards = new Shard[_gateways.Length];
             Shards = shards.ReadOnly();
             var tasks = new Task[_gateways.Length];
@@ -78,7 +81,7 @@ namespace Disqord.Sharding
             }
         }
 
-        private Task InternalSetPresenceAsync(DiscordClientGateway gateway, UserStatus? status = default, Optional<LocalActivity> activity = default)
+        internal Task InternalSetPresenceAsync(DiscordClientGateway gateway, UserStatus? status = default, Optional<LocalActivity> activity = default)
         {
             ThrowIfDisposed();
 

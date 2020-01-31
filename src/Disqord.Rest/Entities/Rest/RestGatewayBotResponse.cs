@@ -7,7 +7,7 @@ namespace Disqord.Rest
     {
         public string Url { get; private set; }
 
-        public int ShardAmount { get; private set; }
+        public int ShardCount { get; private set; }
 
         public int MaxSessionAmount { get; private set; }
 
@@ -23,7 +23,7 @@ namespace Disqord.Rest
         internal void Update(GatewayBotModel model)
         {
             Url = model.Url;
-            ShardAmount = model.Shards;
+            ShardCount = model.Shards;
             MaxSessionAmount = model.SessionStartLimit.Total;
             RemainingSessionAmount = model.SessionStartLimit.Remaining;
             ResetAfter = TimeSpan.FromMilliseconds(model.SessionStartLimit.ResetAfter);

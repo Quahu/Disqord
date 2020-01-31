@@ -6,20 +6,20 @@ namespace Disqord
     public partial class DiscordClient : DiscordClientBase
     {
         public DiscordClient(TokenType tokenType, string token, DiscordClientConfiguration configuration = null)
-            : this(new RestDiscordClient(tokenType, token, configuration?.Logger, configuration?.Serializer), configuration)
+            : this(new RestDiscordClient(tokenType, token, configuration), configuration)
         { }
 
         public DiscordClient(RestDiscordClient restClient, DiscordClientConfiguration configuration = null)
-            : base(restClient, configuration?.MessageCache, configuration?.Logger, configuration?.Serializer)
+            : base(restClient, configuration)
         {
             configuration = configuration ?? DiscordClientConfiguration.Default;
 
-            var shards = configuration.ShardId != null && configuration.ShardCount != null
-                ? ((int, int)?) (configuration.ShardId, configuration.ShardCount)
+            var shards = configuration.ShardId.HasValue && configuration.ShardCount.HasValue
+                ? ((int, int)?) (configuration.ShardId.Value, configuration.ShardCount.Value)
                 : null;
             _gateway = new DiscordClientGateway(State, shards);
-            _gateway.SetStatus(configuration.Status);
-            _gateway.SetActivity(configuration.Activity);
+            _gateway.SetStatus(configuration.Status.GetValueOrDefault(UserStatus.Online));
+            _gateway.SetActivity(configuration.Activity.GetValueOrDefault());
             _getGateway = (client, _) => (client as DiscordClient)._gateway;
         }
 

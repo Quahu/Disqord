@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -10,6 +10,7 @@ using Disqord.Logging;
 using Disqord.Models;
 using Disqord.Rest;
 using Disqord.Serialization.Json;
+using Disqord.Sharding;
 using Disqord.WebSocket;
 
 namespace Disqord
@@ -40,7 +41,7 @@ namespace Disqord
         private readonly WebSocketClient _ws;
         private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
-        private readonly ConcurrentQueue<(PayloadModel, GatewayDispatch)> _readyPayloadQueue = new ConcurrentQueue<(PayloadModel, GatewayDispatch)>();
+        private readonly Queue<(PayloadModel, GatewayDispatch)> _readyPayloadQueue = new Queue<(PayloadModel, GatewayDispatch)>();
 
         public DiscordClientGateway(DiscordClientState state, (int ShardId, int ShardCount)? shards)
         {
@@ -280,29 +281,44 @@ namespace Disqord
             // TODO: break out on connection interruption
             if (Client.IsBot)
             {
-                var last = _lastGuildCreate;
-                while (last == null || (DateTimeOffset.UtcNow - last).Value.TotalSeconds < 3)
-                {
-                    await Task.Delay(last == null ? 3000 : 1500).ConfigureAwait(false);
-                    last = _lastGuildCreate;
-                }
+                DateTimeOffset? lastGuildCreate;
+                var now = DateTimeOffset.UtcNow;
 
-                var batches = State._guilds.Values.Where(x => x.Client.GetGateway(x.Id) == this && !x.IsChunked).Batch(75).Select(x => x.ToArray()).ToArray();
-                var tasks = new Task[batches.Length];
-                for (var i = 0; i < batches.Length; i++)
+                // Delay up to ~3 seconds for the first GUILD_CREATE.
+                while ((lastGuildCreate = _lastGuildCreate) == null && (DateTimeOffset.UtcNow - now).TotalSeconds < 3)
+                    await Task.Delay(100).ConfigureAwait(false);
+
+                // If we received a guild continue to receive them
+                // with a ~3.5 seconds window.
+                if (lastGuildCreate != null)
                 {
-                    var batch = batches[i];
-                    for (var j = 0; j < batch.Length; j++)
+                    while ((DateTimeOffset.UtcNow - lastGuildCreate.Value).TotalSeconds < 3.5)
                     {
-                        var guild = batch[j];
-                        Log(LogMessageSeverity.Information, $"Requesting offline members for {guild.Name}. Expecting {guild.ChunksExpected} {(guild.ChunksExpected == 1 ? "chunk" : "chunks")}.");
+                        await Task.Delay(100).ConfigureAwait(false);
+                        lastGuildCreate = _lastGuildCreate;
+
                     }
 
-                    await SendRequestOfflineMembersAsync(batch.Select(x => x.Id.RawValue)).ConfigureAwait(false);
-                    tasks[i] = Task.WhenAll(batch.Select(x => x.ChunkTcs.Task));
-                }
+                    var batches = State._guilds.Values.Where(x => x.Client.GetGateway(x.Id) == this && !x.IsChunked)
+                        .Batch(75)
+                        .Select(x => x.ToArray())
+                        .ToArray();
+                    var tasks = new Task[batches.Length];
+                    for (var i = 0; i < batches.Length; i++)
+                    {
+                        var batch = batches[i];
+                        for (var j = 0; j < batch.Length; j++)
+                        {
+                            var guild = batch[j];
+                            Log(LogMessageSeverity.Information, $"Requesting offline members for {guild.Name}. Expecting {guild.ChunksExpected} {(guild.ChunksExpected == 1 ? "chunk" : "chunks")}.");
+                        }
 
-                await Task.WhenAll(tasks).ConfigureAwait(false);
+                        await SendRequestOfflineMembersAsync(batch.Select(x => x.Id.RawValue)).ConfigureAwait(false);
+                        tasks[i] = Task.WhenAll(batch.Select(x => x.ChunkTcs.Task));
+                    }
+
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
+                }
             }
             else
             {
@@ -311,12 +327,34 @@ namespace Disqord
                 await Task.WhenAll(guilds.Select(x => x.SyncTcs.Task)).ConfigureAwait(false);
             }
 
-            // TODO
             if (_shard == null)
-                await Client._ready.InvokeAsync(new ReadyEventArgs(Client, _sessionId, _trace)).ConfigureAwait(false);
-
-            while (_readyPayloadQueue.TryDequeue(out var queuedPayload))
             {
+                await Client._ready.InvokeAsync(new ReadyEventArgs(Client, _sessionId, _trace)).ConfigureAwait(false);
+            }
+            else if (Client is IDiscordSharder sharder)
+            {
+                var shardId = _shard[0];
+                var args = new ShardReadyEventArgs(Client, _sessionId, _trace, sharder.Shards[shardId]);
+                await sharder._shardReady.InvokeAsync(args).ConfigureAwait(false);
+
+                if (shardId == sharder.Shards.Count - 1)
+                    await Client._ready.InvokeAsync(args).ConfigureAwait(false);
+            }
+
+            while (true)
+            {
+                (PayloadModel, GatewayDispatch) queuedPayload;
+                lock (_readyPayloadQueue)
+                {
+                    var dequeued = _readyPayloadQueue.TryDequeue(out queuedPayload);
+                    if (!dequeued)
+                    {
+                        _readyTaskCompletionSource.SetResult(true);
+                        _readyTaskCompletionSource = null;
+                        break;
+                    }
+                }
+
                 Log(LogMessageSeverity.Debug, $"Firing queued up payload: {queuedPayload.Item2} with S: {queuedPayload.Item1.S}.");
                 try
                 {
@@ -327,9 +365,6 @@ namespace Disqord
                     Log(LogMessageSeverity.Error, $"An exception occurred while handling a queued {queuedPayload.Item1.T} dispatch.\n{queuedPayload.Item1.D}", ex);
                 }
             }
-
-            _readyTaskCompletionSource.SetResult(true);
-            _readyTaskCompletionSource = null;
         }
 
         public void Dispose()

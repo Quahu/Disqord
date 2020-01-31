@@ -5,6 +5,7 @@ using Disqord.Events;
 using Disqord.Logging;
 using Disqord.Rest;
 using Disqord.Serialization.Json;
+using Disqord.Sharding;
 using Qommon.Events;
 
 namespace Disqord
@@ -34,10 +35,7 @@ namespace Disqord
 
         RestFetchable<RestCurrentUser> IRestDiscordClient.CurrentUser => RestClient.CurrentUser;
 
-        internal DiscordClientBase(RestDiscordClient restClient,
-            MessageCache messageCache,
-            ILogger logger,
-            IJsonSerializer serializer)
+        internal DiscordClientBase(RestDiscordClient restClient, DiscordClientBaseConfiguration configuration)
         {
             if (restClient == null)
                 throw new ArgumentNullException(nameof(restClient));
@@ -45,10 +43,10 @@ namespace Disqord
             if (!restClient.HasAuthorization)
                 throw new ArgumentException("Clients without authorization are not supported.", nameof(restClient));
 
-            State = new DiscordClientState(this, messageCache);
             RestClient = restClient;
-            Logger = logger ?? restClient.Logger;
-            Serializer = serializer ?? restClient.Serializer;
+            State = new DiscordClientState(this, configuration.MessageCache.GetValueOrDefault(() => new DefaultMessageCache(100)));
+            Logger = configuration.Logger.GetValueOrDefault() ?? restClient.Logger;
+            Serializer = configuration.Serializer.GetValueOrDefault() ?? restClient.Serializer;
             _extensions = new LockedDictionary<Type, DiscordClientExtension>();
 
             _ready = new AsynchronousEvent<ReadyEventArgs>();
@@ -90,6 +88,9 @@ namespace Disqord
             _voiceStateUpdated = new AsynchronousEvent<VoiceStateUpdatedEventArgs>();
             _voiceServerUpdated = new AsynchronousEvent<VoiceServerUpdatedEventArgs>();
             _webhooksUpdated = new AsynchronousEvent<WebhooksUpdatedEventArgs>();
+
+            if (this is IDiscordSharder sharder)
+                sharder._shardReady = new AsynchronousEvent<ShardReadyEventArgs>();
         }
 
         internal readonly DiscordClientBase _client;
@@ -149,6 +150,9 @@ namespace Disqord
             _voiceStateUpdated = client._voiceStateUpdated;
             _voiceServerUpdated = client._voiceServerUpdated;
             _webhooksUpdated = client._webhooksUpdated;
+
+            if (this is IDiscordSharder sharder && client is IDiscordSharder clientSharder)
+                sharder._shardReady = clientSharder._shardReady;
         }
 
         internal void ThrowIfDisposed()

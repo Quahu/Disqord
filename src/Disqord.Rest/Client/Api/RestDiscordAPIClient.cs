@@ -36,7 +36,7 @@ namespace Disqord.Rest
 
         private readonly RateLimiter _rateLimiter;
 
-        public RestDiscordApiClient(TokenType? tokenType, string token, ILogger logger, IJsonSerializer serializer)
+        public RestDiscordApiClient(TokenType? tokenType, string token, RestDiscordClientConfiguration configuration)
         {
             Http = new HttpClient(new HttpClientHandler
             {
@@ -57,8 +57,8 @@ namespace Disqord.Rest
                 SetUserAgent();
             }
 
-            Logger = logger ?? new DefaultLogger();
-            Serializer = serializer ?? GetDefaultSerializer();
+            Logger = configuration.Logger.GetValueOrDefault(() => new DefaultLogger());
+            Serializer = configuration.Serializer.GetValueOrDefault(@this => @this.GetDefaultSerializer(), this);
             _rateLimiter = RateLimiter.GetOrCreate(this);
         }
 

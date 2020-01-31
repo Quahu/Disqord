@@ -14,7 +14,4 @@
     <PackageLicenseUrl>https://github.com/Quahu/Disqord/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Qommon" Version="1.0.1" />
-  </ItemGroup>
 </Project>

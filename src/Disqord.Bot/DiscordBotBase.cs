@@ -17,11 +17,11 @@ namespace Disqord.Bot
         private readonly CommandService _commandService;
         private readonly IServiceProvider _provider;
 
-        internal DiscordBotBase(DiscordClientBase client, IPrefixProvider prefixProvider, DiscordBotConfiguration configuration) : base(client)
+        internal DiscordBotBase(DiscordClientBase client, IPrefixProvider prefixProvider, IDiscordBotBaseConfiguration configuration)
+            : base(client)
         {
             PrefixProvider = prefixProvider;
-            configuration = configuration ?? DiscordBotConfiguration.Default;
-            _commandService = configuration.CommandService ?? new CommandService();
+            _commandService = new CommandService(configuration.CommandServiceConfiguration ?? CommandServiceConfiguration.Default);
             _provider = configuration.ProviderFactory?.Invoke(this);
             AddTypeParser(CachedRoleParser.Instance);
             AddTypeParser(CachedMemberParser.Instance);
@@ -153,7 +153,6 @@ namespace Disqord.Bot
         }
 
 
-        /// <exception cref="TaskCanceledException"></exception>
         public void Run(CancellationToken cancellationToken = default)
             => RunAsync(cancellationToken).GetAwaiter().GetResult();
 

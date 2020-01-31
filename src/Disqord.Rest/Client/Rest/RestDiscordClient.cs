@@ -31,7 +31,7 @@ namespace Disqord.Rest
         /// <summary>
         ///     Gets whether this client has an authorization token.
         ///     Returns <see langword="true"/> for all normal clients and for logged in
-        ///     clients created using <see cref="CreateWithoutAuthorization(ILogger, IJsonSerializer)"/>.
+        ///     clients created using <see cref="CreateWithoutAuthorization(RestDiscordClientConfiguration)"/>.
         /// </summary>
         public bool HasAuthorization => ApiClient._tokenType != null;
 
@@ -46,12 +46,12 @@ namespace Disqord.Rest
         /// <summary>
         ///     Initialises a new <see cref="RestDiscordClient"/> without authorization.
         /// </summary>
-        public static RestDiscordClient CreateWithoutAuthorization(ILogger logger = null, IJsonSerializer serializer = null)
-            => new RestDiscordClient(null, null, logger, serializer);
+        public static RestDiscordClient CreateWithoutAuthorization(RestDiscordClientConfiguration configuration = null)
+            => new RestDiscordClient(null, null, configuration);
 
-        private RestDiscordClient(TokenType? optionalTokenType, string token, ILogger logger = null, IJsonSerializer serializer = null)
+        private RestDiscordClient(TokenType? optionalTokenType, string token, RestDiscordClientConfiguration configuration = null)
         {
-            ApiClient = new RestDiscordApiClient(optionalTokenType, token, logger, serializer);
+            ApiClient = new RestDiscordApiClient(optionalTokenType, token, configuration);
             CurrentUser = RestFetchable.Create(this, async (@this, options) =>
             {
                 var model = await @this.ApiClient.GetCurrentUserAsync(options).ConfigureAwait(false);
@@ -67,8 +67,8 @@ namespace Disqord.Rest
             });
         }
 
-        public RestDiscordClient(TokenType tokenType, string token, ILogger logger = null, IJsonSerializer serializer = null)
-            : this(optionalTokenType: tokenType, token ?? throw new ArgumentNullException(nameof(token)), logger, serializer)
+        public RestDiscordClient(TokenType tokenType, string token, RestDiscordClientConfiguration configuration = null)
+            : this(optionalTokenType: tokenType, token ?? throw new ArgumentNullException(nameof(token)), configuration)
         { }
 
         internal void Log(LogMessageSeverity severity, string message, Exception exception = null)

@@ -60,6 +60,33 @@ namespace Disqord
             => HasValue ? _value : default;
 
         /// <summary>
+        ///     Retrieves the value of this <see cref="Optional{T}"/>, or the provided default value.
+        /// </summary>
+        /// <returns>
+        ///     The value of this <see cref="Optional{T}"/> or the provided default value.
+        /// </returns>
+        public T GetValueOrDefault(T value)
+            => HasValue ? _value : value;
+
+        /// <summary>
+        ///     Retrieves the value of this <see cref="Optional{T}"/>, or the default value from the provided factory.
+        /// </summary>
+        /// <returns>
+        ///     The value of this <see cref="Optional{T}"/> or the default value from the provided factory.
+        /// </returns>
+        public T GetValueOrDefault(Func<T> value)
+            => HasValue ? _value : (value ?? throw new ArgumentNullException(nameof(value)))();
+
+        /// <summary>
+        ///     Retrieves the value of this <see cref="Optional{T}"/>, or the default value from the provided factory.
+        /// </summary>
+        /// <returns>
+        ///     The value of this <see cref="Optional{T}"/> or the default value from the provided factory.
+        /// </returns>
+        public T GetValueOrDefault<TState>(Func<TState, T> value, TState state)
+            => HasValue ? _value : (value ?? throw new ArgumentNullException(nameof(value)))(state);
+
+        /// <summary>
         ///     Returns a hash code for this <see cref="Optional{T}"/>.
         /// </summary>
         /// <returns>

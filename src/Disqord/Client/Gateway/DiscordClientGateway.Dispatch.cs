@@ -34,12 +34,15 @@ namespace Disqord
                     && gatewayEvent != GatewayDispatch.GuildSync
                     && gatewayEvent != GatewayDispatch.Ready)
                 {
-                    var tcs = _readyTaskCompletionSource;
-                    if (tcs != null && !tcs.Task.IsCompleted)
+                    lock (_readyPayloadQueue)
                     {
-                        Log(LogMessageSeverity.Debug, $"Queueing up {gatewayEvent.Value}.");
-                        _readyPayloadQueue.Enqueue((payload, gatewayEvent.Value));
-                        return;
+                        var tcs = _readyTaskCompletionSource;
+                        if (tcs != null && !tcs.Task.IsCompleted)
+                        {
+                            Log(LogMessageSeverity.Debug, $"Queueing up {gatewayEvent.Value}.");
+                            _readyPayloadQueue.Enqueue((payload, gatewayEvent.Value));
+                            return;
+                        }
                     }
                 }
             }
