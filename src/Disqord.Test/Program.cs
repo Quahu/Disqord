@@ -15,7 +15,7 @@ namespace Disqord.Test
             new DefaultPrefixProvider()
                 .AddPrefix("~~")
                 .AddMentionPrefix(),
-            new DiscordBotConfiguration
+            new DiscordBotSharderConfiguration
             {
                 Status = UserStatus.Invisible
             })
