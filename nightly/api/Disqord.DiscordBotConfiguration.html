@@ -68,24 +68,26 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Disqord.Bot.DiscordBotConfiguration">
+            <article class="content wrap" id="_content" data-uid="Disqord.DiscordBotConfiguration">
   
   
-  <h1 id="Disqord_Bot_DiscordBotConfiguration" data-uid="Disqord.Bot.DiscordBotConfiguration" class="text-break">Class DiscordBotConfiguration
+  <h1 id="Disqord_DiscordBotConfiguration" data-uid="Disqord.DiscordBotConfiguration" class="text-break">Class DiscordBotConfiguration
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
-    <div class="level1"><a class="xref" href="Disqord.DiscordClientConfiguration.html">DiscordClientConfiguration</a></div>
-    <div class="level2"><span class="xref">DiscordBotConfiguration</span></div>
+    <div class="level1"><a class="xref" href="Disqord.DiscordClientBaseConfiguration.html">DiscordClientBaseConfiguration</a></div>
+    <div class="level2"><a class="xref" href="Disqord.DiscordClientConfiguration.html">DiscordClientConfiguration</a></div>
+    <div class="level3"><span class="xref">DiscordBotConfiguration</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Disqord.Bot.IDiscordBotBaseConfiguration.html">IDiscordBotBaseConfiguration</a></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_MessageCache">DiscordClientConfiguration.MessageCache</a>
-    </div>
     <div>
       <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_ShardId">DiscordClientConfiguration.ShardId</a>
     </div>
@@ -93,40 +95,37 @@
       <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_ShardCount">DiscordClientConfiguration.ShardCount</a>
     </div>
     <div>
-      <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Status">DiscordClientConfiguration.Status</a>
+      <a class="xref" href="Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_MessageCache">DiscordClientBaseConfiguration.MessageCache</a>
     </div>
     <div>
-      <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Activity">DiscordClientConfiguration.Activity</a>
+      <a class="xref" href="Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_Status">DiscordClientBaseConfiguration.Status</a>
     </div>
     <div>
-      <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Logger">DiscordClientConfiguration.Logger</a>
-    </div>
-    <div>
-      <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Serializer">DiscordClientConfiguration.Serializer</a>
+      <a class="xref" href="Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_Activity">DiscordClientBaseConfiguration.Activity</a>
     </div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="Disqord.Bot.html">Disqord.Bot</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Disqord.html">Disqord</a></h6>
   <h6><strong>Assembly</strong>: Disqord.Bot.dll</h6>
-  <h5 id="Disqord_Bot_DiscordBotConfiguration_syntax">Syntax</h5>
+  <h5 id="Disqord_DiscordBotConfiguration_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public sealed class DiscordBotConfiguration : DiscordClientConfiguration</code></pre>
+    <pre><code class="lang-csharp hljs">public class DiscordBotConfiguration : DiscordClientConfiguration, IDiscordBotBaseConfiguration</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordBotConfiguration_CommandService.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordBotConfiguration.CommandService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordBotConfiguration_CommandServiceConfiguration.md&amp;value=---%0Auid%3A%20Disqord.DiscordBotConfiguration.CommandServiceConfiguration%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/DiscordBotConfiguration.cs/#L8">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/DiscordBotConfiguration.cs/#L9">View Source</a>
   </span>
-  <a id="Disqord_Bot_DiscordBotConfiguration_CommandService_" data-uid="Disqord.Bot.DiscordBotConfiguration.CommandService*"></a>
-  <h4 id="Disqord_Bot_DiscordBotConfiguration_CommandService" data-uid="Disqord.Bot.DiscordBotConfiguration.CommandService">CommandService</h4>
+  <a id="Disqord_DiscordBotConfiguration_CommandServiceConfiguration_" data-uid="Disqord.DiscordBotConfiguration.CommandServiceConfiguration*"></a>
+  <h4 id="Disqord_DiscordBotConfiguration_CommandServiceConfiguration" data-uid="Disqord.DiscordBotConfiguration.CommandServiceConfiguration">CommandServiceConfiguration</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public CommandService CommandService { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public CommandServiceConfiguration CommandServiceConfiguration { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -138,20 +137,20 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">CommandService</span></td>
+        <td><span class="xref">CommandServiceConfiguration</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordBotConfiguration_Default.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordBotConfiguration.Default%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordBotConfiguration_Default.md&amp;value=---%0Auid%3A%20Disqord.DiscordBotConfiguration.Default%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/DiscordBotConfiguration.cs/#L12">View Source</a>
   </span>
-  <a id="Disqord_Bot_DiscordBotConfiguration_Default_" data-uid="Disqord.Bot.DiscordBotConfiguration.Default*"></a>
-  <h4 id="Disqord_Bot_DiscordBotConfiguration_Default" data-uid="Disqord.Bot.DiscordBotConfiguration.Default">Default</h4>
+  <a id="Disqord_DiscordBotConfiguration_Default_" data-uid="Disqord.DiscordBotConfiguration.Default*"></a>
+  <h4 id="Disqord_DiscordBotConfiguration_Default" data-uid="Disqord.DiscordBotConfiguration.Default">Default</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -168,20 +167,20 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Disqord.Bot.DiscordBotConfiguration.html">DiscordBotConfiguration</a></td>
+        <td><a class="xref" href="Disqord.DiscordBotConfiguration.html">DiscordBotConfiguration</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordBotConfiguration_ProviderFactory.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordBotConfiguration.ProviderFactory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordBotConfiguration_ProviderFactory.md&amp;value=---%0Auid%3A%20Disqord.DiscordBotConfiguration.ProviderFactory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/DiscordBotConfiguration.cs/#L10">View Source</a>
   </span>
-  <a id="Disqord_Bot_DiscordBotConfiguration_ProviderFactory_" data-uid="Disqord.Bot.DiscordBotConfiguration.ProviderFactory*"></a>
-  <h4 id="Disqord_Bot_DiscordBotConfiguration_ProviderFactory" data-uid="Disqord.Bot.DiscordBotConfiguration.ProviderFactory">ProviderFactory</h4>
+  <a id="Disqord_DiscordBotConfiguration_ProviderFactory_" data-uid="Disqord.DiscordBotConfiguration.ProviderFactory*"></a>
+  <h4 id="Disqord_DiscordBotConfiguration_ProviderFactory" data-uid="Disqord.DiscordBotConfiguration.ProviderFactory">ProviderFactory</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -203,6 +202,10 @@
       </tr>
     </tbody>
   </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Disqord.Bot.IDiscordBotBaseConfiguration.html">IDiscordBotBaseConfiguration</a>
+  </div>
 </article>
           </div>
           
@@ -211,10 +214,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordBotConfiguration.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordBotConfiguration%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordBotConfiguration.md&amp;value=---%0Auid%3A%20Disqord.DiscordBotConfiguration%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/DiscordBotConfiguration.cs/#L6" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/DiscordBotConfiguration.cs/#L7" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

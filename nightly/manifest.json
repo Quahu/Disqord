@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.DiscordBot.html",
-          "hash": "CfkySx5Zg8h1kFF2JVba0w=="
+          "hash": "8mt76Vf4GbyIF/WSU8NXoQ=="
         }
       },
       "is_incremental": false,
@@ -93,19 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.DiscordBotBase.html",
-          "hash": "rRoQtqks9386ZZJUFE0QKw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Bot.DiscordBotConfiguration.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Disqord.Bot.DiscordBotConfiguration.html",
-          "hash": "rGsjJq8x+Wk/0raY8WhQhg=="
+          "hash": "jr9eiZaUE3r6+/WRxS5/YA=="
         }
       },
       "is_incremental": false,
@@ -166,6 +154,18 @@
         ".html": {
           "relative_path": "api/Disqord.Bot.GuildOwnerOnlyAttribute.html",
           "hash": "aNQEHbqilF9otXQy7rmxtA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Bot.IDiscordBotBaseConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Bot.IDiscordBotBaseConfiguration.html",
+          "hash": "XoGkS2Qu3WLpES+z1E54kQ=="
         }
       },
       "is_incremental": false,
@@ -501,7 +501,19 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.Sharding.DiscordBotSharder.html",
-          "hash": "vamW4kqP3DD9xxs9vCpA0A=="
+          "hash": "HLvgOex845PWUF70qsMgbw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Bot.Sharding.DiscordBotSharderConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Bot.Sharding.DiscordBotSharderConfiguration.html",
+          "hash": "+ZBLaKkENAgnyJgblTB+MA=="
         }
       },
       "is_incremental": false,
@@ -513,7 +525,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.Sharding.html",
-          "hash": "z/Qg5F+LNMc/WqnVoiIeZw=="
+          "hash": "lh2kni6IAKOjSNeehbFkww=="
         }
       },
       "is_incremental": false,
@@ -525,7 +537,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.html",
-          "hash": "Yzvc0ace3qut4l9ZwOKfeA=="
+          "hash": "859ILAjX5xvpAlPodkjE+Q=="
         }
       },
       "is_incremental": false,
@@ -1037,6 +1049,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.DiscordBotConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.DiscordBotConfiguration.html",
+          "hash": "voG/Y7fuFTbVbeg6pcNtPg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Disqord.DiscordClient.yml",
       "output": {
         ".html": {
@@ -1053,7 +1077,19 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.DiscordClientBase.html",
-          "hash": "ofoMjikAeTNyM+z6F0/QXg=="
+          "hash": "ffgZIfv6KbUjkoIqlo+JGA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.DiscordClientBaseConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.DiscordClientBaseConfiguration.html",
+          "hash": "QU2llsZoVHQ5AgO3mPsOIg=="
         }
       },
       "is_incremental": false,
@@ -1065,7 +1101,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.DiscordClientConfiguration.html",
-          "hash": "O0Dug3dUDTRTha35eIFxag=="
+          "hash": "+Ecapjs9a0duxaS1xhU4Lw=="
         }
       },
       "is_incremental": false,
@@ -1078,6 +1114,18 @@
         ".html": {
           "relative_path": "api/Disqord.DiscordClientExtension.html",
           "hash": "uOusAZ9nShCyGyoSZdClHw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.DummyMessageCache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.DummyMessageCache.html",
+          "hash": "I830Pg9GOFdEJhFHgQmE/w=="
         }
       },
       "is_incremental": false,
@@ -1545,7 +1593,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Events.ReadyEventArgs.html",
-          "hash": "nTmUlr/WXi1wHgducqgl4g=="
+          "hash": "h8f4e16/VMdEG6rN/P5//w=="
         }
       },
       "is_incremental": false,
@@ -2673,7 +2721,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.MessageCache.html",
-          "hash": "5lJWqNQiHgM8WZq+d9Tefw=="
+          "hash": "gtaXlOcJ/7DfJen5FOBtZw=="
         }
       },
       "is_incremental": false,
@@ -2925,7 +2973,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Optional-1.html",
-          "hash": "NfU6k1Rtp7AG4Qj5CLs9CA=="
+          "hash": "RQ6ba7i4bL5ItUaetPGEyw=="
         }
       },
       "is_incremental": false,
@@ -3777,7 +3825,19 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestDiscordClient.html",
-          "hash": "S4fHn++bpHW/JnFOcCqnZA=="
+          "hash": "kIeW1pZBqg5Wgt4vCw3RqQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Rest.RestDiscordClientConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Rest.RestDiscordClientConfiguration.html",
+          "hash": "61l3kbRTy763ApZ4XbiTzA=="
         }
       },
       "is_incremental": false,
@@ -3825,7 +3885,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.RestGatewayBotResponse.html",
-          "hash": "xp0gqp5ypPEqSVogFSYKhA=="
+          "hash": "OdN5406WY+7glqK8ATl/1A=="
         }
       },
       "is_incremental": false,
@@ -4305,7 +4365,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Rest.html",
-          "hash": "S8lJODxnpzMaJ23TXD95sQ=="
+          "hash": "pbtBtkjOL1LtIRj210k4tg=="
         }
       },
       "is_incremental": false,
@@ -4505,23 +4565,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Disqord.Sharding.DiscordSharder.Shard.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Disqord.Sharding.DiscordSharder.Shard.html",
-          "hash": "UzANvGTg/17cbXgDk9fhFw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/Disqord.Sharding.DiscordSharder.yml",
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Sharding.DiscordSharder.html",
-          "hash": "weXme2u1I0lYIjRrrAc6Dg=="
+          "hash": "wth0sLFUY6gRWEDWBBp6zg=="
         }
       },
       "is_incremental": false,
@@ -4533,7 +4581,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Sharding.DiscordSharderConfiguration.html",
-          "hash": "hq8UsaEjJaxbaNjwA+/oYQ=="
+          "hash": "EE3WAdU+jG/Gvv1erB35WQ=="
         }
       },
       "is_incremental": false,
@@ -4545,7 +4593,31 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Sharding.IDiscordSharder.html",
-          "hash": "MrmWluMX3FkqdJxs657q/A=="
+          "hash": "acoAG5WozsPYbRnk/pnQhA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Sharding.Shard.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Sharding.Shard.html",
+          "hash": "SqqbM/a8s0NXeh+E2aJ6/g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Disqord.Sharding.ShardReadyEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Disqord.Sharding.ShardReadyEventArgs.html",
+          "hash": "K+SijtlBYvK53uobMNi6rA=="
         }
       },
       "is_incremental": false,
@@ -4557,7 +4629,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Sharding.html",
-          "hash": "NBjACmxmAwCIrYCZIT5B/A=="
+          "hash": "L3cgg7Xdzh6Y/0aqI5WEhw=="
         }
       },
       "is_incremental": false,
@@ -4773,7 +4845,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.html",
-          "hash": "u1RNC1Egc1XuB8wx0V34dA=="
+          "hash": "15EfyxrM+5w4eilE37OJSg=="
         }
       },
       "is_incremental": false,
@@ -4797,7 +4869,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "NJKaYDRNXxqE1bo3/38gbg=="
+          "hash": "yw3Y8PPk9F+wc9DdUEk0SQ=="
         }
       },
       "is_incremental": false,
@@ -4879,7 +4951,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 398,
+          "total_file_count": 404,
           "skipped_file_count": 0
         }
       }

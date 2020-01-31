@@ -307,17 +307,17 @@ references:
   commentId: T:Disqord.Bot.DiscordBot
   fullName: Disqord.Bot.DiscordBot
   nameWithType: DiscordBot
-- uid: Disqord.Bot.DiscordBot.#ctor(RestDiscordClient,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.Bot.DiscordBotConfiguration)
+- uid: Disqord.Bot.DiscordBot.#ctor(RestDiscordClient,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.DiscordBotConfiguration)
   name: DiscordBot(RestDiscordClient, IPrefixProvider, DiscordBotConfiguration)
-  href: api/Disqord.Bot.DiscordBot.html#Disqord_Bot_DiscordBot__ctor_RestDiscordClient_Disqord_Bot_Prefixes_IPrefixProvider_Disqord_Bot_DiscordBotConfiguration_
-  commentId: M:Disqord.Bot.DiscordBot.#ctor(RestDiscordClient,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.Bot.DiscordBotConfiguration)
-  fullName: Disqord.Bot.DiscordBot.DiscordBot(RestDiscordClient, Disqord.Bot.Prefixes.IPrefixProvider, Disqord.Bot.DiscordBotConfiguration)
+  href: api/Disqord.Bot.DiscordBot.html#Disqord_Bot_DiscordBot__ctor_RestDiscordClient_Disqord_Bot_Prefixes_IPrefixProvider_Disqord_DiscordBotConfiguration_
+  commentId: M:Disqord.Bot.DiscordBot.#ctor(RestDiscordClient,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.DiscordBotConfiguration)
+  fullName: Disqord.Bot.DiscordBot.DiscordBot(RestDiscordClient, Disqord.Bot.Prefixes.IPrefixProvider, Disqord.DiscordBotConfiguration)
   nameWithType: DiscordBot.DiscordBot(RestDiscordClient, IPrefixProvider, DiscordBotConfiguration)
-- uid: Disqord.Bot.DiscordBot.#ctor(TokenType,System.String,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.Bot.DiscordBotConfiguration)
+- uid: Disqord.Bot.DiscordBot.#ctor(TokenType,System.String,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.DiscordBotConfiguration)
   name: DiscordBot(TokenType, String, IPrefixProvider, DiscordBotConfiguration)
-  href: api/Disqord.Bot.DiscordBot.html#Disqord_Bot_DiscordBot__ctor_TokenType_System_String_Disqord_Bot_Prefixes_IPrefixProvider_Disqord_Bot_DiscordBotConfiguration_
-  commentId: M:Disqord.Bot.DiscordBot.#ctor(TokenType,System.String,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.Bot.DiscordBotConfiguration)
-  fullName: Disqord.Bot.DiscordBot.DiscordBot(TokenType, System.String, Disqord.Bot.Prefixes.IPrefixProvider, Disqord.Bot.DiscordBotConfiguration)
+  href: api/Disqord.Bot.DiscordBot.html#Disqord_Bot_DiscordBot__ctor_TokenType_System_String_Disqord_Bot_Prefixes_IPrefixProvider_Disqord_DiscordBotConfiguration_
+  commentId: M:Disqord.Bot.DiscordBot.#ctor(TokenType,System.String,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.DiscordBotConfiguration)
+  fullName: Disqord.Bot.DiscordBot.DiscordBot(TokenType, System.String, Disqord.Bot.Prefixes.IPrefixProvider, Disqord.DiscordBotConfiguration)
   nameWithType: DiscordBot.DiscordBot(TokenType, String, IPrefixProvider, DiscordBotConfiguration)
 - uid: Disqord.Bot.DiscordBot.#ctor*
   name: DiscordBot
@@ -880,51 +880,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Bot.DiscordBotBase.TopLevelModules
   nameWithType: DiscordBotBase.TopLevelModules
-- uid: Disqord.Bot.DiscordBotConfiguration
-  name: DiscordBotConfiguration
-  href: api/Disqord.Bot.DiscordBotConfiguration.html
-  commentId: T:Disqord.Bot.DiscordBotConfiguration
-  fullName: Disqord.Bot.DiscordBotConfiguration
-  nameWithType: DiscordBotConfiguration
-- uid: Disqord.Bot.DiscordBotConfiguration.CommandService
-  name: CommandService
-  href: api/Disqord.Bot.DiscordBotConfiguration.html#Disqord_Bot_DiscordBotConfiguration_CommandService
-  commentId: P:Disqord.Bot.DiscordBotConfiguration.CommandService
-  fullName: Disqord.Bot.DiscordBotConfiguration.CommandService
-  nameWithType: DiscordBotConfiguration.CommandService
-- uid: Disqord.Bot.DiscordBotConfiguration.CommandService*
-  name: CommandService
-  href: api/Disqord.Bot.DiscordBotConfiguration.html#Disqord_Bot_DiscordBotConfiguration_CommandService_
-  commentId: Overload:Disqord.Bot.DiscordBotConfiguration.CommandService
-  isSpec: "True"
-  fullName: Disqord.Bot.DiscordBotConfiguration.CommandService
-  nameWithType: DiscordBotConfiguration.CommandService
-- uid: Disqord.Bot.DiscordBotConfiguration.Default
-  name: Default
-  href: api/Disqord.Bot.DiscordBotConfiguration.html#Disqord_Bot_DiscordBotConfiguration_Default
-  commentId: P:Disqord.Bot.DiscordBotConfiguration.Default
-  fullName: Disqord.Bot.DiscordBotConfiguration.Default
-  nameWithType: DiscordBotConfiguration.Default
-- uid: Disqord.Bot.DiscordBotConfiguration.Default*
-  name: Default
-  href: api/Disqord.Bot.DiscordBotConfiguration.html#Disqord_Bot_DiscordBotConfiguration_Default_
-  commentId: Overload:Disqord.Bot.DiscordBotConfiguration.Default
-  isSpec: "True"
-  fullName: Disqord.Bot.DiscordBotConfiguration.Default
-  nameWithType: DiscordBotConfiguration.Default
-- uid: Disqord.Bot.DiscordBotConfiguration.ProviderFactory
-  name: ProviderFactory
-  href: api/Disqord.Bot.DiscordBotConfiguration.html#Disqord_Bot_DiscordBotConfiguration_ProviderFactory
-  commentId: P:Disqord.Bot.DiscordBotConfiguration.ProviderFactory
-  fullName: Disqord.Bot.DiscordBotConfiguration.ProviderFactory
-  nameWithType: DiscordBotConfiguration.ProviderFactory
-- uid: Disqord.Bot.DiscordBotConfiguration.ProviderFactory*
-  name: ProviderFactory
-  href: api/Disqord.Bot.DiscordBotConfiguration.html#Disqord_Bot_DiscordBotConfiguration_ProviderFactory_
-  commentId: Overload:Disqord.Bot.DiscordBotConfiguration.ProviderFactory
-  isSpec: "True"
-  fullName: Disqord.Bot.DiscordBotConfiguration.ProviderFactory
-  nameWithType: DiscordBotConfiguration.ProviderFactory
 - uid: Disqord.Bot.DiscordCommandContext
   name: DiscordCommandContext
   href: api/Disqord.Bot.DiscordCommandContext.html
@@ -1182,6 +1137,38 @@ references:
   isSpec: "True"
   fullName: Disqord.Bot.GuildOwnerOnlyAttribute.CheckAsync
   nameWithType: GuildOwnerOnlyAttribute.CheckAsync
+- uid: Disqord.Bot.IDiscordBotBaseConfiguration
+  name: IDiscordBotBaseConfiguration
+  href: api/Disqord.Bot.IDiscordBotBaseConfiguration.html
+  commentId: T:Disqord.Bot.IDiscordBotBaseConfiguration
+  fullName: Disqord.Bot.IDiscordBotBaseConfiguration
+  nameWithType: IDiscordBotBaseConfiguration
+- uid: Disqord.Bot.IDiscordBotBaseConfiguration.CommandServiceConfiguration
+  name: CommandServiceConfiguration
+  href: api/Disqord.Bot.IDiscordBotBaseConfiguration.html#Disqord_Bot_IDiscordBotBaseConfiguration_CommandServiceConfiguration
+  commentId: P:Disqord.Bot.IDiscordBotBaseConfiguration.CommandServiceConfiguration
+  fullName: Disqord.Bot.IDiscordBotBaseConfiguration.CommandServiceConfiguration
+  nameWithType: IDiscordBotBaseConfiguration.CommandServiceConfiguration
+- uid: Disqord.Bot.IDiscordBotBaseConfiguration.CommandServiceConfiguration*
+  name: CommandServiceConfiguration
+  href: api/Disqord.Bot.IDiscordBotBaseConfiguration.html#Disqord_Bot_IDiscordBotBaseConfiguration_CommandServiceConfiguration_
+  commentId: Overload:Disqord.Bot.IDiscordBotBaseConfiguration.CommandServiceConfiguration
+  isSpec: "True"
+  fullName: Disqord.Bot.IDiscordBotBaseConfiguration.CommandServiceConfiguration
+  nameWithType: IDiscordBotBaseConfiguration.CommandServiceConfiguration
+- uid: Disqord.Bot.IDiscordBotBaseConfiguration.ProviderFactory
+  name: ProviderFactory
+  href: api/Disqord.Bot.IDiscordBotBaseConfiguration.html#Disqord_Bot_IDiscordBotBaseConfiguration_ProviderFactory
+  commentId: P:Disqord.Bot.IDiscordBotBaseConfiguration.ProviderFactory
+  fullName: Disqord.Bot.IDiscordBotBaseConfiguration.ProviderFactory
+  nameWithType: IDiscordBotBaseConfiguration.ProviderFactory
+- uid: Disqord.Bot.IDiscordBotBaseConfiguration.ProviderFactory*
+  name: ProviderFactory
+  href: api/Disqord.Bot.IDiscordBotBaseConfiguration.html#Disqord_Bot_IDiscordBotBaseConfiguration_ProviderFactory_
+  commentId: Overload:Disqord.Bot.IDiscordBotBaseConfiguration.ProviderFactory
+  isSpec: "True"
+  fullName: Disqord.Bot.IDiscordBotBaseConfiguration.ProviderFactory
+  nameWithType: IDiscordBotBaseConfiguration.ProviderFactory
 - uid: Disqord.Bot.Parsers
   name: Disqord.Bot.Parsers
   href: api/Disqord.Bot.Parsers.html
@@ -2457,18 +2444,18 @@ references:
   commentId: T:Disqord.Bot.Sharding.DiscordBotSharder
   fullName: Disqord.Bot.Sharding.DiscordBotSharder
   nameWithType: DiscordBotSharder
-- uid: Disqord.Bot.Sharding.DiscordBotSharder.#ctor(RestDiscordClient,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.Bot.DiscordBotConfiguration)
-  name: DiscordBotSharder(RestDiscordClient, IPrefixProvider, DiscordBotConfiguration)
-  href: api/Disqord.Bot.Sharding.DiscordBotSharder.html#Disqord_Bot_Sharding_DiscordBotSharder__ctor_RestDiscordClient_Disqord_Bot_Prefixes_IPrefixProvider_Disqord_Bot_DiscordBotConfiguration_
-  commentId: M:Disqord.Bot.Sharding.DiscordBotSharder.#ctor(RestDiscordClient,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.Bot.DiscordBotConfiguration)
-  fullName: Disqord.Bot.Sharding.DiscordBotSharder.DiscordBotSharder(RestDiscordClient, Disqord.Bot.Prefixes.IPrefixProvider, Disqord.Bot.DiscordBotConfiguration)
-  nameWithType: DiscordBotSharder.DiscordBotSharder(RestDiscordClient, IPrefixProvider, DiscordBotConfiguration)
-- uid: Disqord.Bot.Sharding.DiscordBotSharder.#ctor(TokenType,System.String,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.Bot.DiscordBotConfiguration)
-  name: DiscordBotSharder(TokenType, String, IPrefixProvider, DiscordBotConfiguration)
-  href: api/Disqord.Bot.Sharding.DiscordBotSharder.html#Disqord_Bot_Sharding_DiscordBotSharder__ctor_TokenType_System_String_Disqord_Bot_Prefixes_IPrefixProvider_Disqord_Bot_DiscordBotConfiguration_
-  commentId: M:Disqord.Bot.Sharding.DiscordBotSharder.#ctor(TokenType,System.String,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.Bot.DiscordBotConfiguration)
-  fullName: Disqord.Bot.Sharding.DiscordBotSharder.DiscordBotSharder(TokenType, System.String, Disqord.Bot.Prefixes.IPrefixProvider, Disqord.Bot.DiscordBotConfiguration)
-  nameWithType: DiscordBotSharder.DiscordBotSharder(TokenType, String, IPrefixProvider, DiscordBotConfiguration)
+- uid: Disqord.Bot.Sharding.DiscordBotSharder.#ctor(RestDiscordClient,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.Bot.Sharding.DiscordBotSharderConfiguration)
+  name: DiscordBotSharder(RestDiscordClient, IPrefixProvider, DiscordBotSharderConfiguration)
+  href: api/Disqord.Bot.Sharding.DiscordBotSharder.html#Disqord_Bot_Sharding_DiscordBotSharder__ctor_RestDiscordClient_Disqord_Bot_Prefixes_IPrefixProvider_Disqord_Bot_Sharding_DiscordBotSharderConfiguration_
+  commentId: M:Disqord.Bot.Sharding.DiscordBotSharder.#ctor(RestDiscordClient,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.Bot.Sharding.DiscordBotSharderConfiguration)
+  fullName: Disqord.Bot.Sharding.DiscordBotSharder.DiscordBotSharder(RestDiscordClient, Disqord.Bot.Prefixes.IPrefixProvider, Disqord.Bot.Sharding.DiscordBotSharderConfiguration)
+  nameWithType: DiscordBotSharder.DiscordBotSharder(RestDiscordClient, IPrefixProvider, DiscordBotSharderConfiguration)
+- uid: Disqord.Bot.Sharding.DiscordBotSharder.#ctor(TokenType,System.String,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.Bot.Sharding.DiscordBotSharderConfiguration)
+  name: DiscordBotSharder(TokenType, String, IPrefixProvider, DiscordBotSharderConfiguration)
+  href: api/Disqord.Bot.Sharding.DiscordBotSharder.html#Disqord_Bot_Sharding_DiscordBotSharder__ctor_TokenType_System_String_Disqord_Bot_Prefixes_IPrefixProvider_Disqord_Bot_Sharding_DiscordBotSharderConfiguration_
+  commentId: M:Disqord.Bot.Sharding.DiscordBotSharder.#ctor(TokenType,System.String,Disqord.Bot.Prefixes.IPrefixProvider,Disqord.Bot.Sharding.DiscordBotSharderConfiguration)
+  fullName: Disqord.Bot.Sharding.DiscordBotSharder.DiscordBotSharder(TokenType, System.String, Disqord.Bot.Prefixes.IPrefixProvider, Disqord.Bot.Sharding.DiscordBotSharderConfiguration)
+  nameWithType: DiscordBotSharder.DiscordBotSharder(TokenType, String, IPrefixProvider, DiscordBotSharderConfiguration)
 - uid: Disqord.Bot.Sharding.DiscordBotSharder.#ctor*
   name: DiscordBotSharder
   href: api/Disqord.Bot.Sharding.DiscordBotSharder.html#Disqord_Bot_Sharding_DiscordBotSharder__ctor_
@@ -2489,6 +2476,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Bot.Sharding.DiscordBotSharder.GetShardId
   nameWithType: DiscordBotSharder.GetShardId
+- uid: Disqord.Bot.Sharding.DiscordBotSharder.ShardReady
+  name: ShardReady
+  href: api/Disqord.Bot.Sharding.DiscordBotSharder.html#Disqord_Bot_Sharding_DiscordBotSharder_ShardReady
+  commentId: E:Disqord.Bot.Sharding.DiscordBotSharder.ShardReady
+  fullName: Disqord.Bot.Sharding.DiscordBotSharder.ShardReady
+  nameWithType: DiscordBotSharder.ShardReady
 - uid: Disqord.Bot.Sharding.DiscordBotSharder.Shards
   name: Shards
   href: api/Disqord.Bot.Sharding.DiscordBotSharder.html#Disqord_Bot_Sharding_DiscordBotSharder_Shards
@@ -2502,6 +2495,64 @@ references:
   isSpec: "True"
   fullName: Disqord.Bot.Sharding.DiscordBotSharder.Shards
   nameWithType: DiscordBotSharder.Shards
+- uid: Disqord.Bot.Sharding.DiscordBotSharderConfiguration
+  name: DiscordBotSharderConfiguration
+  href: api/Disqord.Bot.Sharding.DiscordBotSharderConfiguration.html
+  commentId: T:Disqord.Bot.Sharding.DiscordBotSharderConfiguration
+  fullName: Disqord.Bot.Sharding.DiscordBotSharderConfiguration
+  nameWithType: DiscordBotSharderConfiguration
+- uid: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.#ctor
+  name: DiscordBotSharderConfiguration()
+  href: api/Disqord.Bot.Sharding.DiscordBotSharderConfiguration.html#Disqord_Bot_Sharding_DiscordBotSharderConfiguration__ctor
+  commentId: M:Disqord.Bot.Sharding.DiscordBotSharderConfiguration.#ctor
+  fullName: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.DiscordBotSharderConfiguration()
+  nameWithType: DiscordBotSharderConfiguration.DiscordBotSharderConfiguration()
+- uid: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.#ctor*
+  name: DiscordBotSharderConfiguration
+  href: api/Disqord.Bot.Sharding.DiscordBotSharderConfiguration.html#Disqord_Bot_Sharding_DiscordBotSharderConfiguration__ctor_
+  commentId: Overload:Disqord.Bot.Sharding.DiscordBotSharderConfiguration.#ctor
+  isSpec: "True"
+  fullName: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.DiscordBotSharderConfiguration
+  nameWithType: DiscordBotSharderConfiguration.DiscordBotSharderConfiguration
+- uid: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.CommandServiceConfiguration
+  name: CommandServiceConfiguration
+  href: api/Disqord.Bot.Sharding.DiscordBotSharderConfiguration.html#Disqord_Bot_Sharding_DiscordBotSharderConfiguration_CommandServiceConfiguration
+  commentId: P:Disqord.Bot.Sharding.DiscordBotSharderConfiguration.CommandServiceConfiguration
+  fullName: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.CommandServiceConfiguration
+  nameWithType: DiscordBotSharderConfiguration.CommandServiceConfiguration
+- uid: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.CommandServiceConfiguration*
+  name: CommandServiceConfiguration
+  href: api/Disqord.Bot.Sharding.DiscordBotSharderConfiguration.html#Disqord_Bot_Sharding_DiscordBotSharderConfiguration_CommandServiceConfiguration_
+  commentId: Overload:Disqord.Bot.Sharding.DiscordBotSharderConfiguration.CommandServiceConfiguration
+  isSpec: "True"
+  fullName: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.CommandServiceConfiguration
+  nameWithType: DiscordBotSharderConfiguration.CommandServiceConfiguration
+- uid: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.Default
+  name: Default
+  href: api/Disqord.Bot.Sharding.DiscordBotSharderConfiguration.html#Disqord_Bot_Sharding_DiscordBotSharderConfiguration_Default
+  commentId: P:Disqord.Bot.Sharding.DiscordBotSharderConfiguration.Default
+  fullName: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.Default
+  nameWithType: DiscordBotSharderConfiguration.Default
+- uid: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.Default*
+  name: Default
+  href: api/Disqord.Bot.Sharding.DiscordBotSharderConfiguration.html#Disqord_Bot_Sharding_DiscordBotSharderConfiguration_Default_
+  commentId: Overload:Disqord.Bot.Sharding.DiscordBotSharderConfiguration.Default
+  isSpec: "True"
+  fullName: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.Default
+  nameWithType: DiscordBotSharderConfiguration.Default
+- uid: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.ProviderFactory
+  name: ProviderFactory
+  href: api/Disqord.Bot.Sharding.DiscordBotSharderConfiguration.html#Disqord_Bot_Sharding_DiscordBotSharderConfiguration_ProviderFactory
+  commentId: P:Disqord.Bot.Sharding.DiscordBotSharderConfiguration.ProviderFactory
+  fullName: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.ProviderFactory
+  nameWithType: DiscordBotSharderConfiguration.ProviderFactory
+- uid: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.ProviderFactory*
+  name: ProviderFactory
+  href: api/Disqord.Bot.Sharding.DiscordBotSharderConfiguration.html#Disqord_Bot_Sharding_DiscordBotSharderConfiguration_ProviderFactory_
+  commentId: Overload:Disqord.Bot.Sharding.DiscordBotSharderConfiguration.ProviderFactory
+  isSpec: "True"
+  fullName: Disqord.Bot.Sharding.DiscordBotSharderConfiguration.ProviderFactory
+  nameWithType: DiscordBotSharderConfiguration.ProviderFactory
 - uid: Disqord.CachedCategoryChannel
   name: CachedCategoryChannel
   href: api/Disqord.CachedCategoryChannel.html
@@ -10868,6 +10919,51 @@ references:
   isSpec: "True"
   fullName: Disqord.Discord.TryParseUserMention
   nameWithType: Discord.TryParseUserMention
+- uid: Disqord.DiscordBotConfiguration
+  name: DiscordBotConfiguration
+  href: api/Disqord.DiscordBotConfiguration.html
+  commentId: T:Disqord.DiscordBotConfiguration
+  fullName: Disqord.DiscordBotConfiguration
+  nameWithType: DiscordBotConfiguration
+- uid: Disqord.DiscordBotConfiguration.CommandServiceConfiguration
+  name: CommandServiceConfiguration
+  href: api/Disqord.DiscordBotConfiguration.html#Disqord_DiscordBotConfiguration_CommandServiceConfiguration
+  commentId: P:Disqord.DiscordBotConfiguration.CommandServiceConfiguration
+  fullName: Disqord.DiscordBotConfiguration.CommandServiceConfiguration
+  nameWithType: DiscordBotConfiguration.CommandServiceConfiguration
+- uid: Disqord.DiscordBotConfiguration.CommandServiceConfiguration*
+  name: CommandServiceConfiguration
+  href: api/Disqord.DiscordBotConfiguration.html#Disqord_DiscordBotConfiguration_CommandServiceConfiguration_
+  commentId: Overload:Disqord.DiscordBotConfiguration.CommandServiceConfiguration
+  isSpec: "True"
+  fullName: Disqord.DiscordBotConfiguration.CommandServiceConfiguration
+  nameWithType: DiscordBotConfiguration.CommandServiceConfiguration
+- uid: Disqord.DiscordBotConfiguration.Default
+  name: Default
+  href: api/Disqord.DiscordBotConfiguration.html#Disqord_DiscordBotConfiguration_Default
+  commentId: P:Disqord.DiscordBotConfiguration.Default
+  fullName: Disqord.DiscordBotConfiguration.Default
+  nameWithType: DiscordBotConfiguration.Default
+- uid: Disqord.DiscordBotConfiguration.Default*
+  name: Default
+  href: api/Disqord.DiscordBotConfiguration.html#Disqord_DiscordBotConfiguration_Default_
+  commentId: Overload:Disqord.DiscordBotConfiguration.Default
+  isSpec: "True"
+  fullName: Disqord.DiscordBotConfiguration.Default
+  nameWithType: DiscordBotConfiguration.Default
+- uid: Disqord.DiscordBotConfiguration.ProviderFactory
+  name: ProviderFactory
+  href: api/Disqord.DiscordBotConfiguration.html#Disqord_DiscordBotConfiguration_ProviderFactory
+  commentId: P:Disqord.DiscordBotConfiguration.ProviderFactory
+  fullName: Disqord.DiscordBotConfiguration.ProviderFactory
+  nameWithType: DiscordBotConfiguration.ProviderFactory
+- uid: Disqord.DiscordBotConfiguration.ProviderFactory*
+  name: ProviderFactory
+  href: api/Disqord.DiscordBotConfiguration.html#Disqord_DiscordBotConfiguration_ProviderFactory_
+  commentId: Overload:Disqord.DiscordBotConfiguration.ProviderFactory
+  isSpec: "True"
+  fullName: Disqord.DiscordBotConfiguration.ProviderFactory
+  nameWithType: DiscordBotConfiguration.ProviderFactory
 - uid: Disqord.DiscordClient
   name: DiscordClient
   href: api/Disqord.DiscordClient.html
@@ -13104,25 +13200,57 @@ references:
   commentId: E:Disqord.DiscordClientBase.WebhooksUpdated
   fullName: Disqord.DiscordClientBase.WebhooksUpdated
   nameWithType: DiscordClientBase.WebhooksUpdated
+- uid: Disqord.DiscordClientBaseConfiguration
+  name: DiscordClientBaseConfiguration
+  href: api/Disqord.DiscordClientBaseConfiguration.html
+  commentId: T:Disqord.DiscordClientBaseConfiguration
+  fullName: Disqord.DiscordClientBaseConfiguration
+  nameWithType: DiscordClientBaseConfiguration
+- uid: Disqord.DiscordClientBaseConfiguration.Activity
+  name: Activity
+  href: api/Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_Activity
+  commentId: P:Disqord.DiscordClientBaseConfiguration.Activity
+  fullName: Disqord.DiscordClientBaseConfiguration.Activity
+  nameWithType: DiscordClientBaseConfiguration.Activity
+- uid: Disqord.DiscordClientBaseConfiguration.Activity*
+  name: Activity
+  href: api/Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_Activity_
+  commentId: Overload:Disqord.DiscordClientBaseConfiguration.Activity
+  isSpec: "True"
+  fullName: Disqord.DiscordClientBaseConfiguration.Activity
+  nameWithType: DiscordClientBaseConfiguration.Activity
+- uid: Disqord.DiscordClientBaseConfiguration.MessageCache
+  name: MessageCache
+  href: api/Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_MessageCache
+  commentId: P:Disqord.DiscordClientBaseConfiguration.MessageCache
+  fullName: Disqord.DiscordClientBaseConfiguration.MessageCache
+  nameWithType: DiscordClientBaseConfiguration.MessageCache
+- uid: Disqord.DiscordClientBaseConfiguration.MessageCache*
+  name: MessageCache
+  href: api/Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_MessageCache_
+  commentId: Overload:Disqord.DiscordClientBaseConfiguration.MessageCache
+  isSpec: "True"
+  fullName: Disqord.DiscordClientBaseConfiguration.MessageCache
+  nameWithType: DiscordClientBaseConfiguration.MessageCache
+- uid: Disqord.DiscordClientBaseConfiguration.Status
+  name: Status
+  href: api/Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_Status
+  commentId: P:Disqord.DiscordClientBaseConfiguration.Status
+  fullName: Disqord.DiscordClientBaseConfiguration.Status
+  nameWithType: DiscordClientBaseConfiguration.Status
+- uid: Disqord.DiscordClientBaseConfiguration.Status*
+  name: Status
+  href: api/Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_Status_
+  commentId: Overload:Disqord.DiscordClientBaseConfiguration.Status
+  isSpec: "True"
+  fullName: Disqord.DiscordClientBaseConfiguration.Status
+  nameWithType: DiscordClientBaseConfiguration.Status
 - uid: Disqord.DiscordClientConfiguration
   name: DiscordClientConfiguration
   href: api/Disqord.DiscordClientConfiguration.html
   commentId: T:Disqord.DiscordClientConfiguration
   fullName: Disqord.DiscordClientConfiguration
   nameWithType: DiscordClientConfiguration
-- uid: Disqord.DiscordClientConfiguration.Activity
-  name: Activity
-  href: api/Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Activity
-  commentId: P:Disqord.DiscordClientConfiguration.Activity
-  fullName: Disqord.DiscordClientConfiguration.Activity
-  nameWithType: DiscordClientConfiguration.Activity
-- uid: Disqord.DiscordClientConfiguration.Activity*
-  name: Activity
-  href: api/Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Activity_
-  commentId: Overload:Disqord.DiscordClientConfiguration.Activity
-  isSpec: "True"
-  fullName: Disqord.DiscordClientConfiguration.Activity
-  nameWithType: DiscordClientConfiguration.Activity
 - uid: Disqord.DiscordClientConfiguration.Default
   name: Default
   href: api/Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Default
@@ -13136,45 +13264,6 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientConfiguration.Default
   nameWithType: DiscordClientConfiguration.Default
-- uid: Disqord.DiscordClientConfiguration.Logger
-  name: Logger
-  href: api/Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Logger
-  commentId: P:Disqord.DiscordClientConfiguration.Logger
-  fullName: Disqord.DiscordClientConfiguration.Logger
-  nameWithType: DiscordClientConfiguration.Logger
-- uid: Disqord.DiscordClientConfiguration.Logger*
-  name: Logger
-  href: api/Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Logger_
-  commentId: Overload:Disqord.DiscordClientConfiguration.Logger
-  isSpec: "True"
-  fullName: Disqord.DiscordClientConfiguration.Logger
-  nameWithType: DiscordClientConfiguration.Logger
-- uid: Disqord.DiscordClientConfiguration.MessageCache
-  name: MessageCache
-  href: api/Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_MessageCache
-  commentId: P:Disqord.DiscordClientConfiguration.MessageCache
-  fullName: Disqord.DiscordClientConfiguration.MessageCache
-  nameWithType: DiscordClientConfiguration.MessageCache
-- uid: Disqord.DiscordClientConfiguration.MessageCache*
-  name: MessageCache
-  href: api/Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_MessageCache_
-  commentId: Overload:Disqord.DiscordClientConfiguration.MessageCache
-  isSpec: "True"
-  fullName: Disqord.DiscordClientConfiguration.MessageCache
-  nameWithType: DiscordClientConfiguration.MessageCache
-- uid: Disqord.DiscordClientConfiguration.Serializer
-  name: Serializer
-  href: api/Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Serializer
-  commentId: P:Disqord.DiscordClientConfiguration.Serializer
-  fullName: Disqord.DiscordClientConfiguration.Serializer
-  nameWithType: DiscordClientConfiguration.Serializer
-- uid: Disqord.DiscordClientConfiguration.Serializer*
-  name: Serializer
-  href: api/Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Serializer_
-  commentId: Overload:Disqord.DiscordClientConfiguration.Serializer
-  isSpec: "True"
-  fullName: Disqord.DiscordClientConfiguration.Serializer
-  nameWithType: DiscordClientConfiguration.Serializer
 - uid: Disqord.DiscordClientConfiguration.ShardCount
   name: ShardCount
   href: api/Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_ShardCount
@@ -13201,19 +13290,6 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientConfiguration.ShardId
   nameWithType: DiscordClientConfiguration.ShardId
-- uid: Disqord.DiscordClientConfiguration.Status
-  name: Status
-  href: api/Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Status
-  commentId: P:Disqord.DiscordClientConfiguration.Status
-  fullName: Disqord.DiscordClientConfiguration.Status
-  nameWithType: DiscordClientConfiguration.Status
-- uid: Disqord.DiscordClientConfiguration.Status*
-  name: Status
-  href: api/Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Status_
-  commentId: Overload:Disqord.DiscordClientConfiguration.Status
-  isSpec: "True"
-  fullName: Disqord.DiscordClientConfiguration.Status
-  nameWithType: DiscordClientConfiguration.Status
 - uid: Disqord.DiscordClientExtension
   name: DiscordClientExtension
   href: api/Disqord.DiscordClientExtension.html
@@ -13259,6 +13335,108 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientExtension.InitialiseAsync
   nameWithType: DiscordClientExtension.InitialiseAsync
+- uid: Disqord.DummyMessageCache
+  name: DummyMessageCache
+  href: api/Disqord.DummyMessageCache.html
+  commentId: T:Disqord.DummyMessageCache
+  fullName: Disqord.DummyMessageCache
+  nameWithType: DummyMessageCache
+- uid: Disqord.DummyMessageCache.Clear
+  name: Clear()
+  href: api/Disqord.DummyMessageCache.html#Disqord_DummyMessageCache_Clear
+  commentId: M:Disqord.DummyMessageCache.Clear
+  fullName: Disqord.DummyMessageCache.Clear()
+  nameWithType: DummyMessageCache.Clear()
+- uid: Disqord.DummyMessageCache.Clear*
+  name: Clear
+  href: api/Disqord.DummyMessageCache.html#Disqord_DummyMessageCache_Clear_
+  commentId: Overload:Disqord.DummyMessageCache.Clear
+  isSpec: "True"
+  fullName: Disqord.DummyMessageCache.Clear
+  nameWithType: DummyMessageCache.Clear
+- uid: Disqord.DummyMessageCache.Instance
+  name: Instance
+  href: api/Disqord.DummyMessageCache.html#Disqord_DummyMessageCache_Instance
+  commentId: F:Disqord.DummyMessageCache.Instance
+  fullName: Disqord.DummyMessageCache.Instance
+  nameWithType: DummyMessageCache.Instance
+- uid: Disqord.DummyMessageCache.TryAddMessage(Disqord.CachedUserMessage)
+  name: TryAddMessage(CachedUserMessage)
+  href: api/Disqord.DummyMessageCache.html#Disqord_DummyMessageCache_TryAddMessage_Disqord_CachedUserMessage_
+  commentId: M:Disqord.DummyMessageCache.TryAddMessage(Disqord.CachedUserMessage)
+  fullName: Disqord.DummyMessageCache.TryAddMessage(Disqord.CachedUserMessage)
+  nameWithType: DummyMessageCache.TryAddMessage(CachedUserMessage)
+- uid: Disqord.DummyMessageCache.TryAddMessage*
+  name: TryAddMessage
+  href: api/Disqord.DummyMessageCache.html#Disqord_DummyMessageCache_TryAddMessage_
+  commentId: Overload:Disqord.DummyMessageCache.TryAddMessage
+  isSpec: "True"
+  fullName: Disqord.DummyMessageCache.TryAddMessage
+  nameWithType: DummyMessageCache.TryAddMessage
+- uid: Disqord.DummyMessageCache.TryGetMessage(Snowflake,Snowflake,Disqord.CachedUserMessage@)
+  name: TryGetMessage(Snowflake, Snowflake, out CachedUserMessage)
+  href: api/Disqord.DummyMessageCache.html#Disqord_DummyMessageCache_TryGetMessage_Snowflake_Snowflake_Disqord_CachedUserMessage__
+  commentId: M:Disqord.DummyMessageCache.TryGetMessage(Snowflake,Snowflake,Disqord.CachedUserMessage@)
+  name.vb: TryGetMessage(Snowflake, Snowflake, ByRef CachedUserMessage)
+  fullName: Disqord.DummyMessageCache.TryGetMessage(Snowflake, Snowflake, out Disqord.CachedUserMessage)
+  fullName.vb: Disqord.DummyMessageCache.TryGetMessage(Snowflake, Snowflake, ByRef Disqord.CachedUserMessage)
+  nameWithType: DummyMessageCache.TryGetMessage(Snowflake, Snowflake, out CachedUserMessage)
+  nameWithType.vb: DummyMessageCache.TryGetMessage(Snowflake, Snowflake, ByRef CachedUserMessage)
+- uid: Disqord.DummyMessageCache.TryGetMessage*
+  name: TryGetMessage
+  href: api/Disqord.DummyMessageCache.html#Disqord_DummyMessageCache_TryGetMessage_
+  commentId: Overload:Disqord.DummyMessageCache.TryGetMessage
+  isSpec: "True"
+  fullName: Disqord.DummyMessageCache.TryGetMessage
+  nameWithType: DummyMessageCache.TryGetMessage
+- uid: Disqord.DummyMessageCache.TryGetMessages(Snowflake,IEnumerable{Disqord.CachedUserMessage}@)
+  name: TryGetMessages(Snowflake, out IEnumerable<CachedUserMessage>)
+  href: api/Disqord.DummyMessageCache.html#Disqord_DummyMessageCache_TryGetMessages_Snowflake_IEnumerable_Disqord_CachedUserMessage___
+  commentId: M:Disqord.DummyMessageCache.TryGetMessages(Snowflake,IEnumerable{Disqord.CachedUserMessage}@)
+  name.vb: TryGetMessages(Snowflake, ByRef IEnumerable(Of CachedUserMessage))
+  fullName: Disqord.DummyMessageCache.TryGetMessages(Snowflake, out IEnumerable<Disqord.CachedUserMessage>)
+  fullName.vb: Disqord.DummyMessageCache.TryGetMessages(Snowflake, ByRef IEnumerable(Of Disqord.CachedUserMessage))
+  nameWithType: DummyMessageCache.TryGetMessages(Snowflake, out IEnumerable<CachedUserMessage>)
+  nameWithType.vb: DummyMessageCache.TryGetMessages(Snowflake, ByRef IEnumerable(Of CachedUserMessage))
+- uid: Disqord.DummyMessageCache.TryGetMessages*
+  name: TryGetMessages
+  href: api/Disqord.DummyMessageCache.html#Disqord_DummyMessageCache_TryGetMessages_
+  commentId: Overload:Disqord.DummyMessageCache.TryGetMessages
+  isSpec: "True"
+  fullName: Disqord.DummyMessageCache.TryGetMessages
+  nameWithType: DummyMessageCache.TryGetMessages
+- uid: Disqord.DummyMessageCache.TryRemoveMessage(Snowflake,Snowflake,Disqord.CachedUserMessage@)
+  name: TryRemoveMessage(Snowflake, Snowflake, out CachedUserMessage)
+  href: api/Disqord.DummyMessageCache.html#Disqord_DummyMessageCache_TryRemoveMessage_Snowflake_Snowflake_Disqord_CachedUserMessage__
+  commentId: M:Disqord.DummyMessageCache.TryRemoveMessage(Snowflake,Snowflake,Disqord.CachedUserMessage@)
+  name.vb: TryRemoveMessage(Snowflake, Snowflake, ByRef CachedUserMessage)
+  fullName: Disqord.DummyMessageCache.TryRemoveMessage(Snowflake, Snowflake, out Disqord.CachedUserMessage)
+  fullName.vb: Disqord.DummyMessageCache.TryRemoveMessage(Snowflake, Snowflake, ByRef Disqord.CachedUserMessage)
+  nameWithType: DummyMessageCache.TryRemoveMessage(Snowflake, Snowflake, out CachedUserMessage)
+  nameWithType.vb: DummyMessageCache.TryRemoveMessage(Snowflake, Snowflake, ByRef CachedUserMessage)
+- uid: Disqord.DummyMessageCache.TryRemoveMessage*
+  name: TryRemoveMessage
+  href: api/Disqord.DummyMessageCache.html#Disqord_DummyMessageCache_TryRemoveMessage_
+  commentId: Overload:Disqord.DummyMessageCache.TryRemoveMessage
+  isSpec: "True"
+  fullName: Disqord.DummyMessageCache.TryRemoveMessage
+  nameWithType: DummyMessageCache.TryRemoveMessage
+- uid: Disqord.DummyMessageCache.TryRemoveMessages(Snowflake,IEnumerable{Disqord.CachedUserMessage}@)
+  name: TryRemoveMessages(Snowflake, out IEnumerable<CachedUserMessage>)
+  href: api/Disqord.DummyMessageCache.html#Disqord_DummyMessageCache_TryRemoveMessages_Snowflake_IEnumerable_Disqord_CachedUserMessage___
+  commentId: M:Disqord.DummyMessageCache.TryRemoveMessages(Snowflake,IEnumerable{Disqord.CachedUserMessage}@)
+  name.vb: TryRemoveMessages(Snowflake, ByRef IEnumerable(Of CachedUserMessage))
+  fullName: Disqord.DummyMessageCache.TryRemoveMessages(Snowflake, out IEnumerable<Disqord.CachedUserMessage>)
+  fullName.vb: Disqord.DummyMessageCache.TryRemoveMessages(Snowflake, ByRef IEnumerable(Of Disqord.CachedUserMessage))
+  nameWithType: DummyMessageCache.TryRemoveMessages(Snowflake, out IEnumerable<CachedUserMessage>)
+  nameWithType.vb: DummyMessageCache.TryRemoveMessages(Snowflake, ByRef IEnumerable(Of CachedUserMessage))
+- uid: Disqord.DummyMessageCache.TryRemoveMessages*
+  name: TryRemoveMessages
+  href: api/Disqord.DummyMessageCache.html#Disqord_DummyMessageCache_TryRemoveMessages_
+  commentId: Overload:Disqord.DummyMessageCache.TryRemoveMessages
+  isSpec: "True"
+  fullName: Disqord.DummyMessageCache.TryRemoveMessages
+  nameWithType: DummyMessageCache.TryRemoveMessages
 - uid: Disqord.Embed
   name: Embed
   href: api/Disqord.Embed.html
@@ -24738,6 +24916,23 @@ references:
   fullName.vb: Disqord.Optional(Of T).GetValueOrDefault()
   nameWithType: Optional<T>.GetValueOrDefault()
   nameWithType.vb: Optional(Of T).GetValueOrDefault()
+- uid: Disqord.Optional`1.GetValueOrDefault(`0)
+  name: GetValueOrDefault(T)
+  href: api/Disqord.Optional-1.html#Disqord_Optional_1_GetValueOrDefault__0_
+  commentId: M:Disqord.Optional`1.GetValueOrDefault(`0)
+  fullName: Disqord.Optional<T>.GetValueOrDefault(T)
+  fullName.vb: Disqord.Optional(Of T).GetValueOrDefault(T)
+  nameWithType: Optional<T>.GetValueOrDefault(T)
+  nameWithType.vb: Optional(Of T).GetValueOrDefault(T)
+- uid: Disqord.Optional`1.GetValueOrDefault(Func{`0})
+  name: GetValueOrDefault(Func<T>)
+  href: api/Disqord.Optional-1.html#Disqord_Optional_1_GetValueOrDefault_Func__0__
+  commentId: M:Disqord.Optional`1.GetValueOrDefault(Func{`0})
+  name.vb: GetValueOrDefault(Func(Of T))
+  fullName: Disqord.Optional<T>.GetValueOrDefault(Func<T>)
+  fullName.vb: Disqord.Optional(Of T).GetValueOrDefault(Func(Of T))
+  nameWithType: Optional<T>.GetValueOrDefault(Func<T>)
+  nameWithType.vb: Optional(Of T).GetValueOrDefault(Func(Of T))
 - uid: Disqord.Optional`1.GetValueOrDefault*
   name: GetValueOrDefault
   href: api/Disqord.Optional-1.html#Disqord_Optional_1_GetValueOrDefault_
@@ -24747,6 +24942,15 @@ references:
   fullName.vb: Disqord.Optional(Of T).GetValueOrDefault
   nameWithType: Optional<T>.GetValueOrDefault
   nameWithType.vb: Optional(Of T).GetValueOrDefault
+- uid: Disqord.Optional`1.GetValueOrDefault``1(Func{``0,`0},``0)
+  name: GetValueOrDefault<TState>(Func<TState, T>, TState)
+  href: api/Disqord.Optional-1.html#Disqord_Optional_1_GetValueOrDefault__1_Func___0__0____0_
+  commentId: M:Disqord.Optional`1.GetValueOrDefault``1(Func{``0,`0},``0)
+  name.vb: GetValueOrDefault(Of TState)(Func(Of TState, T), TState)
+  fullName: Disqord.Optional<T>.GetValueOrDefault<TState>(Func<TState, T>, TState)
+  fullName.vb: Disqord.Optional(Of T).GetValueOrDefault(Of TState)(Func(Of TState, T), TState)
+  nameWithType: Optional<T>.GetValueOrDefault<TState>(Func<TState, T>, TState)
+  nameWithType.vb: Optional(Of T).GetValueOrDefault(Of TState)(Func(Of TState, T), TState)
 - uid: Disqord.Optional`1.HasValue
   name: HasValue
   href: api/Disqord.Optional-1.html#Disqord_Optional_1_HasValue
@@ -29839,12 +30043,12 @@ references:
   commentId: T:Disqord.Rest.RestDiscordClient
   fullName: Disqord.Rest.RestDiscordClient
   nameWithType: RestDiscordClient
-- uid: Disqord.Rest.RestDiscordClient.#ctor(Disqord.TokenType,System.String,Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)
-  name: RestDiscordClient(TokenType, String, ILogger, IJsonSerializer)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient__ctor_Disqord_TokenType_System_String_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_
-  commentId: M:Disqord.Rest.RestDiscordClient.#ctor(Disqord.TokenType,System.String,Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)
-  fullName: Disqord.Rest.RestDiscordClient.RestDiscordClient(Disqord.TokenType, System.String, Disqord.Logging.ILogger, Disqord.Serialization.Json.IJsonSerializer)
-  nameWithType: RestDiscordClient.RestDiscordClient(TokenType, String, ILogger, IJsonSerializer)
+- uid: Disqord.Rest.RestDiscordClient.#ctor(Disqord.TokenType,System.String,Disqord.Rest.RestDiscordClientConfiguration)
+  name: RestDiscordClient(TokenType, String, RestDiscordClientConfiguration)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient__ctor_Disqord_TokenType_System_String_Disqord_Rest_RestDiscordClientConfiguration_
+  commentId: M:Disqord.Rest.RestDiscordClient.#ctor(Disqord.TokenType,System.String,Disqord.Rest.RestDiscordClientConfiguration)
+  fullName: Disqord.Rest.RestDiscordClient.RestDiscordClient(Disqord.TokenType, System.String, Disqord.Rest.RestDiscordClientConfiguration)
+  nameWithType: RestDiscordClient.RestDiscordClient(TokenType, String, RestDiscordClientConfiguration)
 - uid: Disqord.Rest.RestDiscordClient.#ctor*
   name: RestDiscordClient
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient__ctor_
@@ -30084,12 +30288,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.CreateWebhookAsync
   nameWithType: RestDiscordClient.CreateWebhookAsync
-- uid: Disqord.Rest.RestDiscordClient.CreateWithoutAuthorization(Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)
-  name: CreateWithoutAuthorization(ILogger, IJsonSerializer)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_CreateWithoutAuthorization_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_
-  commentId: M:Disqord.Rest.RestDiscordClient.CreateWithoutAuthorization(Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)
-  fullName: Disqord.Rest.RestDiscordClient.CreateWithoutAuthorization(Disqord.Logging.ILogger, Disqord.Serialization.Json.IJsonSerializer)
-  nameWithType: RestDiscordClient.CreateWithoutAuthorization(ILogger, IJsonSerializer)
+- uid: Disqord.Rest.RestDiscordClient.CreateWithoutAuthorization(Disqord.Rest.RestDiscordClientConfiguration)
+  name: CreateWithoutAuthorization(RestDiscordClientConfiguration)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_CreateWithoutAuthorization_Disqord_Rest_RestDiscordClientConfiguration_
+  commentId: M:Disqord.Rest.RestDiscordClient.CreateWithoutAuthorization(Disqord.Rest.RestDiscordClientConfiguration)
+  fullName: Disqord.Rest.RestDiscordClient.CreateWithoutAuthorization(Disqord.Rest.RestDiscordClientConfiguration)
+  nameWithType: RestDiscordClient.CreateWithoutAuthorization(RestDiscordClientConfiguration)
 - uid: Disqord.Rest.RestDiscordClient.CreateWithoutAuthorization*
   name: CreateWithoutAuthorization
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_CreateWithoutAuthorization_
@@ -31509,6 +31713,38 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.UnpinMessageAsync
   nameWithType: RestDiscordClient.UnpinMessageAsync
+- uid: Disqord.Rest.RestDiscordClientConfiguration
+  name: RestDiscordClientConfiguration
+  href: api/Disqord.Rest.RestDiscordClientConfiguration.html
+  commentId: T:Disqord.Rest.RestDiscordClientConfiguration
+  fullName: Disqord.Rest.RestDiscordClientConfiguration
+  nameWithType: RestDiscordClientConfiguration
+- uid: Disqord.Rest.RestDiscordClientConfiguration.Logger
+  name: Logger
+  href: api/Disqord.Rest.RestDiscordClientConfiguration.html#Disqord_Rest_RestDiscordClientConfiguration_Logger
+  commentId: P:Disqord.Rest.RestDiscordClientConfiguration.Logger
+  fullName: Disqord.Rest.RestDiscordClientConfiguration.Logger
+  nameWithType: RestDiscordClientConfiguration.Logger
+- uid: Disqord.Rest.RestDiscordClientConfiguration.Logger*
+  name: Logger
+  href: api/Disqord.Rest.RestDiscordClientConfiguration.html#Disqord_Rest_RestDiscordClientConfiguration_Logger_
+  commentId: Overload:Disqord.Rest.RestDiscordClientConfiguration.Logger
+  isSpec: "True"
+  fullName: Disqord.Rest.RestDiscordClientConfiguration.Logger
+  nameWithType: RestDiscordClientConfiguration.Logger
+- uid: Disqord.Rest.RestDiscordClientConfiguration.Serializer
+  name: Serializer
+  href: api/Disqord.Rest.RestDiscordClientConfiguration.html#Disqord_Rest_RestDiscordClientConfiguration_Serializer
+  commentId: P:Disqord.Rest.RestDiscordClientConfiguration.Serializer
+  fullName: Disqord.Rest.RestDiscordClientConfiguration.Serializer
+  nameWithType: RestDiscordClientConfiguration.Serializer
+- uid: Disqord.Rest.RestDiscordClientConfiguration.Serializer*
+  name: Serializer
+  href: api/Disqord.Rest.RestDiscordClientConfiguration.html#Disqord_Rest_RestDiscordClientConfiguration_Serializer_
+  commentId: Overload:Disqord.Rest.RestDiscordClientConfiguration.Serializer
+  isSpec: "True"
+  fullName: Disqord.Rest.RestDiscordClientConfiguration.Serializer
+  nameWithType: RestDiscordClientConfiguration.Serializer
 - uid: Disqord.Rest.RestDiscordEntity
   name: RestDiscordEntity
   href: api/Disqord.Rest.RestDiscordEntity.html
@@ -31798,19 +32034,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestGatewayBotResponse.ResetAfter
   nameWithType: RestGatewayBotResponse.ResetAfter
-- uid: Disqord.Rest.RestGatewayBotResponse.ShardAmount
-  name: ShardAmount
-  href: api/Disqord.Rest.RestGatewayBotResponse.html#Disqord_Rest_RestGatewayBotResponse_ShardAmount
-  commentId: P:Disqord.Rest.RestGatewayBotResponse.ShardAmount
-  fullName: Disqord.Rest.RestGatewayBotResponse.ShardAmount
-  nameWithType: RestGatewayBotResponse.ShardAmount
-- uid: Disqord.Rest.RestGatewayBotResponse.ShardAmount*
-  name: ShardAmount
-  href: api/Disqord.Rest.RestGatewayBotResponse.html#Disqord_Rest_RestGatewayBotResponse_ShardAmount_
-  commentId: Overload:Disqord.Rest.RestGatewayBotResponse.ShardAmount
+- uid: Disqord.Rest.RestGatewayBotResponse.ShardCount
+  name: ShardCount
+  href: api/Disqord.Rest.RestGatewayBotResponse.html#Disqord_Rest_RestGatewayBotResponse_ShardCount
+  commentId: P:Disqord.Rest.RestGatewayBotResponse.ShardCount
+  fullName: Disqord.Rest.RestGatewayBotResponse.ShardCount
+  nameWithType: RestGatewayBotResponse.ShardCount
+- uid: Disqord.Rest.RestGatewayBotResponse.ShardCount*
+  name: ShardCount
+  href: api/Disqord.Rest.RestGatewayBotResponse.html#Disqord_Rest_RestGatewayBotResponse_ShardCount_
+  commentId: Overload:Disqord.Rest.RestGatewayBotResponse.ShardCount
   isSpec: "True"
-  fullName: Disqord.Rest.RestGatewayBotResponse.ShardAmount
-  nameWithType: RestGatewayBotResponse.ShardAmount
+  fullName: Disqord.Rest.RestGatewayBotResponse.ShardCount
+  nameWithType: RestGatewayBotResponse.ShardCount
 - uid: Disqord.Rest.RestGatewayBotResponse.Url
   name: Url
   href: api/Disqord.Rest.RestGatewayBotResponse.html#Disqord_Rest_RestGatewayBotResponse_Url
@@ -38430,18 +38666,18 @@ references:
   commentId: T:Disqord.Sharding.DiscordSharder
   fullName: Disqord.Sharding.DiscordSharder
   nameWithType: DiscordSharder
-- uid: Disqord.Sharding.DiscordSharder.#ctor(Disqord.Rest.RestDiscordClient,Disqord.DiscordClientConfiguration)
-  name: DiscordSharder(RestDiscordClient, DiscordClientConfiguration)
-  href: api/Disqord.Sharding.DiscordSharder.html#Disqord_Sharding_DiscordSharder__ctor_Disqord_Rest_RestDiscordClient_Disqord_DiscordClientConfiguration_
-  commentId: M:Disqord.Sharding.DiscordSharder.#ctor(Disqord.Rest.RestDiscordClient,Disqord.DiscordClientConfiguration)
-  fullName: Disqord.Sharding.DiscordSharder.DiscordSharder(Disqord.Rest.RestDiscordClient, Disqord.DiscordClientConfiguration)
-  nameWithType: DiscordSharder.DiscordSharder(RestDiscordClient, DiscordClientConfiguration)
-- uid: Disqord.Sharding.DiscordSharder.#ctor(Disqord.TokenType,System.String,Disqord.DiscordClientConfiguration)
-  name: DiscordSharder(TokenType, String, DiscordClientConfiguration)
-  href: api/Disqord.Sharding.DiscordSharder.html#Disqord_Sharding_DiscordSharder__ctor_Disqord_TokenType_System_String_Disqord_DiscordClientConfiguration_
-  commentId: M:Disqord.Sharding.DiscordSharder.#ctor(Disqord.TokenType,System.String,Disqord.DiscordClientConfiguration)
-  fullName: Disqord.Sharding.DiscordSharder.DiscordSharder(Disqord.TokenType, System.String, Disqord.DiscordClientConfiguration)
-  nameWithType: DiscordSharder.DiscordSharder(TokenType, String, DiscordClientConfiguration)
+- uid: Disqord.Sharding.DiscordSharder.#ctor(Disqord.Rest.RestDiscordClient,Disqord.Sharding.DiscordSharderConfiguration)
+  name: DiscordSharder(RestDiscordClient, DiscordSharderConfiguration)
+  href: api/Disqord.Sharding.DiscordSharder.html#Disqord_Sharding_DiscordSharder__ctor_Disqord_Rest_RestDiscordClient_Disqord_Sharding_DiscordSharderConfiguration_
+  commentId: M:Disqord.Sharding.DiscordSharder.#ctor(Disqord.Rest.RestDiscordClient,Disqord.Sharding.DiscordSharderConfiguration)
+  fullName: Disqord.Sharding.DiscordSharder.DiscordSharder(Disqord.Rest.RestDiscordClient, Disqord.Sharding.DiscordSharderConfiguration)
+  nameWithType: DiscordSharder.DiscordSharder(RestDiscordClient, DiscordSharderConfiguration)
+- uid: Disqord.Sharding.DiscordSharder.#ctor(Disqord.TokenType,System.String,Disqord.Sharding.DiscordSharderConfiguration)
+  name: DiscordSharder(TokenType, String, DiscordSharderConfiguration)
+  href: api/Disqord.Sharding.DiscordSharder.html#Disqord_Sharding_DiscordSharder__ctor_Disqord_TokenType_System_String_Disqord_Sharding_DiscordSharderConfiguration_
+  commentId: M:Disqord.Sharding.DiscordSharder.#ctor(Disqord.TokenType,System.String,Disqord.Sharding.DiscordSharderConfiguration)
+  fullName: Disqord.Sharding.DiscordSharder.DiscordSharder(Disqord.TokenType, System.String, Disqord.Sharding.DiscordSharderConfiguration)
+  nameWithType: DiscordSharder.DiscordSharder(TokenType, String, DiscordSharderConfiguration)
 - uid: Disqord.Sharding.DiscordSharder.#ctor*
   name: DiscordSharder
   href: api/Disqord.Sharding.DiscordSharder.html#Disqord_Sharding_DiscordSharder__ctor_
@@ -38526,63 +38762,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Sharding.DiscordSharder.SetPresenceAsync
   nameWithType: DiscordSharder.SetPresenceAsync
-- uid: Disqord.Sharding.DiscordSharder.Shard
-  name: DiscordSharder.Shard
-  href: api/Disqord.Sharding.DiscordSharder.Shard.html
-  commentId: T:Disqord.Sharding.DiscordSharder.Shard
-  fullName: Disqord.Sharding.DiscordSharder.Shard
-  nameWithType: DiscordSharder.Shard
-- uid: Disqord.Sharding.DiscordSharder.Shard.Guilds
-  name: Guilds
-  href: api/Disqord.Sharding.DiscordSharder.Shard.html#Disqord_Sharding_DiscordSharder_Shard_Guilds
-  commentId: P:Disqord.Sharding.DiscordSharder.Shard.Guilds
-  fullName: Disqord.Sharding.DiscordSharder.Shard.Guilds
-  nameWithType: DiscordSharder.Shard.Guilds
-- uid: Disqord.Sharding.DiscordSharder.Shard.Guilds*
-  name: Guilds
-  href: api/Disqord.Sharding.DiscordSharder.Shard.html#Disqord_Sharding_DiscordSharder_Shard_Guilds_
-  commentId: Overload:Disqord.Sharding.DiscordSharder.Shard.Guilds
-  isSpec: "True"
-  fullName: Disqord.Sharding.DiscordSharder.Shard.Guilds
-  nameWithType: DiscordSharder.Shard.Guilds
-- uid: Disqord.Sharding.DiscordSharder.Shard.SetPresenceAsync(Disqord.LocalActivity)
-  name: SetPresenceAsync(LocalActivity)
-  href: api/Disqord.Sharding.DiscordSharder.Shard.html#Disqord_Sharding_DiscordSharder_Shard_SetPresenceAsync_Disqord_LocalActivity_
-  commentId: M:Disqord.Sharding.DiscordSharder.Shard.SetPresenceAsync(Disqord.LocalActivity)
-  fullName: Disqord.Sharding.DiscordSharder.Shard.SetPresenceAsync(Disqord.LocalActivity)
-  nameWithType: DiscordSharder.Shard.SetPresenceAsync(LocalActivity)
-- uid: Disqord.Sharding.DiscordSharder.Shard.SetPresenceAsync(Disqord.UserStatus)
-  name: SetPresenceAsync(UserStatus)
-  href: api/Disqord.Sharding.DiscordSharder.Shard.html#Disqord_Sharding_DiscordSharder_Shard_SetPresenceAsync_Disqord_UserStatus_
-  commentId: M:Disqord.Sharding.DiscordSharder.Shard.SetPresenceAsync(Disqord.UserStatus)
-  fullName: Disqord.Sharding.DiscordSharder.Shard.SetPresenceAsync(Disqord.UserStatus)
-  nameWithType: DiscordSharder.Shard.SetPresenceAsync(UserStatus)
-- uid: Disqord.Sharding.DiscordSharder.Shard.SetPresenceAsync(Disqord.UserStatus,Disqord.LocalActivity)
-  name: SetPresenceAsync(UserStatus, LocalActivity)
-  href: api/Disqord.Sharding.DiscordSharder.Shard.html#Disqord_Sharding_DiscordSharder_Shard_SetPresenceAsync_Disqord_UserStatus_Disqord_LocalActivity_
-  commentId: M:Disqord.Sharding.DiscordSharder.Shard.SetPresenceAsync(Disqord.UserStatus,Disqord.LocalActivity)
-  fullName: Disqord.Sharding.DiscordSharder.Shard.SetPresenceAsync(Disqord.UserStatus, Disqord.LocalActivity)
-  nameWithType: DiscordSharder.Shard.SetPresenceAsync(UserStatus, LocalActivity)
-- uid: Disqord.Sharding.DiscordSharder.Shard.SetPresenceAsync*
-  name: SetPresenceAsync
-  href: api/Disqord.Sharding.DiscordSharder.Shard.html#Disqord_Sharding_DiscordSharder_Shard_SetPresenceAsync_
-  commentId: Overload:Disqord.Sharding.DiscordSharder.Shard.SetPresenceAsync
-  isSpec: "True"
-  fullName: Disqord.Sharding.DiscordSharder.Shard.SetPresenceAsync
-  nameWithType: DiscordSharder.Shard.SetPresenceAsync
-- uid: Disqord.Sharding.DiscordSharder.Shard.ShardId
-  name: ShardId
-  href: api/Disqord.Sharding.DiscordSharder.Shard.html#Disqord_Sharding_DiscordSharder_Shard_ShardId
-  commentId: P:Disqord.Sharding.DiscordSharder.Shard.ShardId
-  fullName: Disqord.Sharding.DiscordSharder.Shard.ShardId
-  nameWithType: DiscordSharder.Shard.ShardId
-- uid: Disqord.Sharding.DiscordSharder.Shard.ShardId*
-  name: ShardId
-  href: api/Disqord.Sharding.DiscordSharder.Shard.html#Disqord_Sharding_DiscordSharder_Shard_ShardId_
-  commentId: Overload:Disqord.Sharding.DiscordSharder.Shard.ShardId
-  isSpec: "True"
-  fullName: Disqord.Sharding.DiscordSharder.Shard.ShardId
-  nameWithType: DiscordSharder.Shard.ShardId
+- uid: Disqord.Sharding.DiscordSharder.ShardReady
+  name: ShardReady
+  href: api/Disqord.Sharding.DiscordSharder.html#Disqord_Sharding_DiscordSharder_ShardReady
+  commentId: E:Disqord.Sharding.DiscordSharder.ShardReady
+  fullName: Disqord.Sharding.DiscordSharder.ShardReady
+  nameWithType: DiscordSharder.ShardReady
 - uid: Disqord.Sharding.DiscordSharder.Shards
   name: Shards
   href: api/Disqord.Sharding.DiscordSharder.html#Disqord_Sharding_DiscordSharder_Shards
@@ -38615,6 +38800,32 @@ references:
   commentId: T:Disqord.Sharding.DiscordSharderConfiguration
   fullName: Disqord.Sharding.DiscordSharderConfiguration
   nameWithType: DiscordSharderConfiguration
+- uid: Disqord.Sharding.DiscordSharderConfiguration.#ctor
+  name: DiscordSharderConfiguration()
+  href: api/Disqord.Sharding.DiscordSharderConfiguration.html#Disqord_Sharding_DiscordSharderConfiguration__ctor
+  commentId: M:Disqord.Sharding.DiscordSharderConfiguration.#ctor
+  fullName: Disqord.Sharding.DiscordSharderConfiguration.DiscordSharderConfiguration()
+  nameWithType: DiscordSharderConfiguration.DiscordSharderConfiguration()
+- uid: Disqord.Sharding.DiscordSharderConfiguration.#ctor*
+  name: DiscordSharderConfiguration
+  href: api/Disqord.Sharding.DiscordSharderConfiguration.html#Disqord_Sharding_DiscordSharderConfiguration__ctor_
+  commentId: Overload:Disqord.Sharding.DiscordSharderConfiguration.#ctor
+  isSpec: "True"
+  fullName: Disqord.Sharding.DiscordSharderConfiguration.DiscordSharderConfiguration
+  nameWithType: DiscordSharderConfiguration.DiscordSharderConfiguration
+- uid: Disqord.Sharding.DiscordSharderConfiguration.ShardCount
+  name: ShardCount
+  href: api/Disqord.Sharding.DiscordSharderConfiguration.html#Disqord_Sharding_DiscordSharderConfiguration_ShardCount
+  commentId: P:Disqord.Sharding.DiscordSharderConfiguration.ShardCount
+  fullName: Disqord.Sharding.DiscordSharderConfiguration.ShardCount
+  nameWithType: DiscordSharderConfiguration.ShardCount
+- uid: Disqord.Sharding.DiscordSharderConfiguration.ShardCount*
+  name: ShardCount
+  href: api/Disqord.Sharding.DiscordSharderConfiguration.html#Disqord_Sharding_DiscordSharderConfiguration_ShardCount_
+  commentId: Overload:Disqord.Sharding.DiscordSharderConfiguration.ShardCount
+  isSpec: "True"
+  fullName: Disqord.Sharding.DiscordSharderConfiguration.ShardCount
+  nameWithType: DiscordSharderConfiguration.ShardCount
 - uid: Disqord.Sharding.IDiscordSharder
   name: IDiscordSharder
   href: api/Disqord.Sharding.IDiscordSharder.html
@@ -38634,6 +38845,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Sharding.IDiscordSharder.GetShardId
   nameWithType: IDiscordSharder.GetShardId
+- uid: Disqord.Sharding.IDiscordSharder.ShardReady
+  name: ShardReady
+  href: api/Disqord.Sharding.IDiscordSharder.html#Disqord_Sharding_IDiscordSharder_ShardReady
+  commentId: E:Disqord.Sharding.IDiscordSharder.ShardReady
+  fullName: Disqord.Sharding.IDiscordSharder.ShardReady
+  nameWithType: IDiscordSharder.ShardReady
 - uid: Disqord.Sharding.IDiscordSharder.Shards
   name: Shards
   href: api/Disqord.Sharding.IDiscordSharder.html#Disqord_Sharding_IDiscordSharder_Shards
@@ -38647,6 +38864,95 @@ references:
   isSpec: "True"
   fullName: Disqord.Sharding.IDiscordSharder.Shards
   nameWithType: IDiscordSharder.Shards
+- uid: Disqord.Sharding.Shard
+  name: Shard
+  href: api/Disqord.Sharding.Shard.html
+  commentId: T:Disqord.Sharding.Shard
+  fullName: Disqord.Sharding.Shard
+  nameWithType: Shard
+- uid: Disqord.Sharding.Shard.Guilds
+  name: Guilds
+  href: api/Disqord.Sharding.Shard.html#Disqord_Sharding_Shard_Guilds
+  commentId: P:Disqord.Sharding.Shard.Guilds
+  fullName: Disqord.Sharding.Shard.Guilds
+  nameWithType: Shard.Guilds
+- uid: Disqord.Sharding.Shard.Guilds*
+  name: Guilds
+  href: api/Disqord.Sharding.Shard.html#Disqord_Sharding_Shard_Guilds_
+  commentId: Overload:Disqord.Sharding.Shard.Guilds
+  isSpec: "True"
+  fullName: Disqord.Sharding.Shard.Guilds
+  nameWithType: Shard.Guilds
+- uid: Disqord.Sharding.Shard.Id
+  name: Id
+  href: api/Disqord.Sharding.Shard.html#Disqord_Sharding_Shard_Id
+  commentId: P:Disqord.Sharding.Shard.Id
+  fullName: Disqord.Sharding.Shard.Id
+  nameWithType: Shard.Id
+- uid: Disqord.Sharding.Shard.Id*
+  name: Id
+  href: api/Disqord.Sharding.Shard.html#Disqord_Sharding_Shard_Id_
+  commentId: Overload:Disqord.Sharding.Shard.Id
+  isSpec: "True"
+  fullName: Disqord.Sharding.Shard.Id
+  nameWithType: Shard.Id
+- uid: Disqord.Sharding.Shard.Latency
+  name: Latency
+  href: api/Disqord.Sharding.Shard.html#Disqord_Sharding_Shard_Latency
+  commentId: P:Disqord.Sharding.Shard.Latency
+  fullName: Disqord.Sharding.Shard.Latency
+  nameWithType: Shard.Latency
+- uid: Disqord.Sharding.Shard.Latency*
+  name: Latency
+  href: api/Disqord.Sharding.Shard.html#Disqord_Sharding_Shard_Latency_
+  commentId: Overload:Disqord.Sharding.Shard.Latency
+  isSpec: "True"
+  fullName: Disqord.Sharding.Shard.Latency
+  nameWithType: Shard.Latency
+- uid: Disqord.Sharding.Shard.SetPresenceAsync(Disqord.LocalActivity)
+  name: SetPresenceAsync(LocalActivity)
+  href: api/Disqord.Sharding.Shard.html#Disqord_Sharding_Shard_SetPresenceAsync_Disqord_LocalActivity_
+  commentId: M:Disqord.Sharding.Shard.SetPresenceAsync(Disqord.LocalActivity)
+  fullName: Disqord.Sharding.Shard.SetPresenceAsync(Disqord.LocalActivity)
+  nameWithType: Shard.SetPresenceAsync(LocalActivity)
+- uid: Disqord.Sharding.Shard.SetPresenceAsync(Disqord.UserStatus)
+  name: SetPresenceAsync(UserStatus)
+  href: api/Disqord.Sharding.Shard.html#Disqord_Sharding_Shard_SetPresenceAsync_Disqord_UserStatus_
+  commentId: M:Disqord.Sharding.Shard.SetPresenceAsync(Disqord.UserStatus)
+  fullName: Disqord.Sharding.Shard.SetPresenceAsync(Disqord.UserStatus)
+  nameWithType: Shard.SetPresenceAsync(UserStatus)
+- uid: Disqord.Sharding.Shard.SetPresenceAsync(Disqord.UserStatus,Disqord.LocalActivity)
+  name: SetPresenceAsync(UserStatus, LocalActivity)
+  href: api/Disqord.Sharding.Shard.html#Disqord_Sharding_Shard_SetPresenceAsync_Disqord_UserStatus_Disqord_LocalActivity_
+  commentId: M:Disqord.Sharding.Shard.SetPresenceAsync(Disqord.UserStatus,Disqord.LocalActivity)
+  fullName: Disqord.Sharding.Shard.SetPresenceAsync(Disqord.UserStatus, Disqord.LocalActivity)
+  nameWithType: Shard.SetPresenceAsync(UserStatus, LocalActivity)
+- uid: Disqord.Sharding.Shard.SetPresenceAsync*
+  name: SetPresenceAsync
+  href: api/Disqord.Sharding.Shard.html#Disqord_Sharding_Shard_SetPresenceAsync_
+  commentId: Overload:Disqord.Sharding.Shard.SetPresenceAsync
+  isSpec: "True"
+  fullName: Disqord.Sharding.Shard.SetPresenceAsync
+  nameWithType: Shard.SetPresenceAsync
+- uid: Disqord.Sharding.ShardReadyEventArgs
+  name: ShardReadyEventArgs
+  href: api/Disqord.Sharding.ShardReadyEventArgs.html
+  commentId: T:Disqord.Sharding.ShardReadyEventArgs
+  fullName: Disqord.Sharding.ShardReadyEventArgs
+  nameWithType: ShardReadyEventArgs
+- uid: Disqord.Sharding.ShardReadyEventArgs.Shard
+  name: Shard
+  href: api/Disqord.Sharding.ShardReadyEventArgs.html#Disqord_Sharding_ShardReadyEventArgs_Shard
+  commentId: P:Disqord.Sharding.ShardReadyEventArgs.Shard
+  fullName: Disqord.Sharding.ShardReadyEventArgs.Shard
+  nameWithType: ShardReadyEventArgs.Shard
+- uid: Disqord.Sharding.ShardReadyEventArgs.Shard*
+  name: Shard
+  href: api/Disqord.Sharding.ShardReadyEventArgs.html#Disqord_Sharding_ShardReadyEventArgs_Shard_
+  commentId: Overload:Disqord.Sharding.ShardReadyEventArgs.Shard
+  isSpec: "True"
+  fullName: Disqord.Sharding.ShardReadyEventArgs.Shard
+  nameWithType: ShardReadyEventArgs.Shard
 - uid: Disqord.Snowflake
   name: Snowflake
   href: api/Disqord.Snowflake.html

@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class DiscordClientConfiguration
+    <title>Class DiscordClientBaseConfiguration
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class DiscordClientConfiguration
+    <meta name="title" content="Class DiscordClientBaseConfiguration
    ">
     <meta name="generator" content="docfx 2.48.1.0">
     
@@ -68,10 +68,10 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Disqord.DiscordClientConfiguration">
+            <article class="content wrap" id="_content" data-uid="Disqord.DiscordClientBaseConfiguration">
   
   
-  <h1 id="Disqord_DiscordClientConfiguration" data-uid="Disqord.DiscordClientConfiguration" class="text-break">Class DiscordClientConfiguration
+  <h1 id="Disqord_DiscordClientBaseConfiguration" data-uid="Disqord.DiscordClientBaseConfiguration" class="text-break">Class DiscordClientBaseConfiguration
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
@@ -79,21 +79,12 @@
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
     <div class="level1"><a class="xref" href="Disqord.Rest.RestDiscordClientConfiguration.html">RestDiscordClientConfiguration</a></div>
-    <div class="level2"><a class="xref" href="Disqord.DiscordClientBaseConfiguration.html">DiscordClientBaseConfiguration</a></div>
-    <div class="level3"><span class="xref">DiscordClientConfiguration</span></div>
-      <div class="level4"><a class="xref" href="Disqord.DiscordBotConfiguration.html">DiscordBotConfiguration</a></div>
+    <div class="level2"><span class="xref">DiscordClientBaseConfiguration</span></div>
+      <div class="level3"><a class="xref" href="Disqord.DiscordClientConfiguration.html">DiscordClientConfiguration</a></div>
+      <div class="level3"><a class="xref" href="Disqord.Sharding.DiscordSharderConfiguration.html">DiscordSharderConfiguration</a></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_MessageCache">DiscordClientBaseConfiguration.MessageCache</a>
-    </div>
-    <div>
-      <a class="xref" href="Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_Status">DiscordClientBaseConfiguration.Status</a>
-    </div>
-    <div>
-      <a class="xref" href="Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_Activity">DiscordClientBaseConfiguration.Activity</a>
-    </div>
     <div>
       <a class="xref" href="Disqord.Rest.RestDiscordClientConfiguration.html#Disqord_Rest_RestDiscordClientConfiguration_Logger">RestDiscordClientConfiguration.Logger</a>
     </div>
@@ -103,26 +94,28 @@
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Disqord.html">Disqord</a></h6>
   <h6><strong>Assembly</strong>: Disqord.dll</h6>
-  <h5 id="Disqord_DiscordClientConfiguration_syntax">Syntax</h5>
+  <h5 id="Disqord_DiscordClientBaseConfiguration_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class DiscordClientConfiguration : DiscordClientBaseConfiguration</code></pre>
+    <pre><code class="lang-csharp hljs">public abstract class DiscordClientBaseConfiguration : RestDiscordClientConfiguration</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientConfiguration_Default.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientConfiguration.Default%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBaseConfiguration_Activity.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBaseConfiguration.Activity%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/DiscordClientConfiguration.cs/#L9">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBaseConfiguration.cs/#L23">View Source</a>
   </span>
-  <a id="Disqord_DiscordClientConfiguration_Default_" data-uid="Disqord.DiscordClientConfiguration.Default*"></a>
-  <h4 id="Disqord_DiscordClientConfiguration_Default" data-uid="Disqord.DiscordClientConfiguration.Default">Default</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="Disqord_DiscordClientBaseConfiguration_Activity_" data-uid="Disqord.DiscordClientBaseConfiguration.Activity*"></a>
+  <h4 id="Disqord_DiscordClientBaseConfiguration_Activity" data-uid="Disqord.DiscordClientBaseConfiguration.Activity">Activity</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the activity the client should set after connecting.
+If not set, the client will not set any activity.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static DiscordClientConfiguration Default { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public Optional&lt;LocalActivity&gt; Activity { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -134,25 +127,27 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Disqord.DiscordClientConfiguration.html">DiscordClientConfiguration</a></td>
+        <td><span class="xref">Optional</span>&lt;<a class="xref" href="Disqord.LocalActivity.html">LocalActivity</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientConfiguration_ShardCount.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientConfiguration.ShardCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBaseConfiguration_MessageCache.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBaseConfiguration.MessageCache%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/DiscordClientConfiguration.cs/#L7">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBaseConfiguration.cs/#L11">View Source</a>
   </span>
-  <a id="Disqord_DiscordClientConfiguration_ShardCount_" data-uid="Disqord.DiscordClientConfiguration.ShardCount*"></a>
-  <h4 id="Disqord_DiscordClientConfiguration_ShardCount" data-uid="Disqord.DiscordClientConfiguration.ShardCount">ShardCount</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="Disqord_DiscordClientBaseConfiguration_MessageCache_" data-uid="Disqord.DiscordClientBaseConfiguration.MessageCache*"></a>
+  <h4 id="Disqord_DiscordClientBaseConfiguration_MessageCache" data-uid="Disqord.DiscordClientBaseConfiguration.MessageCache">MessageCache</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the <a class="xref" href="Disqord.MessageCache.html">MessageCache</a> the client should use to cache messages.
+If not set, the client will default to <a class="xref" href="Disqord.DefaultMessageCache.html">DefaultMessageCache</a> with the capacity set to 100.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Optional&lt;int&gt; ShardCount { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public Optional&lt;MessageCache&gt; MessageCache { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -164,25 +159,27 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Optional</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a>&gt;</td>
+        <td><span class="xref">Optional</span>&lt;<a class="xref" href="Disqord.MessageCache.html">MessageCache</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientConfiguration_ShardId.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientConfiguration.ShardId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBaseConfiguration_Status.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBaseConfiguration.Status%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/DiscordClientConfiguration.cs/#L5">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBaseConfiguration.cs/#L17">View Source</a>
   </span>
-  <a id="Disqord_DiscordClientConfiguration_ShardId_" data-uid="Disqord.DiscordClientConfiguration.ShardId*"></a>
-  <h4 id="Disqord_DiscordClientConfiguration_ShardId" data-uid="Disqord.DiscordClientConfiguration.ShardId">ShardId</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="Disqord_DiscordClientBaseConfiguration_Status_" data-uid="Disqord.DiscordClientBaseConfiguration.Status*"></a>
+  <h4 id="Disqord_DiscordClientBaseConfiguration_Status" data-uid="Disqord.DiscordClientBaseConfiguration.Status">Status</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the status the client should set after connecting.
+If not set, the client will default to <a class="xref" href="Disqord.UserStatus.html#Disqord_UserStatus_Online">Online</a>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Optional&lt;int&gt; ShardId { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public Optional&lt;UserStatus&gt; Status { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -194,7 +191,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Optional</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a>&gt;</td>
+        <td><span class="xref">Optional</span>&lt;<a class="xref" href="Disqord.UserStatus.html">UserStatus</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -207,10 +204,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientConfiguration.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientConfiguration%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_DiscordClientBaseConfiguration.md&amp;value=---%0Auid%3A%20Disqord.DiscordClientBaseConfiguration%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/DiscordClientConfiguration.cs/#L3" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Base/DiscordClientBaseConfiguration.cs/#L5" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

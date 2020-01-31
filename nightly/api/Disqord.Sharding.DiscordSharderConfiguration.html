@@ -78,42 +78,87 @@
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
-    <div class="level1"><a class="xref" href="Disqord.DiscordClientConfiguration.html">DiscordClientConfiguration</a></div>
-    <div class="level2"><span class="xref">DiscordSharderConfiguration</span></div>
+    <div class="level1"><a class="xref" href="Disqord.Rest.RestDiscordClientConfiguration.html">RestDiscordClientConfiguration</a></div>
+    <div class="level2"><a class="xref" href="Disqord.DiscordClientBaseConfiguration.html">DiscordClientBaseConfiguration</a></div>
+    <div class="level3"><span class="xref">DiscordSharderConfiguration</span></div>
+      <div class="level4"><a class="xref" href="Disqord.Bot.Sharding.DiscordBotSharderConfiguration.html">DiscordBotSharderConfiguration</a></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_MessageCache">DiscordClientConfiguration.MessageCache</a>
+      <a class="xref" href="Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_MessageCache">DiscordClientBaseConfiguration.MessageCache</a>
     </div>
     <div>
-      <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_ShardId">DiscordClientConfiguration.ShardId</a>
+      <a class="xref" href="Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_Status">DiscordClientBaseConfiguration.Status</a>
     </div>
     <div>
-      <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_ShardCount">DiscordClientConfiguration.ShardCount</a>
+      <a class="xref" href="Disqord.DiscordClientBaseConfiguration.html#Disqord_DiscordClientBaseConfiguration_Activity">DiscordClientBaseConfiguration.Activity</a>
     </div>
     <div>
-      <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Status">DiscordClientConfiguration.Status</a>
+      <a class="xref" href="Disqord.Rest.RestDiscordClientConfiguration.html#Disqord_Rest_RestDiscordClientConfiguration_Logger">RestDiscordClientConfiguration.Logger</a>
     </div>
     <div>
-      <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Activity">DiscordClientConfiguration.Activity</a>
-    </div>
-    <div>
-      <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Logger">DiscordClientConfiguration.Logger</a>
-    </div>
-    <div>
-      <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Serializer">DiscordClientConfiguration.Serializer</a>
-    </div>
-    <div>
-      <a class="xref" href="Disqord.DiscordClientConfiguration.html#Disqord_DiscordClientConfiguration_Default">DiscordClientConfiguration.Default</a>
+      <a class="xref" href="Disqord.Rest.RestDiscordClientConfiguration.html#Disqord_Rest_RestDiscordClientConfiguration_Serializer">RestDiscordClientConfiguration.Serializer</a>
     </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Disqord.Sharding.html">Disqord.Sharding</a></h6>
   <h6><strong>Assembly</strong>: Disqord.dll</h6>
   <h5 id="Disqord_Sharding_DiscordSharderConfiguration_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public sealed class DiscordSharderConfiguration : DiscordClientConfiguration</code></pre>
+    <pre><code class="lang-csharp hljs">public class DiscordSharderConfiguration : DiscordClientBaseConfiguration</code></pre>
   </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharderConfiguration__ctor.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharderConfiguration.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharderConfiguration.cs/#L27">View Source</a>
+  </span>
+  <a id="Disqord_Sharding_DiscordSharderConfiguration__ctor_" data-uid="Disqord.Sharding.DiscordSharderConfiguration.#ctor*"></a>
+  <h4 id="Disqord_Sharding_DiscordSharderConfiguration__ctor" data-uid="Disqord.Sharding.DiscordSharderConfiguration.#ctor">DiscordSharderConfiguration()</h4>
+  <div class="markdown level1 summary"><p>Instantiates a new <a class="xref" href="Disqord.Sharding.DiscordSharderConfiguration.html">DiscordSharderConfiguration</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DiscordSharderConfiguration()</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharderConfiguration_ShardCount.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharderConfiguration.ShardCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharderConfiguration.cs/#L11">View Source</a>
+  </span>
+  <a id="Disqord_Sharding_DiscordSharderConfiguration_ShardCount_" data-uid="Disqord.Sharding.DiscordSharderConfiguration.ShardCount*"></a>
+  <h4 id="Disqord_Sharding_DiscordSharderConfiguration_ShardCount" data-uid="Disqord.Sharding.DiscordSharderConfiguration.ShardCount">ShardCount</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the optional shard count.
+If this is set, the sharder will use it instead of the shard count recommended by Discord.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Optional&lt;int&gt; ShardCount { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Optional</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           
@@ -125,7 +170,7 @@
                     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Sharding_DiscordSharderConfiguration.md&amp;value=---%0Auid%3A%20Disqord.Sharding.DiscordSharderConfiguration%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharderConfiguration.cs/#L3" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord/Client/Sharding/DiscordSharderConfiguration.cs/#L5" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

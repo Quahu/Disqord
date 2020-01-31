@@ -95,18 +95,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestDiscordClient__ctor_Disqord_TokenType_System_String_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestDiscordClient.%23ctor(Disqord.TokenType%2CSystem.String%2CDisqord.Logging.ILogger%2CDisqord.Serialization.Json.IJsonSerializer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestDiscordClient__ctor_Disqord_TokenType_System_String_Disqord_Rest_RestDiscordClientConfiguration_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestDiscordClient.%23ctor(Disqord.TokenType%2CSystem.String%2CDisqord.Rest.RestDiscordClientConfiguration)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Rest/RestDiscordClient.cs/#L70">View Source</a>
   </span>
   <a id="Disqord_Rest_RestDiscordClient__ctor_" data-uid="Disqord.Rest.RestDiscordClient.#ctor*"></a>
-  <h4 id="Disqord_Rest_RestDiscordClient__ctor_Disqord_TokenType_System_String_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_" data-uid="Disqord.Rest.RestDiscordClient.#ctor(Disqord.TokenType,System.String,Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)">RestDiscordClient(TokenType, String, ILogger, IJsonSerializer)</h4>
+  <h4 id="Disqord_Rest_RestDiscordClient__ctor_Disqord_TokenType_System_String_Disqord_Rest_RestDiscordClientConfiguration_" data-uid="Disqord.Rest.RestDiscordClient.#ctor(Disqord.TokenType,System.String,Disqord.Rest.RestDiscordClientConfiguration)">RestDiscordClient(TokenType, String, RestDiscordClientConfiguration)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RestDiscordClient(TokenType tokenType, string token, ILogger logger = null, IJsonSerializer serializer = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public RestDiscordClient(TokenType tokenType, string token, RestDiscordClientConfiguration configuration = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -129,13 +129,8 @@
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="Disqord.Logging.ILogger.html">ILogger</a></td>
-        <td><span class="parametername">logger</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Disqord.Serialization.Json.IJsonSerializer.html">IJsonSerializer</a></td>
-        <td><span class="parametername">serializer</span></td>
+        <td><a class="xref" href="Disqord.Rest.RestDiscordClientConfiguration.html">RestDiscordClientConfiguration</a></td>
+        <td><span class="parametername">configuration</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -213,7 +208,7 @@
   <h4 id="Disqord_Rest_RestDiscordClient_HasAuthorization" data-uid="Disqord.Rest.RestDiscordClient.HasAuthorization">HasAuthorization</h4>
   <div class="markdown level1 summary"><p>Gets whether this client has an authorization token.
 Returns <span class="xref">true</span> for all normal clients and for logged in
-clients created using <a class="xref" href="Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_CreateWithoutAuthorization_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_">CreateWithoutAuthorization(ILogger, IJsonSerializer)</a>.</p>
+clients created using <a class="xref" href="Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_CreateWithoutAuthorization_Disqord_Rest_RestDiscordClientConfiguration_">CreateWithoutAuthorization(RestDiscordClientConfiguration)</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -1395,19 +1390,19 @@ Will throw an exception, if <a class="xref" href="Disqord.Rest.RestDiscordClient
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestDiscordClient_CreateWithoutAuthorization_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestDiscordClient.CreateWithoutAuthorization(Disqord.Logging.ILogger%2CDisqord.Serialization.Json.IJsonSerializer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestDiscordClient_CreateWithoutAuthorization_Disqord_Rest_RestDiscordClientConfiguration_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestDiscordClient.CreateWithoutAuthorization(Disqord.Rest.RestDiscordClientConfiguration)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Rest/RestDiscordClient.cs/#L49">View Source</a>
   </span>
   <a id="Disqord_Rest_RestDiscordClient_CreateWithoutAuthorization_" data-uid="Disqord.Rest.RestDiscordClient.CreateWithoutAuthorization*"></a>
-  <h4 id="Disqord_Rest_RestDiscordClient_CreateWithoutAuthorization_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_" data-uid="Disqord.Rest.RestDiscordClient.CreateWithoutAuthorization(Disqord.Logging.ILogger,Disqord.Serialization.Json.IJsonSerializer)">CreateWithoutAuthorization(ILogger, IJsonSerializer)</h4>
+  <h4 id="Disqord_Rest_RestDiscordClient_CreateWithoutAuthorization_Disqord_Rest_RestDiscordClientConfiguration_" data-uid="Disqord.Rest.RestDiscordClient.CreateWithoutAuthorization(Disqord.Rest.RestDiscordClientConfiguration)">CreateWithoutAuthorization(RestDiscordClientConfiguration)</h4>
   <div class="markdown level1 summary"><p>Initialises a new <a class="xref" href="Disqord.Rest.RestDiscordClient.html">RestDiscordClient</a> without authorization.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static RestDiscordClient CreateWithoutAuthorization(ILogger logger = null, IJsonSerializer serializer = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public static RestDiscordClient CreateWithoutAuthorization(RestDiscordClientConfiguration configuration = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1420,13 +1415,8 @@ Will throw an exception, if <a class="xref" href="Disqord.Rest.RestDiscordClient
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Disqord.Logging.ILogger.html">ILogger</a></td>
-        <td><span class="parametername">logger</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Disqord.Serialization.Json.IJsonSerializer.html">IJsonSerializer</a></td>
-        <td><span class="parametername">serializer</span></td>
+        <td><a class="xref" href="Disqord.Rest.RestDiscordClientConfiguration.html">RestDiscordClientConfiguration</a></td>
+        <td><span class="parametername">configuration</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -4788,7 +4778,7 @@ Will throw an exception, if <a class="xref" href="Disqord.Rest.RestDiscordClient
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Rest_RestDiscordClient_GetVoiceRegionsAsync_Disqord_Rest_RestRequestOptions_.md&amp;value=---%0Auid%3A%20Disqord.Rest.RestDiscordClient.GetVoiceRegionsAsync(Disqord.Rest.RestRequestOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Rest/RestDiscordClient.Voice.cs/#L10">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Client/Rest/RestDiscordClient.Voice.cs/#L9">View Source</a>
   </span>
   <a id="Disqord_Rest_RestDiscordClient_GetVoiceRegionsAsync_" data-uid="Disqord.Rest.RestDiscordClient.GetVoiceRegionsAsync*"></a>
   <h4 id="Disqord_Rest_RestDiscordClient_GetVoiceRegionsAsync_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestDiscordClient.GetVoiceRegionsAsync(Disqord.Rest.RestRequestOptions)">GetVoiceRegionsAsync(RestRequestOptions)</h4>
@@ -5224,7 +5214,7 @@ Will throw an exception, if <a class="xref" href="Disqord.Rest.RestDiscordClient
   <a id="Disqord_Rest_RestDiscordClient_LoginAsync_" data-uid="Disqord.Rest.RestDiscordClient.LoginAsync*"></a>
   <h4 id="Disqord_Rest_RestDiscordClient_LoginAsync_System_String_System_String_Disqord_Rest_RestRequestOptions_" data-uid="Disqord.Rest.RestDiscordClient.LoginAsync(System.String,System.String,Disqord.Rest.RestRequestOptions)">LoginAsync(String, String, RestRequestOptions)</h4>
   <div class="markdown level1 summary"><p>Performs a user account login using the provided <code data-dev-comment-type="paramref" class="paramref">email</code> and <code data-dev-comment-type="paramref" class="paramref">password</code>.
-This method can only be used with a <a class="xref" href="Disqord.Rest.RestDiscordClient.html">RestDiscordClient</a> that was created using <a class="xref" href="Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_CreateWithoutAuthorization_Disqord_Logging_ILogger_Disqord_Serialization_Json_IJsonSerializer_">CreateWithoutAuthorization(ILogger, IJsonSerializer)</a>.
+This method can only be used with a <a class="xref" href="Disqord.Rest.RestDiscordClient.html">RestDiscordClient</a> that was created using <see cref="!:CreateWithoutAuthorization(ILogger, IJsonSerializer)"></see>.
 If MFA is enabled, you must specify the <a class="xref" href="Disqord.Rest.RestRequestOptions.html#Disqord_Rest_RestRequestOptions_MfaCode">MfaCode</a>.
 This method does not support captcha.</p>
 </div>
