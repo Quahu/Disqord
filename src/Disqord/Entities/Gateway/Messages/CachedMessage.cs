@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Disqord.Collections;
 using Disqord.Models;
 
@@ -19,9 +18,7 @@ namespace Disqord
 
         public IReadOnlyDictionary<IEmoji, ReactionData> Reactions => _reactions.ReadOnly();
 
-        public string JumpUrl => Guild != null
-            ? $"https://discordapp.com/channels/{Guild.Id}/{Channel.Id}/{Id}"
-            : $"https://discordapp.com/channels/@me/{Channel.Id}/{Id}";
+        public string JumpUrl => Discord.MessageJumpLink(Guild?.Id, Channel.Id, Id);
 
         internal readonly LockedDictionary<IEmoji, ReactionData> _reactions;
 
@@ -38,14 +35,11 @@ namespace Disqord
                 : 0);
         }
 
-        internal static CachedMessage Create(ICachedMessageChannel channel, CachedUser author, MessageModel model)
+        internal static CachedMessage Create(ICachedMessageChannel channel, CachedUser author, MessageModel model) => model.Type switch
         {
-            return model.Type switch
-            {
-                MessageType.Default => new CachedUserMessage(channel, author, model),
-                _ => new CachedSystemMessage(channel, author, model),
-            };
-        }
+            MessageType.Default => new CachedUserMessage(channel, author, model),
+            _ => new CachedSystemMessage(channel, author, model),
+        };
 
         internal virtual void Update(MessageModel model)
         {

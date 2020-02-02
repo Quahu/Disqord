@@ -321,8 +321,12 @@ namespace Disqord
             return MentionEscapeRegex.Replace(input, x => $"@\u200b{x.Groups[1]}");
         }
 
-        public static readonly Regex JumpLinkRegex = new Regex(
+        public static readonly Regex MessageJumpLinkRegex = new Regex(
             @"^https?://(?:(ptb|canary)\.)?discordapp\.com/channels/(?<guild_id>([0-9]{15,21})|(@me))/(?<channel_id>[0-9]{15,21})/(?<message_id>[0-9]{15,21})/?$",
             RegexOptions.Compiled);
+
+        public static string MessageJumpLink(Snowflake? guildId, Snowflake channelId, Snowflake messageId) => guildId != null
+            ? $"https://discordapp.com/channels/{guildId}/{channelId}/{messageId}"
+            : $"https://discordapp.com/channels/@me/{channelId}/{messageId}";
     }
 }
