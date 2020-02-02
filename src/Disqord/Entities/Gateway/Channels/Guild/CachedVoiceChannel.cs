@@ -8,7 +8,7 @@ namespace Disqord
     {
         public int Bitrate { get; private set; }
 
-        public int UserLimit { get; private set; }
+        public int MemberLimit { get; private set; }
 
         public IReadOnlyDictionary<Snowflake, CachedMember> Members
             => new ReadOnlyValuePredicateArgumentDictionary<Snowflake, CachedMember, Snowflake>(
@@ -25,7 +25,7 @@ namespace Disqord
                 Bitrate = model.Bitrate.Value;
 
             if (model.UserLimit.HasValue)
-                UserLimit = model.UserLimit.Value;
+                MemberLimit = model.UserLimit.Value;
 
             base.Update(model);
         }

@@ -2,7 +2,7 @@
 {
     public partial interface IVoiceChannel : INestedChannel
     {
-        int UserLimit { get; }
+        int MemberLimit { get; }
 
         int Bitrate { get; }
     }

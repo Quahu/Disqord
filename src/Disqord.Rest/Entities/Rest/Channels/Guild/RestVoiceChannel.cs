@@ -6,7 +6,7 @@ namespace Disqord.Rest
     {
         public int Bitrate { get; private set; }
 
-        public int UserLimit { get; private set; }
+        public int MemberLimit { get; private set; }
 
         internal RestVoiceChannel(RestDiscordClient client, ChannelModel model) : base(client, model)
         {
@@ -16,7 +16,7 @@ namespace Disqord.Rest
         internal override void Update(ChannelModel model)
         {
             Bitrate = model.Bitrate.Value;
-            UserLimit = model.UserLimit.Value;
+            MemberLimit = model.UserLimit.Value;
 
             base.Update(model);
         }
