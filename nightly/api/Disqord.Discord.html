@@ -150,17 +150,17 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Discord_JumpLinkRegex.md&amp;value=---%0Auid%3A%20Disqord.Discord.JumpLinkRegex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Discord_MessageJumpLinkRegex.md&amp;value=---%0Auid%3A%20Disqord.Discord.MessageJumpLinkRegex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Utilities/Discord.cs/#L324">View Source</a>
   </span>
-  <h4 id="Disqord_Discord_JumpLinkRegex" data-uid="Disqord.Discord.JumpLinkRegex">JumpLinkRegex</h4>
+  <h4 id="Disqord_Discord_MessageJumpLinkRegex" data-uid="Disqord.Discord.MessageJumpLinkRegex">MessageJumpLinkRegex</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static readonly Regex JumpLinkRegex</code></pre>
+    <pre><code class="lang-csharp hljs">public static readonly Regex MessageJumpLinkRegex</code></pre>
   </div>
   <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1161,6 +1161,63 @@
       <tr>
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
         <td><span class="parametername">hasNick</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Discord_MessageJumpLink_System_Nullable_Disqord_Snowflake__Disqord_Snowflake_Disqord_Snowflake_.md&amp;value=---%0Auid%3A%20Disqord.Discord.MessageJumpLink(System.Nullable%7BDisqord.Snowflake%7D%2CDisqord.Snowflake%2CDisqord.Snowflake)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Utilities/Discord.cs/#L328">View Source</a>
+  </span>
+  <a id="Disqord_Discord_MessageJumpLink_" data-uid="Disqord.Discord.MessageJumpLink*"></a>
+  <h4 id="Disqord_Discord_MessageJumpLink_System_Nullable_Disqord_Snowflake__Disqord_Snowflake_Disqord_Snowflake_" data-uid="Disqord.Discord.MessageJumpLink(System.Nullable{Disqord.Snowflake},Disqord.Snowflake,Disqord.Snowflake)">MessageJumpLink(Nullable&lt;Snowflake&gt;, Snowflake, Snowflake)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string MessageJumpLink(Snowflake? guildId, Snowflake channelId, Snowflake messageId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<a class="xref" href="Disqord.Snowflake.html">Snowflake</a>&gt;</td>
+        <td><span class="parametername">guildId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Snowflake.html">Snowflake</a></td>
+        <td><span class="parametername">channelId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Disqord.Snowflake.html">Snowflake</a></td>
+        <td><span class="parametername">messageId</span></td>
         <td></td>
       </tr>
     </tbody>

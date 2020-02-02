@@ -7098,6 +7098,19 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedVoiceChannel.Bitrate
   nameWithType: CachedVoiceChannel.Bitrate
+- uid: Disqord.CachedVoiceChannel.MemberLimit
+  name: MemberLimit
+  href: api/Disqord.CachedVoiceChannel.html#Disqord_CachedVoiceChannel_MemberLimit
+  commentId: P:Disqord.CachedVoiceChannel.MemberLimit
+  fullName: Disqord.CachedVoiceChannel.MemberLimit
+  nameWithType: CachedVoiceChannel.MemberLimit
+- uid: Disqord.CachedVoiceChannel.MemberLimit*
+  name: MemberLimit
+  href: api/Disqord.CachedVoiceChannel.html#Disqord_CachedVoiceChannel_MemberLimit_
+  commentId: Overload:Disqord.CachedVoiceChannel.MemberLimit
+  isSpec: "True"
+  fullName: Disqord.CachedVoiceChannel.MemberLimit
+  nameWithType: CachedVoiceChannel.MemberLimit
 - uid: Disqord.CachedVoiceChannel.Members
   name: Members
   href: api/Disqord.CachedVoiceChannel.html#Disqord_CachedVoiceChannel_Members
@@ -7127,19 +7140,6 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedVoiceChannel.ModifyAsync
   nameWithType: CachedVoiceChannel.ModifyAsync
-- uid: Disqord.CachedVoiceChannel.UserLimit
-  name: UserLimit
-  href: api/Disqord.CachedVoiceChannel.html#Disqord_CachedVoiceChannel_UserLimit
-  commentId: P:Disqord.CachedVoiceChannel.UserLimit
-  fullName: Disqord.CachedVoiceChannel.UserLimit
-  nameWithType: CachedVoiceChannel.UserLimit
-- uid: Disqord.CachedVoiceChannel.UserLimit*
-  name: UserLimit
-  href: api/Disqord.CachedVoiceChannel.html#Disqord_CachedVoiceChannel_UserLimit_
-  commentId: Overload:Disqord.CachedVoiceChannel.UserLimit
-  isSpec: "True"
-  fullName: Disqord.CachedVoiceChannel.UserLimit
-  nameWithType: CachedVoiceChannel.UserLimit
 - uid: Disqord.ChannelPermissions
   name: ChannelPermissions
   href: api/Disqord.ChannelPermissions.html
@@ -10637,12 +10637,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Discord.GetUserAvatarUrl
   nameWithType: Discord.GetUserAvatarUrl
-- uid: Disqord.Discord.JumpLinkRegex
-  name: JumpLinkRegex
-  href: api/Disqord.Discord.html#Disqord_Discord_JumpLinkRegex
-  commentId: F:Disqord.Discord.JumpLinkRegex
-  fullName: Disqord.Discord.JumpLinkRegex
-  nameWithType: Discord.JumpLinkRegex
 - uid: Disqord.Discord.MentionChannel(Disqord.ITextChannel)
   name: MentionChannel(ITextChannel)
   href: api/Disqord.Discord.html#Disqord_Discord_MentionChannel_Disqord_ITextChannel_
@@ -10706,6 +10700,28 @@ references:
   isSpec: "True"
   fullName: Disqord.Discord.MentionUser
   nameWithType: Discord.MentionUser
+- uid: Disqord.Discord.MessageJumpLink(System.Nullable{Disqord.Snowflake},Disqord.Snowflake,Disqord.Snowflake)
+  name: MessageJumpLink(Nullable<Snowflake>, Snowflake, Snowflake)
+  href: api/Disqord.Discord.html#Disqord_Discord_MessageJumpLink_System_Nullable_Disqord_Snowflake__Disqord_Snowflake_Disqord_Snowflake_
+  commentId: M:Disqord.Discord.MessageJumpLink(System.Nullable{Disqord.Snowflake},Disqord.Snowflake,Disqord.Snowflake)
+  name.vb: MessageJumpLink(Nullable(Of Snowflake), Snowflake, Snowflake)
+  fullName: Disqord.Discord.MessageJumpLink(System.Nullable<Disqord.Snowflake>, Disqord.Snowflake, Disqord.Snowflake)
+  fullName.vb: Disqord.Discord.MessageJumpLink(System.Nullable(Of Disqord.Snowflake), Disqord.Snowflake, Disqord.Snowflake)
+  nameWithType: Discord.MessageJumpLink(Nullable<Snowflake>, Snowflake, Snowflake)
+  nameWithType.vb: Discord.MessageJumpLink(Nullable(Of Snowflake), Snowflake, Snowflake)
+- uid: Disqord.Discord.MessageJumpLink*
+  name: MessageJumpLink
+  href: api/Disqord.Discord.html#Disqord_Discord_MessageJumpLink_
+  commentId: Overload:Disqord.Discord.MessageJumpLink
+  isSpec: "True"
+  fullName: Disqord.Discord.MessageJumpLink
+  nameWithType: Discord.MessageJumpLink
+- uid: Disqord.Discord.MessageJumpLinkRegex
+  name: MessageJumpLinkRegex
+  href: api/Disqord.Discord.html#Disqord_Discord_MessageJumpLinkRegex
+  commentId: F:Disqord.Discord.MessageJumpLinkRegex
+  fullName: Disqord.Discord.MessageJumpLinkRegex
+  nameWithType: Discord.MessageJumpLinkRegex
 - uid: Disqord.Discord.ParseChannelMentions(Disqord.IUserMessage)
   name: ParseChannelMentions(IUserMessage)
   href: api/Disqord.Discord.html#Disqord_Discord_ParseChannelMentions_Disqord_IUserMessage_
@@ -21115,6 +21131,19 @@ references:
   isSpec: "True"
   fullName: Disqord.IVoiceChannel.Bitrate
   nameWithType: IVoiceChannel.Bitrate
+- uid: Disqord.IVoiceChannel.MemberLimit
+  name: MemberLimit
+  href: api/Disqord.IVoiceChannel.html#Disqord_IVoiceChannel_MemberLimit
+  commentId: P:Disqord.IVoiceChannel.MemberLimit
+  fullName: Disqord.IVoiceChannel.MemberLimit
+  nameWithType: IVoiceChannel.MemberLimit
+- uid: Disqord.IVoiceChannel.MemberLimit*
+  name: MemberLimit
+  href: api/Disqord.IVoiceChannel.html#Disqord_IVoiceChannel_MemberLimit_
+  commentId: Overload:Disqord.IVoiceChannel.MemberLimit
+  isSpec: "True"
+  fullName: Disqord.IVoiceChannel.MemberLimit
+  nameWithType: IVoiceChannel.MemberLimit
 - uid: Disqord.IVoiceChannel.ModifyAsync(Action{Disqord.ModifyVoiceChannelProperties},Disqord.Rest.RestRequestOptions)
   name: ModifyAsync(Action<ModifyVoiceChannelProperties>, RestRequestOptions)
   href: api/Disqord.IVoiceChannel.html#Disqord_IVoiceChannel_ModifyAsync_Action_Disqord_ModifyVoiceChannelProperties__Disqord_Rest_RestRequestOptions_
@@ -21131,19 +21160,6 @@ references:
   isSpec: "True"
   fullName: Disqord.IVoiceChannel.ModifyAsync
   nameWithType: IVoiceChannel.ModifyAsync
-- uid: Disqord.IVoiceChannel.UserLimit
-  name: UserLimit
-  href: api/Disqord.IVoiceChannel.html#Disqord_IVoiceChannel_UserLimit
-  commentId: P:Disqord.IVoiceChannel.UserLimit
-  fullName: Disqord.IVoiceChannel.UserLimit
-  nameWithType: IVoiceChannel.UserLimit
-- uid: Disqord.IVoiceChannel.UserLimit*
-  name: UserLimit
-  href: api/Disqord.IVoiceChannel.html#Disqord_IVoiceChannel_UserLimit_
-  commentId: Overload:Disqord.IVoiceChannel.UserLimit
-  isSpec: "True"
-  fullName: Disqord.IVoiceChannel.UserLimit
-  nameWithType: IVoiceChannel.UserLimit
 - uid: Disqord.Library
   name: Library
   href: api/Disqord.Library.html
@@ -37384,6 +37400,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestVoiceChannel.Bitrate
   nameWithType: RestVoiceChannel.Bitrate
+- uid: Disqord.Rest.RestVoiceChannel.MemberLimit
+  name: MemberLimit
+  href: api/Disqord.Rest.RestVoiceChannel.html#Disqord_Rest_RestVoiceChannel_MemberLimit
+  commentId: P:Disqord.Rest.RestVoiceChannel.MemberLimit
+  fullName: Disqord.Rest.RestVoiceChannel.MemberLimit
+  nameWithType: RestVoiceChannel.MemberLimit
+- uid: Disqord.Rest.RestVoiceChannel.MemberLimit*
+  name: MemberLimit
+  href: api/Disqord.Rest.RestVoiceChannel.html#Disqord_Rest_RestVoiceChannel_MemberLimit_
+  commentId: Overload:Disqord.Rest.RestVoiceChannel.MemberLimit
+  isSpec: "True"
+  fullName: Disqord.Rest.RestVoiceChannel.MemberLimit
+  nameWithType: RestVoiceChannel.MemberLimit
 - uid: Disqord.Rest.RestVoiceChannel.ModifyAsync(Action{Disqord.ModifyVoiceChannelProperties},Disqord.Rest.RestRequestOptions)
   name: ModifyAsync(Action<ModifyVoiceChannelProperties>, RestRequestOptions)
   href: api/Disqord.Rest.RestVoiceChannel.html#Disqord_Rest_RestVoiceChannel_ModifyAsync_Action_Disqord_ModifyVoiceChannelProperties__Disqord_Rest_RestRequestOptions_
@@ -37400,19 +37429,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestVoiceChannel.ModifyAsync
   nameWithType: RestVoiceChannel.ModifyAsync
-- uid: Disqord.Rest.RestVoiceChannel.UserLimit
-  name: UserLimit
-  href: api/Disqord.Rest.RestVoiceChannel.html#Disqord_Rest_RestVoiceChannel_UserLimit
-  commentId: P:Disqord.Rest.RestVoiceChannel.UserLimit
-  fullName: Disqord.Rest.RestVoiceChannel.UserLimit
-  nameWithType: RestVoiceChannel.UserLimit
-- uid: Disqord.Rest.RestVoiceChannel.UserLimit*
-  name: UserLimit
-  href: api/Disqord.Rest.RestVoiceChannel.html#Disqord_Rest_RestVoiceChannel_UserLimit_
-  commentId: Overload:Disqord.Rest.RestVoiceChannel.UserLimit
-  isSpec: "True"
-  fullName: Disqord.Rest.RestVoiceChannel.UserLimit
-  nameWithType: RestVoiceChannel.UserLimit
 - uid: Disqord.Rest.RestVoiceRegion
   name: RestVoiceRegion
   href: api/Disqord.Rest.RestVoiceRegion.html
