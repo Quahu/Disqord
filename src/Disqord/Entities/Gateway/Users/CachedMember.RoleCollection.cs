@@ -21,16 +21,7 @@ namespace Disqord
                 }
             }
 
-            public ICollection<Snowflake> Keys
-            {
-                get
-                {
-                    lock (_ids)
-                    {
-                        return _ids.ToArray();
-                    }
-                }
-            }
+            public ICollection<Snowflake> Keys => _ids.Locked(_ids);
 
             public ICollection<CachedRole> Values => this.Select(x => x.Value).ToArray();
 
@@ -123,7 +114,7 @@ namespace Disqord
                     }
                 }
 
-                return LockedEnumerator.Create(GetEnumerable(this).GetEnumerator(), _ids);
+                return GetEnumerable(this).GetEnumerator().Locked(_ids);
             }
 
             IEnumerator IEnumerable.GetEnumerator()

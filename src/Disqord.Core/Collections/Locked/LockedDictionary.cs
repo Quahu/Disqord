@@ -6,33 +6,9 @@ namespace Disqord.Collections
 {
     internal sealed class LockedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
     {
-        public ICollection<TKey> Keys
-        {
-            get
-            {
-                lock (_lock)
-                {
-                    ICollection<TKey> keys = _dictionary.Keys;
-                    var array = new TKey[keys.Count];
-                    keys.CopyTo(array, 0);
-                    return array;
-                }
-            }
-        }
+        public ICollection<TKey> Keys => _dictionary.Keys.Locked(_lock);
 
-        public ICollection<TValue> Values
-        {
-            get
-            {
-                lock (_lock)
-                {
-                    ICollection<TValue> values = _dictionary.Values;
-                    var array = new TValue[values.Count];
-                    values.CopyTo(array, 0);
-                    return array;
-                }
-            }
-        }
+        public ICollection<TValue> Values => _dictionary.Values.Locked(_lock);
 
         public int Count
         {
@@ -44,8 +20,6 @@ namespace Disqord.Collections
                 }
             }
         }
-
-        bool ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly => false;
 
         public TValue this[TKey key]
         {
@@ -65,9 +39,10 @@ namespace Disqord.Collections
             }
         }
 
-        private readonly object _lock;
         private readonly Dictionary<TKey, TValue> _dictionary;
+        private readonly object _lock;
 
+        bool ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly => false;
         IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => Keys;
         IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => Values;
 
@@ -76,8 +51,8 @@ namespace Disqord.Collections
 
         public LockedDictionary(int capacity)
         {
-            _lock = new object();
             _dictionary = new Dictionary<TKey, TValue>(capacity);
+            _lock = new object();
         }
 
         public LockedDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection)
@@ -216,7 +191,7 @@ namespace Disqord.Collections
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-            => LockedEnumerator.Create(_dictionary.GetEnumerator(), _lock);
+            => _dictionary.GetEnumerator().Locked(_lock);
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
