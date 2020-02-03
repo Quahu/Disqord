@@ -165,7 +165,7 @@ namespace Disqord
             _roles = new LockedDictionary<Snowflake, CachedRole>(model.Roles.Value.Length);
             _emojis = new LockedDictionary<Snowflake, CachedGuildEmoji>(model.Emojis.Value.Length);
             _channels = new LockedDictionary<Snowflake, CachedGuildChannel>(model.Channels.Length);
-            _members = new LockedDictionary<Snowflake, CachedMember>(model.Members.Length);
+            _members = new LockedDictionary<Snowflake, CachedMember>(model.MemberCount);
 
             Update(model);
             if (client.IsBot && IsLarge)

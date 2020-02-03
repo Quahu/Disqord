@@ -42,7 +42,8 @@ namespace Disqord
             public RoleCollection(CachedGuild guild, ulong[] ids)
             {
                 _guild = guild;
-                _ids = new List<Snowflake>(ids.Length);
+                _ids = new List<Snowflake>(ids.Length + 1);
+                _ids.Add(guild.Id);
                 for (var i = 0; i < ids.Length; i++)
                 {
                     var id = ids[i];

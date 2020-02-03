@@ -89,12 +89,12 @@ namespace Disqord
                 }
             });
 
-        internal Task SendHeartbeatAsync()
+        internal Task SendHeartbeatAsync(CancellationToken cancellationToken)
             => SendAsync(new PayloadModel
             {
                 Op = GatewayOperationCode.Heartbeat,
                 D = _lastSequenceNumber
-            }, _heartbeatCts.Token);
+            }, cancellationToken);
 
         internal async Task SendIdentifyAsync()
         {
@@ -116,6 +116,19 @@ namespace Disqord
                 }
             }).ConfigureAwait(false);
         }
+
+        internal Task SendVoiceStateUpdateAsync(ulong guildId, ulong channelId, bool muted, bool deafened)
+            => SendAsync(new PayloadModel
+            {
+                Op = GatewayOperationCode.VoiceStateUpdate,
+                D = new VoiceStateModel
+                {
+                    GuildId = guildId,
+                    ChannelId = channelId,
+                    Mute = muted,
+                    Deaf = deafened
+                }
+            });
 
         internal Task SendPresenceAsync(CancellationToken cancellationToken = default)
             => SendAsync(new PayloadModel

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Logging;
 using Disqord.Models;
@@ -30,7 +31,7 @@ namespace Disqord
                 case GatewayOperationCode.Heartbeat:
                 {
                     Log(LogMessageSeverity.Debug, "Heartbeat requested. Sending...");
-                    await SendHeartbeatAsync().ConfigureAwait(false);
+                    await SendHeartbeatAsync(CancellationToken.None).ConfigureAwait(false);
                     break;
                 }
 

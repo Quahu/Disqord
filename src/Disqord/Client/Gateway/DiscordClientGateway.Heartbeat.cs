@@ -24,12 +24,13 @@ namespace Disqord
             catch { }
             _heartbeatCts?.Dispose();
             _heartbeatCts = new CancellationTokenSource();
-            while (!_heartbeatCts.IsCancellationRequested)
+            var token = _heartbeatCts.Token;
+            while (!token.IsCancellationRequested)
             {
                 Log(LogMessageSeverity.Debug, $"Heartbeat: delaying for {_heartbeatInterval}ms.");
                 try
                 {
-                    await Task.Delay(_heartbeatInterval, _heartbeatCts.Token).ConfigureAwait(false);
+                    await Task.Delay(_heartbeatInterval, token).ConfigureAwait(false);
                 }
                 catch (Exception ex) when (ex is TaskCanceledException || ex is ObjectDisposedException)
                 {
@@ -39,11 +40,11 @@ namespace Disqord
 
                 Log(LogMessageSeverity.Debug, "Heartbeat: Sending...");
                 var success = false;
-                while (!success && !_heartbeatCts.IsCancellationRequested)
+                while (!success && !token.IsCancellationRequested)
                 {
                     try
                     {
-                        await SendHeartbeatAsync().ConfigureAwait(false);
+                        await SendHeartbeatAsync(token).ConfigureAwait(false);
                         _lastHeartbeatSend = DateTimeOffset.UtcNow;
                         success = true;
                     }
