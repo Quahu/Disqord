@@ -87,6 +87,9 @@ namespace Disqord.Extensions.Interactivity
 
         public async Task<MessageReceivedEventArgs> WaitForMessageAsync(Predicate<MessageReceivedEventArgs> predicate, TimeSpan timeout = default)
         {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
             timeout = timeout == default
                 ? DefaultMessageTimeout
                 : timeout;
@@ -94,9 +97,15 @@ namespace Disqord.Extensions.Interactivity
             var tcs = new TaskCompletionSource<MessageReceivedEventArgs>();
             Task CheckAsync(MessageReceivedEventArgs e)
             {
-                if (predicate(e))
-                    tcs.SetResult(e);
+                var invocationList = predicate.GetInvocationList();
+                for (var i = 0; i < invocationList.Length; i++)
+                {
+                    var predicate = (Predicate<MessageReceivedEventArgs>) invocationList[i];
+                    if (!predicate(e))
+                        return Task.CompletedTask;
+                }
 
+                tcs.SetResult(e);
                 return Task.CompletedTask;
             }
 
@@ -113,6 +122,9 @@ namespace Disqord.Extensions.Interactivity
 
         public async Task<ReactionAddedEventArgs> WaitForReactionAsync(Predicate<ReactionAddedEventArgs> predicate, TimeSpan timeout = default)
         {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
             timeout = timeout == default
                 ? DefaultReactionTimeout
                 : timeout;
@@ -120,9 +132,15 @@ namespace Disqord.Extensions.Interactivity
             var tcs = new TaskCompletionSource<ReactionAddedEventArgs>();
             Task CheckAsync(ReactionAddedEventArgs e)
             {
-                if (predicate(e))
-                    tcs.SetResult(e);
+                var invocationList = predicate.GetInvocationList();
+                for (var i = 0; i < invocationList.Length; i++)
+                {
+                    var predicate = (Predicate<ReactionAddedEventArgs>) invocationList[i];
+                    if (!predicate(e))
+                        return Task.CompletedTask;
+                }
 
+                tcs.SetResult(e);
                 return Task.CompletedTask;
             }
 
