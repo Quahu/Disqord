@@ -53,7 +53,6 @@ namespace Disqord.Extensions.Interactivity.Menus
                         throw new InvalidOperationException("A button callback must return Task.");
 
                     var parameters = method.GetParameters();
-                    // TODO: probably shouldn't add more checks here like refs
                     if (parameters.Length != 1 || parameters[0].ParameterType != typeof(ButtonEventArgs))
                         throw new InvalidOperationException("A button callback must contain a single ButtonEventArgs parameter.");
 

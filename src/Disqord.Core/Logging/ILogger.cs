@@ -2,7 +2,6 @@
 
 namespace Disqord.Logging
 {
-    // TODO: disposable?
     public interface ILogger
     {
         event EventHandler<MessageLoggedEventArgs> MessageLogged;
