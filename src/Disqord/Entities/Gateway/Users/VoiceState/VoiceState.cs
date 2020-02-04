@@ -4,7 +4,7 @@ namespace Disqord
 {
     public sealed class VoiceState
     {
-        public string SessionId { get; }
+        public string SessionId { get; private set; }
 
         public Snowflake ChannelId { get; private set; }
 
@@ -24,7 +24,6 @@ namespace Disqord
 
         internal VoiceState(VoiceStateModel model)
         {
-            SessionId = model.SessionId.Value;
             Update(model);
         }
 
@@ -53,6 +52,9 @@ namespace Disqord
 
             if (model.Suppress.HasValue)
                 IsSuppressed = model.Suppress.Value;
+
+            if (model.SessionId.HasValue)
+                SessionId = model.SessionId.Value;
         }
 
         internal VoiceState Clone()
