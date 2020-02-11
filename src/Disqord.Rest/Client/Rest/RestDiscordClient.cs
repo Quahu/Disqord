@@ -51,7 +51,7 @@ namespace Disqord.Rest
 
         private RestDiscordClient(TokenType? optionalTokenType, string token, RestDiscordClientConfiguration configuration = null)
         {
-            ApiClient = new RestDiscordApiClient(optionalTokenType, token, configuration);
+            ApiClient = new RestDiscordApiClient(optionalTokenType, token, configuration ?? new RestDiscordClientConfiguration());
             CurrentUser = RestFetchable.Create(this, async (@this, options) =>
             {
                 var model = await @this.ApiClient.GetCurrentUserAsync(options).ConfigureAwait(false);

@@ -13,11 +13,11 @@ namespace Disqord.Sharding
         private readonly int _shardCount;
 
         public DiscordSharder(TokenType tokenType, string token, DiscordSharderConfiguration configuration = null)
-            : this(new RestDiscordClient(tokenType, token, configuration), configuration)
+            : this(new RestDiscordClient(tokenType, token, configuration ??= new DiscordSharderConfiguration()), configuration)
         { }
 
         public DiscordSharder(RestDiscordClient restClient, DiscordSharderConfiguration configuration = null)
-            : base(restClient, configuration)
+            : base(restClient, configuration ??= new DiscordSharderConfiguration())
         {
             if (!IsBot)
                 throw new ArgumentException("Only bots support sharding.", nameof(restClient));

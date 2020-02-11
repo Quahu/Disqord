@@ -6,11 +6,11 @@ namespace Disqord.Bot
     public class DiscordBot : DiscordBotBase
     {
         public DiscordBot(RestDiscordClient restClient, IPrefixProvider prefixProvider, DiscordBotConfiguration configuration = null)
-            : base(new DiscordClient(restClient, configuration), prefixProvider, configuration)
+            : base(new DiscordClient(restClient, configuration ??= new DiscordBotConfiguration()), prefixProvider, configuration)
         { }
 
         public DiscordBot(TokenType tokenType, string token, IPrefixProvider prefixProvider, DiscordBotConfiguration configuration = null)
-            : base(new DiscordClient(tokenType, token, configuration), prefixProvider, configuration)
+            : base(new DiscordClient(tokenType, token, configuration ??= new DiscordBotConfiguration()), prefixProvider, configuration)
         { }
     }
 }

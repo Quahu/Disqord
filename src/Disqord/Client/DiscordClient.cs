@@ -6,14 +6,12 @@ namespace Disqord
     public partial class DiscordClient : DiscordClientBase
     {
         public DiscordClient(TokenType tokenType, string token, DiscordClientConfiguration configuration = null)
-            : this(new RestDiscordClient(tokenType, token, configuration), configuration)
+            : this(new RestDiscordClient(tokenType, token, configuration ??= new DiscordClientConfiguration()), configuration)
         { }
 
         public DiscordClient(RestDiscordClient restClient, DiscordClientConfiguration configuration = null)
-            : base(restClient, configuration)
+            : base(restClient, configuration ??= new DiscordClientConfiguration())
         {
-            configuration = configuration ?? DiscordClientConfiguration.Default;
-
             var shards = configuration.ShardId.HasValue && configuration.ShardCount.HasValue
                 ? ((int, int)?) (configuration.ShardId.Value, configuration.ShardCount.Value)
                 : null;

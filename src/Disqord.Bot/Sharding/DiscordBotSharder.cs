@@ -10,11 +10,11 @@ namespace Disqord.Bot.Sharding
         public IReadOnlyList<Shard> Shards => (_client as DiscordSharder).Shards;
 
         public DiscordBotSharder(TokenType tokenType, string token, IPrefixProvider prefixProvider, DiscordBotSharderConfiguration configuration = null)
-            : base(new DiscordSharder(tokenType, token, configuration), prefixProvider, configuration)
+            : base(new DiscordSharder(tokenType, token, configuration ??= new DiscordBotSharderConfiguration()), prefixProvider, configuration)
         { }
 
         public DiscordBotSharder(RestDiscordClient restClient, IPrefixProvider prefixProvider, DiscordBotSharderConfiguration configuration = null)
-            : base(new DiscordSharder(restClient, configuration), prefixProvider, configuration)
+            : base(new DiscordSharder(restClient, configuration ??= new DiscordBotSharderConfiguration()), prefixProvider, configuration)
         { }
 
         public int GetShardId(Snowflake guildId)
