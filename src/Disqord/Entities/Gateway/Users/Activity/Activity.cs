@@ -18,7 +18,7 @@ namespace Disqord
         {
             Name = model.Name;
             Type = model.Type;
-            CreatedAt = DateTimeOffset.FromUnixTimeMilliseconds(model.CreatedAt);
+            CreatedAt = DateTimeOffset.FromUnixTimeMilliseconds(model.CreatedAt.Value);
         }
 
         internal static Activity Create(ActivityModel model)

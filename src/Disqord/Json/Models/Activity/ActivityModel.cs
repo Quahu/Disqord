@@ -10,8 +10,8 @@ namespace Disqord.Models
         [JsonProperty("type")]
         public ActivityType Type { get; set; }
 
-        [JsonProperty("created_at")]
-        public long CreatedAt { get; set; }
+        [JsonProperty("created_at", NullValueHandling.Ignore)]
+        public long? CreatedAt { get; set; }
 
         [JsonProperty("url", NullValueHandling.Ignore)]
         public string Url { get; set; }
@@ -38,7 +38,7 @@ namespace Disqord.Models
         public SecretsModel Secrets { get; set; }
 
         [JsonProperty("instance", NullValueHandling.Ignore)]
-        public bool Instance { get; set; }
+        public bool? Instance { get; set; }
 
         [JsonProperty("sync_id", NullValueHandling.Ignore)]
         public string SyncId { get; set; }

@@ -82,7 +82,7 @@ namespace Disqord
                 return Task.CompletedTask;
 
             if (user.Presence?.Activity != null && model.Game != null
-                && user.Presence.Activity.CreatedAt == DateTimeOffset.FromUnixTimeMilliseconds(model.Game.CreatedAt))
+                && user.Presence.Activity.CreatedAt == DateTimeOffset.FromUnixTimeMilliseconds(model.Game.CreatedAt.Value))
                 return Task.CompletedTask;
 
             user.Update(model);

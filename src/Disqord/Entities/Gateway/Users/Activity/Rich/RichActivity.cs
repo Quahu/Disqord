@@ -82,7 +82,7 @@ namespace Disqord
                 SpectateSecret = model.Secrets.Spectate;
             }
 
-            IsInstance = model.Instance;
+            IsInstance = model.Instance.GetValueOrDefault();
             ApplicationId = model.ApplicationId;
             SyncId = model.SyncId;
             SessionId = model.SessionId;
