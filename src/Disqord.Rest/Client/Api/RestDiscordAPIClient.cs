@@ -137,7 +137,7 @@ namespace Disqord.Rest
                 {
                     case 429: // TODO
                     {
-                        await _rateLimiter.HandleRateLimitedAsync(rateLimit).ConfigureAwait(false);
+                        await _rateLimiter.HandleRateLimitedAsync(request, rateLimit).ConfigureAwait(false);
 
                         if (rateLimit.IsGlobal)
                             await SetExceptionAsync(response, request).ConfigureAwait(false);
@@ -146,8 +146,10 @@ namespace Disqord.Rest
                     }
 
                     default:
+                    {
                         await SetExceptionAsync(response, request).ConfigureAwait(false);
                         break;
+                    }
                 }
             }
             else

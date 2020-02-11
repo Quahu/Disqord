@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Logging;
 
@@ -24,13 +23,21 @@ namespace Disqord.Rest
             bucket.EnqueueRequest(request);
         }
 
-        public async Task HandleRateLimitedAsync(RateLimit rateLimit)
+        public async Task HandleRateLimitedAsync(RestRequest request, RateLimit rateLimit)
         {
-            // TODO
+            // TODO: proper rate-limit handling! (semaphore for global rates? / throw?)
+            //       (also move to Discord's buckets)
             Client.Log(rateLimit.IsGlobal
                 ? LogMessageSeverity.Error
                 : LogMessageSeverity.Warning,
-                $"{(rateLimit.IsGlobal ? "Globally rate" : "Rate")} limited - will be delaying for {rateLimit.ResetsAfter}.");
+                $"{(rateLimit.IsGlobal ? "Globally rate" : "Rate")} limited - will be delaying for {rateLimit.ResetsAfter}{(rateLimit.IsGlobal ? "" : " and resending the request")}.");
+            await Task.Delay(rateLimit.ResetsAfter).ConfigureAwait(false);
+
+            if (!rateLimit.IsGlobal)
+            {
+                request.Initialise(Client.Serializer);
+                await Client.HandleRequestAsync(request).ConfigureAwait(false);
+            }
         }
 
         public static RateLimiter GetOrCreate(RestDiscordApiClient client)
