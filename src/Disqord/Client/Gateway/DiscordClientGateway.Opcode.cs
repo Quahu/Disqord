@@ -83,7 +83,7 @@ namespace Disqord
                     Log(LogMessageSeverity.Debug, "Received Hello...");
                     var data = Serializer.ToObject<HelloModel>(payload.D);
                     _heartbeatInterval = data.HeartbeatInterval;
-                    _ = RunHeartbeatAsync();
+                    _ = Task.Run(RunHeartbeatAsync);
                     if (_resuming)
                     {
                         Log(LogMessageSeverity.Information, "Received Hello after requesting a resume, not identifying.");
