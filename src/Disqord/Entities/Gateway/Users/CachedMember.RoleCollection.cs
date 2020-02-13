@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Disqord.Collections;
 
 namespace Disqord
 {
@@ -21,7 +20,16 @@ namespace Disqord
                 }
             }
 
-            public ICollection<Snowflake> Keys => _ids.Locked(_ids);
+            public ICollection<Snowflake> Keys
+            {
+                get
+                {
+                    lock (_ids)
+                    {
+                        return _ids.ToArray();
+                    }
+                }
+            }
 
             public ICollection<CachedRole> Values => this.Select(x => x.Value).ToArray();
 
@@ -108,17 +116,23 @@ namespace Disqord
 
             public IEnumerator<KeyValuePair<Snowflake, CachedRole>> GetEnumerator()
             {
-                static IEnumerable<KeyValuePair<Snowflake, CachedRole>> GetEnumerable(RoleCollection collection)
-                {
-                    for (var i = 0; i < collection._ids.Count; i++)
-                    {
-                        var id = collection._ids[i];
-                        if (collection._guild.Roles.TryGetValue(id, out var role))
-                            yield return KeyValuePair.Create(id, role);
-                    }
-                }
+                //static IEnumerable<KeyValuePair<Snowflake, CachedRole>> GetEnumerable(RoleCollection collection)
+                //{
+                //    for (var i = 0; i < collection._ids.Count; i++)
+                //    {
+                //        var id = collection._ids[i];
+                //        if (collection._guild.Roles.TryGetValue(id, out var role))
+                //            yield return KeyValuePair.Create(id, role);
+                //    }
+                //}
 
-                return GetEnumerable(this).GetEnumerator().Locked(_ids);
+                //return GetEnumerable(this).GetEnumerator().Locked(_ids);
+
+                foreach (var id in Keys)
+                {
+                    if (_guild.Roles.TryGetValue(id, out var role))
+                        yield return KeyValuePair.Create(id, role);
+                }
             }
 
             IEnumerator IEnumerable.GetEnumerator()

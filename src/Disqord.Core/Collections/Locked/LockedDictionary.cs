@@ -1,14 +1,33 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Disqord.Collections
 {
     internal sealed class LockedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
     {
-        public ICollection<TKey> Keys => _dictionary.Keys.Locked(_lock);
+        public ICollection<TKey> Keys
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    return _dictionary.Keys.ToArray();
+                }
+            }
+        }
 
-        public ICollection<TValue> Values => _dictionary.Values.Locked(_lock);
+        public ICollection<TValue> Values
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    return _dictionary.Values.ToArray();
+                }
+            }
+        }
 
         public int Count
         {
@@ -57,8 +76,8 @@ namespace Disqord.Collections
 
         public LockedDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection)
         {
-            _lock = new object();
             _dictionary = new Dictionary<TKey, TValue>(collection);
+            _lock = new object();
         }
 
         public TValue GetOrAdd(TKey key, Func<TKey, TValue> factory)
@@ -191,7 +210,8 @@ namespace Disqord.Collections
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-            => _dictionary.GetEnumerator().Locked(_lock);
+            => (ToArray() as IReadOnlyList<KeyValuePair<TKey, TValue>>).GetEnumerator();
+        //=> _dictionary.GetEnumerator().Locked(_lock);
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
