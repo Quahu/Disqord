@@ -37,10 +37,10 @@ namespace Disqord.Rest
             if (headers.TryGetValues("X-RateLimit-Remaining", out values) && int.TryParse(values.First(), out var remaining))
                 Remaining = remaining;
 
-            if (headers.TryGetValues("X-RateLimit-Reset", out values) && double.TryParse(values.First(), NumberStyles.AllowDecimalPoint, null, out var resetsAt))
+            if (headers.TryGetValues("X-RateLimit-Reset", out values) && double.TryParse(values.First(), NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo, out var resetsAt))
                 ResetsAt = DateTimeOffset.UnixEpoch + TimeSpan.FromSeconds(resetsAt);
 
-            if (headers.TryGetValues("X-RateLimit-Reset-After", out values) && double.TryParse(values.First(), NumberStyles.AllowDecimalPoint, null, out var resetsAfter))
+            if (headers.TryGetValues("X-RateLimit-Reset-After", out values) && double.TryParse(values.First(), NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo, out var resetsAfter))
                 ResetsAfter = TimeSpan.FromSeconds(resetsAfter);
 
             if (headers.TryGetValues("X-RateLimit-Bucket", out values))
