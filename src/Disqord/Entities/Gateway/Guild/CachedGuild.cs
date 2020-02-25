@@ -470,10 +470,10 @@ namespace Disqord
             => Discord.GetGuildSplashUrl(Id, SplashHash, ImageFormat.Png, size);
 
         public string GetDiscoverySplashUrl(int size = 2048)
-            => Discord.GetGuildDiscoverySplashUrl(Id, SplashHash, ImageFormat.Png, size);
+            => Discord.GetGuildDiscoverySplashUrl(Id, DiscoverySplashHash, ImageFormat.Png, size);
 
         public string GetBannerUrl(int size = 2048)
-            => Discord.GetGuildBannerUrl(Id, SplashHash, ImageFormat.Png, size);
+            => Discord.GetGuildBannerUrl(Id, BannerHash, ImageFormat.Png, size);
 
         public override string ToString()
             => Name;
