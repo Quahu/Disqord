@@ -139,5 +139,8 @@ namespace Disqord
 
         public Task DeleteEmojiAsync(Snowflake emojiId, RestRequestOptions options = null)
             => Client.DeleteGuildEmojiAsync(Id, emojiId, options);
+
+        public Task<RestPreview> GetPreviewAsync(RestRequestOptions options = null)
+            => Client.GetPreviewAsync(Id, options);
     }
 }

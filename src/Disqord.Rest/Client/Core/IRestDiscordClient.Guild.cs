@@ -83,5 +83,8 @@ namespace Disqord.Rest
 
         Task<string> GetVanityInviteAsync(Snowflake guildId, RestRequestOptions options = null);
 
+        // TODO: naming? (*Guild*Widget/GuildPreview)
+        Task<RestPreview> GetPreviewAsync(Snowflake guildId, RestRequestOptions options = null);
+
     }
 }

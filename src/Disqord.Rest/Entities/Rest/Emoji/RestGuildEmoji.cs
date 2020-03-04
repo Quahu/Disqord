@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Disqord.Collections;
 using Disqord.Models;
 
@@ -7,6 +6,10 @@ namespace Disqord.Rest
 {
     public sealed partial class RestGuildEmoji : RestSnowflakeEntity, IGuildEmoji
     {
+        public Snowflake GuildId { get; }
+
+        public RestFetchable<RestGuild> Guild { get; }
+
         public string Name { get; private set; }
 
         public IReadOnlyList<Snowflake> RoleIds { get; private set; }
@@ -18,10 +21,6 @@ namespace Disqord.Rest
         public bool IsAnimated { get; }
 
         public bool IsAvailable { get; private set; }
-
-        public Snowflake GuildId { get; }
-
-        public RestFetchable<RestGuild> Guild { get; }
 
         public string ReactionFormat => Discord.ToReactionFormat(this);
 

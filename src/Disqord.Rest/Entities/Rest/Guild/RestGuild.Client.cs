@@ -222,5 +222,12 @@ namespace Disqord.Rest
 
         public Task DeleteEmojiAsync(Snowflake emojiId, RestRequestOptions options = null)
             => Client.DeleteGuildEmojiAsync(Id, emojiId, options);
+
+        public async Task<RestPreview> GetPreviewAsync(RestRequestOptions options = null)
+        {
+            var preview = await Client.GetPreviewAsync(Id, options).ConfigureAwait(false);
+            preview.Guild.Value = this;
+            return preview;
+        }
     }
 }

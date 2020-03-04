@@ -124,5 +124,6 @@ namespace Disqord
         public RestRequestEnumerable<T> GetAuditLogsEnumerable<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog => ((IRestDiscordClient) RestClient).GetAuditLogsEnumerable<T>(guildId, limit, userId, startFromId, options);
         public Task<IReadOnlyList<RestAuditLog>> GetAuditLogsAsync(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) => ((IRestDiscordClient) RestClient).GetAuditLogsAsync(guildId, limit, userId, startFromId, options);
         public Task<IReadOnlyList<T>> GetAuditLogsAsync<T>(Snowflake guildId, int limit = 100, Snowflake? userId = null, Snowflake? startFromId = null, RestRequestOptions options = null) where T : RestAuditLog => ((IRestDiscordClient) RestClient).GetAuditLogsAsync<T>(guildId, limit, userId, startFromId, options);
+        public Task<RestPreview> GetPreviewAsync(Snowflake guildId, RestRequestOptions options = null) => ((IRestDiscordClient) RestClient).GetPreviewAsync(guildId, options);
     }
 }

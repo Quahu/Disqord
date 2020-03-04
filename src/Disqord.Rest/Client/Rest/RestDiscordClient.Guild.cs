@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Disqord.Collections;
@@ -300,23 +299,10 @@ namespace Disqord.Rest
         public Task<string> GetVanityInviteAsync(Snowflake guildId, RestRequestOptions options = null)
             => ApiClient.GetGuildVanityUrlAsync(guildId, options);
 
-        public async Task<RestInvite> GetInviteAsync(string code, bool withCounts = true, RestRequestOptions options = null)
+        public async Task<RestPreview> GetPreviewAsync(Snowflake guildId, RestRequestOptions options = null)
         {
-            try
-            {
-                var model = await ApiClient.GetInviteAsync(code, withCounts, options).ConfigureAwait(false);
-                return new RestInvite(this, model);
-            }
-            catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound || ex.JsonErrorCode == JsonErrorCode.InviteCodeIsEitherInvalidOrTaken)
-            {
-                return null;
-            }
-        }
-
-        public async Task<RestInvite> DeleteInviteAsync(string code, RestRequestOptions options = null)
-        {
-            var model = await ApiClient.DeleteInviteAsync(code, options).ConfigureAwait(false);
-            return new RestInvite(this, model);
+            var model = await ApiClient.GetGuildPreviewAsync(guildId, options).ConfigureAwait(false);
+            return new RestPreview(this, model);
         }
     }
 }
