@@ -66,10 +66,10 @@ namespace Disqord
                 throw new ArgumentOutOfRangeException(nameof(r));
 
             if (g < 0 || g > 1)
-                throw new ArgumentOutOfRangeException(nameof(r));
+                throw new ArgumentOutOfRangeException(nameof(g));
 
             if (b < 0 || b > 1)
-                throw new ArgumentOutOfRangeException(nameof(r));
+                throw new ArgumentOutOfRangeException(nameof(b));
 
             RawValue = ((byte) (r * 255) << 16) | ((byte) (g * 255) << 8) | (byte) (b * 255);
         }
