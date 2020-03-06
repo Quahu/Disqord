@@ -3632,6 +3632,19 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedGuild.GetMembersEnumerable
   nameWithType: CachedGuild.GetMembersEnumerable
+- uid: Disqord.CachedGuild.GetPreviewAsync(Disqord.Rest.RestRequestOptions)
+  name: GetPreviewAsync(RestRequestOptions)
+  href: api/Disqord.CachedGuild.html#Disqord_CachedGuild_GetPreviewAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedGuild.GetPreviewAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.CachedGuild.GetPreviewAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedGuild.GetPreviewAsync(RestRequestOptions)
+- uid: Disqord.CachedGuild.GetPreviewAsync*
+  name: GetPreviewAsync
+  href: api/Disqord.CachedGuild.html#Disqord_CachedGuild_GetPreviewAsync_
+  commentId: Overload:Disqord.CachedGuild.GetPreviewAsync
+  isSpec: "True"
+  fullName: Disqord.CachedGuild.GetPreviewAsync
+  nameWithType: CachedGuild.GetPreviewAsync
 - uid: Disqord.CachedGuild.GetPruneCountAsync(System.Int32,Disqord.Rest.RestRequestOptions)
   name: GetPruneCountAsync(Int32, RestRequestOptions)
   href: api/Disqord.CachedGuild.html#Disqord_CachedGuild_GetPruneCountAsync_System_Int32_Disqord_Rest_RestRequestOptions_
@@ -12137,6 +12150,19 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.GetPinnedMessagesAsync
   nameWithType: DiscordClientBase.GetPinnedMessagesAsync
+- uid: Disqord.DiscordClientBase.GetPreviewAsync(Snowflake,Disqord.Rest.RestRequestOptions)
+  name: GetPreviewAsync(Snowflake, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetPreviewAsync_Snowflake_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.GetPreviewAsync(Snowflake,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.GetPreviewAsync(Snowflake, Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.GetPreviewAsync(Snowflake, RestRequestOptions)
+- uid: Disqord.DiscordClientBase.GetPreviewAsync*
+  name: GetPreviewAsync
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetPreviewAsync_
+  commentId: Overload:Disqord.DiscordClientBase.GetPreviewAsync
+  isSpec: "True"
+  fullName: Disqord.DiscordClientBase.GetPreviewAsync
+  nameWithType: DiscordClientBase.GetPreviewAsync
 - uid: Disqord.DiscordClientBase.GetPrivateChannel(Snowflake)
   name: GetPrivateChannel(Snowflake)
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_GetPrivateChannel_Snowflake_
@@ -28317,6 +28343,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.GetPinnedMessagesAsync
   nameWithType: IRestDiscordClient.GetPinnedMessagesAsync
+- uid: Disqord.Rest.IRestDiscordClient.GetPreviewAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
+  name: GetPreviewAsync(Snowflake, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetPreviewAsync_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.GetPreviewAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.GetPreviewAsync(Disqord.Snowflake, Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.GetPreviewAsync(Snowflake, RestRequestOptions)
+- uid: Disqord.Rest.IRestDiscordClient.GetPreviewAsync*
+  name: GetPreviewAsync
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetPreviewAsync_
+  commentId: Overload:Disqord.Rest.IRestDiscordClient.GetPreviewAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.IRestDiscordClient.GetPreviewAsync
+  nameWithType: IRestDiscordClient.GetPreviewAsync
 - uid: Disqord.Rest.IRestDiscordClient.GetPrivateChannelsAsync(Disqord.Rest.RestRequestOptions)
   name: GetPrivateChannelsAsync(RestRequestOptions)
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_GetPrivateChannelsAsync_Disqord_Rest_RestRequestOptions_
@@ -30973,6 +31012,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.GetPinnedMessagesAsync
   nameWithType: RestDiscordClient.GetPinnedMessagesAsync
+- uid: Disqord.Rest.RestDiscordClient.GetPreviewAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
+  name: GetPreviewAsync(Snowflake, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetPreviewAsync_Disqord_Snowflake_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.GetPreviewAsync(Disqord.Snowflake,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.GetPreviewAsync(Disqord.Snowflake, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.GetPreviewAsync(Snowflake, RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.GetPreviewAsync*
+  name: GetPreviewAsync
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetPreviewAsync_
+  commentId: Overload:Disqord.Rest.RestDiscordClient.GetPreviewAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.RestDiscordClient.GetPreviewAsync
+  nameWithType: RestDiscordClient.GetPreviewAsync
 - uid: Disqord.Rest.RestDiscordClient.GetPrivateChannelsAsync(Disqord.Rest.RestRequestOptions)
   name: GetPrivateChannelsAsync(RestRequestOptions)
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_GetPrivateChannelsAsync_Disqord_Rest_RestRequestOptions_
@@ -32707,6 +32759,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestGuild.GetMembersEnumerable
   nameWithType: RestGuild.GetMembersEnumerable
+- uid: Disqord.Rest.RestGuild.GetPreviewAsync(Disqord.Rest.RestRequestOptions)
+  name: GetPreviewAsync(RestRequestOptions)
+  href: api/Disqord.Rest.RestGuild.html#Disqord_Rest_RestGuild_GetPreviewAsync_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestGuild.GetPreviewAsync(Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestGuild.GetPreviewAsync(Disqord.Rest.RestRequestOptions)
+  nameWithType: RestGuild.GetPreviewAsync(RestRequestOptions)
+- uid: Disqord.Rest.RestGuild.GetPreviewAsync*
+  name: GetPreviewAsync
+  href: api/Disqord.Rest.RestGuild.html#Disqord_Rest_RestGuild_GetPreviewAsync_
+  commentId: Overload:Disqord.Rest.RestGuild.GetPreviewAsync
+  isSpec: "True"
+  fullName: Disqord.Rest.RestGuild.GetPreviewAsync
+  nameWithType: RestGuild.GetPreviewAsync
 - uid: Disqord.Rest.RestGuild.GetPruneCountAsync(System.Int32,Disqord.Rest.RestRequestOptions)
   name: GetPruneCountAsync(Int32, RestRequestOptions)
   href: api/Disqord.Rest.RestGuild.html#Disqord_Rest_RestGuild_GetPruneCountAsync_System_Int32_Disqord_Rest_RestRequestOptions_
@@ -34777,6 +34842,207 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestPartialGuild.ToString
   nameWithType: RestPartialGuild.ToString
+- uid: Disqord.Rest.RestPreview
+  name: RestPreview
+  href: api/Disqord.Rest.RestPreview.html
+  commentId: T:Disqord.Rest.RestPreview
+  fullName: Disqord.Rest.RestPreview
+  nameWithType: RestPreview
+- uid: Disqord.Rest.RestPreview.ApproximateMemberCount
+  name: ApproximateMemberCount
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_ApproximateMemberCount
+  commentId: P:Disqord.Rest.RestPreview.ApproximateMemberCount
+  fullName: Disqord.Rest.RestPreview.ApproximateMemberCount
+  nameWithType: RestPreview.ApproximateMemberCount
+- uid: Disqord.Rest.RestPreview.ApproximateMemberCount*
+  name: ApproximateMemberCount
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_ApproximateMemberCount_
+  commentId: Overload:Disqord.Rest.RestPreview.ApproximateMemberCount
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.ApproximateMemberCount
+  nameWithType: RestPreview.ApproximateMemberCount
+- uid: Disqord.Rest.RestPreview.ApproximateOnlineMemberCount
+  name: ApproximateOnlineMemberCount
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_ApproximateOnlineMemberCount
+  commentId: P:Disqord.Rest.RestPreview.ApproximateOnlineMemberCount
+  fullName: Disqord.Rest.RestPreview.ApproximateOnlineMemberCount
+  nameWithType: RestPreview.ApproximateOnlineMemberCount
+- uid: Disqord.Rest.RestPreview.ApproximateOnlineMemberCount*
+  name: ApproximateOnlineMemberCount
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_ApproximateOnlineMemberCount_
+  commentId: Overload:Disqord.Rest.RestPreview.ApproximateOnlineMemberCount
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.ApproximateOnlineMemberCount
+  nameWithType: RestPreview.ApproximateOnlineMemberCount
+- uid: Disqord.Rest.RestPreview.Description
+  name: Description
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_Description
+  commentId: P:Disqord.Rest.RestPreview.Description
+  fullName: Disqord.Rest.RestPreview.Description
+  nameWithType: RestPreview.Description
+- uid: Disqord.Rest.RestPreview.Description*
+  name: Description
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_Description_
+  commentId: Overload:Disqord.Rest.RestPreview.Description
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.Description
+  nameWithType: RestPreview.Description
+- uid: Disqord.Rest.RestPreview.DiscoverySplashHash
+  name: DiscoverySplashHash
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_DiscoverySplashHash
+  commentId: P:Disqord.Rest.RestPreview.DiscoverySplashHash
+  fullName: Disqord.Rest.RestPreview.DiscoverySplashHash
+  nameWithType: RestPreview.DiscoverySplashHash
+- uid: Disqord.Rest.RestPreview.DiscoverySplashHash*
+  name: DiscoverySplashHash
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_DiscoverySplashHash_
+  commentId: Overload:Disqord.Rest.RestPreview.DiscoverySplashHash
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.DiscoverySplashHash
+  nameWithType: RestPreview.DiscoverySplashHash
+- uid: Disqord.Rest.RestPreview.Emojis
+  name: Emojis
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_Emojis
+  commentId: P:Disqord.Rest.RestPreview.Emojis
+  fullName: Disqord.Rest.RestPreview.Emojis
+  nameWithType: RestPreview.Emojis
+- uid: Disqord.Rest.RestPreview.Emojis*
+  name: Emojis
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_Emojis_
+  commentId: Overload:Disqord.Rest.RestPreview.Emojis
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.Emojis
+  nameWithType: RestPreview.Emojis
+- uid: Disqord.Rest.RestPreview.Features
+  name: Features
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_Features
+  commentId: P:Disqord.Rest.RestPreview.Features
+  fullName: Disqord.Rest.RestPreview.Features
+  nameWithType: RestPreview.Features
+- uid: Disqord.Rest.RestPreview.Features*
+  name: Features
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_Features_
+  commentId: Overload:Disqord.Rest.RestPreview.Features
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.Features
+  nameWithType: RestPreview.Features
+- uid: Disqord.Rest.RestPreview.GetDiscoverySplashUrl(System.Int32)
+  name: GetDiscoverySplashUrl(Int32)
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_GetDiscoverySplashUrl_System_Int32_
+  commentId: M:Disqord.Rest.RestPreview.GetDiscoverySplashUrl(System.Int32)
+  fullName: Disqord.Rest.RestPreview.GetDiscoverySplashUrl(System.Int32)
+  nameWithType: RestPreview.GetDiscoverySplashUrl(Int32)
+- uid: Disqord.Rest.RestPreview.GetDiscoverySplashUrl*
+  name: GetDiscoverySplashUrl
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_GetDiscoverySplashUrl_
+  commentId: Overload:Disqord.Rest.RestPreview.GetDiscoverySplashUrl
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.GetDiscoverySplashUrl
+  nameWithType: RestPreview.GetDiscoverySplashUrl
+- uid: Disqord.Rest.RestPreview.GetIconUrl(Disqord.ImageFormat,System.Int32)
+  name: GetIconUrl(ImageFormat, Int32)
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_GetIconUrl_Disqord_ImageFormat_System_Int32_
+  commentId: M:Disqord.Rest.RestPreview.GetIconUrl(Disqord.ImageFormat,System.Int32)
+  fullName: Disqord.Rest.RestPreview.GetIconUrl(Disqord.ImageFormat, System.Int32)
+  nameWithType: RestPreview.GetIconUrl(ImageFormat, Int32)
+- uid: Disqord.Rest.RestPreview.GetIconUrl*
+  name: GetIconUrl
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_GetIconUrl_
+  commentId: Overload:Disqord.Rest.RestPreview.GetIconUrl
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.GetIconUrl
+  nameWithType: RestPreview.GetIconUrl
+- uid: Disqord.Rest.RestPreview.GetSplashUrl(System.Int32)
+  name: GetSplashUrl(Int32)
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_GetSplashUrl_System_Int32_
+  commentId: M:Disqord.Rest.RestPreview.GetSplashUrl(System.Int32)
+  fullName: Disqord.Rest.RestPreview.GetSplashUrl(System.Int32)
+  nameWithType: RestPreview.GetSplashUrl(Int32)
+- uid: Disqord.Rest.RestPreview.GetSplashUrl*
+  name: GetSplashUrl
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_GetSplashUrl_
+  commentId: Overload:Disqord.Rest.RestPreview.GetSplashUrl
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.GetSplashUrl
+  nameWithType: RestPreview.GetSplashUrl
+- uid: Disqord.Rest.RestPreview.Guild
+  name: Guild
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_Guild
+  commentId: P:Disqord.Rest.RestPreview.Guild
+  fullName: Disqord.Rest.RestPreview.Guild
+  nameWithType: RestPreview.Guild
+- uid: Disqord.Rest.RestPreview.Guild*
+  name: Guild
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_Guild_
+  commentId: Overload:Disqord.Rest.RestPreview.Guild
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.Guild
+  nameWithType: RestPreview.Guild
+- uid: Disqord.Rest.RestPreview.GuildId
+  name: GuildId
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_GuildId
+  commentId: P:Disqord.Rest.RestPreview.GuildId
+  fullName: Disqord.Rest.RestPreview.GuildId
+  nameWithType: RestPreview.GuildId
+- uid: Disqord.Rest.RestPreview.GuildId*
+  name: GuildId
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_GuildId_
+  commentId: Overload:Disqord.Rest.RestPreview.GuildId
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.GuildId
+  nameWithType: RestPreview.GuildId
+- uid: Disqord.Rest.RestPreview.IconHash
+  name: IconHash
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_IconHash
+  commentId: P:Disqord.Rest.RestPreview.IconHash
+  fullName: Disqord.Rest.RestPreview.IconHash
+  nameWithType: RestPreview.IconHash
+- uid: Disqord.Rest.RestPreview.IconHash*
+  name: IconHash
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_IconHash_
+  commentId: Overload:Disqord.Rest.RestPreview.IconHash
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.IconHash
+  nameWithType: RestPreview.IconHash
+- uid: Disqord.Rest.RestPreview.Name
+  name: Name
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_Name
+  commentId: P:Disqord.Rest.RestPreview.Name
+  fullName: Disqord.Rest.RestPreview.Name
+  nameWithType: RestPreview.Name
+- uid: Disqord.Rest.RestPreview.Name*
+  name: Name
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_Name_
+  commentId: Overload:Disqord.Rest.RestPreview.Name
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.Name
+  nameWithType: RestPreview.Name
+- uid: Disqord.Rest.RestPreview.SplashHash
+  name: SplashHash
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_SplashHash
+  commentId: P:Disqord.Rest.RestPreview.SplashHash
+  fullName: Disqord.Rest.RestPreview.SplashHash
+  nameWithType: RestPreview.SplashHash
+- uid: Disqord.Rest.RestPreview.SplashHash*
+  name: SplashHash
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_SplashHash_
+  commentId: Overload:Disqord.Rest.RestPreview.SplashHash
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.SplashHash
+  nameWithType: RestPreview.SplashHash
+- uid: Disqord.Rest.RestPreview.ToString
+  name: ToString()
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_ToString
+  commentId: M:Disqord.Rest.RestPreview.ToString
+  fullName: Disqord.Rest.RestPreview.ToString()
+  nameWithType: RestPreview.ToString()
+- uid: Disqord.Rest.RestPreview.ToString*
+  name: ToString
+  href: api/Disqord.Rest.RestPreview.html#Disqord_Rest_RestPreview_ToString_
+  commentId: Overload:Disqord.Rest.RestPreview.ToString
+  isSpec: "True"
+  fullName: Disqord.Rest.RestPreview.ToString
+  nameWithType: RestPreview.ToString
 - uid: Disqord.Rest.RestPrivateChannel
   name: RestPrivateChannel
   href: api/Disqord.Rest.RestPrivateChannel.html
