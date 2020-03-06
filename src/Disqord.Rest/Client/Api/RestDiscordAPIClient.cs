@@ -1200,6 +1200,9 @@ namespace Disqord.Rest
             return SendRequestAsync<LoginModel>(new RestRequest(POST, $"auth/mfa/totp", content, options));
         }
 
+        public Task<PreviewModel> GetGuildPreviewAsync(ulong guildId, RestRequestOptions options)
+            => SendRequestAsync<PreviewModel>(new RestRequest(GET, $"guilds/{guildId:guild_id}/preview", options));
+
         public void Log(LogMessageSeverity severity, string message, Exception exception = null)
             => Logger.Log(this, new MessageLoggedEventArgs("Rest", severity, message, exception));
 
