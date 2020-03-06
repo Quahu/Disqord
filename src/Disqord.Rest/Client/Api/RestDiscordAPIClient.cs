@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Disqord;
 using Disqord.Logging;
 using Disqord.Models;
 using Disqord.Serialization.Json;
@@ -30,6 +31,7 @@ namespace Disqord.Rest
         internal readonly HttpClient Http;
         internal readonly ILogger Logger;
         internal readonly IJsonSerializer Serializer;
+        private readonly AllowedMentionsModel _defaultMentions;
 
         internal TokenType? _tokenType;
         internal string _token;
@@ -59,6 +61,7 @@ namespace Disqord.Rest
 
             Logger = configuration.Logger.GetValueOrDefault(() => new DefaultLogger());
             Serializer = configuration.Serializer.GetValueOrDefault(@this => @this.GetDefaultSerializer(), this);
+            _defaultMentions = configuration.DefaultMentions.GetValueOrDefault().ToModel();
             _rateLimiter = RateLimiter.GetOrCreate(this);
         }
 
@@ -317,18 +320,19 @@ namespace Disqord.Rest
         public Task<MessageModel> GetChannelMessageAsync(ulong channelId, ulong messageId, RestRequestOptions options)
             => SendRequestAsync<MessageModel>(new RestRequest(GET, $"channels/{channelId:channel_id}/messages/{messageId}", options));
 
-        public Task<MessageModel> CreateMessageAsync(ulong channelId, string content, bool isTTS, LocalEmbed embed, RestRequestOptions options)
+        public Task<MessageModel> CreateMessageAsync(ulong channelId, string content, bool isTTS, LocalEmbed embed, LocalMentions mentions, RestRequestOptions options)
         {
             var requestContent = new CreateMessageContent
             {
                 Content = content,
                 Tts = isTTS,
-                Embed = embed.ToModel()
+                Embed = embed.ToModel(),
+                AllowedMentions = mentions.ToModel() ?? _defaultMentions
             };
             return SendRequestAsync<MessageModel>(new RestRequest(POST, $"channels/{channelId:channel_id}/messages", requestContent, options));
         }
 
-        public Task<MessageModel> CreateMessageAsync(ulong channelId, LocalAttachment attachment, string content, bool isTTS, LocalEmbed embed, RestRequestOptions options)
+        public Task<MessageModel> CreateMessageAsync(ulong channelId, LocalAttachment attachment, string content, bool isTTS, LocalEmbed embed, LocalMentions mentions, RestRequestOptions options)
         {
             var requestContent = new MultipartRequestContent<CreateMessageContent>
             {
@@ -336,14 +340,15 @@ namespace Disqord.Rest
                 {
                     Content = content,
                     Tts = isTTS,
-                    Embed = embed.ToModel()
+                    Embed = embed.ToModel(),
+                    AllowedMentions = mentions.ToModel() ?? _defaultMentions
                 },
                 Attachment = attachment
             };
             return SendRequestAsync<MessageModel>(new RestRequest(POST, $"channels/{channelId:channel_id}/messages", requestContent, options));
         }
 
-        public Task<MessageModel> CreateMessageAsync(ulong channelId, IEnumerable<LocalAttachment> attachments, string content, bool isTTS, LocalEmbed embed, RestRequestOptions options)
+        public Task<MessageModel> CreateMessageAsync(ulong channelId, IEnumerable<LocalAttachment> attachments, string content, bool isTTS, LocalEmbed embed, LocalMentions mentions, RestRequestOptions options)
         {
             var requestContent = new MultipartRequestContent<CreateMessageContent>
             {
@@ -351,7 +356,8 @@ namespace Disqord.Rest
                 {
                     Content = content,
                     Tts = isTTS,
-                    Embed = embed.ToModel()
+                    Embed = embed.ToModel(),
+                    AllowedMentions = mentions.ToModel() ?? _defaultMentions
                 },
                 Attachments = attachments.ToArray()
             };

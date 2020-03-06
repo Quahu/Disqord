@@ -16,5 +16,8 @@ namespace Disqord.Rest
 
         [JsonProperty("embed", NullValueHandling.Ignore)]
         public EmbedModel Embed { get; set; }
+
+        [JsonProperty("allowed_mentions", NullValueHandling.Ignore)]
+        public AllowedMentionsModel AllowedMentions { get; set; }
     }
 }

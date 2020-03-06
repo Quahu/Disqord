@@ -14,5 +14,10 @@ namespace Disqord.Rest
         ///     Gets or sets the JSON serializer the client should use.
         /// </summary>
         public Optional<IJsonSerializer> Serializer { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the default mentions for messages.
+        /// </summary>
+        public Optional<LocalMentions> DefaultMentions { get; set; }
     }
 }

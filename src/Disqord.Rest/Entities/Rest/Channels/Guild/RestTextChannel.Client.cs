@@ -22,14 +22,14 @@ namespace Disqord.Rest
         public IDisposable Typing()
             => new TypingRepeater(Client, this);
 
-        public Task<RestUserMessage> SendMessageAsync(string content = null, bool isTTS = false, LocalEmbed embed = null, RestRequestOptions options = null)
-            => Client.SendMessageAsync(Id, content, isTTS, embed, options);
+        public Task<RestUserMessage> SendMessageAsync(string content = null, bool isTTS = false, LocalEmbed embed = null, LocalMentions mentions = null, RestRequestOptions options = null)
+            => Client.SendMessageAsync(Id, content, isTTS, embed, mentions, options);
 
-        public Task<RestUserMessage> SendMessageAsync(LocalAttachment attachment, string content = null, bool isTTS = false, LocalEmbed embed = null, RestRequestOptions options = null)
-            => Client.SendMessageAsync(Id, attachment, content, isTTS, embed, options);
+        public Task<RestUserMessage> SendMessageAsync(LocalAttachment attachment, string content = null, bool isTTS = false, LocalEmbed embed = null, LocalMentions mentions = null, RestRequestOptions options = null)
+            => Client.SendMessageAsync(Id, attachment, content, isTTS, embed, mentions, options);
 
-        public Task<RestUserMessage> SendMessageAsync(IEnumerable<LocalAttachment> attachments, string content = null, bool isTTS = false, LocalEmbed embed = null, RestRequestOptions options = null)
-            => Client.SendMessageAsync(Id, attachments, content, isTTS, embed, options);
+        public Task<RestUserMessage> SendMessageAsync(IEnumerable<LocalAttachment> attachments, string content = null, bool isTTS = false, LocalEmbed embed = null, LocalMentions mentions = null, RestRequestOptions options = null)
+            => Client.SendMessageAsync(Id, attachments, content, isTTS, embed, mentions, options);
 
         public RestRequestEnumerable<RestMessage> GetMessagesEnumerable(int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null)
             => Client.GetMessagesEnumerable(Id, limit, direction, startFromId, options);

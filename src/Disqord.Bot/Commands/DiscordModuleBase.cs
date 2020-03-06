@@ -35,16 +35,16 @@ namespace Disqord.Bot
                 : $"{Context.Channel} ({Context.Channel.Id}).";
 #endif
 
-        protected virtual Task<RestUserMessage> ReplyAsync(string content = null, bool isTts = false, LocalEmbed embed = null,
+        protected virtual Task<RestUserMessage> ReplyAsync(string content = null, bool isTts = false, LocalEmbed embed = null, LocalMentions mentions = null,
             RestRequestOptions options = null)
-            => Context.Channel.SendMessageAsync(content, isTts, embed, options);
+            => Context.Channel.SendMessageAsync(content, isTts, embed, mentions, options);
 
-        protected virtual Task<RestUserMessage> ReplyAsync(LocalAttachment attachment, string content = null, bool isTts = false, LocalEmbed embed = null,
+        protected virtual Task<RestUserMessage> ReplyAsync(LocalAttachment attachment, string content = null, bool isTts = false, LocalEmbed embed = null, LocalMentions mentions = null,
             RestRequestOptions options = null)
-            => Context.Channel.SendMessageAsync(attachment, content, isTts, embed, options);
+            => Context.Channel.SendMessageAsync(attachment, content, isTts, embed, mentions, options);
 
-        protected virtual Task<RestUserMessage> ReplyAsync(IEnumerable<LocalAttachment> attachments, string content = null, bool isTts = false, LocalEmbed embed = null,
+        protected virtual Task<RestUserMessage> ReplyAsync(IEnumerable<LocalAttachment> attachments, string content = null, bool isTts = false, LocalEmbed embed = null, LocalMentions mentions = null,
             RestRequestOptions options = null)
-            => Context.Channel.SendMessageAsync(attachments, content, isTts, embed, options);
+            => Context.Channel.SendMessageAsync(attachments, content, isTts, embed, mentions, options);
     }
 }

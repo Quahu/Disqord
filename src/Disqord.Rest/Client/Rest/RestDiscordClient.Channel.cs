@@ -110,27 +110,27 @@ namespace Disqord.Rest
             }
         }
 
-        public async Task<RestUserMessage> SendMessageAsync(Snowflake channelId, string content = null, bool textToSpeech = false, LocalEmbed embed = null, RestRequestOptions options = null)
+        public async Task<RestUserMessage> SendMessageAsync(Snowflake channelId, string content = null, bool textToSpeech = false, LocalEmbed embed = null, LocalMentions mentions = null, RestRequestOptions options = null)
         {
-            var model = await ApiClient.CreateMessageAsync(channelId, content, textToSpeech, embed, options).ConfigureAwait(false);
+            var model = await ApiClient.CreateMessageAsync(channelId, content, textToSpeech, embed, mentions, options).ConfigureAwait(false);
             return new RestUserMessage(this, model);
         }
 
-        public async Task<RestUserMessage> SendMessageAsync(Snowflake channelId, LocalAttachment attachment, string content = null, bool textToSpeech = false, LocalEmbed embed = null, RestRequestOptions options = null)
+        public async Task<RestUserMessage> SendMessageAsync(Snowflake channelId, LocalAttachment attachment, string content = null, bool textToSpeech = false, LocalEmbed embed = null, LocalMentions mentions = null, RestRequestOptions options = null)
         {
             if (attachment == null)
                 throw new ArgumentNullException(nameof(attachment));
 
-            var model = await ApiClient.CreateMessageAsync(channelId, attachment, content, textToSpeech, embed, options).ConfigureAwait(false);
+            var model = await ApiClient.CreateMessageAsync(channelId, attachment, content, textToSpeech, embed, mentions, options).ConfigureAwait(false);
             return new RestUserMessage(this, model);
         }
 
-        public async Task<RestUserMessage> SendMessageAsync(Snowflake channelId, IEnumerable<LocalAttachment> attachments, string content = null, bool textToSpeech = false, LocalEmbed embed = null, RestRequestOptions options = null)
+        public async Task<RestUserMessage> SendMessageAsync(Snowflake channelId, IEnumerable<LocalAttachment> attachments, string content = null, bool textToSpeech = false, LocalEmbed embed = null, LocalMentions mentions = null, RestRequestOptions options = null)
         {
             if (attachments == null)
                 throw new ArgumentNullException(nameof(attachments));
 
-            var model = await ApiClient.CreateMessageAsync(channelId, attachments, content, textToSpeech, embed, options).ConfigureAwait(false);
+            var model = await ApiClient.CreateMessageAsync(channelId, attachments, content, textToSpeech, embed, mentions, options).ConfigureAwait(false);
             return new RestUserMessage(this, model);
         }
 
