@@ -1039,31 +1039,31 @@ references:
   fullName.vb: Disqord.Bot.DiscordModuleBase(Of TContext).BeforeExecutedAsync
   nameWithType: DiscordModuleBase<TContext>.BeforeExecutedAsync
   nameWithType.vb: DiscordModuleBase(Of TContext).BeforeExecutedAsync
-- uid: Disqord.Bot.DiscordModuleBase`1.ReplyAsync(IEnumerable{LocalAttachment},System.String,System.Boolean,LocalEmbed,RestRequestOptions)
-  name: ReplyAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Bot.DiscordModuleBase-1.html#Disqord_Bot_DiscordModuleBase_1_ReplyAsync_IEnumerable_LocalAttachment__System_String_System_Boolean_LocalEmbed_RestRequestOptions_
-  commentId: M:Disqord.Bot.DiscordModuleBase`1.ReplyAsync(IEnumerable{LocalAttachment},System.String,System.Boolean,LocalEmbed,RestRequestOptions)
-  name.vb: ReplyAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-  fullName: Disqord.Bot.DiscordModuleBase<TContext>.ReplyAsync(IEnumerable<LocalAttachment>, System.String, System.Boolean, LocalEmbed, RestRequestOptions)
-  fullName.vb: Disqord.Bot.DiscordModuleBase(Of TContext).ReplyAsync(IEnumerable(Of LocalAttachment), System.String, System.Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType: DiscordModuleBase<TContext>.ReplyAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType.vb: DiscordModuleBase(Of TContext).ReplyAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.Bot.DiscordModuleBase`1.ReplyAsync(LocalAttachment,System.String,System.Boolean,LocalEmbed,RestRequestOptions)
-  name: ReplyAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Bot.DiscordModuleBase-1.html#Disqord_Bot_DiscordModuleBase_1_ReplyAsync_LocalAttachment_System_String_System_Boolean_LocalEmbed_RestRequestOptions_
-  commentId: M:Disqord.Bot.DiscordModuleBase`1.ReplyAsync(LocalAttachment,System.String,System.Boolean,LocalEmbed,RestRequestOptions)
-  fullName: Disqord.Bot.DiscordModuleBase<TContext>.ReplyAsync(LocalAttachment, System.String, System.Boolean, LocalEmbed, RestRequestOptions)
-  fullName.vb: Disqord.Bot.DiscordModuleBase(Of TContext).ReplyAsync(LocalAttachment, System.String, System.Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType: DiscordModuleBase<TContext>.ReplyAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType.vb: DiscordModuleBase(Of TContext).ReplyAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.Bot.DiscordModuleBase`1.ReplyAsync(System.String,System.Boolean,LocalEmbed,RestRequestOptions)
-  name: ReplyAsync(String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Bot.DiscordModuleBase-1.html#Disqord_Bot_DiscordModuleBase_1_ReplyAsync_System_String_System_Boolean_LocalEmbed_RestRequestOptions_
-  commentId: M:Disqord.Bot.DiscordModuleBase`1.ReplyAsync(System.String,System.Boolean,LocalEmbed,RestRequestOptions)
-  fullName: Disqord.Bot.DiscordModuleBase<TContext>.ReplyAsync(System.String, System.Boolean, LocalEmbed, RestRequestOptions)
-  fullName.vb: Disqord.Bot.DiscordModuleBase(Of TContext).ReplyAsync(System.String, System.Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType: DiscordModuleBase<TContext>.ReplyAsync(String, Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType.vb: DiscordModuleBase(Of TContext).ReplyAsync(String, Boolean, LocalEmbed, RestRequestOptions)
+- uid: Disqord.Bot.DiscordModuleBase`1.ReplyAsync(IEnumerable{LocalAttachment},System.String,System.Boolean,LocalEmbed,LocalMentions,RestRequestOptions)
+  name: ReplyAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Bot.DiscordModuleBase-1.html#Disqord_Bot_DiscordModuleBase_1_ReplyAsync_IEnumerable_LocalAttachment__System_String_System_Boolean_LocalEmbed_LocalMentions_RestRequestOptions_
+  commentId: M:Disqord.Bot.DiscordModuleBase`1.ReplyAsync(IEnumerable{LocalAttachment},System.String,System.Boolean,LocalEmbed,LocalMentions,RestRequestOptions)
+  name.vb: ReplyAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName: Disqord.Bot.DiscordModuleBase<TContext>.ReplyAsync(IEnumerable<LocalAttachment>, System.String, System.Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName.vb: Disqord.Bot.DiscordModuleBase(Of TContext).ReplyAsync(IEnumerable(Of LocalAttachment), System.String, System.Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType: DiscordModuleBase<TContext>.ReplyAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType.vb: DiscordModuleBase(Of TContext).ReplyAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.Bot.DiscordModuleBase`1.ReplyAsync(LocalAttachment,System.String,System.Boolean,LocalEmbed,LocalMentions,RestRequestOptions)
+  name: ReplyAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Bot.DiscordModuleBase-1.html#Disqord_Bot_DiscordModuleBase_1_ReplyAsync_LocalAttachment_System_String_System_Boolean_LocalEmbed_LocalMentions_RestRequestOptions_
+  commentId: M:Disqord.Bot.DiscordModuleBase`1.ReplyAsync(LocalAttachment,System.String,System.Boolean,LocalEmbed,LocalMentions,RestRequestOptions)
+  fullName: Disqord.Bot.DiscordModuleBase<TContext>.ReplyAsync(LocalAttachment, System.String, System.Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName.vb: Disqord.Bot.DiscordModuleBase(Of TContext).ReplyAsync(LocalAttachment, System.String, System.Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType: DiscordModuleBase<TContext>.ReplyAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType.vb: DiscordModuleBase(Of TContext).ReplyAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.Bot.DiscordModuleBase`1.ReplyAsync(System.String,System.Boolean,LocalEmbed,LocalMentions,RestRequestOptions)
+  name: ReplyAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Bot.DiscordModuleBase-1.html#Disqord_Bot_DiscordModuleBase_1_ReplyAsync_System_String_System_Boolean_LocalEmbed_LocalMentions_RestRequestOptions_
+  commentId: M:Disqord.Bot.DiscordModuleBase`1.ReplyAsync(System.String,System.Boolean,LocalEmbed,LocalMentions,RestRequestOptions)
+  fullName: Disqord.Bot.DiscordModuleBase<TContext>.ReplyAsync(System.String, System.Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName.vb: Disqord.Bot.DiscordModuleBase(Of TContext).ReplyAsync(System.String, System.Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType: DiscordModuleBase<TContext>.ReplyAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType.vb: DiscordModuleBase(Of TContext).ReplyAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
 - uid: Disqord.Bot.DiscordModuleBase`1.ReplyAsync*
   name: ReplyAsync
   href: api/Disqord.Bot.DiscordModuleBase-1.html#Disqord_Bot_DiscordModuleBase_1_ReplyAsync_
@@ -5607,27 +5607,27 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedPrivateChannel.RemoveOwnReactionAsync
   nameWithType: CachedPrivateChannel.RemoveOwnReactionAsync
-- uid: Disqord.CachedPrivateChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedPrivateChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.CachedPrivateChannel.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedPrivateChannel.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.CachedPrivateChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedPrivateChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-  fullName: Disqord.CachedPrivateChannel.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.CachedPrivateChannel.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedPrivateChannel.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType.vb: CachedPrivateChannel.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.CachedPrivateChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedPrivateChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.CachedPrivateChannel.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedPrivateChannel.SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
+- uid: Disqord.CachedPrivateChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedPrivateChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.CachedPrivateChannel.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedPrivateChannel.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.CachedPrivateChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedPrivateChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName: Disqord.CachedPrivateChannel.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedPrivateChannel.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedPrivateChannel.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType.vb: CachedPrivateChannel.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.CachedPrivateChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedPrivateChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.CachedPrivateChannel.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedPrivateChannel.SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
 - uid: Disqord.CachedPrivateChannel.SendMessageAsync*
   name: SendMessageAsync
   href: api/Disqord.CachedPrivateChannel.html#Disqord_CachedPrivateChannel_SendMessageAsync_
@@ -6411,27 +6411,27 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedTextChannel.RemoveOwnReactionAsync
   nameWithType: CachedTextChannel.RemoveOwnReactionAsync
-- uid: Disqord.CachedTextChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedTextChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.CachedTextChannel.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedTextChannel.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.CachedTextChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedTextChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-  fullName: Disqord.CachedTextChannel.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.CachedTextChannel.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedTextChannel.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType.vb: CachedTextChannel.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.CachedTextChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedTextChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.CachedTextChannel.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedTextChannel.SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
+- uid: Disqord.CachedTextChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedTextChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.CachedTextChannel.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedTextChannel.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.CachedTextChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedTextChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName: Disqord.CachedTextChannel.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedTextChannel.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedTextChannel.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType.vb: CachedTextChannel.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.CachedTextChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedTextChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.CachedTextChannel.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedTextChannel.SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
 - uid: Disqord.CachedTextChannel.SendMessageAsync*
   name: SendMessageAsync
   href: api/Disqord.CachedTextChannel.html#Disqord_CachedTextChannel_SendMessageAsync_
@@ -6769,27 +6769,27 @@ references:
   isSpec: "True"
   fullName: Disqord.CachedUser.Relationship
   nameWithType: CachedUser.Relationship
-- uid: Disqord.CachedUser.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.CachedUser.html#Disqord_CachedUser_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedUser.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.CachedUser.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedUser.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.CachedUser.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.CachedUser.html#Disqord_CachedUser_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedUser.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-  fullName: Disqord.CachedUser.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.CachedUser.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedUser.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType.vb: CachedUser.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.CachedUser.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.CachedUser.html#Disqord_CachedUser_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.CachedUser.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.CachedUser.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: CachedUser.SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
+- uid: Disqord.CachedUser.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.CachedUser.html#Disqord_CachedUser_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedUser.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.CachedUser.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedUser.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.CachedUser.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.CachedUser.html#Disqord_CachedUser_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedUser.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName: Disqord.CachedUser.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.CachedUser.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedUser.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType.vb: CachedUser.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.CachedUser.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.CachedUser.html#Disqord_CachedUser_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.CachedUser.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.CachedUser.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: CachedUser.SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
 - uid: Disqord.CachedUser.SendMessageAsync*
   name: SendMessageAsync
   href: api/Disqord.CachedUser.html#Disqord_CachedUser_SendMessageAsync_
@@ -13030,27 +13030,27 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.RunAsync
   nameWithType: DiscordClientBase.RunAsync
-- uid: Disqord.DiscordClientBase.SendMessageAsync(Snowflake,Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(Snowflake, LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SendMessageAsync_Snowflake_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.DiscordClientBase.SendMessageAsync(Snowflake,Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.DiscordClientBase.SendMessageAsync(Snowflake, Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: DiscordClientBase.SendMessageAsync(Snowflake, LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.DiscordClientBase.SendMessageAsync(Snowflake,IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(Snowflake, IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SendMessageAsync_Snowflake_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.DiscordClientBase.SendMessageAsync(Snowflake,IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name.vb: SendMessageAsync(Snowflake, IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-  fullName: Disqord.DiscordClientBase.SendMessageAsync(Snowflake, IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.DiscordClientBase.SendMessageAsync(Snowflake, IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: DiscordClientBase.SendMessageAsync(Snowflake, IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType.vb: DiscordClientBase.SendMessageAsync(Snowflake, IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.DiscordClientBase.SendMessageAsync(Snowflake,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(Snowflake, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SendMessageAsync_Snowflake_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.DiscordClientBase.SendMessageAsync(Snowflake,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.DiscordClientBase.SendMessageAsync(Snowflake, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: DiscordClientBase.SendMessageAsync(Snowflake, String, Boolean, LocalEmbed, RestRequestOptions)
+- uid: Disqord.DiscordClientBase.SendMessageAsync(Snowflake,Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(Snowflake, LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SendMessageAsync_Snowflake_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.SendMessageAsync(Snowflake,Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.SendMessageAsync(Snowflake, Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.SendMessageAsync(Snowflake, LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.DiscordClientBase.SendMessageAsync(Snowflake,IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(Snowflake, IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SendMessageAsync_Snowflake_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.SendMessageAsync(Snowflake,IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name.vb: SendMessageAsync(Snowflake, IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.SendMessageAsync(Snowflake, IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.DiscordClientBase.SendMessageAsync(Snowflake, IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.SendMessageAsync(Snowflake, IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType.vb: DiscordClientBase.SendMessageAsync(Snowflake, IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.DiscordClientBase.SendMessageAsync(Snowflake,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(Snowflake, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SendMessageAsync_Snowflake_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.DiscordClientBase.SendMessageAsync(Snowflake,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.DiscordClientBase.SendMessageAsync(Snowflake, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: DiscordClientBase.SendMessageAsync(Snowflake, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
 - uid: Disqord.DiscordClientBase.SendMessageAsync*
   name: SendMessageAsync
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_SendMessageAsync_
@@ -19460,27 +19460,27 @@ references:
   commentId: T:Disqord.IMessagable
   fullName: Disqord.IMessagable
   nameWithType: IMessagable
-- uid: Disqord.IMessagable.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.IMessagable.html#Disqord_IMessagable_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.IMessagable.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.IMessagable.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: IMessagable.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.IMessagable.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.IMessagable.html#Disqord_IMessagable_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.IMessagable.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-  fullName: Disqord.IMessagable.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.IMessagable.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: IMessagable.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType.vb: IMessagable.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.IMessagable.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.IMessagable.html#Disqord_IMessagable_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.IMessagable.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.IMessagable.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: IMessagable.SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
+- uid: Disqord.IMessagable.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.IMessagable.html#Disqord_IMessagable_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IMessagable.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.IMessagable.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: IMessagable.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.IMessagable.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.IMessagable.html#Disqord_IMessagable_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IMessagable.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName: Disqord.IMessagable.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.IMessagable.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: IMessagable.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType.vb: IMessagable.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.IMessagable.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.IMessagable.html#Disqord_IMessagable_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.IMessagable.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.IMessagable.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: IMessagable.SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
 - uid: Disqord.IMessagable.SendMessageAsync*
   name: SendMessageAsync
   href: api/Disqord.IMessagable.html#Disqord_IMessagable_SendMessageAsync_
@@ -22974,6 +22974,216 @@ references:
   isSpec: "True"
   fullName: Disqord.LocalEmoji.ToString
   nameWithType: LocalEmoji.ToString
+- uid: Disqord.LocalMentions
+  name: LocalMentions
+  href: api/Disqord.LocalMentions.html
+  commentId: T:Disqord.LocalMentions
+  fullName: Disqord.LocalMentions
+  nameWithType: LocalMentions
+- uid: Disqord.LocalMentions.NoEveryone
+  name: NoEveryone
+  href: api/Disqord.LocalMentions.html#Disqord_LocalMentions_NoEveryone
+  commentId: F:Disqord.LocalMentions.NoEveryone
+  fullName: Disqord.LocalMentions.NoEveryone
+  nameWithType: LocalMentions.NoEveryone
+- uid: Disqord.LocalMentions.None
+  name: None
+  href: api/Disqord.LocalMentions.html#Disqord_LocalMentions_None
+  commentId: F:Disqord.LocalMentions.None
+  fullName: Disqord.LocalMentions.None
+  nameWithType: LocalMentions.None
+- uid: Disqord.LocalMentions.ParsedMentions
+  name: ParsedMentions
+  href: api/Disqord.LocalMentions.html#Disqord_LocalMentions_ParsedMentions
+  commentId: P:Disqord.LocalMentions.ParsedMentions
+  fullName: Disqord.LocalMentions.ParsedMentions
+  nameWithType: LocalMentions.ParsedMentions
+- uid: Disqord.LocalMentions.ParsedMentions*
+  name: ParsedMentions
+  href: api/Disqord.LocalMentions.html#Disqord_LocalMentions_ParsedMentions_
+  commentId: Overload:Disqord.LocalMentions.ParsedMentions
+  isSpec: "True"
+  fullName: Disqord.LocalMentions.ParsedMentions
+  nameWithType: LocalMentions.ParsedMentions
+- uid: Disqord.LocalMentions.RoleIds
+  name: RoleIds
+  href: api/Disqord.LocalMentions.html#Disqord_LocalMentions_RoleIds
+  commentId: P:Disqord.LocalMentions.RoleIds
+  fullName: Disqord.LocalMentions.RoleIds
+  nameWithType: LocalMentions.RoleIds
+- uid: Disqord.LocalMentions.RoleIds*
+  name: RoleIds
+  href: api/Disqord.LocalMentions.html#Disqord_LocalMentions_RoleIds_
+  commentId: Overload:Disqord.LocalMentions.RoleIds
+  isSpec: "True"
+  fullName: Disqord.LocalMentions.RoleIds
+  nameWithType: LocalMentions.RoleIds
+- uid: Disqord.LocalMentions.UserIds
+  name: UserIds
+  href: api/Disqord.LocalMentions.html#Disqord_LocalMentions_UserIds
+  commentId: P:Disqord.LocalMentions.UserIds
+  fullName: Disqord.LocalMentions.UserIds
+  nameWithType: LocalMentions.UserIds
+- uid: Disqord.LocalMentions.UserIds*
+  name: UserIds
+  href: api/Disqord.LocalMentions.html#Disqord_LocalMentions_UserIds_
+  commentId: Overload:Disqord.LocalMentions.UserIds
+  isSpec: "True"
+  fullName: Disqord.LocalMentions.UserIds
+  nameWithType: LocalMentions.UserIds
+- uid: Disqord.LocalMentionsBuilder
+  name: LocalMentionsBuilder
+  href: api/Disqord.LocalMentionsBuilder.html
+  commentId: T:Disqord.LocalMentionsBuilder
+  fullName: Disqord.LocalMentionsBuilder
+  nameWithType: LocalMentionsBuilder
+- uid: Disqord.LocalMentionsBuilder.#ctor
+  name: LocalMentionsBuilder()
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder__ctor
+  commentId: M:Disqord.LocalMentionsBuilder.#ctor
+  fullName: Disqord.LocalMentionsBuilder.LocalMentionsBuilder()
+  nameWithType: LocalMentionsBuilder.LocalMentionsBuilder()
+- uid: Disqord.LocalMentionsBuilder.#ctor*
+  name: LocalMentionsBuilder
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder__ctor_
+  commentId: Overload:Disqord.LocalMentionsBuilder.#ctor
+  isSpec: "True"
+  fullName: Disqord.LocalMentionsBuilder.LocalMentionsBuilder
+  nameWithType: LocalMentionsBuilder.LocalMentionsBuilder
+- uid: Disqord.LocalMentionsBuilder.Build
+  name: Build()
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_Build
+  commentId: M:Disqord.LocalMentionsBuilder.Build
+  fullName: Disqord.LocalMentionsBuilder.Build()
+  nameWithType: LocalMentionsBuilder.Build()
+- uid: Disqord.LocalMentionsBuilder.Build*
+  name: Build
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_Build_
+  commentId: Overload:Disqord.LocalMentionsBuilder.Build
+  isSpec: "True"
+  fullName: Disqord.LocalMentionsBuilder.Build
+  nameWithType: LocalMentionsBuilder.Build
+- uid: Disqord.LocalMentionsBuilder.Clone
+  name: Clone()
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_Clone
+  commentId: M:Disqord.LocalMentionsBuilder.Clone
+  fullName: Disqord.LocalMentionsBuilder.Clone()
+  nameWithType: LocalMentionsBuilder.Clone()
+- uid: Disqord.LocalMentionsBuilder.Clone*
+  name: Clone
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_Clone_
+  commentId: Overload:Disqord.LocalMentionsBuilder.Clone
+  isSpec: "True"
+  fullName: Disqord.LocalMentionsBuilder.Clone
+  nameWithType: LocalMentionsBuilder.Clone
+- uid: Disqord.LocalMentionsBuilder.MAX_MENTION_AMOUNT
+  name: MAX_MENTION_AMOUNT
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_MAX_MENTION_AMOUNT
+  commentId: F:Disqord.LocalMentionsBuilder.MAX_MENTION_AMOUNT
+  fullName: Disqord.LocalMentionsBuilder.MAX_MENTION_AMOUNT
+  nameWithType: LocalMentionsBuilder.MAX_MENTION_AMOUNT
+- uid: Disqord.LocalMentionsBuilder.ParsedMentions
+  name: ParsedMentions
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_ParsedMentions
+  commentId: P:Disqord.LocalMentionsBuilder.ParsedMentions
+  fullName: Disqord.LocalMentionsBuilder.ParsedMentions
+  nameWithType: LocalMentionsBuilder.ParsedMentions
+- uid: Disqord.LocalMentionsBuilder.ParsedMentions*
+  name: ParsedMentions
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_ParsedMentions_
+  commentId: Overload:Disqord.LocalMentionsBuilder.ParsedMentions
+  isSpec: "True"
+  fullName: Disqord.LocalMentionsBuilder.ParsedMentions
+  nameWithType: LocalMentionsBuilder.ParsedMentions
+- uid: Disqord.LocalMentionsBuilder.RoleIds
+  name: RoleIds
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_RoleIds
+  commentId: P:Disqord.LocalMentionsBuilder.RoleIds
+  fullName: Disqord.LocalMentionsBuilder.RoleIds
+  nameWithType: LocalMentionsBuilder.RoleIds
+- uid: Disqord.LocalMentionsBuilder.RoleIds*
+  name: RoleIds
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_RoleIds_
+  commentId: Overload:Disqord.LocalMentionsBuilder.RoleIds
+  isSpec: "True"
+  fullName: Disqord.LocalMentionsBuilder.RoleIds
+  nameWithType: LocalMentionsBuilder.RoleIds
+- uid: Disqord.LocalMentionsBuilder.UserIds
+  name: UserIds
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_UserIds
+  commentId: P:Disqord.LocalMentionsBuilder.UserIds
+  fullName: Disqord.LocalMentionsBuilder.UserIds
+  nameWithType: LocalMentionsBuilder.UserIds
+- uid: Disqord.LocalMentionsBuilder.UserIds*
+  name: UserIds
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_UserIds_
+  commentId: Overload:Disqord.LocalMentionsBuilder.UserIds
+  isSpec: "True"
+  fullName: Disqord.LocalMentionsBuilder.UserIds
+  nameWithType: LocalMentionsBuilder.UserIds
+- uid: Disqord.LocalMentionsBuilder.WithParsedMentions(Disqord.ParsedMention)
+  name: WithParsedMentions(ParsedMention)
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_WithParsedMentions_Disqord_ParsedMention_
+  commentId: M:Disqord.LocalMentionsBuilder.WithParsedMentions(Disqord.ParsedMention)
+  fullName: Disqord.LocalMentionsBuilder.WithParsedMentions(Disqord.ParsedMention)
+  nameWithType: LocalMentionsBuilder.WithParsedMentions(ParsedMention)
+- uid: Disqord.LocalMentionsBuilder.WithParsedMentions*
+  name: WithParsedMentions
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_WithParsedMentions_
+  commentId: Overload:Disqord.LocalMentionsBuilder.WithParsedMentions
+  isSpec: "True"
+  fullName: Disqord.LocalMentionsBuilder.WithParsedMentions
+  nameWithType: LocalMentionsBuilder.WithParsedMentions
+- uid: Disqord.LocalMentionsBuilder.WithRoleIds(Disqord.Snowflake[])
+  name: WithRoleIds(Snowflake[])
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_WithRoleIds_Disqord_Snowflake___
+  commentId: M:Disqord.LocalMentionsBuilder.WithRoleIds(Disqord.Snowflake[])
+  name.vb: WithRoleIds(Snowflake())
+  fullName: Disqord.LocalMentionsBuilder.WithRoleIds(Disqord.Snowflake[])
+  fullName.vb: Disqord.LocalMentionsBuilder.WithRoleIds(Disqord.Snowflake())
+  nameWithType: LocalMentionsBuilder.WithRoleIds(Snowflake[])
+  nameWithType.vb: LocalMentionsBuilder.WithRoleIds(Snowflake())
+- uid: Disqord.LocalMentionsBuilder.WithRoleIds(IEnumerable{Disqord.Snowflake})
+  name: WithRoleIds(IEnumerable<Snowflake>)
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_WithRoleIds_IEnumerable_Disqord_Snowflake__
+  commentId: M:Disqord.LocalMentionsBuilder.WithRoleIds(IEnumerable{Disqord.Snowflake})
+  name.vb: WithRoleIds(IEnumerable(Of Snowflake))
+  fullName: Disqord.LocalMentionsBuilder.WithRoleIds(IEnumerable<Disqord.Snowflake>)
+  fullName.vb: Disqord.LocalMentionsBuilder.WithRoleIds(IEnumerable(Of Disqord.Snowflake))
+  nameWithType: LocalMentionsBuilder.WithRoleIds(IEnumerable<Snowflake>)
+  nameWithType.vb: LocalMentionsBuilder.WithRoleIds(IEnumerable(Of Snowflake))
+- uid: Disqord.LocalMentionsBuilder.WithRoleIds*
+  name: WithRoleIds
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_WithRoleIds_
+  commentId: Overload:Disqord.LocalMentionsBuilder.WithRoleIds
+  isSpec: "True"
+  fullName: Disqord.LocalMentionsBuilder.WithRoleIds
+  nameWithType: LocalMentionsBuilder.WithRoleIds
+- uid: Disqord.LocalMentionsBuilder.WithUserIds(Disqord.Snowflake[])
+  name: WithUserIds(Snowflake[])
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_WithUserIds_Disqord_Snowflake___
+  commentId: M:Disqord.LocalMentionsBuilder.WithUserIds(Disqord.Snowflake[])
+  name.vb: WithUserIds(Snowflake())
+  fullName: Disqord.LocalMentionsBuilder.WithUserIds(Disqord.Snowflake[])
+  fullName.vb: Disqord.LocalMentionsBuilder.WithUserIds(Disqord.Snowflake())
+  nameWithType: LocalMentionsBuilder.WithUserIds(Snowflake[])
+  nameWithType.vb: LocalMentionsBuilder.WithUserIds(Snowflake())
+- uid: Disqord.LocalMentionsBuilder.WithUserIds(IEnumerable{Disqord.Snowflake})
+  name: WithUserIds(IEnumerable<Snowflake>)
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_WithUserIds_IEnumerable_Disqord_Snowflake__
+  commentId: M:Disqord.LocalMentionsBuilder.WithUserIds(IEnumerable{Disqord.Snowflake})
+  name.vb: WithUserIds(IEnumerable(Of Snowflake))
+  fullName: Disqord.LocalMentionsBuilder.WithUserIds(IEnumerable<Disqord.Snowflake>)
+  fullName.vb: Disqord.LocalMentionsBuilder.WithUserIds(IEnumerable(Of Disqord.Snowflake))
+  nameWithType: LocalMentionsBuilder.WithUserIds(IEnumerable<Snowflake>)
+  nameWithType.vb: LocalMentionsBuilder.WithUserIds(IEnumerable(Of Snowflake))
+- uid: Disqord.LocalMentionsBuilder.WithUserIds*
+  name: WithUserIds
+  href: api/Disqord.LocalMentionsBuilder.html#Disqord_LocalMentionsBuilder_WithUserIds_
+  commentId: Overload:Disqord.LocalMentionsBuilder.WithUserIds
+  isSpec: "True"
+  fullName: Disqord.LocalMentionsBuilder.WithUserIds
+  nameWithType: LocalMentionsBuilder.WithUserIds
 - uid: Disqord.LocalOverwrite
   name: LocalOverwrite
   href: api/Disqord.LocalOverwrite.html
@@ -25367,6 +25577,42 @@ references:
   commentId: F:Disqord.OverwriteTargetType.Role
   fullName: Disqord.OverwriteTargetType.Role
   nameWithType: OverwriteTargetType.Role
+- uid: Disqord.ParsedMention
+  name: ParsedMention
+  href: api/Disqord.ParsedMention.html
+  commentId: T:Disqord.ParsedMention
+  fullName: Disqord.ParsedMention
+  nameWithType: ParsedMention
+- uid: Disqord.ParsedMention.All
+  name: All
+  href: api/Disqord.ParsedMention.html#Disqord_ParsedMention_All
+  commentId: F:Disqord.ParsedMention.All
+  fullName: Disqord.ParsedMention.All
+  nameWithType: ParsedMention.All
+- uid: Disqord.ParsedMention.Everyone
+  name: Everyone
+  href: api/Disqord.ParsedMention.html#Disqord_ParsedMention_Everyone
+  commentId: F:Disqord.ParsedMention.Everyone
+  fullName: Disqord.ParsedMention.Everyone
+  nameWithType: ParsedMention.Everyone
+- uid: Disqord.ParsedMention.None
+  name: None
+  href: api/Disqord.ParsedMention.html#Disqord_ParsedMention_None
+  commentId: F:Disqord.ParsedMention.None
+  fullName: Disqord.ParsedMention.None
+  nameWithType: ParsedMention.None
+- uid: Disqord.ParsedMention.Roles
+  name: Roles
+  href: api/Disqord.ParsedMention.html#Disqord_ParsedMention_Roles
+  commentId: F:Disqord.ParsedMention.Roles
+  fullName: Disqord.ParsedMention.Roles
+  nameWithType: ParsedMention.Roles
+- uid: Disqord.ParsedMention.Users
+  name: Users
+  href: api/Disqord.ParsedMention.html#Disqord_ParsedMention_Users
+  commentId: F:Disqord.ParsedMention.Users
+  fullName: Disqord.ParsedMention.Users
+  nameWithType: ParsedMention.Users
 - uid: Disqord.Permission
   name: Permission
   href: api/Disqord.Permission.html
@@ -28948,27 +29194,27 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.IRestDiscordClient.RevokeRoleAsync
   nameWithType: IRestDiscordClient.RevokeRoleAsync
-- uid: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake,Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(Snowflake, LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_SendMessageAsync_Disqord_Snowflake_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake,Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake, Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: IRestDiscordClient.SendMessageAsync(Snowflake, LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake,IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(Snowflake, IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_SendMessageAsync_Disqord_Snowflake_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake,IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name.vb: SendMessageAsync(Snowflake, IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-  fullName: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake, IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake, IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: IRestDiscordClient.SendMessageAsync(Snowflake, IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType.vb: IRestDiscordClient.SendMessageAsync(Snowflake, IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(Snowflake, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_SendMessageAsync_Disqord_Snowflake_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: IRestDiscordClient.SendMessageAsync(Snowflake, String, Boolean, LocalEmbed, RestRequestOptions)
+- uid: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake,Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(Snowflake, LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_SendMessageAsync_Disqord_Snowflake_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake,Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake, Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.SendMessageAsync(Snowflake, LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake,IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(Snowflake, IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_SendMessageAsync_Disqord_Snowflake_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake,IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name.vb: SendMessageAsync(Snowflake, IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake, IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake, IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.SendMessageAsync(Snowflake, IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType.vb: IRestDiscordClient.SendMessageAsync(Snowflake, IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(Snowflake, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_SendMessageAsync_Disqord_Snowflake_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.IRestDiscordClient.SendMessageAsync(Disqord.Snowflake, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: IRestDiscordClient.SendMessageAsync(Snowflake, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
 - uid: Disqord.Rest.IRestDiscordClient.SendMessageAsync*
   name: SendMessageAsync
   href: api/Disqord.Rest.IRestDiscordClient.html#Disqord_Rest_IRestDiscordClient_SendMessageAsync_
@@ -31656,27 +31902,27 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClient.RevokeRoleAsync
   nameWithType: RestDiscordClient.RevokeRoleAsync
-- uid: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake,Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(Snowflake, LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_SendMessageAsync_Disqord_Snowflake_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake,Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake, Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestDiscordClient.SendMessageAsync(Snowflake, LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake,IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(Snowflake, IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_SendMessageAsync_Disqord_Snowflake_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake,IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name.vb: SendMessageAsync(Snowflake, IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-  fullName: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake, IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake, IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestDiscordClient.SendMessageAsync(Snowflake, IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType.vb: RestDiscordClient.SendMessageAsync(Snowflake, IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(Snowflake, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_SendMessageAsync_Disqord_Snowflake_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestDiscordClient.SendMessageAsync(Snowflake, String, Boolean, LocalEmbed, RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake,Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(Snowflake, LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_SendMessageAsync_Disqord_Snowflake_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake,Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake, Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.SendMessageAsync(Snowflake, LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake,IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(Snowflake, IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_SendMessageAsync_Disqord_Snowflake_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake,IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name.vb: SendMessageAsync(Snowflake, IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake, IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake, IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.SendMessageAsync(Snowflake, IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType.vb: RestDiscordClient.SendMessageAsync(Snowflake, IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(Snowflake, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_SendMessageAsync_Disqord_Snowflake_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestDiscordClient.SendMessageAsync(Disqord.Snowflake, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestDiscordClient.SendMessageAsync(Snowflake, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
 - uid: Disqord.Rest.RestDiscordClient.SendMessageAsync*
   name: SendMessageAsync
   href: api/Disqord.Rest.RestDiscordClient.html#Disqord_Rest_RestDiscordClient_SendMessageAsync_
@@ -31787,6 +32033,19 @@ references:
   commentId: T:Disqord.Rest.RestDiscordClientConfiguration
   fullName: Disqord.Rest.RestDiscordClientConfiguration
   nameWithType: RestDiscordClientConfiguration
+- uid: Disqord.Rest.RestDiscordClientConfiguration.DefaultMentions
+  name: DefaultMentions
+  href: api/Disqord.Rest.RestDiscordClientConfiguration.html#Disqord_Rest_RestDiscordClientConfiguration_DefaultMentions
+  commentId: P:Disqord.Rest.RestDiscordClientConfiguration.DefaultMentions
+  fullName: Disqord.Rest.RestDiscordClientConfiguration.DefaultMentions
+  nameWithType: RestDiscordClientConfiguration.DefaultMentions
+- uid: Disqord.Rest.RestDiscordClientConfiguration.DefaultMentions*
+  name: DefaultMentions
+  href: api/Disqord.Rest.RestDiscordClientConfiguration.html#Disqord_Rest_RestDiscordClientConfiguration_DefaultMentions_
+  commentId: Overload:Disqord.Rest.RestDiscordClientConfiguration.DefaultMentions
+  isSpec: "True"
+  fullName: Disqord.Rest.RestDiscordClientConfiguration.DefaultMentions
+  nameWithType: RestDiscordClientConfiguration.DefaultMentions
 - uid: Disqord.Rest.RestDiscordClientConfiguration.Logger
   name: Logger
   href: api/Disqord.Rest.RestDiscordClientConfiguration.html#Disqord_Rest_RestDiscordClientConfiguration_Logger
@@ -35246,27 +35505,27 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestPrivateChannel.RemoveOwnReactionAsync
   nameWithType: RestPrivateChannel.RemoveOwnReactionAsync
-- uid: Disqord.Rest.RestPrivateChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestPrivateChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestPrivateChannel.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestPrivateChannel.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.Rest.RestPrivateChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestPrivateChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-  fullName: Disqord.Rest.RestPrivateChannel.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestPrivateChannel.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestPrivateChannel.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType.vb: RestPrivateChannel.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.Rest.RestPrivateChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestPrivateChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestPrivateChannel.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestPrivateChannel.SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
+- uid: Disqord.Rest.RestPrivateChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestPrivateChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestPrivateChannel.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestPrivateChannel.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.Rest.RestPrivateChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestPrivateChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName: Disqord.Rest.RestPrivateChannel.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestPrivateChannel.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestPrivateChannel.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType.vb: RestPrivateChannel.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.Rest.RestPrivateChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestPrivateChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestPrivateChannel.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestPrivateChannel.SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
 - uid: Disqord.Rest.RestPrivateChannel.SendMessageAsync*
   name: SendMessageAsync
   href: api/Disqord.Rest.RestPrivateChannel.html#Disqord_Rest_RestPrivateChannel_SendMessageAsync_
@@ -36669,27 +36928,27 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestTextChannel.RemoveOwnReactionAsync
   nameWithType: RestTextChannel.RemoveOwnReactionAsync
-- uid: Disqord.Rest.RestTextChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestTextChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestTextChannel.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestTextChannel.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.Rest.RestTextChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestTextChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-  fullName: Disqord.Rest.RestTextChannel.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestTextChannel.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestTextChannel.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType.vb: RestTextChannel.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.Rest.RestTextChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestTextChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestTextChannel.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestTextChannel.SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
+- uid: Disqord.Rest.RestTextChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestTextChannel.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestTextChannel.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestTextChannel.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.Rest.RestTextChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestTextChannel.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName: Disqord.Rest.RestTextChannel.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestTextChannel.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestTextChannel.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType.vb: RestTextChannel.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.Rest.RestTextChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestTextChannel.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestTextChannel.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestTextChannel.SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
 - uid: Disqord.Rest.RestTextChannel.SendMessageAsync*
   name: SendMessageAsync
   href: api/Disqord.Rest.RestTextChannel.html#Disqord_Rest_RestTextChannel_SendMessageAsync_
@@ -36943,27 +37202,27 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestUser.Name
   nameWithType: RestUser.Name
-- uid: Disqord.Rest.RestUser.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.RestUser.html#Disqord_Rest_RestUser_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestUser.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestUser.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestUser.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.Rest.RestUser.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.RestUser.html#Disqord_Rest_RestUser_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestUser.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-  fullName: Disqord.Rest.RestUser.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  fullName.vb: Disqord.Rest.RestUser.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestUser.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, RestRequestOptions)
-  nameWithType.vb: RestUser.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, RestRequestOptions)
-- uid: Disqord.Rest.RestUser.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  name: SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
-  href: api/Disqord.Rest.RestUser.html#Disqord_Rest_RestUser_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_Rest_RestRequestOptions_
-  commentId: M:Disqord.Rest.RestUser.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.Rest.RestRequestOptions)
-  fullName: Disqord.Rest.RestUser.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.Rest.RestRequestOptions)
-  nameWithType: RestUser.SendMessageAsync(String, Boolean, LocalEmbed, RestRequestOptions)
+- uid: Disqord.Rest.RestUser.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.RestUser.html#Disqord_Rest_RestUser_SendMessageAsync_Disqord_LocalAttachment_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestUser.SendMessageAsync(Disqord.LocalAttachment,System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestUser.SendMessageAsync(Disqord.LocalAttachment, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestUser.SendMessageAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.Rest.RestUser.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.RestUser.html#Disqord_Rest_RestUser_SendMessageAsync_IEnumerable_Disqord_LocalAttachment__System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestUser.SendMessageAsync(IEnumerable{Disqord.LocalAttachment},System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name.vb: SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  fullName: Disqord.Rest.RestUser.SendMessageAsync(IEnumerable<Disqord.LocalAttachment>, System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  fullName.vb: Disqord.Rest.RestUser.SendMessageAsync(IEnumerable(Of Disqord.LocalAttachment), System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestUser.SendMessageAsync(IEnumerable<LocalAttachment>, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  nameWithType.vb: RestUser.SendMessageAsync(IEnumerable(Of LocalAttachment), String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+- uid: Disqord.Rest.RestUser.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  name: SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
+  href: api/Disqord.Rest.RestUser.html#Disqord_Rest_RestUser_SendMessageAsync_System_String_System_Boolean_Disqord_LocalEmbed_Disqord_LocalMentions_Disqord_Rest_RestRequestOptions_
+  commentId: M:Disqord.Rest.RestUser.SendMessageAsync(System.String,System.Boolean,Disqord.LocalEmbed,Disqord.LocalMentions,Disqord.Rest.RestRequestOptions)
+  fullName: Disqord.Rest.RestUser.SendMessageAsync(System.String, System.Boolean, Disqord.LocalEmbed, Disqord.LocalMentions, Disqord.Rest.RestRequestOptions)
+  nameWithType: RestUser.SendMessageAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)
 - uid: Disqord.Rest.RestUser.SendMessageAsync*
   name: SendMessageAsync
   href: api/Disqord.Rest.RestUser.html#Disqord_Rest_RestUser_SendMessageAsync_

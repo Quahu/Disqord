@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class DiscordModuleBase
+    <title>Enum ParsedMention
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class DiscordModuleBase
+    <meta name="title" content="Enum ParsedMention
    ">
     <meta name="generator" content="docfx 2.50.0.0">
     
@@ -68,45 +68,57 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Disqord.Bot.DiscordModuleBase">
+            <article class="content wrap" id="_content" data-uid="Disqord.ParsedMention">
   
   
-  <h1 id="Disqord_Bot_DiscordModuleBase" data-uid="Disqord.Bot.DiscordModuleBase" class="text-break">Class DiscordModuleBase
+  <h1 id="Disqord_ParsedMention" data-uid="Disqord.ParsedMention" class="text-break">Enum ParsedMention
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Represents mention types in a message&apos;s content that will be parsed by Discord.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
-    <div class="level1"><a class="xref" href="Disqord.Bot.DiscordModuleBase-1.html">DiscordModuleBase</a>&lt;<a class="xref" href="Disqord.Bot.DiscordCommandContext.html">DiscordCommandContext</a>&gt;</div>
-    <div class="level2"><span class="xref">DiscordModuleBase</span></div>
-      <div class="level3"><a class="xref" href="Disqord.Test.Modules.GeneralModule.html">GeneralModule</a></div>
-      <div class="level3"><a class="xref" href="Disqord.Test.Modules.GeneralModule.GetModule.html">GeneralModule.GetModule</a></div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="Disqord.Bot.DiscordModuleBase-1.html#Disqord_Bot_DiscordModuleBase_1_BeforeExecutedAsync">DiscordModuleBase&lt;DiscordCommandContext&gt;.BeforeExecutedAsync()</a>
-    </div>
-    <div>
-      <a class="xref" href="Disqord.Bot.DiscordModuleBase-1.html#Disqord_Bot_DiscordModuleBase_1_AfterExecutedAsync">DiscordModuleBase&lt;DiscordCommandContext&gt;.AfterExecutedAsync()</a>
-    </div>
-    <div>
-      <a class="xref" href="Disqord.Bot.DiscordModuleBase-1.html#Disqord_Bot_DiscordModuleBase_1_ReplyAsync_System_String_System_Boolean_LocalEmbed_LocalMentions_RestRequestOptions_">DiscordModuleBase&lt;DiscordCommandContext&gt;.ReplyAsync(String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)</a>
-    </div>
-    <div>
-      <a class="xref" href="Disqord.Bot.DiscordModuleBase-1.html#Disqord_Bot_DiscordModuleBase_1_ReplyAsync_LocalAttachment_System_String_System_Boolean_LocalEmbed_LocalMentions_RestRequestOptions_">DiscordModuleBase&lt;DiscordCommandContext&gt;.ReplyAsync(LocalAttachment, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)</a>
-    </div>
-    <div>
-      <a class="xref" href="Disqord.Bot.DiscordModuleBase-1.html#Disqord_Bot_DiscordModuleBase_1_ReplyAsync_IEnumerable_LocalAttachment__System_String_System_Boolean_LocalEmbed_LocalMentions_RestRequestOptions_">DiscordModuleBase&lt;DiscordCommandContext&gt;.ReplyAsync(IEnumerable&lt;LocalAttachment&gt;, String, Boolean, LocalEmbed, LocalMentions, RestRequestOptions)</a>
-    </div>
-  </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="Disqord.Bot.html">Disqord.Bot</a></h6>
-  <h6><strong>Assembly</strong>: Disqord.Bot.dll</h6>
-  <h5 id="Disqord_Bot_DiscordModuleBase_syntax">Syntax</h5>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Disqord.html">Disqord</a></h6>
+  <h6><strong>Assembly</strong>: Disqord.Rest.dll</h6>
+  <h5 id="Disqord_ParsedMention_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class DiscordModuleBase : DiscordModuleBase&lt;DiscordCommandContext&gt;</code></pre>
+    <pre><code class="lang-csharp hljs">public enum ParsedMention : int</code></pre>
   </div>
+  <h3 id="fields">Fields
+  </h3>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    <thead>
+    <tbody>
+      <tr>
+        <td id="Disqord_ParsedMention_All">All</td>
+        <td><p>All mentions will be parsed.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Disqord_ParsedMention_Everyone">Everyone</td>
+        <td><p>Everyone mentions will be parsed.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Disqord_ParsedMention_None">None</td>
+        <td><p>No mentions will be parsed.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Disqord_ParsedMention_Roles">Roles</td>
+        <td><p>Role mentions will be parsed.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Disqord_ParsedMention_Users">Users</td>
+        <td><p>User mentions will be parsed.</p>
+</td>
+      </tr>
+    </tbody>
+  </thead></thead></table>
 </article>
           </div>
           
@@ -115,10 +127,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordModuleBase.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordModuleBase%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_ParsedMention.md&amp;value=---%0Auid%3A%20Disqord.ParsedMention%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordModuleBase.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Rest/Enums/ParsedMention.cs/#L8" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
