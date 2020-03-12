@@ -31,7 +31,7 @@ namespace Disqord.Bot.Parsers
                 channel = values.FirstOrDefault(x => x.Name == value);
 
             if (channel == null && typeof(CachedTextChannel).IsAssignableFrom(typeof(TChannel)) && value.StartsWith("#"))
-                channel = values.FirstOrDefault(x => x.Name.AsSpan().Equals(value.AsSpan().Slice(1), StringComparison.Ordinal));
+                channel = values.FirstOrDefault(x => x.Name.AsSpan().Equals(value.AsSpan().Slice(1), default));
 
             return channel == null
                 ? new TypeParserResult<TChannel>("No channel found matching the input.")

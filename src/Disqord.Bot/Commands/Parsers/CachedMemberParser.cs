@@ -33,8 +33,10 @@ namespace Disqord.Bot.Parsers
                     member = values.FirstOrDefault(x =>
                     {
                         var valueSpan = value.AsSpan();
-                        return x.Name.AsSpan().Equals(valueSpan.Slice(0, value.Length - 5), StringComparison.Ordinal) &&
-                            x.Discriminator == valueSpan.Slice(hashIndex + 1);
+                        var nameSpan = valueSpan.Slice(0, value.Length - 5);
+                        var discriminatorSpan = valueSpan.Slice(hashIndex + 1);
+                        return x.Name.AsSpan().Equals(nameSpan, default)
+                            && x.Discriminator.AsSpan().Equals(discriminatorSpan, default);
                     });
                 }
             }
