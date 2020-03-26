@@ -26,7 +26,7 @@ namespace Disqord.Rest
         }
 
         public string GetIconUrl(ImageFormat format = default, int size = 2048)
-            => Discord.GetGuildIconUrl(Id, IconHash, format, size);
+            => Discord.Cdn.GetGuildIconUrl(Id, IconHash, format, size);
 
         public override string ToString()
             => Name;

@@ -464,16 +464,16 @@ namespace Disqord
             => _roles.GetValueOrDefault(id);
 
         public string GetIconUrl(ImageFormat format = default, int size = 2048)
-            => Discord.GetGuildIconUrl(Id, IconHash, format, size);
+            => Discord.Cdn.GetGuildIconUrl(Id, IconHash, format, size);
 
         public string GetSplashUrl(int size = 2048)
-            => Discord.GetGuildSplashUrl(Id, SplashHash, ImageFormat.Png, size);
+            => Discord.Cdn.GetGuildSplashUrl(Id, SplashHash, ImageFormat.Png, size);
 
         public string GetDiscoverySplashUrl(int size = 2048)
-            => Discord.GetGuildDiscoverySplashUrl(Id, DiscoverySplashHash, ImageFormat.Png, size);
+            => Discord.Cdn.GetGuildDiscoverySplashUrl(Id, DiscoverySplashHash, ImageFormat.Png, size);
 
         public string GetBannerUrl(int size = 2048)
-            => Discord.GetGuildBannerUrl(Id, BannerHash, ImageFormat.Png, size);
+            => Discord.Cdn.GetGuildBannerUrl(Id, BannerHash, ImageFormat.Png, size);
 
         public override string ToString()
             => Name;

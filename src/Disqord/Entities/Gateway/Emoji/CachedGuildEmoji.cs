@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Disqord.Collections;
 using Disqord.Models;
@@ -47,7 +47,7 @@ namespace Disqord
         }
 
         public string GetUrl(int size = 2048)
-            => Discord.GetCustomEmojiUrl(Id, IsAnimated, size);
+            => Discord.Cdn.GetCustomEmojiUrl(Id, IsAnimated, size);
 
         public bool Equals(IEmoji other)
             => Discord.Comparers.Emoji.Equals(this, other);

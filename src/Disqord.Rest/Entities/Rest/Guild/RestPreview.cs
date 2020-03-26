@@ -49,13 +49,13 @@ namespace Disqord.Rest
         }
 
         public string GetIconUrl(ImageFormat format = default, int size = 2048)
-            => Discord.GetGuildIconUrl(GuildId, IconHash, format, size);
+            => Discord.Cdn.GetGuildIconUrl(GuildId, IconHash, format, size);
 
         public string GetSplashUrl(int size = 2048)
-            => Discord.GetGuildSplashUrl(GuildId, SplashHash, ImageFormat.Png, size);
+            => Discord.Cdn.GetGuildSplashUrl(GuildId, SplashHash, ImageFormat.Png, size);
 
         public string GetDiscoverySplashUrl(int size = 2048)
-            => Discord.GetGuildDiscoverySplashUrl(GuildId, DiscoverySplashHash, ImageFormat.Png, size);
+            => Discord.Cdn.GetGuildDiscoverySplashUrl(GuildId, DiscoverySplashHash, ImageFormat.Png, size);
 
         public override string ToString()
             => Name;
