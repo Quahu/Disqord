@@ -5,13 +5,13 @@ using Qmmands;
 
 namespace Disqord.Bot.Parsers
 {
-    public sealed class ColorParser : TypeParser<Color>
+    public sealed class ColorTypeParser : TypeParser<Color>
     {
-        public static ColorParser Instance => _instance ?? (_instance = new ColorParser());
+        public static ColorTypeParser Instance => _instance ?? (_instance = new ColorTypeParser());
 
-        private static ColorParser _instance;
+        private static ColorTypeParser _instance;
 
-        private ColorParser()
+        private ColorTypeParser()
         { }
 
         public override ValueTask<TypeParserResult<Color>> ParseAsync(Parameter parameter, string value, CommandContext context)

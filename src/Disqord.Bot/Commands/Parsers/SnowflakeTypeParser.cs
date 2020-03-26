@@ -4,13 +4,13 @@ using Qmmands;
 
 namespace Disqord.Bot.Parsers
 {
-    public sealed class SnowflakeParser : TypeParser<Snowflake>
+    public sealed class SnowflakeTypeParser : TypeParser<Snowflake>
     {
-        public static SnowflakeParser Instance => _instance ?? (_instance = new SnowflakeParser());
+        public static SnowflakeTypeParser Instance => _instance ?? (_instance = new SnowflakeTypeParser());
 
-        private static SnowflakeParser _instance;
+        private static SnowflakeTypeParser _instance;
 
-        private SnowflakeParser()
+        private SnowflakeTypeParser()
         { }
 
         public override ValueTask<TypeParserResult<Snowflake>> ParseAsync(Parameter parameter, string value, CommandContext context)

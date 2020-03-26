@@ -3,13 +3,13 @@ using Qmmands;
 
 namespace Disqord.Bot.Parsers
 {
-    public sealed class LocalCustomEmojiParser : TypeParser<LocalCustomEmoji>
+    public sealed class LocalCustomEmojiTypeParser : TypeParser<LocalCustomEmoji>
     {
-        public static LocalCustomEmojiParser Instance => _instance ?? (_instance = new LocalCustomEmojiParser());
+        public static LocalCustomEmojiTypeParser Instance => _instance ?? (_instance = new LocalCustomEmojiTypeParser());
 
-        private static LocalCustomEmojiParser _instance;
+        private static LocalCustomEmojiTypeParser _instance;
 
-        private LocalCustomEmojiParser()
+        private LocalCustomEmojiTypeParser()
         { }
 
         public override ValueTask<TypeParserResult<LocalCustomEmoji>> ParseAsync(Parameter parameter, string value, CommandContext context)

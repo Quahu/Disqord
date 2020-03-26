@@ -5,13 +5,13 @@ using Qmmands;
 
 namespace Disqord.Bot.Parsers
 {
-    public sealed class CachedRoleParser : TypeParser<CachedRole>
+    public sealed class CachedRoleTypeParser : TypeParser<CachedRole>
     {
-        public static CachedRoleParser Instance => _instance ?? (_instance = new CachedRoleParser());
+        public static CachedRoleTypeParser Instance => _instance ?? (_instance = new CachedRoleTypeParser());
 
-        private static CachedRoleParser _instance;
+        private static CachedRoleTypeParser _instance;
 
-        private CachedRoleParser()
+        private CachedRoleTypeParser()
         { }
 
         public override ValueTask<TypeParserResult<CachedRole>> ParseAsync(Parameter parameter, string value, CommandContext context)

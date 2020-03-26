@@ -6,13 +6,13 @@ using Qmmands;
 
 namespace Disqord.Bot.Parsers
 {
-    public sealed class CachedUserParser : TypeParser<CachedUser>
+    public sealed class CachedUserTypeParser : TypeParser<CachedUser>
     {
-        public static CachedUserParser Instance => _instance ?? (_instance = new CachedUserParser());
+        public static CachedUserTypeParser Instance => _instance ?? (_instance = new CachedUserTypeParser());
 
-        private static CachedUserParser _instance;
+        private static CachedUserTypeParser _instance;
 
-        private CachedUserParser()
+        private CachedUserTypeParser()
         { }
 
         public override ValueTask<TypeParserResult<CachedUser>> ParseAsync(Parameter parameter, string value, CommandContext _)
@@ -20,7 +20,7 @@ namespace Disqord.Bot.Parsers
             var context = (DiscordCommandContext) _;
             if (context.Guild != null)
             {
-                var memberParserResult = CachedMemberParser.Instance.ParseAsync(parameter, value, _).Result;
+                var memberParserResult = CachedMemberTypeParser.Instance.ParseAsync(parameter, value, _).Result;
                 return memberParserResult.IsSuccessful
                     ? TypeParserResult<CachedUser>.Successful(memberParserResult.Value)
                     : TypeParserResult<CachedUser>.Unsuccessful(memberParserResult.Reason);

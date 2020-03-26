@@ -6,13 +6,13 @@ using Qmmands;
 
 namespace Disqord.Bot.Parsers
 {
-    public sealed class CachedGuildChannelParser<TChannel> : TypeParser<TChannel> where TChannel : CachedGuildChannel
+    public sealed class CachedGuildChannelTypeParser<TChannel> : TypeParser<TChannel> where TChannel : CachedGuildChannel
     {
-        public static CachedGuildChannelParser<TChannel> Instance => _instance ?? (_instance = new CachedGuildChannelParser<TChannel>());
+        public static CachedGuildChannelTypeParser<TChannel> Instance => _instance ?? (_instance = new CachedGuildChannelTypeParser<TChannel>());
 
-        private static CachedGuildChannelParser<TChannel> _instance;
+        private static CachedGuildChannelTypeParser<TChannel> _instance;
 
-        private CachedGuildChannelParser()
+        private CachedGuildChannelTypeParser()
         { }
 
         public override ValueTask<TypeParserResult<TChannel>> ParseAsync(Parameter parameter, string value, CommandContext _)

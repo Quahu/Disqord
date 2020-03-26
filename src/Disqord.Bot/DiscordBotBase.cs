@@ -23,16 +23,16 @@ namespace Disqord.Bot
             PrefixProvider = prefixProvider;
             _commandService = new CommandService(configuration.CommandServiceConfiguration ?? CommandServiceConfiguration.Default);
             _provider = configuration.ProviderFactory?.Invoke(this);
-            AddTypeParser(CachedRoleParser.Instance);
-            AddTypeParser(CachedMemberParser.Instance);
-            AddTypeParser(CachedUserParser.Instance);
-            AddTypeParser(CachedGuildChannelParser<CachedGuildChannel>.Instance);
-            AddTypeParser(CachedGuildChannelParser<CachedTextChannel>.Instance);
-            AddTypeParser(CachedGuildChannelParser<CachedVoiceChannel>.Instance);
-            AddTypeParser(CachedGuildChannelParser<CachedCategoryChannel>.Instance);
-            AddTypeParser(LocalCustomEmojiParser.Instance);
-            AddTypeParser(SnowflakeParser.Instance);
-            AddTypeParser(ColorParser.Instance);
+            AddTypeParser(CachedRoleTypeParser.Instance);
+            AddTypeParser(CachedMemberTypeParser.Instance);
+            AddTypeParser(CachedUserTypeParser.Instance);
+            AddTypeParser(CachedGuildChannelTypeParser<CachedGuildChannel>.Instance);
+            AddTypeParser(CachedGuildChannelTypeParser<CachedTextChannel>.Instance);
+            AddTypeParser(CachedGuildChannelTypeParser<CachedVoiceChannel>.Instance);
+            AddTypeParser(CachedGuildChannelTypeParser<CachedCategoryChannel>.Instance);
+            AddTypeParser(LocalCustomEmojiTypeParser.Instance);
+            AddTypeParser(SnowflakeTypeParser.Instance);
+            AddTypeParser(ColorTypeParser.Instance);
             //AddTypeParser(SanitaryContentParser.Instance);
 
             MessageReceived += MessageReceivedAsync;
