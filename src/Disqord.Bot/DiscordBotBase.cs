@@ -159,11 +159,15 @@ namespace Disqord.Bot
         internal new void Log(LogMessageSeverity severity, string message, Exception exception = null)
             => Logger.Log(this, new MessageLoggedEventArgs("Bot", severity, message, exception));
 
-        public override ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             MessageReceived -= MessageReceivedAsync;
-            (_provider as IDisposable)?.Dispose();
-            return base.DisposeAsync();
+            if (_provider is IAsyncDisposable asyncDisposableProvider)
+                await asyncDisposableProvider.DisposeAsync().ConfigureAwait(false);
+            else if (_provider is IDisposable disposableProvider)
+                disposableProvider.Dispose();
+
+            await base.DisposeAsync().ConfigureAwait(false);
         }
     }
 }
