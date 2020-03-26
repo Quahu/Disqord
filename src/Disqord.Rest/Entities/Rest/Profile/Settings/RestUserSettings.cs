@@ -74,7 +74,7 @@ namespace Disqord.Rest
             EnableStreamNotifications = model.StreamNotificationsEnabled.Value;
             Status = model.Status.Value;
             ShowCurrentGame = model.ShowCurrentGame.Value;
-            RestrictedGuildIds = model.RestrictedGuilds.Value.Snowflakes();
+            RestrictedGuildIds = model.RestrictedGuilds.Value.ToSnowflakeList();
             RenderReactions = model.RenderReactions.Value;
             RenderEmbeds = model.RenderEmbeds.Value;
             EnableCompactMessages = model.MessageDisplayCompact.Value;

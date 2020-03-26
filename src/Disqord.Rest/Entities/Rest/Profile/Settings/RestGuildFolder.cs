@@ -25,7 +25,7 @@ namespace Disqord.Rest
         {
             Id = model.Id.Value;
             Name = model.Name;
-            GuildIds = model.GuildIds.Snowflakes();
+            GuildIds = model.GuildIds.ToSnowflakeList();
             Color = model.Color;
             UserSettings = userSettings;
         }

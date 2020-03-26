@@ -60,7 +60,7 @@ namespace Disqord
                 MentionsEveryone = model.MentionEveryone.Value;
 
             if (model.RoleMentions.HasValue)
-                MentionedRoleIds = model.RoleMentions.Value.Snowflakes();
+                MentionedRoleIds = model.RoleMentions.Value.ToSnowflakeList();
 
             if (model.Attachments.HasValue)
                 Attachments = model.Attachments.Value.ToReadOnlyList(x => x.ToAttachment());
