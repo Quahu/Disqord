@@ -1175,241 +1175,241 @@ references:
   commentId: N:Disqord.Bot.Parsers
   fullName: Disqord.Bot.Parsers
   nameWithType: Disqord.Bot.Parsers
-- uid: Disqord.Bot.Parsers.CachedGuildChannelParser`1
-  name: CachedGuildChannelParser<TChannel>
-  href: api/Disqord.Bot.Parsers.CachedGuildChannelParser-1.html
-  commentId: T:Disqord.Bot.Parsers.CachedGuildChannelParser`1
-  name.vb: CachedGuildChannelParser(Of TChannel)
-  fullName: Disqord.Bot.Parsers.CachedGuildChannelParser<TChannel>
-  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelParser(Of TChannel)
-  nameWithType: CachedGuildChannelParser<TChannel>
-  nameWithType.vb: CachedGuildChannelParser(Of TChannel)
-- uid: Disqord.Bot.Parsers.CachedGuildChannelParser`1.Instance
+- uid: Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1
+  name: CachedGuildChannelTypeParser<TChannel>
+  href: api/Disqord.Bot.Parsers.CachedGuildChannelTypeParser-1.html
+  commentId: T:Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1
+  name.vb: CachedGuildChannelTypeParser(Of TChannel)
+  fullName: Disqord.Bot.Parsers.CachedGuildChannelTypeParser<TChannel>
+  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelTypeParser(Of TChannel)
+  nameWithType: CachedGuildChannelTypeParser<TChannel>
+  nameWithType.vb: CachedGuildChannelTypeParser(Of TChannel)
+- uid: Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.Instance
   name: Instance
-  href: api/Disqord.Bot.Parsers.CachedGuildChannelParser-1.html#Disqord_Bot_Parsers_CachedGuildChannelParser_1_Instance
-  commentId: P:Disqord.Bot.Parsers.CachedGuildChannelParser`1.Instance
-  fullName: Disqord.Bot.Parsers.CachedGuildChannelParser<TChannel>.Instance
-  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelParser(Of TChannel).Instance
-  nameWithType: CachedGuildChannelParser<TChannel>.Instance
-  nameWithType.vb: CachedGuildChannelParser(Of TChannel).Instance
-- uid: Disqord.Bot.Parsers.CachedGuildChannelParser`1.Instance*
+  href: api/Disqord.Bot.Parsers.CachedGuildChannelTypeParser-1.html#Disqord_Bot_Parsers_CachedGuildChannelTypeParser_1_Instance
+  commentId: P:Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.Instance
+  fullName: Disqord.Bot.Parsers.CachedGuildChannelTypeParser<TChannel>.Instance
+  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelTypeParser(Of TChannel).Instance
+  nameWithType: CachedGuildChannelTypeParser<TChannel>.Instance
+  nameWithType.vb: CachedGuildChannelTypeParser(Of TChannel).Instance
+- uid: Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.Instance*
   name: Instance
-  href: api/Disqord.Bot.Parsers.CachedGuildChannelParser-1.html#Disqord_Bot_Parsers_CachedGuildChannelParser_1_Instance_
-  commentId: Overload:Disqord.Bot.Parsers.CachedGuildChannelParser`1.Instance
+  href: api/Disqord.Bot.Parsers.CachedGuildChannelTypeParser-1.html#Disqord_Bot_Parsers_CachedGuildChannelTypeParser_1_Instance_
+  commentId: Overload:Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.Instance
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.CachedGuildChannelParser<TChannel>.Instance
-  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelParser(Of TChannel).Instance
-  nameWithType: CachedGuildChannelParser<TChannel>.Instance
-  nameWithType.vb: CachedGuildChannelParser(Of TChannel).Instance
-- uid: Disqord.Bot.Parsers.CachedGuildChannelParser`1.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.CachedGuildChannelTypeParser<TChannel>.Instance
+  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelTypeParser(Of TChannel).Instance
+  nameWithType: CachedGuildChannelTypeParser<TChannel>.Instance
+  nameWithType.vb: CachedGuildChannelTypeParser(Of TChannel).Instance
+- uid: Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.ParseAsync(Parameter,System.String,CommandContext)
   name: ParseAsync(Parameter, String, CommandContext)
-  href: api/Disqord.Bot.Parsers.CachedGuildChannelParser-1.html#Disqord_Bot_Parsers_CachedGuildChannelParser_1_ParseAsync_Parameter_System_String_CommandContext_
-  commentId: M:Disqord.Bot.Parsers.CachedGuildChannelParser`1.ParseAsync(Parameter,System.String,CommandContext)
-  fullName: Disqord.Bot.Parsers.CachedGuildChannelParser<TChannel>.ParseAsync(Parameter, System.String, CommandContext)
-  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelParser(Of TChannel).ParseAsync(Parameter, System.String, CommandContext)
-  nameWithType: CachedGuildChannelParser<TChannel>.ParseAsync(Parameter, String, CommandContext)
-  nameWithType.vb: CachedGuildChannelParser(Of TChannel).ParseAsync(Parameter, String, CommandContext)
-- uid: Disqord.Bot.Parsers.CachedGuildChannelParser`1.ParseAsync*
+  href: api/Disqord.Bot.Parsers.CachedGuildChannelTypeParser-1.html#Disqord_Bot_Parsers_CachedGuildChannelTypeParser_1_ParseAsync_Parameter_System_String_CommandContext_
+  commentId: M:Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.CachedGuildChannelTypeParser<TChannel>.ParseAsync(Parameter, System.String, CommandContext)
+  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelTypeParser(Of TChannel).ParseAsync(Parameter, System.String, CommandContext)
+  nameWithType: CachedGuildChannelTypeParser<TChannel>.ParseAsync(Parameter, String, CommandContext)
+  nameWithType.vb: CachedGuildChannelTypeParser(Of TChannel).ParseAsync(Parameter, String, CommandContext)
+- uid: Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.ParseAsync*
   name: ParseAsync
-  href: api/Disqord.Bot.Parsers.CachedGuildChannelParser-1.html#Disqord_Bot_Parsers_CachedGuildChannelParser_1_ParseAsync_
-  commentId: Overload:Disqord.Bot.Parsers.CachedGuildChannelParser`1.ParseAsync
+  href: api/Disqord.Bot.Parsers.CachedGuildChannelTypeParser-1.html#Disqord_Bot_Parsers_CachedGuildChannelTypeParser_1_ParseAsync_
+  commentId: Overload:Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.ParseAsync
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.CachedGuildChannelParser<TChannel>.ParseAsync
-  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelParser(Of TChannel).ParseAsync
-  nameWithType: CachedGuildChannelParser<TChannel>.ParseAsync
-  nameWithType.vb: CachedGuildChannelParser(Of TChannel).ParseAsync
-- uid: Disqord.Bot.Parsers.CachedMemberParser
-  name: CachedMemberParser
-  href: api/Disqord.Bot.Parsers.CachedMemberParser.html
-  commentId: T:Disqord.Bot.Parsers.CachedMemberParser
-  fullName: Disqord.Bot.Parsers.CachedMemberParser
-  nameWithType: CachedMemberParser
-- uid: Disqord.Bot.Parsers.CachedMemberParser.Instance
+  fullName: Disqord.Bot.Parsers.CachedGuildChannelTypeParser<TChannel>.ParseAsync
+  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelTypeParser(Of TChannel).ParseAsync
+  nameWithType: CachedGuildChannelTypeParser<TChannel>.ParseAsync
+  nameWithType.vb: CachedGuildChannelTypeParser(Of TChannel).ParseAsync
+- uid: Disqord.Bot.Parsers.CachedMemberTypeParser
+  name: CachedMemberTypeParser
+  href: api/Disqord.Bot.Parsers.CachedMemberTypeParser.html
+  commentId: T:Disqord.Bot.Parsers.CachedMemberTypeParser
+  fullName: Disqord.Bot.Parsers.CachedMemberTypeParser
+  nameWithType: CachedMemberTypeParser
+- uid: Disqord.Bot.Parsers.CachedMemberTypeParser.Instance
   name: Instance
-  href: api/Disqord.Bot.Parsers.CachedMemberParser.html#Disqord_Bot_Parsers_CachedMemberParser_Instance
-  commentId: P:Disqord.Bot.Parsers.CachedMemberParser.Instance
-  fullName: Disqord.Bot.Parsers.CachedMemberParser.Instance
-  nameWithType: CachedMemberParser.Instance
-- uid: Disqord.Bot.Parsers.CachedMemberParser.Instance*
+  href: api/Disqord.Bot.Parsers.CachedMemberTypeParser.html#Disqord_Bot_Parsers_CachedMemberTypeParser_Instance
+  commentId: P:Disqord.Bot.Parsers.CachedMemberTypeParser.Instance
+  fullName: Disqord.Bot.Parsers.CachedMemberTypeParser.Instance
+  nameWithType: CachedMemberTypeParser.Instance
+- uid: Disqord.Bot.Parsers.CachedMemberTypeParser.Instance*
   name: Instance
-  href: api/Disqord.Bot.Parsers.CachedMemberParser.html#Disqord_Bot_Parsers_CachedMemberParser_Instance_
-  commentId: Overload:Disqord.Bot.Parsers.CachedMemberParser.Instance
+  href: api/Disqord.Bot.Parsers.CachedMemberTypeParser.html#Disqord_Bot_Parsers_CachedMemberTypeParser_Instance_
+  commentId: Overload:Disqord.Bot.Parsers.CachedMemberTypeParser.Instance
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.CachedMemberParser.Instance
-  nameWithType: CachedMemberParser.Instance
-- uid: Disqord.Bot.Parsers.CachedMemberParser.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.CachedMemberTypeParser.Instance
+  nameWithType: CachedMemberTypeParser.Instance
+- uid: Disqord.Bot.Parsers.CachedMemberTypeParser.ParseAsync(Parameter,System.String,CommandContext)
   name: ParseAsync(Parameter, String, CommandContext)
-  href: api/Disqord.Bot.Parsers.CachedMemberParser.html#Disqord_Bot_Parsers_CachedMemberParser_ParseAsync_Parameter_System_String_CommandContext_
-  commentId: M:Disqord.Bot.Parsers.CachedMemberParser.ParseAsync(Parameter,System.String,CommandContext)
-  fullName: Disqord.Bot.Parsers.CachedMemberParser.ParseAsync(Parameter, System.String, CommandContext)
-  nameWithType: CachedMemberParser.ParseAsync(Parameter, String, CommandContext)
-- uid: Disqord.Bot.Parsers.CachedMemberParser.ParseAsync*
+  href: api/Disqord.Bot.Parsers.CachedMemberTypeParser.html#Disqord_Bot_Parsers_CachedMemberTypeParser_ParseAsync_Parameter_System_String_CommandContext_
+  commentId: M:Disqord.Bot.Parsers.CachedMemberTypeParser.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.CachedMemberTypeParser.ParseAsync(Parameter, System.String, CommandContext)
+  nameWithType: CachedMemberTypeParser.ParseAsync(Parameter, String, CommandContext)
+- uid: Disqord.Bot.Parsers.CachedMemberTypeParser.ParseAsync*
   name: ParseAsync
-  href: api/Disqord.Bot.Parsers.CachedMemberParser.html#Disqord_Bot_Parsers_CachedMemberParser_ParseAsync_
-  commentId: Overload:Disqord.Bot.Parsers.CachedMemberParser.ParseAsync
+  href: api/Disqord.Bot.Parsers.CachedMemberTypeParser.html#Disqord_Bot_Parsers_CachedMemberTypeParser_ParseAsync_
+  commentId: Overload:Disqord.Bot.Parsers.CachedMemberTypeParser.ParseAsync
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.CachedMemberParser.ParseAsync
-  nameWithType: CachedMemberParser.ParseAsync
-- uid: Disqord.Bot.Parsers.CachedRoleParser
-  name: CachedRoleParser
-  href: api/Disqord.Bot.Parsers.CachedRoleParser.html
-  commentId: T:Disqord.Bot.Parsers.CachedRoleParser
-  fullName: Disqord.Bot.Parsers.CachedRoleParser
-  nameWithType: CachedRoleParser
-- uid: Disqord.Bot.Parsers.CachedRoleParser.Instance
+  fullName: Disqord.Bot.Parsers.CachedMemberTypeParser.ParseAsync
+  nameWithType: CachedMemberTypeParser.ParseAsync
+- uid: Disqord.Bot.Parsers.CachedRoleTypeParser
+  name: CachedRoleTypeParser
+  href: api/Disqord.Bot.Parsers.CachedRoleTypeParser.html
+  commentId: T:Disqord.Bot.Parsers.CachedRoleTypeParser
+  fullName: Disqord.Bot.Parsers.CachedRoleTypeParser
+  nameWithType: CachedRoleTypeParser
+- uid: Disqord.Bot.Parsers.CachedRoleTypeParser.Instance
   name: Instance
-  href: api/Disqord.Bot.Parsers.CachedRoleParser.html#Disqord_Bot_Parsers_CachedRoleParser_Instance
-  commentId: P:Disqord.Bot.Parsers.CachedRoleParser.Instance
-  fullName: Disqord.Bot.Parsers.CachedRoleParser.Instance
-  nameWithType: CachedRoleParser.Instance
-- uid: Disqord.Bot.Parsers.CachedRoleParser.Instance*
+  href: api/Disqord.Bot.Parsers.CachedRoleTypeParser.html#Disqord_Bot_Parsers_CachedRoleTypeParser_Instance
+  commentId: P:Disqord.Bot.Parsers.CachedRoleTypeParser.Instance
+  fullName: Disqord.Bot.Parsers.CachedRoleTypeParser.Instance
+  nameWithType: CachedRoleTypeParser.Instance
+- uid: Disqord.Bot.Parsers.CachedRoleTypeParser.Instance*
   name: Instance
-  href: api/Disqord.Bot.Parsers.CachedRoleParser.html#Disqord_Bot_Parsers_CachedRoleParser_Instance_
-  commentId: Overload:Disqord.Bot.Parsers.CachedRoleParser.Instance
+  href: api/Disqord.Bot.Parsers.CachedRoleTypeParser.html#Disqord_Bot_Parsers_CachedRoleTypeParser_Instance_
+  commentId: Overload:Disqord.Bot.Parsers.CachedRoleTypeParser.Instance
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.CachedRoleParser.Instance
-  nameWithType: CachedRoleParser.Instance
-- uid: Disqord.Bot.Parsers.CachedRoleParser.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.CachedRoleTypeParser.Instance
+  nameWithType: CachedRoleTypeParser.Instance
+- uid: Disqord.Bot.Parsers.CachedRoleTypeParser.ParseAsync(Parameter,System.String,CommandContext)
   name: ParseAsync(Parameter, String, CommandContext)
-  href: api/Disqord.Bot.Parsers.CachedRoleParser.html#Disqord_Bot_Parsers_CachedRoleParser_ParseAsync_Parameter_System_String_CommandContext_
-  commentId: M:Disqord.Bot.Parsers.CachedRoleParser.ParseAsync(Parameter,System.String,CommandContext)
-  fullName: Disqord.Bot.Parsers.CachedRoleParser.ParseAsync(Parameter, System.String, CommandContext)
-  nameWithType: CachedRoleParser.ParseAsync(Parameter, String, CommandContext)
-- uid: Disqord.Bot.Parsers.CachedRoleParser.ParseAsync*
+  href: api/Disqord.Bot.Parsers.CachedRoleTypeParser.html#Disqord_Bot_Parsers_CachedRoleTypeParser_ParseAsync_Parameter_System_String_CommandContext_
+  commentId: M:Disqord.Bot.Parsers.CachedRoleTypeParser.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.CachedRoleTypeParser.ParseAsync(Parameter, System.String, CommandContext)
+  nameWithType: CachedRoleTypeParser.ParseAsync(Parameter, String, CommandContext)
+- uid: Disqord.Bot.Parsers.CachedRoleTypeParser.ParseAsync*
   name: ParseAsync
-  href: api/Disqord.Bot.Parsers.CachedRoleParser.html#Disqord_Bot_Parsers_CachedRoleParser_ParseAsync_
-  commentId: Overload:Disqord.Bot.Parsers.CachedRoleParser.ParseAsync
+  href: api/Disqord.Bot.Parsers.CachedRoleTypeParser.html#Disqord_Bot_Parsers_CachedRoleTypeParser_ParseAsync_
+  commentId: Overload:Disqord.Bot.Parsers.CachedRoleTypeParser.ParseAsync
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.CachedRoleParser.ParseAsync
-  nameWithType: CachedRoleParser.ParseAsync
-- uid: Disqord.Bot.Parsers.CachedUserParser
-  name: CachedUserParser
-  href: api/Disqord.Bot.Parsers.CachedUserParser.html
-  commentId: T:Disqord.Bot.Parsers.CachedUserParser
-  fullName: Disqord.Bot.Parsers.CachedUserParser
-  nameWithType: CachedUserParser
-- uid: Disqord.Bot.Parsers.CachedUserParser.Instance
+  fullName: Disqord.Bot.Parsers.CachedRoleTypeParser.ParseAsync
+  nameWithType: CachedRoleTypeParser.ParseAsync
+- uid: Disqord.Bot.Parsers.CachedUserTypeParser
+  name: CachedUserTypeParser
+  href: api/Disqord.Bot.Parsers.CachedUserTypeParser.html
+  commentId: T:Disqord.Bot.Parsers.CachedUserTypeParser
+  fullName: Disqord.Bot.Parsers.CachedUserTypeParser
+  nameWithType: CachedUserTypeParser
+- uid: Disqord.Bot.Parsers.CachedUserTypeParser.Instance
   name: Instance
-  href: api/Disqord.Bot.Parsers.CachedUserParser.html#Disqord_Bot_Parsers_CachedUserParser_Instance
-  commentId: P:Disqord.Bot.Parsers.CachedUserParser.Instance
-  fullName: Disqord.Bot.Parsers.CachedUserParser.Instance
-  nameWithType: CachedUserParser.Instance
-- uid: Disqord.Bot.Parsers.CachedUserParser.Instance*
+  href: api/Disqord.Bot.Parsers.CachedUserTypeParser.html#Disqord_Bot_Parsers_CachedUserTypeParser_Instance
+  commentId: P:Disqord.Bot.Parsers.CachedUserTypeParser.Instance
+  fullName: Disqord.Bot.Parsers.CachedUserTypeParser.Instance
+  nameWithType: CachedUserTypeParser.Instance
+- uid: Disqord.Bot.Parsers.CachedUserTypeParser.Instance*
   name: Instance
-  href: api/Disqord.Bot.Parsers.CachedUserParser.html#Disqord_Bot_Parsers_CachedUserParser_Instance_
-  commentId: Overload:Disqord.Bot.Parsers.CachedUserParser.Instance
+  href: api/Disqord.Bot.Parsers.CachedUserTypeParser.html#Disqord_Bot_Parsers_CachedUserTypeParser_Instance_
+  commentId: Overload:Disqord.Bot.Parsers.CachedUserTypeParser.Instance
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.CachedUserParser.Instance
-  nameWithType: CachedUserParser.Instance
-- uid: Disqord.Bot.Parsers.CachedUserParser.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.CachedUserTypeParser.Instance
+  nameWithType: CachedUserTypeParser.Instance
+- uid: Disqord.Bot.Parsers.CachedUserTypeParser.ParseAsync(Parameter,System.String,CommandContext)
   name: ParseAsync(Parameter, String, CommandContext)
-  href: api/Disqord.Bot.Parsers.CachedUserParser.html#Disqord_Bot_Parsers_CachedUserParser_ParseAsync_Parameter_System_String_CommandContext_
-  commentId: M:Disqord.Bot.Parsers.CachedUserParser.ParseAsync(Parameter,System.String,CommandContext)
-  fullName: Disqord.Bot.Parsers.CachedUserParser.ParseAsync(Parameter, System.String, CommandContext)
-  nameWithType: CachedUserParser.ParseAsync(Parameter, String, CommandContext)
-- uid: Disqord.Bot.Parsers.CachedUserParser.ParseAsync*
+  href: api/Disqord.Bot.Parsers.CachedUserTypeParser.html#Disqord_Bot_Parsers_CachedUserTypeParser_ParseAsync_Parameter_System_String_CommandContext_
+  commentId: M:Disqord.Bot.Parsers.CachedUserTypeParser.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.CachedUserTypeParser.ParseAsync(Parameter, System.String, CommandContext)
+  nameWithType: CachedUserTypeParser.ParseAsync(Parameter, String, CommandContext)
+- uid: Disqord.Bot.Parsers.CachedUserTypeParser.ParseAsync*
   name: ParseAsync
-  href: api/Disqord.Bot.Parsers.CachedUserParser.html#Disqord_Bot_Parsers_CachedUserParser_ParseAsync_
-  commentId: Overload:Disqord.Bot.Parsers.CachedUserParser.ParseAsync
+  href: api/Disqord.Bot.Parsers.CachedUserTypeParser.html#Disqord_Bot_Parsers_CachedUserTypeParser_ParseAsync_
+  commentId: Overload:Disqord.Bot.Parsers.CachedUserTypeParser.ParseAsync
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.CachedUserParser.ParseAsync
-  nameWithType: CachedUserParser.ParseAsync
-- uid: Disqord.Bot.Parsers.ColorParser
-  name: ColorParser
-  href: api/Disqord.Bot.Parsers.ColorParser.html
-  commentId: T:Disqord.Bot.Parsers.ColorParser
-  fullName: Disqord.Bot.Parsers.ColorParser
-  nameWithType: ColorParser
-- uid: Disqord.Bot.Parsers.ColorParser.Instance
+  fullName: Disqord.Bot.Parsers.CachedUserTypeParser.ParseAsync
+  nameWithType: CachedUserTypeParser.ParseAsync
+- uid: Disqord.Bot.Parsers.ColorTypeParser
+  name: ColorTypeParser
+  href: api/Disqord.Bot.Parsers.ColorTypeParser.html
+  commentId: T:Disqord.Bot.Parsers.ColorTypeParser
+  fullName: Disqord.Bot.Parsers.ColorTypeParser
+  nameWithType: ColorTypeParser
+- uid: Disqord.Bot.Parsers.ColorTypeParser.Instance
   name: Instance
-  href: api/Disqord.Bot.Parsers.ColorParser.html#Disqord_Bot_Parsers_ColorParser_Instance
-  commentId: P:Disqord.Bot.Parsers.ColorParser.Instance
-  fullName: Disqord.Bot.Parsers.ColorParser.Instance
-  nameWithType: ColorParser.Instance
-- uid: Disqord.Bot.Parsers.ColorParser.Instance*
+  href: api/Disqord.Bot.Parsers.ColorTypeParser.html#Disqord_Bot_Parsers_ColorTypeParser_Instance
+  commentId: P:Disqord.Bot.Parsers.ColorTypeParser.Instance
+  fullName: Disqord.Bot.Parsers.ColorTypeParser.Instance
+  nameWithType: ColorTypeParser.Instance
+- uid: Disqord.Bot.Parsers.ColorTypeParser.Instance*
   name: Instance
-  href: api/Disqord.Bot.Parsers.ColorParser.html#Disqord_Bot_Parsers_ColorParser_Instance_
-  commentId: Overload:Disqord.Bot.Parsers.ColorParser.Instance
+  href: api/Disqord.Bot.Parsers.ColorTypeParser.html#Disqord_Bot_Parsers_ColorTypeParser_Instance_
+  commentId: Overload:Disqord.Bot.Parsers.ColorTypeParser.Instance
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.ColorParser.Instance
-  nameWithType: ColorParser.Instance
-- uid: Disqord.Bot.Parsers.ColorParser.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.ColorTypeParser.Instance
+  nameWithType: ColorTypeParser.Instance
+- uid: Disqord.Bot.Parsers.ColorTypeParser.ParseAsync(Parameter,System.String,CommandContext)
   name: ParseAsync(Parameter, String, CommandContext)
-  href: api/Disqord.Bot.Parsers.ColorParser.html#Disqord_Bot_Parsers_ColorParser_ParseAsync_Parameter_System_String_CommandContext_
-  commentId: M:Disqord.Bot.Parsers.ColorParser.ParseAsync(Parameter,System.String,CommandContext)
-  fullName: Disqord.Bot.Parsers.ColorParser.ParseAsync(Parameter, System.String, CommandContext)
-  nameWithType: ColorParser.ParseAsync(Parameter, String, CommandContext)
-- uid: Disqord.Bot.Parsers.ColorParser.ParseAsync*
+  href: api/Disqord.Bot.Parsers.ColorTypeParser.html#Disqord_Bot_Parsers_ColorTypeParser_ParseAsync_Parameter_System_String_CommandContext_
+  commentId: M:Disqord.Bot.Parsers.ColorTypeParser.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.ColorTypeParser.ParseAsync(Parameter, System.String, CommandContext)
+  nameWithType: ColorTypeParser.ParseAsync(Parameter, String, CommandContext)
+- uid: Disqord.Bot.Parsers.ColorTypeParser.ParseAsync*
   name: ParseAsync
-  href: api/Disqord.Bot.Parsers.ColorParser.html#Disqord_Bot_Parsers_ColorParser_ParseAsync_
-  commentId: Overload:Disqord.Bot.Parsers.ColorParser.ParseAsync
+  href: api/Disqord.Bot.Parsers.ColorTypeParser.html#Disqord_Bot_Parsers_ColorTypeParser_ParseAsync_
+  commentId: Overload:Disqord.Bot.Parsers.ColorTypeParser.ParseAsync
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.ColorParser.ParseAsync
-  nameWithType: ColorParser.ParseAsync
-- uid: Disqord.Bot.Parsers.LocalCustomEmojiParser
-  name: LocalCustomEmojiParser
-  href: api/Disqord.Bot.Parsers.LocalCustomEmojiParser.html
-  commentId: T:Disqord.Bot.Parsers.LocalCustomEmojiParser
-  fullName: Disqord.Bot.Parsers.LocalCustomEmojiParser
-  nameWithType: LocalCustomEmojiParser
-- uid: Disqord.Bot.Parsers.LocalCustomEmojiParser.Instance
+  fullName: Disqord.Bot.Parsers.ColorTypeParser.ParseAsync
+  nameWithType: ColorTypeParser.ParseAsync
+- uid: Disqord.Bot.Parsers.LocalCustomEmojiTypeParser
+  name: LocalCustomEmojiTypeParser
+  href: api/Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.html
+  commentId: T:Disqord.Bot.Parsers.LocalCustomEmojiTypeParser
+  fullName: Disqord.Bot.Parsers.LocalCustomEmojiTypeParser
+  nameWithType: LocalCustomEmojiTypeParser
+- uid: Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.Instance
   name: Instance
-  href: api/Disqord.Bot.Parsers.LocalCustomEmojiParser.html#Disqord_Bot_Parsers_LocalCustomEmojiParser_Instance
-  commentId: P:Disqord.Bot.Parsers.LocalCustomEmojiParser.Instance
-  fullName: Disqord.Bot.Parsers.LocalCustomEmojiParser.Instance
-  nameWithType: LocalCustomEmojiParser.Instance
-- uid: Disqord.Bot.Parsers.LocalCustomEmojiParser.Instance*
+  href: api/Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.html#Disqord_Bot_Parsers_LocalCustomEmojiTypeParser_Instance
+  commentId: P:Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.Instance
+  fullName: Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.Instance
+  nameWithType: LocalCustomEmojiTypeParser.Instance
+- uid: Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.Instance*
   name: Instance
-  href: api/Disqord.Bot.Parsers.LocalCustomEmojiParser.html#Disqord_Bot_Parsers_LocalCustomEmojiParser_Instance_
-  commentId: Overload:Disqord.Bot.Parsers.LocalCustomEmojiParser.Instance
+  href: api/Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.html#Disqord_Bot_Parsers_LocalCustomEmojiTypeParser_Instance_
+  commentId: Overload:Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.Instance
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.LocalCustomEmojiParser.Instance
-  nameWithType: LocalCustomEmojiParser.Instance
-- uid: Disqord.Bot.Parsers.LocalCustomEmojiParser.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.Instance
+  nameWithType: LocalCustomEmojiTypeParser.Instance
+- uid: Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.ParseAsync(Parameter,System.String,CommandContext)
   name: ParseAsync(Parameter, String, CommandContext)
-  href: api/Disqord.Bot.Parsers.LocalCustomEmojiParser.html#Disqord_Bot_Parsers_LocalCustomEmojiParser_ParseAsync_Parameter_System_String_CommandContext_
-  commentId: M:Disqord.Bot.Parsers.LocalCustomEmojiParser.ParseAsync(Parameter,System.String,CommandContext)
-  fullName: Disqord.Bot.Parsers.LocalCustomEmojiParser.ParseAsync(Parameter, System.String, CommandContext)
-  nameWithType: LocalCustomEmojiParser.ParseAsync(Parameter, String, CommandContext)
-- uid: Disqord.Bot.Parsers.LocalCustomEmojiParser.ParseAsync*
+  href: api/Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.html#Disqord_Bot_Parsers_LocalCustomEmojiTypeParser_ParseAsync_Parameter_System_String_CommandContext_
+  commentId: M:Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.ParseAsync(Parameter, System.String, CommandContext)
+  nameWithType: LocalCustomEmojiTypeParser.ParseAsync(Parameter, String, CommandContext)
+- uid: Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.ParseAsync*
   name: ParseAsync
-  href: api/Disqord.Bot.Parsers.LocalCustomEmojiParser.html#Disqord_Bot_Parsers_LocalCustomEmojiParser_ParseAsync_
-  commentId: Overload:Disqord.Bot.Parsers.LocalCustomEmojiParser.ParseAsync
+  href: api/Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.html#Disqord_Bot_Parsers_LocalCustomEmojiTypeParser_ParseAsync_
+  commentId: Overload:Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.ParseAsync
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.LocalCustomEmojiParser.ParseAsync
-  nameWithType: LocalCustomEmojiParser.ParseAsync
-- uid: Disqord.Bot.Parsers.SnowflakeParser
-  name: SnowflakeParser
-  href: api/Disqord.Bot.Parsers.SnowflakeParser.html
-  commentId: T:Disqord.Bot.Parsers.SnowflakeParser
-  fullName: Disqord.Bot.Parsers.SnowflakeParser
-  nameWithType: SnowflakeParser
-- uid: Disqord.Bot.Parsers.SnowflakeParser.Instance
+  fullName: Disqord.Bot.Parsers.LocalCustomEmojiTypeParser.ParseAsync
+  nameWithType: LocalCustomEmojiTypeParser.ParseAsync
+- uid: Disqord.Bot.Parsers.SnowflakeTypeParser
+  name: SnowflakeTypeParser
+  href: api/Disqord.Bot.Parsers.SnowflakeTypeParser.html
+  commentId: T:Disqord.Bot.Parsers.SnowflakeTypeParser
+  fullName: Disqord.Bot.Parsers.SnowflakeTypeParser
+  nameWithType: SnowflakeTypeParser
+- uid: Disqord.Bot.Parsers.SnowflakeTypeParser.Instance
   name: Instance
-  href: api/Disqord.Bot.Parsers.SnowflakeParser.html#Disqord_Bot_Parsers_SnowflakeParser_Instance
-  commentId: P:Disqord.Bot.Parsers.SnowflakeParser.Instance
-  fullName: Disqord.Bot.Parsers.SnowflakeParser.Instance
-  nameWithType: SnowflakeParser.Instance
-- uid: Disqord.Bot.Parsers.SnowflakeParser.Instance*
+  href: api/Disqord.Bot.Parsers.SnowflakeTypeParser.html#Disqord_Bot_Parsers_SnowflakeTypeParser_Instance
+  commentId: P:Disqord.Bot.Parsers.SnowflakeTypeParser.Instance
+  fullName: Disqord.Bot.Parsers.SnowflakeTypeParser.Instance
+  nameWithType: SnowflakeTypeParser.Instance
+- uid: Disqord.Bot.Parsers.SnowflakeTypeParser.Instance*
   name: Instance
-  href: api/Disqord.Bot.Parsers.SnowflakeParser.html#Disqord_Bot_Parsers_SnowflakeParser_Instance_
-  commentId: Overload:Disqord.Bot.Parsers.SnowflakeParser.Instance
+  href: api/Disqord.Bot.Parsers.SnowflakeTypeParser.html#Disqord_Bot_Parsers_SnowflakeTypeParser_Instance_
+  commentId: Overload:Disqord.Bot.Parsers.SnowflakeTypeParser.Instance
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.SnowflakeParser.Instance
-  nameWithType: SnowflakeParser.Instance
-- uid: Disqord.Bot.Parsers.SnowflakeParser.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.SnowflakeTypeParser.Instance
+  nameWithType: SnowflakeTypeParser.Instance
+- uid: Disqord.Bot.Parsers.SnowflakeTypeParser.ParseAsync(Parameter,System.String,CommandContext)
   name: ParseAsync(Parameter, String, CommandContext)
-  href: api/Disqord.Bot.Parsers.SnowflakeParser.html#Disqord_Bot_Parsers_SnowflakeParser_ParseAsync_Parameter_System_String_CommandContext_
-  commentId: M:Disqord.Bot.Parsers.SnowflakeParser.ParseAsync(Parameter,System.String,CommandContext)
-  fullName: Disqord.Bot.Parsers.SnowflakeParser.ParseAsync(Parameter, System.String, CommandContext)
-  nameWithType: SnowflakeParser.ParseAsync(Parameter, String, CommandContext)
-- uid: Disqord.Bot.Parsers.SnowflakeParser.ParseAsync*
+  href: api/Disqord.Bot.Parsers.SnowflakeTypeParser.html#Disqord_Bot_Parsers_SnowflakeTypeParser_ParseAsync_Parameter_System_String_CommandContext_
+  commentId: M:Disqord.Bot.Parsers.SnowflakeTypeParser.ParseAsync(Parameter,System.String,CommandContext)
+  fullName: Disqord.Bot.Parsers.SnowflakeTypeParser.ParseAsync(Parameter, System.String, CommandContext)
+  nameWithType: SnowflakeTypeParser.ParseAsync(Parameter, String, CommandContext)
+- uid: Disqord.Bot.Parsers.SnowflakeTypeParser.ParseAsync*
   name: ParseAsync
-  href: api/Disqord.Bot.Parsers.SnowflakeParser.html#Disqord_Bot_Parsers_SnowflakeParser_ParseAsync_
-  commentId: Overload:Disqord.Bot.Parsers.SnowflakeParser.ParseAsync
+  href: api/Disqord.Bot.Parsers.SnowflakeTypeParser.html#Disqord_Bot_Parsers_SnowflakeTypeParser_ParseAsync_
+  commentId: Overload:Disqord.Bot.Parsers.SnowflakeTypeParser.ParseAsync
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.SnowflakeParser.ParseAsync
-  nameWithType: SnowflakeParser.ParseAsync
+  fullName: Disqord.Bot.Parsers.SnowflakeTypeParser.ParseAsync
+  nameWithType: SnowflakeTypeParser.ParseAsync
 - uid: Disqord.Bot.Prefixes
   name: Disqord.Bot.Prefixes
   href: api/Disqord.Bot.Prefixes.html
@@ -10490,12 +10490,134 @@ references:
   commentId: T:Disqord.Discord
   fullName: Disqord.Discord
   nameWithType: Discord
-- uid: Disqord.Discord.CDN_URL
-  name: CDN_URL
-  href: api/Disqord.Discord.html#Disqord_Discord_CDN_URL
-  commentId: F:Disqord.Discord.CDN_URL
-  fullName: Disqord.Discord.CDN_URL
-  nameWithType: Discord.CDN_URL
+- uid: Disqord.Discord.Cdn
+  name: Discord.Cdn
+  href: api/Disqord.Discord.Cdn.html
+  commentId: T:Disqord.Discord.Cdn
+  fullName: Disqord.Discord.Cdn
+  nameWithType: Discord.Cdn
+- uid: Disqord.Discord.Cdn.GetApplicationIconUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
+  name: GetApplicationIconUrl(Snowflake, String, ImageFormat, Int32)
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetApplicationIconUrl_Disqord_Snowflake_System_String_Disqord_ImageFormat_System_Int32_
+  commentId: M:Disqord.Discord.Cdn.GetApplicationIconUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
+  fullName: Disqord.Discord.Cdn.GetApplicationIconUrl(Disqord.Snowflake, System.String, Disqord.ImageFormat, System.Int32)
+  nameWithType: Discord.Cdn.GetApplicationIconUrl(Snowflake, String, ImageFormat, Int32)
+- uid: Disqord.Discord.Cdn.GetApplicationIconUrl*
+  name: GetApplicationIconUrl
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetApplicationIconUrl_
+  commentId: Overload:Disqord.Discord.Cdn.GetApplicationIconUrl
+  isSpec: "True"
+  fullName: Disqord.Discord.Cdn.GetApplicationIconUrl
+  nameWithType: Discord.Cdn.GetApplicationIconUrl
+- uid: Disqord.Discord.Cdn.GetCustomEmojiUrl(Disqord.Snowflake,System.Boolean,System.Int32)
+  name: GetCustomEmojiUrl(Snowflake, Boolean, Int32)
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetCustomEmojiUrl_Disqord_Snowflake_System_Boolean_System_Int32_
+  commentId: M:Disqord.Discord.Cdn.GetCustomEmojiUrl(Disqord.Snowflake,System.Boolean,System.Int32)
+  fullName: Disqord.Discord.Cdn.GetCustomEmojiUrl(Disqord.Snowflake, System.Boolean, System.Int32)
+  nameWithType: Discord.Cdn.GetCustomEmojiUrl(Snowflake, Boolean, Int32)
+- uid: Disqord.Discord.Cdn.GetCustomEmojiUrl*
+  name: GetCustomEmojiUrl
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetCustomEmojiUrl_
+  commentId: Overload:Disqord.Discord.Cdn.GetCustomEmojiUrl
+  isSpec: "True"
+  fullName: Disqord.Discord.Cdn.GetCustomEmojiUrl
+  nameWithType: Discord.Cdn.GetCustomEmojiUrl
+- uid: Disqord.Discord.Cdn.GetDefaultUserAvatarUrl(Disqord.DefaultAvatarColor)
+  name: GetDefaultUserAvatarUrl(DefaultAvatarColor)
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetDefaultUserAvatarUrl_Disqord_DefaultAvatarColor_
+  commentId: M:Disqord.Discord.Cdn.GetDefaultUserAvatarUrl(Disqord.DefaultAvatarColor)
+  fullName: Disqord.Discord.Cdn.GetDefaultUserAvatarUrl(Disqord.DefaultAvatarColor)
+  nameWithType: Discord.Cdn.GetDefaultUserAvatarUrl(DefaultAvatarColor)
+- uid: Disqord.Discord.Cdn.GetDefaultUserAvatarUrl(System.Byte)
+  name: GetDefaultUserAvatarUrl(Byte)
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetDefaultUserAvatarUrl_System_Byte_
+  commentId: M:Disqord.Discord.Cdn.GetDefaultUserAvatarUrl(System.Byte)
+  fullName: Disqord.Discord.Cdn.GetDefaultUserAvatarUrl(System.Byte)
+  nameWithType: Discord.Cdn.GetDefaultUserAvatarUrl(Byte)
+- uid: Disqord.Discord.Cdn.GetDefaultUserAvatarUrl(System.String)
+  name: GetDefaultUserAvatarUrl(String)
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetDefaultUserAvatarUrl_System_String_
+  commentId: M:Disqord.Discord.Cdn.GetDefaultUserAvatarUrl(System.String)
+  fullName: Disqord.Discord.Cdn.GetDefaultUserAvatarUrl(System.String)
+  nameWithType: Discord.Cdn.GetDefaultUserAvatarUrl(String)
+- uid: Disqord.Discord.Cdn.GetDefaultUserAvatarUrl*
+  name: GetDefaultUserAvatarUrl
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetDefaultUserAvatarUrl_
+  commentId: Overload:Disqord.Discord.Cdn.GetDefaultUserAvatarUrl
+  isSpec: "True"
+  fullName: Disqord.Discord.Cdn.GetDefaultUserAvatarUrl
+  nameWithType: Discord.Cdn.GetDefaultUserAvatarUrl
+- uid: Disqord.Discord.Cdn.GetGuildBannerUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
+  name: GetGuildBannerUrl(Snowflake, String, ImageFormat, Int32)
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetGuildBannerUrl_Disqord_Snowflake_System_String_Disqord_ImageFormat_System_Int32_
+  commentId: M:Disqord.Discord.Cdn.GetGuildBannerUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
+  fullName: Disqord.Discord.Cdn.GetGuildBannerUrl(Disqord.Snowflake, System.String, Disqord.ImageFormat, System.Int32)
+  nameWithType: Discord.Cdn.GetGuildBannerUrl(Snowflake, String, ImageFormat, Int32)
+- uid: Disqord.Discord.Cdn.GetGuildBannerUrl*
+  name: GetGuildBannerUrl
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetGuildBannerUrl_
+  commentId: Overload:Disqord.Discord.Cdn.GetGuildBannerUrl
+  isSpec: "True"
+  fullName: Disqord.Discord.Cdn.GetGuildBannerUrl
+  nameWithType: Discord.Cdn.GetGuildBannerUrl
+- uid: Disqord.Discord.Cdn.GetGuildDiscoverySplashUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
+  name: GetGuildDiscoverySplashUrl(Snowflake, String, ImageFormat, Int32)
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetGuildDiscoverySplashUrl_Disqord_Snowflake_System_String_Disqord_ImageFormat_System_Int32_
+  commentId: M:Disqord.Discord.Cdn.GetGuildDiscoverySplashUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
+  fullName: Disqord.Discord.Cdn.GetGuildDiscoverySplashUrl(Disqord.Snowflake, System.String, Disqord.ImageFormat, System.Int32)
+  nameWithType: Discord.Cdn.GetGuildDiscoverySplashUrl(Snowflake, String, ImageFormat, Int32)
+- uid: Disqord.Discord.Cdn.GetGuildDiscoverySplashUrl*
+  name: GetGuildDiscoverySplashUrl
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetGuildDiscoverySplashUrl_
+  commentId: Overload:Disqord.Discord.Cdn.GetGuildDiscoverySplashUrl
+  isSpec: "True"
+  fullName: Disqord.Discord.Cdn.GetGuildDiscoverySplashUrl
+  nameWithType: Discord.Cdn.GetGuildDiscoverySplashUrl
+- uid: Disqord.Discord.Cdn.GetGuildIconUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
+  name: GetGuildIconUrl(Snowflake, String, ImageFormat, Int32)
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetGuildIconUrl_Disqord_Snowflake_System_String_Disqord_ImageFormat_System_Int32_
+  commentId: M:Disqord.Discord.Cdn.GetGuildIconUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
+  fullName: Disqord.Discord.Cdn.GetGuildIconUrl(Disqord.Snowflake, System.String, Disqord.ImageFormat, System.Int32)
+  nameWithType: Discord.Cdn.GetGuildIconUrl(Snowflake, String, ImageFormat, Int32)
+- uid: Disqord.Discord.Cdn.GetGuildIconUrl*
+  name: GetGuildIconUrl
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetGuildIconUrl_
+  commentId: Overload:Disqord.Discord.Cdn.GetGuildIconUrl
+  isSpec: "True"
+  fullName: Disqord.Discord.Cdn.GetGuildIconUrl
+  nameWithType: Discord.Cdn.GetGuildIconUrl
+- uid: Disqord.Discord.Cdn.GetGuildSplashUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
+  name: GetGuildSplashUrl(Snowflake, String, ImageFormat, Int32)
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetGuildSplashUrl_Disqord_Snowflake_System_String_Disqord_ImageFormat_System_Int32_
+  commentId: M:Disqord.Discord.Cdn.GetGuildSplashUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
+  fullName: Disqord.Discord.Cdn.GetGuildSplashUrl(Disqord.Snowflake, System.String, Disqord.ImageFormat, System.Int32)
+  nameWithType: Discord.Cdn.GetGuildSplashUrl(Snowflake, String, ImageFormat, Int32)
+- uid: Disqord.Discord.Cdn.GetGuildSplashUrl*
+  name: GetGuildSplashUrl
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetGuildSplashUrl_
+  commentId: Overload:Disqord.Discord.Cdn.GetGuildSplashUrl
+  isSpec: "True"
+  fullName: Disqord.Discord.Cdn.GetGuildSplashUrl
+  nameWithType: Discord.Cdn.GetGuildSplashUrl
+- uid: Disqord.Discord.Cdn.GetUserAvatarUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
+  name: GetUserAvatarUrl(Snowflake, String, ImageFormat, Int32)
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetUserAvatarUrl_Disqord_Snowflake_System_String_Disqord_ImageFormat_System_Int32_
+  commentId: M:Disqord.Discord.Cdn.GetUserAvatarUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
+  fullName: Disqord.Discord.Cdn.GetUserAvatarUrl(Disqord.Snowflake, System.String, Disqord.ImageFormat, System.Int32)
+  nameWithType: Discord.Cdn.GetUserAvatarUrl(Snowflake, String, ImageFormat, Int32)
+- uid: Disqord.Discord.Cdn.GetUserAvatarUrl*
+  name: GetUserAvatarUrl
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_GetUserAvatarUrl_
+  commentId: Overload:Disqord.Discord.Cdn.GetUserAvatarUrl
+  isSpec: "True"
+  fullName: Disqord.Discord.Cdn.GetUserAvatarUrl
+  nameWithType: Discord.Cdn.GetUserAvatarUrl
+- uid: Disqord.Discord.Cdn.URL
+  name: URL
+  href: api/Disqord.Discord.Cdn.html#Disqord_Discord_Cdn_URL
+  commentId: F:Disqord.Discord.Cdn.URL
+  fullName: Disqord.Discord.Cdn.URL
+  nameWithType: Discord.Cdn.URL
 - uid: Disqord.Discord.Comparers
   name: Discord.Comparers
   href: api/Disqord.Discord.Comparers.html
@@ -10534,122 +10656,6 @@ references:
   isSpec: "True"
   fullName: Disqord.Discord.EscapeMentions
   nameWithType: Discord.EscapeMentions
-- uid: Disqord.Discord.GetApplicationIconUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
-  name: GetApplicationIconUrl(Snowflake, String, ImageFormat, Int32)
-  href: api/Disqord.Discord.html#Disqord_Discord_GetApplicationIconUrl_Disqord_Snowflake_System_String_Disqord_ImageFormat_System_Int32_
-  commentId: M:Disqord.Discord.GetApplicationIconUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
-  fullName: Disqord.Discord.GetApplicationIconUrl(Disqord.Snowflake, System.String, Disqord.ImageFormat, System.Int32)
-  nameWithType: Discord.GetApplicationIconUrl(Snowflake, String, ImageFormat, Int32)
-- uid: Disqord.Discord.GetApplicationIconUrl*
-  name: GetApplicationIconUrl
-  href: api/Disqord.Discord.html#Disqord_Discord_GetApplicationIconUrl_
-  commentId: Overload:Disqord.Discord.GetApplicationIconUrl
-  isSpec: "True"
-  fullName: Disqord.Discord.GetApplicationIconUrl
-  nameWithType: Discord.GetApplicationIconUrl
-- uid: Disqord.Discord.GetCustomEmojiUrl(Disqord.Snowflake,System.Boolean,System.Int32)
-  name: GetCustomEmojiUrl(Snowflake, Boolean, Int32)
-  href: api/Disqord.Discord.html#Disqord_Discord_GetCustomEmojiUrl_Disqord_Snowflake_System_Boolean_System_Int32_
-  commentId: M:Disqord.Discord.GetCustomEmojiUrl(Disqord.Snowflake,System.Boolean,System.Int32)
-  fullName: Disqord.Discord.GetCustomEmojiUrl(Disqord.Snowflake, System.Boolean, System.Int32)
-  nameWithType: Discord.GetCustomEmojiUrl(Snowflake, Boolean, Int32)
-- uid: Disqord.Discord.GetCustomEmojiUrl*
-  name: GetCustomEmojiUrl
-  href: api/Disqord.Discord.html#Disqord_Discord_GetCustomEmojiUrl_
-  commentId: Overload:Disqord.Discord.GetCustomEmojiUrl
-  isSpec: "True"
-  fullName: Disqord.Discord.GetCustomEmojiUrl
-  nameWithType: Discord.GetCustomEmojiUrl
-- uid: Disqord.Discord.GetDefaultUserAvatarUrl(Disqord.DefaultAvatarColor)
-  name: GetDefaultUserAvatarUrl(DefaultAvatarColor)
-  href: api/Disqord.Discord.html#Disqord_Discord_GetDefaultUserAvatarUrl_Disqord_DefaultAvatarColor_
-  commentId: M:Disqord.Discord.GetDefaultUserAvatarUrl(Disqord.DefaultAvatarColor)
-  fullName: Disqord.Discord.GetDefaultUserAvatarUrl(Disqord.DefaultAvatarColor)
-  nameWithType: Discord.GetDefaultUserAvatarUrl(DefaultAvatarColor)
-- uid: Disqord.Discord.GetDefaultUserAvatarUrl(System.Byte)
-  name: GetDefaultUserAvatarUrl(Byte)
-  href: api/Disqord.Discord.html#Disqord_Discord_GetDefaultUserAvatarUrl_System_Byte_
-  commentId: M:Disqord.Discord.GetDefaultUserAvatarUrl(System.Byte)
-  fullName: Disqord.Discord.GetDefaultUserAvatarUrl(System.Byte)
-  nameWithType: Discord.GetDefaultUserAvatarUrl(Byte)
-- uid: Disqord.Discord.GetDefaultUserAvatarUrl(System.String)
-  name: GetDefaultUserAvatarUrl(String)
-  href: api/Disqord.Discord.html#Disqord_Discord_GetDefaultUserAvatarUrl_System_String_
-  commentId: M:Disqord.Discord.GetDefaultUserAvatarUrl(System.String)
-  fullName: Disqord.Discord.GetDefaultUserAvatarUrl(System.String)
-  nameWithType: Discord.GetDefaultUserAvatarUrl(String)
-- uid: Disqord.Discord.GetDefaultUserAvatarUrl*
-  name: GetDefaultUserAvatarUrl
-  href: api/Disqord.Discord.html#Disqord_Discord_GetDefaultUserAvatarUrl_
-  commentId: Overload:Disqord.Discord.GetDefaultUserAvatarUrl
-  isSpec: "True"
-  fullName: Disqord.Discord.GetDefaultUserAvatarUrl
-  nameWithType: Discord.GetDefaultUserAvatarUrl
-- uid: Disqord.Discord.GetGuildBannerUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
-  name: GetGuildBannerUrl(Snowflake, String, ImageFormat, Int32)
-  href: api/Disqord.Discord.html#Disqord_Discord_GetGuildBannerUrl_Disqord_Snowflake_System_String_Disqord_ImageFormat_System_Int32_
-  commentId: M:Disqord.Discord.GetGuildBannerUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
-  fullName: Disqord.Discord.GetGuildBannerUrl(Disqord.Snowflake, System.String, Disqord.ImageFormat, System.Int32)
-  nameWithType: Discord.GetGuildBannerUrl(Snowflake, String, ImageFormat, Int32)
-- uid: Disqord.Discord.GetGuildBannerUrl*
-  name: GetGuildBannerUrl
-  href: api/Disqord.Discord.html#Disqord_Discord_GetGuildBannerUrl_
-  commentId: Overload:Disqord.Discord.GetGuildBannerUrl
-  isSpec: "True"
-  fullName: Disqord.Discord.GetGuildBannerUrl
-  nameWithType: Discord.GetGuildBannerUrl
-- uid: Disqord.Discord.GetGuildDiscoverySplashUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
-  name: GetGuildDiscoverySplashUrl(Snowflake, String, ImageFormat, Int32)
-  href: api/Disqord.Discord.html#Disqord_Discord_GetGuildDiscoverySplashUrl_Disqord_Snowflake_System_String_Disqord_ImageFormat_System_Int32_
-  commentId: M:Disqord.Discord.GetGuildDiscoverySplashUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
-  fullName: Disqord.Discord.GetGuildDiscoverySplashUrl(Disqord.Snowflake, System.String, Disqord.ImageFormat, System.Int32)
-  nameWithType: Discord.GetGuildDiscoverySplashUrl(Snowflake, String, ImageFormat, Int32)
-- uid: Disqord.Discord.GetGuildDiscoverySplashUrl*
-  name: GetGuildDiscoverySplashUrl
-  href: api/Disqord.Discord.html#Disqord_Discord_GetGuildDiscoverySplashUrl_
-  commentId: Overload:Disqord.Discord.GetGuildDiscoverySplashUrl
-  isSpec: "True"
-  fullName: Disqord.Discord.GetGuildDiscoverySplashUrl
-  nameWithType: Discord.GetGuildDiscoverySplashUrl
-- uid: Disqord.Discord.GetGuildIconUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
-  name: GetGuildIconUrl(Snowflake, String, ImageFormat, Int32)
-  href: api/Disqord.Discord.html#Disqord_Discord_GetGuildIconUrl_Disqord_Snowflake_System_String_Disqord_ImageFormat_System_Int32_
-  commentId: M:Disqord.Discord.GetGuildIconUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
-  fullName: Disqord.Discord.GetGuildIconUrl(Disqord.Snowflake, System.String, Disqord.ImageFormat, System.Int32)
-  nameWithType: Discord.GetGuildIconUrl(Snowflake, String, ImageFormat, Int32)
-- uid: Disqord.Discord.GetGuildIconUrl*
-  name: GetGuildIconUrl
-  href: api/Disqord.Discord.html#Disqord_Discord_GetGuildIconUrl_
-  commentId: Overload:Disqord.Discord.GetGuildIconUrl
-  isSpec: "True"
-  fullName: Disqord.Discord.GetGuildIconUrl
-  nameWithType: Discord.GetGuildIconUrl
-- uid: Disqord.Discord.GetGuildSplashUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
-  name: GetGuildSplashUrl(Snowflake, String, ImageFormat, Int32)
-  href: api/Disqord.Discord.html#Disqord_Discord_GetGuildSplashUrl_Disqord_Snowflake_System_String_Disqord_ImageFormat_System_Int32_
-  commentId: M:Disqord.Discord.GetGuildSplashUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
-  fullName: Disqord.Discord.GetGuildSplashUrl(Disqord.Snowflake, System.String, Disqord.ImageFormat, System.Int32)
-  nameWithType: Discord.GetGuildSplashUrl(Snowflake, String, ImageFormat, Int32)
-- uid: Disqord.Discord.GetGuildSplashUrl*
-  name: GetGuildSplashUrl
-  href: api/Disqord.Discord.html#Disqord_Discord_GetGuildSplashUrl_
-  commentId: Overload:Disqord.Discord.GetGuildSplashUrl
-  isSpec: "True"
-  fullName: Disqord.Discord.GetGuildSplashUrl
-  nameWithType: Discord.GetGuildSplashUrl
-- uid: Disqord.Discord.GetUserAvatarUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
-  name: GetUserAvatarUrl(Snowflake, String, ImageFormat, Int32)
-  href: api/Disqord.Discord.html#Disqord_Discord_GetUserAvatarUrl_Disqord_Snowflake_System_String_Disqord_ImageFormat_System_Int32_
-  commentId: M:Disqord.Discord.GetUserAvatarUrl(Disqord.Snowflake,System.String,Disqord.ImageFormat,System.Int32)
-  fullName: Disqord.Discord.GetUserAvatarUrl(Disqord.Snowflake, System.String, Disqord.ImageFormat, System.Int32)
-  nameWithType: Discord.GetUserAvatarUrl(Snowflake, String, ImageFormat, Int32)
-- uid: Disqord.Discord.GetUserAvatarUrl*
-  name: GetUserAvatarUrl
-  href: api/Disqord.Discord.html#Disqord_Discord_GetUserAvatarUrl_
-  commentId: Overload:Disqord.Discord.GetUserAvatarUrl
-  isSpec: "True"
-  fullName: Disqord.Discord.GetUserAvatarUrl
-  nameWithType: Discord.GetUserAvatarUrl
 - uid: Disqord.Discord.MentionChannel(Disqord.ITextChannel)
   name: MentionChannel(ITextChannel)
   href: api/Disqord.Discord.html#Disqord_Discord_MentionChannel_Disqord_ITextChannel_
