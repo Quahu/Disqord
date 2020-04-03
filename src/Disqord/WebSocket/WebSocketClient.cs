@@ -234,12 +234,15 @@ namespace Disqord.WebSocket
             {
                 try
                 {
-                    await _ws.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None).ConfigureAwait(false);
+                    // https://github.com/discord/discord-api-docs/issues/1472
+                    var closeStatus = WebSocketCloseStatus.PolicyViolation; // I so sorry
+                    await _ws.CloseAsync(closeStatus, string.Empty, CancellationToken.None).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
                     //$"Exception while closing the websocket:";
                 }
+
                 await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, null)).ConfigureAwait(false);
             }
 
