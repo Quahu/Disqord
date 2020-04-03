@@ -16,6 +16,9 @@ namespace Disqord.Client.Gateway
         public IdentifyLock(DiscordClientGateway gateway)
         {
             _gateway = gateway;
+
+            // TODO: tie this to application id?
+            // TODO: persistence?
             _semaphore = _semaphores.GetOrAdd(gateway.Client.Token, _ => new SemaphoreSlim(1, 1));
         }
 
@@ -24,11 +27,10 @@ namespace Disqord.Client.Gateway
             Task task;
             lock (_semaphore)
             {
-                task = _semaphore.WaitAsync();
                 if (_semaphore.CurrentCount == 0)
-                {
                     _gateway.Log(LogMessageSeverity.Information, "Delaying identifying...");
-                }
+
+                task = _semaphore.WaitAsync();
             }
 
             await task.ConfigureAwait(false);
