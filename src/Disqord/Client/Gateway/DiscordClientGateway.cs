@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -170,7 +170,17 @@ namespace Disqord
 
         private async Task WebSocketMessageReceivedAsync(WebSocketMessageReceivedEventArgs e)
         {
-            var payload = Serializer.Deserialize<PayloadModel>(e.Stream);
+            PayloadModel payload;
+            try
+            {
+                payload = Serializer.Deserialize<PayloadModel>(e.Stream);
+            }
+            catch (Exception ex)
+            {
+                Log(LogMessageSeverity.Critical, $"An exception occurred while trying to deserialize a payload.", ex);
+                return;
+            }
+
             Log(LogMessageSeverity.Debug, $"Received opcode {payload.Op}.");
             try
             {
