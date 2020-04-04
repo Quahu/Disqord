@@ -133,20 +133,21 @@ namespace Disqord.WebSocket
             _compressed.Position = 0;
             _compressed.SetLength(0);
 
-            var receiveCts = new CancellationTokenSource();
-            _receiveCts = receiveCts;
+            _receiveCts = new CancellationTokenSource();
+            var receiveToken = _receiveCts.Token;
+
             var buffer = ArrayPool<byte>.Shared.Rent(RECEIVE_BUFFER_SIZE);
             var bufferMemory = buffer.AsMemory(0, RECEIVE_BUFFER_SIZE);
             try
             {
-                while (!receiveCts.IsCancellationRequested && _ws.State == WebSocketState.Open)
+                while (!receiveToken.IsCancellationRequested && _ws.State == WebSocketState.Open)
                 {
                     ValueWebSocketReceiveResult result;
                     do
                     {
                         try
                         {
-                            result = await _ws.ReceiveAsync(bufferMemory, receiveCts.Token).ConfigureAwait(false);
+                            result = await _ws.ReceiveAsync(bufferMemory, receiveToken).ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {
@@ -176,10 +177,10 @@ namespace Disqord.WebSocket
                         }
                         else
                         {
-                            await _compressed.WriteAsync(bufferMemory.Slice(0, result.Count), receiveCts.Token).ConfigureAwait(false);
+                            await _compressed.WriteAsync(bufferMemory.Slice(0, result.Count), receiveToken).ConfigureAwait(false);
                         }
                     }
-                    while (!result.EndOfMessage && !receiveCts.IsCancellationRequested);
+                    while (!result.EndOfMessage && !receiveToken.IsCancellationRequested);
 
                     var isZlib = false;
                     var hasZlibHeader = false;
@@ -221,6 +222,7 @@ namespace Disqord.WebSocket
         public async Task CloseAsync()
         {
             ThrowIfDisposed();
+            DisposeTokens();
 
             lock (_closeLock)
             {
@@ -235,7 +237,7 @@ namespace Disqord.WebSocket
                 try
                 {
                     // https://github.com/discord/discord-api-docs/issues/1472
-                    var closeStatus = WebSocketCloseStatus.PolicyViolation; // I so sorry
+                    var closeStatus = (WebSocketCloseStatus) 4000;
                     await _ws.CloseAsync(closeStatus, string.Empty, CancellationToken.None).ConfigureAwait(false);
                 }
                 catch (Exception ex)
@@ -245,8 +247,6 @@ namespace Disqord.WebSocket
 
                 await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, null)).ConfigureAwait(false);
             }
-
-            DisposeTokens();
         }
 
         public void DisposeTokens()
