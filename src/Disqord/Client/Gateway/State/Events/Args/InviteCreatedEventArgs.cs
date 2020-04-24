@@ -8,6 +8,9 @@ namespace Disqord.Events
 
         public SnowflakeOptional<CachedChannel> Channel { get; }
 
+        /// <summary>
+        ///     Gets the user that created the invite. Returns <see langword="null"/>, if the invite was created by, for example, a widget.
+        /// </summary>
         public CachedUser Inviter { get; }
 
         public string Code { get; }

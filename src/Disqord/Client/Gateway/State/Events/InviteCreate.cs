@@ -12,21 +12,25 @@ namespace Disqord
             var model = Serializer.ToObject<InviteCreateModel>(payload.D);
             CachedGuild guild = null;
             CachedChannel channel;
-            CachedUser inviter;
+            CachedUser inviter = null;
             if (model.GuildId != null)
             {
                 guild = GetGuild(model.GuildId.Value);
                 channel = guild.GetChannel(model.ChannelId);
-                inviter = guild.GetMember(model.Inviter.Id);
+
+                if (model.Inviter.HasValue)
+                    inviter = guild.GetMember(model.Inviter.Value.Id);
             }
             else
             {
                 channel = GetPrivateChannel(model.ChannelId);
-                inviter = GetUser(model.Inviter.Id);
+
+                if (model.Inviter.HasValue)
+                    inviter = GetUser(model.Inviter.Value.Id);
             }
 
-            if (inviter == null)
-                inviter = new CachedUnknownUser(_client, model.Inviter);
+            if (inviter == null && model.Inviter.HasValue)
+                inviter = new CachedUnknownUser(_client, model.Inviter.Value);
 
             return _client._inviteCreated.InvokeAsync(new InviteCreatedEventArgs(
                 _client, guild, new SnowflakeOptional<CachedChannel>(channel, model.ChannelId),

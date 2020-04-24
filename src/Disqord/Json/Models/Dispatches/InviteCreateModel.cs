@@ -24,7 +24,7 @@ namespace Disqord.Models.Dispatches
         public int MaxAge { get; set; }
 
         [JsonProperty("inviter")]
-        public UserModel Inviter { get; set; }
+        public Optional<UserModel> Inviter { get; set; }
 
         [JsonProperty("created_at")]
         public DateTimeOffset CreatedAt { get; set; }
