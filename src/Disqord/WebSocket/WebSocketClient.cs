@@ -10,7 +10,7 @@ using Qommon.Events;
 
 namespace Disqord.WebSocket
 {
-    internal sealed class WebSocketClient : IDisposable
+    internal sealed class WebSocketClient : IAsyncDisposable
     {
         public event AsynchronousEventHandler<WebSocketMessageReceivedEventArgs> MessageReceived
         {
@@ -34,7 +34,7 @@ namespace Disqord.WebSocket
 
         private ClientWebSocket _ws;
 
-        private readonly ConcurrentQueue<WebSocketRequest> _messageQueue = new ConcurrentQueue<WebSocketRequest>();
+        private readonly ConcurrentQueue<WebSocketRequest> _requestQueue = new ConcurrentQueue<WebSocketRequest>();
 
         private bool _closed;
         private readonly object _closeLock = new object();
@@ -44,15 +44,16 @@ namespace Disqord.WebSocket
         private Task _sendTask;
 
         private CancellationTokenSource _receiveCts;
+        private Task _receiveTask;
 
-        private readonly MemoryStream _compressed;
-        private readonly DeflateStream _deflate;
+        private readonly MemoryStream _compressedStream;
+        private readonly DeflateStream _deflateStream;
         private bool _isDisposed;
 
         public WebSocketClient()
         {
-            _compressed = new MemoryStream();
-            _deflate = new DeflateStream(_compressed, CompressionMode.Decompress, true);
+            _compressedStream = new MemoryStream();
+            _deflateStream = new DeflateStream(_compressedStream, CompressionMode.Decompress, true);
         }
 
         private void ThrowIfDisposed()
@@ -71,23 +72,15 @@ namespace Disqord.WebSocket
             _ws?.Dispose();
             _ws = new ClientWebSocket();
             _ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(10);
-            try
-            {
-                await _ws.ConnectAsync(url, token).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _ = _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, ex));
-                return;
-            }
-            _ = Task.Run(RunReceiveAsync);
+            await _ws.ConnectAsync(url, token).ConfigureAwait(false);
+            _receiveTask = Task.Run(RunReceiveAsync);
         }
 
         public Task SendAsync(WebSocketRequest request)
         {
             ThrowIfDisposed();
 
-            _messageQueue.Enqueue(request);
+            _requestQueue.Enqueue(request);
             lock (_sendLock)
             {
                 if (_sendTask == null || _sendTask.IsCompleted)
@@ -111,7 +104,7 @@ namespace Disqord.WebSocket
                     return;
             }
 
-            while (!cts.IsCancellationRequested && _messageQueue.TryDequeue(out var request))
+            while (!cts.IsCancellationRequested && _requestQueue.TryDequeue(out var request))
             {
                 using (var linkedSource = CancellationTokenSource.CreateLinkedTokenSource(cts.Token, request.CancellationToken))
                 {
@@ -130,8 +123,8 @@ namespace Disqord.WebSocket
 
         private async Task RunReceiveAsync()
         {
-            _compressed.Position = 0;
-            _compressed.SetLength(0);
+            _compressedStream.Position = 0;
+            _compressedStream.SetLength(0);
 
             _receiveCts = new CancellationTokenSource();
             var receiveToken = _receiveCts.Token;
@@ -151,33 +144,22 @@ namespace Disqord.WebSocket
                         }
                         catch (Exception ex)
                         {
-                            DisposeTokens();
-                            if (_ws.State == WebSocketState.Open)
-                            {
-                                try
-                                {
-                                    await CloseAsync().ConfigureAwait(false);
-                                }
-                                catch { }
-                            }
                             await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, ex)).ConfigureAwait(false);
                             return;
                         }
 
                         if (result.MessageType == WebSocketMessageType.Close)
                         {
-                            DisposeTokens();
                             try
                             {
                                 await CloseAsync().ConfigureAwait(false);
                             }
                             catch { }
-                            await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, null)).ConfigureAwait(false);
                             return;
                         }
                         else
                         {
-                            await _compressed.WriteAsync(bufferMemory.Slice(0, result.Count), receiveToken).ConfigureAwait(false);
+                            await _compressedStream.WriteAsync(bufferMemory.Slice(0, result.Count), receiveToken).ConfigureAwait(false);
                         }
                     }
                     while (!result.EndOfMessage && !receiveToken.IsCancellationRequested);
@@ -186,7 +168,7 @@ namespace Disqord.WebSocket
                     var hasZlibHeader = false;
                     if (result.MessageType == WebSocketMessageType.Binary)
                     {
-                        _compressed.TryGetBuffer(out var streamBuffer);
+                        _compressedStream.TryGetBuffer(out var streamBuffer);
                         if (streamBuffer.Array[0] == ZLIB_HEADER)
                         {
                             hasZlibHeader = true;
@@ -195,22 +177,25 @@ namespace Disqord.WebSocket
 
                         if (streamBuffer.Count > 4
                             && streamBuffer[^1] == ZLIB_SUFFIX
-                            && streamBuffer[^2] == ZLIB_SUFFIX)
+                            && streamBuffer[^2] == ZLIB_SUFFIX
+                            && streamBuffer[^3] == 0
+                            && streamBuffer[^4] == 0)
                         {
                             isZlib = true;
                         }
                     }
 
-                    _compressed.Position = hasZlibHeader ? 2 : 0;
+                    _compressedStream.Position = hasZlibHeader ? 2 : 0;
 
                     try
                     {
-                        await _messageReceivedEvent.InvokeAsync(new WebSocketMessageReceivedEventArgs(isZlib ? (Stream) _deflate : _compressed)).ConfigureAwait(false);
+                        var stream = isZlib ? (Stream) _deflateStream : _compressedStream;
+                        await _messageReceivedEvent.InvokeAsync(new WebSocketMessageReceivedEventArgs(stream)).ConfigureAwait(false);
                     }
                     catch { }
 
-                    _compressed.Position = 0;
-                    _compressed.SetLength(0);
+                    _compressedStream.Position = 0;
+                    _compressedStream.SetLength(0);
                 }
             }
             finally
@@ -222,6 +207,8 @@ namespace Disqord.WebSocket
         public async Task CloseAsync()
         {
             ThrowIfDisposed();
+            var closeStatus = _ws.CloseStatus;
+            var closeDescription = _ws.CloseStatusDescription;
             DisposeTokens();
 
             lock (_closeLock)
@@ -237,15 +224,20 @@ namespace Disqord.WebSocket
                 try
                 {
                     // https://github.com/discord/discord-api-docs/issues/1472
-                    var closeStatus = (WebSocketCloseStatus) 4000;
-                    await _ws.CloseAsync(closeStatus, string.Empty, CancellationToken.None).ConfigureAwait(false);
+                    await _ws.CloseAsync((WebSocketCloseStatus) 4000, string.Empty, CancellationToken.None).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
                     //$"Exception while closing the websocket:";
                 }
 
-                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, null)).ConfigureAwait(false);
+                if (closeStatus == null)
+                {
+                    closeStatus = (WebSocketCloseStatus) 4000;
+                    closeDescription = "Manual close after a requested reconnect.";
+                }
+
+                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(closeStatus, closeDescription, null)).ConfigureAwait(false);
             }
         }
 
@@ -267,15 +259,15 @@ namespace Disqord.WebSocket
             _receiveCts = null;
         }
 
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
             if (_isDisposed)
                 return;
 
             _isDisposed = true;
             DisposeTokens();
-            _compressed.Dispose();
-            _deflate.Dispose();
+            _compressedStream.Dispose();
+            _deflateStream.Dispose();
             _ws?.Dispose();
         }
     }

@@ -15,7 +15,7 @@ using Disqord.WebSocket;
 
 namespace Disqord
 {
-    internal sealed partial class DiscordClientGateway : IDisposable
+    internal sealed partial class DiscordClientGateway : IAsyncDisposable
     {
         public TimeSpan? Latency => _lastHeartbeatAck - _lastHeartbeatSent;
 
@@ -377,14 +377,14 @@ namespace Disqord
             }
         }
 
-        public void Dispose()
+        public ValueTask DisposeAsync()
         {
             if (_isDisposed)
-                return;
+                return default;
 
             _isDisposed = true;
             CancelRun(null);
-            _ws.Dispose();
+            return _ws.DisposeAsync();
         }
     }
 }

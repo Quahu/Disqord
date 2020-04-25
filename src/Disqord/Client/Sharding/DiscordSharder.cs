@@ -31,17 +31,17 @@ namespace Disqord.Sharding
             };
         }
 
-        public override ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (IsDisposed)
-                return default;
+                return;
 
             IsDisposed = true;
 
             for (var i = 0; i < _gateways.Length; i++)
-                _gateways[i].Dispose();
+                await _gateways[i].DisposeAsync().ConfigureAwait(false);
 
-            return base.DisposeAsync();
+            await base.DisposeAsync().ConfigureAwait(false);
         }
     }
 }

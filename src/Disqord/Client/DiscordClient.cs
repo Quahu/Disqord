@@ -22,14 +22,14 @@ namespace Disqord
         }
 
         // TODO
-        public override ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             if (IsDisposed)
-                return default;
+                return;
 
             IsDisposed = true;
-            _gateway.Dispose();
-            return base.DisposeAsync();
+            await _gateway.DisposeAsync().ConfigureAwait(false);
+            await base.DisposeAsync().ConfigureAwait(false);
         }
     }
 }
