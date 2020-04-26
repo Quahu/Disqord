@@ -36,7 +36,6 @@ namespace Disqord.WebSocket
 
         private readonly ConcurrentQueue<WebSocketRequest> _requestQueue = new ConcurrentQueue<WebSocketRequest>();
 
-        private readonly object _closeLock = new object();
         private readonly object _sendLock = new object();
 
         private EfficientCancellationTokenSource _sendCts;
@@ -205,20 +204,17 @@ namespace Disqord.WebSocket
         {
             ThrowIfDisposed();
 
-            lock (_closeLock) // TODO: this isn't doing anything?
+            if (_closeStatus == (WebSocketCloseStatus) 4000)
+                return;
+
+            _closeStatus = _ws.CloseStatus;
+            _closeDescription = _ws.CloseStatusDescription;
+            DisposeTokens();
+
+            if (_closeStatus == null)
             {
-                if (_closeStatus == (WebSocketCloseStatus) 4000)
-                    return;
-
-                _closeStatus = _ws.CloseStatus;
-                _closeDescription = _ws.CloseStatusDescription;
-                DisposeTokens();
-
-                if (_closeStatus == null)
-                {
-                    _closeStatus = (WebSocketCloseStatus) 4000;
-                    _closeDescription = "Manual close after a requested reconnect.";
-                }
+                _closeStatus = (WebSocketCloseStatus) 4000;
+                _closeDescription = "Manual close after a requested reconnect.";
             }
 
             if (_ws.State != WebSocketState.Aborted)
