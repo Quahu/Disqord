@@ -78,11 +78,11 @@ namespace Disqord
             // Let's just hope with the new gateway intents Discord
             // will finally send presences separately from user updates.
             var oldPresence = user.Presence;
-            if ((user.Presence == null || user.Presence.Status == UserStatus.Offline) && model.Status == UserStatus.Offline)
+            if ((oldPresence == null || oldPresence.Status == UserStatus.Offline) && model.Status == UserStatus.Offline)
                 return Task.CompletedTask;
 
-            if (user.Presence?.Activity != null && model.Game != null
-                && user.Presence.Activity.CreatedAt == DateTimeOffset.FromUnixTimeMilliseconds(model.Game.CreatedAt.Value))
+            if (oldPresence?.Activity != null && model.Game != null
+                && oldPresence.Activity.CreatedAt == DateTimeOffset.FromUnixTimeMilliseconds(model.Game.CreatedAt.Value))
                 return Task.CompletedTask;
 
             user.Update(model);
