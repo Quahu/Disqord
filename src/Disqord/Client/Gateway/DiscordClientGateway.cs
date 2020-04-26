@@ -34,8 +34,8 @@ namespace Disqord
         private volatile bool _resuming;
         private volatile bool _reconnecting;
         private TaskCompletionSource<bool> _readyTaskCompletionSource;
-        private CancellationTokenSource _combinedRunCts;
-        private CancellationTokenSource _runCts;
+        private EfficientCancellationTokenSource _combinedRunCts;
+        private EfficientCancellationTokenSource _runCts;
         private TaskCompletionSource<bool> _runTcs;
         private TaskCompletionSource<bool> _identifyTcs;
         private readonly WebSocketClient _ws;
@@ -71,9 +71,9 @@ namespace Disqord
                     throw new InvalidOperationException("The gateway is already running.");
 
                 _manualDisconnection = false;
-                _runCts = new CancellationTokenSource();
+                _runCts = new EfficientCancellationTokenSource();
                 _runTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-                _combinedRunCts = CancellationTokenSource.CreateLinkedTokenSource(_runCts.Token, cancellationToken);
+                _combinedRunCts = EfficientCancellationTokenSource.CreateLinkedTokenSource(_runCts.Token, cancellationToken);
                 _combinedRunCts.Token.Register(x => (x as DiscordClientGateway).CancelRun(null), this);
                 await ConnectAsync().ConfigureAwait(false);
             }
@@ -123,11 +123,7 @@ namespace Disqord
         {
             _manualDisconnection = true;
             _sessionId = null;
-            try
-            {
-                _heartbeatCts?.Cancel();
-            }
-            catch { }
+            _heartbeatCts?.Cancel();
             _heartbeatCts?.Dispose();
             _combinedRunCts?.Dispose();
             _combinedRunCts = null;
@@ -196,14 +192,13 @@ namespace Disqord
         {
             try
             {
-                await _semaphore.WaitAsync().ConfigureAwait(false);
-
                 if (_manualDisconnection)
                     return;
 
                 if (_reconnecting)
                     return;
 
+                await _semaphore.WaitAsync().ConfigureAwait(false);
                 _reconnecting = true;
 
                 Log(LogMessageSeverity.Warning, $"Close: {e.Status} {e.Description}", e.Exception);
@@ -237,13 +232,7 @@ namespace Disqord
                     }
                 }
 
-                try
-                {
-                    _heartbeatCts?.Cancel();
-                }
-                catch { }
-                _heartbeatCts?.Dispose();
-
+                _heartbeatCts?.Cancel();
                 while (!_combinedRunCts.IsCancellationRequested && !_isDisposed)
                 {
                     try
@@ -266,10 +255,6 @@ namespace Disqord
                         return;
                     }
                     catch (ObjectDisposedException)
-                    {
-                        return;
-                    }
-                    catch (TaskCanceledException)
                     {
                         return;
                     }

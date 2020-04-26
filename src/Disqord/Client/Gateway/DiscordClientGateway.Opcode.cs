@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Logging;
@@ -38,12 +38,7 @@ namespace Disqord
                 case GatewayOperationCode.Reconnect:
                 {
                     Log(LogMessageSeverity.Information, "Reconnect requested, closing...");
-                    try
-                    {
-                        _heartbeatCts?.Cancel();
-                    }
-                    catch { }
-                    _heartbeatCts?.Dispose();
+                    _heartbeatCts?.Cancel();
                     await _ws.CloseAsync().ConfigureAwait(false);
                     break;
                 }

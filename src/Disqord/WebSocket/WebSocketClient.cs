@@ -36,19 +36,20 @@ namespace Disqord.WebSocket
 
         private readonly ConcurrentQueue<WebSocketRequest> _requestQueue = new ConcurrentQueue<WebSocketRequest>();
 
-        private bool _closed;
         private readonly object _closeLock = new object();
         private readonly object _sendLock = new object();
 
-        private CancellationTokenSource _sendCts;
+        private EfficientCancellationTokenSource _sendCts;
         private Task _sendTask;
 
-        private CancellationTokenSource _receiveCts;
+        private EfficientCancellationTokenSource _receiveCts;
         private Task _receiveTask;
 
         private readonly MemoryStream _compressedStream;
         private readonly DeflateStream _deflateStream;
         private bool _isDisposed;
+        private WebSocketCloseStatus? _closeStatus;
+        private string _closeDescription;
 
         public WebSocketClient()
         {
@@ -67,7 +68,8 @@ namespace Disqord.WebSocket
             ThrowIfDisposed();
 
             DisposeTokens();
-            _closed = false;
+            _closeStatus = null;
+            _closeDescription = null;
             _ws?.Abort();
             _ws?.Dispose();
             _ws = new ClientWebSocket();
@@ -86,7 +88,7 @@ namespace Disqord.WebSocket
                 if (_sendTask == null || _sendTask.IsCompleted)
                 {
                     _sendCts?.Dispose();
-                    _sendCts = new CancellationTokenSource();
+                    _sendCts = new EfficientCancellationTokenSource();
                     _sendTask = Task.Run(RunSendAsync);
                 }
             }
@@ -96,17 +98,10 @@ namespace Disqord.WebSocket
 
         private async Task RunSendAsync()
         {
-            CancellationTokenSource cts;
-            lock (_sendLock)
+            var token = _sendCts.Token;
+            while (!token.IsCancellationRequested && _requestQueue.TryDequeue(out var request))
             {
-                cts = _sendCts;
-                if (cts == null)
-                    return;
-            }
-
-            while (!cts.IsCancellationRequested && _requestQueue.TryDequeue(out var request))
-            {
-                using (var linkedSource = CancellationTokenSource.CreateLinkedTokenSource(cts.Token, request.CancellationToken))
+                using (var linkedSource = CancellationTokenSource.CreateLinkedTokenSource(token, request.CancellationToken))
                 {
                     try
                     {
@@ -126,7 +121,7 @@ namespace Disqord.WebSocket
             _compressedStream.Position = 0;
             _compressedStream.SetLength(0);
 
-            _receiveCts = new CancellationTokenSource();
+            _receiveCts = new EfficientCancellationTokenSource();
             var receiveToken = _receiveCts.Token;
 
             var buffer = ArrayPool<byte>.Shared.Rent(RECEIVE_BUFFER_SIZE);
@@ -144,7 +139,9 @@ namespace Disqord.WebSocket
                         }
                         catch (Exception ex)
                         {
-                            await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, ex)).ConfigureAwait(false);
+                            if (_closeStatus != (WebSocketCloseStatus) 4000)
+                                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_ws.CloseStatus, _ws.CloseStatusDescription, ex)).ConfigureAwait(false);
+
                             return;
                         }
 
@@ -207,54 +204,47 @@ namespace Disqord.WebSocket
         public async Task CloseAsync()
         {
             ThrowIfDisposed();
-            var closeStatus = _ws.CloseStatus;
-            var closeDescription = _ws.CloseStatusDescription;
-            DisposeTokens();
 
-            lock (_closeLock)
+            lock (_closeLock) // TODO: this isn't doing anything?
             {
-                if (_closed)
+                if (_closeStatus == (WebSocketCloseStatus) 4000)
                     return;
 
-                _closed = true;
+                _closeStatus = _ws.CloseStatus;
+                _closeDescription = _ws.CloseStatusDescription;
+                DisposeTokens();
+
+                if (_closeStatus == null)
+                {
+                    _closeStatus = (WebSocketCloseStatus) 4000;
+                    _closeDescription = "Manual close after a requested reconnect.";
+                }
             }
 
-            if (_ws != null && _ws.State != WebSocketState.Aborted)
+            if (_ws.State != WebSocketState.Aborted)
             {
                 try
                 {
                     // https://github.com/discord/discord-api-docs/issues/1472
-                    await _ws.CloseAsync((WebSocketCloseStatus) 4000, string.Empty, CancellationToken.None).ConfigureAwait(false);
+                    await _ws.CloseAsync(_closeStatus.Value, _closeDescription, CancellationToken.None).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    //$"Exception while closing the websocket:";
+#if DEBUG
+                    Console.WriteLine($"Exception while closing the websocket:\n{ex}");
+#endif
                 }
 
-                if (closeStatus == null)
-                {
-                    closeStatus = (WebSocketCloseStatus) 4000;
-                    closeDescription = "Manual close after a requested reconnect.";
-                }
-
-                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(closeStatus, closeDescription, null)).ConfigureAwait(false);
+                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_closeStatus, _closeDescription, null)).ConfigureAwait(false);
             }
         }
 
         public void DisposeTokens()
         {
-            try
-            {
-                _sendCts?.Cancel();
-            }
-            catch { }
+            _sendCts?.Cancel();
             _sendCts?.Dispose();
             _sendCts = null;
-            try
-            {
-                _receiveCts?.Cancel();
-            }
-            catch { }
+            _receiveCts?.Cancel();
             _receiveCts?.Dispose();
             _receiveCts = null;
         }
