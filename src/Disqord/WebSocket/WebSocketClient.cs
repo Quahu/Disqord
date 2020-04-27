@@ -230,9 +230,9 @@ namespace Disqord.WebSocket
                     Console.WriteLine($"Exception while closing the websocket:\n{ex}");
 #endif
                 }
-
-                await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_closeStatus, _closeDescription, null)).ConfigureAwait(false);
             }
+
+            await _closedEvent.InvokeAsync(new WebSocketClosedEventArgs(_closeStatus, _closeDescription, null)).ConfigureAwait(false);
         }
 
         public void DisposeTokens()

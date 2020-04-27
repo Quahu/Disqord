@@ -75,7 +75,6 @@ namespace Disqord
                 {
                     _identifyTcs.TrySetResult(true);
                     Log(LogMessageSeverity.Information, "Resumed.");
-                    _resuming = false;
                     break;
                 }
 

@@ -46,10 +46,9 @@ namespace Disqord
                 case GatewayOperationCode.InvalidSession:
                 {
                     Log(LogMessageSeverity.Warning, "Received invalid session...");
-                    if (_resuming)
+                    if (_sessionId != null)
                     {
                         _sessionId = null;
-                        _resuming = false;
                         var delay = _random.Next(1000, 5001);
                         Log(LogMessageSeverity.Information, $"Currently resuming, starting a new session in {delay}ms.");
                         await Task.Delay(delay).ConfigureAwait(false);
@@ -60,7 +59,6 @@ namespace Disqord
                         if (Serializer.ToObject<bool>(payload.D))
                         {
                             Log(LogMessageSeverity.Information, "Session is resumable, resuming...");
-                            _resuming = true;
                             await SendResumeAsync().ConfigureAwait(false);
                         }
                         else
@@ -75,13 +73,14 @@ namespace Disqord
 
                 case GatewayOperationCode.Hello:
                 {
-                    Log(LogMessageSeverity.Debug, "Received Hello...");
                     var data = Serializer.ToObject<HelloModel>(payload.D);
                     _heartbeatInterval = data.HeartbeatInterval;
                     _ = Task.Run(RunHeartbeatAsync);
-                    if (_resuming)
+
+                    if (_sessionId != null)
                     {
-                        Log(LogMessageSeverity.Information, "Received Hello after requesting a resume, not identifying.");
+                        Log(LogMessageSeverity.Information, "Session id is present, attempting to resume...");
+                        await SendResumeAsync().ConfigureAwait(false);
                         return;
                     }
 

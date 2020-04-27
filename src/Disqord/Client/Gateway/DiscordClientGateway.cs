@@ -31,7 +31,6 @@ namespace Disqord
         private int? _lastSequenceNumber;
         private string _sessionId;
         private string[] _trace;
-        private volatile bool _resuming;
         private volatile bool _reconnecting;
         private TaskCompletionSource<bool> _readyTaskCompletionSource;
         private EfficientCancellationTokenSource _combinedRunCts;
@@ -101,13 +100,6 @@ namespace Disqord
             Log(LogMessageSeverity.Information, "Connecting...");
             var gatewayUrl = await Client.GetGatewayAsync(_sessionId == null).ConfigureAwait(false);
             await _ws.ConnectAsync(new Uri(string.Concat(gatewayUrl, "?compress=zlib-stream")), _combinedRunCts.Token).ConfigureAwait(false);
-
-            if (_sessionId != null)
-            {
-                Log(LogMessageSeverity.Information, "Session id is present, attempting to resume...");
-                _resuming = true;
-                await SendResumeAsync().ConfigureAwait(false);
-            }
         }
 
         public Task WaitForIdentifyAsync()
