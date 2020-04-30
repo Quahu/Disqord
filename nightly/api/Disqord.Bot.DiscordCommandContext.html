@@ -90,18 +90,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordCommandContext__ctor_Disqord_Bot_DiscordBotBase_Disqord_Bot_Prefixes_IPrefix_Disqord_CachedUserMessage_.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordCommandContext.%23ctor(Disqord.Bot.DiscordBotBase%2CDisqord.Bot.Prefixes.IPrefix%2CDisqord.CachedUserMessage)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordCommandContext__ctor_Disqord_Bot_DiscordBotBase_Disqord_Bot_Prefixes_IPrefix_Disqord_CachedUserMessage_IServiceProvider_.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordCommandContext.%23ctor(Disqord.Bot.DiscordBotBase%2CDisqord.Bot.Prefixes.IPrefix%2CDisqord.CachedUserMessage%2CIServiceProvider)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L22">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L30">View Source</a>
   </span>
   <a id="Disqord_Bot_DiscordCommandContext__ctor_" data-uid="Disqord.Bot.DiscordCommandContext.#ctor*"></a>
-  <h4 id="Disqord_Bot_DiscordCommandContext__ctor_Disqord_Bot_DiscordBotBase_Disqord_Bot_Prefixes_IPrefix_Disqord_CachedUserMessage_" data-uid="Disqord.Bot.DiscordCommandContext.#ctor(Disqord.Bot.DiscordBotBase,Disqord.Bot.Prefixes.IPrefix,Disqord.CachedUserMessage)">DiscordCommandContext(DiscordBotBase, IPrefix, CachedUserMessage)</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="Disqord_Bot_DiscordCommandContext__ctor_Disqord_Bot_DiscordBotBase_Disqord_Bot_Prefixes_IPrefix_Disqord_CachedUserMessage_IServiceProvider_" data-uid="Disqord.Bot.DiscordCommandContext.#ctor(Disqord.Bot.DiscordBotBase,Disqord.Bot.Prefixes.IPrefix,Disqord.CachedUserMessage,IServiceProvider)">DiscordCommandContext(DiscordBotBase, IPrefix, CachedUserMessage, IServiceProvider)</h4>
+  <div class="markdown level1 summary"><p>Instantiates a new <a class="xref" href="Disqord.Bot.DiscordCommandContext.html">DiscordCommandContext</a>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public DiscordCommandContext(DiscordBotBase bot, IPrefix prefix, CachedUserMessage message)</code></pre>
+    <pre><code class="lang-csharp hljs">public DiscordCommandContext(DiscordBotBase bot, IPrefix prefix, CachedUserMessage message, IServiceProvider provider = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -116,17 +117,26 @@
       <tr>
         <td><a class="xref" href="Disqord.Bot.DiscordBotBase.html">DiscordBotBase</a></td>
         <td><span class="parametername">bot</span></td>
-        <td></td>
+        <td><p>The bot instance. </p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="Disqord.Bot.Prefixes.IPrefix.html">IPrefix</a></td>
         <td><span class="parametername">prefix</span></td>
-        <td></td>
+        <td><p>The prefix found in the source message. </p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="Disqord.CachedUserMessage.html">CachedUserMessage</a></td>
         <td><span class="parametername">message</span></td>
-        <td></td>
+        <td><p>The source message. </p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">IServiceProvider</span></td>
+        <td><span class="parametername">provider</span></td>
+        <td><p>The optional <see cref="!:IServiceProvider"></see>. If <span class="xref">null</span>, defaults to <code data-dev-comment-type="paramref" class="paramref">bot</code>. </p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -137,7 +147,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordCommandContext_Bot.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordCommandContext.Bot%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L8">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L9">View Source</a>
   </span>
   <a id="Disqord_Bot_DiscordCommandContext_Bot_" data-uid="Disqord.Bot.DiscordCommandContext.Bot*"></a>
   <h4 id="Disqord_Bot_DiscordCommandContext_Bot" data-uid="Disqord.Bot.DiscordCommandContext.Bot">Bot</h4>
@@ -167,7 +177,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordCommandContext_Channel.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordCommandContext.Channel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L14">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L15">View Source</a>
   </span>
   <a id="Disqord_Bot_DiscordCommandContext_Channel_" data-uid="Disqord.Bot.DiscordCommandContext.Channel*"></a>
   <h4 id="Disqord_Bot_DiscordCommandContext_Channel" data-uid="Disqord.Bot.DiscordCommandContext.Channel">Channel</h4>
@@ -197,7 +207,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordCommandContext_Guild.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordCommandContext.Guild%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L20">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L21">View Source</a>
   </span>
   <a id="Disqord_Bot_DiscordCommandContext_Guild_" data-uid="Disqord.Bot.DiscordCommandContext.Guild*"></a>
   <h4 id="Disqord_Bot_DiscordCommandContext_Guild" data-uid="Disqord.Bot.DiscordCommandContext.Guild">Guild</h4>
@@ -227,7 +237,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordCommandContext_Member.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordCommandContext.Member%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L18">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L19">View Source</a>
   </span>
   <a id="Disqord_Bot_DiscordCommandContext_Member_" data-uid="Disqord.Bot.DiscordCommandContext.Member*"></a>
   <h4 id="Disqord_Bot_DiscordCommandContext_Member" data-uid="Disqord.Bot.DiscordCommandContext.Member">Member</h4>
@@ -257,7 +267,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordCommandContext_Message.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordCommandContext.Message%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L12">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L13">View Source</a>
   </span>
   <a id="Disqord_Bot_DiscordCommandContext_Message_" data-uid="Disqord.Bot.DiscordCommandContext.Message*"></a>
   <h4 id="Disqord_Bot_DiscordCommandContext_Message" data-uid="Disqord.Bot.DiscordCommandContext.Message">Message</h4>
@@ -287,7 +297,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordCommandContext_Prefix.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordCommandContext.Prefix%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L10">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L11">View Source</a>
   </span>
   <a id="Disqord_Bot_DiscordCommandContext_Prefix_" data-uid="Disqord.Bot.DiscordCommandContext.Prefix*"></a>
   <h4 id="Disqord_Bot_DiscordCommandContext_Prefix" data-uid="Disqord.Bot.DiscordCommandContext.Prefix">Prefix</h4>
@@ -317,7 +327,7 @@
     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordCommandContext_User.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordCommandContext.User%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L16">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L17">View Source</a>
   </span>
   <a id="Disqord_Bot_DiscordCommandContext_User_" data-uid="Disqord.Bot.DiscordCommandContext.User*"></a>
   <h4 id="Disqord_Bot_DiscordCommandContext_User" data-uid="Disqord.Bot.DiscordCommandContext.User">User</h4>
@@ -353,7 +363,7 @@
                     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Bot_DiscordCommandContext.md&amp;value=---%0Auid%3A%20Disqord.Bot.DiscordCommandContext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L6" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Bot/Commands/DiscordCommandContext.cs/#L7" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

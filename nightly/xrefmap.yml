@@ -886,12 +886,12 @@ references:
   commentId: T:Disqord.Bot.DiscordCommandContext
   fullName: Disqord.Bot.DiscordCommandContext
   nameWithType: DiscordCommandContext
-- uid: Disqord.Bot.DiscordCommandContext.#ctor(Disqord.Bot.DiscordBotBase,Disqord.Bot.Prefixes.IPrefix,Disqord.CachedUserMessage)
-  name: DiscordCommandContext(DiscordBotBase, IPrefix, CachedUserMessage)
-  href: api/Disqord.Bot.DiscordCommandContext.html#Disqord_Bot_DiscordCommandContext__ctor_Disqord_Bot_DiscordBotBase_Disqord_Bot_Prefixes_IPrefix_Disqord_CachedUserMessage_
-  commentId: M:Disqord.Bot.DiscordCommandContext.#ctor(Disqord.Bot.DiscordBotBase,Disqord.Bot.Prefixes.IPrefix,Disqord.CachedUserMessage)
-  fullName: Disqord.Bot.DiscordCommandContext.DiscordCommandContext(Disqord.Bot.DiscordBotBase, Disqord.Bot.Prefixes.IPrefix, Disqord.CachedUserMessage)
-  nameWithType: DiscordCommandContext.DiscordCommandContext(DiscordBotBase, IPrefix, CachedUserMessage)
+- uid: Disqord.Bot.DiscordCommandContext.#ctor(Disqord.Bot.DiscordBotBase,Disqord.Bot.Prefixes.IPrefix,Disqord.CachedUserMessage,IServiceProvider)
+  name: DiscordCommandContext(DiscordBotBase, IPrefix, CachedUserMessage, IServiceProvider)
+  href: api/Disqord.Bot.DiscordCommandContext.html#Disqord_Bot_DiscordCommandContext__ctor_Disqord_Bot_DiscordBotBase_Disqord_Bot_Prefixes_IPrefix_Disqord_CachedUserMessage_IServiceProvider_
+  commentId: M:Disqord.Bot.DiscordCommandContext.#ctor(Disqord.Bot.DiscordBotBase,Disqord.Bot.Prefixes.IPrefix,Disqord.CachedUserMessage,IServiceProvider)
+  fullName: Disqord.Bot.DiscordCommandContext.DiscordCommandContext(Disqord.Bot.DiscordBotBase, Disqord.Bot.Prefixes.IPrefix, Disqord.CachedUserMessage, IServiceProvider)
+  nameWithType: DiscordCommandContext.DiscordCommandContext(DiscordBotBase, IPrefix, CachedUserMessage, IServiceProvider)
 - uid: Disqord.Bot.DiscordCommandContext.#ctor*
   name: DiscordCommandContext
   href: api/Disqord.Bot.DiscordCommandContext.html#Disqord_Bot_DiscordCommandContext__ctor_
