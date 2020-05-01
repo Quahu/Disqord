@@ -22,7 +22,7 @@ namespace Disqord.Rest
             IconHash = model.Icon;
             OwnerId = model.OwnerUserId;
             Members = model.Members.ToReadOnlyDictionary(
-                (x, _) => new Snowflake(x.Id), (x, client) => new RestTeamMember(client, x), client);
+                (x, _) => new Snowflake(x.User.Id), (x, @this) => new RestTeamMember(@this, x), this);
         }
     }
 }
