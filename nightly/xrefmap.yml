@@ -36579,6 +36579,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestTeamMember.Permissions
   nameWithType: RestTeamMember.Permissions
+- uid: Disqord.Rest.RestTeamMember.Team
+  name: Team
+  href: api/Disqord.Rest.RestTeamMember.html#Disqord_Rest_RestTeamMember_Team
+  commentId: P:Disqord.Rest.RestTeamMember.Team
+  fullName: Disqord.Rest.RestTeamMember.Team
+  nameWithType: RestTeamMember.Team
+- uid: Disqord.Rest.RestTeamMember.Team*
+  name: Team
+  href: api/Disqord.Rest.RestTeamMember.html#Disqord_Rest_RestTeamMember_Team_
+  commentId: Overload:Disqord.Rest.RestTeamMember.Team
+  isSpec: "True"
+  fullName: Disqord.Rest.RestTeamMember.Team
+  nameWithType: RestTeamMember.Team
 - uid: Disqord.Rest.RestTextChannel
   name: RestTextChannel
   href: api/Disqord.Rest.RestTextChannel.html
