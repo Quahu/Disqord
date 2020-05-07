@@ -21255,6 +21255,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Library.Debug.DumpWriter
   nameWithType: Library.Debug.DumpWriter
+- uid: Disqord.Library.Debug.TimedWebSocketConnect
+  name: TimedWebSocketConnect
+  href: api/Disqord.Library.Debug.html#Disqord_Library_Debug_TimedWebSocketConnect
+  commentId: F:Disqord.Library.Debug.TimedWebSocketConnect
+  fullName: Disqord.Library.Debug.TimedWebSocketConnect
+  nameWithType: Library.Debug.TimedWebSocketConnect
 - uid: Disqord.Library.RepositoryUrl
   name: RepositoryUrl
   href: api/Disqord.Library.html#Disqord_Library_RepositoryUrl
