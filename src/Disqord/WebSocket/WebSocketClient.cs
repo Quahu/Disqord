@@ -79,7 +79,7 @@ namespace Disqord.WebSocket
                     _ws?.Dispose();
                     _ws = new ClientWebSocket();
                     _ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(10);
-                    var connectTask = _ws.ConnectAsync(url, linkedCts.Token);
+                    var connectTask = Task.Run(() => _ws.ConnectAsync(url, linkedCts.Token), linkedCts.Token);
                     var delayTask = Task.Delay(10_000, linkedCts.Token);
                     var task = await Task.WhenAny(connectTask, delayTask).ConfigureAwait(false);
                     linkedCts.Cancel();
