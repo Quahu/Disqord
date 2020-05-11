@@ -28,8 +28,10 @@ namespace Disqord.Extensions.Interactivity.Menus
 
         private readonly LockedDictionary<IEmoji, Button> _buttons = new LockedDictionary<IEmoji, Button>();
 
-        private static readonly LockedDictionary<Type, (IEmoji emoji, MethodInfo method, Func<IEmoji, MethodInfo, int, object, Button>)[]> _typeCache
-            = new LockedDictionary<Type, (IEmoji emoji, MethodInfo method, Func<IEmoji, MethodInfo, int, object, Button>)[]>();
+        private static readonly LockedDictionary<Type, (IEmoji, MethodInfo, ButtonFactory)[]> _typeCache
+            = new LockedDictionary<Type, (IEmoji, MethodInfo, ButtonFactory)[]>();
+
+        private delegate Button ButtonFactory(IEmoji emoji, MethodInfo method, int position, object instance);
 
         public MenuBase(bool addReactions = true, bool triggerOnRemoval = true)
         {
@@ -38,7 +40,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             var buttons = _typeCache.GetOrAdd(GetType(), x =>
             {
                 var methods = x.GetMethods(BindingFlags.Public | BindingFlags.Instance);
-                List<(IEmoji emoji, MethodInfo method, Func<IEmoji, MethodInfo, int, object, Button>)> buttons = null;
+                List<(IEmoji emoji, MethodInfo method, ButtonFactory factory)> buttons = null;
                 for (var i = 0; i < methods.Length; i++)
                 {
                     var method = methods[i];
@@ -74,12 +76,12 @@ namespace Disqord.Extensions.Interactivity.Menus
                     }
 
                     if (buttons == null)
-                        buttons = new List<(IEmoji emoji, MethodInfo method, Func<IEmoji, MethodInfo, int, object, Button>)>();
+                        buttons = new List<(IEmoji, MethodInfo, ButtonFactory)>();
 
                     buttons.Add((buttonAttribute.Emoji, method, ButtonFactory));
                 }
 
-                return buttons?.ToArray() ?? Array.Empty<(IEmoji emoji, MethodInfo method, Func<IEmoji, MethodInfo, int, object, Button>)>();
+                return buttons?.ToArray() ?? Array.Empty<(IEmoji, MethodInfo, ButtonFactory)>();
             });
 
             for (var i = 0; i < buttons.Length; i++)
