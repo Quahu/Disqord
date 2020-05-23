@@ -13205,6 +13205,19 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.UnpinMessageAsync
   nameWithType: DiscordClientBase.UnpinMessageAsync
+- uid: Disqord.DiscordClientBase.UpdateVoiceStateAsync(Snowflake,Snowflake,System.Boolean,System.Boolean)
+  name: UpdateVoiceStateAsync(Snowflake, Snowflake, Boolean, Boolean)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_UpdateVoiceStateAsync_Snowflake_Snowflake_System_Boolean_System_Boolean_
+  commentId: M:Disqord.DiscordClientBase.UpdateVoiceStateAsync(Snowflake,Snowflake,System.Boolean,System.Boolean)
+  fullName: Disqord.DiscordClientBase.UpdateVoiceStateAsync(Snowflake, Snowflake, System.Boolean, System.Boolean)
+  nameWithType: DiscordClientBase.UpdateVoiceStateAsync(Snowflake, Snowflake, Boolean, Boolean)
+- uid: Disqord.DiscordClientBase.UpdateVoiceStateAsync*
+  name: UpdateVoiceStateAsync
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_UpdateVoiceStateAsync_
+  commentId: Overload:Disqord.DiscordClientBase.UpdateVoiceStateAsync
+  isSpec: "True"
+  fullName: Disqord.DiscordClientBase.UpdateVoiceStateAsync
+  nameWithType: DiscordClientBase.UpdateVoiceStateAsync
 - uid: Disqord.DiscordClientBase.UserNoteUpdated
   name: UserNoteUpdated
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_UserNoteUpdated
