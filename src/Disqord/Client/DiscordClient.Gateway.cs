@@ -27,13 +27,13 @@ namespace Disqord
             await _gateway.StopAsync().ConfigureAwait(false);
         }
 
-        public override Task SetPresenceAsync(UserStatus status)
+        public sealed override Task SetPresenceAsync(UserStatus status)
             => InternalSetPresenceAsync(status);
 
-        public override Task SetPresenceAsync(LocalActivity activity)
+        public sealed override Task SetPresenceAsync(LocalActivity activity)
             => InternalSetPresenceAsync(activity: activity);
 
-        public override Task SetPresenceAsync(UserStatus status, LocalActivity activity)
+        public sealed override Task SetPresenceAsync(UserStatus status, LocalActivity activity)
             => InternalSetPresenceAsync(status, activity);
 
         internal override async Task<string> GetGatewayAsync(bool isNewSession)

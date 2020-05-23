@@ -52,13 +52,13 @@ namespace Disqord.Sharding
         public override Task StopAsync()
             => throw new NotImplementedException();
 
-        public override Task SetPresenceAsync(UserStatus status)
+        public sealed override Task SetPresenceAsync(UserStatus status)
             => InternalSetPresencesAsync(status);
 
-        public override Task SetPresenceAsync(LocalActivity activity)
+        public sealed override Task SetPresenceAsync(LocalActivity activity)
             => InternalSetPresencesAsync(activity: activity);
 
-        public override Task SetPresenceAsync(UserStatus status, LocalActivity activity)
+        public sealed override Task SetPresenceAsync(UserStatus status, LocalActivity activity)
             => InternalSetPresencesAsync(status, activity);
 
         private async Task InternalSetPresencesAsync(UserStatus? status = default, Optional<LocalActivity> activity = default)
