@@ -264,20 +264,20 @@ namespace Disqord
             add => _voiceStateUpdated.Hook(value);
             remove => _voiceStateUpdated.Unhook(value);
         }
-        internal readonly AsynchronousEvent<VoiceStateUpdatedEventArgs> _voiceStateUpdated = new AsynchronousEvent<VoiceStateUpdatedEventArgs>();
+        internal readonly AsynchronousEvent<VoiceStateUpdatedEventArgs> _voiceStateUpdated;
 
         public event AsynchronousEventHandler<VoiceServerUpdatedEventArgs> VoiceServerUpdated
         {
             add => _voiceServerUpdated.Hook(value);
             remove => _voiceServerUpdated.Unhook(value);
         }
-        internal readonly AsynchronousEvent<VoiceServerUpdatedEventArgs> _voiceServerUpdated = new AsynchronousEvent<VoiceServerUpdatedEventArgs>();
+        internal readonly AsynchronousEvent<VoiceServerUpdatedEventArgs> _voiceServerUpdated;
 
         public event AsynchronousEventHandler<WebhooksUpdatedEventArgs> WebhooksUpdated
         {
             add => _webhooksUpdated.Hook(value);
             remove => _webhooksUpdated.Unhook(value);
         }
-        internal readonly AsynchronousEvent<WebhooksUpdatedEventArgs> _webhooksUpdated = new AsynchronousEvent<WebhooksUpdatedEventArgs>();
+        internal readonly AsynchronousEvent<WebhooksUpdatedEventArgs> _webhooksUpdated;
     }
 }
