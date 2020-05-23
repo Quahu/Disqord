@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Rest;
@@ -23,6 +24,10 @@ namespace Disqord
 
         public virtual Task SetPresenceAsync(UserStatus status, LocalActivity activity)
             => _client?.SetPresenceAsync(status, activity) ?? throw new PlatformNotSupportedException();
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public Task UpdateVoiceStateAsync(Snowflake guildId, Snowflake channelId, bool isMuted = false, bool isDeafened = false)
+            => GetGateway(guildId).SendVoiceStateUpdateAsync(guildId, channelId, isMuted, isDeafened);
 
         internal virtual Task<string> GetGatewayAsync(bool isNewSession)
             => _client.GetGatewayAsync(isNewSession) ?? throw new PlatformNotSupportedException();
