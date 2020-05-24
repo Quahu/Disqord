@@ -13205,12 +13205,15 @@ references:
   isSpec: "True"
   fullName: Disqord.DiscordClientBase.UnpinMessageAsync
   nameWithType: DiscordClientBase.UnpinMessageAsync
-- uid: Disqord.DiscordClientBase.UpdateVoiceStateAsync(Snowflake,Snowflake,System.Boolean,System.Boolean)
-  name: UpdateVoiceStateAsync(Snowflake, Snowflake, Boolean, Boolean)
-  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_UpdateVoiceStateAsync_Snowflake_Snowflake_System_Boolean_System_Boolean_
-  commentId: M:Disqord.DiscordClientBase.UpdateVoiceStateAsync(Snowflake,Snowflake,System.Boolean,System.Boolean)
-  fullName: Disqord.DiscordClientBase.UpdateVoiceStateAsync(Snowflake, Snowflake, System.Boolean, System.Boolean)
-  nameWithType: DiscordClientBase.UpdateVoiceStateAsync(Snowflake, Snowflake, Boolean, Boolean)
+- uid: Disqord.DiscordClientBase.UpdateVoiceStateAsync(Snowflake,System.Nullable{Snowflake},System.Boolean,System.Boolean)
+  name: UpdateVoiceStateAsync(Snowflake, Nullable<Snowflake>, Boolean, Boolean)
+  href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_UpdateVoiceStateAsync_Snowflake_System_Nullable_Snowflake__System_Boolean_System_Boolean_
+  commentId: M:Disqord.DiscordClientBase.UpdateVoiceStateAsync(Snowflake,System.Nullable{Snowflake},System.Boolean,System.Boolean)
+  name.vb: UpdateVoiceStateAsync(Snowflake, Nullable(Of Snowflake), Boolean, Boolean)
+  fullName: Disqord.DiscordClientBase.UpdateVoiceStateAsync(Snowflake, System.Nullable<Snowflake>, System.Boolean, System.Boolean)
+  fullName.vb: Disqord.DiscordClientBase.UpdateVoiceStateAsync(Snowflake, System.Nullable(Of Snowflake), System.Boolean, System.Boolean)
+  nameWithType: DiscordClientBase.UpdateVoiceStateAsync(Snowflake, Nullable<Snowflake>, Boolean, Boolean)
+  nameWithType.vb: DiscordClientBase.UpdateVoiceStateAsync(Snowflake, Nullable(Of Snowflake), Boolean, Boolean)
 - uid: Disqord.DiscordClientBase.UpdateVoiceStateAsync*
   name: UpdateVoiceStateAsync
   href: api/Disqord.DiscordClientBase.html#Disqord_DiscordClientBase_UpdateVoiceStateAsync_
