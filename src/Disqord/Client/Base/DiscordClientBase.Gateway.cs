@@ -26,7 +26,7 @@ namespace Disqord
             => _client?.SetPresenceAsync(status, activity) ?? throw new PlatformNotSupportedException();
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public Task UpdateVoiceStateAsync(Snowflake guildId, Snowflake channelId, bool isMuted = false, bool isDeafened = false)
+        public Task UpdateVoiceStateAsync(Snowflake guildId, Snowflake? channelId, bool isMuted = false, bool isDeafened = false)
             => GetGateway(guildId).SendVoiceStateUpdateAsync(guildId, channelId, isMuted, isDeafened);
 
         internal virtual Task<string> GetGatewayAsync(bool isNewSession)

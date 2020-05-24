@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -117,7 +117,7 @@ namespace Disqord
             }).ConfigureAwait(false);
         }
 
-        internal Task SendVoiceStateUpdateAsync(ulong guildId, ulong channelId, bool muted, bool deafened)
+        internal Task SendVoiceStateUpdateAsync(ulong guildId, ulong? channelId, bool muted, bool deafened)
             => SendAsync(new PayloadModel
             {
                 Op = GatewayOperationCode.VoiceStateUpdate,
