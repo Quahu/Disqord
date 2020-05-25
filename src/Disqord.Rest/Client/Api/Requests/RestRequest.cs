@@ -30,15 +30,6 @@ namespace Disqord.Rest
 
         private readonly IRequestContent _content;
 
-        public RestRequest(HttpMethod method, FormattableString url, RestRequestOptions options) : this(method, url, null, null, options)
-        { }
-
-        public RestRequest(HttpMethod method, FormattableString url, IRequestContent content, RestRequestOptions options) : this(method, url, null, content, options)
-        { }
-
-        public RestRequest(HttpMethod method, FormattableString url, IReadOnlyDictionary<string, object> queryStringParameters, RestRequestOptions options) : this(method, url, queryStringParameters, null, options)
-        { }
-
         public RestRequest(HttpMethod method, FormattableString url, IReadOnlyDictionary<string, object> queryStringParameters, IRequestContent content, RestRequestOptions options)
         {
             _tcs = new TaskCompletionSource<HttpResponseMessage>();
@@ -46,7 +37,7 @@ namespace Disqord.Rest
             _method = method;
             _queryStringParameters = queryStringParameters;
             _content = content;
-            Options = options?.Clone();
+            Options = options.Clone();
         }
 
         public void Initialise(IJsonSerializer serializer)

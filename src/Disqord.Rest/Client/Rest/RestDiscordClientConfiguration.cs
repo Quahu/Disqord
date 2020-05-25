@@ -19,5 +19,10 @@ namespace Disqord.Rest
         ///     Gets or sets the default mentions for messages.
         /// </summary>
         public Optional<LocalMentions> DefaultMentions { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the default request options.
+        /// </summary>
+        public Optional<RestRequestOptions> DefaultRequestOptions { get; set; }
     }
 }

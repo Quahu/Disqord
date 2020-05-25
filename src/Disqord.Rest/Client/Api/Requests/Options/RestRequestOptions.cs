@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 
 namespace Disqord.Rest
@@ -35,6 +35,14 @@ namespace Disqord.Rest
         /// </summary>
         public string Reason { get; }
 
+        /// <summary>
+        ///     Gets the maximum rate-limit duration to delay for instead of throwing.
+        /// </summary>
+        public TimeSpan MaximumRateLimitDuration { get; }
+
+        internal RestRequestOptions()
+        { }
+
         internal RestRequestOptions(RestRequestOptionsBuilder builder)
         {
             Timeout = builder.Timeout;
@@ -42,6 +50,7 @@ namespace Disqord.Rest
             MfaCode = builder.MfaCode;
             Password = builder.Password;
             Reason = builder.Reason;
+            MaximumRateLimitDuration = builder.MaximumRateLimitDuration;
         }
 
         public static RestRequestOptions FromReason(string reason)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -40,18 +41,18 @@ namespace Disqord.Rest
                 {
                     if (LastRateLimit?.Remaining == 0)
                     {
-                        TimeSpan delay;
-                        if (request.RateLimitOverride != null)
-                        {
-                            delay = TimeSpan.FromMilliseconds(request.RateLimitOverride.Value);
-                        }
-                        else
-                        {
-                            delay = LastRateLimit.ResetsAfter;
-                        }
+                        var delay = request.RateLimitOverride != null
+                            ? TimeSpan.FromMilliseconds(request.RateLimitOverride.Value)
+                            : LastRateLimit.ResetsAfter;
 
                         if (delay > TimeSpan.Zero)
                         {
+                            if (request.Options.MaximumRateLimitDuration != default && delay > request.Options.MaximumRateLimitDuration)
+                            {
+                                request.SetException(new DiscordHttpException((HttpStatusCode) 429, null, "Rate-limit hit. Throwing due to Options.ThrowOnRateLimits."));
+                                continue;
+                            }
+
                             await Task.Delay(delay).ConfigureAwait(false);
                         }
                     }

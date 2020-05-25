@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 
 namespace Disqord.Rest
@@ -33,6 +33,11 @@ namespace Disqord.Rest
         public string Reason { get; set; }
 
         /// <summary>
+        ///     Gets or sets the maximum rate-limit duration to delay for instead of throwing.
+        /// </summary>
+        public TimeSpan MaximumRateLimitDuration { get; set; }
+
+        /// <summary>
         ///     Initialises a new <see cref="RestRequestOptionsBuilder"/>.
         /// </summary>
         public RestRequestOptionsBuilder()
@@ -65,6 +70,12 @@ namespace Disqord.Rest
         public RestRequestOptionsBuilder WithReason(string reason)
         {
             Reason = reason;
+            return this;
+        }
+
+        public RestRequestOptionsBuilder WithMaximumRateLimitDuration(TimeSpan maximumRateLimitDuration)
+        {
+            MaximumRateLimitDuration = maximumRateLimitDuration;
             return this;
         }
 
