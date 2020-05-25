@@ -32074,6 +32074,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestDiscordClientConfiguration.DefaultMentions
   nameWithType: RestDiscordClientConfiguration.DefaultMentions
+- uid: Disqord.Rest.RestDiscordClientConfiguration.DefaultRequestOptions
+  name: DefaultRequestOptions
+  href: api/Disqord.Rest.RestDiscordClientConfiguration.html#Disqord_Rest_RestDiscordClientConfiguration_DefaultRequestOptions
+  commentId: P:Disqord.Rest.RestDiscordClientConfiguration.DefaultRequestOptions
+  fullName: Disqord.Rest.RestDiscordClientConfiguration.DefaultRequestOptions
+  nameWithType: RestDiscordClientConfiguration.DefaultRequestOptions
+- uid: Disqord.Rest.RestDiscordClientConfiguration.DefaultRequestOptions*
+  name: DefaultRequestOptions
+  href: api/Disqord.Rest.RestDiscordClientConfiguration.html#Disqord_Rest_RestDiscordClientConfiguration_DefaultRequestOptions_
+  commentId: Overload:Disqord.Rest.RestDiscordClientConfiguration.DefaultRequestOptions
+  isSpec: "True"
+  fullName: Disqord.Rest.RestDiscordClientConfiguration.DefaultRequestOptions
+  nameWithType: RestDiscordClientConfiguration.DefaultRequestOptions
 - uid: Disqord.Rest.RestDiscordClientConfiguration.Logger
   name: Logger
   href: api/Disqord.Rest.RestDiscordClientConfiguration.html#Disqord_Rest_RestDiscordClientConfiguration_Logger
@@ -36016,6 +36029,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestRequestOptions.FromReason
   nameWithType: RestRequestOptions.FromReason
+- uid: Disqord.Rest.RestRequestOptions.MaximumRateLimitDuration
+  name: MaximumRateLimitDuration
+  href: api/Disqord.Rest.RestRequestOptions.html#Disqord_Rest_RestRequestOptions_MaximumRateLimitDuration
+  commentId: P:Disqord.Rest.RestRequestOptions.MaximumRateLimitDuration
+  fullName: Disqord.Rest.RestRequestOptions.MaximumRateLimitDuration
+  nameWithType: RestRequestOptions.MaximumRateLimitDuration
+- uid: Disqord.Rest.RestRequestOptions.MaximumRateLimitDuration*
+  name: MaximumRateLimitDuration
+  href: api/Disqord.Rest.RestRequestOptions.html#Disqord_Rest_RestRequestOptions_MaximumRateLimitDuration_
+  commentId: Overload:Disqord.Rest.RestRequestOptions.MaximumRateLimitDuration
+  isSpec: "True"
+  fullName: Disqord.Rest.RestRequestOptions.MaximumRateLimitDuration
+  nameWithType: RestRequestOptions.MaximumRateLimitDuration
 - uid: Disqord.Rest.RestRequestOptions.MfaCode
   name: MfaCode
   href: api/Disqord.Rest.RestRequestOptions.html#Disqord_Rest_RestRequestOptions_MfaCode
@@ -36113,6 +36139,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestRequestOptionsBuilder.CancellationToken
   nameWithType: RestRequestOptionsBuilder.CancellationToken
+- uid: Disqord.Rest.RestRequestOptionsBuilder.MaximumRateLimitDuration
+  name: MaximumRateLimitDuration
+  href: api/Disqord.Rest.RestRequestOptionsBuilder.html#Disqord_Rest_RestRequestOptionsBuilder_MaximumRateLimitDuration
+  commentId: P:Disqord.Rest.RestRequestOptionsBuilder.MaximumRateLimitDuration
+  fullName: Disqord.Rest.RestRequestOptionsBuilder.MaximumRateLimitDuration
+  nameWithType: RestRequestOptionsBuilder.MaximumRateLimitDuration
+- uid: Disqord.Rest.RestRequestOptionsBuilder.MaximumRateLimitDuration*
+  name: MaximumRateLimitDuration
+  href: api/Disqord.Rest.RestRequestOptionsBuilder.html#Disqord_Rest_RestRequestOptionsBuilder_MaximumRateLimitDuration_
+  commentId: Overload:Disqord.Rest.RestRequestOptionsBuilder.MaximumRateLimitDuration
+  isSpec: "True"
+  fullName: Disqord.Rest.RestRequestOptionsBuilder.MaximumRateLimitDuration
+  nameWithType: RestRequestOptionsBuilder.MaximumRateLimitDuration
 - uid: Disqord.Rest.RestRequestOptionsBuilder.MfaCode
   name: MfaCode
   href: api/Disqord.Rest.RestRequestOptionsBuilder.html#Disqord_Rest_RestRequestOptionsBuilder_MfaCode
@@ -36178,6 +36217,19 @@ references:
   isSpec: "True"
   fullName: Disqord.Rest.RestRequestOptionsBuilder.WithCancellationToken
   nameWithType: RestRequestOptionsBuilder.WithCancellationToken
+- uid: Disqord.Rest.RestRequestOptionsBuilder.WithMaximumRateLimitDuration(TimeSpan)
+  name: WithMaximumRateLimitDuration(TimeSpan)
+  href: api/Disqord.Rest.RestRequestOptionsBuilder.html#Disqord_Rest_RestRequestOptionsBuilder_WithMaximumRateLimitDuration_TimeSpan_
+  commentId: M:Disqord.Rest.RestRequestOptionsBuilder.WithMaximumRateLimitDuration(TimeSpan)
+  fullName: Disqord.Rest.RestRequestOptionsBuilder.WithMaximumRateLimitDuration(TimeSpan)
+  nameWithType: RestRequestOptionsBuilder.WithMaximumRateLimitDuration(TimeSpan)
+- uid: Disqord.Rest.RestRequestOptionsBuilder.WithMaximumRateLimitDuration*
+  name: WithMaximumRateLimitDuration
+  href: api/Disqord.Rest.RestRequestOptionsBuilder.html#Disqord_Rest_RestRequestOptionsBuilder_WithMaximumRateLimitDuration_
+  commentId: Overload:Disqord.Rest.RestRequestOptionsBuilder.WithMaximumRateLimitDuration
+  isSpec: "True"
+  fullName: Disqord.Rest.RestRequestOptionsBuilder.WithMaximumRateLimitDuration
+  nameWithType: RestRequestOptionsBuilder.WithMaximumRateLimitDuration
 - uid: Disqord.Rest.RestRequestOptionsBuilder.WithMfaCode(System.String)
   name: WithMfaCode(String)
   href: api/Disqord.Rest.RestRequestOptionsBuilder.html#Disqord_Rest_RestRequestOptionsBuilder_WithMfaCode_System_String_
