@@ -93,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.DiscordBotBase.html",
-          "hash": "D/KmKPGAwM/GAoTpNVAJ+g=="
+          "hash": "//CJf+T/AgCBksI8d1tYqA=="
         }
       },
       "is_incremental": false,
@@ -273,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.Prefixes.CharPrefix.html",
-          "hash": "XMcjYrgheq6R6f5lAK5gvg=="
+          "hash": "IFjOofRau5h7GcBcQOJo9w=="
         }
       },
       "is_incremental": false,
@@ -297,7 +297,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.Prefixes.DefaultPrefixProvider.html",
-          "hash": "Krep7NXkq7j4nD0IrVlXZg=="
+          "hash": "0igxUFl1ZQ5JKmG8mIlmxw=="
         }
       },
       "is_incremental": false,
@@ -1053,7 +1053,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Discord.html",
-          "hash": "0ZAud6p7krphvLnx5ImdWw=="
+          "hash": "yWAtzG0q4gy2M5o9ugocsg=="
         }
       },
       "is_incremental": false,
@@ -2709,7 +2709,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Markdown.html",
-          "hash": "G/vZN7V5lBdJIEFiF6mA6g=="
+          "hash": "O/VB9IQjx5nY5jhFgVKs/w=="
         }
       },
       "is_incremental": false,
@@ -4701,7 +4701,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Snowflake.html",
-          "hash": "Ryfhuh4d1v/uly3SulBXXw=="
+          "hash": "60UGymMgAFjAQsSUyR4FdA=="
         }
       },
       "is_incremental": false,
