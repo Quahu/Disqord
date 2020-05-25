@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Logging;
 
@@ -27,10 +28,19 @@ namespace Disqord.Rest
         {
             // TODO: proper rate-limit handling! (semaphore for global rates? / throw?)
             //       (also move to Discord's buckets)
-            Client.Log(rateLimit.IsGlobal
+
+            var severity = rateLimit.IsGlobal
                 ? LogMessageSeverity.Error
-                : LogMessageSeverity.Warning,
-                $"{(rateLimit.IsGlobal ? "Globally rate" : "Rate")} limited - will be delaying for {rateLimit.ResetsAfter}{(rateLimit.IsGlobal ? "" : " and resending the request")}.");
+                : LogMessageSeverity.Warning;
+            var message = $"{(rateLimit.IsGlobal ? "Globally rate" : "Rate")} limited for {rateLimit.ResetsAfter}";
+            if (request.Options.MaximumRateLimitDuration != default && rateLimit.ResetsAfter > request.Options.MaximumRateLimitDuration)
+            {
+                request.SetException(new DiscordHttpException((HttpStatusCode) 429, null, "Rate-limit hit. Throwing due to Options.ThrowOnRateLimits."));
+                Client.Log(severity, $"{message} - will be throwing due to Options.ThrowOnRateLimits.");
+                return;
+            }
+
+            Client.Log(severity, $"{message} - will be delaying.");
             await Task.Delay(rateLimit.ResetsAfter).ConfigureAwait(false);
 
             if (!rateLimit.IsGlobal)
