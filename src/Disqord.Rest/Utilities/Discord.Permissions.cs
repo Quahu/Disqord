@@ -140,10 +140,7 @@ namespace Disqord
                 for (var i = 0; i < _perms.Length; i++)
                 {
                     var flag = _perms[i];
-                    if (flag > flags)
-                        yield return KeyValuePair.Create(flag, false);
-
-                    yield return KeyValuePair.Create(flag, HasFlag(value, flag));
+                    yield return KeyValuePair.Create(flag, flag <= flags && HasFlag(value, flag));
                 }
             }
 
