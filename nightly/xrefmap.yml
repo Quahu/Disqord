@@ -21271,6 +21271,12 @@ references:
   isSpec: "True"
   fullName: Disqord.Library.Debug.DumpWriter
   nameWithType: Library.Debug.DumpWriter
+- uid: Disqord.Library.Debug.MobileIndicator
+  name: MobileIndicator
+  href: api/Disqord.Library.Debug.html#Disqord_Library_Debug_MobileIndicator
+  commentId: F:Disqord.Library.Debug.MobileIndicator
+  fullName: Disqord.Library.Debug.MobileIndicator
+  nameWithType: Library.Debug.MobileIndicator
 - uid: Disqord.Library.Debug.TimedWebSocketConnect
   name: TimedWebSocketConnect
   href: api/Disqord.Library.Debug.html#Disqord_Library_Debug_TimedWebSocketConnect
