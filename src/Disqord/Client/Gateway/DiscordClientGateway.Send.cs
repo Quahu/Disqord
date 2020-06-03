@@ -99,21 +99,29 @@ namespace Disqord
         internal async Task SendIdentifyAsync()
         {
             await _identifyLock.WaitAsync().ConfigureAwait(false);
+            var model = new IdentifyModel
+            {
+                Token = Client.Token,
+                LargeThreshold = 250,
+                Presence = new UpdateStatusModel
+                {
+                    Status = _status,
+                    Game = _activity ?? Optional<ActivityModel>.Empty
+                },
+                Shard = _shard,
+                GuildSubscriptions = true
+            };
+
+            if (Library.Debug.MobileIndicator)
+            {
+                model.Properties.Os = "android";
+                model.Properties.Browser = "Discord Android";
+            }
+
             await SendAsync(new PayloadModel
             {
                 Op = GatewayOperationCode.Identify,
-                D = new IdentifyModel
-                {
-                    Token = Client.Token,
-                    LargeThreshold = 250,
-                    Presence = new UpdateStatusModel
-                    {
-                        Status = _status,
-                        Game = _activity ?? Optional<ActivityModel>.Empty
-                    },
-                    Shard = _shard,
-                    GuildSubscriptions = true
-                }
+                D = model
             }).ConfigureAwait(false);
         }
 

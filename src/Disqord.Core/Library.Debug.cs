@@ -15,6 +15,8 @@ namespace Disqord
 
             public static bool TimedWebSocketConnect;
 
+            public static bool MobileIndicator;
+
             public static TextWriter DumpWriter
             {
                 get => _dumpWriter;
