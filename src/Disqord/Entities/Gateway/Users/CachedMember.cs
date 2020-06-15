@@ -172,7 +172,11 @@ namespace Disqord
         }
 
         internal new CachedMember Clone()
-            => (CachedMember) MemberwiseClone();
+        {
+            var clone = (CachedMember) MemberwiseClone();
+            clone._roles = new RoleCollection(_roles);
+            return clone;
+        }
 
         public ChannelPermissions GetPermissionsFor(IGuildChannel channel)
             => Discord.Permissions.CalculatePermissions(Guild, channel, this, _roles.Values);
