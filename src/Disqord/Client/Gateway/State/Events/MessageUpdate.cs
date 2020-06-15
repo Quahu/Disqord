@@ -10,9 +10,6 @@ namespace Disqord
         public Task HandleMessageUpdateAsync(PayloadModel payload)
         {
             var model = Serializer.ToObject<MessageModel>(payload.D);
-            if (!model.EditedTimestamp.HasValue)
-                return Task.CompletedTask;
-
             ICachedMessageChannel channel;
             CachedGuild guild = null;
             if (model.GuildId != null)
