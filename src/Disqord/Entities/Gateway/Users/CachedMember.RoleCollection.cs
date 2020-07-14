@@ -67,18 +67,7 @@ namespace Disqord
             public RoleCollection(RoleCollection collection)
             {
                 _guild = collection._guild;
-                _ids = new List<Snowflake>(collection.Count)
-                {
-                    _guild.Id
-                };
-                for (var i = 0; i < collection._ids.Count; i++)
-                {
-                    var id = collection._ids[i];
-                    if (!_guild.Roles.ContainsKey(id))
-                        continue;
-
-                    _ids.Add(id);
-                }
+                _ids = new List<Snowflake>(collection._ids);
             }
 
             internal void Update(ulong[] ids)
