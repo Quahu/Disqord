@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Qommon.Collections;
@@ -10,14 +10,15 @@ namespace Disqord
         /// <summary>
         ///     The set containing the escaped markdown characters.
         /// </summary>
-        public static readonly ReadOnlySet<char> EscapedCharacters = new ReadOnlySet<char>(new HashSet<char>(6)
+        public static readonly ReadOnlySet<char> EscapedCharacters = new ReadOnlySet<char>(new HashSet<char>(7)
         {
             '\\',
             '*',
             '`',
-            '_',
+            '_', // except in custom emoji
             '~',
-            '|'
+            '|',
+            '>' // except in mentions
         });
 
         private const int STACK_TEXT_LENGTH = 2000;
@@ -240,7 +241,7 @@ namespace Disqord
             for (var i = 0; i < text.Length; i++)
             {
                 var character = text[i];
-                if (EscapedCharacters.Contains(character))
+                if (EscapedCharacters.Contains(character) && character != '>' && character != '_')
                     builder.Append('\\');
 
                 // special case for > quote character as to not break mentions
