@@ -10,13 +10,15 @@ namespace Disqord
         /// <summary>
         ///     The set containing the escaped markdown characters.
         /// </summary>
-        public static readonly ReadOnlySet<char> EscapedCharacters = new ReadOnlySet<char>(new HashSet<char>(5)
+        public static readonly ReadOnlySet<char> EscapedCharacters = new ReadOnlySet<char>(new HashSet<char>(7)
         {
             '\\',
             '*',
             '`',
             '_',
-            '~'
+            '~',
+            '|',
+            '>'
         });
 
         private const int STACK_TEXT_LENGTH = 2000;
