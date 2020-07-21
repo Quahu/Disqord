@@ -10,15 +10,14 @@ namespace Disqord
         /// <summary>
         ///     The set containing the escaped markdown characters.
         /// </summary>
-        public static readonly ReadOnlySet<char> EscapedCharacters = new ReadOnlySet<char>(new HashSet<char>(7)
+        public static readonly ReadOnlySet<char> EscapedCharacters = new ReadOnlySet<char>(new HashSet<char>(6)
         {
             '\\',
             '*',
             '`',
             '_',
             '~',
-            '|',
-            '>'
+            '|'
         });
 
         private const int STACK_TEXT_LENGTH = 2000;
@@ -242,6 +241,10 @@ namespace Disqord
             {
                 var character = text[i];
                 if (EscapedCharacters.Contains(character))
+                    builder.Append('\\');
+
+                // special case for > quote character as to not break mentions
+                if (character == '>' && (i == 0 || text[i-1] == '\n'))
                     builder.Append('\\');
 
                 builder.Append(character);
