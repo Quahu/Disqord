@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Qommon.Collections;
@@ -246,6 +246,49 @@ namespace Disqord
                 // special case for > quote character as to not break mentions
                 if (character == '>' && (i == 0 || text[i-1] == '\n'))
                     builder.Append('\\');
+
+                // special case for _ underline/italics as to not break custom emoji with an underline in the name
+                if (character == '_')
+                {
+                    if (i == 0)
+                    {
+                        builder.Append('\\');
+                    }
+                    else
+                    {
+                        int beginning = -1, end = int.MaxValue;
+                        // validate to the possible beginning of the emoji <
+                        for (var j = i - 1; j >= 0; j--)
+                        {
+                            var previousCharacter = text[j];
+                            if (previousCharacter == '<' && i < text.Length)
+                            {
+                                // we found the possible beginning of the emoji
+                                // now, try to find the end of the emoji >
+                                for (var k = i + 1; k < text.Length; k++)
+                                {
+                                    var nextCharacter = text[k];
+                                    if (nextCharacter == '>')
+                                    {
+                                        // we found the possible end of the emoji
+                                        end = k;
+                                        break;
+                                    }
+                                }
+
+                                beginning = j;
+                                break;
+                            }
+                        }
+
+                        if (beginning == -1 || end == int.MaxValue ||
+                            !LocalCustomEmoji.TryParse(text.Slice(beginning, end - beginning).ToString(), out _))
+                        {
+                            builder.Append('\\');
+                        }
+                            
+                    }
+                }
 
                 builder.Append(character);
             }
