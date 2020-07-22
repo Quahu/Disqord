@@ -1184,23 +1184,23 @@ references:
   fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelTypeParser(Of TChannel)
   nameWithType: CachedGuildChannelTypeParser<TChannel>
   nameWithType.vb: CachedGuildChannelTypeParser(Of TChannel)
-- uid: Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.Instance
-  name: Instance
-  href: api/Disqord.Bot.Parsers.CachedGuildChannelTypeParser-1.html#Disqord_Bot_Parsers_CachedGuildChannelTypeParser_1_Instance
-  commentId: P:Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.Instance
-  fullName: Disqord.Bot.Parsers.CachedGuildChannelTypeParser<TChannel>.Instance
-  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelTypeParser(Of TChannel).Instance
-  nameWithType: CachedGuildChannelTypeParser<TChannel>.Instance
-  nameWithType.vb: CachedGuildChannelTypeParser(Of TChannel).Instance
-- uid: Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.Instance*
-  name: Instance
-  href: api/Disqord.Bot.Parsers.CachedGuildChannelTypeParser-1.html#Disqord_Bot_Parsers_CachedGuildChannelTypeParser_1_Instance_
-  commentId: Overload:Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.Instance
+- uid: Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.#ctor(StringComparison)
+  name: CachedGuildChannelTypeParser(StringComparison)
+  href: api/Disqord.Bot.Parsers.CachedGuildChannelTypeParser-1.html#Disqord_Bot_Parsers_CachedGuildChannelTypeParser_1__ctor_StringComparison_
+  commentId: M:Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.#ctor(StringComparison)
+  fullName: Disqord.Bot.Parsers.CachedGuildChannelTypeParser<TChannel>.CachedGuildChannelTypeParser(StringComparison)
+  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelTypeParser(Of TChannel).CachedGuildChannelTypeParser(StringComparison)
+  nameWithType: CachedGuildChannelTypeParser<TChannel>.CachedGuildChannelTypeParser(StringComparison)
+  nameWithType.vb: CachedGuildChannelTypeParser(Of TChannel).CachedGuildChannelTypeParser(StringComparison)
+- uid: Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.#ctor*
+  name: CachedGuildChannelTypeParser
+  href: api/Disqord.Bot.Parsers.CachedGuildChannelTypeParser-1.html#Disqord_Bot_Parsers_CachedGuildChannelTypeParser_1__ctor_
+  commentId: Overload:Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.#ctor
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.CachedGuildChannelTypeParser<TChannel>.Instance
-  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelTypeParser(Of TChannel).Instance
-  nameWithType: CachedGuildChannelTypeParser<TChannel>.Instance
-  nameWithType.vb: CachedGuildChannelTypeParser(Of TChannel).Instance
+  fullName: Disqord.Bot.Parsers.CachedGuildChannelTypeParser<TChannel>.CachedGuildChannelTypeParser
+  fullName.vb: Disqord.Bot.Parsers.CachedGuildChannelTypeParser(Of TChannel).CachedGuildChannelTypeParser
+  nameWithType: CachedGuildChannelTypeParser<TChannel>.CachedGuildChannelTypeParser
+  nameWithType.vb: CachedGuildChannelTypeParser(Of TChannel).CachedGuildChannelTypeParser
 - uid: Disqord.Bot.Parsers.CachedGuildChannelTypeParser`1.ParseAsync(Parameter,System.String,CommandContext)
   name: ParseAsync(Parameter, String, CommandContext)
   href: api/Disqord.Bot.Parsers.CachedGuildChannelTypeParser-1.html#Disqord_Bot_Parsers_CachedGuildChannelTypeParser_1_ParseAsync_Parameter_System_String_CommandContext_
@@ -1224,19 +1224,19 @@ references:
   commentId: T:Disqord.Bot.Parsers.CachedMemberTypeParser
   fullName: Disqord.Bot.Parsers.CachedMemberTypeParser
   nameWithType: CachedMemberTypeParser
-- uid: Disqord.Bot.Parsers.CachedMemberTypeParser.Instance
-  name: Instance
-  href: api/Disqord.Bot.Parsers.CachedMemberTypeParser.html#Disqord_Bot_Parsers_CachedMemberTypeParser_Instance
-  commentId: P:Disqord.Bot.Parsers.CachedMemberTypeParser.Instance
-  fullName: Disqord.Bot.Parsers.CachedMemberTypeParser.Instance
-  nameWithType: CachedMemberTypeParser.Instance
-- uid: Disqord.Bot.Parsers.CachedMemberTypeParser.Instance*
-  name: Instance
-  href: api/Disqord.Bot.Parsers.CachedMemberTypeParser.html#Disqord_Bot_Parsers_CachedMemberTypeParser_Instance_
-  commentId: Overload:Disqord.Bot.Parsers.CachedMemberTypeParser.Instance
+- uid: Disqord.Bot.Parsers.CachedMemberTypeParser.#ctor(StringComparison)
+  name: CachedMemberTypeParser(StringComparison)
+  href: api/Disqord.Bot.Parsers.CachedMemberTypeParser.html#Disqord_Bot_Parsers_CachedMemberTypeParser__ctor_StringComparison_
+  commentId: M:Disqord.Bot.Parsers.CachedMemberTypeParser.#ctor(StringComparison)
+  fullName: Disqord.Bot.Parsers.CachedMemberTypeParser.CachedMemberTypeParser(StringComparison)
+  nameWithType: CachedMemberTypeParser.CachedMemberTypeParser(StringComparison)
+- uid: Disqord.Bot.Parsers.CachedMemberTypeParser.#ctor*
+  name: CachedMemberTypeParser
+  href: api/Disqord.Bot.Parsers.CachedMemberTypeParser.html#Disqord_Bot_Parsers_CachedMemberTypeParser__ctor_
+  commentId: Overload:Disqord.Bot.Parsers.CachedMemberTypeParser.#ctor
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.CachedMemberTypeParser.Instance
-  nameWithType: CachedMemberTypeParser.Instance
+  fullName: Disqord.Bot.Parsers.CachedMemberTypeParser.CachedMemberTypeParser
+  nameWithType: CachedMemberTypeParser.CachedMemberTypeParser
 - uid: Disqord.Bot.Parsers.CachedMemberTypeParser.ParseAsync(Parameter,System.String,CommandContext)
   name: ParseAsync(Parameter, String, CommandContext)
   href: api/Disqord.Bot.Parsers.CachedMemberTypeParser.html#Disqord_Bot_Parsers_CachedMemberTypeParser_ParseAsync_Parameter_System_String_CommandContext_
@@ -1256,19 +1256,19 @@ references:
   commentId: T:Disqord.Bot.Parsers.CachedRoleTypeParser
   fullName: Disqord.Bot.Parsers.CachedRoleTypeParser
   nameWithType: CachedRoleTypeParser
-- uid: Disqord.Bot.Parsers.CachedRoleTypeParser.Instance
-  name: Instance
-  href: api/Disqord.Bot.Parsers.CachedRoleTypeParser.html#Disqord_Bot_Parsers_CachedRoleTypeParser_Instance
-  commentId: P:Disqord.Bot.Parsers.CachedRoleTypeParser.Instance
-  fullName: Disqord.Bot.Parsers.CachedRoleTypeParser.Instance
-  nameWithType: CachedRoleTypeParser.Instance
-- uid: Disqord.Bot.Parsers.CachedRoleTypeParser.Instance*
-  name: Instance
-  href: api/Disqord.Bot.Parsers.CachedRoleTypeParser.html#Disqord_Bot_Parsers_CachedRoleTypeParser_Instance_
-  commentId: Overload:Disqord.Bot.Parsers.CachedRoleTypeParser.Instance
+- uid: Disqord.Bot.Parsers.CachedRoleTypeParser.#ctor(StringComparison)
+  name: CachedRoleTypeParser(StringComparison)
+  href: api/Disqord.Bot.Parsers.CachedRoleTypeParser.html#Disqord_Bot_Parsers_CachedRoleTypeParser__ctor_StringComparison_
+  commentId: M:Disqord.Bot.Parsers.CachedRoleTypeParser.#ctor(StringComparison)
+  fullName: Disqord.Bot.Parsers.CachedRoleTypeParser.CachedRoleTypeParser(StringComparison)
+  nameWithType: CachedRoleTypeParser.CachedRoleTypeParser(StringComparison)
+- uid: Disqord.Bot.Parsers.CachedRoleTypeParser.#ctor*
+  name: CachedRoleTypeParser
+  href: api/Disqord.Bot.Parsers.CachedRoleTypeParser.html#Disqord_Bot_Parsers_CachedRoleTypeParser__ctor_
+  commentId: Overload:Disqord.Bot.Parsers.CachedRoleTypeParser.#ctor
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.CachedRoleTypeParser.Instance
-  nameWithType: CachedRoleTypeParser.Instance
+  fullName: Disqord.Bot.Parsers.CachedRoleTypeParser.CachedRoleTypeParser
+  nameWithType: CachedRoleTypeParser.CachedRoleTypeParser
 - uid: Disqord.Bot.Parsers.CachedRoleTypeParser.ParseAsync(Parameter,System.String,CommandContext)
   name: ParseAsync(Parameter, String, CommandContext)
   href: api/Disqord.Bot.Parsers.CachedRoleTypeParser.html#Disqord_Bot_Parsers_CachedRoleTypeParser_ParseAsync_Parameter_System_String_CommandContext_
@@ -1288,19 +1288,19 @@ references:
   commentId: T:Disqord.Bot.Parsers.CachedUserTypeParser
   fullName: Disqord.Bot.Parsers.CachedUserTypeParser
   nameWithType: CachedUserTypeParser
-- uid: Disqord.Bot.Parsers.CachedUserTypeParser.Instance
-  name: Instance
-  href: api/Disqord.Bot.Parsers.CachedUserTypeParser.html#Disqord_Bot_Parsers_CachedUserTypeParser_Instance
-  commentId: P:Disqord.Bot.Parsers.CachedUserTypeParser.Instance
-  fullName: Disqord.Bot.Parsers.CachedUserTypeParser.Instance
-  nameWithType: CachedUserTypeParser.Instance
-- uid: Disqord.Bot.Parsers.CachedUserTypeParser.Instance*
-  name: Instance
-  href: api/Disqord.Bot.Parsers.CachedUserTypeParser.html#Disqord_Bot_Parsers_CachedUserTypeParser_Instance_
-  commentId: Overload:Disqord.Bot.Parsers.CachedUserTypeParser.Instance
+- uid: Disqord.Bot.Parsers.CachedUserTypeParser.#ctor(StringComparison)
+  name: CachedUserTypeParser(StringComparison)
+  href: api/Disqord.Bot.Parsers.CachedUserTypeParser.html#Disqord_Bot_Parsers_CachedUserTypeParser__ctor_StringComparison_
+  commentId: M:Disqord.Bot.Parsers.CachedUserTypeParser.#ctor(StringComparison)
+  fullName: Disqord.Bot.Parsers.CachedUserTypeParser.CachedUserTypeParser(StringComparison)
+  nameWithType: CachedUserTypeParser.CachedUserTypeParser(StringComparison)
+- uid: Disqord.Bot.Parsers.CachedUserTypeParser.#ctor*
+  name: CachedUserTypeParser
+  href: api/Disqord.Bot.Parsers.CachedUserTypeParser.html#Disqord_Bot_Parsers_CachedUserTypeParser__ctor_
+  commentId: Overload:Disqord.Bot.Parsers.CachedUserTypeParser.#ctor
   isSpec: "True"
-  fullName: Disqord.Bot.Parsers.CachedUserTypeParser.Instance
-  nameWithType: CachedUserTypeParser.Instance
+  fullName: Disqord.Bot.Parsers.CachedUserTypeParser.CachedUserTypeParser
+  nameWithType: CachedUserTypeParser.CachedUserTypeParser
 - uid: Disqord.Bot.Parsers.CachedUserTypeParser.ParseAsync(Parameter,System.String,CommandContext)
   name: ParseAsync(Parameter, String, CommandContext)
   href: api/Disqord.Bot.Parsers.CachedUserTypeParser.html#Disqord_Bot_Parsers_CachedUserTypeParser_ParseAsync_Parameter_System_String_CommandContext_

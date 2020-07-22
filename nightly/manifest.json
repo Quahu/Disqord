@@ -177,7 +177,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.Parsers.CachedGuildChannelTypeParser-1.html",
-          "hash": "RVR+e2RsEiPY1WnPXJRIAQ=="
+          "hash": "7r+7TItI/aIP9SvrA58RIA=="
         }
       },
       "is_incremental": false,
@@ -189,7 +189,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.Parsers.CachedMemberTypeParser.html",
-          "hash": "Z3xtrKB00/5coJ1LtRNxMA=="
+          "hash": "XR9N2FvPpjdd8oK5jGGujw=="
         }
       },
       "is_incremental": false,
@@ -201,7 +201,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.Parsers.CachedRoleTypeParser.html",
-          "hash": "X3276yxgTOsRl9+EDSF4zQ=="
+          "hash": "UnBhSNOpTdkvYZ7qvfy73Q=="
         }
       },
       "is_incremental": false,
@@ -213,7 +213,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Disqord.Bot.Parsers.CachedUserTypeParser.html",
-          "hash": "UtfFFkfWgcIAGYUi8xF2lw=="
+          "hash": "A6Bkc2aQxYrQugW1EUTJdA=="
         }
       },
       "is_incremental": false,
