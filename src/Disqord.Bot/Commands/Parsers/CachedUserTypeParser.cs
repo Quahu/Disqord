@@ -8,19 +8,23 @@ namespace Disqord.Bot.Parsers
 {
     public sealed class CachedUserTypeParser : TypeParser<CachedUser>
     {
-        public static CachedUserTypeParser Instance => _instance ?? (_instance = new CachedUserTypeParser());
+        private CachedMemberTypeParser _memberParser;
 
-        private static CachedUserTypeParser _instance;
+        private readonly StringComparison _comparison;
 
-        private CachedUserTypeParser()
-        { }
+        public CachedUserTypeParser(StringComparison comparison = default)
+        {
+            _comparison = comparison;
+        }
 
         public override ValueTask<TypeParserResult<CachedUser>> ParseAsync(Parameter parameter, string value, CommandContext _)
         {
             var context = (DiscordCommandContext) _;
             if (context.Guild != null)
             {
-                var memberParserResult = CachedMemberTypeParser.Instance.ParseAsync(parameter, value, _).Result;
+                var memberParser = _memberParser ?? (_memberParser = parameter.Service.GetSpecificTypeParser<CachedMember, CachedMemberTypeParser>()
+                    ?? new CachedMemberTypeParser(_comparison));
+                var memberParserResult = _memberParser.ParseAsync(parameter, value, _).Result;
                 return memberParserResult.IsSuccessful
                     ? TypeParserResult<CachedUser>.Successful(memberParserResult.Value)
                     : TypeParserResult<CachedUser>.Unsuccessful(memberParserResult.Reason);
@@ -50,9 +54,9 @@ namespace Disqord.Bot.Parsers
             if (Discord.TryParseUserMention(value, out var id) || Snowflake.TryParse(value, out id))
                 users.TryGetValue(id, out user);
 
-            var values = users.Values;
             if (user == null)
             {
+                var values = users.Values;
                 var hashIndex = value.LastIndexOf('#');
                 if (hashIndex != -1 && hashIndex + 5 == value.Length)
                 {
@@ -61,21 +65,21 @@ namespace Disqord.Bot.Parsers
                         var valueSpan = value.AsSpan();
                         var nameSpan = valueSpan.Slice(0, value.Length - 5);
                         var discriminatorSpan = valueSpan.Slice(hashIndex + 1);
-                        return x.Name.AsSpan().Equals(nameSpan, default)
+                        return x.Name.AsSpan().Equals(nameSpan, _comparison)
                             && x.Discriminator.AsSpan().Equals(discriminatorSpan, default);
                     });
                 }
-            }
 
-            if (user == null)
-            {
-                // TODO custom result type returning the users?
-                var matchingUsers = values.Where(x => x.Name == value || x is CachedMember member && member.Nick == value).ToArray();
-                if (matchingUsers.Length > 1)
-                    return TypeParserResult<CachedUser>.Unsuccessful("Multiple matches found. Mention the user, use their tag or their ID.");
+                if (user == null)
+                {
+                    // TODO: custom result type returning the users?
+                    var matchingUsers = values.Where(x => x.Name.Equals(value, _comparison) || x is CachedMember member && member.Nick != null && member.Nick.Equals(value, _comparison)).ToArray();
+                    if (matchingUsers.Length > 1)
+                        return TypeParserResult<CachedUser>.Unsuccessful("Multiple users found. Mention the user or use their tag or ID.");
 
-                if (matchingUsers.Length == 1)
-                    user = matchingUsers[0];
+                    if (matchingUsers.Length == 1)
+                        user = matchingUsers[0];
+                }
             }
 
             return user == null

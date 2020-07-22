@@ -16,9 +16,9 @@ namespace Disqord.Bot.Parsers
 
         public override ValueTask<TypeParserResult<Color>> ParseAsync(Parameter parameter, string value, CommandContext context)
         {
-            var valueSpan = value.AsSpan();
-            if (valueSpan.Length > 2)
+            if (value.Length > 2)
             {
+                var valueSpan = value.AsSpan();
                 var valid = false;
                 if (valueSpan[0] == '0' && (valueSpan[1] == 'x' || valueSpan[1] == 'X') && valueSpan.Length == 8)
                 {
@@ -31,11 +31,11 @@ namespace Disqord.Bot.Parsers
                     valueSpan = valueSpan.Slice(1);
                 }
 
-                if (valid && int.TryParse(valueSpan, NumberStyles.HexNumber, null, out var result))
-                    return TypeParserResult<Color>.Successful(result);
+                if (valid && uint.TryParse(valueSpan, NumberStyles.HexNumber, null, out var result))
+                    return TypeParserResult<Color>.Successful((int) result);
             }
 
-            return TypeParserResult<Color>.Unsuccessful("Invalid color hex value provided.");
+            return TypeParserResult<Color>.Unsuccessful("Invalid color hex value.");
         }
     }
 }
