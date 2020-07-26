@@ -24,10 +24,6 @@ namespace Disqord
             => new ReadOnlyValuePredicateArgumentDictionary<Snowflake, CachedGuild, Snowflake>(
                 Client.Guilds, (x, id) => x.Members.ContainsKey(id), Id);
 
-        public virtual CachedRelationship Relationship => Client.CurrentUser.GetRelationship(Id);
-
-        public string Note => Client.CurrentUser.GetNote(Id);
-
         public virtual CachedDmChannel DmChannel => Client.DmChannels.Values.FirstOrDefault(x => x.Recipient.Id == Id);
 
         public virtual Presence Presence { get; }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Events;
@@ -81,9 +81,6 @@ namespace Disqord
             _emojiReactionsCleared = new AsynchronousEvent<EmojiReactionsClearedEventArgs>();
             _presenceUpdated = new AsynchronousEvent<PresenceUpdatedEventArgs>();
             _typingStarted = new AsynchronousEvent<TypingStartedEventArgs>();
-            _relationshipCreated = new AsynchronousEvent<RelationshipCreatedEventArgs>();
-            _relationshipDeleted = new AsynchronousEvent<RelationshipDeletedEventArgs>();
-            _userNoteUpdated = new AsynchronousEvent<UserNoteUpdatedEventArgs>();
             _userUpdated = new AsynchronousEvent<UserUpdatedEventArgs>();
             _voiceStateUpdated = new AsynchronousEvent<VoiceStateUpdatedEventArgs>();
             _voiceServerUpdated = new AsynchronousEvent<VoiceServerUpdatedEventArgs>();
@@ -143,9 +140,6 @@ namespace Disqord
             _emojiReactionsCleared = client._emojiReactionsCleared;
             _presenceUpdated = client._presenceUpdated;
             _typingStarted = client._typingStarted;
-            _relationshipCreated = client._relationshipCreated;
-            _relationshipDeleted = client._relationshipDeleted;
-            _userNoteUpdated = client._userNoteUpdated;
             _userUpdated = client._userUpdated;
             _voiceStateUpdated = client._voiceStateUpdated;
             _voiceServerUpdated = client._voiceServerUpdated;

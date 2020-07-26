@@ -1,4 +1,6 @@
-﻿namespace Disqord
+﻿using System;
+
+namespace Disqord
 {
     public enum TokenType : byte
     {
@@ -6,6 +8,7 @@
 
         Bot,
 
+        [Obsolete("User tokens and logins are not supported.")]
         User
     }
 }

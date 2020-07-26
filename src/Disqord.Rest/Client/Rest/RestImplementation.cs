@@ -28,14 +28,5 @@ namespace Disqord.Rest
 
             return message.Client.RemoveOwnReactionAsync(message.ChannelId, message.Id, emoji, options);
         }
-
-        public static Task MarkAsReadAsync(IMessageChannel channel, RestRequestOptions options)
-        {
-            var lastMessageId = channel.LastMessageId;
-            if (!lastMessageId.HasValue)
-                throw new InvalidOperationException("Channel has no last message id.");
-
-            return channel.Client.MarkMessageAsReadAsync(channel.Id, lastMessageId.Value, options);
-        }
     }
 }

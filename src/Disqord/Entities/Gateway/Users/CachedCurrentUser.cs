@@ -33,34 +33,6 @@ namespace Disqord
 
         public NitroType? NitroType { get; private set; }
 
-        public IReadOnlyDictionary<Snowflake, CachedRelationship> Relationships
-        {
-            get
-            {
-                if (Client.IsBot)
-                    throw new NotSupportedException("Bots cannot have relationships.");
-
-                return _relationships.ReadOnly();
-            }
-        }
-
-        public IReadOnlyDictionary<Snowflake, string> Notes
-        {
-            get
-            {
-                if (Client.IsBot)
-                    throw new NotSupportedException("Bots cannot set notes.");
-
-                return _notes.ReadOnly();
-            }
-        }
-
-        /// <summary>
-        ///     Throws <see cref="InvalidOperationException"/>.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override CachedRelationship Relationship => throw new InvalidOperationException();
-
         /// <summary>
         ///     Throws <see cref="InvalidOperationException"/>.
         /// </summary>
@@ -69,59 +41,11 @@ namespace Disqord
 
         internal override CachedSharedUser SharedUser { get; }
 
-        internal readonly LockedDictionary<Snowflake, CachedRelationship> _relationships;
-        internal readonly LockedDictionary<Snowflake, string> _notes;
-
-        internal CachedCurrentUser(CachedSharedUser user, UserModel model, int relationshipCount, int noteCount) : base(user)
+        internal CachedCurrentUser(CachedSharedUser user, UserModel model) : base(user)
         {
             SharedUser = user;
 
-            if (!Client.IsBot)
-            {
-                _relationships = new LockedDictionary<Snowflake, CachedRelationship>(relationshipCount);
-                _notes = new LockedDictionary<Snowflake, string>(noteCount);
-            }
-
             Update(model);
-        }
-
-        internal void Update(RelationshipModel[] models)
-        {
-            for (var i = 0; i < models.Length; i++)
-            {
-                var relationshipModel = models[i];
-                _relationships.AddOrUpdate(relationshipModel.Id, _ => new CachedRelationship(Client, relationshipModel), (_, old) =>
-                {
-                    old.Update(relationshipModel);
-                    return old;
-                });
-            }
-
-            if (models.Length != _relationships.Count)
-            {
-                foreach (var key in _relationships.Keys)
-                {
-                    var found = false;
-                    for (var i = 0; i < models.Length; i++)
-                    {
-                        if (key == models[i].Id)
-                        {
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (!found)
-                        _relationships.TryRemove(key, out _);
-                }
-            }
-        }
-
-        internal void Update(Dictionary<ulong, string> notes)
-        {
-            _notes.Clear();
-            foreach (var noteKvp in notes)
-                _notes.AddOrUpdate(noteKvp.Key, noteKvp.Value, (_, __) => noteKvp.Value);
         }
 
         internal override void Update(UserModel model)
@@ -152,11 +76,5 @@ namespace Disqord
 
             SharedUser.Update(model);
         }
-
-        public string GetNote(Snowflake userId)
-            => Notes.GetValueOrDefault(userId);
-
-        public CachedRelationship GetRelationship(Snowflake userId)
-            => Relationships.GetValueOrDefault(userId);
     }
 }

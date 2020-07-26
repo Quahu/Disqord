@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Disqord.Logging;
 using Disqord.Models;
@@ -272,27 +272,9 @@ namespace Disqord
                     return;
                 }
 
-                case GatewayDispatch.RelationshipAdd:
-                {
-                    await State.HandleRelationshipAddAsync(payload).ConfigureAwait(false);
-                    return;
-                }
-
-                case GatewayDispatch.RelationshipRemove:
-                {
-                    await State.HandleRelationshipRemoveAsync(payload).ConfigureAwait(false);
-                    return;
-                }
-
                 case GatewayDispatch.TypingStart:
                 {
                     await State.HandleTypingStartedAsync(payload).ConfigureAwait(false);
-                    return;
-                }
-
-                case GatewayDispatch.UserNoteUpdate:
-                {
-                    await State.HandleUserNoteUpdateAsync(payload).ConfigureAwait(false);
                     return;
                 }
 

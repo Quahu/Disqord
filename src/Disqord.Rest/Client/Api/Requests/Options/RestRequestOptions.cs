@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 
 namespace Disqord.Rest
@@ -19,18 +19,6 @@ namespace Disqord.Rest
         public CancellationToken CancellationToken { get; }
 
         /// <summary>
-        ///     Gets the six-digit numeric MFA code to be used with <see cref="TokenType.User"/> clients,
-        ///     when using an endpoint that requires MFA authentication.
-        /// </summary>
-        public string MfaCode { get; }
-
-        /// <summary>
-        ///     Gets the current user's password to be used with <see cref="TokenType.User"/> clients,
-        ///     when using an endpoint that requires the current user's password.
-        /// </summary>
-        public string Password { get; }
-
-        /// <summary>
         ///     Gets the audit log reason.
         /// </summary>
         public string Reason { get; }
@@ -47,8 +35,6 @@ namespace Disqord.Rest
         {
             Timeout = builder.Timeout;
             CancellationToken = builder.CancellationToken;
-            MfaCode = builder.MfaCode;
-            Password = builder.Password;
             Reason = builder.Reason;
             MaximumRateLimitDuration = builder.MaximumRateLimitDuration;
         }

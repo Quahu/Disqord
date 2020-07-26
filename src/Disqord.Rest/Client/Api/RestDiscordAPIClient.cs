@@ -50,63 +50,25 @@ namespace Disqord.Rest
                 Timeout = Timeout.InfiniteTimeSpan
             };
             Http.DefaultRequestHeaders.Add("Accept-Encoding", "deflate, gzip");
-            if (tokenType != null)
-            {
-                SetTokenType(tokenType.Value);
-                SetToken(token);
-            }
-            else
-            {
-                SetUserAgent();
-            }
-
-            Logger = configuration.Logger.GetValueOrDefault(() => new DefaultLogger());
-            Serializer = configuration.Serializer.GetValueOrDefault(@this => @this.GetDefaultSerializer(), this);
-            _defaultRequestOptions = configuration.DefaultRequestOptions.GetValueOrDefault() ?? new RestRequestOptions();
-            _defaultMentions = configuration.DefaultMentions.GetValueOrDefault().ToModel();
-            _rateLimiter = RateLimiter.GetOrCreate(this);
-        }
-
-        public void ResetToken()
-        {
-            _tokenType = null;
-            _token = null;
-            SetUserAgent();
-            SetAuthorization();
-        }
-
-        public void SetTokenType(TokenType tokenType)
-        {
             _tokenType = tokenType;
-            SetUserAgent();
-        }
-
-        public void SetToken(string token)
-        {
             _token = _tokenType switch
             {
                 TokenType.Bearer => $"Bearer {token}",
                 TokenType.Bot => $"Bot {token}",
-                TokenType.User => token,
+                TokenType.User => token, // TODO: nuked with abstractions essentially.
+                null => null,
                 _ => throw new ArgumentOutOfRangeException(nameof(_tokenType), "Invalid token type."),
             };
-            SetAuthorization();
-        }
-
-        private void SetUserAgent()
-        {
-            var userAgent = Http.DefaultRequestHeaders.UserAgent;
-            userAgent.Clear();
-            userAgent.ParseAdd(_tokenType == TokenType.User
-                ? "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36"
-                : Library.UserAgent);
-        }
-
-        private void SetAuthorization()
-        {
             Http.DefaultRequestHeaders.Authorization = _tokenType != null
                 ? AuthenticationHeaderValue.Parse(_token)
                 : null;
+            Http.DefaultRequestHeaders.UserAgent.ParseAdd(Library.UserAgent);
+
+            Logger = configuration.Logger.GetValueOrDefault(() => ILogger.CreateDefault());
+            Serializer = configuration.Serializer.GetValueOrDefault(logger => IJsonSerializer.CreateDefault(logger), Logger);
+            _defaultRequestOptions = configuration.DefaultRequestOptions.GetValueOrDefault() ?? new RestRequestOptions();
+            _defaultMentions = configuration.DefaultMentions.GetValueOrDefault().ToModel();
+            _rateLimiter = RateLimiter.GetOrCreate(this);
         }
 
         private IJsonSerializer GetDefaultSerializer()
@@ -883,13 +845,6 @@ namespace Disqord.Rest
 
         public Task<UserModel> ModifyCurrentUserAsync(ModifyCurrentUserProperties properties, RestRequestOptions options)
         {
-            if (_tokenType == TokenType.User)
-            {
-                if ((properties.Name.HasValue || properties.Password.HasValue || properties.Discriminator.HasValue)
-                    && options.Password == null)
-                    throw new ArgumentException("The password is required to change the name, discriminator, or to set a new password.");
-            }
-
             var requestContent = new ModifyCurrentUserContent
             {
                 Username = properties.Name,
@@ -953,9 +908,6 @@ namespace Disqord.Rest
             };
             return SendRequestAsync<ChannelModel>(CreateRequest(POST, $"users/@me/channels", requestContent, options));
         }
-
-        public Task<ConnectionModel[]> GetUserConnectionsAsync(RestRequestOptions options)
-            => SendRequestAsync<ConnectionModel[]>(CreateRequest(GET, $"users/@me/connections", options));
 
         // Voice
         public Task<VoiceRegionModel[]> ListVoiceRegionsAsync(RestRequestOptions options)
@@ -1092,137 +1044,6 @@ namespace Disqord.Rest
 
         public Task<ApplicationModel> GetCurrentApplicationInformationAsync(RestRequestOptions options)
             => SendRequestAsync<ApplicationModel>(CreateRequest(GET, $"oauth2/applications/@me", options));
-
-        public Task CreateRelationshipAsync(ulong userId, RelationshipType? type, RestRequestOptions options)
-        {
-            var requestContent = new CreateRelationshipContent
-            {
-                Type = type
-            };
-
-            return SendRequestAsync(CreateRequest(PUT, $"users/@me/relationships/{userId}", requestContent, options));
-        }
-
-        public Task DeleteRelationshipAsync(ulong userId, RestRequestOptions options)
-            => SendRequestAsync(CreateRequest(DELETE, $"users/@me/relationships/{userId}", options));
-
-        public Task SendFriendRequestAsync(string name, string discriminator, RestRequestOptions options)
-        {
-            var requestContent = new SendFriendRequestContent
-            {
-                Username = name,
-                Discriminator = discriminator
-            };
-
-            return SendRequestAsync(CreateRequest(POST, $"users/@me/relationships", requestContent, options));
-        }
-
-        public Task<ProfileModel> GetUserProfileAsync(ulong userId, RestRequestOptions options)
-            => SendRequestAsync<ProfileModel>(CreateRequest(GET, $"users/{userId}/profile", options));
-
-        public Task<RelationshipModel[]> GetRelationshipsAsync(RestRequestOptions options)
-            => SendRequestAsync<RelationshipModel[]>(CreateRequest(GET, $"users/@me/relationships", options));
-
-        public Task<UserModel[]> GetMutualFriendsAsync(ulong userId, RestRequestOptions options)
-            => SendRequestAsync<UserModel[]>(CreateRequest(GET, $"users/{userId}/relationships", options));
-
-        public Task CreateNoteAsync(ulong userId, string note, RestRequestOptions options)
-        {
-            var requestContent = new CreateNoteContent
-            {
-                Note = note
-            };
-
-            return SendRequestAsync(CreateRequest(PUT, $"users/@me/notes/{userId}", requestContent, options));
-        }
-
-        public async Task<string> AckMessageAsync(ulong channelId, ulong messageId, string token, RestRequestOptions options)
-        {
-            var requestContent = new AckMessageContent
-            {
-                Token = token
-            };
-            var model = await SendRequestAsync<AckMessageContent>(CreateRequest(POST, $"channels/{channelId:channel_id}/messages/{messageId}/ack", requestContent, options)).ConfigureAwait(false);
-            return model.Token;
-        }
-
-        public Task AcceptInviteAsync(string code, RestRequestOptions options)
-            => SendRequestAsync(CreateRequest(POST, $"invites/{code}", options));
-
-        public Task<UserSettingsModel> GetUserSettingsAsync(RestRequestOptions options)
-            => SendRequestAsync<UserSettingsModel>(CreateRequest(GET, $"users/@me/settings", options));
-
-        public Task<UserSettingsModel> ModifyUserSettingsAsync(ModifyUserSettingsProperties properties, RestRequestOptions options)
-        {
-            var model = new UserSettingsModel
-            {
-                TimezoneOffset = properties.TimezoneOffset,
-                Theme = properties.Theme,
-                StreamNotificationsEnabled = properties.EnableStreamNotifications,
-                Status = properties.Status,
-                ShowCurrentGame = properties.ShowCurrentGame,
-                RestrictedGuilds = properties.RestrictedGuildIds.HasValue
-                    ? properties.RestrictedGuildIds.Value.Select(x => x.RawValue).ToArray()
-                    : Optional<ulong[]>.Empty,
-                RenderReactions = properties.RenderReactions,
-                RenderEmbeds = properties.RenderEmbeds,
-                MessageDisplayCompact = properties.EnableCompactMessages,
-                Locale = properties.Locale.HasValue
-                    ? properties.Locale.Value.Name
-                    : Optional<string>.Empty,
-                InlineEmbedMedia = properties.ShowEmbeds,
-                InlineAttachmentMedia = properties.ShowAttachments,
-                GifAutoPlay = properties.AutomaticallyPlayGifs,
-                FriendSourceFlags = properties.FriendSource.HasValue
-                    ? properties.FriendSource.Value.ToModel()
-                    : Optional<FriendSourceFlagsModel>.Empty,
-                ExplicitContentFilter = properties.ContentFilterLevel,
-                EnableTtsCommand = properties.EnableTts,
-                DisableGamesTab = properties.DisableGamesTab,
-                DeveloperMode = properties.EnableDeveloperMode,
-                DetectPlatformAccounts = properties.DetectPlatformAccounts,
-                DefaultGuildsRestricted = properties.RestrictGuildsByDefault,
-                ConvertEmoticons = properties.ConvertEmojis,
-                AnimateEmoji = properties.AnimateEmojis,
-                AfkTimeout = properties.AfkTimeout.HasValue
-                    ? (long) properties.AfkTimeout.Value.TotalSeconds
-                    : Optional<long>.Empty
-            };
-            return SendRequestAsync<UserSettingsModel>(CreateRequest(PATCH, $"users/@me/settings", new JsonObjectContent(model), options));
-        }
-
-        public Task<LoginModel> LoginAsync(string email, string password, RestRequestOptions options)
-        {
-            var content = new LoginContent
-            {
-                Email = email,
-                Password = password
-            };
-
-            return SendRequestAsync<LoginModel>(CreateRequest(POST, $"auth/login", content, options));
-        }
-
-        public Task LogoutAsync(RestRequestOptions options)
-        {
-            var content = new LogoutContent
-            {
-                Provider = null,
-                VoipProvider = null
-            };
-
-            return SendRequestAsync(CreateRequest(POST, $"auth/logout", content, options));
-        }
-
-        public Task<LoginModel> TotpAsync(string ticket, string mfaCode, RestRequestOptions options)
-        {
-            var content = new TotpContent
-            {
-                Ticket = ticket,
-                Code = mfaCode
-            };
-
-            return SendRequestAsync<LoginModel>(CreateRequest(POST, $"auth/mfa/totp", content, options));
-        }
 
         public Task<PreviewModel> GetGuildPreviewAsync(ulong guildId, RestRequestOptions options)
             => SendRequestAsync<PreviewModel>(CreateRequest(GET, $"guilds/{guildId:guild_id}/preview", options));

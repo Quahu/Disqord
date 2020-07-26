@@ -9,9 +9,6 @@ namespace Disqord.Rest
         public Task TriggerTypingAsync(RestRequestOptions options = null)
             => Client.TriggerTypingAsync(Id, options);
 
-        public Task MarkAsReadAsync(RestRequestOptions options = null)
-            => RestImplementation.MarkAsReadAsync(this, options);
-
         public IDisposable Typing()
             => new TypingRepeater(Client, this);
 

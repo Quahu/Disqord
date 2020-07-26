@@ -231,27 +231,6 @@ namespace Disqord
         }
         internal readonly AsynchronousEvent<TypingStartedEventArgs> _typingStarted;
 
-        public event AsynchronousEventHandler<RelationshipCreatedEventArgs> RelationshipCreated
-        {
-            add => _relationshipCreated.Hook(value);
-            remove => _relationshipCreated.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<RelationshipCreatedEventArgs> _relationshipCreated;
-
-        public event AsynchronousEventHandler<RelationshipDeletedEventArgs> RelationshipDeleted
-        {
-            add => _relationshipDeleted.Hook(value);
-            remove => _relationshipDeleted.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<RelationshipDeletedEventArgs> _relationshipDeleted;
-
-        public event AsynchronousEventHandler<UserNoteUpdatedEventArgs> UserNoteUpdated
-        {
-            add => _userNoteUpdated.Hook(value);
-            remove => _userNoteUpdated.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<UserNoteUpdatedEventArgs> _userNoteUpdated;
-
         public event AsynchronousEventHandler<UserUpdatedEventArgs> UserUpdated
         {
             add => _userUpdated.Hook(value);

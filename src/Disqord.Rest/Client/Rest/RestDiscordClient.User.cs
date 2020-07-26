@@ -74,11 +74,5 @@ namespace Disqord.Rest
             var model = await ApiClient.CreateDmAsync(userId, options).ConfigureAwait(false);
             return new RestDmChannel(this, model);
         }
-
-        public async Task<IReadOnlyList<RestConnection>> GetConnectionsAsync(RestRequestOptions options = null)
-        {
-            var models = await ApiClient.GetUserConnectionsAsync(options).ConfigureAwait(false);
-            return models.ToReadOnlyList(this, (x, @this) => new RestConnection(@this, x));
-        }
     }
 }

@@ -23,7 +23,5 @@ namespace Disqord.Rest
         Task<RestDmChannel> CreateDmChannelAsync(Snowflake userId, RestRequestOptions options = null);
 
         // TODO: create group dm
-
-        Task<IReadOnlyList<RestConnection>> GetConnectionsAsync(RestRequestOptions options = null);
     }
 }

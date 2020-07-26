@@ -10,15 +10,6 @@ namespace Disqord.Rest
         public Task TriggerTypingAsync(RestRequestOptions options = null)
             => Client.TriggerTypingAsync(Id, options);
 
-        public Task MarkAsReadAsync(RestRequestOptions options = null)
-        {
-            var lastMessageId = LastMessageId;
-            if (!lastMessageId.HasValue)
-                throw new InvalidOperationException("Channel has no last message id.");
-
-            return Client.MarkMessageAsReadAsync(Id, lastMessageId.Value, options);
-        }
-
         public IDisposable Typing()
             => new TypingRepeater(Client, this);
 

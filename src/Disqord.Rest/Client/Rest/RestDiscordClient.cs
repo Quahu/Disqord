@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Disqord.Logging;
 using Disqord.Serialization.Json;
 
@@ -30,8 +30,7 @@ namespace Disqord.Rest
 
         /// <summary>
         ///     Gets whether this client has an authorization token.
-        ///     Returns <see langword="true"/> for all normal clients and for logged in
-        ///     clients created using <see cref="CreateWithoutAuthorization(RestDiscordClientConfiguration)"/>.
+        ///     Returns <see langword="true"/> for all clients not created using <see cref="CreateWithoutAuthorization(RestDiscordClientConfiguration)"/>.
         /// </summary>
         public bool HasAuthorization => ApiClient._tokenType != null;
 
@@ -40,8 +39,6 @@ namespace Disqord.Rest
         public IJsonSerializer Serializer => ApiClient.Serializer;
 
         internal readonly RestDiscordApiClient ApiClient;
-
-        private string _ackToken;
 
         /// <summary>
         ///     Initialises a new <see cref="RestDiscordClient"/> without authorization.

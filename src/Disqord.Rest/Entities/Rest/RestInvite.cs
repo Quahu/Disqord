@@ -41,9 +41,6 @@ namespace Disqord.Rest
             }
         }
 
-        public Task AcceptAsync(RestRequestOptions options = null)
-            => Client.AcceptInviteAsync(Code, options);
-
         public Task DeleteAsync(RestRequestOptions options = null)
             => Client.DeleteInviteAsync(Code, options);
 

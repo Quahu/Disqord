@@ -9,8 +9,6 @@ namespace Disqord
     {
         Task TriggerTypingAsync(RestRequestOptions options = null);
 
-        Task MarkAsReadAsync(RestRequestOptions options = null);
-
         IDisposable Typing();
 
         RestRequestEnumerable<RestMessage> GetMessagesEnumerable(int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, RestRequestOptions options = null);

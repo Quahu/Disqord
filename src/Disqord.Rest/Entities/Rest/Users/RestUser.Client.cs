@@ -5,21 +5,6 @@ namespace Disqord.Rest
 {
     public partial class RestUser : RestSnowflakeEntity, IUser
     {
-        public Task SendOrAcceptFriendRequestAsync(RestRequestOptions options = null)
-            => Client.SendOrAcceptFriendRequestAsync(Id, options: options);
-
-        public Task BlockAsync(RestRequestOptions options = null)
-            => Client.BlockUserAsync(Id, options);
-
-        public Task DeleteRelationshipAsync(RestRequestOptions options = null)
-            => Client.DeleteRelationshipAsync(Id, options);
-
-        public Task<RestProfile> GetProfileAsync(RestRequestOptions options = null)
-            => Client.GetProfileAsync(Id, options);
-
-        public Task SetNoteAsync(string note, RestRequestOptions options = null)
-            => Client.SetNoteAsync(Id, note, options);
-
         public Task<RestDmChannel> CreateDmChannelAsync(RestRequestOptions options = null)
             => Client.CreateDmChannelAsync(Id, options);
 
