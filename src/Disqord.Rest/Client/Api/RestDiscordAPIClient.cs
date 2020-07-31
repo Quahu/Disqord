@@ -82,7 +82,7 @@ namespace Disqord.Rest
 
         internal async Task<RateLimit> HandleRequestAsync(RestRequest request)
         {
-            Log(LogMessageSeverity.Debug, $"Handling {request}.");
+            Log(LogSeverity.Debug, $"Handling {request}.");
             HttpResponseMessage response;
             using (var cts = new CancellationTokenSource(request.Options.Timeout != default
                 ? request.Options.Timeout
@@ -94,7 +94,7 @@ namespace Disqord.Rest
                 var ticks = Environment.TickCount;
                 response = await Http.SendAsync(request.HttpMessage, HttpCompletionOption.ResponseHeadersRead, linkedCts?.Token ?? cts.Token).ConfigureAwait(false);
                 var ms = Environment.TickCount - ticks;
-                Log(LogMessageSeverity.Debug, $"Handling {request}; completed after {ms}ms.");
+                Log(LogSeverity.Debug, $"Handling {request}; completed after {ms}ms.");
             }
 
             var rateLimit = new RateLimit(response.Headers);
@@ -227,7 +227,7 @@ namespace Disqord.Rest
                     }
                     else
                     {
-                        Log(LogMessageSeverity.Error, $"Unknown nested channel properties provided to modify. ({properties.GetType()})");
+                        Log(LogSeverity.Error, $"Unknown nested channel properties provided to modify. ({properties.GetType()})");
                     }
                 }
                 else if (guildProperties is ModifyCategoryChannelProperties categoryProperties)
@@ -236,7 +236,7 @@ namespace Disqord.Rest
                 }
                 else
                 {
-                    Log(LogMessageSeverity.Error, $"Unknown guild channel properties provided to modify. ({properties.GetType()})");
+                    Log(LogSeverity.Error, $"Unknown guild channel properties provided to modify. ({properties.GetType()})");
                 }
             }
             else if (properties is ModifyGroupChannelProperties groupProperties)
@@ -245,7 +245,7 @@ namespace Disqord.Rest
             }
             else
             {
-                Log(LogMessageSeverity.Error, $"Unknown channel properties provided to modify. ({properties.GetType()})");
+                Log(LogSeverity.Error, $"Unknown channel properties provided to modify. ({properties.GetType()})");
             }
 
             return SendRequestAsync<ChannelModel>(CreateRequest(PATCH, $"channels/{channelId:channel_id}", requestContent, options));
@@ -595,7 +595,7 @@ namespace Disqord.Rest
                 }
                 else
                 {
-                    Log(LogMessageSeverity.Error, $"Unknown nested channel properties provided to modify ({properties.GetType()}).");
+                    Log(LogSeverity.Error, $"Unknown nested channel properties provided to modify ({properties.GetType()}).");
                 }
             }
             else if (properties is CreateCategoryChannelProperties categoryProperties)
@@ -605,7 +605,7 @@ namespace Disqord.Rest
             }
             else
             {
-                Log(LogMessageSeverity.Error, $"Unknown channel properties provided to modify ({properties.GetType()}).");
+                Log(LogSeverity.Error, $"Unknown channel properties provided to modify ({properties.GetType()}).");
             }
 
             return SendRequestAsync<ChannelModel>(CreateRequest(POST, $"guilds/{guildId:guild_id}/channels", requestContent, options));

@@ -31,7 +31,7 @@ namespace Disqord.Sharding
             var shardCount = _shardCount != 0
                 ? _shardCount
                 : _gatewayBotResponse.ShardCount;
-            Log(LogMessageSeverity.Information, $"Starting sharder with {shardCount} shards. There's {_gatewayBotResponse.RemainingSessionAmount} sessions left.");
+            Log(LogSeverity.Information, $"Starting sharder with {shardCount} shards. There's {_gatewayBotResponse.RemainingSessionAmount} sessions left.");
             _gateways = new DiscordClientGateway[shardCount];
             var shards = new Shard[_gateways.Length];
             Shards = shards.ReadOnly();

@@ -104,7 +104,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             }
             catch (Exception ex)
             {
-                Client.Log(LogMessageSeverity.Error, "An exception occurred in a menu reaction check.", ex);
+                Client.Log(LogSeverity.Error, "An exception occurred in a menu reaction check.", ex);
                 return;
             }
 
@@ -121,7 +121,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             }
             catch (Exception ex)
             {
-                Client.Log(LogMessageSeverity.Error, "An exception occurred in a menu button callback.", ex);
+                Client.Log(LogSeverity.Error, "An exception occurred in a menu button callback.", ex);
                 return;
             }
         }
@@ -205,7 +205,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             }
             catch (Exception ex)
             {
-                Client.Log(LogMessageSeverity.Error, "An exception occurred while stopping a menu.", ex);
+                Client.Log(LogSeverity.Error, "An exception occurred while stopping a menu.", ex);
             }
         }
 

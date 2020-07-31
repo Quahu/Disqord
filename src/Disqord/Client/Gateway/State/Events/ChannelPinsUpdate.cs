@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
@@ -26,7 +26,7 @@ namespace Disqord
                 var privateChannel = GetPrivateChannel(model.ChannelId);
                 if (privateChannel == null)
                 {
-                    Log(LogMessageSeverity.Warning, $"Discarding a channel pins update for the uncached private channel: {model.ChannelId}.");
+                    Log(LogSeverity.Warning, $"Discarding a channel pins update for the uncached private channel: {model.ChannelId}.");
                     return Task.CompletedTask;
                 }
 

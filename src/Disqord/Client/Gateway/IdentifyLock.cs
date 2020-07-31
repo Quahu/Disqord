@@ -28,7 +28,7 @@ namespace Disqord.Client.Gateway
             lock (_semaphore)
             {
                 if (_semaphore.CurrentCount == 0)
-                    _gateway.Log(LogMessageSeverity.Information, "Delaying identifying...");
+                    _gateway.Log(LogSeverity.Information, "Delaying identifying...");
 
                 task = _semaphore.WaitAsync();
             }

@@ -51,7 +51,7 @@ namespace Disqord
                 D = guildIds
             });
 
-        internal Task SendRequestOfflineMembersAsync(IEnumerable<ulong> guildIds)
+        internal Task SendRequestMembersAsync(IEnumerable<ulong> guildIds)
             => SendAsync(new PayloadModel
             {
                 Op = GatewayOperationCode.RequestGuildMembers,
@@ -64,7 +64,7 @@ namespace Disqord
                 }
             });
 
-        internal Task SendRequestOfflineMembersAsync(ulong guildId)
+        internal Task SendRequestMembersAsync(ulong guildId)
              => SendAsync(new PayloadModel
              {
                  Op = GatewayOperationCode.RequestGuildMembers,

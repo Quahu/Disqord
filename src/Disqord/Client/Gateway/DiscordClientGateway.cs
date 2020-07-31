@@ -55,8 +55,8 @@ namespace Disqord
             _ws.Closed += WebSocketClosedAsync;
         }
 
-        internal void Log(LogMessageSeverity severity, string message, Exception exception = null)
-            => State.Logger.Log(Client, new MessageLoggedEventArgs(_shard != null
+        internal void Log(LogSeverity severity, string message, Exception exception = null)
+            => State.Logger.Log(Client, new LogEventArgs(_shard != null
                 ? $"Gateway #{_shard[0]}"
                 : "Gateway", severity, message, exception));
 
@@ -97,9 +97,11 @@ namespace Disqord
             if (_sessionId == null)
                 _identifyTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-            Log(LogMessageSeverity.Information, "Connecting...");
+            Log(LogSeverity.Information, "Connecting...");
             var gatewayUrl = await Client.GetGatewayAsync(_sessionId == null).ConfigureAwait(false);
-            await _ws.ConnectAsync(new Uri(string.Concat(gatewayUrl, "?compress=zlib-stream")), _combinedRunCts.Token).ConfigureAwait(false);
+            var uri = new Uri(string.Concat(gatewayUrl, "?compress=zlib-stream"));
+            Log(LogSeverity.Information, $"Gateway: {uri}");
+            await _ws.ConnectAsync(uri, _combinedRunCts.Token).ConfigureAwait(false);
         }
 
         public Task WaitForIdentifyAsync()
@@ -107,7 +109,7 @@ namespace Disqord
 
         private Task DisconnectAsync()
         {
-            Log(LogMessageSeverity.Information, "Disconnecting...");
+            Log(LogSeverity.Information, "Disconnecting...");
             return _ws.CloseAsync();
         }
 
@@ -147,7 +149,7 @@ namespace Disqord
                 if (_combinedRunCts == null)
                     throw new InvalidOperationException("The gateway is not running.");
 
-                Log(LogMessageSeverity.Information, "Stopping...");
+                Log(LogSeverity.Information, "Stopping...");
                 CancelRun();
             }
             finally
@@ -165,18 +167,18 @@ namespace Disqord
             }
             catch (Exception ex)
             {
-                Log(LogMessageSeverity.Critical, $"An exception occurred while trying to deserialize a payload.", ex);
+                Log(LogSeverity.Critical, $"An exception occurred while trying to deserialize a payload.", ex);
                 return;
             }
 
-            Log(LogMessageSeverity.Debug, $"Received opcode {payload.Op}.");
+            Log(LogSeverity.Debug, $"Received opcode {payload.Op}.");
             try
             {
                 await HandleOpcodeAsync(payload).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                Log(LogMessageSeverity.Error, $"An exception occurred while handling opcode {payload.Op} ({(byte) payload.Op}).", ex);
+                Log(LogSeverity.Error, $"An exception occurred while handling opcode {payload.Op} ({(byte) payload.Op}).", ex);
             }
         }
 
@@ -193,7 +195,7 @@ namespace Disqord
                 await _semaphore.WaitAsync().ConfigureAwait(false);
                 _reconnecting = true;
 
-                Log(LogMessageSeverity.Warning, $"Close: {e.Status} {e.Description}", e.Exception);
+                Log(LogSeverity.Warning, $"Close: {e.Status} {e.Description}", e.Exception);
                 bool shouldRetry;
                 if (e.Status != null)
                 {
@@ -215,7 +217,7 @@ namespace Disqord
                     if (!shouldRetry)
                     {
                         var message = $"Close {gatewayCloseCode} ({(int) gatewayCloseCode}) is unrecoverable, stopping.";
-                        Log(LogMessageSeverity.Critical, message);
+                        Log(LogSeverity.Critical, message);
                         _reconnecting = false;
                         var exception = new Exception(message);
                         _identifyTcs.TrySetException(exception);
@@ -229,30 +231,26 @@ namespace Disqord
                 {
                     try
                     {
-                        Log(LogMessageSeverity.Information, "Attempting to reconnect after the close...");
+                        Log(LogSeverity.Information, "Attempting to reconnect after the close...");
                         await ConnectAsync().ConfigureAwait(false);
                         _reconnecting = false;
                         return;
                     }
                     catch (SessionLimitException ex)
                     {
-                        Log(LogMessageSeverity.Critical, $"No available sessions. Resets after {ex.ResetsAfter}.", ex);
+                        Log(LogSeverity.Critical, $"No available sessions. Resets after {ex.ResetsAfter}.", ex);
                         CancelRun(ex);
                         return;
                     }
                     catch (DiscordHttpException ex) when (ex.HttpStatusCode == HttpStatusCode.Unauthorized)
                     {
-                        Log(LogMessageSeverity.Critical, "Invalid token.");
+                        Log(LogSeverity.Critical, "Invalid token.");
                         CancelRun(ex);
-                        return;
-                    }
-                    catch (ObjectDisposedException)
-                    {
                         return;
                     }
                     catch (Exception ex)
                     {
-                        Log(LogMessageSeverity.Error, $"Failed to reconnect. Retrying in 10 seconds.", ex);
+                        Log(LogSeverity.Error, $"Failed to reconnect. Retrying in 10 seconds.", ex);
                         await Task.Delay(10000).ConfigureAwait(false);
                     }
                 }
@@ -286,7 +284,8 @@ namespace Disqord
 
                     }
 
-                    var batches = State._guilds.Values.Where(x => x.Client.GetGateway(x.Id) == this && !x.IsChunked)
+                    var batches = State._guilds.ToArray().Where(x => x.Value.Client.GetGateway(x.Key) == this && !x.Value.IsChunked)
+                        .Select(x => x.Value)
                         .Batch(75)
                         .Select(x => x.ToArray())
                         .ToArray();
@@ -297,20 +296,26 @@ namespace Disqord
                         for (var j = 0; j < batch.Length; j++)
                         {
                             var guild = batch[j];
-                            Log(LogMessageSeverity.Information, $"Requesting offline members for {guild.Name}. Expecting {guild.ChunksExpected} {(guild.ChunksExpected == 1 ? "chunk" : "chunks")}.");
+                            Log(LogSeverity.Information, $"Requesting members for {guild.Name}. Expecting {guild.ChunksExpected} {(guild.ChunksExpected == 1 ? "chunk" : "chunks")}.");
                         }
 
-                        await SendRequestOfflineMembersAsync(batch.Select(x => x.Id.RawValue)).ConfigureAwait(false);
+                        await SendRequestMembersAsync(batch.Select(x => x.Id.RawValue)).ConfigureAwait(false);
                         tasks[i] = Task.WhenAll(batch.Select(x => x.ChunkTcs.Task));
                     }
 
-                    await Task.WhenAll(tasks).ConfigureAwait(false);
+                    var timeoutTask = Task.Delay(40_000);
+                    var batchesTask = Task.WhenAll(tasks);
+                    var task = await Task.WhenAny(timeoutTask, batchesTask).ConfigureAwait(false);
+                    if (task == timeoutTask)
+                    {
+                        Log(LogSeverity.Critical, $"Timed out waiting for member chunks.");
+                    }
                 }
             }
             else
             {
                 var guilds = State._guilds.Values;
-                Log(LogMessageSeverity.Information, $"Awaiting sync for {guilds.Count} guilds.");
+                Log(LogSeverity.Information, $"Awaiting sync for {guilds.Count} guilds.");
                 await Task.WhenAll(guilds.Select(x => x.SyncTcs.Task)).ConfigureAwait(false);
             }
 
@@ -342,14 +347,14 @@ namespace Disqord
                     }
                 }
 
-                Log(LogMessageSeverity.Debug, $"Firing queued up payload: {queuedPayload.Item2} with S: {queuedPayload.Item1.S}.");
+                Log(LogSeverity.Debug, $"Firing queued up payload: {queuedPayload.Item2} with S: {queuedPayload.Item1.S}.");
                 try
                 {
                     await HandleDispatchAsync(queuedPayload.Item1, queuedPayload.Item2).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    Log(LogMessageSeverity.Error, $"An exception occurred while handling a queued {queuedPayload.Item1.T} dispatch.\n{queuedPayload.Item1.D}", ex);
+                    Log(LogSeverity.Error, $"An exception occurred while handling a queued {queuedPayload.Item1.T} dispatch.\n{queuedPayload.Item1.D}", ex);
                 }
             }
         }

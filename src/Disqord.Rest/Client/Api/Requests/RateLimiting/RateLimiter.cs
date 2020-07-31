@@ -30,9 +30,9 @@ namespace Disqord.Rest
             //       (also move to Discord's buckets)
 
             var severity = rateLimit.IsGlobal
-                ? LogMessageSeverity.Error
-                : LogMessageSeverity.Warning;
-            var message = $"{(rateLimit.IsGlobal ? "Globally rate" : "Rate")} limited for {rateLimit.ResetsAfter}";
+                ? LogSeverity.Error
+                : LogSeverity.Warning;
+            var message = $"{(rateLimit.IsGlobal ? "Globally rate" : "Rate")} limited {request} for {rateLimit.ResetsAfter}";
             if (request.Options.MaximumRateLimitDuration != default && rateLimit.ResetsAfter > request.Options.MaximumRateLimitDuration)
             {
                 request.SetException(new DiscordHttpException((HttpStatusCode) 429, null, "Rate-limit hit. Throwing due to Options.ThrowOnRateLimits."));

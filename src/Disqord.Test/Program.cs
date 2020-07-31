@@ -1,5 +1,4 @@
 using System;
-using Disqord.Bot;
 using Disqord.Bot.Prefixes;
 using Disqord.Bot.Sharding;
 using Disqord.Extensions.Interactivity;
@@ -20,12 +19,8 @@ namespace Disqord.Test
                 Status = UserStatus.Invisible
             })
         {
-            Logger.MessageLogged += MessageLogged;
             AddModules(typeof(Program).Assembly);
-            AddExtensionAsync(new InteractivityExtension()).GetAwaiter().GetResult();
+            AddExtensionAsync(new InteractivityExtension()); // interactivity has no async setup
         }
-
-        private void MessageLogged(object sender, Logging.MessageLoggedEventArgs e)
-            => Console.WriteLine(e);
     }
 }

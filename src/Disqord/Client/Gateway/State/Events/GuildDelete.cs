@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
 using Disqord.Models;
@@ -14,12 +14,12 @@ namespace Disqord
             {
                 if (!_guilds.TryGetValue(model.Id, out var guild))
                 {
-                    Log(LogMessageSeverity.Information, $"Guild {model.Id} is uncached and became unavailable.");
+                    Log(LogSeverity.Information, $"Guild {model.Id} is uncached and became unavailable.");
                     return Task.CompletedTask;
                 }
 
                 // TODO set unavailable or something
-                Log(LogMessageSeverity.Information, $"Guild '{guild}' ({guild.Id}) became unavailable.");
+                Log(LogSeverity.Information, $"Guild '{guild}' ({guild.Id}) became unavailable.");
                 return _client._guildUnavailable.InvokeAsync(new GuildUnavailableEventArgs(guild));
             }
             else
@@ -27,14 +27,14 @@ namespace Disqord
                 if (!_guilds.TryRemove(model.Id, out var guild))
                 {
                     // This should only ever be the case for user tokens and lurkable guilds?
-                    Log(LogMessageSeverity.Information, $"Left uncached guild {model.Id}.");
+                    Log(LogSeverity.Information, $"Left uncached guild {model.Id}.");
                     return Task.CompletedTask;
                 }
 
                 foreach (var member in guild.Members.Values)
                     member.SharedUser.References--;
 
-                Log(LogMessageSeverity.Information, $"Left guild '{guild}' ({guild.Id}).");
+                Log(LogSeverity.Information, $"Left guild '{guild}' ({guild.Id}).");
                 return _client._leftGuild.InvokeAsync(new LeftGuildEventArgs(guild));
             }
         }

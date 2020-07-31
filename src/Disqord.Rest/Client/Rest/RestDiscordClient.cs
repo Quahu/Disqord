@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Disqord.Logging;
 using Disqord.Serialization.Json;
 
@@ -68,8 +68,8 @@ namespace Disqord.Rest
             : this(optionalTokenType: tokenType, token ?? throw new ArgumentNullException(nameof(token)), configuration)
         { }
 
-        internal void Log(LogMessageSeverity severity, string message, Exception exception = null)
-            => Logger.Log(this, new MessageLoggedEventArgs("Rest", severity, message, exception));
+        internal void Log(LogSeverity severity, string message, Exception exception = null)
+            => Logger.Log(this, new LogEventArgs("Rest", severity, message, exception));
 
         public void Dispose()
         {

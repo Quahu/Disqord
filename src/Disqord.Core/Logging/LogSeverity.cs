@@ -1,6 +1,6 @@
 ﻿namespace Disqord.Logging
 {
-    public enum LogMessageSeverity
+    public enum LogSeverity
     {
         Trace,
 

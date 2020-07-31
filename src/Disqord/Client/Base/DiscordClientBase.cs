@@ -155,8 +155,8 @@ namespace Disqord
                 throw new ObjectDisposedException(null, "The client has been disposed.");
         }
 
-        internal void Log(LogMessageSeverity severity, string message, Exception exception = null)
-            => Logger.Log(this, new MessageLoggedEventArgs("Client", severity, message, exception));
+        internal void Log(LogSeverity severity, string message, Exception exception = null)
+            => Logger.Log(this, new LogEventArgs("Client", severity, message, exception));
 
         internal DiscordClientGateway GetGateway(ulong guildId)
             => _getGateway(_client ?? this, guildId);
@@ -186,7 +186,7 @@ namespace Disqord
                 }
                 catch (Exception ex)
                 {
-                    Log(LogMessageSeverity.Error, $"An exception occurred while disposing the {extensionKvp.Key} extension.", ex);
+                    Log(LogSeverity.Error, $"An exception occurred while disposing the {extensionKvp.Key} extension.", ex);
                 }
             }
 

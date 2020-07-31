@@ -46,7 +46,7 @@ namespace Disqord
                 if (botGatewayResponse.RemainingSessionAmount == 0)
                     throw new SessionLimitException(botGatewayResponse.ResetAfter);
 
-                Log(LogMessageSeverity.Information,
+                Log(LogSeverity.Information,
                     $"Sessions used: {botGatewayResponse.MaxSessionAmount - botGatewayResponse.RemainingSessionAmount}/{botGatewayResponse.MaxSessionAmount}. " +
                     $"Resets in {botGatewayResponse.ResetAfter}.");
                 return _gatewayUrl = botGatewayResponse.Url;

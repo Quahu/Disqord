@@ -64,7 +64,7 @@ namespace Disqord.Bot
             }
             catch (Exception ex)
             {
-                Log(LogMessageSeverity.Error, "An exception occurred while running the check message callback.", ex);
+                Log(LogSeverity.Error, "An exception occurred while running the check message callback.", ex);
                 return;
             }
 
@@ -77,7 +77,7 @@ namespace Disqord.Bot
             }
             catch (Exception ex)
             {
-                Log(LogMessageSeverity.Error, "An exception occurred while getting the prefixes.", ex);
+                Log(LogSeverity.Error, "An exception occurred while getting the prefixes.", ex);
                 return;
             }
 
@@ -89,7 +89,7 @@ namespace Disqord.Bot
                 {
                     if (prefix == null)
                     {
-                        Log(LogMessageSeverity.Warning, "A null prefix was contained in the prefix enumerable.");
+                        Log(LogSeverity.Warning, "A null prefix was contained in the prefix enumerable.");
                         continue;
                     }
 
@@ -105,7 +105,7 @@ namespace Disqord.Bot
             }
             catch (Exception ex)
             {
-                Log(LogMessageSeverity.Error, "An exception occurred while finding the prefixes.", ex);
+                Log(LogSeverity.Error, "An exception occurred while finding the prefixes.", ex);
                 return;
             }
 
@@ -118,7 +118,7 @@ namespace Disqord.Bot
             }
             catch (Exception ex)
             {
-                Log(LogMessageSeverity.Error, "An exception occurred while getting the context.", ex);
+                Log(LogSeverity.Error, "An exception occurred while getting the context.", ex);
                 return;
             }
 
@@ -129,7 +129,7 @@ namespace Disqord.Bot
             }
             catch (Exception ex)
             {
-                Log(LogMessageSeverity.Error, "An exception occurred while running the before executed callback.", ex);
+                Log(LogSeverity.Error, "An exception occurred while running the before executed callback.", ex);
                 return;
             }
 
@@ -140,7 +140,7 @@ namespace Disqord.Bot
             }
             catch (Exception ex)
             {
-                Log(LogMessageSeverity.Error, "An exception occurred while running the after executed callback.", ex);
+                Log(LogSeverity.Error, "An exception occurred while running the after executed callback.", ex);
             }
         }
 
@@ -156,8 +156,8 @@ namespace Disqord.Bot
         public void Run(CancellationToken cancellationToken = default)
             => RunAsync(cancellationToken).GetAwaiter().GetResult();
 
-        internal new void Log(LogMessageSeverity severity, string message, Exception exception = null)
-            => Logger.Log(this, new MessageLoggedEventArgs("Bot", severity, message, exception));
+        internal new void Log(LogSeverity severity, string message, Exception exception = null)
+            => Logger.Log(this, new LogEventArgs("Bot", severity, message, exception));
 
         public override async ValueTask DisposeAsync()
         {

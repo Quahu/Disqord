@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
@@ -26,11 +26,11 @@ namespace Disqord
                 catch
                 {
                     // Just to be safe?
-                    Log(LogMessageSeverity.Warning, $"Discarding an invalid presence update for an unknown user.", ex);
+                    Log(LogSeverity.Warning, $"Discarding an invalid presence update for an unknown user.", ex);
                     return Task.CompletedTask;
                 }
 
-                Log(LogMessageSeverity.Warning, $"Discarding an invalid presence update for user {memberModel.User.Id}.", ex);
+                Log(LogSeverity.Warning, $"Discarding an invalid presence update for user {memberModel.User.Id}.", ex);
                 return Task.CompletedTask;
             }
 

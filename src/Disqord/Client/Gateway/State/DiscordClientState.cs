@@ -42,7 +42,7 @@ namespace Disqord
             GroupChannels = new ReadOnlyOfTypeDictionary<Snowflake, CachedPrivateChannel, CachedGroupChannel>(_privateChannels);
         }
 
-        internal void Log(LogMessageSeverity severity, string message, Exception exception = null)
+        internal void Log(LogSeverity severity, string message, Exception exception = null)
             => _client.Log(severity, message, exception);
 
         public CachedUserMessage GetMessage(Snowflake channelId, Snowflake messageId)

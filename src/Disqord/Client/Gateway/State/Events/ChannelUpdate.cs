@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
 using Disqord.Models;
@@ -13,7 +13,7 @@ namespace Disqord
             var channel = GetChannel(model.Id);
             if (channel == null)
             {
-                _client.Log(LogMessageSeverity.Warning, $"Unknown channel in ChannelUpdate. Id: {model.Id}.");
+                _client.Log(LogSeverity.Warning, $"Unknown channel in ChannelUpdate. Id: {model.Id}.");
                 return Task.CompletedTask;
             }
 

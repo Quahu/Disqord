@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
 using Disqord.Models;
@@ -24,7 +24,7 @@ namespace Disqord
 
             if (channel == null)
             {
-                Log(LogMessageSeverity.Warning, $"Uncached channel in MessageUpdated. Id: {model.ChannelId}");
+                Log(LogSeverity.Warning, $"Uncached channel in MessageUpdated. Id: {model.ChannelId}");
                 return Task.CompletedTask;
             }
 
@@ -36,7 +36,7 @@ namespace Disqord
                 CachedUser author = null;
                 if (!model.Author.HasValue && !isWebhook)
                 {
-                    Log(LogMessageSeverity.Warning, "Unknown message and author has no value in MessageUpdated.");
+                    Log(LogSeverity.Warning, "Unknown message and author has no value in MessageUpdated.");
                     return Task.CompletedTask;
                 }
                 else if (!isWebhook)
@@ -64,7 +64,7 @@ namespace Disqord
                 if (author == null)
                 {
                     // TODO
-                    Log(LogMessageSeverity.Error, "Author is still null in MessageUpdate.");
+                    Log(LogSeverity.Error, "Author is still null in MessageUpdate.");
                     return Task.CompletedTask;
                 }
 

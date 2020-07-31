@@ -23,18 +23,18 @@ namespace Disqord
                 var token = _heartbeatCts.Token;
                 while (!token.IsCancellationRequested)
                 {
-                    Log(LogMessageSeverity.Debug, $"Heartbeat: delaying for {_heartbeatInterval}ms.");
+                    Log(LogSeverity.Debug, $"Heartbeat: delaying for {_heartbeatInterval}ms.");
                     try
                     {
                         await Task.Delay(_heartbeatInterval, token).ConfigureAwait(false);
                     }
                     catch (TaskCanceledException)
                     {
-                        Log(LogMessageSeverity.Debug, "Heartbeat: delay cancelled.");
+                        Log(LogSeverity.Debug, "Heartbeat: delay cancelled.");
                         return;
                     }
 
-                    Log(LogMessageSeverity.Debug, "Heartbeat: Sending...");
+                    Log(LogSeverity.Debug, "Heartbeat: Sending...");
                     var success = false;
                     while (!success && !token.IsCancellationRequested)
                     {
@@ -46,22 +46,22 @@ namespace Disqord
                         }
                         catch (WebSocketException ex) when (ex.WebSocketErrorCode == WebSocketError.InvalidState)
                         {
-                            Log(LogMessageSeverity.Debug, "Heartbeat: send errored - websocket is in an invalid state.");
+                            Log(LogSeverity.Debug, "Heartbeat: send errored - websocket is in an invalid state.");
                             return;
                         }
                         catch (WebSocketException ex)
                         {
-                            Log(LogMessageSeverity.Debug, $"Heartbeat: send errored - {ex.WebSocketErrorCode}.");
+                            Log(LogSeverity.Debug, $"Heartbeat: send errored - {ex.WebSocketErrorCode}.");
                             return;
                         }
                         catch (TaskCanceledException)
                         {
-                            Log(LogMessageSeverity.Debug, "Heartbeat: send cancelled.");
+                            Log(LogSeverity.Debug, "Heartbeat: send cancelled.");
                             return;
                         }
                         catch (Exception ex)
                         {
-                            Log(LogMessageSeverity.Debug, $"Heartbeat: send failed. Retrying in 5 seconds.", ex);
+                            Log(LogSeverity.Debug, $"Heartbeat: send failed. Retrying in 5 seconds.", ex);
                             await Task.Delay(5000).ConfigureAwait(false);
                         }
                     }

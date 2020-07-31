@@ -14,7 +14,7 @@ namespace Disqord
             if (gatewayEvent == null) // if not queued
             {
                 if (_lastSequenceNumber == payload.S)
-                    Log(LogMessageSeverity.Warning, $"S is the same as the previous one: {payload.S}.");
+                    Log(LogSeverity.Warning, $"S is the same as the previous one: {payload.S}.");
 
                 try
                 {
@@ -25,7 +25,7 @@ namespace Disqord
 
                 if (gatewayEvent == null)
                 {
-                    Log(LogMessageSeverity.Warning, $"Unknown dispatch: {payload.T}\n{payload.D}.");
+                    Log(LogSeverity.Warning, $"Unknown dispatch: {payload.T}\n{payload.D}.");
                     return;
                 }
 
@@ -39,7 +39,7 @@ namespace Disqord
                         var tcs = _readyTaskCompletionSource;
                         if (tcs != null && !tcs.Task.IsCompleted)
                         {
-                            Log(LogMessageSeverity.Debug, $"Queueing up {gatewayEvent.Value}.");
+                            Log(LogSeverity.Debug, $"Queueing up {gatewayEvent.Value}.");
                             _readyPayloadQueue.Enqueue((payload, gatewayEvent.Value));
                             return;
                         }
@@ -48,13 +48,13 @@ namespace Disqord
             }
 
             _lastSequenceNumber = payload.S;
-            Log(LogMessageSeverity.Trace, $"Dispatch: {gatewayEvent.Value}.");
+            Log(LogSeverity.Trace, $"Dispatch: {gatewayEvent.Value}.");
             switch (gatewayEvent)
             {
                 case GatewayDispatch.Ready:
                 {
                     _identifyTcs.TrySetResult(true);
-                    Log(LogMessageSeverity.Information, "Successfully identified.");
+                    Log(LogSeverity.Information, "Successfully identified.");
                     var model = Serializer.ToObject<ReadyModel>(payload.D);
                     _sessionId = model.SessionId;
                     _trace = model.Trace;
@@ -74,7 +74,7 @@ namespace Disqord
                 case GatewayDispatch.Resumed:
                 {
                     _identifyTcs.TrySetResult(true);
-                    Log(LogMessageSeverity.Information, "Resumed.");
+                    Log(LogSeverity.Information, "Resumed.");
                     break;
                 }
 
@@ -304,7 +304,7 @@ namespace Disqord
 
                 default:
                 {
-                    Log(LogMessageSeverity.Warning, $"Unknown dispatch: {payload.T}\n{payload.D}");
+                    Log(LogSeverity.Warning, $"Unknown dispatch: {payload.T}\n{payload.D}");
                     return;
                 }
             }

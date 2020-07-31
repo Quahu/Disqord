@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
 using Disqord.Models;
@@ -17,7 +17,7 @@ namespace Disqord
 
             if (channel == null)
             {
-                Log(LogMessageSeverity.Warning, $"Uncached channel in MessageDeleted. Id: {model.ChannelId}");
+                Log(LogSeverity.Warning, $"Uncached channel in MessageDeleted. Id: {model.ChannelId}");
                 return Task.CompletedTask;
             }
 
