@@ -5,7 +5,10 @@ using System.Linq;
 
 namespace Disqord.Collections
 {
-    internal sealed class LockedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
+    /// <summary>
+    ///     A lightweight (<see langword="lock"/>-based) thread-safe implementation of <see cref="IDictionary{TKey, TValue}"/>.
+    /// </summary>
+    public sealed class LockedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
     {
         public ICollection<TKey> Keys
         {
@@ -211,12 +214,10 @@ namespace Disqord.Collections
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
             => (ToArray() as IReadOnlyList<KeyValuePair<TKey, TValue>>).GetEnumerator();
-        //=> _dictionary.GetEnumerator().Locked(_lock);
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
 
-        // Unused internally.
         bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
             => ContainsKey(item.Key);
 
@@ -228,11 +229,10 @@ namespace Disqord.Collections
             }
         }
 
-        // Unused both internally and externally.
         void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
-            => throw new NotSupportedException();
+            => Add(item.Key, item.Value);
 
         bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
-            => throw new NotSupportedException();
+            => Remove(item.Key);
     }
 }
