@@ -154,13 +154,6 @@ namespace Disqord
         }
         internal readonly AsynchronousEvent<MemberUpdatedEventArgs> _memberUpdated;
 
-        public event AsynchronousEventHandler<MessageAcknowledgedEventArgs> MessageAcknowledged
-        {
-            add => _messageAcknowledged.Hook(value);
-            remove => _messageAcknowledged.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<MessageAcknowledgedEventArgs> _messageAcknowledged;
-
         public event AsynchronousEventHandler<MessageReceivedEventArgs> MessageReceived
         {
             add => _messageReceived.Hook(value);

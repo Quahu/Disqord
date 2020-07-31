@@ -12,7 +12,7 @@ namespace Disqord
     {
         public Task HandleMessageReactionRemoveAllAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<MessageReactionRemoveAllModel>(payload.D);
+            var model = payload.D.ToType<MessageReactionRemoveAllModel>();
             var channel = GetGuild(model.GuildId).GetTextChannel(model.ChannelId);
             var message = channel.GetMessage(model.MessageId);
             var reactions = message?._reactions.ToDictionary(x => x.Key, x => x.Value);

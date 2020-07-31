@@ -2,7 +2,7 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class HelloModel
+    internal sealed class HelloModel : JsonModel
     {
         [JsonProperty("heartbeat_interval", NullValueHandling.Ignore)]
         public int HeartbeatInterval { get; set; }

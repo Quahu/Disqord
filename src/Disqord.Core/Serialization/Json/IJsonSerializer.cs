@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
+using Disqord.Logging;
+using Disqord.Serialization.Json.Default;
 
 namespace Disqord.Serialization.Json
 {
-    public interface IJsonSerializer
+    public interface IJsonSerializer : IDisposable
     {
-        Encoding UTF8 { get; }
+        T Deserialize<T>(ReadOnlyMemory<byte> json) where T : class;
 
-        T ToObject<T>(object value);
+        Memory<byte> Serialize(object value);
 
-        T Deserialize<T>(Stream stream);
+        T StringToEnum<T>(string value) where T : Enum;
 
-        Task<T> DeserializeAsync<T>(Stream stream);
+        IJsonElement GetJsonElement(object value);
 
-        ReadOnlyMemory<byte> Serialize(object model, IReadOnlyDictionary<string, object> additionalFields = null);
+        internal static IJsonSerializer CreateDefault(ILogger logger)
+            => new DefaultJsonSerializer(logger);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class WidgetModel
+    internal sealed class WidgetModel : JsonModel
     {
         [JsonProperty("enabled")]
         public bool Enabled { get; set; }

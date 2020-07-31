@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using Disqord.Serialization.Json;
+﻿using Disqord.Serialization.Json;
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class ReadyModel
+    internal sealed class ReadyModel : JsonModel
     {
         [JsonProperty("v", NullValueHandling.Ignore)]
         public int V { get; set; }
@@ -16,12 +15,6 @@ namespace Disqord.Models.Dispatches
 
         [JsonProperty("guilds", NullValueHandling.Ignore)]
         public WebSocketGuildModel[] Guilds { get; set; }
-
-        [JsonProperty("notes")]
-        public Dictionary<ulong, string> Notes { get; set; }
-
-        [JsonProperty("relationships", NullValueHandling.Ignore)]
-        public RelationshipModel[] Relationships { get; set; }
 
         [JsonProperty("session_id", NullValueHandling.Ignore)]
         public string SessionId { get; set; }

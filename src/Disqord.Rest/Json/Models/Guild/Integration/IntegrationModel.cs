@@ -3,7 +3,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
-    internal sealed class IntegrationModel
+    internal sealed class IntegrationModel : JsonModel
     {
         [JsonProperty("id")]
         public ulong Id { get; set; }

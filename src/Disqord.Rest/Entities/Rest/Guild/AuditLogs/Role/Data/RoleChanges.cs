@@ -24,19 +24,19 @@ namespace Disqord.Rest.AuditLogs
                 {
                     case "name":
                     {
-                        Name = AuditLogChange<string>.SingleConvert(change, client.Serializer);
+                        Name = AuditLogChange<string>.Convert(change);
                         break;
                     }
 
                     case "permissions":
                     {
-                        Permissions = AuditLogChange<GuildPermissions>.DoubleConvert<ulong>(change, client.Serializer, x => x);
+                        Permissions = AuditLogChange<GuildPermissions>.Convert<ulong>(change, x => x);
                         break;
                     }
 
                     case "color":
                     {
-                        Color = AuditLogChange<Color?>.DoubleConvert<int>(change, client.Serializer, x => x == 0
+                        Color = AuditLogChange<Color?>.Convert<int>(change, x => x == 0
                             ? (int?) null
                             : x);
                         break;
@@ -44,19 +44,19 @@ namespace Disqord.Rest.AuditLogs
 
                     case "hoist":
                     {
-                        IsHoisted = AuditLogChange<bool>.SingleConvert(change, client.Serializer);
+                        IsHoisted = AuditLogChange<bool>.Convert(change);
                         break;
                     }
 
                     case "mentionable":
                     {
-                        IsMentionable = AuditLogChange<bool>.SingleConvert(change, client.Serializer);
+                        IsMentionable = AuditLogChange<bool>.Convert(change);
                         break;
                     }
 
                     default:
                     {
-                        client.Log(LogMessageSeverity.Error, $"Unknown change key for {nameof(RoleChanges)}: '{change.Key}'.");
+                        client.Log(LogSeverity.Error, $"Unknown change key for {nameof(RoleChanges)}: '{change.Key}'.");
                         break;
                     }
                 }

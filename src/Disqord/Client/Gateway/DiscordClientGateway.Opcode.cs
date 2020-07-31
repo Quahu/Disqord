@@ -56,7 +56,7 @@ namespace Disqord
                     }
                     else
                     {
-                        if (Serializer.ToObject<bool>(payload.D))
+                        if (payload.D.ToType<bool>())
                         {
                             Log(LogSeverity.Information, "Session is resumable, resuming...");
                             await SendResumeAsync().ConfigureAwait(false);
@@ -73,7 +73,7 @@ namespace Disqord
 
                 case GatewayOperationCode.Hello:
                 {
-                    var data = Serializer.ToObject<HelloModel>(payload.D);
+                    var data = payload.D.ToType<HelloModel>();
                     _heartbeatInterval = data.HeartbeatInterval;
                     _ = Task.Run(RunHeartbeatAsync);
 

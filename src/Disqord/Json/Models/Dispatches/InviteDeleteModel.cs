@@ -2,7 +2,7 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class InviteDeleteModel
+    internal sealed class InviteDeleteModel : JsonModel
     {
         [JsonProperty("guild_id")]
         public ulong? GuildId { get; set; }

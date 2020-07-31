@@ -18,27 +18,27 @@ namespace Disqord.Rest.AuditLogs
             NewValue = newValue;
         }
 
-        internal static AuditLogChange<T> SingleConvert(AuditLogChangeModel model, IJsonSerializer serializer)
+        internal static AuditLogChange<T> Convert(AuditLogChangeModel model)
         {
             var oldValue = model.OldValue.HasValue
-                ? serializer.ToObject<T>(model.OldValue.Value)
+                ? model.OldValue.Value.ToType<T>()
                 : Optional<T>.Empty;
 
             var newValue = model.NewValue.HasValue
-                ? serializer.ToObject<T>(model.NewValue.Value)
+                ? model.NewValue.Value.ToType<T>()
                 : Optional<T>.Empty;
 
             return new AuditLogChange<T>(oldValue, newValue);
         }
 
-        internal static AuditLogChange<T> DoubleConvert<TMiddle>(AuditLogChangeModel model, IJsonSerializer serializer, Converter<TMiddle, T> converter)
+        internal static AuditLogChange<T> Convert<TIn>(AuditLogChangeModel model, Converter<TIn, T> converter)
         {
             var oldValue = model.OldValue.HasValue
-                ? converter(serializer.ToObject<TMiddle>(model.OldValue.Value))
+                ? converter(model.OldValue.Value.ToType<TIn>())
                 : Optional<T>.Empty;
 
             var newValue = model.NewValue.HasValue
-                ? converter(serializer.ToObject<TMiddle>(model.NewValue.Value))
+                ? converter(model.NewValue.Value.ToType<TIn>())
                 : Optional<T>.Empty;
 
             return new AuditLogChange<T>(oldValue, newValue);

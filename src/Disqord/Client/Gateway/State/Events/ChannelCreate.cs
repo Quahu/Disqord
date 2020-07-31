@@ -8,7 +8,7 @@ namespace Disqord
     {
         public Task HandleChannelCreateAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<ChannelModel>(payload.D);
+            var model = payload.D.ToType<ChannelModel>();
             CachedChannel channel;
             if (model.GuildId != null)
             {

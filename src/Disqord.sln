@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Extensions.Interact
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Core", "Disqord.Core\Disqord.Core.csproj", "{8854D6D7-DE00-4297-9DB4-E0A2D3A73587}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Serialization.Json.Newtonsoft", "Disqord.Serialization.Newtonsoft\Disqord.Serialization.Json.Newtonsoft.csproj", "{EB5B5FFC-F02F-438F-8DD5-2578ADFBB8B7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Test", "Disqord.Test\Disqord.Test.csproj", "{ADA9A39D-1CB1-426A-9D35-2E0D3214B4C0}"
 EndProject
 Global
@@ -49,10 +47,6 @@ Global
 		{8854D6D7-DE00-4297-9DB4-E0A2D3A73587}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8854D6D7-DE00-4297-9DB4-E0A2D3A73587}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8854D6D7-DE00-4297-9DB4-E0A2D3A73587}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB5B5FFC-F02F-438F-8DD5-2578ADFBB8B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB5B5FFC-F02F-438F-8DD5-2578ADFBB8B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB5B5FFC-F02F-438F-8DD5-2578ADFBB8B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB5B5FFC-F02F-438F-8DD5-2578ADFBB8B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ADA9A39D-1CB1-426A-9D35-2E0D3214B4C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ADA9A39D-1CB1-426A-9D35-2E0D3214B4C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADA9A39D-1CB1-426A-9D35-2E0D3214B4C0}.Release|Any CPU.ActiveCfg = Release|Any CPU

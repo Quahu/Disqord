@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
 using Disqord.Models;
@@ -9,7 +9,7 @@ namespace Disqord
     {
         public Task HandleChannelDeleteAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<ChannelModel>(payload.D);
+            var model = payload.D.ToType<ChannelModel>();
             CachedChannel channel;
             if (model.GuildId != null)
             {

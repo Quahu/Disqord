@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class VoiceRegionModel
+    internal sealed class VoiceRegionModel : JsonModel
     {
         [JsonProperty("id")]
         public string Id { get; set; }

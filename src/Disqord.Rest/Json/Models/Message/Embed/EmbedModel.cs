@@ -4,7 +4,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
-    internal sealed class EmbedModel
+    internal sealed class EmbedModel : JsonModel
     {
         [JsonProperty("title", NullValueHandling.Ignore)]
         public string Title { get; set; }

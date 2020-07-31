@@ -9,7 +9,7 @@ namespace Disqord
     {
         public Task HandleInviteCreateAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<InviteCreateModel>(payload.D);
+            var model = payload.D.ToType<InviteCreateModel>();
             CachedGuild guild = null;
             CachedChannel channel;
             CachedUser inviter = null;

@@ -2,7 +2,7 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class WebhooksUpdateModel
+    internal sealed class WebhooksUpdateModel : JsonModel
     {
         [JsonProperty("guild_id")]
         public ulong GuildId { get; set; }

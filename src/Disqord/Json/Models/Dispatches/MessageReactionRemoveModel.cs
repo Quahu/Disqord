@@ -2,7 +2,7 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class MessageReactionRemoveModel
+    internal sealed class MessageReactionRemoveModel : JsonModel
     {
         [JsonProperty("user_id")]
         public ulong UserId { get; set; }

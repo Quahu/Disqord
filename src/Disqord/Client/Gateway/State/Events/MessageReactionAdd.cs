@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
@@ -12,7 +12,7 @@ namespace Disqord
     {
         public Task HandleMessageReactionAddAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<MessageReactionAddModel>(payload.D);
+            var model = payload.D.ToType<MessageReactionAddModel>();
             var channel = model.GuildId != null
                 ? GetGuildChannel(model.ChannelId) as ICachedMessageChannel
                 : GetPrivateChannel(model.ChannelId);

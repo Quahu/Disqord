@@ -3,7 +3,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
-    internal sealed class InviteModel
+    internal sealed class InviteModel : JsonModel
     {
         [JsonProperty("code")]
         public string Code { get; set; }

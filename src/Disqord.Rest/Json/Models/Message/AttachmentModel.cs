@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class AttachmentModel
+    internal sealed class AttachmentModel : JsonModel
     {
         [JsonProperty("id")]
         public ulong Id { get; set; }

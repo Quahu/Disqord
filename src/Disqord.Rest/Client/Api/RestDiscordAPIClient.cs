@@ -71,9 +71,6 @@ namespace Disqord.Rest
             _rateLimiter = RateLimiter.GetOrCreate(this);
         }
 
-        private IJsonSerializer GetDefaultSerializer()
-            => NewtonsoftJsonSerializer.Instance;
-
         private async Task EnqueueRequestAsync(RestRequest request)
         {
             request.Initialise(Serializer);
@@ -134,7 +131,10 @@ namespace Disqord.Rest
         {
             using (var jsonStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
             {
-                var error = Serializer.Deserialize<JsonErrorModel>(jsonStream);
+                var stream = new MemoryStream();
+                await jsonStream.CopyToAsync(stream).ConfigureAwait(false);
+                stream.TryGetBuffer(out var buffer);
+                var error = Serializer.Deserialize<JsonErrorModel>(buffer);
                 request.SetException(new DiscordHttpException(response.StatusCode, (int?) error.Code, error.Message ?? response.ReasonPhrase));
             }
         }
@@ -145,7 +145,8 @@ namespace Disqord.Rest
             _ = await request.CompleteAsync().ConfigureAwait(false);
         }
 
-        internal async Task<T> SendRequestAsync<T>(RestRequest request) where T : class
+        internal async Task<T> SendRequestAsync<T>(RestRequest request)
+            where T : class
         {
             await EnqueueRequestAsync(request).ConfigureAwait(false);
             var response = await request.CompleteAsync().ConfigureAwait(false);
@@ -154,7 +155,10 @@ namespace Disqord.Rest
 
             using (var jsonStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
             {
-                return await Serializer.DeserializeAsync<T>(jsonStream).ConfigureAwait(false);
+                var stream = new MemoryStream();
+                await jsonStream.CopyToAsync(stream).ConfigureAwait(false);
+                stream.TryGetBuffer(out var buffer);
+                return Serializer.Deserialize<T>(buffer);
             }
         }
 

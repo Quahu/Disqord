@@ -2,15 +2,18 @@
 
 namespace Disqord.Serialization.Json
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public sealed class JsonPropertyAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property)]
+    public class JsonPropertyAttribute : Attribute
     {
         public string Name { get; }
 
         public NullValueHandling NullValueHandling { get; }
 
-        internal JsonPropertyAttribute(string name, NullValueHandling nullValueHandling = NullValueHandling.Include)
+        public JsonPropertyAttribute(string name, NullValueHandling nullValueHandling = default)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException($"'{nameof(name)}' cannot be null or whitespace", nameof(name));
+
             Name = name;
             NullValueHandling = nullValueHandling;
         }

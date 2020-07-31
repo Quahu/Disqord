@@ -2,10 +2,10 @@
 
 namespace Disqord.Models
 {
-    internal class UserModel
+    internal class UserModel : JsonModel
     {
         [JsonProperty("id")]
-        public ulong Id { get; set; }
+        public Snowflake Id { get; set; }
 
         [JsonProperty("username")]
         public Optional<string> Username { get; set; }

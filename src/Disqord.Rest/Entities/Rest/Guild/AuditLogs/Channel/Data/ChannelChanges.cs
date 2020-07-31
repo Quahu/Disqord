@@ -30,19 +30,19 @@ namespace Disqord.Rest.AuditLogs
                 {
                     case "name":
                     {
-                        Name = AuditLogChange<string>.SingleConvert(change, client.Serializer);
+                        Name = AuditLogChange<string>.Convert(change);
                         break;
                     }
 
                     case "topic":
                     {
-                        Topic = AuditLogChange<string>.SingleConvert(change, client.Serializer);
+                        Topic = AuditLogChange<string>.Convert(change);
                         break;
                     }
 
                     case "bitrate":
                     {
-                        Bitrate = AuditLogChange<int>.SingleConvert(change, client.Serializer);
+                        Bitrate = AuditLogChange<int>.Convert(change);
                         break;
                     }
 
@@ -51,7 +51,7 @@ namespace Disqord.Rest.AuditLogs
                         var overwritesBefore = Optional<IReadOnlyList<RestOverwrite>>.Empty;
                         if (change.OldValue.HasValue)
                         {
-                            var models = client.Serializer.ToObject<OverwriteModel[]>(change.OldValue.Value);
+                            var models = change.OldValue.Value.ToType<OverwriteModel[]>();
                             overwritesBefore = new Optional<IReadOnlyList<RestOverwrite>>(
                                 models.ToReadOnlyList((client, model), (x, tuple) =>
                                 {
@@ -63,7 +63,7 @@ namespace Disqord.Rest.AuditLogs
                         var overwritesAfter = Optional<IReadOnlyList<RestOverwrite>>.Empty;
                         if (change.NewValue.HasValue)
                         {
-                            var models = client.Serializer.ToObject<OverwriteModel[]>(change.NewValue.Value);
+                            var models = change.NewValue.Value.ToType<OverwriteModel[]>();
                             overwritesAfter = new Optional<IReadOnlyList<RestOverwrite>>(
                                 models.ToReadOnlyList((client, model), (x, tuple) =>
                                 {
@@ -78,25 +78,25 @@ namespace Disqord.Rest.AuditLogs
 
                     case "nsfw":
                     {
-                        IsNsfw = AuditLogChange<bool>.SingleConvert(change, client.Serializer);
+                        IsNsfw = AuditLogChange<bool>.Convert(change);
                         break;
                     }
 
                     case "rate_limit_per_user":
                     {
-                        Slowmode = AuditLogChange<int>.SingleConvert(change, client.Serializer);
+                        Slowmode = AuditLogChange<int>.Convert(change);
                         break;
                     }
 
                     case "type":
                     {
-                        Type = AuditLogChange<AuditLogChannelType>.SingleConvert(change, client.Serializer);
+                        Type = AuditLogChange<AuditLogChannelType>.Convert(change);
                         break;
                     }
 
                     default:
                     {
-                        client.Log(LogMessageSeverity.Error, $"Unknown change key for {nameof(ChannelChanges)}: '{change.Key}'.");
+                        client.Log(LogSeverity.Error, $"Unknown change key for {nameof(ChannelChanges)}: '{change.Key}'.");
                         break;
                     }
                 }

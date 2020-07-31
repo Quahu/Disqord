@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class MessageApplicationModel
+    internal sealed class MessageApplicationModel : JsonModel
     {
         [JsonProperty("id")]
         public ulong Id { get; set; }

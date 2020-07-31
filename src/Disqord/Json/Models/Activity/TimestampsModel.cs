@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class TimestampsModel
+    internal sealed class TimestampsModel : JsonModel
     {
         [JsonProperty("start", NullValueHandling.Ignore)]
         public long? Start { get; set; }

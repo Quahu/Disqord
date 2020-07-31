@@ -22,31 +22,31 @@ namespace Disqord.Rest.AuditLogs
                 {
                     case "name":
                     {
-                        Name = AuditLogChange<string>.SingleConvert(change, client.Serializer);
+                        Name = AuditLogChange<string>.Convert(change);
                         break;
                     }
 
                     case "type":
                     {
-                        Type = AuditLogChange<WebhookType>.SingleConvert(change, client.Serializer);
+                        Type = AuditLogChange<WebhookType>.Convert(change);
                         break;
                     }
 
                     case "avatar_hash":
                     {
-                        AvatarHash = AuditLogChange<string>.SingleConvert(change, client.Serializer);
+                        AvatarHash = AuditLogChange<string>.Convert(change);
                         break;
                     }
 
                     case "channel_id":
                     {
-                        ChannelId = AuditLogChange<Snowflake>.DoubleConvert<ulong>(change, client.Serializer, x => x);
+                        ChannelId = AuditLogChange<Snowflake>.Convert(change);
                         break;
                     }
 
                     default:
                     {
-                        client.Log(LogMessageSeverity.Error, $"Unknown change key for {nameof(WebhookChanges)}: '{change.Key}'.");
+                        client.Log(LogSeverity.Error, $"Unknown change key for {nameof(WebhookChanges)}: '{change.Key}'.");
                         break;
                     }
                 }

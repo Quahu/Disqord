@@ -2,7 +2,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
-    internal class GuildModel
+    internal class GuildModel : JsonModel
     {
         [JsonProperty("id")]
         public ulong Id { get; set; }

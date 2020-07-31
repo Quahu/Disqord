@@ -43,7 +43,7 @@ namespace Disqord.Rest
         internal void Update(EmojiModel model)
         {
             Name = model.Name;
-            RoleIds = model.Roles.ToSnowflakeList();
+            RoleIds = model.Roles;
             IsAvailable = model.Available;
         }
 

@@ -2,7 +2,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
-    internal sealed class PayloadModel
+    internal class PayloadModel : JsonModel
     {
         /// <summary>
         ///     Gets or sets the opcode for the payload.
@@ -14,7 +14,7 @@ namespace Disqord.Models
         ///     Gets or sets the event data.
         /// </summary>
         [JsonProperty("d", NullValueHandling.Ignore)]
-        public object D { get; set; }
+        public IJsonElement D { get; set; }
 
         /// <summary>
         ///     Gets or sets the sequence number, used for resuming sessions and heartbeats.

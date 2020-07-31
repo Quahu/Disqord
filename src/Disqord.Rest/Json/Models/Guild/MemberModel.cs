@@ -3,7 +3,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
-    internal class MemberModel
+    internal class MemberModel : JsonModel
     {
         [JsonProperty("user")]
         public UserModel User { get; set; }

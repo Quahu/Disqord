@@ -9,7 +9,7 @@ namespace Disqord
     {
         public Task HandleGuildEmojisUpdateAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<GuildEmojisUpdateModel>(payload.D);
+            var model = payload.D.ToType<GuildEmojisUpdateModel>();
             var guild = GetGuild(model.GuildId);
             var oldEmojis = guild.Emojis;
             guild.Update(model.Emojis);

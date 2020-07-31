@@ -3,7 +3,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class ChannelPinsUpdateModel
+    internal sealed class ChannelPinsUpdateModel : JsonModel
     {
         [JsonProperty("guild_id")]
         public ulong? GuildId { get; set; }

@@ -47,106 +47,100 @@ namespace Disqord.Rest.AuditLogs
                 {
                     case "name":
                     {
-                        Name = AuditLogChange<string>.SingleConvert(change, client.Serializer);
+                        Name = AuditLogChange<string>.Convert(change);
                         break;
                     }
 
                     case "icon_hash":
                     {
-                        IconHash = AuditLogChange<string>.SingleConvert(change, client.Serializer);
+                        IconHash = AuditLogChange<string>.Convert(change);
                         break;
                     }
 
                     case "splash_hash":
                     {
-                        SplashHash = AuditLogChange<string>.SingleConvert(change, client.Serializer);
+                        SplashHash = AuditLogChange<string>.Convert(change);
                         break;
                     }
 
                     case "owner_id":
                     {
-                        OwnerId = AuditLogChange<Snowflake>.DoubleConvert<ulong>(change, client.Serializer, x => x);
-                        var ownerBeforeModel = Array.Find(log.Users, x => x.Id == OwnerId.OldValue.Value);
-                        var ownerAfterModel = Array.Find(log.Users, x => x.Id == OwnerId.NewValue.Value);
+                        OwnerId = AuditLogChange<Snowflake>.Convert(change);
                         Owner = new AuditLogChange<SnowflakeOptional<RestUser>>(
-                            ownerBeforeModel != null
-                                ? new SnowflakeOptional<RestUser>(new RestUser(client, ownerBeforeModel))
-                                : new SnowflakeOptional<RestUser>(OwnerId.OldValue.Value),
-                            ownerAfterModel != null
-                                ? new SnowflakeOptional<RestUser>(new RestUser(client, ownerAfterModel))
-                                : new SnowflakeOptional<RestUser>(OwnerId.NewValue.Value));
+                            new SnowflakeOptional<RestUser>(new RestUser(client, Array.Find(log.Users, x => x.Id == OwnerId.OldValue.Value)), OwnerId.OldValue.Value),
+                            new SnowflakeOptional<RestUser>(new RestUser(client, Array.Find(log.Users, x => x.Id == OwnerId.NewValue.Value)), OwnerId.NewValue.Value));
                         break;
                     }
 
                     case "region":
                     {
-                        VoiceRegionId = AuditLogChange<string>.SingleConvert(change, client.Serializer);
+                        VoiceRegionId = AuditLogChange<string>.Convert(change);
                         break;
                     }
 
                     case "afk_channel_id":
                     {
-                        AfkChannelId = AuditLogChange<Snowflake?>.DoubleConvert<ulong?>(change, client.Serializer, x => x);
+                        AfkChannelId = AuditLogChange<Snowflake?>.Convert(change);
                         break;
                     }
 
                     case "afk_timeout":
                     {
-                        AfkTimeout = AuditLogChange<int>.SingleConvert(change, client.Serializer);
+                        AfkTimeout = AuditLogChange<int>.Convert(change);
                         break;
                     }
 
                     case "mfa_level":
                     {
-                        MfaLevel = AuditLogChange<MfaLevel>.SingleConvert(change, client.Serializer);
+                        MfaLevel = AuditLogChange<MfaLevel>.Convert(change);
                         break;
                     }
 
                     case "verification_level":
                     {
-                        VerificationLevel = AuditLogChange<VerificationLevel>.SingleConvert(change, client.Serializer);
+                        VerificationLevel = AuditLogChange<VerificationLevel>.Convert(change);
                         break;
                     }
 
                     case "explicit_content_filter":
                     {
-                        ContentFilterLevel = AuditLogChange<ContentFilterLevel>.SingleConvert(change, client.Serializer);
+                        ContentFilterLevel = AuditLogChange<ContentFilterLevel>.Convert(change);
                         break;
                     }
 
                     case "default_message_notifications":
                     {
-                        DefaultNotificationLevel = AuditLogChange<DefaultNotificationLevel>.SingleConvert(change, client.Serializer);
+                        DefaultNotificationLevel = AuditLogChange<DefaultNotificationLevel>.Convert(change);
                         break;
                     }
 
                     case "vanity_url_code":
                     {
-                        VanityUrlCode = AuditLogChange<string>.SingleConvert(change, client.Serializer);
+                        VanityUrlCode = AuditLogChange<string>.Convert(change);
                         break;
                     }
 
                     case "widget_enabled":
                     {
-                        IsWidgetEnabled = AuditLogChange<bool>.SingleConvert(change, client.Serializer);
+                        IsWidgetEnabled = AuditLogChange<bool>.Convert(change);
                         break;
                     }
 
                     case "widget_channel_id":
                     {
-                        WidgetChannelId = AuditLogChange<Snowflake?>.DoubleConvert<ulong?>(change, client.Serializer, x => x);
+                        WidgetChannelId = AuditLogChange<Snowflake?>.Convert(change);
                         break;
                     }
 
                     case "system_channel_id":
                     {
-                        SystemChannelId = AuditLogChange<Snowflake?>.DoubleConvert<ulong?>(change, client.Serializer, x => x);
+                        SystemChannelId = AuditLogChange<Snowflake?>.Convert(change);
                         break;
                     }
 
                     default:
                     {
-                        client.Log(LogMessageSeverity.Error, $"Unknown change key for {nameof(GuildChanges)}: '{change.Key}'.");
+                        client.Log(LogSeverity.Error, $"Unknown change key for {nameof(GuildChanges)}: '{change.Key}'.");
                         break;
                     }
                 }

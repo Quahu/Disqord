@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class IntegrationAccountModel
+    internal sealed class IntegrationAccountModel : JsonModel
     {
         [JsonProperty("id")]
         public string Id { get; set; }

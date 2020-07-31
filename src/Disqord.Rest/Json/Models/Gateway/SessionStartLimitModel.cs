@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class SessionStartLimitModel
+    internal sealed class SessionStartLimitModel : JsonModel
     {
         [JsonProperty("total")]
         public int Total { get; set; }

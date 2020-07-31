@@ -2,7 +2,7 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class IdentifyModel
+    internal sealed class IdentifyModel : JsonModel
     {
         [JsonProperty("token", NullValueHandling.Ignore)]
         public string Token { get; set; }

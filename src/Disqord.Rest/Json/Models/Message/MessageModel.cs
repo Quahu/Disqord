@@ -3,16 +3,16 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
-    internal sealed class MessageModel
+    internal sealed class MessageModel : JsonModel
     {
         [JsonProperty("id")]
-        public ulong Id { get; set; }
+        public Snowflake Id { get; set; }
 
         [JsonProperty("channel_id")]
-        public ulong ChannelId { get; set; }
+        public Snowflake ChannelId { get; set; }
 
         [JsonProperty("guild_id", NullValueHandling.Ignore)]
-        public ulong? GuildId { get; set; }
+        public Snowflake? GuildId { get; set; }
 
         [JsonProperty("author")]
         public Optional<UserModel> Author { get; set; }
@@ -39,7 +39,7 @@ namespace Disqord.Models
         public Optional<UserModel[]> Mentions { get; set; }
 
         [JsonProperty("mention_roles")]
-        public Optional<ulong[]> RoleMentions { get; set; }
+        public Optional<Snowflake[]> RoleMentions { get; set; }
 
         [JsonProperty("attachments")]
         public Optional<AttachmentModel[]> Attachments { get; set; }

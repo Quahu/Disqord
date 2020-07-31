@@ -2,7 +2,7 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class GuildEmojisUpdateModel
+    internal sealed class GuildEmojisUpdateModel : JsonModel
     {
         [JsonProperty("guild_id")]
         public ulong GuildId { get; set; }

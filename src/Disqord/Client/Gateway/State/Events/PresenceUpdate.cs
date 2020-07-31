@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
@@ -14,14 +14,14 @@ namespace Disqord
             PresenceUpdateModel model;
             try
             {
-                model = Serializer.ToObject<PresenceUpdateModel>(payload.D);
+                model = payload.D.ToType<PresenceUpdateModel>();
             }
             catch (Exception ex)
             {
                 MemberModel memberModel;
                 try
                 {
-                    memberModel = Serializer.ToObject<MemberModel>(payload.D);
+                    memberModel = payload.D.ToType<MemberModel>();
                 }
                 catch
                 {

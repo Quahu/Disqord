@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class VoiceStateModel
+    internal sealed class VoiceStateModel : JsonModel
     {
         [JsonProperty("guild_id")]
         public ulong? GuildId { get; set; }

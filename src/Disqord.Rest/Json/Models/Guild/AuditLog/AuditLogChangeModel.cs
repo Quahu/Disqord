@@ -3,13 +3,13 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
-    internal sealed class AuditLogChangeModel
+    internal sealed class AuditLogChangeModel : JsonModel
     {
         [JsonProperty("old_value")]
-        public Optional<object> OldValue { get; set; }
+        public Optional<IJsonElement> OldValue { get; set; }
 
         [JsonProperty("new_value")]
-        public Optional<object> NewValue { get; set; }
+        public Optional<IJsonElement> NewValue { get; set; }
 
         [JsonProperty("key")]
         public string Key { get; set; }

@@ -21,21 +21,19 @@ namespace Disqord.Rest.AuditLogs
                 {
                     case "$add":
                     {
-                        RolesAdded = AuditLogChange<IReadOnlyList<Role>>.DoubleConvert<RoleModel[]>(
-                            change, client.Serializer, x => x.ToReadOnlyList(y => new Role(y))).NewValue;
+                        RolesAdded = AuditLogChange<IReadOnlyList<Role>>.Convert<RoleModel[]>(change, x => x.ToReadOnlyList(y => new Role(y))).NewValue;
                         break;
                     }
 
                     case "$remove":
                     {
-                        RolesRemoved = AuditLogChange<IReadOnlyList<Role>>.DoubleConvert<RoleModel[]>(
-                            change, client.Serializer, x => x.ToReadOnlyList(y => new Role(y))).NewValue;
+                        RolesRemoved = AuditLogChange<IReadOnlyList<Role>>.Convert<RoleModel[]>(change, x => x.ToReadOnlyList(y => new Role(y))).NewValue;
                         break;
                     }
 
                     default:
                     {
-                        client.Log(LogMessageSeverity.Error, $"Unknown change key for {nameof(RestMemberRolesUpdatedAuditLog)}: '{change.Key}'.");
+                        client.Log(LogSeverity.Error, $"Unknown change key for {nameof(RestMemberRolesUpdatedAuditLog)}: '{change.Key}'.");
                         break;
                     }
                 }

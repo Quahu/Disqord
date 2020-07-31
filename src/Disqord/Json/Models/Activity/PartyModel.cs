@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class PartyModel
+    internal sealed class PartyModel : JsonModel
     {
         [JsonProperty("id", NullValueHandling.Ignore)]
         public string Id { get; set; }

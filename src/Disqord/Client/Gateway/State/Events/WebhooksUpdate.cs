@@ -9,7 +9,7 @@ namespace Disqord
     {
         public Task HandleWebhooksUpdateAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<WebhooksUpdateModel>(payload.D);
+            var model = payload.D.ToType<WebhooksUpdateModel>();
             return _client._webhooksUpdated.InvokeAsync(new WebhooksUpdatedEventArgs(_client, model.GuildId, model.ChannelId));
         }
     }

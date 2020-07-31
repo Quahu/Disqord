@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal class PreviewModel
+    internal class PreviewModel : JsonModel
     {
         [JsonProperty("id")]
         public ulong Id { get; set; }

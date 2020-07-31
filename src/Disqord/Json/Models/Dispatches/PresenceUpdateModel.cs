@@ -3,7 +3,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class PresenceUpdateModel
+    internal sealed class PresenceUpdateModel : JsonModel
     {
         [JsonProperty("user")]
         public UserModel User { get; set; }

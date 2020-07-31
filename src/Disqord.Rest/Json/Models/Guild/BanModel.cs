@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class BanModel
+    internal sealed class BanModel : JsonModel
     {
         [JsonProperty("reason")]
         public string Reason { get; set; }

@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
 using Disqord.Models;
@@ -9,7 +9,7 @@ namespace Disqord
     {
         public Task HandleGuildDeleteAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<WebSocketGuildModel>(payload.D);
+            var model = payload.D.ToType<WebSocketGuildModel>();
             if (model.Unavailable.HasValue)
             {
                 if (!_guilds.TryGetValue(model.Id, out var guild))

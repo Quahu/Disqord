@@ -2,7 +2,7 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class GuildSyncModel
+    internal sealed class GuildSyncModel : JsonModel
     {
         [JsonProperty("id")]
         public ulong Id { get; set; }

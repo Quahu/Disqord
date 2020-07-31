@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class AuditLogEntryOptionsModel
+    internal sealed class AuditLogEntryOptionsModel : JsonModel
     {
         /// <summary>
         ///     <see cref="AuditLogType.MembersPruned"/>

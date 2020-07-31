@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class ActivityModel
+    internal sealed class ActivityModel : JsonModel
     {
         [JsonProperty("name", NullValueHandling.Ignore)]
         public string Name { get; set; }

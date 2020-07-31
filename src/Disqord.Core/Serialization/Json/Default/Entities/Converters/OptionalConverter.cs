@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Disqord.Serialization.Json.Newtonsoft
+namespace Disqord.Serialization.Json.Default
 {
     internal sealed class OptionalConverter : JsonConverter
     {

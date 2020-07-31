@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class PruneModel
+    internal sealed class PruneModel : JsonModel
     {
         [JsonProperty("pruned")]
         public int? Pruned { get; set; }

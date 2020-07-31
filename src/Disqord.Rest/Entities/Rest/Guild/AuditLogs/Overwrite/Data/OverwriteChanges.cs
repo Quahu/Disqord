@@ -22,31 +22,31 @@ namespace Disqord.Rest.AuditLogs
                 {
                     case "id":
                     {
-                        TargetId = AuditLogChange<Snowflake>.DoubleConvert<ulong>(change, client.Serializer, x => x);
+                        TargetId = AuditLogChange<Snowflake>.Convert(change);
                         break;
                     }
 
                     case "allow":
                     {
-                        Allowed = AuditLogChange<ChannelPermissions>.DoubleConvert<ulong>(change, client.Serializer, x => x);
+                        Allowed = AuditLogChange<ChannelPermissions>.Convert<ulong>(change, x => x);
                         break;
                     }
 
                     case "deny":
                     {
-                        Denied = AuditLogChange<ChannelPermissions>.DoubleConvert<ulong>(change, client.Serializer, x => x);
+                        Denied = AuditLogChange<ChannelPermissions>.Convert<ulong>(change, x => x);
                         break;
                     }
 
                     case "type":
                     {
-                        TargetType = AuditLogChange<OverwriteTargetType>.SingleConvert(change, client.Serializer);
+                        TargetType = AuditLogChange<OverwriteTargetType>.Convert(change);
                         break;
                     }
 
                     default:
                     {
-                        client.Log(LogMessageSeverity.Error, $"Unknown change key for {nameof(OverwriteChanges)}: '{change.Key}'.");
+                        client.Log(LogSeverity.Error, $"Unknown change key for {nameof(OverwriteChanges)}: '{change.Key}'.");
                         break;
                     }
                 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Events;
@@ -70,7 +70,6 @@ namespace Disqord
             _memberJoined = new AsynchronousEvent<MemberJoinedEventArgs>();
             _memberLeft = new AsynchronousEvent<MemberLeftEventArgs>();
             _memberUpdated = new AsynchronousEvent<MemberUpdatedEventArgs>();
-            _messageAcknowledged = new AsynchronousEvent<MessageAcknowledgedEventArgs>();
             _messageReceived = new AsynchronousEvent<MessageReceivedEventArgs>();
             _messageDeleted = new AsynchronousEvent<MessageDeletedEventArgs>();
             _messagesBulkDeleted = new AsynchronousEvent<MessagesBulkDeletedEventArgs>();
@@ -129,7 +128,6 @@ namespace Disqord
             _memberJoined = client._memberJoined;
             _memberLeft = client._memberLeft;
             _memberUpdated = client._memberUpdated;
-            _messageAcknowledged = client._messageAcknowledged;
             _messageReceived = client._messageReceived;
             _messageDeleted = client._messageDeleted;
             _messagesBulkDeleted = client._messagesBulkDeleted;

@@ -2,7 +2,7 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class GuildMembersChunkModel
+    internal sealed class GuildMembersChunkModel : JsonModel
     {
         [JsonProperty("guild_id")]
         public ulong GuildId { get; set; }

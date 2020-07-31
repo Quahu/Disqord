@@ -3,7 +3,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class InviteCreateModel
+    internal sealed class InviteCreateModel : JsonModel
     {
         [JsonProperty("guild_id")]
         public ulong? GuildId { get; set; }

@@ -9,7 +9,7 @@ namespace Disqord
     {
         public Task HandleGuildSyncAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<GuildSyncModel>(payload.D);
+            var model = payload.D.ToType<GuildSyncModel>();
             var guild = GetGuild(model.Id);
             guild?.Update(model);
             guild.SyncTcs.SetResult(true);

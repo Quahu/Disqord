@@ -20,25 +20,25 @@ namespace Disqord.Rest.AuditLogs
                 {
                     case "nick":
                     {
-                        Nick = AuditLogChange<string>.SingleConvert(change, client.Serializer);
+                        Nick = AuditLogChange<string>.Convert(change);
                         break;
                     }
 
                     case "deaf":
                     {
-                        IsDeafened = AuditLogChange<bool>.SingleConvert(change, client.Serializer);
+                        IsDeafened = AuditLogChange<bool>.Convert(change);
                         break;
                     }
 
                     case "mute":
                     {
-                        IsMuted = AuditLogChange<bool>.SingleConvert(change, client.Serializer);
+                        IsMuted = AuditLogChange<bool>.Convert(change);
                         break;
                     }
 
                     default:
                     {
-                        client.Log(LogMessageSeverity.Error, $"Unknown change key for {nameof(MemberChanges)}: '{change.Key}'.");
+                        client.Log(LogSeverity.Error, $"Unknown change key for {nameof(MemberChanges)}: '{change.Key}'.");
                         break;
                     }
                 }

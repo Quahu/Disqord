@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class AssetsModel
+    internal sealed class AssetsModel : JsonModel
     {
         [JsonProperty("large_image", NullValueHandling.Ignore)]
         public string LargeImage { get; set; }

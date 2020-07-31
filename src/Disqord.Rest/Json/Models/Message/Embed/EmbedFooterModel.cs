@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class EmbedFooterModel
+    internal sealed class EmbedFooterModel : JsonModel
     {
         [JsonProperty("text", NullValueHandling.Ignore)]
         public string Text { get; set; }

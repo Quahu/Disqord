@@ -16,13 +16,13 @@ namespace Disqord.Rest.AuditLogs
                 {
                     case "name":
                     {
-                        Name = AuditLogChange<string>.SingleConvert(change, client.Serializer);
+                        Name = AuditLogChange<string>.Convert(change);
                         break;
                     }
 
                     default:
                     {
-                        client.Log(LogMessageSeverity.Error, $"Unknown change key for {nameof(WebhookChanges)}: '{change.Key}'.");
+                        client.Log(LogSeverity.Error, $"Unknown change key for {nameof(WebhookChanges)}: '{change.Key}'.");
                         break;
                     }
                 }

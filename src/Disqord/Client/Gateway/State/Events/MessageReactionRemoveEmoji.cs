@@ -11,7 +11,7 @@ namespace Disqord
         public Task HandleMessageReactionRemoveEmojiAsync(PayloadModel payload)
         {
             // TODO: intents will ruin everything
-            var model = Serializer.ToObject<MessageReactionRemoveEmojiModel>(payload.D);
+            var model = payload.D.ToType<MessageReactionRemoveEmojiModel>();
             var channel = GetGuild(model.GuildId).GetTextChannel(model.ChannelId);
             var message = channel.GetMessage(model.MessageId);
             var emoji = model.Emoji.ToEmoji();

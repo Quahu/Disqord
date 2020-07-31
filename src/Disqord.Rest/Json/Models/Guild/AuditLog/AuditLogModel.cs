@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class AuditLogModel
+    internal sealed class AuditLogModel : JsonModel
     {
         [JsonProperty("webhooks")]
         public WebhookModel[] Webhooks { get; set; }

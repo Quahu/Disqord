@@ -2,7 +2,7 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class VoiceServerUpdateModel
+    internal sealed class VoiceServerUpdateModel : JsonModel
     {
         [JsonProperty("token")]
         public string Token { get; set; }

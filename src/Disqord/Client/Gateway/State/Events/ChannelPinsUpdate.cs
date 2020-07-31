@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
@@ -11,7 +11,7 @@ namespace Disqord
     {
         public Task HandleChannelPinsUpdateAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<ChannelPinsUpdateModel>(payload.D);
+            var model = payload.D.ToType<ChannelPinsUpdateModel>();
             DateTimeOffset? oldLastPinTimestamp;
             ICachedMessageChannel channel;
             if (model.GuildId != null)

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Disqord.Logging;
 using Disqord.Models;
@@ -10,7 +10,7 @@ namespace Disqord
     {
         public Task HandleGuildMembersChunkAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<GuildMembersChunkModel>(payload.D);
+            var model = payload.D.ToType<GuildMembersChunkModel>();
             var guild = GetGuild(model.GuildId);
             Log(LogSeverity.Debug, $"Received a member chunk with {model.Members.Length} members for {guild} ({guild.Id}).");
             if (--guild.ChunksExpected == 0)

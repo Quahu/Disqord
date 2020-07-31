@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class EmojiModel
+    internal sealed class EmojiModel : JsonModel
     {
         [JsonProperty("id")]
         public ulong? Id { get; set; }
@@ -11,7 +11,7 @@ namespace Disqord.Models
         public string Name { get; set; }
 
         [JsonProperty("roles")]
-        public ulong[] Roles { get; set; }
+        public Snowflake[] Roles { get; set; }
 
         [JsonProperty("user")]
         public UserModel User { get; set; }

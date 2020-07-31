@@ -2,7 +2,7 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class TypingStartModel
+    internal sealed class TypingStartModel : JsonModel
     {
         [JsonProperty("channel_id")]
         public ulong ChannelId { get; set; }

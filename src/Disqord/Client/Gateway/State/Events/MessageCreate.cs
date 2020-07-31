@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
 using Disqord.Models;
@@ -9,7 +9,7 @@ namespace Disqord
     {
         public Task HandleMessageCreateAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<MessageModel>(payload.D);
+            var model = payload.D.ToType<MessageModel>();
             ICachedMessageChannel channel;
             CachedUser author;
             CachedGuild guild = null;

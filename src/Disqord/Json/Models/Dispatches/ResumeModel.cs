@@ -2,7 +2,7 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class ResumeModel
+    internal sealed class ResumeModel : JsonModel
     {
         [JsonProperty("token", NullValueHandling.Ignore)]
         public string Token { get; set; }

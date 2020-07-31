@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Disqord.Events;
 using Disqord.Logging;
 using Disqord.Models;
@@ -9,7 +9,7 @@ namespace Disqord
     {
         public Task HandleChannelUpdateAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<ChannelModel>(payload.D);
+            var model = payload.D.ToType<ChannelModel>();
             var channel = GetChannel(model.Id);
             if (channel == null)
             {

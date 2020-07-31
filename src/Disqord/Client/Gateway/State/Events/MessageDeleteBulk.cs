@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Events;
 using Disqord.Logging;
@@ -11,7 +11,7 @@ namespace Disqord
     {
         public Task HandleMessageDeleteBulkAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<MessageDeleteBulkModel>(payload.D);
+            var model = payload.D.ToType<MessageDeleteBulkModel>();
             if (model.GuildId == null)
             {
                 Log(LogSeverity.Error, $"MessageDeleteBulk contains a null guild_id. Channel id: {model.ChannelId}.");

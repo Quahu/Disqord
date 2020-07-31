@@ -7,7 +7,7 @@ namespace Disqord.Rest.AuditLogs
     {
         internal RestUnknownAuditLog(RestDiscordClient client, AuditLogModel log, AuditLogEntryModel entry) : base(client, log, entry)
         {
-            Client.Log(LogMessageSeverity.Error, $"Unknown audit log type received: {(int) entry.ActionType}.");
+            Client.Log(LogSeverity.Error, $"Unknown audit log type received: {(int) entry.ActionType}.");
         }
     }
 }

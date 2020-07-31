@@ -9,7 +9,7 @@ namespace Disqord
     {
         public Task HandleGuildBanRemoveAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<GuildBanRemoveModel>(payload.D);
+            var model = payload.D.ToType<GuildBanRemoveModel>();
             var guild = GetGuild(model.GuildId);
             var user = GetSharedOrUnknownUser(model.User);
 

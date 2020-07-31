@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class AuditLogEntryModel
+    internal sealed class AuditLogEntryModel : JsonModel
     {
         [JsonProperty("target_id")]
         public ulong? TargetId { get; set; }

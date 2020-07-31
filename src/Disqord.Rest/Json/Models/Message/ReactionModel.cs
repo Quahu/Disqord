@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class ReactionModel
+    internal sealed class ReactionModel : JsonModel
     {
         [JsonProperty("count")]
         public int Count { get; set; }

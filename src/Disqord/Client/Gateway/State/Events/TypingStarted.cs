@@ -11,7 +11,7 @@ namespace Disqord
     {
         public Task HandleTypingStartedAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<TypingStartModel>(payload.D);
+            var model = payload.D.ToType<TypingStartModel>();
             CachedGuild guild = null;
             ICachedMessageChannel channel;
             CachedUser user;

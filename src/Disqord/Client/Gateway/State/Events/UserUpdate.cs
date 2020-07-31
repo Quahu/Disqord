@@ -8,7 +8,7 @@ namespace Disqord
     {
         public Task HandleUserUpdateAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<UserModel>(payload.D);
+            var model = payload.D.ToType<UserModel>();
             var currentUserBefore = _currentUser.Clone();
             _currentUser.Update(model);
 

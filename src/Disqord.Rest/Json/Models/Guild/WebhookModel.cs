@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class WebhookModel
+    internal sealed class WebhookModel : JsonModel
     {
         [JsonProperty("id")]
         public ulong Id { get; set; }

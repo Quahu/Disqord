@@ -3,7 +3,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
-    internal sealed class AllowedMentionsModel
+    internal sealed class AllowedMentionsModel : JsonModel
     {
         [JsonProperty("parse")]
         public IList<string> Parse { get; set; }

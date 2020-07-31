@@ -1,11 +1,11 @@
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Rest
 {
-    internal abstract class JsonRequestContent : IRequestContent
+    internal abstract class JsonRequestContent : JsonModel, IRequestContent
     {
         public HttpContent Prepare(IJsonSerializer serializer, RestRequestOptions options)
             => PrepareFor(this, serializer, options);

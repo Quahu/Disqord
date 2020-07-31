@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class OverwriteModel
+    internal sealed class OverwriteModel : JsonModel
     {
         [JsonProperty("id")]
         public ulong Id { get; set; }

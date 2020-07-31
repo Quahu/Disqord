@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -163,7 +164,10 @@ namespace Disqord
             PayloadModel payload;
             try
             {
-                payload = Serializer.Deserialize<PayloadModel>(e.Stream);
+                var stream = new MemoryStream();
+                e.Stream.CopyTo(stream);
+                stream.TryGetBuffer(out var buffer);
+                payload = Serializer.Deserialize<PayloadModel>(buffer);
             }
             catch (Exception ex)
             {

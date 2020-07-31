@@ -3,7 +3,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
-    internal sealed class JsonErrorModel
+    internal sealed class JsonErrorModel : JsonModel
     {
         [JsonProperty("code")]
         public JsonErrorCode Code { get; set; }

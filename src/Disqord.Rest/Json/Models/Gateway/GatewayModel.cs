@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal class GatewayModel
+    internal class GatewayModel : JsonModel
     {
         [JsonProperty("url")]
         public string Url { get; set; }

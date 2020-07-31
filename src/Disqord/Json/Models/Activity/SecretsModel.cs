@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class SecretsModel
+    internal sealed class SecretsModel : JsonModel
     {
         [JsonProperty("join", NullValueHandling.Ignore)]
         public string Join { get; set; }

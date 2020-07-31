@@ -9,7 +9,7 @@ namespace Disqord
     {
         public Task HandleInviteDeleteAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<InviteDeleteModel>(payload.D);
+            var model = payload.D.ToType<InviteDeleteModel>();
             return _client._inviteDeleted.InvokeAsync(new InviteDeletedEventArgs(_client, model.GuildId, model.ChannelId, model.Code));
         }
     }

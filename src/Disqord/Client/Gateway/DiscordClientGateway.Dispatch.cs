@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Disqord.Logging;
 using Disqord.Models;
 using Disqord.Models.Dispatches;
-using Disqord.Serialization;
+using Disqord.Serialization.Json;
 
 namespace Disqord
 {
@@ -18,9 +18,9 @@ namespace Disqord
 
                 try
                 {
-                    gatewayEvent = Serializer.ToObject<GatewayDispatch>(payload.T);
+                    gatewayEvent = Serializer.StringToEnum<GatewayDispatch>(payload.T);
                 }
-                catch (SerializationException)
+                catch (JsonSerializationException)
                 { }
 
                 if (gatewayEvent == null)
@@ -55,7 +55,7 @@ namespace Disqord
                 {
                     _identifyTcs.TrySetResult(true);
                     Log(LogSeverity.Information, "Successfully identified.");
-                    var model = Serializer.ToObject<ReadyModel>(payload.D);
+                    var model = payload.D.ToType<ReadyModel>();
                     _sessionId = model.SessionId;
                     _trace = model.Trace;
 
@@ -208,7 +208,7 @@ namespace Disqord
 
                 case GatewayDispatch.MessageAck:
                 {
-                    await State.HandleMessageAckAsync(payload).ConfigureAwait(false);
+                    // pass
                     return;
                 }
 

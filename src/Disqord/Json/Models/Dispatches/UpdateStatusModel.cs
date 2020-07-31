@@ -2,7 +2,7 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class UpdateStatusModel
+    internal sealed class UpdateStatusModel : JsonModel
     {
         [JsonProperty("since")]
         public int? Since { get; set; }

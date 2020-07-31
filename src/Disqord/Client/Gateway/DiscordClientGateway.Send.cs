@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Models;
@@ -48,52 +49,52 @@ namespace Disqord
             => SendAsync(new PayloadModel
             {
                 Op = GatewayOperationCode.GuildSync,
-                D = guildIds
+                D = Serializer.GetJsonElement(guildIds)
             });
 
         internal Task SendRequestMembersAsync(IEnumerable<ulong> guildIds)
             => SendAsync(new PayloadModel
             {
                 Op = GatewayOperationCode.RequestGuildMembers,
-                D = new RequestOfflineMembersModel
+                D = Serializer.GetJsonElement(new RequestMembersModel
                 {
                     GuildId = guildIds,
                     Query = "",
                     Limit = 0,
                     Presences = true
-                }
+                })
             });
 
         internal Task SendRequestMembersAsync(ulong guildId)
              => SendAsync(new PayloadModel
              {
                  Op = GatewayOperationCode.RequestGuildMembers,
-                 D = new RequestOfflineMembersModel
+                 D = Serializer.GetJsonElement(new RequestMembersModel
                  {
                      GuildId = guildId,
                      Query = "",
                      Limit = 0,
                      Presences = true
-                 }
+                 })
              });
 
         internal Task SendResumeAsync()
             => SendAsync(new PayloadModel
             {
                 Op = GatewayOperationCode.Resume,
-                D = new ResumeModel
+                D = Serializer.GetJsonElement(new ResumeModel
                 {
                     Token = Client.Token,
                     Seq = _lastSequenceNumber,
                     SessionId = _sessionId
-                }
+                })
             });
 
         internal Task SendHeartbeatAsync(CancellationToken cancellationToken)
             => SendAsync(new PayloadModel
             {
                 Op = GatewayOperationCode.Heartbeat,
-                D = _lastSequenceNumber
+                D = Serializer.GetJsonElement(_lastSequenceNumber)
             }, cancellationToken);
 
         internal async Task SendIdentifyAsync()
@@ -121,7 +122,7 @@ namespace Disqord
             await SendAsync(new PayloadModel
             {
                 Op = GatewayOperationCode.Identify,
-                D = model
+                D = Serializer.GetJsonElement(model)
             }).ConfigureAwait(false);
         }
 
@@ -129,24 +130,24 @@ namespace Disqord
             => SendAsync(new PayloadModel
             {
                 Op = GatewayOperationCode.VoiceStateUpdate,
-                D = new VoiceStateModel
+                D = Serializer.GetJsonElement(new VoiceStateModel
                 {
                     GuildId = guildId,
                     ChannelId = channelId,
                     Mute = muted,
                     Deaf = deafened
-                }
+                })
             });
 
         internal Task SendPresenceAsync(CancellationToken cancellationToken = default)
             => SendAsync(new PayloadModel
             {
                 Op = GatewayOperationCode.StatusUpdate,
-                D = new UpdateStatusModel
+                D = Serializer.GetJsonElement(new UpdateStatusModel
                 {
                     Status = _status,
                     Game = _activity
-                }
+                })
             }, cancellationToken);
 
         internal Task SendAsync(PayloadModel payload)
@@ -157,7 +158,7 @@ namespace Disqord
             var json = Serializer.Serialize(payload);
 
             if (Library.Debug.DumpJson)
-                Library.Debug.DumpWriter.WriteLine(Serializer.UTF8.GetString(json.Span));
+                Library.Debug.DumpWriter.WriteLine(Encoding.UTF8.GetString(json.Span));
 
             await _ws.SendAsync(new WebSocketRequest(json, cancellationToken)).ConfigureAwait(false);
         }

@@ -2,7 +2,7 @@
 
 namespace Disqord.Models.Dispatches
 {
-    internal sealed class RequestOfflineMembersModel
+    internal sealed class RequestMembersModel : JsonModel
     {
         /// <summary>
         ///     A snowflake or an array of snowflakes.

@@ -19,7 +19,6 @@
     <ProjectReference Include="..\Disqord.Bot\Disqord.Bot.csproj" />
     <ProjectReference Include="..\Disqord.Extensions.Interactivity\Disqord.Extensions.Interactivity.csproj" />
     <ProjectReference Include="..\Disqord.Rest\Disqord.Rest.csproj" />
-    <ProjectReference Include="..\Disqord.Serialization.Newtonsoft\Disqord.Serialization.Json.Newtonsoft.csproj" />
     <ProjectReference Include="..\Disqord\Disqord.csproj" />
   </ItemGroup>
 </Project>

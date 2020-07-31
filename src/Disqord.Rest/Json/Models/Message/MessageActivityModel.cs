@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class MessageActivityModel
+    internal sealed class MessageActivityModel : JsonModel
     {
         [JsonProperty("type")]
         public MessageActivityType Type { get; set; }

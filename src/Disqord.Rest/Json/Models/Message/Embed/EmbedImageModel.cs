@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class EmbedImageModel
+    internal sealed class EmbedImageModel : JsonModel
     {
         [JsonProperty("url", NullValueHandling.Ignore)]
         public string Url { get; set; }

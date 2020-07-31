@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    internal sealed class RoleModel
+    internal sealed class RoleModel : JsonModel
     {
         [JsonProperty("id")]
         public ulong Id { get; set; }

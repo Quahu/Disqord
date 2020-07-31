@@ -9,7 +9,7 @@ namespace Disqord
     {
         public Task HandleVoiceServerUpdateAsync(PayloadModel payload)
         {
-            var model = Serializer.ToObject<VoiceServerUpdateModel>(payload.D);
+            var model = payload.D.ToType<VoiceServerUpdateModel>();
             if (model.GuildId == null)
                 return Task.CompletedTask;
 
