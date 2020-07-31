@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Interface ILogger
    ">
-    <meta name="generator" content="docfx 2.56.1.0">
+    <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -79,24 +79,24 @@
   <h6><strong>Assembly</strong>: Disqord.Core.dll</h6>
   <h5 id="Disqord_Logging_ILogger_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public interface ILogger</code></pre>
+    <pre><code class="lang-csharp hljs">public interface ILogger : IDisposable</code></pre>
   </div>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Logging_ILogger_Log_System_Object_Disqord_Logging_MessageLoggedEventArgs_.md&amp;value=---%0Auid%3A%20Disqord.Logging.ILogger.Log(System.Object%2CDisqord.Logging.MessageLoggedEventArgs)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Logging_ILogger_Log_System_Object_Disqord_Logging_LogEventArgs_.md&amp;value=---%0Auid%3A%20Disqord.Logging.ILogger.Log(System.Object%2CDisqord.Logging.LogEventArgs)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Logging/ILogger.cs/#L9">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Logging/ILogger.cs/#L13">View Source</a>
   </span>
   <a id="Disqord_Logging_ILogger_Log_" data-uid="Disqord.Logging.ILogger.Log*"></a>
-  <h4 id="Disqord_Logging_ILogger_Log_System_Object_Disqord_Logging_MessageLoggedEventArgs_" data-uid="Disqord.Logging.ILogger.Log(System.Object,Disqord.Logging.MessageLoggedEventArgs)">Log(Object, MessageLoggedEventArgs)</h4>
+  <h4 id="Disqord_Logging_ILogger_Log_System_Object_Disqord_Logging_LogEventArgs_" data-uid="Disqord.Logging.ILogger.Log(System.Object,Disqord.Logging.LogEventArgs)">Log(Object, LogEventArgs)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">void Log(object sender, MessageLoggedEventArgs e)</code></pre>
+    <pre><code class="lang-csharp hljs">void Log(object sender, LogEventArgs e)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -114,7 +114,7 @@
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="Disqord.Logging.MessageLoggedEventArgs.html">MessageLoggedEventArgs</a></td>
+        <td><a class="xref" href="Disqord.Logging.LogEventArgs.html">LogEventArgs</a></td>
         <td><span class="parametername">e</span></td>
         <td></td>
       </tr>
@@ -124,17 +124,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Logging_ILogger_MessageLogged.md&amp;value=---%0Auid%3A%20Disqord.Logging.ILogger.MessageLogged%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Logging_ILogger_Logged.md&amp;value=---%0Auid%3A%20Disqord.Logging.ILogger.Logged%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Logging/ILogger.cs/#L7">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Logging/ILogger.cs/#L11">View Source</a>
   </span>
-  <h4 id="Disqord_Logging_ILogger_MessageLogged" data-uid="Disqord.Logging.ILogger.MessageLogged">MessageLogged</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="Disqord_Logging_ILogger_Logged" data-uid="Disqord.Logging.ILogger.Logged">Logged</h4>
+  <div class="markdown level1 summary"><p>An event which should trigger when the implementing logger logs something.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">event EventHandler&lt;MessageLoggedEventArgs&gt; MessageLogged</code></pre>
+    <pre><code class="lang-csharp hljs">event EventHandler&lt;LogEventArgs&gt; Logged</code></pre>
   </div>
   <h5 class="eventType">Event Type</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -146,7 +147,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">EventHandler</span>&lt;<a class="xref" href="Disqord.Logging.MessageLoggedEventArgs.html">MessageLoggedEventArgs</a>&gt;</td>
+        <td><span class="xref">EventHandler</span>&lt;<a class="xref" href="Disqord.Logging.LogEventArgs.html">LogEventArgs</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -162,7 +163,7 @@
                     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Logging_ILogger.md&amp;value=---%0Auid%3A%20Disqord.Logging.ILogger%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Logging/ILogger.cs/#L5" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Logging/ILogger.cs/#L6" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

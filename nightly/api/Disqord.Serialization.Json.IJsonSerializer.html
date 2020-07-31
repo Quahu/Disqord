@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Interface IJsonSerializer
    ">
-    <meta name="generator" content="docfx 2.56.1.0">
+    <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -79,56 +79,25 @@
   <h6><strong>Assembly</strong>: Disqord.Core.dll</h6>
   <h5 id="Disqord_Serialization_Json_IJsonSerializer_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public interface IJsonSerializer</code></pre>
+    <pre><code class="lang-csharp hljs">public interface IJsonSerializer : IDisposable</code></pre>
   </div>
-  <h3 id="properties">Properties
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Serialization_Json_IJsonSerializer_UTF8.md&amp;value=---%0Auid%3A%20Disqord.Serialization.Json.IJsonSerializer.UTF8%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Serialization/Json/IJsonSerializer.cs/#L11">View Source</a>
-  </span>
-  <a id="Disqord_Serialization_Json_IJsonSerializer_UTF8_" data-uid="Disqord.Serialization.Json.IJsonSerializer.UTF8*"></a>
-  <h4 id="Disqord_Serialization_Json_IJsonSerializer_UTF8" data-uid="Disqord.Serialization.Json.IJsonSerializer.UTF8">UTF8</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">Encoding UTF8 { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Encoding</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Serialization_Json_IJsonSerializer_Deserialize__1_Stream_.md&amp;value=---%0Auid%3A%20Disqord.Serialization.Json.IJsonSerializer.Deserialize%60%601(Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Serialization_Json_IJsonSerializer_Deserialize__1_ReadOnlyMemory_System_Byte__.md&amp;value=---%0Auid%3A%20Disqord.Serialization.Json.IJsonSerializer.Deserialize%60%601(ReadOnlyMemory%7BSystem.Byte%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Serialization/Json/IJsonSerializer.cs/#L15">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Serialization/Json/IJsonSerializer.cs/#L9">View Source</a>
   </span>
   <a id="Disqord_Serialization_Json_IJsonSerializer_Deserialize_" data-uid="Disqord.Serialization.Json.IJsonSerializer.Deserialize*"></a>
-  <h4 id="Disqord_Serialization_Json_IJsonSerializer_Deserialize__1_Stream_" data-uid="Disqord.Serialization.Json.IJsonSerializer.Deserialize``1(Stream)">Deserialize&lt;T&gt;(Stream)</h4>
+  <h4 id="Disqord_Serialization_Json_IJsonSerializer_Deserialize__1_ReadOnlyMemory_System_Byte__" data-uid="Disqord.Serialization.Json.IJsonSerializer.Deserialize``1(ReadOnlyMemory{System.Byte})">Deserialize&lt;T&gt;(ReadOnlyMemory&lt;Byte&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">T Deserialize&lt;T&gt;(Stream stream)</code></pre>
+    <pre><code class="lang-csharp hljs">T Deserialize&lt;T&gt;(ReadOnlyMemory&lt;byte&gt; json)
+    where T : class</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -141,8 +110,8 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Stream</span></td>
-        <td><span class="parametername">stream</span></td>
+        <td><span class="xref">ReadOnlyMemory</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><span class="parametername">json</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -179,80 +148,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Serialization_Json_IJsonSerializer_DeserializeAsync__1_Stream_.md&amp;value=---%0Auid%3A%20Disqord.Serialization.Json.IJsonSerializer.DeserializeAsync%60%601(Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Serialization_Json_IJsonSerializer_GetJsonElement_System_Object_.md&amp;value=---%0Auid%3A%20Disqord.Serialization.Json.IJsonSerializer.GetJsonElement(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Serialization/Json/IJsonSerializer.cs/#L17">View Source</a>
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Serialization/Json/IJsonSerializer.cs/#L15">View Source</a>
   </span>
-  <a id="Disqord_Serialization_Json_IJsonSerializer_DeserializeAsync_" data-uid="Disqord.Serialization.Json.IJsonSerializer.DeserializeAsync*"></a>
-  <h4 id="Disqord_Serialization_Json_IJsonSerializer_DeserializeAsync__1_Stream_" data-uid="Disqord.Serialization.Json.IJsonSerializer.DeserializeAsync``1(Stream)">DeserializeAsync&lt;T&gt;(Stream)</h4>
+  <a id="Disqord_Serialization_Json_IJsonSerializer_GetJsonElement_" data-uid="Disqord.Serialization.Json.IJsonSerializer.GetJsonElement*"></a>
+  <h4 id="Disqord_Serialization_Json_IJsonSerializer_GetJsonElement_System_Object_" data-uid="Disqord.Serialization.Json.IJsonSerializer.GetJsonElement(System.Object)">GetJsonElement(Object)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">Task&lt;T&gt; DeserializeAsync&lt;T&gt;(Stream stream)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Stream</span></td>
-        <td><span class="parametername">stream</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Task</span>&lt;T&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">T</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Serialization_Json_IJsonSerializer_Serialize_System_Object_IReadOnlyDictionary_System_String_System_Object__.md&amp;value=---%0Auid%3A%20Disqord.Serialization.Json.IJsonSerializer.Serialize(System.Object%2CIReadOnlyDictionary%7BSystem.String%2CSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Serialization/Json/IJsonSerializer.cs/#L19">View Source</a>
-  </span>
-  <a id="Disqord_Serialization_Json_IJsonSerializer_Serialize_" data-uid="Disqord.Serialization.Json.IJsonSerializer.Serialize*"></a>
-  <h4 id="Disqord_Serialization_Json_IJsonSerializer_Serialize_System_Object_IReadOnlyDictionary_System_String_System_Object__" data-uid="Disqord.Serialization.Json.IJsonSerializer.Serialize(System.Object,IReadOnlyDictionary{System.String,System.Object})">Serialize(Object, IReadOnlyDictionary&lt;String, Object&gt;)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">ReadOnlyMemory&lt;byte&gt; Serialize(object model, IReadOnlyDictionary&lt;string, object&gt; additionalFields = null)</code></pre>
+    <pre><code class="lang-csharp hljs">IJsonElement GetJsonElement(object value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -266,12 +173,7 @@
     <tbody>
       <tr>
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></td>
-        <td><span class="parametername">model</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">IReadOnlyDictionary</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a>, <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a>&gt;</td>
-        <td><span class="parametername">additionalFields</span></td>
+        <td><span class="parametername">value</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -286,25 +188,73 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">ReadOnlyMemory</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td><a class="xref" href="Disqord.Serialization.Json.IJsonElement.html">IJsonElement</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Serialization_Json_IJsonSerializer_ToObject__1_System_Object_.md&amp;value=---%0Auid%3A%20Disqord.Serialization.Json.IJsonSerializer.ToObject%60%601(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Serialization_Json_IJsonSerializer_Serialize_System_Object_.md&amp;value=---%0Auid%3A%20Disqord.Serialization.Json.IJsonSerializer.Serialize(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Serialization/Json/IJsonSerializer.cs/#L11">View Source</a>
+  </span>
+  <a id="Disqord_Serialization_Json_IJsonSerializer_Serialize_" data-uid="Disqord.Serialization.Json.IJsonSerializer.Serialize*"></a>
+  <h4 id="Disqord_Serialization_Json_IJsonSerializer_Serialize_System_Object_" data-uid="Disqord.Serialization.Json.IJsonSerializer.Serialize(System.Object)">Serialize(Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">Memory&lt;byte&gt; Serialize(object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Memory</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Serialization_Json_IJsonSerializer_StringToEnum__1_System_String_.md&amp;value=---%0Auid%3A%20Disqord.Serialization.Json.IJsonSerializer.StringToEnum%60%601(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Serialization/Json/IJsonSerializer.cs/#L13">View Source</a>
   </span>
-  <a id="Disqord_Serialization_Json_IJsonSerializer_ToObject_" data-uid="Disqord.Serialization.Json.IJsonSerializer.ToObject*"></a>
-  <h4 id="Disqord_Serialization_Json_IJsonSerializer_ToObject__1_System_Object_" data-uid="Disqord.Serialization.Json.IJsonSerializer.ToObject``1(System.Object)">ToObject&lt;T&gt;(Object)</h4>
+  <a id="Disqord_Serialization_Json_IJsonSerializer_StringToEnum_" data-uid="Disqord.Serialization.Json.IJsonSerializer.StringToEnum*"></a>
+  <h4 id="Disqord_Serialization_Json_IJsonSerializer_StringToEnum__1_System_String_" data-uid="Disqord.Serialization.Json.IJsonSerializer.StringToEnum``1(System.String)">StringToEnum&lt;T&gt;(String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">T ToObject&lt;T&gt;(object value)</code></pre>
+    <pre><code class="lang-csharp hljs">T StringToEnum&lt;T&gt;(string value)
+    where T : Enum</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -317,7 +267,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
         <td><span class="parametername">value</span></td>
         <td></td>
       </tr>
@@ -364,7 +314,7 @@
                     <a href="https://github.com/Quahu/Disqord/new/master/apiSpec/new?filename=Disqord_Serialization_Json_IJsonSerializer.md&amp;value=---%0Auid%3A%20Disqord.Serialization.Json.IJsonSerializer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Serialization/Json/IJsonSerializer.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Quahu/Disqord/blob/master/src/Disqord.Core/Serialization/Json/IJsonSerializer.cs/#L7" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
