@@ -11,7 +11,6 @@ using Disqord;
 using Disqord.Logging;
 using Disqord.Models;
 using Disqord.Serialization.Json;
-using Disqord.Serialization.Json.Newtonsoft;
 
 namespace Disqord.Rest
 {
@@ -19,7 +18,7 @@ namespace Disqord.Rest
     {
         public const int API_VERSION = 7;
 
-        public const string API_URL = "https://discordapp.com/api/v7/";
+        public const string API_URL = "https://discord.com/api/v7/";
 
         private static readonly HttpMethod DELETE = HttpMethod.Delete;
         private static readonly HttpMethod GET = HttpMethod.Get;
@@ -1052,8 +1051,8 @@ namespace Disqord.Rest
         public Task<PreviewModel> GetGuildPreviewAsync(ulong guildId, RestRequestOptions options)
             => SendRequestAsync<PreviewModel>(CreateRequest(GET, $"guilds/{guildId:guild_id}/preview", options));
 
-        public void Log(LogMessageSeverity severity, string message, Exception exception = null)
-            => Logger.Log(this, new MessageLoggedEventArgs("Rest", severity, message, exception));
+        public void Log(LogSeverity severity, string message, Exception exception = null)
+            => Logger.Log(this, new LogEventArgs("Rest", severity, message, exception));
 
         public void Dispose()
         {

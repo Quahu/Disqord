@@ -177,11 +177,11 @@ namespace Disqord
         }
 
         public static readonly Regex MessageJumpLinkRegex = new Regex(
-            @"^https?://(?:(ptb|canary)\.)?discordapp\.com/channels/(?<guild_id>([0-9]{15,21})|(@me))/(?<channel_id>[0-9]{15,21})/(?<message_id>[0-9]{15,21})/?$",
+            @"^https?://(?:(ptb|canary)\.)?discord(?:app)?\.com/channels/(?<guild_id>([0-9]{15,21})|(@me))/(?<channel_id>[0-9]{15,21})/(?<message_id>[0-9]{15,21})/?$",
             RegexOptions.Compiled);
 
         public static string MessageJumpLink(Snowflake? guildId, Snowflake channelId, Snowflake messageId) => guildId != null
-            ? $"https://discordapp.com/channels/{guildId}/{channelId}/{messageId}"
-            : $"https://discordapp.com/channels/@me/{channelId}/{messageId}";
+            ? $"https://discord.com/channels/{guildId}/{channelId}/{messageId}"
+            : $"https://discord.com/channels/@me/{channelId}/{messageId}";
     }
 }

@@ -78,7 +78,7 @@ namespace Disqord.Rest
         }
 
         public override string ToString()
-            => Identifier;
+            => $"{_method} {Identifier}";
 
         internal static string BuildQueryString(IReadOnlyDictionary<string, object> parameters)
         {

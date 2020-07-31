@@ -8,7 +8,7 @@ namespace Disqord.Rest
     public sealed class RestWebhookClient : IDisposable
     {
         public static readonly Regex WebhookUrlRegex = new Regex(
-            @"discordapp.com/api/webhooks/(?:(?<id>\d+)/(?<token>.+))",
+            @"discord(?:app)?.com/api/webhooks/(?:(?<id>\d+)/(?<token>.+))",
             RegexOptions.Compiled | RegexOptions.ECMAScript);
 
         public Snowflake Id { get; }
