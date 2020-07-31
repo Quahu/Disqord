@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Disqord.Collections
 {
-    internal sealed class ReadOnlyCollection<T> : ICollection<T>, IReadOnlyCollection<T>
+    public sealed class ReadOnlyCollection<T> : ICollection<T>, IReadOnlyCollection<T>
     {
-        public static IReadOnlyCollection<T> Empty => Array.Empty<T>().ReadOnly();
+        public static readonly IReadOnlyCollection<T> Empty = Array.Empty<T>().ReadOnly();
 
         public int Count => _collection.Count;
 

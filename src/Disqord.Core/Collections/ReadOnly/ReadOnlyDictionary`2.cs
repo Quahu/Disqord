@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Disqord.Collections
 {
-    internal sealed class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
+    public sealed class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
     {
         public static readonly IReadOnlyDictionary<TKey, TValue> Empty = new Dictionary<TKey, TValue>(0).ReadOnly();
 
@@ -14,7 +14,11 @@ namespace Disqord.Collections
 
         public int Count => _dictionary.Count;
 
-        public TValue this[TKey key] => _dictionary[key];
+        public TValue this[TKey key]
+        {
+            get => _dictionary[key];
+            set => throw new NotSupportedException();
+        }
 
         private readonly IDictionary<TKey, TValue> _dictionary;
 
@@ -49,11 +53,6 @@ namespace Disqord.Collections
         IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => Keys;
         IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => Values;
         bool ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly => true;
-        TValue IDictionary<TKey, TValue>.this[TKey key]
-        {
-            get => this[key];
-            set => throw new NotSupportedException();
-        }
 
         void IDictionary<TKey, TValue>.Add(TKey key, TValue value)
             => throw new NotSupportedException();

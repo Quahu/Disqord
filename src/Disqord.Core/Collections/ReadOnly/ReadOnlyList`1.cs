@@ -4,13 +4,17 @@ using System.Collections.Generic;
 
 namespace Disqord.Collections
 {
-    internal sealed class ReadOnlyList<T> : IList<T>, IReadOnlyList<T>
+    public sealed class ReadOnlyList<T> : IList<T>, IReadOnlyList<T>
     {
-        public static IReadOnlyList<T> Empty => Array.Empty<T>().ReadOnly();
+        public static readonly IReadOnlyList<T> Empty = Array.Empty<T>().ReadOnly();
 
         public int Count => _list.Count;
 
-        public T this[int index] => _list[index];
+        public T this[int index]
+        {
+            get => _list[index];
+            set => throw new NotSupportedException();
+        }
 
         private readonly IList<T> _list;
 
@@ -38,12 +42,6 @@ namespace Disqord.Collections
             => GetEnumerator();
 
         bool ICollection<T>.IsReadOnly => true;
-
-        T IList<T>.this[int index]
-        {
-            get => this[index];
-            set => throw new NotSupportedException();
-        }
 
         void IList<T>.Insert(int index, T item)
             => throw new NotSupportedException();
