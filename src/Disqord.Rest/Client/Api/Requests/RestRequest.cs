@@ -77,8 +77,9 @@ namespace Disqord.Rest
             _tcs = null;
         }
 
-        public override string ToString()
-            => $"{_method} {Identifier}";
+        public override string ToString() => BucketsMethod
+            ? Identifier
+            : $"{_method} {Identifier}";
 
         internal static string BuildQueryString(IReadOnlyDictionary<string, object> parameters)
         {
