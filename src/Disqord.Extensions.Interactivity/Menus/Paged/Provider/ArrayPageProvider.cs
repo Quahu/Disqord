@@ -54,15 +54,19 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
             Array = array;
             ItemsPerPage = itemsPerPage;
-            Formatter = formatter
-                ?? ((menu, segment) => new LocalEmbedBuilder()
+            Formatter = formatter ?? ((menu, segment) => new LocalEmbedBuilder()
                 .WithDescription(string.Join('\n', segment.Select((x, i) =>
                 {
-                    var item = x.ToString();
-                    if (item.Length > 30)
-                        item = $"{item[0..30]}…";
+                    var itemPrefix = $"{i + segment.Offset + 1}. ";
+                    var maxItemLength = (int) Math.Floor((double) LocalEmbedBuilder.MAX_DESCRIPTION_LENGTH / ItemsPerPage) - itemPrefix.Length - 2;
+                    if (maxItemLength <= 0)
+                        throw new InvalidOperationException("There is too many items per-page. Set a lower amount or provide a custom page formatter.");
 
-                    return $"{i + segment.Offset + 1}. {item}";
+                    var item = x.ToString();
+                    if (item.Length > maxItemLength)
+                        item = $"{item[0..maxItemLength]}…";
+
+                    return string.Concat(itemPrefix, item);
                 })))
                 .WithFooter($"Page {menu.CurrentPageIndex + 1}/{menu.PageProvider.PageCount}")
                 .Build());
