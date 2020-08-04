@@ -10,7 +10,7 @@
 
             // TODO: move to CDN urls?
             public string Url => _applicationId != null
-                ? $"https://cdn.discordapp.com/app-assets/{_applicationId}/{Id}.png"
+                ? $"{Discord.Cdn.URL}app-assets/{_applicationId}/{Id}.png"
                 : null;
 
             private readonly ulong? _applicationId;
