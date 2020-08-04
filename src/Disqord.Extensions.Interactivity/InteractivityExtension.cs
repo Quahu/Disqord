@@ -67,7 +67,16 @@ namespace Disqord.Extensions.Interactivity
             menu.Interactivity = this;
             menu.Channel = channel;
             menu._wrapper = wrapper;
-            var message = await menu.InitialiseAsync().ConfigureAwait(false);
+            IUserMessage message;
+            try
+            {
+                message = await menu.InitialiseAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Failed to initialise the menu. See the inner exception for more details.", ex);
+            }
+
             if (message == null)
                 throw new InvalidOperationException("Message returned from the menu's InitialiseAsync was null.");
 

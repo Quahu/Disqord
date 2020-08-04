@@ -52,7 +52,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                         throw new InvalidOperationException("A button callback must not contain generic parameters.");
 
                     if (method.ReturnType != typeof(Task))
-                        throw new InvalidOperationException("A button callback must return Task.");
+                        throw new InvalidOperationException("A button callback must return a Task.");
 
                     var parameters = method.GetParameters();
                     if (parameters.Length != 1 || parameters[0].ParameterType != typeof(ButtonEventArgs))

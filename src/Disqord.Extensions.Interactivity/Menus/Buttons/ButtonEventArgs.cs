@@ -1,5 +1,4 @@
 ﻿using Disqord.Events;
-using Disqord.Rest;
 
 namespace Disqord.Extensions.Interactivity.Menus
 {
