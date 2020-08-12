@@ -11,6 +11,10 @@ namespace Disqord
         {
             var model = payload.D.ToType<GuildMemberRemoveModel>();
             var guild = GetGuild(model.GuildId);
+
+            if (guild == null)
+                return Task.CompletedTask;
+
             var user = guild.TryRemoveMember(model.User.Id, out var member)
                 ? (CachedUser) member
                 : new CachedUnknownUser(_client, model.User);
