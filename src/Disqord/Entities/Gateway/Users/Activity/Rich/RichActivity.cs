@@ -46,10 +46,22 @@ namespace Disqord
             if (model.Timestamps != null)
             {
                 if (model.Timestamps.Start != null)
-                    StartedAt = DateTimeOffset.FromUnixTimeMilliseconds(model.Timestamps.Start.Value);
+                {
+                    try
+                    {
+                        StartedAt = DateTimeOffset.FromUnixTimeMilliseconds(model.Timestamps.Start.Value);
+                    }
+                    catch { }
+                }
 
                 if (model.Timestamps.End != null)
-                    EndsAt = DateTimeOffset.FromUnixTimeMilliseconds(model.Timestamps.End.Value);
+                {
+                    try
+                    {
+                        EndsAt = DateTimeOffset.FromUnixTimeMilliseconds(model.Timestamps.End.Value);
+                    }
+                    catch { }
+                }
             }
 
             if (model.Assets != null)
