@@ -15,7 +15,7 @@ namespace Disqord.Bot
         protected override ValueTask BeforeExecutedAsync()
         {
 #if DEBUG
-            Context.Bot.Log(LogMessageSeverity.Information, $"Executing {Context.Command} by {Context.User} in {FormatChannel()}.");
+            Context.Bot.Log(LogSeverity.Information, $"Executing {Context.Command} by {Context.User} in {FormatChannel()}.");
 #endif
             return default;
         }
@@ -23,7 +23,7 @@ namespace Disqord.Bot
         protected override ValueTask AfterExecutedAsync()
         {
 #if DEBUG
-            Context.Bot.Log(LogMessageSeverity.Information, $"Executed {Context.Command} by {Context.User} in {FormatChannel()}.");
+            Context.Bot.Log(LogSeverity.Information, $"Executed {Context.Command} by {Context.User} in {FormatChannel()}.");
 #endif
             return default;
         }
