@@ -52,19 +52,6 @@ namespace Disqord
                 D = Serializer.GetJsonElement(guildIds)
             });
 
-        internal Task SendRequestMembersAsync(IEnumerable<ulong> guildIds)
-            => SendAsync(new PayloadModel
-            {
-                Op = GatewayOperationCode.RequestGuildMembers,
-                D = Serializer.GetJsonElement(new RequestMembersModel
-                {
-                    GuildId = guildIds,
-                    Query = "",
-                    Limit = 0,
-                    Presences = true
-                })
-            });
-
         internal Task SendRequestMembersAsync(ulong guildId)
              => SendAsync(new PayloadModel
              {
@@ -74,7 +61,7 @@ namespace Disqord
                      GuildId = guildId,
                      Query = "",
                      Limit = 0,
-                     Presences = true
+                     Presences = false
                  })
              });
 

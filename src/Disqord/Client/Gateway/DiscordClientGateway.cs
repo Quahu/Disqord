@@ -288,26 +288,25 @@ namespace Disqord
 
                     }
 
-                    var batches = State._guilds.ToArray().Where(x => x.Value.Client.GetGateway(x.Key) == this && !x.Value.IsChunked)
+                    var guilds = State._guilds.ToArray().Where(x => x.Value.Client.GetGateway(x.Key) == this && !x.Value.IsChunked)
                         .Select(x => x.Value)
-                        .Batch(75)
-                        .Select(x => x.ToArray())
                         .ToArray();
-                    var tasks = new Task[batches.Length];
-                    for (var i = 0; i < batches.Length; i++)
+                    var tasks = new Task[guilds.Length];
+                    for (var i = 0; i < guilds.Length; i++)
                     {
-                        var batch = batches[i];
-                        for (var j = 0; j < batch.Length; j++)
-                        {
-                            var guild = batch[j];
-                            Log(LogSeverity.Information, $"Requesting members for {guild.Name}. Expecting {guild.ChunksExpected} {(guild.ChunksExpected == 1 ? "chunk" : "chunks")}.");
-                        }
+                        var guild = guilds[i];
+                        Log(LogSeverity.Information, $"Requesting members for {guild.Name}. Expecting {guild.ChunksExpected} {(guild.ChunksExpected == 1 ? "chunk" : "chunks")}.");
+                        await SendRequestMembersAsync(guild.Id).ConfigureAwait(false);
+                        tasks[i] = guild.ChunkTcs.Task;
 
-                        await SendRequestMembersAsync(batch.Select(x => x.Id.RawValue)).ConfigureAwait(false);
-                        tasks[i] = Task.WhenAll(batch.Select(x => x.ChunkTcs.Task));
+                        if (i % 115 == 0)
+                        {
+                            Log(LogSeverity.Information, "Delaying chunk requests for 1 minute.");
+                            await Task.Delay(60_000).ConfigureAwait(false);
+                        }
                     }
 
-                    var timeoutTask = Task.Delay(40_000);
+                    var timeoutTask = Task.Delay(40_000 + guilds.Length / 115 * 60_000);
                     var batchesTask = Task.WhenAll(tasks);
                     var task = await Task.WhenAny(timeoutTask, batchesTask).ConfigureAwait(false);
                     if (task == timeoutTask)
