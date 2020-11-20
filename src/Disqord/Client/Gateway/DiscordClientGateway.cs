@@ -299,7 +299,7 @@ namespace Disqord
                         await SendRequestMembersAsync(guild.Id).ConfigureAwait(false);
                         tasks[i] = guild.ChunkTcs.Task;
 
-                        if (i % 115 == 0)
+                        if (i + 1 % 115 == 0)
                         {
                             Log(LogSeverity.Information, "Delaying chunk requests for 1 minute.");
                             await Task.Delay(60_000).ConfigureAwait(false);
