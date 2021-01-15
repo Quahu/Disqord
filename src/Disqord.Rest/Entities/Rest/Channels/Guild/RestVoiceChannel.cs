@@ -15,8 +15,11 @@ namespace Disqord.Rest
 
         internal override void Update(ChannelModel model)
         {
-            Bitrate = model.Bitrate.Value;
-            MemberLimit = model.UserLimit.Value;
+            if (model.Bitrate.HasValue)
+                Bitrate = model.Bitrate.Value;
+
+            if (model.UserLimit.HasValue)
+                MemberLimit = model.UserLimit.Value;
 
             base.Update(model);
         }
