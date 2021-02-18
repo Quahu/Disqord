@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace Disqord
 {
     /// <summary>
-    ///     Represents a color used by Discord.
+    ///     Represents an RGB color used by Discord.
     /// </summary>
     public readonly partial struct Color : IEquatable<int>, IEquatable<Color>, IComparable<int>, IComparable<Color>
     {
@@ -99,6 +99,14 @@ namespace Disqord
         public override string ToString()
             => $"#{RawValue:X6}";
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void Deconstruct(out byte r, out byte g, out byte b)
+        {
+            r = R;
+            g = G;
+            b = B;
+        }
+
         public static bool operator >(Color left, Color right)
             => left.RawValue > right.RawValue;
 
@@ -140,12 +148,31 @@ namespace Disqord
         public static implicit operator Color(System.Drawing.Color value)
             => new Color(value.R, value.G, value.B);
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public void Deconstruct(out byte r, out byte g, out byte b)
+        public static Color FromHsv(float h, float s, float v)
         {
-            r = R;
-            g = G;
-            b = B;
+            if (s < 0 || s > 1)
+                throw new ArgumentOutOfRangeException(nameof(s));
+
+            if (v < 0 || v > 1)
+                throw new ArgumentOutOfRangeException(nameof(s));
+
+            if (s == 0)
+                return (v, v, v);
+
+            var i = MathF.Floor(h / 60) % 6;
+            var f = h / 60 - MathF.Floor(h / 60);
+            var p = v * (1f - s);
+            var q = v * (1f - s * f);
+            var t = v * (1f - s * (1f - f));
+            return i switch
+            {
+                0 => (v, t, p),
+                1 => (q, v, p),
+                2 => (p, v, t),
+                3 => (p, q, v),
+                4 => (t, p, v),
+                _ => (v, p, q)
+            };
         }
     }
 }

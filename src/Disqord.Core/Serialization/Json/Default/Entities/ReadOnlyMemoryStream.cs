@@ -38,7 +38,7 @@ namespace Disqord.Serialization.Json.Default
                 if (length > buffer.Length)
                     length = buffer.Length;
 
-                _memory.Slice(_position, length).Span.CopyTo(buffer);
+                _memory.Span.Slice(_position, length).CopyTo(buffer);
                 _position += length;
             }
 

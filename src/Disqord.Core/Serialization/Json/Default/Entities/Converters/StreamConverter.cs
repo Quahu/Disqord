@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using Disqord.Logging;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Disqord.Serialization.Json.Default
@@ -41,7 +41,7 @@ namespace Disqord.Serialization.Json.Default
             if (!stream.CanRead)
                 throw new ArgumentException("The stream is not readable.");
 
-            // Show a warning for System.Net.Http content streams.
+            // Shows a warning for System.Net.Http content streams.
             // See CheckStreamType for more information.
             CheckStreamType(stream);
 
@@ -147,8 +147,7 @@ namespace Disqord.Serialization.Json.Default
 
                 _httpBaseContentType = null;
                 _shownHttpWarning = true;
-                _serializer.Log(LogSeverity.Warning,
-                    "You are passing HTTP streams directly which is not supported due to buffer underflowing for incomplete streams. " +
+                _serializer.Logger.LogWarning("You are passing HTTP streams directly which is not supported due to buffer underflowing for incomplete streams. " +
                     "Ensure the streams are fully downloaded or copy them over to a MemoryStream. " +
                     "This warning will not appear again.");
             }

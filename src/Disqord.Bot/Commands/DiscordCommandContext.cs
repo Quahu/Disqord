@@ -1,5 +1,4 @@
 ﻿using System;
-using Disqord.Bot.Prefixes;
 using Qmmands;
 
 namespace Disqord.Bot
@@ -8,29 +7,21 @@ namespace Disqord.Bot
     {
         public virtual DiscordBotBase Bot { get; }
 
-        public virtual IPrefix Prefix { get; }
+        public virtual IUserMessage Message { get; }
 
-        public virtual CachedUserMessage Message { get; }
+        public virtual IMessageChannel Channel { get; }
 
-        public virtual ICachedMessageChannel Channel => Message.Channel;
+        public virtual IUser User => Message.Author;
 
-        public virtual CachedUser User => Message.Author;
+        public virtual IMember Member => User as IMember;
 
-        public virtual CachedMember Member => User as CachedMember;
-
-        public virtual CachedGuild Guild => Member?.Guild;
-
-        /// <summary>
-        ///     Instantiates a new <see cref="DiscordCommandContext"/>.
-        /// </summary>
-        /// <param name="bot"> The bot instance. </param>
-        /// <param name="prefix"> The prefix found in the source message. </param>
-        /// <param name="message"> The source message. </param>
-        /// <param name="provider"> The optional <see cref="IServiceProvider"/>. If <see langword="null"/>, defaults to <paramref name="bot"/>. </param>
-        public DiscordCommandContext(DiscordBotBase bot, IPrefix prefix, CachedUserMessage message, IServiceProvider provider = null) : base(provider ?? bot)
+        public DiscordCommandContext(
+            DiscordBotBase bot,
+            IUserMessage message,
+            IServiceProvider services)
+            : base(services)
         {
             Bot = bot;
-            Prefix = prefix;
             Message = message;
         }
     }

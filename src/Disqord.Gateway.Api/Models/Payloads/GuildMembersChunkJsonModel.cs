@@ -1,0 +1,29 @@
+﻿using Disqord.Models;
+using Disqord.Serialization.Json;
+
+namespace Disqord.Gateway.Api.Models
+{
+    public class GuildMembersChunkJsonModel : JsonModel
+    {
+        [JsonProperty("guild_id")]
+        public Snowflake GuildId;
+
+        [JsonProperty("members")]
+        public MemberJsonModel[] Members;
+
+        [JsonProperty("chunk_index")]
+        public int ChunkIndex;
+
+        [JsonProperty("chunk_count")]
+        public int ChunkCount;
+
+        [JsonProperty("not_found")]
+        public Optional<Snowflake[]> NotFound;
+
+        [JsonProperty("presences")]
+        public Optional<PresenceJsonModel[]> Presences;
+
+        [JsonProperty("nonce")]
+        public string Nonce;
+    }
+}

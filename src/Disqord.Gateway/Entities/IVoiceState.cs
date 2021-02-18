@@ -1,0 +1,54 @@
+﻿namespace Disqord.Gateway
+{
+    /// <summary>
+    ///     Represents the voice state of a member.
+    /// </summary>
+    public interface IVoiceState : IGuildEntity
+    {
+        /// <summary>
+        ///     Gets the voice channel ID the member is connected to.
+        ///     Returns <see langword="null"/> if the member left a voice channel.
+        /// </summary>
+        Snowflake? ChannelId { get; }
+
+        /// <summary>
+        ///     Gets the member ID.
+        /// </summary>
+        Snowflake MemberId { get; }
+
+        /// <summary>
+        ///     Gets the voice session ID.
+        /// </summary>
+        string SessionId { get; }
+
+        /// <summary>
+        ///     Gets whether the member is deafened in the guild.
+        /// </summary>
+        bool IsDeafened { get; }
+
+        /// <summary>
+        ///     Gets whether the member is muted in the guild.
+        /// </summary>
+        bool IsMuted { get; }
+
+        /// <summary>
+        ///     Gets whether the member deafened themselves.
+        /// </summary>
+        bool IsSelfDeafened { get; }
+
+        /// <summary>
+        ///     Gets whether the member muted themselves.
+        /// </summary>
+        bool IsSelfMuted { get; }
+
+        /// <summary>
+        ///     Gets whether the member is streaming.
+        /// </summary>
+        bool IsStreaming { get; }
+
+        /// <summary>
+        ///     Gets whether the member is transmitting camera feed.
+        /// </summary>
+        bool IsTransmittingVideo { get; }
+    }
+}

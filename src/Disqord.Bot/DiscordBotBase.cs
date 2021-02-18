@@ -1,173 +1,92 @@
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Bot.Parsers;
-using Disqord.Bot.Prefixes;
-using Disqord.Events;
-using Disqord.Logging;
+using Disqord.Gateway;
+using Disqord.Rest;
+using Microsoft.Extensions.Logging;
 using Qmmands;
 
 namespace Disqord.Bot
 {
-    public abstract partial class DiscordBotBase : DiscordClientBase, IServiceProvider
+    public abstract class DiscordBotBase : DiscordClientBase
     {
-        public IPrefixProvider PrefixProvider { get; }
+        public CommandService Commands { get; }
 
-        private readonly CommandService _commandService;
-        private readonly IServiceProvider _provider;
+        public IServiceProvider Services { get; }
 
-        internal DiscordBotBase(DiscordClientBase client, IPrefixProvider prefixProvider, IDiscordBotBaseConfiguration configuration)
-            : base(client)
+        private readonly DiscordClientBase _client;
+
+        protected DiscordBotBase(
+            ILogger logger,
+            CommandService commands,
+            IServiceProvider services,
+            DiscordClientBase client)
+            : base(logger, client)
         {
-            PrefixProvider = prefixProvider;
-            _commandService = new CommandService(configuration.CommandServiceConfiguration ?? CommandServiceConfiguration.Default);
-            _provider = configuration.ProviderFactory?.Invoke(this);
-            AddTypeParser(new CachedRoleTypeParser());
-            AddTypeParser(new CachedMemberTypeParser());
-            AddTypeParser(new CachedUserTypeParser());
-            AddTypeParser(new CachedGuildChannelTypeParser<CachedGuildChannel>());
-            AddTypeParser(new CachedGuildChannelTypeParser<CachedTextChannel>());
-            AddTypeParser(new CachedGuildChannelTypeParser<CachedVoiceChannel>());
-            AddTypeParser(new CachedGuildChannelTypeParser<CachedCategoryChannel>());
-            AddTypeParser(LocalCustomEmojiTypeParser.Instance);
-            AddTypeParser(SnowflakeTypeParser.Instance);
-            AddTypeParser(ColorTypeParser.Instance);
-            //AddTypeParser(SanitaryContentParser.Instance);
+            Commands = commands;
+            Services = services;
+
+            _client = client;
 
             MessageReceived += MessageReceivedAsync;
+
+            Commands.CommandExecuted += CommandExecutedAsync;
+
+            Setup();
         }
 
-        protected virtual ValueTask<bool> CheckMessageAsync(CachedUserMessage message)
-            => new ValueTask<bool>(IsBot
-                ? !message.Author.IsBot
-                : message.Author.Id == CurrentUser.Id);
-
-        protected virtual ValueTask<bool> BeforeExecutedAsync(DiscordCommandContext context)
-            => new ValueTask<bool>(true);
-
-        protected virtual ValueTask AfterExecutedAsync(IResult result, DiscordCommandContext context)
-            => default;
-
-        protected virtual ValueTask<DiscordCommandContext> GetCommandContextAsync(CachedUserMessage message, IPrefix prefix)
-            => new ValueTask<DiscordCommandContext>(new DiscordCommandContext(this, prefix, message));
-
-        private async Task MessageReceivedAsync(MessageReceivedEventArgs args)
+        protected virtual void Setup()
         {
-            if (!(args.Message is CachedUserMessage message))
-                return;
+            Commands.AddTypeParser(new SnowflakeTypeParser());
+            Commands.AddTypeParser(new ColorTypeParser());
 
             try
             {
-                if (!await CheckMessageAsync(message).ConfigureAwait(false))
-                    return;
+                var modules = Commands.AddModules(Assembly.GetEntryAssembly());
+                Logger.LogInformation("Added {0} command modules with {1} commands.", modules.Count, modules.SelectMany(x => CommandUtilities.EnumerateAllCommands(x)).Count());
             }
-            catch (Exception ex)
+            catch (CommandMappingException ex)
             {
-                Log(LogSeverity.Error, "An exception occurred while running the check message callback.", ex);
-                return;
-            }
-
-            IEnumerable<IPrefix> prefixes;
-            try
-            {
-                prefixes = await PrefixProvider.GetPrefixesAsync(message).ConfigureAwait(false);
-                if (prefixes == null)
-                    return;
-            }
-            catch (Exception ex)
-            {
-                Log(LogSeverity.Error, "An exception occurred while getting the prefixes.", ex);
-                return;
-            }
-
-            IPrefix foundPrefix = null;
-            string output = null;
-            try
-            {
-                foreach (var prefix in prefixes)
-                {
-                    if (prefix == null)
-                    {
-                        Log(LogSeverity.Warning, "A null prefix was contained in the prefix enumerable.");
-                        continue;
-                    }
-
-                    if (prefix.TryFind(message, out output))
-                    {
-                        foundPrefix = prefix;
-                        break;
-                    }
-                }
-
-                if (foundPrefix == null)
-                    return;
-            }
-            catch (Exception ex)
-            {
-                Log(LogSeverity.Error, "An exception occurred while finding the prefixes.", ex);
-                return;
-            }
-
-            DiscordCommandContext context;
-            try
-            {
-                context = await GetCommandContextAsync(message, foundPrefix).ConfigureAwait(false);
-                if (context == null)
-                    return;
-            }
-            catch (Exception ex)
-            {
-                Log(LogSeverity.Error, "An exception occurred while getting the context.", ex);
-                return;
-            }
-
-            try
-            {
-                if (!await BeforeExecutedAsync(context).ConfigureAwait(false))
-                    return;
-            }
-            catch (Exception ex)
-            {
-                Log(LogSeverity.Error, "An exception occurred while running the before executed callback.", ex);
-                return;
-            }
-
-            var result = await _commandService.ExecuteAsync(output, context).ConfigureAwait(false);
-            try
-            {
-                await AfterExecutedAsync(result, context).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Log(LogSeverity.Error, "An exception occurred while running the after executed callback.", ex);
+                Logger.LogCritical(ex, "Failed to map command {0} in module {1}:", ex.Command, ex.Command.Module);
+                throw;
             }
         }
 
-        public virtual object GetService(Type serviceType)
+        protected virtual DiscordCommandContext GetCommandContext(IUserMessage message)
+            => new(this, message, Services);
+
+        private async Task MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {
-            if (serviceType == typeof(DiscordBotBase) || serviceType == GetType())
-                return this;
+            if (e.Message is not IUserMessage message)
+                return;
 
-            return _provider?.GetService(serviceType);
+            if (!CommandUtilities.HasPrefix(message.Content, '?', out var output))
+                return;
+
+            var context = GetCommandContext(message);
+            var result = await Commands.ExecuteAsync(output, context).ConfigureAwait(false);
+            if (result is not FailedResult failedResult)
+                return;
+
+            await this.SendMessageAsync(message.ChannelId, new LocalMessageBuilder()
+                .WithContent(failedResult.FailureReason)
+                .Build());
         }
 
-
-        public void Run(CancellationToken cancellationToken = default)
-            => RunAsync(cancellationToken).GetAwaiter().GetResult();
-
-        internal new void Log(LogSeverity severity, string message, Exception exception = null)
-            => Logger.Log(this, new LogEventArgs("Bot", severity, message, exception));
-
-        public override async ValueTask DisposeAsync()
+        private Task CommandExecutedAsync(CommandExecutedEventArgs e)
         {
-            MessageReceived -= MessageReceivedAsync;
-            if (_provider is IAsyncDisposable asyncDisposableProvider)
-                await asyncDisposableProvider.DisposeAsync().ConfigureAwait(false);
-            else if (_provider is IDisposable disposableProvider)
-                disposableProvider.Dispose();
+            if (e.Result is not DiscordCommandResult result)
+                return Task.CompletedTask;
 
-            await base.DisposeAsync().ConfigureAwait(false);
+            if (e.Context is not DiscordCommandContext context)
+                return Task.CompletedTask;
+
+            return result.ExecuteAsync(context);
         }
+
+        public override Task RunAsync(CancellationToken stoppingToken)
+            => _client.RunAsync(stoppingToken);
     }
 }

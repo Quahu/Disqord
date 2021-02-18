@@ -1,16 +1,21 @@
-using Disqord.Bot.Prefixes;
-using Disqord.Rest;
+﻿using System;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Qmmands;
 
 namespace Disqord.Bot
 {
     public class DiscordBot : DiscordBotBase
     {
-        public DiscordBot(RestDiscordClient restClient, IPrefixProvider prefixProvider, DiscordBotConfiguration configuration = null)
-            : base(new DiscordClient(restClient, configuration ??= new DiscordBotConfiguration()), prefixProvider, configuration)
-        { }
+        public DiscordBot(
+            IOptions<DiscordBotConfiguration> options,
+            ILogger<DiscordBot> logger,
+            CommandService commands,
+            IServiceProvider services,
+            DiscordClient client)
+            : base(logger, commands, services, client)
+        {
 
-        public DiscordBot(TokenType tokenType, string token, IPrefixProvider prefixProvider, DiscordBotConfiguration configuration = null)
-            : base(new DiscordClient(tokenType, token, configuration ??= new DiscordBotConfiguration()), prefixProvider, configuration)
-        { }
+        }
     }
 }

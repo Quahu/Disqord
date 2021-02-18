@@ -1,4 +1,6 @@
-﻿namespace Disqord
+﻿using System;
+
+namespace Disqord
 {
     public readonly partial struct Color
     {
@@ -279,5 +281,24 @@
         public static Color Yellow => new Color(255, 255, 0);
 
         public static Color YellowGreen => new Color(154, 205, 50);
+
+        /// <summary>
+        ///     Gets a random color.
+        ///     Randomised using HSV with a random value of 0-360 hue.
+        /// </summary>
+        public static Color Random
+        {
+            get
+            {
+                if (_random == null)
+                    _random = new Random();
+
+                lock (_random)
+                {
+                    return FromHsv(_random.Next(0, 360), 1f, 1f);
+                }
+            }
+        }
+        private static Random _random;
     }
 }
