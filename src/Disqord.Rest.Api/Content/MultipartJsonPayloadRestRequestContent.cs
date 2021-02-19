@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Disqord.Http;
 using Disqord.Http.Default;
+using Disqord.Serialization.Json.Default;
 
 namespace Disqord.Rest.Api
 {
@@ -28,17 +29,26 @@ namespace Disqord.Rest.Api
             var counter = 0;
             foreach (var attachment in Attachments)
             {
-                ValidateStream(attachment.Stream);
+                ValidateStream(client, attachment.Stream);
                 content.FormData.Add((new StreamHttpRequestContent(attachment.Stream), $"file{counter++}", attachment.GetFileName()));
             }
 
             return content;
         }
 
-        private static void ValidateStream(Stream stream)
+        private static void ValidateStream(IRestApiClient client, Stream stream)
         {
             if (stream.CanSeek && stream.Length != 0 && stream.Position == stream.Length)
                 throw new InvalidDataException("The attachment stream's position is the same as its length. Did you forget to rewind it?");
+
+            if (client.Serializer is DefaultJsonSerializer jsonSerializer)
+            {
+                // See CheckStreamType for more info.
+                // Arguably this isn't "correct" to call it here as this isn't JSON serialization but it doesn't matter
+                // and warning the user is important to me.
+                var streamConverter = (jsonSerializer.UnderlyingSerializer.ContractResolver as ContractResolver)._streamConverter;
+                streamConverter.CheckStreamType(stream);
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Disqord.Serialization.Json.Default
     {
         private readonly DefaultJsonSerializer _serializer;
         internal readonly StringEnumConverter _stringEnumConverter;
-        private readonly StreamConverter _streamConverter;
+        internal readonly StreamConverter _streamConverter;
         private readonly JsonTokenConverter _jsonTokenConverter;
         private readonly SnowflakeConverter _snowflakeConverter;
         private readonly SynchronizedDictionary<Type, OptionalConverter> _optionalConverters;
