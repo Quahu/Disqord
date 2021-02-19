@@ -2,6 +2,6 @@
 {
     public class DefaultJsonSerializerConfiguration
     {
-        public virtual bool ShowConversionWarnings { get; set; }
+        public virtual bool ShowHttpStreamsWarning { get; set; } = true;
     }
 }

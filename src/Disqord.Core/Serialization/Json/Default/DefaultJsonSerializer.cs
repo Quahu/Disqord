@@ -14,7 +14,7 @@ namespace Disqord.Serialization.Json.Default
 
         public JsonSerializer UnderlyingSerializer { get; }
 
-        internal readonly bool ShowConversionWarnings;
+        internal readonly bool ShowHttpStreamsWarning;
 
         private static readonly Encoding _utf8 = new UTF8Encoding(false);
 
@@ -22,7 +22,7 @@ namespace Disqord.Serialization.Json.Default
             IOptions<DefaultJsonSerializerConfiguration> options,
             ILogger<DefaultJsonSerializer> logger)
         {
-            ShowConversionWarnings = options.Value.ShowConversionWarnings;
+            ShowHttpStreamsWarning = options.Value.ShowHttpStreamsWarning;
             Logger = logger;
 
             UnderlyingSerializer = new JsonSerializer
