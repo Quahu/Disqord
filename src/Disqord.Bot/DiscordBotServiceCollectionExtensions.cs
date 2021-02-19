@@ -15,7 +15,7 @@ namespace Disqord.Bot
             if (services.TryAddSingleton<DiscordBot>())
             {
                 services.TryAddSingleton<DiscordBotBase>(x => x.GetRequiredService<DiscordBot>());
-                services.Replace<DiscordClientBase>(x => x.GetRequiredService<DiscordBotBase>());
+                services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<DiscordBotBase>()));
                 services.AddOptions<DiscordBotConfiguration>();
 
                 if (action != null)

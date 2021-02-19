@@ -101,9 +101,6 @@ namespace Disqord.DependencyInjection.Extensions
             where TService : class
             => services.TryAdd(ServiceDescriptor.Singleton(implementationFactory));
 
-        public static IServiceCollection Replace<TService>(this IServiceCollection collection, Func<IServiceProvider, TService> implementationFactory)
-            => collection.Replace(ServiceDescriptor.Singleton(implementationFactory));
-
         public static IServiceCollection Replace(this IServiceCollection collection, ServiceDescriptor descriptor)
         {
             if (collection == null)
