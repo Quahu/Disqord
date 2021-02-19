@@ -19,7 +19,7 @@ namespace Disqord.Bot
             if (context.Message.ChannelId == Id)
                 return Success();
 
-            return Failure($"This can only be executed in the channe with ID {Id}.");
+            return Failure($"This can only be executed in the channel with the ID {Id}.");
         }
     }
 }
