@@ -9,18 +9,14 @@ namespace Disqord
     public sealed class LocalMentions
     {
         /// <summary>
-        ///     All mentions in the message's content are ignored.
+        ///     Gets mentions in which all mentions are ignored.
         /// </summary>
-        public static readonly LocalMentions None = new LocalMentionsBuilder()
-            .WithParsedMentions(ParsedMention.None)
-            .Build();
+        public static LocalMentions None => LocalMentionsBuilder.None.Build();
 
         /// <summary>
-        ///     All <c>@everyone</c> mentions in the message's content are ignored.
+        ///     Gets mentions in which all <c>@everyone</c> mentions are ignored.
         /// </summary>
-        public static readonly LocalMentions ExceptEveryone = new LocalMentionsBuilder()
-            .WithParsedMentions(ParsedMention.Users | ParsedMention.Roles)
-            .Build();
+        public static LocalMentions ExceptEveryone => LocalMentionsBuilder.ExceptEveryone.Build();
 
         /// <summary>
         ///     Gets the mention types Discord will parse from the message's content.

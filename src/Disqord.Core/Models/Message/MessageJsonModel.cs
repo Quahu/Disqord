@@ -42,7 +42,7 @@ namespace Disqord.Models
         public Snowflake[] MentionRoles;
 
         [JsonProperty("mention_channels")]
-        public ChannelMentionJsonModel[] MentionChannels;
+        public Optional<ChannelMentionJsonModel[]> MentionChannels;
 
         [JsonProperty("attachments")]
         public AttachmentJsonModel[] Attachments;
@@ -66,15 +66,21 @@ namespace Disqord.Models
         public int Type;
 
         [JsonProperty("activity")]
-        public Optional</*MessageActivity*/JsonModel> Activity;
+        public Optional<MessageActivityJsonModel> Activity;
 
         [JsonProperty("application")]
-        public Optional</*MessageApplication*/JsonModel> Application;
+        public Optional<MessageApplicationJsonModel> Application;
 
         [JsonProperty("message_reference")]
-        public Optional</*MessageReference*/JsonModel> MessageReference;
+        public Optional<MessageReferenceJsonModel> MessageReference;
 
         [JsonProperty("flags")]
         public Optional<MessageFlag> Flags;
+
+        [JsonProperty("stickers")]
+        public Optional<StickerJsonModel[]> Stickers;
+
+        [JsonProperty("referenced_message")]
+        public Optional<MessageJsonModel> ReferencedMessage;
     }
 }

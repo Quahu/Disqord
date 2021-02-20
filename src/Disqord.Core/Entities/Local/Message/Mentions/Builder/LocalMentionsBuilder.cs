@@ -8,6 +8,18 @@ namespace Disqord
     {
         public const int MAX_MENTION_AMOUNT = 100;
 
+        /// <summary>
+        ///     Get a builder in which all mentions are ignored.
+        /// </summary>
+        public static LocalMentionsBuilder None => new LocalMentionsBuilder()
+            .WithParsedMentions(ParsedMention.None);
+
+        /// <summary>
+        ///     Gets a builder in which all <c>@everyone</c> mentions are ignored.
+        /// </summary>
+        public static LocalMentionsBuilder ExceptEveryone => new LocalMentionsBuilder()
+            .WithParsedMentions(ParsedMention.Users | ParsedMention.Roles);
+
         public ParsedMention ParsedMentions { get; set; }
 
         public IList<Snowflake> UserIds

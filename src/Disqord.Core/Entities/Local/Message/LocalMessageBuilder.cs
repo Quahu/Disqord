@@ -14,6 +14,8 @@ namespace Disqord
 
         public LocalMentionsBuilder Mentions { get; set; }
 
+        public LocalReferenceBuilder Reference { get; set; }
+
         public string Nonce { get; set; }
 
         public IList<LocalAttachment> Attachments
@@ -35,6 +37,7 @@ namespace Disqord
             IsTextToSpeech = builder.IsTextToSpeech;
             Embed = builder.Embed?.Clone();
             Mentions = builder.Mentions?.Clone();
+            Reference = builder.Reference?.Clone();
             Nonce = builder.Nonce;
             _attachments = builder.Attachments.ToList();
         }
@@ -60,6 +63,22 @@ namespace Disqord
         public LocalMessageBuilder WithMentions(LocalMentionsBuilder mentions)
         {
             Mentions = mentions;
+            return this;
+        }
+
+        public LocalMessageBuilder WithReply(Snowflake messageId, Snowflake? channelId = null, Snowflake? guildId = null, bool failOnInvalid = true)
+        {
+            Reference ??= new LocalReferenceBuilder();
+            Reference.MessageId = messageId;
+            Reference.ChannelId = channelId;
+            Reference.GuildId = guildId;
+            Reference.FailOnInvalid = failOnInvalid;
+            return this;
+        }
+
+        public LocalMessageBuilder WithReference(LocalReferenceBuilder reference)
+        {
+            Reference = reference;
             return this;
         }
 

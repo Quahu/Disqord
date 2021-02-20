@@ -141,6 +141,7 @@ namespace Disqord.Rest
                 Tts = message.IsTextToSpeech,
                 Embed = Optional.FromNullable(message.Embed.ToModel()),
                 AllowedMentions = Optional.FromNullable(message.Mentions.ToModel()),
+                MessageReference = Optional.FromNullable(message.Reference.ToModel()),
                 Nonce = Optional.FromNullable(message.Nonce)
             };
 

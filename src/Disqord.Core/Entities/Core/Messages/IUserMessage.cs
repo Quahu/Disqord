@@ -47,12 +47,27 @@ namespace Disqord
         /// <summary>
         ///     Gets the attachments of this message.
         /// </summary>
-        //IReadOnlyList<Attachment> Attachments { get; }
+        IReadOnlyList<Attachment> Attachments { get; }
 
         /// <summary>
         ///     Gets the embeds of this message.
         /// </summary>
-        //IReadOnlyList<Embed> Embeds { get; }
+        IReadOnlyList<Embed> Embeds { get; }
+
+        /// <summary>
+        ///     Gets the activity tied to this message.
+        /// </summary>
+        MessageActivity Activity { get; }
+
+        /// <summary>
+        ///     Gets the application tied to this message.
+        /// </summary>
+        MessageApplication Application { get; }
+
+        /// <summary>
+        ///     Gets the reference tied to this message.
+        /// </summary>
+        MessageReference Reference { get; }
 
         /// <summary>
         ///     Gets the <see cref="MessageFlag"/> of this message.
@@ -60,18 +75,16 @@ namespace Disqord
         MessageFlag Flags { get; }
 
         /// <summary>
-        ///     Gets the activity tied to this message.
+        ///     Gets the stickers sent with this message.
         /// </summary>
-        //MessageActivity Activity { get; }
+        IReadOnlyList<Sticker> Stickers { get; }
 
         /// <summary>
-        ///     Gets the application tied to this message.
+        ///     Gets the optional referenced message present in replies.
+        ///     If the message is a reply but this property has no value,
+        ///     the backend did not attempt to fetch the message that was being replied to,
+        ///     so its state is unknown. If the property has a value but the value is null, the referenced message was deleted.
         /// </summary>
-        //MessageApplication Application { get; }
-
-        /// <summary>
-        ///     Gets the reference tied to this message.
-        /// </summary>
-        //MessageReference Reference { get; }
+        Optional<IUserMessage> ReferencedMessage { get; }
     }
 }

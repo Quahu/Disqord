@@ -15,6 +15,8 @@ namespace Disqord
 
         public LocalMentions Mentions { get; }
 
+        public LocalReference Reference { get; }
+
         public string Nonce { get; }
 
         internal LocalMessage(LocalMessageBuilder builder)
@@ -24,6 +26,7 @@ namespace Disqord
             Embed = builder.Embed?.Build();
             Attachments = builder.Attachments.ToReadOnlyList();
             Mentions = builder.Mentions?.Build();
+            Reference = builder.Reference?.Build();
             Nonce = builder.Nonce;
         }
     }
