@@ -22,5 +22,13 @@ namespace Disqord.Test
         [Command("id")]
         public DiscordCommandResult Id(Snowflake id)
             => Response($"{id}: {id.CreatedAt}");
+
+        [Command("reply")]
+        public DiscordCommandResult Reply()
+            => Reply("hi");
+
+        [Command("replynoping")]
+        public DiscordCommandResult ReplyNoPing()
+            => Reply("hi", LocalMentionsBuilder.None);
     }
 }
