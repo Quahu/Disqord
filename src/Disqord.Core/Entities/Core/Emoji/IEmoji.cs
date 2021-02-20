@@ -7,7 +7,7 @@ namespace Disqord
     ///     Represents an emoji.
     ///     E.g. a custom emoji (<c>&lt;:professor:667582610431803437&gt;</c>) or a default Unicode emoji (<c>🍿</c>).
     /// </summary>
-    public interface IEmoji : IEquatable<IEmoji>, IJsonUpdatable<EmojiJsonModel>
+    public interface IEmoji : IEntity, IEquatable<IEmoji>, IJsonUpdatable<EmojiJsonModel>
     {
         /// <summary>
         ///     Gets the name of this emoji.

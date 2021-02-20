@@ -1,49 +1,29 @@
 ﻿using System;
-using Disqord.Models;
 
 namespace Disqord
 {
-    public sealed class LocalCustomEmoji : ICustomEmoji
+    public class LocalCustomEmoji : LocalEmoji, ICustomEmoji
     {
         public Snowflake Id { get; }
 
-        public string Name { get; }
+        public DateTimeOffset CreatedAt => Id.CreatedAt;
 
         public bool IsAnimated { get; }
 
-        public string ReactionFormat => Discord.GetReactionFormat(this);
-
-        public string MessageFormat => Discord.GetMessageFormat(this);
-
-        public string Tag => MessageFormat;
-
-        public DateTimeOffset CreatedAt { get; }
-        public IClient Client { get; }
+        public string Tag => this.GetMessageFormat();
 
         public LocalCustomEmoji(Snowflake id, string name = null, bool isAnimated = false)
+            : base(name)
         {
             Id = id;
-            Name = name;
             IsAnimated = isAnimated;
         }
-
-        public string GetUrl(int size = 2048)
-            => Discord.Cdn.GetCustomEmojiUrl(Id, IsAnimated, size);
-
-        public bool Equals(IEmoji other)
-            => Discord.Comparers.Emoji.Equals(this, other);
 
         public bool Equals(ICustomEmoji other)
             => Discord.Comparers.Emoji.Equals(this, other);
 
-        public override bool Equals(object obj)
-            => obj is IEmoji emoji && Equals(emoji);
-
-        public override int GetHashCode()
-            => Discord.Comparers.Emoji.GetHashCode(this);
-
         public override string ToString()
-            => MessageFormat;
+            => Tag;
 
         public static bool TryParse(string value, out LocalCustomEmoji result)
         {
@@ -76,8 +56,5 @@ namespace Disqord
             result = new LocalCustomEmoji(id, new string(nameSpan), isAnimated);
             return true;
         }
-
-        void IJsonUpdatable<EmojiJsonModel>.Update(EmojiJsonModel model)
-            => throw new NotSupportedException();
     }
 }

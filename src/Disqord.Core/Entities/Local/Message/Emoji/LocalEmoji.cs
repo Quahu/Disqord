@@ -1,9 +1,10 @@
 ﻿using System;
+using Disqord.Entities.Local;
 using Disqord.Models;
 
 namespace Disqord
 {
-    public sealed class LocalEmoji : IEmoji
+    public class LocalEmoji : ILocalEntity, IEmoji
     {
         public string Name { get; }
 
@@ -22,7 +23,7 @@ namespace Disqord
             => Discord.Comparers.Emoji.GetHashCode(this);
 
         public override string ToString()
-            => this.GetMessageFormat();
+            => Name;
 
         void IJsonUpdatable<EmojiJsonModel>.Update(EmojiJsonModel model)
             => throw new NotSupportedException();
