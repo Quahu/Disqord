@@ -7,8 +7,8 @@ namespace Disqord.Gateway.Default.Dispatcher
     {
         public override async Task<MessageReceivedEventArgs> HandleDispatchAsync(MessageJsonModel model)
         {
-            var message = TransientMessage.Create(Client, model);
-            return new MessageReceivedEventArgs(message);
+            var message = GatewayTransientMessage.Create(Client, model);
+            return new MessageReceivedEventArgs(message, null);
         }
     }
 }

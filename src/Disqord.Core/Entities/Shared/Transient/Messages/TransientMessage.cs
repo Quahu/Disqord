@@ -14,7 +14,7 @@ namespace Disqord
 
         public Snowflake ChannelId => Model.ChannelId;
 
-        public IUser Author
+        public virtual IUser Author
         {
             get
             {
@@ -24,7 +24,7 @@ namespace Disqord
                 return _author;
             }
         }
-        private IUser _author;
+        protected IUser _author;
 
         public virtual string Content => Model.Content;
 

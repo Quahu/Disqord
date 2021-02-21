@@ -4,11 +4,14 @@ namespace Disqord.Gateway
 {
     public class MessageReceivedEventArgs : EventArgs
     {
-        public IMessage Message { get; }
+        public IGatewayMessage Message { get; }
 
-        public MessageReceivedEventArgs(IMessage message)
+        public ITextChannel Channel { get; }
+
+        public MessageReceivedEventArgs(IGatewayMessage message, ITextChannel channel)
         {
             Message = message;
+            Channel = channel;
         }
     }
 }
