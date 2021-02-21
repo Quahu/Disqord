@@ -5,7 +5,7 @@ namespace Disqord.Rest.Models
     public static partial class LocalEntityExtensions
     {
         public static MessageReferenceJsonModel ToModel(this LocalReference reference)
-            => new MessageReferenceJsonModel
+            => reference == null ? null : new MessageReferenceJsonModel
             {
                 MessageId = reference.MessageId,
                 ChannelId = Optional.FromNullable(reference.ChannelId),
