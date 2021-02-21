@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -33,6 +34,7 @@ namespace Disqord.Bot
             MessageReceived += MessageReceivedAsync;
 
             Commands.CommandExecuted += CommandExecutedAsync;
+            Commands.CommandExecutionFailed += CommandExecutionFailedAsync;
 
             Setup();
         }
@@ -75,20 +77,75 @@ namespace Disqord.Bot
             if (result is not FailedResult failedResult)
                 return;
 
+            //// These will be handled by the ExecutionFailed event handler.
+            //if (result is ExecutionFailedResult)
+            //    return;
+
             await this.SendMessageAsync(message.ChannelId, new LocalMessageBuilder()
                 .WithContent(failedResult.FailureReason)
                 .Build());
         }
 
-        private Task CommandExecutedAsync(CommandExecutedEventArgs e)
+        private Task CommandExecutionFailedAsync(CommandExecutionFailedEventArgs e)
         {
-            if (e.Result is not DiscordCommandResult result)
-                return Task.CompletedTask;
-
             if (e.Context is not DiscordCommandContext context)
                 return Task.CompletedTask;
 
-            return result.ExecuteAsync(context);
+            if (e.Result.CommandExecutionStep == CommandExecutionStep.Command && e.Result.Exception is ContextTypeMismatchException contextTypeMismatchException)
+            {
+                var message = "A command context type mismatch occurred while attempting to execute {0}. " +
+                    "The module expected {1}, but got {2}.";
+                var args = new List<object>(5)
+                {
+                    e.Result.Command.Name,
+                    contextTypeMismatchException.ExpectedType,
+                    contextTypeMismatchException.ActualType
+                };
+
+                // If the expected type is a DiscordGuildCommandContext, the actual type is a DiscordCommandContext, and the module doesn't have guild restrictions.
+                if (typeof(DiscordGuildCommandContext).IsAssignableFrom(contextTypeMismatchException.ExpectedType)
+                    && typeof(DiscordCommandContext).IsAssignableFrom(contextTypeMismatchException.ActualType)
+                    && !CommandUtilities.EnumerateAllChecks(e.Result.Command.Module).Any(x => x is RequireGuildAttribute))
+                {
+                    message += " Did you forget to mark the module with {3}?";
+                    args.Add(nameof(RequireGuildAttribute));
+                }
+
+                // If the expected type is a custom made context.
+                if (contextTypeMismatchException.ExpectedType != typeof(DiscordGuildCommandContext)
+                    && contextTypeMismatchException.ExpectedType != typeof(DiscordCommandContext))
+                {
+                    message += " If you have not overridden {4} yet, you must do so and have it return the given context type. " +
+                        "Otherwise ensure it returns the correct context types.";
+                    args.Add(nameof(DiscordBotBase.GetCommandContext));
+                }
+
+                Logger.LogError(message, args.ToArray());
+            }
+            else
+            {
+                Logger.LogError(e.Result.Exception, e.Result.FailureReason);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private async Task CommandExecutedAsync(CommandExecutedEventArgs e)
+        {
+            if (e.Result is not DiscordCommandResult result)
+                return;
+
+            if (e.Context is not DiscordCommandContext context)
+                return;
+
+            try
+            {
+                await result.ExecuteAsync(context).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An exception occurred when handling command result of type {0}.", result.GetType().Name);
+            }
         }
 
         public override Task RunAsync(CancellationToken stoppingToken)

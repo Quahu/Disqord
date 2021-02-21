@@ -17,6 +17,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Disqord\Disqord.csproj" />
-    <PackageReference Include="Qmmands" Version="4.0.0-nightly-00250" />
+    <PackageReference Include="Qmmands" Version="4.0.0-nightly-00252" />
   </ItemGroup>
 </Project>
