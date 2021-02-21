@@ -37,7 +37,7 @@ namespace Disqord.Test
                     x.AddSerilog(logger, true);
 
                     x.Services.Remove(x.Services.First(x => x.ServiceType == typeof(ILogger<>)));
-                    x.Services.Add(ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(Logger<>)));
+                    x.Services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
                 })
                 .ConfigureServices((context, services) =>
                 {
