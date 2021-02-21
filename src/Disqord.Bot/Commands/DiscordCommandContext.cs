@@ -1,4 +1,5 @@
 ﻿using System;
+using Disqord.Gateway;
 using Qmmands;
 
 namespace Disqord.Bot
@@ -7,17 +8,17 @@ namespace Disqord.Bot
     {
         public virtual DiscordBotBase Bot { get; }
 
-        public virtual IUserMessage Message { get; }
+        public virtual Snowflake? GuildId => Message.GuildId;
 
-        public virtual IMessageChannel Channel { get; }
+        public virtual IGatewayUserMessage Message { get; }
 
-        public virtual IUser User => Message.Author;
+        public virtual Snowflake ChannelId => Message.ChannelId;
 
-        public virtual IMember Member => User as IMember;
+        public virtual IUser Author => Message.Author;
 
         public DiscordCommandContext(
             DiscordBotBase bot,
-            IUserMessage message,
+            IGatewayUserMessage message,
             IServiceProvider services)
             : base(services)
         {

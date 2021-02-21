@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Qmmands;
 
 namespace Disqord.Bot
@@ -15,8 +15,7 @@ namespace Disqord.Bot
         public override ValueTask<CheckResult> CheckAsync(CommandContext _)
         {
             var context = _ as DiscordCommandContext;
-
-            if (context.User.Id == Id)
+            if (context.Author.Id == Id)
                 return Success();
 
             return Failure($"This can only be executed by the user with the ID {Id}.");

@@ -15,7 +15,6 @@ namespace Disqord.Bot
         public override ValueTask<CheckResult> CheckAsync(CommandContext _)
         {
             var context = _ as DiscordCommandContext;
-
             if (context.Message.ChannelId == Id)
                 return Success();
 

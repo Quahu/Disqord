@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -54,18 +54,23 @@ namespace Disqord.Bot
             }
         }
 
-        protected virtual DiscordCommandContext GetCommandContext(IUserMessage message)
-            => new(this, message, Services);
+        protected virtual DiscordCommandContext GetCommandContext(IGatewayUserMessage message, ITextChannel channel)
+        {
+            if (message.GuildId != null)
+                return new DiscordGuildCommandContext(this, message, channel, Services);
+
+            return new(this, message, Services);
+        }
 
         private async Task MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {
-            if (e.Message is not IUserMessage message)
+            if (e.Message is not IGatewayUserMessage message)
                 return;
 
             if (!CommandUtilities.HasPrefix(message.Content, '?', out var output))
                 return;
 
-            var context = GetCommandContext(message);
+            var context = GetCommandContext(message, e.Channel);
             var result = await Commands.ExecuteAsync(output, context).ConfigureAwait(false);
             if (result is not FailedResult failedResult)
                 return;
