@@ -2,7 +2,7 @@
 {
     public enum ActivityType : byte
     {
-        Game = 0,
+        Playing = 0,
 
         Streaming = 1,
 
