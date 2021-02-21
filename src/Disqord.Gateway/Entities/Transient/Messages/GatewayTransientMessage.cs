@@ -15,7 +15,7 @@ namespace Disqord
 
                 if (_author == null)
                 {
-                    // Following trick let's us not duplicate logic.
+                    // Following trick lets us not duplicate logic.
                     Model.Member.Value.User = Model.Author;
                     _author = new TransientMember(Client, GuildId.Value, Model.Member.Value);
                 }
