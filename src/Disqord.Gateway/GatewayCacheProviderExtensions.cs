@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Disqord.Collections.Synchronized;
+﻿using Disqord.Collections.Synchronized;
 
 namespace Disqord.Gateway
 {
@@ -15,6 +14,9 @@ namespace Disqord.Gateway
             => cacheProvider.TryGetCache(guildId, out cache);
 
         public static bool TryGetMembers(this IGatewayCacheProvider cacheProvider, Snowflake guildId, out ISynchronizedDictionary<Snowflake, CachedMember> cache)
+            => cacheProvider.TryGetCache(guildId, out cache);
+
+        public static bool TryGetMessages(this IGatewayCacheProvider cacheProvider, Snowflake guildId, out ISynchronizedDictionary<Snowflake, CachedUserMessage> cache)
             => cacheProvider.TryGetCache(guildId, out cache);
     }
 }
