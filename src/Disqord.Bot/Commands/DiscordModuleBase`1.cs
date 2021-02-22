@@ -12,15 +12,12 @@ namespace Disqord.Bot
             => Reply(null, embed, null);
 
         protected virtual DiscordCommandResult Reply(string content, LocalEmbedBuilder embed, LocalMentionsBuilder mentions = null)
-        {
-            var builder = new LocalMessageBuilder()
+            => Response(new LocalMessageBuilder()
                 .WithContent(content)
                 .WithEmbed(embed)
                 .WithMentions(mentions)
                 .WithReply(Context.Message.Id, Context.Message.ChannelId)
-                .Build();
-            return new DiscordResponseCommandResult(builder);
-        }
+                .Build());
 
         protected virtual DiscordCommandResult Response(string content, LocalMentionsBuilder mentions = null)
             => Response(content, null, mentions);
@@ -29,14 +26,11 @@ namespace Disqord.Bot
             => Response(null, embed, null);
 
         protected virtual DiscordCommandResult Response(string content, LocalEmbedBuilder embed, LocalMentionsBuilder mentions = null)
-        {
-            var builder = new LocalMessageBuilder()
+            => Response(new LocalMessageBuilder()
                 .WithContent(content)
                 .WithEmbed(embed)
                 .WithMentions(mentions)
-                .Build();
-            return new DiscordResponseCommandResult(builder);
-        }
+                .Build());
 
         //protected virtual DiscordCommandResult Response(LocalAttachment attachment)
         //    => Response();
