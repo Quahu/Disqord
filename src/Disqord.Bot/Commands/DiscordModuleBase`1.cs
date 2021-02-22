@@ -36,9 +36,15 @@ namespace Disqord.Bot
         //    => Response();
 
         protected virtual DiscordCommandResult Response(LocalMessage message)
-            => new DiscordResponseCommandResult(message);
+            => new DiscordResponseCommandResult(message)
+            {
+                Context = Context
+            };
 
         protected virtual DiscordCommandResult Reaction(IEmoji emoji)
-            => new DiscordReactionCommandResult(emoji);
+            => new DiscordReactionCommandResult(emoji)
+            {
+                Context = Context
+            };
     }
 }

@@ -12,7 +12,7 @@ namespace Disqord.Bot
             _message = message;
         }
 
-        public override Task ExecuteAsync(DiscordCommandContext context)
-            => context.Bot.SendMessageAsync(context.Message.ChannelId, _message);
+        public override Task ExecuteAsync()
+            => Context.Bot.SendMessageAsync(Context.ChannelId, _message);
     }
 }

@@ -12,7 +12,7 @@ namespace Disqord.Bot
             _emoji = emoji;
         }
 
-        public override Task ExecuteAsync(DiscordCommandContext context)
-            => context.Bot.CreateReactionAsync(context.Message.ChannelId, context.Message.Id, _emoji);
+        public override Task ExecuteAsync()
+            => Context.Bot.CreateReactionAsync(Context.ChannelId, Context.Message.Id, _emoji);
     }
 }

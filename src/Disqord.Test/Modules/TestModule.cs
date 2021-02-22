@@ -1,10 +1,19 @@
-﻿using Disqord.Bot;
+﻿using System.Threading.Tasks;
+using Disqord.Bot;
 using Qmmands;
 
 namespace Disqord.Test
 {
     public class TestModule : DiscordModuleBase
     {
+        [Command("responses")]
+        public async Task<DiscordCommandResult> Responses()
+        {
+            await Response("1");
+            await Response("2");
+            return Response("3");
+        }
+
         [Command("ping")]
         public DiscordCommandResult Ping()
             => Response("pong");

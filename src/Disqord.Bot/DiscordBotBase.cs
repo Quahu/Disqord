@@ -140,7 +140,7 @@ namespace Disqord.Bot
 
             try
             {
-                await result.ExecuteAsync(context).ConfigureAwait(false);
+                await result.ExecuteAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {

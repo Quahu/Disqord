@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Qmmands;
 
@@ -9,6 +10,12 @@ namespace Disqord.Bot
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool IsSuccessful => true;
 
-        public abstract Task ExecuteAsync(DiscordCommandContext context);
+        public DiscordCommandContext Context { get; protected internal set; }
+
+        public abstract Task ExecuteAsync();
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public TaskAwaiter GetAwaiter()
+            => ExecuteAsync().GetAwaiter();
     }
 }
