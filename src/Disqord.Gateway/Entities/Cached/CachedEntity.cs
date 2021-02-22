@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Disqord.Gateway
 {
-    public abstract class CachedEntity : IGatewayEntity, ICloneable
+    public abstract class CachedEntity : ICachedEntity, ICloneable
     {
         public IGatewayClient Client { get; }
 

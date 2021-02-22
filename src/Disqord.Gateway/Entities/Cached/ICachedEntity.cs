@@ -1,6 +1,5 @@
 ﻿namespace Disqord.Gateway
 {
-    public interface ICachedEntity : IEntity
-    {
-    }
+    public interface ICachedEntity : IGatewayEntity
+    { }
 }
