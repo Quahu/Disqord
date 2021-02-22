@@ -48,9 +48,9 @@ namespace Disqord
                     return default;
 
                 if (_reactions == null)
-                    _reactions = Optional.Create(Model.Reactions.Value.ToReadOnlyDictionary(Client,
-                        (x, client) => TransientEmoji.Create(client, x.Emoji),
-                        (x, client) => new TransientReaction(client, x) as IReaction));
+                    _reactions = Optional.Convert(Model.Reactions, x => x.ToReadOnlyDictionary(
+                        (x) => Emoji.Create(x.Emoji),
+                        (x) => new Reaction(x) as IReaction));
 
                 return _reactions.Value;
             }
