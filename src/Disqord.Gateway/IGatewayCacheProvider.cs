@@ -9,6 +9,16 @@ namespace Disqord.Gateway
     public interface IGatewayCacheProvider : IBindable<IGatewayClient>
     {
         /// <summary>
+        ///     Checks whether the <typeparamref name="TEntity"/> type is supported.
+        /// </summary>
+        /// <typeparam name="TEntity"> The type of the entities. </typeparam>
+        /// <returns>
+        ///     <see langword="true"/>, if the provider supports caching the type.
+        /// </returns>
+        public bool Supports<TEntity>()
+            where TEntity : CachedSnowflakeEntity;
+
+        /// <summary>
         ///     Attempts to retrieve a top-level cache for the <typeparamref name="TEntity"/> type.
         /// </summary>
         /// <typeparam name="TEntity"> The type of the entities. </typeparam>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Disqord.Collections.Synchronized;
@@ -28,6 +28,10 @@ namespace Disqord.Gateway
         {
 
         }
+
+        public bool Supports<TEntity>()
+            where TEntity : CachedSnowflakeEntity
+            => _supportedTypes.Contains(typeof(TEntity)) || _supportedNestedTypes.Contains(typeof(TEntity));
 
         public bool TryGetCache<TEntity>(out ISynchronizedDictionary<Snowflake, TEntity> cache)
             where TEntity : CachedSnowflakeEntity
