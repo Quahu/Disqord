@@ -16,9 +16,17 @@ namespace Disqord
             => value ?? Optional<T>.Empty;
 
         public static Optional<TNew> Convert<TOld, TNew>(Optional<TOld> optional, Converter<TOld, TNew> converter)
-            => optional.HasValue ? converter(optional.Value) : Optional<TNew>.Empty;
+            where TNew : class
+            => optional.HasValue
+                ? optional.Value != null
+                    ? converter(optional.Value)
+                    : null
+                : Optional<TNew>.Empty;
 
         public static TNew ConvertOrDefault<TOld, TNew>(Optional<TOld> optional, Converter<TOld, TNew> converter)
             => optional.HasValue ? converter(optional.Value) : default;
+
+        public static TNew ConvertOrDefault<TOld, TNew>(Optional<TOld> optional, Converter<TOld, TNew> converter, TNew defaultValue)
+            => optional.HasValue ? converter(optional.Value) : defaultValue;
     }
 }
