@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -35,7 +35,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 
         public abstract Task HandleDispatchAsync(IJsonToken data);
 
-        private protected static readonly SynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, AsynchronousEvent>> _eventsByDispatcher = new(1);
+        private protected static readonly ISynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, AsynchronousEvent>> _eventsByDispatcher = new SynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, AsynchronousEvent>>(1);
         private protected static readonly PropertyInfo[] _eventsProperties;
 
         static Handler()

@@ -14,7 +14,7 @@ namespace Disqord.Gateway.Api.Default
     public class DefaultGatewayRateLimiter : IGatewayRateLimiter
     {
         // The buckets that are shared between all gateway connections.
-        private static readonly SynchronizedDictionary<Snowflake, SynchronizedDictionary<GatewayPayloadOperation, Bucket>> _sharedBuckets;
+        private static readonly ISynchronizedDictionary<Snowflake, ISynchronizedDictionary<GatewayPayloadOperation, Bucket>> _sharedBuckets;
 
         private const int HEARTBEATS = 2;
 
@@ -116,7 +116,7 @@ namespace Disqord.Gateway.Api.Default
 
         static DefaultGatewayRateLimiter()
         {
-            _sharedBuckets = new SynchronizedDictionary<Snowflake, SynchronizedDictionary<GatewayPayloadOperation, Bucket>>(1);
+            _sharedBuckets = new SynchronizedDictionary<Snowflake, ISynchronizedDictionary<GatewayPayloadOperation, Bucket>>(1);
         }
 
         private class Bucket

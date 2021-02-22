@@ -68,6 +68,6 @@ namespace Disqord.Utilities
                 return flags.Select(x => (x as IConvertible).ToUInt64(null)).Where(x => x != 0).ToArray();
             });
 
-        internal static readonly SynchronizedDictionary<Type, ulong[]> _flagsCache = new SynchronizedDictionary<Type, ulong[]>();
+        internal static readonly ISynchronizedDictionary<Type, ulong[]> _flagsCache = new SynchronizedDictionary<Type, ulong[]>();
     }
 }

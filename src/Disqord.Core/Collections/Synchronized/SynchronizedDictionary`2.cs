@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 namespace Disqord.Collections.Synchronized
@@ -65,7 +64,7 @@ namespace Disqord.Collections.Synchronized
         IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => Keys;
         IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => Values;
 
-        private readonly Dictionary<TKey, TValue> _dictionary;
+        private readonly IDictionary<TKey, TValue> _dictionary;
 
         public SynchronizedDictionary()
         {
@@ -77,103 +76,9 @@ namespace Disqord.Collections.Synchronized
             _dictionary = new Dictionary<TKey, TValue>(capacity);
         }
 
-        public SynchronizedDictionary(Dictionary<TKey, TValue> dictionary)
+        public SynchronizedDictionary(IDictionary<TKey, TValue> dictionary)
         {
             _dictionary = dictionary;
-        }
-
-        public TValue GetOrAdd(TKey key, TValue value)
-        {
-            lock (this)
-            {
-                if (_dictionary.TryGetValue(key, out value))
-                    return value;
-
-                _dictionary.Add(key, value);
-                return value;
-            }
-        }
-
-        public TValue GetOrAdd(TKey key, Func<TKey, TValue> factory)
-        {
-            lock (this)
-            {
-                if (_dictionary.TryGetValue(key, out var value))
-                    return value;
-
-                value = factory(key);
-                _dictionary.Add(key, value);
-                return value;
-            }
-        }
-
-        public TValue GetOrAdd<TState>(TKey key, Func<TKey, TState, TValue> factory, TState state)
-        {
-            lock (this)
-            {
-                if (_dictionary.TryGetValue(key, out var value))
-                    return value;
-
-                value = factory(key, state);
-                _dictionary.Add(key, value);
-                return value;
-            }
-        }
-
-        public TValue AddOrUpdate(TKey key, TValue addValue, Func<TKey, TValue, TValue> updateFactory)
-        {
-            lock (this)
-            {
-                if (_dictionary.TryGetValue(key, out var value))
-                {
-                    value = updateFactory(key, value);
-                    _dictionary[key] = value;
-                    return value;
-                }
-                else
-                {
-                    _dictionary.Add(key, addValue);
-                    return addValue;
-                }
-            }
-        }
-
-        public TValue AddOrUpdate(TKey key, Func<TKey, TValue> addFactory, Func<TKey, TValue, TValue> updateFactory)
-        {
-            lock (this)
-            {
-                if (_dictionary.TryGetValue(key, out var value))
-                {
-                    value = updateFactory(key, value);
-                    _dictionary[key] = value;
-                    return value;
-                }
-                else
-                {
-                    value = addFactory(key);
-                    _dictionary.Add(key, value);
-                    return value;
-                }
-            }
-        }
-
-        public TValue AddOrUpdate<TState>(TKey key, Func<TKey, TState, TValue> addFactory, Func<TKey, TState, TValue, TValue> updateFactory, TState state)
-        {
-            lock (this)
-            {
-                if (_dictionary.TryGetValue(key, out var value))
-                {
-                    value = updateFactory(key, state, value);
-                    _dictionary[key] = value;
-                    return value;
-                }
-                else
-                {
-                    value = addFactory(key, state);
-                    _dictionary.Add(key, value);
-                    return value;
-                }
-            }
         }
 
         public bool TryAdd(TKey key, TValue value)
@@ -189,30 +94,6 @@ namespace Disqord.Collections.Synchronized
             lock (this)
             {
                 return _dictionary.Remove(key, out value);
-            }
-        }
-
-        public void EnsureCapacity(int capacity)
-        {
-            lock (this)
-            {
-                _dictionary.EnsureCapacity(capacity);
-            }
-        }
-
-        public void TrimExcess()
-        {
-            lock (this)
-            {
-                _dictionary.TrimExcess();
-            }
-        }
-
-        public void TrimExcess(int capacity)
-        {
-            lock (this)
-            {
-                _dictionary.TrimExcess(capacity);
             }
         }
 
