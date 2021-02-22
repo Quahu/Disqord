@@ -1,4 +1,7 @@
-﻿namespace Disqord.Gateway.Default
+﻿using System;
+using System.Collections.Generic;
+
+namespace Disqord.Gateway.Default
 {
     public class DefaultGatewayCacheProviderConfiguration
     {
@@ -7,5 +10,9 @@
         ///     Defaults to <c>100</c>. Set to <c>0</c> to disable message caching.
         /// </summary>
         public virtual int MessagesPerChannel { get; set; } = 100;
+
+        public virtual IEnumerable<Type> SupportedTypes { get; set; } = new[] { typeof(CachedSharedUser), typeof(CachedGuild) };
+
+        public virtual IEnumerable<Type> SupportedNestedTypes { get; set; } = new[] { typeof(CachedMember), typeof(CachedGuildChannel) };
     }
 }
