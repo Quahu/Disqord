@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Disqord.Collections.Proxied;
 using Disqord.Collections.Synchronized;
 using Disqord.Gateway.Default;
 using Microsoft.Extensions.Options;
@@ -9,6 +10,8 @@ namespace Disqord.Gateway
 {
     public class DefaultGatewayCacheProvider : IGatewayCacheProvider
     {
+        public int MessagesPerChannel { get; }
+
         private readonly HashSet<Type> _supportedTypes;
         private readonly HashSet<Type> _supportedNestedTypes;
         private Dictionary<Type, object> _caches;
@@ -18,9 +21,10 @@ namespace Disqord.Gateway
             IOptions<DefaultGatewayCacheProviderConfiguration> options)
         {
             var configuration = options.Value;
-
+            MessagesPerChannel = configuration.MessagesPerChannel;
             _supportedTypes = configuration.SupportedTypes.ToHashSet();
             _supportedNestedTypes = configuration.SupportedNestedTypes.ToHashSet();
+
             Reset();
         }
 
@@ -63,7 +67,16 @@ namespace Disqord.Gateway
 
             if (_supportedNestedTypes.Contains(typeof(TEntity)))
             {
-                cache = new SynchronizedDictionary<Snowflake, TEntity>();
+                if (typeof(TEntity) == typeof(CachedUserMessage))
+                {
+                    var messageCache = new MessageDictionary(MessagesPerChannel).Synchronized();
+                    cache = (ISynchronizedDictionary<Snowflake, TEntity>) messageCache;
+                }
+                else
+                {
+                    cache = new SynchronizedDictionary<Snowflake, TEntity>();
+                }
+
                 nestedCache.Add(parentId, cache);
                 return true;
             }
@@ -106,6 +119,26 @@ namespace Disqord.Gateway
             {
                 var cache = new SynchronizedDictionary<Snowflake, object>();
                 _nestedCaches.Add(type, cache);
+            }
+        }
+
+        private sealed class MessageDictionary : ProxiedDictionary<Snowflake, CachedUserMessage>
+        {
+            private readonly int _capacity;
+            private SortedList<Snowflake, CachedUserMessage> List => Dictionary as SortedList<Snowflake, CachedUserMessage>;
+
+            public MessageDictionary(int capacity)
+                : base(new SortedList<Snowflake, CachedUserMessage>(capacity))
+            {
+                _capacity = capacity;
+            }
+
+            public override void Add(Snowflake key, CachedUserMessage value)
+            {
+                if (List.Count == _capacity)
+                    List.RemoveAt(0);
+
+                base.Add(key, value);
             }
         }
     }
