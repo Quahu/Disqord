@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System.ComponentModel;
+using Disqord.Models;
 
 namespace Disqord.Gateway
 {
@@ -12,6 +13,7 @@ namespace Disqord.Gateway
             Update(model);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual void Update(ChannelJsonModel model)
         {
             if (model.Name.HasValue)

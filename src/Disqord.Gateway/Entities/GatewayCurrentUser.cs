@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel;
+using System.Globalization;
 using Disqord.Models;
 
 namespace Disqord.Gateway
@@ -25,6 +26,7 @@ namespace Disqord.Gateway
             Update(model);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public override void Update(UserJsonModel model)
         {
             if (model.Locale.HasValue)
