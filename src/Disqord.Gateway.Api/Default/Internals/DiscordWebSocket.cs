@@ -122,7 +122,7 @@ namespace Disqord.Gateway.Api.Default
                     if (cancellationToken.IsCancellationRequested)
                         throw new TaskCanceledException();
 
-                    result = receiveTask.Result;
+                    result = await receiveTask.ConfigureAwait(false);
                     if (result.MessageType == WebSocketMessageType.Close)
                     {
                         await _ws.CloseOutputAsync(_ws.CloseStatus.Value, _ws.CloseMessage, default).ConfigureAwait(false);
