@@ -10,10 +10,15 @@ namespace Disqord.Gateway.Default.Dispatcher
             if (!model.GuildId.HasValue)
                 return null;
 
-            var channel = CachedGuildChannel.Create(Client, model);
-            if (CacheProvider.TryGetCache<CachedGuildChannel>(out var cache))
+            IGuildChannel channel;
+            if (CacheProvider.TryGetChannels(model.GuildId.Value, out var cache))
             {
-                await cache.AddAsync(channel).ConfigureAwait(false);
+                channel = CachedGuildChannel.Create(Client, model);
+                cache.Add(channel.Id, channel as CachedGuildChannel);
+            }
+            else
+            {
+                channel = TransientGuildChannel.Create(Client, model);
             }
 
             return new ChannelCreatedEventArgs(channel);

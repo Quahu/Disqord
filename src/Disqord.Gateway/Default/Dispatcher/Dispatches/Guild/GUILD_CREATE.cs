@@ -17,11 +17,11 @@ namespace Disqord.Gateway.Default.Dispatcher
                 // TODO: !!!
                 var isInitial = /*Dispatcher._initialUnavailableGuilds.Remove(model.Id);*/
                     true;
-                if (Client.CacheProvider.TryGetCache<CachedGuild>(out var cache))
+                if (CacheProvider.TryGetGuilds(out var cache))
                 {
                     if (!isInitial)
                     {
-                        guild = await cache.GetAsync(model.Id).ConfigureAwait(false);
+                        guild = cache.GetValueOrDefault(model.Id);
                         if (guild != null)
                         {
                             guild.Update(model);
@@ -34,7 +34,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                     else
                     {
                         guild = new CachedGuild(Client, model);
-                        await cache.AddAsync(guild as CachedGuild).ConfigureAwait(false);
+                        cache.Add(model.Id, guild as CachedGuild);
                     }
                 }
                 else
@@ -54,7 +54,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 if (Client.CacheProvider.TryGetCache<CachedGuild>(out var cache))
                 {
                     guild = new CachedGuild(Client, model);
-                    await cache.AddAsync(guild as CachedGuild).ConfigureAwait(false);
+                    cache.Add(model.Id, guild as CachedGuild);
                 }
                 else
                 {

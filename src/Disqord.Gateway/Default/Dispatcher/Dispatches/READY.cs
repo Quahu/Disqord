@@ -10,18 +10,20 @@ namespace Disqord.Gateway.Default.Dispatcher
     {
         public ICurrentUser CurrentUser => _user;
 
-        public IReadOnlySet<Snowflake> UnavailableGuildIds => _guildIds;
+        public ISet<Snowflake> UnavailableGuildIds => _guildIds;
 
         private CachedCurrentUser _user;
         private SortedSet<Snowflake> _guildIds;
 
         public override async Task<ReadyEventArgs> HandleDispatchAsync(ReadyJsonModel model)
         {
+            CacheProvider.Reset();
+
             // The shared user for the bot is always going to be referenced.
             var sharedUser = new CachedSharedUser(Client, model.User);
-            if (CacheProvider.TryGetCache<CachedSharedUser>(out var sharedUserCache))
+            if (CacheProvider.TryGetUsers(out var sharedUserCache))
             {
-                await sharedUserCache.AddAsync(sharedUser).ConfigureAwait(false);
+                sharedUserCache.Add(sharedUser.Id, sharedUser);
             }
 
             _user = new CachedCurrentUser(sharedUser, model.User);

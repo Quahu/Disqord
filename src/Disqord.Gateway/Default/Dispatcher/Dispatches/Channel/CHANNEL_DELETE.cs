@@ -11,9 +11,9 @@ namespace Disqord.Gateway.Default.Dispatcher
                 return null;
 
             IGuildChannel channel;
-            if (CacheProvider.TryGetCache<CachedGuildChannel>(out var cache))
+            if (CacheProvider.TryGetChannels(model.GuildId.Value, out var cache) && cache.TryRemove(model.Id, out var cachedChannel))
             {
-                channel = await cache.RemoveAsync(model.Id).ConfigureAwait(false);
+                channel = cachedChannel;
             }
             else
             {

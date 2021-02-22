@@ -118,10 +118,9 @@ namespace Disqord.Gateway.Default
 
         public async Task<IUser> GetSharedOrTransientUserAsync(UserJsonModel model)
         {
-            if (Client.CacheProvider.TryGetCache<CachedSharedUser>(out var cache))
+            if (Client.CacheProvider.TryGetUsers(out var cache))
             {
-                var user = await cache.GetAsync(model.Id).ConfigureAwait(false);
-                if (user != null)
+                if (cache.TryGetValue(model.Id, out var user))
                     return user;
             }
 

@@ -10,9 +10,9 @@ namespace Disqord.Gateway.Default.Dispatcher
             IMessageChannel channel = null;
             if (model.GuildId.HasValue)
             {
-                if (CacheProvider.TryGetCache<CachedGuildChannel>(out var cache))
+                if (CacheProvider.TryGetChannels(model.GuildId.Value, out var cache))
                 {
-                    channel = await cache.GetAsync(model.ChannelId).ConfigureAwait(false) as IMessageChannel;
+                    channel = cache.GetValueOrDefault(model.ChannelId) as IMessageChannel;
                     if (channel is CachedTextChannel textChannel)
                         textChannel.LastPinTimestamp = model.LastPinTimestamp.GetValueOrDefault();
                 }
