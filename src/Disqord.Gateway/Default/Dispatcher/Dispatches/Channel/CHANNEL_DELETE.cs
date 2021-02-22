@@ -20,6 +20,9 @@ namespace Disqord.Gateway.Default.Dispatcher
                 channel = TransientGuildChannel.Create(Client, model);
             }
 
+            //  Pass removed messages to e?
+            CacheProvider.TryRemoveCache<CachedUserMessage>(model.Id, out _);
+
             return new ChannelDeletedEventArgs(channel);
         }
     }
