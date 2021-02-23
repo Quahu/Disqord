@@ -54,6 +54,7 @@ namespace Disqord.Gateway.Default
                 ["GUILD_BAN_REMOVE"] = new GuildBanRemoveHandler(),
 
                 ["MESSAGE_CREATE"] = new MessageCreateHandler(),
+                ["MESSAGE_DELETE"] = new MessageDeleteHandler(),
 
                 ["TYPING_START"] = new TypingStartHandler(),
 

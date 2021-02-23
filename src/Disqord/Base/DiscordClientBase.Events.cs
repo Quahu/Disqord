@@ -78,6 +78,12 @@ namespace Disqord
             remove => GatewayClient.MessageReceived -= value;
         }
 
+        public event AsynchronousEventHandler<MessageDeletedEventArgs> MessageDeleted
+        {
+            add => GatewayClient.MessageDeleted += value;
+            remove => GatewayClient.MessageDeleted -= value;
+        }
+
         public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
         {
             add => GatewayClient.TypingStarted += value;

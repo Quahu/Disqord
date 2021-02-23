@@ -1,14 +1,19 @@
 ﻿using System.Threading.Tasks;
-using Disqord.Gateway.Api;
+using Disqord.Gateway.Api.Models;
 
-namespace Disqord.Gateway.Default
+namespace Disqord.Gateway.Default.Dispatcher
 {
-    public partial class DefaultGatewayDispatcher
+    public class MessageDeleteHandler : Handler<MessageDeletedJsonModel, MessageDeletedEventArgs>
     {
-        private Task MessageDeleteAsync(GatewayDispatchReceivedEventArgs e)
+        public override async Task<MessageDeletedEventArgs> HandleDispatchAsync(MessageDeletedJsonModel model)
         {
-            //return _messageDeletedEvent.InvokeAsync(this, new MessageDeletedEventArgs());
-            return Task.CompletedTask;
+            CachedUserMessage message = null;
+            if (model.GuildId.HasValue && CacheProvider.TryGetMessages(model.ChannelId, out var cache))
+            {
+                cache.TryRemove(model.Id, out message);
+            }
+
+            return new MessageDeletedEventArgs(model.GuildId.GetValueOrNullable(), model.ChannelId, model.Id, message);
         }
     }
 }

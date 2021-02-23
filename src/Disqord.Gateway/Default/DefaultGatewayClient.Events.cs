@@ -76,6 +76,12 @@ namespace Disqord.Gateway.Default
             remove => Dispatcher.MessageReceivedEvent.Unhook(value);
         }
 
+        public event AsynchronousEventHandler<MessageDeletedEventArgs> MessageDeleted
+        {
+            add => Dispatcher.MessageDeletedEvent.Hook(value);
+            remove => Dispatcher.MessageDeletedEvent.Unhook(value);
+        }
+
         public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
         {
             add => Dispatcher.TypingStartedEvent.Hook(value);

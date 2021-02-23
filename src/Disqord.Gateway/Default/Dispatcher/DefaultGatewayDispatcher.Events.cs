@@ -28,6 +28,8 @@ namespace Disqord.Gateway.Default
 
         public AsynchronousEvent<MessageReceivedEventArgs> MessageReceivedEvent { get; } = new();
 
+        public AsynchronousEvent<MessageDeletedEventArgs> MessageDeletedEvent { get; } = new();
+
         public AsynchronousEvent<TypingStartedEventArgs> TypingStartedEvent { get; } = new();
 
         public AsynchronousEvent<VoiceStateUpdatedEventArgs> VoiceStateUpdatedEvent { get; } = new();
