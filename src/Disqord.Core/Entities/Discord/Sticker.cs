@@ -31,5 +31,8 @@ namespace Disqord
             PreviewAssetHash = model.PreviewAsset;
             FormatType = model.FormatType;
         }
+
+        public override string ToString()
+            => $"Sticker {Name} ({Id})";
     }
 }
