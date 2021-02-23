@@ -5,7 +5,7 @@ namespace Disqord
     public static class Optional
     {
         public static Optional<T> Create<T>(T value)
-            => new Optional<T>(value);
+            => new(value);
 
         public static Optional<T> FromNullable<T>(T? value)
             where T : struct
