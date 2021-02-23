@@ -13,7 +13,7 @@ namespace Disqord.Rest.Api.Default
 {
     public sealed class DefaultRestRateLimiter : IRestRateLimiter
     {
-        public const string UNLIMITED_BUCKET = "unlimited";
+        private const string UnlimitedBucketString = "unlimited";
 
         public ILogger Logger { get; }
 
@@ -23,7 +23,6 @@ namespace Disqord.Rest.Api.Default
 
         private readonly Binder<IRestApiClient> _binder;
 
-        private readonly object _lock;
         private readonly Dictionary<Route, string> _hashes;
         private readonly Dictionary<string, Bucket> _buckets;
         private readonly HashSet<Route> _hitRateLimits;
@@ -38,7 +37,6 @@ namespace Disqord.Rest.Api.Default
 
             _binder = new Binder<IRestApiClient>(this);
 
-            _lock = new object();
             _hashes = new Dictionary<Route, string>();
             _buckets = new Dictionary<string, Bucket>();
             _hitRateLimits = new HashSet<Route>();
@@ -64,10 +62,11 @@ namespace Disqord.Rest.Api.Default
 
         public ValueTask EnqueueRequestAsync(IRestRequest request)
         {
-            // Asks Discord for accurate, not rounded up rate-limits.
-            // TODO: Remove for v8.
-            if (ApiClient.Requester.Version != 8)
+            if (ApiClient.Requester.Version < 8)
+            {
+                // Asks Discord for accurate, not rounded up rate-limits on API versions before 8.
                 request.Options.Headers["X-Ratelimit-Precision"] = "millisecond";
+            }
 
             var bucket = GetBucket(request.Route, true);
             bucket.Enqueue(request);
@@ -76,7 +75,7 @@ namespace Disqord.Rest.Api.Default
 
         private Bucket GetBucket(FormattedRoute route, bool create)
         {
-            lock (_lock)
+            lock (this)
             {
                 var hash = GetRouteHash(route.BaseRoute);
                 var parameters = $"{route.Parameters.GuildId}:{route.Parameters.ChannelId}:{route.Parameters.WebhookId}";
@@ -93,15 +92,15 @@ namespace Disqord.Rest.Api.Default
 
         private string GetRouteHash(Route route)
         {
-            lock (_lock)
+            lock (this)
             {
-                return _hashes.GetValueOrDefault(route) ?? $"{UNLIMITED_BUCKET}+{route}";
+                return _hashes.GetValueOrDefault(route) ?? $"{UnlimitedBucketString}+{route}";
             }
         }
 
         private bool UpdateBucket(FormattedRoute route, IHttpResponse response)
         {
-            lock (_lock)
+            lock (this)
             {
                 try
                 {
@@ -109,15 +108,15 @@ namespace Disqord.Rest.Api.Default
                     var bucket = GetBucket(route, true);
                     var wasUnlimited = bucket.IsUnlimited;
                     var headers = new DiscordHeaders(response.Headers);
-                    if (headers.Bucket != null)
+                    if (headers.Bucket.HasValue)
                     {
-                        if (_hashes.TryAdd(route.BaseRoute, headers.Bucket))
-                            Logger.LogTrace("Cached bucket hash {0} -> {1}.", route, headers.Bucket);
+                        if (_hashes.TryAdd(route.BaseRoute, headers.Bucket.Value))
+                            Logger.LogTrace("Cached bucket hash {0} -> {1}.", route, headers.Bucket.Value);
 
                         bucket = GetBucket(route, true);
                     }
 
-                    if (headers.IsGlobal)
+                    if (headers.IsGlobal.GetValueOrDefault())
                     {
                         Logger.LogError("Hit the global rate-limit! Retry-After: {0}ms.", headers.RetryAfter.Value.TotalMilliseconds);
                     }
@@ -132,12 +131,12 @@ namespace Disqord.Rest.Api.Default
                         return true;
                     }
 
-                    if (headers.Bucket == null)
+                    if (!headers.Bucket.HasValue)
                         return false;
 
                     bucket.Limit = Math.Max(1, headers.Limit.Value);
                     bucket.Remaining = headers.Remaining.Value;
-                    bucket.ResetsAt = now + headers.ResetsAfter;
+                    bucket.ResetsAt = now + headers.ResetsAfter.Value;
                     Logger.LogDebug("Updated bucket {0} to ({1}/{2}, {3})", bucket, bucket.Remaining, bucket.Limit, bucket.ResetsAt - now);
                     return false;
                 }
@@ -260,68 +259,47 @@ namespace Disqord.Rest.Api.Default
                 => Id;
         }
 
-        // TODO: remake
-        private sealed class DiscordHeaders
+        private readonly struct DiscordHeaders
         {
-            public bool IsGlobal { get; }
+            public Optional<bool> IsGlobal => GetHeader("X-RateLimit-Global", bool.Parse);
 
-            public TimeSpan? RetryAfter { get; }
+            public Optional<TimeSpan> RetryAfter => GetHeader("Retry-After", x => TimeSpan.FromSeconds(int.Parse(x)));
 
-            public int? Limit { get; }
+            public Optional<int> Limit => GetHeader("X-RateLimit-Limit", int.Parse);
 
-            public int? Remaining { get; }
+            public Optional<int> Remaining => GetHeader("X-RateLimit-Remaining", int.Parse);
 
-            public DateTimeOffset? ResetsAt { get; }
+            public Optional<DateTimeOffset> ResetsAt => GetHeader("X-RateLimit-Reset", x => DateTimeOffset.UnixEpoch + TimeSpan.FromSeconds(ParseDouble(x)));
 
-            public TimeSpan ResetsAfter { get; }
+            public Optional<TimeSpan> ResetsAfter => GetHeader("X-RateLimit-Reset-After", x => TimeSpan.FromSeconds(ParseDouble(x)));
 
-            public string Bucket { get; }
+            public Optional<string> Bucket => GetHeader("X-RateLimit-Bucket");
 
-            public DateTimeOffset ServerDate { get; }
+            public Optional<DateTimeOffset> Date => GetHeader("Date", DateTimeOffset.Parse);
 
-            public DateTimeOffset Date { get; }
+            private readonly IDictionary<string, string> _headers;
 
             public DiscordHeaders(IDictionary<string, string> headers)
             {
                 if (headers == null)
                     throw new ArgumentNullException(nameof(headers));
 
-                if (headers.TryGetValue("X-RateLimit-Global", out var value) && bool.TryParse(value, out var isGlobal))
-                    IsGlobal = isGlobal;
-
-                if (headers.TryGetValue("Retry-After", out value) && int.TryParse(value, out var retryAfter))
-                    RetryAfter = TimeSpan.FromSeconds(retryAfter);
-
-                if (headers.TryGetValue("X-RateLimit-Limit", out value) && int.TryParse(value, out var limit))
-                    Limit = limit;
-
-                if (headers.TryGetValue("X-RateLimit-Remaining", out value) && int.TryParse(value, out var remaining))
-                    Remaining = remaining;
-
-                if (headers.TryGetValue("X-RateLimit-Reset", out value) && double.TryParse(value, NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo, out var resetsAt))
-                    ResetsAt = DateTimeOffset.UnixEpoch + TimeSpan.FromSeconds(resetsAt);
-
-                if (headers.TryGetValue("X-RateLimit-Reset-After", out value) && double.TryParse(value, NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo, out var resetsAfter))
-                    ResetsAfter = TimeSpan.FromSeconds(resetsAfter);
-
-                if (headers.TryGetValue("X-RateLimit-Bucket", out value))
-                    Bucket = value;
-
-                if (headers.TryGetValue("Date", out value) && DateTimeOffset.TryParse(value, out var serverDate))
-                    ServerDate = serverDate;
-
-                Date = DateTimeOffset.UtcNow;
+                _headers = headers;
             }
 
-            public override string ToString()
-                => $"IsGlobal:    {IsGlobal}\n" +
-                   $"Limit:       {Limit}\n" +
-                   $"Remaining:   {Remaining}\n" +
-                   $"ResetsAt:    {ResetsAt}\n" +
-                   $"ResetsAfter: {ResetsAfter}\n" +
-                   $"Bucket:      {Bucket}\n" +
-                   $"ServerDate:  {ServerDate}\n" +
-                   $"Date:        {Date}";
+            public Optional<string> GetHeader(string name)
+            {
+                if (_headers.TryGetValue(name, out var value))
+                    return value;
+
+                return default;
+            }
+
+            public Optional<T> GetHeader<T>(string name, Converter<string, T> converter)
+                => Optional.Convert(GetHeader(name), converter);
+
+            private static double ParseDouble(string value)
+                => double.Parse(value, NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo);
         }
     }
 }
