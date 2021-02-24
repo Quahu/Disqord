@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,6 +12,7 @@ namespace Disqord.Bot
 {
     public abstract partial class DiscordBotBase : DiscordClientBase
     {
+        // TODO: probably split into multiple steps
         protected virtual void Setup()
         {
             Commands.AddTypeParser(new SnowflakeTypeParser());
@@ -29,6 +30,15 @@ namespace Disqord.Bot
             }
         }
 
+        /// <summary>
+        ///     Gets a <see cref="DiscordCommandContext"/> from the provided parameters.
+        /// </summary>
+        /// <param name="prefix"> The prefix found in the message. </param>
+        /// <param name="message"> The messsage possibly containing commands. </param>
+        /// <param name="channel"> The optional text channel the message was sent in. </param>
+        /// <returns>
+        ///     A <see cref="DiscordCommandContext"/> or a <see cref="DiscordGuildCommandContext"/> for guild messages.
+        /// </returns>
         protected virtual DiscordCommandContext GetCommandContext(IPrefix prefix, IGatewayUserMessage message, ITextChannel channel)
         {
             if (message.GuildId != null)

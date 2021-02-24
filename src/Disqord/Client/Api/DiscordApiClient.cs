@@ -12,14 +12,26 @@ using Microsoft.Extensions.Options;
 
 namespace Disqord
 {
+    /// <summary>
+    ///     Represents a low-level client for the Discord API.
+    ///     Wraps <see cref="IRestApiClient"/> and <see cref="IGatewayApiClient"/>.
+    /// </summary>
     public class DiscordApiClient : IRestApiClient, IGatewayApiClient
     {
+        /// <inheritdoc/>
         public Token Token { get; }
 
+        /// <inheritdoc/>
         public ILogger Logger { get; }
 
+        /// <summary>
+        ///     Gets the REST API client.
+        /// </summary>
         public IRestApiClient RestApiClient { get; }
 
+        /// <summary>
+        ///     Gets the gateway API client.
+        /// </summary>
         public IGatewayApiClient GatewayApiClient { get; }
 
         IRestRateLimiter IRestApiClient.RateLimiter => RestApiClient.RateLimiter;

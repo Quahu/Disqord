@@ -4,12 +4,24 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
+    /// <summary>
+    ///     Represents a <see cref="DiscordClientBase"/> with additional command processing capabilities.
+    /// </summary>
     public abstract partial class DiscordBotBase : DiscordClientBase
     {
+        /// <summary>
+        ///     Gets the prefix provider of this bot.
+        /// </summary>
         public IPrefixProvider Prefixes { get; }
 
+        /// <summary>
+        ///     Gets the command service of this bot.
+        /// </summary>
         public CommandService Commands { get; }
 
+        /// <summary>
+        ///     Gets the service provider of this bot.
+        /// </summary>
         public IServiceProvider Services { get; }
 
         private readonly DiscordClientBase _client;

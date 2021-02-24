@@ -11,18 +11,29 @@ using Microsoft.Extensions.Logging;
 
 namespace Disqord
 {
+    /// <summary>
+    ///     Represents a Discord client wrapping <see cref="IRestClient"/> and <see cref="IGatewayClient"/>.
+    /// </summary>
     public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
     {
+        /// <inheritdoc/>
         public ILogger Logger { get; }
 
+        /// <summary>
+        ///     Gets the REST client.
+        /// </summary>
         public IRestClient RestClient { get; }
 
+        /// <summary>
+        ///     Gets the gateway client.
+        /// </summary>
         public IGatewayClient GatewayClient { get; }
 
         public ICurrentUser CurrentUser => GatewayClient.CurrentUser;
 
         public IReadOnlySet<Snowflake> UnavailableGuilds => GatewayClient.UnavailableGuilds;
 
+        /// <inheritdoc cref="IClient.ApiClient"/>
         public DiscordApiClient ApiClient { get; }
 
         IApiClient IClient.ApiClient => ApiClient;
@@ -56,8 +67,16 @@ namespace Disqord
             client.GatewayClient.Dispatcher.Bind(this);
         }
 
+        /// <summary>
+        ///     Runs this client.
+        /// </summary>
+        /// <param name="stoppingToken"> The token used to signal stopping. </param>
+        /// <returns>
+        ///     A <see cref="Task"/> representing the work.
+        /// </returns>
         public abstract Task RunAsync(CancellationToken stoppingToken);
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             GatewayClient.Dispose();

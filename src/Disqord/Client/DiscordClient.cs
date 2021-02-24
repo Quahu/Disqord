@@ -21,6 +21,7 @@ namespace Disqord
 
         }
 
+        /// <inheritdoc/>
         public override async Task RunAsync(CancellationToken stoppingToken)
         {
             Uri uri;
