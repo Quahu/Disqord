@@ -1,7 +1,8 @@
 ﻿using System;
 using Disqord.Http;
+using Disqord.Rest.Api;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest
 {
     public class RestApiException : Exception
     {
