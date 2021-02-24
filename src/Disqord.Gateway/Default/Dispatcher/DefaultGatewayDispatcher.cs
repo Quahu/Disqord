@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
 using Disqord.Gateway.Api;
@@ -118,7 +118,8 @@ namespace Disqord.Gateway.Default
             return Task.CompletedTask;
         }
 
-        public async Task<IUser> GetSharedOrTransientUserAsync(UserJsonModel model)
+        // TODO: normalise these
+        public IUser GetSharedOrTransientUser(UserJsonModel model)
         {
             if (Client.CacheProvider.TryGetUsers(out var cache))
             {

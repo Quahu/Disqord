@@ -7,7 +7,7 @@ namespace Disqord.Gateway.Default.Dispatcher
     {
         public override async Task<BanCreatedEventArgs> HandleDispatchAsync(GuildBanAddJsonModel model)
         {
-            var user = await Dispatcher.GetSharedOrTransientUserAsync(model.User).ConfigureAwait(false);
+            var user = Dispatcher.GetSharedOrTransientUser(model.User);
             return new BanCreatedEventArgs(model.GuildId, user);
         }
     }
