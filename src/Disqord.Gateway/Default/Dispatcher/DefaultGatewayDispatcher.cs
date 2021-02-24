@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
 using Disqord.Gateway.Api;
@@ -128,6 +128,43 @@ namespace Disqord.Gateway.Default
             }
 
             return new TransientUser(Client, model);
+        }
+
+        public CachedSharedUser GetOrAddSharedUser(UserJsonModel model)
+        {
+            if (Client.CacheProvider.TryGetUsers(out var cache))
+            {
+                return cache.GetOrAdd(model.Id, static (id, tuple) =>
+                {
+                    var (client, model) = tuple;
+                    return new CachedSharedUser(client, model);
+                }, (Client, model));
+            }
+
+            return null;
+        }
+
+        public CachedMember GetOrAddMember(Snowflake guildId, MemberJsonModel model)
+        {
+            var sharedUser = GetOrAddSharedUser(model.User.Value);
+            if (sharedUser == null)
+                return null;
+
+            if (Client.CacheProvider.TryGetMembers(guildId, out var cache))
+            {
+                if (cache.TryGetValue(model.User.Value.Id, out var member))
+                {
+                    member.Update(model);
+                }
+                else
+                {
+                    member = new CachedMember(sharedUser, guildId, model);
+                    cache.Add(model.User.Value.Id, member);
+                    return member;
+                }
+            }
+
+            return null;
         }
     }
 }
