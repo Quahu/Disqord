@@ -7,12 +7,24 @@ using Microsoft.Extensions.Logging;
 
 namespace Disqord.Hosting
 {
+    /// <summary>
+    ///     Represents a <see cref="BackgroundService"/> that runs the specified <see cref="DiscordClientBase"/>.
+    /// </summary>
     public class DiscordHostedService : BackgroundService, ILogging
     {
+        /// <inheritdoc/>
         public ILogger Logger { get; }
 
+        /// <summary>
+        ///     Gets the hosted client.
+        /// </summary>
         public DiscordClientBase Client { get; }
 
+        /// <summary>
+        ///     Instantiates a new <see cref="DiscordHostedService"/>.
+        /// </summary>
+        /// <param name="logger"> The logger. </param>
+        /// <param name="client"> The client to host. </param>
         public DiscordHostedService(
             ILogger<DiscordHostedService> logger,
             DiscordClientBase client)
@@ -21,6 +33,7 @@ namespace Disqord.Hosting
             Client = client;
         }
 
+        /// <inheritdoc/>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             try
