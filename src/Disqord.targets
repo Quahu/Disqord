@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Authors>Quahu</Authors>
+    <Description>An asynchronous .NET Discord API wrapper.</Description>
+    <PackageTags>discord bots discord-bots discord-api api csharp dotnet</PackageTags>
+    <RepositoryUrl>https://github.com/Quahu/Disqord</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Quahu/Disqord</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Quahu/Disqord/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>Git</RepositoryType>
+  </PropertyGroup>
+      <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+</Project>

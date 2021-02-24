@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <VersionPrefix>1.0.0</VersionPrefix>
-    <TargetFramework>net5.0</TargetFramework>
-    <LangVersion>preview</LangVersion>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Authors>Quahu</Authors>
-    <Description>An asynchronous .NET Discord API wrapper.</Description>
-    <PackageTags>discord bots discord-bots discord-api api csharp dotnet</PackageTags>
-    <RepositoryUrl>https://github.com/Quahu/Disqord</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Quahu/Disqord</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/Quahu/Disqord/blob/master/LICENSE</PackageLicenseUrl>
-    <RepositoryType>Git</RepositoryType>
-  </PropertyGroup>
+  <Import Project="../Disqord.targets" />
   <ItemGroup>
     <ProjectReference Include="..\Disqord.Core\Disqord.Core.csproj" />
     <ProjectReference Include="..\Disqord.Gateway.Api\Disqord.Gateway.Api.csproj" />
