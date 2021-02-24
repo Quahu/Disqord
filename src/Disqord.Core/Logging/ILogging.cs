@@ -3,12 +3,12 @@
 namespace Disqord.Logging
 {
     /// <summary>
-    ///     Represents a logging entity.
+    ///     Represents a logging construct.
     /// </summary>
     public interface ILogging
     {
         /// <summary>
-        ///     Gets the logger of this entity.
+        ///     Gets the logger of this construct.
         /// </summary>
         ILogger Logger { get; }
     }
