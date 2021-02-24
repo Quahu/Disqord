@@ -4,7 +4,6 @@ using Disqord.Logging;
 using Disqord.WebSocket;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Disqord.Hosting
 {
@@ -31,7 +30,7 @@ namespace Disqord.Hosting
             }
             catch (WebSocketClosedException)
             {
-                Logger.LogCritical("Hosting of the Discord client was interrupted due to the unrecoverable closure. Take appropriate action in order to resolve the issue.");
+                Logger.LogCritical("Hosting of the Discord client was interrupted due to an unrecoverable error. Take appropriate actions to resolve the issue.");
             }
         }
     }
