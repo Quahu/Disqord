@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Disqord.Serialization;
 
 namespace Disqord
@@ -17,6 +18,7 @@ namespace Disqord
         /// <summary>
         ///     Gets whether this <see cref="Optional{T}"/> has a value.
         /// </summary>
+        [MemberNotNullWhen(true, nameof(_value))]
         public bool HasValue { get; }
 
         /// <summary>
@@ -25,6 +27,7 @@ namespace Disqord
         /// <exception cref="InvalidOperationException">
         ///     This optional doesn't have a value.
         /// </exception>
+        [NotNull]
         public T Value
         {
             get
@@ -93,7 +96,7 @@ namespace Disqord
         /// <returns>
         ///     The <see cref="bool"/> value reresenting whether the comparison succeeded.
         /// </returns>
-        public bool Equals(T other)
+        public bool Equals(T? other)
         {
             if (!HasValue)
                 return false;
@@ -116,7 +119,7 @@ namespace Disqord
             if (HasValue != other.HasValue)
                 return false;
 
-            return _value.Equals(other._value);
+            return _value?.Equals(other._value) ?? false;
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Disqord.Utilities
 {
@@ -20,7 +21,7 @@ namespace Disqord.Utilities
                 }
             }
         }
-        private T _value;
+        private T? _value;
 
         private bool _hasValue;
 

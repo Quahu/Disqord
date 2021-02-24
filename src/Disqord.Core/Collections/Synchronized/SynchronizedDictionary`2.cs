@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Disqord.Collections.Synchronized
 {
@@ -89,7 +90,7 @@ namespace Disqord.Collections.Synchronized
             }
         }
 
-        public bool TryRemove(TKey key, out TValue value)
+        public bool TryRemove(TKey key, [MaybeNullWhen(false)] out TValue value)
         {
             lock (this)
             {
@@ -147,7 +148,7 @@ namespace Disqord.Collections.Synchronized
             }
         }
 
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
         {
             lock (this)
             {

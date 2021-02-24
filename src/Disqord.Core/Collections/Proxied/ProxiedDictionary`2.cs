@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Disqord.Collections.Proxied
 {
@@ -68,7 +69,7 @@ namespace Disqord.Collections.Proxied
             => Dictionary.Remove(key);
 
         /// <inheritdoc/>
-        public virtual bool TryGetValue(TKey key, out TValue value)
+        public virtual bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
             => Dictionary.TryGetValue(key, out value);
 
         /// <inheritdoc/>

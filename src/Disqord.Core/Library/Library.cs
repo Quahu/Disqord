@@ -10,7 +10,7 @@ namespace Disqord
         /// <summary>
         ///     Disqord build's version.
         /// </summary>
-        public static readonly Version Version = typeof(Library).Assembly.GetName().Version;
+        public static readonly Version Version = typeof(Library).Assembly.GetName().Version!;
 
         // TODO: set at compile-time
         ///// <summary>
