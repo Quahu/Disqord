@@ -57,7 +57,7 @@ namespace Disqord.Gateway.Api.Default
                 var cancellationToken = _cts.Token;
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    Logger.LogDebug("Delaying for {0}ms.", Interval.TotalMilliseconds);
+                    Logger.LogTrace("Delaying for {0}ms.", Interval.TotalMilliseconds);
                     await Task.Delay(Interval, cancellationToken).ConfigureAwait(false);
                     Logger.LogDebug("Heartbeating...");
                     await HeartbeatAsync(cancellationToken).ConfigureAwait(false);
