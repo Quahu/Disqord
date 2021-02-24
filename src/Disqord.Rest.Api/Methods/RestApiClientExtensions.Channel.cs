@@ -94,13 +94,13 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync(route, null, options);
         }
 
-        public static Task DeleteOwnReactionAsync(this IRestApiClient client, Snowflake channelId, Snowflake messageId, string emoji, IRestRequestOptions options = null)
+        public static Task RemoveOwnReactionAsync(this IRestApiClient client, Snowflake channelId, Snowflake messageId, string emoji, IRestRequestOptions options = null)
         {
             var route = Format(Route.Channel.DeleteOwnReaction, channelId, messageId, emoji);
             return client.ExecuteAsync(route, null, options);
         }
 
-        public static Task DeleteUserReactionAsync(this IRestApiClient client, Snowflake channelId, Snowflake messageId, string emoji, Snowflake userId, IRestRequestOptions options = null)
+        public static Task RemoveUserReactionAsync(this IRestApiClient client, Snowflake channelId, Snowflake messageId, string emoji, Snowflake userId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Channel.DeleteUserReaction, channelId, messageId, emoji, userId);
             return client.ExecuteAsync(route, null, options);

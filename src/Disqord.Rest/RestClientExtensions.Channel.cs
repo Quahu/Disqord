@@ -164,7 +164,7 @@ namespace Disqord.Rest
 
         // TODO: crosspost message
 
-        public static Task CreateReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, IRestRequestOptions options = null)
+        public static Task AddReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, IRestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
@@ -172,24 +172,24 @@ namespace Disqord.Rest
             return client.ApiClient.CreateReactionAsync(channelId, messageId, Discord.GetReactionFormat(emoji), options);
         }
 
-        public static Task DeleteOwnReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, IRestRequestOptions options = null)
+        public static Task RemoveOwnReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, IRestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            return client.ApiClient.DeleteOwnReactionAsync(channelId, messageId, Discord.GetReactionFormat(emoji), options);
+            return client.ApiClient.RemoveOwnReactionAsync(channelId, messageId, Discord.GetReactionFormat(emoji), options);
         }
 
-        public static Task DeleteUserReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, Snowflake userId, IRestRequestOptions options = null)
+        public static Task RemoveUserReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, Snowflake userId, IRestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
             var reactionFormat = Discord.GetReactionFormat(emoji);
             if (client.ApiClient.Token is BotToken botToken && botToken.Id == userId)
-                return client.ApiClient.DeleteOwnReactionAsync(channelId, messageId, reactionFormat, options);
+                return client.ApiClient.RemoveOwnReactionAsync(channelId, messageId, reactionFormat, options);
             else
-                return client.ApiClient.DeleteUserReactionAsync(channelId, messageId, reactionFormat, userId, options);
+                return client.ApiClient.RemoveUserReactionAsync(channelId, messageId, reactionFormat, userId, options);
         }
 
         public static IPagedEnumerable<IUser> EnumerateReactions(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)

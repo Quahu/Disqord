@@ -13,6 +13,6 @@ namespace Disqord.Bot
         }
 
         public override Task ExecuteAsync()
-            => Context.Bot.CreateReactionAsync(Context.ChannelId, Context.Message.Id, _emoji);
+            => Context.Bot.AddReactionAsync(Context.ChannelId, Context.Message.Id, _emoji);
     }
 }
