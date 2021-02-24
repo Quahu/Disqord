@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Disqord
 {
@@ -6,7 +7,8 @@ namespace Disqord
     {
         public const int MAX_FOOTER_LENGTH = 2048;
 
-        public string Text
+        [DisallowNull]
+        public string? Text
         {
             get => _text;
             set
@@ -20,9 +22,9 @@ namespace Disqord
                 _text = value;
             }
         }
-        private string _text;
+        private string? _text;
 
-        public string IconUrl { get; set; }
+        public string? IconUrl { get; set; }
 
         public int Length => _text?.Length ?? 0;
 

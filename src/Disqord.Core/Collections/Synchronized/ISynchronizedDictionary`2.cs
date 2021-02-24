@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Disqord.Collections.Synchronized
 {
@@ -10,7 +11,7 @@ namespace Disqord.Collections.Synchronized
     {
         bool TryAdd(TKey key, TValue value);
 
-        bool TryRemove(TKey key, out TValue value);
+        bool TryRemove(TKey key, [MaybeNullWhen(false)] out TValue value);
 
         KeyValuePair<TKey, TValue>[] ToArray();
 

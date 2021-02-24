@@ -9,23 +9,23 @@ namespace Disqord
     {
         public static LocalEmbed Empty => new LocalEmbedBuilder().Build();
 
-        public string Title { get; }
+        public string? Title { get; }
 
-        public string Description { get; }
+        public string? Description { get; }
 
-        public string Url { get; }
+        public string? Url { get; }
 
-        public string ImageUrl { get; }
+        public string? ImageUrl { get; }
 
-        public string ThumbnailUrl { get; }
+        public string? ThumbnailUrl { get; }
 
         public DateTimeOffset? Timestamp { get; }
 
         public Color? Color { get; }
 
-        public LocalEmbedFooter Footer { get; }
+        public LocalEmbedFooter? Footer { get; }
 
-        public LocalEmbedAuthor Author { get; }
+        public LocalEmbedAuthor? Author { get; }
 
         public IReadOnlyList<LocalEmbedField> Fields { get; }
 

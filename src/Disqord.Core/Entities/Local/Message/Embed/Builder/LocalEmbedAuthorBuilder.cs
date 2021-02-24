@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Disqord
 {
@@ -6,7 +7,8 @@ namespace Disqord
     {
         public const int MAX_AUTHOR_NAME_LENGTH = 256;
 
-        public string Name
+        [DisallowNull]
+        public string? Name
         {
             get => _name;
             set
@@ -20,11 +22,11 @@ namespace Disqord
                 _name = value;
             }
         }
-        private string _name;
+        private string? _name;
 
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
-        public string IconUrl { get; set; }
+        public string? IconUrl { get; set; }
 
         public int Length => _name?.Length ?? 0;
 

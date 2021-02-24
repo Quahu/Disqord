@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Disqord
 {
@@ -27,7 +28,7 @@ namespace Disqord
         public bool Equals(Snowflake other)
             => RawValue == other.RawValue;
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is Snowflake snowflake)
                 return snowflake.RawValue == RawValue;
@@ -65,7 +66,7 @@ namespace Disqord
         public static bool TryParse(string value, out Snowflake result)
             => TryParse(value.AsSpan(), out result);
 
-        public static bool TryParse(ReadOnlySpan<char> value, out Snowflake result)
+        public static bool TryParse(ReadOnlySpan<char> value, [MaybeNullWhen(false)] out Snowflake result)
         {
             if (value.Length >= 15 && value.Length <= 21 && ulong.TryParse(value, out var ulongResult))
             {
@@ -100,52 +101,52 @@ namespace Disqord
         TypeCode IConvertible.GetTypeCode()
             => RawValue.GetTypeCode();
 
-        bool IConvertible.ToBoolean(IFormatProvider provider)
+        bool IConvertible.ToBoolean(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToBoolean(provider);
 
-        byte IConvertible.ToByte(IFormatProvider provider)
+        byte IConvertible.ToByte(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToByte(provider);
 
-        char IConvertible.ToChar(IFormatProvider provider)
+        char IConvertible.ToChar(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToChar(provider);
 
-        DateTime IConvertible.ToDateTime(IFormatProvider provider)
+        DateTime IConvertible.ToDateTime(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToDateTime(provider);
 
-        decimal IConvertible.ToDecimal(IFormatProvider provider)
+        decimal IConvertible.ToDecimal(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToDecimal(provider);
 
-        double IConvertible.ToDouble(IFormatProvider provider)
+        double IConvertible.ToDouble(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToDouble(provider);
 
-        short IConvertible.ToInt16(IFormatProvider provider)
+        short IConvertible.ToInt16(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToInt16(provider);
 
-        int IConvertible.ToInt32(IFormatProvider provider)
+        int IConvertible.ToInt32(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToInt32(provider);
 
-        long IConvertible.ToInt64(IFormatProvider provider)
+        long IConvertible.ToInt64(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToInt64(provider);
 
-        sbyte IConvertible.ToSByte(IFormatProvider provider)
+        sbyte IConvertible.ToSByte(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToSByte(provider);
 
-        float IConvertible.ToSingle(IFormatProvider provider)
+        float IConvertible.ToSingle(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToSingle(provider);
 
-        string IConvertible.ToString(IFormatProvider provider)
+        string IConvertible.ToString(IFormatProvider? provider)
             => RawValue.ToString(provider);
 
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider)
+        object IConvertible.ToType(Type conversionType, IFormatProvider? provider)
             => ((IConvertible) RawValue).ToType(conversionType, provider);
 
-        ushort IConvertible.ToUInt16(IFormatProvider provider)
+        ushort IConvertible.ToUInt16(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToUInt16(provider);
 
-        uint IConvertible.ToUInt32(IFormatProvider provider)
+        uint IConvertible.ToUInt32(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToUInt32(provider);
 
-        ulong IConvertible.ToUInt64(IFormatProvider provider)
+        ulong IConvertible.ToUInt64(IFormatProvider? provider)
             => ((IConvertible) RawValue).ToUInt64(provider);
 
         public static implicit operator Snowflake(ulong value)

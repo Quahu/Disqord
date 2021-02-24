@@ -19,19 +19,19 @@ namespace Disqord
 
         public Color? Color { get; }
 
-        public EmbedImage Image { get; }
+        public EmbedImage? Image { get; }
 
-        public EmbedThumbnail Thumbnail { get; }
+        public EmbedThumbnail? Thumbnail { get; }
 
-        public EmbedVideo Video { get; }
+        public EmbedVideo? Video { get; }
 
-        public EmbedProvider Provider { get; }
+        public EmbedProvider? Provider { get; }
 
-        public EmbedFooter Footer { get; }
+        public EmbedFooter? Footer { get; }
 
-        public EmbedAuthor Author { get; }
+        public EmbedAuthor? Author { get; }
 
-        public IReadOnlyList<EmbedField> Fields { get; }
+        public IReadOnlyList<EmbedField>? Fields { get; }
 
         /// <summary>
         ///     Checks if <see cref="Type"/> is <c>rich</c>.

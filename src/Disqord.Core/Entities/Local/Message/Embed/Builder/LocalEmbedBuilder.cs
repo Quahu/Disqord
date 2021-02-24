@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Disqord
@@ -18,45 +19,47 @@ namespace Disqord
 
         public const int MAX_LENGTH = 6000;
 
-        public string Title
+        [DisallowNull]
+        public string? Title
         {
             get => _title;
             set
             {
-                if (value != null && value.Length > MAX_TITLE_LENGTH)
+                if (value is {Length: > MAX_TITLE_LENGTH})
                     throw new ArgumentOutOfRangeException(nameof(value), $"The embed's title must not be longer than {MAX_TITLE_LENGTH} characters.");
 
                 _title = value;
             }
         }
-        private string _title;
+        private string? _title;
 
-        public string Description
+        [DisallowNull]
+        public string? Description
         {
             get => _description;
             set
             {
-                if (value != null && value.Length > MAX_DESCRIPTION_LENGTH)
+                if (value is {Length: > MAX_DESCRIPTION_LENGTH})
                     throw new ArgumentOutOfRangeException(nameof(value), $"The embed's description must not be longer than {MAX_DESCRIPTION_LENGTH} characters.");
 
                 _description = value;
             }
         }
-        private string _description;
+        private string? _description;
 
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
-        public string ThumbnailUrl { get; set; }
+        public string? ThumbnailUrl { get; set; }
 
         public DateTimeOffset? Timestamp { get; set; }
 
         public Color? Color { get; set; }
 
-        public LocalEmbedFooterBuilder Footer { get; set; }
+        public LocalEmbedFooterBuilder? Footer { get; set; }
 
-        public LocalEmbedAuthorBuilder Author { get; set; }
+        public LocalEmbedAuthorBuilder? Author { get; set; }
 
         public IList<LocalEmbedFieldBuilder> Fields
         {
@@ -140,7 +143,7 @@ namespace Disqord
             return this;
         }
 
-        public LocalEmbedBuilder WithFooter(string text, string iconUrl = null)
+        public LocalEmbedBuilder WithFooter(string text, string? iconUrl = null)
         {
             Footer = new LocalEmbedFooterBuilder
             {
@@ -167,7 +170,7 @@ namespace Disqord
             return this;
         }
 
-        public LocalEmbedBuilder WithAuthor(string name, string iconUrl = null, string url = null)
+        public LocalEmbedBuilder WithAuthor(string name, string? iconUrl = null, string? url = null)
         {
             Author = new LocalEmbedAuthorBuilder
             {
@@ -210,7 +213,7 @@ namespace Disqord
 
         public LocalEmbedBuilder WithFields(IEnumerable<LocalEmbedFieldBuilder> fields)
         {
-            if (fields == null)
+            if (fields is null)
                 throw new ArgumentNullException(nameof(fields));
 
             _fields.Clear();
@@ -229,7 +232,7 @@ namespace Disqord
             return this;
         }
 
-        public LocalEmbedBuilder AddField(string name, object value, bool isInline = false)
+        public LocalEmbedBuilder AddField(string name, object? value, bool isInline = false)
         {
             Fields.Add(new LocalEmbedFieldBuilder
             {

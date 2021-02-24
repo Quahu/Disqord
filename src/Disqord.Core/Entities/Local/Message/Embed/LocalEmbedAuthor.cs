@@ -2,11 +2,11 @@
 {
     public sealed class LocalEmbedAuthor
     {
-        public string Name { get; }
+        public string? Name { get; }
 
-        public string Url { get; }
+        public string? Url { get; }
 
-        public string IconUrl { get; }
+        public string? IconUrl { get; }
 
         internal LocalEmbedAuthor(LocalEmbedAuthorBuilder builder)
         {

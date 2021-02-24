@@ -10,11 +10,11 @@ namespace Disqord
 
         public bool IsTextToSpeech { get; set; }
 
-        public LocalEmbedBuilder Embed { get; set; }
+        public LocalEmbedBuilder? Embed { get; set; }
 
-        public LocalMentionsBuilder Mentions { get; set; }
+        public LocalMentionsBuilder? Mentions { get; set; }
 
-        public LocalReferenceBuilder Reference { get; set; }
+        public LocalReferenceBuilder? Reference { get; set; }
 
         public string Nonce { get; set; }
 

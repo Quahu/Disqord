@@ -20,16 +20,10 @@ namespace Disqord.Serialization.Json
         /// </summary>
         public IDictionary<string, IJsonToken> ExtensionData
         {
-            get
-            {
-                if (_extensionData == null)
-                    _extensionData = new Dictionary<string, IJsonToken>();
-
-                return _extensionData;
-            }
+            get => _extensionData ??= new Dictionary<string, IJsonToken>();
             set => _extensionData = value;
         }
-        private IDictionary<string, IJsonToken> _extensionData;
+        private IDictionary<string, IJsonToken>? _extensionData;
 
         T IJsonToken.ToType<T>()
             => throw new NotSupportedException();

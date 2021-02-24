@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -25,7 +26,8 @@ namespace Disqord.Serialization.Json.Default
         public override string ToString()
             => Token.ToString(Formatting.None);
 
-        public static IJsonToken Create(JToken token, JsonSerializer serializer)
+        [return: NotNullIfNotNull("token")]
+        public static IJsonToken? Create(JToken? token, JsonSerializer serializer)
         {
             if (token == null)
                 return null;

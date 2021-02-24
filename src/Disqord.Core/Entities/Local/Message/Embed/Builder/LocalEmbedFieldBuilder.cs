@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Disqord
 {
@@ -8,7 +9,8 @@ namespace Disqord
 
         public const int MAX_FIELD_VALUE_LENGTH = 1024;
 
-        public string Name
+        [DisallowNull]
+        public string? Name
         {
             get => _name;
             set
@@ -22,9 +24,10 @@ namespace Disqord
                 _name = value;
             }
         }
-        private string _name;
+        private string? _name;
 
-        public string Value
+        [DisallowNull]
+        public string? Value
         {
             get => _value;
             set
@@ -38,7 +41,7 @@ namespace Disqord
                 _value = value;
             }
         }
-        private string _value;
+        private string? _value;
 
         public bool IsInline { get; set; }
 
@@ -77,9 +80,9 @@ namespace Disqord
             return this;
         }
 
-        public LocalEmbedFieldBuilder WithValue(object value)
+        public LocalEmbedFieldBuilder WithValue(object? value)
         {
-            Value = value?.ToString();
+            Value = value?.ToString() ?? throw new ArgumentNullException(nameof(value));
             return this;
         }
 

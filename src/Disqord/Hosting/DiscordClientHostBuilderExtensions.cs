@@ -9,7 +9,7 @@ namespace Disqord.Hosting
 {
     public static class DiscordHostBuilderExtensions
     {
-        public static IHostBuilder ConfigureDiscordClient(this IHostBuilder builder, Action<HostBuilderContext, DiscordClientHostingContext> configure = null)
+        public static IHostBuilder ConfigureDiscordClient(this IHostBuilder builder, Action<HostBuilderContext, DiscordClientHostingContext>? configure = null)
         {
             builder.ConfigureServices((context, services) =>
             {

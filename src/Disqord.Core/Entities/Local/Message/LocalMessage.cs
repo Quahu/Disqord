@@ -9,13 +9,13 @@ namespace Disqord
 
         public bool IsTextToSpeech { get; }
 
-        public LocalEmbed Embed { get; }
+        public LocalEmbed? Embed { get; }
 
         public IReadOnlyList<LocalAttachment> Attachments { get; }
 
-        public LocalMentions Mentions { get; }
+        public LocalMentions? Mentions { get; }
 
-        public LocalReference Reference { get; }
+        public LocalReference? Reference { get; }
 
         public string Nonce { get; }
 
