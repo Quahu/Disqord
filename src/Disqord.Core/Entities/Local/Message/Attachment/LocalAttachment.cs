@@ -41,11 +41,11 @@ namespace Disqord
             IsSpoiler = isSpoiler;
         }
 
-        public LocalAttachment(FileStream fileStream, string fileName = null, bool isSpoiler = false)
+        public LocalAttachment(FileStream fileStream, string? fileName = null, bool isSpoiler = false)
             : this(fileStream as Stream, fileName ?? Path.GetFileName(fileStream.Name), isSpoiler)
         { }
 
-        public LocalAttachment(string path, string fileName = null, bool isSpoiler = false)
+        public LocalAttachment(string path, string? fileName = null, bool isSpoiler = false)
             : this(File.OpenRead(path), fileName, isSpoiler)
         { }
 

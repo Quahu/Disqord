@@ -14,10 +14,7 @@ namespace Disqord.Collections
 
         internal ReadOnlyCollection(ICollection<T> collection)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            _collection = collection;
+            _collection = collection ?? throw new ArgumentNullException(nameof(collection));
         }
 
         public bool Contains(T item)

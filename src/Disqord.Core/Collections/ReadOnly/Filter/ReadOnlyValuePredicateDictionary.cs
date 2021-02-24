@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Disqord.Collections
@@ -33,7 +34,7 @@ namespace Disqord.Collections
         public bool ContainsKey(TKey key)
             => TryGetValue(key, out var value) && _predicate(value);
 
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
             => _dictionary.TryGetValue(key, out value) && _predicate(value);
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()

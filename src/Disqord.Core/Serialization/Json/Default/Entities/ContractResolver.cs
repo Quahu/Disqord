@@ -11,6 +11,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Disqord.Serialization.Json.Default
 {
+#nullable disable
     internal sealed class ContractResolver : DefaultContractResolver
     {
         private readonly DefaultJsonSerializer _serializer;

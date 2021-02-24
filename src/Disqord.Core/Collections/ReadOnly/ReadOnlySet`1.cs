@@ -14,10 +14,7 @@ namespace Disqord.Collections
 
         public ReadOnlySet(ISet<T> set)
         {
-            if (set == null)
-                throw new ArgumentNullException(nameof(set));
-
-            _set = set;
+            _set = set ?? throw new ArgumentNullException(nameof(set));
         }
 
         /// <inheritdoc/>

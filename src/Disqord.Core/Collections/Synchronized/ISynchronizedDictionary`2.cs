@@ -14,7 +14,7 @@ namespace Disqord.Collections.Synchronized
 
         KeyValuePair<TKey, TValue>[] ToArray();
 
-        TValue GetValueOrDefault(TKey key)
+        TValue? GetValueOrDefault(TKey key)
             => TryGetValue(key, out var value)
             ? value
             : default;
@@ -23,8 +23,8 @@ namespace Disqord.Collections.Synchronized
         {
             lock (this)
             {
-                if (TryGetValue(key, out value))
-                    return value;
+                if (TryGetValue(key, out var val))
+                    return val;
 
                 Add(key, value);
                 return value;

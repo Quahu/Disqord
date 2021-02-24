@@ -10,7 +10,7 @@ namespace Disqord.Hosting
         /// <remarks>
         ///     This property is ignored if a custom <see cref="Disqord.Token"/> is registered.
         /// </remarks>
-        public virtual string Token { get; set; }
+        public virtual string? Token { get; set; }
 
         /// <summary>
         ///     Gets or sets the gateway intents.

@@ -86,7 +86,7 @@ namespace Disqord
         public int CompareTo(int other)
             => RawValue.CompareTo(other);
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
             => obj is Color color && Equals(color);
 
         public override int GetHashCode()

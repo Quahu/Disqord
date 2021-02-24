@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Disqord.Collections.Synchronized
 {
-    public class SynchronizedDictionary<TKey, TValue> : ISynchronizedDictionary<TKey, TValue>, IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
+    public class SynchronizedDictionary<TKey, TValue> : ISynchronizedDictionary<TKey, TValue>, IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue> where TKey : notnull
     {
         public ICollection<TKey> Keys
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Disqord.Collections
@@ -26,7 +27,7 @@ namespace Disqord.Collections
         public bool ContainsKey(TKey key)
             => TryGetValue(key, out var value) && value is TNew;
 
-        public bool TryGetValue(TKey key, out TNew value)
+        public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TNew value)
         {
             if (_dictionary.TryGetValue(key, out var originalValue) && originalValue is TNew newValue)
             {

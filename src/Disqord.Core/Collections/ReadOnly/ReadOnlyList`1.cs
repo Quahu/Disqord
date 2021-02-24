@@ -20,10 +20,7 @@ namespace Disqord.Collections
 
         internal ReadOnlyList(IList<T> list)
         {
-            if (list == null)
-                throw new ArgumentNullException(nameof(list));
-
-            _list = list;
+            _list = list ?? throw new ArgumentNullException(nameof(list));
         }
 
         public int IndexOf(T item)

@@ -9,7 +9,7 @@ namespace Disqord.Collections.Proxied
     /// </summary>
     /// <typeparam name="TKey"> The type of keys in the dictionary. </typeparam>
     /// <typeparam name="TValue"> The type of values in the dictionary. </typeparam>
-    public abstract class ProxiedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
+    public abstract class ProxiedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue> where TKey: notnull
     {
         /// <inheritdoc/>
         public virtual ICollection<TKey> Keys => Dictionary.Keys;

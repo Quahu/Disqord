@@ -10,7 +10,7 @@ namespace Disqord
 {
     public static class DiscordClientServiceCollectionExtensions
     {
-        public static IServiceCollection AddDiscordClient(this IServiceCollection services, Action<DiscordClientConfiguration> configure = null)
+        public static IServiceCollection AddDiscordClient(this IServiceCollection services, Action<DiscordClientConfiguration>? configure = null)
         {
             if (services.TryAddSingleton<DiscordClient>())
             {
@@ -28,7 +28,7 @@ namespace Disqord
             return services;
         }
 
-        public static IServiceCollection AddDiscordApiClient(this IServiceCollection services, Action<DiscordApiClientConfiguration> configure = null)
+        public static IServiceCollection AddDiscordApiClient(this IServiceCollection services, Action<DiscordApiClientConfiguration>? configure = null)
         {
             if (services.TryAddSingleton<DiscordApiClient>())
             {

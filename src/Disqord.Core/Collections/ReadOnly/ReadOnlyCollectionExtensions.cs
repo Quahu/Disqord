@@ -6,7 +6,7 @@ namespace Disqord.Collections
 {
     internal static class ReadOnlyCollectionExtensions
     {
-        public static IReadOnlyDictionary<TKey, TValue> ReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
+        public static IReadOnlyDictionary<TKey, TValue> ReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> dictionary) where TKey : notnull
             => new ReadOnlyDictionary<TKey, TValue>(dictionary);
 
         public static IReadOnlyList<T> ReadOnly<T>(this IList<T> list)
@@ -19,7 +19,7 @@ namespace Disqord.Collections
             => new ReadOnlyCollection<T>(collection);
 
         public static IReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<TSource, TKey, TValue>(
-            this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
+            this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector) where TKey: notnull
         {
             var dictionary = new Dictionary<TKey, TValue>();
             foreach (var item in source)
@@ -33,7 +33,7 @@ namespace Disqord.Collections
         }
 
         public static IReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<TSource, TKey, TValue, TState>(
-            this IList<TSource> source, TState state, Func<TSource, TState, TKey> keySelector, Func<TSource, TState, TValue> valueSelector)
+            this IList<TSource> source, TState state, Func<TSource, TState, TKey> keySelector, Func<TSource, TState, TValue> valueSelector) where TKey : notnull
         {
             var dictionary = new Dictionary<TKey, TValue>();
             foreach (var item in source)

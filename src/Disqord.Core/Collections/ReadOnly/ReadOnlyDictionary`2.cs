@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Disqord.Collections
 {
-    public sealed class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
+    public sealed class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue> where TKey: notnull
     {
         public static readonly IReadOnlyDictionary<TKey, TValue> Empty = new Dictionary<TKey, TValue>(0).ReadOnly();
 
@@ -24,16 +25,13 @@ namespace Disqord.Collections
 
         public ReadOnlyDictionary(IDictionary<TKey, TValue> dictionary)
         {
-            if (dictionary == null)
-                throw new ArgumentNullException(nameof(dictionary));
-
-            _dictionary = dictionary;
+            _dictionary = dictionary ?? throw new ArgumentNullException(nameof(dictionary));
         }
 
         public bool ContainsKey(TKey key)
             => _dictionary.ContainsKey(key);
 
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
             => _dictionary.TryGetValue(key, out value);
 
         public bool Contains(KeyValuePair<TKey, TValue> item)

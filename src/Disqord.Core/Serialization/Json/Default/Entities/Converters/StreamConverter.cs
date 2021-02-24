@@ -14,7 +14,7 @@ namespace Disqord.Serialization.Json.Default
         private readonly DefaultJsonSerializer _serializer;
 
         private bool _shownHttpWarning;
-        private Type _httpBaseContentType;
+        private Type? _httpBaseContentType;
 
         public StreamConverter(DefaultJsonSerializer serializer)
         {
@@ -26,10 +26,10 @@ namespace Disqord.Serialization.Json.Default
         public override bool CanConvert(Type objectType)
             => true;
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
             => throw new NotSupportedException();
 
-        public override unsafe void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             // This is just a null-check but because the converter is untyped we use this to also cast the object value.
             if (value is not Stream stream)
@@ -142,7 +142,7 @@ namespace Disqord.Serialization.Json.Default
                 }
 
                 // Check if the given stream implements HttpBaseStream.
-                if (!_httpBaseContentType.IsAssignableFrom(stream.GetType()))
+                if (!_httpBaseContentType.IsInstanceOfType(stream))
                     return;
 
                 _httpBaseContentType = null;
