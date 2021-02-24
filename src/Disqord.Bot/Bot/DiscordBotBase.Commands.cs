@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -99,7 +99,11 @@ namespace Disqord.Bot
             //if (result is ExecutionFailedResult)
             //    return;
 
-            await this.SendMessageAsync(message.ChannelId, new LocalMessageBuilder()
+            // TODO: result handling... Map of Result -> string?
+            if (failedResult is CommandNotFoundResult)
+                return;
+
+            await this.SendMessageAsync(context.ChannelId, new LocalMessageBuilder()
                 .WithContent(failedResult.FailureReason)
                 .Build());
         }
