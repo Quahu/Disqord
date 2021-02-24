@@ -13,10 +13,11 @@ namespace Disqord.Bot
 
         public DiscordGuildCommandContext(
             DiscordBotBase bot,
+            IPrefix prefix,
             IGatewayUserMessage message,
             ITextChannel channel,
             IServiceProvider services)
-            : base(bot, message, services)
+            : base(bot, prefix, message, services)
         {
             Channel = channel;
         }

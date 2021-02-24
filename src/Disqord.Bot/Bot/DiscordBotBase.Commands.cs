@@ -29,12 +29,12 @@ namespace Disqord.Bot
             }
         }
 
-        protected virtual DiscordCommandContext GetCommandContext(IGatewayUserMessage message, ITextChannel channel)
+        protected virtual DiscordCommandContext GetCommandContext(IPrefix prefix, IGatewayUserMessage message, ITextChannel channel)
         {
             if (message.GuildId != null)
-                return new DiscordGuildCommandContext(this, message, channel, Services);
+                return new DiscordGuildCommandContext(this, prefix, message, channel, Services);
 
-            return new(this, message, Services);
+            return new(this, prefix, message, Services);
         }
 
         private async Task MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
@@ -42,10 +42,55 @@ namespace Disqord.Bot
             if (e.Message is not IGatewayUserMessage message)
                 return;
 
-            if (!CommandUtilities.HasPrefix(message.Content, '?', out var output))
+            IEnumerable<IPrefix> prefixes;
+            try
+            {
+                prefixes = await Prefixes.GetPrefixesAsync(message).ConfigureAwait(false);
+                if (prefixes == null)
+                    return;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An exception occurred while getting the prefixes.");
                 return;
+            }
 
-            var context = GetCommandContext(message, e.Channel);
+            IPrefix foundPrefix = null;
+            string output = null;
+            try
+            {
+                foreach (var prefix in prefixes)
+                {
+                    if (prefix == null)
+                        continue;
+
+                    if (prefix.TryFind(message, out output))
+                    {
+                        foundPrefix = prefix;
+                        break;
+                    }
+                }
+
+                if (foundPrefix == null)
+                    return;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An exception occurred while finding the prefixes.");
+                return;
+            }
+
+            DiscordCommandContext context;
+            try
+            {
+                context = GetCommandContext(foundPrefix, message, e.Channel);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An exception occurred while getting the command context.");
+                return;
+            }
+
             var result = await Commands.ExecuteAsync(output, context).ConfigureAwait(false);
             if (result is not FailedResult failedResult)
                 return;

@@ -10,10 +10,11 @@ namespace Disqord.Bot
         public DiscordBot(
             IOptions<DiscordBotConfiguration> options,
             ILogger<DiscordBot> logger,
+            IPrefixProvider prefixes,
             CommandService commands,
             IServiceProvider services,
             DiscordClient client)
-            : base(logger, commands, services, client)
+            : base(logger, prefixes, commands, services, client)
         {
 
         }

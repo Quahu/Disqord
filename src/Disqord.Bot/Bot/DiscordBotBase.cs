@@ -6,6 +6,8 @@ namespace Disqord.Bot
 {
     public abstract partial class DiscordBotBase : DiscordClientBase
     {
+        public IPrefixProvider Prefixes { get; }
+
         public CommandService Commands { get; }
 
         public IServiceProvider Services { get; }
@@ -14,11 +16,13 @@ namespace Disqord.Bot
 
         protected DiscordBotBase(
             ILogger logger,
+            IPrefixProvider prefixes,
             CommandService commands,
             IServiceProvider services,
             DiscordClientBase client)
             : base(logger, client)
         {
+            Prefixes = prefixes;
             Commands = commands;
             Services = services;
 

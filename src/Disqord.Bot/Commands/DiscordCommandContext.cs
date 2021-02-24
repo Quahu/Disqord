@@ -8,6 +8,8 @@ namespace Disqord.Bot
     {
         public virtual DiscordBotBase Bot { get; }
 
+        public virtual IPrefix Prefix { get; }
+
         public virtual Snowflake? GuildId => Message.GuildId;
 
         public virtual IGatewayUserMessage Message { get; }
@@ -18,11 +20,13 @@ namespace Disqord.Bot
 
         public DiscordCommandContext(
             DiscordBotBase bot,
+            IPrefix prefix,
             IGatewayUserMessage message,
             IServiceProvider services)
             : base(services)
         {
             Bot = bot;
+            Prefix = prefix;
             Message = message;
         }
     }

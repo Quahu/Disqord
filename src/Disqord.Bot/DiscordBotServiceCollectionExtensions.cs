@@ -8,7 +8,7 @@ namespace Disqord.Bot
 {
     public static class DiscordBotServiceCollectionExtensions
     {
-        public static IServiceCollection AddDiscordBot(this IServiceCollection services, Action<DiscordBotConfiguration> action = null)
+        public static IServiceCollection AddDiscordBot(this IServiceCollection services, Action<DiscordBotConfiguration> configure = null)
         {
             services.AddDiscordClient();
 
@@ -18,16 +18,36 @@ namespace Disqord.Bot
                 services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<DiscordBotBase>()));
                 services.AddOptions<DiscordBotConfiguration>();
 
-                if (action != null)
-                    services.Configure(action);
+                if (configure != null)
+                    services.Configure(configure);
             }
 
+            services.AddPrefixProvider();
             services.AddCommands();
 
             return services;
         }
 
-        public static IServiceCollection AddCommands(this IServiceCollection services, Action<CommandServiceConfiguration> action = null)
+        public static IServiceCollection AddPrefixProvider<TPrefixProvider>(this IServiceCollection services)
+            where TPrefixProvider : class, IPrefixProvider
+        {
+            services.AddSingleton<IPrefixProvider, TPrefixProvider>();
+            return services;
+        }
+
+        public static IServiceCollection AddPrefixProvider(this IServiceCollection services, Action<DefaultPrefixProviderConfiguration> configure = null)
+        {
+            if (services.TryAddSingleton<IPrefixProvider, DefaultPrefixProvider>())
+            {
+                var options = services.AddOptions<DefaultPrefixProviderConfiguration>();
+                if (configure != null)
+                    options.Configure(configure);
+            }
+
+            return services;
+        }
+
+        public static IServiceCollection AddCommands(this IServiceCollection services, Action<CommandServiceConfiguration> configure = null)
         {
             if (services.TryAddSingleton(x =>
             {
@@ -36,9 +56,8 @@ namespace Disqord.Bot
             }))
             {
                 services.AddOptions<CommandServiceConfiguration>();
-
-                if (action != null)
-                    services.Configure(action);
+                if (configure != null)
+                    services.Configure(configure);
             }
 
             return services;
