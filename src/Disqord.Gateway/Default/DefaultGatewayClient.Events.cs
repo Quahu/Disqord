@@ -88,6 +88,24 @@ namespace Disqord.Gateway.Default
             remove => Dispatcher.MessageDeletedEvent.Unhook(value);
         }
 
+        public event AsynchronousEventHandler<ReactionAddedEventArgs> ReactionAdded
+        {
+            add => Dispatcher.ReactionAddedEvent.Hook(value);
+            remove => Dispatcher.ReactionAddedEvent.Unhook(value);
+        }
+
+        public event AsynchronousEventHandler<ReactionRemovedEventArgs> ReactionRemoved
+        {
+            add => Dispatcher.ReactionRemovedEvent.Hook(value);
+            remove => Dispatcher.ReactionRemovedEvent.Unhook(value);
+        }
+
+        public event AsynchronousEventHandler<ReactionsClearedEventArgs> ReactionsCleared
+        {
+            add => Dispatcher.ReactionsClearedEvent.Hook(value);
+            remove => Dispatcher.ReactionsClearedEvent.Unhook(value);
+        }
+
         public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
         {
             add => Dispatcher.TypingStartedEvent.Hook(value);

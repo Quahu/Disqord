@@ -90,6 +90,24 @@ namespace Disqord
             remove => GatewayClient.MessageDeleted -= value;
         }
 
+        public event AsynchronousEventHandler<ReactionAddedEventArgs> ReactionAdded
+        {
+            add => GatewayClient.ReactionAdded += value;
+            remove => GatewayClient.ReactionAdded -= value;
+        }
+
+        public event AsynchronousEventHandler<ReactionRemovedEventArgs> ReactionRemoved
+        {
+            add => GatewayClient.ReactionRemoved += value;
+            remove => GatewayClient.ReactionRemoved -= value;
+        }
+
+        public event AsynchronousEventHandler<ReactionsClearedEventArgs> ReactionsCleared
+        {
+            add => GatewayClient.ReactionsCleared += value;
+            remove => GatewayClient.ReactionsCleared -= value;
+        }
+
         public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
         {
             add => GatewayClient.TypingStarted += value;

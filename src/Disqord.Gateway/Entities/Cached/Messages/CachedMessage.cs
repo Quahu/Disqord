@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using Disqord.Collections;
+using Disqord.Gateway.Api.Models;
 using Disqord.Models;
 
 namespace Disqord.Gateway
 {
-    public abstract class CachedMessage : CachedSnowflakeEntity, IGatewayMessage
+    public abstract class CachedMessage : CachedSnowflakeEntity, IGatewayMessage,
+        IJsonUpdatable<MessageReactionAddJsonModel>, IJsonUpdatable<MessageReactionRemoveJsonModel>,
+        IJsonUpdatable<MessageReactionRemoveEmojiJsonModel>, IJsonUpdatable<MessageReactionRemoveAllJsonModel>
     {
         public Snowflake ChannelId { get; }
 
@@ -81,6 +84,26 @@ namespace Disqord.Gateway
                 return new TransientUser(client, x) as IUser;
             });
             Reactions = Optional.Convert(model.Reactions, x => x.ToReadOnlyDictionary(x => Emoji.Create(x.Emoji), x => new Reaction(x) as IReaction));
+        }
+
+        public void Update(MessageReactionAddJsonModel model)
+        {
+            // TODO
+        }
+
+        public void Update(MessageReactionRemoveJsonModel model)
+        {
+            // TODO
+        }
+
+        public void Update(MessageReactionRemoveEmojiJsonModel model)
+        {
+            // TODO
+        }
+
+        public void Update(MessageReactionRemoveAllJsonModel model)
+        {
+            Reactions = default;
         }
     }
 }

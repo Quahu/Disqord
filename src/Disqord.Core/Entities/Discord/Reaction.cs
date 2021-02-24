@@ -8,16 +8,22 @@ namespace Disqord
 
         public int Count { get; }
 
-        public bool HasCurrentUserReacted { get; }
+        public bool HasOwnReaction { get; }
 
         public Reaction(ReactionJsonModel model)
         {
             Emoji = Disqord.Emoji.Create(model.Emoji);
             Count = model.Count;
-            HasCurrentUserReacted = model.Me;
+            HasOwnReaction = model.Me;
+        }
+
+        public Reaction(EmojiJsonModel emoji, bool hasOwnReaction)
+        {
+            Emoji = Disqord.Emoji.Create(emoji);
+            HasOwnReaction = hasOwnReaction;
         }
 
         public override string ToString()
-            => $"{Count} of {Emoji} (bot reacted: {HasCurrentUserReacted})";
+            => $"{Count} of {Emoji} (own reaction: {HasOwnReaction})";
     }
 }

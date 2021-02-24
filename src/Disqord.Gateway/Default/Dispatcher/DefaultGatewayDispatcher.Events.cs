@@ -32,6 +32,12 @@ namespace Disqord.Gateway.Default
 
         public AsynchronousEvent<MessageDeletedEventArgs> MessageDeletedEvent { get; } = new();
 
+        public AsynchronousEvent<ReactionAddedEventArgs> ReactionAddedEvent { get; } = new();
+
+        public AsynchronousEvent<ReactionRemovedEventArgs> ReactionRemovedEvent { get; } = new();
+
+        public AsynchronousEvent<ReactionsClearedEventArgs> ReactionsClearedEvent { get; } = new();
+
         public AsynchronousEvent<TypingStartedEventArgs> TypingStartedEvent { get; } = new();
 
         public AsynchronousEvent<VoiceStateUpdatedEventArgs> VoiceStateUpdatedEvent { get; } = new();
