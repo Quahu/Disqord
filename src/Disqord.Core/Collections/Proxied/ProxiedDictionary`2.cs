@@ -33,6 +33,9 @@ namespace Disqord.Collections.Proxied
         IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => Keys;
         IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => Values;
 
+        /// <summary>
+        ///     Gets the wrapped dictionary.
+        /// </summary>
         protected IDictionary<TKey, TValue> Dictionary { get; }
 
         /// <summary>
