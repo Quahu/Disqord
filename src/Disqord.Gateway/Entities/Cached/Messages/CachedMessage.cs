@@ -24,14 +24,14 @@ namespace Disqord.Gateway
                     return Client.GetUser(_authorId);
             }
         }
-        private TransientUser _transientAuthor;
+        protected TransientUser _transientAuthor;
         private Snowflake _authorId;
 
-        public virtual string Content { get; private set; }
+        public virtual string Content { get; protected set; }
 
-        public IReadOnlyList<IUser> MentionedUsers { get; private set; }
+        public IReadOnlyList<IUser> MentionedUsers { get; protected set; }
 
-        public Optional<IReadOnlyDictionary<IEmoji, IReaction>> Reactions { get; private set; }
+        public Optional<IReadOnlyDictionary<IEmoji, IReaction>> Reactions { get; protected set; }
 
         protected CachedMessage(IGatewayClient client, MessageJsonModel model)
             : base(client, model.Id)

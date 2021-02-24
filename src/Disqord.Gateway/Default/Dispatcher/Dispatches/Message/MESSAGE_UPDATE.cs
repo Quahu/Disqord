@@ -1,14 +1,26 @@
 ﻿using System.Threading.Tasks;
-using Disqord.Gateway.Api;
+using Disqord.Gateway.Api.Models;
 
-namespace Disqord.Gateway.Default
+namespace Disqord.Gateway.Default.Dispatcher
 {
-    public partial class DefaultGatewayDispatcher
+    public class MessageUpdateHandler : Handler<MessageUpdateJsonModel, MessageUpdatedEventArgs>
     {
-        private Task MessageUpdateAsync(GatewayDispatchReceivedEventArgs e)
+        public override async Task<MessageUpdatedEventArgs> HandleDispatchAsync(MessageUpdateJsonModel model)
         {
-            //return _messageUpdatedEvent.InvokeAsync(this, new MessageUpdatedEventArgs());
-            return Task.CompletedTask;
+            CachedUserMessage oldMessage;
+            CachedUserMessage message;
+            if (CacheProvider.TryGetMessages(model.ChannelId, out var cache) && cache.TryGetValue(model.Id, out message))
+            {
+                oldMessage = (CachedUserMessage) message.Clone();
+                message.Update(model);
+            }
+            else
+            {
+                oldMessage = null;
+                message = null;
+            }
+
+            return new MessageUpdatedEventArgs(oldMessage, message, model);
         }
     }
 }

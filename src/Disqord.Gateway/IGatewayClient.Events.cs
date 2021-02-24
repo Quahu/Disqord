@@ -28,6 +28,8 @@ namespace Disqord.Gateway
 
         event AsynchronousEventHandler<MessageReceivedEventArgs> MessageReceived;
 
+        event AsynchronousEventHandler<MessageUpdatedEventArgs> MessageUpdated;
+
         event AsynchronousEventHandler<MessageDeletedEventArgs> MessageDeleted;
 
         event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted;
