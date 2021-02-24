@@ -11,8 +11,10 @@ namespace Disqord
     {
         /// <summary>
         ///     Gets the low-level version of this client.
-        ///     Do not use this unless you are well aware of how it works.
         /// </summary>
+        /// <remarks>
+        ///     Do not use this unless you are well aware of how it works.
+        /// </remarks>
         IApiClient ApiClient { get; }
     }
 }

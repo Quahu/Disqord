@@ -16,6 +16,9 @@ namespace Disqord
     ///     Represents a low-level client for the Discord API.
     ///     Wraps <see cref="IRestApiClient"/> and <see cref="IGatewayApiClient"/>.
     /// </summary>
+    /// <remarks>
+    ///     Do not use this unless you are well aware of how it works.
+    /// </remarks>
     public class DiscordApiClient : IRestApiClient, IGatewayApiClient
     {
         /// <inheritdoc/>
@@ -67,6 +70,7 @@ namespace Disqord
             GatewayApiClient = gatewayApiClient;
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             RestApiClient.Dispose();
