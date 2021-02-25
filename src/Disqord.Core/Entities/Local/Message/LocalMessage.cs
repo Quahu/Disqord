@@ -5,7 +5,7 @@ namespace Disqord
 {
     public sealed class LocalMessage
     {
-        public string Content { get; }
+        public string? Content { get; }
 
         public bool IsTextToSpeech { get; }
 
@@ -17,7 +17,7 @@ namespace Disqord
 
         public LocalReference? Reference { get; }
 
-        public string Nonce { get; }
+        public string? Nonce { get; }
 
         internal LocalMessage(LocalMessageBuilder builder)
         {
