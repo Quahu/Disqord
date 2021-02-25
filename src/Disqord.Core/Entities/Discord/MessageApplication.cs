@@ -6,7 +6,7 @@ namespace Disqord
     {
         public Snowflake Id { get; }
 
-        public string CoverImageHash { get; }
+        public string? CoverImageHash { get; }
 
         public string Description { get; }
 

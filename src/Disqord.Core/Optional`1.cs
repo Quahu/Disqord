@@ -124,8 +124,8 @@ namespace Disqord
         ///     Implicitly converts the <paramref name="value"/> to an <see cref="Optional{T}"/>.
         /// </summary>
         /// <param name="value"> The value to convert. </param>
-        public static implicit operator Optional<T>(T value)
-            => new Optional<T>(value);
+        public static implicit operator Optional<T>(T? value)
+            => new(value);
 
         /// <summary>
         ///     Implicitly gets the <see cref="Optional{T}.Value"/>.

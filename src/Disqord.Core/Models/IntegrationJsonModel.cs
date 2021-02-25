@@ -9,12 +9,12 @@ namespace Disqord.Models
         public Snowflake Id;
 
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
 
         [JsonProperty("string")]
-        public string Type;
+        public string Type = default!;
 
-        [JsonProperty("enabled")]
+        [JsonProperty("enabled")] 
         public bool Enabled;
 
         [JsonProperty("syncing")]
@@ -36,7 +36,7 @@ namespace Disqord.Models
         public Optional<UserJsonModel> User;
 
         [JsonProperty("account")]
-        public IntegrationAccountJsonModel Account;
+        public IntegrationAccountJsonModel Account = default!;
 
         [JsonProperty("synced_at")]
         public Optional<DateTimeOffset> SyncedAt;

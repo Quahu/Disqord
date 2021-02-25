@@ -6,7 +6,7 @@ namespace Disqord
     {
         public MessageActivityType Type { get; }
 
-        public string PartyId { get; }
+        public string? PartyId { get; }
 
         public MessageActivity(MessageActivityJsonModel model)
         {

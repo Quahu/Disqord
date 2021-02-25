@@ -12,7 +12,7 @@ namespace Disqord
 
         public string Description { get; }
 
-        public string Tags { get; }
+        public string? Tags { get; }
 
         public string AssetHash { get; }
 

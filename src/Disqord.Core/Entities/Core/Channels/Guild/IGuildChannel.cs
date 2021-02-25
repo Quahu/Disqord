@@ -15,6 +15,6 @@ namespace Disqord
         /// <summary>
         ///     Gets the permission overwrites of this channel.
         /// </summary>
-        IReadOnlyList<IOverwrite> Overwrites { get; }
+        IReadOnlyList<IOverwrite>? Overwrites { get; }
     }
 }

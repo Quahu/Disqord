@@ -54,7 +54,7 @@ namespace Disqord
         { }
 
         public LocalAttachment(ArraySegment<byte> segment, string fileName, bool isSpoiler = false)
-            : this(new MemoryStream(segment.Array, segment.Offset, segment.Count), fileName, isSpoiler)
+            : this(new MemoryStream(segment.Array!, segment.Offset, segment.Count), fileName, isSpoiler)
         { }
 
         internal string GetFileName()

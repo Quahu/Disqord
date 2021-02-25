@@ -57,17 +57,17 @@ namespace Disqord
         /// <summary>
         ///     Gets the activity tied to this message.
         /// </summary>
-        MessageActivity Activity { get; }
+        MessageActivity? Activity { get; }
 
         /// <summary>
         ///     Gets the application tied to this message.
         /// </summary>
-        MessageApplication Application { get; }
+        MessageApplication? Application { get; }
 
         /// <summary>
         ///     Gets the reference tied to this message.
         /// </summary>
-        MessageReference Reference { get; }
+        MessageReference? Reference { get; }
 
         /// <summary>
         ///     Gets the <see cref="MessageFlag"/> of this message.

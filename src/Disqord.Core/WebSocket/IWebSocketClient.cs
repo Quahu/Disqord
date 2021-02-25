@@ -11,7 +11,7 @@ namespace Disqord.WebSocket
 
         int? CloseStatus { get; }
 
-        string CloseMessage { get; }
+        string? CloseMessage { get; }
 
         ValueTask ConnectAsync(Uri uri, CancellationToken cancellationToken = default);
 

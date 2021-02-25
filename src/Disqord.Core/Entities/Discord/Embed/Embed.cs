@@ -7,13 +7,13 @@ namespace Disqord
 {
     public class Embed
     {
-        public string Title { get; }
+        public string? Title { get; }
 
-        public string Type { get; }
+        public string? Type { get; }
 
-        public string Description { get; }
+        public string? Description { get; }
 
-        public string Url { get; }
+        public string? Url { get; }
 
         public DateTimeOffset? Timestamp { get; }
 

@@ -6,9 +6,9 @@ namespace Disqord
     {
         public string Text { get; }
 
-        public string IconUrl { get; }
+        public string? IconUrl { get; }
 
-        public string ProxyIconUrl { get; }
+        public string? ProxyIconUrl { get; }
 
         public EmbedFooter(EmbedFooterJsonModel model)
         {

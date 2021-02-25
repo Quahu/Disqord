@@ -20,9 +20,9 @@ namespace Disqord.Serialization.Json.Default
         public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
             => objectType.GetConstructors()[0].Invoke(new[] { serializer.Deserialize(reader, objectType.GenericTypeArguments[0]) });
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
-            var optionalValue = ((IOptional) value).Value;
+            var optionalValue = ((IOptional) value!).Value;
             if (optionalValue == null)
             {
                 writer.WriteNull();

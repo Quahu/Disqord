@@ -37,7 +37,7 @@ namespace Disqord
                     return TransientGuildChannel.Create(client, model);
             }
 
-            return null/*TransientUnknownChannel(client, model)*/;
+            return null!/*TransientUnknownChannel(client, model)*/;
         }
     }
 }

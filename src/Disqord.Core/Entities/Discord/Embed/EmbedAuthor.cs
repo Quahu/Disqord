@@ -4,13 +4,13 @@ namespace Disqord
 {
     public class EmbedAuthor
     {
-        public string Name { get; }
+        public string? Name { get; }
 
-        public string Url { get; }
+        public string? Url { get; }
 
-        public string IconUrl { get; }
+        public string? IconUrl { get; }
 
-        public string ProxyIconUrl { get; }
+        public string? ProxyIconUrl { get; }
 
         public EmbedAuthor(EmbedAuthorJsonModel model)
         {

@@ -5,7 +5,7 @@ namespace Disqord
 {
     public sealed class EmbedVideo
     {
-        public string Url { get; }
+        public string? Url { get; }
 
         public Size Size { get; }
 

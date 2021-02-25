@@ -11,19 +11,19 @@ namespace Disqord.Models
         public Snowflake PackId;
 
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
 
         [JsonProperty("description")]
-        public string Description;
+        public string Description = default!;
 
         [JsonProperty("tags")]
         public Optional<string> Tags;
 
         [JsonProperty("asset")]
-        public string Asset;
+        public string Asset = default!;
 
         [JsonProperty("preview_asset")]
-        public string PreviewAsset;
+        public string PreviewAsset = default!;
 
         [JsonProperty("format_type")]
         public StickerFormatType FormatType;

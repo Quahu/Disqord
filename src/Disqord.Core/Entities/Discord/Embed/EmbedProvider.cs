@@ -4,9 +4,9 @@ namespace Disqord
 {
     public sealed class EmbedProvider
     {
-        public string Name { get; }
+        public string? Name { get; }
 
-        public string Url { get; }
+        public string? Url { get; }
 
         public EmbedProvider(EmbedProviderJsonModel model)
         {

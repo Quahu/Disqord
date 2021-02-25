@@ -5,9 +5,9 @@ namespace Disqord
 {
     public sealed class EmbedThumbnail
     {
-        public string Url { get; }
+        public string? Url { get; }
 
-        public string ProxyUrl { get; }
+        public string? ProxyUrl { get; }
 
         public Size Size { get; }
 

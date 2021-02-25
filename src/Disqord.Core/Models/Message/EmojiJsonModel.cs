@@ -8,7 +8,7 @@ namespace Disqord.Models
         public Snowflake? Id;
 
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
 
         [JsonProperty("roles")]
         public Optional<Snowflake[]> Roles;

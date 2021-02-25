@@ -31,7 +31,7 @@ namespace Disqord
                 return _attachments;
             }
         }
-        private IReadOnlyList<Attachment> _attachments;
+        private IReadOnlyList<Attachment>? _attachments;
 
         public IReadOnlyList<Embed> Embeds
         {
@@ -43,13 +43,13 @@ namespace Disqord
                 return _embeds;
             }
         }
-        private IReadOnlyList<Embed> _embeds;
+        private IReadOnlyList<Embed>? _embeds;
 
-        public MessageActivity Activity => Optional.ConvertOrDefault(Model.Activity, x => new MessageActivity(x));
+        public MessageActivity? Activity => Optional.ConvertOrDefault(Model.Activity, x => new MessageActivity(x));
 
-        public MessageApplication Application => Optional.ConvertOrDefault(Model.Application, x => new MessageApplication(x));
+        public MessageApplication? Application => Optional.ConvertOrDefault(Model.Application, x => new MessageApplication(x));
 
-        public MessageReference Reference => Optional.ConvertOrDefault(Model.MessageReference, x => new MessageReference(x));
+        public MessageReference? Reference => Optional.ConvertOrDefault(Model.MessageReference, x => new MessageReference(x));
 
         public MessageFlag Flags => Model.Flags.GetValueOrDefault();
 
