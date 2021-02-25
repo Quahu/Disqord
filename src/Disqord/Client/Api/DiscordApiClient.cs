@@ -28,12 +28,12 @@ namespace Disqord
         public ILogger Logger { get; }
 
         /// <summary>
-        ///     Gets the REST API client.
+        ///     Gets the REST API client this client wraps.
         /// </summary>
         public IRestApiClient RestApiClient { get; }
 
         /// <summary>
-        ///     Gets the gateway API client.
+        ///     Gets the gateway API client this client wraps.
         /// </summary>
         public IGatewayApiClient GatewayApiClient { get; }
 

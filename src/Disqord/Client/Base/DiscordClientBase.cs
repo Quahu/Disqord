@@ -12,7 +12,8 @@ using Microsoft.Extensions.Logging;
 namespace Disqord
 {
     /// <summary>
-    ///     Represents a Discord client wrapping <see cref="IRestClient"/> and <see cref="IGatewayClient"/>.
+    ///     Represents a high-level Discord client.
+    ///     Wraps <see cref="IRestClient"/> and <see cref="IGatewayClient"/>.
     /// </summary>
     public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
     {
@@ -20,12 +21,12 @@ namespace Disqord
         public ILogger Logger { get; }
 
         /// <summary>
-        ///     Gets the REST client.
+        ///     Gets the REST client this client wraps.
         /// </summary>
         public IRestClient RestClient { get; }
 
         /// <summary>
-        ///     Gets the gateway client.
+        ///     Gets the gateway client this client wraps.
         /// </summary>
         public IGatewayClient GatewayClient { get; }
 
@@ -42,6 +43,13 @@ namespace Disqord
         IGatewayCacheProvider IGatewayClient.CacheProvider => GatewayClient.CacheProvider;
         IGatewayDispatcher IGatewayClient.Dispatcher => GatewayClient.Dispatcher;
 
+        /// <summary>
+        ///     Instantiates a new <see cref="DiscordClientBase"/>, wrapping REST and gateway clients.
+        /// </summary>
+        /// <param name="logger"> The logger of this client. </param>
+        /// <param name="restClient"> The REST client to wrap. </param>
+        /// <param name="gatewayClient"> The gateway client to wrap. </param>
+        /// <param name="apiClient"> The API client of this client. </param>
         protected DiscordClientBase(
             ILogger logger,
             IRestClient restClient,
@@ -54,6 +62,12 @@ namespace Disqord
             ApiClient = apiClient;
         }
 
+        /// <summary>
+        ///     Instantiates a new <see cref="DiscordClientBase"/>, wrapping a pre-existing client.
+        ///     Rebinds the specified client's dispatcher to <see langword="this"/>.
+        /// </summary>
+        /// <param name="logger"> The logger of this client. </param>
+        /// <param name="client"> The client to wrap. </param>
         protected DiscordClientBase(
             ILogger logger,
             DiscordClientBase client)
