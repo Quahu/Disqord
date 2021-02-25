@@ -32,7 +32,7 @@ namespace Disqord.Utilities.Binding
 
         private TBind _value;
         private readonly IBindable<TBind> _bindable;
-        private readonly Action<TBind> _check;
+        private readonly Action<TBind>? _check;
         private readonly bool _allowRebinding;
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Disqord.Utilities.Binding
         /// <param name="bindable"> The bindable to wrap. </param>
         /// <param name="check"> The optional check used for throwing exceptions. </param>
         /// <param name="allowRebinding"> Whether rebinding should be allowed. </param>
-        public Binder(IBindable<TBind> bindable, Action<TBind> check = null, bool allowRebinding = false)
+        public Binder(IBindable<TBind> bindable, Action<TBind>? check = null, bool allowRebinding = false)
         {
             if (bindable == null)
                 throw new ArgumentNullException(nameof(bindable));

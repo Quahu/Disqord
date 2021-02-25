@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http.Headers;
 
@@ -49,7 +50,7 @@ namespace Disqord.Http.Default
         public void CopyTo(KeyValuePair<string, string>[] array, int arrayIndex)
             => throw new NotImplementedException();
 
-        public bool TryGetValue(string key, out string value)
+        public bool TryGetValue(string key, [MaybeNullWhen(false)] out string value)
         {
             if (_headers.TryGetValues(key, out var values))
             {

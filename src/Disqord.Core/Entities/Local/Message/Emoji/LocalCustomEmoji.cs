@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Disqord
 {
@@ -12,20 +13,20 @@ namespace Disqord
 
         public string Tag => this.GetMessageFormat();
 
-        public LocalCustomEmoji(Snowflake id, string name = null, bool isAnimated = false)
+        public LocalCustomEmoji(Snowflake id, string? name = null, bool isAnimated = false)
             : base(name)
         {
             Id = id;
             IsAnimated = isAnimated;
         }
 
-        public bool Equals(ICustomEmoji other)
+        public bool Equals(ICustomEmoji? other)
             => Discord.Comparers.Emoji.Equals(this, other);
 
         public override string ToString()
             => Tag;
 
-        public static bool TryParse(string value, out LocalCustomEmoji result)
+        public static bool TryParse(string value, [MaybeNullWhen(false)] out LocalCustomEmoji result)
         {
             result = null;
             if (string.IsNullOrWhiteSpace(value) || value.Length < 21)

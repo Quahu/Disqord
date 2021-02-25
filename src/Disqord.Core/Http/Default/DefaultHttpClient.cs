@@ -10,7 +10,7 @@ namespace Disqord.Http.Default
     {
         public Uri BaseUri
         {
-            get => _http.BaseAddress;
+            get => _http.BaseAddress!;
             set => _http.BaseAddress = value;
         }
 

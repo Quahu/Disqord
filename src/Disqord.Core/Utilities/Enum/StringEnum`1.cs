@@ -10,13 +10,13 @@ namespace Disqord.Utilities
         protected StringEnum()
         { }
 
-        public bool Equals(StringEnum<TEnum> other)
-            => Value.Equals(other.Value);
+        public bool Equals(StringEnum<TEnum>? other)
+            => Value.Equals(other?.Value);
 
-        public bool Equals(string other)
+        public bool Equals(string? other)
             => Value.Equals(other);
 
-        public override bool Equals(object obj) => obj switch
+        public override bool Equals(object? obj) => obj switch
         {
             StringEnum<TEnum> stringEnum => Equals(stringEnum),
             string value => Equals(value),

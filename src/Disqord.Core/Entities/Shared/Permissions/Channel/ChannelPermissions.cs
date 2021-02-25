@@ -98,7 +98,7 @@ namespace Disqord
         public bool Equals(ChannelPermissions other)
             => RawValue == other.RawValue;
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is ChannelPermissions channelPermissions)
                 return Equals(channelPermissions);

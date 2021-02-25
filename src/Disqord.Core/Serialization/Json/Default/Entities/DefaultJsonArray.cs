@@ -19,7 +19,7 @@ namespace Disqord.Serialization.Json.Default
 
         private sealed class Enumerator : IEnumerator<IJsonToken>
         {
-            public IJsonToken Current => Create(_current.Token, _array._serializer);
+            public IJsonToken Current => Create(_current!.Token, _array._serializer);
             object IEnumerator.Current => Current;
 
             private readonly DefaultJsonArray _array;

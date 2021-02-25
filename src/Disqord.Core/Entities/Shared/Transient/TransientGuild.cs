@@ -20,7 +20,7 @@ namespace Disqord
 
         public string SplashHash => Model.Splash;
 
-        public string DiscoverySplashHash => Model.DiscoverySplash.GetValueOrDefault();
+        public string? DiscoverySplashHash => Model.DiscoverySplash.GetValueOrDefault();
 
         public Snowflake OwnerId => Model.OwnerId;
 
@@ -54,7 +54,7 @@ namespace Disqord
                 return _roles;
             }
         }
-        private IReadOnlyDictionary<Snowflake, IRole> _roles;
+        private IReadOnlyDictionary<Snowflake, IRole>? _roles;
 
         public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis { get; }
 

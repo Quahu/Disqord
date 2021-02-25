@@ -9,15 +9,15 @@ namespace Disqord.Serialization.Json.Default
         public override bool CanConvert(Type objectType)
             => true;
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             var token = JToken.ReadFrom(reader);
             return DefaultJsonToken.Create(token, serializer);
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
-            var token = ((DefaultJsonToken) value).Token;
+            var token = ((DefaultJsonToken) value!).Token;
             serializer.Serialize(writer, token);
         }
     }

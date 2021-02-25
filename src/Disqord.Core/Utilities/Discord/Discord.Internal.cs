@@ -7,10 +7,10 @@ namespace Disqord
     {
         internal static class Internal
         {
-            internal static CultureInfo GetLocale(string locale)
+            internal static CultureInfo GetLocale(string? locale)
                 => CultureInfo.GetCultureInfo(locale ?? "en-US");
 
-            internal static string GetSystemMessageContent(ISystemMessage message, IGuild guild) => message.Type switch
+            internal static string GetSystemMessageContent(ISystemMessage message, IGuild? guild) => message.Type switch
             {
                 SystemMessageType.RecipientAdded => $"{message.Author.Name} added {message.MentionedUsers[0].Name} to the group.",
                 SystemMessageType.RecipientRemoved => $"{message.Author.Name} removed {message.MentionedUsers[0].Name} from the group.",

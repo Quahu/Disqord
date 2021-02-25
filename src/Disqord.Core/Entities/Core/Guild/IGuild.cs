@@ -22,7 +22,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the discovery image hash of this guild.
         /// </summary>
-        string DiscoverySplashHash { get; }
+        string? DiscoverySplashHash { get; }
 
         /// <summary>
         ///     Gets the owner ID of this guild.
