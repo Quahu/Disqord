@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Disqord.Utilities.Binding
 {
@@ -30,7 +31,7 @@ namespace Disqord.Utilities.Binding
         /// </summary>
         public bool IsBound => _value != null;
 
-        private TBind _value;
+        private TBind? _value;
         private readonly IBindable<TBind> _bindable;
         private readonly Action<TBind>? _check;
         private readonly bool _allowRebinding;
@@ -67,7 +68,7 @@ namespace Disqord.Utilities.Binding
             _value = value;
         }
 
-        public bool TryGetValue(out TBind value)
+        public bool TryGetValue([MaybeNullWhen(false)] out TBind value)
         {
             value = _value;
             return _value != null;
@@ -76,7 +77,7 @@ namespace Disqord.Utilities.Binding
         /// <summary>
         ///     Gets the bound value of this <see cref="Binder{TBind}"/> or the <see langword="default"/> value.
         /// </summary>
-        public TBind GetValueOrDefault()
+        public TBind? GetValueOrDefault()
             => _value;
     }
 }

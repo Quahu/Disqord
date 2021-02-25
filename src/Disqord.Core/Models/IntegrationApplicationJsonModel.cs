@@ -8,16 +8,16 @@ namespace Disqord.Models
         public Snowflake Id;
 
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
 
         [JsonProperty("icon")]
-        public string Icon;
+        public string Icon = default!;
 
         [JsonProperty("description")]
-        public string Description;
+        public string Description = default!;
 
         [JsonProperty("summary")]
-        public string Summary;
+        public string Summary = default!;
 
         [JsonProperty("bot")]
         public Optional<UserJsonModel> Bot;

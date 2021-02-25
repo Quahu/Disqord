@@ -9,10 +9,10 @@ namespace Disqord.Models
         public Optional<UserJsonModel> User;
 
         [JsonProperty("nick")]
-        public string Nick;
+        public string Nick = default!;
 
         [JsonProperty("roles")]
-        public Snowflake[] Roles;
+        public Snowflake[] Roles = default!;
 
         [JsonProperty("joined_at")]
         public DateTimeOffset JoinedAt;

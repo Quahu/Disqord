@@ -11,6 +11,6 @@ namespace Disqord.Models
         public Optional<IJsonToken> NewValue;
 
         [JsonProperty("key")]
-        public string Key;
+        public string Key = default!;
     }
 }

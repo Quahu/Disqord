@@ -7,7 +7,7 @@ namespace Disqord.Serialization.Json.Default
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class DefaultJsonProperty : DefaultJsonToken, IJsonProperty
     {
-        public new JProperty Token => base.Token as JProperty;
+        public new JProperty Token => (JProperty)base.Token;
 
         public string Name => Token.Name;
 

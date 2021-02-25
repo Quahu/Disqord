@@ -12,7 +12,7 @@ namespace Disqord
             get
             {
                 if (_inviter == null)
-                    _inviter = new TransientUser(Client, Model.Inviter.Value);
+                    _inviter = new TransientUser(Client, Model.Inviter.Value!);
 
                 return _inviter;
             }

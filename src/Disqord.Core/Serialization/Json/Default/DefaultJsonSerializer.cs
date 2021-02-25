@@ -31,7 +31,7 @@ namespace Disqord.Serialization.Json.Default
             };
         }
 
-        public T? Deserialize<T>(ReadOnlyMemory<byte> json)
+        public T Deserialize<T>(ReadOnlyMemory<byte> json)
             where T : class
         {
             try

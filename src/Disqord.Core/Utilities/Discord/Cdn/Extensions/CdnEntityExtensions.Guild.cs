@@ -1,4 +1,6 @@
-﻿namespace Disqord
+﻿using System;
+
+namespace Disqord
 {
     public static partial class CdnEntityExtensions
     {

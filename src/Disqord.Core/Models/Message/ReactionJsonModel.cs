@@ -11,6 +11,6 @@ namespace Disqord.Models
         public bool Me;
 
         [JsonProperty("emoji")]
-        public EmojiJsonModel Emoji;
+        public EmojiJsonModel Emoji = default!;
     }
 }

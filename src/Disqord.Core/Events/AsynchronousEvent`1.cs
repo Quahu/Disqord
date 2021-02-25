@@ -26,7 +26,7 @@ namespace Disqord.Events
         public int Count => _handlers.Count;
 
         private ImmutableHashSet<AsynchronousEventHandler<TEventArgs>> _handlers;
-        private readonly Action<Exception> _errorHandler;
+        private readonly Action<Exception>? _errorHandler;
 
         /// <summary>
         ///     Initialises a new <see cref="AsynchronousEvent{T}"/>.

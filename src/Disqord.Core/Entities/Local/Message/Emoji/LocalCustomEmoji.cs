@@ -13,7 +13,7 @@ namespace Disqord
 
         public string Tag => this.GetMessageFormat();
 
-        public LocalCustomEmoji(Snowflake id, string? name = null, bool isAnimated = false)
+        public LocalCustomEmoji(Snowflake id, string name, bool isAnimated = false)
             : base(name)
         {
             Id = id;

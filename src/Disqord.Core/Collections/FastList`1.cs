@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Disqord.Collections
 {
+// Unused - revisit if relevant
 #nullable disable
     /// <summary>
     ///     Represents a generic list of items almost identical to the <see cref="List{T}"/> except it exposes the underlying array containing the elements.

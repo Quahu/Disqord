@@ -10,11 +10,11 @@ namespace Disqord.Models.Slash
         [JsonProperty("application_id")]
         public Snowflake ApplicationId;
 
-        [JsonProperty("name")]
-        public string Name;
+        [JsonProperty("name")] 
+        public string Name = default!;
 
         [JsonProperty("description")]
-        public string Description;
+        public string Description = default!;
 
         [JsonProperty("options")]
         public Optional<SlashCommandOptionJsonModel[]> Options;

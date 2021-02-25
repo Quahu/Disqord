@@ -14,6 +14,6 @@ namespace Disqord.Models
         public ChannelType Type;
 
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
     }
 }

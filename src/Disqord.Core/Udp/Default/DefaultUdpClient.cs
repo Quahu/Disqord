@@ -7,6 +7,8 @@ using Disqord.Utilities.Threading;
 
 namespace Disqord.Udp.Default
 {
+// Unused - revisit if required
+#nullable disable
     public sealed class DefaultUdpClient : IUdpClient
     {
         private Cts _cts;

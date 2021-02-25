@@ -15,7 +15,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the raw token string.
         /// </summary>
-        public string RawValue { get; }
+        public string? RawValue { get; }
 
         private protected Token(string value)
         {

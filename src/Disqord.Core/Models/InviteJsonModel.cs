@@ -6,13 +6,13 @@ namespace Disqord.Models
     public class InviteJsonModel : JsonModel
     {
         [JsonProperty("code")]
-        public string Code;
+        public string Code = default!;
 
         [JsonProperty("guild")]
         public Optional<GuildJsonModel> Guild;
 
         [JsonProperty("channel")]
-        public ChannelJsonModel Channel;
+        public ChannelJsonModel Channel = default!;
 
         [JsonProperty("inviter")]
         public Optional<UserJsonModel> Inviter;

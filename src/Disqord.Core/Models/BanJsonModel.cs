@@ -5,9 +5,9 @@ namespace Disqord.Models
     public class BanJsonModel : JsonModel
     {
         [JsonProperty("reason")]
-        public string Reason;
+        public string Reason = default!;
 
         [JsonProperty("user")]
-        public UserJsonModel User;
+        public UserJsonModel User = default!;
     }
 }
