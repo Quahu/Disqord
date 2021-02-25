@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 namespace Disqord.Utilities
 {
+// Unused, revisit if relevant
+#nullable disable
     /// <summary>
     ///     Represents an array rented from an <see cref="ArrayPool{T}"/> that will be returned to it on disposal.
     ///     Does not perform any validation checks on the underlying array nor on the pool.
