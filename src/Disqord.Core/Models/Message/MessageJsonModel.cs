@@ -21,7 +21,7 @@ namespace Disqord.Models
         public Optional<MemberJsonModel> Member;
 
         [JsonProperty("content")]
-        public string Content;
+        public string Content = default!;
 
         [JsonProperty("timestamp")]
         public DateTimeOffset Timestamp;
@@ -36,19 +36,19 @@ namespace Disqord.Models
         public bool MentionEveryone;
 
         [JsonProperty("mentions")]
-        public UserJsonModel[] Mentions;
+        public UserJsonModel[] Mentions = default!;
 
         [JsonProperty("mention_roles")]
-        public Snowflake[] MentionRoles;
+        public Snowflake[] MentionRoles = default!;
 
         [JsonProperty("mention_channels")]
         public Optional<ChannelMentionJsonModel[]> MentionChannels;
 
         [JsonProperty("attachments")]
-        public AttachmentJsonModel[] Attachments;
+        public AttachmentJsonModel[] Attachments = default!;
 
         [JsonProperty("embeds")]
-        public EmbedJsonModel[] Embeds;
+        public EmbedJsonModel[] Embeds = default!;
 
         [JsonProperty("reactions")]
         public Optional<ReactionJsonModel[]> Reactions;

@@ -6,7 +6,7 @@ namespace Disqord
 {
     public class LocalMessageBuilder : ICloneable
     {
-        public string Content { get; set; }
+        public string? Content { get; set; }
 
         public bool IsTextToSpeech { get; set; }
 
@@ -16,7 +16,7 @@ namespace Disqord
 
         public LocalReferenceBuilder? Reference { get; set; }
 
-        public string Nonce { get; set; }
+        public string? Nonce { get; set; }
 
         public IList<LocalAttachment> Attachments
         {

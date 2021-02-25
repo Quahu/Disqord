@@ -11,7 +11,7 @@ namespace Disqord.WebSocket.Default
 
         public int? CloseStatus => (int?) _ws.CloseStatus;
 
-        public string CloseMessage => _ws.CloseStatusDescription;
+        public string? CloseMessage => _ws.CloseStatusDescription;
 
         private readonly ClientWebSocket _ws;
 

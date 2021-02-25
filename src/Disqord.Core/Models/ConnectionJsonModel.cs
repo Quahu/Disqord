@@ -5,13 +5,13 @@ namespace Disqord.Models
     public class ConnectionJsonModel : JsonModel
     {
         [JsonProperty("id")]
-        public string Id;
+        public string Id = default!;
 
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
 
         [JsonProperty("type")]
-        public string Type;
+        public string Type = default!;
 
         [JsonProperty("revoked")]
         public Optional<bool> Revoked;

@@ -24,7 +24,7 @@ namespace Disqord
                 return _author;
             }
         }
-        protected IUser _author;
+        protected IUser? _author;
 
         public virtual string Content => Model.Content;
 
@@ -38,7 +38,7 @@ namespace Disqord
                 return _mentionedUsers;
             }
         }
-        private IReadOnlyList<IUser> _mentionedUsers;
+        private IReadOnlyList<IUser>? _mentionedUsers;
 
         public Optional<IReadOnlyDictionary<IEmoji, IReaction>> Reactions
         {

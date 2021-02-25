@@ -20,10 +20,10 @@ namespace Disqord.Models
         public Optional<UserJsonModel> User;
 
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
 
         [JsonProperty("avatar")]
-        public string Avatar;
+        public string Avatar = default!;
 
         [JsonProperty("token")]
         public Optional<string> Token;

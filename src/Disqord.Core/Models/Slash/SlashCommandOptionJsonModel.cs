@@ -8,10 +8,10 @@ namespace Disqord.Models.Slash
         public SlashCommandOptionType Type;
 
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
 
         [JsonProperty("description")]
-        public string Description;
+        public string Description = default!;
 
         [JsonProperty("default")]
         public Optional<bool> Default;

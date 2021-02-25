@@ -18,12 +18,12 @@ namespace Disqord.Serialization.Json
         /// <summary>
         ///     Gets the extension data dictionary.
         /// </summary>
-        public IDictionary<string, IJsonToken> ExtensionData
+        public IDictionary<string, IJsonToken?> ExtensionData
         {
-            get => _extensionData ??= new Dictionary<string, IJsonToken>();
+            get => _extensionData ??= new Dictionary<string, IJsonToken?>();
             set => _extensionData = value;
         }
-        private IDictionary<string, IJsonToken>? _extensionData;
+        private IDictionary<string, IJsonToken?>? _extensionData;
 
         T IJsonToken.ToType<T>()
             => throw new NotSupportedException();

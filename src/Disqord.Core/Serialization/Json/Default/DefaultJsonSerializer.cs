@@ -31,7 +31,7 @@ namespace Disqord.Serialization.Json.Default
             };
         }
 
-        public T Deserialize<T>(ReadOnlyMemory<byte> json)
+        public T? Deserialize<T>(ReadOnlyMemory<byte> json)
             where T : class
         {
             try
@@ -81,7 +81,7 @@ namespace Disqord.Serialization.Json.Default
         }
 
         // TODO: Temporarily horrible.
-        public T StringToEnum<T>(string value)
+        public T? StringToEnum<T>(string value)
             where T : Enum
             => JToken.FromObject(value, UnderlyingSerializer).ToObject<T>(UnderlyingSerializer);
 

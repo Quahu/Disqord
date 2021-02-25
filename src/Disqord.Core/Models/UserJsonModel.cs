@@ -8,13 +8,13 @@ namespace Disqord.Models
         public Snowflake Id;
 
         [JsonProperty("username")]
-        public string Username;
+        public string Username = default!;
 
         [JsonProperty("discriminator")]
-        public string Discriminator;
+        public string Discriminator = default!;
 
         [JsonProperty("avatar")]
-        public string Avatar;
+        public string Avatar = default!;
 
         [JsonProperty("bot")]
         public Optional<bool> Bot;

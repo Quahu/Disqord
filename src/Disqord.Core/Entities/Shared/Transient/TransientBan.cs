@@ -16,7 +16,7 @@ namespace Disqord
                 return _user;
             }
         }
-        private TransientUser _user;
+        private TransientUser? _user;
 
         public string Reason => Model.Reason;
 

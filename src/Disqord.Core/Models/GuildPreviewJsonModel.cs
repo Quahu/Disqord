@@ -8,22 +8,22 @@ namespace Disqord.Models
         public Snowflake Id;
 
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
 
         [JsonProperty("icon")]
-        public string Icon;
+        public string Icon = default!;
 
         [JsonProperty("splash")]
-        public string Splash;
+        public string Splash = default!;
 
         [JsonProperty("discovery_splash")]
         public Optional<string> DiscoverySplash;
 
         [JsonProperty("emojis")]
-        public EmojiJsonModel[] Emojis;
+        public EmojiJsonModel[] Emojis = default!;
 
         [JsonProperty("features")]
-        public string[] Features;
+        public string[] Features = default!;
 
         [JsonProperty("approximate_member_count")]
         public int ApproximateMemberCount;
@@ -32,6 +32,6 @@ namespace Disqord.Models
         public int ApproximatePresenceCount;
 
         [JsonProperty("description")]
-        public string Description;
+        public string Description = default!;
     }
 }

@@ -5,9 +5,9 @@ namespace Disqord.Models.Slash
     public class SlashCommandOptionChoiceJsonModel : JsonModel
     {
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
 
         [JsonProperty("value")]
-        public IJsonValue Value;
+        public IJsonValue Value = default!;
     }
 }

@@ -28,7 +28,7 @@ namespace Disqord
             }
         }
 
-        public TExtension GetExtension<TExtension>()
+        public TExtension? GetExtension<TExtension>()
             where TExtension : DiscordClientExtension
             => _extensions.GetValueOrDefault(typeof(TExtension)) as TExtension;
 

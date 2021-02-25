@@ -63,7 +63,7 @@ namespace Disqord
                 return _stickers;
             }
         }
-        private IReadOnlyList<Sticker> _stickers;
+        private IReadOnlyList<Sticker>? _stickers;
 
         public Optional<IUserMessage> ReferencedMessage
         {

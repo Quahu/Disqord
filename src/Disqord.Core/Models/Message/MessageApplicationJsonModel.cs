@@ -11,12 +11,12 @@ namespace Disqord.Models
         public Optional<string> CoverImage;
 
         [JsonProperty("description")]
-        public string Description;
+        public string Description = default!;
 
         [JsonProperty("icon")]
-        public string Icon;
+        public string Icon = default!;
 
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
     }
 }

@@ -7,9 +7,9 @@ namespace Disqord.Serialization.Json.Default
     [DebuggerDisplay("{Value}")]
     public class DefaultJsonValue : DefaultJsonToken, IJsonValue
     {
-        public new JValue Token => base.Token as JValue;
+        public new JValue Token => (base.Token as JValue)!;
 
-        public object Value => Token.Value;
+        public object? Value => Token.Value;
 
         public DefaultJsonValue(JValue token, JsonSerializer serializer)
             : base(token, serializer)

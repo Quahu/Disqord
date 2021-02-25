@@ -5,15 +5,15 @@ namespace Disqord.Models
     public class AuditLogJsonModel : JsonModel
     {
         [JsonProperty("webhooks")]
-        public WebhookJsonModel[] Webhooks;
+        public WebhookJsonModel[] Webhooks = default!;
 
         [JsonProperty("users")]
-        public UserJsonModel[] Users;
+        public UserJsonModel[] Users = default!;
 
         [JsonProperty("integrations")]
-        public IntegrationJsonModel[] Integrations;
+        public IntegrationJsonModel[] Integrations = default!;
 
         [JsonProperty("audit_log_entries")]
-        public AuditLogEntryJsonModel[] AuditLogEntries;
+        public AuditLogEntryJsonModel[] AuditLogEntries = default!;
     }
 }

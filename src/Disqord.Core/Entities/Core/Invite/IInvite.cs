@@ -15,6 +15,6 @@ namespace Disqord
         /// <summary>
         ///     Gets the optional metadata of this invite.
         /// </summary>
-        IInviteMetadata Metadata { get; }
+        IInviteMetadata? Metadata { get; }
     }
 }

@@ -16,7 +16,7 @@ namespace Disqord
                 return _recipient;
             }
         }
-        private IUser _recipient;
+        private IUser? _recipient;
 
         public TransientDirectChannel(IClient client, ChannelJsonModel model)
             : base(client, model)

@@ -5,7 +5,7 @@ namespace Disqord.Models
     public class AuditLogEntryJsonModel : JsonModel
     {
         [JsonProperty("target_id")]
-        public string TargetId;
+        public string TargetId = default!;
 
         [JsonProperty("changes")]
         public Optional<AuditLogChangeJsonModel[]> Changes;

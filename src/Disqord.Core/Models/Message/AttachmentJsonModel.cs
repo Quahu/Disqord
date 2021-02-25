@@ -8,16 +8,16 @@ namespace Disqord.Models
         public Snowflake Id;
 
         [JsonProperty("filename")]
-        public string Filename;
+        public string Filename = default!;
 
         [JsonProperty("size")]
         public int Size;
 
         [JsonProperty("url")]
-        public string Url;
+        public string Url = default!;
 
         [JsonProperty("proxy_url")]
-        public string ProxyUrl;
+        public string ProxyUrl = default!;
 
         [JsonProperty("height")]
         public int? Height;

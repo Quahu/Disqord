@@ -17,7 +17,8 @@ namespace Disqord
         /// <remarks>
         ///     This property is set when <see cref="InitialiseAsync(DiscordClientBase)"/> is called.
         /// </remarks>
-        public DiscordClientBase Client { get; private set; }
+        // Nullability: overriden as no way to represent the correct relationship here
+        public DiscordClientBase Client { get; private set; } = default!;
 
         /// <summary>
         ///     Gets whether this extension is initialised.

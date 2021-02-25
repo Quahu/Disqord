@@ -17,7 +17,7 @@ namespace Disqord
                 return _inviter;
             }
         }
-        private IUser _inviter;
+        private IUser? _inviter;
 
         public TimeSpan MaxAge => TimeSpan.FromSeconds(Model.MaxAge.Value);
 

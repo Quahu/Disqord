@@ -8,16 +8,16 @@ namespace Disqord.Models
         public Snowflake Id;
 
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
 
         [JsonProperty("icon")]
-        public string Icon;
+        public string Icon = default!;
 
         [JsonProperty("icon_hash")]
         public Optional<string> IconHash;
 
         [JsonProperty("splash")]
-        public string Splash;
+        public string Splash = default!;
 
         [JsonProperty("discovery_splash")]
         public Optional<string> DiscoverySplash;
@@ -32,7 +32,7 @@ namespace Disqord.Models
         public Optional<ulong> Permissions;
 
         [JsonProperty("region")]
-        public string Region;
+        public string Region = default!;
 
         [JsonProperty("afk_channel_id")]
         public Snowflake? AfkChannelId;
@@ -56,13 +56,13 @@ namespace Disqord.Models
         public GuildContentFilterLevel ExplicitContentFilter;
 
         [JsonProperty("roles")]
-        public RoleJsonModel[] Roles;
+        public RoleJsonModel[] Roles = default!;
 
         [JsonProperty("emojis")]
-        public EmojiJsonModel[] Emojis;
+        public EmojiJsonModel[] Emojis = default!;
 
         [JsonProperty("features")]
-        public string[] Features;
+        public string[] Features = default!;
 
         [JsonProperty("mfa_level")]
         public GuildMfaLevel MfaLevel;
@@ -86,13 +86,13 @@ namespace Disqord.Models
         public Optional<int?> MaxMembers;
 
         [JsonProperty("vanity_url_code")]
-        public string VanityUrlCode;
+        public string VanityUrlCode = default!;
 
         [JsonProperty("description")]
-        public string Description;
+        public string Description = default!;
 
         [JsonProperty("banner")]
-        public string Banner;
+        public string Banner = default!;
 
         [JsonProperty("premium_tier")]
         public BoostTier PremiumTier;
@@ -101,7 +101,7 @@ namespace Disqord.Models
         public Optional<int> PremiumSubscriptionCount;
 
         [JsonProperty("preferred_locale")]
-        public string PreferredLocale;
+        public string PreferredLocale = default!;
 
         [JsonProperty("public_updates_channel_id")]
         public Snowflake? PublicUpdatesChannelId;

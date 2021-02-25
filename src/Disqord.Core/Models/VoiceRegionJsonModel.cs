@@ -5,10 +5,10 @@ namespace Disqord.Models
     public class VoiceRegionJsonModel : JsonModel
     {
         [JsonProperty("id")]
-        public string Id;
+        public string Id = default!;
 
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
 
         [JsonProperty("vip")]
         public bool Vip;

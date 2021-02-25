@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using Disqord.Client;
 using Disqord.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 

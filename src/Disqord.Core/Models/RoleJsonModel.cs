@@ -8,7 +8,7 @@ namespace Disqord.Models
         public Snowflake Id;
 
         [JsonProperty("name")]
-        public string Name;
+        public string Name = default!;
 
         [JsonProperty("color")]
         public int Color;
@@ -29,6 +29,6 @@ namespace Disqord.Models
         public bool Mentionable;
 
         [JsonProperty("tags")]
-        public RoleTagsJsonModel Tags;
+        public RoleTagsJsonModel? Tags;
     }
 }
