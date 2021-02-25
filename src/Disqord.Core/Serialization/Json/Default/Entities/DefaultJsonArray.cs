@@ -7,7 +7,7 @@ namespace Disqord.Serialization.Json.Default
 {
     public class DefaultJsonArray : DefaultJsonToken, IJsonArray
     {
-        public new JArray Token => base.Token as JArray;
+        public new JArray Token => (base.Token as JArray)!;
 
         public int Count => Token.Count;
 

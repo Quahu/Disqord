@@ -15,7 +15,7 @@ namespace Disqord.Models
         public Optional<Snowflake> GuildId;
 
         [JsonProperty("author")]
-        public UserJsonModel Author;
+        public UserJsonModel Author = default!;
 
         [JsonProperty("member")]
         public Optional<MemberJsonModel> Member;

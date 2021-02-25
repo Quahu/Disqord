@@ -5,7 +5,7 @@ namespace Disqord.Serialization.Json.Default
 {
     public class DefaultJsonObject : DefaultJsonToken, IJsonObject
     {
-        public new JObject? Token => base.Token as JObject;
+        public new JObject Token => (base.Token as JObject)!;
 
         public IJsonToken? this[string key] => Create(Token[key], _serializer);
 

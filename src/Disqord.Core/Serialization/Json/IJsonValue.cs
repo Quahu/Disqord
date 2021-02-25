@@ -2,6 +2,6 @@
 {
     public interface IJsonValue : IJsonToken
     {
-        object Value { get; }
+        object? Value { get; }
     }
 }

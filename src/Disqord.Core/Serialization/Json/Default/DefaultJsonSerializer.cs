@@ -81,7 +81,7 @@ namespace Disqord.Serialization.Json.Default
         }
 
         // TODO: Temporarily horrible.
-        public T? StringToEnum<T>(string value)
+        public T StringToEnum<T>(string value)
             where T : Enum
             => JToken.FromObject(value, UnderlyingSerializer).ToObject<T>(UnderlyingSerializer);
 

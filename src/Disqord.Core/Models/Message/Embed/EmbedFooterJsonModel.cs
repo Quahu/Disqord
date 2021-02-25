@@ -4,8 +4,8 @@ namespace Disqord.Models
 {
     public class EmbedFooterJsonModel : JsonModel
     {
-        [JsonProperty("text")]
-        public string Text;
+        [JsonProperty("text")] 
+        public string Text = default!;
 
         [JsonProperty("icon_url")]
         public Optional<string> IconUrl;

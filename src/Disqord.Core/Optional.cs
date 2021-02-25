@@ -23,9 +23,17 @@ namespace Disqord
                 : Optional<TNew>.Empty;
 
         public static TNew? ConvertOrDefault<TOld, TNew>(Optional<TOld> optional, Converter<TOld, TNew> converter)
-            => optional.HasValue ? converter(optional.Value) : default;
+            => optional.HasValue 
+                ? optional.Value != null 
+                    ? converter(optional.Value) 
+                    : default 
+                : default;
 
         public static TNew ConvertOrDefault<TOld, TNew>(Optional<TOld> optional, Converter<TOld, TNew> converter, TNew defaultValue)
-            => optional.HasValue ? converter(optional.Value) : defaultValue;
+            => optional.HasValue 
+                ? optional.Value != null 
+                    ? converter(optional.Value) 
+                    : defaultValue 
+                : defaultValue;
     }
 }
