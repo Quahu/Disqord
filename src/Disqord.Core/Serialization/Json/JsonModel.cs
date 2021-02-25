@@ -9,7 +9,7 @@ namespace Disqord.Serialization.Json
         ///     Gets or sets an <see cref="IJsonToken"/> as extension data with the given key.
         /// </summary>
         /// <param name="key"> The extension data key. </param>
-        public IJsonToken this[string key]
+        public IJsonToken? this[string key]
         {
             get => _extensionData?[key];
             set => ExtensionData[key] = value;

@@ -18,7 +18,6 @@ namespace Disqord
         /// <summary>
         ///     Gets whether this <see cref="Optional{T}"/> has a value.
         /// </summary>
-        [MemberNotNullWhen(true, nameof(_value))]
         public bool HasValue { get; }
 
         /// <summary>
@@ -27,8 +26,7 @@ namespace Disqord
         /// <exception cref="InvalidOperationException">
         ///     This optional doesn't have a value.
         /// </exception>
-        [NotNull]
-        public T Value
+        public T? Value
         {
             get
             {
@@ -39,15 +37,15 @@ namespace Disqord
             }
         }
 
-        object IOptional.Value => Value;
+        object? IOptional.Value => Value;
 
-        private readonly T _value;
+        private readonly T? _value;
 
         /// <summary>
         ///     Initialises a new <see cref="Optional{T}"/> with the specified value.
         /// </summary>
         /// <param name="value"> The specified value. </param>
-        public Optional(T value)
+        public Optional(T? value)
         {
             HasValue = true;
             _value = value;
@@ -78,7 +76,7 @@ namespace Disqord
         /// <returns>
         ///     The <see cref="bool"/> value reresenting whether the comparison succeeded.
         /// </returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is T value)
                 return Equals(value);
@@ -101,7 +99,7 @@ namespace Disqord
             if (!HasValue)
                 return false;
 
-            return _value.Equals(other);
+            return _value?.Equals(other) ?? false;
         }
 
         /// <summary>
@@ -136,7 +134,7 @@ namespace Disqord
         /// <exception cref="InvalidOperationException">
         ///     This optional doesn't have a value.
         /// </exception>
-        public static explicit operator T(Optional<T> value)
+        public static explicit operator T?(Optional<T> value)
             => value._value;
 
         /// <summary>

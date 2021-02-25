@@ -14,7 +14,7 @@ namespace Disqord
             return services;
         }
 
-        public static IServiceCollection AddJsonSerializer(this IServiceCollection services, Action<DefaultJsonSerializerConfiguration> action = null)
+        public static IServiceCollection AddJsonSerializer(this IServiceCollection services, Action<DefaultJsonSerializerConfiguration>? action = null)
         {
             if (services.TryAddSingleton<IJsonSerializer, DefaultJsonSerializer>())
             {

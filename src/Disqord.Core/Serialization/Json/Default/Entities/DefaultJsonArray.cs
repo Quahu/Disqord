@@ -24,7 +24,7 @@ namespace Disqord.Serialization.Json.Default
 
             private readonly DefaultJsonArray _array;
             private int _index;
-            private DefaultJsonToken _current;
+            private DefaultJsonToken? _current;
 
             public Enumerator(DefaultJsonArray array)
             {

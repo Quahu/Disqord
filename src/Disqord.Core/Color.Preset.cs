@@ -290,8 +290,7 @@ namespace Disqord
         {
             get
             {
-                if (_random == null)
-                    _random = new Random();
+                _random ??= new Random();
 
                 lock (_random)
                 {
@@ -299,6 +298,6 @@ namespace Disqord
                 }
             }
         }
-        private static Random _random;
+        private static Random? _random;
     }
 }

@@ -10,7 +10,7 @@ namespace Disqord
         private EmojiEqualityComparer()
         { }
 
-        public bool Equals(IEmoji x, IEmoji y)
+        public bool Equals(IEmoji? x, IEmoji? y)
         {
             if (x == null && y == null)
                 return true;
@@ -24,7 +24,7 @@ namespace Disqord
             return x.Name == y.Name;
         }
 
-        public bool Equals(ICustomEmoji x, ICustomEmoji y)
+        public bool Equals(ICustomEmoji? x, ICustomEmoji? y)
         {
             if (x == null && y == null)
                 return true;

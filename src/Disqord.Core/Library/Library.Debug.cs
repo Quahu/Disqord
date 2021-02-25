@@ -26,18 +26,18 @@ namespace Disqord
             }
             private static TextWriter _dumpWriter = Console.Out;
 
-            public static IDisposable DumpingRateLimits(TextWriter customWriter = null)
+            public static IDisposable DumpingRateLimits(TextWriter? customWriter = null)
                 => new DumpingBlock(() => DumpRateLimits = !DumpRateLimits, customWriter);
 
-            public static IDisposable DumpingJson(TextWriter customWriter = null)
+            public static IDisposable DumpingJson(TextWriter? customWriter = null)
                 => new DumpingBlock(() => DumpJson = !DumpJson, customWriter);
 
             private sealed class DumpingBlock : IDisposable
             {
                 private readonly Action _action;
-                private readonly TextWriter _previousWriter;
+                private readonly TextWriter? _previousWriter;
 
-                public DumpingBlock(Action action, TextWriter writer = null)
+                public DumpingBlock(Action action, TextWriter? writer = null)
                 {
                     _action = action;
                     if (writer != null)

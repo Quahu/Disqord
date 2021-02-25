@@ -14,6 +14,6 @@
         /// <summary>
         ///     Gets the value of this <see cref="IOptional"/>.
         /// </summary>
-        object Value { get; }
+        object? Value { get; }
     }
 }

@@ -10,23 +10,23 @@ namespace Disqord
 
         public int Position => Model.Position.Value;
 
-        public IReadOnlyList<IOverwrite> Overwrites
+        public IReadOnlyList<IOverwrite>? Overwrites
         {
             get
             {
                 if (_overwrites == null)
-                    _overwrites = Model.PermissionOverwrites.Value.ToReadOnlyList(this, (x, @this) => new TransientOverwrite(@this.Client, @this.Id, x));
+                    _overwrites = Model.PermissionOverwrites.Value?.ToReadOnlyList(this, (x, @this) => new TransientOverwrite(@this.Client, @this.Id, x));
 
                 return _overwrites;
             }
         }
-        private IReadOnlyList<IOverwrite> _overwrites;
+        private IReadOnlyList<IOverwrite>? _overwrites;
 
         public TransientGuildChannel(IClient client, ChannelJsonModel model)
             : base(client, model)
         { }
 
-        public static new TransientGuildChannel Create(IClient client, ChannelJsonModel model)
+        public new static TransientGuildChannel Create(IClient client, ChannelJsonModel model)
         {
             switch (model.Type)
             {
@@ -44,7 +44,7 @@ namespace Disqord
                     return new TransientCategoryChannel(client, model);
             }
 
-            return null/*TransientUnknownChannel(client, model)*/;
+            return null!/*TransientUnknownChannel(client, model)*/;
         }
     }
 }

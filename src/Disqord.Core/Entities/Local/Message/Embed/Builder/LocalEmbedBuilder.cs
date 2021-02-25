@@ -234,7 +234,7 @@ namespace Disqord
 
         public LocalEmbedBuilder AddField(string name, object? value, bool isInline = false)
         {
-            Fields.Add(new LocalEmbedFieldBuilder
+            Fields.Add(new LocalEmbedFieldBuilder()
             {
                 Name = name,
                 Value = value?.ToString(),

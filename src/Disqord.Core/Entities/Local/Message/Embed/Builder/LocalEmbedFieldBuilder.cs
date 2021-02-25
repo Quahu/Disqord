@@ -80,9 +80,9 @@ namespace Disqord
             return this;
         }
 
-        public LocalEmbedFieldBuilder WithValue(object? value)
+        public LocalEmbedFieldBuilder WithValue(object value)
         {
-            Value = value?.ToString() ?? throw new ArgumentNullException(nameof(value));
+            Value = value?.ToString()!;
             return this;
         }
 

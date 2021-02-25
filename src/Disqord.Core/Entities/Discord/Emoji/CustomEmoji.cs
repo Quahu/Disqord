@@ -16,11 +16,11 @@ namespace Disqord
         public CustomEmoji(EmojiJsonModel model)
             : base(model)
         {
-            Id = model.Id.Value;
+            Id = model.Id!.Value;
             IsAnimated = model.Animated.GetValueOrDefault();
         }
 
-        public bool Equals(ICustomEmoji other)
+        public bool Equals(ICustomEmoji? other)
             => Discord.Comparers.Emoji.Equals(this, other);
 
         public override string ToString()
