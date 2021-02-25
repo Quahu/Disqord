@@ -6,7 +6,7 @@
 
         public string? Value { get; }
 
-        public bool? IsInline { get; }
+        public bool IsInline { get; }
 
         internal LocalEmbedField(LocalEmbedFieldBuilder builder)
         {
