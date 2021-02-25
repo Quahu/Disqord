@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Disqord.Bot.Hosting;
-using Disqord.Gateway;
+using Disqord.Extensions.Interactivity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -41,7 +41,7 @@ namespace Disqord.Test
                 })
                 .ConfigureServices((context, services) =>
                 {
-
+                    services.AddInteractivity();
                 })
                 .ConfigureDiscordBot((context, bot) =>
                 {
