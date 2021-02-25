@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway;
@@ -15,8 +16,9 @@ namespace Disqord
             ILogger<DiscordClient> logger,
             IRestClient restClient,
             IGatewayClient gatewayClient,
-            DiscordApiClient apiClient)
-            : base(logger, restClient, gatewayClient, apiClient)
+            DiscordApiClient apiClient,
+            IEnumerable<DiscordClientExtension> extensions)
+            : base(logger, restClient, gatewayClient, apiClient, extensions)
         {
 
         }

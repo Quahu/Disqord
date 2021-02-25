@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Api;
@@ -43,6 +44,8 @@ namespace Disqord
         IGatewayCacheProvider IGatewayClient.CacheProvider => GatewayClient.CacheProvider;
         IGatewayDispatcher IGatewayClient.Dispatcher => GatewayClient.Dispatcher;
 
+        private readonly Dictionary<Type, DiscordClientExtension> _extensions;
+
         /// <summary>
         ///     Instantiates a new <see cref="DiscordClientBase"/>, wrapping REST and gateway clients.
         /// </summary>
@@ -54,12 +57,14 @@ namespace Disqord
             ILogger logger,
             IRestClient restClient,
             IGatewayClient gatewayClient,
-            DiscordApiClient apiClient)
+            DiscordApiClient apiClient,
+            IEnumerable<DiscordClientExtension> extensions)
         {
             Logger = logger;
             RestClient = restClient;
             GatewayClient = gatewayClient;
             ApiClient = apiClient;
+            _extensions = extensions.ToDictionary(x => x.GetType(), x => x);
         }
 
         /// <summary>
@@ -76,6 +81,7 @@ namespace Disqord
             RestClient = client.RestClient;
             GatewayClient = client.GatewayClient;
             ApiClient = client.ApiClient;
+            _extensions = client._extensions;
 
             // Binds `this` to the dispatcher, where `this` is the client implementing DiscordBotBase.
             client.GatewayClient.Dispatcher.Bind(this);

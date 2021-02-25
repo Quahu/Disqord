@@ -1,10 +1,9 @@
 ﻿using Disqord.Events;
 using Disqord.Gateway;
-using Disqord.Rest;
 
 namespace Disqord
 {
-    public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
+    public abstract partial class DiscordClientBase
     {
         public event AsynchronousEventHandler<ReadyEventArgs> Ready
         {

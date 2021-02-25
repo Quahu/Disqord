@@ -33,6 +33,12 @@ namespace Disqord.Hosting
             Client = client;
         }
 
+        public override async Task StartAsync(CancellationToken cancellationToken)
+        {
+            await Client.InitialiseExtensionsAsync(cancellationToken).ConfigureAwait(false);
+            await base.StartAsync(cancellationToken).ConfigureAwait(false);
+        }
+
         /// <inheritdoc/>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
