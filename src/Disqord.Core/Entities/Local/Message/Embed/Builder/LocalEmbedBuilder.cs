@@ -232,7 +232,7 @@ namespace Disqord
             return this;
         }
 
-        public LocalEmbedBuilder AddField(string name, object? value, bool isInline = false)
+        public LocalEmbedBuilder AddField(string name, object value, bool isInline = false)
         {
             Fields.Add(new LocalEmbedFieldBuilder
             {

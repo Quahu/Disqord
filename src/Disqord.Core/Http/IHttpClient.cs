@@ -9,7 +9,7 @@ namespace Disqord.Http
         /// <summary>
         ///     Gets or sets the base url for HTTP requests.
         /// </summary>
-        Uri BaseUri { get; set; }
+        Uri? BaseUri { get; set; }
 
         /// <summary>
         ///     Sets a default header value for HTTP requests.

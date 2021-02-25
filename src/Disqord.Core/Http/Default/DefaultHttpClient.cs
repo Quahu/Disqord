@@ -8,9 +8,9 @@ namespace Disqord.Http.Default
 {
     public sealed partial class DefaultHttpClient : IHttpClient
     {
-        public Uri BaseUri
+        public Uri? BaseUri
         {
-            get => _http.BaseAddress!;
+            get => _http.BaseAddress;
             set => _http.BaseAddress = value;
         }
 
