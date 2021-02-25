@@ -31,8 +31,8 @@ namespace Disqord.Hosting
                 services.AddToken(token);
             }
 
-            if (discordContext.Intents != default)
-                services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Intents = discordContext.Intents);
+            if (discordContext.Intents != null)
+                services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Intents = discordContext.Intents.Value);
 
             services.AddDiscordClient();
             services.AddHostedService<DiscordHostedService>();

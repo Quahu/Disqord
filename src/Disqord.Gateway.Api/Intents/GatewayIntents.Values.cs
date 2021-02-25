@@ -33,5 +33,17 @@
             | GatewayIntent.DirectMessages
             | GatewayIntent.DirectReactions
             | GatewayIntent.DirectTyping);
+
+        public const ulong RECOMMENDED = (ulong)(
+            GatewayIntent.Guilds
+            | GatewayIntent.Members
+            | GatewayIntent.Bans
+            | GatewayIntent.Emojis
+            | GatewayIntent.Integrations
+            | GatewayIntent.Webhooks
+            | GatewayIntent.Invites
+            | GatewayIntent.VoiceStates
+            | GatewayIntent.GuildMessages
+            | GatewayIntent.GuildReactions);
     }
 }

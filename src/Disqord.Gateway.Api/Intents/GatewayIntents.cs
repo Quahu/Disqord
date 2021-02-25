@@ -14,6 +14,10 @@ namespace Disqord.Gateway
 
         public static GatewayIntents None => 0;
 
+        public static GatewayIntents Recommended => RECOMMENDED;
+
+        public static GatewayIntents RecommendedUnprivileged => Recommended - GatewayIntent.Members;
+
         public bool Guilds => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.Guilds);
 
         public bool Members => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.Members);

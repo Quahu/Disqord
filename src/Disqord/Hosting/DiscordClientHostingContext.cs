@@ -14,8 +14,8 @@ namespace Disqord.Hosting
 
         /// <summary>
         ///     Gets or sets the gateway intents.
+        ///     Defaults to <see cref="GatewayIntents.Recommended"/> which are the intents the library recommends.
         /// </summary>
-        // TODO: default to objectively best intents
-        public virtual GatewayIntents Intents { get; set; }
+        public virtual GatewayIntents? Intents { get; set; } = GatewayIntents.Recommended;
     }
 }

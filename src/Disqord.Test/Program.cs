@@ -46,7 +46,6 @@ namespace Disqord.Test
                 .ConfigureDiscordBot((context, bot) =>
                 {
                     bot.Token = context.Configuration["TOKEN"];
-                    bot.Intents = GatewayIntents.All - GatewayIntent.Presences;
                     bot.UseMentionPrefix = true;
                     bot.Prefixes = new[] { "?", "!" };
                 })
