@@ -25,6 +25,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Extensions.Voice", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Extensions.Slash", "Disqord.Extensions.Slash\Disqord.Extensions.Slash.csproj", "{4342B09A-4E6F-4CC8-9002-58D93207F859}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disqord.Voice.Api", "Disqord.Voice.Api\Disqord.Voice.Api.csproj", "{0C7CDDA6-C9E7-44D8-A821-551933F8EADD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disqord.Voice", "Disqord.Voice\Disqord.Voice.csproj", "{7AE1261E-A4BC-4609-B33F-07F95DAF212A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,14 @@ Global
 		{4342B09A-4E6F-4CC8-9002-58D93207F859}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4342B09A-4E6F-4CC8-9002-58D93207F859}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4342B09A-4E6F-4CC8-9002-58D93207F859}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C7CDDA6-C9E7-44D8-A821-551933F8EADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C7CDDA6-C9E7-44D8-A821-551933F8EADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C7CDDA6-C9E7-44D8-A821-551933F8EADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C7CDDA6-C9E7-44D8-A821-551933F8EADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AE1261E-A4BC-4609-B33F-07F95DAF212A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AE1261E-A4BC-4609-B33F-07F95DAF212A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AE1261E-A4BC-4609-B33F-07F95DAF212A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AE1261E-A4BC-4609-B33F-07F95DAF212A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
