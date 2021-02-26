@@ -33,7 +33,7 @@ namespace Disqord.Serialization.Json.Default
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var jsonProperty = base.CreateProperty(member, memberSerialization);
-            var property = new JsonModelProperty(member);
+            var accessor = JsonAccessor.Create(member);
             var jsonIgnoreAttribute = member.GetCustomAttribute<JsonIgnoreAttribute>();
             if (jsonIgnoreAttribute != null)
             {
@@ -53,12 +53,12 @@ namespace Disqord.Serialization.Json.Default
 
             if (jsonProperty.PropertyType.IsGenericType && typeof(IOptional).IsAssignableFrom(jsonProperty.PropertyType))
             {
-                jsonProperty.ShouldSerialize = instance => ((IOptional) property.GetValue(instance)).HasValue;
-                jsonProperty.Converter = GetOptionalConverter(property);
+                jsonProperty.ShouldSerialize = instance => ((IOptional) accessor.GetValue(instance)).HasValue;
+                jsonProperty.Converter = GetOptionalConverter(accessor);
             }
             else
             {
-                jsonProperty.Converter = GetConverter(property.Type) ?? jsonProperty.Converter;
+                jsonProperty.Converter = GetConverter(accessor.Type) ?? jsonProperty.Converter;
             }
 
             return jsonProperty;
@@ -123,9 +123,9 @@ namespace Disqord.Serialization.Json.Default
             return contract;
         }
 
-        private OptionalConverter GetOptionalConverter(JsonModelProperty property)
+        private OptionalConverter GetOptionalConverter(JsonAccessor accessor)
         {
-            var optionalType = property.Type.GenericTypeArguments[0];
+            var optionalType = accessor.Type.GenericTypeArguments[0];
             return _optionalConverters.GetOrAdd(optionalType, (x, @this) => OptionalConverter.Create(@this.GetConverter(x)), this);
         }
 
@@ -160,41 +160,56 @@ namespace Disqord.Serialization.Json.Default
             return null;
         }
 
-        private sealed class JsonModelProperty
+        private abstract class JsonAccessor
         {
-            public Type Type
-            {
-                get
-                {
-                    if (_member is PropertyInfo propertyInfo)
-                        return propertyInfo.PropertyType;
+            public abstract Type Type { get; }
 
-                    return (_member as FieldInfo).FieldType;
-                }
+            public abstract object GetValue(object instance);
+
+            public abstract void SetValue(object instance, object value);
+
+            public static JsonAccessor Create(MemberInfo memberInfo) => memberInfo switch
+            {
+                FieldInfo field => new FieldJsonAccessor(field),
+                PropertyInfo property => new PropertyJsonAccessor(property),
+                _ => throw new InvalidOperationException("Invalid member info accessor type.")
+            };
+        }
+
+        private sealed class FieldJsonAccessor : JsonAccessor
+        {
+            public override Type Type => _field.FieldType;
+
+            private readonly FieldInfo _field;
+
+            public FieldJsonAccessor(FieldInfo field)
+            {
+                _field = field;
             }
 
-            private readonly MemberInfo _member;
+            public override object GetValue(object instance)
+                => _field.GetValue(instance);
 
-            public JsonModelProperty(MemberInfo member)
+            public override void SetValue(object instance, object value)
+                => _field.SetValue(instance, value);
+        }
+
+        private sealed class PropertyJsonAccessor : JsonAccessor
+        {
+            public override Type Type => _property.PropertyType;
+
+            private readonly PropertyInfo _property;
+
+            public PropertyJsonAccessor(PropertyInfo property)
             {
-                _member = member;
+                _property = property;
             }
 
-            public object GetValue(object instance)
-            {
-                if (_member is PropertyInfo propertyInfo)
-                    return propertyInfo.GetValue(instance);
+            public override object GetValue(object instance)
+                => _property.GetValue(instance);
 
-                return (_member as FieldInfo).GetValue(instance);
-            }
-
-            public void SetValue(object instance, object value)
-            {
-                if (_member is PropertyInfo propertyInfo)
-                    propertyInfo.SetValue(instance, value);
-
-                (_member as FieldInfo).SetValue(instance, value);
-            }
+            public override void SetValue(object instance, object value)
+                => _property.SetValue(instance, value);
         }
     }
 }
