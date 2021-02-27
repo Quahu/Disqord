@@ -45,7 +45,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 var logLevel = isInitial
                     ? LogLevel.Debug
                     : LogLevel.Information;
-                Logger.Log(logLevel, "Guild {0} ({1}) became available.", guild.Name, guild.Id);
+                Logger.Log(logLevel, "Guild {0} ({1}) became available.", guild.Name, guild.Id.RawValue);
                 return new GuildAvailableEventArgs(guild);
             }
             else
@@ -61,7 +61,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                     guild = new GatewayTransientGuild(Client, model);
                 }
 
-                Logger.LogInformation("Joined guild {0} ({1}).", guild.Name, guild.Id);
+                Logger.LogInformation("Joined guild {0} ({1}).", guild.Name, guild.Id.RawValue);
                 return new JoinedGuildEventArgs(guild);
             }
         }

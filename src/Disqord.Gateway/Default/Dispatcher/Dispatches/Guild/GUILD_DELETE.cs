@@ -25,7 +25,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 }
 
                 // TODO: set guild unavailable
-                Logger.LogInformation("Guild '{0}' ({1}) became unavailable.", guild.Name, guild.Id);
+                Logger.LogInformation("Guild '{0}' ({1}) became unavailable.", guild.Name, guild.Id.RawValue);
                 return new GuildUnavailableEventArgs(guild);
             }
             else
@@ -40,7 +40,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 //foreach (var member in guild.Members.Values)
                 //    member.SharedUser.References--;
 
-                Logger.LogInformation("Left guild '{0}' ({1}).", guild.Name, guild.Id);
+                Logger.LogInformation("Left guild '{0}' ({1}).", guild.Name, guild.Id.RawValue);
                 return new LeftGuildEventArgs(guild);
             }
         }
