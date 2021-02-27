@@ -120,9 +120,6 @@ namespace Disqord.Bot
 
         private Task CommandExecutionFailedAsync(CommandExecutionFailedEventArgs e)
         {
-            if (e.Context is not DiscordCommandContext context)
-                return Task.CompletedTask;
-
             if (e.Result.CommandExecutionStep == CommandExecutionStep.Command && e.Result.Exception is ContextTypeMismatchException contextTypeMismatchException)
             {
                 var message = "A command context type mismatch occurred while attempting to execute {0}. " +
