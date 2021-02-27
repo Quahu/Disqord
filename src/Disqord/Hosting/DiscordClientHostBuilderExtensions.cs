@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using Disqord.Gateway.Api.Default;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,7 +36,42 @@ namespace Disqord.Hosting
                 services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Intents = discordContext.Intents.Value);
 
             services.AddDiscordClient();
-            services.AddHostedService<DiscordHostedService>();
+            services.AddHostedService<DiscordClientRunnerService>();
+
+            // TODO: configuration, extra assemblies
+            var types = Assembly.GetEntryAssembly().GetExportedTypes();
+            foreach (var type in types)
+            {
+                if (!typeof(DiscordClientService).IsAssignableFrom(type))
+                    continue;
+
+                for (var i = 0; i < services.Count; i++)
+                {
+                    var service = services[i];
+                    if (service.ServiceType == typeof(IHostedService) && GetImplementationType(service) == type)
+                        return;
+                }
+
+                services.AddSingleton(typeof(IHostedService), type);
+            }
+        }
+
+        private static Type GetImplementationType(ServiceDescriptor descriptor)
+        {
+            if (descriptor.ImplementationType != null)
+            {
+                return descriptor.ImplementationType;
+            }
+            else if (descriptor.ImplementationInstance != null)
+            {
+                return descriptor.ImplementationInstance.GetType();
+            }
+            else if (descriptor.ImplementationFactory != null)
+            {
+                return descriptor.ImplementationFactory.GetType().GenericTypeArguments[1];
+            }
+
+            return null;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Logging;
 using Disqord.WebSocket;
@@ -10,7 +11,8 @@ namespace Disqord.Hosting
     /// <summary>
     ///     Represents a <see cref="BackgroundService"/> that runs the specified <see cref="DiscordClientBase"/>.
     /// </summary>
-    public class DiscordHostedService : BackgroundService, ILogging
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public class DiscordClientRunnerService : BackgroundService, ILogging
     {
         /// <inheritdoc/>
         public ILogger Logger { get; }
@@ -21,18 +23,19 @@ namespace Disqord.Hosting
         public DiscordClientBase Client { get; }
 
         /// <summary>
-        ///     Instantiates a new <see cref="DiscordHostedService"/>.
+        ///     Instantiates a new <see cref="DiscordClientRunnerService"/>.
         /// </summary>
         /// <param name="logger"> The logger. </param>
         /// <param name="client"> The client to host. </param>
-        public DiscordHostedService(
-            ILogger<DiscordHostedService> logger,
+        public DiscordClientRunnerService(
+            ILogger<DiscordClientRunnerService> logger,
             DiscordClientBase client)
         {
             Logger = logger;
             Client = client;
         }
 
+        /// <inheritdoc/>
         public override async Task StartAsync(CancellationToken cancellationToken)
         {
             await Client.InitialiseExtensionsAsync(cancellationToken).ConfigureAwait(false);
