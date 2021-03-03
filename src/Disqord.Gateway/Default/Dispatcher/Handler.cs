@@ -36,6 +36,11 @@ namespace Disqord.Gateway.Default.Dispatcher
 
         public abstract Task HandleDispatchAsync(IGatewayApiClient shard, IJsonToken data);
 
+        public static Handler Intercept<TModel, TEventArgs>(Handler<TModel, TEventArgs> handler, Action<IGatewayApiClient, TModel> func)
+            where TModel : JsonModel
+            where TEventArgs : EventArgs
+            => new InterceptingHandler<TModel, TEventArgs>(handler, func);
+
         private protected static readonly ISynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, AsynchronousEvent>> _eventsByDispatcher = new SynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, AsynchronousEvent>>(1);
         private protected static readonly PropertyInfo[] _eventsProperties;
 
