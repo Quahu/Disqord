@@ -1,4 +1,5 @@
-﻿using Disqord.Http.Default;
+﻿using Disqord.DependencyInjection.Extensions;
+using Disqord.Http.Default;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Disqord.Http
@@ -7,7 +8,7 @@ namespace Disqord.Http
     {
         public static IServiceCollection AddHttp(this IServiceCollection services)
         {
-            services.AddSingleton<IHttpClient, DefaultHttpClient>();
+            services.TryAddSingleton<IHttpClient, DefaultHttpClient>();
             return services;
         }
     }
