@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
 using Disqord.Gateway;
 using Disqord.Gateway.Api;
+using Disqord.Gateway.Default;
+using Disqord.Gateway.Default.Dispatcher;
 using Disqord.Rest;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +35,12 @@ namespace Disqord.Sharding
             IServiceProvider services)
             : base(logger, restClient, gatewayClient, null, extensions)
         {
+            if (GatewayClient.Shards is not ISynchronizedDictionary<ShardId, IGatewayApiClient>)
+                throw new InvalidOperationException("The gateway client instance is expected to return a synchronized dictionary of shards.");
+
+            if (GatewayClient.Dispatcher is not DefaultGatewayDispatcher)
+                throw new InvalidOperationException("The gateway dispatcher must be the default implementation.");
+
             var configuration = options.Value;
             _configuredShardCount = configuration.ShardCount;
             _configuredShardIds = configuration.ShardIds?.ToArray();
@@ -42,9 +50,6 @@ namespace Disqord.Sharding
 
         public override async Task RunAsync(CancellationToken stoppingToken)
         {
-            if (GatewayClient.Shards is not ISynchronizedDictionary<ShardId, IGatewayApiClient> shards)
-                throw new InvalidOperationException("The gateway client instance is expected to return a synchronized dictionary of shards.");
-
             StoppingToken = stoppingToken;
             var uri = new Uri("wss://gateway.discord.gg/");
             _scopes = new Dictionary<ShardId, IServiceScope>();
@@ -74,6 +79,7 @@ namespace Disqord.Sharding
             }
 
             Logger.LogInformation("This sharder will manage {0} shards with IDs: {1}", shardIds.Count, shardIds.Select(x => x.Id));
+            var shards = GatewayClient.Shards as ISynchronizedDictionary<ShardId, IGatewayApiClient>;
 
             // We create a service scope and a shard for every
             // shard ID this sharder is supposed to manage.
@@ -84,49 +90,65 @@ namespace Disqord.Sharding
                 shards.Add(id, _shardFactory.Create(id, scope.ServiceProvider));
             }
 
-            var readyTcs = new Tcs();
-            var shard = shards[ShardId.Default];
-            Task dispatchHandler(object sender, GatewayDispatchReceivedEventArgs e)
+            var dispatcher = GatewayClient.Dispatcher as DefaultGatewayDispatcher;
+            var originalReadyHandler = dispatcher["READY"] as ReadyHandler;
+            Tcs readyTcs = null;
+            ShardId shardId = default;
+            var readyHandler = Handler.Intercept(originalReadyHandler, (shard, model) =>
             {
-                // Intercept READY early to complete the TCS.
-                if (e.Name == "READY")
+                if (shard.Id == shardId)
                 {
+                    // If the shard that identified is the shard ID we're booting up
+                    // we complete the TCS to signal the code below to boot the next shard.
                     readyTcs.Complete();
-                    shard.DispatchReceived -= dispatchHandler;
                 }
+            });
+            dispatcher["READY"] = readyHandler;
 
-                return Task.CompletedTask;
-            }
-
-            shard.DispatchReceived += dispatchHandler;
-            shard.DispatchReceived += GatewayClient.Dispatcher.HandleDispatchAsync;
-            var runTask = shard.RunAsync(uri, stoppingToken);
-            var task = Task.WhenAny(runTask, readyTcs.Task);
-            try
+            var linkedCts = Cts.Linked(stoppingToken);
+            var runTasks = new List<Task>(shards.Count);
+            foreach (var shard in shards.Values)
             {
-                await task.ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Logger.LogCritical(ex, "Terrible news overall");
-            }
-
-            foreach (var s in shards.Values.Skip(1))
-            {
-                shard = s;
+                // Set the TCS and shard ID for the shard we'll boot up
+                // which are used by the intercepting ready handler above.
                 readyTcs = new Tcs();
-                shard.DispatchReceived += dispatchHandler;
-                shard.DispatchReceived += GatewayClient.Dispatcher.HandleDispatchAsync;
-                runTask = shard.RunAsync(uri, stoppingToken);
-                task = Task.WhenAny(runTask, readyTcs.Task);
+                shardId = shard.Id;
+
+                shard.DispatchReceived += dispatcher.HandleDispatchAsync;
+                var runTask = shard.RunAsync(uri, linkedCts.Token);
+                var task = Task.WhenAny(runTask, readyTcs.Task);
                 try
                 {
                     await task.ConfigureAwait(false);
+
+                    // If we reached here it means the shard successfully identified,
+                    // so we add the task to the list and continue.
+                    runTasks.Add(runTask);
+                    continue;
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogCritical(ex, "Somewhat terrible news overall");
+                    Logger.LogCritical(ex, "An exception occurred when starting {0}.", shardId);
+
+                    // Cancel the CTS so that if some shards are running already
+                    // it's a coordinated close as they will probably break sooner or later.
+                    linkedCts.Cancel();
+
+                    // We bubble the exception up to the client runner.
+                    throw;
                 }
+            }
+
+            shardId = default;
+            try
+            {
+                // We wait for any of the tasks to finish (throw)
+                // and handle it appropriately.
+                await Task.WhenAny(runTasks).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                // TODO: if sharding required redo the process with more shards blah blah
             }
         }
     }
