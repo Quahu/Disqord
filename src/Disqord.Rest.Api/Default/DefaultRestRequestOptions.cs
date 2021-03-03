@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Disqord.Rest.Api;
 
-namespace Disqord.Rest.Api.Default
+namespace Disqord.Rest.Default
 {
     public class DefaultRestRequestOptions : IRestRequestOptions
     {

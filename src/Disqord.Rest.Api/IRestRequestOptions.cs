@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest
 {
     /// <summary>
     ///     Represents a set of options for a REST request.
