@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -48,6 +48,7 @@ namespace Disqord
         IRestApiClient IRestClient.ApiClient => RestClient.ApiClient;
         IGatewayCacheProvider IGatewayClient.CacheProvider => GatewayClient.CacheProvider;
         IGatewayDispatcher IGatewayClient.Dispatcher => GatewayClient.Dispatcher;
+        IReadOnlyDictionary<ShardId, IGatewayApiClient> IGatewayClient.Shards => GatewayClient.Shards;
 
         private readonly Dictionary<Type, DiscordClientExtension> _extensions;
 

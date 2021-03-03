@@ -20,6 +20,8 @@ namespace Disqord.Gateway.Api
 
         GatewayIntents Intents { get; }
 
+        ShardId Id { get; }
+
         /// <summary>
         ///     Gets the session ID of the current gateway session.
         /// </summary>

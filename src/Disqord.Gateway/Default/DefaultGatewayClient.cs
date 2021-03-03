@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Collections;
+using Disqord.Collections.Synchronized;
 using Disqord.Gateway.Api;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -19,11 +20,7 @@ namespace Disqord.Gateway.Default
 
         public IGatewayApiClient ApiClient { get; }
 
-        public GatewayIntents Intents => ApiClient.Intents;
-
-        public ICurrentUser CurrentUser { get; }
-
-        public IReadOnlySet<Snowflake> UnavailableGuilds { get; }
+        public IReadOnlyDictionary<ShardId, IGatewayApiClient> Shards { get; }
 
         private bool _isDisposed;
 
@@ -39,9 +36,31 @@ namespace Disqord.Gateway.Default
             CacheProvider.Bind(this);
             Dispatcher = dispatcher;
             Dispatcher.Bind(this);
-            ApiClient = apiClient;
 
-            ApiClient.DispatchReceived += Dispatcher.HandleDispatchAsync;
+            if (apiClient != null)
+            {
+                ApiClient = apiClient;
+                Shards = new Dictionary<ShardId, IGatewayApiClient>(1)
+                {
+                    [ShardId.Default] = ApiClient
+                }.ReadOnly();
+
+                ApiClient.DispatchReceived += Dispatcher.HandleDispatchAsync;
+            }
+            else
+            {
+                Shards = new SynchronizedDictionary<ShardId, IGatewayApiClient>();
+            }
+        }
+
+        public DefaultGatewayClient(
+            IOptions<DefaultGatewayClientConfiguration> options,
+            ILogger<DefaultGatewayClient> logger,
+            IGatewayCacheProvider cacheProvider,
+            IGatewayDispatcher dispatcher)
+            : this(options, logger, cacheProvider, dispatcher, null)
+        {
+            // This is the constructor DiscordClientSharder uses.
         }
 
         public Task RunAsync(Uri uri, CancellationToken cancellationToken)
@@ -55,9 +74,13 @@ namespace Disqord.Gateway.Default
                 return;
 
             _isDisposed = true;
-            ApiClient.DispatchReceived -= Dispatcher.HandleDispatchAsync;
 
-            ApiClient.Dispose();
+            // ApiClient will be null if this is managed by DiscordClientSharder.
+            if (ApiClient != null)
+            {
+                ApiClient.DispatchReceived -= Dispatcher.HandleDispatchAsync;
+                ApiClient.Dispose();
+            }
         }
     }
 }

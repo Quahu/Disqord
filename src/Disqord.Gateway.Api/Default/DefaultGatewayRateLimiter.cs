@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +19,7 @@ namespace Disqord.Gateway.Api.Default
         private const int HEARTBEATS = 2;
 
         /// <inheritdoc/>
-        public ILogger Logger { get; }
+        public ILogger Logger => ApiClient.Logger;
 
         /// <inheritdoc/>
         public IGatewayApiClient ApiClient => _binder.Value;
@@ -29,10 +29,8 @@ namespace Disqord.Gateway.Api.Default
         private readonly Dictionary<GatewayPayloadOperation, Bucket> _buckets;
 
         public DefaultGatewayRateLimiter(
-            IOptions<DefaultGatewayRateLimiterConfiguration> options,
-            ILogger<DefaultGatewayRateLimiter> logger)
+            IOptions<DefaultGatewayRateLimiterConfiguration> options)
         {
-            Logger = logger;
 
             _binder = new Binder<IGatewayApiClient>(this, x =>
             {

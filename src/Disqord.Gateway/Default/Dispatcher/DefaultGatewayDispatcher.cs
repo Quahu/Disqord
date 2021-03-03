@@ -17,6 +17,8 @@ namespace Disqord.Gateway.Default
 
         public IGatewayClient Client => _binder.Value;
 
+        public ICurrentUser CurrentUser => (_handlers["READY"] as ReadyHandler)?.CurrentUser;
+
         public Handler this[string name]
         {
             get => _handlers[name];

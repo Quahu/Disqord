@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api.Models;
 using Disqord.Serialization.Json;
+using Disqord.Utilities.Binding;
 using Disqord.WebSocket;
 using Disqord.WebSocket.Default;
 using Microsoft.Extensions.Logging;
@@ -20,28 +21,35 @@ namespace Disqord.Gateway.Api.Default
 
         public bool UsesZLib { get; }
 
-        public ILogger Logger { get; }
+        public IGatewayApiClient Client => _binder.Value;
+
+        public ILogger Logger => Client.Logger;
 
         public IJsonSerializer Serializer { get; }
 
         public Func<IWebSocketClient> WebSocketClientFactory { get; }
 
         private readonly DiscordWebSocket _ws;
+        private readonly Binder<IGatewayApiClient> _binder;
 
         public DefaultGateway(
             IOptions<DefaultGatewayConfiguration> options,
-            ILogger<DefaultGateway> logger,
             IJsonSerializer serializer)
         {
             var configuration = options.Value;
             Version = configuration.Version;
             LogsPayloads = configuration.LogsPayloads;
             UsesZLib = configuration.UsesZLib;
-            Logger = logger;
             Serializer = serializer;
             WebSocketClientFactory = () => new DefaultWebSocketClient();
 
             _ws = new DiscordWebSocket(this, WebSocketClientFactory);
+            _binder = new(this);
+        }
+
+        public void Bind(IGatewayApiClient value)
+        {
+            _binder.Bind(value);
         }
 
         public Task ConnectAsync(Uri uri, CancellationToken cancellationToken = default)

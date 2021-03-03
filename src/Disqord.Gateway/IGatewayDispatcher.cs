@@ -13,6 +13,11 @@ namespace Disqord.Gateway
         IGatewayClient Client { get; }
 
         /// <summary>
+        ///     Gets the current user.
+        /// </summary>
+        ICurrentUser CurrentUser { get; }
+
+        /// <summary>
         ///     Handles the received dispatch and fires the matching event on the <see cref="Client"/>.
         /// </summary>
         /// <param name="sender"> The event sender. </param>

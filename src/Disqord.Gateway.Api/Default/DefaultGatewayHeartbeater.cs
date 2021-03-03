@@ -11,7 +11,7 @@ namespace Disqord.Gateway.Api.Default
 {
     public class DefaultGatewayHeartbeater : IGatewayHeartbeater
     {
-        public ILogger Logger { get; }
+        public ILogger Logger => ApiClient.Logger;
 
         public IGatewayApiClient ApiClient => _binder.Value;
 
@@ -27,11 +27,8 @@ namespace Disqord.Gateway.Api.Default
         private readonly Binder<IGatewayApiClient> _binder;
 
         public DefaultGatewayHeartbeater(
-            IOptions<DefaultGatewayHeartbeaterConfiguration> options,
-            ILogger<DefaultGatewayHeartbeater> logger)
+            IOptions<DefaultGatewayHeartbeaterConfiguration> options)
         {
-            Logger = logger;
-
             _binder = new Binder<IGatewayApiClient>(this);
         }
 
@@ -57,7 +54,7 @@ namespace Disqord.Gateway.Api.Default
                 var cancellationToken = _cts.Token;
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    Logger.LogTrace("Delaying for {0}ms.", Interval.TotalMilliseconds);
+                    Logger.LogTrace("Delaying heartbeat for {0}ms.", Interval.TotalMilliseconds);
                     await Task.Delay(Interval, cancellationToken).ConfigureAwait(false);
                     Logger.LogDebug("Heartbeating...");
                     await HeartbeatAsync(cancellationToken).ConfigureAwait(false);

@@ -121,5 +121,22 @@ namespace Disqord.DependencyInjection.Extensions
             collection.Add(descriptor);
             return collection;
         }
+
+        public static bool Remove<TService>(this IServiceCollection collection)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
+            for (var i = 0; i < collection.Count; i++)
+            {
+                if (collection[i].ServiceType == typeof(TService))
+                {
+                    collection.RemoveAt(i);
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

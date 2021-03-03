@@ -34,9 +34,9 @@ namespace Disqord.Bot.Hosting
                     throw new InvalidOperationException($"No prefixes were specified and no {nameof(IPrefixProvider)} exists in services. Did you pass null prefixes by mistake?");
 
                 var prefixes = new List<IPrefix>();
-                // We have to use some messy code to create the MentionPrefix with the bot's ID.
                 if (discordContext.UseMentionPrefix)
                 {
+                    // We have to use some messy code to create the MentionPrefix with the bot's ID.
                     // TODO: rethink
                     var botToken = services.FirstOrDefault(x => x.ImplementationInstance is BotToken)?.ImplementationInstance as BotToken;
                     if (botToken != null)

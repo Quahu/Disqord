@@ -14,6 +14,14 @@ namespace Disqord.Test
             return Response("3");
         }
 
+        [Command("shard")]
+        [Description("Displays the shard for this context.")]
+        public DiscordCommandResult Shard()
+        {
+            var shard = Context.Bot.GatewayClient.GetShard(Context.GuildId);
+            return Response($"This is {shard.Id} speaking.");
+        }
+
         [Command("ping")]
         public DiscordCommandResult Ping()
             => Response("pong");

@@ -2,6 +2,7 @@
 using System.Linq;
 using Disqord.Bot.Hosting;
 using Disqord.Extensions.Interactivity;
+using Disqord.Gateway;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,7 +32,7 @@ namespace Disqord.Test
                     var logger = new LoggerConfiguration()
                         .MinimumLevel.Verbose()
                         .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}", theme: AnsiConsoleTheme.Code)
+                        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}", theme: AnsiConsoleTheme.Code)
                         .WriteTo.File($"logs/log-{DateTime.Now:HH_mm_ss}.txt", restrictedToMinimumLevel: LogEventLevel.Verbose, fileSizeLimitBytes: null, buffered: true)
                         .CreateLogger();
                     x.AddSerilog(logger, true);
@@ -43,11 +44,13 @@ namespace Disqord.Test
                 {
                     services.AddInteractivity();
                 })
-                .ConfigureDiscordBot((context, bot) =>
+                .ConfigureDiscordBotSharder((context, bot) =>
                 {
                     bot.Token = context.Configuration["TOKEN"];
                     bot.UseMentionPrefix = true;
+                    bot.Intents += GatewayIntent.DirectMessages;
                     bot.Prefixes = new[] { "?", "!" };
+                    bot.ShardCount = 3;
                 })
                 .Build();
 

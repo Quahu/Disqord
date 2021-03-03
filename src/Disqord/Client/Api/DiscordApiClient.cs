@@ -5,6 +5,7 @@ using Disqord.Events;
 using Disqord.Gateway;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
+using Disqord.Rest;
 using Disqord.Rest.Api;
 using Disqord.Serialization.Json;
 using Microsoft.Extensions.Logging;
@@ -46,6 +47,7 @@ namespace Disqord
         IGatewayRateLimiter IGatewayApiClient.RateLimiter => GatewayApiClient.RateLimiter;
         IGatewayHeartbeater IGatewayApiClient.Heartbeater => GatewayApiClient.Heartbeater;
         GatewayIntents IGatewayApiClient.Intents => GatewayApiClient.Intents;
+        ShardId IGatewayApiClient.Id => GatewayApiClient.Id;
         string IGatewayApiClient.SessionId => GatewayApiClient.SessionId;
         int? IGatewayApiClient.Sequence => GatewayApiClient.Sequence;
 
@@ -73,6 +75,7 @@ namespace Disqord
         /// <inheritdoc/>
         public void Dispose()
         {
+            // TODO: don't
             RestApiClient.Dispose();
             GatewayApiClient.Dispose();
         }

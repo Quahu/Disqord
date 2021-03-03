@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,6 +6,7 @@ using Disqord.Events;
 using Disqord.Gateway.Api.Models;
 using Disqord.Serialization.Json;
 using Disqord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -19,7 +20,7 @@ namespace Disqord.Gateway.Api.Default
 
         public int LargeThreshold { get; }
 
-        public ShardId ShardId { get; }
+        public ShardId Id { get; }
 
         public UpdatePresenceJsonModel Presence { get; }
 
@@ -39,10 +40,21 @@ namespace Disqord.Gateway.Api.Default
 
         private readonly Random _random;
 
-        /// <inheritdoc/>
         public DefaultGatewayApiClient(
             IOptions<DefaultGatewayApiClientConfiguration> options,
             ILogger<DefaultGatewayApiClient> logger,
+            Token token,
+            IGatewayRateLimiter rateLimiter,
+            IGatewayHeartbeater heartbeater,
+            IGateway gateway,
+            IJsonSerializer serializer)
+            : this(options, logger as ILogger, token, rateLimiter, heartbeater, gateway, serializer)
+        { }
+
+        [ActivatorUtilitiesConstructor]
+        public DefaultGatewayApiClient(
+            IOptions<DefaultGatewayApiClientConfiguration> options,
+            ILogger logger,
             Token token,
             IGatewayRateLimiter rateLimiter,
             IGatewayHeartbeater heartbeater,
@@ -52,7 +64,7 @@ namespace Disqord.Gateway.Api.Default
             var configuration = options.Value;
             Intents = configuration.Intents;
             LargeThreshold = configuration.LargeThreshold;
-            ShardId = configuration.ShardId;
+            Id = configuration.Id;
             Presence = configuration.Presence;
             Logger = logger;
             Token = token;
@@ -61,6 +73,7 @@ namespace Disqord.Gateway.Api.Default
             Heartbeater = heartbeater;
             Heartbeater.Bind(this);
             Gateway = gateway;
+            Gateway.Bind(this);
             Serializer = serializer;
 
             _random = new Random();
@@ -375,8 +388,8 @@ namespace Disqord.Gateway.Api.Default
                     },
                     Intents = Intents,
                     LargeThreshold = LargeThreshold,
-                    Shard = ShardId.Count != 0
-                        ? new int[] { ShardId.Id, ShardId.Count }
+                    Shard = Id.Count != 0
+                        ? new int[] { Id.Id, Id.Count }
                         : Optional<int[]>.Empty,
                     Presence = Presence
                 })
@@ -399,7 +412,6 @@ namespace Disqord.Gateway.Api.Default
             RateLimiter.Dispose();
             Heartbeater.Dispose();
             Gateway.Dispose();
-            Serializer.Dispose();
         }
     }
 }

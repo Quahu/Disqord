@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Disqord.Hosting
 {
-    public static class DiscordHostBuilderExtensions
+    public static class DiscordClientHostBuilderExtensions
     {
         public static IHostBuilder ConfigureDiscordClient(this IHostBuilder builder, Action<HostBuilderContext, DiscordClientHostingContext> configure = null)
         {
@@ -56,7 +56,7 @@ namespace Disqord.Hosting
             }
         }
 
-        private static Type GetImplementationType(ServiceDescriptor descriptor)
+        internal static Type GetImplementationType(this ServiceDescriptor descriptor)
         {
             if (descriptor.ImplementationType != null)
             {

@@ -17,5 +17,12 @@ namespace Disqord.Hosting
         ///     Defaults to <see cref="GatewayIntents.Recommended"/> which are the intents the library recommends.
         /// </summary>
         public virtual GatewayIntents? Intents { get; set; } = GatewayIntents.Recommended;
+
+        ///// <summary>
+        /////     Gets or sets whether to 
+        ///// </summary>
+        //public virtual bool RegisterDiscordServices { get; set; } = true;
+
+        //public virtual IEnumerable<Assembly> AdditionalServiceAssemblies { get; set; }
     }
 }
