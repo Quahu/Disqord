@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
 using Disqord.Events;
+using Disqord.Gateway.Api;
 using Disqord.Serialization.Json;
 using Disqord.Utilities.Binding;
 using Microsoft.Extensions.Logging;
@@ -33,7 +34,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             _binder.Bind(value);
         }
 
-        public abstract Task HandleDispatchAsync(IJsonToken data);
+        public abstract Task HandleDispatchAsync(IGatewayApiClient shard, IJsonToken data);
 
         private protected static readonly ISynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, AsynchronousEvent>> _eventsByDispatcher = new SynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, AsynchronousEvent>>(1);
         private protected static readonly PropertyInfo[] _eventsProperties;

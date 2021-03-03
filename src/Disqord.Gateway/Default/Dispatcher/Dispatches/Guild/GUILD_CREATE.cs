@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Microsoft.Extensions.Logging;
 
@@ -7,7 +8,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class GuildCreateHandler : Handler<GatewayGuildJsonModel, EventArgs>
     {
-        public override async Task<EventArgs> HandleDispatchAsync(GatewayGuildJsonModel model)
+        public override async Task<EventArgs> HandleDispatchAsync(IGatewayApiClient shard, GatewayGuildJsonModel model)
         {
             IGatewayGuild guild;
             // Check if the event is guild availability or we joined a new guild.
@@ -45,7 +46,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 var logLevel = isInitial
                     ? LogLevel.Debug
                     : LogLevel.Information;
-                Logger.Log(logLevel, "Guild {0} ({1}) became available.", guild.Name, guild.Id.RawValue);
+                shard.Logger.Log(logLevel, "Guild {0} ({1}) became available.", guild.Name, guild.Id.RawValue);
                 return new GuildAvailableEventArgs(guild);
             }
             else
@@ -61,7 +62,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                     guild = new GatewayTransientGuild(Client, model);
                 }
 
-                Logger.LogInformation("Joined guild {0} ({1}).", guild.Name, guild.Id.RawValue);
+                shard.Logger.LogInformation("Joined guild {0} ({1}).", guild.Name, guild.Id.RawValue);
                 return new JoinedGuildEventArgs(guild);
             }
         }

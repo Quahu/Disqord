@@ -46,7 +46,7 @@ namespace Disqord.Gateway
             IsDeafened = model.Deaf;
 
             if (model.PremiumSince.HasValue)
-                BoostedAt = model.PremiumSince.Value.GetValueOrDefault();
+                BoostedAt = model.PremiumSince.Value;
         }
     }
 }

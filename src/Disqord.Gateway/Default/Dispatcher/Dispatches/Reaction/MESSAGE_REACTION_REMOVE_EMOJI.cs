@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
     public class MessageReactionRemoveEmojiHandler : Handler<MessageReactionRemoveEmojiJsonModel, ReactionsClearedEventArgs>
     {
-        public override async Task<ReactionsClearedEventArgs> HandleDispatchAsync(MessageReactionRemoveEmojiJsonModel model)
+        public override async Task<ReactionsClearedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionRemoveEmojiJsonModel model)
         {
             CachedUserMessage message;
             Optional<IReadOnlyDictionary<IEmoji, IReaction>> oldReactions;

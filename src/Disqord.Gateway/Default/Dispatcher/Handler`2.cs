@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Disqord.Gateway.Api;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Gateway.Default.Dispatcher
@@ -11,10 +12,10 @@ namespace Disqord.Gateway.Default.Dispatcher
         protected Handler()
         { }
 
-        public override async Task HandleDispatchAsync(IJsonToken data)
+        public override async Task HandleDispatchAsync(IGatewayApiClient shard, IJsonToken data)
         {
             var model = data.ToType<TModel>();
-            var task = HandleDispatchAsync(model);
+            var task = HandleDispatchAsync(shard, model);
             if (task == null)
                 throw new InvalidOperationException($"The dispatch handler {GetType()} returned a null handle task.");
 
@@ -37,6 +38,6 @@ namespace Disqord.Gateway.Default.Dispatcher
             }
         }
 
-        public abstract Task<TEventArgs> HandleDispatchAsync(TModel model);
+        public abstract Task<TEventArgs> HandleDispatchAsync(IGatewayApiClient shard, TModel model);
     }
 }

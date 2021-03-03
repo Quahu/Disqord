@@ -18,17 +18,14 @@ namespace Disqord.Gateway
         {
             get
             {
-                if (_transientAuthor != null)
-                    return _transientAuthor;
+                if (_cachedAuthor != null)
+                    return _cachedAuthor;
 
-                if (GuildId != null)
-                    return Client.GetMember(GuildId.Value, _authorId);
-                else
-                    return Client.GetUser(_authorId);
+                return _transientAuthor;
             }
         }
         protected TransientUser _transientAuthor;
-        private Snowflake _authorId;
+        private CachedMember _cachedAuthor;
 
         public virtual string Content { get; protected set; }
 
@@ -36,14 +33,16 @@ namespace Disqord.Gateway
 
         public Optional<IReadOnlyDictionary<IEmoji, IReaction>> Reactions { get; protected set; }
 
-        protected CachedMessage(IGatewayClient client, MessageJsonModel model)
+        protected CachedMessage(IGatewayClient client, CachedMember author, MessageJsonModel model)
             : base(client, model.Id)
         {
             ChannelId = model.ChannelId;
             GuildId = model.GuildId.GetValueOrNullable();
-            _authorId = model.Author.Id;
-            if (GuildId != null && !Client.CacheProvider.Supports<CachedMember>()
-                || GuildId == null && !Client.CacheProvider.Supports<CachedSharedUser>())
+            if (author != null)
+            {
+                _cachedAuthor = author;
+            }
+            else
             {
                 if (model.Member.HasValue)
                 {

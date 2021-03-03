@@ -1,17 +1,25 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Api;
+using Disqord.Gateway.Api;
 using Disqord.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
     public class MessageCreateHandler : Handler<MessageJsonModel, MessageReceivedEventArgs>
     {
-        public override async Task<MessageReceivedEventArgs> HandleDispatchAsync(MessageJsonModel model)
+        public override async Task<MessageReceivedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageJsonModel model)
         {
+            CachedMember author = null;
+            if (model.GuildId.HasValue && CacheProvider.TryGetMembers(model.GuildId.Value, out var memberCache))
+            {
+                model.Member.Value.User = model.Author;
+                author = Dispatcher.GetOrAddMember(model.GuildId.Value, model.Member.Value);
+            }
+
             IGatewayMessage message;
             if (model.GuildId.HasValue && IsUserMessageType(model.Type) && CacheProvider.TryGetMessages(model.ChannelId, out var messageCache))
             {
-                message = new CachedUserMessage(Client, model);
+                message = new CachedUserMessage(Client, author, model);
                 messageCache.Add(model.Id, message as CachedUserMessage);
             }
             else
@@ -29,7 +37,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 }
             }
 
-            return new MessageReceivedEventArgs(message, channel);
+            return new MessageReceivedEventArgs(message, channel, author);
         }
 
         private static bool IsUserMessageType(int type)

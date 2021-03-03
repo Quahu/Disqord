@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
+using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
     public class MessageReactionAddHandler : Handler<MessageReactionAddJsonModel, ReactionAddedEventArgs>
     {
-        public override async Task<ReactionAddedEventArgs> HandleDispatchAsync(MessageReactionAddJsonModel model)
+        public override async Task<ReactionAddedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionAddJsonModel model)
         {
             CachedUserMessage message;
             IMember member = null;

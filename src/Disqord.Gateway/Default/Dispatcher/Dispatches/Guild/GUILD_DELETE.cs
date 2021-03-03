@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Microsoft.Extensions.Logging;
 
@@ -7,7 +8,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class GuildDeleteHandler : Handler<GatewayGuildJsonModel, EventArgs>
     {
-        public override async Task<EventArgs> HandleDispatchAsync(GatewayGuildJsonModel model)
+        public override async Task<EventArgs> HandleDispatchAsync(IGatewayApiClient shard, GatewayGuildJsonModel model)
         {
             CachedGuild guild = null;
             if (Client.CacheProvider.TryGetCache<CachedGuild>(out var cache))
@@ -20,12 +21,12 @@ namespace Disqord.Gateway.Default.Dispatcher
                 if (guild == null)
                 {
                     // Shouldn't happen?
-                    Logger.LogWarning("Guild {0} is uncached and became unavailable.", model.Id);
+                    shard.Logger.LogWarning("Guild {0} is uncached and became unavailable.", model.Id);
                     return null;
                 }
 
                 // TODO: set guild unavailable
-                Logger.LogInformation("Guild '{0}' ({1}) became unavailable.", guild.Name, guild.Id.RawValue);
+                shard.Logger.LogInformation("Guild '{0}' ({1}) became unavailable.", guild.Name, guild.Id.RawValue);
                 return new GuildUnavailableEventArgs(guild);
             }
             else
@@ -33,14 +34,14 @@ namespace Disqord.Gateway.Default.Dispatcher
                 if (guild == null)
                 {
                     // Shouldn't happen?
-                    Logger.LogWarning("Left uncached guild {0}.", model.Id);
+                    shard.Logger.LogWarning("Left uncached guild {0}.", model.Id);
                     return null;
                 }
 
                 //foreach (var member in guild.Members.Values)
                 //    member.SharedUser.References--;
 
-                Logger.LogInformation("Left guild '{0}' ({1}).", guild.Name, guild.Id.RawValue);
+                shard.Logger.LogInformation("Left guild '{0}' ({1}).", guild.Name, guild.Id.RawValue);
                 return new LeftGuildEventArgs(guild);
             }
         }

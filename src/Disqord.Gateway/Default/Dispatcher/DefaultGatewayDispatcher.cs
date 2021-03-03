@@ -84,15 +84,18 @@ namespace Disqord.Gateway.Default
 
         public async Task HandleDispatchAsync(object sender, GatewayDispatchReceivedEventArgs e)
         {
+            if (sender is not IGatewayApiClient shard)
+                throw new ArgumentException("The sender is expected to be an IGatewayApiClient.", nameof(sender));
+
             if (!_handlers.TryGetValue(e.Name, out var handler))
             {
-                await UnknownDispatchAsync(e).ConfigureAwait(false);
+                await HandleUnknownDispatchAsync(shard, e).ConfigureAwait(false);
                 return;
             }
 
             try
             {
-                var task = handler.HandleDispatchAsync(e.Data);
+                var task = handler.HandleDispatchAsync(shard, e.Data);
                 if (task == null)
                     Logger.LogError("The handler {0} returned a null handle task.", handler.GetType());
 
@@ -104,7 +107,7 @@ namespace Disqord.Gateway.Default
             }
         }
 
-        private Task UnknownDispatchAsync(GatewayDispatchReceivedEventArgs e)
+        private Task HandleUnknownDispatchAsync(IGatewayApiClient shard, GatewayDispatchReceivedEventArgs e)
         {
             if (!_unknownDispatches.Add(e.Name))
                 return Task.CompletedTask;
@@ -157,6 +160,7 @@ namespace Disqord.Gateway.Default
                 if (cache.TryGetValue(model.User.Value.Id, out var member))
                 {
                     member.Update(model);
+                    return member;
                 }
                 else
                 {

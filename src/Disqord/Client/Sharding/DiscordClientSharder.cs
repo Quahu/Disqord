@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
-using Disqord.Events;
 using Disqord.Gateway;
 using Disqord.Gateway.Api;
 using Disqord.Rest;
@@ -82,55 +81,51 @@ namespace Disqord.Sharding
             {
                 var scope = _services.CreateScope();
                 _scopes.Add(id, scope);
-                var shard = _shardFactory.Create(id, scope.ServiceProvider);
-                shards.Add(id, shard);
+                shards.Add(id, _shardFactory.Create(id, scope.ServiceProvider));
             }
 
+            var readyTcs = new Tcs();
+            var shard = shards[ShardId.Default];
+            Task dispatchHandler(object sender, GatewayDispatchReceivedEventArgs e)
             {
-                // We'll only start the default (first) shard, to test if everything it set up correctly.
-                var readyTcs = new Tcs();
-                var shard = shards[ShardId.Default];
-                AsynchronousEventHandler<GatewayDispatchReceivedEventArgs> dispatchHandler = null;
-                dispatchHandler = (sender, e) =>
+                // Intercept READY early to complete the TCS.
+                if (e.Name == "READY")
                 {
-                    // Intercept READY early to complete the TCS.
-                    if (e.Name == "READY")
-                    {
-                        readyTcs.Complete();
-                        shard.DispatchReceived -= dispatchHandler;
-                    }
+                    readyTcs.Complete();
+                    shard.DispatchReceived -= dispatchHandler;
+                }
 
-                    return Task.CompletedTask;
-                };
+                return Task.CompletedTask;
+            }
+
+            shard.DispatchReceived += dispatchHandler;
+            shard.DispatchReceived += GatewayClient.Dispatcher.HandleDispatchAsync;
+            var runTask = shard.RunAsync(uri, stoppingToken);
+            var task = Task.WhenAny(runTask, readyTcs.Task);
+            try
+            {
+                await task.ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogCritical(ex, "Terrible news overall");
+            }
+
+            foreach (var s in shards.Values.Skip(1))
+            {
+                shard = s;
+                readyTcs = new Tcs();
                 shard.DispatchReceived += dispatchHandler;
                 shard.DispatchReceived += GatewayClient.Dispatcher.HandleDispatchAsync;
-                var runTask = shard.RunAsync(uri, stoppingToken);
-                var task = Task.WhenAny(runTask, readyTcs.Task);
+                runTask = shard.RunAsync(uri, stoppingToken);
+                task = Task.WhenAny(runTask, readyTcs.Task);
                 try
                 {
                     await task.ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogCritical(ex, "Terrible news overall");
-                }
-
-                foreach (var s in shards.Values.Skip(1))
-                {
-                    shard = s;
-                    readyTcs = new Tcs();
-                    shard.DispatchReceived += dispatchHandler;
-                    shard.DispatchReceived += GatewayClient.Dispatcher.HandleDispatchAsync;
-                    runTask = shard.RunAsync(uri, stoppingToken);
-                    task = Task.WhenAny(runTask, readyTcs.Task);
-                    try
-                    {
-                        await task.ConfigureAwait(false);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.LogCritical(ex, "Somewhat terrible news overall");
-                    }
+                    Logger.LogCritical(ex, "Somewhat terrible news overall");
                 }
             }
         }

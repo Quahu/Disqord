@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
+using Disqord.Gateway.Api;
 using Disqord.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
     public class ChannelUpdateHandler : Handler<ChannelJsonModel, ChannelUpdatedEventArgs>
     {
-        public override async Task<ChannelUpdatedEventArgs> HandleDispatchAsync(ChannelJsonModel model)
+        public override async Task<ChannelUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, ChannelJsonModel model)
         {
             if (!model.GuildId.HasValue)
                 return null;

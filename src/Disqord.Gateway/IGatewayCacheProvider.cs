@@ -1,4 +1,5 @@
 ﻿using Disqord.Collections.Synchronized;
+using Disqord.Gateway.Api;
 using Disqord.Utilities.Binding;
 
 namespace Disqord.Gateway
@@ -56,9 +57,10 @@ namespace Disqord.Gateway
             where TEntity : CachedSnowflakeEntity;
 
         /// <summary>
-        ///     Resets this cache provider.
-        ///     This is called on new gateway sessions as the old cache has become stale.
+        ///     Resets the current cache for the given shard ID.
+        ///     If the <paramref name="shardId"/> is set as <see cref="ShardId.None"/> the entire cache is reset instead.
         /// </summary>
-        void Reset();
+        /// <param name="shardId"> The <see cref="ShardId"/> to reset the cache for. </param>
+        void Reset(ShardId shardId = default);
     }
 }

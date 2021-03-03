@@ -39,8 +39,8 @@ namespace Disqord.Gateway
 
         public Optional<IUserMessage> ReferencedMessage { get; private set; }
 
-        public CachedUserMessage(IGatewayClient client, MessageJsonModel model)
-            : base(client, model)
+        public CachedUserMessage(IGatewayClient client, CachedMember author, MessageJsonModel model)
+            : base(client, author, model)
         {
             WebhookId = model.WebhookId.GetValueOrNullable();
             IsTextToSpeech = model.Tts;

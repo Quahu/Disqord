@@ -20,7 +20,8 @@ namespace Disqord.Gateway
 
         public virtual string Tag => $"{Name}#{Discriminator}";
 
-        protected ICachedSharedUser SharedUser
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public ICachedSharedUser SharedUser
         {
             get
             {
@@ -63,5 +64,8 @@ namespace Disqord.Gateway
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual void Update(UserJsonModel model)
             => SharedUser.Update(model);
+
+        public override string ToString()
+            => Tag;
     }
 }

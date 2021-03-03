@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
+using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
     public class MessageUpdateHandler : Handler<MessageUpdateJsonModel, MessageUpdatedEventArgs>
     {
-        public override async Task<MessageUpdatedEventArgs> HandleDispatchAsync(MessageUpdateJsonModel model)
+        public override async Task<MessageUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageUpdateJsonModel model)
         {
             CachedUserMessage oldMessage;
             CachedUserMessage message;

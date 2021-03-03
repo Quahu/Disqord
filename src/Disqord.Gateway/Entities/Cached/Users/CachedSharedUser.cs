@@ -20,12 +20,16 @@ namespace Disqord.Gateway
         public override bool IsBot => _isBot;
 
         /// <inheritdoc/>
+        public override UserFlag PublicFlags => _publicFlags;
+
+        /// <inheritdoc/>
         public ISet<CachedUser> References => _references;
 
         private string _name;
         private string _discriminator;
         private string _avatarHash;
         private readonly bool _isBot;
+        private UserFlag _publicFlags;
 
         private readonly SynchronizedHashSet<CachedUser> _references;
 
@@ -51,6 +55,9 @@ namespace Disqord.Gateway
             _name = model.Username;
             _discriminator = model.Discriminator;
             _avatarHash = model.Avatar;
+
+            if (model.PublicFlags.HasValue)
+                _publicFlags = model.PublicFlags.Value;
         }
     }
 }
