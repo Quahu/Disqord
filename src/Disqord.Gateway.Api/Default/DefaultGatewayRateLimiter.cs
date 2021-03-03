@@ -85,6 +85,21 @@ namespace Disqord.Gateway.Api.Default
         }
 
         /// <inheritdoc/>
+        public void NotifyCompletion(GatewayPayloadOperation? operation = null)
+        {
+            if (operation != null)
+            {
+                if (operation.Value == GatewayPayloadOperation.Heartbeat)
+                    return;
+
+                var bucket = _buckets.GetValueOrDefault(operation.Value);
+                bucket?.NotifyCompletion();
+            }
+
+            _masterBucket.NotifyCompletion();
+        }
+
+        /// <inheritdoc/>
         public void Release(GatewayPayloadOperation? operation = null)
         {
             if (operation != null)
@@ -146,14 +161,16 @@ namespace Disqord.Gateway.Api.Default
             {
                 lock (_semaphore)
                 {
-                    var task = _semaphore.WaitAsync(cancellationToken);
-                    if (!_isResetting)
-                    {
-                        _isResetting = true;
-                        _ = ResetAsync();
-                    }
+                    return _semaphore.WaitAsync(cancellationToken);
+                }
+            }
 
-                    return task;
+            public void NotifyCompletion()
+            {
+                if (!_isResetting)
+                {
+                    _isResetting = true;
+                    _ = ResetAsync();
                 }
             }
 

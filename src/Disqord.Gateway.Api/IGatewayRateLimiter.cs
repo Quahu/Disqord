@@ -23,6 +23,12 @@ namespace Disqord.Gateway.Api
 
         Task WaitAsync(GatewayPayloadOperation? operation = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        ///     Notifies the rate-limiter that an operation was successfully completed.
+        /// </summary>
+        /// <param name="operation"> The operation completed. </param>
+        void NotifyCompletion(GatewayPayloadOperation? operation = null);
+
         void Release(GatewayPayloadOperation? operation = null);
     }
 }

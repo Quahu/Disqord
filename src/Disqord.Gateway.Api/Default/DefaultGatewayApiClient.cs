@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -83,6 +83,7 @@ namespace Disqord.Gateway.Api.Default
             {
                 Logger.LogTrace("Sending payload: {0}.", payload.Op);
                 await Gateway.SendAsync(payload, cancellationToken).ConfigureAwait(false);
+                RateLimiter.NotifyCompletion(payload.Op);
             }
             catch
             {
