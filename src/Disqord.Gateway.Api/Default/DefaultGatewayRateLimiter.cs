@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,7 +48,7 @@ namespace Disqord.Gateway.Api.Default
         {
             _binder.Bind(apiClient);
             // TODO: identify concurrency
-            _buckets[GatewayPayloadOperation.Identify] = GetSharedBucket(ApiClient.Token as BotToken, GatewayPayloadOperation.Identify, 1, TimeSpan.FromSeconds(5));
+            _buckets[GatewayPayloadOperation.Identify] = GetSharedBucket(ApiClient.Token as BotToken, GatewayPayloadOperation.Identify, 1, TimeSpan.FromSeconds(5.5));
             _buckets[GatewayPayloadOperation.UpdatePresence] = new Bucket(5, TimeSpan.FromSeconds(60));
         }
 
