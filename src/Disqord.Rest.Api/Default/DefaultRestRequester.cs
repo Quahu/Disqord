@@ -46,11 +46,11 @@ namespace Disqord.Rest.Api.Default
         }
 
         /// <inheritdoc/>
-        public async Task ExecuteAsync(IRestRequest request, CancellationToken cancellationToken = default)
+        public async Task<IRestResponse> ExecuteAsync(IRestRequest request, CancellationToken cancellationToken = default)
         {
             var method = request.Route.BaseRoute.Method;
             var uri = new Uri(request.Route.Path, UriKind.Relative);
-            var content = request.Content?.CreateHttpContent(ApiClient, request.Options);
+            var content = request.GetOrCreateHttpContent(ApiClient);
             var httpRequest = new DefaultHttpRequest(method, uri, content);
             if (request.Options?.Headers != null)
             {
@@ -59,7 +59,7 @@ namespace Disqord.Rest.Api.Default
             }
 
             var response = await HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-            request.Complete(new DefaultRestResponse(response));
+            return new DefaultRestResponse(response);
         }
 
         public void Dispose()

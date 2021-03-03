@@ -240,12 +240,16 @@ namespace Disqord.Rest.Api.Default
 
                     try
                     {
-                        await _rateLimiter.ApiClient.Requester.ExecuteAsync(request).ConfigureAwait(false);
-                        var response = await request.WaitAsync().ConfigureAwait(false);
+                        var response = await _rateLimiter.ApiClient.Requester.ExecuteAsync(request).ConfigureAwait(false);
                         if (_rateLimiter.UpdateBucket(request.Route, response.HttpResponse))
                         {
                             Logger.LogInformation("Bucket {0} is re-enqueuing the last request due to a hit rate-limit.", Id);
                             _requests.AddFirst(request);
+                        }
+                        else
+                        {
+                            request.Complete(response);
+                            request.Dispose();
                         }
                     }
                     catch (Exception ex)

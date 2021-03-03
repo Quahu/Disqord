@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Disqord.Http;
 
 namespace Disqord.Rest.Api
 {
@@ -24,6 +25,15 @@ namespace Disqord.Rest.Api
         IRestRequestOptions Options { get; }
 
         /// <summary>
+        ///     Gets or creates the HTTP content from <see cref="Content"/>.
+        /// </summary>
+        /// <param name="client"> The parent REST API client. </param>
+        /// <returns>
+        ///     The HTTP request content.
+        /// </returns>
+        HttpRequestContent GetOrCreateHttpContent(IRestApiClient client);
+
+        /// <summary>
         ///     Asynchronously waits for this request to be completed.
         /// </summary>
         /// <returns>
@@ -34,12 +44,18 @@ namespace Disqord.Rest.Api
         /// <summary>
         ///     Completes this request with a response.
         /// </summary>
+        /// <remarks>
+        ///     This should be called by the <see cref="IRestRateLimiter"/> implementation.
+        /// </remarks>
         /// <param name="response"> The response. </param>
         void Complete(IRestResponse response);
 
         /// <summary>
         ///     Completes this request with an exception.
         /// </summary>
+        /// <remarks>
+        ///     This should be called by the <see cref="IRestRateLimiter"/> implementation.
+        /// </remarks>
         /// <param name="exception"> The exception that occurred. </param>
         void Complete(Exception exception);
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Disqord.Http;
 
 namespace Disqord.Rest.Api.Default
 {
@@ -15,6 +16,8 @@ namespace Disqord.Rest.Api.Default
         /// <inheritdoc/>
         public IRestRequestOptions Options { get; }
 
+        protected HttpRequestContent _httpContent;
+
         private readonly TaskCompletionSource<IRestResponse> _tcs;
 
         public DefaultRestRequest(FormattedRoute route, IRestRequestContent content, IRestRequestOptions options = null)
@@ -27,6 +30,14 @@ namespace Disqord.Rest.Api.Default
             Options = options;
 
             _tcs = new TaskCompletionSource<IRestResponse>(TaskCreationOptions.RunContinuationsAsynchronously);
+        }
+
+        public virtual HttpRequestContent GetOrCreateHttpContent(IRestApiClient client)
+        {
+            if (_httpContent == null && Content != null)
+                _httpContent = Content.CreateHttpContent(client, Options);
+
+            return _httpContent;
         }
 
         /// <inheritdoc/>
@@ -53,6 +64,8 @@ namespace Disqord.Rest.Api.Default
 
         /// <inheritdoc/>
         public virtual void Dispose()
-        { }
+        {
+            _httpContent?.Dispose();
+        }
     }
 }

@@ -32,7 +32,9 @@ namespace Disqord.Rest.Api
         /// </summary>
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task ExecuteAsync(IRestRequest request, CancellationToken cancellationToken = default);
+        /// <returns>
+        ///     A <see cref="Task"/> representing the REST execution containing the result.
+        /// </returns>
+        Task<IRestResponse> ExecuteAsync(IRestRequest request, CancellationToken cancellationToken = default);
     }
 }

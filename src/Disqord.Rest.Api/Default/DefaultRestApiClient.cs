@@ -55,13 +55,7 @@ namespace Disqord.Rest.Api.Default
             if (typeof(TModel) == typeof(string))
                 return (TModel) (object) Encoding.UTF8.GetString(buffer);
 
-            var model = Serializer.Deserialize<TModel>(buffer);
-            if (model is JsonModel jsonModel && jsonModel.ExtensionData != null && jsonModel.ExtensionData.Count > 0 && jsonModel.GetType() != typeof(JsonModel))
-            {
-                Logger.LogTrace("Found {0} extra fields for model {1}:\n{2}", jsonModel.ExtensionData.Count, jsonModel, string.Join('\n', jsonModel.ExtensionData));
-            }
-
-            return model;
+            return Serializer.Deserialize<TModel>(buffer);
         }
 
         private static bool IsValidResponse(IRestResponse response)
