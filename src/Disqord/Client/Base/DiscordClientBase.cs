@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -33,10 +33,15 @@ namespace Disqord
 
         public ICurrentUser CurrentUser => GatewayClient.CurrentUser;
 
-        public IReadOnlySet<Snowflake> UnavailableGuilds => GatewayClient.UnavailableGuilds;
-
         /// <inheritdoc cref="IClient.ApiClient"/>
         public DiscordApiClient ApiClient { get; }
+
+        /// <summary>
+        ///     Gets the <see cref="CancellationToken"/> passed to <see cref="RunAsync(CancellationToken)"/>.
+        ///     This is set by implementations of this type.
+        ///     Returns <see cref="CancellationToken.None"/> if the client has not been started.
+        /// </summary>
+        public CancellationToken StoppingToken { get; protected set; }
 
         IApiClient IClient.ApiClient => ApiClient;
         IGatewayApiClient IGatewayClient.ApiClient => GatewayClient.ApiClient;

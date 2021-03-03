@@ -1,10 +1,18 @@
-﻿using Qmmands;
+﻿using System.Threading;
+using Disqord.Rest;
+using Disqord.Rest.Default;
+using Qmmands;
 
 namespace Disqord.Bot
 {
     public abstract class DiscordModuleBase<T> : ModuleBase<T>
         where T : DiscordCommandContext
     {
+        /// <summary>
+        ///     Gets the <see cref="DiscordCommandContext.Bot"/>'s stopping token.
+        /// </summary>
+        protected virtual CancellationToken StoppingToken => Context.Bot.StoppingToken;
+
         protected virtual DiscordCommandResult Reply(string content, LocalMentionsBuilder mentions = null)
             => Reply(content, null, mentions);
 
@@ -46,5 +54,13 @@ namespace Disqord.Bot
             {
                 Context = Context
             };
+
+        /// <summary>
+        ///     Gets an instance of <see cref="DefaultRestRequestOptions"/> configured with the <see cref="StoppingToken"/>.
+        /// </summary>
+        protected virtual IRestRequestOptions RequestOptions => new DefaultRestRequestOptions
+        {
+            CancellationToken = StoppingToken
+        };
     }
 }

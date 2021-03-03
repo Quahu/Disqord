@@ -153,6 +153,12 @@ namespace Disqord.Bot
             }
             else
             {
+                if (e.Result.Exception is OperationCanceledException && StoppingToken.IsCancellationRequested)
+                {
+                    // Means the bot is stopping and any exceptions caused by cancellation we can ignore.
+                    return Task.CompletedTask;
+                }
+
                 Logger.LogError(e.Result.Exception, e.Result.FailureReason);
             }
 

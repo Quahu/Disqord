@@ -26,6 +26,7 @@ namespace Disqord
         /// <inheritdoc/>
         public override async Task RunAsync(CancellationToken stoppingToken)
         {
+            StoppingToken = stoppingToken;
             Uri uri;
             if (ApiClient.Token is BotToken)
             {
