@@ -10,22 +10,21 @@ namespace Disqord.Gateway.Default.Dispatcher
         public override async Task<MessageReceivedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageJsonModel model)
         {
             CachedMember author = null;
-            if (model.GuildId.HasValue && CacheProvider.TryGetMembers(model.GuildId.Value, out var memberCache))
+            IGatewayMessage message = null;
+            if (model.GuildId.HasValue && IsUserMessage(model))
             {
                 model.Member.Value.User = model.Author;
                 author = Dispatcher.GetOrAddMember(model.GuildId.Value, model.Member.Value);
+
+                if (CacheProvider.TryGetMessages(model.ChannelId, out var messageCache))
+                {
+                    message = new CachedUserMessage(Client, author, model);
+                    messageCache.Add(model.Id, message as CachedUserMessage);
+                }
             }
 
-            IGatewayMessage message;
-            if (model.GuildId.HasValue && IsUserMessageType(model.Type) && CacheProvider.TryGetMessages(model.ChannelId, out var messageCache))
-            {
-                message = new CachedUserMessage(Client, author, model);
-                messageCache.Add(model.Id, message as CachedUserMessage);
-            }
-            else
-            {
+            if (message == null)
                 message = GatewayTransientMessage.Create(Client, model);
-            }
 
             CachedTextChannel channel = null;
             if (model.GuildId.HasValue && CacheProvider.TryGetChannels(model.ChannelId, out var channelCache))
@@ -40,14 +39,14 @@ namespace Disqord.Gateway.Default.Dispatcher
             return new MessageReceivedEventArgs(message, channel, author);
         }
 
-        private static bool IsUserMessageType(int type)
+        private static bool IsUserMessage(MessageJsonModel model)
         {
-            switch ((MessageType) type)
+            switch ((MessageType) model.Type)
             {
                 case MessageType.Default:
                 case MessageType.Reply:
                 case MessageType.ApplicationCommand:
-                    return true;
+                    return !model.WebhookId.HasValue;
             }
 
             return false;
