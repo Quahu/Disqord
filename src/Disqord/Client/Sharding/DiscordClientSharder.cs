@@ -75,7 +75,7 @@ namespace Disqord.Sharding
             else
             {
                 // TODO: get recommended shard count from Discord
-                shardIds.Add(ShardId.Default);
+                shardIds.Add(new ShardId(0, 1));
             }
 
             Logger.LogInformation("This sharder will manage {0} shards with IDs: {1}", shardIds.Count, shardIds.Select(x => x.Id));
@@ -120,6 +120,13 @@ namespace Disqord.Sharding
                 try
                 {
                     await task.ConfigureAwait(false);
+                    if (runTask.IsCompleted)
+                    {
+                        // If the task that finished is the run task
+                        // it means an exception occurred when identifying.
+                        // We await it to get the exception thrown.
+                        await runTask.ConfigureAwait(false);
+                    }
 
                     // If we reached here it means the shard successfully identified,
                     // so we add the task to the list and continue.
@@ -144,11 +151,14 @@ namespace Disqord.Sharding
             {
                 // We wait for any of the tasks to finish (throw)
                 // and handle it appropriately.
-                await Task.WhenAny(runTasks).ConfigureAwait(false);
+                var runTask = await Task.WhenAny(runTasks).ConfigureAwait(false);
+                await runTask.ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 // TODO: if sharding required redo the process with more shards blah blah
+                linkedCts.Cancel();
+                throw;
             }
         }
     }

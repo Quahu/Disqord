@@ -302,7 +302,6 @@ namespace Disqord.Gateway.Api.Default
                 }
                 catch (WebSocketClosedException ex)
                 {
-                    Logger.LogWarning(ex, "The gateway was closed.");
                     if (ex.CloseStatus != null)
                     {
                         var closeCode = (GatewayCloseCode) ex.CloseStatus.Value;
@@ -318,9 +317,17 @@ namespace Disqord.Gateway.Api.Default
                             case GatewayCloseCode.InvalidApiVersion:
                             case GatewayCloseCode.InvalidIntents:
                             case GatewayCloseCode.DisallowedIntents:
-                                Logger.LogCritical("The close status ({0}) indicated a non-recoverable connection - stopping.", closeCode);
+                                Logger.LogCritical("The gateway was closed with code {0} indicating a non-recoverable connection - stopping.", closeCode);
                                 throw;
+
+                            default:
+                                Logger.LogWarning("The gateway was closed with code {0} and reason '{1}'.", closeCode, ex.CloseMessage);
+                                break;
                         }
+                    }
+                    else
+                    {
+                        Logger.LogWarning(ex, "The gateway was closed with an exception.");
                     }
                 }
                 catch (TaskCanceledException)
