@@ -10,7 +10,12 @@ namespace Disqord.Gateway
         public IGatewayMessage Message { get; }
 
         /// <summary>
-        ///     Gets the cached text channel the message was sent in.
+        ///     Gets the ID of the channel in which the message was sent in.
+        /// </summary>
+        public Snowflake ChannelId => Message.ChannelId;
+
+        /// <summary>
+        ///     Gets the cached text channel in which the message was sent in.
         ///     Returns <see langword="null"/>, if the channel was not cached of if it was sent outside of a guild.
         /// </summary>
         public CachedTextChannel Channel { get; }
@@ -22,13 +27,13 @@ namespace Disqord.Gateway
         /// <remarks>
         ///     If this returns <see langword="null"/>, retrieve the author from the <see cref="Message"/> instead.
         /// </remarks>
-        public CachedMember Author { get; }
+        public CachedMember Member { get; }
 
-        public MessageReceivedEventArgs(IGatewayMessage message, CachedTextChannel channel, CachedMember author)
+        public MessageReceivedEventArgs(IGatewayMessage message, CachedTextChannel channel, CachedMember member)
         {
             Message = message;
             Channel = channel;
-            Author = author;
+            Member = member;
         }
     }
 }
