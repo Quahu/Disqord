@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Bot;
+using Disqord.Extensions.Interactivity;
 using Qmmands;
 
 namespace Disqord.Test
@@ -12,6 +13,19 @@ namespace Disqord.Test
             await Response("1");
             await Response("2");
             return Response("3");
+        }
+
+        [Command("waitmessage")]
+        [RunMode(RunMode.Parallel)]
+        public async Task WaitMessage([Remainder] string input = null)
+        {
+            var interactivity = Context.Bot.GetExtension<InteractivityExtension>();
+            var e = await interactivity.WaitForMessageAsync(Context.ChannelId, input != null
+                ? x => x.Message.Content.Contains(input)
+                : null);
+            await Response(e != null
+                ? $"You said: {e.Message.Content}"
+                : "You didn't say anything...");
         }
 
         [Command("shard")]

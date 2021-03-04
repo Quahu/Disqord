@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Disqord.Bot.Hosting;
 using Disqord.Extensions.Interactivity;
@@ -50,7 +50,7 @@ namespace Disqord.Test
                     bot.UseMentionPrefix = true;
                     bot.Intents += GatewayIntent.DirectMessages;
                     bot.Prefixes = new[] { "?", "!" };
-                    bot.ShardCount = 3;
+                    //bot.ShardCount = 3;
                 })
                 .Build();
 

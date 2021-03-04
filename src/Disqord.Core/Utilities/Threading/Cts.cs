@@ -20,6 +20,11 @@ namespace Disqord.Utilities.Threading
             _cts = new CancellationTokenSource();
         }
 
+        public Cts(TimeSpan delay)
+        {
+            _cts = new CancellationTokenSource(delay);
+        }
+
         private Cts(CancellationTokenSource cts)
         {
             _cts = cts;
