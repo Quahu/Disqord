@@ -19,7 +19,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 message = null;
             }
 
-            return new ReactionRemovedEventArgs(model.UserId, model.ChannelId, model.MessageId, message, message.GuildId, Emoji.Create(model.Emoji));
+            return new ReactionRemovedEventArgs(model.UserId, model.ChannelId, model.MessageId, message, model.GuildId.GetValueOrNullable(), Emoji.Create(model.Emoji));
         }
     }
 }

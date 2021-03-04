@@ -14,7 +14,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             if (CacheProvider.TryGetMessages(model.ChannelId, out var messageCache))
             {
                 message = messageCache.GetValueOrDefault(model.MessageId);
-                oldReactions = message.Reactions;
+                oldReactions = message?.Reactions ?? default;
                 message?.Update(model);
             }
             else
@@ -23,7 +23,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 oldReactions = default;
             }
 
-            return new ReactionsClearedEventArgs(model.ChannelId, model.MessageId, message, message.GuildId, Emoji.Create(model.Emoji), oldReactions);
+            return new ReactionsClearedEventArgs(model.ChannelId, model.MessageId, message, model.GuildId.GetValueOrNullable(), Emoji.Create(model.Emoji), oldReactions);
         }
     }
 }

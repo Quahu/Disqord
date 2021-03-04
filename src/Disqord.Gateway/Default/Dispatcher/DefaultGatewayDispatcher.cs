@@ -55,9 +55,16 @@ namespace Disqord.Gateway.Default
                 ["GUILD_BAN_ADD"] = new GuildBanAddHandler(),
                 ["GUILD_BAN_REMOVE"] = new GuildBanRemoveHandler(),
 
+                ["GUILD_MEMBERS_CHUNK"] = new GuildMembersChunkHandler(),
+
                 ["MESSAGE_CREATE"] = new MessageCreateHandler(),
                 ["MESSAGE_UPDATE"] = new MessageUpdateHandler(),
                 ["MESSAGE_DELETE"] = new MessageDeleteHandler(),
+
+                ["MESSAGE_REACTION_ADD"] = new MessageReactionAddHandler(),
+                ["MESSAGE_REACTION_REMOVE"] = new MessageReactionRemoveHandler(),
+                ["MESSAGE_REACTION_REMOVE_ALL"] = new MessageReactionRemoveAllHandler(),
+                ["MESSAGE_REACTION_REMOVE_EMOJI"] = new MessageReactionRemoveEmojiHandler(),
 
                 ["TYPING_START"] = new TypingStartHandler(),
 

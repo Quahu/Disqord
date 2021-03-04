@@ -27,7 +27,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                     member = new TransientMember(Client, model.GuildId.Value, model.Member.Value);
             }
 
-            return new ReactionAddedEventArgs(model.UserId, model.ChannelId, model.MessageId, message, message.GuildId, member, Emoji.Create(model.Emoji));
+            return new ReactionAddedEventArgs(model.UserId, model.ChannelId, model.MessageId, message, model.GuildId.GetValueOrNullable(), member, Emoji.Create(model.Emoji));
         }
     }
 }
