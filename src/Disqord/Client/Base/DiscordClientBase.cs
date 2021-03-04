@@ -41,7 +41,7 @@ namespace Disqord
         ///     This is set by implementations of this type.
         ///     Returns <see cref="CancellationToken.None"/> if the client has not been started.
         /// </summary>
-        public CancellationToken StoppingToken { get; protected set; }
+        public virtual CancellationToken StoppingToken { get; protected set; }
 
         IApiClient IClient.ApiClient => ApiClient;
         IGatewayApiClient IGatewayClient.ApiClient => GatewayClient.ApiClient;

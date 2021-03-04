@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Microsoft.Extensions.Logging;
 using Qmmands;
 
@@ -23,6 +24,12 @@ namespace Disqord.Bot
         ///     Gets the service provider of this bot.
         /// </summary>
         public IServiceProvider Services { get; }
+
+        public override CancellationToken StoppingToken
+        {
+            get => _client.StoppingToken;
+            protected set => throw new NotSupportedException(); // Not called.
+        }
 
         private readonly DiscordClientBase _client;
 
