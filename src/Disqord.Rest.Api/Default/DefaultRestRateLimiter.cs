@@ -124,10 +124,10 @@ namespace Disqord.Rest.Api.Default
                     {
                         bucket.Remaining = 0;
                         bucket.ResetsAt = now + headers.RetryAfter.Value;
-                        var severity = _hitRateLimits.Add(route.BaseRoute)
+                        var level = _hitRateLimits.Add(route.BaseRoute)
                             ? LogLevel.Information
                             : LogLevel.Warning;
-                        Logger.Log(severity, "Bucket {0} hit a rate-limit. Retry-After: {1}ms.", bucket, headers.RetryAfter.Value.TotalMilliseconds);
+                        Logger.Log(level, "Bucket {0} hit a rate-limit. Retry-After: {1}ms.", bucket, headers.RetryAfter.Value.TotalMilliseconds);
                         return true;
                     }
 
@@ -221,7 +221,10 @@ namespace Disqord.Rest.Api.Default
                                 continue;
                             }
 
-                            Logger.LogInformation("Bucket {0} is pre-emptively rate-limiting, delaying for {1}.", Id, delay);
+                            var level = request.Route.BaseRoute == Route.Channel.CreateReaction
+                                ? LogLevel.Debug
+                                : LogLevel.Information;
+                            Logger.Log(level, "Bucket {0} is pre-emptively rate-limiting, delaying for {1}.", Id, delay);
                             await Task.Delay(delay).ConfigureAwait(false);
                         }
                     }
