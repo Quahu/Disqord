@@ -88,7 +88,7 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<MessageJsonModel>(route, null, options);
         }
 
-        public static Task CreateReactionAsync(this IRestApiClient client, Snowflake channelId, Snowflake messageId, string emoji, IRestRequestOptions options = null)
+        public static Task AddReactionAsync(this IRestApiClient client, Snowflake channelId, Snowflake messageId, string emoji, IRestRequestOptions options = null)
         {
             var route = Format(Route.Channel.CreateReaction, channelId, messageId, emoji);
             return client.ExecuteAsync(route, null, options);
