@@ -56,6 +56,9 @@ namespace Disqord.Utilities.Threading
 
         public static Cts Linked(CancellationToken token1, CancellationToken token2)
         {
+            if (token1 == token2)
+                return Linked(token1);
+
             var cts = CancellationTokenSource.CreateLinkedTokenSource(token1, token2);
             return new Cts(cts);
         }
