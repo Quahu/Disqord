@@ -13,9 +13,8 @@ namespace Disqord.Extensions.Interactivity
         private readonly Predicate<TEventArgs> _predicate;
         private readonly Tcs<TEventArgs> _tcs;
 
-        private readonly Cts _timeoutCts;
-        private readonly CancellationTokenRegistration _timeoutRegistration;
-        private readonly CancellationTokenRegistration _registration;
+        private readonly Timer _timeoutTimer;
+        private readonly CancellationTokenRegistration _reg;
 
         public Waiter(Predicate<TEventArgs> predicate, TimeSpan timeout, CancellationToken cancellationToken)
         {
@@ -28,14 +27,10 @@ namespace Disqord.Extensions.Interactivity
                 tcs.Cancel(token);
             }
 
+            _reg = cancellationToken.UnsafeRegister(CancelationCallback, (_tcs, cancellationToken));
+
             if (timeout != Timeout.InfiniteTimeSpan)
-            {
-                _timeoutCts = new Cts(timeout);
-                _timeoutRegistration = _timeoutCts.Token.Register(CancelationCallback, (_tcs, _timeoutCts.Token));
-
-            }
-
-            _registration = cancellationToken.Register(CancelationCallback, (_tcs, cancellationToken));
+                _timeoutTimer = new Timer(CancelationCallback, (_tcs, new CancellationToken(true)), timeout, Timeout.InfiniteTimeSpan);
         }
 
         public bool TryComplete(TEventArgs e)
@@ -59,13 +54,8 @@ namespace Disqord.Extensions.Interactivity
 
         public void Dispose()
         {
-            if (_timeoutCts != null)
-            {
-                _timeoutCts.Dispose();
-                _timeoutRegistration.Dispose();
-            }
-
-            _registration.Dispose();
+            _timeoutTimer?.Dispose();
+            _reg.Dispose();
         }
     }
 }
