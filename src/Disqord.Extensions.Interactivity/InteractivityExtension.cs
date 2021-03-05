@@ -1,9 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
+using Disqord.Extensions.Interactivity.Menus;
 using Disqord.Gateway;
+using Disqord.Utilities;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -12,15 +14,29 @@ namespace Disqord.Extensions.Interactivity
 {
     public class InteractivityExtension : DiscordClientExtension
     {
+        /// <summary>
+        ///     Gets the default timeout used for awaiting messages.
+        /// </summary>
         public TimeSpan DefaultMessageTimeout { get; }
 
+        /// <summary>
+        ///     Gets the default timeout used for awaiting reactions.
+        /// </summary>
         public TimeSpan DefaultReactionTimeout { get; }
 
-        // ChannelId -> Waiter
+        /// <summary>
+        ///     Gets the default timeout used for menus.
+        /// </summary>
+        public TimeSpan DefaultMenuTimeout { get; }
+
+        // ChannelId -> Waiters
         private readonly ISynchronizedDictionary<Snowflake, LinkedList<Waiter<MessageReceivedEventArgs>>> _messageWaiters;
 
-        // MessageId -> Waiter
+        // MessageId -> Waiters
         private readonly ISynchronizedDictionary<Snowflake, LinkedList<Waiter<ReactionAddedEventArgs>>> _reactionWaiters;
+
+        // MessageId -> Menu
+        private readonly ISynchronizedDictionary<Snowflake, MenuBase> _menus;
 
         public InteractivityExtension(
             IOptions<InteractivityExtensionConfiguration> options,
@@ -30,9 +46,11 @@ namespace Disqord.Extensions.Interactivity
             var configuration = options.Value;
             DefaultMessageTimeout = configuration.DefaultMessageTimeout;
             DefaultReactionTimeout = configuration.DefaultReactionTimeout;
+            DefaultMenuTimeout = configuration.DefaultMenuTimeout;
 
             _messageWaiters = new SynchronizedDictionary<Snowflake, LinkedList<Waiter<MessageReceivedEventArgs>>>();
             _reactionWaiters = new SynchronizedDictionary<Snowflake, LinkedList<Waiter<ReactionAddedEventArgs>>>();
+            _menus = new SynchronizedDictionary<Snowflake, MenuBase>();
         }
 
         /// <inheritdoc/>
@@ -67,7 +85,7 @@ namespace Disqord.Extensions.Interactivity
                 {
                     return await waiter.Task.ConfigureAwait(false);
                 }
-                catch (OperationCanceledException ex) when (ex.CancellationToken != cts.Token) // Only checks for timeout.
+                catch (OperationCanceledException ex)
                 {
                     return null;
                 }
@@ -93,10 +111,69 @@ namespace Disqord.Extensions.Interactivity
                 {
                     return await waiter.Task.ConfigureAwait(false);
                 }
-                catch (OperationCanceledException ex) when (ex.CancellationToken != cts.Token) // Only checks for timeout.
+                catch (OperationCanceledException ex)
                 {
                     return null;
                 }
+            }
+        }
+
+        public async Task StartMenuAsync(Snowflake channelId, MenuBase menu, TimeSpan timeout = default, CancellationToken cancellationToken = default)
+        {
+            if (menu == null)
+                throw new ArgumentNullException(nameof(menu));
+
+            timeout = timeout != default
+                ? timeout
+                : DefaultMenuTimeout;
+            menu.Interactivity = this;
+            menu.ChannelId = channelId;
+            try
+            {
+                menu.MessageId = await menu.InitializeAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"An exception occurred while attempting to initialise menu {menu.GetType()}.", ex);
+            }
+
+            if (!_menus.TryAdd(menu.MessageId, menu))
+                throw new InvalidOperationException($"A menu with the message ID {menu.MessageId} is already added.");
+            try
+            {
+                await menu.StartAsync(timeout, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"An exception occurred while attempting to start menu {menu.GetType()}.", ex);
+            }
+
+            _ = InternalRunMenuAsync(menu);
+        }
+
+        public async Task RunMenuAsync(Snowflake channelId, MenuBase menu, TimeSpan timeout = default, CancellationToken cancellationToken = default)
+        {
+            if (menu == null)
+                throw new ArgumentNullException(nameof(menu));
+
+            if (!menu.IsRunning)
+                await StartMenuAsync(channelId, menu, timeout, cancellationToken).ConfigureAwait(false);
+
+            await InternalRunMenuAsync(menu).ConfigureAwait(false);
+        }
+
+        private async Task InternalRunMenuAsync(MenuBase menu)
+        {
+            try
+            {
+                await using (RuntimeDisposal.WrapAsync(menu, true).ConfigureAwait(false))
+                {
+                    await menu.Task.ConfigureAwait(false);
+                }
+            }
+            finally
+            {
+                _menus.Remove(menu.MessageId);
             }
         }
 
@@ -156,11 +233,17 @@ namespace Disqord.Extensions.Interactivity
                 }
             }
 
+            if (_menus.TryGetValue(e.MessageId, out var menu))
+                return menu.OnButtonAsync(new ButtonEventArgs(e));
+
             return Task.CompletedTask;
         }
 
         private Task ReactionRemovedAsync(object sender, ReactionRemovedEventArgs e)
         {
+            if (_menus.TryGetValue(e.MessageId, out var menu))
+                return menu.OnButtonAsync(new ButtonEventArgs(e));
+
             return Task.CompletedTask;
         }
 

@@ -15,5 +15,11 @@ namespace Disqord.Extensions.Interactivity
         ///     Defaults to <c>15</c> seconds.
         /// </summary>
         public virtual TimeSpan DefaultReactionTimeout { get; set; } = TimeSpan.FromSeconds(15);
+
+        /// <summary>
+        ///     Gets or sets the default timeout used for menus.
+        ///     Defaults to <c>60</c> seconds.
+        /// </summary>
+        public virtual TimeSpan DefaultMenuTimeout { get; set; } = TimeSpan.FromSeconds(60);
     }
 }
