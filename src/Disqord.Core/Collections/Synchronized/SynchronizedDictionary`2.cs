@@ -5,7 +5,7 @@ namespace Disqord.Collections.Synchronized
 {
     public class SynchronizedDictionary<TKey, TValue> : ISynchronizedDictionary<TKey, TValue>, IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
     {
-        public ICollection<TKey> Keys
+        public TKey[] Keys
         {
             get
             {
@@ -18,7 +18,7 @@ namespace Disqord.Collections.Synchronized
             }
         }
 
-        public ICollection<TValue> Values
+        public TValue[] Values
         {
             get
             {

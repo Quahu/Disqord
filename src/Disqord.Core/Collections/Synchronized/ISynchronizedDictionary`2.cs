@@ -8,6 +8,13 @@ namespace Disqord.Collections.Synchronized
     /// </summary>
     public interface ISynchronizedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
+        new TKey[] Keys { get; }
+
+        new TValue[] Values { get; }
+
+        ICollection<TKey> IDictionary<TKey, TValue>.Keys => Keys;
+        ICollection<TValue> IDictionary<TKey, TValue>.Values => Values;
+
         bool TryAdd(TKey key, TValue value);
 
         bool TryRemove(TKey key, out TValue value);
