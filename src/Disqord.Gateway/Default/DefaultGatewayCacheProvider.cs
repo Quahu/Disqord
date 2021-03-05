@@ -53,7 +53,7 @@ namespace Disqord.Gateway.Default
             }
         }
 
-        public bool TryGetCache<TEntity>(Snowflake parentId, out ISynchronizedDictionary<Snowflake, TEntity> cache)
+        public bool TryGetCache<TEntity>(Snowflake parentId, out ISynchronizedDictionary<Snowflake, TEntity> cache, bool lookupOnly = false)
             where TEntity : CachedSnowflakeEntity
         {
             lock (this)
@@ -70,7 +70,7 @@ namespace Disqord.Gateway.Default
                     return true;
                 }
 
-                if (_supportedNestedTypes.Contains(typeof(TEntity)))
+                if (!lookupOnly && _supportedNestedTypes.Contains(typeof(TEntity)))
                 {
                     if (typeof(TEntity) == typeof(CachedUserMessage))
                     {

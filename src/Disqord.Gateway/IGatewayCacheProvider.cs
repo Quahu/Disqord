@@ -36,10 +36,14 @@ namespace Disqord.Gateway
         /// <typeparam name="TEntity"> The type of the entities. </typeparam>
         /// <param name="parentId"> The ID of the parent entity. E.g. a guild ID. </param>
         /// <param name="cache"> The cache if the provider supports it. </param>
+        /// <param name="lookupOnly">
+        ///     Whether the calling code will only lookup the cache for existing values.
+        ///     This is a hint for the provider so it does not create nested caches for invalid entities.
+        /// </param>
         /// <returns>
         ///     <see langword="true"/>, if the provider supports caching the type.
         /// </returns>
-        bool TryGetCache<TEntity>(Snowflake parentId, out ISynchronizedDictionary<Snowflake, TEntity> cache)
+        bool TryGetCache<TEntity>(Snowflake parentId, out ISynchronizedDictionary<Snowflake, TEntity> cache, bool lookupOnly = false)
             where TEntity : CachedSnowflakeEntity;
 
         /// <summary>
