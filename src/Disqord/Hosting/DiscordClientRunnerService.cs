@@ -38,7 +38,7 @@ namespace Disqord.Hosting
         /// <inheritdoc/>
         public override async Task StartAsync(CancellationToken cancellationToken)
         {
-            await Client.InitialiseExtensionsAsync(cancellationToken).ConfigureAwait(false);
+            await Client.InitializeExtensionsAsync(cancellationToken).ConfigureAwait(false);
             await base.StartAsync(cancellationToken).ConfigureAwait(false);
         }
 

@@ -12,6 +12,17 @@ namespace Disqord
 
         public string Tag => this.GetMessageFormat();
 
+        /// <summary>
+        ///     Instantiates a new custom emoji with the specified custom emoji ID
+        ///     and optionally a name and whether the emoji is animated.
+        /// </summary>
+        /// <remarks>
+        ///     The optional parameters are purely for the developer's convenience and have
+        ///     no effect on any Discord API interactions.
+        /// </remarks>
+        /// <param name="id"> The ID of this emoji. </param>
+        /// <param name="name"> The name of this emoji. </param>
+        /// <param name="isAnimated"> Whether this emoji is animated. </param>
         public LocalCustomEmoji(Snowflake id, string name = null, bool isAnimated = false)
             : base(name)
         {

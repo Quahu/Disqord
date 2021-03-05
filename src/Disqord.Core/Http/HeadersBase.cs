@@ -13,7 +13,7 @@ namespace Disqord.Http
         public IDictionary<string, string> Headers { get; }
 
         /// <summary>
-        ///     Initialises a new <see cref="HeadersBase"/> with the default case-insensitive comparer based <see cref="Dictionary{TKey, TValue}"/>.
+        ///     Instantiates a new <see cref="HeadersBase"/> with the default case-insensitive comparer based <see cref="Dictionary{TKey, TValue}"/>.
         /// </summary>
         protected HeadersBase()
         {
@@ -21,7 +21,7 @@ namespace Disqord.Http
         }
 
         /// <summary>
-        ///     Initialises a new <see cref="HeadersBase"/> with the specified dictionary.
+        ///     Instantiates a new <see cref="HeadersBase"/> with the specified dictionary.
         /// </summary>
         /// <param name="headers"></param>
         protected HeadersBase(IDictionary<string, string> headers)

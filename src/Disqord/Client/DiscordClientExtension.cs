@@ -15,14 +15,14 @@ namespace Disqord
         ///     Gets the client this extension is bound to.
         /// </summary>
         /// <remarks>
-        ///     This property is set when <see cref="InitialiseAsync(DiscordClientBase)"/> is called.
+        ///     This property is set when <see cref="InitializeAsync(DiscordClientBase)"/> is called.
         /// </remarks>
         public DiscordClientBase Client { get; private set; }
 
         /// <summary>
-        ///     Gets whether this extension is initialised.
+        ///     Gets whether this extension is initialized.
         /// </summary>
-        public bool IsInitialised { get; private set; }
+        public bool IsInitialized { get; private set; }
 
         protected DiscordClientExtension(
             ILogger logger)
@@ -31,31 +31,31 @@ namespace Disqord
         }
 
         /// <summary>
-        ///     Overriddable logic for initialisation code.
+        ///     Overriddable logic for initialization code.
         /// </summary>
-        /// <param name="cancellationToken"> The cancellation token passed from <see cref="InitialiseAsync(DiscordClientBase, CancellationToken)"/>. </param>
+        /// <param name="cancellationToken"> The cancellation token passed from <see cref="InitializeAsync(DiscordClientBase, CancellationToken)"/>. </param>
         /// <returns>
-        ///     A <see cref="ValueTask"/> representing the initialisation work.
+        ///     A <see cref="ValueTask"/> representing the initialization work.
         /// </returns>
-        protected virtual ValueTask InitialiseAsync(CancellationToken cancellationToken)
+        protected virtual ValueTask InitializeAsync(CancellationToken cancellationToken)
             => default;
 
         /// <summary>
-        ///     Initialises this extension and binds it to the provided client.
+        ///     Binds this extension to the provided client and initializes it.
         /// </summary>
         /// <param name="client"> The calling client to bind to. </param>
         /// <param name="cancellationToken"> The cancellation token. </param>
         /// <returns>
-        ///     A <see cref="Task"/> representing the initialisation work.
+        ///     A <see cref="Task"/> representing the initialization work.
         /// </returns>
-        public async Task InitialiseAsync(DiscordClientBase client, CancellationToken cancellationToken = default)
+        public async Task InitializeAsync(DiscordClientBase client, CancellationToken cancellationToken = default)
         {
-            if (IsInitialised)
-                throw new InvalidOperationException($"This extension ({GetType().Name}) has already been initialised.");
+            if (IsInitialized)
+                throw new InvalidOperationException($"This extension ({GetType().Name}) has already been initialized.");
 
             Client = client;
-            await InitialiseAsync(cancellationToken).ConfigureAwait(false);
-            IsInitialised = true;
+            await InitializeAsync(cancellationToken).ConfigureAwait(false);
+            IsInitialized = true;
         }
     }
 }

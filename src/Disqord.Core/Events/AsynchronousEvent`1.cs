@@ -29,7 +29,7 @@ namespace Disqord.Events
         private readonly Action<Exception> _errorHandler;
 
         /// <summary>
-        ///     Initialises a new <see cref="AsynchronousEvent{T}"/>.
+        ///     Instantiates a new <see cref="AsynchronousEvent{T}"/>.
         /// </summary>
         public AsynchronousEvent()
         {
@@ -37,7 +37,7 @@ namespace Disqord.Events
         }
 
         /// <summary>
-        ///     Initialises a new <see cref="AsynchronousEvent{T}"/> with the specified <see cref="Func{T, TResult}"/> error handler.
+        ///     Instantiates a new <see cref="AsynchronousEvent{T}"/> with the specified <see cref="Func{T, TResult}"/> error handler.
         /// </summary>
         /// <param name="exceptionHandler"> The exception handler for exceptions occurring in event handlers. </param>
         public AsynchronousEvent(Action<Exception> exceptionHandler)

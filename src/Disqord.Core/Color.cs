@@ -29,7 +29,7 @@ namespace Disqord
         public byte B => (byte) RawValue;
 
         /// <summary>
-        ///     Initialises a new <see cref="Color"/> using the given raw value.
+        ///     Instantiates a new <see cref="Color"/> using the given raw value.
         /// </summary>
         /// <param name="rawValue"> The raw value. </param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -44,7 +44,7 @@ namespace Disqord
         }
 
         /// <summary>
-        ///     Initialises a new <see cref="Color"/> using the given RGB values.
+        ///     Instantiates a new <see cref="Color"/> using the given RGB values.
         /// </summary>
         /// <param name="r"> The red (0-255) component value. </param>
         /// <param name="g"> The green (0-255) component value. </param>
@@ -55,7 +55,7 @@ namespace Disqord
         }
 
         /// <summary>
-        ///     Initialises a new <see cref="Color"/> using the given RGB values.
+        ///     Instantiates a new <see cref="Color"/> using the given RGB values.
         /// </summary>
         /// <param name="r"> The red (0-1) component value. </param>
         /// <param name="g"> The green (0-1) component value. </param>
@@ -120,7 +120,7 @@ namespace Disqord
             => left.RawValue != right.RawValue;
 
         /// <summary>
-        ///     Implicitly initialises a new <see cref="Color"/> from this raw value.
+        ///     Implicitly instantiates a new <see cref="Color"/> from this raw value.
         /// </summary>
         /// <param name="value"> The raw value. </param>
         public static implicit operator Color(int value)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,7 +36,7 @@ namespace Disqord.Extensions.Interactivity
         }
 
         /// <inheritdoc/>
-        protected override ValueTask InitialiseAsync(CancellationToken cancellationToken)
+        protected override ValueTask InitializeAsync(CancellationToken cancellationToken)
         {
             Client.MessageReceived += MessageReceivedAsync;
             Client.MessageDeleted += MessageDeletedAsync;

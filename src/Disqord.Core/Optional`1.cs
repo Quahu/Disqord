@@ -41,7 +41,7 @@ namespace Disqord
         private readonly T _value;
 
         /// <summary>
-        ///     Initialises a new <see cref="Optional{T}"/> with the specified value.
+        ///     Instantiates a new <see cref="Optional{T}"/> with the specified value.
         /// </summary>
         /// <param name="value"> The specified value. </param>
         public Optional(T value)

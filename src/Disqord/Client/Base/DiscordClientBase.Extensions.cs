@@ -9,7 +9,7 @@ namespace Disqord
 {
     public abstract partial class DiscordClientBase
     {
-        public async Task InitialiseExtensionsAsync(CancellationToken cancellationToken = default)
+        public async Task InitializeExtensionsAsync(CancellationToken cancellationToken = default)
         {
             if (_extensions.Count == 0)
                 return;
@@ -19,7 +19,7 @@ namespace Disqord
             {
                 try
                 {
-                    await extension.InitialiseAsync(this, cancellationToken).ConfigureAwait(false);
+                    await extension.InitializeAsync(this, cancellationToken).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
