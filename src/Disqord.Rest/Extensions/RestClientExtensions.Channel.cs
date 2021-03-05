@@ -169,7 +169,7 @@ namespace Disqord.Rest
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            return client.ApiClient.CreateReactionAsync(channelId, messageId, Discord.GetReactionFormat(emoji), options);
+            return client.ApiClient.AddReactionAsync(channelId, messageId, Discord.GetReactionFormat(emoji), options);
         }
 
         public static Task RemoveOwnReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, IRestRequestOptions options = null)
@@ -180,7 +180,7 @@ namespace Disqord.Rest
             return client.ApiClient.RemoveOwnReactionAsync(channelId, messageId, Discord.GetReactionFormat(emoji), options);
         }
 
-        public static Task RemoveUserReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, Snowflake userId, IRestRequestOptions options = null)
+        public static Task RemoveReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, Snowflake userId, IRestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
