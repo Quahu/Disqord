@@ -43,9 +43,9 @@ namespace Disqord.Gateway.Default.Dispatcher
                 else
                 {
                     if (guild != null)
-                        shard.Logger.LogInformation("Guild {0} ({1}) became available.", guild.Name, guild.Id.RawValue);
+                        shard.Logger.LogInformation("Guild {0} ({1}) became unavailable.", guild.Name, guild.Id.RawValue);
                     else
-                        shard.Logger.LogInformation("Uncached guild {0} became available.", model.Id.RawValue);
+                        shard.Logger.LogInformation("Uncached guild {0} became unavailable.", model.Id.RawValue);
                 }
 
                 //  Invoke the event and possibly invoke ready afterwards.
@@ -66,7 +66,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 
                 if (guild == null)
                 {
-                    shard.Logger.LogWarning("Left uncached guild {0}.", model.Id.RawValue);
+                    shard.Logger.LogInformation("Left uncached guild {0}.", model.Id.RawValue);
                     return null;
                 }
 
