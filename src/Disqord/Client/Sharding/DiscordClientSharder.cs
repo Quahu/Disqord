@@ -92,9 +92,12 @@ namespace Disqord.Sharding
 
             var dispatcher = GatewayClient.Dispatcher as DefaultGatewayDispatcher;
             var originalReadyHandler = dispatcher["READY"] as ReadyHandler;
+
+            // These two locals will be reused via the closure below.
             Tcs readyTcs = null;
             ShardId shardId = default;
-            var readyHandler = Handler.Intercept(originalReadyHandler, (shard, model) =>
+
+            dispatcher["READY"] = Handler.Intercept(originalReadyHandler, (shard, model) =>
             {
                 if (shard.Id == shardId)
                 {
@@ -103,7 +106,6 @@ namespace Disqord.Sharding
                     readyTcs.Complete();
                 }
             });
-            dispatcher["READY"] = readyHandler;
 
             var linkedCts = Cts.Linked(stoppingToken);
             var runTasks = new List<Task>(shards.Count);
