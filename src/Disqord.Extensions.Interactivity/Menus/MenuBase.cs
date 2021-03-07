@@ -266,20 +266,20 @@ namespace Disqord.Extensions.Interactivity.Menus
                     await Client.AddReactionAsync(ChannelId, MessageId, button.Emoji).ConfigureAwait(false);
             }
 
-            static void CancelationCallback(object tuple)
+            static void CancellationCallback(object tuple)
             {
                 var (tcs, token) = (ValueTuple<Tcs, CancellationToken>) tuple;
                 tcs.Cancel(token);
             }
 
             _cts = Cts.Linked(Client.StoppingToken, cancellationToken);
-            _cts.Token.UnsafeRegister(CancelationCallback, (_tcs, _cts.Token));
+            _cts.Token.UnsafeRegister(CancellationCallback, (_tcs, _cts.Token));
 
             if (timeout != Timeout.InfiniteTimeSpan)
             {
                 // We store the timeout so it can be refreshed when a button is triggered in OnButtonAsync.
                 _timeout = timeout;
-                _timeoutTimer = new Timer(CancelationCallback, (_tcs, _cts.Token), timeout, Timeout.InfiniteTimeSpan);
+                _timeoutTimer = new Timer(CancellationCallback, (_tcs, _cts.Token), timeout, Timeout.InfiniteTimeSpan);
             }
         }
 
