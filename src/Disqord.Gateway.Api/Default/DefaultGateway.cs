@@ -8,6 +8,7 @@ using Disqord.Serialization.Json;
 using Disqord.Utilities.Binding;
 using Disqord.WebSocket;
 using Disqord.WebSocket.Default;
+using Disqord.WebSocket.Default.Discord;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -29,7 +30,7 @@ namespace Disqord.Gateway.Api.Default
 
         public Func<IWebSocketClient> WebSocketClientFactory { get; }
 
-        private readonly DiscordWebSocket _ws;
+        private DiscordWebSocket _ws;
         private readonly Binder<IGatewayApiClient> _binder;
 
         public DefaultGateway(
@@ -43,13 +44,14 @@ namespace Disqord.Gateway.Api.Default
             Serializer = serializer;
             WebSocketClientFactory = () => new DefaultWebSocketClient();
 
-            _ws = new DiscordWebSocket(this, WebSocketClientFactory);
             _binder = new(this);
         }
 
         public void Bind(IGatewayApiClient value)
         {
             _binder.Bind(value);
+
+            _ws = new DiscordWebSocket(Logger, WebSocketClientFactory, UsesZLib);
         }
 
         public Task ConnectAsync(Uri uri, CancellationToken cancellationToken = default)

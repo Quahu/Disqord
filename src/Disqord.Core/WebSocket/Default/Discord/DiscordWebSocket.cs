@@ -2,23 +2,22 @@
 using System.Buffers.Binary;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Utilities.Threading;
-using Disqord.WebSocket;
 using Microsoft.Extensions.Logging;
 
-namespace Disqord.Gateway.Api.Default
+namespace Disqord.WebSocket.Default.Discord
 {
-    internal sealed class DiscordWebSocket : IDisposable
+    internal sealed partial class DiscordWebSocket : IDisposable
     {
         public const int RECEIVE_BUFFER_SIZE = 8192;
 
-        private readonly IGateway _gateway;
+        public ILogger Logger { get; }
+
         private readonly Func<IWebSocketClient> _webSocketClientFactory;
+        private readonly bool _supportsZLib;
+
         private IWebSocketClient _ws;
 
         /// <summary>
@@ -39,12 +38,14 @@ namespace Disqord.Gateway.Api.Default
 
         private bool _isDisposed;
 
-        private static readonly Func<Stream, DeflateStream> _createZLibStream;
-
-        public DiscordWebSocket(IGateway gateway, Func<IWebSocketClient> webSocketClientFactory)
+        public DiscordWebSocket(
+            ILogger logger, 
+            Func<IWebSocketClient> webSocketClientFactory,
+            bool supportsZLib = true)
         {
-            _gateway = gateway;
+            Logger = logger;
             _webSocketClientFactory = webSocketClientFactory;
+            _supportsZLib = supportsZLib;
 
             _sendSemaphore = new SemaphoreSlim(1, 1);
 
@@ -68,8 +69,11 @@ namespace Disqord.Gateway.Api.Default
             _limboCts = new Cts();
             _ws?.Dispose();
             _ws = _webSocketClientFactory();
-            _receiveZLibStream?.Dispose();
-            _receiveZLibStream = _createZLibStream(_receiveStream);
+            if (_supportsZLib)
+            {
+                _receiveZLibStream?.Dispose();
+                _receiveZLibStream = _createZLibStream(_receiveStream);
+            }
             await _ws.ConnectAsync(url, token).ConfigureAwait(false);
         }
 
@@ -144,7 +148,7 @@ namespace Disqord.Gateway.Api.Default
                     // We check the data for the ZLib flush which marks the end of the actual message.
                     if (streamBuffer.Count < 4 || BinaryPrimitives.ReadUInt32BigEndian(streamBuffer[^4..]) != 0x0000FFFF)
                     {
-                        _gateway.Logger.LogInformation("Received a payload spanning multiple web socket messages.");
+                        Logger.LogInformation("Received a payload spanning multiple web socket messages.");
                         continue;
                     }
 
@@ -187,27 +191,9 @@ namespace Disqord.Gateway.Api.Default
                 return;
 
             _isDisposed = true;
+            _receiveZLibStream?.Dispose();
             _receiveStream.Dispose();
             _ws?.Dispose();
-        }
-
-        static DiscordWebSocket()
-        {
-            var constructor = typeof(DeflateStream).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic).First(x =>
-            {
-                var parameters = x.GetParameters();
-                return parameters[1].ParameterType == typeof(CompressionMode) && parameters[2].ParameterType == typeof(bool);
-            });
-            var parameter = Expression.Parameter(typeof(Stream));
-            var parameters = new Expression[]
-            {
-                parameter,
-                Expression.Constant(CompressionMode.Decompress),
-                Expression.Constant(true),
-                Expression.Constant(15),
-                Expression.Constant((long) -1)
-            };
-            _createZLibStream = Expression.Lambda<Func<Stream, DeflateStream>>(Expression.New(constructor, parameters), parameter).Compile();
         }
     }
 }
