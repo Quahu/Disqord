@@ -23,10 +23,15 @@ namespace Disqord.Gateway.Default.Dispatcher
             if (eventArgs == null || eventArgs == EventArgs.Empty)
                 return;
 
+            await InvokeEventAsync(eventArgs).ConfigureAwait(false);
+        }
+
+        public Task InvokeEventAsync(TEventArgs eventArgs)
+        {
             if (Event != null)
             {
                 // This is the case for most handlers - the dispatch maps to a single event.
-                await Event.InvokeAsync(Dispatcher, eventArgs).ConfigureAwait(false);
+                return Event.InvokeAsync(Dispatcher, eventArgs);
             }
             else
             {
@@ -34,7 +39,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 if (!_events.TryGetValue(eventArgs.GetType(), out var @event))
                     throw new InvalidOperationException($"The dispatch handler {GetType()} returned an invalid instance of event args: {eventArgs.GetType()}.");
 
-                await @event.InvokeAsync(Dispatcher, eventArgs).ConfigureAwait(false);
+                return @event.InvokeAsync(Dispatcher, eventArgs);
             }
         }
 

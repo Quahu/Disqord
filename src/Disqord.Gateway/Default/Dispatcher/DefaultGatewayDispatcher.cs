@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
 using Disqord.Gateway.Api;
@@ -19,6 +19,8 @@ namespace Disqord.Gateway.Default
 
         public ICurrentUser CurrentUser => (_handlers["READY"] as ReadyHandler)?.CurrentUser;
 
+        public ReadyEventDelayMode ReadyEventDelayMode { get; }
+
         public Handler this[string name]
         {
             get => _handlers[name];
@@ -36,6 +38,9 @@ namespace Disqord.Gateway.Default
             IOptions<DefaultGatewayDispatcherConfiguration> options,
             ILogger<DefaultGatewayDispatcher> logger)
         {
+            var configuration = options.Value;
+            ReadyEventDelayMode = configuration.ReadyEventDelayMode;
+
             Logger = logger;
 
             _handlers = new SynchronizedDictionary<string, Handler>
@@ -123,7 +128,7 @@ namespace Disqord.Gateway.Default
             if (!_unknownDispatches.Add(e.Name))
                 return Task.CompletedTask;
 
-            Logger.LogWarning(_loggedUnknownWarning
+            shard.Logger.LogWarning(_loggedUnknownWarning
                 ? "Received an unknown dispatch {0}. Payload:\n{1}"
                 : "Received an unknown dispatch {0}. This message will only appear once for each unknown dispatch. Payload:\n{1}",
                 e.Name, (e.Data as DefaultJsonToken)?.ToIndentedString() ?? e.Data.ToString());

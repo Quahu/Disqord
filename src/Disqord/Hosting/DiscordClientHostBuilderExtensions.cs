@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Disqord.Gateway.Api.Default;
+using Disqord.Gateway.Default;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -34,6 +35,8 @@ namespace Disqord.Hosting
 
             if (discordContext.Intents != null)
                 services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Intents = discordContext.Intents.Value);
+
+            services.Configure<DefaultGatewayDispatcherConfiguration>(x => x.ReadyEventDelayMode = discordContext.ReadyEventDelayMode);
 
             services.AddDiscordClient();
             services.AddHostedService<DiscordClientRunnerService>();

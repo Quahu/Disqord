@@ -18,6 +18,12 @@ namespace Disqord.Hosting
         /// </summary>
         public virtual GatewayIntents? Intents { get; set; } = GatewayIntents.Recommended;
 
+        /// <summary>
+        ///     Gets or sets the mode of firing the <see cref="DiscordClientBase.Ready"/> event.
+        ///     Defaults to <see cref="ReadyEventDelayMode.Guilds"/>.
+        /// </summary>
+        public virtual ReadyEventDelayMode ReadyEventDelayMode { get; set; } = ReadyEventDelayMode.Guilds;
+
         ///// <summary>
         /////     Gets or sets whether to 
         ///// </summary>

@@ -11,21 +11,21 @@ namespace Disqord.Gateway.Default.Dispatcher
             if (!model.GuildId.HasValue)
                 return null;
 
-            IGuildChannel oldChannel;
-            IGuildChannel channel;
+            CachedGuildChannel oldChannel;
+            IGuildChannel newChannel;
             if (CacheProvider.TryGetChannels(model.GuildId.Value, out var cache))
             {
-                channel = cache.GetValueOrDefault(model.Id);
-                oldChannel = (IGuildChannel) (channel as CachedGuildChannel).Clone();
-                channel.Update(model);
+                newChannel = cache.GetValueOrDefault(model.Id);
+                oldChannel = (newChannel as CachedGuildChannel).Clone() as CachedGuildChannel;
+                newChannel.Update(model);
             }
             else
             {
                 oldChannel = null;
-                channel = TransientGuildChannel.Create(Client, model);
+                newChannel = TransientGuildChannel.Create(Client, model);
             }
 
-            return new ChannelUpdatedEventArgs(oldChannel, channel);
+            return new ChannelUpdatedEventArgs(oldChannel, newChannel);
         }
     }
 }

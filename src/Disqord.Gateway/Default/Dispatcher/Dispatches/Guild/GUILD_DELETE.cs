@@ -6,40 +6,69 @@ using Microsoft.Extensions.Logging;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
-    public class GuildDeleteHandler : Handler<GatewayGuildJsonModel, EventArgs>
+    public class GuildDeleteHandler : Handler<UnavailableGuildJsonModel, EventArgs>
     {
-        public override async Task<EventArgs> HandleDispatchAsync(IGatewayApiClient shard, GatewayGuildJsonModel model)
+        private ReadyHandler _readyHandler;
+
+        public override void Bind(DefaultGatewayDispatcher value)
+        {
+            _readyHandler = value["READY"] as ReadyHandler;
+
+            base.Bind(value);
+        }
+
+        public override async Task<EventArgs> HandleDispatchAsync(IGatewayApiClient shard, UnavailableGuildJsonModel model)
         {
             CachedGuild guild = null;
-            if (Client.CacheProvider.TryGetCache<CachedGuild>(out var cache))
-            {
-                //guild = await cache.RemoveAsync(model.Id).ConfigureAwait(false);
-            }
-
             if (model.Unavailable.HasValue)
             {
-                if (guild == null)
+                var isPending = _readyHandler.IsPendingGuild(shard.Id, model.Id);
+                if (CacheProvider.TryGetGuilds(out var cache))
                 {
-                    // Shouldn't happen?
-                    shard.Logger.LogWarning("Guild {0} is uncached and became unavailable.", model.Id);
-                    return null;
+                    if (isPending)
+                    {
+                        // TODO: cache the id or such if the guild isn't available
+                    }
+                    else
+                    {
+                        guild = cache.GetValueOrDefault(model.Id);
+                        guild?.Update(model);
+                    }
                 }
 
-                // TODO: set guild unavailable
-                shard.Logger.LogInformation("Guild '{0}' ({1}) became unavailable.", guild.Name, guild.Id.RawValue);
-                return new GuildUnavailableEventArgs(guild);
+                if (isPending)
+                {
+                    shard.Logger.LogInformation("Pending guild {0} is unavailable.", model.Id.RawValue);
+                }
+                else
+                {
+                    if (guild != null)
+                        shard.Logger.LogInformation("Guild {0} ({1}) became available.", guild.Name, guild.Id.RawValue);
+                    else
+                        shard.Logger.LogInformation("Uncached guild {0} became available.", model.Id.RawValue);
+                }
+
+                //  Invoke the event and possibly invoke ready afterwards.
+                await InvokeEventAsync(new GuildUnavailableEventArgs(model.Id, guild)).ConfigureAwait(false);
+
+                if (isPending)
+                    _readyHandler.PopPendingGuild(shard.Id, model.Id);
+
+                return null;
             }
             else
             {
-                if (guild == null)
+                // TODO: clear up cache
+                if (Client.CacheProvider.TryGetGuilds(out var cache))
                 {
-                    // Shouldn't happen?
-                    shard.Logger.LogWarning("Left uncached guild {0}.", model.Id);
-                    return null;
+                    cache.TryRemove(model.Id, out guild);
                 }
 
-                //foreach (var member in guild.Members.Values)
-                //    member.SharedUser.References--;
+                if (guild == null)
+                {
+                    shard.Logger.LogWarning("Left uncached guild {0}.", model.Id.RawValue);
+                    return null;
+                }
 
                 shard.Logger.LogInformation("Left guild '{0}' ({1}).", guild.Name, guild.Id.RawValue);
                 return new LeftGuildEventArgs(guild);

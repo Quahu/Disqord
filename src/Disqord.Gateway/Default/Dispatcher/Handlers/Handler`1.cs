@@ -8,7 +8,7 @@ namespace Disqord.Gateway.Default.Dispatcher
         where TEventArgs : EventArgs
     {
         // The pre-fetched event from the dictionary below.
-        internal AsynchronousEvent<TEventArgs> Event { get; private set; }
+        private protected AsynchronousEvent<TEventArgs> Event { get; private set; }
 
         // TEventArgs -> AsynchronousEvent<TEventArgs>.
         private protected Dictionary<Type, AsynchronousEvent> _events;

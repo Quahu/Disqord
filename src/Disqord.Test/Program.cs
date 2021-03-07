@@ -50,7 +50,8 @@ namespace Disqord.Test
                     bot.UseMentionPrefix = true;
                     bot.Intents += GatewayIntent.DirectMessages;
                     bot.Prefixes = new[] { "?", "!" };
-                    //bot.ShardCount = 3;
+                    bot.ReadyEventDelayMode = ReadyEventDelayMode.Guilds;
+                    bot.ShardCount = 2;
                 })
                 .Build();
 
