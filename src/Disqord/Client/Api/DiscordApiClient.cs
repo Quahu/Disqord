@@ -50,6 +50,7 @@ namespace Disqord
         ShardId IGatewayApiClient.Id => GatewayApiClient.Id;
         string IGatewayApiClient.SessionId => GatewayApiClient.SessionId;
         int? IGatewayApiClient.Sequence => GatewayApiClient.Sequence;
+        CancellationToken IGatewayApiClient.StoppingToken => GatewayApiClient.StoppingToken;
 
         public DiscordApiClient(
             IOptions<DiscordApiClientConfiguration> options,

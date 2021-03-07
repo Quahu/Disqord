@@ -33,6 +33,11 @@ namespace Disqord.Gateway.Api
         int? Sequence { get; }
 
         /// <summary>
+        ///     Gets the stopping token passed to <see cref="RunAsync(Uri, CancellationToken)"/>.
+        /// </summary>
+        CancellationToken StoppingToken { get; }
+
+        /// <summary>
         ///     Fires when a gateway dispatch is received.
         /// </summary>
         event AsynchronousEventHandler<GatewayDispatchReceivedEventArgs> DispatchReceived;

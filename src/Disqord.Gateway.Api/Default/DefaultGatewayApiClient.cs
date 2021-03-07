@@ -38,6 +38,8 @@ namespace Disqord.Gateway.Api.Default
 
         public int? Sequence { get; private set; }
 
+        public CancellationToken StoppingToken { get; private set; }
+
         private readonly Random _random;
 
         public DefaultGatewayApiClient(
@@ -105,23 +107,24 @@ namespace Disqord.Gateway.Api.Default
             }
         }
 
-        public Task RunAsync(Uri uri, CancellationToken cancellationToken)
+        public Task RunAsync(Uri uri, CancellationToken stoppingToken)
         {
-            return InternalRunAsync(uri, cancellationToken);
+            StoppingToken = stoppingToken;
+            return InternalRunAsync(uri, stoppingToken);
         }
 
-        private async Task InternalConnectAsync(Uri uri, CancellationToken cancellationToken)
+        private async Task InternalConnectAsync(Uri uri, CancellationToken stoppingToken)
         {
             var attempt = 0;
             var delay = 2500;
-            while (!cancellationToken.IsCancellationRequested)
+            while (!stoppingToken.IsCancellationRequested)
             {
                 try
                 {
                     Logger.LogDebug(attempt == 0
                         ? "Connecting to the gateway..."
                         : $"Retrying (attempt #{attempt + 1}) to connect to the gateway...");
-                    await Gateway.ConnectAsync(uri, cancellationToken).ConfigureAwait(false);
+                    await Gateway.ConnectAsync(uri, stoppingToken).ConfigureAwait(false);
                     return;
                 }
                 catch (WebSocketClosedException ex)
@@ -140,26 +143,26 @@ namespace Disqord.Gateway.Api.Default
                         delay *= 2;
 
                     Logger.LogInformation("Delaying the retry for {0}ms.", delay);
-                    await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
+                    await Task.Delay(delay, stoppingToken).ConfigureAwait(false);
                 }
             }
 
             Logger.LogInformation("Successfully connected.");
         }
 
-        private async Task InternalRunAsync(Uri uri, CancellationToken cancellationToken)
+        private async Task InternalRunAsync(Uri uri, CancellationToken stoppingToken)
         {
-            while (!cancellationToken.IsCancellationRequested)
+            while (!stoppingToken.IsCancellationRequested)
             {
                 var stopHeartbeater = true;
-                await InternalConnectAsync(uri, cancellationToken).ConfigureAwait(false);
+                await InternalConnectAsync(uri, stoppingToken).ConfigureAwait(false);
                 try
                 {
                     var breakReceive = false;
                     var resuming = false;
-                    while (!cancellationToken.IsCancellationRequested && !breakReceive)
+                    while (!stoppingToken.IsCancellationRequested && !breakReceive)
                     {
-                        var payload = await Gateway.ReceiveAsync(cancellationToken).ConfigureAwait(false);
+                        var payload = await Gateway.ReceiveAsync(stoppingToken).ConfigureAwait(false);
                         Logger.LogTrace("Received payload: {0}.", payload.Op != GatewayPayloadOperation.Dispatch ? payload.Op : payload.T);
 
                         switch (payload.Op)
@@ -192,7 +195,7 @@ namespace Disqord.Gateway.Api.Default
                             case GatewayPayloadOperation.Heartbeat:
                             {
                                 Logger.LogDebug("The gateway requested a heartbeat.");
-                                await Heartbeater.HeartbeatAsync(cancellationToken).ConfigureAwait(false);
+                                await Heartbeater.HeartbeatAsync(stoppingToken).ConfigureAwait(false);
                                 break;
                             }
                             case GatewayPayloadOperation.Reconnect:
@@ -230,8 +233,8 @@ namespace Disqord.Gateway.Api.Default
                                     resuming = false;
                                     var delay = _random.Next(1000, 5001);
                                     Logger.LogInformation("Currently resuming, will start a new session in {0}ms.", delay);
-                                    await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
-                                    await IdentifyAsync(cancellationToken).ConfigureAwait(false);
+                                    await Task.Delay(delay, stoppingToken).ConfigureAwait(false);
+                                    await IdentifyAsync(stoppingToken).ConfigureAwait(false);
                                 }
                                 else
                                 {
@@ -239,13 +242,13 @@ namespace Disqord.Gateway.Api.Default
                                     {
                                         resuming = true;
                                         Logger.LogInformation("The session is resumable, resuming...");
-                                        await ResumeAsync(cancellationToken).ConfigureAwait(false);
+                                        await ResumeAsync(stoppingToken).ConfigureAwait(false);
                                     }
                                     else
                                     {
                                         SessionId = null;
                                         Logger.LogInformation("The session is not resumable, identifying...");
-                                        await IdentifyAsync(cancellationToken).ConfigureAwait(false);
+                                        await IdentifyAsync(stoppingToken).ConfigureAwait(false);
                                     }
                                 }
 
@@ -268,13 +271,13 @@ namespace Disqord.Gateway.Api.Default
                                 if (SessionId == null)
                                 {
                                     Logger.LogInformation("Identifying...");
-                                    await IdentifyAsync(cancellationToken).ConfigureAwait(false);
+                                    await IdentifyAsync(stoppingToken).ConfigureAwait(false);
                                 }
                                 else
                                 {
                                     resuming = true;
                                     Logger.LogInformation("Resuming...");
-                                    await ResumeAsync(cancellationToken).ConfigureAwait(false);
+                                    await ResumeAsync(stoppingToken).ConfigureAwait(false);
                                 }
 
                                 break;
