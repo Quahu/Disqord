@@ -58,6 +58,21 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<BanDeletedEventArgs> BanDeleted;
 
         /// <summary>
+        ///     Fires when a guild role is created.
+        /// </summary>
+        event AsynchronousEventHandler<RoleCreatedEventArgs> RoleCreated;
+
+        /// <summary>
+        ///     Fires when a guild role is updated.
+        /// </summary>
+        event AsynchronousEventHandler<RoleUpdatedEventArgs> RoleUpdated;
+
+        /// <summary>
+        ///     Fires when a guild role is deleted.
+        /// </summary>
+        event AsynchronousEventHandler<RoleDeletedEventArgs> RoleDeleted;
+
+        /// <summary>
         ///     Fires when a message is received.
         /// </summary>
         event AsynchronousEventHandler<MessageReceivedEventArgs> MessageReceived;

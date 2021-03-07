@@ -1,5 +1,4 @@
 ﻿using Disqord.Models;
-using Disqord.Serialization.Json;
 
 namespace Disqord
 {
@@ -38,10 +37,5 @@ namespace Disqord
         ///     Gets whether this role is mentionable.
         /// </summary>
         bool IsMentionable { get; }
-
-        /// <summary>
-        ///     Gets whether this role is the default role (<c>@everyone</c>).
-        /// </summary>
-        bool IsDefault { get; }
     }
 }

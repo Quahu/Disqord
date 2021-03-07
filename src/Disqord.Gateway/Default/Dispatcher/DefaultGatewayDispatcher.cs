@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
 using Disqord.Gateway.Api;
@@ -56,6 +56,10 @@ namespace Disqord.Gateway.Default
                 ["GUILD_BAN_REMOVE"] = new GuildBanRemoveHandler(),
 
                 ["GUILD_MEMBERS_CHUNK"] = new GuildMembersChunkHandler(),
+
+                ["GUILD_ROLE_CREATE"] = new GuildRoleCreateHandler(),
+                ["GUILD_ROLE_UPDATE"] = new GuildRoleUpdateHandler(),
+                ["GUILD_ROLE_DELETE"] = new GuildRoleDeleteHandler(),
 
                 ["MESSAGE_CREATE"] = new MessageCreateHandler(),
                 ["MESSAGE_UPDATE"] = new MessageUpdateHandler(),

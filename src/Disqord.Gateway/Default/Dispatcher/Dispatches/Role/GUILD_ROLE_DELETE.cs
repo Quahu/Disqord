@@ -1,14 +1,20 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway.Api;
+using Disqord.Gateway.Api.Models;
 
-namespace Disqord.Gateway.Default
+namespace Disqord.Gateway.Default.Dispatcher
 {
-    public partial class DefaultGatewayDispatcher
+    public class GuildRoleDeleteHandler : Handler<GuildRoleDeleteJsonModel, RoleDeletedEventArgs>
     {
-        private Task GuildRoleDeleteAsync(GatewayDispatchReceivedEventArgs e)
+        public override async Task<RoleDeletedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildRoleDeleteJsonModel model)
         {
-            //return _messageDeletedEvent.InvokeAsync(this, new MessageDeletedEventArgs());
-            return Task.CompletedTask;
+            CachedRole role = null;
+            if (CacheProvider.TryGetRoles(model.GuildId, out var cache))
+            {
+                role = cache.GetValueOrDefault(model.RoleId);
+            }
+
+            return new RoleDeletedEventArgs(model.GuildId, model.RoleId, role);
         }
     }
 }

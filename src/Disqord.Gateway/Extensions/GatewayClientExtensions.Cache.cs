@@ -34,6 +34,14 @@
             return null;
         }
 
+        public static CachedRole GetRole(this IGatewayClient client, Snowflake guildId, Snowflake roleId)
+        {
+            if (client.CacheProvider.TryGetRoles(guildId, out var cache, true))
+                return cache.GetValueOrDefault(roleId);
+
+            return null;
+        }
+
         public static CachedUserMessage GetMessage(this IGatewayClient client, Snowflake channelId, Snowflake messageId)
         {
             if (client.CacheProvider.TryGetMessages(channelId, out var cache, true))

@@ -21,10 +21,10 @@ namespace Disqord.Rest
             return client;
         }
 
-        public static Task<IChannel> FetchChannelAsync(this IMessage message, IRestRequestOptions options = null)
+        public static async Task<IMessageChannel> FetchChannelAsync(this IMessage message, IRestRequestOptions options = null)
         {
             var client = message.GetRestClient();
-            return client.FetchChannelAsync(message.ChannelId, options);
+            return await client.FetchChannelAsync(message.ChannelId, options).ConfigureAwait(false) as IMessageChannel;
         }
 
         // TODO: crosspost message

@@ -29,9 +29,8 @@ namespace Disqord
 
         public bool IsMentionable => Model.Mentionable;
 
-        public bool IsDefault => Id == GuildId;
-
-        public TransientRole(IClient client, Snowflake guildId, RoleJsonModel model) : base(client, model)
+        public TransientRole(IClient client, Snowflake guildId, RoleJsonModel model) 
+            : base(client, model)
         {
             GuildId = guildId;
         }

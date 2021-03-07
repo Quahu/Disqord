@@ -26,6 +26,12 @@ namespace Disqord.Gateway.Default
 
         public AsynchronousEvent<BanDeletedEventArgs> BanDeletedEvent { get; } = new();
 
+        public AsynchronousEvent<RoleCreatedEventArgs> RoleCreatedEvent { get; } = new();
+
+        public AsynchronousEvent<RoleUpdatedEventArgs> RoleUpdatedEvent { get; } = new();
+
+        public AsynchronousEvent<RoleDeletedEventArgs> RoleDeletedEvent { get; } = new();
+
         public AsynchronousEvent<MessageReceivedEventArgs> MessageReceivedEvent { get; } = new();
 
         public AsynchronousEvent<MessageUpdatedEventArgs> MessageUpdatedEvent { get; } = new();

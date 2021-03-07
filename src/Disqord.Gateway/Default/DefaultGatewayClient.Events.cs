@@ -81,6 +81,27 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<RoleCreatedEventArgs> RoleCreated
+        {
+            add => Dispatcher.RoleCreatedEvent.Hook(value);
+            remove => Dispatcher.RoleCreatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<RoleUpdatedEventArgs> RoleUpdated
+        {
+            add => Dispatcher.RoleUpdatedEvent.Hook(value);
+            remove => Dispatcher.RoleUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<RoleDeletedEventArgs> RoleDeleted
+        {
+            add => Dispatcher.RoleDeletedEvent.Hook(value);
+            remove => Dispatcher.RoleDeletedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<MessageReceivedEventArgs> MessageReceived
         {
             add => Dispatcher.MessageReceivedEvent.Hook(value);

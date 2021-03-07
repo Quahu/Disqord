@@ -1,14 +1,25 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway.Api;
+using Disqord.Gateway.Api.Models;
 
-namespace Disqord.Gateway.Default
+namespace Disqord.Gateway.Default.Dispatcher
 {
-    public partial class DefaultGatewayDispatcher
+    public class GuildRoleCreateHandler : Handler<GuildRoleCreateJsonModel, RoleCreatedEventArgs>
     {
-        private Task GuildRoleCreateAsync(GatewayDispatchReceivedEventArgs e)
+        public override async Task<RoleCreatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildRoleCreateJsonModel model)
         {
-            //return _messageDeletedEvent.InvokeAsync(this, new MessageDeletedEventArgs());
-            return Task.CompletedTask;
+            IRole role;
+            if (CacheProvider.TryGetRoles(model.GuildId, out var cache))
+            {
+                role = new CachedRole(Client, model.GuildId, model.Role);
+                cache.Add(role.Id, role as CachedRole);
+            }
+            else
+            {
+                role = new TransientRole(Client, model.GuildId, model.Role);
+            }
+
+            return new RoleCreatedEventArgs(role);
         }
     }
 }
