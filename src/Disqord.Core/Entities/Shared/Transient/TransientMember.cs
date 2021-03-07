@@ -20,7 +20,7 @@ namespace Disqord
 
         public DateTimeOffset? BoostedAt => Model.PremiumSince.GetValueOrDefault();
 
-        public bool IsPending => Model.Pending;
+        public bool IsPending => Model.Pending.GetValueOrDefault();
 
         public new MemberJsonModel Model { get; }
 

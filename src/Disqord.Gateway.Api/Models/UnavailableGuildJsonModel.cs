@@ -8,6 +8,6 @@ namespace Disqord.Gateway.Api.Models
         public Snowflake Id;
 
         [JsonProperty("unavailable")]
-        public bool Unavailable;
+        public Optional<bool> Unavailable;
     }
 }

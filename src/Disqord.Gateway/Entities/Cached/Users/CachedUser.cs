@@ -18,7 +18,7 @@ namespace Disqord.Gateway
 
         public virtual string Mention => Utilities.Mention.User(this);
 
-        public virtual string Tag => $"{Name}#{Discriminator}";
+        public string Tag => $"{Name}#{Discriminator}";
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public ICachedSharedUser SharedUser

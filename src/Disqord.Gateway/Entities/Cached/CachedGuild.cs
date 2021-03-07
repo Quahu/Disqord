@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Disqord.Collections;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
 
 namespace Disqord.Gateway
 {
-    public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild
+    public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild, IJsonUpdatable<UnavailableGuildJsonModel>
     {
         // Interface: INamable
         public string Name { get; private set; }
@@ -36,7 +37,16 @@ namespace Disqord.Gateway
 
         public GuildContentFilterLevel ContentFilterLevel { get; private set; }
 
-        public IReadOnlyDictionary<Snowflake, IRole> Roles { get; private set; }
+        public IReadOnlyDictionary<Snowflake, IRole> Roles
+        {
+            get
+            {
+                if (Client.CacheProvider.TryGetRoles(Id, out var cache))
+                    return new ReadOnlyUpcastingDictionary<Snowflake, CachedRole, IRole>(cache.ReadOnly());
+
+                return ReadOnlyDictionary<Snowflake, IRole>.Empty;
+            }
+        }
 
         public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis { get; private set; }
 
@@ -107,6 +117,12 @@ namespace Disqord.Gateway
                 IsUnavailable = model.Unavailable.Value;
 
             Update(model as GuildJsonModel);
+        }
+
+        public void Update(UnavailableGuildJsonModel model)
+        {
+            if (model.Unavailable.HasValue)
+                IsUnavailable = model.Unavailable.Value;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Disqord.Gateway
 
         public IReadOnlyList<Snowflake> RoleIds { get; private set; }
 
-        public Optional<DateTimeOffset> JoinedAt { get; }
+        public Optional<DateTimeOffset> JoinedAt { get; private set; }
 
         public bool IsMuted { get; private set; }
 
@@ -22,13 +22,14 @@ namespace Disqord.Gateway
 
         public DateTimeOffset? BoostedAt { get; private set; }
 
-        public bool IsPending { get; }
+        public bool IsPending { get; private set; }
+
+        public override string Mention => Utilities.Mention.User(this);
 
         public CachedMember(ICachedSharedUser sharedUser, Snowflake guildId, MemberJsonModel model)
             : base(sharedUser)
         {
             GuildId = guildId;
-            JoinedAt = model.JoinedAt;
 
             Update(model);
         }
@@ -42,11 +43,17 @@ namespace Disqord.Gateway
 
             Nick = model.Nick;
             RoleIds = model.Roles.ReadOnly();
+
+            if (model.JoinedAt.HasValue)
+                JoinedAt = model.JoinedAt.Value;
+
             IsMuted = model.Mute;
             IsDeafened = model.Deaf;
 
             if (model.PremiumSince.HasValue)
                 BoostedAt = model.PremiumSince.Value;
+
+            IsPending = model.Pending.GetValueOrDefault();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Disqord.Models
         public Snowflake[] Roles;
 
         [JsonProperty("joined_at")]
-        public DateTimeOffset JoinedAt;
+        public Optional<DateTimeOffset> JoinedAt;
 
         [JsonProperty("premium_since")]
         public Optional<DateTimeOffset?> PremiumSince;
@@ -27,6 +27,9 @@ namespace Disqord.Models
         public bool Mute;
 
         [JsonProperty("pending")]
-        public bool Pending;
+        public Optional<bool> Pending;
+
+        [JsonProperty("permissions")]
+        public Optional<ulong> Permissions; // "returned when in the interaction object"
     }
 }
