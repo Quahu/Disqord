@@ -71,7 +71,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 }
 
                 shard.Logger.LogInformation("Left guild '{0}' ({1}).", guild.Name, guild.Id.RawValue);
-                return new LeftGuildEventArgs(guild);
+                return new LeftGuildEventArgs(model.Id, guild);
             }
         }
     }

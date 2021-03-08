@@ -5,17 +5,17 @@ namespace Disqord.Gateway
     public class ChannelPinsUpdatedEventArgs : EventArgs
     {
         /// <summary>
-        ///     The optional guild ID of this update.
+        ///     Gets the ID of the guild the pins were updated in.
         /// </summary>
         public Snowflake? GuildId { get; }
 
         /// <summary>
-        ///     The channel ID of this event.
+        ///     Gets the ID of the channel the pins were updated in.
         /// </summary>
         public Snowflake ChannelId { get; }
 
         /// <summary>
-        ///     Gets the channel of this update.
+        ///     Gets the channel the pins were updated in.
         ///     Returns <see langword="null"/> if the channel was not cached.
         /// </summary>
         public CachedTextChannel Channel { get; }

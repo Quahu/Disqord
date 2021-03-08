@@ -10,7 +10,7 @@ namespace Disqord.Gateway
         public Snowflake GuildId { get; }
 
         /// <summary>
-        ///     Gets the ID of the role which was deleted.
+        ///     Gets the ID of the deleted role.
         /// </summary>
         public Snowflake RoleId { get; }
 

@@ -36,7 +36,13 @@ namespace Disqord.Gateway
         /// </summary>
         public IEmoji Emoji { get; }
 
-        public ReactionRemovedEventArgs(Snowflake userId, Snowflake channelId, Snowflake messageId, CachedUserMessage message, Snowflake? guildId, IEmoji emoji)
+        public ReactionRemovedEventArgs(
+            Snowflake userId,
+            Snowflake channelId,
+            Snowflake messageId,
+            CachedUserMessage message,
+            Snowflake? guildId,
+            IEmoji emoji)
         {
             UserId = userId;
             ChannelId = channelId;

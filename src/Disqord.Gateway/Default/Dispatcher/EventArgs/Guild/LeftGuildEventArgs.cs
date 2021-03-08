@@ -4,13 +4,20 @@ namespace Disqord.Gateway
 {
     public class LeftGuildEventArgs : EventArgs
     {
-        public IGatewayGuild Guild { get; }
+        /// <summary>
+        ///     Gets the ID of the guild the current user left.
+        /// </summary>
+        public Snowflake GuildId { get; }
 
-        public LeftGuildEventArgs(IGatewayGuild guild)
+        /// <summary>
+        ///     Gets the guild the current user left.
+        ///     Returns <see langword="null"/> if the guild was not cached.
+        /// </summary>
+        public CachedGuild Guild { get; }
+
+        public LeftGuildEventArgs(Snowflake guildId, CachedGuild guild)
         {
-            if (guild == null)
-                throw new ArgumentNullException(nameof(guild));
-
+            GuildId = guildId;
             Guild = guild;
         }
     }

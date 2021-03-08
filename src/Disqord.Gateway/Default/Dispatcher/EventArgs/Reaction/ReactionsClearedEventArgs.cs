@@ -39,7 +39,13 @@ namespace Disqord.Gateway
         /// </summary>
         public Optional<IReadOnlyDictionary<IEmoji, IReaction>> OldReactions { get; }
 
-        public ReactionsClearedEventArgs(Snowflake channelId, Snowflake messageId, CachedUserMessage message, Snowflake? guildId, IEmoji emoji, Optional<IReadOnlyDictionary<IEmoji, IReaction>> oldReactions)
+        public ReactionsClearedEventArgs(
+            Snowflake channelId, 
+            Snowflake messageId, 
+            CachedUserMessage message, 
+            Snowflake? guildId, 
+            IEmoji emoji, 
+            Optional<IReadOnlyDictionary<IEmoji, IReaction>> oldReactions)
         {
             ChannelId = channelId;
             MessageId = messageId;

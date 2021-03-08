@@ -10,6 +10,11 @@ namespace Disqord.Gateway
         public Snowflake GuildId => Role.GuildId;
 
         /// <summary>
+        ///     Gets the ID of the created role.
+        /// </summary>
+        public Snowflake RoleId => Role.Id;
+
+        /// <summary>
         ///     Gets the created role.
         /// </summary>
         public IRole Role { get; }

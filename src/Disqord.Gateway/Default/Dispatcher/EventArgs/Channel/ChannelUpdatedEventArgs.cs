@@ -5,6 +5,11 @@ namespace Disqord.Gateway
     public class ChannelUpdatedEventArgs : EventArgs
     {
         /// <summary>
+        ///     Gets the ID of the updated channel.
+        /// </summary>
+        public Snowflake ChannelId => NewChannel.Id;
+
+        /// <summary>
         ///     Gets the channel in the state before the update occurred.
         ///     Returns <see langword="null"/> if the channel was not cached.
         /// </summary>

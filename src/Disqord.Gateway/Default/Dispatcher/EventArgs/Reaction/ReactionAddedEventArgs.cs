@@ -42,7 +42,14 @@ namespace Disqord.Gateway
         /// </summary>
         public IEmoji Emoji { get; }
 
-        public ReactionAddedEventArgs(Snowflake userId, Snowflake channelId, Snowflake messageId, CachedUserMessage message, Snowflake? guildId, IMember member, IEmoji emoji)
+        public ReactionAddedEventArgs(
+            Snowflake userId,
+            Snowflake channelId,
+            Snowflake messageId,
+            CachedUserMessage message,
+            Snowflake? guildId,
+            IMember member,
+            IEmoji emoji)
         {
             UserId = userId;
             ChannelId = channelId;

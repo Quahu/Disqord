@@ -10,7 +10,7 @@ namespace Disqord.Gateway
         public Snowflake GuildId { get; }
 
         /// <summary>
-        ///     Gets the ID of the role which was updated.
+        ///     Gets the ID of the updated role.
         /// </summary>
         public Snowflake RoleId => NewRole.Id;
 
