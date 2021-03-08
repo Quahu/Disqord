@@ -8,5 +8,9 @@ namespace Disqord.Bot
         /// <inheritdoc/>
         public override Task RunAsync(CancellationToken stoppingToken)
             => _client.RunAsync(stoppingToken);
+
+        /// <inheritdoc/>
+        public override Task WaitUntilReadyAsync(CancellationToken cancellationToken)
+            => _client.WaitUntilReadyAsync(cancellationToken);
     }
 }

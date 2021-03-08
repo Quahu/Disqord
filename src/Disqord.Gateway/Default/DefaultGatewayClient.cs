@@ -35,7 +35,6 @@ namespace Disqord.Gateway.Default
             CacheProvider = cacheProvider;
             CacheProvider.Bind(this);
             Dispatcher = dispatcher;
-            Dispatcher.Bind(this);
 
             if (apiClient != null)
             {
@@ -51,6 +50,8 @@ namespace Disqord.Gateway.Default
             {
                 Shards = new SynchronizedDictionary<ShardId, IGatewayApiClient>();
             }
+
+            Dispatcher.Bind(this);
         }
 
         public DefaultGatewayClient(

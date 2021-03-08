@@ -15,15 +15,26 @@ namespace Disqord.Gateway.Default.Dispatcher
     {
         public CachedCurrentUser CurrentUser { get; private set; }
 
-        public ISynchronizedDictionary<ShardId, ISynchronizedDictionary<Snowflake, bool>> PendingGuilds { get; private set; }
+        public ISynchronizedDictionary<ShardId, ISynchronizedDictionary<Snowflake, bool>> PendingGuilds { get; }
+
+        public ISynchronizedDictionary<ShardId, Tcs> InitialReadys { get; }
 
         private readonly ISynchronizedDictionary<ShardId, DelayToken> _delays;
 
         public ReadyHandler()
         {
             PendingGuilds = new SynchronizedDictionary<ShardId, ISynchronizedDictionary<Snowflake, bool>>();
+            InitialReadys = new SynchronizedDictionary<ShardId, Tcs>();
 
             _delays = new SynchronizedDictionary<ShardId, DelayToken>();
+        }
+
+        public override void Bind(DefaultGatewayDispatcher value)
+        {
+            base.Bind(value);
+
+            foreach (var id in Client.Shards.Keys)
+                InitialReadys.Add(id, new Tcs());
         }
 
         public override async Task<ReadyEventArgs> HandleDispatchAsync(IGatewayApiClient shard, ReadyJsonModel model)
@@ -53,12 +64,13 @@ namespace Disqord.Gateway.Default.Dispatcher
             var delayMode = Dispatcher.ReadyEventDelayMode;
             if (delayMode == ReadyEventDelayMode.None || guildIds.Length == 0)
             {
+                InitialReadys[shard.Id].Complete();
                 shard.Logger.LogInformation("Ready as {0} with {1} pending guilds.", CurrentUser.Tag, guildIds.Length);
                 return e;
             }
 
-            shard.Logger.LogInformation("Identified as {0} with {1} pending guilds. Ready delay mode: {2}.", CurrentUser.Tag, guildIds.Length, Dispatcher.ReadyEventDelayMode);
             _ = DelayReadyAsync(shard, e);
+            shard.Logger.LogInformation("Identified as {0} with {1} pending guilds. Ready delay mode: {2}.", CurrentUser.Tag, guildIds.Length, Dispatcher.ReadyEventDelayMode);
             return null;
         }
 
@@ -94,6 +106,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             {
                 // If a disconnection happened cancel the already existing delay.
                 delay.Tcs.Cancel();
+                shard.Logger.LogWarning("The ready delay was overwritten by a new session.");
             }
 
             var sw = Stopwatch.StartNew();
@@ -117,13 +130,12 @@ namespace Disqord.Gateway.Default.Dispatcher
 
                         // TODO: some chunking design
                     }
+
+                    if (InitialReadys.TryGetValue(shard.Id, out var readyTcs))
+                        readyTcs.Complete();
                 }
-                catch (OperationCanceledException ex) when (ex.CancellationToken != default && ex.CancellationToken == shard.StoppingToken)
-                { }
                 catch (OperationCanceledException)
-                {
-                    shard.Logger.LogWarning("The ready delay was cancelled by a new session.");
-                }
+                { }
             }
         }
 

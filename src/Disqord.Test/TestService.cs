@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Disqord.Gateway;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Disqord.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -11,21 +11,14 @@ namespace Disqord.Test
             ILogger<TestService> logger,
             DiscordClientBase client)
             : base(logger, client)
-        {
-            client.GuildAvailable += GuildAvailableAsync;
-            client.Ready += ReadyAsync;
-        }
+        { }
 
-        private Task GuildAvailableAsync(object sender, GuildAvailableEventArgs e)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            Logger.LogInformation("guild available fired");
-            return Task.CompletedTask;
-        }
+            await Client.WaitUntilReadyAsync(stoppingToken);
+            Logger.LogInformation("Client says it's ready which is really cool.");
 
-        private Task ReadyAsync(object sender, ReadyEventArgs e)
-        {
-            Logger.LogInformation("ready fired");
-            return Task.CompletedTask;
+            // write cache-dependent code here
         }
     }
 }

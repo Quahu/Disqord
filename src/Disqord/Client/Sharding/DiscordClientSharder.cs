@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
 using Disqord.Gateway;
 using Disqord.Gateway.Api;
+using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Default;
 using Disqord.Gateway.Default.Dispatcher;
 using Disqord.Rest;
@@ -19,11 +20,14 @@ namespace Disqord.Sharding
     // TODO: interface? shard states, management?
     public class DiscordClientSharder : DiscordClientBase
     {
+        private Dictionary<ShardId, IServiceScope> _scopes;
+
         private readonly int? _configuredShardCount;
         private readonly ShardId[] _configuredShardIds;
         private readonly IShardFactory _shardFactory;
         private readonly IServiceProvider _services;
-        private Dictionary<ShardId, IServiceScope> _scopes;
+
+        private readonly Tcs _initialReadyTcs;
 
         public DiscordClientSharder(
             IOptions<DiscordClientSharderConfiguration> options,
@@ -38,7 +42,7 @@ namespace Disqord.Sharding
             if (GatewayClient.Shards is not ISynchronizedDictionary<ShardId, IGatewayApiClient>)
                 throw new InvalidOperationException("The gateway client instance is expected to return a synchronized dictionary of shards.");
 
-            if (GatewayClient.Dispatcher is not DefaultGatewayDispatcher)
+            if (GatewayClient.Dispatcher is not DefaultGatewayDispatcher dispatcher || dispatcher["READY"] is not ReadyHandler)
                 throw new InvalidOperationException("The gateway dispatcher must be the default implementation.");
 
             var configuration = options.Value;
@@ -46,6 +50,8 @@ namespace Disqord.Sharding
             _configuredShardIds = configuration.ShardIds?.ToArray();
             _shardFactory = shardFactory;
             _services = services;
+
+            _initialReadyTcs = new Tcs();
         }
 
         public override async Task RunAsync(CancellationToken stoppingToken)
@@ -80,6 +86,9 @@ namespace Disqord.Sharding
 
             Logger.LogInformation("This sharder will manage {0} shards with IDs: {1}", shardIds.Count, shardIds.Select(x => x.Id));
             var shards = GatewayClient.Shards as ISynchronizedDictionary<ShardId, IGatewayApiClient>;
+            var dispatcher = GatewayClient.Dispatcher as DefaultGatewayDispatcher;
+            var originalReadyHandler = dispatcher["READY"] as ReadyHandler;
+            originalReadyHandler.InitialReadys.Clear();
 
             // We create a service scope and a shard for every
             // shard ID this sharder is supposed to manage.
@@ -88,10 +97,11 @@ namespace Disqord.Sharding
                 var scope = _services.CreateScope();
                 _scopes.Add(id, scope);
                 shards.Add(id, _shardFactory.Create(id, scope.ServiceProvider));
+
+                originalReadyHandler.InitialReadys.Add(id, new Tcs());
             }
 
-            var dispatcher = GatewayClient.Dispatcher as DefaultGatewayDispatcher;
-            var originalReadyHandler = dispatcher["READY"] as ReadyHandler;
+            _initialReadyTcs.Complete();
 
             // These two locals will be reused via the closure below.
             Tcs readyTcs = null;
@@ -162,6 +172,35 @@ namespace Disqord.Sharding
                 linkedCts.Cancel();
                 throw;
             }
+        }
+
+        public override async Task WaitUntilReadyAsync(CancellationToken cancellationToken)
+        {
+            var tcs = new Tcs();
+            static void CancellationCallback(object tuple)
+            {
+                var (tcs, token) = (ValueTuple<Tcs, CancellationToken>) tuple;
+                tcs.Cancel(token);
+            }
+
+            using (var reg = cancellationToken.UnsafeRegister(CancellationCallback, (tcs, cancellationToken)))
+            {
+                await Task.WhenAny(InternalWaitUntilReadyAsync(), tcs.Task).ConfigureAwait(false);
+            }
+        }
+
+        private async Task InternalWaitUntilReadyAsync()
+        {
+            // Waits for RunAsync() to populate the TCS dictionary.
+            await _initialReadyTcs.Task.ConfigureAwait(false);
+
+            var dispatcher = GatewayClient.Dispatcher as DefaultGatewayDispatcher;
+            var handler = dispatcher["READY"];
+            var readyHandler = handler is InterceptingHandler<ReadyJsonModel, ReadyEventArgs> interceptingHandler
+                ? interceptingHandler.Handler as ReadyHandler
+                : handler as ReadyHandler;
+
+            await Task.WhenAll(readyHandler.InitialReadys.Values.Select(x => x.Task)).ConfigureAwait(false);
         }
     }
 }

@@ -8,6 +8,7 @@ using Disqord.Gateway;
 using Disqord.Gateway.Api;
 using Disqord.Rest;
 using Disqord.Rest.Api;
+using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 
 namespace Disqord
@@ -101,6 +102,15 @@ namespace Disqord
         ///     A <see cref="Task"/> representing the work.
         /// </returns>
         public abstract Task RunAsync(CancellationToken stoppingToken);
+
+        /// <summary>
+        ///     Waits until this client is ready, respecting the configured <see cref="ReadyEventDelayMode"/>.
+        /// </summary>
+        /// <param name="cancellation"> The token to observe for cancellation. </param>
+        /// <returns>
+        ///     A <see cref="Task"/> that completes when this client is ready.
+        /// </returns>
+        public abstract Task WaitUntilReadyAsync(CancellationToken cancellationToken);
 
         /// <inheritdoc/>
         public void Dispose()

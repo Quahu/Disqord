@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
 using Disqord.Gateway.Api;
+using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Default.Dispatcher;
 using Disqord.Models;
 using Disqord.Serialization.Json.Default;
@@ -17,7 +18,20 @@ namespace Disqord.Gateway.Default
 
         public IGatewayClient Client => _binder.Value;
 
-        public ICurrentUser CurrentUser => (_handlers["READY"] as ReadyHandler)?.CurrentUser;
+        public ICurrentUser CurrentUser
+        {
+            get
+            {
+                var handler = _handlers["READY"];
+                if (handler is InterceptingHandler<ReadyJsonModel, ReadyEventArgs> interceptingHandler)
+                {
+                    // Accounts for the intercepted handler in the sharder.
+                    handler = interceptingHandler.Handler;
+                }
+
+                return (handler as ReadyHandler)?.CurrentUser;
+            }
+        }
 
         public ReadyEventDelayMode ReadyEventDelayMode { get; }
 
@@ -82,17 +96,21 @@ namespace Disqord.Gateway.Default
                 ["VOICE_SERVER_UPDATE"] = new VoiceServerUpdateHandler(),
             };
 
-            // The binding here is used so handler code knows when the handlers collection is populated.
-            // E.g. GUILD_CREATE and GUILD_DELETE then notify READY so it can delay the actual event invocation.
-            foreach (var handler in _handlers.Values)
-                handler.Bind(this);
-
             _binder = new Binder<IGatewayClient>(this, allowRebinding: true);
         }
 
         public void Bind(IGatewayClient value)
         {
+            var isRebind = _binder.IsBound;
             _binder.Bind(value);
+
+            if (!isRebind)
+            {
+                // The binding here is used so handler code knows when the handlers collection is populated.
+                // E.g. GUILD_CREATE and GUILD_DELETE then notify READY so it can delay the actual event invocation.
+                foreach (var handler in _handlers.Values)
+                    handler.Bind(this);
+            }
         }
 
         private bool _loggedUnknownWarning = false;
