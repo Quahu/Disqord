@@ -16,6 +16,11 @@ namespace Disqord.Bot
         public IPrefixProvider Prefixes { get; }
 
         /// <summary>
+        ///     Gets the command queue of this bot.
+        /// </summary>
+        public ICommandQueue Queue { get; }
+
+        /// <summary>
         ///     Gets the command service of this bot.
         /// </summary>
         public CommandService Commands { get; }
@@ -36,12 +41,14 @@ namespace Disqord.Bot
         protected DiscordBotBase(
             ILogger logger,
             IPrefixProvider prefixes,
+            ICommandQueue queue,
             CommandService commands,
             IServiceProvider services,
             DiscordClientBase client)
             : base(logger, client)
         {
             Prefixes = prefixes;
+            Queue = queue;
             Commands = commands;
             Services = services;
 

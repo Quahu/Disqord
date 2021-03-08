@@ -12,10 +12,11 @@ namespace Disqord.Bot.Sharding
             IOptions<DiscordBotSharderConfiguration> options,
             ILogger<DiscordBotSharder> logger,
             IPrefixProvider prefixes,
+            ICommandQueue queue,
             CommandService commands,
             IServiceProvider services,
             DiscordClientSharder client)
-            : base(logger, prefixes, commands, services, client)
+            : base(logger, prefixes, queue, commands, services, client)
         {
 
         }

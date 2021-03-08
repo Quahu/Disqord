@@ -11,10 +11,11 @@ namespace Disqord.Bot
             IOptions<DiscordBotConfiguration> options,
             ILogger<DiscordBot> logger,
             IPrefixProvider prefixes,
+            ICommandQueue queue,
             CommandService commands,
             IServiceProvider services,
             DiscordClient client)
-            : base(logger, prefixes, commands, services, client)
+            : base(logger, prefixes, queue, commands, services, client)
         {
 
         }

@@ -101,7 +101,12 @@ namespace Disqord.Bot
                 return;
             }
 
-            var result = await Commands.ExecuteAsync(output, context).ConfigureAwait(false);
+            Queue.Post(output, context, static (input, context) => context.Bot.ExecuteAsync(input, context));
+        }
+
+        public async Task ExecuteAsync(string input, DiscordCommandContext context)
+        {
+            var result = await Commands.ExecuteAsync(input, context).ConfigureAwait(false);
             if (result is not FailedResult failedResult)
                 return;
 

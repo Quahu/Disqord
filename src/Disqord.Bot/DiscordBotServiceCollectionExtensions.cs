@@ -23,6 +23,7 @@ namespace Disqord.Bot
             }
 
             services.AddPrefixProvider();
+            services.AddCommandQueue();
             services.AddCommands();
 
             return services;
@@ -40,6 +41,18 @@ namespace Disqord.Bot
             if (services.TryAddSingleton<IPrefixProvider, DefaultPrefixProvider>())
             {
                 var options = services.AddOptions<DefaultPrefixProviderConfiguration>();
+                if (configure != null)
+                    options.Configure(configure);
+            }
+
+            return services;
+        }
+
+        public static IServiceCollection AddCommandQueue(this IServiceCollection services, Action<DefaultCommandQueueConfiguration> configure = null)
+        {
+            if (services.TryAddSingleton<ICommandQueue, DefaultCommandQueue>())
+            {
+                var options = services.AddOptions<DefaultCommandQueueConfiguration>();
                 if (configure != null)
                     options.Configure(configure);
             }

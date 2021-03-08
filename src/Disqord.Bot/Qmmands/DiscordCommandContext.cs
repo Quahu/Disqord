@@ -1,5 +1,6 @@
 ﻿using System;
 using Disqord.Gateway;
+using Disqord.Utilities.Threading;
 using Qmmands;
 
 namespace Disqord.Bot
@@ -18,6 +19,8 @@ namespace Disqord.Bot
 
         public virtual IUser Author => Message.Author;
 
+        internal Tcs YieldTcs;
+
         public DiscordCommandContext(
             DiscordBotBase bot,
             IPrefix prefix,
@@ -28,6 +31,16 @@ namespace Disqord.Bot
             Bot = bot;
             Prefix = prefix;
             Message = message;
+
+            YieldTcs = new Tcs();
+        }
+
+        /// <summary>
+        ///     Yields this command execution flow into the background.
+        /// </summary>
+        public void Yield()
+        {
+            YieldTcs.Complete();
         }
     }
 }
