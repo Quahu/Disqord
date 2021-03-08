@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Disqord.Rest.Api;
 using Disqord.Rest.Pagination;
 
 namespace Disqord.Rest
@@ -60,15 +59,24 @@ namespace Disqord.Rest
             }
 
             Current = await NextPageAsync(Current, options ?? Options).ConfigureAwait(false);
+            if (Current.Count == 0)
+            {
+                Remaining = 0;
+                Current = default;
+                return false;
+            }
+
             if (Current.Count < PageSize)
             {
                 // If Discord returns less entities than the page size,
                 // it means there are no more entities beyond the ones we just received.
                 Remaining = 0;
-                return false;
+            }
+            else
+            {
+                Remaining -= Current.Count;
             }
 
-            Remaining -= Current.Count;
             return true;
         }
 

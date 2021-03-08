@@ -270,7 +270,7 @@ namespace Disqord.Rest
 
             if (messages.Length <= 100)
             {
-                await client.DeleteMessagesAsync(channelId, messages, options).ConfigureAwait(false);
+                await client.InternalDeleteMessagesAsync(channelId, messages, options).ConfigureAwait(false);
                 return;
             }
 
