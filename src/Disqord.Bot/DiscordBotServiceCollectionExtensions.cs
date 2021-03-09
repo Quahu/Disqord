@@ -8,6 +8,17 @@ namespace Disqord.Bot
 {
     public static class DiscordBotServiceCollectionExtensions
     {
+        public static IServiceCollection AddDiscordBot(this IServiceCollection services, Action<DiscordBotConfiguration> configure = null)
+        {
+            services.AddDiscordBot<DiscordBot>();
+
+            var options = services.AddOptions<DiscordBotConfiguration>();
+            if (configure != null)
+                options.Configure(configure);
+
+            return services;
+        }
+
         public static IServiceCollection AddDiscordBot<TDiscordBot>(this IServiceCollection services)
             where TDiscordBot : DiscordBot
         {
@@ -15,30 +26,11 @@ namespace Disqord.Bot
 
             if (services.TryAddSingleton<TDiscordBot>())
             {
-                services.TryAddSingleton<DiscordBot>(x => x.GetRequiredService<TDiscordBot>());
+                if (typeof(TDiscordBot) != typeof(DiscordBot))
+                    services.TryAddSingleton<DiscordBot>(x => x.GetRequiredService<TDiscordBot>());
+
                 services.TryAddSingleton<DiscordBotBase>(x => x.GetRequiredService<TDiscordBot>());
                 services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<DiscordBotBase>()));
-            }
-
-            services.AddPrefixProvider();
-            services.AddCommandQueue();
-            services.AddCommands();
-
-            return services;
-        }
-
-        public static IServiceCollection AddDiscordBot(this IServiceCollection services, Action<DiscordBotConfiguration> configure = null)
-        {
-            services.AddDiscordClient();
-
-            if (services.TryAddSingleton<DiscordBot>())
-            {
-                services.TryAddSingleton<DiscordBotBase>(x => x.GetRequiredService<DiscordBot>());
-                services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<DiscordBotBase>()));
-                services.AddOptions<DiscordBotConfiguration>();
-
-                if (configure != null)
-                    services.Configure(configure);
             }
 
             services.AddPrefixProvider();

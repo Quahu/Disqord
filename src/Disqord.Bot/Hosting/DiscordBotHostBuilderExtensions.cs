@@ -33,7 +33,8 @@ namespace Disqord.Bot.Hosting
         {
             services.ConfigureDiscordClient(context, discordContext);
 
-            if (!services.Any(x => x.ServiceType == typeof(IPrefixProvider)))
+            var hasDefaultPrefixProvider = services.Any(x => x.ImplementationType == typeof(DefaultPrefixProvider));
+            if (hasDefaultPrefixProvider || !services.Any(x => x.ServiceType == typeof(IPrefixProvider)))
             {
                 if (!discordContext.UseMentionPrefix && discordContext.Prefixes == null)
                     throw new InvalidOperationException($"No prefixes were specified and no {nameof(IPrefixProvider)} exists in services. Did you pass null prefixes by mistake?");
@@ -55,7 +56,14 @@ namespace Disqord.Bot.Hosting
                     prefixes.AddRange(discordContext.Prefixes.Select(x => new StringPrefix(x)));
                 }
 
-                services.AddPrefixProvider(x => x.Prefixes = prefixes);
+                if (hasDefaultPrefixProvider)
+                {
+                    services.Configure<DefaultPrefixProviderConfiguration>(x => x.Prefixes = prefixes);
+                }
+                else
+                {
+                    services.AddPrefixProvider(x => x.Prefixes = prefixes);
+                }
             }
         }
     }
