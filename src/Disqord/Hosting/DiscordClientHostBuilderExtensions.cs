@@ -18,6 +18,7 @@ namespace Disqord.Hosting
                 var discordContext = new DiscordClientHostingContext();
                 configure?.Invoke(context, discordContext);
 
+                services.AddDiscordClient();
                 services.ConfigureDiscordClient(context, discordContext);
             });
 
@@ -38,7 +39,6 @@ namespace Disqord.Hosting
 
             services.Configure<DefaultGatewayDispatcherConfiguration>(x => x.ReadyEventDelayMode = discordContext.ReadyEventDelayMode);
 
-            services.AddDiscordClient();
             services.AddHostedService<DiscordClientRunnerService>();
 
             // TODO: configuration, extra assemblies

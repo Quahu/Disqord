@@ -12,7 +12,7 @@ namespace Disqord.Gateway.Api.Default
         [Range(50, 250)]
         public virtual int LargeThreshold { get; set; } = 250;
 
-        public virtual ShardId Id { get; set; } = ShardId.None;
+        public virtual ShardId Id { get; set; } = ShardId.Default;
 
         public virtual UpdatePresenceJsonModel Presence { get; set; }
 

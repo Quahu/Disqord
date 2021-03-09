@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Disqord.DependencyInjection.Extensions;
+using Disqord.Gateway;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Default;
 using Disqord.Hosting;
+using Disqord.Rest;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -30,6 +32,24 @@ namespace Disqord.Sharding
         {
             services.ConfigureDiscordClient(context, discordContext);
 
+            if (services.TryAddSingleton<DiscordClientSharder>())
+            {
+                services.AddSingleton<DiscordClientBase>(x => x.GetRequiredService<DiscordClientSharder>());
+
+                services.AddDiscordApiClient();
+                services.AddGatewayClient();
+                services.AddRestClient();
+
+                if (discordContext is IDiscordClientSharderConfiguration sharderConfiguration)
+                {
+                    services.Configure<DiscordClientSharderConfiguration>(x =>
+                    {
+                        x.ShardCount = sharderConfiguration.ShardCount;
+                        x.ShardIds = sharderConfiguration.ShardIds;
+                    });
+                }
+            }
+
             var replacements = new Dictionary<Type, Type>
             {
                 [typeof(IGateway)] = typeof(DefaultGateway),
@@ -49,21 +69,6 @@ namespace Disqord.Sharding
                 if (replacements.TryGetValue(service.ServiceType, out var defaultType))
                 {
                     services[i] = ServiceDescriptor.Scoped(service.ServiceType, defaultType);
-                }
-            }
-
-            if (services.TryAddSingleton<DiscordClientSharder>())
-            {
-                services.Remove<DiscordClient>();
-                services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<DiscordClientSharder>()));
-
-                if (discordContext is IDiscordClientSharderConfiguration sharderConfiguration)
-                {
-                    services.Configure<DiscordClientSharderConfiguration>(x =>
-                    {
-                        x.ShardCount = sharderConfiguration.ShardCount;
-                        x.ShardIds = sharderConfiguration.ShardIds;
-                    });
                 }
             }
 

@@ -398,7 +398,7 @@ namespace Disqord.Gateway.Api.Default
                     },
                     Intents = Intents,
                     LargeThreshold = LargeThreshold,
-                    Shard = Id.Count != 0
+                    Shard = Id.Count > 1
                         ? new int[] { Id.Id, Id.Count }
                         : Optional<int[]>.Empty,
                     Presence = Presence

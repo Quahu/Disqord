@@ -11,12 +11,17 @@ namespace Disqord.Bot.Hosting
     public static class DiscordBotHostBuilderExtensions
     {
         public static IHostBuilder ConfigureDiscordBot(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext> configure = null)
+            => builder.ConfigureDiscordBot<DiscordBot>(configure);
+
+        public static IHostBuilder ConfigureDiscordBot<TDiscordBot>(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext> configure = null)
+            where TDiscordBot : DiscordBot
         {
             builder.ConfigureServices((context, services) =>
             {
                 var discordContext = new DiscordBotHostingContext();
                 configure?.Invoke(context, discordContext);
 
+                services.AddDiscordBot<TDiscordBot>();
                 services.ConfigureDiscordBot(context, discordContext);
             });
 
@@ -52,8 +57,6 @@ namespace Disqord.Bot.Hosting
 
                 services.AddPrefixProvider(x => x.Prefixes = prefixes);
             }
-
-            services.AddDiscordBot();
         }
     }
 }

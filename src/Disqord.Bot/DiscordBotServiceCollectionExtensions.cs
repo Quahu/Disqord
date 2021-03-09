@@ -8,6 +8,25 @@ namespace Disqord.Bot
 {
     public static class DiscordBotServiceCollectionExtensions
     {
+        public static IServiceCollection AddDiscordBot<TDiscordBot>(this IServiceCollection services)
+            where TDiscordBot : DiscordBot
+        {
+            services.AddDiscordClient();
+
+            if (services.TryAddSingleton<TDiscordBot>())
+            {
+                services.TryAddSingleton<DiscordBot>(x => x.GetRequiredService<TDiscordBot>());
+                services.TryAddSingleton<DiscordBotBase>(x => x.GetRequiredService<TDiscordBot>());
+                services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<DiscordBotBase>()));
+            }
+
+            services.AddPrefixProvider();
+            services.AddCommandQueue();
+            services.AddCommands();
+
+            return services;
+        }
+
         public static IServiceCollection AddDiscordBot(this IServiceCollection services, Action<DiscordBotConfiguration> configure = null)
         {
             services.AddDiscordClient();
