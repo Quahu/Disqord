@@ -185,7 +185,9 @@ namespace Disqord.Sharding
 
             using (var reg = cancellationToken.UnsafeRegister(CancellationCallback, (tcs, cancellationToken)))
             {
-                await Task.WhenAny(InternalWaitUntilReadyAsync(), tcs.Task).ConfigureAwait(false);
+                // TODO: do something on ready closure
+                var task = await Task.WhenAny(InternalWaitUntilReadyAsync(), tcs.Task).ConfigureAwait(false);
+                await task.ConfigureAwait(false);
             }
         }
 
