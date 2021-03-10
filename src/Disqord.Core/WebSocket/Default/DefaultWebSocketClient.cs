@@ -21,14 +21,14 @@ namespace Disqord.WebSocket.Default
             _ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(10);
         }
 
-        public ValueTask ConnectAsync(Uri uri, CancellationToken cancellationToken = default)
-            => new ValueTask(_ws.ConnectAsync(uri, cancellationToken));
+        public Task ConnectAsync(Uri uri, CancellationToken cancellationToken = default)
+            => _ws.ConnectAsync(uri, cancellationToken);
 
-        public ValueTask CloseAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default)
-            => new ValueTask(_ws.CloseAsync((WebSocketCloseStatus) closeStatus, closeMessage, cancellationToken));
+        public Task CloseAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default)
+            => _ws.CloseAsync((WebSocketCloseStatus) closeStatus, closeMessage, cancellationToken);
 
-        public ValueTask CloseOutputAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default)
-            => new ValueTask(_ws.CloseOutputAsync((WebSocketCloseStatus) closeStatus, closeMessage, cancellationToken));
+        public Task CloseOutputAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default)
+            => _ws.CloseOutputAsync((WebSocketCloseStatus) closeStatus, closeMessage, cancellationToken);
 
         public async ValueTask<WebSocketResult> ReceiveAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
         {

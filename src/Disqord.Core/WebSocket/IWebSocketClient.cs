@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.WebSocket.Default;
 
 namespace Disqord.WebSocket
 {
@@ -13,11 +12,11 @@ namespace Disqord.WebSocket
 
         string CloseMessage { get; }
 
-        ValueTask ConnectAsync(Uri uri, CancellationToken cancellationToken = default);
+        Task ConnectAsync(Uri uri, CancellationToken cancellationToken = default);
 
-        ValueTask CloseAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default);
+        Task CloseAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default);
 
-        ValueTask CloseOutputAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default);
+        Task CloseOutputAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default);
 
         ValueTask<WebSocketResult> ReceiveAsync(Memory<byte> buffer, CancellationToken cancellationToken = default);
 
