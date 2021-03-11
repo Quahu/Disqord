@@ -20,9 +20,6 @@ namespace Disqord.Bot.Hosting
                 var discordContext = new DiscordBotSharderHostingContext();
                 configure?.Invoke(context, discordContext);
 
-                services.AddPrefixProvider();
-                services.AddCommandQueue();
-                services.AddCommands();
                 services.ConfigureDiscordBot(context, discordContext);
                 services.ConfigureDiscordClientSharder(context, discordContext);
 

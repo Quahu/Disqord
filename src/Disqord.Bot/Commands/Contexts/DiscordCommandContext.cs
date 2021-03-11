@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Disqord.Gateway;
+using Disqord.Utilities;
 using Disqord.Utilities.Threading;
+using Microsoft.Extensions.DependencyInjection;
 using Qmmands;
 
 namespace Disqord.Bot
 {
-    public class DiscordCommandContext : CommandContext
+    /// <summary>
+    ///     Represents a Discord bot command context.
+    /// </summary>
+    public class DiscordCommandContext : CommandContext, IAsyncDisposable
     {
         public virtual DiscordBotBase Bot { get; }
 
@@ -21,6 +27,8 @@ namespace Disqord.Bot
 
         internal Tcs YieldTcs;
 
+        private readonly IServiceScope _serviceScope;
+
         public DiscordCommandContext(
             DiscordBotBase bot,
             IPrefix prefix,
@@ -35,6 +43,16 @@ namespace Disqord.Bot
             YieldTcs = new Tcs();
         }
 
+        public DiscordCommandContext(
+            DiscordBotBase bot,
+            IPrefix prefix,
+            IGatewayUserMessage message,
+            IServiceScope serviceScope)
+            : this(bot, prefix, message, serviceScope.ServiceProvider)
+        {
+            _serviceScope = serviceScope;
+        }
+
         /// <summary>
         ///     Yields this command execution flow into the background.
         /// </summary>
@@ -42,5 +60,8 @@ namespace Disqord.Bot
         {
             YieldTcs.Complete();
         }
+
+        public virtual ValueTask DisposeAsync()
+            => RuntimeDisposal.DisposeAsync(_serviceScope);
     }
 }

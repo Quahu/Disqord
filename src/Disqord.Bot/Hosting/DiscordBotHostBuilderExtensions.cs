@@ -65,6 +65,11 @@ namespace Disqord.Bot.Hosting
                     services.AddPrefixProvider(x => x.Prefixes = prefixes);
                 }
             }
+
+            services.AddPrefixProvider();
+            services.AddCommandQueue();
+            services.AddCommands();
+            services.AddCommandContextAccessor();
         }
     }
 }

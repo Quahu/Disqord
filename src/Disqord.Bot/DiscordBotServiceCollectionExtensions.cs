@@ -33,11 +33,6 @@ namespace Disqord.Bot
                 services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<DiscordBotBase>()));
             }
 
-            services.AddPrefixProvider();
-            services.AddCommandQueue();
-            services.AddCommands();
-            services.AddCommandContextAccessor();
-
             return services;
         }
 
