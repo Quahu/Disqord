@@ -36,6 +36,7 @@ namespace Disqord.Bot
             services.AddPrefixProvider();
             services.AddCommandQueue();
             services.AddCommands();
+            services.AddCommandContextAccessor();
 
             return services;
         }
@@ -84,6 +85,12 @@ namespace Disqord.Bot
                     services.Configure(configure);
             }
 
+            return services;
+        }
+
+        public static IServiceCollection AddCommandContextAccessor(this IServiceCollection services)
+        {
+            services.AddScoped<ICommandContextAccessor, DefaultCommandContextAccessor>();
             return services;
         }
     }
