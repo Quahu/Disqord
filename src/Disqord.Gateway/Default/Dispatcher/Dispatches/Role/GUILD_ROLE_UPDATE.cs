@@ -10,10 +10,10 @@ namespace Disqord.Gateway.Default.Dispatcher
         {
             CachedRole oldRole;
             IRole newRole;
-            if (CacheProvider.TryGetRoles(model.GuildId, out var cache))
+            if (CacheProvider.TryGetRoles(model.GuildId, out var cache) && cache.TryGetValue(model.Role.Id, out var role))
             {
-                newRole = cache.GetValueOrDefault(model.Role.Id);
-                oldRole = (newRole as CachedRole).Clone() as CachedRole;
+                newRole = role;
+                oldRole = role?.Clone() as CachedRole;
                 newRole.Update(model.Role);
             }
             else

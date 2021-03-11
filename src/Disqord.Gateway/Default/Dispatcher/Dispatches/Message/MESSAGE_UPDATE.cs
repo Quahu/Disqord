@@ -9,19 +9,19 @@ namespace Disqord.Gateway.Default.Dispatcher
         public override async Task<MessageUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageUpdateJsonModel model)
         {
             CachedUserMessage oldMessage;
-            CachedUserMessage message;
-            if (CacheProvider.TryGetMessages(model.ChannelId, out var cache) && cache.TryGetValue(model.Id, out message))
+            CachedUserMessage newMessage;
+            if (CacheProvider.TryGetMessages(model.ChannelId, out var cache) && cache.TryGetValue(model.Id, out newMessage))
             {
-                oldMessage = (CachedUserMessage) message.Clone();
-                message.Update(model);
+                oldMessage = newMessage.Clone() as CachedUserMessage;
+                newMessage.Update(model);
             }
             else
             {
                 oldMessage = null;
-                message = null;
+                newMessage = null;
             }
 
-            return new MessageUpdatedEventArgs(oldMessage, message, model);
+            return new MessageUpdatedEventArgs(oldMessage, newMessage, model);
         }
     }
 }

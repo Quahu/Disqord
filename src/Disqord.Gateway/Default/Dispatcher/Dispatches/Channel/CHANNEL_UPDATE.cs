@@ -13,10 +13,10 @@ namespace Disqord.Gateway.Default.Dispatcher
 
             CachedGuildChannel oldChannel;
             IGuildChannel newChannel;
-            if (CacheProvider.TryGetChannels(model.GuildId.Value, out var cache))
+            if (CacheProvider.TryGetChannels(model.GuildId.Value, out var cache) && cache.TryGetValue(model.Id, out var channel))
             {
-                newChannel = cache.GetValueOrDefault(model.Id);
-                oldChannel = (newChannel as CachedGuildChannel).Clone() as CachedGuildChannel;
+                newChannel = channel;
+                oldChannel = channel?.Clone() as CachedGuildChannel;
                 newChannel.Update(model);
             }
             else
