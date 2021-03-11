@@ -7,10 +7,19 @@ using Microsoft.Extensions.Options;
 
 namespace Disqord.Bot
 {
+    /// <summary>
+    ///     Represents the default implementation of an <see cref="ICommandQueue"/>.
+    ///     Handles command execution based on the set degree of parallelism.
+    /// </summary>
     public class DefaultCommandQueue : ICommandQueue
     {
+        /// <inheritdoc/>
         public DiscordBotBase Bot => _binder.Value;
 
+        /// <summary>
+        ///     Gets the degree of parallelism of this queue,
+        ///     i.e. the amount of parallel command executions per-bucket.
+        /// </summary>
         public int DegreeOfParallelism { get; }
 
         private Bucket _privateBucket;
@@ -18,6 +27,10 @@ namespace Disqord.Bot
 
         private readonly Binder<DiscordBotBase> _binder;
 
+        /// <summary>
+        ///     Instantiates a new <see cref="DefaultCommandQueue"/>.
+        /// </summary>
+        /// <param name="options"> The options instance. </param>
         public DefaultCommandQueue(
             IOptions<DefaultCommandQueueConfiguration> options)
         {
@@ -29,6 +42,7 @@ namespace Disqord.Bot
             _binder = new Binder<DiscordBotBase>(this);
         }
 
+        /// <inheritdoc/>
         public void Bind(DiscordBotBase value)
         {
             _binder.Bind(value);
@@ -44,6 +58,7 @@ namespace Disqord.Bot
             return Task.CompletedTask;
         }
 
+        /// <inheritdoc/>
         public void Post(string input, DiscordCommandContext context, CommandQueueDelegate func)
         {
             Bucket kamaji;
