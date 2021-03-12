@@ -51,6 +51,12 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
         public PagedMenu(Snowflake userId, IPageProvider pageProvider, bool addDefaultButtons = true)
         {
+            if (pageProvider == null)
+                throw new ArgumentNullException(nameof(pageProvider));
+
+            if (pageProvider.PageCount == 0)
+                throw new ArgumentException("The page provider must contain at least a single page.", nameof(pageProvider));
+            
             UserId = userId;
             PageProvider = pageProvider;
 
