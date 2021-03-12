@@ -20,7 +20,7 @@ namespace Disqord.Gateway
 
         public NitroType? NitroType { get; private set; }
 
-        public CachedCurrentUser(ICachedSharedUser sharedUser, UserJsonModel model)
+        public CachedCurrentUser(CachedSharedUser sharedUser, UserJsonModel model)
             : base(sharedUser)
         {
             Update(model);

@@ -16,7 +16,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             if (CacheProvider.TryGetChannels(model.GuildId.Value, out var cache) && cache.TryGetValue(model.Id, out var channel))
             {
                 newChannel = channel;
-                oldChannel = channel?.Clone() as CachedGuildChannel;
+                oldChannel = channel.Clone() as CachedGuildChannel;
                 newChannel.Update(model);
             }
             else

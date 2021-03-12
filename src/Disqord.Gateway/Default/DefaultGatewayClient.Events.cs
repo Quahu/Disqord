@@ -2,7 +2,7 @@ using Disqord.Events;
 
 namespace Disqord.Gateway.Default
 {
-    public partial class DefaultGatewayClient : IGatewayClient
+    public partial class DefaultGatewayClient
     {
         public event AsynchronousEventHandler<ReadyEventArgs> Ready
         {
@@ -71,6 +71,27 @@ namespace Disqord.Gateway.Default
         {
             add => Dispatcher.BanCreatedEvent.Hook(value);
             remove => Dispatcher.BanCreatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<MemberJoinedEventArgs> MemberJoined
+        {
+            add => Dispatcher.MemberJoinedEvent.Hook(value);
+            remove => Dispatcher.MemberJoinedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<MemberUpdatedEventArgs> MemberUpdated
+        {
+            add => Dispatcher.MemberUpdatedEvent.Hook(value);
+            remove => Dispatcher.MemberUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<MemberLeftEventArgs> MemberLeft
+        {
+            add => Dispatcher.MemberLeftEvent.Hook(value);
+            remove => Dispatcher.MemberLeftEvent.Unhook(value);
         }
 
         /// <inheritdoc/>

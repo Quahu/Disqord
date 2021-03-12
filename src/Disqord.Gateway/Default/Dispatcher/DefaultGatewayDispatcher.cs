@@ -74,6 +74,10 @@ namespace Disqord.Gateway.Default
                 ["GUILD_BAN_ADD"] = new GuildBanAddHandler(),
                 ["GUILD_BAN_REMOVE"] = new GuildBanRemoveHandler(),
 
+                ["GUILD_MEMBER_ADD"] = new GuildMemberAddHandler(),
+                ["GUILD_MEMBER_UPDATE"] = new GuildMemberUpdateHandler(),
+                ["GUILD_MEMBER_REMOVE"] = new GuildMemberRemoveHandler(),
+
                 ["GUILD_MEMBERS_CHUNK"] = new GuildMembersChunkHandler(),
 
                 ["GUILD_ROLE_CREATE"] = new GuildRoleCreateHandler(),
@@ -92,7 +96,7 @@ namespace Disqord.Gateway.Default
                 ["TYPING_START"] = new TypingStartHandler(),
 
                 ["USER_UPDATE"] = new UserUpdateHandler(),
-                
+
                 ["VOICE_STATE_UPDATE"] = new VoiceStateUpdateHandler(),
 
                 ["VOICE_SERVER_UPDATE"] = new VoiceServerUpdateHandler(),
@@ -149,8 +153,8 @@ namespace Disqord.Gateway.Default
                 return Task.CompletedTask;
 
             shard.Logger.LogWarning(_loggedUnknownWarning
-                ? "Received an unknown dispatch {0}. Payload:\n{1}"
-                : "Received an unknown dispatch {0}. This message will only appear once for each unknown dispatch. Payload:\n{1}",
+                    ? "Received an unknown dispatch {0}. Payload:\n{1}"
+                    : "Received an unknown dispatch {0}. This message will only appear once for each unknown dispatch. Payload:\n{1}",
                 e.Name, (e.Data as DefaultJsonToken)?.ToIndentedString() ?? e.Data.ToString());
 
             if (!_loggedUnknownWarning)

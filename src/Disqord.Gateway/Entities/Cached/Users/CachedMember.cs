@@ -26,7 +26,7 @@ namespace Disqord.Gateway
 
         public override string Mention => Utilities.Mention.User(this);
 
-        public CachedMember(ICachedSharedUser sharedUser, Snowflake guildId, MemberJsonModel model)
+        public CachedMember(CachedSharedUser sharedUser, Snowflake guildId, MemberJsonModel model)
             : base(sharedUser)
         {
             GuildId = guildId;

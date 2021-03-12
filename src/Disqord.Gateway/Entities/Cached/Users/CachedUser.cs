@@ -21,13 +21,13 @@ namespace Disqord.Gateway
         public string Tag => $"{Name}#{Discriminator}";
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public ICachedSharedUser SharedUser
+        public CachedSharedUser SharedUser
         {
             get
             {
                 if (_sharedUser == null)
                 {
-                    if (this is ICachedSharedUser sharedUser)
+                    if (this is CachedSharedUser sharedUser)
                         return sharedUser;
 
                     throw new InvalidOperationException("This user has no shared user attached to it.");
@@ -35,15 +35,16 @@ namespace Disqord.Gateway
 
                 return _sharedUser;
             }
+            internal set => _sharedUser = value;
         }
 
-        private readonly ICachedSharedUser _sharedUser;
+        private CachedSharedUser _sharedUser;
 
         /// <summary>
         ///     Instantiates a new user from the provided <see cref="ICachedSharedUser"/>.
         /// </summary>
         /// <param name="sharedUser"></param>
-        protected CachedUser(ICachedSharedUser sharedUser)
+        protected CachedUser(CachedSharedUser sharedUser)
             : base(sharedUser.Client, sharedUser.Id)
         {
             _sharedUser = sharedUser;

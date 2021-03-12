@@ -82,6 +82,27 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<MemberJoinedEventArgs> MemberJoined
+        {
+            add => GatewayClient.MemberJoined += value;
+            remove => GatewayClient.MemberJoined -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<MemberUpdatedEventArgs> MemberUpdated
+        {
+            add => GatewayClient.MemberUpdated += value;
+            remove => GatewayClient.MemberUpdated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<MemberLeftEventArgs> MemberLeft
+        {
+            add => GatewayClient.MemberLeft += value;
+            remove => GatewayClient.MemberLeft -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<RoleCreatedEventArgs> RoleCreated
         {
             add => GatewayClient.RoleCreated += value;
