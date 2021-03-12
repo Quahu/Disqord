@@ -25,10 +25,10 @@ namespace Disqord.Gateway.Default.Dispatcher
             _func = func;
         }
 
-        public override async Task<TEventArgs> HandleDispatchAsync(IGatewayApiClient shard, TModel model)
+        public override ValueTask<TEventArgs> HandleDispatchAsync(IGatewayApiClient shard, TModel model)
         {
             _func(shard, model);
-            return await Handler.HandleDispatchAsync(shard, model).ConfigureAwait(false);
+            return Handler.HandleDispatchAsync(shard, model);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             base.Bind(value);
         }
 
-        public override async Task<EventArgs> HandleDispatchAsync(IGatewayApiClient shard, GatewayGuildJsonModel model)
+        public override async ValueTask<EventArgs> HandleDispatchAsync(IGatewayApiClient shard, GatewayGuildJsonModel model)
         {
             IGatewayGuild guild = null;
             // Check if the event is guild availability or we joined a new guild.
@@ -25,36 +25,75 @@ namespace Disqord.Gateway.Default.Dispatcher
             {
                 // A guild became available.
                 var isPending = _readyHandler.IsPendingGuild(shard.Id, model.Id);
-                if (CacheProvider.TryGetGuilds(out var cache))
+                try
+                {
+                    if (CacheProvider.TryGetGuilds(out var guildCache))
+                    {
+                        if (isPending)
+                        {
+                            guild = new CachedGuild(Client, model);
+                            guildCache.Add(model.Id, guild as CachedGuild);
+                        }
+                        else
+                        {
+                            guild = guildCache.GetValueOrDefault(model.Id);
+                            guild?.Update(model);
+                        }
+                    }
+
+                    if (guild == null)
+                        guild = new GatewayTransientGuild(Client, model);
+
+                    if (CacheProvider.TryGetChannels(model.Id, out var channelCache))
+                    {
+                        foreach (var channelModel in model.Channels)
+                        {
+                            if (isPending)
+                            {
+                                var channel = CachedGuildChannel.Create(Client, model.Id, channelModel);
+                                channelCache.Add(channel.Id, channel);
+                            }
+                            else
+                            {
+                                var channel = channelCache.GetValueOrDefault(channelModel.Id);
+                                channel?.Update(channelModel);
+                            }
+                        }
+                    }
+
+                    if (CacheProvider.TryGetRoles(model.Id, out var roleCache))
+                    {
+                        foreach (var roleModel in model.Roles)
+                        {
+                            if (isPending)
+                            {
+                                var role = new CachedRole(Client, model.Id, roleModel);
+                                roleCache.Add(role.Id, role);
+                            }
+                            else
+                            {
+                                var role = roleCache.GetValueOrDefault(roleModel.Id);
+                                role?.Update(roleModel);
+                            }
+                        }
+                    }
+
+                    var logLevel = isPending
+                        ? LogLevel.Debug
+                        : LogLevel.Information;
+                    var message = isPending
+                        ? "Pending guild {0} ({1}) is available."
+                        : "Guild {0} ({1}) became available.";
+                    shard.Logger.Log(logLevel, message, guild.Name, guild.Id.RawValue);
+
+                    //  Invoke the event and possibly invoke ready afterwards.
+                    await InvokeEventAsync(new GuildAvailableEventArgs(guild)).ConfigureAwait(false);
+                }
+                finally
                 {
                     if (isPending)
-                    {
-                        guild = new CachedGuild(Client, model);
-                        cache.Add(model.Id, guild as CachedGuild);
-                    }
-                    else
-                    {
-                        guild = cache.GetValueOrDefault(model.Id);
-                        guild?.Update(model);
-                    }
+                        _readyHandler.PopPendingGuild(shard.Id, model.Id);
                 }
-
-                if (guild == null)
-                    guild = new GatewayTransientGuild(Client, model);
-
-                var logLevel = isPending
-                    ? LogLevel.Debug
-                    : LogLevel.Information;
-                var message = isPending
-                    ? "Pending guild {0} ({1}) is available."
-                    : "Guild {0} ({1}) became available.";
-                shard.Logger.Log(logLevel, message, guild.Name, guild.Id.RawValue);
-
-                //  Invoke the event and possibly invoke ready afterwards.
-                await InvokeEventAsync(new GuildAvailableEventArgs(guild)).ConfigureAwait(false);
-
-                if (isPending)
-                    _readyHandler.PopPendingGuild(shard.Id, model.Id);
 
                 return null;
             }
@@ -69,6 +108,24 @@ namespace Disqord.Gateway.Default.Dispatcher
                 else
                 {
                     guild = new GatewayTransientGuild(Client, model);
+                }
+
+                if (CacheProvider.TryGetChannels(model.Id, out var channelCache))
+                {
+                    foreach (var channelModel in model.Channels)
+                    {
+                        var channel = CachedGuildChannel.Create(Client, model.Id, channelModel);
+                        channelCache.Add(channel.Id, channel);
+                    }
+                }
+
+                if (CacheProvider.TryGetRoles(model.Id, out var roleCache))
+                {
+                    foreach (var roleModel in model.Roles)
+                    {
+                        var role = new CachedRole(Client, model.Id, roleModel);
+                        roleCache.Add(role.Id, role);
+                    }
                 }
 
                 shard.Logger.LogInformation("Joined guild {0} ({1}).", guild.Name, guild.Id.RawValue);

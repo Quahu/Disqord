@@ -6,10 +6,10 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class ChannelCreateHandler : Handler<ChannelJsonModel, ChannelCreatedEventArgs>
     {
-        public override async Task<ChannelCreatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, ChannelJsonModel model)
+        public override ValueTask<ChannelCreatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, ChannelJsonModel model)
         {
             if (!model.GuildId.HasValue)
-                return null;
+                return new(result: null);
 
             IGuildChannel channel;
             if (CacheProvider.TryGetChannels(model.GuildId.Value, out var cache))
@@ -22,7 +22,8 @@ namespace Disqord.Gateway.Default.Dispatcher
                 channel = TransientGuildChannel.Create(Client, model);
             }
 
-            return new ChannelCreatedEventArgs(channel);
+            var e = new ChannelCreatedEventArgs(channel);
+            return new(e);
         }
     }
 }

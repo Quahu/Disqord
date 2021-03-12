@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class GuildRoleDeleteHandler : Handler<GuildRoleDeleteJsonModel, RoleDeletedEventArgs>
     {
-        public override async Task<RoleDeletedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildRoleDeleteJsonModel model)
+        public override ValueTask<RoleDeletedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildRoleDeleteJsonModel model)
         {
             CachedRole role = null;
             if (CacheProvider.TryGetRoles(model.GuildId, out var cache))
@@ -14,7 +14,8 @@ namespace Disqord.Gateway.Default.Dispatcher
                 role = cache.GetValueOrDefault(model.RoleId);
             }
 
-            return new RoleDeletedEventArgs(model.GuildId, model.RoleId, role);
+            var e = new RoleDeletedEventArgs(model.GuildId, model.RoleId, role);
+            return new(e);
         }
     }
 }

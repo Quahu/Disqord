@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class ChannelPinsUpdateHandler : Handler<ChannelPinsUpdatedJsonModel, ChannelPinsUpdatedEventArgs>
     {
-        public override async Task<ChannelPinsUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, ChannelPinsUpdatedJsonModel model)
+        public override ValueTask<ChannelPinsUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, ChannelPinsUpdatedJsonModel model)
         {
             CachedTextChannel channel = null;
             if (model.GuildId.HasValue)
@@ -19,7 +19,8 @@ namespace Disqord.Gateway.Default.Dispatcher
                 }
             }
 
-            return new ChannelPinsUpdatedEventArgs(model.GuildId.GetValueOrNullable(), model.ChannelId, channel);
+            var e = new ChannelPinsUpdatedEventArgs(model.GuildId.GetValueOrNullable(), model.ChannelId, channel);
+            return new(e);
         }
     }
 }

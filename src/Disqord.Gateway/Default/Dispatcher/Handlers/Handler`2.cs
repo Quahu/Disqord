@@ -26,7 +26,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             await InvokeEventAsync(eventArgs).ConfigureAwait(false);
         }
 
-        public Task InvokeEventAsync(TEventArgs eventArgs)
+        protected Task InvokeEventAsync(TEventArgs eventArgs)
         {
             if (Event != null)
             {
@@ -43,6 +43,6 @@ namespace Disqord.Gateway.Default.Dispatcher
             }
         }
 
-        public abstract Task<TEventArgs> HandleDispatchAsync(IGatewayApiClient shard, TModel model);
+        public abstract ValueTask<TEventArgs> HandleDispatchAsync(IGatewayApiClient shard, TModel model);
     }
 }

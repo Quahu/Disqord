@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class GuildRoleUpdateHandler : Handler<GuildRoleUpdateJsonModel, RoleUpdatedEventArgs>
     {
-        public override async Task<RoleUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildRoleUpdateJsonModel model)
+        public override ValueTask<RoleUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildRoleUpdateJsonModel model)
         {
             CachedRole oldRole;
             IRole newRole;
@@ -22,7 +22,8 @@ namespace Disqord.Gateway.Default.Dispatcher
                 newRole = new TransientRole(Client, model.GuildId, model.Role);
             }
 
-            return new RoleUpdatedEventArgs(model.GuildId, oldRole, newRole);
+            var e = new RoleUpdatedEventArgs(model.GuildId, oldRole, newRole);
+            return new(e);
         }
     }
 }

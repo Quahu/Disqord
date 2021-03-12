@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class MessageReactionRemoveHandler : Handler<MessageReactionRemoveJsonModel, ReactionRemovedEventArgs>
     {
-        public override async Task<ReactionRemovedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionRemoveJsonModel model)
+        public override ValueTask<ReactionRemovedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionRemoveJsonModel model)
         {
             CachedUserMessage message;
             if (CacheProvider.TryGetMessages(model.ChannelId, out var messageCache))
@@ -19,7 +19,8 @@ namespace Disqord.Gateway.Default.Dispatcher
                 message = null;
             }
 
-            return new ReactionRemovedEventArgs(model.UserId, model.ChannelId, model.MessageId, message, model.GuildId.GetValueOrNullable(), Emoji.Create(model.Emoji));
+            var e = new ReactionRemovedEventArgs(model.UserId, model.ChannelId, model.MessageId, message, model.GuildId.GetValueOrNullable(), Emoji.Create(model.Emoji));
+            return new(e);
         }
     }
 }

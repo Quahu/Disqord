@@ -6,9 +6,10 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class VoiceServerUpdateHandler : Handler<VoiceServerUpdateJsonModel, VoiceServerUpdatedEventArgs>
     {
-        public override async Task<VoiceServerUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, VoiceServerUpdateJsonModel model)
+        public override ValueTask<VoiceServerUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, VoiceServerUpdateJsonModel model)
         {
-            return new VoiceServerUpdatedEventArgs(model.GuildId, model.Token, model.Endpoint);
+            var e = new VoiceServerUpdatedEventArgs(model.GuildId, model.Token, model.Endpoint);
+            return new(e);
         }
     }
 }

@@ -8,9 +8,9 @@ namespace Disqord.Gateway.Default.Dispatcher
     public sealed class RuntimeHandler<TModel> : Handler<TModel, EventArgs>
         where TModel : JsonModel
     {
-        private readonly Func<IGatewayApiClient, TModel, Task> _func;
+        private readonly Func<IGatewayApiClient, TModel, ValueTask> _func;
 
-        public RuntimeHandler(Func<IGatewayApiClient, TModel, Task> func)
+        public RuntimeHandler(Func<IGatewayApiClient, TModel, ValueTask> func)
         {
             if (func == null)
                 throw new ArgumentNullException(nameof(func));
@@ -18,7 +18,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             _func = func;
         }
 
-        public override async Task<EventArgs> HandleDispatchAsync(IGatewayApiClient shard, TModel model)
+        public override async ValueTask<EventArgs> HandleDispatchAsync(IGatewayApiClient shard, TModel model)
         {
             await _func(shard, model).ConfigureAwait(false);
             return null;

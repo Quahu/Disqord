@@ -37,7 +37,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 InitialReadys.Add(id, new Tcs());
         }
 
-        public override async Task<ReadyEventArgs> HandleDispatchAsync(IGatewayApiClient shard, ReadyJsonModel model)
+        public override ValueTask<ReadyEventArgs> HandleDispatchAsync(IGatewayApiClient shard, ReadyJsonModel model)
         {
             CacheProvider.Reset(shard.Id);
             var pendingGuilds = model.Guilds.ToDictionary(x => x.Id, x => !x.Unavailable.GetValueOrDefault()).Synchronized();
@@ -66,12 +66,12 @@ namespace Disqord.Gateway.Default.Dispatcher
             {
                 InitialReadys[shard.Id].Complete();
                 shard.Logger.LogInformation("Ready as {0} with {1} pending guilds.", CurrentUser.Tag, guildIds.Length);
-                return e;
+                return new(e);
             }
 
             _ = DelayReadyAsync(shard, e);
             shard.Logger.LogInformation("Identified as {0} with {1} pending guilds. Ready delay mode: {2}.", CurrentUser.Tag, guildIds.Length, Dispatcher.ReadyEventDelayMode);
-            return null;
+            return new(result: null);
         }
 
         public bool IsPendingGuild(ShardId shardId, Snowflake guildId)

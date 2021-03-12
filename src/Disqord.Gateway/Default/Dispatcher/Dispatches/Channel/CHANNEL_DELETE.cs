@@ -6,10 +6,10 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class ChannelDeleteHandler : Handler<ChannelJsonModel, ChannelDeletedEventArgs>
     {
-        public override async Task<ChannelDeletedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, ChannelJsonModel model)
+        public override ValueTask<ChannelDeletedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, ChannelJsonModel model)
         {
             if (!model.GuildId.HasValue)
-                return null;
+                return new(result: null);
 
             IGuildChannel channel;
             if (CacheProvider.TryGetChannels(model.GuildId.Value, out var cache) && cache.TryRemove(model.Id, out var cachedChannel))
@@ -24,7 +24,8 @@ namespace Disqord.Gateway.Default.Dispatcher
             //  Pass removed messages to e?
             CacheProvider.TryRemoveCache<CachedUserMessage>(model.Id, out _);
 
-            return new ChannelDeletedEventArgs(channel);
+            var e = new ChannelDeletedEventArgs(channel);
+            return new(e);
         }
     }
 }

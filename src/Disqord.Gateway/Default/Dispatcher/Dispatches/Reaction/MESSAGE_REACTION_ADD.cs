@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class MessageReactionAddHandler : Handler<MessageReactionAddJsonModel, ReactionAddedEventArgs>
     {
-        public override async Task<ReactionAddedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionAddJsonModel model)
+        public override ValueTask<ReactionAddedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionAddJsonModel model)
         {
             CachedUserMessage message;
             IMember member = null;
@@ -27,7 +27,8 @@ namespace Disqord.Gateway.Default.Dispatcher
                     member = new TransientMember(Client, model.GuildId.Value, model.Member.Value);
             }
 
-            return new ReactionAddedEventArgs(model.UserId, model.ChannelId, model.MessageId, message, model.GuildId.GetValueOrNullable(), member, Emoji.Create(model.Emoji));
+            var e = new ReactionAddedEventArgs(model.UserId, model.ChannelId, model.MessageId, message, model.GuildId.GetValueOrNullable(), member, Emoji.Create(model.Emoji));
+            return new(e);
         }
     }
 }

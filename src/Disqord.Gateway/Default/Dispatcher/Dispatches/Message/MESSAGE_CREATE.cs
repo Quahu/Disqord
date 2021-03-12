@@ -7,7 +7,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class MessageCreateHandler : Handler<MessageJsonModel, MessageReceivedEventArgs>
     {
-        public override async Task<MessageReceivedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageJsonModel model)
+        public override ValueTask<MessageReceivedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageJsonModel model)
         {
             CachedMember author = null;
             IGatewayMessage message = null;
@@ -36,7 +36,8 @@ namespace Disqord.Gateway.Default.Dispatcher
                 }
             }
 
-            return new MessageReceivedEventArgs(message, channel, author);
+            var e = new MessageReceivedEventArgs(message, channel, author);
+            return new(e);
         }
 
         private static bool IsUserMessage(MessageJsonModel model)

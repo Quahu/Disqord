@@ -12,16 +12,17 @@ namespace Disqord.Gateway.Default
         public override void Bind(DefaultGatewayDispatcher value)
         {
             _readyHandler = value["READY"] as ReadyHandler;
-            
+
             base.Bind(value);
         }
 
-        public override async Task<CurrentUserUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, UserJsonModel model)
+        public override ValueTask<CurrentUserUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, UserJsonModel model)
         {
             var newCurrentUser = _readyHandler.CurrentUser;
             var oldCurrentUser = newCurrentUser.Clone() as CachedCurrentUser;
             newCurrentUser.Update(model);
-            return new CurrentUserUpdatedEventArgs(oldCurrentUser, newCurrentUser);
+            var e = new CurrentUserUpdatedEventArgs(oldCurrentUser, newCurrentUser);
+            return new(e);
         }
     }
 }

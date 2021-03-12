@@ -7,7 +7,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class MessageReactionRemoveAllHandler : Handler<MessageReactionRemoveAllJsonModel, ReactionsClearedEventArgs>
     {
-        public override async Task<ReactionsClearedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionRemoveAllJsonModel model)
+        public override ValueTask<ReactionsClearedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionRemoveAllJsonModel model)
         {
             CachedUserMessage message;
             Optional<IReadOnlyDictionary<IEmoji, IReaction>> oldReactions;
@@ -23,7 +23,8 @@ namespace Disqord.Gateway.Default.Dispatcher
                 oldReactions = default;
             }
 
-            return new ReactionsClearedEventArgs(model.ChannelId, model.MessageId, message, model.GuildId.GetValueOrNullable(), null, oldReactions);
+            var e = new ReactionsClearedEventArgs(model.ChannelId, model.MessageId, message, model.GuildId.GetValueOrNullable(), null, oldReactions);
+            return new(e);
         }
     }
 }

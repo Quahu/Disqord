@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class MessageUpdateHandler : Handler<MessageUpdateJsonModel, MessageUpdatedEventArgs>
     {
-        public override async Task<MessageUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageUpdateJsonModel model)
+        public override ValueTask<MessageUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageUpdateJsonModel model)
         {
             CachedUserMessage oldMessage;
             CachedUserMessage newMessage;
@@ -21,7 +21,8 @@ namespace Disqord.Gateway.Default.Dispatcher
                 newMessage = null;
             }
 
-            return new MessageUpdatedEventArgs(oldMessage, newMessage, model);
+            var e = new MessageUpdatedEventArgs(oldMessage, newMessage, model);
+            return new(e);
         }
     }
 }
