@@ -4,8 +4,8 @@ namespace Disqord.Gateway
 {
     public class CachedCategoryChannel : CachedGuildChannel, ICategoryChannel
     {
-        public CachedCategoryChannel(IGatewayClient client, ChannelJsonModel model)
-            : base(client, model)
+        public CachedCategoryChannel(IGatewayClient client, Snowflake guildId, ChannelJsonModel model)
+            : base(client, guildId, model)
         { }
     }
 }

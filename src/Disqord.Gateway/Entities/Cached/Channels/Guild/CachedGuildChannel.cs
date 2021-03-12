@@ -12,10 +12,10 @@ namespace Disqord.Gateway
 
         public IReadOnlyList<IOverwrite> Overwrites { get; private set; }
 
-        public CachedGuildChannel(IGatewayClient client, ChannelJsonModel model)
+        public CachedGuildChannel(IGatewayClient client, Snowflake guildId, ChannelJsonModel model)
             : base(client, model)
         {
-            GuildId = model.GuildId.Value;
+            GuildId = guildId;
         }
 
         public override void Update(ChannelJsonModel model)
@@ -29,7 +29,7 @@ namespace Disqord.Gateway
                 Overwrites = model.PermissionOverwrites.Value.ToReadOnlyList(this, (x, @this) => new TransientOverwrite(@this.Client, @this.Id, x));
         }
 
-        public static new CachedGuildChannel Create(IGatewayClient client, ChannelJsonModel model)
+        public static new CachedGuildChannel Create(IGatewayClient client, Snowflake guildId, ChannelJsonModel model)
         {
             switch (model.Type)
             {
@@ -38,16 +38,16 @@ namespace Disqord.Gateway
                 case ChannelType.Store:
                 // TODO: threads
                 case ChannelType.Thread:
-                    return new CachedTextChannel(client, model);
+                    return new CachedTextChannel(client, guildId, model);
 
                 case ChannelType.Voice:
-                    return new CachedVoiceChannel(client, model);
+                    return new CachedVoiceChannel(client, guildId, model);
 
                 case ChannelType.Category:
-                    return new CachedCategoryChannel(client, model);
+                    return new CachedCategoryChannel(client, guildId, model);
             }
 
-            return new CachedUnknownGuildChannel(client, model);
+            return new CachedUnknownGuildChannel(client, guildId, model);
         }
     }
 }

@@ -9,8 +9,8 @@ namespace Disqord.Gateway
 
         public ChannelType Type { get; }
 
-        public CachedUnknownGuildChannel(IGatewayClient client, ChannelJsonModel model)
-            : base(client, model)
+        public CachedUnknownGuildChannel(IGatewayClient client, Snowflake guildId, ChannelJsonModel model)
+            : base(client, guildId, model)
         { }
 
         [EditorBrowsable(EditorBrowsableState.Never)]

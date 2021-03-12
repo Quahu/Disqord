@@ -8,8 +8,8 @@ namespace Disqord.Gateway
 
         public int Bitrate { get; private set; }
 
-        public CachedVoiceChannel(IGatewayClient client, ChannelJsonModel model)
-            : base(client, model)
+        public CachedVoiceChannel(IGatewayClient client, Snowflake guildId, ChannelJsonModel model)
+            : base(client, guildId, model)
         { }
     }
 }

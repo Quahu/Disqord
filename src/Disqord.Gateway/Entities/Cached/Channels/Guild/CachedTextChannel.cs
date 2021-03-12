@@ -28,8 +28,8 @@ namespace Disqord.Gateway
 
         public string Tag => $"#{Name}";
 
-        public CachedTextChannel(IGatewayClient client, ChannelJsonModel model)
-            : base(client, model)
+        public CachedTextChannel(IGatewayClient client, Snowflake guildId, ChannelJsonModel model)
+            : base(client, guildId, model)
         { }
 
         [EditorBrowsable(EditorBrowsableState.Never)]

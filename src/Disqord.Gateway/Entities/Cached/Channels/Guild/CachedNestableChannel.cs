@@ -7,8 +7,8 @@ namespace Disqord.Gateway
     {
         public Snowflake? CategoryId { get; private set; }
 
-        public CachedNestableChannel(IGatewayClient client, ChannelJsonModel model)
-            : base(client, model)
+        public CachedNestableChannel(IGatewayClient client, Snowflake guildId, ChannelJsonModel model)
+            : base(client, guildId, model)
         { }
 
         [EditorBrowsable(EditorBrowsableState.Never)]

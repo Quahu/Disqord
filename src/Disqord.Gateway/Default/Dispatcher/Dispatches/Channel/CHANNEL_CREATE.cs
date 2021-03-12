@@ -14,7 +14,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             IGuildChannel channel;
             if (CacheProvider.TryGetChannels(model.GuildId.Value, out var cache))
             {
-                channel = CachedGuildChannel.Create(Client, model);
+                channel = CachedGuildChannel.Create(Client, model.GuildId.Value, model);
                 cache.Add(channel.Id, channel as CachedGuildChannel);
             }
             else
