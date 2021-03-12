@@ -44,7 +44,7 @@ namespace Disqord.Gateway
             var client = member.GetGatewayClient();
             var roleIds = member.RoleIds;
             var roles = new Dictionary<Snowflake, CachedRole>(member.RoleIds.Count);
-            if (client.CacheProvider.TryGetRoles(member.GuildId, out var cache))
+            if (client.CacheProvider.TryGetRoles(member.GuildId, out var cache, true))
             {
                 for (var i = 0; i < roleIds.Count; i++)
                 {
