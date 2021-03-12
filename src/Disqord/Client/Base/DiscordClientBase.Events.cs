@@ -152,6 +152,13 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<CurrentUserUpdatedEventArgs> CurrentUserUpdated
+        {
+            add => GatewayClient.CurrentUserUpdated += value;
+            remove => GatewayClient.CurrentUserUpdated -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<VoiceStateUpdatedEventArgs> VoiceStateUpdated
         {
             add => GatewayClient.VoiceStateUpdated += value;

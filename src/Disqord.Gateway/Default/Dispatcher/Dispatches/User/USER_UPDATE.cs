@@ -1,14 +1,27 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway.Api;
+using Disqord.Gateway.Default.Dispatcher;
+using Disqord.Models;
 
 namespace Disqord.Gateway.Default
 {
-    public partial class DefaultGatewayDispatcher
+    public class UserUpdateHandler : Handler<UserJsonModel, CurrentUserUpdatedEventArgs>
     {
-        private Task UserUpdateAsync(GatewayDispatchReceivedEventArgs e)
+        private ReadyHandler _readyHandler;
+
+        public override void Bind(DefaultGatewayDispatcher value)
         {
-            //return _messageDeletedEvent.InvokeAsync(this, new MessageDeletedEventArgs());
-            return Task.CompletedTask;
+            _readyHandler = value["READY"] as ReadyHandler;
+            
+            base.Bind(value);
+        }
+
+        public override async Task<CurrentUserUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, UserJsonModel model)
+        {
+            var newCurrentUser = _readyHandler.CurrentUser;
+            var oldCurrentUser = newCurrentUser.Clone() as CachedCurrentUser;
+            newCurrentUser.Update(model);
+            return new CurrentUserUpdatedEventArgs(oldCurrentUser, newCurrentUser);
         }
     }
 }

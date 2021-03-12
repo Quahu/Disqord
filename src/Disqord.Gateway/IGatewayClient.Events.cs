@@ -108,6 +108,11 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted;
 
         /// <summary>
+        ///     Fires when the current user is updated.
+        /// </summary>
+        event AsynchronousEventHandler<CurrentUserUpdatedEventArgs> CurrentUserUpdated;
+
+        /// <summary>
         ///     Fires when a user's voice state is updated.
         /// </summary>
         event AsynchronousEventHandler<VoiceStateUpdatedEventArgs> VoiceStateUpdated;

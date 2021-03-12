@@ -29,7 +29,7 @@ namespace Disqord.Gateway
                 Overwrites = model.PermissionOverwrites.Value.ToReadOnlyList(this, (x, @this) => new TransientOverwrite(@this.Client, @this.Id, x));
         }
 
-        public static new CachedGuildChannel Create(IGatewayClient client, Snowflake guildId, ChannelJsonModel model)
+        public static CachedGuildChannel Create(IGatewayClient client, Snowflake guildId, ChannelJsonModel model)
         {
             switch (model.Type)
             {

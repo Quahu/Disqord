@@ -46,6 +46,8 @@ namespace Disqord.Gateway.Default
 
         public AsynchronousEvent<TypingStartedEventArgs> TypingStartedEvent { get; } = new();
 
+        public AsynchronousEvent<CurrentUserUpdatedEventArgs> CurrentUserUpdatedEvent { get; } = new();
+
         public AsynchronousEvent<VoiceStateUpdatedEventArgs> VoiceStateUpdatedEvent { get; } = new();
 
         public AsynchronousEvent<VoiceServerUpdatedEventArgs> VoiceServerUpdatedEvent { get; } = new();

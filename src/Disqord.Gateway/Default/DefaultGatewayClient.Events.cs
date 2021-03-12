@@ -1,4 +1,4 @@
-﻿using Disqord.Events;
+using Disqord.Events;
 
 namespace Disqord.Gateway.Default
 {
@@ -148,6 +148,13 @@ namespace Disqord.Gateway.Default
         {
             add => Dispatcher.TypingStartedEvent.Hook(value);
             remove => Dispatcher.TypingStartedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<CurrentUserUpdatedEventArgs> CurrentUserUpdated
+        {
+            add => Dispatcher.CurrentUserUpdatedEvent.Hook(value);
+            remove => Dispatcher.CurrentUserUpdatedEvent.Unhook(value);
         }
 
         /// <inheritdoc/>

@@ -91,6 +91,8 @@ namespace Disqord.Gateway.Default
 
                 ["TYPING_START"] = new TypingStartHandler(),
 
+                ["USER_UPDATE"] = new UserUpdateHandler(),
+                
                 ["VOICE_STATE_UPDATE"] = new VoiceStateUpdateHandler(),
 
                 ["VOICE_SERVER_UPDATE"] = new VoiceServerUpdateHandler(),
