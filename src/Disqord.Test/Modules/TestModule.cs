@@ -1,12 +1,25 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Disqord.Bot;
 using Disqord.Extensions.Interactivity;
+using Disqord.Extensions.Interactivity.Menus;
+using Disqord.Extensions.Interactivity.Menus.Paged;
+using Disqord.Rest;
 using Qmmands;
 
 namespace Disqord.Test
 {
     public class TestModule : DiscordModuleBase
     {
+        [Command("yield")]
+        public async Task<DiscordCommandResult> Yield()
+        {
+            Context.Yield();
+            await Task.Delay(10_000);
+            return Reply("hihi");
+        }
+
         [Command("responses")]
         public async Task<DiscordCommandResult> Responses()
         {
@@ -16,16 +29,79 @@ namespace Disqord.Test
         }
 
         [Command("waitmessage")]
-        [RunMode(RunMode.Parallel)]
-        public async Task WaitMessage([Remainder] string input = null)
+        public async Task WaitMessage()
+        {
+            var random = new Random();
+            var number = random.Next(0, 10).ToString();
+            await Response($"Send dis: {number}");
+            var interactivity = Context.Bot.GetExtension<InteractivityExtension>();
+            var e = await interactivity.WaitForMessageAsync(Context.ChannelId, x => x.Message.Content == number);
+            await Response(e != null
+                ? "Correct!!!"
+                : "You didn't say anything...");
+        }
+
+        [Command("paged")]
+        public async Task PagedAsync()
         {
             var interactivity = Context.Bot.GetExtension<InteractivityExtension>();
-            var e = await interactivity.WaitForMessageAsync(Context.ChannelId, input != null
-                ? x => x.Message.Content.Contains(input)
-                : null);
-            await Response(e != null
-                ? $"You said: {e.Message.Content}"
-                : "You didn't say anything...");
+            var pages = new Page[]
+            {
+                /* string */ "First page!",
+                /* embed  */ new LocalEmbedBuilder().WithDescription("Second page!"),
+                /* tuple  */ ("Third page!", new LocalEmbedBuilder().WithAuthor(Context.Author.Tag))
+            };
+            var pageProvider = new DefaultPageProvider(pages);
+            var menu = new PagedMenu(Context.Author.Id, pageProvider);
+            await interactivity.StartMenuAsync(Context.ChannelId, menu);
+        }
+
+        [Command("vote")]
+        public async Task VoteAsync()
+        {
+            var interactivity = Context.Bot.GetExtension<InteractivityExtension>();
+            var menu = new VoteMenu();
+            await interactivity.StartMenuAsync(Context.ChannelId, menu);
+        }
+
+        public sealed class VoteMenu : MenuBase
+        {
+            protected override async Task<Snowflake> InitializeAsync()
+            {
+                var message = await Client.SendMessageAsync(ChannelId, new LocalMessageBuilder
+                {
+                    Content = "pls vote"
+                }.Build());
+                return message.Id;
+            }
+
+            [Button("👍")]
+            public Task Upvote(ButtonEventArgs e)
+            {
+                var content = e.WasAdded
+                    ? "thanks for the support"
+                    : ":frowning:";
+                return e.Message.ModifyAsync(x => x.Content = content);
+            }
+
+            [Button("👎")]
+            public Task Downvote(ButtonEventArgs e)
+            {
+                var content = !e.WasAdded
+                    ? "thanks for changing ur mind"
+                    : ":frowning2:";
+                return e.Message.ModifyAsync(x => x.Content = content);
+            }
+        }
+
+        [Command("paged2")]
+        public async Task PagedMembersMenuAsync()
+        {
+            var interactivity = Context.Bot.GetExtension<InteractivityExtension>();
+            var strings = Enumerable.Range(0, 100).Select(x => new string('a', x)).ToArray();
+            var pageProvider = new ArrayPageProvider<string>(strings);
+            var menu = new PagedMenu(Context.Author.Id, pageProvider);
+            await interactivity.StartMenuAsync(Context.ChannelId, menu);
         }
 
         [Command("shard")]
@@ -37,6 +113,7 @@ namespace Disqord.Test
         }
 
         [Command("ping")]
+        [Cooldown(1, 5, CooldownMeasure.Seconds, CooldownBucketType.Channel)]
         public DiscordCommandResult Ping()
             => Response("pong");
 
@@ -61,5 +138,21 @@ namespace Disqord.Test
         [Command("replynoping")]
         public DiscordCommandResult ReplyNoPing()
             => Reply("hi", LocalMentionsBuilder.None);
+
+        [Command("long")]
+        public async Task<DiscordCommandResult> Long()
+        {
+            await Task.Delay(10_000);
+            return Response("Hello after 10 seconds");
+        }
+        
+        [Command("parallel")]
+        [RunMode(RunMode.Parallel)]
+        public void Parallel()
+        { }
+
+        [Command("exception")]
+        public void Exception()
+            => throw new Exception("cool exception");
     }
 }

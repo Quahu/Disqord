@@ -5,6 +5,7 @@ using System.Linq;
 using Disqord.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Qmmands;
 
 namespace Disqord.Bot.Hosting
 {
@@ -33,6 +34,8 @@ namespace Disqord.Bot.Hosting
         {
             services.ConfigureDiscordClient(context, discordContext);
 
+            services.Configure<CommandServiceConfiguration>(x => x.CooldownBucketKeyGenerator = CooldownBucketKeyGenerator.Instance);
+            
             var hasDefaultPrefixProvider = services.Any(x => x.ImplementationType == typeof(DefaultPrefixProvider));
             if (hasDefaultPrefixProvider || !services.Any(x => x.ServiceType == typeof(IPrefixProvider)))
             {
