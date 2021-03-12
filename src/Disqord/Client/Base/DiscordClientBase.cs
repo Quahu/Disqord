@@ -8,7 +8,6 @@ using Disqord.Gateway;
 using Disqord.Gateway.Api;
 using Disqord.Rest;
 using Disqord.Rest.Api;
-using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 
 namespace Disqord
@@ -60,6 +59,7 @@ namespace Disqord
         /// <param name="restClient"> The REST client to wrap. </param>
         /// <param name="gatewayClient"> The gateway client to wrap. </param>
         /// <param name="apiClient"> The API client of this client. </param>
+        /// <param name="extensions"> The extensions to use. </param>
         protected DiscordClientBase(
             ILogger logger,
             IRestClient restClient,
@@ -72,6 +72,9 @@ namespace Disqord
             GatewayClient = gatewayClient;
             ApiClient = apiClient;
             _extensions = extensions.ToDictionary(x => x.GetType(), x => x);
+
+            // Binds `this` to the dispatcher, where `this` is the DiscordClientBase.
+            GatewayClient.Dispatcher.Bind(this);
         }
 
         /// <summary>
@@ -90,7 +93,8 @@ namespace Disqord
             ApiClient = client.ApiClient;
             _extensions = client._extensions;
 
-            // Binds `this` to the dispatcher, where `this` is the client implementing DiscordBotBase.
+            // Binds `this` to the dispatcher, where `this` is the client implementing DiscordBotBase,
+            // wrapping an existing DiscordClientBase.
             client.GatewayClient.Dispatcher.Bind(this);
         }
 
@@ -106,7 +110,7 @@ namespace Disqord
         /// <summary>
         ///     Waits until this client is ready, respecting the configured <see cref="ReadyEventDelayMode"/>.
         /// </summary>
-        /// <param name="cancellation"> The token to observe for cancellation. </param>
+        /// <param name="cancellationToken"> The token to observe for cancellation. </param>
         /// <returns>
         ///     A <see cref="Task"/> that completes when this client is ready.
         /// </returns>

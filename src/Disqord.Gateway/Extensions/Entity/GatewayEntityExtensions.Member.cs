@@ -11,6 +11,7 @@ namespace Disqord.Gateway
         ///     Returns <see langword="null"/> if the role is not cached or the member does not have the given role.
         /// </summary>
         /// <param name="member"> The member to get the role for. </param>
+        /// <param name="roleId"> The ID of the role to get. </param>
         /// <returns>
         ///     A cached role for this member.
         /// </returns>

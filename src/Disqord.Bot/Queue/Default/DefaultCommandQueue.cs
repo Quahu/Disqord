@@ -23,7 +23,7 @@ namespace Disqord.Bot
         public int DegreeOfParallelism { get; }
 
         private Bucket _privateBucket;
-        private ISynchronizedDictionary<Snowflake, Bucket> _guildBuckets;
+        private readonly ISynchronizedDictionary<Snowflake, Bucket> _guildBuckets;
 
         private readonly Binder<DiscordBotBase> _binder;
 
