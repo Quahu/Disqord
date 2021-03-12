@@ -144,11 +144,12 @@ namespace Disqord.Rest
             if (positions == null)
                 throw new ArgumentNullException(nameof(positions));
 
-            var content = new JsonObjectRestRequestContent<ReorderJsonRestRequestContent[]>(positions.Select(x => new ReorderJsonRestRequestContent
+            var contents = positions.Select(x => new ReorderJsonRestRequestContent
             {
                 Id = x.Key,
                 Position = x.Value
-            }).ToArray());
+            }).ToArray();
+            var content = new JsonObjectRestRequestContent<ReorderJsonRestRequestContent[]>(contents);
             return client.ApiClient.ReorderGuildChannelsAsync(guildId, content, options);
         }
 
@@ -199,7 +200,7 @@ namespace Disqord.Rest
             return client.ApiClient.SetOwnNickAsync(guildId, content, options);
         }
 
-        public static async Task ModifyMemberAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, Action<ModifyMemberActionProperties> action, IRestRequestOptions options = null)
+        public static async Task<IMember> ModifyMemberAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, Action<ModifyMemberActionProperties> action, IRestRequestOptions options = null)
         {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
@@ -223,7 +224,8 @@ namespace Disqord.Rest
                 Mute = properties.Mute,
                 Deaf = properties.Deaf
             };
-            await client.ApiClient.ModifyMemberAsync(guildId, memberId, content, options).ConfigureAwait(false);
+            var model = await client.ApiClient.ModifyMemberAsync(guildId, memberId, content, options).ConfigureAwait(false);
+            return new TransientMember(client, guildId, model);
         }
 
         public static Task GrantRoleAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, Snowflake roleId, IRestRequestOptions options = null)
@@ -238,7 +240,7 @@ namespace Disqord.Rest
         public static async Task<IReadOnlyList<IBan>> FetchBansAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var models = await client.ApiClient.FetchBansAsync(guildId, options).ConfigureAwait(false);
-            return models.ToReadOnlyList((client, guildId), (x, tuple) =>
+            return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
             {
                 var (client, guildId) = tuple;
                 return new TransientBan(client, guildId, x);
@@ -258,75 +260,101 @@ namespace Disqord.Rest
             }
         }
 
-        //public Task BanMemberAsync(Snowflake guildId, Snowflake memberId, string reason = null, int? deleteMessageDays = null, IRestRequestOptions options = null)
-        //    => ApiClient.CreateGuildBanAsync(guildId, memberId, reason, deleteMessageDays, options);
+        public static Task CreateBanAsync(this IRestClient client, Snowflake guildId, Snowflake userId, string reason = null, int? deleteMessageDays = null, IRestRequestOptions options = null)
+        {
+            var content = new CreateBanJsonRestRequestContent
+            {
+                DeleteMessageDays = Optional.FromNullable(deleteMessageDays),
+                Reason = Optional.FromNullable(reason)
+            };
+            return client.ApiClient.CreateBanAsync(guildId, userId, content, options);
+        }
 
-        //public Task UnbanMemberAsync(Snowflake guildId, Snowflake userId, IRestRequestOptions options = null)
-        //    => ApiClient.RemoveGuildBanAsync(guildId, userId, options);
+        public static Task DeleteBanAsync(this IRestClient client, Snowflake guildId, Snowflake userId, IRestRequestOptions options = null)
+            => client.ApiClient.DeleteBanAsync(guildId, userId, options);
 
-        //public async Task<IReadOnlyList<RestRole>> GetRolesAsync(Snowflake guildId, IRestRequestOptions options = null)
-        //{
-        //    var models = await ApiClient.GetGuildRolesAsync(guildId, options).ConfigureAwait(false);
-        //    return models.ToReadOnlyList((this, guildId), (x, tuple) =>
-        //    {
-        //        var (@this, guildId) = tuple;
-        //        return new RestRole(@this, guildId, x);
-        //    });
-        //}
+        public static async Task<IReadOnlyList<IRole>> FetchRolesAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var models = await client.ApiClient.FetchRolesAsync(guildId, options).ConfigureAwait(false);
+            return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
+            {
+                var (client, guildId) = tuple;
+                return new TransientRole(client, guildId, x);
+            });
+        }
 
-        //public async Task<RestRole> CreateRoleAsync(Snowflake guildId, Action<CreateRoleProperties> action = null, IRestRequestOptions options = null)
-        //{
-        //    var properties = new CreateRoleProperties();
-        //    action?.Invoke(properties);
-        //    var model = await ApiClient.CreateGuildRoleAsync(guildId, properties, options).ConfigureAwait(false);
-        //    return new RestRole(this, guildId, model);
-        //}
+        public static async Task<IRole> CreateRoleAsync(this IRestClient client, Snowflake guildId, Action<CreateRoleProperties> action = null, IRestRequestOptions options = null)
+        {
+            var properties = new CreateRoleProperties();
+            action?.Invoke(properties);
+            var content = new CreateRoleJsonRestRequestContent
+            {
+                Name = properties.Name,
+                Permissions = Optional.Convert(properties.Permissions, x => x.RawValue),
+                Color = Optional.Convert(properties.Color, x => x?.RawValue ?? 0),
+                Hoist = properties.IsHoisted,
+                Mentionable = properties.IsMentionable
+            };
+            var model = await client.ApiClient.CreateRoleAsync(guildId, content, options).ConfigureAwait(false);
+            return new TransientRole(client, guildId, model);
+        }
 
-        //public async Task<IReadOnlyList<RestRole>> ReorderRolesAsync(Snowflake guildId, IReadOnlyDictionary<Snowflake, int> positions, IRestRequestOptions options = null)
-        //{
-        //    if (positions == null)
-        //        throw new ArgumentNullException(nameof(positions));
+        public static async Task<IReadOnlyList<IRole>> ReorderRolesAsync(this IRestClient client, Snowflake guildId, IReadOnlyDictionary<Snowflake, int> positions, IRestRequestOptions options = null)
+        {
+            if (positions == null)
+                throw new ArgumentNullException(nameof(positions));
 
-        //    var models = await ApiClient.ModifyGuildRolePositionsAsync(guildId, positions, options).ConfigureAwait(false);
-        //    return models.ToReadOnlyList((this, guildId), (x, tuple) =>
-        //    {
-        //        var (@this, guildId) = tuple;
-        //        return new RestRole(@this, guildId, x);
-        //    });
-        //}
+            var contents = positions.Select(x => new ReorderJsonRestRequestContent
+            {
+                Id = x.Key,
+                Position = x.Value
+            }).ToArray();
+            var content = new JsonObjectRestRequestContent<ReorderJsonRestRequestContent[]>(contents);
+            var models = await client.ApiClient.ReorderRolesAsync(guildId, content, options).ConfigureAwait(false);
+            return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
+            {
+                var (client, guildId) = tuple;
+                return new TransientRole(client, guildId, x);
+            });
+        }
 
-        //public async Task<RestRole> ModifyRoleAsync(Snowflake guildId, Snowflake roleId, Action<ModifyRoleProperties> action, IRestRequestOptions options = null)
-        //{
-        //    var model = await InternalModifyRoleAsync(guildId, roleId, action, options).ConfigureAwait(false);
-        //    return new RestRole(this, guildId, model);
-        //}
+        public static async Task<IRole> ModifyRoleAsync(this IRestClient client, Snowflake guildId, Snowflake roleId, Action<ModifyRoleActionProperties> action, IRestRequestOptions options = null)
+        {
+            var properties = new ModifyRoleActionProperties();
+            action?.Invoke(properties);
+            if (properties.Position.HasValue)
+            {
+                await client.ReorderRolesAsync(guildId, new Dictionary<Snowflake, int>
+                {
+                    [roleId] = properties.Position.Value
+                }, options).ConfigureAwait(false);
+            }
+            var content = new ModifyRoleJsonRestRequestContent
+            {
+                Name = properties.Name,
+                Permissions = Optional.Convert(properties.Permissions, x => x.RawValue),
+                Color = Optional.Convert(properties.Color, x => x?.RawValue ?? 0),
+                Hoist = properties.IsHoisted,
+                Mentionable = properties.IsMentionable
+            };
+            var model = await client.ApiClient.ModifyRoleAsync(guildId, roleId, content, options).ConfigureAwait(false);
+            return new TransientRole(client, guildId, model);
+        }
 
-        //internal async Task<RoleModel> InternalModifyRoleAsync(Snowflake guildId, Snowflake roleId, Action<ModifyRoleProperties> action, IRestRequestOptions options = null)
-        //{
-        //    if (action == null)
-        //        throw new ArgumentNullException(nameof(action));
+        public static Task DeleteRoleAsync(this IRestClient client, Snowflake guildId, Snowflake roleId, IRestRequestOptions options = null)
+            => client.ApiClient.DeleteRoleAsync(guildId, roleId, options);
 
-        //    var properties = new ModifyRoleProperties();
-        //    action(properties);
-        //    if (properties.Position.HasValue)
-        //    {
-        //        await ReorderRolesAsync(guildId, new Dictionary<Snowflake, int>
-        //        {
-        //            [roleId] = properties.Position.Value
-        //        }, options).ConfigureAwait(false);
-        //    }
+        public static async Task<int> FetchPruneGuildCountAsync(this IRestClient client, Snowflake guildId, int days, IEnumerable<Snowflake> roleIds = null, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.FetchPruneGuildCountAsync(guildId, days, roleIds?.ToArray(), options).ConfigureAwait(false);
+            return model.Pruned.Value;
+        }
 
-        //    return await ApiClient.ModifyGuildRoleAsync(guildId, roleId, properties, options).ConfigureAwait(false);
-        //}
-
-        //public Task DeleteRoleAsync(Snowflake guildId, Snowflake roleId, IRestRequestOptions options = null)
-        //    => ApiClient.DeleteGuildRoleAsync(guildId, roleId, options);
-
-        //public Task<int> GetPruneCountAsync(Snowflake guildId, int days, IRestRequestOptions options = null)
-        //    => ApiClient.GetGuildPruneCountAsync(guildId, days, options);
-
-        //public Task<int?> PruneAsync(Snowflake guildId, int days, bool computePruneCount = true, IRestRequestOptions options = null)
-        //    => ApiClient.BeginGuildPruneAsync(guildId, days, computePruneCount, options);
+        public static async Task<int?> PruneGuildAsync(this IRestClient client, Snowflake guildId, int days, bool computePruneCount = true, IEnumerable<Snowflake> roleIds = null, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.PruneGuildAsync(guildId, days, computePruneCount, roleIds?.ToArray(), options).ConfigureAwait(false);
+            return model.Pruned;
+        }
 
         //public async Task<IReadOnlyList<RestGuildVoiceRegion>> GetVoiceRegionsAsync(Snowflake guildId, IRestRequestOptions options = null)
         //{
@@ -338,11 +366,11 @@ namespace Disqord.Rest
         //    });
         //}
 
-        //public async Task<IReadOnlyList<RestInvite>> GetGuildInvitesAsync(Snowflake guildId, IRestRequestOptions options = null)
-        //{
-        //    var models = await ApiClient.GetGuildInvitesAsync(guildId, options).ConfigureAwait(false);
-        //    return models.ToReadOnlyList(this, (x, @this) => new RestInvite(@this, x));
-        //}
+        public static async Task<IReadOnlyList<IInvite>> FetchGuildInvitesAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var models = await client.ApiClient.FetchGuildInvitesAsync(guildId, options).ConfigureAwait(false);
+            return models.ToReadOnlyList(client, (x, client) => new TransientInvite(client, x));
+        }
 
         //public async Task<RestWidget> GetWidgetAsync(Snowflake guildId, IRestRequestOptions options = null)
         //{
@@ -366,8 +394,8 @@ namespace Disqord.Rest
         //    return await ApiClient.ModifyGuildEmbedAsync(guildId, properties, options).ConfigureAwait(false);
         //}
 
-        //public Task<string> GetVanityInviteAsync(Snowflake guildId, IRestRequestOptions options = null)
-        //    => ApiClient.GetGuildVanityUrlAsync(guildId, options);
+        // public static Task<string> GetVanityInviteAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+            // => client.ApiClient.GetGuildVanityUrlAsync(guildId, options);
 
         //public async Task<RestPreview> GetPreviewAsync(Snowflake guildId, IRestRequestOptions options = null)
         //{

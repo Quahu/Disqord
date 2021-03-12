@@ -6,21 +6,8 @@ using Disqord.Rest.Pagination;
 
 namespace Disqord.Rest
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
     public static partial class RestEntityExtensions
     {
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static IRestClient GetRestClient(this IEntity entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
-
-            if (entity.Client is not IRestClient client)
-                throw new InvalidOperationException("This entity's client is not a REST client implementation.");
-
-            return client;
-        }
-
         public static async Task<IMessageChannel> FetchChannelAsync(this IMessage message, IRestRequestOptions options = null)
         {
             var client = message.GetRestClient();
