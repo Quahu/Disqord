@@ -149,13 +149,14 @@ namespace Disqord.Gateway.Default
                         {
                             guildsCache.Remove(guildId);
 
-                            if (this.TryGetChannels(guildId, out var channelsCache))
-                                channelsCache.Clear();
+                            if (this.TryGetChannels(guildId, out var channelCache))
+                                channelCache.Clear();
 
-                            if (this.TryGetMembers(guildId, out var membersCache))
-                                membersCache.Clear();
+                            if (this.TryGetMembers(guildId, out var memberCache))
+                                memberCache.Clear();
 
-                            // TODO: clear roles
+                            if (this.TryGetRoles(guildId, out var roleCache))
+                                roleCache.Clear();
                         }
                     }
                 }
