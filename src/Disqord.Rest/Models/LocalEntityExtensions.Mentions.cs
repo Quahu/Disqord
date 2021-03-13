@@ -37,6 +37,8 @@ namespace Disqord.Rest.Models
                 model.Parse = parse;
             }
 
+            model.RepliedUser = Optional.FromNullable(mentions.MentionRepliedUser);
+
             return model;
         }
     }

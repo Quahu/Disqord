@@ -20,6 +20,19 @@ namespace Disqord
         public static LocalMentionsBuilder ExceptEveryone => new LocalMentionsBuilder()
             .WithParsedMentions(ParsedMention.Users | ParsedMention.Roles);
 
+        /// <summary>
+        ///     Gets a builder in which the author of the replied to message is not mentioned.
+        /// </summary>
+        public static LocalMentionsBuilder ExceptRepliedUser
+        {
+            get
+            {
+                var builder = ExceptEveryone;
+                builder.MentionRepliedUser = false;
+                return builder;
+            }
+        }
+
         public ParsedMention ParsedMentions { get; set; }
 
         public IList<Snowflake> UserIds
@@ -33,6 +46,11 @@ namespace Disqord
             get => _roleIds;
             set => WithRoleIds(value);
         }
+
+        /// <summary>
+        ///     Gets or sets whether the author of the replied to message is going to be mentioned.
+        /// </summary>
+        public bool? MentionRepliedUser { get; set; }
 
         private readonly List<Snowflake> _userIds;
         private readonly List<Snowflake> _roleIds;
@@ -48,6 +66,7 @@ namespace Disqord
             ParsedMentions = builder.ParsedMentions;
             _userIds = builder._userIds.ToList();
             _roleIds = builder._roleIds.ToList();
+            MentionRepliedUser = builder.MentionRepliedUser;
         }
 
         public LocalMentionsBuilder WithParsedMentions(ParsedMention parsedMentions)
@@ -82,6 +101,12 @@ namespace Disqord
             return this;
         }
 
+        public LocalMentionsBuilder WithMentionRepliedUser(bool mentionRepliedUser)
+        {
+            MentionRepliedUser = mentionRepliedUser;
+            return this;
+        }
+
         /// <summary>
         ///     Creates a deep copy of this <see cref="LocalMentionsBuilder"/>.
         /// </summary>
@@ -97,11 +122,8 @@ namespace Disqord
         public LocalMentions Build()
         {
             if (ParsedMentions != ParsedMention.None && (ParsedMentions.HasFlag(ParsedMention.Users) && UserIds.Count != 0
-                    || ParsedMentions.HasFlag(ParsedMention.Roles) && RoleIds.Count != 0))
-            {
-                throw new InvalidOperationException(
-                    "Parsed mentions and IDs are mutually exclusive, meaning you must not set both the parsed mentions for users/roles and user/role IDs.");
-            }
+                || ParsedMentions.HasFlag(ParsedMention.Roles) && RoleIds.Count != 0))
+                throw new InvalidOperationException("Parsed mentions and IDs are mutually exclusive, meaning you must not set both the parsed mentions for users/roles and user/role IDs.");
 
             if (UserIds.Count > MAX_MENTION_AMOUNT || RoleIds.Count > MAX_MENTION_AMOUNT)
                 throw new InvalidOperationException($"The amount of mentions must not exceed {MAX_MENTION_AMOUNT} mentions.");

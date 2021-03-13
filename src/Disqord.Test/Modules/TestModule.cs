@@ -137,7 +137,7 @@ namespace Disqord.Test
 
         [Command("replynoping")]
         public DiscordCommandResult ReplyNoPing()
-            => Reply("hi", LocalMentionsBuilder.None);
+            => Reply("hi", LocalMentionsBuilder.ExceptRepliedUser);
 
         [Command("long")]
         public async Task<DiscordCommandResult> Long()

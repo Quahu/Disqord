@@ -16,15 +16,15 @@ namespace Disqord.Bot
         protected virtual DiscordCommandResult Reply(string content, LocalMentionsBuilder mentions = null)
             => Reply(content, null, mentions);
 
-        protected virtual DiscordCommandResult Reply(LocalEmbedBuilder embed)
-            => Reply(null, embed, null);
+        protected virtual DiscordCommandResult Reply(LocalEmbedBuilder embed, LocalMentionsBuilder mentions = null)
+            => Reply(null, embed, mentions);
 
         protected virtual DiscordCommandResult Reply(string content, LocalEmbedBuilder embed, LocalMentionsBuilder mentions = null)
             => Response(new LocalMessageBuilder()
                 .WithContent(content)
                 .WithEmbed(embed)
                 .WithMentions(mentions)
-                .WithReply(Context.Message.Id, Context.Message.ChannelId)
+                .WithReply(Context.Message.Id, Context.Message.ChannelId, Context.GuildId, false)
                 .Build());
 
         protected virtual DiscordCommandResult Response(string content, LocalMentionsBuilder mentions = null)

@@ -33,11 +33,17 @@ namespace Disqord
         /// </summary>
         public IReadOnlyList<Snowflake> RoleIds { get; }
 
+        /// <summary>
+        ///     Gets whether the author of the replied to message is going to be mentioned.
+        /// </summary>
+        public bool? MentionRepliedUser { get; }
+
         internal LocalMentions(LocalMentionsBuilder builder)
         {
             ParsedMentions = builder.ParsedMentions;
             UserIds = builder.UserIds.ToReadOnlyList();
             RoleIds = builder.RoleIds.ToReadOnlyList();
+            MentionRepliedUser = builder.MentionRepliedUser;
         }
     }
 }

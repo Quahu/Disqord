@@ -13,5 +13,8 @@ namespace Disqord.Models
 
         [JsonProperty("roles", NullValueHandling.Ignore)]
         public Snowflake[] Roles;
+
+        [JsonProperty("replied_user")]
+        public Optional<bool> RepliedUser;
     }
 }
