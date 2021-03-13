@@ -23,15 +23,9 @@ namespace Disqord
         /// <summary>
         ///     Gets a builder in which the author of the replied to message is not mentioned.
         /// </summary>
-        public static LocalMentionsBuilder ExceptRepliedUser
-        {
-            get
-            {
-                var builder = ExceptEveryone;
-                builder.MentionRepliedUser = false;
-                return builder;
-            }
-        }
+        public static LocalMentionsBuilder ExceptRepliedUser => new LocalMentionsBuilder()
+            .WithParsedMentions(ParsedMention.All)
+            .WithMentionRepliedUser(false);
 
         public ParsedMention ParsedMentions { get; set; }
 
@@ -101,7 +95,7 @@ namespace Disqord
             return this;
         }
 
-        public LocalMentionsBuilder WithMentionRepliedUser(bool mentionRepliedUser)
+        public LocalMentionsBuilder WithMentionRepliedUser(bool? mentionRepliedUser)
         {
             MentionRepliedUser = mentionRepliedUser;
             return this;
