@@ -3,7 +3,7 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
-    public class RequireChannelAttribute : CheckAttribute
+    public class RequireChannelAttribute : DiscordCheckAttribute
     {
         public Snowflake Id { get; }
 
@@ -12,10 +12,9 @@ namespace Disqord.Bot
             Id = id;
         }
 
-        public override ValueTask<CheckResult> CheckAsync(CommandContext _)
+        public override ValueTask<CheckResult> CheckAsync(DiscordCommandContext context)
         {
-            var context = _ as DiscordCommandContext;
-            if (context.Message.ChannelId == Id)
+            if (context.ChannelId == Id)
                 return Success();
 
             return Failure($"This can only be executed in the channel with the ID {Id}.");

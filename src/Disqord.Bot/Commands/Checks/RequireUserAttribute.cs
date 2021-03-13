@@ -3,7 +3,7 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
-    public class RequireUserAttribute : CheckAttribute
+    public class RequireUserAttribute : DiscordCheckAttribute
     {
         public Snowflake Id { get; }
 
@@ -12,9 +12,8 @@ namespace Disqord.Bot
             Id = id;
         }
 
-        public override ValueTask<CheckResult> CheckAsync(CommandContext _)
+        public override ValueTask<CheckResult> CheckAsync(DiscordCommandContext context)
         {
-            var context = _ as DiscordCommandContext;
             if (context.Author.Id == Id)
                 return Success();
 
