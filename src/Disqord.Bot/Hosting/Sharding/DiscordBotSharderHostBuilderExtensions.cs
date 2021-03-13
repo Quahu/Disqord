@@ -9,7 +9,7 @@ namespace Disqord.Bot.Hosting
 {
     public static class DiscordBotSharderHostBuilderExtensions
     {
-        public static IHostBuilder ConfigureDiscordBotSharder(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext> configure = null)
+        public static IHostBuilder ConfigureDiscordBotSharder(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotSharderHostingContext> configure = null)
             => builder.ConfigureDiscordBotSharder<DiscordBotSharder>(configure);
 
         public static IHostBuilder ConfigureDiscordBotSharder<TDiscordBotSharder>(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotSharderHostingContext> configure = null)
