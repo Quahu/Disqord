@@ -44,6 +44,13 @@ namespace Disqord.Gateway.Default.Dispatcher
                     if (guild == null)
                         guild = new GatewayTransientGuild(Client, model);
 
+                    // TODO: optimise member cache retrieval
+                    if (CacheProvider.TryGetMembers(model.Id, out var memberCache))
+                    {
+                        foreach (var memberModel in model.Members)
+                            Dispatcher.GetOrAddMember(model.Id, memberModel);
+                    }
+                    
                     if (CacheProvider.TryGetChannels(model.Id, out var channelCache))
                     {
                         foreach (var channelModel in model.Channels)
@@ -108,6 +115,13 @@ namespace Disqord.Gateway.Default.Dispatcher
                 else
                 {
                     guild = new GatewayTransientGuild(Client, model);
+                }
+                
+                // TODO: optimise member cache retrieval
+                if (CacheProvider.TryGetMembers(model.Id, out var memberCache))
+                {
+                    foreach (var memberModel in model.Members)
+                        Dispatcher.GetOrAddMember(model.Id, memberModel);
                 }
 
                 if (CacheProvider.TryGetChannels(model.Id, out var channelCache))
