@@ -34,7 +34,7 @@
             | GatewayIntent.DirectReactions
             | GatewayIntent.DirectTyping);
 
-        public const ulong RECOMMENDED = (ulong)(
+        public const ulong RECOMMENDED_VALUE = (ulong)(
             GatewayIntent.Guilds
             | GatewayIntent.Members
             | GatewayIntent.Bans

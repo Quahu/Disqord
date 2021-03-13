@@ -14,7 +14,7 @@ namespace Disqord.Gateway
 
         public static GatewayIntents None => 0;
 
-        public static GatewayIntents Recommended => RECOMMENDED;
+        public static GatewayIntents Recommended => RECOMMENDED_VALUE;
 
         public static GatewayIntents RecommendedUnprivileged => Recommended - GatewayIntent.Members;
 

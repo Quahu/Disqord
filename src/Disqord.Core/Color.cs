@@ -33,7 +33,7 @@ namespace Disqord
         /// </summary>
         /// <param name="rawValue"> The raw value. </param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     "Raw value must be a non-negative value less than or equal to 16777215."
+        ///     "Raw value must be a non-negative value less than or equal to <c>16777215</c>."
         /// </exception>
         public Color(int rawValue)
         {
@@ -93,9 +93,11 @@ namespace Disqord
             => RawValue;
 
         /// <summary>
-        ///     Returns a hexadecimal representation of this <see cref="Color"/>.
+        ///     Returns the hexadecimal representation of this <see cref="Color"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        ///     The hexadecimal representation of this <see cref="Color"/>. 
+        /// </returns>
         public override string ToString()
             => $"#{RawValue:X6}";
 
@@ -107,6 +109,12 @@ namespace Disqord
             b = B;
         }
 
+        public static bool operator <=(Color left, Color right)
+            => left.RawValue <= right.RawValue;
+
+        public static bool operator >=(Color left, Color right)
+            => left.RawValue >= right.RawValue;
+        
         public static bool operator >(Color left, Color right)
             => left.RawValue > right.RawValue;
 
@@ -124,7 +132,7 @@ namespace Disqord
         /// </summary>
         /// <param name="value"> The raw value. </param>
         public static implicit operator Color(int value)
-            => new Color(value);
+            => new(value);
 
         /// <summary>
         ///     Implicitly gets <see cref="RawValue"/> from the given <see cref="Color"/>.
@@ -134,19 +142,19 @@ namespace Disqord
             => value.RawValue;
 
         public static implicit operator Color((byte R, byte G, byte B) value)
-            => new Color(value.R, value.G, value.B);
+            => new(value.R, value.G, value.B);
 
         public static implicit operator (byte R, byte G, byte B)(Color value)
             => (value.R, value.G, value.B);
 
         public static implicit operator Color((float R, float G, float B) value)
-            => new Color(value.R, value.G, value.B);
+            => new(value.R, value.G, value.B);
 
         public static implicit operator System.Drawing.Color(Color value)
             => System.Drawing.Color.FromArgb(value.R, value.G, value.B);
 
         public static implicit operator Color(System.Drawing.Color value)
-            => new Color(value.R, value.G, value.B);
+            => new(value.R, value.G, value.B);
 
         public static Color FromHsv(float h, float s, float v)
         {
