@@ -6,7 +6,7 @@ namespace Disqord.Bot
 {
     public class RequireBotRoleAttribute : DiscordGuildCheckAttribute
     {
-        public new Snowflake Id { get; }
+        public Snowflake Id { get; }
 
         public RequireBotRoleAttribute(ulong id)
         {
