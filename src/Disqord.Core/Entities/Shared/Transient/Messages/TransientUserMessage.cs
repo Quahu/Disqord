@@ -58,7 +58,7 @@ namespace Disqord
             get
             {
                 if (_stickers == null)
-                    _stickers = Model.Stickers.Value.ToReadOnlyList(x => new Sticker(x));
+                    _stickers = Optional.ConvertOrDefault(Model.Stickers, x => x.ToReadOnlyList(x => new Sticker(x)), Array.Empty<Sticker>());
 
                 return _stickers;
             }
