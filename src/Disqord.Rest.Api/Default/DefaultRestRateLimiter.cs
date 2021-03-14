@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Logging;
+using Disqord.Rest.Default;
 using Disqord.Utilities.Binding;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -211,7 +212,7 @@ namespace Disqord.Rest.Api.Default
                     if (Remaining == 0)
                     {
                         var delay = ResetsAt - DateTimeOffset.UtcNow;
-                        if (delay > TimeSpan.Zero)
+                        if (delay > TimeSpan.Zero && (request.Options is not DefaultRestRequestOptions options || !options.BypassRateLimitDelay))
                         {
                             if (_rateLimiter.MaximumDelayDuration != Timeout.InfiniteTimeSpan && delay > _rateLimiter.MaximumDelayDuration)
                             {
