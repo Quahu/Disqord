@@ -11,12 +11,10 @@ namespace Disqord.Rest
         public RestApiErrorJsonModel ErrorModel { get; }
 
         public RestApiException(HttpResponseStatusCode statusCode, RestApiErrorJsonModel errorModel)
+            : base($"HTTP {(Enum.IsDefined(statusCode) ? $"{(int) statusCode} {statusCode}" : statusCode)}. Error message: {errorModel.Message}")
         {
             StatusCode = statusCode;
             ErrorModel = errorModel;
         }
-
-        public override string ToString()
-            => $"HTTP {(Enum.IsDefined(StatusCode) ? $"{(int) StatusCode} {StatusCode}" : StatusCode)}. Error code: {ErrorModel.Code}. Error message: {ErrorModel.Message}";
     }
 }
