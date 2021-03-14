@@ -5,14 +5,15 @@ namespace Disqord.Bot
 {
     public class DiscordResponseCommandResult : DiscordCommandResult
     {
-        private readonly LocalMessage _message;
+        public virtual LocalMessage Message { get; }
 
-        public DiscordResponseCommandResult(LocalMessage message)
+        public DiscordResponseCommandResult(DiscordCommandContext context, LocalMessage message)
+            : base(context)
         {
-            _message = message;
+            Message = message;
         }
 
         public override Task ExecuteAsync()
-            => Context.Bot.SendMessageAsync(Context.ChannelId, _message);
+            => Context.Bot.SendMessageAsync(Context.ChannelId, Message);
     }
 }

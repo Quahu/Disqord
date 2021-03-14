@@ -10,12 +10,17 @@ namespace Disqord.Bot
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool IsSuccessful => true;
 
-        public DiscordCommandContext Context { get; set; }
+        public virtual DiscordCommandContext Context { get; }
+
+        protected DiscordCommandResult(DiscordCommandContext context)
+        {
+            Context = context;
+        }
 
         public abstract Task ExecuteAsync();
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public TaskAwaiter GetAwaiter()
+        public virtual TaskAwaiter GetAwaiter()
             => ExecuteAsync().GetAwaiter();
     }
 }

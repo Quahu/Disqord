@@ -12,7 +12,7 @@ using Microsoft.Extensions.Options;
 
 namespace Disqord.Gateway.Default
 {
-    public partial class DefaultGatewayDispatcher : IGatewayDispatcher
+    public partial class DefaultGatewayDispatcher
     {
         public ILogger Logger { get; }
 

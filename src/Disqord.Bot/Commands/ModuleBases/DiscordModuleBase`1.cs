@@ -23,7 +23,7 @@ namespace Disqord.Bot
             => Response(new LocalMessageBuilder()
                 .WithContent(content)
                 .WithEmbed(embed)
-                .WithMentions(mentions)
+                .WithMentions(mentions ?? LocalMentionsBuilder.None)
                 .WithReply(Context.Message.Id, Context.Message.ChannelId, Context.GuildId, false)
                 .Build());
 
@@ -37,23 +37,17 @@ namespace Disqord.Bot
             => Response(new LocalMessageBuilder()
                 .WithContent(content)
                 .WithEmbed(embed)
-                .WithMentions(mentions)
+                .WithMentions(mentions ?? LocalMentionsBuilder.None)
                 .Build());
 
         //protected virtual DiscordCommandResult Response(LocalAttachment attachment)
         //    => Response();
 
         protected virtual DiscordCommandResult Response(LocalMessage message)
-            => new DiscordResponseCommandResult(message)
-            {
-                Context = Context
-            };
+            => new DiscordResponseCommandResult(Context, message);
 
         protected virtual DiscordCommandResult Reaction(IEmoji emoji)
-            => new DiscordReactionCommandResult(emoji)
-            {
-                Context = Context
-            };
+            => new DiscordReactionCommandResult(Context, emoji);
 
         /// <summary>
         ///     Gets an instance of <see cref="DefaultRestRequestOptions"/> configured with the <see cref="StoppingToken"/>.

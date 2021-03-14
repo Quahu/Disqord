@@ -5,14 +5,15 @@ namespace Disqord.Bot
 {
     public class DiscordReactionCommandResult : DiscordCommandResult
     {
-        private IEmoji _emoji;
+        public virtual IEmoji Emoji { get; }
 
-        public DiscordReactionCommandResult(IEmoji emoji)
+        public DiscordReactionCommandResult(DiscordCommandContext context, IEmoji emoji)
+            : base(context)
         {
-            _emoji = emoji;
+            Emoji = emoji;
         }
 
         public override Task ExecuteAsync()
-            => Context.Bot.AddReactionAsync(Context.ChannelId, Context.Message.Id, _emoji);
+            => Context.Message.AddReactionAsync(Emoji);
     }
 }
