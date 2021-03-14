@@ -2,6 +2,8 @@
 {
     public enum RestApiErrorCode
     {
+        Unknown = 0,
+
         UnknownAccount = 10001,
 
         UnknownApplication = 10002,
@@ -48,9 +50,17 @@
 
         UnknownRedistributable = 10036,
 
+        UnknownGuildTemplate = 10057,
+
+        UnknownApplicationCommand = 10063,
+
         UserOnlyEndpoint = 20001,
 
         BotOnlyEndpoint = 20002,
+
+        AnnouncementRateLimit = 20022,
+
+        ChannelWriteRateLimit = 20028,
 
         MaximumGuildAmountReached = 30001,
 
@@ -60,17 +70,23 @@
 
         MaximumRoleAmountReached = 30005,
 
+        MaximumWebhookAmountReached = 30007,
+
         MaximumReactionAmountReached = 30010,
 
         MaximumGuildChannelAmountReached = 30013,
 
-        MaximumInviteAmountReached = 30013,
+        MaximumAttachmentAmountReached = 30015,
+
+        MaximumInviteAmountReached = 30016,
 
         Unauthorized = 40001,
 
         FeatureTemporarilyDisabled = 40006,
 
         UserBanned = 40007,
+
+        MessageAlreadyCrossposted = 40033,
 
         MissingAccess = 50001,
 
@@ -119,6 +135,8 @@
         AnInviteWasAcceptedToAGuildTheApplicationsBotIsNotIn = 50036,
 
         InvalidApiVersion = 50041,
+
+        CannotDeleteAChannelRequiredForCommunityGuilds = 50074,
 
         IncomingFriendRequestsDisabled = 80000,
 
