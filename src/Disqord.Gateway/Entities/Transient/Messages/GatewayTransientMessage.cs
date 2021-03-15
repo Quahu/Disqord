@@ -6,6 +6,8 @@ namespace Disqord
 {
     public abstract class GatewayTransientMessage : TransientMessage, IGatewayMessage
     {
+        public Snowflake? GuildId => Model.GuildId.GetValueOrNullable();
+        
         public override IUser Author
         {
             get
@@ -23,8 +25,6 @@ namespace Disqord
                 return _author as IMember;
             }
         }
-
-        public Snowflake? GuildId => Model.GuildId.GetValueOrNullable();
 
         protected GatewayTransientMessage(IClient client, MessageJsonModel model)
             : base(client, model)
