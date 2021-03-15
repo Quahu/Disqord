@@ -16,7 +16,7 @@ namespace Disqord.Bot.Sharding
             CommandService commands,
             IServiceProvider services,
             DiscordClientSharder client)
-            : base(logger, prefixes, queue, commands, services, client)
+            : base(options, logger, prefixes, queue, commands, services, client)
         {
 
         }

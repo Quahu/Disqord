@@ -16,6 +16,11 @@ namespace Disqord.Bot.Hosting
 
         public static IHostBuilder ConfigureDiscordBot<TDiscordBot>(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext> configure = null)
             where TDiscordBot : DiscordBot
+            => builder.ConfigureDiscordBot<TDiscordBot, DiscordBotConfiguration>(configure);
+        
+        public static IHostBuilder ConfigureDiscordBot<TDiscordBot, TDiscordBotConfiguration>(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext> configure = null)
+            where TDiscordBot : DiscordBot
+            where TDiscordBotConfiguration : DiscordBotBaseConfiguration, new()
         {
             builder.ConfigureServices((context, services) =>
             {
@@ -23,18 +28,22 @@ namespace Disqord.Bot.Hosting
                 configure?.Invoke(context, discordContext);
 
                 services.AddDiscordBot<TDiscordBot>();
-                services.ConfigureDiscordBot(context, discordContext);
+                services.ConfigureDiscordBot<TDiscordBotConfiguration>(context, discordContext);
             });
 
             return builder;
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static void ConfigureDiscordBot(this IServiceCollection services, HostBuilderContext context, DiscordBotHostingContext discordContext)
+        public static void ConfigureDiscordBot<TBotConfiguration>(this IServiceCollection services, HostBuilderContext context, DiscordBotHostingContext discordContext)
+            where TBotConfiguration : DiscordBotBaseConfiguration, new()
         {
             services.ConfigureDiscordClient(context, discordContext);
 
             services.Configure<CommandServiceConfiguration>(x => x.CooldownBucketKeyGenerator = CooldownBucketKeyGenerator.Instance);
+
+            if (discordContext.OwnerIds != null)
+                services.Configure<TBotConfiguration>(x => x.OwnerIds = discordContext.OwnerIds);
             
             var hasDefaultPrefixProvider = services.Any(x => x.ImplementationType == typeof(DefaultPrefixProvider));
             if (hasDefaultPrefixProvider || !services.Any(x => x.ServiceType == typeof(IPrefixProvider)))

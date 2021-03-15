@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Collections;
 using Disqord.Gateway;
 using Disqord.Rest;
 using Microsoft.Extensions.DependencyInjection;
@@ -70,25 +72,45 @@ namespace Disqord.Bot
                     if (overloadReason == null)
                         continue;
 
-                    embed.AddField($"{overload} {string.Join(' ', overload.Parameters)}", overloadReason);
+                    embed.AddField($"Overload: {overload} {string.Join(' ', overload.Parameters)}", overloadReason);
                 }
             }
             else if (context.Command != null)
             {
-                embed.WithTitle($"{context.Command} {string.Join(' ', context.Command.Parameters)}");
+                embed.WithTitle($"Command: {context.Command} {string.Join(' ', context.Command.Parameters)}");
             }
 
             return new LocalMessageBuilder()
                 .WithEmbed(embed);
         }
 
-        protected virtual Task HandleFailedResultAsync(DiscordCommandContext context, FailedResult result)
+        protected virtual ValueTask HandleFailedResultAsync(DiscordCommandContext context, FailedResult result)
         {
             var message = FormatFailureMessage(context, result)?.Build();
             if (message == null)
-                return Task.CompletedTask;
+                return default;
 
-            return this.SendMessageAsync(context.ChannelId, message);
+            return new(this.SendMessageAsync(context.ChannelId, message));
+        }
+
+        public virtual async ValueTask<bool> IsOwnerAsync(IUser user)
+        {
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+            
+            var ownerIds = OwnerIds;
+            if (ownerIds.Count != 0)
+                return ownerIds.Any(x => x == user.Id);
+            
+            var application = await this.FetchCurrentApplicationAsync().ConfigureAwait(false);
+            if (application.Team != null)
+            {
+                OwnerIds = application.Team.Members.Keys.ToReadOnlyList();
+                return application.Team.Members.ContainsKey(user.Id);
+            }
+            
+            OwnerIds = new[] { application.Owner.Id }.ReadOnly();
+            return application.Owner.Id == user.Id;
         }
     }
 }

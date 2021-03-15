@@ -21,5 +21,8 @@ namespace Disqord.Bot.Hosting
         ///     This property is ignored if a custom <see cref="IPrefixProvider"/> is registered.
         /// </remarks>
         public virtual IEnumerable<string> Prefixes { get; set; }
+
+        /// <inheritdoc cref="DiscordBotBaseConfiguration.OwnerIds"/>
+        public virtual IEnumerable<Snowflake> OwnerIds { get; set; }
     }
 }

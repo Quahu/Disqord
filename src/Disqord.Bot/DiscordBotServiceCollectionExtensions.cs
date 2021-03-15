@@ -33,6 +33,8 @@ namespace Disqord.Bot
                 services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<DiscordBotBase>()));
             }
 
+            // TODO: add bot services efficiently
+
             return services;
         }
 

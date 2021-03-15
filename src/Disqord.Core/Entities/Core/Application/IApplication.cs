@@ -1,0 +1,50 @@
+﻿using Disqord.Models;
+
+namespace Disqord
+{
+    /// <summary>
+    ///     Represents a Discord application, e.g. a bot or a game.
+    /// </summary>
+    public interface IApplication : ISnowflakeEntity, INamable, IJsonUpdatable<ApplicationJsonModel>
+    {
+        /// <summary>
+        ///     Gets the icon image hash of this application.
+        /// </summary>
+        string IconHash { get; }
+
+        /// <summary>
+        ///     Gets the description of this application.
+        /// </summary>
+        string Description { get; }
+
+        /// <summary>
+        ///     Gets whether the bot of this application is public.
+        /// </summary>
+        bool IsBotPublic { get; }
+
+        /// <summary>
+        ///     Gets whether the bot of this application requires
+        ///     the full OAuth2 code grant flow.
+        /// </summary>
+        bool BotRequiresCodeGrant { get; }
+
+        /// <summary>
+        ///     Gets the owner of this application.
+        /// </summary>
+        /// <remarks>
+        ///     You should not rely on this data for team applications.
+        /// </remarks>
+        IUser Owner { get; }
+
+        /// <summary>
+        ///     Gets the team of this application.
+        ///     Returns <see langword="null"/> if this application has no team.
+        /// </summary>
+        IApplicationTeam Team { get; }
+
+        /// <summary>
+        ///     Gets the public flags of this application.
+        /// </summary>
+        Optional<int> Flags { get; }
+    }
+}

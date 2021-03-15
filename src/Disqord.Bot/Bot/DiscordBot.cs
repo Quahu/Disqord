@@ -15,7 +15,7 @@ namespace Disqord.Bot
             CommandService commands,
             IServiceProvider services,
             DiscordClient client)
-            : base(logger, prefixes, queue, commands, services, client)
+            : base(options, logger, prefixes, queue, commands, services, client)
         {
 
         }

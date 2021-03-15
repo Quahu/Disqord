@@ -14,13 +14,19 @@ namespace Disqord.Bot.Hosting
 
         public static IHostBuilder ConfigureDiscordBotSharder<TDiscordBotSharder>(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotSharderHostingContext> configure = null)
             where TDiscordBotSharder : DiscordBotSharder
+            => builder.ConfigureDiscordBotSharder<TDiscordBotSharder, DiscordBotSharderConfiguration>(configure);
+
+        public static IHostBuilder ConfigureDiscordBotSharder<TDiscordBotSharder, TDiscordBotSharderConfiguration>(
+            this IHostBuilder builder, Action<HostBuilderContext, DiscordBotSharderHostingContext> configure = null)
+            where TDiscordBotSharder : DiscordBotSharder
+            where TDiscordBotSharderConfiguration : DiscordBotBaseConfiguration, new()
         {
             builder.ConfigureServices((context, services) =>
             {
                 var discordContext = new DiscordBotSharderHostingContext();
                 configure?.Invoke(context, discordContext);
 
-                services.ConfigureDiscordBot(context, discordContext);
+                services.ConfigureDiscordBot<TDiscordBotSharderConfiguration>(context, discordContext);
                 services.ConfigureDiscordClientSharder(context, discordContext);
 
                 if (services.TryAddSingleton<TDiscordBotSharder>())
