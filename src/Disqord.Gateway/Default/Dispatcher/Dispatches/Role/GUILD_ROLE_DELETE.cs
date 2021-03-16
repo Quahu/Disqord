@@ -11,7 +11,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             CachedRole role = null;
             if (CacheProvider.TryGetRoles(model.GuildId, out var cache))
             {
-                role = cache.GetValueOrDefault(model.RoleId);
+                cache.TryRemove(model.RoleId, out role);
             }
 
             var e = new RoleDeletedEventArgs(model.GuildId, model.RoleId, role);
