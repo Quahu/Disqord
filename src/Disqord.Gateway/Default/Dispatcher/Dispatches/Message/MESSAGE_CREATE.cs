@@ -27,7 +27,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 message = GatewayTransientMessage.Create(Client, model);
 
             CachedTextChannel channel = null;
-            if (model.GuildId.HasValue && CacheProvider.TryGetChannels(model.ChannelId, out var channelCache))
+            if (model.GuildId.HasValue && CacheProvider.TryGetChannels(model.GuildId.Value, out var channelCache))
             {
                 channel = channelCache.GetValueOrDefault(model.ChannelId) as CachedTextChannel;
                 if (channel != null)
