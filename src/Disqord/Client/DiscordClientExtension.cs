@@ -24,14 +24,14 @@ namespace Disqord
         /// </summary>
         public bool IsInitialized { get; private set; }
 
-        protected DiscordClientExtension(
+        private protected DiscordClientExtension(
             ILogger logger)
         {
             Logger = logger;
         }
 
         /// <summary>
-        ///     Overriddable logic for initialization code.
+        ///     Overridable logic for initialization code.
         /// </summary>
         /// <param name="cancellationToken"> The cancellation token passed from <see cref="InitializeAsync(DiscordClientBase, CancellationToken)"/>. </param>
         /// <returns>
