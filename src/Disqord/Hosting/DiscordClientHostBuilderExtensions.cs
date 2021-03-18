@@ -55,7 +55,8 @@ namespace Disqord.Hosting
                         return;
                 }
 
-                services.AddSingleton(typeof(IHostedService), type);
+                services.AddSingleton(type);
+                services.AddSingleton(typeof(IHostedService), x => x.GetService(type));
             }
         }
 
