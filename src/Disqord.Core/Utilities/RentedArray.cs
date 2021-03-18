@@ -59,7 +59,7 @@ namespace Disqord.Utilities
             => Rent(length, ArrayPool<T>.Shared);
 
         public static RentedArray<T> Rent(int length, ArrayPool<T> pool)
-            => new RentedArray<T>(pool.Rent(length), pool);
+            => new(new(pool.Rent(length), 0, length), pool);
 
         int ICollection<T>.Count => _segment.Count;
         int IReadOnlyCollection<T>.Count => _segment.Count;
