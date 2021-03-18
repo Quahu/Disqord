@@ -17,7 +17,9 @@ namespace Disqord.Serialization.Json.Default
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var token = ((DefaultJsonToken) value).Token;
+            var token = value is DefaultJsonToken defaultJsonToken
+                ? defaultJsonToken.Token
+                : JToken.FromObject(value, serializer);
             serializer.Serialize(writer, token);
         }
     }
