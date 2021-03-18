@@ -127,19 +127,14 @@ namespace Disqord.Gateway.Api.Default
                     await Gateway.ConnectAsync(uri, stoppingToken).ConfigureAwait(false);
                     return;
                 }
-                catch (WebSocketClosedException ex)
-                {
-                    Logger.LogWarning(ex, "Got instantly disconnected.");
-                    throw;
-                }
-                catch (TaskCanceledException)
+                catch (OperationCanceledException)
                 {
                     throw;
                 }
                 catch (Exception ex)
                 {
                     Logger.LogError(ex, "An exception occurred while connecting to the gateway.");
-                    if (attempt < 6)
+                    if (attempt++ < 6)
                         delay *= 2;
 
                     Logger.LogInformation("Delaying the retry for {0}ms.", delay);
@@ -147,6 +142,7 @@ namespace Disqord.Gateway.Api.Default
                 }
             }
 
+            stoppingToken.ThrowIfCancellationRequested();
             Logger.LogInformation("Successfully connected.");
         }
 
@@ -385,7 +381,7 @@ namespace Disqord.Gateway.Api.Default
             => SendAsync(new GatewayPayloadJsonModel
             {
                 Op = GatewayPayloadOperation.Identify,
-                D = Serializer.GetJsonToken(new IdentifyJsonModel
+                D = new IdentifyJsonModel
                 {
                     Token = Token.RawValue,
                     Properties = new IdentifyJsonModel.PropertiesJsonModel
@@ -402,19 +398,19 @@ namespace Disqord.Gateway.Api.Default
                         ? new int[] { Id.Id, Id.Count }
                         : Optional<int[]>.Empty,
                     Presence = Presence
-                })
+                }
             }, cancellationToken);
 
         private Task ResumeAsync(CancellationToken cancellationToken)
             => SendAsync(new GatewayPayloadJsonModel
             {
                 Op = GatewayPayloadOperation.Resume,
-                D = Serializer.GetJsonToken(new ResumeJsonModel
+                D = new ResumeJsonModel
                 {
                     Token = Token.RawValue,
                     SessionId = SessionId,
                     Seq = Sequence
-                })
+                }
             }, cancellationToken);
 
         public void Dispose()

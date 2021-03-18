@@ -54,7 +54,7 @@ namespace Disqord.Gateway.Api.Default
             _ws = new DiscordWebSocket(Logger, WebSocketClientFactory, UsesZLib);
         }
 
-        public Task ConnectAsync(Uri uri, CancellationToken cancellationToken = default)
+        public ValueTask ConnectAsync(Uri uri, CancellationToken cancellationToken = default)
         {
             var uriBuilder = new UriBuilder(uri)
             {
@@ -69,13 +69,13 @@ namespace Disqord.Gateway.Api.Default
             return _ws.ConnectAsync(uri, cancellationToken);
         }
 
-        public Task CloseAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default)
+        public ValueTask CloseAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default)
         {
             Logger.LogDebug("Closing with status {0}: {1}", closeStatus, closeMessage);
             return _ws.CloseAsync(closeStatus, closeMessage, cancellationToken);
         }
 
-        public Task SendAsync(GatewayPayloadJsonModel payload, CancellationToken cancellationToken = default)
+        public ValueTask SendAsync(GatewayPayloadJsonModel payload, CancellationToken cancellationToken = default)
         {
             var json = Serializer.Serialize(payload);
             if (LogsPayloads)

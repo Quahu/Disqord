@@ -60,7 +60,7 @@ namespace Disqord.WebSocket.Default.Discord
                 throw new ObjectDisposedException(null, "The Discord web socket client has been disposed.");
         }
 
-        public async Task ConnectAsync(Uri url, CancellationToken token)
+        public async ValueTask ConnectAsync(Uri url, CancellationToken token)
         {
             ThrowIfDisposed();
 
@@ -77,7 +77,7 @@ namespace Disqord.WebSocket.Default.Discord
             await _ws.ConnectAsync(url, token).ConfigureAwait(false);
         }
 
-        public async Task SendAsync(Memory<byte> memory, CancellationToken cancellationToken)
+        public async ValueTask SendAsync(Memory<byte> memory, CancellationToken cancellationToken)
         {
             ThrowIfDisposed();
 
@@ -102,7 +102,7 @@ namespace Disqord.WebSocket.Default.Discord
             }
         }
 
-        public async Task<Stream> ReceiveAsync(CancellationToken cancellationToken)
+        public async ValueTask<Stream> ReceiveAsync(CancellationToken cancellationToken)
         {
             ThrowIfDisposed();
 
@@ -111,7 +111,6 @@ namespace Disqord.WebSocket.Default.Discord
             {
                 _receiveStream.Position = 0;
                 _receiveStream.SetLength(0);
-                WebSocketResult result;
                 do
                 {
                     // See _limboCts for more info on cancellation.
@@ -126,7 +125,7 @@ namespace Disqord.WebSocket.Default.Discord
                     if (cancellationToken.IsCancellationRequested)
                         throw new TaskCanceledException();
 
-                    result = await receiveTask.ConfigureAwait(false);
+                    var result = await receiveTask.ConfigureAwait(false);
                     if (result.MessageType == WebSocketMessageType.Close)
                     {
                         await _ws.CloseOutputAsync(_ws.CloseStatus.Value, _ws.CloseMessage, default).ConfigureAwait(false);
@@ -167,7 +166,7 @@ namespace Disqord.WebSocket.Default.Discord
             }
         }
 
-        public async Task CloseAsync(int closeStatus, string closeMessage = null, CancellationToken cancellationToken = default)
+        public async ValueTask CloseAsync(int closeStatus, string closeMessage = null, CancellationToken cancellationToken = default)
         {
             ThrowIfDisposed();
 

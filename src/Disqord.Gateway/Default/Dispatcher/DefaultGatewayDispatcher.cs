@@ -179,7 +179,7 @@ namespace Disqord.Gateway.Default
         {
             if (Client.CacheProvider.TryGetUsers(out var cache))
             {
-                return cache.GetOrAdd(model.Id, static (id, tuple) =>
+                return cache.GetOrAdd(model.Id, static (_, tuple) =>
                 {
                     var (client, model) = tuple;
                     return new CachedSharedUser(client, model);
