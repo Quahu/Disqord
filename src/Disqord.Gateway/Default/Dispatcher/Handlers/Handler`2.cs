@@ -15,11 +15,7 @@ namespace Disqord.Gateway.Default.Dispatcher
         public override async Task HandleDispatchAsync(IGatewayApiClient shard, IJsonToken data)
         {
             var model = data.ToType<TModel>();
-            var task = HandleDispatchAsync(shard, model);
-            if (task == null)
-                throw new InvalidOperationException($"The dispatch handler {GetType()} returned a null handle task.");
-
-            var eventArgs = await task.ConfigureAwait(false);
+            var eventArgs = await HandleDispatchAsync(shard, model).ConfigureAwait(false);
             if (eventArgs == null || eventArgs == EventArgs.Empty)
                 return;
 
