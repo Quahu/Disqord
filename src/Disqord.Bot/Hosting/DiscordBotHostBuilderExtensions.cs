@@ -45,28 +45,25 @@ namespace Disqord.Bot.Hosting
             if (discordContext.OwnerIds != null)
                 services.Configure<TBotConfiguration>(x => x.OwnerIds = discordContext.OwnerIds);
 
-            if (services.Any(x => x.ImplementationType == typeof(DefaultPrefixProvider)))
+            if (!discordContext.UseMentionPrefix && (discordContext.Prefixes == null || !discordContext.Prefixes.Any()))
+                throw new InvalidOperationException($"No prefixes were specified for the {nameof(DefaultPrefixProvider)}.");
+
+            services.AddSingleton<IConfigureOptions<DefaultPrefixProviderConfiguration>>(services => new ConfigureOptions<DefaultPrefixProviderConfiguration>(x =>
             {
-                if (!discordContext.UseMentionPrefix && (discordContext.Prefixes == null || !discordContext.Prefixes.Any()))
-                    throw new InvalidOperationException($"No prefixes were specified for the {nameof(DefaultPrefixProvider)}.");
-
-                services.AddSingleton<IConfigureOptions<DefaultPrefixProviderConfiguration>>(services => new ConfigureOptions<DefaultPrefixProviderConfiguration>(x =>
+                var prefixes = new List<IPrefix>();
+                if (discordContext.UseMentionPrefix)
                 {
-                    var prefixes = new List<IPrefix>();
-                    if (discordContext.UseMentionPrefix)
-                    {
-                        if (services.GetService<Token>() is not BotToken botToken)
-                            throw new InvalidOperationException("The mention prefix cannot be used without a bot token set.");
+                    if (services.GetService<Token>() is not BotToken botToken)
+                        throw new InvalidOperationException("The mention prefix cannot be used without a bot token set.");
 
-                        prefixes.Add(new MentionPrefix(botToken.Id));
-                    }
+                    prefixes.Add(new MentionPrefix(botToken.Id));
+                }
 
-                    if (discordContext.Prefixes != null)
-                        prefixes.AddRange(discordContext.Prefixes.Select(x => new StringPrefix(x)));
+                if (discordContext.Prefixes != null)
+                    prefixes.AddRange(discordContext.Prefixes.Select(x => new StringPrefix(x)));
 
-                    x.Prefixes = prefixes;
-                }));
-            }
+                x.Prefixes = prefixes;
+            }));
         }
     }
 }
