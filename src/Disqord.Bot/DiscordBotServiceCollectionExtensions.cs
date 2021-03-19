@@ -30,18 +30,20 @@ namespace Disqord.Bot
                     services.TryAddSingleton<DiscordBot>(x => x.GetRequiredService<TDiscordBot>());
 
                 services.TryAddSingleton<DiscordBotBase>(x => x.GetRequiredService<TDiscordBot>());
-                services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<DiscordBotBase>()));
+                services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<TDiscordBot>()));
             }
 
-            // TODO: add bot services efficiently
-
+            services.AddPrefixProvider();
+            services.AddCommandQueue();
+            services.AddCommands();
+            services.AddCommandContextAccessor();
             return services;
         }
 
         public static IServiceCollection AddPrefixProvider<TPrefixProvider>(this IServiceCollection services)
             where TPrefixProvider : class, IPrefixProvider
         {
-            services.AddSingleton<IPrefixProvider, TPrefixProvider>();
+            services.TryAddSingleton<IPrefixProvider, TPrefixProvider>();
             return services;
         }
 
@@ -87,7 +89,7 @@ namespace Disqord.Bot
 
         public static IServiceCollection AddCommandContextAccessor(this IServiceCollection services)
         {
-            services.AddScoped<ICommandContextAccessor, DefaultCommandContextAccessor>();
+            services.TryAddScoped<ICommandContextAccessor, DefaultCommandContextAccessor>();
             return services;
         }
     }

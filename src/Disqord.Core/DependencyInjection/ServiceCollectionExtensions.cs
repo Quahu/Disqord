@@ -101,6 +101,71 @@ namespace Disqord.DependencyInjection.Extensions
             where TService : class
             => services.TryAdd(ServiceDescriptor.Singleton(implementationFactory));
 
+        public static bool TryAddScoped(this IServiceCollection collection, Type service)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
+            if (service == null)
+                throw new ArgumentNullException(nameof(service));
+
+            var descriptor = ServiceDescriptor.Singleton(service, service);
+            return TryAdd(collection, descriptor);
+        }
+
+        public static bool TryAddScoped(this IServiceCollection collection, Type service, Type implementationType)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
+            if (service == null)
+                throw new ArgumentNullException(nameof(service));
+
+            if (implementationType == null)
+                throw new ArgumentNullException(nameof(implementationType));
+
+            var descriptor = ServiceDescriptor.Scoped(service, implementationType);
+            return TryAdd(collection, descriptor);
+        }
+
+        public static bool TryAddScoped(this IServiceCollection collection, Type service, Func<IServiceProvider, object> implementationFactory)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
+            if (service == null)
+                throw new ArgumentNullException(nameof(service));
+
+            if (implementationFactory == null)
+                throw new ArgumentNullException(nameof(implementationFactory));
+
+            var descriptor = ServiceDescriptor.Scoped(service, implementationFactory);
+            return TryAdd(collection, descriptor);
+        }
+
+        public static bool TryAddScoped<TService>(this IServiceCollection collection)
+            where TService : class
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
+            return TryAddScoped(collection, typeof(TService), typeof(TService));
+        }
+
+        public static bool TryAddScoped<TService, TImplementation>(this IServiceCollection collection)
+            where TService : class
+            where TImplementation : class, TService
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
+            return TryAddScoped(collection, typeof(TService), typeof(TImplementation));
+        }
+
+        public static bool TryAddScoped<TService>(this IServiceCollection services, Func<IServiceProvider, TService> implementationFactory)
+            where TService : class
+            => services.TryAdd(ServiceDescriptor.Scoped(implementationFactory));
+
         public static IServiceCollection Replace(this IServiceCollection collection, ServiceDescriptor descriptor)
         {
             if (collection == null)

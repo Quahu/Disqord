@@ -5,6 +5,7 @@ using System.Linq;
 using Disqord.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Qmmands;
 
 namespace Disqord.Bot.Hosting
@@ -17,7 +18,7 @@ namespace Disqord.Bot.Hosting
         public static IHostBuilder ConfigureDiscordBot<TDiscordBot>(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext> configure = null)
             where TDiscordBot : DiscordBot
             => builder.ConfigureDiscordBot<TDiscordBot, DiscordBotConfiguration>(configure);
-        
+
         public static IHostBuilder ConfigureDiscordBot<TDiscordBot, TDiscordBotConfiguration>(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext> configure = null)
             where TDiscordBot : DiscordBot
             where TDiscordBotConfiguration : DiscordBotBaseConfiguration, new()
@@ -28,6 +29,7 @@ namespace Disqord.Bot.Hosting
                 configure?.Invoke(context, discordContext);
 
                 services.AddDiscordBot<TDiscordBot>();
+                services.ConfigureDiscordClient(context, discordContext);
                 services.ConfigureDiscordBot<TDiscordBotConfiguration>(context, discordContext);
             });
 
@@ -38,50 +40,33 @@ namespace Disqord.Bot.Hosting
         public static void ConfigureDiscordBot<TBotConfiguration>(this IServiceCollection services, HostBuilderContext context, DiscordBotHostingContext discordContext)
             where TBotConfiguration : DiscordBotBaseConfiguration, new()
         {
-            services.ConfigureDiscordClient(context, discordContext);
-
             services.Configure<CommandServiceConfiguration>(x => x.CooldownBucketKeyGenerator = CooldownBucketKeyGenerator.Instance);
 
             if (discordContext.OwnerIds != null)
                 services.Configure<TBotConfiguration>(x => x.OwnerIds = discordContext.OwnerIds);
-            
-            var hasDefaultPrefixProvider = services.Any(x => x.ImplementationType == typeof(DefaultPrefixProvider));
-            if (hasDefaultPrefixProvider || !services.Any(x => x.ServiceType == typeof(IPrefixProvider)))
-            {
-                if (!discordContext.UseMentionPrefix && discordContext.Prefixes == null)
-                    throw new InvalidOperationException($"No prefixes were specified and no {nameof(IPrefixProvider)} exists in services. Did you pass null prefixes by mistake?");
 
-                var prefixes = new List<IPrefix>();
-                if (discordContext.UseMentionPrefix)
+            if (services.Any(x => x.ImplementationType == typeof(DefaultPrefixProvider)))
+            {
+                if (!discordContext.UseMentionPrefix && (discordContext.Prefixes == null || !discordContext.Prefixes.Any()))
+                    throw new InvalidOperationException($"No prefixes were specified for the {nameof(DefaultPrefixProvider)}.");
+
+                services.AddSingleton<IConfigureOptions<DefaultPrefixProviderConfiguration>>(services => new ConfigureOptions<DefaultPrefixProviderConfiguration>(x =>
                 {
-                    // We have to use some messy code to create the MentionPrefix with the bot's ID.
-                    // TODO: rethink
-                    var botToken = services.FirstOrDefault(x => x.ImplementationInstance is BotToken)?.ImplementationInstance as BotToken;
-                    if (botToken != null)
+                    var prefixes = new List<IPrefix>();
+                    if (discordContext.UseMentionPrefix)
                     {
+                        if (services.GetService<Token>() is not BotToken botToken)
+                            throw new InvalidOperationException("The mention prefix cannot be used without a bot token set.");
+
                         prefixes.Add(new MentionPrefix(botToken.Id));
                     }
-                }
 
-                if (discordContext.Prefixes != null)
-                {
-                    prefixes.AddRange(discordContext.Prefixes.Select(x => new StringPrefix(x)));
-                }
+                    if (discordContext.Prefixes != null)
+                        prefixes.AddRange(discordContext.Prefixes.Select(x => new StringPrefix(x)));
 
-                if (hasDefaultPrefixProvider)
-                {
-                    services.Configure<DefaultPrefixProviderConfiguration>(x => x.Prefixes = prefixes);
-                }
-                else
-                {
-                    services.AddPrefixProvider(x => x.Prefixes = prefixes);
-                }
+                    x.Prefixes = prefixes;
+                }));
             }
-
-            services.AddPrefixProvider();
-            services.AddCommandQueue();
-            services.AddCommands();
-            services.AddCommandContextAccessor();
         }
     }
 }

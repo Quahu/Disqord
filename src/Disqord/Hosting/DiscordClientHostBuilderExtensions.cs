@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using Disqord.Gateway.Api.Default;
 using Disqord.Gateway.Default;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,22 +40,28 @@ namespace Disqord.Hosting
 
             services.AddHostedService<DiscordClientRunnerService>();
 
-            // TODO: configuration, extra assemblies
-            var types = Assembly.GetEntryAssembly().GetExportedTypes();
-            foreach (var type in types)
+            var serviceAssemblies = discordContext.ServiceAssemblies;
+            if (serviceAssemblies != null)
             {
-                if (!typeof(DiscordClientService).IsAssignableFrom(type))
-                    continue;
-
-                for (var i = 0; i < services.Count; i++)
+                for (var i = 0; i < serviceAssemblies.Count; i++)
                 {
-                    var service = services[i];
-                    if (service.ServiceType == typeof(IHostedService) && GetImplementationType(service) == type)
-                        return;
-                }
+                    var types = serviceAssemblies[i].GetExportedTypes();
+                    foreach (var type in types)
+                    {
+                        if (!typeof(DiscordClientService).IsAssignableFrom(type))
+                            continue;
 
-                services.AddSingleton(type);
-                services.AddSingleton(typeof(IHostedService), x => x.GetService(type));
+                        for (var j = 0; j < services.Count; j++)
+                        {
+                            var service = services[j];
+                            if (service.ServiceType == typeof(IHostedService) && GetImplementationType(service) == type)
+                                return;
+                        }
+
+                        services.AddSingleton(type);
+                        services.AddSingleton(typeof(IHostedService), x => x.GetService(type));
+                    }
+                }
             }
         }
 

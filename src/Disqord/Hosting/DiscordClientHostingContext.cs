@@ -1,4 +1,6 @@
-﻿using Disqord.Gateway;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using Disqord.Gateway;
 
 namespace Disqord.Hosting
 {
@@ -24,11 +26,11 @@ namespace Disqord.Hosting
         /// </summary>
         public virtual ReadyEventDelayMode ReadyEventDelayMode { get; set; } = ReadyEventDelayMode.Guilds;
 
-        ///// <summary>
-        /////     Gets or sets whether to 
-        ///// </summary>
-        //public virtual bool RegisterDiscordServices { get; set; } = true;
-
-        //public virtual IEnumerable<Assembly> AdditionalServiceAssemblies { get; set; }
+        /// <summary>
+        ///     Gets or sets the assemblies from which to register <see cref="DiscordClientService"/> implementations.
+        ///     Defaults to <see cref="Assembly.GetEntryAssembly"/>.
+        ///     If <see langword="null"/> or empty, the services will have to be manually registered.
+        /// </summary>
+        public virtual IList<Assembly> ServiceAssemblies { get; set; } = new List<Assembly> { Assembly.GetEntryAssembly() };
     }
 }

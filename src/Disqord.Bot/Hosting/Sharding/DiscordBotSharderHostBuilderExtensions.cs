@@ -31,11 +31,16 @@ namespace Disqord.Bot.Hosting
 
                 if (services.TryAddSingleton<TDiscordBotSharder>())
                 {
-                    services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<TDiscordBotSharder>()));
-                    services.Replace(ServiceDescriptor.Singleton<DiscordBotBase>(x => x.GetRequiredService<TDiscordBotSharder>()));
+                    services.AddPrefixProvider();
+                    services.AddCommandQueue();
+                    services.AddCommands();
+                    services.AddCommandContextAccessor();
 
                     if (typeof(TDiscordBotSharder) != typeof(DiscordBotSharder))
                         services.Replace(ServiceDescriptor.Singleton<DiscordBotSharder>(x => x.GetRequiredService<TDiscordBotSharder>()));
+
+                    services.TryAddSingleton<DiscordBotBase>(x => x.GetRequiredService<TDiscordBotSharder>());
+                    services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<TDiscordBotSharder>()));
                 }
             });
 
