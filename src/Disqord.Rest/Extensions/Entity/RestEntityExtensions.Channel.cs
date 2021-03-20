@@ -37,7 +37,7 @@ namespace Disqord.Rest
             return client.EnumerateMessages(channel.Id, limit, direction, startFromId, options);
         }
 
-        public static Task<IReadOnlyList<IMessage>> FetchMessagesAsync(this IMessageChannel channel, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IMessage>> FetchMessagesAsync(this IMessageChannel channel, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
             return client.FetchMessagesAsync(channel.Id, limit, direction, startFromId, options);
@@ -81,7 +81,7 @@ namespace Disqord.Rest
             return client.EnumerateReactions(channel.Id, messageId, emoji, limit, direction, startFromId, options);
         }
 
-        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IMessageChannel channel, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IMessageChannel channel, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
             return client.FetchReactionsAsync(channel.Id, messageId, emoji, limit, direction, startFromId, options);
