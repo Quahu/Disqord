@@ -53,6 +53,13 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildUpdatedEventArgs> GuildUpdated
+        {
+            add => Dispatcher.GuildUpdatedEvent.Hook(value);
+            remove => Dispatcher.GuildUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<GuildUnavailableEventArgs> GuildUnavailable
         {
             add => Dispatcher.GuildUnavailableEvent.Hook(value);

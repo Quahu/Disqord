@@ -37,6 +37,11 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<JoinedGuildEventArgs> JoinedGuild;
 
         /// <summary>
+        ///     Fires when a guild is updated.
+        /// </summary>
+        event AsynchronousEventHandler<GuildUpdatedEventArgs> GuildUpdated;
+
+        /// <summary>
         ///     Fires when a guild becomes unavailable.
         /// </summary>
         event AsynchronousEventHandler<GuildUnavailableEventArgs> GuildUnavailable;

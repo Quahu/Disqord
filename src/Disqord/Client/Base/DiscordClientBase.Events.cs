@@ -54,6 +54,13 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildUpdatedEventArgs> GuildUpdated
+        {
+            add => GatewayClient.GuildUpdated += value;
+            remove => GatewayClient.GuildUpdated -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<GuildUnavailableEventArgs> GuildUnavailable
         {
             add => GatewayClient.GuildUnavailable += value;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
 using Disqord.Gateway.Api;
@@ -69,6 +69,7 @@ namespace Disqord.Gateway.Default
                 ["CHANNEL_PINS_UPDATE"] = new ChannelPinsUpdateHandler(),
 
                 ["GUILD_CREATE"] = new GuildCreateHandler(),
+                ["GUILD_UPDATE"] = new GuildUpdateHandler(),
                 ["GUILD_DELETE"] = new GuildDeleteHandler(),
 
                 ["GUILD_BAN_ADD"] = new GuildBanAddHandler(),

@@ -20,6 +20,8 @@ namespace Disqord.Gateway
 
         AsynchronousEvent<GuildUnavailableEventArgs> GuildUnavailableEvent { get; }
 
+        AsynchronousEvent<GuildUpdatedEventArgs> GuildUpdatedEvent { get; }
+
         AsynchronousEvent<LeftGuildEventArgs> LeftGuildEvent { get; }
 
         AsynchronousEvent<BanCreatedEventArgs> BanCreatedEvent { get; }
@@ -27,11 +29,11 @@ namespace Disqord.Gateway
         AsynchronousEvent<BanDeletedEventArgs> BanDeletedEvent { get; }
 
         AsynchronousEvent<MemberJoinedEventArgs> MemberJoinedEvent { get; }
-        
+
         AsynchronousEvent<MemberUpdatedEventArgs> MemberUpdatedEvent { get; }
-        
+
         AsynchronousEvent<MemberLeftEventArgs> MemberLeftEvent { get; }
-        
+
         AsynchronousEvent<RoleCreatedEventArgs> RoleCreatedEvent { get; }
 
         AsynchronousEvent<RoleUpdatedEventArgs> RoleUpdatedEvent { get; }
