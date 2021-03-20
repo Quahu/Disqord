@@ -7,6 +7,12 @@ namespace Disqord.Rest
 {
     public static partial class RestEntityExtensions
     {
+        public static Task LeaveAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.LeaveGuildAsync(guild.Id, options);
+        }
+
         public static Task<IGuild> ModifyAsync(this IGuild guild, Action<ModifyGuildActionProperties> action, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
