@@ -48,6 +48,7 @@ namespace Disqord
         IRestApiClient IRestClient.ApiClient => RestClient.ApiClient;
         IGatewayCacheProvider IGatewayClient.CacheProvider => GatewayClient.CacheProvider;
         IGatewayDispatcher IGatewayClient.Dispatcher => GatewayClient.Dispatcher;
+        IDictionary<Snowflake, IDirectChannel> IRestClient.DirectChannels => RestClient.DirectChannels;
         IReadOnlyDictionary<ShardId, IGatewayApiClient> IGatewayClient.Shards => GatewayClient.Shards;
 
         private readonly Dictionary<Type, DiscordClientExtension> _extensions;

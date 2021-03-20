@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Rest.Api;
-using Disqord.Rest.Default;
 using Disqord.Rest.Pagination;
 
 namespace Disqord.Rest
@@ -71,13 +70,9 @@ namespace Disqord.Rest
 
         public static async Task<IDirectChannel> CreateDirectChannelAsync(this IRestClient client, Snowflake userId, IRestRequestOptions options = null)
         {
-            IDictionary<Snowflake, IDirectChannel> cache = null;
-            if (client is DefaultRestClient defaultRestClient)
-            {
-                cache = defaultRestClient.DirectChannels;
-                if (cache != null && cache.TryGetValue(userId, out var cachedChannel))
-                    return cachedChannel;
-            }
+            var channels = client.DirectChannels;
+            if (channels != null && channels.TryGetValue(userId, out var cachedChannel))
+                return cachedChannel;
 
             var content = new CreateDirectChannelJsonRestRequestContent
             {
@@ -86,8 +81,8 @@ namespace Disqord.Rest
             var model = await client.ApiClient.CreateDirectChannelAsync(content, options).ConfigureAwait(false);
             var channel = new TransientDirectChannel(client, model);
 
-            if (cache != null)
-                cache.Add(userId, channel);
+            if (channels != null)
+                channels.Add(userId, channel);
 
             return channel;
         }
