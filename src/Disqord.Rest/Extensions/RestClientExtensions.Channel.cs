@@ -306,7 +306,7 @@ namespace Disqord.Rest
         public static Task DeleteOverwriteAsync(this IRestClient client, Snowflake channelId, Snowflake targetId, IRestRequestOptions options = null)
             => client.ApiClient.DeleteOverwriteAsync(channelId, targetId, options);
 
-        public static async Task<IReadOnlyList<IInvite>> GetChannelInvitesAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null)
+        public static async Task<IReadOnlyList<IInvite>> FetchChannelInvitesAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null)
         {
             var models = await client.ApiClient.FetchChannelInvitesAsync(channelId, options).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (x, client) => new TransientInvite(client, x));

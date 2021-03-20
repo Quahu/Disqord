@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Rest.Api;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 
@@ -63,10 +62,12 @@ namespace Disqord.Rest.Repetition
 
         private async Task RunAsync()
         {
-            while (!_cts.IsCancellationRequested)
+            await Task.Yield();
+            var token = _cts.Token;
+            while (!token.IsCancellationRequested)
             {
-                await ExecuteAsync(_cts.Token).ConfigureAwait(false);
-                await Task.Delay(Interval, _cts.Token).ConfigureAwait(false);
+                await ExecuteAsync(token);
+                await Task.Delay(Interval, token);
             }
         }
 
