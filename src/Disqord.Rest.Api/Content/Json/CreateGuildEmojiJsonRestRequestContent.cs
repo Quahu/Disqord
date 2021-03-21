@@ -13,5 +13,11 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("roles")]
         public Optional<Snowflake[]> Roles;
+
+        public CreateGuildEmojiJsonRestRequestContent(string name, Stream image)
+        {
+            Name = name;
+            Image = image;
+        }
     }
 }

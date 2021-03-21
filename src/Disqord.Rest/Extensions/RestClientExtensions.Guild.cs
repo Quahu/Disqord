@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -283,9 +283,9 @@ namespace Disqord.Rest
             });
         }
 
-        public static async Task<IRole> CreateRoleAsync(this IRestClient client, Snowflake guildId, Action<CreateRoleProperties> action = null, IRestRequestOptions options = null)
+        public static async Task<IRole> CreateRoleAsync(this IRestClient client, Snowflake guildId, Action<CreateRoleActionProperties> action = null, IRestRequestOptions options = null)
         {
-            var properties = new CreateRoleProperties();
+            var properties = new CreateRoleActionProperties();
             action?.Invoke(properties);
             var content = new CreateRoleJsonRestRequestContent
             {
@@ -395,7 +395,7 @@ namespace Disqord.Rest
         //}
 
         // public static Task<string> GetVanityInviteAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
-            // => client.ApiClient.GetGuildVanityUrlAsync(guildId, options);
+        // => client.ApiClient.GetGuildVanityUrlAsync(guildId, options);
 
         //public async Task<RestPreview> GetPreviewAsync(Snowflake guildId, IRestRequestOptions options = null)
         //{

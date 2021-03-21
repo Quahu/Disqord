@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Disqord.Rest.Pagination;
 
@@ -133,7 +134,7 @@ namespace Disqord.Rest
             return client.FetchRolesAsync(guild.Id, options);
         }
 
-        public static Task<IRole> CreateRoleAsync(this IGuild guild, Action<CreateRoleProperties> action = null, IRestRequestOptions options = null)
+        public static Task<IRole> CreateRoleAsync(this IGuild guild, Action<CreateRoleActionProperties> action = null, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
             return client.CreateRoleAsync(guild.Id, action, options);
@@ -184,5 +185,35 @@ namespace Disqord.Rest
         // TODO: fetch vanity invite
 
         // TODO: fetch preview
+
+        public static Task<IReadOnlyList<IGuildEmoji>> FetchEmojisAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildEmojisAsync(guild.Id, options);
+        }
+
+        public static Task<IGuildEmoji> FetchEmojiAsync(this IGuild guild, Snowflake emojiId, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildEmojiAsync(guild.Id, emojiId, options);
+        }
+
+        public static Task<IGuildEmoji> CreateEmojiAsync(this IGuild guild, string name, Stream image, Action<CreateGuildEmojiActionProperties> action = null, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.CreateGuildEmojiAsync(guild.Id, name, image, action, options);
+        }
+
+        public static Task<IGuildEmoji> ModifyEmojiAsync(this IGuild guild, Snowflake emojiId, Action<ModifyGuildEmojiActionProperties> action = null, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyGuildEmojiAsync(guild.Id, emojiId, action, options);
+        }
+
+        public static Task DeleteEmojiAsync(this IGuild guild, Snowflake emojiId, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.DeleteGuildEmojiAsync(guild.Id, emojiId, options);
+        }
     }
 }
