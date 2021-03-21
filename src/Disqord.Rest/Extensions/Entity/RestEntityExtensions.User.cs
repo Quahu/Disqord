@@ -9,5 +9,11 @@ namespace Disqord.Rest
             var client = user.GetRestClient();
             return client.CreateDirectChannelAsync(user.Id, options);
         }
+
+        public static async Task<IUserMessage> SendMessageAsync(this IUser user, LocalMessage message, IRestRequestOptions options = null)
+        {
+            var channel = await user.CreateDirectChannelAsync(options).ConfigureAwait(false);
+            return await channel.SendMessageAsync(message).ConfigureAwait(false);
+        }
     }
 }
