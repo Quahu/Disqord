@@ -3,7 +3,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class GatewayTransientSystemMessage : TransientSystemMessage, IGatewayMessage
+    public class TransientGatewaySystemMessage : TransientSystemMessage, IGatewayMessage
     {
         public Snowflake? GuildId => Model.GuildId.GetValueOrNullable();
 
@@ -25,7 +25,7 @@ namespace Disqord
             }
         }
         
-        public GatewayTransientSystemMessage(IClient client, MessageJsonModel model)
+        public TransientGatewaySystemMessage(IClient client, MessageJsonModel model)
             : base(client, model)
         { }
     }

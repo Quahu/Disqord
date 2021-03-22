@@ -7,7 +7,7 @@ using Disqord.Models;
 
 namespace Disqord.Gateway
 {
-    public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild, IJsonUpdatable<UnavailableGuildJsonModel>
+    public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild, IJsonUpdatable<UnavailableGuildJsonModel>, IJsonUpdatable<GuildEmojisUpdateJsonModel>
     {
         // Interface: INamable
         public string Name { get; private set; }
@@ -25,7 +25,7 @@ namespace Disqord.Gateway
 
         public Snowflake? AfkChannelId { get; private set; }
 
-        public int AfkTimeout { get; private set; }
+        public TimeSpan AfkTimeout { get; private set; }
 
         public bool IsWidgetEnabled { get; private set; }
 
@@ -41,7 +41,7 @@ namespace Disqord.Gateway
         {
             get
             {
-                if (Client.CacheProvider.TryGetRoles(Id, out var cache))
+                if (Client.CacheProvider.TryGetRoles(Id, out var cache, true))
                     return new ReadOnlyUpcastingDictionary<Snowflake, CachedRole, IRole>(cache.ReadOnly());
 
                 return ReadOnlyDictionary<Snowflake, IRole>.Empty;
@@ -62,9 +62,9 @@ namespace Disqord.Gateway
 
         public Snowflake? RulesChannelId { get; private set; }
 
-        public int MaxPresenceCount { get; private set; }
+        public int? MaxPresenceCount { get; private set; }
 
-        public int MaxMemberCount { get; private set; }
+        public int? MaxMemberCount { get; private set; }
 
         public string VanityUrlCode { get; private set; }
 
@@ -89,11 +89,30 @@ namespace Disqord.Gateway
 
         public bool IsUnavailable { get; private set; }
 
+        // TODO: track member count
         public int MemberCount { get; private set; }
 
-        public IReadOnlyDictionary<Snowflake, IMember> Members { get; }
+        public IReadOnlyDictionary<Snowflake, IMember> Members        
+        {
+            get
+            {
+                if (Client.CacheProvider.TryGetMembers(Id, out var cache, true))
+                    return new ReadOnlyUpcastingDictionary<Snowflake, CachedMember, IMember>(cache.ReadOnly());
 
-        public IReadOnlyDictionary<Snowflake, IGuildChannel> Channels { get; }
+                return ReadOnlyDictionary<Snowflake, IMember>.Empty;
+            }
+        }
+
+        public IReadOnlyDictionary<Snowflake, IGuildChannel> Channels
+        {
+            get
+            {
+                if (Client.CacheProvider.TryGetChannels(Id, out var cache, true))
+                    return new ReadOnlyUpcastingDictionary<Snowflake, CachedGuildChannel, IGuildChannel>(cache.ReadOnly());
+
+                return ReadOnlyDictionary<Snowflake, IGuildChannel>.Empty;
+            }
+        }
 
         public CachedGuild(IGatewayClient client, GatewayGuildJsonModel model)
             : base(client, model.Id)
@@ -106,6 +125,42 @@ namespace Disqord.Gateway
         public void Update(GuildJsonModel model)
         {
             Name = model.Name;
+            IconHash = model.Icon;
+            SplashHash = model.Splash;
+
+            if (model.DiscoverySplash.HasValue)
+                DiscoverySplashHash = model.DiscoverySplash.Value;
+
+            OwnerId = model.OwnerId;
+            VoiceRegionId = model.Region;
+            AfkChannelId = model.AfkChannelId;
+            AfkTimeout = TimeSpan.FromSeconds(model.AfkTimeout);
+
+            if (model.WidgetEnabled.HasValue)
+                IsWidgetEnabled = model.WidgetEnabled.Value;
+
+            if (model.WidgetChannelId.HasValue)
+                WidgetChannelId = model.WidgetChannelId.Value;
+
+            VerificationLevel = model.VerificationLevel;
+            NotificationLevel = model.DefaultMessageNotifications;
+            ContentFilterLevel = model.ExplicitContentFilter;
+            SetEmojis(model.Emojis);
+            Features = model.Features;
+            MfaLevel = model.MfaLevel;
+            SystemChannelId = model.SystemChannelId;
+            SystemChannelFlags = model.SystemChannelFlags;
+            RulesChannelId = model.RulesChannelId;
+            MaxPresenceCount = Optional.Convert(model.MaxPresences, x => x ?? Discord.Constants.DefaultMaxGuildPresenceCount).GetValueOrNullable();
+            MaxMemberCount = model.MaxMembers.GetValueOrNullable();
+            VanityUrlCode = model.VanityUrlCode;
+            Description = model.Description;
+            BannerHash = model.Banner;
+            BoostTier = model.PremiumTier;
+            BoostingMemberCount = model.PremiumSubscriptionCount.GetValueOrNullable();
+            PreferredLocale = Discord.Internal.GetLocale(model.PreferredLocale);
+            PublicUpdatesChannelId = model.PublicUpdatesChannelId;
+            MaxVideoMemberCount = model.MaxVideoChannelUsers.GetValueOrNullable();
         }
 
         public void Update(GatewayGuildJsonModel model)
@@ -123,6 +178,20 @@ namespace Disqord.Gateway
         {
             if (model.Unavailable.HasValue)
                 IsUnavailable = model.Unavailable.Value;
+        }
+
+        public void Update(GuildEmojisUpdateJsonModel model)
+        {
+            SetEmojis(model.Emojis);
+        }
+
+        private void SetEmojis(EmojiJsonModel[] emojis)
+        {
+            Emojis = emojis.ToReadOnlyDictionary((Client, Id), (x, _) => x.Id.Value, (x, tuple) =>
+            {
+                var (client, guildId) = tuple;
+                return new TransientGuildEmoji(client, guildId, x) as IGuildEmoji;
+            });
         }
     }
 }

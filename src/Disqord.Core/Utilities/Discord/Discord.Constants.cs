@@ -4,7 +4,7 @@
     {
         public static class Constants
         {
-            public const int DefaultMaxGuildPresenceCount = 5000;
+            public const int DefaultMaxGuildPresenceCount = 25000;
 
             public const int DeleteMessagesLimit = 100;
 

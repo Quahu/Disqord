@@ -4,7 +4,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public abstract class GatewayTransientMessage : TransientMessage, IGatewayMessage
+    public abstract class TransientGatewayMessage : TransientMessage, IGatewayMessage
     {
         public Snowflake? GuildId => Model.GuildId.GetValueOrNullable();
         
@@ -26,12 +26,12 @@ namespace Disqord
             }
         }
 
-        protected GatewayTransientMessage(IClient client, MessageJsonModel model)
+        protected TransientGatewayMessage(IClient client, MessageJsonModel model)
             : base(client, model)
         { }
 
         /// <summary>
-        ///     Creates either a <see cref="GatewayTransientUserMessage"/> or a <see cref="TransientSystemMessage"/> based on the type.
+        ///     Creates either a <see cref="TransientGatewayUserMessage"/> or a <see cref="TransientSystemMessage"/> based on the type.
         /// </summary>
         /// <param name="client"></param>
         /// <param name="model"></param>
@@ -43,10 +43,10 @@ namespace Disqord
                 case MessageType.Default:
                 case MessageType.Reply:
                 case MessageType.ApplicationCommand:
-                    return new GatewayTransientUserMessage(client, model);
+                    return new TransientGatewayUserMessage(client, model);
 
                 default:
-                    return new GatewayTransientSystemMessage(client, model);
+                    return new TransientGatewaySystemMessage(client, model);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Disqord.Models;
 
@@ -40,9 +41,9 @@ namespace Disqord
         Snowflake? AfkChannelId { get; }
 
         /// <summary>
-        ///     Gets the AFK timeout in seconds of this guild.
+        ///     Gets the AFK timeout of this guild.
         /// </summary>
-        int AfkTimeout { get; }
+        TimeSpan AfkTimeout { get; }
 
         /// <summary>
         ///     Gets whether this guild has the widget enabled.
@@ -113,12 +114,12 @@ namespace Disqord
         /// <summary>
         ///     Gets the max presence count of this guild.
         /// </summary>
-        int MaxPresenceCount { get; }
+        int? MaxPresenceCount { get; }
 
         /// <summary>
         ///     Gets the max member count of this guild.
         /// </summary>
-        int MaxMemberCount { get; }
+        int? MaxMemberCount { get; }
 
         /// <summary>
         ///     Getsthe vanity URL code of this guild.

@@ -42,7 +42,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                     }
 
                     if (guild == null)
-                        guild = new GatewayTransientGuild(Client, model);
+                        guild = new TransientGatewayGuild(Client, model);
 
                     // TODO: optimise member cache retrieval
                     if (CacheProvider.TryGetMembers(model.Id, out var memberCache))
@@ -114,7 +114,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 }
                 else
                 {
-                    guild = new GatewayTransientGuild(Client, model);
+                    guild = new TransientGatewayGuild(Client, model);
                 }
                 
                 // TODO: optimise member cache retrieval

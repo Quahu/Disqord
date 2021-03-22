@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using Disqord.Collections;
 using Disqord.Models;
 
@@ -28,7 +27,7 @@ namespace Disqord
 
         public Snowflake? AfkChannelId => Model.AfkChannelId;
 
-        public int AfkTimeout => Model.AfkTimeout;
+        public TimeSpan AfkTimeout => TimeSpan.FromSeconds(Model.AfkTimeout);
 
         public bool IsWidgetEnabled => Model.WidgetEnabled.GetValueOrDefault();
 
@@ -56,41 +55,56 @@ namespace Disqord
         }
         private IReadOnlyDictionary<Snowflake, IRole> _roles;
 
-        public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis { get; }
+        public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis
+        {
+            get
+            {
+                if (_emojis == null)
+                    _emojis = Model.Emojis.ToReadOnlyDictionary((Client, Id), (x, _) => x.Id.Value, (x, tuple) =>
+                    {
+                        var (client, guildId) = tuple;
+                        return new TransientGuildEmoji(client, guildId, x) as IGuildEmoji;
+                    });
 
-        public IReadOnlyList<string> Features { get; }
+                return _emojis;
+            }
+        }
+        private IReadOnlyDictionary<Snowflake, IGuildEmoji> _emojis;
 
-        public GuildMfaLevel MfaLevel { get; }
+        public IReadOnlyList<string> Features => Model.Features;
 
-        public Snowflake? ApplicationId { get; }
+        public GuildMfaLevel MfaLevel => Model.MfaLevel;
 
-        public Snowflake? SystemChannelId { get; }
+        public Snowflake? ApplicationId => Model.ApplicationId;
 
-        public GuildSystemChannelFlags SystemChannelFlags { get; }
+        public Snowflake? SystemChannelId => Model.SystemChannelId;
 
-        public Snowflake? RulesChannelId { get; }
+        public GuildSystemChannelFlags SystemChannelFlags => Model.SystemChannelFlags;
 
-        public int MaxPresenceCount { get; }
+        public Snowflake? RulesChannelId => Model.RulesChannelId;
 
-        public int MaxMemberCount { get; }
+        public int? MaxPresenceCount => Optional.Convert(Model.MaxPresences, x => x ?? Discord.Constants.DefaultMaxGuildPresenceCount).GetValueOrNullable();
 
-        public string VanityUrlCode { get; }
+        public int? MaxMemberCount => Model.MaxMembers.GetValueOrNullable();
 
-        public string Description { get; }
+        public string VanityUrlCode => Model.VanityUrlCode;
 
-        public string BannerHash { get; }
+        public string Description => Model.Description;
 
-        public BoostTier BoostTier { get; }
+        public string BannerHash => Model.Banner;
 
-        public int? BoostingMemberCount { get; }
+        public BoostTier BoostTier => Model.PremiumTier;
 
-        public CultureInfo PreferredLocale { get; }
+        public int? BoostingMemberCount => Model.PremiumSubscriptionCount.GetValueOrNullable();
 
-        public Snowflake? PublicUpdatesChannelId { get; }
+        public CultureInfo PreferredLocale => Discord.Internal.GetLocale(Model.PreferredLocale);
 
-        public int? MaxVideoMemberCount { get; }
+        public Snowflake? PublicUpdatesChannelId => Model.PublicUpdatesChannelId;
 
-        public TransientGuild(IClient client, GuildJsonModel model) : base(client, model)
+        public int? MaxVideoMemberCount => Model.MaxVideoChannelUsers.GetValueOrNullable();
+
+        public TransientGuild(IClient client, GuildJsonModel model)
+            : base(client, model)
         { }
     }
 }

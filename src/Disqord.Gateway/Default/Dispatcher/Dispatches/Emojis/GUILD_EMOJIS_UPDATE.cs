@@ -1,14 +1,35 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Disqord.Collections;
 using Disqord.Gateway.Api;
+using Disqord.Gateway.Api.Models;
 
-namespace Disqord.Gateway.Default
+namespace Disqord.Gateway.Default.Dispatcher
 {
-    public partial class DefaultGatewayDispatcher
+    public class GuildEmojisUpdateHandler : Handler<GuildEmojisUpdateJsonModel, GuildEmojisUpdatedEventArgs>
     {
-        private Task GuildEmojisUpdateAsync(GatewayDispatchReceivedEventArgs e)
+        public override ValueTask<GuildEmojisUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildEmojisUpdateJsonModel model)
         {
-            //return _messageDeletedEvent.InvokeAsync(this, new MessageDeletedEventArgs());
-            return Task.CompletedTask;
+            IReadOnlyDictionary<Snowflake, IGuildEmoji> oldEmojis;
+            IReadOnlyDictionary<Snowflake, IGuildEmoji> newEmojis;
+            if (CacheProvider.TryGetGuilds(out var cache) && cache.TryGetValue(model.GuildId, out var guild))
+            {
+                oldEmojis = guild.Emojis;
+                guild.Update(model);
+                newEmojis = guild.Emojis;
+            }
+            else
+            {
+                guild = null;
+                oldEmojis = null;
+                newEmojis = model.Emojis.ToReadOnlyDictionary((Client, model.GuildId), (x, _) => x.Id.Value, (x, tuple) =>
+                {
+                    var (client, guildId) = tuple;
+                    return new TransientGuildEmoji(client, guildId, x) as IGuildEmoji;
+                });
+            }
+            var e = new GuildEmojisUpdatedEventArgs(model.GuildId, guild, oldEmojis, newEmojis);
+            return new(e);
         }
     }
 }

@@ -74,7 +74,7 @@ namespace Disqord.Models
         public Snowflake? SystemChannelId;
 
         [JsonProperty("system_channel_flags")]
-        public ulong SystemChannelFlags;
+        public GuildSystemChannelFlags SystemChannelFlags;
 
         [JsonProperty("rules_channel_id")]
         public Snowflake? RulesChannelId;
@@ -83,7 +83,7 @@ namespace Disqord.Models
         public Optional<int?> MaxPresences;
 
         [JsonProperty("max_members")]
-        public Optional<int?> MaxMembers;
+        public Optional<int> MaxMembers;
 
         [JsonProperty("vanity_url_code")]
         public string VanityUrlCode;
