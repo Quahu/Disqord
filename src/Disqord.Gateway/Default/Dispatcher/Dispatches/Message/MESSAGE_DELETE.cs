@@ -4,9 +4,9 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
-    public class MessageDeleteHandler : Handler<MessageDeletedJsonModel, MessageDeletedEventArgs>
+    public class MessageDeleteHandler : Handler<MessageDeleteJsonModel, MessageDeletedEventArgs>
     {
-        public override ValueTask<MessageDeletedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageDeletedJsonModel model)
+        public override ValueTask<MessageDeletedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageDeleteJsonModel model)
         {
             CachedUserMessage message = null;
             if (model.GuildId.HasValue && CacheProvider.TryGetMessages(model.ChannelId, out var cache))
