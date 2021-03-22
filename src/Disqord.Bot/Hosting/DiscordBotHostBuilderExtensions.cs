@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Disqord.DependencyInjection.Extensions;
 using Disqord.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -64,6 +65,8 @@ namespace Disqord.Bot.Hosting
 
                 x.Prefixes = prefixes;
             }));
+            
+            services.AddHostedService<DiscordBotRunnerService>();
         }
     }
 }

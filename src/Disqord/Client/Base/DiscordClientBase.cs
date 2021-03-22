@@ -31,6 +31,8 @@ namespace Disqord
         /// </summary>
         public IGatewayClient GatewayClient { get; }
 
+        public IGatewayCacheProvider CacheProvider => GatewayClient.CacheProvider;
+        
         public ICurrentUser CurrentUser => GatewayClient.CurrentUser;
 
         /// <inheritdoc cref="IClient.ApiClient"/>
@@ -46,7 +48,6 @@ namespace Disqord
         IApiClient IClient.ApiClient => ApiClient;
         IGatewayApiClient IGatewayClient.ApiClient => GatewayClient.ApiClient;
         IRestApiClient IRestClient.ApiClient => RestClient.ApiClient;
-        IGatewayCacheProvider IGatewayClient.CacheProvider => GatewayClient.CacheProvider;
         IGatewayDispatcher IGatewayClient.Dispatcher => GatewayClient.Dispatcher;
         IDictionary<Snowflake, IDirectChannel> IRestClient.DirectChannels => RestClient.DirectChannels;
         IReadOnlyDictionary<ShardId, IGatewayApiClient> IGatewayClient.Shards => GatewayClient.Shards;

@@ -97,18 +97,18 @@ namespace Disqord.Bot
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
-            
+
             var ownerIds = OwnerIds;
             if (ownerIds.Count != 0)
                 return ownerIds.Any(x => x == user.Id);
-            
+
             var application = await this.FetchCurrentApplicationAsync().ConfigureAwait(false);
             if (application.Team != null)
             {
                 OwnerIds = application.Team.Members.Keys.ToReadOnlyList();
                 return application.Team.Members.ContainsKey(user.Id);
             }
-            
+
             OwnerIds = new[] { application.Owner.Id }.ReadOnly();
             return application.Owner.Id == user.Id;
         }

@@ -21,6 +21,7 @@ namespace Disqord.Sharding
                 var discordContext = new DiscordClientSharderHostingContext();
                 configure?.Invoke(context, discordContext);
 
+                services.AddHostedService<DiscordClientRunnerService>();
                 services.ConfigureDiscordClientSharder(context, discordContext);
             });
 

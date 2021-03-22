@@ -8,7 +8,7 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
-    public abstract partial class DiscordBotBase : DiscordClientBase
+    public abstract partial class DiscordBotBase
     {
         private async Task MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {

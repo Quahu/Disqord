@@ -139,6 +139,7 @@ namespace Disqord.Extensions.Interactivity
 
             if (!_menus.TryAdd(menu.MessageId, menu))
                 throw new InvalidOperationException($"A menu with the message ID {menu.MessageId} is already added.");
+
             try
             {
                 await menu.StartAsync(timeout, cancellationToken).ConfigureAwait(false);

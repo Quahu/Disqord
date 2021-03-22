@@ -72,9 +72,6 @@ namespace Disqord.Bot
 
             Commands.CommandExecuted += CommandExecutedAsync;
             Commands.CommandExecutionFailed += CommandExecutionFailedAsync;
-
-            AddTypeParsers();
-            AddModules();
         }
     }
 }

@@ -35,6 +35,14 @@ namespace Disqord.Hosting
             Client = client;
         }
 
+        protected DiscordClientRunnerService(
+            ILogger logger,
+            DiscordClientBase client)
+        {
+            Logger = logger;
+            Client = client;
+        }
+
         /// <inheritdoc/>
         public override async Task StartAsync(CancellationToken cancellationToken)
         {

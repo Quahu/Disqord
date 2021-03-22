@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
+using Disqord.DependencyInjection.Extensions;
 using Disqord.Gateway.Api.Default;
 using Disqord.Gateway.Default;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,7 @@ namespace Disqord.Hosting
                 configure?.Invoke(context, discordContext);
 
                 services.AddDiscordClient();
+                services.AddHostedService<DiscordClientRunnerService>();
                 services.ConfigureDiscordClient(context, discordContext);
             });
 
@@ -38,8 +40,6 @@ namespace Disqord.Hosting
 
             services.Configure<DefaultGatewayDispatcherConfiguration>(x => x.ReadyEventDelayMode = discordContext.ReadyEventDelayMode);
 
-            services.AddHostedService<DiscordClientRunnerService>();
-
             var serviceAssemblies = discordContext.ServiceAssemblies;
             if (serviceAssemblies != null)
             {
@@ -54,7 +54,7 @@ namespace Disqord.Hosting
                         for (var j = 0; j < services.Count; j++)
                         {
                             var service = services[j];
-                            if (service.ServiceType == typeof(IHostedService) && GetImplementationType(service) == type)
+                            if (service.ServiceType == typeof(IHostedService) && service.GetImplementationType() == type)
                                 return;
                         }
 
@@ -63,24 +63,6 @@ namespace Disqord.Hosting
                     }
                 }
             }
-        }
-
-        internal static Type GetImplementationType(this ServiceDescriptor descriptor)
-        {
-            if (descriptor.ImplementationType != null)
-            {
-                return descriptor.ImplementationType;
-            }
-            else if (descriptor.ImplementationInstance != null)
-            {
-                return descriptor.ImplementationInstance.GetType();
-            }
-            else if (descriptor.ImplementationFactory != null)
-            {
-                return descriptor.ImplementationFactory.GetType().GenericTypeArguments[1];
-            }
-
-            return null;
         }
     }
 }
