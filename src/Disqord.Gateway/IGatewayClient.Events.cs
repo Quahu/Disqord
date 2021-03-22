@@ -63,6 +63,11 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<BanDeletedEventArgs> BanDeleted;
 
         /// <summary>
+        ///     Fires when the webhooks in a guild channel are updated.
+        /// </summary>
+        event AsynchronousEventHandler<WebhooksUpdatedEventArgs> WebhooksUpdated;
+
+        /// <summary>
         ///     Fires when a member joins a guild.
         /// </summary>
         event AsynchronousEventHandler<MemberJoinedEventArgs> MemberJoined;

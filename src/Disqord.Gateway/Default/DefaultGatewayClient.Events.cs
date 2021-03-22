@@ -81,6 +81,13 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<WebhooksUpdatedEventArgs> WebhooksUpdated
+        {
+            add => Dispatcher.WebhooksUpdatedEvent.Hook(value);
+            remove => Dispatcher.WebhooksUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<MemberJoinedEventArgs> MemberJoined
         {
             add => Dispatcher.MemberJoinedEvent.Hook(value);

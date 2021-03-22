@@ -1,14 +1,15 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway.Api;
+using Disqord.Gateway.Api.Models;
 
-namespace Disqord.Gateway.Default
+namespace Disqord.Gateway.Default.Dispatcher
 {
-    public partial class DefaultGatewayDispatcher
+    public class WebhooksUpdateHandler : Handler<WebhooksUpdateJsonModel, WebhooksUpdatedEventArgs>
     {
-        private Task WebhooksUpdateAsync(GatewayDispatchReceivedEventArgs e)
+        public override ValueTask<WebhooksUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, WebhooksUpdateJsonModel model)
         {
-            //return _messageDeletedEvent.InvokeAsync(this, new MessageDeletedEventArgs());
-            return Task.CompletedTask;
+            var e = new WebhooksUpdatedEventArgs(model.GuildId, model.ChannelId);
+            return new(e);
         }
     }
 }

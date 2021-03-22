@@ -89,6 +89,13 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<WebhooksUpdatedEventArgs> WebhooksUpdated
+        {
+            add => GatewayClient.WebhooksUpdated += value;
+            remove => GatewayClient.WebhooksUpdated -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<MemberJoinedEventArgs> MemberJoined
         {
             add => GatewayClient.MemberJoined += value;

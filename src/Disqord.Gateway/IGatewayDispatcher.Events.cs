@@ -28,6 +28,8 @@ namespace Disqord.Gateway
 
         AsynchronousEvent<BanDeletedEventArgs> BanDeletedEvent { get; }
 
+        AsynchronousEvent<WebhooksUpdatedEventArgs> WebhooksUpdatedEvent { get; }
+
         AsynchronousEvent<MemberJoinedEventArgs> MemberJoinedEvent { get; }
 
         AsynchronousEvent<MemberUpdatedEventArgs> MemberUpdatedEvent { get; }

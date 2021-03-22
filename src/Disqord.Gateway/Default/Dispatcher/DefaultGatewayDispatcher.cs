@@ -101,6 +101,8 @@ namespace Disqord.Gateway.Default
                 ["VOICE_STATE_UPDATE"] = new VoiceStateUpdateHandler(),
 
                 ["VOICE_SERVER_UPDATE"] = new VoiceServerUpdateHandler(),
+
+                ["WEBHOOKS_UPDATE"] = new WebhooksUpdateHandler()
             };
 
             _binder = new Binder<IGatewayClient>(this, allowRebinding: true);
