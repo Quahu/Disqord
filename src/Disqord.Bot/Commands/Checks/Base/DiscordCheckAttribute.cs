@@ -11,7 +11,7 @@ namespace Disqord.Bot
         public override sealed ValueTask<CheckResult> CheckAsync(CommandContext context)
         {
             if (context is not DiscordCommandContext discordContext)
-                throw new InvalidOperationException("The check only accepts a DiscordCommandContext.");
+                throw new InvalidOperationException($"The {GetType().Name} only accepts a DiscordCommandContext.");
 
             return CheckAsync(discordContext);
         }

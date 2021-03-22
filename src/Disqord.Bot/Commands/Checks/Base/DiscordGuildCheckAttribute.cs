@@ -14,7 +14,7 @@ namespace Disqord.Bot
                 return Failure("This can only be executed within a guild.");
 
             if (context is not DiscordGuildCommandContext discordContext)
-                throw new InvalidOperationException("The check only accepts a DiscordGuildCommandContext.");
+                throw new InvalidOperationException($"The {GetType().Name} only accepts a DiscordGuildCommandContext.");
 
             return CheckAsync(discordContext);
         }
