@@ -81,10 +81,17 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
-        public event AsynchronousEventHandler<WebhooksUpdatedEventArgs> WebhooksUpdated
+        public event AsynchronousEventHandler<BanDeletedEventArgs> BanDeleted
         {
-            add => Dispatcher.WebhooksUpdatedEvent.Hook(value);
-            remove => Dispatcher.WebhooksUpdatedEvent.Unhook(value);
+            add => Dispatcher.BanDeletedEvent.Hook(value);
+            remove => Dispatcher.BanDeletedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildEmojisUpdatedEventArgs> GuildEmojisUpdated
+        {
+            add => Dispatcher.GuildEmojisUpdatedEvent.Hook(value);
+            remove => Dispatcher.GuildEmojisUpdatedEvent.Unhook(value);
         }
 
         /// <inheritdoc/>
@@ -106,13 +113,6 @@ namespace Disqord.Gateway.Default
         {
             add => Dispatcher.MemberLeftEvent.Hook(value);
             remove => Dispatcher.MemberLeftEvent.Unhook(value);
-        }
-
-        /// <inheritdoc/>
-        public event AsynchronousEventHandler<BanDeletedEventArgs> BanDeleted
-        {
-            add => Dispatcher.BanDeletedEvent.Hook(value);
-            remove => Dispatcher.BanDeletedEvent.Unhook(value);
         }
 
         /// <inheritdoc/>
@@ -204,6 +204,13 @@ namespace Disqord.Gateway.Default
         {
             add => Dispatcher.VoiceServerUpdatedEvent.Hook(value);
             remove => Dispatcher.VoiceServerUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<WebhooksUpdatedEventArgs> WebhooksUpdated
+        {
+            add => Dispatcher.WebhooksUpdatedEvent.Hook(value);
+            remove => Dispatcher.WebhooksUpdatedEvent.Unhook(value);
         }
     }
 }

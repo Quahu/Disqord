@@ -75,6 +75,8 @@ namespace Disqord.Gateway.Default
                 ["GUILD_BAN_ADD"] = new GuildBanAddHandler(),
                 ["GUILD_BAN_REMOVE"] = new GuildBanRemoveHandler(),
 
+                ["GUILD_EMOJIS_UPDATE"] = new GuildEmojisUpdateHandler(),
+
                 ["GUILD_MEMBER_ADD"] = new GuildMemberAddHandler(),
                 ["GUILD_MEMBER_UPDATE"] = new GuildMemberUpdateHandler(),
                 ["GUILD_MEMBER_REMOVE"] = new GuildMemberRemoveHandler(),

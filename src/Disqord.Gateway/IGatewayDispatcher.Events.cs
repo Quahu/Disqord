@@ -28,7 +28,7 @@ namespace Disqord.Gateway
 
         AsynchronousEvent<BanDeletedEventArgs> BanDeletedEvent { get; }
 
-        AsynchronousEvent<WebhooksUpdatedEventArgs> WebhooksUpdatedEvent { get; }
+        AsynchronousEvent<GuildEmojisUpdatedEventArgs> GuildEmojisUpdatedEvent { get; }
 
         AsynchronousEvent<MemberJoinedEventArgs> MemberJoinedEvent { get; }
 
@@ -61,5 +61,7 @@ namespace Disqord.Gateway
         AsynchronousEvent<VoiceStateUpdatedEventArgs> VoiceStateUpdatedEvent { get; }
 
         AsynchronousEvent<VoiceServerUpdatedEventArgs> VoiceServerUpdatedEvent { get; }
+
+        AsynchronousEvent<WebhooksUpdatedEventArgs> WebhooksUpdatedEvent { get; }
     }
 }

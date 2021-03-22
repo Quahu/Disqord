@@ -28,7 +28,7 @@ namespace Disqord.Gateway.Default
 
         public AsynchronousEvent<BanDeletedEventArgs> BanDeletedEvent { get; } = new();
 
-        public AsynchronousEvent<WebhooksUpdatedEventArgs> WebhooksUpdatedEvent { get; } = new();
+        public AsynchronousEvent<GuildEmojisUpdatedEventArgs> GuildEmojisUpdatedEvent { get; } = new();
 
         public AsynchronousEvent<MemberJoinedEventArgs> MemberJoinedEvent { get; } = new();
 
@@ -61,5 +61,7 @@ namespace Disqord.Gateway.Default
         public AsynchronousEvent<VoiceStateUpdatedEventArgs> VoiceStateUpdatedEvent { get; } = new();
 
         public AsynchronousEvent<VoiceServerUpdatedEventArgs> VoiceServerUpdatedEvent { get; } = new();
+
+        public AsynchronousEvent<WebhooksUpdatedEventArgs> WebhooksUpdatedEvent { get; } = new();
     }
 }

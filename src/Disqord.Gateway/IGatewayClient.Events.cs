@@ -63,9 +63,9 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<BanDeletedEventArgs> BanDeleted;
 
         /// <summary>
-        ///     Fires when the webhooks in a guild channel are updated.
+        ///     Fires when the emojis in a guild are updated.
         /// </summary>
-        event AsynchronousEventHandler<WebhooksUpdatedEventArgs> WebhooksUpdated;
+        event AsynchronousEventHandler<GuildEmojisUpdatedEventArgs> GuildEmojisUpdated;
 
         /// <summary>
         ///     Fires when a member joins a guild.
@@ -146,5 +146,10 @@ namespace Disqord.Gateway
         ///     Fires when the voice server is updated.
         /// </summary>
         event AsynchronousEventHandler<VoiceServerUpdatedEventArgs> VoiceServerUpdated;
+
+        /// <summary>
+        ///     Fires when the webhooks in a guild channel are updated.
+        /// </summary>
+        event AsynchronousEventHandler<WebhooksUpdatedEventArgs> WebhooksUpdated;
     }
 }

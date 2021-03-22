@@ -89,10 +89,10 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
-        public event AsynchronousEventHandler<WebhooksUpdatedEventArgs> WebhooksUpdated
+        public event AsynchronousEventHandler<GuildEmojisUpdatedEventArgs> GuildEmojisUpdated
         {
-            add => GatewayClient.WebhooksUpdated += value;
-            remove => GatewayClient.WebhooksUpdated -= value;
+            add => GatewayClient.GuildEmojisUpdated += value;
+            remove => GatewayClient.GuildEmojisUpdated -= value;
         }
 
         /// <inheritdoc/>
@@ -205,6 +205,13 @@ namespace Disqord
         {
             add => GatewayClient.VoiceServerUpdated += value;
             remove => GatewayClient.VoiceServerUpdated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<WebhooksUpdatedEventArgs> WebhooksUpdated
+        {
+            add => GatewayClient.WebhooksUpdated += value;
+            remove => GatewayClient.WebhooksUpdated -= value;
         }
     }
 }
