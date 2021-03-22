@@ -3,7 +3,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Gateway.Api.Models
 {
-    public class ChannelPinsUpdatedJsonModel : JsonModel
+    public class ChannelPinsUpdateJsonModel : JsonModel
     {
         [JsonProperty("guild_id")]
         public Optional<Snowflake> GuildId;
