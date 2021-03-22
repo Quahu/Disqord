@@ -113,6 +113,11 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<MessageDeletedEventArgs> MessageDeleted;
 
         /// <summary>
+        ///     Fires when messages are bulk deleted in a text channel.
+        /// </summary>
+        event AsynchronousEventHandler<MessagesDeletedEventArgs> MessagesDeleted;
+
+        /// <summary>
         ///     Fires when a reaction is added to a message.
         /// </summary>
         event AsynchronousEventHandler<ReactionAddedEventArgs> ReactionAdded;

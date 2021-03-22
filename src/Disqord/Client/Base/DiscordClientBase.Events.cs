@@ -159,6 +159,13 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<MessagesDeletedEventArgs> MessagesDeleted
+        {
+            add => GatewayClient.MessagesDeleted += value;
+            remove => GatewayClient.MessagesDeleted -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ReactionAddedEventArgs> ReactionAdded
         {
             add => GatewayClient.ReactionAdded += value;

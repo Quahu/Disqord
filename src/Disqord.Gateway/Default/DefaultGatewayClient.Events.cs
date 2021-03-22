@@ -158,6 +158,13 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<MessagesDeletedEventArgs> MessagesDeleted
+        {
+            add => Dispatcher.MessagesDeletedEvent.Hook(value);
+            remove => Dispatcher.MessagesDeletedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ReactionAddedEventArgs> ReactionAdded
         {
             add => Dispatcher.ReactionAddedEvent.Hook(value);

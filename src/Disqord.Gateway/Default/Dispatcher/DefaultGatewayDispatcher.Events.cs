@@ -48,6 +48,8 @@ namespace Disqord.Gateway.Default
 
         public AsynchronousEvent<MessageDeletedEventArgs> MessageDeletedEvent { get; } = new();
 
+        public AsynchronousEvent<MessagesDeletedEventArgs> MessagesDeletedEvent { get; } = new();
+
         public AsynchronousEvent<ReactionAddedEventArgs> ReactionAddedEvent { get; } = new();
 
         public AsynchronousEvent<ReactionRemovedEventArgs> ReactionRemovedEvent { get; } = new();
