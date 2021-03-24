@@ -20,6 +20,7 @@ namespace Disqord.Gateway
 
             services.AddGatewayApiClient();
             services.AddGatewayCacheProvider();
+            services.AddGatewayChunker();
             services.AddGatewayDispatcher();
 
             return services;
@@ -43,6 +44,19 @@ namespace Disqord.Gateway
             if (services.TryAddSingleton<IGatewayDispatcher, DefaultGatewayDispatcher>())
             {
                 services.AddOptions<DefaultGatewayDispatcherConfiguration>();
+
+                if (action != null)
+                    services.Configure(action);
+            }
+
+            return services;
+        }
+        
+        public static IServiceCollection AddGatewayChunker(this IServiceCollection services, Action<DefaultGatewayChunkerConfiguration> action = null)
+        {
+            if (services.TryAddSingleton<IGatewayChunker, DefaultGatewayChunker>())
+            {
+                services.AddOptions<DefaultGatewayChunkerConfiguration>();
 
                 if (action != null)
                     services.Configure(action);

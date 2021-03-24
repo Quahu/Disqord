@@ -4,7 +4,6 @@ using Disqord.Collections.Synchronized;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Default.Dispatcher;
-using Disqord.Models;
 using Disqord.Serialization.Json.Default;
 using Disqord.Utilities.Binding;
 using Microsoft.Extensions.Logging;
@@ -166,87 +165,6 @@ namespace Disqord.Gateway.Default
                 _loggedUnknownWarning = true;
 
             return Task.CompletedTask;
-        }
-
-        // TODO: normalise these
-        public IUser GetSharedOrTransientUser(UserJsonModel model)
-        {
-            if (Client.CacheProvider.TryGetUsers(out var cache))
-            {
-                if (cache.TryGetValue(model.Id, out var user))
-                    return user;
-            }
-
-            return new TransientUser(Client, model);
-        }
-
-        public CachedSharedUser GetOrAddSharedUser(UserJsonModel model)
-        {
-            if (Client.CacheProvider.TryGetUsers(out var cache))
-            {
-                return cache.GetOrAdd(model.Id, static (_, tuple) =>
-                {
-                    var (client, model) = tuple;
-                    return new CachedSharedUser(client, model);
-                }, (Client, model));
-            }
-
-            return null;
-        }
-
-        public CachedMember GetOrAddMember(Snowflake guildId, MemberJsonModel model)
-        {
-            var sharedUser = GetOrAddSharedUser(model.User.Value);
-            if (sharedUser == null)
-                return null;
-
-            if (Client.CacheProvider.TryGetMembers(guildId, out var cache))
-            {
-                if (cache.TryGetValue(model.User.Value.Id, out var member))
-                {
-                    member.Update(model);
-                    return member;
-                }
-                else
-                {
-                    member = new CachedMember(sharedUser, guildId, model);
-                    cache.Add(model.User.Value.Id, member);
-                    return member;
-                }
-            }
-
-            return null;
-        }
-
-        public CachedSharedUser GetOrAddSharedUser(ISynchronizedDictionary<Snowflake, CachedSharedUser> userCache, UserJsonModel model)
-        {
-            return userCache.GetOrAdd(model.Id, static(_, tuple) =>
-            {
-                var (client, model) = tuple;
-                return new CachedSharedUser(client, model);
-            }, (Client, model));
-        }
-
-        public CachedMember GetOrAddMember(ISynchronizedDictionary<Snowflake, CachedSharedUser> userCache, ISynchronizedDictionary<Snowflake, CachedMember> memberCache,
-            Snowflake guildId, MemberJsonModel model)
-        {
-            var sharedUser = GetOrAddSharedUser(userCache, model.User.Value);
-            if (sharedUser == null)
-                return null;
-
-            if (memberCache.TryGetValue(model.User.Value.Id, out var member))
-            {
-                member.Update(model);
-                return member;
-            }
-            else
-            {
-                member = new CachedMember(sharedUser, guildId, model);
-                memberCache.Add(model.User.Value.Id, member);
-                return member;
-            }
-
-            return null;
         }
     }
 }

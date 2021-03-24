@@ -7,9 +7,10 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class GuildMembersChunkHandler : Handler<GuildMembersChunkJsonModel, EventArgs>
     {
-        public override ValueTask<EventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildMembersChunkJsonModel model)
+        public override async ValueTask<EventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildMembersChunkJsonModel model)
         {
-            return default;
+            await Dispatcher.Client.Chunker.HandleChunkAsync(model).ConfigureAwait(false);
+            return null;
         }
     }
 }

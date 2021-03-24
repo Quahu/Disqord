@@ -16,6 +16,8 @@ namespace Disqord.Gateway.Default
 
         public IGatewayCacheProvider CacheProvider { get; }
 
+        public IGatewayChunker Chunker { get; }
+
         public IGatewayDispatcher Dispatcher { get; }
 
         public IGatewayApiClient ApiClient { get; }
@@ -28,12 +30,15 @@ namespace Disqord.Gateway.Default
             IOptions<DefaultGatewayClientConfiguration> options,
             ILogger<DefaultGatewayClient> logger,
             IGatewayCacheProvider cacheProvider,
+            IGatewayChunker chunker,
             IGatewayDispatcher dispatcher,
             IGatewayApiClient apiClient)
         {
             Logger = logger;
             CacheProvider = cacheProvider;
             CacheProvider.Bind(this);
+            Chunker = chunker;
+            Chunker.Bind(this);
             Dispatcher = dispatcher;
 
             if (apiClient != null)
@@ -58,8 +63,9 @@ namespace Disqord.Gateway.Default
             IOptions<DefaultGatewayClientConfiguration> options,
             ILogger<DefaultGatewayClient> logger,
             IGatewayCacheProvider cacheProvider,
+            IGatewayChunker chunker,
             IGatewayDispatcher dispatcher)
-            : this(options, logger, cacheProvider, dispatcher, null)
+            : this(options, logger, cacheProvider, chunker, dispatcher, null)
         {
             // This is the constructor DiscordClientSharder uses.
         }

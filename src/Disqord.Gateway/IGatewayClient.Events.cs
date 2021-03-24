@@ -2,7 +2,7 @@
 
 namespace Disqord.Gateway
 {
-    public partial interface IGatewayClient : IClient
+    public partial interface IGatewayClient
     {
         event AsynchronousEventHandler<ReadyEventArgs> Ready;
 

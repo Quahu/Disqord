@@ -32,7 +32,9 @@ namespace Disqord
         public IGatewayClient GatewayClient { get; }
 
         public IGatewayCacheProvider CacheProvider => GatewayClient.CacheProvider;
-        
+
+        public IGatewayChunker Chunker => GatewayClient.Chunker;
+
         public ICurrentUser CurrentUser => GatewayClient.CurrentUser;
 
         /// <inheritdoc cref="IClient.ApiClient"/>

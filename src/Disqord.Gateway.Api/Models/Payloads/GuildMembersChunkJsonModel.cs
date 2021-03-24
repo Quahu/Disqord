@@ -24,6 +24,6 @@ namespace Disqord.Gateway.Api.Models
         public Optional<PresenceJsonModel[]> Presences;
 
         [JsonProperty("nonce")]
-        public string Nonce;
+        public Optional<string> Nonce;
     }
 }

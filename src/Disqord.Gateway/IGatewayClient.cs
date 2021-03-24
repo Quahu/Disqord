@@ -11,6 +11,8 @@ namespace Disqord.Gateway
     {
         IGatewayCacheProvider CacheProvider { get; }
 
+        IGatewayChunker Chunker { get; }
+
         IGatewayDispatcher Dispatcher { get; }
 
         /// <summary>
