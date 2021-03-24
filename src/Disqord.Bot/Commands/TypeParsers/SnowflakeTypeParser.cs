@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Qmmands;
 
-namespace Disqord.Bot
+namespace Disqord.Bot.Parsers
 {
     public class SnowflakeTypeParser : TypeParser<Snowflake>
     {
@@ -10,7 +10,7 @@ namespace Disqord.Bot
             if (Snowflake.TryParse(value, out var result))
                 return Success(result);
 
-            return Failure("Invalid Discord ID.");
+            return Failure("Invalid ID.");
         }
     }
 }
