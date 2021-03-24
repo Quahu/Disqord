@@ -25,7 +25,14 @@ namespace Disqord.Bot
 
         public virtual IUser Author => Message.Author;
 
-        internal Tcs YieldTcs;
+        // Reset by Kamaji.
+        internal Tcs YieldTcs = new();
+
+        // Set by Yield().
+        internal Tcs ContinuationTcs;
+
+        // Set by Kamaji.
+        internal Task Task;
 
         private readonly IServiceScope _serviceScope;
 
@@ -39,8 +46,6 @@ namespace Disqord.Bot
             Bot = bot;
             Prefix = prefix;
             Message = message;
-
-            YieldTcs = new Tcs();
         }
 
         public DiscordCommandContext(
@@ -56,9 +61,63 @@ namespace Disqord.Bot
         /// <summary>
         ///     Yields this command execution flow into the background.
         /// </summary>
-        public void Yield()
+        /// <returns>
+        ///     <see langword="true"/> if the flow yielded.
+        /// </returns>
+        public bool Yield()
         {
-            YieldTcs.Complete();
+            if (YieldTcs.Complete())
+            {
+                ContinuationTcs = new Tcs();
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        ///     Asynchronously waits for this command execution flow to
+        ///     be executed in the queue again.
+        /// </summary>
+        /// <returns>
+        ///     A <see cref="ValueTask"/> representing the wait.
+        /// </returns>
+        public async ValueTask ContinueAsync()
+        {
+            if (!YieldTcs.Task.IsCompleted)
+                return;
+
+            // Kamaji will treat the bath token as existing work
+            // and complete the continuation TCS when there's a spot in the queue.
+            Bot.Queue.Post(null, this, null);
+            await ContinuationTcs.Task.ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Yields this command execution flow into the background.
+        ///     When the returned value is disposed asynchronously waits for
+        ///     this command execution flow to be executed in the queue again.
+        /// </summary>
+        /// <returns>
+        ///     A disposable which calls <see cref="ContinueAsync"/>.
+        /// </returns>
+        public YieldDisposable BeginYield()
+        {
+            Yield();
+            return new YieldDisposable(this);
+        }
+
+        public readonly struct YieldDisposable : IAsyncDisposable
+        {
+            private readonly DiscordCommandContext _context;
+
+            public YieldDisposable(DiscordCommandContext context)
+            {
+                _context = context;
+            }
+
+            public ValueTask DisposeAsync()
+                => _context.ContinueAsync();
         }
 
         public virtual ValueTask DisposeAsync()

@@ -1,8 +1,10 @@
-﻿using System.Threading.Channels;
+﻿using System;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
 using Disqord.Gateway;
 using Disqord.Utilities.Binding;
+using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Options;
 
 namespace Disqord.Bot
@@ -61,6 +63,9 @@ namespace Disqord.Bot
         /// <inheritdoc/>
         public void Post(string input, DiscordCommandContext context, CommandQueueDelegate func)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             Bucket kamaji;
             if (context.GuildId == null)
             {
@@ -68,7 +73,7 @@ namespace Disqord.Bot
             }
             else
             {
-                kamaji = _guildBuckets.GetOrAdd(context.GuildId.Value, static (_, queue) => new Bucket(queue.DegreeOfParallelism), this);
+                kamaji = _guildBuckets.GetOrAdd(context.GuildId.Value, static(_, queue) => new Bucket(queue.DegreeOfParallelism), this);
             }
 
             var bathToken = new Token(input, context, func);
@@ -77,32 +82,44 @@ namespace Disqord.Bot
 
         private sealed class Token
         {
+            public readonly DiscordCommandContext Context;
             private readonly string _input;
-            private readonly DiscordCommandContext _context;
             private readonly CommandQueueDelegate _func;
 
             public Token(string input, DiscordCommandContext context, CommandQueueDelegate func)
             {
                 _input = input;
-                _context = context;
+                Context = context;
                 _func = func;
             }
 
             public Task GetTask()
-                => Task.WhenAny(_func(_input, _context), _context.YieldTcs.Task);
+            {
+                if (Context.Task != null)
+                {
+                    Context.ContinuationTcs.Complete();
+                    Context.YieldTcs = new Tcs();
+                }
+                else
+                {
+                    Context.Task = _func(_input, Context);
+                }
+
+                return Task.WhenAny(Context.Task, Context.YieldTcs.Task);
+            }
         }
 
         private sealed class Bucket
         {
             private readonly int _degreeOfParallelism;
             private readonly Channel<Token> _tokens;
-            private readonly SynchronizedHashSet<Task> _tasks;
+            private readonly ISynchronizedDictionary<DiscordCommandContext, Task> _tasks;
 
             public Bucket(int degreeOfParallelism)
             {
                 _degreeOfParallelism = degreeOfParallelism;
                 _tokens = Channel.CreateUnbounded<Token>();
-                _tasks = new SynchronizedHashSet<Task>(degreeOfParallelism);
+                _tasks = new SynchronizedDictionary<DiscordCommandContext, Task>(degreeOfParallelism);
 
                 _ = RunAsync();
             }
@@ -123,10 +140,10 @@ namespace Disqord.Bot
                 await foreach (var token in reader.ReadAllAsync().ConfigureAwait(false))
                 {
                     if (_tasks.Count == _degreeOfParallelism)
-                        await Task.WhenAny(_tasks).ConfigureAwait(false);
+                        await Task.WhenAny(_tasks.Values).ConfigureAwait(false);
 
                     var task = ExecuteTokenAsync(token);
-                    _tasks.Add(task);
+                    _tasks.Add(token.Context, task);
                 }
             }
 
@@ -134,7 +151,7 @@ namespace Disqord.Bot
             {
                 var task = token.GetTask();
                 await task.ConfigureAwait(false);
-                _tasks.Remove(task);
+                _tasks.Remove(token.Context);
             }
         }
     }
