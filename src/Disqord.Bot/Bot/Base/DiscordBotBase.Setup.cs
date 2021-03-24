@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Disqord.Bot.Parsers;
 using Microsoft.Extensions.Logging;
 using Qmmands;
 
@@ -32,6 +33,12 @@ namespace Disqord.Bot
         {
             Commands.AddTypeParser(new SnowflakeTypeParser());
             Commands.AddTypeParser(new ColorTypeParser());
+            Commands.AddTypeParser(new CustomEmojiTypeParser());
+            Commands.AddTypeParser(new GuildChannelTypeParser<IGuildChannel>());
+            Commands.AddTypeParser(new GuildChannelTypeParser<ITextChannel>());
+            Commands.AddTypeParser(new GuildChannelTypeParser<IVoiceChannel>());
+            Commands.AddTypeParser(new GuildChannelTypeParser<ICategoryChannel>());
+            Commands.AddTypeParser(new MemberTypeParser());
             return default;
         }
 
