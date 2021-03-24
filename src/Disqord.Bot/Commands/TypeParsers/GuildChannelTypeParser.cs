@@ -11,8 +11,6 @@ namespace Disqord.Bot.Parsers
     public class GuildChannelTypeParser<TChannel> : DiscordGuildTypeParser<TChannel> 
         where TChannel : IGuildChannel
     {
-        private static readonly bool _isText = typeof(ITextChannel).IsAssignableFrom(typeof(TChannel));
-
         private readonly StringComparison _comparison;
 
         public GuildChannelTypeParser(StringComparison comparison = StringComparison.OrdinalIgnoreCase)
@@ -23,7 +21,7 @@ namespace Disqord.Bot.Parsers
         public override ValueTask<TypeParserResult<TChannel>> ParseAsync(Parameter parameter, string value, DiscordGuildCommandContext context)
         {
             if (!context.Bot.CacheProvider.TryGetChannels(context.GuildId, out var cache))
-                throw new InvalidOperationException($"The {GetType().Name} requires a channel cache.");
+                throw new InvalidOperationException($"The {GetType().Name} requires the channel cache.");
             
             var channels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, TChannel>(cache);
             TChannel channel = default;
