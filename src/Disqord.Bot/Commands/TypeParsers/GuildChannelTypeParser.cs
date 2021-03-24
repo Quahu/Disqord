@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Collections;
@@ -8,28 +9,27 @@ using Qmmands;
 
 namespace Disqord.Bot.Parsers
 {
-    public class GuildChannelTypeParser<TChannel> : DiscordGuildTypeParser<TChannel> 
+    public class GuildChannelTypeParser<TChannel> : DiscordGuildTypeParser<TChannel>
         where TChannel : IGuildChannel
     {
-        private readonly StringComparison _comparison;
-
-        public GuildChannelTypeParser(StringComparison comparison = StringComparison.OrdinalIgnoreCase)
-        {
-            _comparison = comparison;
-        }
-
         public override ValueTask<TypeParserResult<TChannel>> ParseAsync(Parameter parameter, string value, DiscordGuildCommandContext context)
         {
             if (!context.Bot.CacheProvider.TryGetChannels(context.GuildId, out var cache))
                 throw new InvalidOperationException($"The {GetType().Name} requires the channel cache.");
-            
-            var channels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, TChannel>(cache);
-            TChannel channel = default;
-            if (Mention.TryParseChannel(value, out var id) || Snowflake.TryParse(value, out id))
-                channels.TryGetValue(id, out channel);
 
-            if (channel == null)
-                channel = channels.Values.FirstOrDefault(x => x.Name.Equals(value, _comparison));
+            // Wraps the cache in a pattern-matching wrapper dictionary.
+            var channels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, TChannel>(cache);
+            TChannel channel;
+            if (Mention.TryParseChannel(value, out var id) || Snowflake.TryParse(value, out id))
+            {
+                // The value is a mention or an id.
+                channel = channels.GetValueOrDefault(id);
+            }
+            else
+            {
+                // The value is possibly a name.
+                channel = channels.Values.FirstOrDefault(x => x.Name == value);
+            }
 
             if (channel != null)
                 return Success(channel);

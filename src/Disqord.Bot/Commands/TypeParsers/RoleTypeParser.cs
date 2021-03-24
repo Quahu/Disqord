@@ -9,26 +9,21 @@ namespace Disqord.Bot.Parsers
 {
     public class RoleTypeParser : DiscordGuildTypeParser<IRole>
     {
-        private readonly StringComparison _comparison;
-
-        public RoleTypeParser(StringComparison comparison = StringComparison.OrdinalIgnoreCase)
-        {
-            _comparison = comparison;
-        }
-
         public override ValueTask<TypeParserResult<IRole>> ParseAsync(Parameter parameter, string value, DiscordGuildCommandContext context)
         {
-            if (!context.Bot.CacheProvider.TryGetRoles(context.GuildId, out var cache))
+            if (!context.Bot.CacheProvider.TryGetRoles(context.GuildId, out var roles))
                 throw new InvalidOperationException($"The {GetType().Name} requires the role cache.");
 
-            IRole role = null;
-            if (Mention.TryParseChannel(value, out var id) || Snowflake.TryParse(value, out id))
+            IRole role;
+            if (Mention.TryParseRole(value, out var id) || Snowflake.TryParse(value, out id))
             {
-                role = cache.GetValueOrDefault(id);
+                // The value is a mention or id.
+                role = roles.GetValueOrDefault(id);
             }
             else
             {
-                role = cache.Values.FirstOrDefault(x => x.Name.Equals(value, _comparison));
+                // The value is possibly a name.
+                role = roles.Values.FirstOrDefault(x => x.Name == value);
             }
 
             if (role != null)

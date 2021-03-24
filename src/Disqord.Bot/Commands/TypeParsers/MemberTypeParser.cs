@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Rest;
 using Disqord.Utilities;
@@ -9,19 +8,12 @@ namespace Disqord.Bot.Parsers
 {
     public class MemberTypeParser : DiscordGuildTypeParser<IMember>
     {
-        private readonly StringComparison _comparison;
-
-        public MemberTypeParser(StringComparison comparison = StringComparison.OrdinalIgnoreCase)
-        {
-            _comparison = comparison;
-        }
-
         public override async ValueTask<TypeParserResult<IMember>> ParseAsync(Parameter parameter, string value, DiscordGuildCommandContext context)
         {
             IMember member;
             if (Mention.TryParseUser(value, out var id) || Snowflake.TryParse(value, out id))
             {
-                // The value is a mention or an ID, so we use that for the lookup.
+                // The value is a mention or an ID.
                 if (!context.Guild.Members.TryGetValue(id, out member))
                 {
                     // This means it's either an invalid ID or the member isn't cached.
@@ -56,7 +48,7 @@ namespace Disqord.Bot.Parsers
                 }
                 else
                 {
-                    // The value is a name or a nick.
+                    // The value is possibly a name or a nick.
                     name = value;
                     discriminator = null;
                 }
@@ -65,10 +57,9 @@ namespace Disqord.Bot.Parsers
                 {
                     // TODO: utilise the REST query endpoint?
                     var members = await context.Bot.Chunker.QueryAsync(context.GuildId, name);
-                    // TODO: exact match on name/nick?
                     member = discriminator != null
-                        ? members.FirstOrDefault(x => x.Name.Equals(name, _comparison) && x.Discriminator == discriminator)
-                        : members.FirstOrDefault(x => x.Name.Equals(name, _comparison) || x.Nick != null && x.Nick.Equals(name, _comparison));
+                        ? members.FirstOrDefault(x => x.Name == name && x.Discriminator == discriminator)
+                        : members.FirstOrDefault(x => x.Name == name || x.Nick == name);
                 }
             }
 
