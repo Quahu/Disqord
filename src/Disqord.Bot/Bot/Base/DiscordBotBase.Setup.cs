@@ -39,6 +39,7 @@ namespace Disqord.Bot
             Commands.AddTypeParser(new GuildChannelTypeParser<IVoiceChannel>());
             Commands.AddTypeParser(new GuildChannelTypeParser<ICategoryChannel>());
             Commands.AddTypeParser(new MemberTypeParser());
+            Commands.AddTypeParser(new RoleTypeParser());
             return default;
         }
 
