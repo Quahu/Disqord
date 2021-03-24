@@ -7,13 +7,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Qmmands;
 
-namespace Disqord.Bot
+namespace Disqord.Bot.Parsers
 {
-    public class ColorTypeParser : TypeParser<Color>
+    public class ColorTypeParser : DiscordTypeParser<Color>
     {
+        public IReadOnlyDictionary<string, Color> Colors => _colors;
+
+        public IReadOnlyDictionary<string, string> SpacedNames => _spacedNames;
+
         private readonly bool _allowProperties;
         private readonly bool _allowSpaces;
-        private readonly StringComparison _comparison;
 
         // SpringGreen -> Color.SpringGreen
         private readonly Dictionary<string, Color> _colors;
@@ -25,13 +28,13 @@ namespace Disqord.Bot
         {
             _allowProperties = allowProperties;
             _allowSpaces = allowSpaces;
-            _comparison = comparison;
 
             if (!_allowProperties)
                 return;
 
             _colors = typeof(Color).GetProperties(BindingFlags.Public | BindingFlags.Static)
-                .ToDictionary(x => x.Name, x => (Color) x.GetValue(null), StringComparer.FromComparison(_comparison));
+                .ToDictionary(x => x.Name, x => (Color) x.GetValue(null), StringComparer.FromComparison(comparison));
+            _colors.TrimExcess();
 
             if (!_allowSpaces)
                 return;
@@ -52,9 +55,10 @@ namespace Disqord.Bot
 
                 _spacedNames[builder.ToString()] = name;
             }
+            _spacedNames.TrimExcess();
         }
 
-        public override ValueTask<TypeParserResult<Color>> ParseAsync(Parameter parameter, string value, CommandContext context)
+        public override ValueTask<TypeParserResult<Color>> ParseAsync(Parameter parameter, string value, DiscordCommandContext context)
         {
             if (value.Length > 2)
             {
