@@ -217,5 +217,36 @@ namespace Disqord.Gateway.Default
 
             return null;
         }
+
+        public CachedSharedUser GetOrAddSharedUser(ISynchronizedDictionary<Snowflake, CachedSharedUser> userCache, UserJsonModel model)
+        {
+            return userCache.GetOrAdd(model.Id, static(_, tuple) =>
+            {
+                var (client, model) = tuple;
+                return new CachedSharedUser(client, model);
+            }, (Client, model));
+        }
+
+        public CachedMember GetOrAddMember(ISynchronizedDictionary<Snowflake, CachedSharedUser> userCache, ISynchronizedDictionary<Snowflake, CachedMember> memberCache,
+            Snowflake guildId, MemberJsonModel model)
+        {
+            var sharedUser = GetOrAddSharedUser(userCache, model.User.Value);
+            if (sharedUser == null)
+                return null;
+
+            if (memberCache.TryGetValue(model.User.Value.Id, out var member))
+            {
+                member.Update(model);
+                return member;
+            }
+            else
+            {
+                member = new CachedMember(sharedUser, guildId, model);
+                memberCache.Add(model.User.Value.Id, member);
+                return member;
+            }
+
+            return null;
+        }
     }
 }

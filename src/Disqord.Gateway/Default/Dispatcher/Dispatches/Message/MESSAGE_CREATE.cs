@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Disqord.Api;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Models;
 
@@ -11,10 +11,21 @@ namespace Disqord.Gateway.Default.Dispatcher
         {
             CachedMember author = null;
             IGatewayMessage message = null;
-            if (model.GuildId.HasValue && IsUserMessage(model))
+            if (model.GuildId.HasValue && !model.WebhookId.HasValue
+                && Client.CacheProvider.TryGetUsers(out var userCache)
+                && Client.CacheProvider.TryGetMembers(model.GuildId.Value, out var memberCache))
             {
                 model.Member.Value.User = model.Author;
-                author = Dispatcher.GetOrAddMember(model.GuildId.Value, model.Member.Value);
+                author = Dispatcher.GetOrAddMember(userCache, memberCache, model.GuildId.Value, model.Member.Value);
+                foreach (var memberModel in model.Mentions.Select(static x =>
+                {
+                    var memberModel = x["member"].ToType<MemberJsonModel>();
+                    memberModel.User = x;
+                    return memberModel;
+                }))
+                {
+                    Dispatcher.GetOrAddMember(userCache, memberCache, model.GuildId.Value, memberModel);
+                }
 
                 if (CacheProvider.TryGetMessages(model.ChannelId, out var messageCache))
                 {
@@ -38,19 +49,6 @@ namespace Disqord.Gateway.Default.Dispatcher
 
             var e = new MessageReceivedEventArgs(message, channel, author);
             return new(e);
-        }
-
-        private static bool IsUserMessage(MessageJsonModel model)
-        {
-            switch ((MessageType) model.Type)
-            {
-                case MessageType.Default:
-                case MessageType.Reply:
-                case MessageType.ApplicationCommand:
-                    return !model.WebhookId.HasValue;
-            }
-
-            return false;
         }
     }
 }
