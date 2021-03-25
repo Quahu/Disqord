@@ -9,9 +9,33 @@ using Qmmands;
 
 namespace Disqord.Bot.Parsers
 {
+    /// <summary>
+    ///     Represents type parsing for the <see cref="IGuildChannel"/> type and any derived types.
+    ///     Does <b>not</b> support parsing channels that are not in the cache.
+    /// </summary>
+    /// <remarks>
+    ///     Supports the following inputs, in order:
+    ///     <list type="number">
+    ///         <item>
+    ///             <term> ID </term>
+    ///             <description> The ID of the channel. </description>
+    ///         </item>
+    ///         <item>
+    ///             <term> Mention </term>
+    ///             <description> The mention of the channel. </description>
+    ///         </item>
+    ///         <item>
+    ///             <term> Name </term>
+    ///             <description> The name of the channel. This is case-sensitive. </description>
+    ///         </item>
+    ///     </list>
+    /// </remarks>
     public class GuildChannelTypeParser<TChannel> : DiscordGuildTypeParser<TChannel>
         where TChannel : IGuildChannel
     {
+        private static readonly string ChannelString;
+
+        /// <inheritdoc/>
         public override ValueTask<TypeParserResult<TChannel>> ParseAsync(Parameter parameter, string value, DiscordGuildCommandContext context)
         {
             if (!context.Bot.CacheProvider.TryGetChannels(context.GuildId, out var cache))
@@ -20,7 +44,7 @@ namespace Disqord.Bot.Parsers
             // Wraps the cache in a pattern-matching wrapper dictionary.
             var channels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, TChannel>(cache);
             TChannel channel;
-            if (Mention.TryParseChannel(value, out var id) || Snowflake.TryParse(value, out id))
+            if (Snowflake.TryParse(value, out var id) || Mention.TryParseChannel(value, out id))
             {
                 // The value is a mention or an id.
                 channel = channels.GetValueOrDefault(id);
@@ -34,7 +58,15 @@ namespace Disqord.Bot.Parsers
             if (channel != null)
                 return Success(channel);
 
-            return Failure("No channel found matching the input.");
+            return Failure($"No {ChannelString} found matching the input.");
+        }
+
+        static GuildChannelTypeParser()
+        {
+            var type = typeof(TChannel);
+            ChannelString = type != typeof(IGuildChannel) && type.IsInterface
+                ? $"{type.Name[1..type.Name.IndexOf("Channel")].ToLower()} channel"
+                : "channel";
         }
     }
 }

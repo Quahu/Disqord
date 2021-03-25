@@ -3,9 +3,14 @@ using Qmmands;
 
 namespace Disqord.Bot.Parsers
 {
-    public class SnowflakeTypeParser : TypeParser<Snowflake>
+    /// <summary>
+    ///     Represents type parsing for the <see cref="Snowflake"/> type
+    ///     via <see cref="Snowflake.TryParse(string, out Snowflake)"/>.
+    /// </summary>
+    public class SnowflakeTypeParser : DiscordTypeParser<Snowflake>
     {
-        public override ValueTask<TypeParserResult<Snowflake>> ParseAsync(Parameter parameter, string value, CommandContext context)
+        /// <inheritdoc/>
+        public override ValueTask<TypeParserResult<Snowflake>> ParseAsync(Parameter parameter, string value, DiscordCommandContext context)
         {
             if (Snowflake.TryParse(value, out var result))
                 return Success(result);

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Rest;
 using Disqord.Utilities;
@@ -6,20 +8,48 @@ using Qmmands;
 
 namespace Disqord.Bot.Parsers
 {
+    /// <summary>
+    ///     Represents type parsing for the <see cref="IMember"/> type.
+    ///     Supports parsing members that are not in the cache.
+    /// </summary>
+    /// <remarks>
+    ///     Supports the following inputs, in order:
+    ///     <list type="number">
+    ///         <item>
+    ///             <term> ID </term>
+    ///             <description> The ID of the member. </description>
+    ///         </item>
+    ///         <item>
+    ///             <term> Mention </term>
+    ///             <description> The mention of the member. </description>
+    ///         </item>
+    ///         <item>
+    ///             <term> Tag </term>
+    ///             <description> The tag of the member. This is case-sensitive. </description>
+    ///         </item>
+    ///         <item>
+    ///             <term> Name / Nick </term>
+    ///             <description> The name or nick of the member. This is case-sensitive. </description>
+    ///         </item>
+    ///     </list>
+    /// </remarks>
     public class MemberTypeParser : DiscordGuildTypeParser<IMember>
     {
+        /// <inheritdoc/>
         public override async ValueTask<TypeParserResult<IMember>> ParseAsync(Parameter parameter, string value, DiscordGuildCommandContext context)
         {
             IMember member;
-            if (Mention.TryParseUser(value, out var id) || Snowflake.TryParse(value, out id))
+            if (Snowflake.TryParse(value, out var id) || Mention.TryParseUser(value, out id))
             {
                 // The value is a mention or an ID.
+                // We look up the cache first.
                 if (!context.Guild.Members.TryGetValue(id, out member))
                 {
                     // This means it's either an invalid ID or the member isn't cached.
-                    // But we don't know which one it is, so we have to query the guild.
+                    // We don't know which one it is, so we have to query the guild.
                     await using (context.BeginYield())
                     {
+                        // Check if the gateway is currently rate-limited.
                         if (context.Bot.GatewayClient.GetShard(context.GuildId).RateLimiter.IsRateLimited())
                         {
                             // Use a REST call if the gateway is rate-limited.
@@ -31,13 +61,15 @@ namespace Disqord.Bot.Parsers
                             // Otherwise use member chunking.
                             // TODO: account for the rate-limited check being a race-condition
                             var members = await context.Bot.Chunker.QueryAsync(context.GuildId, new[] { id });
-                            member = members.FirstOrDefault();
+                            member = members.GetValueOrDefault(id);
                         }
                     }
                 }
             }
             else
             {
+                // The value is possibly a tag, name, or nick.
+                // So let's check for a '#', indicating a tag.
                 string name, discriminator;
                 var hashIndex = value.LastIndexOf('#');
                 if (hashIndex != -1 && hashIndex + 5 == value.Length)
@@ -53,13 +85,23 @@ namespace Disqord.Bot.Parsers
                     discriminator = null;
                 }
 
-                await using (context.BeginYield())
+                // The predicate checks for the given tag or name/nick accordingly.
+                Func<IMember, bool> predicate = discriminator != null
+                    ? x => x.Name == name && x.Discriminator == discriminator
+                    : x => x.Name == name || x.Nick == name;
+
+                // We look up the cache first.
+                member = context.Guild.Members.Values.FirstOrDefault(predicate);
+                if (member == null)
                 {
-                    // TODO: utilise the REST query endpoint?
-                    var members = await context.Bot.Chunker.QueryAsync(context.GuildId, name);
-                    member = discriminator != null
-                        ? members.FirstOrDefault(x => x.Name == name && x.Discriminator == discriminator)
-                        : members.FirstOrDefault(x => x.Name == name || x.Nick == name);
+                    // This means it's either an invalid input or the member isn't cached.
+                    // We don't know which one it is, so we have to query the guild.
+                    await using (context.BeginYield())
+                    {
+                        // TODO: utilise the REST query endpoint?
+                        var members = await context.Bot.Chunker.QueryAsync(context.GuildId, name);
+                        member = members.Values.FirstOrDefault(predicate);
+                    }
                 }
             }
 
