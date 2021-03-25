@@ -14,7 +14,7 @@ namespace Disqord
             if (_extensions.Count == 0)
                 return;
 
-            Logger.LogDebug("Initialising client extensions: {0}", _extensions.Values.Select(x => x.GetType().Name));
+            Logger.LogDebug("Initializing client extensions: {0}", _extensions.Values.Select(x => x.GetType().Name));
             foreach (var extension in _extensions.Values)
             {
                 try
@@ -23,7 +23,7 @@ namespace Disqord
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogError(ex, "An exception occurred while initialising extension {0}.", extension);
+                    Logger.LogError(ex, "An exception occurred while initializing extension {0}.", extension.GetType());
                 }
             }
         }
@@ -37,7 +37,7 @@ namespace Disqord
         {
             var extension = GetExtension<TExtension>();
             if (extension == null)
-                throw new InvalidOperationException($"No extension for type '{typeof(TExtension)}' has been registered.");
+                throw new InvalidOperationException($"No extension for type {typeof(TExtension)} has been registered.");
 
             return extension;
         }
