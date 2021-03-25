@@ -57,6 +57,26 @@ namespace Disqord.Bot
 
         protected virtual LocalMessageBuilder FormatFailureMessage(DiscordCommandContext context, FailedResult result)
         {
+            static string FormatParameter(Parameter parameter)
+            {
+                var format = "{0}";
+                if (parameter.IsMultiple)
+                {
+                    format = "{0}[]";
+                }
+                else
+                {
+                    if (parameter.IsRemainder)
+                        format = "{0}…";
+
+                    format = parameter.IsOptional
+                        ? $"[{format}]"
+                        : $"<{format}>";
+                }
+
+                return string.Format(format, parameter.Name);
+            }
+
             var reason = FormatFailureReason(context, result);
             if (reason == null)
                 return null;
@@ -72,12 +92,12 @@ namespace Disqord.Bot
                     if (overloadReason == null)
                         continue;
 
-                    embed.AddField($"Overload: {overload} {string.Join(' ', overload.Parameters)}", overloadReason);
+                    embed.AddField($"Overload: {overload.FullAliases[0]} {string.Join(' ', overload.Parameters.Select(FormatParameter))}", overloadReason);
                 }
             }
             else if (context.Command != null)
             {
-                embed.WithTitle($"Command: {context.Command} {string.Join(' ', context.Command.Parameters)}");
+                embed.WithTitle($"Command: {context.Command.FullAliases[0]} {string.Join(' ', context.Command.Parameters.Select(FormatParameter))}");
             }
 
             return new LocalMessageBuilder()
