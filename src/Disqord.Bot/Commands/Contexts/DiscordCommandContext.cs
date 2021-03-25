@@ -59,7 +59,8 @@ namespace Disqord.Bot
         }
 
         /// <summary>
-        ///     Yields this command execution flow into the background.
+        ///     Yields this command execution flow into the background
+        ///     freeing up a spot in the <see cref="ICommandQueue"/>.
         /// </summary>
         /// <returns>
         ///     <see langword="true"/> if the flow yielded.
@@ -77,7 +78,7 @@ namespace Disqord.Bot
 
         /// <summary>
         ///     Asynchronously waits for this command execution flow to
-        ///     be executed in the queue again.
+        ///     be executed in the <see cref="ICommandQueue"/> again.
         /// </summary>
         /// <returns>
         ///     A <see cref="ValueTask"/> representing the wait.
@@ -94,12 +95,11 @@ namespace Disqord.Bot
         }
 
         /// <summary>
-        ///     Yields this command execution flow into the background.
-        ///     When the returned value is disposed asynchronously waits for
-        ///     this command execution flow to be executed in the queue again.
+        ///     Calls <see cref="Yield"/> and returns a disposable that
+        ///     calls <see cref="DisposeAsync"/> when disposed.
         /// </summary>
         /// <returns>
-        ///     A disposable which calls <see cref="ContinueAsync"/>.
+        ///     A disposable which calls <see cref="ContinueAsync"/> when disposed.
         /// </returns>
         public YieldDisposable BeginYield()
         {
