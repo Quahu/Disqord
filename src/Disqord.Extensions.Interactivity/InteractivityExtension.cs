@@ -212,7 +212,7 @@ namespace Disqord.Extensions.Interactivity
 
         private Task ReactionAddedAsync(object sender, ReactionAddedEventArgs e)
         {
-            if (e.Member.IsBot)
+            if (e.GuildId != null && e.Member.IsBot || e.UserId == Client.CurrentUser.Id)
                 return Task.CompletedTask;
 
             if (_reactionWaiters.TryGetValue(e.MessageId, out var waiters))
