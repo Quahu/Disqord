@@ -85,7 +85,7 @@ namespace Disqord.Extensions.Interactivity
                 {
                     return await waiter.Task.ConfigureAwait(false);
                 }
-                catch (OperationCanceledException ex)
+                catch (OperationCanceledException)
                 {
                     return null;
                 }
@@ -111,7 +111,7 @@ namespace Disqord.Extensions.Interactivity
                 {
                     return await waiter.Task.ConfigureAwait(false);
                 }
-                catch (OperationCanceledException ex)
+                catch (OperationCanceledException)
                 {
                     return null;
                 }
@@ -134,7 +134,7 @@ namespace Disqord.Extensions.Interactivity
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException($"An exception occurred while attempting to initialise menu {menu.GetType()}.", ex);
+                throw new InvalidOperationException($"An exception occurred while attempting to initialize menu {menu.GetType()}.", ex);
             }
 
             if (!_menus.TryAdd(menu.MessageId, menu))
