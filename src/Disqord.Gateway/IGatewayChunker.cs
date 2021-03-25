@@ -17,10 +17,10 @@ namespace Disqord.Gateway
 
         ValueTask HandleChunkAsync(GuildMembersChunkJsonModel model);
 
-        ValueTask ChunkAsync(IGatewayGuild guild, CancellationToken cancellationToken = default);
+        ValueTask<bool> ChunkAsync(IGatewayGuild guild, CancellationToken cancellationToken = default);
 
-        ValueTask<IReadOnlyList<IMember>> QueryAsync(Snowflake guildId, string query, int limit = 100, CancellationToken cancellationToken = default);
+        ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, string query, int limit = 100, CancellationToken cancellationToken = default);
 
-        ValueTask<IReadOnlyList<IMember>> QueryAsync(Snowflake guildId, IEnumerable<Snowflake> memberIds, CancellationToken cancellationToken = default);
+        ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, IEnumerable<Snowflake> memberIds, CancellationToken cancellationToken = default);
     }
 }

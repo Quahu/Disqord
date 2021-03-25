@@ -80,12 +80,28 @@ namespace Disqord.Gateway.Default
             return default;
         }
 
-        public ValueTask ChunkAsync(IGatewayGuild guild, CancellationToken cancellationToken = default)
+        public async ValueTask<bool> ChunkAsync(IGatewayGuild guild, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            if (guild == null)
+                throw new ArgumentNullException(nameof(guild));
+
+            if (!Client.CacheProvider.TryGetUsers(out var userCache) || !Client.CacheProvider.TryGetMembers(guild.Id, out var memberCache))
+                return false;
+
+            if (memberCache.Count == guild.MemberCount)
+                return false;
+
+            var model = new RequestMembersJsonModel
+            {
+                GuildId = guild.Id,
+                Limit = 0
+            };
+
+            await InternalOperationAsync(model, false, cancellationToken).ConfigureAwait(false);
+            return true;
         }
 
-        public ValueTask<IReadOnlyList<IMember>> QueryAsync(Snowflake guildId, string query, int limit = 100, CancellationToken cancellationToken = default)
+        public ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, string query, int limit = 100, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(query))
                 throw new ArgumentNullException(nameof(query));
@@ -99,10 +115,10 @@ namespace Disqord.Gateway.Default
                 Query = query,
                 Limit = limit
             };
-            return InternalOperationAsync(model, cancellationToken);
+            return InternalOperationAsync(model, true, cancellationToken);
         }
 
-        public ValueTask<IReadOnlyList<IMember>> QueryAsync(Snowflake guildId, IEnumerable<Snowflake> memberIds, CancellationToken cancellationToken = default)
+        public ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, IEnumerable<Snowflake> memberIds, CancellationToken cancellationToken = default)
         {
             var ids = memberIds.ToArray();
             if (ids.Length == 0 || ids.Length > 100)
@@ -116,14 +132,15 @@ namespace Disqord.Gateway.Default
                 Limit = 100,
                 UserIds = ids
             };
-            return InternalOperationAsync(model, cancellationToken);
+            return InternalOperationAsync(model, true, cancellationToken);
         }
 
-        private async ValueTask<IReadOnlyList<IMember>> InternalOperationAsync(RequestMembersJsonModel model, CancellationToken cancellationToken)
+        private async ValueTask<IReadOnlyDictionary<Snowflake, IMember>> InternalOperationAsync(RequestMembersJsonModel model, bool isQuery, CancellationToken cancellationToken)
         {
-            var operation = new ChunkOperation(cancellationToken);
+            var operation = new ChunkOperation(isQuery, cancellationToken);
             _operations.Add(operation.Nonce, operation);
             model.Nonce = operation.Nonce;
+            model.Presences = true; // According to the docs should default to false without the presences intent.
             var shard = Client.GetShard(model.GuildId);
             await shard.SendAsync(new GatewayPayloadJsonModel
             {
@@ -137,16 +154,18 @@ namespace Disqord.Gateway.Default
         {
             public string Nonce { get; }
 
-            private readonly List<IMember> _members;
-            private readonly Tcs<IReadOnlyList<IMember>> _tcs;
+            private readonly SynchronizedDictionary<Snowflake, IMember> _members;
+            private readonly Tcs<IReadOnlyDictionary<Snowflake, IMember>> _tcs;
             private readonly CancellationTokenRegistration _reg;
 
-            public ChunkOperation(CancellationToken cancellationToken)
+            public ChunkOperation(bool isQuery, CancellationToken cancellationToken)
             {
                 Nonce = Guid.NewGuid().ToString("N");
 
-                _members = new List<IMember>();
-                _tcs = new Tcs<IReadOnlyList<IMember>>();
+                _members = isQuery
+                    ? new SynchronizedDictionary<Snowflake, IMember>()
+                    : null;
+                _tcs = new Tcs<IReadOnlyDictionary<Snowflake, IMember>>();
 
                 static void CancellationCallback(object tuple)
                 {
@@ -157,12 +176,19 @@ namespace Disqord.Gateway.Default
                 _reg = cancellationToken.UnsafeRegister(CancellationCallback, (_tcs, cancellationToken));
             }
 
-            public Task<IReadOnlyList<IMember>> WaitAsync()
+            public Task<IReadOnlyDictionary<Snowflake, IMember>> WaitAsync()
                 => _tcs.Task;
 
-            public void AddMembers(IEnumerable<IMember> members)
+            public void AddMembers(IReadOnlyList<IMember> members)
             {
-                _members.AddRange(members);
+                if (_members != null)
+                {
+                    for (var i = 0; i < members.Count; i++)
+                    {
+                        var member = members[i];
+                        _members.Add(member.Id, member);
+                    }
+                }
             }
 
             public void Complete()
