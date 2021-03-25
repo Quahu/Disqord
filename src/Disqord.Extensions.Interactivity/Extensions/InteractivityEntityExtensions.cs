@@ -9,7 +9,7 @@ namespace Disqord.Extensions.Interactivity
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class InteractivityEntityExtensions
     {
-        internal static InteractivityExtension GetInteractivity(this IEntity entity)
+        internal static DiscordClientBase GetDiscordClient(this IEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -17,19 +17,19 @@ namespace Disqord.Extensions.Interactivity
             if (entity.Client is not DiscordClientBase client)
                 throw new InvalidOperationException("This entity's client is not a Discord client implementation.");
 
-            return client.GetRequiredExtension<InteractivityExtension>();
+            return client;
         }
 
         public static Task<MessageReceivedEventArgs> WaitForMessageAsync(this IMessageChannel channel, Predicate<MessageReceivedEventArgs> predicate = null, TimeSpan timeout = default, CancellationToken cancellationToken = default)
         {
-            var extension = channel.GetInteractivity();
+            var extension = channel.GetDiscordClient().GetInteractivity();
             return extension.WaitForMessageAsync(channel.Id, predicate, timeout, cancellationToken);
         }
 
-        public static Task<ReactionAddedEventArgs> WaitForReactionAsync(this IMessageChannel channel, Predicate<ReactionAddedEventArgs> predicate = null, TimeSpan timeout = default, CancellationToken cancellationToken = default)
+        public static Task<ReactionAddedEventArgs> WaitForReactionAsync(this IMessage message, Predicate<ReactionAddedEventArgs> predicate = null, TimeSpan timeout = default, CancellationToken cancellationToken = default)
         {
-            var extension = channel.GetInteractivity();
-            return extension.WaitForReactionAsync(channel.Id, predicate, timeout, cancellationToken);
+            var extension = message.GetDiscordClient().GetInteractivity();
+            return extension.WaitForReactionAsync(message.Id, predicate, timeout, cancellationToken);
         }
     }
 }
