@@ -284,7 +284,7 @@ namespace Disqord
 
         /// <summary>
         ///     Gets a random color.
-        ///     Randomised using HSV with a random value of 0-360 hue.
+        ///     Randomised using HSV with a random hue value.
         /// </summary>
         public static Color Random
         {
