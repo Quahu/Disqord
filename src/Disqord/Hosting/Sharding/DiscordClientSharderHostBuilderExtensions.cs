@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Disqord.DependencyInjection.Extensions;
+using Disqord.Extensions.Interactivity;
 using Disqord.Gateway;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Default;
@@ -37,6 +38,7 @@ namespace Disqord.Sharding
             {
                 services.AddSingleton<DiscordClientBase>(x => x.GetRequiredService<DiscordClientSharder>());
 
+                services.AddInteractivity();
                 services.AddDiscordApiClient();
                 services.AddGatewayClient();
                 services.AddRestClient();

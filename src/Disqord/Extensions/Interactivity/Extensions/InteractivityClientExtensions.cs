@@ -9,7 +9,7 @@ namespace Disqord.Extensions.Interactivity
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class InteractivityClientExtensions
     {
-        internal static InteractivityExtension GetInteractivity(this DiscordClientBase client)
+        public static InteractivityExtension GetInteractivity(this DiscordClientBase client)
             => client.GetRequiredExtension<InteractivityExtension>();
 
         public static Task<MessageReceivedEventArgs> WaitForMessageAsync(this DiscordClientBase client, Snowflake channelId, Predicate<MessageReceivedEventArgs> predicate = null, TimeSpan timeout = default, CancellationToken cancellationToken = default)

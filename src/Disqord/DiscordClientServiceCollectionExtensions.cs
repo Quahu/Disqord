@@ -1,5 +1,6 @@
 ﻿using System;
 using Disqord.DependencyInjection.Extensions;
+using Disqord.Extensions.Interactivity;
 using Disqord.Gateway;
 using Disqord.Gateway.Api;
 using Disqord.Rest;
@@ -21,6 +22,7 @@ namespace Disqord
                     services.Configure(configure);
             }
 
+            services.AddInteractivity();
             services.AddDiscordApiClient();
             services.AddGatewayClient();
             services.AddRestClient();

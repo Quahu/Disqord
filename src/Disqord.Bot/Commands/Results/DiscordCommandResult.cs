@@ -17,10 +17,10 @@ namespace Disqord.Bot
             Context = context;
         }
 
-        public abstract Task ExecuteAsync();
-
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual TaskAwaiter GetAwaiter()
             => ExecuteAsync().GetAwaiter();
+
+        public abstract Task ExecuteAsync();
     }
 }

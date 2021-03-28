@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord", "Disqord\Disqord.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Bot", "Disqord.Bot\Disqord.Bot.csproj", "{B00F6EE1-42C5-44B1-A176-93A6E281DDA9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Extensions.Interactivity", "Disqord.Extensions.Interactivity\Disqord.Extensions.Interactivity.csproj", "{CE7A45F1-D162-4F55-AAA1-CB9EB56F4019}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Extensions.Voice", "Disqord.Extensions.Voice\Disqord.Extensions.Voice.csproj", "{2E0D08F4-3CE8-446D-9C08-4392DB163038}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disqord.Extensions.Slash", "Disqord.Extensions.Slash\Disqord.Extensions.Slash.csproj", "{4342B09A-4E6F-4CC8-9002-58D93207F859}"
@@ -67,10 +65,6 @@ Global
 		{B00F6EE1-42C5-44B1-A176-93A6E281DDA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B00F6EE1-42C5-44B1-A176-93A6E281DDA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B00F6EE1-42C5-44B1-A176-93A6E281DDA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE7A45F1-D162-4F55-AAA1-CB9EB56F4019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE7A45F1-D162-4F55-AAA1-CB9EB56F4019}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE7A45F1-D162-4F55-AAA1-CB9EB56F4019}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE7A45F1-D162-4F55-AAA1-CB9EB56F4019}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2E0D08F4-3CE8-446D-9C08-4392DB163038}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E0D08F4-3CE8-446D-9C08-4392DB163038}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E0D08F4-3CE8-446D-9C08-4392DB163038}.Release|Any CPU.ActiveCfg = Release|Any CPU

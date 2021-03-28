@@ -1,4 +1,7 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
+using Disqord.Extensions.Interactivity.Menus;
+using Disqord.Extensions.Interactivity.Menus.Paged;
 using Disqord.Rest;
 using Disqord.Rest.Default;
 using Qmmands;
@@ -48,6 +51,18 @@ namespace Disqord.Bot
 
         protected virtual DiscordCommandResult Reaction(IEmoji emoji)
             => new DiscordReactionCommandResult(Context, emoji);
+
+        protected virtual DiscordCommandResult Pages(params Page[] pages)
+            => Pages(pages as IEnumerable<Page>);
+
+        protected virtual DiscordCommandResult Pages(IEnumerable<Page> pages)
+            => Pages(new DefaultPageProvider(pages));
+
+        protected virtual DiscordCommandResult Pages(IPageProvider pageProvider)
+            => Menu(new PagedMenu(Context.Author.Id, pageProvider));
+
+        protected virtual DiscordCommandResult Menu(MenuBase menu)
+            => new DiscordMenuCommandResult(Context, menu);
 
         /// <summary>
         ///     Gets an instance of <see cref="DefaultRestRequestOptions"/> configured with the <see cref="StoppingToken"/>.
