@@ -11,7 +11,7 @@ namespace Disqord
         {
             get
             {
-                if (!Model.GuildId.HasValue)
+                if (!Model.GuildId.HasValue || !Model.Member.HasValue)
                     return base.Author;
 
                 if (_author == null)

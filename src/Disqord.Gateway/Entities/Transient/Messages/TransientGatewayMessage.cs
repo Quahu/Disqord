@@ -7,12 +7,12 @@ namespace Disqord
     public abstract class TransientGatewayMessage : TransientMessage, IGatewayMessage
     {
         public Snowflake? GuildId => Model.GuildId.GetValueOrNullable();
-        
+
         public override IUser Author
         {
             get
             {
-                if (!Model.GuildId.HasValue)
+                if (!Model.GuildId.HasValue || !Model.Member.HasValue)
                     return base.Author;
 
                 if (_author == null)
