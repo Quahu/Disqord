@@ -1,0 +1,76 @@
+version: 'build-{build}'
+
+image: Visual Studio 2019
+
+environment:
+  EMAIL:
+    secure: no0uCdrnaWY/44Nfx6Tg+zE71d59XA/0nnJT9LznqtQ=
+  ACCESS_TOKEN:
+    secure: JIG9V7Fvjdpl1FvBGSTbv5s29nbAL3RcHiHgSaNC7WwoO2jUOBviIPHvQz2TcI/v
+
+install:
+  - pwsh: choco install docfx -y | Out-Null
+
+build_script:
+- pwsh: |
+    dotnet restore .\src\Disqord.sln
+    dotnet build .\src\Disqord.sln -c "Release" --no-restore -p:NoWarn=1591
+
+after_build:
+- pwsh: |
+    $HasRepoTag = $Env:APPVEYOR_REPO_TAG -eq "true"
+    $Date = Get-Date -format "MMddyyyy"
+    $BuildString = "$Date.$Env:APPVEYOR_BUILD_NUMBER"
+    $VersionSuffix = $HasRepoTag
+        ? $BuildString"
+        : "nightly-$BuildString"
+    Invoke-Expression "dotnet pack .\src\Disqord.sln -c Release -o .\artifacts --no-restore --no-build $($HasRepoTag ? '--version-suffix=$VersionSuffix' : $null)"
+    docfx docs/docfx.json
+
+after_deploy: # docfx
+  - pwsh: |
+      $Directory = "gh-pages\\$($HasRepoTag ? 'stable' : 'nightly')\\"
+      git config --global credential.helper store
+      Add-Content "$HOME\.git-credentials" "https://$($Env:ACCESS_TOKEN):x-oauth-basic@github.com`n"
+      git config --global user.email $Env:EMAIL
+      config --global user.name "Quahu"
+      clone -q --branch=gh-pages https://github.com/Quahu/Disqord.git gh-pages
+      if (!(Test-Path $Directory))
+      {
+          mkdir $Directory
+      }
+      else
+      {
+          Remove-Item "$Directory*" -Recurse
+      }
+      Copy-Item ".\docs\_site\*" -Destination $Directory -Force -Recurse
+      cd $Directory
+      add .
+      git commit --allow-empty -m "Updated $Directory to $VersionSuffix."
+      push origin gh-pages
+
+nuget:
+  disable_publish_on_pr: true
+
+pull_requests:
+  do_not_increment_build_number: true
+
+test: off
+
+artifacts:
+- path: .\artifacts\*.nupkg
+  name: NuGet
+  
+deploy:
+- provider: NuGet
+  server: https://www.myget.org/F/disqord/api/v2
+  api_key:
+    secure: XW7HgRlmPz8/YHNSCAjAzBbYvgTx1dVSA+OU8AmuU6OamtFJnUr2CCAbHukPg0r7
+  on:
+    branch: master
+    appveyor_repo_tag: false
+- provider: NuGet
+  api_key:
+    secure: Y38g37rprY0qDdxvx4Ml8Q9Mja12lZCQ1MfEDv3b1he46KgogNFMMEKtLB1pPF1d
+  on:
+    appveyor_repo_tag: true
