@@ -4,11 +4,11 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
-    public class RequireUserChannelPermissionsAttribute : DiscordGuildCheckAttribute
+    public class RequireAuthorChannelPermissionsAttribute : DiscordGuildCheckAttribute
     {
         public Permission Permissions { get; }
 
-        public RequireUserChannelPermissionsAttribute(Permission permissions)
+        public RequireAuthorChannelPermissionsAttribute(Permission permissions)
         {
             Permissions = permissions;
         }

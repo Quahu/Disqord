@@ -3,11 +3,11 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
-    public class RequireUserAttribute : DiscordCheckAttribute
+    public class RequireAuthorAttribute : DiscordCheckAttribute
     {
         public Snowflake Id { get; }
 
-        public RequireUserAttribute(ulong id)
+        public RequireAuthorAttribute(ulong id)
         {
             Id = id;
         }

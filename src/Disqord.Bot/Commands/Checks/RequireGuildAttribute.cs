@@ -17,15 +17,10 @@ namespace Disqord.Bot
 
         public override sealed ValueTask<CheckResult> CheckAsync(DiscordGuildCommandContext context)
         {
-            if (Id != null)
-            {
-                if (context.GuildId == Id)
-                    return Success();
+            if (Id == null || Id == context.GuildId)
+                return Success();
 
-                return Failure($"This can only be executed in the guild with the ID {Id}.");
-            }
-
-            return Success();
+            return Failure($"This can only be executed in the guild with the ID {Id}.");
         }
     }
 }
