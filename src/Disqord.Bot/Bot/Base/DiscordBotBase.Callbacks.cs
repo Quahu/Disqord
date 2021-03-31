@@ -113,24 +113,21 @@ namespace Disqord.Bot
             return new(this.SendMessageAsync(context.ChannelId, message));
         }
 
-        public virtual async ValueTask<bool> IsOwnerAsync(IUser user)
+        public virtual async ValueTask<bool> IsOwnerAsync(Snowflake userId)
         {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
-
             var ownerIds = OwnerIds;
             if (ownerIds.Count != 0)
-                return ownerIds.Any(x => x == user.Id);
+                return ownerIds.Any(x => x == userId);
 
             var application = await this.FetchCurrentApplicationAsync().ConfigureAwait(false);
             if (application.Team != null)
             {
                 OwnerIds = application.Team.Members.Keys.ToReadOnlyList();
-                return application.Team.Members.ContainsKey(user.Id);
+                return application.Team.Members.ContainsKey(userId);
             }
 
             OwnerIds = new[] { application.Owner.Id }.ReadOnly();
-            return application.Owner.Id == user.Id;
+            return application.Owner.Id == userId;
         }
     }
 }
