@@ -139,8 +139,9 @@ namespace Disqord.Bot
                 var reader = _tokens.Reader;
                 await foreach (var token in reader.ReadAllAsync().ConfigureAwait(false))
                 {
-                    if (_tasks.Count == _degreeOfParallelism)
-                        await Task.WhenAny(_tasks.Values).ConfigureAwait(false);
+                    var tasks = _tasks.Values;
+                    if (tasks.Length == _degreeOfParallelism)
+                        await Task.WhenAny(tasks).ConfigureAwait(false);
 
                     var task = ExecuteTokenAsync(token);
                     _tasks.Add(token.Context, task);
@@ -149,6 +150,7 @@ namespace Disqord.Bot
 
             private async Task ExecuteTokenAsync(Token token)
             {
+                await Task.Yield();
                 var task = token.GetTask();
                 await task.ConfigureAwait(false);
                 _tasks.Remove(token.Context);
