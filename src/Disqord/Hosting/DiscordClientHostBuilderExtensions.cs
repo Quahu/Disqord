@@ -54,13 +54,20 @@ namespace Disqord.Hosting
                         if (!typeof(DiscordClientService).IsAssignableFrom(type))
                             continue;
 
+                        var hasService = false;
                         for (var j = 0; j < services.Count; j++)
                         {
                             var service = services[j];
                             if (service.ServiceType == type
                                 || service.ServiceType == typeof(IHostedService) && service.GetImplementationType() == type)
-                                return;
+                            {
+                                hasService = true;
+                                break;
+                            }
                         }
+
+                        if (hasService)
+                            continue;
 
                         services.AddSingleton(type);
                         services.AddSingleton(typeof(IHostedService), x => x.GetService(type));
