@@ -48,13 +48,17 @@ namespace Disqord.Hosting
                     var types = serviceAssemblies[i].GetExportedTypes();
                     foreach (var type in types)
                     {
+                        if (type.IsAbstract)
+                            continue;
+
                         if (!typeof(DiscordClientService).IsAssignableFrom(type))
                             continue;
 
                         for (var j = 0; j < services.Count; j++)
                         {
                             var service = services[j];
-                            if (service.ServiceType == typeof(IHostedService) && service.GetImplementationType() == type)
+                            if (service.ServiceType == type
+                                || service.ServiceType == typeof(IHostedService) && service.GetImplementationType() == type)
                                 return;
                         }
 
