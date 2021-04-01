@@ -24,7 +24,9 @@
             | Permission.MoveMembers
             | Permission.UseVad
             | Permission.ManageRoles
-            | Permission.ManageWebhooks);
+            | Permission.ManageWebhooks
+            | Permission.UseSlashCommands
+            | Permission.RequestToSpeak);
 
         public const ulong TEXT_PERMISSIONS_VALUE = (ulong) (
             Permission.CreateInstantInvite
@@ -40,7 +42,8 @@
             | Permission.MentionEveryone
             | Permission.UseExternalEmojis
             | Permission.ManageRoles
-            | Permission.ManageWebhooks);
+            | Permission.ManageWebhooks
+            | Permission.UseSlashCommands);
 
         public const ulong VOICE_PERMISSIONS_VALUE = (ulong) (
             Permission.CreateInstantInvite
@@ -54,7 +57,9 @@
             | Permission.DeafenMembers
             | Permission.MoveMembers
             | Permission.UseVad
-            | Permission.ManageRoles);
+            | Permission.ManageRoles
+            // | Permission.RequestToSpeak TODO: stage channel
+            );
 
         public const ulong CATEGORY_PERMISSIONS_VALUE = (ulong) (
             Permission.CreateInstantInvite
@@ -76,6 +81,8 @@
             | Permission.MoveMembers
             | Permission.UseVad
             | Permission.ManageRoles
-            | Permission.ManageWebhooks);
+            | Permission.ManageWebhooks
+            | Permission.UseSlashCommands
+            | Permission.RequestToSpeak);
     }
 }

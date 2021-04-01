@@ -33,6 +33,8 @@
             | Permission.ManageNicknames
             | Permission.ManageRoles
             | Permission.ManageWebhooks
-            | Permission.ManageEmojis);
+            | Permission.ManageEmojis
+            | Permission.UseSlashCommands
+            | Permission.RequestToSpeak);
     }
 }

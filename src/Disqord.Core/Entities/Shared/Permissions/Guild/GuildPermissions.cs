@@ -74,11 +74,16 @@ namespace Disqord
 
         public bool ManageEmojis => Discord.Permissions.HasFlag(RawValue, Permission.ManageEmojis);
 
+        public bool UseSlashCommands => Discord.Permissions.HasFlag(RawValue, Permission.UseSlashCommands);
+
+        public bool RequestToSpeak => Discord.Permissions.HasFlag(RawValue, Permission.RequestToSpeak);
+
         public Permission Permissions => (Permission) RawValue;
 
         public ulong RawValue { get; }
 
-        public GuildPermissions(Permission permission) : this((ulong) permission)
+        public GuildPermissions(Permission permission)
+            : this((ulong) permission)
         { }
 
         public GuildPermissions(ulong rawValue)

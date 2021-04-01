@@ -3,70 +3,74 @@
 namespace Disqord
 {
     [Flags]
-    public enum Permission
+    public enum Permission : ulong
     {
         None                = 0,
 
-        CreateInstantInvite = 0b00000000000000000000000000000001,
+        CreateInstantInvite = 1ul << 0,
 
-        KickMembers         = 0b00000000000000000000000000000010,
+        KickMembers         = 1ul << 1,
 
-        BanMembers          = 0b00000000000000000000000000000100,
+        BanMembers          = 1ul << 2,
 
-        Administrator       = 0b00000000000000000000000000001000,
+        Administrator       = 1ul << 3,
 
-        ManageChannels      = 0b00000000000000000000000000010000,
+        ManageChannels      = 1ul << 4,
 
-        ManageGuild         = 0b00000000000000000000000000100000,
+        ManageGuild         = 1ul << 5,
 
-        AddReactions        = 0b00000000000000000000000001000000,
+        AddReactions        = 1ul << 6,
 
-        ViewAuditLog        = 0b00000000000000000000000010000000,
+        ViewAuditLog        = 1ul << 7,
 
-        PrioritySpeaker     = 0b00000000000000000000000100000000,
+        PrioritySpeaker     = 1ul << 8,
 
-        Stream              = 0b00000000000000000000001000000000,
+        Stream              = 1ul << 9,
 
-        ViewChannel         = 0b00000000000000000000010000000000,
+        ViewChannel         = 1ul << 10,
 
-        SendMessages        = 0b00000000000000000000100000000000,
+        SendMessages        = 1ul << 11,
 
-        UseTextToSpeech     = 0b00000000000000000001000000000000,
+        UseTextToSpeech     = 1ul << 12,
 
-        ManageMessages      = 0b00000000000000000010000000000000,
+        ManageMessages      = 1ul << 13,
 
-        EmbedLinks          = 0b00000000000000000100000000000000,
+        EmbedLinks          = 1ul << 14,
 
-        AttachFiles         = 0b00000000000000001000000000000000,
+        AttachFiles         = 1ul << 15,
 
-        ReadMessageHistory  = 0b00000000000000010000000000000000,
+        ReadMessageHistory  = 1ul << 16,
 
-        MentionEveryone     = 0b00000000000000100000000000000000,
+        MentionEveryone     = 1ul << 17,
 
-        UseExternalEmojis   = 0b00000000000001000000000000000000,
+        UseExternalEmojis   = 1ul << 18,
 
-        ViewGuildInsights   = 0b00000000000010000000000000000000,
+        ViewGuildInsights   = 1ul << 19,
 
-        Connect             = 0b00000000000100000000000000000000,
+        Connect             = 1ul << 20,
 
-        Speak               = 0b00000000001000000000000000000000,
+        Speak               = 1ul << 21,
 
-        MuteMembers         = 0b00000000010000000000000000000000,
+        MuteMembers         = 1ul << 22,
 
-        DeafenMembers       = 0b00000000100000000000000000000000,
+        DeafenMembers       = 1ul << 23,
 
-        MoveMembers         = 0b00000001000000000000000000000000,
+        MoveMembers         = 1ul << 24,
 
-        UseVad              = 0b00000010000000000000000000000000,
+        UseVad              = 1ul << 25,
 
-        ChangeNickname      = 0b00000100000000000000000000000000,
+        ChangeNickname      = 1ul << 26,
 
-        ManageNicknames     = 0b00001000000000000000000000000000,
+        ManageNicknames     = 1ul << 27,
 
-        ManageRoles         = 0b00010000000000000000000000000000,
+        ManageRoles         = 1ul << 28,
 
-        ManageWebhooks      = 0b00100000000000000000000000000000,
+        ManageWebhooks      = 1ul << 29,
 
-        ManageEmojis        = 0b01000000000000000000000000000000
+        ManageEmojis        = 1ul << 30,
+        
+        UseSlashCommands    = 1ul << 31,
+        
+        RequestToSpeak      = 1ul << 32
     }
 }
