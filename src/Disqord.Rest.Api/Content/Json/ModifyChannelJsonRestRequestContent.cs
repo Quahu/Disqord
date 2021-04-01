@@ -34,5 +34,8 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("parent_id")]
         public Optional<Snowflake?> ParentId;
+
+        [JsonProperty("rtc_region")]
+        public Optional<string> RtcRegion;
     }
 }

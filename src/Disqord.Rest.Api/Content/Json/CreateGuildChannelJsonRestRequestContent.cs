@@ -35,6 +35,9 @@ namespace Disqord.Rest.Api
         [JsonProperty("nsfw")]
         public Optional<bool> Nsfw;
 
+        [JsonProperty("rtc_region")]
+        public Optional<string> RtcRegion;
+
         public CreateGuildChannelJsonRestRequestContent(string name)
         {
             Name = name;

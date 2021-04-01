@@ -119,7 +119,8 @@ namespace Disqord.Rest
                 {
                     content.Type = ChannelType.Voice;
                     content.Bitrate = voiceProperties.Bitrate;
-                    content.UserLimit = voiceProperties.UserLimit;
+                    content.UserLimit = voiceProperties.MemberLimit;
+                    content.RtcRegion = voiceProperties.Region;
                 }
                 else
                 {

@@ -77,7 +77,8 @@ namespace Disqord.Rest
                     else if (nestableProperties is ModifyVoiceChannelActionProperties voiceProperties)
                     {
                         content.Bitrate = voiceProperties.Bitrate;
-                        content.UserLimit = voiceProperties.UserLimit;
+                        content.UserLimit = voiceProperties.MemberLimit;
+                        content.RtcRegion = voiceProperties.Region;
                     }
                 }
                 else if (guildProperties is ModifyCategoryChannelActionProperties categoryProperties)
