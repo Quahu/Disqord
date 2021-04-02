@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Gateway;
@@ -101,7 +100,8 @@ namespace Disqord.Bot
             }
 
             return new LocalMessageBuilder()
-                .WithEmbed(embed);
+                .WithEmbed(embed)
+                .WithMentions(LocalMentionsBuilder.None);
         }
 
         protected virtual ValueTask HandleFailedResultAsync(DiscordCommandContext context, FailedResult result)
