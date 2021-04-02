@@ -25,29 +25,29 @@ after_build:
         ? $BuildString"
         : "nightly-$BuildString"
     Invoke-Expression "dotnet pack .\src\Disqord.sln -c Release -o .\artifacts --no-restore --no-build $($HasRepoTag ? '--version-suffix=$VersionSuffix' : $null)"
-    docfx docs/docfx.json
+#   docfx docs/docfx.json
 
-after_deploy: # docfx
-  - pwsh: |
-      $Directory = "gh-pages\\$($HasRepoTag ? 'stable' : 'nightly')\\"
-      git config --global credential.helper store
-      Add-Content "$HOME\.git-credentials" "https://$($Env:ACCESS_TOKEN):x-oauth-basic@github.com`n"
-      git config --global user.email $Env:EMAIL
-      config --global user.name "Quahu"
-      clone -q --branch=gh-pages https://github.com/Quahu/Disqord.git gh-pages
-      if (!(Test-Path $Directory))
-      {
-          mkdir $Directory
-      }
-      else
-      {
-          Remove-Item "$Directory*" -Recurse
-      }
-      Copy-Item ".\docs\_site\*" -Destination $Directory -Force -Recurse
-      cd $Directory
-      add .
-      git commit --allow-empty -m "Updated $Directory to $VersionSuffix."
-      push origin gh-pages
+# after_deploy: # docfx
+#   - pwsh: |
+#       $Directory = "gh-pages\\$($HasRepoTag ? 'stable' : 'nightly')\\"
+#       git config --global credential.helper store
+#       Add-Content "$HOME\.git-credentials" "https://$($Env:ACCESS_TOKEN):x-oauth-basic@github.com`n"
+#       git config --global user.email $Env:EMAIL
+#       config --global user.name "Quahu"
+#       clone -q --branch=gh-pages https://github.com/Quahu/Disqord.git gh-pages
+#       if (!(Test-Path $Directory))
+#       {
+#           mkdir $Directory
+#       }
+#       else
+#       {
+#           Remove-Item "$Directory*" -Recurse
+#       }
+#       Copy-Item ".\docs\_site\*" -Destination $Directory -Force -Recurse
+#       cd $Directory
+#       add .
+#       git commit --allow-empty -m "Updated $Directory to $VersionSuffix."
+#       push origin gh-pages
 
 nuget:
   disable_publish_on_pr: true
@@ -59,7 +59,7 @@ test: off
 
 artifacts:
 - path: .\artifacts\*.nupkg
-  name: NuGet
+- path: .\artifacts\*.snupkg
   
 deploy:
 - provider: NuGet
