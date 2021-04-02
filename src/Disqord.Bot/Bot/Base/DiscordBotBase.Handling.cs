@@ -104,7 +104,7 @@ namespace Disqord.Bot
                 return;
 
             // These will be handled by the CommandExecutionFailed event handler.
-            if (result is ExecutionFailedResult)
+            if (result is CommandExecutionFailedResult)
                 return;
 
             await InternalHandleFailedResultAsync(context, failedResult).ConfigureAwait(false);
@@ -184,7 +184,7 @@ namespace Disqord.Bot
                 {
                     message += " If you have not overridden {4}, you must do so and have it return the given context type. " +
                         "Otherwise ensure it returns the correct context types.";
-                    args.Add(nameof(DiscordBotBase.CreateCommandContext));
+                    args.Add(nameof(CreateCommandContext));
                 }
 
                 Logger.LogError(message, args.ToArray());

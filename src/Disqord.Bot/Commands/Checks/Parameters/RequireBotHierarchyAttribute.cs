@@ -8,9 +8,8 @@ namespace Disqord.Bot
 {
     public class RequireBotHierarchyAttribute : DiscordGuildParameterCheckAttribute
     {
-        public RequireBotHierarchyAttribute()
-            : base(x => typeof(IMember).IsAssignableFrom(x))
-        { }
+        public override bool CheckType(Type type)
+            => typeof(IMember).IsAssignableFrom(type);
 
         public override ValueTask<CheckResult> CheckAsync(object argument, DiscordGuildCommandContext context)
         {

@@ -6,10 +6,6 @@ namespace Disqord.Bot
 {
     public abstract class DiscordGuildParameterCheckAttribute : DiscordParameterCheckAttribute
     {
-        protected DiscordGuildParameterCheckAttribute(Predicate<Type> predicate = null)
-            : base(predicate)
-        { }
-
         public abstract ValueTask<CheckResult> CheckAsync(object argument, DiscordGuildCommandContext context);
 
         public override sealed ValueTask<CheckResult> CheckAsync(object argument, DiscordCommandContext context)
