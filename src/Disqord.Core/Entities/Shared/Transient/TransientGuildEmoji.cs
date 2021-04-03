@@ -9,7 +9,7 @@ namespace Disqord
         public Snowflake Id => Model.Id.Value;
 
         public DateTimeOffset CreatedAt => Id.CreatedAt;
-        
+
         public Snowflake GuildId { get; }
 
         public string Name => Model.Name;
@@ -17,6 +17,18 @@ namespace Disqord
         public bool IsAnimated => Model.Animated.Value;
 
         public IReadOnlyList<Snowflake> RoleIds => Model.Roles.Value;
+
+        public IUser Creator
+        {
+            get
+            {
+                if (_creator == null)
+                    _creator = new TransientUser(Client, Model.User.Value);
+
+                return _creator;
+            }
+        }
+        private IUser _creator;
 
         public bool RequiresColons => Model.RequireColons.Value;
 

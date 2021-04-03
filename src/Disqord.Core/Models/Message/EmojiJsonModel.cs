@@ -14,7 +14,7 @@ namespace Disqord.Models
         public Optional<Snowflake[]> Roles;
 
         [JsonProperty("user")]
-        public Optional</*User*/JsonModel> User;
+        public Optional<UserJsonModel> User;
 
         [JsonProperty("require_colons")]
         public Optional<bool> RequireColons;
