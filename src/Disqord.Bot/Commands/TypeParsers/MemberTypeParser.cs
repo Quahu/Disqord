@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Gateway;
 using Disqord.Rest;
 using Disqord.Utilities;
 using Qmmands;
@@ -50,7 +51,7 @@ namespace Disqord.Bot.Parsers
                     await using (context.BeginYield())
                     {
                         // Check if the gateway is currently rate-limited.
-                        if (context.Bot.GatewayClient.GetShard(context.GuildId).RateLimiter.IsRateLimited())
+                        if (context.Bot.GetShard(context.GuildId).RateLimiter.IsRateLimited())
                         {
                             // Use a REST call if the gateway is rate-limited.
                             // TODO: evacuate the building if everything is rate-limited

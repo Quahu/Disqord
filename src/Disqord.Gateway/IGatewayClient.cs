@@ -40,11 +40,5 @@ namespace Disqord.Gateway
         /// <param name="stoppingToken"> The token used to signal connection stopping. </param>
         /// <returns> The <see cref="Task"/> representing the connection. </returns>
         Task RunAsync(Uri uri, CancellationToken stoppingToken);
-
-        ShardId GetShardId(Snowflake? guildId)
-            => ShardId.ForGuildId(guildId ?? 0, Shards.Count);
-
-        IGatewayApiClient GetShard(Snowflake? guildId)
-            => Shards.GetValueOrDefault(GetShardId(guildId));
     }
 }
