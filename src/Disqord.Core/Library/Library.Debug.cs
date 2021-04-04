@@ -9,8 +9,6 @@ namespace Disqord
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static class Debug
         {
-            public static bool DumpRateLimits;
-
             public static bool DumpJson;
 
             public static TextWriter DumpWriter
@@ -25,9 +23,6 @@ namespace Disqord
                 }
             }
             private static TextWriter _dumpWriter = Console.Out;
-
-            public static IDisposable DumpingRateLimits(TextWriter customWriter = null)
-                => new DumpingBlock(() => DumpRateLimits = !DumpRateLimits, customWriter);
 
             public static IDisposable DumpingJson(TextWriter customWriter = null)
                 => new DumpingBlock(() => DumpJson = !DumpJson, customWriter);
