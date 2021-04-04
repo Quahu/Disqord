@@ -81,7 +81,7 @@ namespace Disqord.Rest
             var model = await client.ApiClient.CreateDirectChannelAsync(content, options).ConfigureAwait(false);
             var channel = new TransientDirectChannel(client, model);
 
-            if (channels != null)
+            if (channels != null && !channels.IsReadOnly)
                 channels.Add(userId, channel);
 
             return channel;
