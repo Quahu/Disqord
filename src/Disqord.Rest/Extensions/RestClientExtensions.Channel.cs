@@ -150,7 +150,7 @@ namespace Disqord.Rest
             if (message.Attachments.Count != 0)
             {
                 // If there are attachments, we must send them via multipart HTTP content.
-                // Our `messageContent` will be serialized into a form data field.
+                // Our `messageContent` will be serialized into a "payload_json" form data field.
                 var content = new MultipartJsonPayloadRestRequestContent<CreateMessageJsonRestRequestContent>(messageContent, message.Attachments);
                 task = client.ApiClient.CreateMessageAsync(channelId, content, options);
             }

@@ -172,5 +172,20 @@ namespace Disqord.Rest
             var client = channel.GetRestClient();
             return client.UnpinMessageAsync(channel.Id, messageId, options);
         }
+
+        /*
+         * Webhooks
+         */
+        public static Task CreateWebhookAsync(this IMessageChannel channel, string name, Action<CreateWebhookActionProperties> action = null, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.CreateWebhookAsync(channel.Id, name, action, options);
+        }
+
+        public static Task<IReadOnlyList<IWebhook>> FetchWebhooksAsync(this IMessageChannel channel, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.FetchChannelWebhooksAsync(channel.Id, options);
+        }
     }
 }

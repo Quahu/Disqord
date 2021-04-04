@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Disqord.Http;
@@ -44,8 +44,8 @@ namespace Disqord.Rest.Api
             if (client.Serializer is DefaultJsonSerializer jsonSerializer)
             {
                 // See CheckStreamType for more info.
-                // Arguably this isn't "correct" to call it here as this isn't JSON serialization but it doesn't matter
-                // and warning the user is important to me.
+                // Arguably this isn't "correct" to call it here as this isn't JSON serialization
+                // but it doesn't matter and warning the user is more important to me.
                 var streamConverter = (jsonSerializer.UnderlyingSerializer.ContractResolver as ContractResolver)._streamConverter;
                 streamConverter.CheckStreamType(stream);
             }

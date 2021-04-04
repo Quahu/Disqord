@@ -23,7 +23,6 @@ namespace Disqord
             get => _attachments;
             set => WithAttachments(value);
         }
-
         private readonly List<LocalAttachment> _attachments;
 
         public LocalMessageBuilder()
@@ -110,15 +109,13 @@ namespace Disqord
             return this;
         }
 
-        public LocalMessageBuilder Clone()
-            => new LocalMessageBuilder(this);
+        public virtual LocalMessageBuilder Clone()
+            => new(this);
 
         object ICloneable.Clone()
             => Clone();
 
         public LocalMessage Build()
-        {
-            return new LocalMessage(this);
-        }
+            => new(this);
     }
 }

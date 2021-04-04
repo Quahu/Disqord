@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -217,6 +217,15 @@ namespace Disqord.Rest
         {
             var client = guild.GetRestClient();
             return client.DeleteGuildEmojiAsync(guild.Id, emojiId, options);
+        }
+
+        /*
+         * Webhook
+         */
+        public static Task<IReadOnlyList<IWebhook>> FetchWebhooksAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildWebhooksAsync(guild.Id, options);
         }
     }
 }

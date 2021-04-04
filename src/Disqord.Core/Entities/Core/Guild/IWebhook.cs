@@ -1,11 +1,12 @@
-﻿using Disqord.Serialization.Json;
+﻿using Disqord.Models;
+using Disqord.Serialization.Json;
 
 namespace Disqord
 {
     /// <summary>
     ///     Represents a webhook.
     /// </summary>
-    public interface IWebhook : ISnowflakeEntity, IChannelEntity, IGuildEntity, INamable, IJsonUpdatable</*Webhook*/JsonModel>
+    public interface IWebhook : ISnowflakeEntity, IChannelEntity, IGuildEntity, INamable, IJsonUpdatable<WebhookJsonModel>
     {
         /// <summary>
         ///     Gets the avatar image hash of this webhook.
@@ -13,9 +14,9 @@ namespace Disqord
         string AvatarHash { get; }
 
         /// <summary>
-        ///     Gets the owner of this webhook.
+        ///     Gets the creator of this webhook.
         /// </summary>
-        IUser Owner { get; }
+        IUser Creator { get; }
 
         /// <summary>
         ///     Gets the token of this webhook.

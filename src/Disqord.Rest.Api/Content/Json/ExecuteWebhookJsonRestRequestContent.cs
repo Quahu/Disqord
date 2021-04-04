@@ -1,0 +1,26 @@
+﻿using Disqord.Models;
+using Disqord.Serialization.Json;
+
+namespace Disqord.Rest.Api
+{
+    public class ExecuteWebhookJsonRestRequestContent : JsonModelRestRequestContent
+    {
+        [JsonProperty("content")]
+        public Optional<string> Content;
+        
+        [JsonProperty("username")]
+        public Optional<string> Username;
+        
+        [JsonProperty("avatar_url")]
+        public Optional<string> AvatarUrl;
+
+        [JsonProperty("tts")]
+        public Optional<bool> Tts;
+
+        [JsonProperty("embeds")]
+        public Optional<EmbedJsonModel[]> Embeds;
+
+        [JsonProperty("allowed_mentions")]
+        public Optional<AllowedMentionsJsonModel> AllowedMentions;
+    }
+}

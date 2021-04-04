@@ -212,6 +212,8 @@ namespace Disqord.Rest.Api
 
             public static readonly Route GetChannelWebhooks = Get("channels/{0:channel_id}/webhooks");
 
+            public static readonly Route GetGuildWebhooks = Get("guilds/{0:guild_id}/webhooks");
+
             public static readonly Route GetWebhook = Get("webhooks/{0:webhook_id}");
 
             public static readonly Route GetWebhookWithToken = Get("webhooks/{0:webhook_id}/{1:webhook_token}");
@@ -230,7 +232,7 @@ namespace Disqord.Rest.Api
 
             public static readonly Route ExecuteGithubWebhook = Post("webhooks/{0:webhook_id}/{1:webhook_token}/github");
 
-            public static readonly Route EditWebhookMessage = Patch("webhooks/{0:webhook_id}/{1:webhook_token}/messages/{2:message_id}");
+            public static readonly Route ModifyWebhookMessage = Patch("webhooks/{0:webhook_id}/{1:webhook_token}/messages/{2:message_id}");
 
             public static readonly Route DeleteWebhookMessage = Delete("webhooks/{0:webhook_id}/{1:webhook_token}/messages/{2:message_id}");
         }
@@ -249,6 +251,7 @@ namespace Disqord.Rest.Api
 
         public static class Slash
         {
+            // TODO: fix broken slash routes
             public static readonly Route GetGlobalCommands = Get("applications/{0:application_id}/commands");
 
             public static readonly Route CreateGlobalCommand = Post("applications/{0:application_id}/commands");
