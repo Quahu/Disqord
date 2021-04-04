@@ -16,17 +16,17 @@ namespace Disqord.Rest
             var client = member.GetRestClient();
             return client.ModifyMemberAsync(member.GuildId, member.Id, action, options);
         }
-        
-        public static Task GrantRoleAsync(this IMember member, Snowflake guildId, Snowflake memberId, Snowflake roleId, IRestRequestOptions options = null)
+
+        public static Task GrantRoleAsync(this IMember member, Snowflake roleId, IRestRequestOptions options = null)
         {
             var client = member.GetRestClient();
-            return client.GrantRoleAsync(guildId, memberId, roleId, options);
+            return client.GrantRoleAsync(member.GuildId, member.Id, roleId, options);
         }
 
-        public static Task RevokeRoleAsync(this IMember member, Snowflake guildId, Snowflake memberId, Snowflake roleId, IRestRequestOptions options = null)
+        public static Task RevokeRoleAsync(this IMember member, Snowflake roleId, IRestRequestOptions options = null)
         {
             var client = member.GetRestClient();
-            return client.RevokeRoleAsync(guildId, memberId, roleId, options);
+            return client.RevokeRoleAsync(member.GuildId, member.Id, roleId, options);
         }
 
         public static Task KickAsync(this IMember member, IRestRequestOptions options = null)
@@ -34,13 +34,13 @@ namespace Disqord.Rest
             var client = member.GetRestClient();
             return client.KickMemberAsync(member.GuildId, member.Id, options);
         }
-        
+
         public static Task BanAsync(this IMember member, string reason = null, int? deleteMessageDays = null, IRestRequestOptions options = null)
         {
             var client = member.GetRestClient();
             return client.CreateBanAsync(member.GuildId, member.Id, reason, deleteMessageDays, options);
         }
-        
+
         public static Task UnbanAsync(this IMember member, IRestRequestOptions options = null)
         {
             var client = member.GetRestClient();
