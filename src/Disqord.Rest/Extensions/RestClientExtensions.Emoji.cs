@@ -13,7 +13,7 @@ namespace Disqord.Rest
         public static async Task<IReadOnlyList<IGuildEmoji>> FetchGuildEmojisAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var models = await client.ApiClient.FetchGuildEmojisAsync(guildId, options).ConfigureAwait(false);
-            return models.ToReadOnlyList((client, guildId), static(x, tuple) =>
+            return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
             {
                 var (client, guildId) = tuple;
                 return new TransientGuildEmoji(client, guildId, x);
@@ -38,7 +38,7 @@ namespace Disqord.Rest
             return new TransientGuildEmoji(client, guildId, model);
         }
 
-        public static async Task<IGuildEmoji> ModifyGuildEmojiAsync(this IRestClient client, Snowflake guildId, Snowflake emojiId, Action<ModifyGuildEmojiActionProperties> action = null, IRestRequestOptions options = null)
+        public static async Task<IGuildEmoji> ModifyGuildEmojiAsync(this IRestClient client, Snowflake guildId, Snowflake emojiId, Action<ModifyGuildEmojiActionProperties> action, IRestRequestOptions options = null)
         {
             var properties = new ModifyGuildEmojiActionProperties();
             action?.Invoke(properties);

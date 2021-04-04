@@ -5,7 +5,7 @@ namespace Disqord.Rest
 {
     public static partial class RestEntityExtensions
     {
-        public static Task<IGuildEmoji> ModifyAsync(this IGuildEmoji emoji, Snowflake emojiId, Action<ModifyGuildEmojiActionProperties> action = null, IRestRequestOptions options = null)
+        public static Task<IGuildEmoji> ModifyAsync(this IGuildEmoji emoji, Snowflake emojiId, Action<ModifyGuildEmojiActionProperties> action, IRestRequestOptions options = null)
         {
             var client = emoji.GetRestClient();
             return client.ModifyGuildEmojiAsync(emoji.Id, emojiId, action, options);

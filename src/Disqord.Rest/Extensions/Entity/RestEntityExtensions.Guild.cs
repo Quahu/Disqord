@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -186,6 +186,9 @@ namespace Disqord.Rest
 
         // TODO: fetch preview
 
+        /*
+         * Emoji
+         */
         public static Task<IReadOnlyList<IGuildEmoji>> FetchEmojisAsync(this IGuild guild, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
@@ -204,7 +207,7 @@ namespace Disqord.Rest
             return client.CreateGuildEmojiAsync(guild.Id, name, image, action, options);
         }
 
-        public static Task<IGuildEmoji> ModifyEmojiAsync(this IGuild guild, Snowflake emojiId, Action<ModifyGuildEmojiActionProperties> action = null, IRestRequestOptions options = null)
+        public static Task<IGuildEmoji> ModifyEmojiAsync(this IGuild guild, Snowflake emojiId, Action<ModifyGuildEmojiActionProperties> action, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
             return client.ModifyGuildEmojiAsync(guild.Id, emojiId, action, options);
