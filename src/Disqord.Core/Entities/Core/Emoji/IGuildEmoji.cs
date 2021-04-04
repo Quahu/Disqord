@@ -13,6 +13,11 @@ namespace Disqord
         IReadOnlyList<Snowflake> RoleIds { get; }
 
         /// <summary>
+        ///     Gets the user that created this emoji.
+        /// </summary>
+        IUser Creator { get; }
+
+        /// <summary>
         ///     Gets whether this emoji requires colons in chat.
         /// </summary>
         bool RequiresColons { get; }
