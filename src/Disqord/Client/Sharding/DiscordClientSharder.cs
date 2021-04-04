@@ -57,6 +57,7 @@ namespace Disqord.Sharding
         public override async Task RunAsync(CancellationToken stoppingToken)
         {
             StoppingToken = stoppingToken;
+            // TODO: fallback on bot gateway data?
             var uri = new Uri("wss://gateway.discord.gg/");
             _scopes = new Dictionary<ShardId, IServiceScope>();
             var shardIds = new List<ShardId>();
@@ -80,8 +81,13 @@ namespace Disqord.Sharding
             }
             else
             {
-                // TODO: get recommended shard count from Discord
-                shardIds.Add(new ShardId(0, 1));
+                var botGatewayData = await this.FetchBotGatewayDataAsync().ConfigureAwait(false);
+                Logger.LogDebug("Using Discord's recommended shard count of {0}.", botGatewayData.RecommendedShardCount);
+                for (var i = 0; i < botGatewayData.RecommendedShardCount; i++)
+                {
+                    var id = new ShardId(i, botGatewayData.RecommendedShardCount);
+                    shardIds.Add(id);
+                }
             }
 
             Logger.LogInformation("This sharder will manage {0} shards with IDs: {1}", shardIds.Count, shardIds.Select(x => x.Id));
@@ -107,7 +113,7 @@ namespace Disqord.Sharding
             Tcs readyTcs = null;
             ShardId shardId = default;
 
-            dispatcher["READY"] = Handler.Intercept(originalReadyHandler, (shard, model) =>
+            dispatcher["READY"] = Handler.Intercept(originalReadyHandler, (shard, _) =>
             {
                 if (shard.Id == shardId)
                 {

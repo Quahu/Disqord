@@ -22,24 +22,14 @@ namespace Disqord
             DiscordApiClient apiClient,
             IEnumerable<DiscordClientExtension> extensions)
             : base(logger, restClient, gatewayClient, apiClient, extensions)
-        {
-
-        }
+        { }
 
         /// <inheritdoc/>
         public override async Task RunAsync(CancellationToken stoppingToken)
         {
             StoppingToken = stoppingToken;
-            Uri uri;
-            if (ApiClient.Token is BotToken)
-            {
-                uri = new Uri("wss://gateway.discord.gg/");
-            }
-            else
-            {
-                uri = new Uri("wss://gateway.discord.gg/");
-            }
-
+            // TODO: fallback on bot gateway data?
+            var uri = new Uri("wss://gateway.discord.gg/");
             await GatewayClient.RunAsync(uri, stoppingToken).ConfigureAwait(false);
         }
 
