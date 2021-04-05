@@ -1,4 +1,7 @@
-﻿namespace Disqord.Gateway
+﻿using System.Collections.Generic;
+using Disqord.Collections;
+
+namespace Disqord.Gateway
 {
     public static partial class GatewayClientExtensions
     {
@@ -16,6 +19,14 @@
                 return cache.GetValueOrDefault(guildId);
 
             return null;
+        }
+
+        public static IReadOnlyDictionary<Snowflake, CachedGuild> GetGuilds(this IGatewayClient client)
+        {
+            if (client.CacheProvider.TryGetGuilds(out var cache))
+                return cache.ReadOnly();
+
+            return ReadOnlyDictionary<Snowflake, CachedGuild>.Empty;
         }
 
         public static CachedMember GetMember(this IGatewayClient client, Snowflake guildId, Snowflake memberId)
