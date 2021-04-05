@@ -29,9 +29,7 @@ namespace Disqord.Gateway.Default
         }
 
         public void Bind(IGatewayClient value)
-        {
-
-        }
+        { }
 
         public bool Supports<TEntity>()
             where TEntity : CachedSnowflakeEntity
@@ -144,7 +142,9 @@ namespace Disqord.Gateway.Default
                     var guildsCache = _caches[typeof(CachedGuild)] as ISynchronizedDictionary<Snowflake, CachedGuild>;
                     lock (guildsCache)
                     {
-                        var guildIds = guildsCache.Keys.Where(x => ShardId.ForGuildId(x, shardId.Count) == shardId).ToArray();
+                        var guildIds = shardId != ShardId.Default
+                            ? guildsCache.Keys.Where(x => ShardId.ForGuildId(x, shardId.Count) == shardId).ToArray()
+                            : guildsCache.Keys;
                         foreach (var guildId in guildIds)
                         {
                             guildsCache.Remove(guildId);
