@@ -21,16 +21,6 @@ namespace Disqord
         /// <inheritdoc/>
         public ILogger Logger { get; }
 
-        /// <summary>
-        ///     Gets the REST client this client wraps.
-        /// </summary>
-        public IRestClient RestClient { get; }
-
-        /// <summary>
-        ///     Gets the gateway client this client wraps.
-        /// </summary>
-        public IGatewayClient GatewayClient { get; }
-
         public IGatewayCacheProvider CacheProvider => GatewayClient.CacheProvider;
 
         public IGatewayChunker Chunker => GatewayClient.Chunker;
@@ -47,14 +37,24 @@ namespace Disqord
         /// </summary>
         public virtual CancellationToken StoppingToken { get; protected set; }
 
+        /// <summary>
+        ///     Gets the REST client this client wraps.
+        /// </summary>
+        protected IRestClient RestClient { get; }
+
+        /// <summary>
+        ///     Gets the gateway client this client wraps.
+        /// </summary>
+        protected IGatewayClient GatewayClient { get; }
+
+        private readonly Dictionary<Type, DiscordClientExtension> _extensions;
+
         IApiClient IClient.ApiClient => ApiClient;
         IGatewayApiClient IGatewayClient.ApiClient => GatewayClient.ApiClient;
         IRestApiClient IRestClient.ApiClient => RestClient.ApiClient;
         IGatewayDispatcher IGatewayClient.Dispatcher => GatewayClient.Dispatcher;
         IDictionary<Snowflake, IDirectChannel> IRestClient.DirectChannels => RestClient.DirectChannels;
         IReadOnlyDictionary<ShardId, IGatewayApiClient> IGatewayClient.Shards => GatewayClient.Shards;
-
-        private readonly Dictionary<Type, DiscordClientExtension> _extensions;
 
         /// <summary>
         ///     Instantiates a new <see cref="DiscordClientBase"/>, wrapping REST and gateway clients.
