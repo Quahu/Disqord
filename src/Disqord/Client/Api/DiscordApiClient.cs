@@ -48,6 +48,11 @@ namespace Disqord
         IGatewayHeartbeater IGatewayApiClient.Heartbeater => GatewayApiClient.Heartbeater;
         GatewayIntents IGatewayApiClient.Intents => GatewayApiClient.Intents;
         ShardId IGatewayApiClient.Id => GatewayApiClient.Id;
+        UpdatePresenceJsonModel IGatewayApiClient.Presence
+        {
+            get => GatewayApiClient.Presence;
+            set => GatewayApiClient.Presence = value;
+        }
         string IGatewayApiClient.SessionId => GatewayApiClient.SessionId;
         int? IGatewayApiClient.Sequence => GatewayApiClient.Sequence;
         CancellationToken IGatewayApiClient.StoppingToken => GatewayApiClient.StoppingToken;

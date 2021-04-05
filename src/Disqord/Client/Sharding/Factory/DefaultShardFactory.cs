@@ -34,7 +34,6 @@ namespace Disqord.Sharding
             var options = services.GetRequiredService<IOptions<DefaultGatewayApiClientConfiguration>>();
             var value = options.Value.Clone();
             value.Id = id;
-            // TODO: presence
             options = Options.Create(value);
             var logger = services.GetRequiredService<ILoggerFactory>().CreateLogger($"Shard #{id.Id}");
             var shard = _factory(services, new object[] { options, logger });

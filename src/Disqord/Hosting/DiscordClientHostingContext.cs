@@ -22,7 +22,7 @@ namespace Disqord.Hosting
 
         /// <summary>
         ///     Gets or sets the mode of firing the <see cref="DiscordClientBase.Ready"/> event.
-        ///     Defaults to <see cref="ReadyEventDelayMode.Guilds"/>.
+        ///     Defaults to <see cref="Disqord.ReadyEventDelayMode.Guilds"/>.
         /// </summary>
         public virtual ReadyEventDelayMode ReadyEventDelayMode { get; set; } = ReadyEventDelayMode.Guilds;
 
@@ -32,5 +32,17 @@ namespace Disqord.Hosting
         ///     If <see langword="null"/> or empty, the services will have to be manually registered.
         /// </summary>
         public virtual IList<Assembly> ServiceAssemblies { get; set; } = new List<Assembly> { Assembly.GetEntryAssembly() };
+
+        /// <summary>
+        ///     Gets or sets the status> the bot will identify with.
+        ///     Defaults to <see langword="null"/>, which will result in <see cref="UserStatus.Online"/>.
+        /// </summary>
+        public virtual UserStatus? Status { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the activities the bot will identify with.
+        ///     Defaults to <see langword="null"/>, which will result in no activities.
+        /// </summary>
+        public virtual IEnumerable<LocalActivity> Activities { get; set; }
     }
 }

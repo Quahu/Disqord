@@ -1,4 +1,5 @@
-﻿using Disqord.Serialization.Json;
+﻿using System.Linq;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Gateway.Api.Models
 {
@@ -15,5 +16,12 @@ namespace Disqord.Gateway.Api.Models
 
         [JsonProperty("afk")]
         public bool Afk;
+
+        public UpdatePresenceJsonModel Clone()
+        {
+            var @this = (UpdatePresenceJsonModel) MemberwiseClone();
+            @this.Activities = Activities?.ToArray();
+            return @this;
+        }
     }
 }

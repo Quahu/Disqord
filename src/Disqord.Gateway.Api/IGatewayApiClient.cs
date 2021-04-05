@@ -22,6 +22,8 @@ namespace Disqord.Gateway.Api
 
         ShardId Id { get; }
 
+        UpdatePresenceJsonModel Presence { get; set; }
+
         /// <summary>
         ///     Gets the session ID of the current gateway session.
         /// </summary>

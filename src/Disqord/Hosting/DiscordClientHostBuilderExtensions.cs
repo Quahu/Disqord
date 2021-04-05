@@ -3,7 +3,9 @@ using System.ComponentModel;
 using System.Linq;
 using Disqord.DependencyInjection.Extensions;
 using Disqord.Gateway.Api.Default;
+using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Default;
+using Disqord.Gateway.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -73,6 +75,15 @@ namespace Disqord.Hosting
                         services.AddSingleton(typeof(IHostedService), x => x.GetService(type));
                     }
                 }
+            }
+
+            if (discordContext.Status != null || discordContext.Activities != null)
+            {
+                services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Presence = new UpdatePresenceJsonModel
+                {
+                    Status = discordContext.Status ?? UserStatus.Online,
+                    Activities = discordContext.Activities?.Select(x => x.ToModel()).ToArray() ?? Array.Empty<ActivityJsonModel>()
+                });
             }
         }
     }

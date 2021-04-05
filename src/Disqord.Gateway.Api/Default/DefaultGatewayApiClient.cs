@@ -22,7 +22,7 @@ namespace Disqord.Gateway.Api.Default
 
         public ShardId Id { get; }
 
-        public UpdatePresenceJsonModel Presence { get; }
+        public UpdatePresenceJsonModel Presence { get; set; }
 
         public ILogger Logger { get; }
 
