@@ -6,6 +6,7 @@ using Disqord.Collections;
 using Disqord.Http;
 using Disqord.Models;
 using Disqord.Rest.Api;
+using Disqord.Rest.Models;
 using Disqord.Rest.Pagination;
 
 namespace Disqord.Rest
@@ -92,13 +93,8 @@ namespace Disqord.Rest
             action?.Invoke(properties);
             var content = new CreateGuildChannelJsonRestRequestContent(name)
             {
-                PermissionOverwrites = Optional.Convert(properties.Overwrites, x => x.Select(x => new OverwriteJsonModel
-                {
-                    Id = x.TargetId,
-                    Type = x.TargetType,
-                    Allow = x.Permissions.Allowed,
-                    Deny = x.Permissions.Denied
-                }).ToArray())
+                Position = properties.Position,
+                PermissionOverwrites = Optional.Convert(properties.Overwrites, x => x.Select(x => x.ToModel()).ToArray())
             };
 
             if (properties is CreateNestedChannelActionProperties nestedProperties)

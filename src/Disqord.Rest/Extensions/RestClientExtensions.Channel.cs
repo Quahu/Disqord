@@ -46,7 +46,7 @@ namespace Disqord.Rest
         }
 
         internal static Task<ChannelJsonModel> InternalModifyChannelAsync<T>(this IRestClient client, Snowflake channelId, Action<T> action, IRestRequestOptions options = null)
-            where T : ModifyChannelActionProperties
+            where T : ModifyGuildChannelActionProperties
         {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
@@ -57,34 +57,31 @@ namespace Disqord.Rest
             action(properties);
             var content = new ModifyChannelJsonRestRequestContent
             {
-                Name = properties.Name
+                Name = properties.Name,
+                Position = properties.Position,
+                PermissionOverwrites = Optional.Convert(properties.Overwrites, x => x.Select(x => x.ToModel()).ToArray())
             };
-            if (properties is ModifyGuildChannelActionProperties guildProperties)
+
+            if (properties is ModifyNestableChannelActionProperties nestableProperties)
             {
-                content.Position = guildProperties.Position;
-                content.PermissionOverwrites = Optional.Convert(guildProperties.Overwrites, x => x.Select(x => x.ToModel()).ToArray());
+                content.ParentId = nestableProperties.CategoryId;
 
-                if (guildProperties is ModifyNestableChannelActionProperties nestableProperties)
+                if (nestableProperties is ModifyTextChannelActionProperties textProperties)
                 {
-                    content.ParentId = nestableProperties.CategoryId;
-
-                    if (nestableProperties is ModifyTextChannelActionProperties textProperties)
-                    {
-                        content.Topic = textProperties.Topic;
-                        content.Nsfw = textProperties.IsNsfw;
-                        content.RateLimitPerUser = textProperties.Slowmode;
-                    }
-                    else if (nestableProperties is ModifyVoiceChannelActionProperties voiceProperties)
-                    {
-                        content.Bitrate = voiceProperties.Bitrate;
-                        content.UserLimit = voiceProperties.MemberLimit;
-                        content.RtcRegion = voiceProperties.Region;
-                    }
+                    content.Topic = textProperties.Topic;
+                    content.Nsfw = textProperties.IsNsfw;
+                    content.RateLimitPerUser = textProperties.Slowmode;
                 }
-                else if (guildProperties is ModifyCategoryChannelActionProperties categoryProperties)
+                else if (nestableProperties is ModifyVoiceChannelActionProperties voiceProperties)
                 {
-                    // No extra properties for category channels.
+                    content.Bitrate = voiceProperties.Bitrate;
+                    content.UserLimit = voiceProperties.MemberLimit;
+                    content.RtcRegion = voiceProperties.Region;
                 }
+            }
+            else if (properties is ModifyCategoryChannelActionProperties categoryProperties)
+            {
+                // No extra properties for category channels.
             }
             else
             {
