@@ -19,7 +19,7 @@ namespace Disqord.Gateway.Api.Default
         public DefaultGatewayApiClientConfiguration Clone()
         {
             var @this = (DefaultGatewayApiClientConfiguration) MemberwiseClone();
-            @this.Presence = Presence.Clone();
+            @this.Presence = Presence?.Clone();
             return @this;
         }
     }
