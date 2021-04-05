@@ -16,13 +16,13 @@ namespace Disqord.Bot
         /// </summary>
         protected virtual CancellationToken StoppingToken => Context.Bot.StoppingToken;
 
-        protected virtual DiscordCommandResult Reply(string content, LocalMentionsBuilder mentions = null)
+        protected virtual DiscordResponseCommandResult Reply(string content, LocalMentionsBuilder mentions = null)
             => Reply(content, null, mentions);
 
-        protected virtual DiscordCommandResult Reply(LocalEmbedBuilder embed, LocalMentionsBuilder mentions = null)
+        protected virtual DiscordResponseCommandResult Reply(LocalEmbedBuilder embed, LocalMentionsBuilder mentions = null)
             => Reply(null, embed, mentions);
 
-        protected virtual DiscordCommandResult Reply(string content, LocalEmbedBuilder embed, LocalMentionsBuilder mentions = null)
+        protected virtual DiscordResponseCommandResult Reply(string content, LocalEmbedBuilder embed, LocalMentionsBuilder mentions = null)
             => Response(new LocalMessageBuilder()
                 .WithContent(content)
                 .WithEmbed(embed)
@@ -30,13 +30,13 @@ namespace Disqord.Bot
                 .WithReply(Context.Message.Id, Context.Message.ChannelId, Context.GuildId, false)
                 .Build());
 
-        protected virtual DiscordCommandResult Response(string content, LocalMentionsBuilder mentions = null)
+        protected virtual DiscordResponseCommandResult Response(string content, LocalMentionsBuilder mentions = null)
             => Response(content, null, mentions);
 
-        protected virtual DiscordCommandResult Response(LocalEmbedBuilder embed)
+        protected virtual DiscordResponseCommandResult Response(LocalEmbedBuilder embed)
             => Response(null, embed, null);
 
-        protected virtual DiscordCommandResult Response(string content, LocalEmbedBuilder embed, LocalMentionsBuilder mentions = null)
+        protected virtual DiscordResponseCommandResult Response(string content, LocalEmbedBuilder embed, LocalMentionsBuilder mentions = null)
             => Response(new LocalMessageBuilder()
                 .WithContent(content)
                 .WithEmbed(embed)
@@ -46,23 +46,23 @@ namespace Disqord.Bot
         //protected virtual DiscordCommandResult Response(LocalAttachment attachment)
         //    => Response();
 
-        protected virtual DiscordCommandResult Response(LocalMessage message)
-            => new DiscordResponseCommandResult(Context, message);
+        protected virtual DiscordResponseCommandResult Response(LocalMessage message)
+            => new(Context, message);
 
-        protected virtual DiscordCommandResult Reaction(IEmoji emoji)
-            => new DiscordReactionCommandResult(Context, emoji);
+        protected virtual DiscordReactionCommandResult Reaction(IEmoji emoji)
+            => new(Context, emoji);
 
-        protected virtual DiscordCommandResult Pages(params Page[] pages)
+        protected virtual DiscordMenuCommandResult Pages(params Page[] pages)
             => Pages(pages as IEnumerable<Page>);
 
-        protected virtual DiscordCommandResult Pages(IEnumerable<Page> pages)
+        protected virtual DiscordMenuCommandResult Pages(IEnumerable<Page> pages)
             => Pages(new DefaultPageProvider(pages));
 
-        protected virtual DiscordCommandResult Pages(IPageProvider pageProvider)
+        protected virtual DiscordMenuCommandResult Pages(IPageProvider pageProvider)
             => Menu(new PagedMenu(Context.Author.Id, pageProvider));
 
-        protected virtual DiscordCommandResult Menu(MenuBase menu)
-            => new DiscordMenuCommandResult(Context, menu);
+        protected virtual DiscordMenuCommandResult Menu(MenuBase menu)
+            => new(Context, menu);
 
         /// <summary>
         ///     Gets an instance of <see cref="DefaultRestRequestOptions"/> configured with the <see cref="StoppingToken"/>.

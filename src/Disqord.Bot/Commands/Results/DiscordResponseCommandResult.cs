@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Disqord.Rest;
 
 namespace Disqord.Bot
@@ -13,7 +15,11 @@ namespace Disqord.Bot
             Message = message;
         }
 
-        public override Task ExecuteAsync()
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public new virtual TaskAwaiter<IUserMessage> GetAwaiter()
+            => ExecuteAsync().GetAwaiter();
+
+        public override Task<IUserMessage> ExecuteAsync()
             => Context.Bot.SendMessageAsync(Context.ChannelId, Message);
     }
 }
