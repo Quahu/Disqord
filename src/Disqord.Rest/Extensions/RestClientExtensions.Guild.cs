@@ -47,11 +47,15 @@ namespace Disqord.Rest
                 Icon = properties.Icon,
                 OwnerId = properties.OwnerId,
                 Splash = properties.Splash,
+                DiscoverySplash = properties.DiscoverySplash,
                 Banner = properties.Banner,
                 SystemChannelId = properties.SystemChannelId,
+                SystemChannelFlags = properties.SystemChannelFlags,
                 RulesChannelId = properties.RulesChannelId,
                 PublicUpdatesChannelId = properties.PublicUpdatesChannelId,
-                PreferredLocale = Optional.Convert(properties.PreferredLocale, x => x.Name)
+                PreferredLocale = Optional.Convert(properties.PreferredLocale, x => x.Name),
+                Features = Optional.Convert(properties.Features, x => x.ToArray()),
+                Description = properties.Description
             };
             var model = await client.ApiClient.ModifyGuildAsync(guildId, content, options).ConfigureAwait(false);
             return new TransientGuild(client, model);

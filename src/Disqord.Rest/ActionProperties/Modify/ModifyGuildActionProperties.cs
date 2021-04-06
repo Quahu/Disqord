@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace Disqord
@@ -25,15 +26,23 @@ namespace Disqord
 
         public Optional<Stream> Splash { internal get; set; }
 
+        public Optional<Stream> DiscoverySplash { internal get; set; }
+
         public Optional<Stream> Banner { internal get; set; }
 
         public Optional<Snowflake?> SystemChannelId { internal get; set; }
+
+        public Optional<GuildSystemChannelFlags> SystemChannelFlags { internal get; set; }
 
         public Optional<Snowflake?> RulesChannelId { internal get; set; }
 
         public Optional<Snowflake?> PublicUpdatesChannelId { internal get; set; }
 
         public Optional<CultureInfo> PreferredLocale { internal get; set; }
+
+        public Optional<IEnumerable<string>> Features { internal get; set; }
+
+        public Optional<string> Description { internal get; set; }
 
         internal ModifyGuildActionProperties()
         { }

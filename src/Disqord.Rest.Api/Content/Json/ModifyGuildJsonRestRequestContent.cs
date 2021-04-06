@@ -35,11 +35,17 @@ namespace Disqord.Rest.Api
         [JsonProperty("splash")]
         public Optional<Stream> Splash;
 
+        [JsonProperty("discovery_splash")]
+        public Optional<Stream> DiscoverySplash;
+
         [JsonProperty("banner")]
         public Optional<Stream> Banner;
 
         [JsonProperty("system_channel_id")]
         public Optional<Snowflake?> SystemChannelId;
+
+        [JsonProperty("system_channel_flags")]
+        public Optional<GuildSystemChannelFlags> SystemChannelFlags;
 
         [JsonProperty("rules_channel_id")]
         public Optional<Snowflake?> RulesChannelId;
@@ -49,5 +55,11 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("preferred_locale")]
         public Optional<string> PreferredLocale;
+
+        [JsonProperty("features")]
+        public Optional<string[]> Features;
+
+        [JsonProperty("description")]
+        public Optional<string> Description;
     }
 }
