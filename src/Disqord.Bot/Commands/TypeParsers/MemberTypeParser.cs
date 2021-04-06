@@ -50,18 +50,16 @@ namespace Disqord.Bot.Parsers
                     // We don't know which one it is, so we have to query the guild.
                     await using (context.BeginYield())
                     {
-                        // Check if the gateway is currently rate-limited.
-                        if (context.Bot.GetShard(context.GuildId).RateLimiter.IsRateLimited())
+                        // Check if the gateway is/will be rate-limited.
+                        if (context.Bot.GetShard(context.GuildId).RateLimiter.GetRemainingRequests() < 3)
                         {
-                            // Use a REST call if the gateway is rate-limited.
-                            // TODO: evacuate the building if everything is rate-limited
+                            // Use a REST call instead.
                             member = await context.Bot.FetchMemberAsync(context.GuildId, id).ConfigureAwait(false);
                         }
                         else
                         {
-                            // Otherwise use member chunking.
-                            // TODO: account for the rate-limited check being a race-condition
-                            var members = await context.Bot.Chunker.QueryAsync(context.GuildId, new[] { id });
+                            // Otherwise use gateway member chunking.
+                            var members = await context.Bot.Chunker.QueryAsync(context.GuildId, new[] { id }).ConfigureAwait(false);
                             member = members.GetValueOrDefault(id);
                         }
                     }
@@ -96,12 +94,22 @@ namespace Disqord.Bot.Parsers
                 if (member == null)
                 {
                     // This means it's either an invalid input or the member isn't cached.
-                    // We don't know which one it is, so we have to query the guild.
                     await using (context.BeginYield())
                     {
-                        // TODO: utilise the REST query endpoint?
-                        var members = await context.Bot.Chunker.QueryAsync(context.GuildId, name);
-                        member = members.Values.FirstOrDefault(predicate);
+                        // We don't know which one it is, so we have to query the guild.
+                        // Check if the gateway is/will be rate-limited.
+                        // TODO: swap these two around?
+                        IEnumerable<IMember> members;
+                        if (context.Bot.GetShard(context.GuildId).RateLimiter.GetRemainingRequests() < 3)
+                        {
+                            members = await context.Bot.SearchMembersAsync(context.GuildId, name);
+                        }
+                        else
+                        {
+                            members = (await context.Bot.Chunker.QueryAsync(context.GuildId, name).ConfigureAwait(false)).Values;
+                        }
+
+                        member = members.FirstOrDefault(predicate);
                     }
                 }
             }
