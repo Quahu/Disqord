@@ -47,8 +47,11 @@ namespace Disqord.Gateway
             if (model.JoinedAt.HasValue)
                 JoinedAt = model.JoinedAt.Value;
 
-            IsMuted = model.Mute;
-            IsDeafened = model.Deaf;
+            if (model.Mute.HasValue)
+                IsMuted = model.Mute.Value;
+
+            if (model.Deaf.HasValue)
+                IsDeafened = model.Deaf.Value;
 
             if (model.PremiumSince.HasValue)
                 BoostedAt = model.PremiumSince.Value;

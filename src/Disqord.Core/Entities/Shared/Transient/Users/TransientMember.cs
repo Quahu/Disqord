@@ -14,9 +14,9 @@ namespace Disqord
 
         public Optional<DateTimeOffset> JoinedAt => Model.JoinedAt;
 
-        public bool IsMuted => Model.Mute;
+        public bool IsMuted => Model.Mute.GetValueOrDefault();
 
-        public bool IsDeafened => Model.Deaf;
+        public bool IsDeafened => Model.Deaf.GetValueOrDefault();
 
         public DateTimeOffset? BoostedAt => Model.PremiumSince.GetValueOrDefault();
 

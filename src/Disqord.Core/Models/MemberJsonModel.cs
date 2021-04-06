@@ -21,10 +21,10 @@ namespace Disqord.Models
         public Optional<DateTimeOffset?> PremiumSince;
 
         [JsonProperty("deaf")]
-        public bool Deaf;
+        public Optional<bool> Deaf;
 
         [JsonProperty("mute")]
-        public bool Mute;
+        public Optional<bool> Mute;
 
         [JsonProperty("pending")]
         public Optional<bool> Pending;
