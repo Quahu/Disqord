@@ -138,6 +138,8 @@
 
         CannotDeleteAChannelRequiredForCommunityGuilds = 50074,
 
+        TwoFactorRequired = 60003,
+
         IncomingFriendRequestsDisabled = 80000,
 
         FriendRequestBlocked = 80001,
