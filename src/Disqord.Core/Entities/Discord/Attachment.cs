@@ -15,7 +15,7 @@ namespace Disqord
 
         public string ProxyUrl { get; }
 
-        public Size Size { get; }
+        public Size? Size { get; }
 
         public Attachment(AttachmentJsonModel model)
         {
@@ -24,7 +24,9 @@ namespace Disqord
             Filesize = model.Size;
             Url = model.Url;
             ProxyUrl = model.ProxyUrl;
-            Size = new Size(model.Width.GetValueOrDefault(), model.Height.GetValueOrDefault());
+            Size = model.Width.HasValue && model.Height.HasValue
+                ? new Size(model.Width.Value.GetValueOrDefault(), model.Height.Value.GetValueOrDefault())
+                : null;
         }
 
         public override string ToString()

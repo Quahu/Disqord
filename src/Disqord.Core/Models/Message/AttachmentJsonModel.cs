@@ -20,9 +20,9 @@ namespace Disqord.Models
         public string ProxyUrl;
 
         [JsonProperty("height")]
-        public int? Height;
+        public Optional<int?> Height;
 
         [JsonProperty("width")]
-        public int? Width;
+        public Optional<int?> Width;
     }
 }
