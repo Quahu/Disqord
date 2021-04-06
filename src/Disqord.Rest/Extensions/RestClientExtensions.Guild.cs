@@ -188,6 +188,18 @@ namespace Disqord.Rest
             });
         }
 
+        public static async Task<IReadOnlyList<IMember>> SearchMembersAsync(this IRestClient client, Snowflake guildId, string query, int limit = 1000, IRestRequestOptions options = null)
+        {
+            var models = await client.ApiClient.SearchMembersAsync(guildId, query, limit, options).ConfigureAwait(false);
+            return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
+            {
+                var (client, guildId) = tuple;
+                return new TransientMember(client, guildId, x);
+            });
+        }
+
+        // TODO: add member
+
         public static Task SetCurrentMemberNickAsync(this IRestClient client, Snowflake guildId, string nick, IRestRequestOptions options = null)
         {
             var content = new SetOwnNickJsonRestRequestContent

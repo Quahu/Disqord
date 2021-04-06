@@ -74,6 +74,12 @@ namespace Disqord.Rest
             return client.FetchMembersAsync(guild.Id, limit, startFromId, options);
         }
 
+        public static Task<IReadOnlyList<IMember>> SearchMembersAsync(this IGuild guild, string query, int limit = 1000, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.SearchMembersAsync(guild.Id, query, limit, options);
+        }
+
         public static Task SetCurrentMemberNickAsync(this IGuild guild, string nick, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();

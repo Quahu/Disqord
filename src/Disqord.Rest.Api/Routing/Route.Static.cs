@@ -101,6 +101,8 @@ namespace Disqord.Rest.Api
 
             public static readonly Route GetMembers = Get("guilds/{0:guild_id}/members");
 
+            public static readonly Route SearchMembers = Get("guilds/{0:guild_id}/members/search");
+
             public static readonly Route AddMember = Put("guilds/{0:guild_id}/members/{1:user_id}");
 
             public static readonly Route ModifyMember = Patch("guilds/{0:guild_id}/members/{1:user_id}");

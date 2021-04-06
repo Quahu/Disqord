@@ -40,7 +40,7 @@ namespace Disqord.Rest.Api
                     builder.Append(first ? '?' : '&');
                     builder.Append(parameter.Key);
                     builder.Append('=');
-                    if (value is IEnumerable enumerable)
+                    if (value is IEnumerable enumerable and not string)
                     {
                         builder.AppendJoin(',', enumerable.Cast<object>());
                     }

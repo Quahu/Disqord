@@ -81,6 +81,20 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<MemberJsonModel[]>(route, null, options);
         }
 
+        public static Task<MemberJsonModel[]> SearchMembersAsync(this IRestApiClient client, Snowflake guildId, string query, int limit = 1000, IRestRequestOptions options = null)
+        {
+            if (limit < 1 || limit > 1000)
+                throw new ArgumentOutOfRangeException(nameof(limit));
+
+            var queryParameters = new Dictionary<string, object>(2)
+            {
+                ["query"] = query,
+                ["limit"] = limit
+            };
+            var route = Format(Route.Guild.SearchMembers, queryParameters, guildId);
+            return client.ExecuteAsync<MemberJsonModel[]>(route, null, options);
+        }
+
         public static Task<MemberJsonModel> AddMemberAsync(this IRestApiClient client, Snowflake guildId, Snowflake userId, AddMemberJsonRestRequestContent content, IRestRequestOptions options = null)
         {
             var route = Format(Route.Guild.AddMember, guildId, userId);
