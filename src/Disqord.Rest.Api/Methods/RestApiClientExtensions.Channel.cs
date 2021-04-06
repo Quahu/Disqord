@@ -106,7 +106,7 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync(route, null, options);
         }
 
-        public static Task<UserJsonModel[]> FetchReactionsAsync(this IRestApiClient client, Snowflake channelId, Snowflake messageId, string emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static Task<UserJsonModel[]> FetchReactionsAsync(this IRestApiClient client, Snowflake channelId, Snowflake messageId, string emoji, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             if (limit < 1 || limit > 100)
                 throw new ArgumentOutOfRangeException(nameof(limit));
@@ -116,25 +116,8 @@ namespace Disqord.Rest.Api
                 ["limit"] = limit
             };
 
-            switch (direction)
-            {
-                case RetrievalDirection.Before:
-                {
-                    if (startFromId != null)
-                        queryParameters["before"] = startFromId;
-
-                    break;
-                }
-                case RetrievalDirection.After:
-                {
-                    queryParameters["after"] = startFromId ?? throw new ArgumentNullException(nameof(startFromId), "The ID to fetch messages after must not be null.");
-                    break;
-                }
-                default:
-                {
-                    throw new ArgumentOutOfRangeException(nameof(direction), "Invalid message fetch direction.");
-                }
-            }
+            if (startFromId != null)
+                queryParameters["after"] = startFromId;
 
             var route = Format(Route.Channel.GetReactions, queryParameters, channelId, messageId, emoji);
             return client.ExecuteAsync<UserJsonModel[]>(route, null, options);

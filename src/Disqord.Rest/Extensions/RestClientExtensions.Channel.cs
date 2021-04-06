@@ -190,15 +190,15 @@ namespace Disqord.Rest
                 return client.ApiClient.RemoveUserReactionAsync(channelId, messageId, reactionFormat, userId, options);
         }
 
-        public static IPagedEnumerable<IUser> EnumerateReactions(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IUser> EnumerateReactions(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            return new PagedEnumerable<IUser>(new FetchReactionsPagedEnumerator(client, channelId, messageId, emoji, limit, direction, startFromId, options));
+            return new PagedEnumerable<IUser>(new FetchReactionsPagedEnumerator(client, channelId, messageId, emoji, limit, startFromId, options));
         }
 
-        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
@@ -207,15 +207,15 @@ namespace Disqord.Rest
                 return Task.FromResult(ReadOnlyList<IUser>.Empty);
 
             if (limit <= 100)
-                return client.InternalFetchReactionsAsync(channelId, messageId, emoji, limit, direction, startFromId, options);
+                return client.InternalFetchReactionsAsync(channelId, messageId, emoji, limit, startFromId, options);
 
-            var enumerable = client.EnumerateReactions(channelId, messageId, emoji, limit, direction, startFromId, options);
+            var enumerable = client.EnumerateReactions(channelId, messageId, emoji, limit, startFromId, options);
             return enumerable.FlattenAsync();
         }
 
-        internal static async Task<IReadOnlyList<IUser>> InternalFetchReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        internal static async Task<IReadOnlyList<IUser>> InternalFetchReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
-            var models = await client.ApiClient.FetchReactionsAsync(channelId, messageId, Discord.GetReactionFormat(emoji), limit, direction, startFromId, options).ConfigureAwait(false);
+            var models = await client.ApiClient.FetchReactionsAsync(channelId, messageId, Discord.GetReactionFormat(emoji), limit, startFromId, options).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (x, client) => new TransientUser(client, x));
         }
 

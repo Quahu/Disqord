@@ -34,16 +34,16 @@ namespace Disqord.Rest
             return client.RemoveReactionAsync(message.ChannelId, message.Id, emoji, userId, options);
         }
 
-        public static IPagedEnumerable<IUser> EnumerateReactions(this IMessage message, IEmoji emoji, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IUser> EnumerateReactions(this IMessage message, IEmoji emoji, int limit, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             var client = message.GetRestClient();
-            return client.EnumerateReactions(message.ChannelId, message.Id, emoji, limit, direction, startFromId, options);
+            return client.EnumerateReactions(message.ChannelId, message.Id, emoji, limit, startFromId, options);
         }
 
-        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IMessage message, IEmoji emoji, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IMessage message, IEmoji emoji, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             var client = message.GetRestClient();
-            return client.FetchReactionsAsync(message.ChannelId, message.Id, emoji, limit, direction, startFromId, options);
+            return client.FetchReactionsAsync(message.ChannelId, message.Id, emoji, limit, startFromId, options);
         }
 
         public static Task ClearReactionsAsync(this IMessage message, IEmoji emoji = null, IRestRequestOptions options = null)
