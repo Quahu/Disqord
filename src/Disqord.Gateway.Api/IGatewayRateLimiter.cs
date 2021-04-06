@@ -21,6 +21,16 @@ namespace Disqord.Gateway.Api
         /// </returns>
         bool IsRateLimited(GatewayPayloadOperation? operation = null);
 
+        /// <summary>
+        ///     Gets the amount of remaining requests for the given operation before it is rate-limited.
+        ///     If given <see langword="null"/>, checks the master bucket. Otherwise it checks the operation bucket, if one exists.
+        /// </summary>
+        /// <param name="operation"> The operation to check. </param>
+        /// <returns>
+        ///     The amount of remaining requests.
+        /// </returns>
+        int GetRemainingRequests(GatewayPayloadOperation? operation = null);
+
         Task WaitAsync(GatewayPayloadOperation? operation = null, CancellationToken cancellationToken = default);
 
         /// <summary>

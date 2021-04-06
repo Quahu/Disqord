@@ -55,15 +55,25 @@ namespace Disqord.Gateway.Api.Default
         {
             if (operation != null)
             {
-                if (operation.Value == GatewayPayloadOperation.Heartbeat)
-                    return false;
-
                 var bucket = _buckets.GetValueOrDefault(operation.Value);
                 if (bucket?.CurrentCount == 0)
                     return true;
             }
 
             return _masterBucket.CurrentCount == 0;
+        }
+
+        /// <inheritdoc/>
+        public int GetRemainingRequests(GatewayPayloadOperation? operation = null)
+        {
+            if (operation != null)
+            {
+                var bucket = _buckets.GetValueOrDefault(operation.Value);
+                if (bucket != null)
+                    return bucket.CurrentCount;
+            }
+
+            return _masterBucket.CurrentCount;
         }
 
         /// <inheritdoc/>
