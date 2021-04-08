@@ -93,7 +93,7 @@ namespace Disqord
         }
 
         public LocalEmbedFieldBuilder Clone()
-            => new LocalEmbedFieldBuilder(this);
+            => new(this);
 
         object ICloneable.Clone()
             => Clone();

@@ -6,7 +6,24 @@ namespace Disqord
 {
     public class LocalWebhookMessageBuilder : ICloneable
     {
-        public string Content { get; set; }
+        public string Content
+        {
+            get => _content;
+            set
+            {
+                if (value != null)
+                {
+                    if (string.IsNullOrWhiteSpace(value))
+                        throw new ArgumentNullException(nameof(value), "The message's content must not be empty or whitespace.");
+
+                    if (value.Length > LocalMessageBuilder.MAX_CONTENT_LENGTH)
+                        throw new ArgumentOutOfRangeException(nameof(value), $"The message's content must not be longer than {LocalMessageBuilder.MAX_CONTENT_LENGTH} characters.");
+                }
+
+                _content = value;
+            }
+        }
+        private string _content;
 
         public string Name { get; set; }
 
@@ -106,6 +123,11 @@ namespace Disqord
             => Clone();
 
         public LocalWebhookMessage Build()
-            => new(this);
+        {
+            if (Content == null && Embeds.Count == 0 && Attachment == null)
+                throw new InvalidOperationException("A message must contain at least one of content, embeds, or attachment.");
+
+            return new(this);
+        }
     }
 }

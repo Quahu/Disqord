@@ -48,7 +48,7 @@ namespace Disqord
         }
 
         public LocalEmbedFooterBuilder Clone()
-            => new LocalEmbedFooterBuilder(this);
+            => new(this);
 
         object ICloneable.Clone()
             => Clone();

@@ -6,7 +6,28 @@ namespace Disqord
 {
     public class LocalMessageBuilder : ICloneable
     {
-        public string Content { get; set; }
+        public const int MAX_CONTENT_LENGTH = 2000;
+
+        public const int MAX_NONCE_LENGTH = 25;
+
+        public string Content
+        {
+            get => _content;
+            set
+            {
+                if (value != null)
+                {
+                    if (string.IsNullOrWhiteSpace(value))
+                        throw new ArgumentNullException(nameof(value), "The message's content must not be empty or whitespace.");
+
+                    if (value.Length > MAX_CONTENT_LENGTH)
+                        throw new ArgumentOutOfRangeException(nameof(value), $"The message's content must not be longer than {MAX_CONTENT_LENGTH} characters.");
+                }
+
+                _content = value;
+            }
+        }
+        private string _content;
 
         public bool IsTextToSpeech { get; set; }
 
@@ -16,7 +37,24 @@ namespace Disqord
 
         public LocalReferenceBuilder Reference { get; set; }
 
-        public string Nonce { get; set; }
+        public string Nonce
+        {
+            get => _nonce;
+            set
+            {
+                if (value != null)
+                {
+                    if (string.IsNullOrWhiteSpace(value))
+                        throw new ArgumentNullException(nameof(value), "The message's nonce must not be empty or whitespace.");
+
+                    if (value.Length > MAX_CONTENT_LENGTH)
+                        throw new ArgumentOutOfRangeException(nameof(value), $"The message's nonce must not be longer than {MAX_NONCE_LENGTH} characters.");
+                }
+
+                _nonce = value;
+            }
+        }
+        private string _nonce;
 
         public IList<LocalAttachment> Attachments
         {
@@ -116,6 +154,11 @@ namespace Disqord
             => Clone();
 
         public LocalMessage Build()
-            => new(this);
+        {
+            if (Content == null && Embed == null && _attachments.Count == 0)
+                throw new InvalidOperationException("A message must contain at least one of content, embed, or attachments.");
+
+            return new(this);
+        }
     }
 }

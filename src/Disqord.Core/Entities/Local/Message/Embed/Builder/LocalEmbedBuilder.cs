@@ -195,18 +195,18 @@ namespace Disqord
             return this;
         }
 
-        //public LocalEmbedBuilder WithAuthor(IUser user)
-        //{
-        //    if (user == null)
-        //        throw new ArgumentNullException(nameof(user));
+        public LocalEmbedBuilder WithAuthor(IUser user)
+        {
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
-        //    Author = new LocalEmbedAuthorBuilder
-        //    {
-        //        Name = user.Tag,
-        //        IconUrl = user.GetAvatarUrl(size: 128)
-        //    };
-        //    return this;
-        //}
+            Author = new LocalEmbedAuthorBuilder
+            {
+                Name = user.Tag,
+                IconUrl = user.GetAvatarUrl(size: 128)
+            };
+            return this;
+        }
 
         public LocalEmbedBuilder WithFields(IEnumerable<LocalEmbedFieldBuilder> fields)
         {
@@ -267,38 +267,38 @@ namespace Disqord
         ///     A deep copy of this <see cref="LocalEmbedBuilder"/>.
         /// </returns>
         public LocalEmbedBuilder Clone()
-            => new LocalEmbedBuilder(this);
+            => new(this);
 
         object ICloneable.Clone()
             => Clone();
 
-        //public static LocalEmbedBuilder FromEmbed(Embed embed)
-        //{
-        //    var builder = new LocalEmbedBuilder
-        //    {
-        //        Title = embed.Title,
-        //        Description = embed.Description,
-        //        Url = embed.Url,
-        //        ImageUrl = embed.Image?.Url,
-        //        ThumbnailUrl = embed.Thumbnail?.Url,
-        //        Timestamp = embed.Timestamp,
-        //        Color = embed.Color,
-        //    };
+        public static LocalEmbedBuilder FromEmbed(Embed embed)
+        {
+            var builder = new LocalEmbedBuilder
+            {
+                Title = embed.Title,
+                Description = embed.Description,
+                Url = embed.Url,
+                ImageUrl = embed.Image?.Url,
+                ThumbnailUrl = embed.Thumbnail?.Url,
+                Timestamp = embed.Timestamp,
+                Color = embed.Color,
+            };
 
-        //    if (embed.Footer != null)
-        //        builder.WithFooter(embed.Footer.Text, embed.Footer.IconUrl);
+            if (embed.Footer != null)
+                builder.WithFooter(embed.Footer.Text, embed.Footer.IconUrl);
 
-        //    if (embed.Author != null)
-        //        builder.WithAuthor(embed.Author.Name, embed.Author.IconUrl, embed.Author.Url);
+            if (embed.Author != null)
+                builder.WithAuthor(embed.Author.Name, embed.Author.IconUrl, embed.Author.Url);
 
-        //    for (var i = 0; i < embed.Fields.Count; i++)
-        //    {
-        //        var field = embed.Fields[i];
-        //        builder.AddField(field.Name, field.Value, field.IsInline);
-        //    }
+            for (var i = 0; i < embed.Fields.Count; i++)
+            {
+                var field = embed.Fields[i];
+                builder.AddField(field.Name, field.Value, field.IsInline);
+            }
 
-        //    return builder;
-        //}
+            return builder;
+        }
 
         public LocalEmbed Build()
         {
