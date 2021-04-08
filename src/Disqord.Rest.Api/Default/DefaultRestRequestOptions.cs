@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using Disqord.Rest.Api;
-using Disqord.Rest.Api.Default;
 
 namespace Disqord.Rest.Default
 {
@@ -13,10 +12,7 @@ namespace Disqord.Rest.Default
         /// </summary>
         public CancellationToken CancellationToken { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the audit log reason for the request.
-        ///     This is a shortcut for setting the <c>X-Audit-Log-Reason</c> header in <see cref="Headers"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public string Reason
         {
             get
@@ -26,10 +22,7 @@ namespace Disqord.Rest.Default
 
                 return null;
             }
-            set
-            {
-                Headers["X-Audit-Log-Reason"] = value;
-            }
+            set => Headers["X-Audit-Log-Reason"] = value;
         }
 
         /// <summary>
@@ -37,17 +30,8 @@ namespace Disqord.Rest.Default
         /// </summary>
         public IDictionary<string, string> Headers
         {
-            get
-            {
-                if (_headers == null)
-                    _headers = new Dictionary<string, string>();
-
-                return _headers;
-            }
-            set
-            {
-                _headers = value;
-            }
+            get => _headers ??= new Dictionary<string, string>();
+            set => _headers = value;
         }
         private IDictionary<string, string> _headers;
 
