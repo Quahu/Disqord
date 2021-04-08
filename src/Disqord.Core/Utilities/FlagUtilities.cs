@@ -20,18 +20,6 @@ namespace Disqord.Utilities
         public static void UnsetFlag(ref ulong rawValue, ulong flag)
             => rawValue &= ~flag;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool HasFlag(uint rawValue, uint flag)
-            => (rawValue & flag) == flag;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetFlag(ref uint rawValue, uint flag)
-            => rawValue |= flag;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void UnsetFlag(ref uint rawValue, uint flag)
-            => rawValue &= ~flag;
-
         public static IEnumerable<TFlag> GetFlags<TFlag>(TFlag flags)
             where TFlag : Enum
         {
