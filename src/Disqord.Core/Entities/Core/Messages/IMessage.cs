@@ -26,6 +26,6 @@ namespace Disqord
         /// <summary>
         ///     Gets the reactions of this message.
         /// </summary>
-        Optional<IReadOnlyDictionary<IEmoji, IReaction>> Reactions { get; }
+        Optional<IReadOnlyDictionary<IEmoji, Reaction>> Reactions { get; }
     }
 }

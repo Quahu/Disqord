@@ -98,7 +98,7 @@ namespace Disqord.Gateway
                 });
 
             if (model.Reactions.HasValue)
-                Reactions = Optional.Convert(model.Reactions, x => x.ToReadOnlyDictionary(x => Emoji.Create(x.Emoji), x => new Reaction(x) as IReaction));
+                Reactions = Optional.Convert(model.Reactions, x => x.ToReadOnlyDictionary(x => Emoji.Create(x.Emoji), x => new Reaction(x)));
 
             if (model.EditedTimestamp.HasValue)
                 EditedAt = model.EditedTimestamp.Value;

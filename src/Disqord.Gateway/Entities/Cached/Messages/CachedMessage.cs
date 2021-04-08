@@ -31,7 +31,7 @@ namespace Disqord.Gateway
 
         public IReadOnlyList<IUser> MentionedUsers { get; protected set; }
 
-        public Optional<IReadOnlyDictionary<IEmoji, IReaction>> Reactions { get; protected set; }
+        public Optional<IReadOnlyDictionary<IEmoji, Reaction>> Reactions { get; protected set; }
 
         protected CachedMessage(IGatewayClient client, CachedMember author, MessageJsonModel model)
             : base(client, model.Id)
@@ -82,7 +82,7 @@ namespace Disqord.Gateway
 
                 return new TransientUser(client, x) as IUser;
             });
-            Reactions = Optional.Convert(model.Reactions, x => x.ToReadOnlyDictionary(x => Emoji.Create(x.Emoji), x => new Reaction(x) as IReaction));
+            Reactions = Optional.Convert(model.Reactions, x => x.ToReadOnlyDictionary(x => Emoji.Create(x.Emoji), x => new Reaction(x)));
         }
 
         public void Update(MessageReactionAddJsonModel model)

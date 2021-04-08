@@ -40,7 +40,7 @@ namespace Disqord
         }
         private IReadOnlyList<IUser> _mentionedUsers;
 
-        public Optional<IReadOnlyDictionary<IEmoji, IReaction>> Reactions
+        public Optional<IReadOnlyDictionary<IEmoji, Reaction>> Reactions
         {
             get
             {
@@ -49,13 +49,13 @@ namespace Disqord
 
                 if (_reactions == null)
                     _reactions = Optional.Convert(Model.Reactions, x => x.ToReadOnlyDictionary(
-                        (x) => Emoji.Create(x.Emoji),
-                        (x) => new Reaction(x) as IReaction));
+                        x => Emoji.Create(x.Emoji),
+                        x => new Reaction(x)));
 
                 return _reactions.Value;
             }
         }
-        private Optional<IReadOnlyDictionary<IEmoji, IReaction>>? _reactions;
+        private Optional<IReadOnlyDictionary<IEmoji, Reaction>>? _reactions;
 
         protected TransientMessage(IClient client, MessageJsonModel model)
             : base(client, model)
