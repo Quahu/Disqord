@@ -20,7 +20,7 @@ namespace Disqord.Gateway
 
         public bool IsMentionable { get; private set; }
 
-        public string Mention => Utilities.Mention.Role(this);
+        public string Mention => Disqord.Mention.Role(this);
 
         public CachedRole(IGatewayClient client, Snowflake guildId, RoleJsonModel model)
             : base(client, model.Id)

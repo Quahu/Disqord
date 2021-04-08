@@ -24,7 +24,7 @@ namespace Disqord.Gateway
 
         public DateTimeOffset? LastPinTimestamp { get; set; }
 
-        public string Mention => Utilities.Mention.TextChannel(this);
+        public string Mention => Disqord.Mention.TextChannel(this);
 
         public string Tag => $"#{Name}";
 

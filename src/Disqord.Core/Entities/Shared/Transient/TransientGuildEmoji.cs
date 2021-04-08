@@ -45,16 +45,16 @@ namespace Disqord
         }
 
         public bool Equals(IEmoji other)
-            => Discord.Comparers.Emoji.Equals(this, other);
+            => Comparers.Emoji.Equals(this, other);
 
         public bool Equals(ICustomEmoji other)
-            => Discord.Comparers.Emoji.Equals(this, other);
+            => Comparers.Emoji.Equals(this, other);
 
         public override bool Equals(object obj)
             => obj is IEmoji emoji && Equals(emoji);
 
         public override int GetHashCode()
-            => Discord.Comparers.Emoji.GetHashCode(this);
+            => Comparers.Emoji.GetHashCode(this);
 
         public override string ToString()
             => Tag;

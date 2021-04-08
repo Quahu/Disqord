@@ -24,8 +24,6 @@ namespace Disqord.Gateway
 
         public bool IsPending { get; private set; }
 
-        public override string Mention => Utilities.Mention.User(this);
-
         public CachedMember(CachedSharedUser sharedUser, Snowflake guildId, MemberJsonModel model)
             : base(sharedUser)
         {

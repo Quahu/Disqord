@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Disqord.Utilities
+namespace Disqord
 {
     public static class Mention
     {

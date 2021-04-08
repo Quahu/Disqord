@@ -21,7 +21,7 @@ namespace Disqord
 
         public DateTimeOffset? LastPinTimestamp => Model.LastPinTimestamp.Value;
 
-        public string Mention => Utilities.Mention.TextChannel(this);
+        public string Mention => Disqord.Mention.TextChannel(this);
 
         public string Tag => $"#{Name}";
 

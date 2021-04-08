@@ -19,7 +19,7 @@ namespace Disqord
 
         public virtual UserFlag PublicFlags => Model.PublicFlags.Value;
 
-        public virtual string Mention => Utilities.Mention.User(this);
+        public virtual string Mention => Disqord.Mention.User(this);
 
         public virtual string Tag => $"{Name}#{Discriminator}";
 

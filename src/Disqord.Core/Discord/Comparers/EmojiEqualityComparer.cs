@@ -5,7 +5,7 @@ namespace Disqord
 {
     public sealed class EmojiEqualityComparer : IEqualityComparer<IEmoji>, IEqualityComparer<ICustomEmoji>
     {
-        public static readonly EmojiEqualityComparer Instance = new EmojiEqualityComparer();
+        public static readonly EmojiEqualityComparer Instance = new();
 
         private EmojiEqualityComparer()
         { }

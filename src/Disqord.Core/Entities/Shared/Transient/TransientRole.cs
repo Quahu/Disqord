@@ -13,7 +13,7 @@ namespace Disqord
 
         public string Name => Model.Name;
 
-        public string Mention => Utilities.Mention.Role(this);
+        public string Mention => Disqord.Mention.Role(this);
 
         public Color? Color => Model.Color != 0
             ? Model.Color

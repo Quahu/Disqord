@@ -21,7 +21,7 @@ namespace Disqord
         }
 
         public bool Equals(ICustomEmoji other)
-            => Discord.Comparers.Emoji.Equals(this, other);
+            => Comparers.Emoji.Equals(this, other);
 
         public override string ToString()
             => Tag;

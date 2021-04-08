@@ -31,7 +31,7 @@ namespace Disqord
         }
 
         public bool Equals(ICustomEmoji other)
-            => Discord.Comparers.Emoji.Equals(this, other);
+            => Comparers.Emoji.Equals(this, other);
 
         public override string ToString()
             => Tag;
@@ -43,7 +43,7 @@ namespace Disqord
                 return false;
 
             var valueSpan = value.AsSpan();
-            if (valueSpan[0] != '<' || valueSpan[valueSpan.Length - 1] != '>')
+            if (valueSpan[0] != '<' || valueSpan[^1] != '>')
                 return false;
 
             valueSpan = valueSpan.Slice(1, valueSpan.Length - 2);

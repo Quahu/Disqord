@@ -16,7 +16,7 @@ namespace Disqord.Gateway
 
         public virtual UserFlag PublicFlags => SharedUser.PublicFlags;
 
-        public virtual string Mention => Utilities.Mention.User(this);
+        public string Mention => Disqord.Mention.User(this);
 
         public string Tag => $"{Name}#{Discriminator}";
 
