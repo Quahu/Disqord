@@ -212,7 +212,7 @@ namespace Disqord.Rest.Api.Default
                     if (Remaining == 0)
                     {
                         var delay = ResetsAt - DateTimeOffset.UtcNow;
-                        if (delay > TimeSpan.Zero && (request.Options is not DefaultRestRequestOptions options || !options.BypassRateLimitDelay))
+                        if (delay > TimeSpan.Zero)
                         {
                             if (_rateLimiter.MaximumDelayDuration != Timeout.InfiniteTimeSpan && delay > _rateLimiter.MaximumDelayDuration)
                             {

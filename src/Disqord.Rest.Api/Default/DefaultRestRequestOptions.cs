@@ -52,19 +52,5 @@ namespace Disqord.Rest.Default
         private IDictionary<string, string> _headers;
 
         public Action<IRestRequest> RequestAction { get; set; }
-
-        /// <summary>
-        ///     Gets or sets whether to bypass the pre-emptive
-        ///     rate-limit delay in the <see cref="DefaultRestRateLimiter"/>.
-        ///     Defaults to <see langword="false"/>.
-        ///     Setting this to <see langword="true"/> will lead to <c>429</c>s, if not used with caution.
-        /// </summary>
-        /// <remarks>
-        ///     This should only be set for broken Discord endpoints, such as
-        ///     modifying a channel or modifying the current user, as those
-        ///     have multiple separate rate-limits which currently cannot be
-        ///     accounted for from the library's standpoint.
-        /// </remarks>
-        public bool BypassRateLimitDelay { get; set; }
     }
 }
