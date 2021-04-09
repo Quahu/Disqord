@@ -1,7 +1,7 @@
 <div align="center">
     <h1> Disqord </h1>
     <p> An asynchronous Discord API wrapper for .NET 5 that aims to make Discord bot development simple and enjoyable. </p>
-    <p> Designed around Microsoft's <a href="https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection">dependency injection</a> abstractions, and integrates seemlessly with the <a href="https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host">Generic Host</a>. </p>
+    <p> Designed around Microsoft's <a href="https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection">dependency injection</a> abstractions, it integrates seemlessly with the <a href="https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host">Generic Host</a>. </p>
 <br>
 
 [![AppVeyor](https://img.shields.io/appveyor/ci/Quahu/disqord.svg?style=flat-square&label=AppVeyor&logo=appveyor)](https://ci.appveyor.com/project/Quahu/disqord)
