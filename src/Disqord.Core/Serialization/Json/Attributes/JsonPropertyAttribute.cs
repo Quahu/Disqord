@@ -2,7 +2,7 @@
 
 namespace Disqord.Serialization.Json
 {
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public class JsonPropertyAttribute : Attribute
     {
         public string Name { get; }

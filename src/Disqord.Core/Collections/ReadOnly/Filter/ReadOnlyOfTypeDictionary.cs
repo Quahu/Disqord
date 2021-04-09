@@ -4,7 +4,8 @@ using System.Linq;
 
 namespace Disqord.Collections
 {
-    internal sealed class ReadOnlyOfTypeDictionary<TKey, TOriginal, TNew> : IReadOnlyDictionary<TKey, TNew> where TNew : class, TOriginal
+    internal sealed class ReadOnlyOfTypeDictionary<TKey, TOriginal, TNew> : IReadOnlyDictionary<TKey, TNew>
+        // where TNew : TOriginal
     {
         public IEnumerable<TKey> Keys => new ReadOnlyPredicateCollection<TKey>(_dictionary.Keys, ContainsKey);
 
@@ -24,7 +25,7 @@ namespace Disqord.Collections
             : throw new KeyNotFoundException();
 
         public bool ContainsKey(TKey key)
-            => TryGetValue(key, out var value) && value is TNew;
+            => TryGetValue(key, out _);
 
         public bool TryGetValue(TKey key, out TNew value)
         {

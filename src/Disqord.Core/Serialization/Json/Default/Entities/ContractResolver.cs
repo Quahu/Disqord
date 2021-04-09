@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Disqord.Collections;
+using Disqord.Collections.Synchronized;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -15,27 +15,25 @@ namespace Disqord.Serialization.Json.Default
     {
         private readonly DefaultJsonSerializer _serializer;
         internal readonly StringEnumConverter _stringEnumConverter;
-        private readonly StreamConverter _streamConverter;
-        private readonly JsonElementConverter _jsonElementConverter;
+        internal readonly StreamConverter _streamConverter;
+        private readonly JsonTokenConverter _jsonTokenConverter;
         private readonly SnowflakeConverter _snowflakeConverter;
-        private readonly LockedDictionary<Type, OptionalConverter> _optionalConverters;
+        private readonly ISynchronizedDictionary<Type, OptionalConverter> _optionalConverters;
 
         public ContractResolver(DefaultJsonSerializer serializer)
         {
             _serializer = serializer;
             _stringEnumConverter = new StringEnumConverter();
             _streamConverter = new StreamConverter(serializer);
-            _jsonElementConverter = new JsonElementConverter();
+            _jsonTokenConverter = new JsonTokenConverter();
             _snowflakeConverter = new SnowflakeConverter();
-            _optionalConverters = new LockedDictionary<Type, OptionalConverter>();
+            _optionalConverters = new SynchronizedDictionary<Type, OptionalConverter>();
         }
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var jsonProperty = base.CreateProperty(member, memberSerialization);
-            if (!(member is PropertyInfo property))
-                throw new InvalidOperationException($"Json models must not contain fields ({member}).");
-
+            var accessor = JsonAccessor.Create(member);
             var jsonIgnoreAttribute = member.GetCustomAttribute<JsonIgnoreAttribute>();
             if (jsonIgnoreAttribute != null)
             {
@@ -55,12 +53,12 @@ namespace Disqord.Serialization.Json.Default
 
             if (jsonProperty.PropertyType.IsGenericType && typeof(IOptional).IsAssignableFrom(jsonProperty.PropertyType))
             {
-                jsonProperty.ShouldSerialize = instance => ((IOptional) property.GetValue(instance)).HasValue;
-                jsonProperty.Converter = GetOptionalConverter(property);
+                jsonProperty.ShouldSerialize = instance => ((IOptional) accessor.GetValue(instance)).HasValue;
+                jsonProperty.Converter = GetOptionalConverter(accessor);
             }
             else
             {
-                jsonProperty.Converter = GetConverter(property.PropertyType) ?? jsonProperty.Converter;
+                jsonProperty.Converter = GetConverter(accessor.Type) ?? jsonProperty.Converter;
             }
 
             return jsonProperty;
@@ -80,22 +78,35 @@ namespace Disqord.Serialization.Json.Default
             {
                 contract.ExtensionDataGetter = instance =>
                 {
-                    return !(instance is JsonModel model) || model.ExtensionData == null
-                        ? null
-                        : model.ExtensionData.Select(x => KeyValuePair.Create(x.Key as object, x.Value));
+                    return instance is JsonModel model && model.ExtensionData != null
+                        ? model.ExtensionData.Select(x => KeyValuePair.Create(x.Key as object, (x.Value as DefaultJsonToken).Token as object))
+                        : null;
                 };
 
+                var skippedProperties = objectType.GetCustomAttribute<JsonSkippedPropertiesAttribute>()?.Properties;
                 contract.ExtensionDataSetter = (instance, key, value) =>
                 {
-                    if (!(instance is JsonModel model))
+                    if (instance is not JsonModel model)
                         return;
 
-                    if (model.ExtensionData == null)
-                        model.ExtensionData = new Dictionary<string, object>();
+                    if (skippedProperties != null && Array.IndexOf(skippedProperties, key) != -1)
+                        return;
 
-                    model.ExtensionData.Add(key, value is JToken jToken
-                        ? new DefaultJsonElement(jToken, _serializer._serializer)
-                        : value);
+                    IJsonToken token;
+                    if (value == null)
+                    {
+                        token = null;
+                    }
+                    else if (value is JToken jToken)
+                    {
+                        token = DefaultJsonToken.Create(jToken, _serializer.UnderlyingSerializer);
+                    }
+                    else
+                    {
+                        token = DefaultJsonToken.Create(JToken.FromObject(value, _serializer.UnderlyingSerializer), _serializer.UnderlyingSerializer);
+                    }
+
+                    model.ExtensionData.Add(key, token);
                 };
             }
 
@@ -112,9 +123,9 @@ namespace Disqord.Serialization.Json.Default
             return contract;
         }
 
-        private OptionalConverter GetOptionalConverter(PropertyInfo property)
+        private OptionalConverter GetOptionalConverter(JsonAccessor accessor)
         {
-            var optionalType = property.PropertyType.GenericTypeArguments[0];
+            var optionalType = accessor.Type.GenericTypeArguments[0];
             return _optionalConverters.GetOrAdd(optionalType, (x, @this) => OptionalConverter.Create(@this.GetConverter(x)), this);
         }
 
@@ -124,9 +135,9 @@ namespace Disqord.Serialization.Json.Default
             {
                 return _streamConverter;
             }
-            else if (typeof(IJsonElement) == type)
+            else if (typeof(IJsonToken).IsAssignableFrom(type) && !typeof(JsonModel).IsAssignableFrom(type))
             {
-                return _jsonElementConverter;
+                return _jsonTokenConverter;
             }
             else if (!type.IsClass)
             {
@@ -147,6 +158,58 @@ namespace Disqord.Serialization.Json.Default
             }
 
             return null;
+        }
+
+        private abstract class JsonAccessor
+        {
+            public abstract Type Type { get; }
+
+            public abstract object GetValue(object instance);
+
+            public abstract void SetValue(object instance, object value);
+
+            public static JsonAccessor Create(MemberInfo memberInfo) => memberInfo switch
+            {
+                FieldInfo field => new FieldJsonAccessor(field),
+                PropertyInfo property => new PropertyJsonAccessor(property),
+                _ => throw new InvalidOperationException("Invalid member info accessor type.")
+            };
+        }
+
+        private sealed class FieldJsonAccessor : JsonAccessor
+        {
+            public override Type Type => _field.FieldType;
+
+            private readonly FieldInfo _field;
+
+            public FieldJsonAccessor(FieldInfo field)
+            {
+                _field = field;
+            }
+
+            public override object GetValue(object instance)
+                => _field.GetValue(instance);
+
+            public override void SetValue(object instance, object value)
+                => _field.SetValue(instance, value);
+        }
+
+        private sealed class PropertyJsonAccessor : JsonAccessor
+        {
+            public override Type Type => _property.PropertyType;
+
+            private readonly PropertyInfo _property;
+
+            public PropertyJsonAccessor(PropertyInfo property)
+            {
+                _property = property;
+            }
+
+            public override object GetValue(object instance)
+                => _property.GetValue(instance);
+
+            public override void SetValue(object instance, object value)
+                => _property.SetValue(instance, value);
         }
     }
 }

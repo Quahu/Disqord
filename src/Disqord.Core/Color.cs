@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace Disqord
 {
     /// <summary>
-    ///     Represents a color used by Discord.
+    ///     Represents an RGB color used by Discord.
     /// </summary>
     public readonly partial struct Color : IEquatable<int>, IEquatable<Color>, IComparable<int>, IComparable<Color>
     {
@@ -29,11 +29,11 @@ namespace Disqord
         public byte B => (byte) RawValue;
 
         /// <summary>
-        ///     Initialises a new <see cref="Color"/> using the given raw value.
+        ///     Instantiates a new <see cref="Color"/> using the given raw value.
         /// </summary>
         /// <param name="rawValue"> The raw value. </param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     "Raw value must be a non-negative value less than or equal to 16777215."
+        ///     "Raw value must be a non-negative value less than or equal to <c>16777215</c>."
         /// </exception>
         public Color(int rawValue)
         {
@@ -44,7 +44,7 @@ namespace Disqord
         }
 
         /// <summary>
-        ///     Initialises a new <see cref="Color"/> using the given RGB values.
+        ///     Instantiates a new <see cref="Color"/> using the given RGB values.
         /// </summary>
         /// <param name="r"> The red (0-255) component value. </param>
         /// <param name="g"> The green (0-255) component value. </param>
@@ -55,7 +55,7 @@ namespace Disqord
         }
 
         /// <summary>
-        ///     Initialises a new <see cref="Color"/> using the given RGB values.
+        ///     Instantiates a new <see cref="Color"/> using the given RGB values.
         /// </summary>
         /// <param name="r"> The red (0-1) component value. </param>
         /// <param name="g"> The green (0-1) component value. </param>
@@ -93,12 +93,28 @@ namespace Disqord
             => RawValue;
 
         /// <summary>
-        ///     Returns a hexadecimal representation of this <see cref="Color"/>.
+        ///     Returns the hexadecimal representation of this <see cref="Color"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        ///     The hexadecimal representation of this <see cref="Color"/>. 
+        /// </returns>
         public override string ToString()
             => $"#{RawValue:X6}";
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void Deconstruct(out byte r, out byte g, out byte b)
+        {
+            r = R;
+            g = G;
+            b = B;
+        }
+
+        public static bool operator <=(Color left, Color right)
+            => left.RawValue <= right.RawValue;
+
+        public static bool operator >=(Color left, Color right)
+            => left.RawValue >= right.RawValue;
+        
         public static bool operator >(Color left, Color right)
             => left.RawValue > right.RawValue;
 
@@ -112,11 +128,11 @@ namespace Disqord
             => left.RawValue != right.RawValue;
 
         /// <summary>
-        ///     Implicitly initialises a new <see cref="Color"/> from this raw value.
+        ///     Implicitly instantiates a new <see cref="Color"/> from this raw value.
         /// </summary>
         /// <param name="value"> The raw value. </param>
         public static implicit operator Color(int value)
-            => new Color(value);
+            => new(value);
 
         /// <summary>
         ///     Implicitly gets <see cref="RawValue"/> from the given <see cref="Color"/>.
@@ -126,26 +142,45 @@ namespace Disqord
             => value.RawValue;
 
         public static implicit operator Color((byte R, byte G, byte B) value)
-            => new Color(value.R, value.G, value.B);
+            => new(value.R, value.G, value.B);
 
         public static implicit operator (byte R, byte G, byte B)(Color value)
             => (value.R, value.G, value.B);
 
         public static implicit operator Color((float R, float G, float B) value)
-            => new Color(value.R, value.G, value.B);
+            => new(value.R, value.G, value.B);
 
         public static implicit operator System.Drawing.Color(Color value)
             => System.Drawing.Color.FromArgb(value.R, value.G, value.B);
 
         public static implicit operator Color(System.Drawing.Color value)
-            => new Color(value.R, value.G, value.B);
+            => new(value.R, value.G, value.B);
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public void Deconstruct(out byte r, out byte g, out byte b)
+        public static Color FromHsv(float h, float s, float v)
         {
-            r = R;
-            g = G;
-            b = B;
+            if (s < 0 || s > 1)
+                throw new ArgumentOutOfRangeException(nameof(s));
+
+            if (v < 0 || v > 1)
+                throw new ArgumentOutOfRangeException(nameof(s));
+
+            if (s == 0)
+                return (v, v, v);
+
+            var i = MathF.Floor(h / 60) % 6;
+            var f = h / 60 - MathF.Floor(h / 60);
+            var p = v * (1f - s);
+            var q = v * (1f - s * f);
+            var t = v * (1f - s * (1f - f));
+            return i switch
+            {
+                0 => (v, t, p),
+                1 => (q, v, p),
+                2 => (p, v, t),
+                3 => (p, q, v),
+                4 => (t, p, v),
+                _ => (v, p, q)
+            };
         }
     }
 }

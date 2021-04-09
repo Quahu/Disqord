@@ -1,56 +1,70 @@
-# Disqord
-[![Build Status](https://img.shields.io/appveyor/ci/Quahu/disqord.svg?style=flat-square)](https://ci.appveyor.com/project/Quahu/disqord)
-[![NuGet](https://img.shields.io/nuget/v/Disqord.svg?style=flat-square)](https://www.nuget.org/packages/Disqord/)
-[![MyGet](https://img.shields.io/myget/quahu/vpre/Disqord.svg?style=flat-square&label=myget)](https://www.myget.org/feed/quahu/package/nuget/Disqord)
-[![The Lab](https://img.shields.io/discord/416256456505950215.svg?style=flat-square&label=discord)](https://discord.gg/eUMSXGZ)  
+<div align="center">
+    <h1> Disqord </h1>
+    <p> An asynchronous Discord API wrapper for .NET 5 that aims to make Discord bot development simple and enjoyable. </p>
+    <p> Designed around Microsoft's <a href="https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection">dependency injection</a> abstractions, it integrates seemlessly with the <a href="https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host">Generic Host</a>. </p>
+<br>
 
-An asynchronous .NET Core 3.0 Discord API wrapper. 
+[![AppVeyor](https://img.shields.io/appveyor/ci/Quahu/disqord.svg?style=flat-square&label=AppVeyor&logo=appveyor)](https://ci.appveyor.com/project/Quahu/disqord)
+[![NuGet](https://img.shields.io/nuget/v/Disqord.svg?style=flat-square&label=NuGet&logo=nuget)](https://www.nuget.org/packages/Disqord/)
+[![MyGet](https://img.shields.io/myget/quahu/vpre/Disqord.svg?style=flat-square&label=MyGet&logo=nuget)](https://www.myget.org/feed/quahu/package/nuget/Disqord)
+[![Discord](https://img.shields.io/discord/416256456505950215.svg?style=flat-square&label=Discord&logo=discord&color=738ADB)](https://discord.gg/eUMSXGZ)
+</div>
 
-Inspired by [Discord.Net](https://github.com/RogueException/Discord.Net), [DSharpPlus](https://github.com/DSharpPlus/DSharpPlus), and [discord.py](https://github.com/Rapptz/discord.py).
+## Installation
+Nightly Disqord builds can pulled as NuGet packages from the MyGet feed: `https://www.myget.org/F/disqord/api/v3/index.json`.
 
-
-## Installing
-Stable Disqord builds can be pulled from NuGet.
-For nightly builds add `https://www.myget.org/F/quahu/api/v3/index.json` (the nightly feed) to your project's package sources and pull from there instead.
-
-
-## Documentation
-There's currently no official documentation for Disqord except for the bundled XML docstrings. For support you should hop in my Discord guild:
-
-[![The Lab](https://discordapp.com/api/guilds/416256456505950215/embed.png?style=banner2)](https://discord.gg/eUMSXGZ)
-
-### A Simple Ping-Pong Bot Example
-Typing `?ping` or `@YourBot ping` in the chat would reply with `Pong!`.
-
+## Provisional Example
+Typing `?ping` or `@YourBot ping` in a channel will make the bot respond with `Pong!`.
 ```cs
-using System.Threading.Tasks;
-using Disqord;
+using System;
 using Disqord.Bot;
-using Disqord.Bot.Prefixes;
+using Disqord.Bot.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Qmmands;
 
 namespace Example
 {
-    public sealed class Program
-    {
-        public static void Main()
-        {
-            var prefixProvider = new DefaultPrefixProvider()
-                .AddPrefix('?')
-                .AddMentionPrefix();
-            using (var bot = new DiscordBot(TokenType.Bot, "token", prefixProvider))
-            {
-                bot.AddModule<Commands>();
-                bot.Run();
-            }
-        }
-    }
-
-    public sealed class Commands : DiscordModuleBase
+    public sealed class Program : DiscordModuleBase
     {
         [Command("ping")]
-        public Task PingAsync()
-            => ReplyAsync("Pong!");
+        public DiscordCommandResult Ping()
+            => Response("Pong!");
+
+        private static void Main(string[] args)
+        {
+            var host = new HostBuilder()
+                .ConfigureAppConfiguration(x =>
+                {
+                    // We will use the environment variable DISQORD_TOKEN for the bot token.
+                    x.AddEnvironmentVariables("DISQORD_");
+                })
+                .ConfigureLogging(x =>
+                {
+                    x.AddSimpleConsole();
+                })
+                .ConfigureDiscordBot((context, bot) =>
+                {
+                    bot.Token = context.Configuration["TOKEN"];
+                    bot.UseMentionPrefix = true;
+                    bot.Prefixes = new[] { "?" };
+                })
+                .Build();
+
+            try
+            {
+                using (host)
+                {
+                    host.Run();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.ReadLine();
+            }
+        }
     }
 }
 ```

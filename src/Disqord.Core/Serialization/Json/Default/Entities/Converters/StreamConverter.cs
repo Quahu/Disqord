@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using Disqord.Logging;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Disqord.Serialization.Json.Default
@@ -32,7 +32,7 @@ namespace Disqord.Serialization.Json.Default
         public override unsafe void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             // This is just a null-check but because the converter is untyped we use this to also cast the object value.
-            if (!(value is Stream stream))
+            if (value is not Stream stream)
             {
                 writer.WriteNull();
                 return;
@@ -41,7 +41,7 @@ namespace Disqord.Serialization.Json.Default
             if (!stream.CanRead)
                 throw new ArgumentException("The stream is not readable.");
 
-            // Show a warning for System.Net.Http content streams.
+            // Shows a warning for System.Net.Http content streams.
             // See CheckStreamType for more information.
             CheckStreamType(stream);
 
@@ -93,7 +93,7 @@ namespace Disqord.Serialization.Json.Default
             writer.WriteValue(base64Builder.ToString());
         }
 
-        private void CheckStreamType(Stream stream)
+        public void CheckStreamType(Stream stream)
         {
             // This method is just checking if the user passed a System.Net.Http content stream and warns them, if they did.
             // The reasoning is that content streams are lazy, meaning code like `var stream = await HttpClient#GetStreamAsync()`
@@ -105,7 +105,7 @@ namespace Disqord.Serialization.Json.Default
             // it's going to be both more efficient as well as more reliable.
             lock (this)
             {
-                if (_shownHttpWarning || !_serializer.ShowConversionWarnings)
+                if (_shownHttpWarning || !_serializer.ShowHttpStreamsWarning)
                     return;
 
                 // Check if the type is already cached.
@@ -147,9 +147,9 @@ namespace Disqord.Serialization.Json.Default
 
                 _httpBaseContentType = null;
                 _shownHttpWarning = true;
-                _serializer.Log(LogSeverity.Warning,
-                    "You are passing HTTP streams directly which is not supported due to buffer underflowing for incomplete streams. " +
-                    "Ensure the streams are fully downloaded or copy them over to a MemoryStream. " +
+                _serializer.Logger.LogWarning(
+                    "You are passing HTTP streams directly to the API methods which is highly advised against due to buffer data underflowing for incomplete streams. " +
+                    "If you ignore this warning, do ensure the streams are fully downloaded or copy them over to MemoryStreams. " +
                     "This warning will not appear again.");
             }
         }

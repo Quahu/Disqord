@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Disqord.Collections
 {
-    public sealed class ReadOnlySet<T> : ISet<T>, IReadOnlyCollection<T>
+    public sealed class ReadOnlySet<T> : ISet<T>, IReadOnlySet<T>
     {
-        public static readonly ReadOnlySet<T> Empty = new ReadOnlySet<T>(new HashSet<T>(0));
+        public static readonly IReadOnlySet<T> Empty = new HashSet<T>(0).ReadOnly();
 
         public int Count => _set.Count;
 
@@ -20,30 +20,39 @@ namespace Disqord.Collections
             _set = set;
         }
 
+        /// <inheritdoc/>
         public bool IsProperSubsetOf(IEnumerable<T> other)
             => _set.IsProperSubsetOf(other);
 
+        /// <inheritdoc/>
         public bool IsProperSupersetOf(IEnumerable<T> other)
             => _set.IsProperSupersetOf(other);
 
+        /// <inheritdoc/>
         public bool IsSubsetOf(IEnumerable<T> other)
             => _set.IsSubsetOf(other);
 
+        /// <inheritdoc/>
         public bool IsSupersetOf(IEnumerable<T> other)
             => _set.IsSupersetOf(other);
 
+        /// <inheritdoc/>
         public bool Overlaps(IEnumerable<T> other)
             => _set.Overlaps(other);
 
+        /// <inheritdoc/>
         public bool SetEquals(IEnumerable<T> other)
             => _set.SetEquals(other);
 
+        /// <inheritdoc/>
         public bool Contains(T item)
             => _set.Contains(item);
 
+        /// <inheritdoc/>
         public void CopyTo(T[] array, int arrayIndex)
             => _set.CopyTo(array, arrayIndex);
 
+        /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator()
             => _set.GetEnumerator();
 

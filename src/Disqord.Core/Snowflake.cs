@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public readonly struct Snowflake : IEquatable<ulong>, IEquatable<Snowflake>, IComparable<ulong>, IComparable<Snowflake>
+    public readonly partial struct Snowflake : IConvertible, IEquatable<ulong>, IEquatable<Snowflake>, IComparable<ulong>, IComparable<Snowflake>
     {
         public const ulong DISCORD_EPOCH = 1420070400000;
 
@@ -27,13 +27,19 @@ namespace Disqord
         public bool Equals(Snowflake other)
             => RawValue == other.RawValue;
 
+        public int CompareTo(ulong other)
+            => RawValue.CompareTo(other);
+
+        public int CompareTo(Snowflake other)
+            => RawValue.CompareTo(other.RawValue);
+
         public override bool Equals(object obj)
         {
-            if (obj is Snowflake snowflake)
-                return snowflake.RawValue == RawValue;
+            if (obj is Snowflake otherSnowflake)
+                return RawValue == otherSnowflake.RawValue;
 
-            if (obj is ulong rawValue)
-                return rawValue == RawValue;
+            if (obj is ulong otherRawValue)
+                return RawValue == otherRawValue;
 
             return false;
         }
@@ -49,7 +55,7 @@ namespace Disqord
 
         public static bool TryParse(ReadOnlySpan<char> value, out Snowflake result)
         {
-            if (value.Length >= 15 && value.Length <= 21 && ulong.TryParse(value, out var ulongResult))
+            if (value.Length >= 15 && value.Length < 21 && ulong.TryParse(value, out var ulongResult))
             {
                 result = ulongResult;
                 return true;
@@ -59,22 +65,19 @@ namespace Disqord
             return false;
         }
 
+        public static Snowflake Parse(string value)
+            => Parse(value.AsSpan());
+
+        public static Snowflake Parse(ReadOnlySpan<char> value)
+            => value.Length >= 15 && value.Length < 21
+                ? ulong.Parse(value)
+                : throw new FormatException();
+
         public static Snowflake FromDateTimeOffset(DateTimeOffset dateTimeOffset)
             => ((ulong) dateTimeOffset.ToUniversalTime().ToUnixTimeMilliseconds() - DISCORD_EPOCH) << 22;
 
         public static DateTimeOffset ToDateTimeOffset(ulong id)
             => DateTimeOffset.FromUnixTimeMilliseconds((long) ((id >> 22) + DISCORD_EPOCH));
 
-        public int CompareTo(ulong other)
-            => RawValue.CompareTo(other);
-
-        public int CompareTo(Snowflake other)
-            => RawValue.CompareTo(other);
-
-        public static implicit operator Snowflake(ulong value)
-            => new Snowflake(value);
-
-        public static implicit operator ulong(Snowflake value)
-            => value.RawValue;
     }
 }

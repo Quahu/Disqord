@@ -1,255 +1,224 @@
-﻿using System;
-using Disqord.Events;
-using Disqord.Rest;
-using Qommon.Events;
+﻿using Disqord.Events;
+using Disqord.Gateway;
 
 namespace Disqord
 {
-    public abstract partial class DiscordClientBase : IRestDiscordClient, IAsyncDisposable
+    public abstract partial class DiscordClientBase
     {
         public event AsynchronousEventHandler<ReadyEventArgs> Ready
         {
-            add => _ready.Hook(value);
-            remove => _ready.Unhook(value);
+            add => GatewayClient.Ready += value;
+            remove => GatewayClient.Ready -= value;
         }
-        internal readonly AsynchronousEvent<ReadyEventArgs> _ready;
 
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ChannelCreatedEventArgs> ChannelCreated
         {
-            add => _channelCreated.Hook(value);
-            remove => _channelCreated.Unhook(value);
+            add => GatewayClient.ChannelCreated += value;
+            remove => GatewayClient.ChannelCreated -= value;
         }
-        internal readonly AsynchronousEvent<ChannelCreatedEventArgs> _channelCreated;
 
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ChannelUpdatedEventArgs> ChannelUpdated
         {
-            add => _channelUpdated.Hook(value);
-            remove => _channelUpdated.Unhook(value);
+            add => GatewayClient.ChannelUpdated += value;
+            remove => GatewayClient.ChannelUpdated -= value;
         }
-        internal readonly AsynchronousEvent<ChannelUpdatedEventArgs> _channelUpdated;
 
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ChannelDeletedEventArgs> ChannelDeleted
         {
-            add => _channelDeleted.Hook(value);
-            remove => _channelDeleted.Unhook(value);
+            add => GatewayClient.ChannelDeleted += value;
+            remove => GatewayClient.ChannelDeleted -= value;
         }
-        internal readonly AsynchronousEvent<ChannelDeletedEventArgs> _channelDeleted;
 
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ChannelPinsUpdatedEventArgs> ChannelPinsUpdated
         {
-            add => _channelPinsUpdated.Hook(value);
-            remove => _channelPinsUpdated.Unhook(value);
+            add => GatewayClient.ChannelPinsUpdated += value;
+            remove => GatewayClient.ChannelPinsUpdated -= value;
         }
-        internal readonly AsynchronousEvent<ChannelPinsUpdatedEventArgs> _channelPinsUpdated;
 
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<GuildAvailableEventArgs> GuildAvailable
         {
-            add => _guildAvailable.Hook(value);
-            remove => _guildAvailable.Unhook(value);
+            add => GatewayClient.GuildAvailable += value;
+            remove => GatewayClient.GuildAvailable -= value;
         }
-        internal readonly AsynchronousEvent<GuildAvailableEventArgs> _guildAvailable;
 
-        public event AsynchronousEventHandler<GuildUnavailableEventArgs> GuildUnavailable
-        {
-            add => _guildUnavailable.Hook(value);
-            remove => _guildUnavailable.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<GuildUnavailableEventArgs> _guildUnavailable;
-
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<JoinedGuildEventArgs> JoinedGuild
         {
-            add => _joinedGuild.Hook(value);
-            remove => _joinedGuild.Unhook(value);
+            add => GatewayClient.JoinedGuild += value;
+            remove => GatewayClient.JoinedGuild -= value;
         }
-        internal readonly AsynchronousEvent<JoinedGuildEventArgs> _joinedGuild;
 
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<GuildUpdatedEventArgs> GuildUpdated
         {
-            add => _guildUpdated.Hook(value);
-            remove => _guildUpdated.Unhook(value);
+            add => GatewayClient.GuildUpdated += value;
+            remove => GatewayClient.GuildUpdated -= value;
         }
-        internal readonly AsynchronousEvent<GuildUpdatedEventArgs> _guildUpdated;
 
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildUnavailableEventArgs> GuildUnavailable
+        {
+            add => GatewayClient.GuildUnavailable += value;
+            remove => GatewayClient.GuildUnavailable -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<LeftGuildEventArgs> LeftGuild
         {
-            add => _leftGuild.Hook(value);
-            remove => _leftGuild.Unhook(value);
+            add => GatewayClient.LeftGuild += value;
+            remove => GatewayClient.LeftGuild -= value;
         }
-        internal readonly AsynchronousEvent<LeftGuildEventArgs> _leftGuild;
 
-        public event AsynchronousEventHandler<RoleCreatedEventArgs> RoleCreated
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<BanCreatedEventArgs> BanCreated
         {
-            add => _roleCreated.Hook(value);
-            remove => _roleCreated.Unhook(value);
+            add => GatewayClient.BanCreated += value;
+            remove => GatewayClient.BanCreated -= value;
         }
-        internal readonly AsynchronousEvent<RoleCreatedEventArgs> _roleCreated;
 
-        public event AsynchronousEventHandler<RoleUpdatedEventArgs> RoleUpdated
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<BanDeletedEventArgs> BanDeleted
         {
-            add => _roleUpdated.Hook(value);
-            remove => _roleUpdated.Unhook(value);
+            add => GatewayClient.BanDeleted += value;
+            remove => GatewayClient.BanDeleted -= value;
         }
-        internal readonly AsynchronousEvent<RoleUpdatedEventArgs> _roleUpdated;
 
-        public event AsynchronousEventHandler<RoleDeletedEventArgs> RoleDeleted
-        {
-            add => _roleDeleted.Hook(value);
-            remove => _roleDeleted.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<RoleDeletedEventArgs> _roleDeleted;
-
-        public event AsynchronousEventHandler<InviteCreatedEventArgs> InviteCreated
-        {
-            add => _inviteCreated.Hook(value);
-            remove => _inviteCreated.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<InviteCreatedEventArgs> _inviteCreated;
-
-        public event AsynchronousEventHandler<InviteDeletedEventArgs> InviteDeleted
-        {
-            add => _inviteDeleted.Hook(value);
-            remove => _inviteDeleted.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<InviteDeletedEventArgs> _inviteDeleted;
-
-        public event AsynchronousEventHandler<MemberBannedEventArgs> MemberBanned
-        {
-            add => _memberBanned.Hook(value);
-            remove => _memberBanned.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<MemberBannedEventArgs> _memberBanned;
-
-        public event AsynchronousEventHandler<MemberUnbannedEventArgs> MemberUnbanned
-        {
-            add => _memberUnbanned.Hook(value);
-            remove => _memberUnbanned.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<MemberUnbannedEventArgs> _memberUnbanned;
-
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<GuildEmojisUpdatedEventArgs> GuildEmojisUpdated
         {
-            add => _guildEmojisUpdated.Hook(value);
-            remove => _guildEmojisUpdated.Unhook(value);
+            add => GatewayClient.GuildEmojisUpdated += value;
+            remove => GatewayClient.GuildEmojisUpdated -= value;
         }
-        internal readonly AsynchronousEvent<GuildEmojisUpdatedEventArgs> _guildEmojisUpdated;
 
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<MemberJoinedEventArgs> MemberJoined
         {
-            add => _memberJoined.Hook(value);
-            remove => _memberJoined.Unhook(value);
+            add => GatewayClient.MemberJoined += value;
+            remove => GatewayClient.MemberJoined -= value;
         }
-        internal readonly AsynchronousEvent<MemberJoinedEventArgs> _memberJoined;
 
-        public event AsynchronousEventHandler<MemberLeftEventArgs> MemberLeft
-        {
-            add => _memberLeft.Hook(value);
-            remove => _memberLeft.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<MemberLeftEventArgs> _memberLeft;
-
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<MemberUpdatedEventArgs> MemberUpdated
         {
-            add => _memberUpdated.Hook(value);
-            remove => _memberUpdated.Unhook(value);
+            add => GatewayClient.MemberUpdated += value;
+            remove => GatewayClient.MemberUpdated -= value;
         }
-        internal readonly AsynchronousEvent<MemberUpdatedEventArgs> _memberUpdated;
 
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<MemberLeftEventArgs> MemberLeft
+        {
+            add => GatewayClient.MemberLeft += value;
+            remove => GatewayClient.MemberLeft -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<RoleCreatedEventArgs> RoleCreated
+        {
+            add => GatewayClient.RoleCreated += value;
+            remove => GatewayClient.RoleCreated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<RoleUpdatedEventArgs> RoleUpdated
+        {
+            add => GatewayClient.RoleUpdated += value;
+            remove => GatewayClient.RoleUpdated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<RoleDeletedEventArgs> RoleDeleted
+        {
+            add => GatewayClient.RoleDeleted += value;
+            remove => GatewayClient.RoleDeleted -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<MessageReceivedEventArgs> MessageReceived
         {
-            add => _messageReceived.Hook(value);
-            remove => _messageReceived.Unhook(value);
+            add => GatewayClient.MessageReceived += value;
+            remove => GatewayClient.MessageReceived -= value;
         }
-        internal readonly AsynchronousEvent<MessageReceivedEventArgs> _messageReceived;
 
-        public event AsynchronousEventHandler<MessageDeletedEventArgs> MessageDeleted
-        {
-            add => _messageDeleted.Hook(value);
-            remove => _messageDeleted.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<MessageDeletedEventArgs> _messageDeleted;
-
-        public event AsynchronousEventHandler<MessagesBulkDeletedEventArgs> MessagesBulkDeleted
-        {
-            add => _messagesBulkDeleted.Hook(value);
-            remove => _messagesBulkDeleted.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<MessagesBulkDeletedEventArgs> _messagesBulkDeleted;
-
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<MessageUpdatedEventArgs> MessageUpdated
         {
-            add => _messageUpdated.Hook(value);
-            remove => _messageUpdated.Unhook(value);
+            add => GatewayClient.MessageUpdated += value;
+            remove => GatewayClient.MessageUpdated -= value;
         }
-        internal readonly AsynchronousEvent<MessageUpdatedEventArgs> _messageUpdated;
 
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<MessageDeletedEventArgs> MessageDeleted
+        {
+            add => GatewayClient.MessageDeleted += value;
+            remove => GatewayClient.MessageDeleted -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<MessagesDeletedEventArgs> MessagesDeleted
+        {
+            add => GatewayClient.MessagesDeleted += value;
+            remove => GatewayClient.MessagesDeleted -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ReactionAddedEventArgs> ReactionAdded
         {
-            add => _reactionAdded.Hook(value);
-            remove => _reactionAdded.Unhook(value);
+            add => GatewayClient.ReactionAdded += value;
+            remove => GatewayClient.ReactionAdded -= value;
         }
-        internal readonly AsynchronousEvent<ReactionAddedEventArgs> _reactionAdded;
 
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ReactionRemovedEventArgs> ReactionRemoved
         {
-            add => _reactionRemoved.Hook(value);
-            remove => _reactionRemoved.Unhook(value);
+            add => GatewayClient.ReactionRemoved += value;
+            remove => GatewayClient.ReactionRemoved -= value;
         }
-        internal readonly AsynchronousEvent<ReactionRemovedEventArgs> _reactionRemoved;
 
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ReactionsClearedEventArgs> ReactionsCleared
         {
-            add => _reactionsCleared.Hook(value);
-            remove => _reactionsCleared.Unhook(value);
+            add => GatewayClient.ReactionsCleared += value;
+            remove => GatewayClient.ReactionsCleared -= value;
         }
-        internal readonly AsynchronousEvent<ReactionsClearedEventArgs> _reactionsCleared;
 
-        public event AsynchronousEventHandler<EmojiReactionsClearedEventArgs> EmojiReactionsCleared
-        {
-            add => _emojiReactionsCleared.Hook(value);
-            remove => _emojiReactionsCleared.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<EmojiReactionsClearedEventArgs> _emojiReactionsCleared;
-
-        public event AsynchronousEventHandler<PresenceUpdatedEventArgs> PresenceUpdated
-        {
-            add => _presenceUpdated.Hook(value);
-            remove => _presenceUpdated.Unhook(value);
-        }
-        internal readonly AsynchronousEvent<PresenceUpdatedEventArgs> _presenceUpdated;
-
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
         {
-            add => _typingStarted.Hook(value);
-            remove => _typingStarted.Unhook(value);
+            add => GatewayClient.TypingStarted += value;
+            remove => GatewayClient.TypingStarted -= value;
         }
-        internal readonly AsynchronousEvent<TypingStartedEventArgs> _typingStarted;
 
-        public event AsynchronousEventHandler<UserUpdatedEventArgs> UserUpdated
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<CurrentUserUpdatedEventArgs> CurrentUserUpdated
         {
-            add => _userUpdated.Hook(value);
-            remove => _userUpdated.Unhook(value);
+            add => GatewayClient.CurrentUserUpdated += value;
+            remove => GatewayClient.CurrentUserUpdated -= value;
         }
-        internal readonly AsynchronousEvent<UserUpdatedEventArgs> _userUpdated;
 
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<VoiceStateUpdatedEventArgs> VoiceStateUpdated
         {
-            add => _voiceStateUpdated.Hook(value);
-            remove => _voiceStateUpdated.Unhook(value);
+            add => GatewayClient.VoiceStateUpdated += value;
+            remove => GatewayClient.VoiceStateUpdated -= value;
         }
-        internal readonly AsynchronousEvent<VoiceStateUpdatedEventArgs> _voiceStateUpdated;
 
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<VoiceServerUpdatedEventArgs> VoiceServerUpdated
         {
-            add => _voiceServerUpdated.Hook(value);
-            remove => _voiceServerUpdated.Unhook(value);
+            add => GatewayClient.VoiceServerUpdated += value;
+            remove => GatewayClient.VoiceServerUpdated -= value;
         }
-        internal readonly AsynchronousEvent<VoiceServerUpdatedEventArgs> _voiceServerUpdated;
 
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<WebhooksUpdatedEventArgs> WebhooksUpdated
         {
-            add => _webhooksUpdated.Hook(value);
-            remove => _webhooksUpdated.Unhook(value);
+            add => GatewayClient.WebhooksUpdated += value;
+            remove => GatewayClient.WebhooksUpdated -= value;
         }
-        internal readonly AsynchronousEvent<WebhooksUpdatedEventArgs> _webhooksUpdated;
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Disqord.Collections
 {
-    internal sealed class ReadOnlyOfTypeCollection<TOriginal, TNew> : IReadOnlyCollection<TNew> where TNew : class, TOriginal
+    internal sealed class ReadOnlyOfTypeCollection<TOriginal, TNew> : IReadOnlyCollection<TNew>
     {
         public int Count => this.Count();
 

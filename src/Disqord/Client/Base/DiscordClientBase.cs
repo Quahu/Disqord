@@ -1,194 +1,133 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Collections;
-using Disqord.Events;
-using Disqord.Logging;
+using Disqord.Api;
+using Disqord.Gateway;
+using Disqord.Gateway.Api;
 using Disqord.Rest;
-using Disqord.Serialization.Json;
-using Disqord.Sharding;
-using Qommon.Events;
+using Disqord.Rest.Api;
+using Microsoft.Extensions.Logging;
 
 namespace Disqord
 {
-    public abstract partial class DiscordClientBase : IRestDiscordClient, IAsyncDisposable
+    /// <summary>
+    ///     Represents a high-level Discord client.
+    ///     Wraps <see cref="IRestClient"/> and <see cref="IGatewayClient"/>.
+    /// </summary>
+    public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
     {
-        public RestFetchable<RestApplication> CurrentApplication => RestClient.CurrentApplication;
-
-        /// <summary>
-        ///     Gets the token type this client is using.
-        /// </summary>
-        public TokenType TokenType => RestClient.TokenType;
-
+        /// <inheritdoc/>
         public ILogger Logger { get; }
 
-        public IJsonSerializer Serializer { get; }
+        public IGatewayCacheProvider CacheProvider => GatewayClient.CacheProvider;
 
-        internal RestDiscordClient RestClient { get; }
+        public IGatewayChunker Chunker => GatewayClient.Chunker;
 
-        internal string Token => RestClient.ApiClient._token;
+        public ICurrentUser CurrentUser => GatewayClient.CurrentUser;
 
-        internal bool IsBot => TokenType == TokenType.Bot;
+        /// <inheritdoc cref="IClient.ApiClient"/>
+        public DiscordApiClient ApiClient { get; }
 
-        internal bool IsDisposed;
+        /// <summary>
+        ///     Gets the <see cref="CancellationToken"/> passed to <see cref="RunAsync(CancellationToken)"/>.
+        ///     This is set by implementations of this type.
+        ///     Returns <see cref="CancellationToken.None"/> if the client has not been started.
+        /// </summary>
+        public virtual CancellationToken StoppingToken { get; protected set; }
 
-        internal Func<DiscordClientBase, ulong, DiscordClientGateway> _getGateway;
+        /// <summary>
+        ///     Gets the REST client this client wraps.
+        /// </summary>
+        protected IRestClient RestClient { get; }
 
-        RestFetchable<RestCurrentUser> IRestDiscordClient.CurrentUser => RestClient.CurrentUser;
+        /// <summary>
+        ///     Gets the gateway client this client wraps.
+        /// </summary>
+        protected IGatewayClient GatewayClient { get; }
 
-        internal DiscordClientBase(RestDiscordClient restClient, DiscordClientBaseConfiguration configuration)
+        private readonly Dictionary<Type, DiscordClientExtension> _extensions;
+
+        IApiClient IClient.ApiClient => ApiClient;
+        IGatewayApiClient IGatewayClient.ApiClient => GatewayClient.ApiClient;
+        IRestApiClient IRestClient.ApiClient => RestClient.ApiClient;
+        IGatewayDispatcher IGatewayClient.Dispatcher => GatewayClient.Dispatcher;
+        IDictionary<Snowflake, IDirectChannel> IRestClient.DirectChannels => RestClient.DirectChannels;
+        IReadOnlyDictionary<ShardId, IGatewayApiClient> IGatewayClient.Shards => GatewayClient.Shards;
+
+        /// <summary>
+        ///     Instantiates a new <see cref="DiscordClientBase"/>, wrapping REST and gateway clients.
+        /// </summary>
+        /// <param name="logger"> The logger of this client. </param>
+        /// <param name="restClient"> The REST client to wrap. </param>
+        /// <param name="gatewayClient"> The gateway client to wrap. </param>
+        /// <param name="apiClient"> The API client of this client. </param>
+        /// <param name="extensions"> The extensions to use. </param>
+        protected DiscordClientBase(
+            ILogger logger,
+            IRestClient restClient,
+            IGatewayClient gatewayClient,
+            DiscordApiClient apiClient,
+            IEnumerable<DiscordClientExtension> extensions)
         {
-            if (restClient == null)
-                throw new ArgumentNullException(nameof(restClient));
-
-            if (!restClient.HasAuthorization)
-                throw new ArgumentException("Clients without authorization are not supported.", nameof(restClient));
-
+            Logger = logger;
             RestClient = restClient;
-            State = new DiscordClientState(this, configuration.MessageCache.GetValueOrDefault(() => new DefaultMessageCache(100)));
-            Logger = configuration.Logger.GetValueOrDefault() ?? restClient.Logger;
-            Serializer = configuration.Serializer.GetValueOrDefault() ?? restClient.Serializer;
-            _extensions = new LockedDictionary<Type, DiscordClientExtension>();
+            GatewayClient = gatewayClient;
+            ApiClient = apiClient;
+            _extensions = extensions.ToDictionary(x => x.GetType(), x => x);
 
-            _ready = new AsynchronousEvent<ReadyEventArgs>();
-            _channelCreated = new AsynchronousEvent<ChannelCreatedEventArgs>();
-            _channelUpdated = new AsynchronousEvent<ChannelUpdatedEventArgs>();
-            _channelDeleted = new AsynchronousEvent<ChannelDeletedEventArgs>();
-            _channelPinsUpdated = new AsynchronousEvent<ChannelPinsUpdatedEventArgs>();
-            _guildAvailable = new AsynchronousEvent<GuildAvailableEventArgs>();
-            _guildUnavailable = new AsynchronousEvent<GuildUnavailableEventArgs>();
-            _joinedGuild = new AsynchronousEvent<JoinedGuildEventArgs>();
-            _guildUpdated = new AsynchronousEvent<GuildUpdatedEventArgs>();
-            _leftGuild = new AsynchronousEvent<LeftGuildEventArgs>();
-            _roleCreated = new AsynchronousEvent<RoleCreatedEventArgs>();
-            _roleUpdated = new AsynchronousEvent<RoleUpdatedEventArgs>();
-            _roleDeleted = new AsynchronousEvent<RoleDeletedEventArgs>();
-            _inviteCreated = new AsynchronousEvent<InviteCreatedEventArgs>();
-            _inviteDeleted = new AsynchronousEvent<InviteDeletedEventArgs>();
-            _memberBanned = new AsynchronousEvent<MemberBannedEventArgs>();
-            _memberUnbanned = new AsynchronousEvent<MemberUnbannedEventArgs>();
-            _guildEmojisUpdated = new AsynchronousEvent<GuildEmojisUpdatedEventArgs>();
-            _memberJoined = new AsynchronousEvent<MemberJoinedEventArgs>();
-            _memberLeft = new AsynchronousEvent<MemberLeftEventArgs>();
-            _memberUpdated = new AsynchronousEvent<MemberUpdatedEventArgs>();
-            _messageReceived = new AsynchronousEvent<MessageReceivedEventArgs>();
-            _messageDeleted = new AsynchronousEvent<MessageDeletedEventArgs>();
-            _messagesBulkDeleted = new AsynchronousEvent<MessagesBulkDeletedEventArgs>();
-            _messageUpdated = new AsynchronousEvent<MessageUpdatedEventArgs>();
-            _reactionAdded = new AsynchronousEvent<ReactionAddedEventArgs>();
-            _reactionRemoved = new AsynchronousEvent<ReactionRemovedEventArgs>();
-            _reactionsCleared = new AsynchronousEvent<ReactionsClearedEventArgs>();
-            _emojiReactionsCleared = new AsynchronousEvent<EmojiReactionsClearedEventArgs>();
-            _presenceUpdated = new AsynchronousEvent<PresenceUpdatedEventArgs>();
-            _typingStarted = new AsynchronousEvent<TypingStartedEventArgs>();
-            _userUpdated = new AsynchronousEvent<UserUpdatedEventArgs>();
-            _voiceStateUpdated = new AsynchronousEvent<VoiceStateUpdatedEventArgs>();
-            _voiceServerUpdated = new AsynchronousEvent<VoiceServerUpdatedEventArgs>();
-            _webhooksUpdated = new AsynchronousEvent<WebhooksUpdatedEventArgs>();
-
-            if (this is IDiscordSharder sharder)
-                sharder._shardReady = new AsynchronousEvent<ShardReadyEventArgs>();
+            // Binds `this` to the dispatcher, where `this` is the DiscordClientBase.
+            GatewayClient.Dispatcher.Bind(this);
         }
 
-        internal readonly DiscordClientBase _client;
-
-        internal DiscordClientBase(DiscordClientBase client)
+        /// <summary>
+        ///     Instantiates a new <see cref="DiscordClientBase"/>, wrapping a pre-existing client.
+        ///     Rebinds the specified client's dispatcher to <see langword="this"/>.
+        /// </summary>
+        /// <param name="logger"> The logger of this client. </param>
+        /// <param name="client"> The client to wrap. </param>
+        protected DiscordClientBase(
+            ILogger logger,
+            DiscordClientBase client)
         {
-            if (client == null)
-                throw new ArgumentNullException(nameof(client));
-
-            _client = client;
-
-            _getGateway = client._getGateway;
-            State = client.State;
-            // This is set, so that events give you the proper (bot) client, and not the underyling one.
-            State._client = this;
+            Logger = logger;
             RestClient = client.RestClient;
-            Logger = client.Logger;
-            Serializer = client.Serializer;
+            GatewayClient = client.GatewayClient;
+            ApiClient = client.ApiClient;
             _extensions = client._extensions;
 
-            _ready = client._ready;
-            _channelCreated = client._channelCreated;
-            _channelUpdated = client._channelUpdated;
-            _channelDeleted = client._channelDeleted;
-            _channelPinsUpdated = client._channelPinsUpdated;
-            _guildAvailable = client._guildAvailable;
-            _guildUnavailable = client._guildUnavailable;
-            _joinedGuild = client._joinedGuild;
-            _guildUpdated = client._guildUpdated;
-            _leftGuild = client._leftGuild;
-            _roleCreated = client._roleCreated;
-            _roleUpdated = client._roleUpdated;
-            _roleDeleted = client._roleDeleted;
-            _inviteCreated = client._inviteCreated;
-            _inviteDeleted = client._inviteDeleted;
-            _memberBanned = client._memberBanned;
-            _memberUnbanned = client._memberUnbanned;
-            _guildEmojisUpdated = client._guildEmojisUpdated;
-            _memberJoined = client._memberJoined;
-            _memberLeft = client._memberLeft;
-            _memberUpdated = client._memberUpdated;
-            _messageReceived = client._messageReceived;
-            _messageDeleted = client._messageDeleted;
-            _messagesBulkDeleted = client._messagesBulkDeleted;
-            _messageUpdated = client._messageUpdated;
-            _reactionAdded = client._reactionAdded;
-            _reactionRemoved = client._reactionRemoved;
-            _reactionsCleared = client._reactionsCleared;
-            _emojiReactionsCleared = client._emojiReactionsCleared;
-            _presenceUpdated = client._presenceUpdated;
-            _typingStarted = client._typingStarted;
-            _userUpdated = client._userUpdated;
-            _voiceStateUpdated = client._voiceStateUpdated;
-            _voiceServerUpdated = client._voiceServerUpdated;
-            _webhooksUpdated = client._webhooksUpdated;
-
-            if (this is IDiscordSharder sharder && client is IDiscordSharder clientSharder)
-                sharder._shardReady = clientSharder._shardReady;
+            // Binds `this` to the dispatcher, where `this` is the client implementing DiscordBotBase,
+            // wrapping an existing DiscordClientBase.
+            client.GatewayClient.Dispatcher.Bind(this);
         }
 
-        internal void ThrowIfDisposed()
-        {
-            if (_client?.IsDisposed ?? IsDisposed)
-                throw new ObjectDisposedException(null, "The client has been disposed.");
-        }
+        /// <summary>
+        ///     Runs this client.
+        /// </summary>
+        /// <param name="stoppingToken"> The token used to signal stopping. </param>
+        /// <returns>
+        ///     A <see cref="Task"/> representing the work.
+        /// </returns>
+        public abstract Task RunAsync(CancellationToken stoppingToken);
 
-        internal void Log(LogSeverity severity, string message, Exception exception = null)
-            => Logger.Log(this, new LogEventArgs("Client", severity, message, exception));
+        /// <summary>
+        ///     Waits until this client is ready, respecting the configured <see cref="ReadyEventDelayMode"/>.
+        /// </summary>
+        /// <param name="cancellationToken"> The token to observe for cancellation. </param>
+        /// <returns>
+        ///     A <see cref="Task"/> that completes when this client is ready.
+        /// </returns>
+        public abstract Task WaitUntilReadyAsync(CancellationToken cancellationToken);
 
-        internal DiscordClientGateway GetGateway(ulong guildId)
-            => _getGateway(_client ?? this, guildId);
-
+        /// <inheritdoc/>
         public void Dispose()
-            => DisposeAsync().GetAwaiter().GetResult();
-
-        public virtual async ValueTask DisposeAsync()
         {
-            if (_client != null)
-            {
-                await _client.DisposeAsync().ConfigureAwait(false);
-                return;
-            }
-
-            if (IsDisposed)
-                return;
-
-            IsDisposed = true;
-            State.Reset();
-
-            foreach (var extensionKvp in _extensions)
-            {
-                try
-                {
-                    await extensionKvp.Value.DisposeAsync().ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    Log(LogSeverity.Error, $"An exception occurred while disposing the {extensionKvp.Key} extension.", ex);
-                }
-            }
-
+            GatewayClient.Dispose();
             RestClient.Dispose();
         }
+
+        Task IGatewayClient.RunAsync(Uri uri, CancellationToken stoppingToken)
+            => GatewayClient.RunAsync(uri, stoppingToken);
     }
 }

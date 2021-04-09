@@ -3,25 +3,24 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
-    public sealed class RequireGuildAttribute : GuildOnlyAttribute
+    public class RequireGuildAttribute : DiscordGuildCheckAttribute
     {
-        public Snowflake Id { get; }
+        public Snowflake? Id { get; }
+
+        public RequireGuildAttribute()
+        { }
 
         public RequireGuildAttribute(ulong id)
         {
             Id = id;
         }
 
-        public override ValueTask<CheckResult> CheckAsync(CommandContext _)
+        public override sealed ValueTask<CheckResult> CheckAsync(DiscordGuildCommandContext context)
         {
-            var baseResult = base.CheckAsync(_).Result;
-            if (!baseResult.IsSuccessful)
-                return baseResult;
+            if (Id == null || Id == context.GuildId)
+                return Success();
 
-            var context = _ as DiscordCommandContext;
-            return Id == context.Guild.Id
-                ? CheckResult.Successful
-                : CheckResult.Unsuccessful("This cannot be executed in this guild.");
+            return Failure($"This can only be executed in the guild with the ID {Id}.");
         }
     }
 }

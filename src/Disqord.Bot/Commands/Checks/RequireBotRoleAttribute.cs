@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Qmmands;
 
 namespace Disqord.Bot
 {
-    public sealed class RequireBotRoleAttribute : GuildOnlyAttribute
+    public class RequireBotRoleAttribute : DiscordGuildCheckAttribute
     {
         public Snowflake Id { get; }
 
@@ -12,17 +13,12 @@ namespace Disqord.Bot
             Id = id;
         }
 
-        public override ValueTask<CheckResult> CheckAsync(CommandContext _)
+        public override ValueTask<CheckResult> CheckAsync(DiscordGuildCommandContext context)
         {
-            var baseResult = base.CheckAsync(_).Result;
-            if (!baseResult.IsSuccessful)
-                return baseResult;
+            if (context.CurrentMember.RoleIds.Any(x => x == Id))
+                return Success();
 
-            var context = _ as DiscordCommandContext;
-            return context.Guild.CurrentMember.Roles.ContainsKey(Id)
-                ? CheckResult.Successful
-                : CheckResult.Unsuccessful($"The bot does not have the required role {Id}.");
-
+            return Failure($"The bot requires the role with ID {Id}.");
         }
     }
 }

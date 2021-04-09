@@ -1,0 +1,16 @@
+﻿using Disqord.Serialization.Json;
+
+namespace Disqord.Rest.Api
+{
+    public class ModifyGuildIntegrationJsonRestRequestContent : JsonModelRestRequestContent
+    {
+        [JsonProperty("expire_behavior")]
+        public Optional<IntegrationExpireBehavior> ExpireBehavior;
+
+        [JsonProperty("expire_grace_period")]
+        public Optional<int> ExpireGracePeriod;
+
+        [JsonProperty("enable_emoticons")]
+        public Optional<bool> EnableEmoticons;
+    }
+}

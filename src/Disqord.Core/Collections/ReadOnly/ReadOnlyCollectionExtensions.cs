@@ -12,6 +12,9 @@ namespace Disqord.Collections
         public static IReadOnlyList<T> ReadOnly<T>(this IList<T> list)
             => new ReadOnlyList<T>(list);
 
+        public static IReadOnlySet<T> ReadOnly<T>(this ISet<T> set)
+            => new ReadOnlySet<T>(set);
+
         public static IReadOnlyCollection<T> ReadOnly<T>(this ICollection<T> collection)
             => new ReadOnlyCollection<T>(collection);
 
@@ -30,8 +33,7 @@ namespace Disqord.Collections
         }
 
         public static IReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<TSource, TKey, TValue, TState>(
-            this IList<TSource> source, Func<TSource, TState, TKey> keySelector, Func<TSource, TState, TValue> valueSelector,
-            TState state)
+            this IList<TSource> source, TState state, Func<TSource, TState, TKey> keySelector, Func<TSource, TState, TValue> valueSelector)
         {
             var dictionary = new Dictionary<TKey, TValue>();
             foreach (var item in source)
@@ -72,5 +74,8 @@ namespace Disqord.Collections
 
         public static IReadOnlyList<T> ToReadOnlyList<T>(this IEnumerable<T> source)
             => source.ToArray().ReadOnly();
+
+        public static IReadOnlySet<T> ToReadOnlyHashSet<T>(this IEnumerable<T> source)
+            => source.ToHashSet().ReadOnly();
     }
 }

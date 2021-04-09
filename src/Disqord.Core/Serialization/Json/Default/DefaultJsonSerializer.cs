@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using Disqord.Logging;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -9,18 +10,22 @@ namespace Disqord.Serialization.Json.Default
 {
     public sealed class DefaultJsonSerializer : IJsonSerializer
     {
-        internal readonly bool ShowConversionWarnings;
-        internal readonly JsonSerializer _serializer;
+        public ILogger Logger { get; }
 
-        private readonly ILogger _logger;
+        public JsonSerializer UnderlyingSerializer { get; }
+
+        internal readonly bool ShowHttpStreamsWarning;
+
         private static readonly Encoding _utf8 = new UTF8Encoding(false);
 
-        public DefaultJsonSerializer(ILogger logger, bool showConversionWarnings = true)
+        public DefaultJsonSerializer(
+            IOptions<DefaultJsonSerializerConfiguration> options,
+            ILogger<DefaultJsonSerializer> logger)
         {
-            _logger = logger;
-            ShowConversionWarnings = showConversionWarnings;
+            ShowHttpStreamsWarning = options.Value.ShowHttpStreamsWarning;
+            Logger = logger;
 
-            _serializer = new JsonSerializer
+            UnderlyingSerializer = new JsonSerializer
             {
                 ContractResolver = new ContractResolver(this)
             };
@@ -40,7 +45,7 @@ namespace Disqord.Serialization.Json.Default
                         Library.Debug.DumpWriter.WriteLine(_utf8.GetString(json.Span));
                     }
 
-                    return _serializer.Deserialize<T>(jsonReader);
+                    return UnderlyingSerializer.Deserialize<T>(jsonReader);
                 }
             }
             catch (Exception ex)
@@ -57,7 +62,7 @@ namespace Disqord.Serialization.Json.Default
                 using (var streamWriter = new StreamWriter(memoryStream, _utf8))
                 using (var jsonWriter = new JsonTextWriter(streamWriter))
                 {
-                    _serializer.Serialize(jsonWriter, model);
+                    UnderlyingSerializer.Serialize(jsonWriter, JToken.FromObject(model, UnderlyingSerializer));
 
                     jsonWriter.Flush();
                     memoryStream.TryGetBuffer(out var streamBuffer);
@@ -78,13 +83,10 @@ namespace Disqord.Serialization.Json.Default
         // TODO: Temporarily horrible.
         public T StringToEnum<T>(string value)
             where T : Enum
-            => JToken.FromObject(value, _serializer).ToObject<T>(_serializer);
+            => JToken.FromObject(value, UnderlyingSerializer).ToObject<T>(UnderlyingSerializer);
 
-        public IJsonElement GetJsonElement(object value)
-            => new DefaultJsonElement(JToken.FromObject(value, _serializer), _serializer);
-
-        internal void Log(LogSeverity severity, string message, Exception exception = null)
-            => _logger.Log(this, new LogEventArgs("Serializer", severity, message, exception));
+        public IJsonToken GetJsonToken(object value)
+            => DefaultJsonToken.Create(JToken.FromObject(value, UnderlyingSerializer), UnderlyingSerializer);
 
         public void Dispose()
         { }
