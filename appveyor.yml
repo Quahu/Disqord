@@ -1,4 +1,4 @@
-version: 'build-{build}'
+version: "build-{build}"
 
 image: Visual Studio 2019
 
@@ -8,23 +8,20 @@ environment:
   ACCESS_TOKEN:
     secure: JIG9V7Fvjdpl1FvBGSTbv5s29nbAL3RcHiHgSaNC7WwoO2jUOBviIPHvQz2TcI/v
 
-install:
-  - pwsh: choco install docfx -y | Out-Null
+# install:
+#   - pwsh: choco install docfx -y | Out-Null
 
 build_script:
-- pwsh: |
-    dotnet restore .\src\Disqord.sln
-    dotnet build .\src\Disqord.sln -c "Release" --no-restore -p:NoWarn=1591
+  - pwsh: |
+      dotnet restore .\src\Disqord.sln 
+      dotnet build .\src\Disqord.sln -c "Release" --no-restore -p:NoWarn=1591
 
 after_build:
-- pwsh: |
-    $HasRepoTag = $Env:APPVEYOR_REPO_TAG -eq "true"
-    $Date = Get-Date -format "MMddyyyy"
-    $BuildString = "$Date.$Env:APPVEYOR_BUILD_NUMBER"
-    $VersionSuffix = $HasRepoTag
-        ? $BuildString"
-        : "nightly-$BuildString"
-    Invoke-Expression "dotnet pack .\src\Disqord.sln -c Release -o .\artifacts --no-restore --no-build $($HasRepoTag ? '--version-suffix=$VersionSuffix' : $null)"
+  - pwsh: |
+      $HasRepoTag = $Env:APPVEYOR_REPO_TAG -eq "true" 
+      $Date = Get-Date -format "MMddyyyy" 
+      $BuildString = "$Date-$Env:APPVEYOR_BUILD_NUMBER" 
+      Invoke-Expression "dotnet pack .\src\Disqord.sln -c Release -o .\artifacts --no-restore --no-build $(!$HasRepoTag ? "--version-suffix=$BuildString" : $null)"
 #   docfx docs/docfx.json
 
 # after_deploy: # docfx
@@ -46,7 +43,7 @@ after_build:
 #       Copy-Item ".\docs\_site\*" -Destination $Directory -Force -Recurse
 #       cd $Directory
 #       add .
-#       git commit --allow-empty -m "Updated $Directory to $VersionSuffix."
+#       git commit --allow-empty -m "Updated $Directory to $BuildString."
 #       push origin gh-pages
 
 nuget:
@@ -58,19 +55,22 @@ pull_requests:
 test: off
 
 artifacts:
-- path: .\artifacts\*.nupkg
-- path: .\artifacts\*.snupkg
-  
+  - path: .\artifacts\*
+
 deploy:
-- provider: NuGet
-  server: https://www.myget.org/F/disqord/api/v2
-  api_key:
-    secure: XW7HgRlmPz8/YHNSCAjAzBbYvgTx1dVSA+OU8AmuU6OamtFJnUr2CCAbHukPg0r7
-  on:
-    branch: master
-    appveyor_repo_tag: false
-- provider: NuGet
-  api_key:
-    secure: Y38g37rprY0qDdxvx4Ml8Q9Mja12lZCQ1MfEDv3b1he46KgogNFMMEKtLB1pPF1d
-  on:
-    appveyor_repo_tag: true
+  - provider: NuGet
+    server: https://www.myget.org/F/disqord/api/v3/index.json
+    symbol_server: https://www.myget.org/F/disqord/api/v3/index.json
+    skip_symbols: true
+    api_key:
+      secure: XW7HgRlmPz8/YHNSCAjAzBbYvgTx1dVSA+OU8AmuU6OamtFJnUr2CCAbHukPg0r7
+    on:
+      branch: master
+      appveyor_repo_tag: false
+  - provider: NuGet
+    symbol_server: https://api.nuget.org/v3/index.json
+    skip_symbols: true
+    api_key:
+      secure: ZA9rOVRyEGSLgfrsc9kRkVaMG9xJOf+vJM9jlS/A286iVYmCq/gdGF30A3AYUUaF
+    on:
+      appveyor_repo_tag: true
