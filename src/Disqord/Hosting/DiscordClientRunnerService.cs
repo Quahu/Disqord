@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Logging;
@@ -58,9 +59,14 @@ namespace Disqord.Hosting
                 Logger.LogDebug("Hosting the Discord client of type {0}.", Client.GetType().Name);
                 await Client.RunAsync(stoppingToken).ConfigureAwait(false);
             }
-            catch (WebSocketClosedException)
+            catch (OperationCanceledException)
             {
-                Logger.LogCritical("Hosting of the Discord client was interrupted due to an unrecoverable error. Take appropriate actions to resolve the issue.");
+                Logger.LogInformation("Hosting of the Discord client was canceled.");
+            }
+            catch (Exception)
+            {
+                Logger.LogCritical("Hosting of the Discord client was interrupted due to an unrecoverable error. "
+                    + "Take appropriate actions to resolve the issue.");
             }
         }
     }
