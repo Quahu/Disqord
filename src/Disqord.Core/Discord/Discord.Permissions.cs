@@ -27,6 +27,12 @@ namespace Disqord
                 if (channel == null)
                     throw new ArgumentNullException(nameof(channel));
 
+                if (member == null)
+                    throw new ArgumentNullException(nameof(member));
+
+                if (member.GuildId != channel.GuildId)
+                    throw new InvalidOperationException("The entities must be from the same guild.");
+
                 var guildPermissions = CalculatePermissions(guild, member, roles);
                 if (guildPermissions.Administrator)
                     return ChannelPermissions.All;
@@ -79,6 +85,9 @@ namespace Disqord
 
                 if (roles == null)
                     throw new ArgumentNullException(nameof(roles));
+
+                if (guild.Id != member.GuildId)
+                    throw new InvalidOperationException("The entities must be from the same guild.");
 
                 if (guild.OwnerId == member.Id)
                     return GuildPermissions.All;

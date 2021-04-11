@@ -15,8 +15,7 @@ namespace Disqord.Bot
 
         public override ValueTask<CheckResult> CheckAsync(DiscordGuildCommandContext context)
         {
-            var roles = context.Author.GetRoles();
-            var permissions = Discord.Permissions.CalculatePermissions(context.Guild, context.Channel, context.Author, roles.Values);
+            var permissions = context.Author.GetChannelPermissions(context.Guild, context.Channel);
             if (permissions.Has(Permissions))
                 return Success();
 
