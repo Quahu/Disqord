@@ -120,7 +120,7 @@ namespace Disqord.Gateway.Default
         {
             lock (this)
             {
-                if (shardId == default || shardId.Count == 1)
+                if (shardId.Count <= 1)
                 {
                     _caches = new(_supportedTypes.Count);
                     foreach (var type in _supportedTypes)
