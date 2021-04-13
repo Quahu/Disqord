@@ -13,6 +13,13 @@ namespace Disqord
         string Code { get; }
 
         /// <summary>
+        ///     Gets the optional user who created this invite.
+        /// </summary>
+        Optional<IUser> Inviter { get; }
+
+        // TODO: voice invite fields
+
+        /// <summary>
         ///     Gets the optional metadata of this invite.
         /// </summary>
         IInviteMetadata Metadata { get; }

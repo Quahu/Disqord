@@ -1,14 +1,15 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway.Api;
+using Disqord.Gateway.Api.Models;
 
-namespace Disqord.Gateway.Default
+namespace Disqord.Gateway.Default.Dispatcher
 {
-    public partial class DefaultGatewayDispatcher
+    public class InviteDeleteHandler : Handler<InviteDeleteJsonModel, InviteDeletedEventArgs>
     {
-        private Task InviteDeleteAsync(GatewayDispatchReceivedEventArgs e)
+        public override ValueTask<InviteDeletedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, InviteDeleteJsonModel model)
         {
-            //return _messageDeletedEvent.InvokeAsync(this, new MessageDeletedEventArgs());
-            return Task.CompletedTask;
+            var e = new InviteDeletedEventArgs(model.GuildId, model.ChannelId, model.Code);
+            return new(e);
         }
     }
 }

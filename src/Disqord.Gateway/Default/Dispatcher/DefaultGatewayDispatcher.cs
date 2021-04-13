@@ -86,6 +86,9 @@ namespace Disqord.Gateway.Default
                 ["GUILD_ROLE_UPDATE"] = new GuildRoleUpdateHandler(),
                 ["GUILD_ROLE_DELETE"] = new GuildRoleDeleteHandler(),
 
+                ["INVITE_CREATE"] = new InviteCreateHandler(),
+                ["INVITE_DELETE"] = new InviteDeleteHandler(),
+
                 ["MESSAGE_CREATE"] = new MessageCreateHandler(),
                 ["MESSAGE_UPDATE"] = new MessageUpdateHandler(),
                 ["MESSAGE_DELETE"] = new MessageDeleteHandler(),

@@ -8,19 +8,9 @@ namespace Disqord
     public interface IInviteMetadata : IEntity
     {
         /// <summary>
-        ///     Gets when this invite was created.
+        ///     Gets the current uses of this invite.
         /// </summary>
-        DateTimeOffset CreatedAt { get; }
-
-        /// <summary>
-        ///     Gets the user who created this invite.
-        /// </summary>
-        IUser Inviter { get; }
-
-        /// <summary>
-        ///     Gets the maximum age of this invite.
-        /// </summary>
-        TimeSpan MaxAge { get; }
+        int Uses { get; }
 
         /// <summary>
         ///     Gets the maximum uses of this invite.
@@ -28,13 +18,18 @@ namespace Disqord
         int MaxUses { get; }
 
         /// <summary>
-        ///     Gets the current uses of this invite.
+        ///     Gets the maximum age of this invite.
         /// </summary>
-        int Uses { get; }
+        TimeSpan MaxAge { get; }
 
         /// <summary>
         ///     Gets whether this invite is temporary membership only.
         /// </summary>
         bool IsTemporaryMembership { get; }
+
+        /// <summary>
+        ///     Gets when this invite was created.
+        /// </summary>
+        DateTimeOffset CreatedAt { get; }
     }
 }

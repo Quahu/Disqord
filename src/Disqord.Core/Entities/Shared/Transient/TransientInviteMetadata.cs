@@ -7,18 +7,6 @@ namespace Disqord
     {
         public DateTimeOffset CreatedAt => Model.CreatedAt.Value;
 
-        public IUser Inviter
-        {
-            get
-            {
-                if (_inviter == null)
-                    _inviter = new TransientUser(Client, Model.Inviter.Value);
-
-                return _inviter;
-            }
-        }
-        private IUser _inviter;
-
         public TimeSpan MaxAge => TimeSpan.FromSeconds(Model.MaxAge.Value);
 
         public int MaxUses => Model.MaxUses.Value;

@@ -98,6 +98,16 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<RoleDeletedEventArgs> RoleDeleted;
 
         /// <summary>
+        ///     Fires when an invite is created.
+        /// </summary>
+        event AsynchronousEventHandler<InviteCreatedEventArgs> InviteCreated;
+
+        /// <summary>
+        ///     Fires when an invite is deleted.
+        /// </summary>
+        event AsynchronousEventHandler<InviteDeletedEventArgs> InviteDeleted;
+
+        /// <summary>
         ///     Fires when a message is received.
         /// </summary>
         event AsynchronousEventHandler<MessageReceivedEventArgs> MessageReceived;

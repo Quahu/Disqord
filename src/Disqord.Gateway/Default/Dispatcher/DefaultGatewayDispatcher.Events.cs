@@ -42,6 +42,10 @@ namespace Disqord.Gateway.Default
 
         public AsynchronousEvent<RoleDeletedEventArgs> RoleDeletedEvent { get; } = new();
 
+        public AsynchronousEvent<InviteCreatedEventArgs> InviteCreatedEvent { get; } = new();
+
+        public AsynchronousEvent<InviteDeletedEventArgs> InviteDeletedEvent { get; } = new();
+
         public AsynchronousEvent<MessageReceivedEventArgs> MessageReceivedEvent { get; } = new();
 
         public AsynchronousEvent<MessageUpdatedEventArgs> MessageUpdatedEvent { get; } = new();
