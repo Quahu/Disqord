@@ -34,7 +34,7 @@ namespace Disqord.Gateway
         public static CachedRole GetRole(this IMember member, Snowflake roleId)
         {
             var client = member.GetGatewayClient();
-            if (!member.RoleIds.Any(x => x == roleId))
+            if (!member.RoleIds.Any(x => x == roleId) && roleId != member.GuildId)
                 return null;
 
             return client.GetRole(member.GuildId, roleId);
@@ -58,11 +58,11 @@ namespace Disqord.Gateway
         public static IReadOnlyDictionary<Snowflake, CachedRole> GetRoles(this IMember member, bool skipUncached = true)
         {
             var client = member.GetGatewayClient();
-            var roleIds = member.RoleIds;
             if (!client.CacheProvider.TryGetRoles(member.GuildId, out var cache, true))
                 throw new InvalidOperationException("The role cache must be enabled.");
 
-            var roles = new Dictionary<Snowflake, CachedRole>(member.RoleIds.Count);
+            var roleIds = member.RoleIds;
+            var roles = new Dictionary<Snowflake, CachedRole>(roleIds.Count);
             for (var i = 0; i < roleIds.Count; i++)
             {
                 var roleId = roleIds[i];
@@ -76,6 +76,7 @@ namespace Disqord.Gateway
                 }
             }
 
+            roles.Add(member.GuildId, cache[member.GuildId]);
             return roles.ReadOnly();
         }
 
