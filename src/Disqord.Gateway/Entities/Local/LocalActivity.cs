@@ -1,8 +1,6 @@
-﻿using Disqord.Entities.Local;
-
-namespace Disqord.Gateway
+﻿namespace Disqord.Gateway
 {
-    public class LocalActivity : ILocalEntity
+    public class LocalActivity
     {
         public string Name { get; }
 
