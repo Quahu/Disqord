@@ -12,6 +12,8 @@ namespace Disqord
 
         public TransientSystemMessage(IClient client, MessageJsonModel model)
             : base(client, model)
-        { }
+        {
+            Type = (SystemMessageType) (model.Type - 1);
+        }
     }
 }
