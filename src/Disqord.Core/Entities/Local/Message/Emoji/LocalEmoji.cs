@@ -1,12 +1,13 @@
 ﻿using System;
-using Disqord.Entities.Local;
 using Disqord.Models;
 
 namespace Disqord
 {
-    public class LocalEmoji : ILocalEntity, IEmoji
+    public class LocalEmoji : IEmoji
     {
         public string Name { get; }
+
+        IClient IEntity.Client => throw new NotSupportedException("A local emoji is not bound to a client.");
 
         public LocalEmoji(string unicode)
         {

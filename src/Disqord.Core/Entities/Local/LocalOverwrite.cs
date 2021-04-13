@@ -1,10 +1,9 @@
 ﻿using System;
-using Disqord.Entities.Local;
 using Disqord.Models;
 
 namespace Disqord
 {
-    public sealed class LocalOverwrite : ILocalEntity, IOverwrite
+    public sealed class LocalOverwrite : IOverwrite
     {
         public Snowflake TargetId { get; }
 
@@ -12,6 +11,7 @@ namespace Disqord
 
         public OverwriteTargetType TargetType { get; }
 
+        IClient IEntity.Client => throw new NotSupportedException("A local overwrite is not bound to a client.");
         Snowflake IChannelEntity.ChannelId => throw new NotSupportedException("A local overwrite is not bound to a channel.");
 
         public LocalOverwrite(Snowflake targetId, OverwriteTargetType targetType, OverwritePermissions permissions)
