@@ -68,6 +68,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 
                 Client.CacheProvider.TryRemoveCache<CachedGuildChannel>(model.Id, out _);
                 Client.CacheProvider.TryRemoveCache<CachedRole>(model.Id, out _);
+                Client.CacheProvider.TryRemoveCache<CachedVoiceState>(model.Id, out _);
 
                 if (guild == null)
                 {

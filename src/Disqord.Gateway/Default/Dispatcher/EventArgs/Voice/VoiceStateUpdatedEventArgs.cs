@@ -4,11 +4,40 @@ namespace Disqord.Gateway
 {
     public class VoiceStateUpdatedEventArgs : EventArgs
     {
-        public IVoiceState VoiceState { get; }
+        /// <summary>
+        ///     Gets the ID of the guild in which the update occurred.
+        /// </summary>
+        public Snowflake GuildId => NewVoiceState.GuildId;
 
-        public VoiceStateUpdatedEventArgs(IVoiceState voiceState)
+        /// <summary>
+        ///     Gets the ID of the member for which the update occurred.
+        /// </summary>
+        public Snowflake MemberId => NewVoiceState.MemberId;
+
+        /// <summary>
+        ///     Gets the member for which the update occurred.
+        /// </summary>
+        public IMember Member { get; }
+
+        /// <summary>
+        ///     Gets the voice state in the state before the update occurred.
+        ///     Returns <see langword="null"/> if the voice state was not cached.
+        /// </summary>
+        public CachedVoiceState OldVoiceState { get; }
+
+        /// <summary>
+        ///     Gets the updated voice state.
+        /// </summary>
+        public IVoiceState NewVoiceState { get; }
+
+        public VoiceStateUpdatedEventArgs(
+            IMember member,
+            CachedVoiceState oldVoiceState,
+            IVoiceState newVoiceState)
         {
-            VoiceState = voiceState;
+            Member = member;
+            OldVoiceState = oldVoiceState;
+            NewVoiceState = newVoiceState;
         }
     }
 }

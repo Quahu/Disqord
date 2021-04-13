@@ -14,7 +14,7 @@ namespace Disqord.Gateway
 
         int MemberCount { get; }
 
-        //IReadOnlyList<> VoiceStates { get; }
+        IReadOnlyDictionary<Snowflake, IVoiceState> VoiceStates { get; }
 
         IReadOnlyDictionary<Snowflake, IMember> Members { get; }
 

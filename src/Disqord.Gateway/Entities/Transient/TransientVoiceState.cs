@@ -1,4 +1,5 @@
-﻿using Disqord.Gateway.Api.Models;
+﻿using System;
+using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway
 {
@@ -24,10 +25,10 @@ namespace Disqord.Gateway
 
         public bool IsTransmittingVideo => Model.SelfVideo;
 
+        public DateTimeOffset? RequestedToSpeakAt => Model.RequestToSpeakTimestamp;
+
         public TransientVoiceState(IClient client, VoiceStateJsonModel model)
             : base(client, model)
-        {
-
-        }
+        { }
     }
 }

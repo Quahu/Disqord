@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Gateway.Api.Models
@@ -40,5 +41,8 @@ namespace Disqord.Gateway.Api.Models
 
         [JsonProperty("suppress")]
         public bool Suppress;
+
+        [JsonProperty("request_to_speak_timestamp")]
+        public DateTimeOffset? RequestToSpeakTimestamp;
     }
 }

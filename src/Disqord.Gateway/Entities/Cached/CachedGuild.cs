@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Disqord.Collections;
@@ -92,7 +92,7 @@ namespace Disqord.Gateway
         // TODO: track member count
         public int MemberCount { get; private set; }
 
-        public IReadOnlyDictionary<Snowflake, IMember> Members        
+        public IReadOnlyDictionary<Snowflake, IMember> Members
         {
             get
             {
@@ -111,6 +111,17 @@ namespace Disqord.Gateway
                     return new ReadOnlyUpcastingDictionary<Snowflake, CachedGuildChannel, IGuildChannel>(cache.ReadOnly());
 
                 return ReadOnlyDictionary<Snowflake, IGuildChannel>.Empty;
+            }
+        }
+
+        public IReadOnlyDictionary<Snowflake, IVoiceState> VoiceStates
+        {
+            get
+            {
+                if (Client.CacheProvider.TryGetVoiceStates(Id, out var cache, true))
+                    return new ReadOnlyUpcastingDictionary<Snowflake, CachedVoiceState, IVoiceState>(cache.ReadOnly());
+
+                return ReadOnlyDictionary<Snowflake, IVoiceState>.Empty;
             }
         }
 

@@ -11,8 +11,19 @@ namespace Disqord.Gateway.Default
         /// </summary>
         public virtual int MessagesPerChannel { get; set; } = 100;
 
-        public virtual IEnumerable<Type> SupportedTypes { get; set; } = new[] { typeof(CachedSharedUser), typeof(CachedGuild) };
+        public virtual IEnumerable<Type> SupportedTypes { get; set; } = new[]
+        {
+            typeof(CachedSharedUser),
+            typeof(CachedGuild)
+        };
 
-        public virtual IEnumerable<Type> SupportedNestedTypes { get; set; } = new[] { typeof(CachedMember), typeof(CachedGuildChannel), typeof(CachedRole), typeof(CachedUserMessage) };
+        public virtual IEnumerable<Type> SupportedNestedTypes { get; set; } = new[]
+        {
+            typeof(CachedMember),
+            typeof(CachedGuildChannel),
+            typeof(CachedRole),
+            typeof(CachedVoiceState),
+            typeof(CachedUserMessage)
+        };
     }
 }

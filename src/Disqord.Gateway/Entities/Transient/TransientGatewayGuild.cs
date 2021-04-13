@@ -16,6 +16,18 @@ namespace Disqord
 
         public int MemberCount => Model.MemberCount;
 
+        public IReadOnlyDictionary<Snowflake, IVoiceState> VoiceStates
+        {
+            get
+            {
+                if (_voiceStates == null)
+                    _voiceStates = Model.VoiceStates.ToReadOnlyDictionary(Client, (x, _) => x.UserId, (x, client) => new TransientVoiceState(client, x) as IVoiceState);
+
+                return _voiceStates;
+            }
+        }
+        private IReadOnlyDictionary<Snowflake, IVoiceState> _voiceStates;
+
         public IReadOnlyDictionary<Snowflake, IMember> Members
         {
             get

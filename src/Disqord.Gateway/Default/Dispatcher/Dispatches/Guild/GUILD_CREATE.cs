@@ -50,7 +50,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                         foreach (var memberModel in model.Members)
                             Dispatcher.GetOrAddMember(model.Id, memberModel);
                     }
-                    
+
                     if (CacheProvider.TryGetChannels(model.Id, out var channelCache))
                     {
                         foreach (var channelModel in model.Channels)
@@ -81,6 +81,23 @@ namespace Disqord.Gateway.Default.Dispatcher
                             {
                                 var role = roleCache.GetValueOrDefault(roleModel.Id);
                                 role?.Update(roleModel);
+                            }
+                        }
+                    }
+
+                    if (CacheProvider.TryGetVoiceStates(model.Id, out var voiceStateCache))
+                    {
+                        foreach (var voiceStateModel in model.VoiceStates)
+                        {
+                            if (isPending)
+                            {
+                                var voiceState = new CachedVoiceState(Client, model.Id, voiceStateModel);
+                                voiceStateCache.Add(voiceState.Id, voiceState);
+                            }
+                            else
+                            {
+                                var voiceState = voiceStateCache.GetValueOrDefault(voiceStateModel.UserId);
+                                voiceState?.Update(voiceStateModel);
                             }
                         }
                     }
@@ -116,7 +133,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 {
                     guild = new TransientGatewayGuild(Client, model);
                 }
-                
+
                 // TODO: optimise member cache retrieval
                 if (CacheProvider.TryGetMembers(model.Id, out var memberCache))
                 {

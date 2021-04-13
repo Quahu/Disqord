@@ -1,9 +1,12 @@
-﻿namespace Disqord.Gateway
+﻿using System;
+using Disqord.Gateway.Api.Models;
+
+namespace Disqord.Gateway
 {
     /// <summary>
     ///     Represents the voice state of a member.
     /// </summary>
-    public interface IVoiceState : IGuildEntity
+    public interface IVoiceState : IGuildEntity, IJsonUpdatable<VoiceStateJsonModel>
     {
         /// <summary>
         ///     Gets the voice channel ID the member is connected to.
@@ -50,5 +53,10 @@
         ///     Gets whether the member is transmitting camera feed.
         /// </summary>
         bool IsTransmittingVideo { get; }
+
+        /// <summary>
+        ///     Gets when the member requested to speak.
+        /// </summary>
+        DateTimeOffset? RequestedToSpeakAt { get; }
     }
 }
