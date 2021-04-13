@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Disqord.Collections;
@@ -170,6 +170,8 @@ namespace Disqord.Gateway
 
             if (model.Unavailable.HasValue)
                 IsUnavailable = model.Unavailable.Value;
+
+            MemberCount = model.MemberCount;
 
             Update(model as GuildJsonModel);
         }
