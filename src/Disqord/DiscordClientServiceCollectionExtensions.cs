@@ -2,9 +2,7 @@
 using Disqord.DependencyInjection.Extensions;
 using Disqord.Extensions.Interactivity;
 using Disqord.Gateway;
-using Disqord.Gateway.Api;
 using Disqord.Rest;
-using Disqord.Rest.Api;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Disqord
@@ -23,25 +21,8 @@ namespace Disqord
             }
 
             services.AddInteractivity();
-            services.AddDiscordApiClient();
             services.AddGatewayClient();
             services.AddRestClient();
-
-            return services;
-        }
-
-        public static IServiceCollection AddDiscordApiClient(this IServiceCollection services, Action<DiscordApiClientConfiguration> configure = null)
-        {
-            if (services.TryAddSingleton<DiscordApiClient>())
-            {
-                services.AddOptions<DiscordApiClientConfiguration>();
-
-                if (configure != null)
-                    services.Configure(configure);
-            }
-
-            services.AddGatewayApiClient();
-            services.AddRestApiClient();
 
             return services;
         }

@@ -27,9 +27,6 @@ namespace Disqord
 
         public ICurrentUser CurrentUser => GatewayClient.CurrentUser;
 
-        /// <inheritdoc cref="IClient.ApiClient"/>
-        public DiscordApiClient ApiClient { get; }
-
         /// <summary>
         ///     Gets the <see cref="CancellationToken"/> passed to <see cref="RunAsync(CancellationToken)"/>.
         ///     This is set by implementations of this type.
@@ -49,7 +46,7 @@ namespace Disqord
 
         private readonly Dictionary<Type, DiscordClientExtension> _extensions;
 
-        IApiClient IClient.ApiClient => ApiClient;
+        IApiClient IClient.ApiClient => RestClient.ApiClient;
         IGatewayApiClient IGatewayClient.ApiClient => GatewayClient.ApiClient;
         IRestApiClient IRestClient.ApiClient => RestClient.ApiClient;
         IGatewayDispatcher IGatewayClient.Dispatcher => GatewayClient.Dispatcher;
@@ -62,19 +59,16 @@ namespace Disqord
         /// <param name="logger"> The logger of this client. </param>
         /// <param name="restClient"> The REST client to wrap. </param>
         /// <param name="gatewayClient"> The gateway client to wrap. </param>
-        /// <param name="apiClient"> The API client of this client. </param>
         /// <param name="extensions"> The extensions to use. </param>
         protected DiscordClientBase(
             ILogger logger,
             IRestClient restClient,
             IGatewayClient gatewayClient,
-            DiscordApiClient apiClient,
             IEnumerable<DiscordClientExtension> extensions)
         {
             Logger = logger;
             RestClient = restClient;
             GatewayClient = gatewayClient;
-            ApiClient = apiClient;
             _extensions = extensions.ToDictionary(x => x.GetType(), x => x);
 
             // Binds `this` to the dispatcher, where `this` is the DiscordClientBase.
@@ -94,7 +88,6 @@ namespace Disqord
             Logger = logger;
             RestClient = client.RestClient;
             GatewayClient = client.GatewayClient;
-            ApiClient = client.ApiClient;
             _extensions = client._extensions;
 
             // Binds `this` to the dispatcher, where `this` is the client implementing DiscordBotBase,

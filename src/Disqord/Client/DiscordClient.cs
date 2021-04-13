@@ -19,9 +19,8 @@ namespace Disqord
             ILogger<DiscordClient> logger,
             IRestClient restClient,
             IGatewayClient gatewayClient,
-            DiscordApiClient apiClient,
             IEnumerable<DiscordClientExtension> extensions)
-            : base(logger, restClient, gatewayClient, apiClient, extensions)
+            : base(logger, restClient, gatewayClient, extensions)
         { }
 
         /// <inheritdoc/>

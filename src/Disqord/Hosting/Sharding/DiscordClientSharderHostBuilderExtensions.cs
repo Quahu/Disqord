@@ -39,7 +39,6 @@ namespace Disqord.Sharding
                 services.AddSingleton<DiscordClientBase>(x => x.GetRequiredService<DiscordClientSharder>());
 
                 services.AddInteractivity();
-                services.AddDiscordApiClient();
                 services.AddGatewayClient();
                 services.AddRestClient();
 

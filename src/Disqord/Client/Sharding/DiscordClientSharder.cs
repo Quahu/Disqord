@@ -10,6 +10,7 @@ using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Default;
 using Disqord.Gateway.Default.Dispatcher;
 using Disqord.Rest;
+using Disqord.Rest.Default;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -37,7 +38,7 @@ namespace Disqord.Sharding
             IEnumerable<DiscordClientExtension> extensions,
             IShardFactory shardFactory,
             IServiceProvider services)
-            : base(logger, restClient, gatewayClient, null, extensions)
+            : base(logger, restClient, gatewayClient, extensions)
         {
             if (GatewayClient.Shards is not ISynchronizedDictionary<ShardId, IGatewayApiClient>)
                 throw new InvalidOperationException("The gateway client instance is expected to return a synchronized dictionary of shards.");
@@ -81,7 +82,10 @@ namespace Disqord.Sharding
             }
             else
             {
-                var botGatewayData = await this.FetchBotGatewayDataAsync().ConfigureAwait(false);
+                var botGatewayData = await this.FetchBotGatewayDataAsync(new DefaultRestRequestOptions
+                {
+                    CancellationToken = stoppingToken
+                }).ConfigureAwait(false);
                 Logger.LogDebug("Using Discord's recommended shard count of {0}.", botGatewayData.RecommendedShardCount);
                 for (var i = 0; i < botGatewayData.RecommendedShardCount; i++)
                 {
