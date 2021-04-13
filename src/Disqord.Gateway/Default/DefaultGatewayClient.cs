@@ -46,7 +46,7 @@ namespace Disqord.Gateway.Default
                 ApiClient = apiClient;
                 Shards = new Dictionary<ShardId, IGatewayApiClient>(1)
                 {
-                    [ShardId.Default] = ApiClient
+                    [new ShardId(0, 1)] = ApiClient
                 }.ReadOnly();
 
                 ApiClient.DispatchReceived += Dispatcher.HandleDispatchAsync;

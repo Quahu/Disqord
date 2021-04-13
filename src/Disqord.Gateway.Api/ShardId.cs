@@ -74,7 +74,7 @@ namespace Disqord.Gateway.Api
             => Count != 0
             ? Count != -1
                 ? $"Shard {Id + 1} (#{Id}) of {Count}"
-                : "<default shard ID>"
+                : $"Shard {Id + 1} (#{Id})"
             : "<invalid shard ID>";
 
         public static bool operator ==(ShardId left, ShardId right)
