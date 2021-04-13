@@ -11,19 +11,31 @@ namespace Disqord.Gateway.Default.Dispatcher
             if (!model.GuildId.HasValue)
                 return new(result: null);
 
-            CachedVoiceState oldVoiceState;
-            IVoiceState newVoiceState;
-            if (CacheProvider.TryGetVoiceStates(model.GuildId.Value, out var cache) && cache.TryGetValue(model.UserId, out var voiceState))
+            CachedVoiceState oldVoiceState = null;
+            IVoiceState newVoiceState = null;
+            if (CacheProvider.TryGetVoiceStates(model.GuildId.Value, out var cache))
             {
-                newVoiceState = voiceState;
-                oldVoiceState = voiceState.Clone() as CachedVoiceState;
-                newVoiceState.Update(model);
+                if (model.ChannelId != null)
+                {
+                    if (cache.TryGetValue(model.UserId, out var voiceState))
+                    {
+                        newVoiceState = voiceState;
+                        oldVoiceState = voiceState.Clone() as CachedVoiceState;
+                        newVoiceState.Update(model);
+                    }
+                    else
+                    {
+                        newVoiceState = new CachedVoiceState(Client, model.GuildId.Value, model);
+                        cache.Add(model.UserId, newVoiceState as CachedVoiceState);
+                    }
+                }
+                else
+                {
+                    cache.TryRemove(model.UserId, out oldVoiceState);
+                }
             }
-            else
-            {
-                oldVoiceState = null;
-                newVoiceState = new TransientVoiceState(Client, model);
-            }
+
+            newVoiceState ??= new TransientVoiceState(Client, model);
 
             IMember member = Dispatcher.GetOrAddMember(model.GuildId.Value, model.Member.Value);
             if (member == null)
