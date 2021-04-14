@@ -53,6 +53,14 @@ namespace Disqord.Gateway
             return null;
         }
 
+        public static CachedVoiceState GetVoiceState(this IGatewayClient client, Snowflake guildId, Snowflake voiceStateId)
+        {
+            if (client.CacheProvider.TryGetVoiceStates(guildId, out var cache, true))
+                return cache.GetValueOrDefault(voiceStateId);
+
+            return null;
+        }
+
         public static CachedUserMessage GetMessage(this IGatewayClient client, Snowflake channelId, Snowflake messageId)
         {
             if (client.CacheProvider.TryGetMessages(channelId, out var cache, true))

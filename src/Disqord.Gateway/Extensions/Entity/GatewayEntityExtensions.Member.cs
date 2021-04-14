@@ -122,5 +122,19 @@ namespace Disqord.Gateway
         /// </returns>
         public static ChannelPermissions GetChannelPermissions(this IMember member, IGuild guild, IGuildChannel channel, IEnumerable<IRole> roles)
             => Discord.Permissions.CalculatePermissions(guild, channel, member, roles);
+
+        /// <summary>
+        ///     Gets the cached voice state for the specified member.
+        ///     Returns <see langword="null"/> if the voice state is not cached.
+        /// </summary>
+        /// <param name="member"> The member to get the voice state for. </param>
+        /// <returns>
+        ///     The cached voice state for this member.
+        /// </returns>
+        public static CachedVoiceState GetVoiceState(this IMember member)
+        {
+            var client = member.GetGatewayClient();
+            return client.GetVoiceState(member.GuildId, member.Id);
+        }
     }
 }
