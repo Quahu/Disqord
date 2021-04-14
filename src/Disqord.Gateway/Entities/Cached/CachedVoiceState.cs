@@ -32,6 +32,8 @@ namespace Disqord.Gateway
             : base(client, model.UserId)
         {
             GuildId = guildId;
+
+            Update(model);
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
