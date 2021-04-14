@@ -29,6 +29,23 @@ namespace Disqord.Gateway
             return ReadOnlyDictionary<Snowflake, CachedGuild>.Empty;
         }
 
+
+        public static CachedGuildChannel GetChannel(this IGatewayClient client, Snowflake guildId, Snowflake channelId)
+        {
+            if (client.CacheProvider.TryGetChannels(guildId, out var cache, true))
+                return cache.GetValueOrDefault(channelId);
+
+            return null;
+        }
+
+        public static IReadOnlyDictionary<Snowflake, CachedGuildChannel> GetChannels(this IGatewayClient client, Snowflake guildId)
+        {
+            if (client.CacheProvider.TryGetChannels(guildId, out var cache, true))
+                return cache.ReadOnly();
+
+            return ReadOnlyDictionary<Snowflake, CachedGuildChannel>.Empty;
+        }
+
         public static CachedMember GetMember(this IGatewayClient client, Snowflake guildId, Snowflake memberId)
         {
             if (client.CacheProvider.TryGetMembers(guildId, out var cache, true))
@@ -37,12 +54,12 @@ namespace Disqord.Gateway
             return null;
         }
 
-        public static CachedGuildChannel GetChannel(this IGatewayClient client, Snowflake guildId, Snowflake channelId)
+        public static IReadOnlyDictionary<Snowflake, CachedMember> GetMembers(this IGatewayClient client, Snowflake guildId)
         {
-            if (client.CacheProvider.TryGetChannels(guildId, out var cache, true))
-                return cache.GetValueOrDefault(channelId);
+            if (client.CacheProvider.TryGetMembers(guildId, out var cache, true))
+                return cache.ReadOnly();
 
-            return null;
+            return ReadOnlyDictionary<Snowflake, CachedMember>.Empty;
         }
 
         public static CachedRole GetRole(this IGatewayClient client, Snowflake guildId, Snowflake roleId)
@@ -53,12 +70,28 @@ namespace Disqord.Gateway
             return null;
         }
 
-        public static CachedVoiceState GetVoiceState(this IGatewayClient client, Snowflake guildId, Snowflake voiceStateId)
+        public static IReadOnlyDictionary<Snowflake, CachedRole> GetRoles(this IGatewayClient client, Snowflake guildId)
+        {
+            if (client.CacheProvider.TryGetRoles(guildId, out var cache, true))
+                return cache.ReadOnly();
+
+            return ReadOnlyDictionary<Snowflake, CachedRole>.Empty;
+        }
+
+        public static CachedVoiceState GetVoiceState(this IGatewayClient client, Snowflake guildId, Snowflake memberId)
         {
             if (client.CacheProvider.TryGetVoiceStates(guildId, out var cache, true))
-                return cache.GetValueOrDefault(voiceStateId);
+                return cache.GetValueOrDefault(memberId);
 
             return null;
+        }
+
+        public static IReadOnlyDictionary<Snowflake, CachedVoiceState> GetVoiceStates(this IGatewayClient client, Snowflake guildId)
+        {
+            if (client.CacheProvider.TryGetVoiceStates(guildId, out var cache, true))
+                return cache.ReadOnly();
+
+            return ReadOnlyDictionary<Snowflake, CachedVoiceState>.Empty;
         }
 
         public static CachedUserMessage GetMessage(this IGatewayClient client, Snowflake channelId, Snowflake messageId)
@@ -67,6 +100,14 @@ namespace Disqord.Gateway
                 return cache.GetValueOrDefault(messageId);
 
             return null;
+        }
+
+        public static IReadOnlyDictionary<Snowflake, CachedUserMessage> GetMessages(this IGatewayClient client, Snowflake channelId)
+        {
+            if (client.CacheProvider.TryGetMessages(channelId, out var cache, true))
+                return cache.ReadOnly();
+
+            return ReadOnlyDictionary<Snowflake, CachedUserMessage>.Empty;
         }
     }
 }

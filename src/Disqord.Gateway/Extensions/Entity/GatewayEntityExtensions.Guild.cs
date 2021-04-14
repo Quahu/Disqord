@@ -30,8 +30,8 @@ namespace Disqord.Gateway
         public static IReadOnlyDictionary<Snowflake, CachedGuildChannel> GetChannels(this IGuild guild)
         {
             var client = guild.GetGatewayClient();
-            if (client.CacheProvider.TryGetChannels(guild.Id, out var channelCache, true))
-                return channelCache.ReadOnly();
+            if (client.CacheProvider.TryGetChannels(guild.Id, out var cache, true))
+                return cache.ReadOnly();
 
             return ReadOnlyDictionary<Snowflake, CachedGuildChannel>.Empty;
         }
@@ -41,7 +41,7 @@ namespace Disqord.Gateway
         ///     Returns <see langword="null"/> if the member is not cached.
         /// </summary>
         /// <param name="guild"> The guild to get the member for. </param>
-        /// <param name="channelId"> The ID of the member to get. </param>
+        /// <param name="memberId"> The ID of the member to get. </param>
         /// <returns>
         ///     A cached member from this guild.
         /// </returns>
@@ -61,10 +61,41 @@ namespace Disqord.Gateway
         public static IReadOnlyDictionary<Snowflake, CachedMember> GetMembers(this IGuild guild)
         {
             var client = guild.GetGatewayClient();
-            if (client.CacheProvider.TryGetMembers(guild.Id, out var channelCache, true))
-                return channelCache.ReadOnly();
+            if (client.CacheProvider.TryGetMembers(guild.Id, out var cache, true))
+                return cache.ReadOnly();
 
             return ReadOnlyDictionary<Snowflake, CachedMember>.Empty;
+        }
+
+        /// <summary>
+        ///     Gets a cached voice state from the specified guild.
+        ///     Returns <see langword="null"/> if the voice state is not cached.
+        /// </summary>
+        /// <param name="guild"> The guild to get the voice state for. </param>
+        /// <param name="memberId"> The ID of the member to get the voice state for. </param>
+        /// <returns>
+        ///     A cached voice state from this guild.
+        /// </returns>
+        public static CachedVoiceState GetVoiceState(this IGuild guild, Snowflake memberId)
+        {
+            var client = guild.GetGatewayClient();
+            return client.GetVoiceState(guild.Id, memberId);
+        }
+
+        /// <summary>
+        ///     Gets all cached voice states for the specified guild.
+        /// </summary>
+        /// <param name="guild"> The guild to get the voice states for. </param>
+        /// <returns>
+        ///     A dictionary of cached voice states for this guild keyed by <see cref="IVoiceState.MemberId"/>.
+        /// </returns>
+        public static IReadOnlyDictionary<Snowflake, CachedVoiceState> GetVoiceStates(this IGuild guild)
+        {
+            var client = guild.GetGatewayClient();
+            if (client.CacheProvider.TryGetVoiceStates(guild.Id, out var cache, true))
+                return cache.ReadOnly();
+
+            return ReadOnlyDictionary<Snowflake, CachedVoiceState>.Empty;
         }
     }
 }
