@@ -29,13 +29,13 @@ namespace Disqord.Rest
             return client.DeleteWebhookAsync(webhook.Id, webhook.Token, options);
         }
 
-        public static Task ExecuteAsync(this IWebhook webhook, LocalWebhookMessage message, bool wait = false, IRestRequestOptions options = null)
+        public static Task<IUserMessage> ExecuteAsync(this IWebhook webhook, LocalWebhookMessage message, bool wait = false, IRestRequestOptions options = null)
         {
             var client = webhook.GetRestClient();
             return client.ExecuteWebhookAsync(webhook.Id, webhook.Token, message, wait, options);
         }
 
-        public static Task ModifyMessageAsync(this IWebhook webhook, Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action, IRestRequestOptions options = null)
+        public static Task<IUserMessage> ModifyMessageAsync(this IWebhook webhook, Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action, IRestRequestOptions options = null)
         {
             var client = webhook.GetRestClient();
             return client.ModifyWebhookMessageAsync(webhook.Id, webhook.Token, messageId, action, options);

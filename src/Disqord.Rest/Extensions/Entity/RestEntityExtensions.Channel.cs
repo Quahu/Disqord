@@ -176,7 +176,7 @@ namespace Disqord.Rest
         /*
          * Webhooks
          */
-        public static Task CreateWebhookAsync(this IMessageChannel channel, string name, Action<CreateWebhookActionProperties> action = null, IRestRequestOptions options = null)
+        public static Task<IWebhook> CreateWebhookAsync(this IMessageChannel channel, string name, Action<CreateWebhookActionProperties> action = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
             return client.CreateWebhookAsync(channel.Id, name, action, options);
