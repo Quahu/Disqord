@@ -34,26 +34,25 @@ namespace Example
 
         private static void Main(string[] args)
         {
-            var host = new HostBuilder()
-                .ConfigureAppConfiguration(x =>
-                {
-                    // We will use the environment variable DISQORD_TOKEN for the bot token.
-                    x.AddEnvironmentVariables("DISQORD_");
-                })
-                .ConfigureLogging(x =>
-                {
-                    x.AddSimpleConsole();
-                })
-                .ConfigureDiscordBot((context, bot) =>
-                {
-                    bot.Token = context.Configuration["TOKEN"];
-                    bot.UseMentionPrefix = true;
-                    bot.Prefixes = new[] { "?" };
-                })
-                .Build();
-
             try
             {
+                var host = new HostBuilder()
+                    .ConfigureAppConfiguration(x =>
+                    {
+                        // We will use the environment variable DISQORD_TOKEN for the bot token.
+                        x.AddEnvironmentVariables("DISQORD_");
+                    })
+                    .ConfigureLogging(x =>
+                    {
+                        x.AddSimpleConsole();
+                    })
+                    .ConfigureDiscordBot((context, bot) =>
+                    {
+                        bot.Token = context.Configuration["TOKEN"];
+                        bot.Prefixes = new[] { "?" };
+                    })
+                    .Build();
+
                 using (host)
                 {
                     host.Run();
@@ -62,7 +61,6 @@ namespace Example
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                Console.ReadLine();
             }
         }
     }

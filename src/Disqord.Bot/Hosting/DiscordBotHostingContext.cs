@@ -7,7 +7,7 @@ namespace Disqord.Bot.Hosting
     {
         /// <summary>
         ///     Gets or sets whether to allow mentioning the bot as a prefix for command execution.
-        ///     Default to <see langword="true"/>.
+        ///     Defaults to <see langword="true"/>.
         /// </summary>
         /// <remarks>
         ///     This property is ignored if a custom <see cref="IPrefixProvider"/> is registered.
