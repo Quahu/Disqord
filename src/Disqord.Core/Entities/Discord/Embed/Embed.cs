@@ -51,7 +51,7 @@ namespace Disqord
             Provider = Optional.ConvertOrDefault(model.Provider, x => new EmbedProvider(x));
             Footer = Optional.ConvertOrDefault(model.Footer, x => new EmbedFooter(x));
             Author = Optional.ConvertOrDefault(model.Author, x => new EmbedAuthor(x));
-            Fields = Optional.ConvertOrDefault(model.Fields, x => x.ToReadOnlyList(y => new EmbedField(y)));
+            Fields = Optional.ConvertOrDefault(model.Fields, x => x.ToReadOnlyList(y => new EmbedField(y)), Array.Empty<EmbedField>());
         }
     }
 }
