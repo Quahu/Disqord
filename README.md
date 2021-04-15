@@ -11,7 +11,7 @@
 </div>
 
 ## Installation
-Nightly Disqord builds can pulled as NuGet packages from the MyGet feed: `https://www.myget.org/F/disqord/api/v3/index.json`.
+Nightly Disqord builds can be pulled as NuGet packages from the MyGet feed: `https://www.myget.org/F/disqord/api/v3/index.json`.
 
 ## Provisional Example
 Typing `?ping` or `@YourBot ping` in a channel will make the bot respond with `Pong!`.
