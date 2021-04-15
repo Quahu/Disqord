@@ -8,7 +8,7 @@ namespace Disqord.Gateway
 {
     public static class GatewayServiceCollectionExtensions
     {
-        public static IServiceCollection AddGatewayClient(this IServiceCollection services, Action<DefaultGatewayClientConfiguration> action = null)
+        public static IServiceCollection AddGatewayClient(this IServiceCollection services, ServiceLifetime apiLifetime = ServiceLifetime.Singleton, Action<DefaultGatewayClientConfiguration> action = null)
         {
             if (services.TryAddSingleton<IGatewayClient, DefaultGatewayClient>())
             {
@@ -18,7 +18,7 @@ namespace Disqord.Gateway
                     services.Configure(action);
             }
 
-            services.AddGatewayApiClient();
+            services.AddGatewayApiClient(apiLifetime);
             services.AddGatewayCacheProvider();
             services.AddGatewayChunker();
             services.AddGatewayDispatcher();
