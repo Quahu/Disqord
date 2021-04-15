@@ -24,6 +24,14 @@ namespace Disqord.DependencyInjection.Extensions
             return null;
         }
 
+        public static bool TryAdd<TService, TImplementation>(this IServiceCollection collection, ServiceLifetime lifetime)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
+            return collection.TryAdd(ServiceDescriptor.Describe(typeof(TService), typeof(TImplementation), lifetime));
+        }
+
         public static bool TryAdd(this IServiceCollection collection, ServiceDescriptor descriptor)
         {
             if (collection == null)

@@ -7,25 +7,25 @@ namespace Disqord.Gateway.Api
 {
     public static class GatewayApiServiceCollectionExtensions
     {
-        public static IServiceCollection AddGatewayApiClient(this IServiceCollection services, Action<DefaultGatewayApiClientConfiguration> action = null)
+        public static IServiceCollection AddGatewayApiClient(this IServiceCollection services, ServiceLifetime lifetime, Action<DefaultGatewayApiClientConfiguration> action = null)
         {
-            if (services.TryAddSingleton<IGatewayApiClient, DefaultGatewayApiClient>())
-            {
-                var options = services.AddOptions<DefaultGatewayApiClientConfiguration>();
-                if (action != null)
-                    options.Configure(action);
-            }
+            if (lifetime == ServiceLifetime.Singleton)
+                services.TryAddSingleton<IGatewayApiClient, DefaultGatewayApiClient>();
 
-            services.AddGatewayRateLimiter();
-            services.AddGatewayHeartbeater();
-            services.AddGateway();
+            var options = services.AddOptions<DefaultGatewayApiClientConfiguration>();
+            if (action != null)
+                options.Configure(action);
+
+            services.AddGatewayRateLimiter(lifetime);
+            services.AddGatewayHeartbeater(lifetime);
+            services.AddGateway(lifetime);
 
             return services;
         }
 
-        public static IServiceCollection AddGatewayRateLimiter(this IServiceCollection services, Action<DefaultGatewayRateLimiterConfiguration> action = null)
+        public static IServiceCollection AddGatewayRateLimiter(this IServiceCollection services, ServiceLifetime lifetime, Action<DefaultGatewayRateLimiterConfiguration> action = null)
         {
-            if (services.TryAddSingleton<IGatewayRateLimiter, DefaultGatewayRateLimiter>())
+            if (services.TryAdd<IGatewayRateLimiter, DefaultGatewayRateLimiter>(lifetime))
             {
                 var options = services.AddOptions<DefaultGatewayRateLimiterConfiguration>();
                 if (action != null)
@@ -35,9 +35,9 @@ namespace Disqord.Gateway.Api
             return services;
         }
 
-        public static IServiceCollection AddGatewayHeartbeater(this IServiceCollection services, Action<DefaultGatewayHeartbeaterConfiguration> action = null)
+        public static IServiceCollection AddGatewayHeartbeater(this IServiceCollection services, ServiceLifetime lifetime, Action<DefaultGatewayHeartbeaterConfiguration> action = null)
         {
-            if (services.TryAddSingleton<IGatewayHeartbeater, DefaultGatewayHeartbeater>())
+            if (services.TryAdd<IGatewayHeartbeater, DefaultGatewayHeartbeater>(lifetime))
             {
                 var options = services.AddOptions<DefaultGatewayHeartbeaterConfiguration>();
                 if (action != null)
@@ -47,9 +47,9 @@ namespace Disqord.Gateway.Api
             return services;
         }
 
-        public static IServiceCollection AddGateway(this IServiceCollection services, Action<DefaultGatewayConfiguration> action = null)
+        public static IServiceCollection AddGateway(this IServiceCollection services, ServiceLifetime lifetime, Action<DefaultGatewayConfiguration> action = null)
         {
-            if (services.TryAddSingleton<IGateway, DefaultGateway>())
+            if (services.TryAdd<IGateway, DefaultGateway>(lifetime))
             {
                 var options = services.AddOptions<DefaultGatewayConfiguration>();
                 if (action != null)
