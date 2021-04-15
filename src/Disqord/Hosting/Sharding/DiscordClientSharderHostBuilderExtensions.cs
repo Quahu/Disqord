@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using Disqord.DependencyInjection.Extensions;
 using Disqord.Extensions.Interactivity;
 using Disqord.Gateway;
 using Disqord.Gateway.Api;
-using Disqord.Gateway.Api.Default;
 using Disqord.Hosting;
 using Disqord.Rest;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,7 +37,7 @@ namespace Disqord.Sharding
                 services.AddSingleton<DiscordClientBase>(x => x.GetRequiredService<DiscordClientSharder>());
 
                 services.AddInteractivity();
-                services.AddGatewayClient();
+                services.AddGatewayClient(ServiceLifetime.Scoped);
                 services.AddRestClient();
 
                 if (discordContext is IDiscordClientSharderConfiguration sharderConfiguration)
@@ -49,28 +47,6 @@ namespace Disqord.Sharding
                         x.ShardCount = sharderConfiguration.ShardCount;
                         x.ShardIds = sharderConfiguration.ShardIds;
                     });
-                }
-            }
-
-            var replacements = new Dictionary<Type, Type>
-            {
-                [typeof(IGateway)] = typeof(DefaultGateway),
-                [typeof(IGatewayHeartbeater)] = typeof(DefaultGatewayHeartbeater),
-                [typeof(IGatewayRateLimiter)] = typeof(DefaultGatewayRateLimiter)
-            };
-            for (var i = 0; i < services.Count; i++)
-            {
-                var service = services[i];
-                if (service.ServiceType == typeof(IGatewayApiClient))
-                {
-                    services.RemoveAt(i);
-                    i--;
-                    continue;
-                }
-
-                if (replacements.TryGetValue(service.ServiceType, out var defaultType))
-                {
-                    services[i] = ServiceDescriptor.Scoped(service.ServiceType, defaultType);
                 }
             }
 
