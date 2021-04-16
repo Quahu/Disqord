@@ -92,6 +92,7 @@ namespace Disqord.Gateway.Default
                 ["MESSAGE_CREATE"] = new MessageCreateHandler(),
                 ["MESSAGE_UPDATE"] = new MessageUpdateHandler(),
                 ["MESSAGE_DELETE"] = new MessageDeleteHandler(),
+                ["MESSAGE_DELETE_BULK"] = new MessageDeleteBulkHandler(),
 
                 ["MESSAGE_REACTION_ADD"] = new MessageReactionAddHandler(),
                 ["MESSAGE_REACTION_REMOVE"] = new MessageReactionRemoveHandler(),
