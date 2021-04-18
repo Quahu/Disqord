@@ -57,7 +57,7 @@ namespace Disqord.Models
         public Optional<Snowflake?> ParentId;
 
         [JsonProperty("last_pin_timestamp")]
-        public Optional<DateTimeOffset> LastPinTimestamp;
+        public Optional<DateTimeOffset?> LastPinTimestamp;
         
         [JsonProperty("rtc_region")]
         public Optional<string> RtcRegion;
