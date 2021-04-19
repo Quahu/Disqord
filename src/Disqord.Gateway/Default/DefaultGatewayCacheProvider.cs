@@ -122,7 +122,7 @@ namespace Disqord.Gateway.Default
             {
                 if (shardId.Count <= 1)
                 {
-                    _caches = new(_supportedTypes.Count);
+                    _caches.Clear();
                     foreach (var type in _supportedTypes)
                     {
                         var cacheType = typeof(SynchronizedDictionary<,>).MakeGenericType(typeof(Snowflake), type);
@@ -130,7 +130,7 @@ namespace Disqord.Gateway.Default
                         _caches.Add(type, cache);
                     }
 
-                    _nestedCaches = new(_supportedNestedTypes.Count);
+                    _nestedCaches.Clear();
                     foreach (var type in _supportedNestedTypes)
                     {
                         var cache = new SynchronizedDictionary<Snowflake, object>();
@@ -142,10 +142,7 @@ namespace Disqord.Gateway.Default
                     var guildsCache = _caches[typeof(CachedGuild)] as ISynchronizedDictionary<Snowflake, CachedGuild>;
                     lock (guildsCache)
                     {
-                        var guildIds = shardId != ShardId.Default
-                            ? guildsCache.Keys.Where(x => ShardId.ForGuildId(x, shardId.Count) == shardId).ToArray()
-                            : guildsCache.Keys;
-                        foreach (var guildId in guildIds)
+                        foreach (var guildId in guildsCache.Keys.Where(x => ShardId.ForGuildId(x, shardId.Count) == shardId))
                         {
                             guildsCache.Remove(guildId);
 
@@ -157,6 +154,9 @@ namespace Disqord.Gateway.Default
 
                             if (this.TryGetRoles(guildId, out var roleCache))
                                 roleCache.Clear();
+
+                            if (this.TryGetVoiceStates(guildId, out var voiceStates))
+                                voiceStates.Clear();
                         }
                     }
                 }
