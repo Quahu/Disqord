@@ -24,6 +24,8 @@ namespace Disqord.Gateway.Default
             MessagesPerChannel = configuration.MessagesPerChannel;
             _supportedTypes = configuration.SupportedTypes.ToHashSet();
             _supportedNestedTypes = configuration.SupportedNestedTypes.ToHashSet();
+            _caches = new Dictionary<Type, object>(_supportedTypes.Count);
+            _nestedCaches = new Dictionary<Type, ISynchronizedDictionary<Snowflake, object>>(_supportedNestedTypes.Count);
 
             Reset();
         }
@@ -139,24 +141,26 @@ namespace Disqord.Gateway.Default
                 }
                 else
                 {
-                    var guildsCache = _caches[typeof(CachedGuild)] as ISynchronizedDictionary<Snowflake, CachedGuild>;
-                    lock (guildsCache)
+                    if (_caches.GetValueOrDefault(typeof(CachedGuild)) is ISynchronizedDictionary<Snowflake, CachedGuild> guildsCache)
                     {
-                        foreach (var guildId in guildsCache.Keys.Where(x => ShardId.ForGuildId(x, shardId.Count) == shardId))
+                        lock (guildsCache)
                         {
-                            guildsCache.Remove(guildId);
+                            foreach (var guildId in guildsCache.Keys.Where(x => ShardId.ForGuildId(x, shardId.Count) == shardId))
+                            {
+                                guildsCache.Remove(guildId);
 
-                            if (this.TryGetChannels(guildId, out var channelCache))
-                                channelCache.Clear();
+                                if (this.TryGetChannels(guildId, out var channelCache))
+                                    channelCache.Clear();
 
-                            if (this.TryGetMembers(guildId, out var memberCache))
-                                memberCache.Clear();
+                                if (this.TryGetMembers(guildId, out var memberCache))
+                                    memberCache.Clear();
 
-                            if (this.TryGetRoles(guildId, out var roleCache))
-                                roleCache.Clear();
+                                if (this.TryGetRoles(guildId, out var roleCache))
+                                    roleCache.Clear();
 
-                            if (this.TryGetVoiceStates(guildId, out var voiceStates))
-                                voiceStates.Clear();
+                                if (this.TryGetVoiceStates(guildId, out var voiceStates))
+                                    voiceStates.Clear();
+                            }
                         }
                     }
                 }
