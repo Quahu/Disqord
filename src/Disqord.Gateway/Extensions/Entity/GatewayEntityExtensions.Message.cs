@@ -18,5 +18,15 @@
             var client = message.GetGatewayClient();
             return client.GetChannel(message.GuildId.Value, message.ChannelId) as CachedTextChannel;
         }
+
+        /// <summary>
+        ///     Gets a URL that can be used to jump the specified message in the Discord client.
+        /// </summary>
+        /// <param name="message"> The message to get the jump URL for. </param>
+        /// <returns>
+        ///     The jump URL for the message.
+        /// </returns>
+        public static string GetJumpUrl(this IGatewayMessage message)
+            => Discord.MessageJumpLink(message.GuildId, message.ChannelId, message.Id);
     }
 }
