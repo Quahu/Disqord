@@ -20,10 +20,9 @@ namespace Disqord.Gateway.Default
 
         public IGatewayDispatcher Dispatcher { get; }
 
-        public IGatewayApiClient ApiClient { get; }
-
         public IReadOnlyDictionary<ShardId, IGatewayApiClient> Shards { get; }
 
+        private readonly IGatewayApiClient _apiClient;
         private bool _isDisposed;
 
         public DefaultGatewayClient(
@@ -43,13 +42,13 @@ namespace Disqord.Gateway.Default
 
             if (apiClient != null)
             {
-                ApiClient = apiClient;
+                _apiClient = apiClient;
                 Shards = new Dictionary<ShardId, IGatewayApiClient>(1)
                 {
-                    [new ShardId(0, 1)] = ApiClient
+                    [new ShardId(0, 1)] = apiClient
                 }.ReadOnly();
 
-                ApiClient.DispatchReceived += Dispatcher.HandleDispatchAsync;
+                apiClient.DispatchReceived += Dispatcher.HandleDispatchAsync;
             }
             else
             {
@@ -72,7 +71,7 @@ namespace Disqord.Gateway.Default
 
         public Task RunAsync(Uri uri, CancellationToken cancellationToken)
         {
-            return ApiClient.RunAsync(uri, cancellationToken);
+            return _apiClient?.RunAsync(uri, cancellationToken) ?? throw new InvalidOperationException();
         }
 
         public void Dispose()
@@ -82,11 +81,11 @@ namespace Disqord.Gateway.Default
 
             _isDisposed = true;
 
-            // ApiClient will be null if this is managed by DiscordClientSharder.
-            if (ApiClient != null)
+            // _apiClient will be null if this is managed by DiscordClientSharder.
+            if (_apiClient != null)
             {
-                ApiClient.DispatchReceived -= Dispatcher.HandleDispatchAsync;
-                ApiClient.Dispose();
+                _apiClient.DispatchReceived -= Dispatcher.HandleDispatchAsync;
+                _apiClient.Dispose();
             }
         }
     }
