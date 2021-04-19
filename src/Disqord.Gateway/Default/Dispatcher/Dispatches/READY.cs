@@ -119,6 +119,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 
                     // The task finished meaning all pending guilds were received.
                     // Now depending on the mode we either fire ready straight away or do chunking.
+                    _delays.Remove(shard.Id);
                     switch (Dispatcher.ReadyEventDelayMode)
                     {
                         case ReadyEventDelayMode.Guilds:
@@ -128,7 +129,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                             break;
                         }
 
-                        // TODO: some chunking design
+                        // TODO: some chunking design...?
                     }
 
                     if (InitialReadys.TryGetValue(shard.Id, out var readyTcs))
