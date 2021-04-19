@@ -34,6 +34,7 @@ namespace Disqord.Bot
             Commands.AddTypeParser(new SnowflakeTypeParser());
             Commands.AddTypeParser(new ColorTypeParser());
             Commands.AddTypeParser(new CustomEmojiTypeParser());
+            Commands.AddTypeParser(new GuildEmojiTypeParser());
             Commands.AddTypeParser(new GuildChannelTypeParser<IGuildChannel>());
             Commands.AddTypeParser(new GuildChannelTypeParser<ITextChannel>());
             Commands.AddTypeParser(new GuildChannelTypeParser<IVoiceChannel>());
