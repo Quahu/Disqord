@@ -47,7 +47,7 @@ namespace Disqord.Models
         ///     <para/>
         ///     <see cref="AuditLogActionType.MessagesBulkDeleted"/>
         /// </summary>
-        [JsonProperty("count ")]
+        [JsonProperty("count")]
         public Optional<int> Count;
 
         /// <summary>

@@ -10,10 +10,10 @@ namespace Disqord.Models
         [JsonProperty("users")]
         public UserJsonModel[] Users;
 
-        [JsonProperty("integrations")]
-        public IntegrationJsonModel[] Integrations;
-
         [JsonProperty("audit_log_entries")]
         public AuditLogEntryJsonModel[] AuditLogEntries;
+
+        [JsonProperty("integrations")]
+        public IntegrationJsonModel[] Integrations;
     }
 }

@@ -11,7 +11,7 @@ namespace Disqord.Models
         public Optional<AuditLogChangeJsonModel[]> Changes;
 
         [JsonProperty("user_id")]
-        public Snowflake UserId;
+        public Snowflake? UserId;
 
         [JsonProperty("id")]
         public Snowflake Id;
