@@ -23,7 +23,7 @@ namespace Disqord
 
         public Snowflake OwnerId => Model.OwnerId;
 
-        public string VoiceRegionId => Model.Region;
+        public string VoiceRegion => Model.Region;
 
         public Snowflake? AfkChannelId => Model.AfkChannelId;
 

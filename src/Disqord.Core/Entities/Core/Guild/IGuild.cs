@@ -31,9 +31,9 @@ namespace Disqord
         Snowflake OwnerId { get; }
 
         /// <summary>
-        ///     Gets the voice region ID of this guild.
+        ///     Gets the voice region of this guild.
         /// </summary>
-        string VoiceRegionId { get; }
+        string VoiceRegion { get; }
 
         /// <summary>
         ///     Gets the AFK channel ID of this guild.
