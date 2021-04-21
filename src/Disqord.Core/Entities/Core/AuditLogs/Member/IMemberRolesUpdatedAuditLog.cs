@@ -4,8 +4,8 @@ namespace Disqord.AuditLogs
 {
     public interface IMemberRolesUpdatedAuditLog : IAuditLog
     {
-        Optional<IReadOnlyList<AuditLogRole>> RolesAdded { get; }
+        Optional<IReadOnlyDictionary<Snowflake, string>> RolesGranted { get; }
 
-        Optional<IReadOnlyList<AuditLogRole>> RolesRemoved { get; }
+        Optional<IReadOnlyDictionary<Snowflake, string>> RolesRevoked { get; }
     }
 }

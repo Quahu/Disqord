@@ -14,7 +14,6 @@ namespace Disqord.Rest.Pagination
         ///     A flattened list of <typeparamref name="TEntity"/>s.
         /// </returns>
         public static async Task<IReadOnlyList<TEntity>> FlattenAsync<TEntity>(this IPagedEnumerable<TEntity> source)
-            where TEntity : class
         {
             var list = new List<TEntity>();
             await foreach (var page in source.ConfigureAwait(false))
@@ -24,7 +23,6 @@ namespace Disqord.Rest.Pagination
         }
 
         public static async Task<TEntity> FirstOrDefaultAsync<TEntity>(this IPagedEnumerable<TEntity> source, Predicate<TEntity> predicate)
-            where TEntity : class
         {
             await foreach (var page in source.ConfigureAwait(false))
             {
@@ -36,11 +34,10 @@ namespace Disqord.Rest.Pagination
                 }
             }
 
-            return null;
+            return default;
         }
 
         public static async Task<IReadOnlyList<TEntity>> FirstOrDefaultPageAsync<TEntity>(this IPagedEnumerable<TEntity> source, Predicate<IReadOnlyList<TEntity>> predicate)
-            where TEntity : class
         {
             await foreach (var page in source.ConfigureAwait(false))
             {
@@ -48,7 +45,7 @@ namespace Disqord.Rest.Pagination
                     return page;
             }
 
-            return null;
+            return default;
         }
     }
 }

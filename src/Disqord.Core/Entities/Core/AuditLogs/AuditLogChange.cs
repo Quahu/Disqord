@@ -35,6 +35,17 @@ namespace Disqord.AuditLogs
             return new(oldValue, newValue);
         }
 
+        internal static AuditLogChange<T> Convert<TOld, TState>(AuditLogChangeJsonModel model, TState state, Func<TOld, TState, T> converter)
+        {
+            var oldValue = model.OldValue.HasValue
+                ? converter(model.OldValue.Value.ToType<TOld>(), state)
+                : Optional<T>.Empty;
+            var newValue = model.NewValue.HasValue
+                ? converter(model.NewValue.Value.ToType<TOld>(), state)
+                : Optional<T>.Empty;
+            return new(oldValue, newValue);
+        }
+
         public override string ToString()
             => $"{OldValue} | {NewValue}";
     }

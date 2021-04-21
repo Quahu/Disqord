@@ -2,12 +2,33 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Disqord.AuditLogs;
 using Disqord.Rest.Pagination;
 
 namespace Disqord.Rest
 {
     public static partial class RestEntityExtensions
     {
+        public static IPagedEnumerable<IAuditLog> EnumerateAuditLogs(this IGuild guild, int limit, Snowflake? actorId = null, Snowflake? startFromId = null, IRestRequestOptions options = null)
+            => guild.EnumerateAuditLogs<IAuditLog>(limit, actorId, startFromId, options);
+
+        public static IPagedEnumerable<TAuditLog> EnumerateAuditLogs<TAuditLog>(this IGuild guild, int limit, Snowflake? actorId = null, Snowflake? startFromId = null, IRestRequestOptions options = null)
+            where TAuditLog : IAuditLog
+        {
+            var client = guild.GetRestClient();
+            return client.EnumerateAuditLogs<TAuditLog>(guild.Id, limit, actorId, startFromId, options);
+        }
+
+        public static Task<IReadOnlyList<IAuditLog>> FetchAuditLogsAsync(this IGuild guild, int limit = 100, Snowflake? actorId = null, Snowflake? startFromId = null, IRestRequestOptions options = null)
+            => guild.FetchAuditLogsAsync<IAuditLog>(limit, actorId, startFromId, options);
+
+        public static Task<IReadOnlyList<TAuditLog>> FetchAuditLogsAsync<TAuditLog>(this IGuild guild, int limit = 100, Snowflake? actorId = null, Snowflake? startFromId = null, IRestRequestOptions options = null)
+            where TAuditLog : IAuditLog
+        {
+            var client = guild.GetRestClient();
+            return client.FetchAuditLogsAsync<TAuditLog>(guild.Id, limit, actorId, startFromId, options);
+        }
+
         public static Task LeaveAsync(this IGuild guild, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();

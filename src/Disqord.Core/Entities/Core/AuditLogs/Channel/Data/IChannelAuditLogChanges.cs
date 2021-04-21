@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Disqord.AuditLogs
 {
@@ -10,11 +11,13 @@ namespace Disqord.AuditLogs
 
         AuditLogChange<int> Bitrate { get; }
 
+        AuditLogChange<int> MemberLimit { get; }
+
         AuditLogChange<IReadOnlyList<IOverwrite>> Overwrites { get; }
 
         AuditLogChange<bool> IsNsfw { get; }
 
-        AuditLogChange<int> Slowmode { get; }
+        AuditLogChange<TimeSpan> Slowmode { get; }
 
         AuditLogChange<ChannelType> Type { get; }
     }

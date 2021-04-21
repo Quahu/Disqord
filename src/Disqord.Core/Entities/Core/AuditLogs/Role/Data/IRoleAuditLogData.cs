@@ -1,6 +1,6 @@
 ﻿namespace Disqord.AuditLogs
 {
-    public sealed class IRoleAuditLogData
+    public interface IRoleAuditLogData
     {
         Optional<string> Name { get; }
 
