@@ -12,7 +12,7 @@ namespace Disqord.Gateway.Default.Dispatcher
         protected Handler()
         { }
 
-        public override async Task HandleDispatchAsync(IGatewayApiClient shard, IJsonToken data)
+        public override async ValueTask HandleDispatchAsync(IGatewayApiClient shard, IJsonToken data)
         {
             var model = data.ToType<TModel>();
             var eventArgs = await HandleDispatchAsync(shard, model).ConfigureAwait(false);
@@ -22,21 +22,19 @@ namespace Disqord.Gateway.Default.Dispatcher
             await InvokeEventAsync(eventArgs).ConfigureAwait(false);
         }
 
-        protected Task InvokeEventAsync(TEventArgs eventArgs)
+        protected ValueTask InvokeEventAsync(TEventArgs eventArgs)
         {
             if (Event != null)
             {
                 // This is the case for most handlers - the dispatch maps to a single event.
                 return Event.InvokeAsync(Dispatcher, eventArgs);
             }
-            else
-            {
-                // The dispatch maps to multiple events. We get the event for the type of the event args.
-                if (!_events.TryGetValue(eventArgs.GetType(), out var @event))
-                    throw new InvalidOperationException($"The dispatch handler {GetType()} returned an invalid instance of event args: {eventArgs.GetType()}.");
 
-                return @event.InvokeAsync(Dispatcher, eventArgs);
-            }
+            // The dispatch maps to multiple events. We get the event for the type of the event args.
+            if (!_events.TryGetValue(eventArgs.GetType(), out var @event))
+                throw new InvalidOperationException($"The dispatch handler {GetType()} returned an invalid instance of event args: {eventArgs.GetType()}.");
+
+            return @event.InvokeAsync(Dispatcher, eventArgs);
         }
 
         public abstract ValueTask<TEventArgs> HandleDispatchAsync(IGatewayApiClient shard, TModel model);

@@ -10,7 +10,7 @@ namespace Disqord.Events
     /// <typeparam name="T"> The <see cref="Type"/> of <see cref="EventArgs"/> used by this handler. </typeparam>
     /// <param name="sender"> The instance from which the event came from. </param>
     /// <param name="e"> The <see cref="EventArgs"/> object containing the event data. </param>
-    public delegate Task AsynchronousEventHandler<T>(object sender, T e)
+    public delegate ValueTask AsynchronousEventHandler<T>(object sender, T e)
         where T : EventArgs;
 
     /// <summary>
@@ -23,10 +23,19 @@ namespace Disqord.Events
         /// <summary>
         ///     Gets the amount of handlers this <see cref="AsynchronousEvent{T}"/> holds.
         /// </summary>
-        public int Count => _handlers.Count;
+        public int Count
+        {
+            get
+            {
+                lock (this)
+                {
+                    return _handlers.Count;
+                }
+            }
+        }
 
         private ImmutableHashSet<AsynchronousEventHandler<TEventArgs>> _handlers;
-        private readonly Action<Exception> _errorHandler;
+        private readonly Action<Exception> _exceptionHandler;
 
         /// <summary>
         ///     Instantiates a new <see cref="AsynchronousEvent{T}"/>.
@@ -43,7 +52,7 @@ namespace Disqord.Events
         public AsynchronousEvent(Action<Exception> exceptionHandler)
             : this()
         {
-            _errorHandler = exceptionHandler;
+            _exceptionHandler = exceptionHandler;
         }
 
         /// <summary>
@@ -91,10 +100,13 @@ namespace Disqord.Events
         /// </summary>
         public void UnhookAll()
         {
-            _handlers.Clear();
+            lock (this)
+            {
+                _handlers = _handlers.Clear();
+            }
         }
 
-        protected internal override Task InvokeAsync(object sender, EventArgs e)
+        protected internal override ValueTask InvokeAsync(object sender, EventArgs e)
             => InvokeAsync(sender, (TEventArgs) e);
 
         /// <summary>
@@ -102,27 +114,23 @@ namespace Disqord.Events
         /// </summary>
         /// <param name="sender"> The sender invoking this event. </param>
         /// <param name="e"> The <see cref="EventArgs"/> data for this invocation. </param>
-        public async Task InvokeAsync(object sender, TEventArgs e)
+        public async ValueTask InvokeAsync(object sender, TEventArgs e)
         {
             ImmutableHashSet<AsynchronousEventHandler<TEventArgs>> handlers;
-            lock (_handlers)
+            lock (this)
             {
                 handlers = _handlers;
             }
 
-            foreach (var handler in _handlers)
+            foreach (var handler in handlers)
             {
-                var task = handler.Invoke(sender, e);
-                if (task == null)
-                    continue;
-
                 try
                 {
-                    await task.ConfigureAwait(false);
+                    await handler.Invoke(sender, e).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
-                    _errorHandler?.Invoke(ex);
+                    _exceptionHandler?.Invoke(ex);
                 }
             }
         }

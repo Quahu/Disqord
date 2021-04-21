@@ -44,6 +44,9 @@ namespace Disqord.Gateway.Default
             }
         }
 
+        private bool _loggedUnknownWarning;
+        private readonly SynchronizedHashSet<string> _unknownDispatches = new();
+
         private readonly SynchronizedDictionary<string, Handler> _handlers;
         private readonly Binder<IGatewayClient> _binder;
 
@@ -127,30 +130,20 @@ namespace Disqord.Gateway.Default
             }
         }
 
-        private bool _loggedUnknownWarning = false;
-        private readonly SynchronizedHashSet<string> _unknownDispatches = new();
-
-        public async Task HandleDispatchAsync(object sender, GatewayDispatchReceivedEventArgs e)
+        public async ValueTask HandleDispatchAsync(object sender, GatewayDispatchReceivedEventArgs e)
         {
             if (sender is not IGatewayApiClient shard)
                 throw new ArgumentException("The sender is expected to be an IGatewayApiClient.", nameof(sender));
 
             if (!_handlers.TryGetValue(e.Name, out var handler))
             {
-                await HandleUnknownDispatchAsync(shard, e).ConfigureAwait(false);
+                HandleUnknownDispatch(shard, e);
                 return;
             }
 
             try
             {
-                var task = handler.HandleDispatchAsync(shard, e.Data);
-                if (task == null)
-                {
-                    Logger.LogError("The handler {0} returned a null handle task.", handler.GetType());
-                    return;
-                }
-
-                await task.ConfigureAwait(false);
+                await handler.HandleDispatchAsync(shard, e.Data).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -158,10 +151,10 @@ namespace Disqord.Gateway.Default
             }
         }
 
-        private Task HandleUnknownDispatchAsync(IGatewayApiClient shard, GatewayDispatchReceivedEventArgs e)
+        private void HandleUnknownDispatch(IGatewayApiClient shard, GatewayDispatchReceivedEventArgs e)
         {
             if (!_unknownDispatches.Add(e.Name))
-                return Task.CompletedTask;
+                return;
 
             shard.Logger.LogWarning(_loggedUnknownWarning
                     ? "Received an unknown dispatch {0}. Payload:\n{1}"
@@ -170,8 +163,6 @@ namespace Disqord.Gateway.Default
 
             if (!_loggedUnknownWarning)
                 _loggedUnknownWarning = true;
-
-            return Task.CompletedTask;
         }
     }
 }

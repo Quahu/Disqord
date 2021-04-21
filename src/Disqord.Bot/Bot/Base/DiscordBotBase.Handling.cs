@@ -10,7 +10,7 @@ namespace Disqord.Bot
 {
     public abstract partial class DiscordBotBase
     {
-        private async Task MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
+        private async ValueTask MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {
             if (e.Message is not IGatewayUserMessage message)
                 return;

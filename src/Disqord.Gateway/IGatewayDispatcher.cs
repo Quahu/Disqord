@@ -25,6 +25,6 @@ namespace Disqord.Gateway
         /// <returns>
         ///     A task representing the work.
         /// </returns>
-        Task HandleDispatchAsync(object sender, GatewayDispatchReceivedEventArgs e);
+        ValueTask HandleDispatchAsync(object sender, GatewayDispatchReceivedEventArgs e);
     }
 }

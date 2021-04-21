@@ -110,7 +110,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                 throw new ObjectDisposedException(null);
         }
 
-        internal async Task OnButtonAsync(ButtonEventArgs e)
+        internal async ValueTask OnButtonAsync(ButtonEventArgs e)
         {
             if (!TriggersOnRemoval && !e.WasAdded)
                 return;

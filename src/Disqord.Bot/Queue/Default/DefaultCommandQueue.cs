@@ -52,12 +52,12 @@ namespace Disqord.Bot
             Bot.LeftGuild += LeftGuildAsync;
         }
 
-        private Task LeftGuildAsync(object sender, LeftGuildEventArgs e)
+        private ValueTask LeftGuildAsync(object sender, LeftGuildEventArgs e)
         {
             if (_guildBuckets.TryRemove(e.GuildId, out var bucket))
                 bucket.Complete();
 
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
 
         /// <inheritdoc/>

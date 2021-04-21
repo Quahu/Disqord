@@ -178,10 +178,10 @@ namespace Disqord.Extensions.Interactivity
             }
         }
 
-        private Task MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
+        private ValueTask MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {
             if (e.Message.Author.IsBot)
-                return Task.CompletedTask;
+                return ValueTask.CompletedTask;
 
             if (_messageWaiters.TryGetValue(e.ChannelId, out var waiters))
             {
@@ -202,18 +202,18 @@ namespace Disqord.Extensions.Interactivity
                 }
             }
 
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
 
-        private Task MessageDeletedAsync(object sender, MessageDeletedEventArgs e)
+        private ValueTask MessageDeletedAsync(object sender, MessageDeletedEventArgs e)
         {
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
 
-        private Task ReactionAddedAsync(object sender, ReactionAddedEventArgs e)
+        private ValueTask ReactionAddedAsync(object sender, ReactionAddedEventArgs e)
         {
             if (e.GuildId != null && e.Member.IsBot || e.UserId == Client.CurrentUser.Id)
-                return Task.CompletedTask;
+                return ValueTask.CompletedTask;
 
             if (_reactionWaiters.TryGetValue(e.MessageId, out var waiters))
             {
@@ -237,20 +237,20 @@ namespace Disqord.Extensions.Interactivity
             if (_menus.TryGetValue(e.MessageId, out var menu))
                 return menu.OnButtonAsync(new ButtonEventArgs(e));
 
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
 
-        private Task ReactionRemovedAsync(object sender, ReactionRemovedEventArgs e)
+        private ValueTask ReactionRemovedAsync(object sender, ReactionRemovedEventArgs e)
         {
             if (_menus.TryGetValue(e.MessageId, out var menu))
                 return menu.OnButtonAsync(new ButtonEventArgs(e));
 
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
 
-        private Task ReactionsClearedAsync(object sender, ReactionsClearedEventArgs e)
+        private ValueTask ReactionsClearedAsync(object sender, ReactionsClearedEventArgs e)
         {
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
     }
 }
