@@ -145,7 +145,10 @@ namespace Disqord.Gateway.Default
             {
                 var task = handler.HandleDispatchAsync(shard, e.Data);
                 if (task == null)
+                {
                     Logger.LogError("The handler {0} returned a null handle task.", handler.GetType());
+                    return;
+                }
 
                 await task.ConfigureAwait(false);
             }
