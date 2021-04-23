@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
@@ -28,6 +29,19 @@ namespace Disqord.Hosting
         {
             var method = service.GetType().GetMethod(name, BindingFlags.Instance | BindingFlags.NonPublic);
             return method != null && method.DeclaringType != typeof(DiscordClientService);
+        }
+
+        private async ValueTask ExecuteAsync<TEventArgs>(Func<DiscordClientService, TEventArgs, ValueTask> factory,
+            DiscordClientService service, TEventArgs e)
+        {
+            try
+            {
+                await factory(service, e).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An exception occurred while executing {0}.{1}().", service.GetType().Name, "On" + e.GetType().Name.Replace("EventArgs", ""));
+            }
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
