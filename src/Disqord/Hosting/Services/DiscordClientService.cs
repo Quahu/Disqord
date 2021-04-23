@@ -16,9 +16,9 @@ namespace Disqord.Hosting
     ///     If the implementation overrides <see cref="ExecuteAsync(CancellationToken)"/>
     ///     the service will additionally act as an improved version of <see cref="BackgroundService"/>.
     /// </remarks>
-    public abstract class DiscordClientService : IHostedService, IDisposable, ILogging
+    public abstract partial class DiscordClientService : IHostedService, IDisposable, ILogging
     {
-        public ILogger Logger { get; }
+        public virtual ILogger Logger { get; }
 
         public virtual DiscordClientBase Client { get; }
 

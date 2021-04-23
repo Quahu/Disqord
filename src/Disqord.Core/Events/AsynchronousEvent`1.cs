@@ -109,6 +109,9 @@ namespace Disqord.Events
         protected internal override ValueTask InvokeAsync(object sender, EventArgs e)
             => InvokeAsync(sender, (TEventArgs) e);
 
+        protected internal override void Invoke(object sender, EventArgs e)
+            => Invoke(sender, (TEventArgs) e);
+
         /// <summary>
         ///     Invokes this <see cref="AsynchronousEventHandler{T}"/>, sequentially invoking each hooked up <see cref="AsynchronousEventHandler{T}"/>.
         /// </summary>
@@ -127,6 +130,33 @@ namespace Disqord.Events
                 try
                 {
                     await handler.Invoke(sender, e).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    _exceptionHandler?.Invoke(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Invokes this <see cref="AsynchronousEventHandler{T}"/>, sequentially invoking each hooked up <see cref="AsynchronousEventHandler{T}"/>
+        ///     without awaiting their completion.
+        /// </summary>
+        /// <param name="sender"> The sender invoking this event. </param>
+        /// <param name="e"> The <see cref="EventArgs"/> data for this invocation. </param>
+        public void Invoke(object sender, TEventArgs e)
+        {
+            ImmutableHashSet<AsynchronousEventHandler<TEventArgs>> handlers;
+            lock (this)
+            {
+                handlers = _handlers;
+            }
+
+            foreach (var handler in handlers)
+            {
+                try
+                {
+                    _ = handler.Invoke(sender, e);
                 }
                 catch (Exception ex)
                 {

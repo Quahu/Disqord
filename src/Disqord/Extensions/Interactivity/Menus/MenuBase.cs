@@ -142,7 +142,6 @@ namespace Disqord.Extensions.Interactivity.Menus
             catch (Exception ex)
             {
                 Interactivity.Logger.LogError(ex, "An exception occurred in a button callback for menu {0}.", GetType());
-                return;
             }
         }
 
@@ -152,7 +151,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <returns>
         ///     The message ID this menu was bound to.
         /// </returns>
-        protected internal abstract Task<Snowflake> InitializeAsync();
+        protected internal abstract ValueTask<Snowflake> InitializeAsync();
 
         /// <summary>
         ///     Checks if the reaction is valid.
@@ -162,7 +161,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         ///     A <see cref="ValueTask{TResult}"/> with a <see cref="bool"/> result specifying whether the reaction is valid or not.
         /// </returns>
         protected virtual ValueTask<bool> CheckReactionAsync(ButtonEventArgs e)
-             => new(true);
+            => new(true);
 
         /// <summary>
         ///     Adds a button to this menu.

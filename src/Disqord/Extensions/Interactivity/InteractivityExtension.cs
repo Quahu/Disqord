@@ -178,10 +178,12 @@ namespace Disqord.Extensions.Interactivity
             }
         }
 
-        private ValueTask MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
+        private async ValueTask MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {
+            await Task.Yield();
+
             if (e.Message.Author.IsBot)
-                return ValueTask.CompletedTask;
+                return;
 
             if (_messageWaiters.TryGetValue(e.ChannelId, out var waiters))
             {
@@ -201,19 +203,19 @@ namespace Disqord.Extensions.Interactivity
                     }
                 }
             }
-
-            return ValueTask.CompletedTask;
         }
 
         private ValueTask MessageDeletedAsync(object sender, MessageDeletedEventArgs e)
         {
-            return ValueTask.CompletedTask;
+            return default;
         }
 
-        private ValueTask ReactionAddedAsync(object sender, ReactionAddedEventArgs e)
+        private async ValueTask ReactionAddedAsync(object sender, ReactionAddedEventArgs e)
         {
+            await Task.Yield();
+
             if (e.GuildId != null && e.Member.IsBot || e.UserId == Client.CurrentUser.Id)
-                return ValueTask.CompletedTask;
+                return;
 
             if (_reactionWaiters.TryGetValue(e.MessageId, out var waiters))
             {
@@ -235,17 +237,15 @@ namespace Disqord.Extensions.Interactivity
             }
 
             if (_menus.TryGetValue(e.MessageId, out var menu))
-                return menu.OnButtonAsync(new ButtonEventArgs(e));
-
-            return ValueTask.CompletedTask;
+                await menu.OnButtonAsync(new ButtonEventArgs(e)).ConfigureAwait(false);
         }
 
-        private ValueTask ReactionRemovedAsync(object sender, ReactionRemovedEventArgs e)
+        private async ValueTask ReactionRemovedAsync(object sender, ReactionRemovedEventArgs e)
         {
-            if (_menus.TryGetValue(e.MessageId, out var menu))
-                return menu.OnButtonAsync(new ButtonEventArgs(e));
+            await Task.Yield();
 
-            return ValueTask.CompletedTask;
+            if (_menus.TryGetValue(e.MessageId, out var menu))
+                await menu.OnButtonAsync(new ButtonEventArgs(e)).ConfigureAwait(false);
         }
 
         private ValueTask ReactionsClearedAsync(object sender, ReactionsClearedEventArgs e)

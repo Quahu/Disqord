@@ -45,7 +45,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
         /// <summary>
         ///     Gets or sets the behavior used by the stop button of this menu.
-        ///     Defaults to <see cref="StopBehavior.DeleteMessage"/>.
+        ///     Defaults to <see cref="Disqord.Extensions.Interactivity.Menus.Paged.StopBehavior.DeleteMessage"/>.
         /// </summary>
         public StopBehavior StopBehavior { get; set; } = StopBehavior.DeleteMessage;
 
@@ -56,7 +56,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
             if (pageProvider.PageCount == 0)
                 throw new ArgumentException("The page provider must contain at least a single page.", nameof(pageProvider));
-            
+
             UserId = userId;
             PageProvider = pageProvider;
 
@@ -99,7 +99,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             => new(e.UserId == UserId);
 
         /// <inheritdoc/>
-        protected internal override sealed async Task<Snowflake> InitializeAsync()
+        protected internal override sealed async ValueTask<Snowflake> InitializeAsync()
         {
             var page = await PageProvider.GetPageAsync(this).ConfigureAwait(false);
             Message = await InitializeAsync(page).ConfigureAwait(false);
@@ -114,7 +114,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// <returns>
         ///     A <see cref="Task"/> representing the initialization work.
         /// </returns>
-        protected virtual async Task<IUserMessage> InitializeAsync(Page page)
+        protected virtual async ValueTask<IUserMessage> InitializeAsync(Page page)
         {
             var message = new LocalMessageBuilder
             {
@@ -134,7 +134,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// <returns>
         ///     A <see cref="Task"/> representing the page change work.
         /// </returns>
-        public virtual async Task ChangePageAsync(int pageIndex)
+        public virtual async ValueTask ChangePageAsync(int pageIndex)
         {
             if (pageIndex < 0 || pageIndex > PageProvider.PageCount - 1)
                 return;

@@ -22,19 +22,27 @@ namespace Disqord.Gateway.Default.Dispatcher
             await InvokeEventAsync(eventArgs).ConfigureAwait(false);
         }
 
-        protected ValueTask InvokeEventAsync(TEventArgs eventArgs)
+        protected virtual ValueTask InvokeEventAsync(TEventArgs eventArgs)
         {
+            // This is the case for most handlers - the dispatch maps to a single event.
             if (Event != null)
             {
-                // This is the case for most handlers - the dispatch maps to a single event.
-                return Event.InvokeAsync(Dispatcher, eventArgs);
+                // Invoke READY handlers and wait for them.
+                // TODO: RESUME?
+                if (eventArgs is ReadyEventArgs)
+                    return Event.InvokeAsync(Dispatcher, eventArgs);
+
+                // Don't wait for other events.
+                Event.Invoke(Dispatcher, eventArgs);
+                return default;
             }
 
             // The dispatch maps to multiple events. We get the event for the type of the event args.
             if (!_events.TryGetValue(eventArgs.GetType(), out var @event))
                 throw new InvalidOperationException($"The dispatch handler {GetType()} returned an invalid instance of event args: {eventArgs.GetType()}.");
 
-            return @event.InvokeAsync(Dispatcher, eventArgs);
+            @event.Invoke(Dispatcher, eventArgs);
+            return default;
         }
 
         public abstract ValueTask<TEventArgs> HandleDispatchAsync(IGatewayApiClient shard, TModel model);

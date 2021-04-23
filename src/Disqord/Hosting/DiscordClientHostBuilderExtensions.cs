@@ -42,6 +42,8 @@ namespace Disqord.Hosting
 
             services.Configure<DefaultGatewayDispatcherConfiguration>(x => x.ReadyEventDelayMode = discordContext.ReadyEventDelayMode);
 
+            services.AddHostedService<DiscordClientMasterService>();
+
             var serviceAssemblies = discordContext.ServiceAssemblies;
             if (serviceAssemblies != null)
             {
@@ -72,6 +74,7 @@ namespace Disqord.Hosting
                             continue;
 
                         services.AddSingleton(type);
+                        services.AddSingleton(typeof(DiscordClientService), x => x.GetService(type));
                         services.AddSingleton(typeof(IHostedService), x => x.GetService(type));
                     }
                 }

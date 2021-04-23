@@ -31,8 +31,8 @@ namespace Disqord.Extensions.Interactivity.Menus
                     if (method.ContainsGenericParameters)
                         throw new InvalidOperationException("A button callback must not contain generic parameters.");
 
-                    if (method.ReturnType != typeof(Task))
-                        throw new InvalidOperationException("A button callback must return a non-generic Task.");
+                    if (method.ReturnType != typeof(ValueTask))
+                        throw new InvalidOperationException("A button callback must return a non-generic ValueTask.");
 
                     var parameters = method.GetParameters();
                     if (parameters.Length != 1 || parameters[0].ParameterType != typeof(ButtonEventArgs))
@@ -79,8 +79,8 @@ namespace Disqord.Extensions.Interactivity.Menus
             catch (Exception ex)
             {
                 throw new InvalidOperationException(
-                "Failed to create a button callback delegate. Methods marked with the ButtonAttribute must match the ButtonCallback delegate's signature.",
-                ex);
+                    "Failed to create a button callback delegate. Methods marked with the ButtonAttribute must match the ButtonCallback delegate's signature.",
+                    ex);
             }
 
             return new Button(emoji, buttonCallback, position);

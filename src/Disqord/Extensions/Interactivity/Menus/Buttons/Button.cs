@@ -8,9 +8,9 @@ namespace Disqord.Extensions.Interactivity.Menus
     /// </summary>
     /// <param name="e"> The reaction event data. </param>
     /// <returns>
-    ///     A <see cref="Task"/> representing the callback work.
+    ///     A <see cref="ValueTask"/> representing the callback work.
     /// </returns>
-    public delegate Task ButtonCallback(ButtonEventArgs e);
+    public delegate ValueTask ButtonCallback(ButtonEventArgs e);
 
     /// <summary>
     ///     Represents a callback that gets executed whenever a user reacts with the appropriate emoji.
