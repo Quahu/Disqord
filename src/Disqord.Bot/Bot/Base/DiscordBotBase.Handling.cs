@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,8 @@ namespace Disqord.Bot
     {
         private async ValueTask MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {
+            await Task.Yield();
+            
             if (e.Message is not IGatewayUserMessage message)
                 return;
 
