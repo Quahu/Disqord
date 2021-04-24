@@ -76,7 +76,6 @@ namespace Disqord.Sharding
             {
                 // If the shard IDs are specified we validate them and manage those instead.
                 // TODO: validation
-                var count = shardIds[0].Count;
                 foreach (var id in _configuredShardIds)
                     shardIds.Add(id);
             }
