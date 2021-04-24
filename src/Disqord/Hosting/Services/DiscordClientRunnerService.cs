@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Logging;
+using Disqord.WebSocket;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -62,11 +63,19 @@ namespace Disqord.Hosting
             {
                 Logger.LogInformation("Hosting of the Discord client was canceled.");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Logger.LogCritical("Hosting of the Discord client was interrupted due to an unrecoverable error. "
+                LogException(ex, "Hosting of the Discord client was interrupted due to an unrecoverable error. "
                     + "Take appropriate actions to resolve the issue.");
             }
+        }
+
+        private void LogException(Exception ex, string message)
+        {
+            if (ex is not WebSocketClosedException)
+                Logger.LogError(ex, message);
+            else
+                Logger.LogError(message);
         }
     }
 }
