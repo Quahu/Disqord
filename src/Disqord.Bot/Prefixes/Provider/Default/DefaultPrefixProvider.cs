@@ -15,24 +15,7 @@ namespace Disqord.Bot
         /// <summary>
         ///     Gets or sets the immutable set of prefixes of this <see cref="DefaultPrefixProvider"/>.
         /// </summary>
-        public IImmutableSet<IPrefix> Prefixes
-        {
-            get
-            {
-                lock (this)
-                {
-                    return _prefixes;
-                }
-            }
-            set
-            {
-                lock (this)
-                {
-                    _prefixes = value;
-                }
-            }
-        }
-        private IImmutableSet<IPrefix> _prefixes;
+        public IImmutableSet<IPrefix> Prefixes { get; set; }
 
         /// <summary>
         ///     Instantiates a new <see cref="DefaultPrefixProvider"/>.
@@ -42,7 +25,7 @@ namespace Disqord.Bot
             IOptions<DefaultPrefixProviderConfiguration> options)
         {
             var configuration = options.Value;
-            _prefixes = configuration.Prefixes?.ToImmutableHashSet() ?? ImmutableHashSet<IPrefix>.Empty;
+            Prefixes = configuration.Prefixes?.ToImmutableHashSet() ?? ImmutableHashSet<IPrefix>.Empty;
         }
 
         /// <inheritdoc/>
