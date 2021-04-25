@@ -27,7 +27,7 @@ namespace Disqord.Test
             var random = new Random();
             var number = random.Next(0, 10).ToString();
             await Response($"Send dis: {number}");
-            var e = await Context.WaitForMessageAsync(x => x.Message.Content == number);
+            var e = await Context.WaitForMessageAsync(x => x.Message.Author.Id == Context.Author.Id && x.Message.Content == number);
             return Response(e != null
                 ? "Correct!!!"
                 : "You didn't say anything...");
@@ -50,7 +50,7 @@ namespace Disqord.Test
 
         public sealed class VoteMenu : MenuBase
         {
-            protected override async Task<Snowflake> InitializeAsync()
+            protected override async ValueTask<Snowflake> InitializeAsync()
             {
                 var message = await Client.SendMessageAsync(ChannelId, new LocalMessageBuilder
                 {
@@ -60,40 +60,38 @@ namespace Disqord.Test
             }
 
             [Button("👍")]
-            public Task Upvote(ButtonEventArgs e)
+            public async ValueTask Upvote(ButtonEventArgs e)
             {
                 var content = e.WasAdded
                     ? "thanks for the support"
                     : ":frowning:";
-                return e.Message.ModifyAsync(x => x.Content = content);
+                await e.Message.ModifyAsync(x => x.Content = content);
             }
 
             [Button("👎")]
-            public Task Downvote(ButtonEventArgs e)
+            public async ValueTask Downvote(ButtonEventArgs e)
             {
                 var content = !e.WasAdded
                     ? "thanks for changing ur mind"
                     : ":frowning2:";
-                return e.Message.ModifyAsync(x => x.Content = content);
+                await e.Message.ModifyAsync(x => x.Content = content);
             }
         }
 
-        [Command("paged2")]
-        public async Task Paged2()
+        [Command("pages2")]
+        public DiscordCommandResult Paged2()
         {
-            var interactivity = Context.Bot.GetExtension<InteractivityExtension>();
             var strings = Enumerable.Range(0, 100).Select(x => new string('a', x)).ToArray();
             var pageProvider = new ArrayPageProvider<string>(strings);
-            var menu = new PagedMenu(Context.Author.Id, pageProvider);
-            await interactivity.StartMenuAsync(Context.ChannelId, menu);
+            return Pages(pageProvider);
         }
 
         [Command("shard")]
         [Description("Displays the shard for this context.")]
         public DiscordCommandResult Shard()
         {
-            var shard = Context.Bot.GetShard(Context.GuildId);
-            return Response($"This is {shard.Id} speaking.");
+            var shardId = Context.Bot.GetShardId(Context.GuildId);
+            return Response($"This is {shardId} speaking.");
         }
 
         [Command("ping")]
