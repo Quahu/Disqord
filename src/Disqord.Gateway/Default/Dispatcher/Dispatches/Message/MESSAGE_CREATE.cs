@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Api;
 using Disqord.Gateway.Api;
 using Disqord.Models;
 
@@ -27,7 +28,8 @@ namespace Disqord.Gateway.Default.Dispatcher
                     Dispatcher.GetOrAddMember(userCache, memberCache, model.GuildId.Value, memberModel);
                 }
 
-                if (CacheProvider.TryGetMessages(model.ChannelId, out var messageCache))
+                if (CacheProvider.TryGetMessages(model.ChannelId, out var messageCache)
+                    && (MessageType) model.Type is MessageType.Default or MessageType.Reply or MessageType.ApplicationCommand)
                 {
                     message = new CachedUserMessage(Client, author, model);
                     messageCache.Add(model.Id, message as CachedUserMessage);
