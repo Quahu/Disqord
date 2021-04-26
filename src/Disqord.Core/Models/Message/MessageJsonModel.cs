@@ -1,4 +1,5 @@
 ﻿using System;
+using Disqord.Api;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Models
@@ -63,7 +64,7 @@ namespace Disqord.Models
         public Optional<Snowflake> WebhookId;
 
         [JsonProperty("type")]
-        public int Type;
+        public MessageType Type;
 
         [JsonProperty("activity")]
         public Optional<MessageActivityJsonModel> Activity;

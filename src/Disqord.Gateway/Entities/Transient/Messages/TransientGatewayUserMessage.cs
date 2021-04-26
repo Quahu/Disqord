@@ -1,4 +1,5 @@
-﻿using Disqord.Gateway;
+﻿using Disqord.Api;
+using Disqord.Gateway;
 using Disqord.Models;
 
 namespace Disqord
@@ -22,6 +23,20 @@ namespace Disqord
                 }
 
                 return _author as IMember;
+            }
+        }
+
+        public override Optional<IUserMessage> ReferencedMessage
+        {
+            get
+            {
+                if (Model.Type == MessageType.Reply || Model.ReferencedMessage.GetValueOrDefault() != null)
+                {
+                    // Fix for Discord always sending an empty property.
+                    return base.ReferencedMessage;
+                }
+
+                return default;
             }
         }
 

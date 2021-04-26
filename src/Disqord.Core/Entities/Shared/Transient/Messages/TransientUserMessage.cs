@@ -65,7 +65,7 @@ namespace Disqord
         }
         private IReadOnlyList<Sticker> _stickers;
 
-        public Optional<IUserMessage> ReferencedMessage
+        public virtual Optional<IUserMessage> ReferencedMessage
         {
             get
             {

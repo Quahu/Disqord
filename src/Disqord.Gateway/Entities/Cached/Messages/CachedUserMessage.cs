@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Disqord.Api;
 using Disqord.Collections;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
@@ -63,7 +64,12 @@ namespace Disqord.Gateway
             Reference = Optional.ConvertOrDefault(model.MessageReference, x => new MessageReference(x));
             Flags = model.Flags.GetValueOrDefault();
             Stickers = Optional.ConvertOrDefault(model.Stickers, x => x.ToReadOnlyList(y => new Sticker(y)), Array.Empty<Sticker>());
-            ReferencedMessage = Optional.Convert(model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage);
+
+            if (model.Type == MessageType.Reply || model.ReferencedMessage.GetValueOrDefault() != null)
+            {
+                // Fix for Discord always sending an empty property.
+                ReferencedMessage = Optional.Convert(model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage);
+            }
         }
 
         public void Update(MessageUpdateJsonModel model)
