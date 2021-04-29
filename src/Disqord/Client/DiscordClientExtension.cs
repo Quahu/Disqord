@@ -15,7 +15,7 @@ namespace Disqord
         ///     Gets the client this extension is bound to.
         /// </summary>
         /// <remarks>
-        ///     This property is set when <see cref="InitializeAsync(DiscordClientBase)"/> is called.
+        ///     This property is set when <see cref="InitializeAsync(CancellationToken)"/> is called.
         /// </remarks>
         public DiscordClientBase Client { get; private set; }
 
