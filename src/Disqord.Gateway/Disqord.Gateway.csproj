@@ -2,7 +2,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../Disqord.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Disqord.Core\Disqord.Core.csproj" />
     <ProjectReference Include="..\Disqord.Gateway.Api\Disqord.Gateway.Api.csproj" />
   </ItemGroup>
 </Project>

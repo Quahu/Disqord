@@ -2,8 +2,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../Disqord.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Disqord.Core\Disqord.Core.csproj" />
     <ProjectReference Include="..\Disqord.Rest.Api\Disqord.Rest.Api.csproj" />
-    <PackageReference Include="Qommon" Version="1.0.1" />
   </ItemGroup>
 </Project>
