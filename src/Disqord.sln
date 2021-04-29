@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disqord.Voice.Api", "Disqor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disqord.Voice", "Disqord.Voice\Disqord.Voice.csproj", "{7AE1261E-A4BC-4609-B33F-07F95DAF212A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disqord.Webhook", "Disqord.Webhook\Disqord.Webhook.csproj", "{5E7E9FD1-E97B-49DF-A3FB-2FFA294E199A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{7AE1261E-A4BC-4609-B33F-07F95DAF212A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AE1261E-A4BC-4609-B33F-07F95DAF212A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AE1261E-A4BC-4609-B33F-07F95DAF212A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E7E9FD1-E97B-49DF-A3FB-2FFA294E199A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E7E9FD1-E97B-49DF-A3FB-2FFA294E199A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E7E9FD1-E97B-49DF-A3FB-2FFA294E199A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E7E9FD1-E97B-49DF-A3FB-2FFA294E199A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

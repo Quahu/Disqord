@@ -7,5 +7,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Disqord.Gateway\Disqord.Gateway.csproj" />
     <ProjectReference Include="..\Disqord.Rest\Disqord.Rest.csproj" />
+    <ProjectReference Include="..\Disqord.Webhook\Disqord.Webhook.csproj" />
   </ItemGroup>
 </Project>

@@ -23,6 +23,7 @@ namespace Disqord
             services.AddInteractivity();
             services.AddGatewayClient();
             services.AddRestClient();
+            services.AddWebhookClient();
 
             return services;
         }
