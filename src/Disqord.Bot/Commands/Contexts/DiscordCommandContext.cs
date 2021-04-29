@@ -25,13 +25,13 @@ namespace Disqord.Bot
 
         public virtual IUser Author => Message.Author;
 
-        // Reset by Kamaji.
+        // Reset by Kamaji on continuations, completed by Yield().
         internal Tcs YieldTcs = new();
 
-        // Set by Yield().
+        // (Re)set by Yield(), completed by Kamaji.
         internal Tcs ContinuationTcs;
 
-        // Set by Kamaji.
+        // Set by Kamaji on Post().
         internal Task Task;
 
         private readonly IServiceScope _serviceScope;
@@ -85,18 +85,19 @@ namespace Disqord.Bot
         /// </returns>
         public async ValueTask ContinueAsync()
         {
-            if (!YieldTcs.Task.IsCompleted)
+            var continuationTcs = ContinuationTcs;
+            if (!YieldTcs.Task.IsCompleted || continuationTcs == null || continuationTcs.Task.IsCompleted)
                 return;
 
             // Kamaji will treat the bath token as existing work
             // and complete the continuation TCS when there's a spot in the queue.
             Bot.Queue.Post(null, this, null);
-            await ContinuationTcs.Task.ConfigureAwait(false);
+            await continuationTcs.Task.ConfigureAwait(false);
         }
 
         /// <summary>
         ///     Calls <see cref="Yield"/> and returns a disposable that
-        ///     calls <see cref="DisposeAsync"/> when disposed.
+        ///     calls <see cref="ContinueAsync"/> when disposed.
         /// </summary>
         /// <returns>
         ///     A disposable which calls <see cref="ContinueAsync"/> when disposed.
@@ -120,6 +121,12 @@ namespace Disqord.Bot
                 => _context.ContinueAsync();
         }
 
+        /// <summary>
+        ///     Disposes this <see cref="DiscordCommandContext"/> and its underlying <see cref="IServiceScope"/>.
+        /// </summary>
+        /// <returns>
+        ///     A <see cref="ValueTask"/> representing the disposal work.
+        /// </returns>
         public virtual ValueTask DisposeAsync()
             => RuntimeDisposal.DisposeAsync(_serviceScope);
     }

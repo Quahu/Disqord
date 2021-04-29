@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
@@ -39,9 +40,9 @@ namespace Disqord.Bot
             var configuration = options.Value;
             DegreeOfParallelism = configuration.DegreeOfParallelism;
 
-            _guildBuckets = new SynchronizedDictionary<Snowflake, Bucket>();
-
             _binder = new Binder<DiscordBotBase>(this);
+
+            _guildBuckets = new SynchronizedDictionary<Snowflake, Bucket>();
         }
 
         /// <inheritdoc/>
@@ -69,7 +70,10 @@ namespace Disqord.Bot
             Bucket kamaji;
             if (context.GuildId == null)
             {
-                kamaji = _privateBucket ??= new Bucket(DegreeOfParallelism);
+                lock (this)
+                {
+                    kamaji = _privateBucket ??= new Bucket(DegreeOfParallelism);
+                }
             }
             else
             {
@@ -82,30 +86,30 @@ namespace Disqord.Bot
 
         private sealed class Token
         {
-            public readonly DiscordCommandContext Context;
+            private readonly DiscordCommandContext _context;
             private readonly string _input;
             private readonly CommandQueueDelegate _func;
 
             public Token(string input, DiscordCommandContext context, CommandQueueDelegate func)
             {
                 _input = input;
-                Context = context;
+                _context = context;
                 _func = func;
             }
 
             public Task GetTask()
             {
-                if (Context.Task != null)
+                if (_context.Task != null)
                 {
-                    Context.ContinuationTcs.Complete();
-                    Context.YieldTcs = new Tcs();
+                    _context.ContinuationTcs.Complete();
+                    _context.YieldTcs = new Tcs();
                 }
                 else
                 {
-                    Context.Task = _func(_input, Context);
+                    _context.Task = _func(_input, _context);
                 }
 
-                return Task.WhenAny(Context.Task, Context.YieldTcs.Task);
+                return Task.WhenAny(_context.Task, _context.YieldTcs.Task);
             }
         }
 
@@ -113,13 +117,14 @@ namespace Disqord.Bot
         {
             private readonly int _degreeOfParallelism;
             private readonly Channel<Token> _tokens;
-            private readonly ISynchronizedDictionary<DiscordCommandContext, Task> _tasks;
+            private readonly List<Task> _tasks;
 
-            public Bucket(int degreeOfParallelism)
+            public Bucket(
+                int degreeOfParallelism)
             {
                 _degreeOfParallelism = degreeOfParallelism;
                 _tokens = Channel.CreateUnbounded<Token>();
-                _tasks = new SynchronizedDictionary<DiscordCommandContext, Task>(degreeOfParallelism);
+                _tasks = new List<Task>(degreeOfParallelism);
 
                 _ = RunAsync();
             }
@@ -139,21 +144,19 @@ namespace Disqord.Bot
                 var reader = _tokens.Reader;
                 await foreach (var token in reader.ReadAllAsync().ConfigureAwait(false))
                 {
-                    var tasks = _tasks.Values;
-                    if (tasks.Length == _degreeOfParallelism)
-                        await Task.WhenAny(tasks).ConfigureAwait(false);
+                    if (_tasks.Count == _degreeOfParallelism)
+                    {
+                        await Task.WhenAny(_tasks).ConfigureAwait(false);
+                        // TODO: change to Remove(task)?
+                        _tasks.RemoveAll(x => x.IsCompleted);
+                    }
 
-                    var task = ExecuteTokenAsync(token);
-                    _tasks.Add(token.Context, task);
+                    var task = token.GetTask();
+                    if (task.IsCompleted)
+                        continue;
+
+                    _tasks.Add(task);
                 }
-            }
-
-            private async Task ExecuteTokenAsync(Token token)
-            {
-                await Task.Yield();
-                var task = token.GetTask();
-                await task.ConfigureAwait(false);
-                _tasks.Remove(token.Context);
             }
         }
     }
