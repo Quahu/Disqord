@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway;
+using Disqord.Utilities;
 using Microsoft.Extensions.Logging;
 using Qmmands;
 
@@ -14,7 +14,7 @@ namespace Disqord.Bot
         private async ValueTask MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {
             await Task.Yield();
-            
+
             if (e.Message is not IGatewayUserMessage message)
                 return;
 
@@ -96,7 +96,6 @@ namespace Disqord.Bot
             catch (Exception ex)
             {
                 Logger.LogError(ex, "An exception occurred while posting the execution to the command queue.");
-                return;
             }
         }
 
@@ -149,7 +148,10 @@ namespace Disqord.Bot
 
             try
             {
-                await result.ExecuteAsync().ConfigureAwait(false);
+                await using (RuntimeDisposal.WrapAsync(result))
+                {
+                    await result.ExecuteAsync().ConfigureAwait(false);
+                }
             }
             catch (Exception ex)
             {
