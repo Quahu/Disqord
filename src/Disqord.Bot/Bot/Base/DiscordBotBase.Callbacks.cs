@@ -30,7 +30,7 @@ namespace Disqord.Bot
         /// <returns>
         ///     A <see cref="DiscordCommandContext"/> or a <see cref="DiscordGuildCommandContext"/> for guild messages.
         /// </returns>
-        protected virtual DiscordCommandContext CreateCommandContext(IPrefix prefix, IGatewayUserMessage message, CachedTextChannel channel)
+        public virtual DiscordCommandContext CreateCommandContext(IPrefix prefix, IGatewayUserMessage message, CachedTextChannel channel)
         {
             var scope = Services.CreateScope();
             var context = message.GuildId != null
@@ -58,16 +58,16 @@ namespace Disqord.Bot
         {
             static string FormatParameter(Parameter parameter)
             {
-                var format = "{0}";
+                string format;
                 if (parameter.IsMultiple)
                 {
                     format = "{0}[]";
                 }
                 else
                 {
-                    if (parameter.IsRemainder)
-                        format = "{0}…";
-
+                    format = parameter.IsRemainder
+                        ? "{0}…"
+                        : "{0}";
                     format = parameter.IsOptional
                         ? $"[{format}]"
                         : $"<{format}>";
