@@ -3,6 +3,7 @@ using Disqord.DependencyInjection.Extensions;
 using Disqord.Extensions.Interactivity;
 using Disqord.Gateway;
 using Disqord.Rest;
+using Disqord.Webhook;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Disqord

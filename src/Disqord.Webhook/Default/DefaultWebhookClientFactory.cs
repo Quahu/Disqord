@@ -1,6 +1,6 @@
-﻿using Disqord.Webhook;
+﻿using Disqord.Rest;
 
-namespace Disqord.Rest
+namespace Disqord.Webhook.Default
 {
     /// <inheritdoc/>
     public class DefaultWebhookClientFactory : IWebhookClientFactory

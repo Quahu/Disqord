@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using Disqord.DependencyInjection.Extensions;
-using Disqord.Webhook;
+using Disqord.Rest;
+using Disqord.Webhook.Default;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Disqord.Rest
+namespace Disqord.Webhook
 {
     public static class WebhookServiceCollectionExtensions
     {
