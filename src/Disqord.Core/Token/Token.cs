@@ -58,9 +58,6 @@ namespace Disqord
 
         private class NoToken : Token
         {
-            public NoToken()
-            { }
-
             public override string GetAuthorization()
                 => null;
         }

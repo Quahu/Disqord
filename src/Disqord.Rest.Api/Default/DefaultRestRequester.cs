@@ -42,7 +42,11 @@ namespace Disqord.Rest.Api.Default
             _binder.Bind(apiClient);
 
             if (ApiClient.Token != null)
-                HttpClient.SetDefaultHeader("Authorization", ApiClient.Token.GetAuthorization());
+            {
+                var authorization = ApiClient.Token.GetAuthorization();
+                if (authorization != null)
+                    HttpClient.SetDefaultHeader("Authorization", authorization);
+            }
         }
 
         /// <inheritdoc/>
