@@ -7,7 +7,7 @@ namespace Disqord.Gateway
         /// <summary>
         ///     Gets the ID of the guild the webhooks were updated in.
         /// </summary>
-        public Snowflake? GuildId { get; }
+        public Snowflake GuildId { get; }
 
         /// <summary>
         ///     Gets the ID of the channel the webhooks were updated in.
