@@ -1,4 +1,5 @@
-﻿using Disqord.Serialization.Json;
+﻿using System;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Gateway.Api.Models
 {
@@ -11,6 +12,10 @@ namespace Disqord.Gateway.Api.Models
         public ActivityType Type;
 
         [JsonProperty("url")]
-        public string Url;
+        public Optional<string> Url;
+
+        public Optional<long> CreatedAt;
+
+        public Optional<TimestampsJsonModel> Timestamps;
     }
 }
