@@ -8,21 +8,25 @@ namespace Disqord.Gateway.Default.Dispatcher
     {
         public override ValueTask<MemberUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildMemberUpdateJsonModel model)
         {
-            CachedMember oldMember;
-            IMember newMember;
-            if (CacheProvider.TryGetMembers(model.GuildId, out var cache) && cache.TryGetValue(model.User.Value.Id, out var member))
+            CachedMember oldMember = null;
+            IMember newMember = null;
+            if (CacheProvider.TryGetMembers(model.GuildId, out var memberCache))
             {
-                newMember = member;
-                var oldUser = member.SharedUser.Clone() as CachedSharedUser;
-                oldMember = member.Clone() as CachedMember;
-                oldMember.SharedUser = oldUser;
-                newMember.Update(model);
+                if (memberCache.TryGetValue(model.User.Value.Id, out var member))
+                {
+                    newMember = member;
+                    var oldUser = member.SharedUser.Clone() as CachedSharedUser;
+                    oldMember = member.Clone() as CachedMember;
+                    oldMember.SharedUser = oldUser;
+                    newMember.Update(model);
+                }
+                else if (CacheProvider.TryGetUsers(out var userCache))
+                {
+                    newMember = Dispatcher.GetOrAddMember(userCache, memberCache, model.GuildId, model);
+                }
             }
-            else
-            {
-                oldMember = null;
-                newMember = new TransientMember(Client, model.GuildId, model);
-            }
+
+            newMember ??= new TransientMember(Client, model.GuildId, model);
 
             var e = new MemberUpdatedEventArgs(oldMember, newMember);
             return new(e);
