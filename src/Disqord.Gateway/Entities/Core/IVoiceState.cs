@@ -9,18 +9,18 @@ namespace Disqord.Gateway
     public interface IVoiceState : IGuildEntity, IJsonUpdatable<VoiceStateJsonModel>
     {
         /// <summary>
-        ///     Gets the voice channel ID the member is connected to.
+        ///     Gets the ID of the member this voice state is for.
+        /// </summary>
+        Snowflake MemberId { get; }
+
+        /// <summary>
+        ///     Gets the ID of the voice channel the member is connected to.
         ///     Returns <see langword="null"/> if the member left a voice channel.
         /// </summary>
         Snowflake? ChannelId { get; }
 
         /// <summary>
-        ///     Gets the member ID.
-        /// </summary>
-        Snowflake MemberId { get; }
-
-        /// <summary>
-        ///     Gets the voice session ID.
+        ///     Gets the ID of the voice session.
         /// </summary>
         string SessionId { get; }
 

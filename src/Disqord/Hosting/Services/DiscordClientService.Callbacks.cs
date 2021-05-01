@@ -89,6 +89,9 @@ namespace Disqord.Hosting
         protected internal virtual ValueTask OnReactionsCleared(ReactionsClearedEventArgs e)
             => default;
 
+        protected internal virtual ValueTask OnPresenceUpdated(PresenceUpdatedEventArgs e)
+            => default;
+
         protected internal virtual ValueTask OnTypingStarted(TypingStartedEventArgs e)
             => default;
 

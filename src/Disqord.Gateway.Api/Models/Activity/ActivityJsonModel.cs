@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Disqord.Models;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Gateway.Api.Models
@@ -14,8 +14,46 @@ namespace Disqord.Gateway.Api.Models
         [JsonProperty("url")]
         public Optional<string> Url;
 
-        public Optional<long> CreatedAt;
+        [JsonProperty("created_at")]
+        public long CreatedAt;
 
-        public Optional<TimestampsJsonModel> Timestamps;
+        [JsonProperty("timestamps")]
+        public Optional<ActivityTimestampsJsonModel> Timestamps;
+
+        [JsonProperty("application_id")]
+        public Optional<Snowflake> ApplicationId;
+
+        [JsonProperty("details")]
+        public Optional<string> Details;
+
+        [JsonProperty("state")]
+        public Optional<string> State;
+
+        [JsonProperty("emoji")]
+        public Optional<EmojiJsonModel> Emoji;
+
+        [JsonProperty("party")]
+        public Optional<ActivityPartyJsonModel> Party;
+
+        [JsonProperty("assets")]
+        public Optional<ActivityAssetsJsonModel> Assets;
+
+        [JsonProperty("secrets")]
+        public Optional<ActivitySecretsJsonModel> Secrets;
+
+        [JsonProperty("instance")]
+        public Optional<bool> Instance;
+
+        [JsonProperty("sync_id")]
+        public Optional<string> SyncId;
+
+        [JsonProperty("session_id")]
+        public Optional<string> SessionId;
+
+        [JsonProperty("flags")]
+        public Optional<ActivityFlags> Flags;
+
+        [JsonProperty("id")]
+        public string Id;
     }
 }

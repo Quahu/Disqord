@@ -23,6 +23,7 @@ namespace Disqord.Gateway.Default
             typeof(CachedGuildChannel),
             typeof(CachedRole),
             typeof(CachedVoiceState),
+            typeof(CachedPresence),
             typeof(CachedUserMessage)
         };
     }

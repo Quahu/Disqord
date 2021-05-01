@@ -36,6 +36,7 @@ namespace Disqord.Hosting
         private readonly DiscordClientService[] _reactionAddedServices;
         private readonly DiscordClientService[] _reactionRemovedServices;
         private readonly DiscordClientService[] _reactionsClearedServices;
+        private readonly DiscordClientService[] _presenceUpdatedServices;
         private readonly DiscordClientService[] _typingStartedServices;
         private readonly DiscordClientService[] _currentUserUpdatedServices;
         private readonly DiscordClientService[] _voiceStateUpdatedServices;
@@ -76,6 +77,7 @@ namespace Disqord.Hosting
             _reactionAddedServices = services.Where(x => IsOverridden(x, "OnReactionAdded")).ToArray();
             _reactionRemovedServices = services.Where(x => IsOverridden(x, "OnReactionRemoved")).ToArray();
             _reactionsClearedServices = services.Where(x => IsOverridden(x, "OnReactionsCleared")).ToArray();
+            _presenceUpdatedServices = services.Where(x => IsOverridden(x, "OnPresenceUpdated")).ToArray();
             _typingStartedServices = services.Where(x => IsOverridden(x, "OnTypingStarted")).ToArray();
             _currentUserUpdatedServices = services.Where(x => IsOverridden(x, "OnCurrentUserUpdated")).ToArray();
             _voiceStateUpdatedServices = services.Where(x => IsOverridden(x, "OnVoiceStateUpdated")).ToArray();
@@ -110,6 +112,7 @@ namespace Disqord.Hosting
             Client.ReactionAdded += HandleReactionAdded;
             Client.ReactionRemoved += HandleReactionRemoved;
             Client.ReactionsCleared += HandleReactionsCleared;
+            Client.PresenceUpdated += HandlePresenceUpdated;
             Client.TypingStarted += HandleTypingStarted;
             Client.CurrentUserUpdated += HandleCurrentUserUpdated;
             Client.VoiceStateUpdated += HandleVoiceStateUpdated;
@@ -337,6 +340,14 @@ namespace Disqord.Hosting
                 _ = ExecuteAsync((service, e) => service.OnReactionsCleared(e), service, e);
 
 			return default;
+        }
+
+        public ValueTask HandlePresenceUpdated(object sender, PresenceUpdatedEventArgs e)
+        {
+            foreach (var service in _presenceUpdatedServices)
+                _ = ExecuteAsync((service, e) => service.OnPresenceUpdated(e), service, e);
+
+            return default;
         }
 
         public ValueTask HandleTypingStarted(object sender, TypingStartedEventArgs e)

@@ -16,8 +16,7 @@ namespace Disqord.Gateway
         /// <returns>
         ///     <see langword="true"/>, if the provider supports caching the type.
         /// </returns>
-        public bool Supports<TEntity>()
-            where TEntity : CachedSnowflakeEntity;
+        public bool Supports<TEntity>();
 
         /// <summary>
         ///     Attempts to retrieve a top-level cache for the <typeparamref name="TEntity"/> type.
@@ -27,8 +26,7 @@ namespace Disqord.Gateway
         /// <returns>
         ///     <see langword="true"/>, if the provider supports caching the type.
         /// </returns>
-        bool TryGetCache<TEntity>(out ISynchronizedDictionary<Snowflake, TEntity> cache)
-            where TEntity : CachedSnowflakeEntity;
+        bool TryGetCache<TEntity>(out ISynchronizedDictionary<Snowflake, TEntity> cache);
 
         /// <summary>
         ///     Attempts to retrieve a nested cache for the <typeparamref name="TEntity"/> type.
@@ -43,8 +41,7 @@ namespace Disqord.Gateway
         /// <returns>
         ///     <see langword="true"/>, if the provider supports caching the type.
         /// </returns>
-        bool TryGetCache<TEntity>(Snowflake parentId, out ISynchronizedDictionary<Snowflake, TEntity> cache, bool lookupOnly = false)
-            where TEntity : CachedSnowflakeEntity;
+        bool TryGetCache<TEntity>(Snowflake parentId, out ISynchronizedDictionary<Snowflake, TEntity> cache, bool lookupOnly = false);
 
         /// <summary>
         ///     Attempts to remove a nested cache for the <typeparamref name="TEntity"/> type.
@@ -57,8 +54,7 @@ namespace Disqord.Gateway
         /// <returns>
         ///     <see langword="true"/>, if the provider supports caching the type and had the cache allocated.
         /// </returns>
-        bool TryRemoveCache<TEntity>(Snowflake parentId, out ISynchronizedDictionary<Snowflake, TEntity> cache)
-            where TEntity : CachedSnowflakeEntity;
+        bool TryRemoveCache<TEntity>(Snowflake parentId, out ISynchronizedDictionary<Snowflake, TEntity> cache);
 
         /// <summary>
         ///     Resets the current cache for the given shard ID.

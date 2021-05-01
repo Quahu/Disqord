@@ -60,6 +60,8 @@ namespace Disqord.Gateway.Default
 
         public AsynchronousEvent<ReactionsClearedEventArgs> ReactionsClearedEvent { get; } = new();
 
+        public AsynchronousEvent<PresenceUpdatedEventArgs> PresenceUpdatedEvent { get; } = new();
+
         public AsynchronousEvent<TypingStartedEventArgs> TypingStartedEvent { get; } = new();
 
         public AsynchronousEvent<CurrentUserUpdatedEventArgs> CurrentUserUpdatedEvent { get; } = new();

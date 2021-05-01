@@ -4,13 +4,13 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway
 {
-    public class CachedVoiceState : CachedSnowflakeEntity, IVoiceState
+    public class CachedVoiceState : CachedEntity, IVoiceState
     {
         public Snowflake GuildId { get; }
 
-        public Snowflake? ChannelId { get; private set; }
+        public Snowflake MemberId { get; }
 
-        public Snowflake MemberId => Id;
+        public Snowflake? ChannelId { get; private set; }
 
         public string SessionId { get; private set; }
 
@@ -29,9 +29,10 @@ namespace Disqord.Gateway
         public DateTimeOffset? RequestedToSpeakAt { get; private set; }
 
         public CachedVoiceState(IGatewayClient client, Snowflake guildId, VoiceStateJsonModel model)
-            : base(client, model.UserId)
+            : base(client)
         {
             GuildId = guildId;
+            MemberId = model.UserId;
 
             Update(model);
         }

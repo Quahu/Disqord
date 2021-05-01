@@ -1,0 +1,32 @@
+﻿using Disqord.Gateway.Api.Models;
+
+namespace Disqord.Gateway
+{
+    public class TransientCustomActivity : TransientActivity, ICustomActivity
+    {
+        /// <inheritdoc/>
+        public string Text => Model.State.GetValueOrDefault();
+
+        /// <inheritdoc/>
+        public IEmoji Emoji
+        {
+            get
+            {
+                if (Model.Emoji.GetValueOrDefault() == null)
+                    return null;
+
+                return _emoji ??= Disqord.Emoji.Create(Model.Emoji.Value);
+            }
+        }
+        private IEmoji _emoji;
+
+        public TransientCustomActivity(IClient client, ActivityJsonModel model)
+            : base(client, model)
+        { }
+
+        public override string ToString()
+            => Emoji != null
+                ? $"{Emoji} {Text}"
+                : Text;
+    }
+}

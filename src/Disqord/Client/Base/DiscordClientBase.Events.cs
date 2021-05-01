@@ -201,6 +201,13 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<PresenceUpdatedEventArgs> PresenceUpdated
+        {
+            add => GatewayClient.PresenceUpdated += value;
+            remove => GatewayClient.PresenceUpdated -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
         {
             add => GatewayClient.TypingStarted += value;

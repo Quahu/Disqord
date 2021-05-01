@@ -41,14 +41,13 @@ namespace Disqord.Gateway.Default.Dispatcher
                         }
                     }
 
-                    if (guild == null)
-                        guild = new TransientGatewayGuild(Client, model);
+                    guild ??= new TransientGatewayGuild(Client, model);
 
                     // TODO: optimise member cache retrieval
-                    if (CacheProvider.TryGetMembers(model.Id, out var memberCache))
+                    if (CacheProvider.TryGetUsers(out var userCache) && CacheProvider.TryGetMembers(model.Id, out var memberCache))
                     {
                         foreach (var memberModel in model.Members)
-                            Dispatcher.GetOrAddMember(model.Id, memberModel);
+                            Dispatcher.GetOrAddMember(userCache, memberCache, model.Id, memberModel);
                     }
 
                     if (CacheProvider.TryGetChannels(model.Id, out var channelCache))
@@ -92,12 +91,29 @@ namespace Disqord.Gateway.Default.Dispatcher
                             if (isPending)
                             {
                                 var voiceState = new CachedVoiceState(Client, model.Id, voiceStateModel);
-                                voiceStateCache.Add(voiceState.Id, voiceState);
+                                voiceStateCache.Add(voiceState.MemberId, voiceState);
                             }
                             else
                             {
                                 var voiceState = voiceStateCache.GetValueOrDefault(voiceStateModel.UserId);
                                 voiceState?.Update(voiceStateModel);
+                            }
+                        }
+                    }
+
+                    if (CacheProvider.TryGetPresences(model.Id, out var presenceCache))
+                    {
+                        foreach (var presenceModel in model.Presences)
+                        {
+                            if (isPending)
+                            {
+                                var presence = new CachedPresence(Client, presenceModel);
+                                presenceCache.Add(presence.MemberId, presence);
+                            }
+                            else
+                            {
+                                var presence = presenceCache.GetValueOrDefault(presenceModel.User.Id);
+                                presence?.Update(presenceModel);
                             }
                         }
                     }
@@ -156,6 +172,24 @@ namespace Disqord.Gateway.Default.Dispatcher
                     {
                         var role = new CachedRole(Client, model.Id, roleModel);
                         roleCache.Add(role.Id, role);
+                    }
+                }
+
+                if (CacheProvider.TryGetVoiceStates(model.Id, out var voiceStateCache))
+                {
+                    foreach (var voiceStateModel in model.VoiceStates)
+                    {
+                        var voiceState = new CachedVoiceState(Client, model.Id, voiceStateModel);
+                        voiceStateCache.Add(voiceState.MemberId, voiceState);
+                    }
+                }
+
+                if (CacheProvider.TryGetPresences(model.Id, out var presenceCache))
+                {
+                    foreach (var presenceModel in model.Presences)
+                    {
+                        var presence = new CachedPresence(Client, presenceModel);
+                        presenceCache.Add(presence.MemberId, presence);
                     }
                 }
 

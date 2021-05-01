@@ -136,5 +136,19 @@ namespace Disqord.Gateway
             var client = member.GetGatewayClient();
             return client.GetVoiceState(member.GuildId, member.Id);
         }
+        
+        /// <summary>
+        ///     Gets the cached presence for the specified member.
+        ///     Returns <see langword="null"/> if the presence is not cached.
+        /// </summary>
+        /// <param name="member"> The member to get the presence for. </param>
+        /// <returns>
+        ///     The cached presence for this member.
+        /// </returns>
+        public static CachedPresence GetPresence(this IMember member)
+        {
+            var client = member.GetGatewayClient();
+            return client.GetPresence(member.GuildId, member.Id);
+        }
     }
 }

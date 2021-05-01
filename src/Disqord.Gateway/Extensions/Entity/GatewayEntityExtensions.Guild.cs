@@ -97,5 +97,21 @@ namespace Disqord.Gateway
 
             return ReadOnlyDictionary<Snowflake, CachedVoiceState>.Empty;
         }
+
+        /// <summary>
+        ///     Gets all cached presences for the specified guild.
+        /// </summary>
+        /// <param name="guild"> The guild to get the presences for. </param>
+        /// <returns>
+        ///     A dictionary of cached presences for this guild keyed by <see cref="IPresence.MemberId"/>.
+        /// </returns>
+        public static IReadOnlyDictionary<Snowflake, CachedPresence> GetPresences(this IGuild guild)
+        {
+            var client = guild.GetGatewayClient();
+            if (client.CacheProvider.TryGetPresences(guild.Id, out var cache, true))
+                return cache.ReadOnly();
+
+            return ReadOnlyDictionary<Snowflake, CachedPresence>.Empty;
+        }
     }
 }

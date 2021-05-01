@@ -94,6 +94,22 @@ namespace Disqord.Gateway
             return ReadOnlyDictionary<Snowflake, CachedVoiceState>.Empty;
         }
 
+        public static CachedPresence GetPresence(this IGatewayClient client, Snowflake guildId, Snowflake memberId)
+        {
+            if (client.CacheProvider.TryGetPresences(guildId, out var cache, true))
+                return cache.GetValueOrDefault(memberId);
+
+            return null;
+        }
+
+        public static IReadOnlyDictionary<Snowflake, CachedPresence> GetPresences(this IGatewayClient client, Snowflake guildId)
+        {
+            if (client.CacheProvider.TryGetPresences(guildId, out var cache, true))
+                return cache.ReadOnly();
+
+            return ReadOnlyDictionary<Snowflake, CachedPresence>.Empty;
+        }
+
         public static CachedUserMessage GetMessage(this IGatewayClient client, Snowflake channelId, Snowflake messageId)
         {
             if (client.CacheProvider.TryGetMessages(channelId, out var cache, true))

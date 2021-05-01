@@ -102,6 +102,8 @@ namespace Disqord.Gateway.Default
                 ["MESSAGE_REACTION_REMOVE_ALL"] = new MessageReactionRemoveAllHandler(),
                 ["MESSAGE_REACTION_REMOVE_EMOJI"] = new MessageReactionRemoveEmojiHandler(),
 
+                ["PRESENCE_UPDATE"] = new PresenceUpdateHandler(),
+
                 ["TYPING_START"] = new TypingStartHandler(),
 
                 ["USER_UPDATE"] = new UserUpdateHandler(),

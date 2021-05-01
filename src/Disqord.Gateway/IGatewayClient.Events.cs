@@ -143,6 +143,11 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<ReactionsClearedEventArgs> ReactionsCleared;
 
         /// <summary>
+        ///     Fires when a member's presence is updated.
+        /// </summary>
+        event AsynchronousEventHandler<PresenceUpdatedEventArgs> PresenceUpdated;
+
+        /// <summary>
         ///     Fires when a user starts typing in a channel.
         /// </summary>
         event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted;

@@ -34,11 +34,9 @@ namespace Disqord.Gateway.Default
         { }
 
         public bool Supports<TEntity>()
-            where TEntity : CachedSnowflakeEntity
             => _supportedTypes.Contains(typeof(TEntity)) || _supportedNestedTypes.Contains(typeof(TEntity));
 
         public bool TryGetCache<TEntity>(out ISynchronizedDictionary<Snowflake, TEntity> cache)
-            where TEntity : CachedSnowflakeEntity
         {
             lock (this)
             {
@@ -54,7 +52,6 @@ namespace Disqord.Gateway.Default
         }
 
         public bool TryGetCache<TEntity>(Snowflake parentId, out ISynchronizedDictionary<Snowflake, TEntity> cache, bool lookupOnly = false)
-            where TEntity : CachedSnowflakeEntity
         {
             lock (this)
             {
@@ -97,7 +94,6 @@ namespace Disqord.Gateway.Default
         }
 
         public bool TryRemoveCache<TEntity>(Snowflake parentId, out ISynchronizedDictionary<Snowflake, TEntity> cache)
-            where TEntity : CachedSnowflakeEntity
         {
             lock (this)
             {
@@ -147,6 +143,7 @@ namespace Disqord.Gateway.Default
                         {
                             foreach (var guildId in guildsCache.Keys.Where(x => ShardId.ForGuildId(x, shardId.Count) == shardId))
                             {
+                                // TODO: dynamic?
                                 guildsCache.Remove(guildId);
 
                                 if (this.TryGetChannels(guildId, out var channelCache))
@@ -160,6 +157,9 @@ namespace Disqord.Gateway.Default
 
                                 if (this.TryGetVoiceStates(guildId, out var voiceStates))
                                     voiceStates.Clear();
+
+                                if (this.TryGetPresences(guildId, out var presences))
+                                    presences.Clear();
                             }
                         }
                     }

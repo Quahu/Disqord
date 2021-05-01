@@ -200,6 +200,13 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<PresenceUpdatedEventArgs> PresenceUpdated
+        {
+            add => Dispatcher.PresenceUpdatedEvent.Hook(value);
+            remove => Dispatcher.PresenceUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
         {
             add => Dispatcher.TypingStartedEvent.Hook(value);
