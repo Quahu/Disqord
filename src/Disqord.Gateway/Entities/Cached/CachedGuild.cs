@@ -103,7 +103,7 @@ namespace Disqord.Gateway
             }
         }
 
-        public IReadOnlyDictionary<Snowflake, IGuildChannel> Channels
+        IReadOnlyDictionary<Snowflake, IGuildChannel> IGatewayGuild.Channels
         {
             get
             {
@@ -114,7 +114,7 @@ namespace Disqord.Gateway
             }
         }
 
-        public IReadOnlyDictionary<Snowflake, IVoiceState> VoiceStates
+        IReadOnlyDictionary<Snowflake, IVoiceState> IGatewayGuild.VoiceStates
         {
             get
             {
@@ -122,6 +122,17 @@ namespace Disqord.Gateway
                     return new ReadOnlyUpcastingDictionary<Snowflake, CachedVoiceState, IVoiceState>(cache.ReadOnly());
 
                 return ReadOnlyDictionary<Snowflake, IVoiceState>.Empty;
+            }
+        }
+
+        IReadOnlyDictionary<Snowflake, IPresence> IGatewayGuild.Presences
+        {
+            get
+            {
+                if (Client.CacheProvider.TryGetPresences(Id, out var cache, true))
+                    return new ReadOnlyUpcastingDictionary<Snowflake, CachedPresence, IPresence>(cache.ReadOnly());
+
+                return ReadOnlyDictionary<Snowflake, IPresence>.Empty;
             }
         }
 

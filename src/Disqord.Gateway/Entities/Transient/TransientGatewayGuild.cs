@@ -56,6 +56,18 @@ namespace Disqord
         }
         private IReadOnlyDictionary<Snowflake, IGuildChannel> _channels;
 
+        public IReadOnlyDictionary<Snowflake, IPresence> Presences
+        {
+            get
+            {
+                if (_presences == null)
+                    _presences = Model.Presences.ToReadOnlyDictionary(Client, (x, _) => x.User.Id, (x, client) => new TransientPresence(client, x) as IPresence);
+
+                return _presences;
+            }
+        }
+        private IReadOnlyDictionary<Snowflake, IPresence> _presences;
+
         public new GatewayGuildJsonModel Model => base.Model as GatewayGuildJsonModel;
 
         public new IGatewayClient Client => base.Client as IGatewayClient;

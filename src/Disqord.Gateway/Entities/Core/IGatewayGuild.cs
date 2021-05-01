@@ -6,20 +6,44 @@ namespace Disqord.Gateway
 {
     public interface IGatewayGuild : IGuild, IGatewayEntity, IJsonUpdatable<GatewayGuildJsonModel>
     {
+        /// <summary>
+        ///     Gets when the bot joined this guild.
+        /// </summary>
         DateTimeOffset JoinedAt { get; }
 
+        /// <summary>
+        ///     Gets whether this guild is considered large.
+        /// </summary>
         bool IsLarge { get; }
 
+        /// <summary>
+        ///     Gets whether this guild is unavailable.
+        /// </summary>
         bool IsUnavailable { get; }
 
+        /// <summary>
+        ///     Gets the member count of this guild.
+        /// </summary>
         int MemberCount { get; }
 
-        IReadOnlyDictionary<Snowflake, IVoiceState> VoiceStates { get; }
-
+        /// <summary>
+        ///     Gets the members of this guild keyed by the IDs of the members.
+        /// </summary>
         IReadOnlyDictionary<Snowflake, IMember> Members { get; }
 
+        /// <summary>
+        ///     Gets the channels of this guild keyed by the IDs of the channels.
+        /// </summary>
         IReadOnlyDictionary<Snowflake, IGuildChannel> Channels { get; }
 
-        //IReadOnlyDictionary<> Presences { get; }
+        /// <summary>
+        ///     Gets the voice states of this guild keyed by the IDs of the members.
+        /// </summary>
+        IReadOnlyDictionary<Snowflake, IVoiceState> VoiceStates { get; }
+
+        /// <summary>
+        ///     Gets the presences of this guild keyed by the IDs of the members.
+        /// </summary>
+        IReadOnlyDictionary<Snowflake, IPresence> Presences { get; }
     }
 }
