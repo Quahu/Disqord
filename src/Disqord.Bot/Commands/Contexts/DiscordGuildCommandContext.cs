@@ -6,36 +6,37 @@ namespace Disqord.Bot
 {
     public class DiscordGuildCommandContext : DiscordCommandContext
     {
+        /// <summary>
+        ///     Gets the ID of the guild the command is being executed in.
+        /// </summary>
         public virtual new Snowflake GuildId => base.GuildId.Value;
 
+        /// <summary>
+        ///     Gets the guild the command is being executed in.
+        /// </summary>
         public virtual CachedGuild Guild
         {
-            get
-            {
-                if (_guild == null)
-                    _guild = Bot.GetGuild(GuildId);
-
-                return _guild;
-            }
+            get => _guild ??= Bot.GetGuild(GuildId);
             protected set => _guild = value;
         }
         private CachedGuild _guild;
 
+        /// <summary>
+        ///     Gets the bot member of the guild the command is being executed in.
+        /// </summary>
         public virtual CachedMember CurrentMember
         {
-            get
-            {
-                if (_currentMember == null)
-                    _currentMember = Bot.GetMember(GuildId, Bot.CurrentUser.Id);
-
-                return _currentMember;
-            }
+            get => _currentMember ??= Bot.GetMember(GuildId, Bot.CurrentUser.Id);
             protected set => _currentMember = value;
         }
         private CachedMember _currentMember;
         
+        /// <inheritdoc/>
         public virtual new IMember Author => base.Author as IMember;
 
+        /// <summary>
+        ///     Gets the channel the command is being executed in.
+        /// </summary>
         public virtual CachedTextChannel Channel { get; }
 
         public DiscordGuildCommandContext(

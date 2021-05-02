@@ -13,16 +13,35 @@ namespace Disqord.Bot
     /// </summary>
     public class DiscordCommandContext : CommandContext, IAsyncDisposable
     {
+        /// <summary>
+        ///     Gets the bot client.
+        /// </summary>
         public virtual DiscordBotBase Bot { get; }
 
+        /// <summary>
+        ///     Gets the prefix that was used for the command invocation.
+        /// </summary>
         public virtual IPrefix Prefix { get; }
 
+        /// <summary>
+        ///     Gets the ID of the guild the command is being executed in.
+        ///     Returns <see langword="null"/> if the command is being executed in a private channel.
+        /// </summary>
         public virtual Snowflake? GuildId => Message.GuildId;
 
+        /// <summary>
+        ///     Gets the source message that invoked the command.
+        /// </summary>
         public virtual IGatewayUserMessage Message { get; }
 
+        /// <summary>
+        ///     Gets the ID of the channel the command is being executed in.
+        /// </summary>
         public virtual Snowflake ChannelId => Message.ChannelId;
 
+        /// <summary>
+        ///     Gets the author who invoked the command.
+        /// </summary>
         public virtual IUser Author => Message.Author;
 
         // Reset by Kamaji on continuations, completed by Yield().
@@ -60,8 +79,16 @@ namespace Disqord.Bot
 
         /// <summary>
         ///     Yields this command execution flow into the background
-        ///     freeing up a spot in the <see cref="ICommandQueue"/>.
+        ///     freeing up a slot in the <see cref="ICommandQueue"/>.
         /// </summary>
+        /// <example>
+        ///     Yielding the command execution flow before cheap background work.
+        ///     See <see cref="ContinueAsync"/> for how to re-enter the <see cref="ICommandQueue"/>.
+        ///     <code>
+        ///     Context.Yield();
+        ///     await Task.Delay(5000); // Command code after Yield() executes in the background.
+        ///     </code>
+        /// </example>
         /// <returns>
         ///     <see langword="true"/> if the flow yielded.
         /// </returns>
@@ -80,6 +107,13 @@ namespace Disqord.Bot
         ///     Asynchronously waits for this command execution flow to
         ///     be executed in the <see cref="ICommandQueue"/> again.
         /// </summary>
+        /// <example>
+        ///     Re-entering the <see cref="ICommandQueue"/> after <see cref="Yield"/>ing.
+        ///     <code>
+        ///     await Context.ContinueAsync();
+        ///     // Command code executes in the queue again.
+        ///     </code>
+        /// </example>
         /// <returns>
         ///     A <see cref="ValueTask"/> representing the wait.
         /// </returns>
@@ -98,7 +132,18 @@ namespace Disqord.Bot
         /// <summary>
         ///     Calls <see cref="Yield"/> and returns a disposable that
         ///     calls <see cref="ContinueAsync"/> when disposed.
+        ///     Handy for grouping up background logic.
         /// </summary>
+        /// <example>
+        ///     Yielding the command execution flow and then re-entering automatically.
+        ///     See <see cref="Yield"/> and <see cref="ContinueAsync"/>.
+        ///     <code>
+        ///     await using (Context.BeginYield())
+        ///     {
+        ///         // Code to execute in the background.
+        ///     }
+        ///     </code>
+        /// </example>
         /// <returns>
         ///     A disposable which calls <see cref="ContinueAsync"/> when disposed.
         /// </returns>
@@ -123,6 +168,7 @@ namespace Disqord.Bot
 
         /// <summary>
         ///     Disposes this <see cref="DiscordCommandContext"/> and its underlying <see cref="IServiceScope"/>.
+        ///     This method is automatically called by <see cref="DiscordBotBase"/>.
         /// </summary>
         /// <returns>
         ///     A <see cref="ValueTask"/> representing the disposal work.
