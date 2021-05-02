@@ -85,6 +85,10 @@ namespace Disqord.Extensions.Interactivity
                 {
                     return await waiter.Task.ConfigureAwait(false);
                 }
+                catch (OperationCanceledException ex) when (ex.CancellationToken == cts.Token)
+                {
+                    throw;
+                }
                 catch (OperationCanceledException)
                 {
                     return null;
@@ -111,6 +115,10 @@ namespace Disqord.Extensions.Interactivity
                 {
                     return await waiter.Task.ConfigureAwait(false);
                 }
+                catch (OperationCanceledException ex) when (ex.CancellationToken == cts.Token)
+                {
+                    throw;
+                }
                 catch (OperationCanceledException)
                 {
                     return null;
@@ -120,9 +128,39 @@ namespace Disqord.Extensions.Interactivity
 
         public async Task StartMenuAsync(Snowflake channelId, MenuBase menu, TimeSpan timeout = default, CancellationToken cancellationToken = default)
         {
+            await InternalStartMenuAsync(channelId, menu, timeout, cancellationToken);
+            _ = RunMenuAsync(channelId, menu, timeout, cancellationToken);
+        }
+
+        public async Task RunMenuAsync(Snowflake channelId, MenuBase menu, TimeSpan timeout = default, CancellationToken cancellationToken = default)
+        {
             if (menu == null)
                 throw new ArgumentNullException(nameof(menu));
 
+            if (!menu.IsRunning)
+                await InternalStartMenuAsync(channelId, menu, timeout, cancellationToken).ConfigureAwait(false);
+
+            try
+            {
+                await using (RuntimeDisposal.WrapAsync(menu, true).ConfigureAwait(false))
+                {
+                    await menu.Task.ConfigureAwait(false);
+                }
+            }
+            catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
+            {
+                throw;
+            }
+            catch (OperationCanceledException)
+            { }
+            finally
+            {
+                _menus.Remove(menu.MessageId);
+            }
+        }
+
+        private async Task InternalStartMenuAsync(Snowflake channelId, MenuBase menu, TimeSpan timeout, CancellationToken cancellationToken)
+        {
             timeout = timeout != default
                 ? timeout
                 : DefaultMenuTimeout;
@@ -131,6 +169,10 @@ namespace Disqord.Extensions.Interactivity
             try
             {
                 menu.MessageId = await menu.InitializeAsync().ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -144,37 +186,13 @@ namespace Disqord.Extensions.Interactivity
             {
                 await menu.StartAsync(timeout, cancellationToken).ConfigureAwait(false);
             }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
                 throw new InvalidOperationException($"An exception occurred while attempting to start menu {menu.GetType()}.", ex);
-            }
-
-            _ = InternalRunMenuAsync(menu);
-        }
-
-        public async Task RunMenuAsync(Snowflake channelId, MenuBase menu, TimeSpan timeout = default, CancellationToken cancellationToken = default)
-        {
-            if (menu == null)
-                throw new ArgumentNullException(nameof(menu));
-
-            if (!menu.IsRunning)
-                await StartMenuAsync(channelId, menu, timeout, cancellationToken).ConfigureAwait(false);
-
-            await InternalRunMenuAsync(menu).ConfigureAwait(false);
-        }
-
-        private async Task InternalRunMenuAsync(MenuBase menu)
-        {
-            try
-            {
-                await using (RuntimeDisposal.WrapAsync(menu, true).ConfigureAwait(false))
-                {
-                    await menu.Task.ConfigureAwait(false);
-                }
-            }
-            finally
-            {
-                _menus.Remove(menu.MessageId);
             }
         }
 

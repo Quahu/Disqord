@@ -272,7 +272,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             }
 
             _cts = Cts.Linked(Client.StoppingToken, cancellationToken);
-            _cts.Token.UnsafeRegister(CancellationCallback, (_tcs, _cts.Token));
+            _cts.Token.UnsafeRegister(CancellationCallback, (_tcs, cancellationToken));
 
             if (timeout != Timeout.InfiniteTimeSpan)
             {
