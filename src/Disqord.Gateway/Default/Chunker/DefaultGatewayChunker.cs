@@ -94,6 +94,7 @@ namespace Disqord.Gateway.Default
             var model = new RequestMembersJsonModel
             {
                 GuildId = guild.Id,
+                Query = "",
                 Limit = 0
             };
 
