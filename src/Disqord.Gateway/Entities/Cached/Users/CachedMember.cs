@@ -12,7 +12,8 @@ namespace Disqord.Gateway
 
         public string Nick { get; private set; }
 
-        public IReadOnlyList<Snowflake> RoleIds { get; private set; }
+        public IReadOnlyList<Snowflake> RoleIds => _roleIds.ReadOnly();
+        private Snowflake[] _roleIds;
 
         public Optional<DateTimeOffset> JoinedAt { get; private set; }
 
@@ -40,7 +41,7 @@ namespace Disqord.Gateway
                 Update(model.User.Value);
 
             Nick = model.Nick;
-            RoleIds = model.Roles.ReadOnly();
+            _roleIds = model.Roles;
 
             if (model.JoinedAt.HasValue)
                 JoinedAt = model.JoinedAt.Value;

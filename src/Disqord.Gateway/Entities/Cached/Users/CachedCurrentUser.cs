@@ -42,10 +42,10 @@ namespace Disqord.Gateway
                 HasMfaEnabled = model.MfaEnabled.Value;
 
             if (model.Flags.HasValue)
-                Flags = (UserFlag) model.Flags.Value;
+                Flags = model.Flags.Value;
 
             if (model.PremiumType.HasValue)
-                NitroType = (NitroType) model.PremiumType.Value;
+                NitroType = model.PremiumType.Value;
 
             base.Update(model);
         }
