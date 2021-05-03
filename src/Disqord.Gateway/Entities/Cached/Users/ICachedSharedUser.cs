@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Disqord.Gateway
+﻿namespace Disqord.Gateway
 {
     /// <summary>
     ///     Represents a shared gateway user, i.e. a user object that can be shared between member entities across multiple guilds.
@@ -9,8 +7,26 @@ namespace Disqord.Gateway
     public interface ICachedSharedUser : IUser, IGatewayEntity
     {
         /// <summary>
-        ///     Gets the set containing referenced users by this shared user.
+        ///     Gets the amount of users referenced by this shared user.
         /// </summary>
-        ISet<CachedUser> References { get; }
+        int ReferenceCount { get; }
+
+        /// <summary>
+        ///     Adds a reference to the specified user.
+        /// </summary>
+        /// <param name="user"> The user to add the reference to. </param>
+        /// <returns>
+        ///     The new reference count.
+        /// </returns>
+        int AddReference(CachedUser user);
+
+        /// <summary>
+        ///     Removes a reference to the specified user.
+        /// </summary>
+        /// <param name="user"> The user to remove the reference to. </param>
+        /// <returns>
+        ///     The new reference count.
+        /// </returns>
+        int RemoveReference(CachedUser user);
     }
 }

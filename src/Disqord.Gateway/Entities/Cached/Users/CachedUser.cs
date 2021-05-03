@@ -37,7 +37,6 @@ namespace Disqord.Gateway
             }
             internal set => _sharedUser = value;
         }
-
         private CachedSharedUser _sharedUser;
 
         /// <summary>
@@ -48,7 +47,7 @@ namespace Disqord.Gateway
             : base(sharedUser.Client, sharedUser.Id)
         {
             _sharedUser = sharedUser;
-            _sharedUser.References.Add(this);
+            _sharedUser.AddReference(this);
         }
 
         /// <summary>

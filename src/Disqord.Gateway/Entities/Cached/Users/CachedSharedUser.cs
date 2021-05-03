@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
 using System.ComponentModel;
-using Disqord.Collections.Synchronized;
 using Disqord.Models;
 
 namespace Disqord.Gateway
@@ -23,15 +21,23 @@ namespace Disqord.Gateway
         public override UserFlag PublicFlags => _publicFlags;
 
         /// <inheritdoc/>
-        public ISet<CachedUser> References => _references;
+        public int ReferenceCount
+        {
+            get
+            {
+                lock (this)
+                {
+                    return _referenceCount;
+                }
+            }
+        }
 
         private string _name;
         private string _discriminator;
         private string _avatarHash;
         private readonly bool _isBot;
         private UserFlag _publicFlags;
-
-        private readonly SynchronizedHashSet<CachedUser> _references;
+        private int _referenceCount;
 
         /// <summary>
         ///     Instantiates a new shared user.
@@ -42,8 +48,6 @@ namespace Disqord.Gateway
             : base(client, model)
         {
             _isBot = model.Bot.GetValueOrDefault();
-
-            _references = new SynchronizedHashSet<CachedUser>();
 
             Update(model);
         }
@@ -58,6 +62,24 @@ namespace Disqord.Gateway
 
             if (model.PublicFlags.HasValue)
                 _publicFlags = model.PublicFlags.Value;
+        }
+
+        /// <inheritdoc/>
+        public int AddReference(CachedUser user)
+        {
+            lock (this)
+            {
+                return ++_referenceCount;
+            }
+        }
+
+        /// <inheritdoc/>
+        public int RemoveReference(CachedUser user)
+        {
+            lock (this)
+            {
+                return --_referenceCount;
+            }
         }
     }
 }

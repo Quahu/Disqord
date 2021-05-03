@@ -182,8 +182,7 @@ namespace Disqord.Gateway.Default
             {
                 if ((Dictionary as Dictionary<Snowflake, CachedMember>).Remove(key, out var member))
                 {
-                    member.SharedUser.References.Remove(member);
-                    if (member.SharedUser.References.Count == 0 && _provider.TryGetUsers(out var cache))
+                    if (member.SharedUser.RemoveReference(member) == 0 && _provider.TryGetUsers(out var cache))
                         cache.Remove(key);
 
                     return true;
@@ -198,8 +197,7 @@ namespace Disqord.Gateway.Default
                 {
                     foreach (var member in Values)
                     {
-                        member.SharedUser.References.Remove(member);
-                        if (member.SharedUser.References.Count == 0)
+                        if (member.SharedUser.RemoveReference(member) == 0)
                             cache.Remove(member.Id);
                     }
                 }

@@ -11,12 +11,6 @@ namespace Disqord.Gateway.Default.Dispatcher
             IUser user;
             if (CacheProvider.TryGetMembers(model.GuildId, out var cache) && cache.TryRemove(model.User.Id, out var cachedMember))
             {
-                cachedMember.SharedUser.References.Remove(cachedMember);
-                if (cachedMember.SharedUser.References.Count == 0 && CacheProvider.TryGetUsers(out var usersCache))
-                {
-                    usersCache.Remove(cachedMember.Id);
-                }
-
                 user = cachedMember;
             }
             else
