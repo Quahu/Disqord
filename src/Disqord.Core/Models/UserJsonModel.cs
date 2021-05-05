@@ -11,7 +11,7 @@ namespace Disqord.Models
         public string Username;
 
         [JsonProperty("discriminator")]
-        public string Discriminator;
+        public short Discriminator;
 
         [JsonProperty("avatar")]
         public string Avatar;

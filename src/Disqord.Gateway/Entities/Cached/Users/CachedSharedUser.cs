@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Disqord.Models;
 
 namespace Disqord.Gateway
@@ -9,7 +9,7 @@ namespace Disqord.Gateway
         public override string Name => _name;
 
         /// <inheritdoc/>
-        public override string Discriminator => _discriminator;
+        public override string Discriminator => _discriminator.ToString("0000");
 
         /// <inheritdoc/>
         public override string AvatarHash => _avatarHash;
@@ -33,7 +33,7 @@ namespace Disqord.Gateway
         }
 
         private string _name;
-        private string _discriminator;
+        private short _discriminator;
         private string _avatarHash;
         private readonly bool _isBot;
         private UserFlag _publicFlags;

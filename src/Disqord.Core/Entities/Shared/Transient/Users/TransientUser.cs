@@ -11,7 +11,7 @@ namespace Disqord
 
         public virtual string Name => Model.Username;
 
-        public virtual string Discriminator => Model.Discriminator;
+        public virtual string Discriminator => Model.Discriminator.ToString("0000");
 
         public virtual string AvatarHash => Model.Avatar;
 
