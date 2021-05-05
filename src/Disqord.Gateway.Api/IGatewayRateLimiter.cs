@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api.Models;
 using Disqord.Logging;
@@ -7,7 +6,7 @@ using Disqord.Utilities.Binding;
 
 namespace Disqord.Gateway.Api
 {
-    public interface IGatewayRateLimiter : IBindable<IGatewayApiClient>, ILogging, IDisposable
+    public interface IGatewayRateLimiter : IBindable<IGatewayApiClient>, ILogging
     {
         IGatewayApiClient ApiClient { get; }
 

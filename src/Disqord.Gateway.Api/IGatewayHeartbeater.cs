@@ -6,7 +6,7 @@ using Disqord.Utilities.Binding;
 
 namespace Disqord.Gateway.Api
 {
-    public interface IGatewayHeartbeater : IBindable<IGatewayApiClient>, ILogging, IDisposable
+    public interface IGatewayHeartbeater : IBindable<IGatewayApiClient>, ILogging
     {
         IGatewayApiClient ApiClient { get; }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Disqord.Logging;
+﻿using Disqord.Logging;
 
 namespace Disqord.Api
 {
@@ -9,7 +8,7 @@ namespace Disqord.Api
     /// <remarks>
     ///     Do not use this unless you are well aware of how it works.
     /// </remarks>
-    public interface IApiClient : ILogging, IDisposable
+    public interface IApiClient : ILogging
     {
         /// <summary>
         ///     Gets the token used by this API client.

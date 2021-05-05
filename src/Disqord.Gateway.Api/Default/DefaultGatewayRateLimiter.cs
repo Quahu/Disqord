@@ -122,10 +122,6 @@ namespace Disqord.Gateway.Api.Default
             _masterBucket.Release();
         }
 
-        /// <inheritdoc/>
-        public virtual void Dispose()
-        { }
-
         private static Bucket GetSharedBucket(BotToken token, GatewayPayloadOperation operation, int uses, TimeSpan resetDelay)
         {
             var dictionary = _sharedBuckets.GetOrAdd(token.Id, _ => new SynchronizedDictionary<GatewayPayloadOperation, Bucket>(1));

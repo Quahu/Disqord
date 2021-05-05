@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Disqord.Rest.Default;
@@ -56,7 +55,7 @@ namespace Disqord.Rest.Api.Default
             {
                 if (typeof(TModel) == typeof(string))
                 {
-                    var reader = new StreamReader(jsonStream, Encoding.UTF8); 
+                    var reader = new StreamReader(jsonStream, Encoding.UTF8);
                     return (TModel) (object) reader.ReadToEnd();
                 }
 

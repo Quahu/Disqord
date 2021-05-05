@@ -9,7 +9,7 @@ using Disqord.WebSocket;
 
 namespace Disqord.Gateway.Api
 {
-    public interface IGateway : IBindable<IGatewayApiClient>, ILogging, IDisposable
+    public interface IGateway : IBindable<IGatewayApiClient>, ILogging
     {
         int Version { get; }
 

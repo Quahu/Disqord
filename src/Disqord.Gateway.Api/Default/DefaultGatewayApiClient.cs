@@ -412,12 +412,5 @@ namespace Disqord.Gateway.Api.Default
                     Seq = Sequence
                 }
             }, cancellationToken);
-
-        public void Dispose()
-        {
-            RateLimiter.Dispose();
-            Heartbeater.Dispose();
-            Gateway.Dispose();
-        }
     }
 }

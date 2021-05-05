@@ -96,8 +96,5 @@ namespace Disqord.Gateway.Api.Default
 
             return default;
         }
-
-        public virtual void Dispose()
-        { }
     }
 }
