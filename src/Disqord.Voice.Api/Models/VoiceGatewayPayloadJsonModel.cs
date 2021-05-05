@@ -14,7 +14,7 @@ namespace Disqord.Voice.Api.Models
         ///     The JSON token (any) representing the data of this payload.
         /// </summary>
         [JsonProperty("d")]
-        public IJsonToken D;
+        public IJsonNode D;
 
         /// <summary>
         ///     The sequence number of this payload.
