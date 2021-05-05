@@ -20,6 +20,8 @@ namespace Disqord.Gateway
 
         public bool IsMentionable { get; private set; }
 
+        public RoleTags Tags { get; private set; }
+
         public string Mention => Disqord.Mention.Role(this);
 
         public CachedRole(IGatewayClient client, Snowflake guildId, RoleJsonModel model)
@@ -41,6 +43,7 @@ namespace Disqord.Gateway
             Permissions = model.Permissions;
             IsManaged = model.Managed;
             IsMentionable = model.Mentionable;
+            Tags = Optional.ConvertOrDefault(model.Tags, x => new RoleTags(x), RoleTags.Empty);
         }
     }
 }

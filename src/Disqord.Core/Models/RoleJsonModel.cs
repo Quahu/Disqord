@@ -29,6 +29,6 @@ namespace Disqord.Models
         public bool Mentionable;
 
         [JsonProperty("tags")]
-        public RoleTagsJsonModel Tags;
+        public Optional<RoleTagsJsonModel> Tags;
     }
 }

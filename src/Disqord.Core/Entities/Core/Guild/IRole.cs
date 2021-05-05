@@ -14,7 +14,8 @@ namespace Disqord
         Color? Color { get; }
 
         /// <summary>
-        ///     Gets whether this role is hoisted.
+        ///     Gets whether this role is hoisted, i.e. whether members of this role
+        ///     are displayed separately on the member list in the client.
         /// </summary>
         bool IsHoisted { get; }
 
@@ -37,5 +38,18 @@ namespace Disqord
         ///     Gets whether this role is mentionable.
         /// </summary>
         bool IsMentionable { get; }
+
+        /// <summary>
+        ///     Gets the role tags of this role.
+        ///     This can be used to, for example, determine if the role is the Nitro booster role.
+        ///     <example>
+        ///     Finding the Nitro booster role.
+        ///     <code>
+        ///     var roles = guild.GetRoles().Values;
+        ///     var boosterRole = roles.FirstOrDefault(x => x.Tags.IsNitroBooster);
+        ///     </code>
+        ///     </example>
+        /// </summary>
+        RoleTags Tags { get; }
     }
 }

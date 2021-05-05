@@ -29,7 +29,10 @@ namespace Disqord
 
         public bool IsMentionable => Model.Mentionable;
 
-        public TransientRole(IClient client, Snowflake guildId, RoleJsonModel model) 
+        public RoleTags Tags => _tags ??= Optional.ConvertOrDefault(Model.Tags, x => new RoleTags(x), RoleTags.Empty);
+        private RoleTags _tags;
+
+        public TransientRole(IClient client, Snowflake guildId, RoleJsonModel model)
             : base(client, model)
         {
             GuildId = guildId;
