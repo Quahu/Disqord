@@ -5,10 +5,10 @@ namespace Disqord.Models
     public class AuditLogChangeJsonModel : JsonModel
     {
         [JsonProperty("new_value")]
-        public Optional<IJsonToken> NewValue;
+        public Optional<IJsonNode> NewValue;
 
         [JsonProperty("old_value")]
-        public Optional<IJsonToken> OldValue;
+        public Optional<IJsonNode> OldValue;
 
         [JsonProperty("key")]
         public string Key;
