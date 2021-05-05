@@ -30,9 +30,9 @@ namespace Disqord.Bot
             protected set => _currentMember = value;
         }
         private CachedMember _currentMember;
-        
+
         /// <inheritdoc/>
-        public virtual new IMember Author => base.Author as IMember;
+        public override IMember Author => base.Author as IMember;
 
         /// <summary>
         ///     Gets the channel the command is being executed in.
