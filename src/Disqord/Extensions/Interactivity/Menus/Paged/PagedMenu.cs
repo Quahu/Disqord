@@ -63,23 +63,32 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             if (addDefaultButtons)
             {
                 // Note: the Unicode strings contain the variation selectors.
-                AddButtonAsync(new Button(new LocalEmoji("⏮️"), e => ChangePageAsync(0), 0));
-                AddButtonAsync(new Button(new LocalEmoji("◀️"), e => ChangePageAsync(CurrentPageIndex - 1), 1));
-                AddButtonAsync(new Button(new LocalEmoji("▶️"), e => ChangePageAsync(CurrentPageIndex + 1), 2));
-                AddButtonAsync(new Button(new LocalEmoji("⏭️"), e => ChangePageAsync(PageProvider.PageCount - 1), 3));
+                AddButtonAsync(new Button(new LocalEmoji("⏮️"), _ => ChangePageAsync(0), 0));
+                AddButtonAsync(new Button(new LocalEmoji("◀️"), _ => ChangePageAsync(CurrentPageIndex - 1), 1));
+                AddButtonAsync(new Button(new LocalEmoji("▶️"), _ => ChangePageAsync(CurrentPageIndex + 1), 2));
+                AddButtonAsync(new Button(new LocalEmoji("⏭️"), _ => ChangePageAsync(PageProvider.PageCount - 1), 3));
                 AddButtonAsync(new Button(new LocalEmoji("⏹️"), async e =>
                 {
+                    if (!e.WasAdded)
+                        return;
+
                     try
                     {
                         switch (StopBehavior)
                         {
                             case StopBehavior.ClearReactions:
+                            {
+                                if (e.GuildId == null)
+                                    return;
+
                                 await Message.ClearReactionsAsync().ConfigureAwait(false); // TODO: check permissions
                                 break;
-
+                            }
                             case StopBehavior.DeleteMessage:
+                            {
                                 await Message.DeleteAsync().ConfigureAwait(false);
                                 break;
+                            }
                         }
                     }
                     finally

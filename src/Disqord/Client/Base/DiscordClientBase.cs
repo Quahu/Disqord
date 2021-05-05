@@ -113,13 +113,6 @@ namespace Disqord
         /// </returns>
         public abstract Task WaitUntilReadyAsync(CancellationToken cancellationToken);
 
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            GatewayClient.Dispose();
-            RestClient.Dispose();
-        }
-
         Task IGatewayClient.RunAsync(Uri uri, CancellationToken stoppingToken)
             => GatewayClient.RunAsync(uri, stoppingToken);
     }

@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Logging;
-using Disqord.Rest.Default;
 using Disqord.Utilities.Binding;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -16,10 +15,16 @@ namespace Disqord.Rest.Api.Default
     {
         private const string UnlimitedBucketString = "unlimited";
 
+        /// <inheritdoc/>
         public ILogger Logger { get; }
 
+        /// <inheritdoc/>
         public IRestApiClient ApiClient => _binder.Value;
 
+        /// <summary>
+        ///     Gets the maximum delay duration the rate-limiter will delay for
+        ///     before throwing.
+        /// </summary>
         public TimeSpan MaximumDelayDuration { get; }
 
         private readonly Binder<IRestApiClient> _binder;
@@ -48,6 +53,7 @@ namespace Disqord.Rest.Api.Default
             _binder.Bind(apiClient);
         }
 
+        /// <inheritdoc/>
         public bool IsRateLimited(FormattedRoute route = null)
         {
             // TODO: proper global handling
@@ -61,6 +67,7 @@ namespace Disqord.Rest.Api.Default
             return bucket.Remaining == 0;
         }
 
+        /// <inheritdoc/>
         public ValueTask EnqueueRequestAsync(IRestRequest request)
         {
             if (ApiClient.Requester.Version < 8)
@@ -149,14 +156,6 @@ namespace Disqord.Rest.Api.Default
                     return false;
                 }
             }
-        }
-
-        public void Dispose()
-        {
-            //foreach (var bucket in _buckets.Values)
-            //    bucket.Dispose();
-
-            //_buckets.Clear();
         }
 
         private class Bucket : ILogging

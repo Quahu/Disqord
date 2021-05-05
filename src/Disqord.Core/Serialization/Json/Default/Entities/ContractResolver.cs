@@ -16,7 +16,7 @@ namespace Disqord.Serialization.Json.Default
         private readonly DefaultJsonSerializer _serializer;
         internal readonly StringEnumConverter _stringEnumConverter;
         internal readonly StreamConverter _streamConverter;
-        private readonly JsonTokenConverter _jsonTokenConverter;
+        private readonly JsonNodeConverter _jsonNodeConverter;
         private readonly SnowflakeConverter _snowflakeConverter;
         private readonly ISynchronizedDictionary<Type, OptionalConverter> _optionalConverters;
 
@@ -25,7 +25,7 @@ namespace Disqord.Serialization.Json.Default
             _serializer = serializer;
             _stringEnumConverter = new StringEnumConverter();
             _streamConverter = new StreamConverter(serializer);
-            _jsonTokenConverter = new JsonTokenConverter();
+            _jsonNodeConverter = new JsonNodeConverter();
             _snowflakeConverter = new SnowflakeConverter();
             _optionalConverters = new SynchronizedDictionary<Type, OptionalConverter>();
         }
@@ -66,7 +66,11 @@ namespace Disqord.Serialization.Json.Default
 
         protected override JsonContract CreateContract(Type objectType)
         {
-            var contract = base.CreateContract(objectType);
+            JsonContract contract;
+            if (typeof(JsonModel).IsAssignableFrom(objectType))
+                contract = CreateObjectContract(objectType);
+            else
+                contract = base.CreateContract(objectType);
             contract.Converter = GetConverter(objectType) ?? contract.Converter;
             return contract;
         }
@@ -79,7 +83,7 @@ namespace Disqord.Serialization.Json.Default
                 contract.ExtensionDataGetter = instance =>
                 {
                     return instance is JsonModel model && model.ExtensionData != null
-                        ? model.ExtensionData.Select(x => KeyValuePair.Create(x.Key as object, (x.Value as DefaultJsonToken).Token as object))
+                        ? model.ExtensionData.Select(x => KeyValuePair.Create(x.Key as object, (x.Value as DefaultJsonNode).Token as object))
                         : null;
                 };
 
@@ -92,21 +96,21 @@ namespace Disqord.Serialization.Json.Default
                     if (skippedProperties != null && Array.IndexOf(skippedProperties, key) != -1)
                         return;
 
-                    IJsonToken token;
+                    IJsonNode node;
                     if (value == null)
                     {
-                        token = null;
+                        node = null;
                     }
                     else if (value is JToken jToken)
                     {
-                        token = DefaultJsonToken.Create(jToken, _serializer.UnderlyingSerializer);
+                        node = DefaultJsonNode.Create(jToken, _serializer.UnderlyingSerializer);
                     }
                     else
                     {
-                        token = DefaultJsonToken.Create(JToken.FromObject(value, _serializer.UnderlyingSerializer), _serializer.UnderlyingSerializer);
+                        node = DefaultJsonNode.Create(JToken.FromObject(value, _serializer.UnderlyingSerializer), _serializer.UnderlyingSerializer);
                     }
 
-                    model.ExtensionData.Add(key, token);
+                    model.ExtensionData.Add(key, node);
                 };
             }
 
@@ -132,14 +136,12 @@ namespace Disqord.Serialization.Json.Default
         private JsonConverter GetConverter(Type type)
         {
             if (typeof(Stream).IsAssignableFrom(type))
-            {
                 return _streamConverter;
-            }
-            else if (typeof(IJsonToken).IsAssignableFrom(type) && !typeof(JsonModel).IsAssignableFrom(type))
-            {
-                return _jsonTokenConverter;
-            }
-            else if (!type.IsClass)
+            
+            if (typeof(IJsonNode).IsAssignableFrom(type) && !typeof(JsonModel).IsAssignableFrom(type))
+                return _jsonNodeConverter;
+
+            if (!type.IsClass)
             {
                 var nullableType = Nullable.GetUnderlyingType(type);
                 if (nullableType != null)

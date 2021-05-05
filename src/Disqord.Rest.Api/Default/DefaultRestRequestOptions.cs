@@ -5,6 +5,9 @@ using Disqord.Rest.Api;
 
 namespace Disqord.Rest.Default
 {
+    /// <summary>
+    ///     Represents the default set of <see cref="IRestRequestOptions"/>.
+    /// </summary>
     public class DefaultRestRequestOptions : IRestRequestOptions
     {
         /// <summary>
@@ -35,6 +38,10 @@ namespace Disqord.Rest.Default
         }
         private IDictionary<string, string> _headers;
 
+        /// <summary>
+        ///     Gets or sets the action that should be performed
+        ///     on the <see cref="IRestRequest"/> before sending it.
+        /// </summary>
         public Action<IRestRequest> RequestAction { get; set; }
     }
 }

@@ -26,10 +26,5 @@ namespace Disqord.Rest.Default
             Logger = logger;
             ApiClient = apiClient;
         }
-
-        public void Dispose()
-        {
-            ApiClient.Dispose();
-        }
     }
 }

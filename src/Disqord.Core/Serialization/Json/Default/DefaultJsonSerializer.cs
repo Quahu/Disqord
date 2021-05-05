@@ -8,15 +8,23 @@ using Newtonsoft.Json.Linq;
 
 namespace Disqord.Serialization.Json.Default
 {
+    /// <summary>
+    ///     Represents the default <see cref="IJsonSerializer"/>.
+    ///     Uses Newtonsoft.Json.
+    /// </summary>
     public sealed class DefaultJsonSerializer : IJsonSerializer
     {
+        /// <inheritdoc/>
         public ILogger Logger { get; }
 
+        /// <summary>
+        ///     Gets the underlying <see cref="JsonSerializer"/>.
+        /// </summary>
         public JsonSerializer UnderlyingSerializer { get; }
 
         internal readonly bool ShowHttpStreamsWarning;
 
-        private static readonly Encoding _utf8 = new UTF8Encoding(false);
+        private static readonly Encoding Utf8 = new UTF8Encoding(false);
 
         public DefaultJsonSerializer(
             IOptions<DefaultJsonSerializerConfiguration> options,
@@ -31,64 +39,48 @@ namespace Disqord.Serialization.Json.Default
             };
         }
 
-        public T Deserialize<T>(ReadOnlyMemory<byte> json)
+        /// <inheritdoc/>
+        public T Deserialize<T>(Stream json)
             where T : class
         {
             try
             {
-                using (var stream = new ReadOnlyMemoryStream(json))
-                using (var textReader = new StreamReader(stream, _utf8))
+                using (var textReader = new StreamReader(json, Utf8, leaveOpen: true))
                 using (var jsonReader = new JsonTextReader(textReader))
                 {
-                    if (Library.Debug.DumpJson)
-                    {
-                        Library.Debug.DumpWriter.WriteLine(_utf8.GetString(json.Span));
-                    }
-
                     return UnderlyingSerializer.Deserialize<T>(jsonReader);
                 }
             }
             catch (Exception ex)
             {
-                throw new JsonSerializationException(true, json, typeof(T), ex);
+                throw new JsonSerializationException(true, typeof(T), ex);
             }
         }
 
+        /// <inheritdoc/>
         public Memory<byte> Serialize(object model)
         {
             try
             {
                 using (var memoryStream = new MemoryStream())
-                using (var streamWriter = new StreamWriter(memoryStream, _utf8))
+                using (var streamWriter = new StreamWriter(memoryStream, Utf8, leaveOpen: true))
                 using (var jsonWriter = new JsonTextWriter(streamWriter))
                 {
                     UnderlyingSerializer.Serialize(jsonWriter, JToken.FromObject(model, UnderlyingSerializer));
 
                     jsonWriter.Flush();
-                    memoryStream.TryGetBuffer(out var streamBuffer);
-                    if (Library.Debug.DumpJson)
-                    {
-                        Library.Debug.DumpWriter.WriteLine(_utf8.GetString(streamBuffer));
-                    }
-
-                    return streamBuffer;
+                    memoryStream.TryGetBuffer(out var buffer);
+                    return buffer;
                 }
             }
             catch (Exception ex)
             {
-                throw new JsonSerializationException(false, default, model.GetType(), ex);
+                throw new JsonSerializationException(false, model.GetType(), ex);
             }
         }
 
-        // TODO: Temporarily horrible.
-        public T StringToEnum<T>(string value)
-            where T : Enum
-            => JToken.FromObject(value, UnderlyingSerializer).ToObject<T>(UnderlyingSerializer);
-
-        public IJsonToken GetJsonToken(object value)
-            => DefaultJsonToken.Create(JToken.FromObject(value, UnderlyingSerializer), UnderlyingSerializer);
-
-        public void Dispose()
-        { }
+        /// <inheritdoc/>
+        public IJsonNode GetJsonNode(object value)
+            => DefaultJsonNode.Create(JToken.FromObject(value, UnderlyingSerializer), UnderlyingSerializer);
     }
 }

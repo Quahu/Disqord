@@ -16,7 +16,7 @@ namespace Disqord.Rest.Api.Default
         /// <inheritdoc/>
         public IRestRequestOptions Options { get; }
 
-        protected HttpRequestContent _httpContent;
+        protected HttpRequestContent HttpContent;
 
         private readonly TaskCompletionSource<IRestResponse> _tcs;
 
@@ -34,10 +34,10 @@ namespace Disqord.Rest.Api.Default
 
         public virtual HttpRequestContent GetOrCreateHttpContent(IRestApiClient client)
         {
-            if (_httpContent == null && Content != null)
-                _httpContent = Content.CreateHttpContent(client, Options);
+            if (HttpContent == null && Content != null)
+                HttpContent = Content.CreateHttpContent(client, Options);
 
-            return _httpContent;
+            return HttpContent;
         }
 
         /// <inheritdoc/>
@@ -65,7 +65,7 @@ namespace Disqord.Rest.Api.Default
         /// <inheritdoc/>
         public virtual void Dispose()
         {
-            _httpContent?.Dispose();
+            HttpContent?.Dispose();
         }
     }
 }

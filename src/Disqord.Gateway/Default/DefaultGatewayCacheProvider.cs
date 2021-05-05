@@ -33,9 +33,11 @@ namespace Disqord.Gateway.Default
         public void Bind(IGatewayClient value)
         { }
 
+        /// <inheritdoc/>
         public bool Supports<TEntity>()
             => _supportedTypes.Contains(typeof(TEntity)) || _supportedNestedTypes.Contains(typeof(TEntity));
 
+        /// <inheritdoc/>
         public bool TryGetCache<TEntity>(out ISynchronizedDictionary<Snowflake, TEntity> cache)
         {
             lock (this)
@@ -51,6 +53,7 @@ namespace Disqord.Gateway.Default
             }
         }
 
+        /// <inheritdoc/>
         public bool TryGetCache<TEntity>(Snowflake parentId, out ISynchronizedDictionary<Snowflake, TEntity> cache, bool lookupOnly = false)
         {
             lock (this)
@@ -93,6 +96,7 @@ namespace Disqord.Gateway.Default
             }
         }
 
+        /// <inheritdoc/>
         public bool TryRemoveCache<TEntity>(Snowflake parentId, out ISynchronizedDictionary<Snowflake, TEntity> cache)
         {
             lock (this)
@@ -114,6 +118,7 @@ namespace Disqord.Gateway.Default
             }
         }
 
+        /// <inheritdoc/>
         public void Reset(ShardId shardId = default)
         {
             lock (this)
@@ -167,7 +172,7 @@ namespace Disqord.Gateway.Default
             }
         }
 
-        // TODO: investigate race conditions
+        // This automatically removes references from the shared users and removes them as necessary.
         private sealed class MemberDictionary : ProxiedDictionary<Snowflake, CachedMember>
         {
             private readonly DefaultGatewayCacheProvider _provider;
@@ -206,6 +211,7 @@ namespace Disqord.Gateway.Default
             }
         }
 
+        // This automatically pops the oldest message whenever the capacity is reached.
         private sealed class MessageDictionary : ProxiedDictionary<Snowflake, CachedUserMessage>
         {
             private readonly int _capacity;

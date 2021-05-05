@@ -2,10 +2,9 @@
 
 namespace Disqord.Serialization.Json
 {
-    public interface IJsonArray : IJsonToken, IEnumerable<IJsonToken>
-    {
-        int Count { get; }
-
-        IJsonToken this[int index] { get; }
-    }
+    /// <summary>
+    ///     Represents a JSON array node, i.e. an array of <see cref="IJsonNode"/>s.
+    /// </summary>
+    public interface IJsonArray : IJsonNode, IReadOnlyList<IJsonNode>
+    { }
 }

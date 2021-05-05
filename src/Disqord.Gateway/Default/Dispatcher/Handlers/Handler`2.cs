@@ -12,7 +12,7 @@ namespace Disqord.Gateway.Default.Dispatcher
         protected Handler()
         { }
 
-        public override async ValueTask HandleDispatchAsync(IGatewayApiClient shard, IJsonToken data)
+        public override async ValueTask HandleDispatchAsync(IGatewayApiClient shard, IJsonNode data)
         {
             var model = data.ToType<TModel>();
             var eventArgs = await HandleDispatchAsync(shard, model).ConfigureAwait(false);

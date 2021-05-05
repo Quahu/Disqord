@@ -34,7 +34,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             _binder.Bind(value);
         }
 
-        public abstract ValueTask HandleDispatchAsync(IGatewayApiClient shard, IJsonToken data);
+        public abstract ValueTask HandleDispatchAsync(IGatewayApiClient shard, IJsonNode data);
 
         public static Handler Intercept<TModel, TEventArgs>(Handler<TModel, TEventArgs> handler, Action<IGatewayApiClient, TModel> func)
             where TModel : JsonModel

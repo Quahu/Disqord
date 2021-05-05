@@ -11,12 +11,16 @@ namespace Disqord.Rest.Api.Default
 {
     public class DefaultRestRequester : IRestRequester
     {
+        /// <inheritdoc/>
         public int Version { get; }
 
+        /// <inheritdoc/>
         public ILogger Logger { get; }
 
+        /// <inheritdoc/>
         public IHttpClient HttpClient { get; }
 
+        /// <inheritdoc/>
         public IRestApiClient ApiClient => _binder.Value;
 
         private readonly Binder<IRestApiClient> _binder;
@@ -64,11 +68,6 @@ namespace Disqord.Rest.Api.Default
 
             var response = await HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
             return new DefaultRestResponse(response);
-        }
-
-        public void Dispose()
-        {
-            HttpClient.Dispose();
         }
     }
 }

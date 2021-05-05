@@ -5,28 +5,35 @@ using Newtonsoft.Json.Linq;
 
 namespace Disqord.Serialization.Json.Default
 {
-    public class DefaultJsonArray : DefaultJsonToken, IJsonArray
+    /// <summary>
+    ///     Represents a default JSON array node.
+    ///     Wraps a <see cref="JArray"/>.
+    /// </summary>
+    public class DefaultJsonArray : DefaultJsonNode, IJsonArray
     {
+        /// <inheritdoc cref="DefaultJsonNode.Token"/>
         public new JArray Token => base.Token as JArray;
 
+        /// <inheritdoc/>
         public int Count => Token.Count;
 
-        public IJsonToken this[int index] => Create(Token[index], _serializer);
+        /// <inheritdoc/>
+        public IJsonNode this[int index] => Create(Token[index], Serializer);
 
         public DefaultJsonArray(JArray token, JsonSerializer serializer)
             : base(token, serializer)
         { }
 
-        private sealed class Enumerator : IEnumerator<IJsonToken>
+        private sealed class Enumerator : IEnumerator<IJsonNode>
         {
-            public IJsonToken Current => Create(_current.Token, _array._serializer);
+            public IJsonNode Current => Create(_current.Token, _array.Serializer);
             object IEnumerator.Current => Current;
 
             private readonly DefaultJsonArray _array;
             private int _index;
-            private DefaultJsonToken _current;
+            private DefaultJsonNode _current;
 
-            public Enumerator(DefaultJsonArray array)
+            internal Enumerator(DefaultJsonArray array)
             {
                 _array = array;
             }
@@ -36,7 +43,7 @@ namespace Disqord.Serialization.Json.Default
                 var index = _index;
                 if (_index++ < _array.Count)
                 {
-                    _current = _array[index] as DefaultJsonToken;
+                    _current = _array[index] as DefaultJsonNode;
                     return true;
                 }
 
@@ -54,7 +61,8 @@ namespace Disqord.Serialization.Json.Default
             { }
         }
 
-        public IEnumerator<IJsonToken> GetEnumerator()
+        /// <inheritdoc/>
+        public IEnumerator<IJsonNode> GetEnumerator()
             => new Enumerator(this);
 
         IEnumerator IEnumerable.GetEnumerator()

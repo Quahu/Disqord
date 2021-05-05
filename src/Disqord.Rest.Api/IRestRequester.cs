@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Logging;
@@ -10,7 +9,7 @@ namespace Disqord.Rest.Api
     /// <summary>
     ///     Represents the type responsible for sending REST requests and completing them with HTTP response data.
     /// </summary>
-    public interface IRestRequester : IBindable<IRestApiClient>, ILogging, IDisposable
+    public interface IRestRequester : IBindable<IRestApiClient>, ILogging
     {
         /// <summary>
         ///     Gets the REST API client of this requester.

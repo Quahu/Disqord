@@ -11,14 +11,19 @@ namespace Disqord.Rest.Api.Default
 {
     public class DefaultRestApiClient : IRestApiClient
     {
+        /// <inheritdoc/>
         public Token Token { get; }
 
+        /// <inheritdoc/>
         public ILogger Logger { get; }
 
+        /// <inheritdoc/>
         public IRestRateLimiter RateLimiter { get; }
 
+        /// <inheritdoc/>
         public IRestRequester Requester { get; }
 
+        /// <inheritdoc/>
         public IJsonSerializer Serializer { get; }
 
         public DefaultRestApiClient(
@@ -38,12 +43,7 @@ namespace Disqord.Rest.Api.Default
             Serializer = serializer;
         }
 
-        public async Task<IRestResponse> ExecuteAsync(IRestRequest request)
-        {
-            await RateLimiter.EnqueueRequestAsync(request).ConfigureAwait(false);
-            return await request.WaitAsync().ConfigureAwait(false);
-        }
-
+        /// <inheritdoc/>
         public async Task ExecuteAsync(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null)
         {
             await InternalExecuteAsync(route, content, options ?? new DefaultRestRequestOptions()).ConfigureAwait(false);
@@ -52,17 +52,22 @@ namespace Disqord.Rest.Api.Default
         public async Task<TModel> ExecuteAsync<TModel>(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null)
             where TModel : class
         {
-            var buffer = await InternalExecuteAsync(route, content, options ?? new DefaultRestRequestOptions()).ConfigureAwait(false);
-            if (typeof(TModel) == typeof(string))
-                return (TModel) (object) Encoding.UTF8.GetString(buffer);
+            using (var jsonStream = await InternalExecuteAsync(route, content, options ?? new DefaultRestRequestOptions()).ConfigureAwait(false))
+            {
+                if (typeof(TModel) == typeof(string))
+                {
+                    var reader = new StreamReader(jsonStream, Encoding.UTF8); 
+                    return (TModel) (object) reader.ReadToEnd();
+                }
 
-            return Serializer.Deserialize<TModel>(buffer);
+                return Serializer.Deserialize<TModel>(jsonStream);
+            }
         }
 
         private static bool IsValidResponse(IRestResponse response)
             => (int) response.HttpResponse.Code > 199 && (int) response.HttpResponse.Code < 300;
 
-        private async Task<ArraySegment<byte>> InternalExecuteAsync(FormattedRoute route, IRestRequestContent content, IRestRequestOptions options)
+        private async ValueTask<Stream> InternalExecuteAsync(FormattedRoute route, IRestRequestContent content, IRestRequestOptions options)
         {
             var request = new DefaultRestRequest(route, content, options);
             if (options is DefaultRestRequestOptions defaultOptions)
@@ -72,27 +77,17 @@ namespace Disqord.Rest.Api.Default
 
             await RateLimiter.EnqueueRequestAsync(request).ConfigureAwait(false);
             var response = await request.WaitAsync().ConfigureAwait(false);
-            using (var jsonStream = await response.HttpResponse.ReadAsync().ConfigureAwait(false))
+            var jsonStream = await response.HttpResponse.ReadAsync().ConfigureAwait(false);
+            if (!IsValidResponse(response))
             {
-                var stream = new MemoryStream((int) jsonStream.Length);
-                await jsonStream.CopyToAsync(stream).ConfigureAwait(false);
-                stream.TryGetBuffer(out var buffer);
-
-                if (!IsValidResponse(response))
+                using (jsonStream)
                 {
-                    var errorModel = Serializer.Deserialize<RestApiErrorJsonModel>(buffer);
+                    var errorModel = Serializer.Deserialize<RestApiErrorJsonModel>(jsonStream);
                     throw new RestApiException(response.HttpResponse.Code, errorModel);
                 }
-
-                return buffer;
             }
-        }
 
-        public void Dispose()
-        {
-            RateLimiter.Dispose();
-            Requester.Dispose();
-            Serializer.Dispose();
+            return jsonStream;
         }
     }
 }

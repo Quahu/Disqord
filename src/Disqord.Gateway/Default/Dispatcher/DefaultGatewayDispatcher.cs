@@ -4,7 +4,6 @@ using Disqord.Collections.Synchronized;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Default.Dispatcher;
-using Disqord.Serialization.Json.Default;
 using Disqord.Utilities.Binding;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -161,7 +160,7 @@ namespace Disqord.Gateway.Default
             shard.Logger.LogWarning(_loggedUnknownWarning
                     ? "Received an unknown dispatch {0}. Payload:\n{1}"
                     : "Received an unknown dispatch {0}. This message will only appear once for each unknown dispatch. Payload:\n{1}",
-                e.Name, (e.Data as DefaultJsonToken)?.ToIndentedString() ?? e.Data.ToString());
+                e.Name, e.Data?.ToString());
 
             if (!_loggedUnknownWarning)
                 _loggedUnknownWarning = true;

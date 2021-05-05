@@ -23,7 +23,6 @@ namespace Disqord.Gateway.Default
         public IReadOnlyDictionary<ShardId, IGatewayApiClient> Shards { get; }
 
         private readonly IGatewayApiClient _apiClient;
-        private bool _isDisposed;
 
         public DefaultGatewayClient(
             IOptions<DefaultGatewayClientConfiguration> options,
@@ -70,23 +69,6 @@ namespace Disqord.Gateway.Default
         }
 
         public Task RunAsync(Uri uri, CancellationToken cancellationToken)
-        {
-            return _apiClient?.RunAsync(uri, cancellationToken) ?? throw new InvalidOperationException();
-        }
-
-        public void Dispose()
-        {
-            if (_isDisposed)
-                return;
-
-            _isDisposed = true;
-
-            // _apiClient will be null if this is managed by DiscordClientSharder.
-            if (_apiClient != null)
-            {
-                _apiClient.DispatchReceived -= Dispatcher.HandleDispatchAsync;
-                _apiClient.Dispose();
-            }
-        }
+            => _apiClient?.RunAsync(uri, cancellationToken) ?? throw new InvalidOperationException();
     }
 }

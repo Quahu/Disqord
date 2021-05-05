@@ -79,7 +79,7 @@ namespace Disqord.Gateway.Api.Default
             => new()
             {
                 Op = GatewayPayloadOperation.Heartbeat,
-                D = ApiClient.Serializer.GetJsonToken(ApiClient.Sequence)
+                D = ApiClient.Serializer.GetJsonNode(ApiClient.Sequence)
             };
 
         public Task HeartbeatAsync(CancellationToken cancellationToken = default)

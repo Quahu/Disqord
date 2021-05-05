@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -89,19 +88,9 @@ namespace Disqord.Gateway.Api.Default
 
         public async ValueTask<GatewayPayloadJsonModel> ReceiveAsync(CancellationToken cancellationToken = default)
         {
-            // TODO: optimise the streams
+            // TODO: log payload?
             var jsonStream = await _ws.ReceiveAsync(cancellationToken).ConfigureAwait(false);
-            if (jsonStream is not MemoryStream memoryStream || !memoryStream.TryGetBuffer(out var json))
-            {
-                memoryStream = new MemoryStream();
-                jsonStream.CopyTo(memoryStream);
-                memoryStream.TryGetBuffer(out json);
-            }
-
-            if (LogsPayloads)
-                Logger.LogTrace("Received payload: {0}", Encoding.UTF8.GetString(json));
-
-            return Serializer.Deserialize<GatewayPayloadJsonModel>(json);
+            return Serializer.Deserialize<GatewayPayloadJsonModel>(jsonStream);
         }
 
         public void Dispose()

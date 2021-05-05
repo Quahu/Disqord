@@ -1,12 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Disqord.Logging;
 using Disqord.Utilities.Binding;
 
 namespace Disqord.Rest.Api
 {
-    public interface IRestRateLimiter : IBindable<IRestApiClient>, ILogging, IDisposable
+    /// <summary>
+    ///     Represents the type responsible for delaying REST requests to prevent exceeding rate-limits.
+    /// </summary>
+    public interface IRestRateLimiter : IBindable<IRestApiClient>, ILogging
     {
+        /// <summary>
+        ///     Gets the REST API client of this rate-limiter.
+        /// </summary>
         IRestApiClient ApiClient { get; }
 
         /// <summary>

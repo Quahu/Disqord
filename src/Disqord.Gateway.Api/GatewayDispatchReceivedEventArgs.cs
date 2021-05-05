@@ -7,9 +7,9 @@ namespace Disqord.Gateway.Api
     {
         public virtual string Name { get; }
 
-        public virtual IJsonToken Data { get; }
+        public virtual IJsonNode Data { get; }
 
-        public GatewayDispatchReceivedEventArgs(string name, IJsonToken data)
+        public GatewayDispatchReceivedEventArgs(string name, IJsonNode data)
         {
             Name = name;
             Data = data;
