@@ -15,7 +15,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the optional user who created this invite.
         /// </summary>
-        Optional<IUser> Inviter { get; }
+        IUser Inviter { get; }
 
         // TODO: voice invite fields
 
