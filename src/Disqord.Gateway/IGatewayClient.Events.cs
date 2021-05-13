@@ -4,6 +4,12 @@ namespace Disqord.Gateway
 {
     public partial interface IGatewayClient
     {
+        /// <summary>
+        ///     Fires when the client is ready, i.e. identified and ready to process gateway dispatches.
+        /// </summary>
+        /// <remarks>
+        ///     The behavior of this event can be controlled via <see cref="ReadyEventDelayMode"/>.
+        /// </remarks>
         event AsynchronousEventHandler<ReadyEventArgs> Ready;
 
         /// <summary>
@@ -48,7 +54,7 @@ namespace Disqord.Gateway
 
         /// <summary>
         ///     Fires when the bot leaves a guild.
-        ///     This also fires when the bot is removed from a guild.
+        ///     This also fires when the bot is kicked from a guild.
         /// </summary>
         event AsynchronousEventHandler<LeftGuildEventArgs> LeftGuild;
 
@@ -65,7 +71,12 @@ namespace Disqord.Gateway
         /// <summary>
         ///     Fires when the emojis in a guild are updated.
         /// </summary>
-        event AsynchronousEventHandler<GuildEmojisUpdatedEventArgs> GuildEmojisUpdated;
+        event AsynchronousEventHandler<EmojisUpdatedEventArgs> EmojisUpdated;
+
+        /// <summary>
+        ///     Fires when the integrations in a guild are updated.
+        /// </summary>
+        event AsynchronousEventHandler<IntegrationsUpdatedEventArgs> IntegrationsUpdated;
 
         /// <summary>
         ///     Fires when a member joins a guild.
@@ -96,6 +107,21 @@ namespace Disqord.Gateway
         ///     Fires when a guild role is deleted.
         /// </summary>
         event AsynchronousEventHandler<RoleDeletedEventArgs> RoleDeleted;
+
+        /// <summary>
+        ///     Fires when a guild integration is created.
+        /// </summary>
+        event AsynchronousEventHandler<IntegrationCreatedEventArgs> IntegrationCreated;
+
+        /// <summary>
+        ///     Fires when a guild integration is updated.
+        /// </summary>
+        event AsynchronousEventHandler<IntegrationUpdatedEventArgs> IntegrationUpdated;
+
+        /// <summary>
+        ///     Fires when a guild integration is deleted.
+        /// </summary>
+        event AsynchronousEventHandler<IntegrationDeletedEventArgs> IntegrationDeleted;
 
         /// <summary>
         ///     Fires when an invite is created.
@@ -158,12 +184,12 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<CurrentUserUpdatedEventArgs> CurrentUserUpdated;
 
         /// <summary>
-        ///     Fires when a user's voice state is updated.
+        ///     Fires when a member's voice state is updated.
         /// </summary>
         event AsynchronousEventHandler<VoiceStateUpdatedEventArgs> VoiceStateUpdated;
 
         /// <summary>
-        ///     Fires when the voice server is updated.
+        ///     Fires when the voice server of the voice channel the bot is in is updated.
         /// </summary>
         event AsynchronousEventHandler<VoiceServerUpdatedEventArgs> VoiceServerUpdated;
 

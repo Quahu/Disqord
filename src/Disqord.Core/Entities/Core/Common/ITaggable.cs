@@ -1,13 +1,13 @@
 ﻿namespace Disqord
 {
     /// <summary>
-    ///     Represents an entity with a tag. 
+    ///     Represents a type with a tag. 
     ///     E.g. a user (<c>Clyde#0000</c>), a channel (<c>#general</c>).
     /// </summary>
     public interface ITaggable : IEntity
     {
         /// <summary>
-        ///     Gets the tag of this entity.
+        ///     Gets the tag of this object.
         /// </summary>
         string Tag { get; }
     }

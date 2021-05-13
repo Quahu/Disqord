@@ -11,7 +11,7 @@ namespace Disqord.Models
         [JsonProperty("name")]
         public string Name;
 
-        [JsonProperty("string")]
+        [JsonProperty("type")]
         public string Type;
 
         [JsonProperty("enabled")]
@@ -27,7 +27,7 @@ namespace Disqord.Models
         public Optional<bool> EnableEmoticons;
 
         [JsonProperty("expire_behavior")]
-        public Optional<IntegrationExpireBehavior> ExpireBehavior;
+        public Optional<IntegrationExpirationBehavior> ExpireBehavior;
 
         [JsonProperty("expire_grace_period")]
         public Optional<int> ExpireGracePeriod;

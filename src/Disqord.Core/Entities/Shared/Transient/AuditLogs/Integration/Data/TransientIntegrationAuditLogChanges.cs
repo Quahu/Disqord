@@ -8,7 +8,7 @@ namespace Disqord.AuditLogs
     {
         public AuditLogChange<bool> EnablesEmojis { get; }
 
-        public AuditLogChange<IntegrationExpireBehavior> ExpireBehavior { get; }
+        public AuditLogChange<IntegrationExpirationBehavior> ExpireBehavior { get; }
 
         public AuditLogChange<TimeSpan> ExpireGracePeriod { get; }
 
@@ -26,7 +26,7 @@ namespace Disqord.AuditLogs
                     }
                     case "expire_behavior":
                     {
-                        ExpireBehavior = AuditLogChange<IntegrationExpireBehavior>.Convert(change);
+                        ExpireBehavior = AuditLogChange<IntegrationExpirationBehavior>.Convert(change);
                         break;
                     }
                     case "expire_grace_period":

@@ -89,10 +89,17 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
-        public event AsynchronousEventHandler<GuildEmojisUpdatedEventArgs> GuildEmojisUpdated
+        public event AsynchronousEventHandler<EmojisUpdatedEventArgs> EmojisUpdated
         {
-            add => GatewayClient.GuildEmojisUpdated += value;
-            remove => GatewayClient.GuildEmojisUpdated -= value;
+            add => GatewayClient.EmojisUpdated += value;
+            remove => GatewayClient.EmojisUpdated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<IntegrationsUpdatedEventArgs> IntegrationsUpdated
+        {
+            add => GatewayClient.IntegrationsUpdated += value;
+            remove => GatewayClient.IntegrationsUpdated -= value;
         }
 
         /// <inheritdoc/>
@@ -135,6 +142,27 @@ namespace Disqord
         {
             add => GatewayClient.RoleDeleted += value;
             remove => GatewayClient.RoleDeleted -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<IntegrationCreatedEventArgs> IntegrationCreated
+        {
+            add => GatewayClient.IntegrationCreated += value;
+            remove => GatewayClient.IntegrationCreated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<IntegrationUpdatedEventArgs> IntegrationUpdated
+        {
+            add => GatewayClient.IntegrationUpdated += value;
+            remove => GatewayClient.IntegrationUpdated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<IntegrationDeletedEventArgs> IntegrationDeleted
+        {
+            add => GatewayClient.IntegrationDeleted += value;
+            remove => GatewayClient.IntegrationDeleted -= value;
         }
 
         /// <inheritdoc/>

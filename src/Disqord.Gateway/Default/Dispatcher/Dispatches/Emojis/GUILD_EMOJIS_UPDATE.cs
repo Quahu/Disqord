@@ -6,9 +6,9 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
-    public class GuildEmojisUpdateHandler : Handler<GuildEmojisUpdateJsonModel, GuildEmojisUpdatedEventArgs>
+    public class GuildEmojisUpdateHandler : Handler<GuildEmojisUpdateJsonModel, EmojisUpdatedEventArgs>
     {
-        public override ValueTask<GuildEmojisUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildEmojisUpdateJsonModel model)
+        public override ValueTask<EmojisUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildEmojisUpdateJsonModel model)
         {
             IReadOnlyDictionary<Snowflake, IGuildEmoji> oldEmojis;
             IReadOnlyDictionary<Snowflake, IGuildEmoji> newEmojis;
@@ -28,7 +28,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                     return new TransientGuildEmoji(client, guildId, x) as IGuildEmoji;
                 });
             }
-            var e = new GuildEmojisUpdatedEventArgs(model.GuildId, guild, oldEmojis, newEmojis);
+            var e = new EmojisUpdatedEventArgs(model.GuildId, guild, oldEmojis, newEmojis);
             return new(e);
         }
     }

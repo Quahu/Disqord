@@ -3,7 +3,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public sealed class Attachment
+    public sealed class Attachment : IIdentifiable
     {
         public Snowflake Id { get; }
 

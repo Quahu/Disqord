@@ -6,7 +6,7 @@ namespace Disqord.AuditLogs
     {
         AuditLogChange<bool> EnablesEmojis { get; }
 
-        AuditLogChange<IntegrationExpireBehavior> ExpireBehavior { get; }
+        AuditLogChange<IntegrationExpirationBehavior> ExpireBehavior { get; }
 
         AuditLogChange<TimeSpan> ExpireGracePeriod { get; }
     }

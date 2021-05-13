@@ -226,31 +226,31 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<InviteJsonModel[]>(route, null, options);
         }
 
-        public static Task<IntegrationJsonModel[]> FetchGuildIntegrationsAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
+        public static Task<IntegrationJsonModel[]> FetchIntegrationsAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Guild.GetIntegrations, guildId);
             return client.ExecuteAsync<IntegrationJsonModel[]>(route, null, options);
         }
 
-        public static Task CreateGuildIntegrationAsync(this IRestApiClient client, Snowflake guildId, CreateGuildIntegrationJsonRestRequestContent content, IRestRequestOptions options = null)
+        public static Task CreateIntegrationAsync(this IRestApiClient client, Snowflake guildId, CreateGuildIntegrationJsonRestRequestContent content, IRestRequestOptions options = null)
         {
             var route = Format(Route.Guild.CreateIntegration, guildId);
             return client.ExecuteAsync(route, content, options);
         }
 
-        public static Task ModifyGuildIntegrationAsync(this IRestApiClient client, Snowflake guildId, Snowflake integrationId, ModifyGuildIntegrationJsonRestRequestContent content, IRestRequestOptions options = null)
+        public static Task ModifyIntegrationAsync(this IRestApiClient client, Snowflake guildId, Snowflake integrationId, ModifyGuildIntegrationJsonRestRequestContent content, IRestRequestOptions options = null)
         {
             var route = Format(Route.Guild.ModifyIntegration, guildId, integrationId);
             return client.ExecuteAsync(route, content, options);
         }
 
-        public static Task DeleteGuildIntegrationAsync(this IRestApiClient client, Snowflake guildId, Snowflake integrationId, IRestRequestOptions options = null)
+        public static Task DeleteIntegrationAsync(this IRestApiClient client, Snowflake guildId, Snowflake integrationId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Guild.DeleteIntegration, guildId, integrationId);
             return client.ExecuteAsync(route, null, options);
         }
 
-        public static Task SyncGuildIntegrationAsync(this IRestApiClient client, Snowflake guildId, Snowflake integrationId, IRestRequestOptions options = null)
+        public static Task SyncIntegrationAsync(this IRestApiClient client, Snowflake guildId, Snowflake integrationId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Guild.SyncIntegration, guildId, integrationId);
             return client.ExecuteAsync(route, null, options);

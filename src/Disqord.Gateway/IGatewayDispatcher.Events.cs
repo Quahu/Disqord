@@ -28,7 +28,9 @@ namespace Disqord.Gateway
 
         AsynchronousEvent<BanDeletedEventArgs> BanDeletedEvent { get; }
 
-        AsynchronousEvent<GuildEmojisUpdatedEventArgs> GuildEmojisUpdatedEvent { get; }
+        AsynchronousEvent<EmojisUpdatedEventArgs> EmojisUpdatedEvent { get; }
+
+        AsynchronousEvent<IntegrationsUpdatedEventArgs> IntegrationsUpdatedEvent { get; }
 
         AsynchronousEvent<MemberJoinedEventArgs> MemberJoinedEvent { get; }
 
@@ -41,6 +43,12 @@ namespace Disqord.Gateway
         AsynchronousEvent<RoleUpdatedEventArgs> RoleUpdatedEvent { get; }
 
         AsynchronousEvent<RoleDeletedEventArgs> RoleDeletedEvent { get; }
+
+        AsynchronousEvent<IntegrationCreatedEventArgs> IntegrationCreatedEvent { get; }
+
+        AsynchronousEvent<IntegrationUpdatedEventArgs> IntegrationUpdatedEvent { get; }
+
+        AsynchronousEvent<IntegrationDeletedEventArgs> IntegrationDeletedEvent { get; }
 
         AsynchronousEvent<InviteCreatedEventArgs> InviteCreatedEvent { get; }
 

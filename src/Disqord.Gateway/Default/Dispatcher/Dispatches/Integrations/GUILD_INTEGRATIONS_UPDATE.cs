@@ -1,14 +1,15 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway.Api;
+using Disqord.Gateway.Api.Models;
 
-namespace Disqord.Gateway.Default
+namespace Disqord.Gateway.Default.Dispatcher
 {
-    public partial class DefaultGatewayDispatcher
+    public class GuildIntegrationsUpdateHandler : Handler<GuildIntegrationsUpdateJsonModel, IntegrationsUpdatedEventArgs>
     {
-        private Task GuildIntegrationsUpdateAsync(GatewayDispatchReceivedEventArgs e)
+        public override ValueTask<IntegrationsUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildIntegrationsUpdateJsonModel model)
         {
-            //return _messageDeletedEvent.InvokeAsync(this, new MessageDeletedEventArgs());
-            return Task.CompletedTask;
+            var e = new IntegrationsUpdatedEventArgs(model.GuildId);
+            return new(e);
         }
     }
 }

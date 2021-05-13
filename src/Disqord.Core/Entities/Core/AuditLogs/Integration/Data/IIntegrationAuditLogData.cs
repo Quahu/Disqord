@@ -6,8 +6,8 @@ namespace Disqord.AuditLogs
     {
         Optional<bool> EnablesEmojis { get; }
 
-        Optional<IntegrationExpireBehavior> ExpireBehavior { get; }
+        Optional<IntegrationExpirationBehavior> ExpirationBehavior { get; }
 
-        Optional<TimeSpan> ExpireGracePeriod { get; }
+        Optional<TimeSpan> ExpirationGracePeriod { get; }
     }
 }

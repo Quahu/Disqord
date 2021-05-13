@@ -2,17 +2,17 @@
 
 namespace Disqord
 {
-    public sealed class MessageApplication
+    public sealed class MessageApplication : IIdentifiable, INamable
     {
         public Snowflake Id { get; }
+
+        public string Name { get; }
 
         public string CoverImageHash { get; }
 
         public string Description { get; }
 
         public string IconHash { get; }
-
-        public string Name { get; }
 
         public MessageApplication(MessageApplicationJsonModel model)
         {

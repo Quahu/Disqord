@@ -88,10 +88,17 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
-        public event AsynchronousEventHandler<GuildEmojisUpdatedEventArgs> GuildEmojisUpdated
+        public event AsynchronousEventHandler<EmojisUpdatedEventArgs> EmojisUpdated
         {
-            add => Dispatcher.GuildEmojisUpdatedEvent.Hook(value);
-            remove => Dispatcher.GuildEmojisUpdatedEvent.Unhook(value);
+            add => Dispatcher.EmojisUpdatedEvent.Hook(value);
+            remove => Dispatcher.EmojisUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<IntegrationsUpdatedEventArgs> IntegrationsUpdated
+        {
+            add => Dispatcher.IntegrationsUpdatedEvent.Hook(value);
+            remove => Dispatcher.IntegrationsUpdatedEvent.Unhook(value);
         }
 
         /// <inheritdoc/>
@@ -134,6 +141,27 @@ namespace Disqord.Gateway.Default
         {
             add => Dispatcher.RoleDeletedEvent.Hook(value);
             remove => Dispatcher.RoleDeletedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<IntegrationCreatedEventArgs> IntegrationCreated
+        {
+            add => Dispatcher.IntegrationCreatedEvent.Hook(value);
+            remove => Dispatcher.IntegrationCreatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<IntegrationUpdatedEventArgs> IntegrationUpdated
+        {
+            add => Dispatcher.IntegrationUpdatedEvent.Hook(value);
+            remove => Dispatcher.IntegrationUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<IntegrationDeletedEventArgs> IntegrationDeleted
+        {
+            add => Dispatcher.IntegrationDeletedEvent.Hook(value);
+            remove => Dispatcher.IntegrationDeletedEvent.Unhook(value);
         }
 
         /// <inheritdoc/>

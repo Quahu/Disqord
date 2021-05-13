@@ -41,7 +41,10 @@ namespace Disqord.Hosting
         protected internal virtual ValueTask OnBanDeleted(BanDeletedEventArgs e)
             => default;
 
-        protected internal virtual ValueTask OnGuildEmojisUpdated(GuildEmojisUpdatedEventArgs e)
+        protected internal virtual ValueTask OnEmojisUpdated(EmojisUpdatedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnIntegrationsUpdated(IntegrationsUpdatedEventArgs e)
             => default;
 
         protected internal virtual ValueTask OnMemberJoined(MemberJoinedEventArgs e)
@@ -60,6 +63,15 @@ namespace Disqord.Hosting
             => default;
 
         protected internal virtual ValueTask OnRoleDeleted(RoleDeletedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnIntegrationCreated(IntegrationCreatedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnIntegrationUpdated(IntegrationUpdatedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnIntegrationDeleted(IntegrationDeletedEventArgs e)
             => default;
 
         protected internal virtual ValueTask OnInviteCreated(InviteCreatedEventArgs e)

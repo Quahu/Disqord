@@ -1,6 +1,6 @@
 ﻿namespace Disqord
 {
-    public enum IntegrationExpireBehavior
+    public enum IntegrationExpirationBehavior
     {
         RemoveRole = 0,
 

@@ -20,13 +20,17 @@ namespace Disqord.Hosting
         private readonly DiscordClientService[] _leftGuildServices;
         private readonly DiscordClientService[] _banCreatedServices;
         private readonly DiscordClientService[] _banDeletedServices;
-        private readonly DiscordClientService[] _guildEmojisUpdatedServices;
+        private readonly DiscordClientService[] _emojisUpdatedServices;
+        private readonly DiscordClientService[] _integrationsUpdatedServices;
         private readonly DiscordClientService[] _memberJoinedServices;
         private readonly DiscordClientService[] _memberUpdatedServices;
         private readonly DiscordClientService[] _memberLeftServices;
         private readonly DiscordClientService[] _roleCreatedServices;
         private readonly DiscordClientService[] _roleUpdatedServices;
         private readonly DiscordClientService[] _roleDeletedServices;
+        private readonly DiscordClientService[] _integrationCreatedServices;
+        private readonly DiscordClientService[] _integrationUpdatedServices;
+        private readonly DiscordClientService[] _integrationDeletedServices;
         private readonly DiscordClientService[] _inviteCreatedServices;
         private readonly DiscordClientService[] _inviteDeletedServices;
         private readonly DiscordClientService[] _messageReceivedServices;
@@ -49,40 +53,44 @@ namespace Disqord.Hosting
         {
             Client = client;
 
-            _readyServices = services.Where(x => IsOverridden(x, "OnReady")).ToArray();
-            _channelCreatedServices = services.Where(x => IsOverridden(x, "OnChannelCreated")).ToArray();
-            _channelUpdatedServices = services.Where(x => IsOverridden(x, "OnChannelUpdated")).ToArray();
-            _channelDeletedServices = services.Where(x => IsOverridden(x, "OnChannelDeleted")).ToArray();
-            _channelPinsUpdatedServices = services.Where(x => IsOverridden(x, "OnChannelPinsUpdated")).ToArray();
-            _guildAvailableServices = services.Where(x => IsOverridden(x, "OnGuildAvailable")).ToArray();
-            _joinedGuildServices = services.Where(x => IsOverridden(x, "OnJoinedGuild")).ToArray();
-            _guildUpdatedServices = services.Where(x => IsOverridden(x, "OnGuildUpdated")).ToArray();
-            _guildUnavailableServices = services.Where(x => IsOverridden(x, "OnGuildUnavailable")).ToArray();
-            _leftGuildServices = services.Where(x => IsOverridden(x, "OnLeftGuild")).ToArray();
-            _banCreatedServices = services.Where(x => IsOverridden(x, "OnBanCreated")).ToArray();
-            _banDeletedServices = services.Where(x => IsOverridden(x, "OnBanDeleted")).ToArray();
-            _guildEmojisUpdatedServices = services.Where(x => IsOverridden(x, "OnGuildEmojisUpdated")).ToArray();
-            _memberJoinedServices = services.Where(x => IsOverridden(x, "OnMemberJoined")).ToArray();
-            _memberUpdatedServices = services.Where(x => IsOverridden(x, "OnMemberUpdated")).ToArray();
-            _memberLeftServices = services.Where(x => IsOverridden(x, "OnMemberLeft")).ToArray();
-            _roleCreatedServices = services.Where(x => IsOverridden(x, "OnRoleCreated")).ToArray();
-            _roleUpdatedServices = services.Where(x => IsOverridden(x, "OnRoleUpdated")).ToArray();
-            _roleDeletedServices = services.Where(x => IsOverridden(x, "OnRoleDeleted")).ToArray();
-            _inviteCreatedServices = services.Where(x => IsOverridden(x, "OnInviteCreated")).ToArray();
-            _inviteDeletedServices = services.Where(x => IsOverridden(x, "OnInviteDeleted")).ToArray();
-            _messageReceivedServices = services.Where(x => IsOverridden(x, "OnMessageReceived")).ToArray();
-            _messageUpdatedServices = services.Where(x => IsOverridden(x, "OnMessageUpdated")).ToArray();
-            _messageDeletedServices = services.Where(x => IsOverridden(x, "OnMessageDeleted")).ToArray();
-            _messagesDeletedServices = services.Where(x => IsOverridden(x, "OnMessagesDeleted")).ToArray();
-            _reactionAddedServices = services.Where(x => IsOverridden(x, "OnReactionAdded")).ToArray();
-            _reactionRemovedServices = services.Where(x => IsOverridden(x, "OnReactionRemoved")).ToArray();
-            _reactionsClearedServices = services.Where(x => IsOverridden(x, "OnReactionsCleared")).ToArray();
-            _presenceUpdatedServices = services.Where(x => IsOverridden(x, "OnPresenceUpdated")).ToArray();
-            _typingStartedServices = services.Where(x => IsOverridden(x, "OnTypingStarted")).ToArray();
-            _currentUserUpdatedServices = services.Where(x => IsOverridden(x, "OnCurrentUserUpdated")).ToArray();
-            _voiceStateUpdatedServices = services.Where(x => IsOverridden(x, "OnVoiceStateUpdated")).ToArray();
-            _voiceServerUpdatedServices = services.Where(x => IsOverridden(x, "OnVoiceServerUpdated")).ToArray();
-            _webhooksUpdatedServices = services.Where(x => IsOverridden(x, "OnWebhooksUpdated")).ToArray();
+            _readyServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnReady))).ToArray();
+            _channelCreatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnChannelCreated))).ToArray();
+            _channelUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnChannelUpdated))).ToArray();
+            _channelDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnChannelDeleted))).ToArray();
+            _channelPinsUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnChannelPinsUpdated))).ToArray();
+            _guildAvailableServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnGuildAvailable))).ToArray();
+            _joinedGuildServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnJoinedGuild))).ToArray();
+            _guildUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnGuildUpdated))).ToArray();
+            _guildUnavailableServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnGuildUnavailable))).ToArray();
+            _leftGuildServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnLeftGuild))).ToArray();
+            _banCreatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnBanCreated))).ToArray();
+            _banDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnBanDeleted))).ToArray();
+            _emojisUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnEmojisUpdated))).ToArray();
+            _integrationsUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnIntegrationsUpdated))).ToArray();
+            _memberJoinedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMemberJoined))).ToArray();
+            _memberUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMemberUpdated))).ToArray();
+            _memberLeftServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMemberLeft))).ToArray();
+            _roleCreatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnRoleCreated))).ToArray();
+            _roleUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnRoleUpdated))).ToArray();
+            _roleDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnRoleDeleted))).ToArray();
+            _integrationCreatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnIntegrationCreated))).ToArray();
+            _integrationUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnIntegrationUpdated))).ToArray();
+            _integrationDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnIntegrationDeleted))).ToArray();
+            _inviteCreatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnInviteCreated))).ToArray();
+            _inviteDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnInviteDeleted))).ToArray();
+            _messageReceivedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMessageReceived))).ToArray();
+            _messageUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMessageUpdated))).ToArray();
+            _messageDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMessageDeleted))).ToArray();
+            _messagesDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMessagesDeleted))).ToArray();
+            _reactionAddedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnReactionAdded))).ToArray();
+            _reactionRemovedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnReactionRemoved))).ToArray();
+            _reactionsClearedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnReactionsCleared))).ToArray();
+            _presenceUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnPresenceUpdated))).ToArray();
+            _typingStartedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnTypingStarted))).ToArray();
+            _currentUserUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnCurrentUserUpdated))).ToArray();
+            _voiceStateUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnVoiceStateUpdated))).ToArray();
+            _voiceServerUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnVoiceServerUpdated))).ToArray();
+            _webhooksUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnWebhooksUpdated))).ToArray();
 
             Client.Ready += HandleReady;
             Client.ChannelCreated += HandleChannelCreated;
@@ -96,13 +104,17 @@ namespace Disqord.Hosting
             Client.LeftGuild += HandleLeftGuild;
             Client.BanCreated += HandleBanCreated;
             Client.BanDeleted += HandleBanDeleted;
-            Client.GuildEmojisUpdated += HandleGuildEmojisUpdated;
+            Client.EmojisUpdated += HandleEmojisUpdated;
+            Client.IntegrationsUpdated += HandleIntegrationsUpdated;
             Client.MemberJoined += HandleMemberJoined;
             Client.MemberUpdated += HandleMemberUpdated;
             Client.MemberLeft += HandleMemberLeft;
             Client.RoleCreated += HandleRoleCreated;
             Client.RoleUpdated += HandleRoleUpdated;
             Client.RoleDeleted += HandleRoleDeleted;
+            Client.IntegrationCreated += HandleIntegrationCreated;
+            Client.IntegrationUpdated += HandleIntegrationUpdated;
+            Client.IntegrationDeleted += HandleIntegrationDeleted;
             Client.InviteCreated += HandleInviteCreated;
             Client.InviteDeleted += HandleInviteDeleted;
             Client.MessageReceived += HandleMessageReceived;
@@ -214,12 +226,20 @@ namespace Disqord.Hosting
 			return default;
         }
 
-        public ValueTask HandleGuildEmojisUpdated(object sender, GuildEmojisUpdatedEventArgs e)
+        public ValueTask HandleEmojisUpdated(object sender, EmojisUpdatedEventArgs e)
         {
-            foreach (var service in _guildEmojisUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnGuildEmojisUpdated(e), service, e);
+            foreach (var service in _emojisUpdatedServices)
+                _ = ExecuteAsync((service, e) => service.OnEmojisUpdated(e), service, e);
 
 			return default;
+        }
+        
+        public ValueTask HandleIntegrationsUpdated(object sender, IntegrationsUpdatedEventArgs e)
+        {
+            foreach (var service in _integrationsUpdatedServices)
+                _ = ExecuteAsync((service, e) => service.OnIntegrationsUpdated(e), service, e);
+
+            return default;
         }
 
         public ValueTask HandleMemberJoined(object sender, MemberJoinedEventArgs e)
@@ -268,6 +288,30 @@ namespace Disqord.Hosting
                 _ = ExecuteAsync((service, e) => service.OnRoleDeleted(e), service, e);
 
 			return default;
+        }
+
+        public ValueTask HandleIntegrationCreated(object sender, IntegrationCreatedEventArgs e)
+        {
+            foreach (var service in _integrationCreatedServices)
+                _ = ExecuteAsync((service, e) => service.OnIntegrationCreated(e), service, e);
+
+            return default;
+        }
+
+        public ValueTask HandleIntegrationUpdated(object sender, IntegrationUpdatedEventArgs e)
+        {
+            foreach (var service in _integrationUpdatedServices)
+                _ = ExecuteAsync((service, e) => service.OnIntegrationUpdated(e), service, e);
+
+            return default;
+        }
+
+        public ValueTask HandleIntegrationDeleted(object sender, IntegrationDeletedEventArgs e)
+        {
+            foreach (var service in _integrationDeletedServices)
+                _ = ExecuteAsync((service, e) => service.OnIntegrationDeleted(e), service, e);
+
+            return default;
         }
 
         public ValueTask HandleInviteCreated(object sender, InviteCreatedEventArgs e)

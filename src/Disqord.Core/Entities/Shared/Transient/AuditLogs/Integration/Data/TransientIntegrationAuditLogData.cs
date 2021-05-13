@@ -7,9 +7,9 @@ namespace Disqord.AuditLogs
     {
         public Optional<bool> EnablesEmojis { get; }
 
-        public Optional<IntegrationExpireBehavior> ExpireBehavior { get; }
+        public Optional<IntegrationExpirationBehavior> ExpirationBehavior { get; }
 
-        public Optional<TimeSpan> ExpireGracePeriod { get; }
+        public Optional<TimeSpan> ExpirationGracePeriod { get; }
 
         public TransientIntegrationAuditLogData(IClient client, AuditLogEntryJsonModel model, bool isCreated)
         {
@@ -17,14 +17,14 @@ namespace Disqord.AuditLogs
             if (isCreated)
             {
                 EnablesEmojis = changes.EnablesEmojis.NewValue;
-                ExpireBehavior = changes.ExpireBehavior.NewValue;
-                ExpireGracePeriod = changes.ExpireGracePeriod.NewValue;
+                ExpirationBehavior = changes.ExpireBehavior.NewValue;
+                ExpirationGracePeriod = changes.ExpireGracePeriod.NewValue;
             }
             else
             {
                 EnablesEmojis = changes.EnablesEmojis.OldValue;
-                ExpireBehavior = changes.ExpireBehavior.OldValue;
-                ExpireGracePeriod = changes.ExpireGracePeriod.OldValue;
+                ExpirationBehavior = changes.ExpireBehavior.OldValue;
+                ExpirationGracePeriod = changes.ExpireGracePeriod.OldValue;
             }
         }
     }

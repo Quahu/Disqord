@@ -78,6 +78,8 @@ namespace Disqord.Gateway.Default
 
                 ["GUILD_EMOJIS_UPDATE"] = new GuildEmojisUpdateHandler(),
 
+                ["GUILD_INTEGRATIONS_UPDATE"] = new GuildIntegrationsUpdateHandler(),
+
                 ["GUILD_MEMBER_ADD"] = new GuildMemberAddHandler(),
                 ["GUILD_MEMBER_UPDATE"] = new GuildMemberUpdateHandler(),
                 ["GUILD_MEMBER_REMOVE"] = new GuildMemberRemoveHandler(),
@@ -87,6 +89,10 @@ namespace Disqord.Gateway.Default
                 ["GUILD_ROLE_CREATE"] = new GuildRoleCreateHandler(),
                 ["GUILD_ROLE_UPDATE"] = new GuildRoleUpdateHandler(),
                 ["GUILD_ROLE_DELETE"] = new GuildRoleDeleteHandler(),
+
+                ["INTEGRATION_CREATE"] = new IntegrationCreateHandler(),
+                ["INTEGRATION_UPDATE"] = new IntegrationUpdateHandler(),
+                ["INTEGRATION_DELETE"] = new IntegrationDeleteHandler(),
 
                 ["INVITE_CREATE"] = new InviteCreateHandler(),
                 ["INVITE_DELETE"] = new InviteDeleteHandler(),
@@ -125,7 +131,7 @@ namespace Disqord.Gateway.Default
             if (!isRebind)
             {
                 // The binding here is used so handler code knows when the handlers collection is populated.
-                // E.g. GUILD_CREATE and GUILD_DELETE then notify READY so it can delay the actual event invocation.
+                // E.g. GUILD_CREATE and GUILD_DELETE will notify READY so that it can delay the actual event invocation.
                 foreach (var handler in _handlers.Values)
                     handler.Bind(this);
             }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Disqord.Gateway
 {
-    public class GuildEmojisUpdatedEventArgs : EventArgs
+    public class EmojisUpdatedEventArgs : EventArgs
     {
         /// <summary>
         ///     Gets the ID of the guild the emojis were updated in.
@@ -27,7 +27,7 @@ namespace Disqord.Gateway
         /// </summary>
         public IReadOnlyDictionary<Snowflake, IGuildEmoji> NewEmojis { get; }
 
-        public GuildEmojisUpdatedEventArgs(
+        public EmojisUpdatedEventArgs(
             Snowflake guildId,
             CachedGuild guild,
             IReadOnlyDictionary<Snowflake, IGuildEmoji> oldEmojis,

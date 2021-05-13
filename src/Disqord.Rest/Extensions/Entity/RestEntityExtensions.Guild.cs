@@ -205,6 +205,18 @@ namespace Disqord.Rest
             return client.FetchGuildInvitesAsync(guild.Id, options);
         }
 
+        public static Task<IReadOnlyList<IIntegration>> FetchIntegrationsAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchIntegrationsAsync(guild.Id, options);
+        }
+
+        public static Task DeleteIntegrationAsync(this IGuild guild, Snowflake integrationId, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.DeleteIntegrationAsync(guild.Id, integrationId, options);
+        }
+
         // TODO: fetch widget
 
         // TODO: modify widget

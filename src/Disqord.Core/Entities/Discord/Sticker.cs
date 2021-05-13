@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class Sticker
+    public class Sticker : IIdentifiable, INamable
     {
         public Snowflake Id { get; }
 

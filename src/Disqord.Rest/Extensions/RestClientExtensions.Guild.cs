@@ -385,6 +385,19 @@ namespace Disqord.Rest
             return models.ToReadOnlyList(client, (x, client) => new TransientInvite(client, x));
         }
 
+        public static async Task<IReadOnlyList<IIntegration>> FetchIntegrationsAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var models = await client.ApiClient.FetchIntegrationsAsync(guildId, options).ConfigureAwait(false);
+            return models.ToReadOnlyList((client, guildId), static(x, tuple) =>
+            {
+                var (client, guildId) = tuple;
+                return new TransientIntegration(client, guildId, x);
+            });
+        }
+
+        public static Task DeleteIntegrationAsync(this IRestClient client, Snowflake guildId, Snowflake integrationId, IRestRequestOptions options = null)
+            => client.ApiClient.DeleteIntegrationAsync(guildId, integrationId, options);
+
         //public async Task<RestWidget> GetWidgetAsync(Snowflake guildId, IRestRequestOptions options = null)
         //{
         //    var model = await ApiClient.GetGuildEmbedAsync(guildId, options).ConfigureAwait(false);
