@@ -6,21 +6,13 @@ namespace Disqord
     {
         public Snowflake GuildId { get; }
 
-        public IUser User
-        {
-            get
-            {
-                if (_user == null)
-                    _user = new TransientUser(Client, Model.User);
-
-                return _user;
-            }
-        }
+        public IUser User => _user ??= new TransientUser(Client, Model.User);
         private TransientUser _user;
 
         public string Reason => Model.Reason;
 
-        public TransientBan(IClient client, Snowflake guildId, BanJsonModel model) : base(client, model)
+        public TransientBan(IClient client, Snowflake guildId, BanJsonModel model)
+            : base(client, model)
         {
             GuildId = guildId;
         }

@@ -5,18 +5,25 @@ namespace Disqord
 {
     public class TransientWebhook : TransientEntity<WebhookJsonModel>, IWebhook
     {
+        /// <inheritdoc/>
         public Snowflake Id => Model.Id;
 
+        /// <inheritdoc/>
         public DateTimeOffset CreatedAt => Id.CreatedAt;
 
+        /// <inheritdoc/>
         public Snowflake ChannelId => Model.ChannelId;
 
+        /// <inheritdoc/>
         public Snowflake GuildId => Model.GuildId.Value;
 
+        /// <inheritdoc/>
         public string Name => Model.Name;
 
+        /// <inheritdoc/>
         public string AvatarHash => Model.Avatar;
 
+        /// <inheritdoc/>
         public IUser Creator
         {
             get
@@ -29,8 +36,10 @@ namespace Disqord
         }
         private IUser _creator;
 
+        /// <inheritdoc/>
         public string Token => Model.Token.GetValueOrDefault();
 
+        /// <inheritdoc/>
         public WebhookType Type => Model.Type;
 
         public TransientWebhook(IClient client, WebhookJsonModel model)

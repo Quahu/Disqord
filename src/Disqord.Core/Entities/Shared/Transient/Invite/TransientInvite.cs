@@ -4,25 +4,26 @@ namespace Disqord
 {
     public class TransientInvite : TransientEntity<InviteJsonModel>, IInvite
     {
+        /// <inheritdoc/>
         public Snowflake ChannelId => Model.Channel.Id;
 
+        /// <inheritdoc/>
         public string Code => Model.Code;
 
-        public Optional<IUser> Inviter
+        /// <inheritdoc/>
+        public IUser Inviter
         {
             get
             {
                 if (!Model.Inviter.HasValue)
-                    return default;
+                    return null;
 
-                if (_inviter == null)
-                    _inviter = Optional.Convert(Model.Inviter, x => new TransientUser(Client, x) as IUser);
-
-                return _inviter.Value;
+                return _inviter ??= new TransientUser(Client, Model.Inviter.Value);
             }
         }
-        private Optional<IUser>? _inviter;
+        private IUser _inviter;
 
+        /// <inheritdoc/>
         public IInviteMetadata Metadata
         {
             get

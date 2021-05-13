@@ -6,22 +6,31 @@ namespace Disqord
 {
     public class TransientMember : TransientUser, IMember, ITransientEntity<MemberJsonModel>
     {
+        /// <inheritdoc/>
         public Snowflake GuildId { get; }
 
+        /// <inheritdoc/>
         public string Nick => Model.Nick;
 
+        /// <inheritdoc/>
         public IReadOnlyList<Snowflake> RoleIds => Model.Roles;
 
+        /// <inheritdoc/>
         public Optional<DateTimeOffset> JoinedAt => Model.JoinedAt;
 
+        /// <inheritdoc/>
         public bool IsMuted => Model.Mute.GetValueOrDefault();
 
+        /// <inheritdoc/>
         public bool IsDeafened => Model.Deaf.GetValueOrDefault();
 
+        /// <inheritdoc/>
         public DateTimeOffset? BoostedAt => Model.PremiumSince.GetValueOrDefault();
 
+        /// <inheritdoc/>
         public bool IsPending => Model.Pending.GetValueOrDefault();
 
+        /// <inheritdoc/>
         public new MemberJsonModel Model { get; }
 
         public TransientMember(IClient client, Snowflake guildId, MemberJsonModel model)

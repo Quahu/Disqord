@@ -6,36 +6,38 @@ namespace Disqord
 {
     public class TransientGuildEmoji : TransientEntity<EmojiJsonModel>, IGuildEmoji
     {
+        /// <inheritdoc/>
         public Snowflake Id => Model.Id.Value;
 
+        /// <inheritdoc/>
         public DateTimeOffset CreatedAt => Id.CreatedAt;
 
+        /// <inheritdoc/>
         public Snowflake GuildId { get; }
 
+        /// <inheritdoc/>
         public string Name => Model.Name;
 
+        /// <inheritdoc/>
         public bool IsAnimated => Model.Animated.Value;
 
+        /// <inheritdoc/>
         public IReadOnlyList<Snowflake> RoleIds => Model.Roles.Value;
 
-        public IUser Creator
-        {
-            get
-            {
-                if (_creator == null)
-                    _creator = new TransientUser(Client, Model.User.Value);
-
-                return _creator;
-            }
-        }
+        /// <inheritdoc/>
+        public IUser Creator => _creator ??= new TransientUser(Client, Model.User.Value);
         private IUser _creator;
 
+        /// <inheritdoc/>
         public bool RequiresColons => Model.RequireColons.Value;
 
+        /// <inheritdoc/>
         public bool IsManaged => Model.Managed.Value;
 
+        /// <inheritdoc/>
         public bool IsAvailable => Model.Available.Value;
 
+        /// <inheritdoc/>
         public string Tag => this.GetMessageFormat();
 
         public TransientGuildEmoji(IClient client, Snowflake guildId, EmojiJsonModel model)

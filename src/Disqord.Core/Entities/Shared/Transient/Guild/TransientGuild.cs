@@ -8,7 +8,6 @@ namespace Disqord
 {
     public class TransientGuild : TransientEntity<GuildJsonModel>, IGuild
     {
-
         public Snowflake Id => Model.Id;
 
         public DateTimeOffset CreatedAt => Id.CreatedAt;
@@ -39,36 +38,18 @@ namespace Disqord
 
         public GuildContentFilterLevel ContentFilterLevel => Model.ExplicitContentFilter;
 
-        public IReadOnlyDictionary<Snowflake, IRole> Roles
+        public IReadOnlyDictionary<Snowflake, IRole> Roles => _roles ??= Model.Roles.ToReadOnlyDictionary((Client, Id), (x, _) => x.Id, (x, tuple) =>
         {
-            get
-            {
-                if (_roles == null)
-                    _roles = Model.Roles.ToReadOnlyDictionary((Client, Id), (x, _) => x.Id, (x, tuple) =>
-                    {
-                        var (client, guildId) = tuple;
-                        return new TransientRole(client, guildId, x) as IRole;
-                    });
-
-                return _roles;
-            }
-        }
+            var (client, guildId) = tuple;
+            return new TransientRole(client, guildId, x) as IRole;
+        });
         private IReadOnlyDictionary<Snowflake, IRole> _roles;
 
-        public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis
+        public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis => _emojis ??= Model.Emojis.ToReadOnlyDictionary((Client, Id), (x, _) => x.Id.Value, (x, tuple) =>
         {
-            get
-            {
-                if (_emojis == null)
-                    _emojis = Model.Emojis.ToReadOnlyDictionary((Client, Id), (x, _) => x.Id.Value, (x, tuple) =>
-                    {
-                        var (client, guildId) = tuple;
-                        return new TransientGuildEmoji(client, guildId, x) as IGuildEmoji;
-                    });
-
-                return _emojis;
-            }
-        }
+            var (client, guildId) = tuple;
+            return new TransientGuildEmoji(client, guildId, x) as IGuildEmoji;
+        });
         private IReadOnlyDictionary<Snowflake, IGuildEmoji> _emojis;
 
         public IReadOnlyList<string> Features => Model.Features;
