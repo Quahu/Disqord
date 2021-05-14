@@ -44,7 +44,7 @@ namespace Disqord.Bot.Parsers
     ///         </item>
     ///         <item>
     ///             <term> Random </term>
-    ///             <description> The <c>random</c> producing a random color value. This is case-insensitive. </description>
+    ///             <description> <c>random</c> producing a random color value. This is case-insensitive. </description>
     ///         </item>
     ///     </list>
     /// </remarks>
@@ -140,7 +140,7 @@ namespace Disqord.Bot.Parsers
             }
             else if (uint.TryParse(value, out var rawValue))
             {
-                if (rawValue <= 16777215)
+                if (rawValue <= 0xFFFFFF)
                     return Success((int) rawValue);
             }
             else if (_allowProperties)

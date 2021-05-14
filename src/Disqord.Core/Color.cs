@@ -37,7 +37,7 @@ namespace Disqord
         /// </exception>
         public Color(int rawValue)
         {
-            if (rawValue < 0 || rawValue > 16777215)
+            if (rawValue < 0 || rawValue > 0xFFFFFF)
                 throw new ArgumentOutOfRangeException(nameof(rawValue), "Raw value must be a non-negative value less than or equal to 16777215.");
 
             RawValue = rawValue;
@@ -51,7 +51,7 @@ namespace Disqord
         /// <param name="b"> The blue (0-255) component value. </param>
         public Color(byte r, byte g, byte b)
         {
-            RawValue = (r << 16) | (g << 8) | b;
+            RawValue = r << 16 | g << 8 | b;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Disqord
             if (b < 0 || b > 1)
                 throw new ArgumentOutOfRangeException(nameof(b));
 
-            RawValue = ((byte) (r * 255) << 16) | ((byte) (g * 255) << 8) | (byte) (b * 255);
+            RawValue = (byte) (r * 255) << 16 | (byte) (g * 255) << 8 | (byte) (b * 255);
         }
 
         public bool Equals(Color other)
@@ -114,7 +114,7 @@ namespace Disqord
 
         public static bool operator >=(Color left, Color right)
             => left.RawValue >= right.RawValue;
-        
+
         public static bool operator >(Color left, Color right)
             => left.RawValue > right.RawValue;
 
