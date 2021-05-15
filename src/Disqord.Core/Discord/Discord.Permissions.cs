@@ -38,7 +38,7 @@ namespace Disqord
                     return ChannelPermissions.All;
 
                 var permissions = ChannelPermissions.Mask(guildPermissions, channel);
-                foreach (var role in roles.OrderBy(x => x.Position))
+                foreach (var role in roles.OrderBy(x => x.Position).ThenBy(x => x.Id))
                 {
                     for (var i = 0; i < channel.Overwrites.Count; i++)
                     {
