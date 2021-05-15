@@ -18,8 +18,14 @@ namespace Disqord.Hosting
     /// </remarks>
     public abstract partial class DiscordClientService : IHostedService, IDisposable, ILogging
     {
+        /// <summary>
+        ///     Gets the logger of this service.
+        /// </summary>
         public virtual ILogger Logger { get; }
 
+        /// <summary>
+        ///     Gets the client of this service.
+        /// </summary>
         public virtual DiscordClientBase Client { get; }
 
         /// <summary>
@@ -33,6 +39,11 @@ namespace Disqord.Hosting
         private Task _executeTask;
         private Cts _cts;
 
+        /// <summary>
+        ///     Instantiates a new <see cref="DiscordClientService"/> with the provided logger and client.
+        /// </summary>
+        /// <param name="logger"> The logger to use. </param>
+        /// <param name="client"> The client to use. </param>
         protected DiscordClientService(
             ILogger logger,
             DiscordClientBase client)
@@ -55,9 +66,8 @@ namespace Disqord.Hosting
         /// <inheritdoc/>
         public virtual Task StartAsync(CancellationToken cancellationToken)
         {
-            // I assume the user correctly overrides the method and doesn't hide it.
-            var method = GetType().GetMethod("ExecuteAsync", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (method.DeclaringType == typeof(DiscordClientService))
+            var method = GetType().GetMethod("ExecuteAsync", BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { typeof(CancellationToken) }, null);
+            if (method.DeclaringType == method.GetBaseDefinition().DeclaringType)
                 return Task.CompletedTask;
 
             _cts = Cts.Linked(cancellationToken);

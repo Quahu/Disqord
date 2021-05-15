@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
+using Disqord.Bot.Hosting;
 using Disqord.Collections;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Qmmands;
@@ -37,7 +38,7 @@ namespace Disqord.Bot
         public override CancellationToken StoppingToken
         {
             get => _client.StoppingToken;
-            protected set => throw new NotSupportedException(); // Not called.
+            private protected set => throw new NotSupportedException(); // Not called.
         }
 
         /// <summary>
@@ -46,29 +47,26 @@ namespace Disqord.Bot
         ///     and <see cref="IsOwnerAsync"/> has not been executed yet.
         /// </summary>
         public IReadOnlyList<Snowflake> OwnerIds { get; protected set; }
-        
-        private readonly DiscordClientBase _client;
 
-        protected DiscordBotBase(
+        private readonly DiscordClientBase _client;
+        private readonly DiscordBotMasterService _masterService;
+
+        private protected DiscordBotBase(
             IOptions<DiscordBotBaseConfiguration> options,
             ILogger logger,
-            IPrefixProvider prefixes,
-            ICommandQueue queue,
-            CommandService commands,
             IServiceProvider services,
             DiscordClientBase client)
             : base(logger, client)
         {
             var configuration = options.Value;
             OwnerIds = configuration.OwnerIds?.ToReadOnlyList() ?? ReadOnlyList<Snowflake>.Empty;
-            Prefixes = prefixes;
-            Queue = queue;
-            Commands = commands;
+            Prefixes = services.GetRequiredService<IPrefixProvider>();
+            Queue = services.GetRequiredService<ICommandQueue>();
+            Commands = services.GetRequiredService<CommandService>();
             Services = services;
-
             _client = client;
 
-            MessageReceived += MessageReceivedAsync;
+            _masterService = services.GetRequiredService<DiscordBotMasterService>();
 
             Commands.CommandExecuted += CommandExecutedAsync;
             Commands.CommandExecutionFailed += CommandExecutionFailedAsync;

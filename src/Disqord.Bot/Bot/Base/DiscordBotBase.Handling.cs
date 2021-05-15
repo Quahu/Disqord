@@ -11,37 +11,36 @@ namespace Disqord.Bot
 {
     public abstract partial class DiscordBotBase
     {
-        private async ValueTask MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
+        internal async ValueTask<bool> ProcessCommandsAsync(IGatewayUserMessage message, CachedTextChannel channel)
         {
-            await Task.Yield();
-
-            if (e.Message is not IGatewayUserMessage message)
-                return;
-
+            // We check if the message is suitable for execution.
+            // By default excludes bot messages.
             try
             {
                 if (!await CheckMessageAsync(message).ConfigureAwait(false))
-                    return;
+                    return false;
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "An exception occurred while executing the check message callback.");
-                return;
+                return false;
             }
 
+            // We get the prefixes from the prefix provider.
             IEnumerable<IPrefix> prefixes;
             try
             {
                 prefixes = await Prefixes.GetPrefixesAsync(message).ConfigureAwait(false);
                 if (prefixes == null)
-                    return;
+                    return false;
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "An exception occurred while getting the prefixes.");
-                return;
+                return false;
             }
 
+            // We try to find a prefix in the message.
             IPrefix foundPrefix = null;
             string output = null;
             try
@@ -59,43 +58,49 @@ namespace Disqord.Bot
                 }
 
                 if (foundPrefix == null)
-                    return;
+                    return false;
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "An exception occurred while finding the prefixes in the message.");
-                return;
+                return false;
             }
 
+            // We create a command context for Qmmands.
             DiscordCommandContext context;
             try
             {
-                context = CreateCommandContext(foundPrefix, message, e.Channel);
+                context = CreateCommandContext(foundPrefix, message, channel);
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "An exception occurred while creating the command context.");
-                return;
+                return false;
             }
 
+            // We check the before execution callback, by default returns true.
             try
             {
                 if (!await BeforeExecutedAsync(context).ConfigureAwait(false))
-                    return;
+                    return false;
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "An exception occurred while executing the before executed callback.");
-                return;
+                return false;
             }
 
+            // We post the execution to the command queue.
+            // See the Post() method in the default queue for more information.
             try
             {
-                Queue.Post(output, context, static (input, context) => context.Bot.ExecuteAsync(input, context));
+                Queue.Post(output, context, static(input, context) => context.Bot.ExecuteAsync(input, context));
+                return true;
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "An exception occurred while posting the execution to the command queue.");
+                return false;
             }
         }
 
@@ -135,7 +140,8 @@ namespace Disqord.Bot
                 Logger.LogError(ex, "An exception occurred while handling the failed result of type {0}.", result.GetType().Name);
             }
 
-            await DisposeContextAsync(context);
+            await _masterService.HandleCommandNotFound(context).ConfigureAwait(false);
+            await DisposeContextAsync(context).ConfigureAwait(false);
         }
 
         private async Task CommandExecutedAsync(CommandExecutedEventArgs e)

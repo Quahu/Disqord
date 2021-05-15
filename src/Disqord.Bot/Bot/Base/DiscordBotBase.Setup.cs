@@ -67,6 +67,8 @@ namespace Disqord.Bot
 
         public virtual async ValueTask SetupAsync(CancellationToken cancellationToken = default)
         {
+            _masterService.Bind(this);
+            
             await AddTypeParsersAsync(cancellationToken).ConfigureAwait(false);
             await AddModulesAsync(cancellationToken).ConfigureAwait(false);
         }

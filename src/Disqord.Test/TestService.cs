@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Gateway;
-using Disqord.Hosting;
+using Disqord.Bot;
+using Disqord.Bot.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Disqord.Test
 {
-    public class TestService : DiscordClientService
+    public class TestService : DiscordBotService
     {
         public TestService(
             ILogger<TestService> logger,
-            DiscordClientBase client)
-            : base(logger, client)
+            DiscordBotBase bot)
+            : base(logger, bot)
         { }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -28,9 +28,24 @@ namespace Disqord.Test
             }
         }
 
-        protected override ValueTask OnMessageReceived(MessageReceivedEventArgs e)
+        protected override ValueTask OnMessageReceived(BotMessageReceivedEventArgs e)
         {
-            Logger.LogInformation("Received message in {0}ms", (DateTimeOffset.UtcNow - e.Message.CreatedAt).TotalMilliseconds);
+            // Makes all messages containing `sax` not process commands.
+            e.ProcessCommands = !e.Message.Content.Contains("sax");
+            return default;
+        }
+
+        protected override ValueTask OnNonCommandReceived(BotMessageReceivedEventArgs e)
+        {
+            // Fired if the user doesn't provide a prefix or it's a system message etc.
+            Logger.LogInformation("Received a non command: {0}", e.Message.Content);
+            return default;
+        }
+
+        protected override ValueTask OnCommandNotFound(DiscordCommandContext context)
+        {
+            // Fired when an attempt is made to execute a command but it's not a valid one.
+            Logger.LogInformation("Command not found: {0}", context.Message.Content);
             return default;
         }
     }

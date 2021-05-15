@@ -25,10 +25,11 @@ namespace Disqord.Hosting
             Logger = logger;
         }
 
-        private static bool IsOverridden(DiscordClientService service, string name)
+        internal static bool IsOverridden(DiscordClientService service, string name, params Type[] types)
         {
-            var method = service.GetType().GetMethod(name, BindingFlags.Instance | BindingFlags.NonPublic);
-            return method != null && method.DeclaringType != typeof(DiscordClientService);
+            var serviceType = service.GetType();
+            var method = serviceType.GetMethod(name, BindingFlags.Instance | BindingFlags.NonPublic, null, types, null);
+            return method != null && method.DeclaringType != null && method.DeclaringType != method.GetBaseDefinition().DeclaringType;
         }
 
         private async ValueTask ExecuteAsync<TEventArgs>(Func<DiscordClientService, TEventArgs, ValueTask> factory,

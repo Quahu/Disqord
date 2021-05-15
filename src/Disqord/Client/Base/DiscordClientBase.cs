@@ -32,7 +32,7 @@ namespace Disqord
         ///     This is set by implementations of this type.
         ///     Returns <see cref="CancellationToken.None"/> if the client has not been started.
         /// </summary>
-        public virtual CancellationToken StoppingToken { get; protected set; }
+        public virtual CancellationToken StoppingToken { get; private protected set; }
 
         /// <summary>
         ///     Gets the REST client this client wraps.
@@ -81,7 +81,7 @@ namespace Disqord
         /// </summary>
         /// <param name="logger"> The logger of this client. </param>
         /// <param name="client"> The client to wrap. </param>
-        protected DiscordClientBase(
+        private protected DiscordClientBase(
             ILogger logger,
             DiscordClientBase client)
         {
