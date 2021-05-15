@@ -62,7 +62,7 @@ namespace Disqord.Bot
         }
 
         /// <inheritdoc/>
-        public void Post(string input, DiscordCommandContext context, CommandQueueDelegate func)
+        public void Post(DiscordCommandContext context, CommandQueueDelegate func)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -80,19 +80,17 @@ namespace Disqord.Bot
                 kamaji = _guildBuckets.GetOrAdd(context.GuildId.Value, static(_, queue) => new Bucket(queue.DegreeOfParallelism), this);
             }
 
-            var bathToken = new Token(input, context, func);
+            var bathToken = new Token(context, func);
             kamaji.Post(bathToken); // Thank you, mr boiler man!
         }
 
         private sealed class Token
         {
             private readonly DiscordCommandContext _context;
-            private readonly string _input;
             private readonly CommandQueueDelegate _func;
 
-            public Token(string input, DiscordCommandContext context, CommandQueueDelegate func)
+            public Token(DiscordCommandContext context, CommandQueueDelegate func)
             {
-                _input = input;
                 _context = context;
                 _func = func;
             }
@@ -106,7 +104,7 @@ namespace Disqord.Bot
                 }
                 else
                 {
-                    _context.Task = _func(_input, _context);
+                    _context.Task = _func(_context);
                 }
 
                 return Task.WhenAny(_context.Task, _context.YieldTcs.Task);

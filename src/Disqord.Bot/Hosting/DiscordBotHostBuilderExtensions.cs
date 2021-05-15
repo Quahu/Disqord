@@ -67,6 +67,7 @@ namespace Disqord.Bot.Hosting
             }));
             
             services.AddHostedService<DiscordBotRunnerService>();
+            services.TryAddSingleton<DiscordBotMasterService>();
         }
     }
 }

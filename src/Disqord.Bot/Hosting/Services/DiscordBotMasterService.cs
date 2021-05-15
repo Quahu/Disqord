@@ -72,7 +72,7 @@ namespace Disqord.Bot.Hosting
             messageReceivedServices.Sort((a, b) => b.Priority.CompareTo(a.Priority));
             nonCommandReceivedServices.Sort((a, b) => b.Priority.CompareTo(a.Priority));
             commandNotFoundServices.Sort((a, b) => b.Priority.CompareTo(a.Priority));
-            
+
             MessageReceivedServices = messageReceivedServices.ToArray();
             NonCommandReceivedServices = nonCommandReceivedServices.ToArray();
             CommandNotFoundServices = commandNotFoundServices.ToArray();
@@ -82,38 +82,43 @@ namespace Disqord.Bot.Hosting
 
         private async ValueTask HandleMessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            if (MessageReceivedServices.Length == 0 && NonCommandReceivedServices.Length == 0)
-                return;
-
-            var args = new BotMessageReceivedEventArgs(e);
-            foreach (var service in MessageReceivedServices)
+            BotMessageReceivedEventArgs args = null;
+            if (MessageReceivedServices.Length > 0)
             {
-                try
+                args ??= new BotMessageReceivedEventArgs(e);
+                foreach (var service in MessageReceivedServices)
                 {
-                    await service.OnMessageReceived(args).ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex, "An exception occurred while executing {0}.{1}().", service.GetType().Name, nameof(DiscordBotService.OnMessageReceived));
+                    try
+                    {
+                        await service.OnMessageReceived(args).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex, "An exception occurred while executing {0}.{1}().", service.GetType().Name, nameof(DiscordBotService.OnMessageReceived));
+                    }
                 }
             }
 
-            if (args.ProcessCommands && e.Message is IGatewayUserMessage message)
+            if ((args == null || args.ProcessCommands) && e.Message is IGatewayUserMessage message)
             {
                 var isCommand = await Bot.ProcessCommandsAsync(message, e.Channel).ConfigureAwait(false);
                 if (isCommand)
                     return;
             }
 
-            foreach (var service in NonCommandReceivedServices)
+            if (NonCommandReceivedServices.Length > 0)
             {
-                try
+                args ??= new BotMessageReceivedEventArgs(e);
+                foreach (var service in NonCommandReceivedServices)
                 {
-                    await service.OnNonCommandReceived(args).ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex, "An exception occurred while executing {0}.{1}().", service.GetType().Name, nameof(DiscordBotService.OnNonCommandReceived));
+                    try
+                    {
+                        await service.OnNonCommandReceived(args).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex, "An exception occurred while executing {0}.{1}().", service.GetType().Name, nameof(DiscordBotService.OnNonCommandReceived));
+                    }
                 }
             }
         }

@@ -42,10 +42,11 @@ namespace Disqord.Bot
         public DiscordGuildCommandContext(
             DiscordBotBase bot,
             IPrefix prefix,
+            string input,
             IGatewayUserMessage message,
             CachedTextChannel channel,
             IServiceProvider services)
-            : base(bot, prefix, message, services)
+            : base(bot, prefix, input, message, services)
         {
             Channel = channel;
         }
@@ -53,10 +54,11 @@ namespace Disqord.Bot
         public DiscordGuildCommandContext(
             DiscordBotBase bot,
             IPrefix prefix,
+            string input,
             IGatewayUserMessage message,
             CachedTextChannel channel,
             IServiceScope serviceScope)
-            : base(bot, prefix, message, serviceScope)
+            : base(bot, prefix, input, message, serviceScope)
         {
             Channel = channel;
         }

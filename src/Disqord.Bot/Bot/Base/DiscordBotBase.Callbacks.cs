@@ -25,17 +25,18 @@ namespace Disqord.Bot
         ///     Creates a <see cref="DiscordCommandContext"/> from the provided parameters.
         /// </summary>
         /// <param name="prefix"> The prefix found in the message. </param>
+        /// <param name="input"> The input possibly containing the command. </param>
         /// <param name="message"> The message possibly containing the command. </param>
         /// <param name="channel"> The optional cached text channel the message was sent in. </param>
         /// <returns>
         ///     A <see cref="DiscordCommandContext"/> or a <see cref="DiscordGuildCommandContext"/> for guild messages.
         /// </returns>
-        public virtual DiscordCommandContext CreateCommandContext(IPrefix prefix, IGatewayUserMessage message, CachedTextChannel channel)
+        public virtual DiscordCommandContext CreateCommandContext(IPrefix prefix, string input, IGatewayUserMessage message, CachedTextChannel channel)
         {
             var scope = Services.CreateScope();
             var context = message.GuildId != null
-                ? new DiscordGuildCommandContext(this, prefix, message, channel, scope)
-                : new DiscordCommandContext(this, prefix, message, scope);
+                ? new DiscordGuildCommandContext(this, prefix, input, message, channel, scope)
+                : new DiscordCommandContext(this, prefix, input, message, scope);
             context.Services.GetRequiredService<ICommandContextAccessor>().Context = context;
             return context;
         }

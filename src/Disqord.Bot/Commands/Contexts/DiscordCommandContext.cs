@@ -24,6 +24,11 @@ namespace Disqord.Bot
         public virtual IPrefix Prefix { get; }
 
         /// <summary>
+        ///     Gets the input without the prefix provided for command invocation.
+        /// </summary>
+        public virtual string Input { get; }
+
+        /// <summary>
         ///     Gets the ID of the guild the command is being executed in.
         ///     Returns <see langword="null"/> if the command is being executed in a private channel.
         /// </summary>
@@ -58,21 +63,24 @@ namespace Disqord.Bot
         public DiscordCommandContext(
             DiscordBotBase bot,
             IPrefix prefix,
+            string input,
             IGatewayUserMessage message,
             IServiceProvider services)
             : base(services)
         {
             Bot = bot;
             Prefix = prefix;
+            Input = input;
             Message = message;
         }
 
         public DiscordCommandContext(
             DiscordBotBase bot,
             IPrefix prefix,
+            string input,
             IGatewayUserMessage message,
             IServiceScope serviceScope)
-            : this(bot, prefix, message, serviceScope.ServiceProvider)
+            : this(bot, prefix, input, message, serviceScope.ServiceProvider)
         {
             _serviceScope = serviceScope;
         }
@@ -125,7 +133,7 @@ namespace Disqord.Bot
 
             // Kamaji will treat the bath token as existing work
             // and complete the continuation TCS when there's a spot in the queue.
-            Bot.Queue.Post(null, this, null);
+            Bot.Queue.Post(this, null);
             await continuationTcs.Task.ConfigureAwait(false);
         }
 

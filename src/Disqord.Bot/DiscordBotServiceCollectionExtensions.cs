@@ -1,5 +1,4 @@
 ﻿using System;
-using Disqord.Bot.Hosting;
 using Disqord.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -33,8 +32,6 @@ namespace Disqord.Bot
                 services.TryAddSingleton<DiscordBotBase>(x => x.GetRequiredService<TDiscordBot>());
                 services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<TDiscordBot>()));
             }
-
-            services.TryAddSingleton<DiscordBotMasterService>();
 
             services.AddPrefixProvider();
             services.AddCommandQueue();

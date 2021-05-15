@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Disqord.Bot.Hosting;
 using Disqord.Collections;
+using Disqord.Gateway;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -66,7 +67,17 @@ namespace Disqord.Bot
             Services = services;
             _client = client;
 
-            _masterService = services.GetRequiredService<DiscordBotMasterService>();
+            _masterService = services.GetService<DiscordBotMasterService>();
+            if (_masterService == null)
+            {
+                MessageReceived += async (_, e) =>
+                {
+                    if (e.Message is not IGatewayUserMessage message)
+                        return;
+
+                    await ProcessCommandsAsync(message, e.Channel).ConfigureAwait(false);
+                };
+            }
 
             Commands.CommandExecuted += CommandExecutedAsync;
             Commands.CommandExecutionFailed += CommandExecutionFailedAsync;

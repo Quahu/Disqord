@@ -70,7 +70,7 @@ namespace Disqord.Bot
             DiscordCommandContext context;
             try
             {
-                context = CreateCommandContext(foundPrefix, message, channel);
+                context = CreateCommandContext(foundPrefix, output, message, channel);
             }
             catch (Exception ex)
             {
@@ -94,7 +94,7 @@ namespace Disqord.Bot
             // See the Post() method in the default queue for more information.
             try
             {
-                Queue.Post(output, context, static(input, context) => context.Bot.ExecuteAsync(input, context));
+                Queue.Post(context, context => context.Bot.ExecuteAsync(context));
                 return true;
             }
             catch (Exception ex)
@@ -104,9 +104,9 @@ namespace Disqord.Bot
             }
         }
 
-        public async Task ExecuteAsync(string input, DiscordCommandContext context)
+        public async Task ExecuteAsync(DiscordCommandContext context)
         {
-            var result = await Commands.ExecuteAsync(input, context).ConfigureAwait(false);
+            var result = await Commands.ExecuteAsync(context.Input, context).ConfigureAwait(false);
             if (result is not FailedResult failedResult)
                 return;
 
@@ -140,7 +140,9 @@ namespace Disqord.Bot
                 Logger.LogError(ex, "An exception occurred while handling the failed result of type {0}.", result.GetType().Name);
             }
 
-            await _masterService.HandleCommandNotFound(context).ConfigureAwait(false);
+            if (result is CommandNotFoundResult && _masterService != null)
+                await _masterService.HandleCommandNotFound(context).ConfigureAwait(false);
+
             await DisposeContextAsync(context).ConfigureAwait(false);
         }
 
