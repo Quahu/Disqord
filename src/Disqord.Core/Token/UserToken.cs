@@ -8,11 +8,7 @@ namespace Disqord
     [Obsolete("The usage of user account tokens is not supported and will result in the account's termination.", true)]
     public sealed class UserToken : Token
     {
-        /// <summary>
-        ///     Instantiates a new <see cref="UserToken"/>.
-        /// </summary>
-        /// <param name="value"> The user token. </param>
-        public UserToken(string value)
+        internal UserToken(string value)
             : base(value)
         { }
 

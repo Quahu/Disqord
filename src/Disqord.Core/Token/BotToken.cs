@@ -9,30 +9,11 @@ namespace Disqord
     public sealed class BotToken : Token
     {
         /// <summary>
-        ///     Represents the bot token epoch used for the creation date.
-        /// </summary>
-        public const int EPOCH = 1293840000;
-
-        /// <summary>
         ///     Gets the ID of this bot token.
         /// </summary>
         public Snowflake Id { get; }
 
-        /// <summary>
-        ///     Gets the creation date of this bot token.
-        /// </summary>
-        public DateTimeOffset CreatedAt { get; }
-
-        /// <summary>
-        ///     Gets the cryptographic part of this bot token. Not useful in any way on its own.
-        /// </summary>
-        public string Hmac { get; }
-
-        /// <summary>
-        ///     Instantiates a new <see cref="BotToken"/>.
-        /// </summary>
-        /// <param name="value"> The bot token. </param>
-        public BotToken(string value)
+        internal BotToken(string value)
             : base(value)
         {
             // Example bot token: MjM4NDk0NzU2NTIxMzc3Nzky.CunGFQ.wUILz7z6HoJzVeq6pyHPmVgQgV4
@@ -47,14 +28,6 @@ namespace Disqord
                 throw new FormatException("The provided token contains a malformed ID segment.");
 
             Id = id;
-
-            // Converts the second segment from base64 to a number, which is the timestamp of the token
-            // and offsets it by the const EPOCH.
-            // TODO: logic
-            CreatedAt = DateTimeOffset.UtcNow;
-
-            // HMAC is just passtrough as it's not of any use.
-            Hmac = split[2];
         }
 
         private static byte[] FromBase64(string segment)

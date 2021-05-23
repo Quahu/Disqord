@@ -1,15 +1,11 @@
 ﻿namespace Disqord
 {
     /// <summary>
-    ///     Represents a bearer token.
+    ///     Represents a bearer token used with OAuth2.
     /// </summary>
     public sealed class BearerToken : Token
     {
-        /// <summary>
-        ///     Instantiates a new <see cref="BearerToken"/>.
-        /// </summary>
-        /// <param name="value"> The bearer token. </param>
-        public BearerToken(string value)
+        internal BearerToken(string value)
             : base(value)
         { }
 

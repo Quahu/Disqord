@@ -32,11 +32,8 @@ namespace Disqord.Hosting
         public static void ConfigureDiscordClient(this IServiceCollection services, HostBuilderContext context, DiscordClientHostingContext discordContext)
         {
             if (!services.Any(x => x.ServiceType == typeof(Token)))
-            {
-                var token = new BotToken(discordContext.Token);
-                services.AddToken(token);
-            }
-
+                services.AddToken(Token.Bot(discordContext.Token));
+            
             if (discordContext.Intents != null)
                 services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Intents = discordContext.Intents.Value);
 

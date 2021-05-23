@@ -5,13 +5,8 @@ namespace Disqord
     /// <summary>
     ///     Represents a Discord authorization token.
     /// </summary>
-    public abstract class Token
+    public abstract partial class Token
     {
-        /// <summary>
-        ///     A token that has no authorization. Can be used for webhooks, for example.
-        /// </summary>
-        public static readonly Token None = new NoToken();
-
         /// <summary>
         ///     Gets the raw token string.
         /// </summary>
@@ -45,21 +40,15 @@ namespace Disqord
         public override int GetHashCode()
             => RawValue?.GetHashCode() ?? 0;
 
+        /// <summary>
+        ///     Gets the appropriately prefixed format of the token used for authorization headers.
+        /// </summary>
+        public abstract string GetAuthorization();
+
         public static bool operator ==(Token left, Token right)
             => left?.RawValue == right?.RawValue;
 
         public static bool operator !=(Token left, Token right)
             => left?.RawValue != right?.RawValue;
-
-        /// <summary>
-        ///     Gets the appropriate prefixed format of the token.
-        /// </summary>
-        public abstract string GetAuthorization();
-
-        private class NoToken : Token
-        {
-            public override string GetAuthorization()
-                => null;
-        }
     }
 }
