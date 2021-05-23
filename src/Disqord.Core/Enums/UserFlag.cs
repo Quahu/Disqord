@@ -37,6 +37,8 @@ namespace Disqord
 
         VerifiedBot                 = 1 << 16,
 
-        EarlyVerifiedBotDeveloper   = 1 << 17
+        EarlyVerifiedBotDeveloper   = 1 << 17,
+
+        CertifiedModerator          = 1 << 18
     }
 }
