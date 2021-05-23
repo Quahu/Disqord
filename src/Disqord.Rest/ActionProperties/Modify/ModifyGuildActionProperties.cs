@@ -32,7 +32,7 @@ namespace Disqord
 
         public Optional<Snowflake?> SystemChannelId { internal get; set; }
 
-        public Optional<GuildSystemChannelFlags> SystemChannelFlags { internal get; set; }
+        public Optional<SystemChannelFlag> SystemChannelFlags { internal get; set; }
 
         public Optional<Snowflake?> RulesChannelId { internal get; set; }
 

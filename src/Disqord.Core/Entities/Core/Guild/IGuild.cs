@@ -104,7 +104,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the system channel flags of this guild.
         /// </summary>
-        GuildSystemChannelFlags SystemChannelFlags { get; }
+        SystemChannelFlag SystemChannelFlags { get; }
 
         /// <summary>
         ///     Gets the rules channel ID of this guild.

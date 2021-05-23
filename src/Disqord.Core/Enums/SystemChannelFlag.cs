@@ -6,7 +6,7 @@ namespace Disqord
     ///     Represents flags for guild system channels.
     /// </summary>
     [Flags]
-    public enum GuildSystemChannelFlags
+    public enum SystemChannelFlag
     {
         /// <summary>
         ///     Suppresses member join notifications.
@@ -16,6 +16,11 @@ namespace Disqord
         /// <summary>
         ///     Suppresses guild boost notifications.
         /// </summary>
-        SuppressPremiumSubscriptions = 1 << 1
+        SuppressBoostNotifications = 1 << 1,
+
+        /// <summary>
+        ///     Suppresses guild setup tips.
+        /// </summary>
+        SuppressSetupTips = 1 << 2
     }
 }

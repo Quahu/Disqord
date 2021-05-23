@@ -74,7 +74,7 @@ namespace Disqord.Models
         public Snowflake? SystemChannelId;
 
         [JsonProperty("system_channel_flags")]
-        public GuildSystemChannelFlags SystemChannelFlags;
+        public SystemChannelFlag SystemChannelFlags;
 
         [JsonProperty("rules_channel_id")]
         public Snowflake? RulesChannelId;

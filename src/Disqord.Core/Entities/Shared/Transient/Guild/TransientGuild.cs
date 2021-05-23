@@ -60,7 +60,7 @@ namespace Disqord
 
         public Snowflake? SystemChannelId => Model.SystemChannelId;
 
-        public GuildSystemChannelFlags SystemChannelFlags => Model.SystemChannelFlags;
+        public SystemChannelFlag SystemChannelFlags => Model.SystemChannelFlags;
 
         public Snowflake? RulesChannelId => Model.RulesChannelId;
 

@@ -58,7 +58,7 @@ namespace Disqord.Gateway
 
         public Snowflake? SystemChannelId { get; private set; }
 
-        public GuildSystemChannelFlags SystemChannelFlags { get; private set; }
+        public SystemChannelFlag SystemChannelFlags { get; private set; }
 
         public Snowflake? RulesChannelId { get; private set; }
 
