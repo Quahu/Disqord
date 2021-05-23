@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Disqord.Rest.Api;
 
 namespace Disqord.Rest
@@ -11,6 +12,13 @@ namespace Disqord.Rest
             return TransientApplication.Create(client, model);
         }
 
-        // TODO: fetch current authorization
+        public static async Task<IBearerAuthorization> FetchCurrentAuthorizationAsync(this IRestClient client, IRestRequestOptions options = null)
+        {
+            if (client.ApiClient.Token is not BearerToken)
+                throw new InvalidOperationException("This endpoint can only be used with a bearer token.");
+
+            var model = await client.ApiClient.FetchCurrentAuthorizationAsync(options).ConfigureAwait(false);
+            return new TransientBearerAuthorization(client, model);
+        }
     }
 }

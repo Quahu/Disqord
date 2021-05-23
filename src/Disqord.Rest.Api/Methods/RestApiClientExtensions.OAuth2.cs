@@ -10,7 +10,11 @@ namespace Disqord.Rest.Api
             var route = Format(Route.OAuth2.GetCurrentApplication);
             return client.ExecuteAsync<ApplicationJsonModel>(route, null, options);
         }
-        
-        // TODO: fetch current authorization
+
+        public static Task<AuthorizationJsonModel> FetchCurrentAuthorizationAsync(this IRestApiClient client, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.OAuth2.GetCurrentAuthorization);
+            return client.ExecuteAsync<AuthorizationJsonModel>(route, null, options);
+        }
     }
 }

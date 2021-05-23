@@ -260,6 +260,8 @@ namespace Disqord.Rest.Api
         public static class OAuth2
         {
             public static readonly Route GetCurrentApplication = Get("oauth2/applications/@me");
+
+            public static readonly Route GetCurrentAuthorization = Get("oauth2/@me");
         }
 
         public static class Slash
