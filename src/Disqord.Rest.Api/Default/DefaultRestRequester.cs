@@ -28,13 +28,12 @@ namespace Disqord.Rest.Api.Default
         public DefaultRestRequester(
             IOptions<DefaultRestRequesterConfiguration> options,
             ILogger<DefaultRestRequester> logger,
-            IHttpClient httpClient)
+            IHttpClientFactory httpClientFactory)
         {
             Version = options.Value.Version;
             Logger = logger;
-            HttpClient = httpClient;
+            HttpClient = httpClientFactory.CreateClient(IHttpClientFactory.GlobalName);
             HttpClient.BaseUri = new Uri($"https://discord.com/api/v{Version}/");
-
             HttpClient.SetDefaultHeader("User-Agent", Library.UserAgent);
 
             _binder = new Binder<IRestApiClient>(this);
@@ -45,12 +44,9 @@ namespace Disqord.Rest.Api.Default
         {
             _binder.Bind(apiClient);
 
-            if (ApiClient.Token != null)
-            {
-                var authorization = ApiClient.Token.GetAuthorization();
-                if (authorization != null)
-                    HttpClient.SetDefaultHeader("Authorization", authorization);
-            }
+            var authorization = ApiClient.Token.GetAuthorization();
+            if (authorization != null)
+                HttpClient.SetDefaultHeader("Authorization", authorization);
         }
 
         /// <inheritdoc/>

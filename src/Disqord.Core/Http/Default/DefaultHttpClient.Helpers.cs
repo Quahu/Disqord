@@ -3,7 +3,7 @@ using System.Net.Http;
 
 namespace Disqord.Http.Default
 {
-    public sealed partial class DefaultHttpClient : IHttpClient
+    public sealed partial class DefaultHttpClient
     {
         public static HttpMethod GetHttpMethod(HttpRequestMethod method) => method switch
         {
@@ -43,7 +43,7 @@ namespace Disqord.Http.Default
 
                 default:
                     throw new InvalidOperationException("Unsupported HTTP request content type.");
-            };
+            }
         }
 
         public static HttpRequestMessage GetHttpMessage(IHttpRequest request)

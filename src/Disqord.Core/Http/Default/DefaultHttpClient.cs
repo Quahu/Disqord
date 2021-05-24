@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,15 +15,9 @@ namespace Disqord.Http.Default
 
         private readonly HttpClient _http;
 
-        public DefaultHttpClient()
+        public DefaultHttpClient(HttpClient http)
         {
-            _http = new HttpClient(new HttpClientHandler
-            {
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-            })
-            {
-                Timeout = Timeout.InfiniteTimeSpan
-            };
+            _http = http;
         }
 
         public async Task<IHttpResponse> SendAsync(IHttpRequest request, CancellationToken cancellationToken)
