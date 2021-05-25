@@ -12,7 +12,7 @@ namespace Disqord.Gateway.Default.Dispatcher
         {
             CachedMember author = null;
             IGatewayMessage message = null;
-            if (model.GuildId.HasValue && !model.WebhookId.HasValue
+            if (model.GuildId.HasValue && !model.WebhookId.HasValue && model.Member.HasValue
                 && Client.CacheProvider.TryGetUsers(out var userCache)
                 && Client.CacheProvider.TryGetMembers(model.GuildId.Value, out var memberCache))
             {
@@ -29,15 +29,14 @@ namespace Disqord.Gateway.Default.Dispatcher
                 }
 
                 if (CacheProvider.TryGetMessages(model.ChannelId, out var messageCache)
-                    && (MessageType) model.Type is MessageType.Default or MessageType.Reply or MessageType.ApplicationCommand)
+                    && model.Type is MessageType.Default or MessageType.Reply or MessageType.ApplicationCommand)
                 {
                     message = new CachedUserMessage(Client, author, model);
                     messageCache.Add(model.Id, message as CachedUserMessage);
                 }
             }
 
-            if (message == null)
-                message = TransientGatewayMessage.Create(Client, model);
+            message ??= TransientGatewayMessage.Create(Client, model);
 
             CachedTextChannel channel = null;
             if (model.GuildId.HasValue && CacheProvider.TryGetChannels(model.GuildId.Value, out var channelCache))

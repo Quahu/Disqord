@@ -154,7 +154,7 @@ namespace Disqord.Gateway.Default
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "An exception occurred while handling dispatch {0}.", e.Name);
+                Logger.LogError(ex, "An exception occurred while handling dispatch {0}.\n{1}", e.Name, e.Data?.ToString());
             }
         }
 
@@ -164,8 +164,8 @@ namespace Disqord.Gateway.Default
                 return;
 
             shard.Logger.LogWarning(_loggedUnknownWarning
-                    ? "Received an unknown dispatch {0}. Payload:\n{1}"
-                    : "Received an unknown dispatch {0}. This message will only appear once for each unknown dispatch. Payload:\n{1}",
+                    ? "Received an unknown dispatch {0}.\n{1}"
+                    : "Received an unknown dispatch {0}. This message will only appear once for each unknown dispatch.\n{1}",
                 e.Name, e.Data?.ToString());
 
             if (!_loggedUnknownWarning)
