@@ -30,7 +30,7 @@ namespace Disqord
             get
             {
                 if (!HasValue)
-                    throw new InvalidOperationException("This optional does not have a value.");
+                    throw new InvalidOperationException($"This optional of {GetType().GetGenericArguments()[0]} does not have a value.");
 
                 return _value;
             }
