@@ -2,6 +2,9 @@
 
 namespace Disqord
 {
+    /// <summary>
+    ///     Defines extension methods for <see cref="Optional{T}"/>.
+    /// </summary>
     public static class OptionalExtensions
     {
         public static T? GetValueOrNullable<T>(this Optional<T> optional)
@@ -19,5 +22,17 @@ namespace Disqord
 
         public static T GetValueOrDefault<T, TState>(this Optional<T> optional, Func<TState, T> factory, TState state)
             => optional.HasValue ? optional.Value : (factory ?? throw new ArgumentNullException(nameof(factory)))(state);
+
+        public static bool TryGetValue<T>(this Optional<T> optional, out T value)
+        {
+            if (!optional.HasValue)
+            {
+                value = default;
+                return true;
+            }
+
+            value = optional.Value;
+            return true;
+        }
     }
 }

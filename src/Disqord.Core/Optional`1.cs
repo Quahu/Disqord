@@ -7,12 +7,12 @@ namespace Disqord
     ///     Represents an optional value.
     /// </summary>
     /// <typeparam name="T"> The type of the optional value. </typeparam>
-    public readonly struct Optional<T> : IOptional, IEquatable<T>, IEquatable<Optional<T>>
+    public readonly struct Optional<T> : IOptional, IEquatable<Optional<T>>
     {
         /// <summary>
         ///     An empty <see cref="Optional{T}"/> instance.
         /// </summary>
-        public static readonly Optional<T> Empty = new Optional<T>();
+        public static readonly Optional<T> Empty = default;
 
         /// <summary>
         ///     Gets whether this <see cref="Optional{T}"/> has a value.
@@ -23,7 +23,7 @@ namespace Disqord
         ///     Gets the value of this <see cref="Optional{T}"/>.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        ///     This optional doesn't have a value.
+        ///     Thrown if this optional does not have a value.
         /// </exception>
         public T Value
         {
@@ -51,62 +51,11 @@ namespace Disqord
         }
 
         /// <summary>
-        ///     Returns a hash code for this <see cref="Optional{T}"/>.
-        /// </summary>
-        /// <returns>
-        ///     The hash code.
-        /// </returns>
-        public override int GetHashCode()
-            => HasValue ? _value.GetHashCode() : -1;
-
-        /// <summary>
-        ///     Returns the string representation of this <see cref="Optional{T}"/>.
-        /// </summary>
-        /// <returns>
-        ///     The string representation of this <see cref="Optional{T}"/>.
-        /// </returns>
-        public override string ToString()
-            => HasValue ? _value?.ToString() ?? "<null>" : "<no value>";
-
-        /// <summary>
-        ///     Checks whether this <see cref="Optional{T}"/> or this <see cref="Value"/> are equal to the specified <see cref="object"/>.
-        /// </summary>
-        /// <param name="obj"> The <see cref="object"/> to compare against. </param>
-        /// <returns>
-        ///     The <see cref="bool"/> value reresenting whether the comparison succeeded.
-        /// </returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is T value)
-                return Equals(value);
-
-            if (obj is Optional<T> optional)
-                return Equals(optional);
-
-            return false;
-        }
-
-        /// <summary>
-        ///     Checks whether this <see cref="Value"/> is equal to the specified <typeparamref name="T"/> value.
-        /// </summary>
-        /// <param name="other"> The <typeparamref name="T"/> value to compare against. </param>
-        /// <returns>
-        ///     The <see cref="bool"/> value reresenting whether the comparison succeeded.
-        /// </returns>
-        public bool Equals(T other)
-        {
-            if (!HasValue)
-                return false;
-
-            return _value.Equals(other);
-        }
-
-        /// <summary>
-        ///     Checks whether this <see cref="Value"/> is equal to the specified <see cref="Optional{T}"/>.
+        ///     Checks whether this optional is equal to another.
         /// </summary>
         /// <param name="other"> The <see cref="Optional{T}"/> to compare against. </param>
         /// <returns>
-        ///     The <see cref="bool"/> value reresenting whether the comparison succeeded.
+        ///     <see langword="true"/> if the optionals are equal.
         /// </returns>
         public bool Equals(Optional<T> other)
         {
@@ -119,55 +68,50 @@ namespace Disqord
             return _value.Equals(other._value);
         }
 
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (obj is Optional<T> optional)
+                return Equals(optional);
+
+            return false;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+            => HasValue ? _value.GetHashCode() : -1;
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => HasValue ? _value?.ToString() ?? "<null>" : "<no value>";
+
         /// <summary>
         ///     Implicitly converts the <paramref name="value"/> to an <see cref="Optional{T}"/>.
         /// </summary>
         /// <param name="value"> The value to convert. </param>
         public static implicit operator Optional<T>(T value)
-            => new Optional<T>(value);
+            => new(value);
 
         /// <summary>
-        ///     Implicitly gets the <see cref="Optional{T}.Value"/>.
-        /// </summary>
-        /// <param name="value"> The optional to get the value from. </param>
-        /// <exception cref="InvalidOperationException">
-        ///     This optional doesn't have a value.
-        /// </exception>
-        public static explicit operator T(Optional<T> value)
-            => value._value;
-
-        /// <summary>
-        ///     Checks if this <see cref="Optional{T}"/> is equal to another <see cref="Optional{T}"/>.
+        ///     Checks whether this optional is equal to another.
         /// </summary>
         /// <param name="left"> The left-hand side <see cref="Optional{T}"/>. </param>
         /// <param name="right"> The right-hand side <see cref="Optional{T}"/> to compare against. </param>
         /// <returns>
-        ///     The <see cref="bool"/> value reresenting whether the comparison succeeded.
+        ///     <see langword="true"/> if the optionals are equal.
         /// </returns>
         public static bool operator ==(Optional<T> left, Optional<T> right)
             => left.Equals(right);
 
         /// <summary>
-        ///     Checks if this <see cref="Optional{T}"/> isn't equal to another <see cref="Optional{T}"/>.
+        ///     Checks whether this optional is equal to another.
         /// </summary>
         /// <param name="left"> The left-hand side <see cref="Optional{T}"/>. </param>
         /// <param name="right"> The right-hand side <see cref="Optional{T}"/> to compare against. </param>
         /// <returns>
-        ///     The <see cref="bool"/> value reresenting whether the comparison succeeded.
+        ///     <see langword="true"/> if the optionals are not equal.
         /// </returns>
         public static bool operator !=(Optional<T> left, Optional<T> right)
             => !left.Equals(right);
-
-        public static bool operator ==(Optional<T> left, T right)
-            => left.Equals(right);
-
-        public static bool operator !=(Optional<T> left, T right)
-            => !left.Equals(right);
-
-        public static bool operator ==(T left, Optional<T> right)
-            => right.Equals(left);
-
-        public static bool operator !=(T left, Optional<T> right)
-            => !right.Equals(left);
     }
 }
