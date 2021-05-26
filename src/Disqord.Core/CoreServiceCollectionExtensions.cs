@@ -2,6 +2,8 @@
 using Disqord.DependencyInjection.Extensions;
 using Disqord.Serialization.Json;
 using Disqord.Serialization.Json.Default;
+using Disqord.WebSocket;
+using Disqord.WebSocket.Default;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Disqord
@@ -11,6 +13,12 @@ namespace Disqord
         public static IServiceCollection AddToken(this IServiceCollection services, Token token)
         {
             services.TryAddSingleton(token);
+            return services;
+        }
+
+        public static IServiceCollection AddWebSocketClientFactory(this IServiceCollection services)
+        {
+            services.TryAddSingleton<IWebSocketClientFactory, DefaultWebSocketClientFactory>();
             return services;
         }
 

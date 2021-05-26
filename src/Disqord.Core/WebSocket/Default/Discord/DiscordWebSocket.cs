@@ -15,7 +15,7 @@ namespace Disqord.WebSocket.Default.Discord
 
         public ILogger Logger { get; }
 
-        private readonly Func<IWebSocketClient> _webSocketClientFactory;
+        private readonly IWebSocketClientFactory _webSocketClientFactory;
         private readonly bool _supportsZLib;
 
         private IWebSocketClient _ws;
@@ -40,7 +40,7 @@ namespace Disqord.WebSocket.Default.Discord
 
         public DiscordWebSocket(
             ILogger logger, 
-            Func<IWebSocketClient> webSocketClientFactory,
+            IWebSocketClientFactory webSocketClientFactory,
             bool supportsZLib = true)
         {
             Logger = logger;
@@ -68,7 +68,7 @@ namespace Disqord.WebSocket.Default.Discord
             _limboCts?.Dispose();
             _limboCts = new Cts();
             _ws?.Dispose();
-            _ws = _webSocketClientFactory();
+            _ws = _webSocketClientFactory.CreateClient();
             if (_supportsZLib)
             {
                 _receiveZLibStream?.Dispose();

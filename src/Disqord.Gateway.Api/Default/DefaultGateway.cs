@@ -6,7 +6,6 @@ using Disqord.Gateway.Api.Models;
 using Disqord.Serialization.Json;
 using Disqord.Utilities.Binding;
 using Disqord.WebSocket;
-using Disqord.WebSocket.Default;
 using Disqord.WebSocket.Default.Discord;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -27,21 +26,22 @@ namespace Disqord.Gateway.Api.Default
 
         public IJsonSerializer Serializer { get; }
 
-        public Func<IWebSocketClient> WebSocketClientFactory { get; }
+        public IWebSocketClientFactory WebSocketClientFactory { get; }
 
         private DiscordWebSocket _ws;
         private readonly Binder<IGatewayApiClient> _binder;
 
         public DefaultGateway(
             IOptions<DefaultGatewayConfiguration> options,
-            IJsonSerializer serializer)
+            IJsonSerializer serializer,
+            IWebSocketClientFactory webSocketClientFactory)
         {
             var configuration = options.Value;
             Version = configuration.Version;
             LogsPayloads = configuration.LogsPayloads;
             UsesZLib = configuration.UsesZLib;
             Serializer = serializer;
-            WebSocketClientFactory = () => new DefaultWebSocketClient();
+            WebSocketClientFactory = webSocketClientFactory;
 
             _binder = new(this);
         }

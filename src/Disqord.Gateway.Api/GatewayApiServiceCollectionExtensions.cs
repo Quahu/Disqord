@@ -57,6 +57,7 @@ namespace Disqord.Gateway.Api
             }
 
             services.AddJsonSerializer();
+            services.AddWebSocketClientFactory();
 
             return services;
         }

@@ -17,7 +17,7 @@ namespace Disqord.Gateway.Api
 
         IJsonSerializer Serializer { get; }
 
-        Func<IWebSocketClient> WebSocketClientFactory { get; }
+        IWebSocketClientFactory WebSocketClientFactory { get; }
 
         ValueTask ConnectAsync(Uri uri, CancellationToken cancellationToken = default);
 
