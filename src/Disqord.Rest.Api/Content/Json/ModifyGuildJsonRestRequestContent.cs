@@ -45,7 +45,7 @@ namespace Disqord.Rest.Api
         public Optional<Snowflake?> SystemChannelId;
 
         [JsonProperty("system_channel_flags")]
-        public Optional<GuildSystemChannelFlags> SystemChannelFlags;
+        public Optional<SystemChannelFlag> SystemChannelFlags;
 
         [JsonProperty("rules_channel_id")]
         public Optional<Snowflake?> RulesChannelId;
