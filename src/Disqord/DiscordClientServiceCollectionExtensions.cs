@@ -24,7 +24,7 @@ namespace Disqord
             services.AddInteractivity();
             services.AddGatewayClient();
             services.AddRestClient();
-            services.AddWebhookClient();
+            services.AddWebhookClientFactory();
 
             return services;
         }

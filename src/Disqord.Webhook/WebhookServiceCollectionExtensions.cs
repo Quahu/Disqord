@@ -8,7 +8,7 @@ namespace Disqord.Webhook
 {
     public static class WebhookServiceCollectionExtensions
     {
-        public static IServiceCollection AddWebhookClient(this IServiceCollection services)
+        public static IServiceCollection AddWebhookClientFactory(this IServiceCollection services)
         {
             if (!services.Any(x => x.ServiceType == typeof(IRestClient)))
             {
