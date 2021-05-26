@@ -16,7 +16,7 @@ namespace Disqord.Rest.Api
 
         /// <summary>
         ///     Gets whether the given route is currently rate-limited.
-        ///     If given <see langword="null"/>, checks the global rate-limit.
+        ///     If <paramref name="route"/> is <see langword="null"/>, checks the global rate-limit.
         /// </summary>
         /// <param name="route"> The route to check. </param>
         /// <returns>

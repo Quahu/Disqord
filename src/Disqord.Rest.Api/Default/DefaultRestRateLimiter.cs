@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Http;
@@ -115,7 +114,7 @@ namespace Disqord.Rest.Api.Default
                     var now = DateTimeOffset.UtcNow;
                     var bucket = GetBucket(route, true);
                     var wasUnlimited = bucket.IsUnlimited;
-                    var headers = new DiscordHeaders(response.Headers);
+                    var headers = new DefaultRestResponseHeaders(response.Headers);
                     if (headers.Bucket.HasValue)
                     {
                         if (_hashes.TryAdd(route.BaseRoute, headers.Bucket.Value))
@@ -264,49 +263,6 @@ namespace Disqord.Rest.Api.Default
 
             public override string ToString()
                 => Id;
-        }
-
-        private readonly struct DiscordHeaders
-        {
-            public Optional<bool> IsGlobal => GetHeader("X-RateLimit-Global", bool.Parse);
-
-            public Optional<TimeSpan> RetryAfter => GetHeader("Retry-After", x => TimeSpan.FromSeconds(int.Parse(x)));
-
-            public Optional<int> Limit => GetHeader("X-RateLimit-Limit", int.Parse);
-
-            public Optional<int> Remaining => GetHeader("X-RateLimit-Remaining", int.Parse);
-
-            public Optional<DateTimeOffset> ResetsAt => GetHeader("X-RateLimit-Reset", x => DateTimeOffset.UnixEpoch + TimeSpan.FromSeconds(ParseDouble(x)));
-
-            public Optional<TimeSpan> ResetsAfter => GetHeader("X-RateLimit-Reset-After", x => TimeSpan.FromSeconds(ParseDouble(x)));
-
-            public Optional<string> Bucket => GetHeader("X-RateLimit-Bucket");
-
-            public Optional<DateTimeOffset> Date => GetHeader("Date", DateTimeOffset.Parse);
-
-            private readonly IDictionary<string, string> _headers;
-
-            public DiscordHeaders(IDictionary<string, string> headers)
-            {
-                if (headers == null)
-                    throw new ArgumentNullException(nameof(headers));
-
-                _headers = headers;
-            }
-
-            public Optional<string> GetHeader(string name)
-            {
-                if (_headers.TryGetValue(name, out var value))
-                    return value;
-
-                return default;
-            }
-
-            public Optional<T> GetHeader<T>(string name, Converter<string, T> converter)
-                => Optional.Convert(GetHeader(name), converter);
-
-            private static double ParseDouble(string value)
-                => double.Parse(value, NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo);
         }
     }
 }
