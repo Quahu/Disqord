@@ -1,8 +1,8 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models.Slash
+namespace Disqord.Models
 {
-    public class SlashCommandJsonModel : JsonModel
+    public class ApplicationCommandJsonModel : JsonModel
     {
         [JsonProperty("id")]
         public Snowflake Id;
@@ -17,6 +17,9 @@ namespace Disqord.Models.Slash
         public string Description;
 
         [JsonProperty("options")]
-        public Optional<SlashCommandOptionJsonModel[]> Options;
+        public Optional<ApplicationCommandOptionJsonModel[]> Options;
+
+        [JsonProperty("default_permission")]
+        public Optional<bool> DefaultPermission;
     }
 }

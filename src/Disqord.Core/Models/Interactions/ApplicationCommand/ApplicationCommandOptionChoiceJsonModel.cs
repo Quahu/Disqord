@@ -1,8 +1,8 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models.Slash
+namespace Disqord.Models
 {
-    public class SlashCommandOptionChoiceJsonModel : JsonModel
+    public class ApplicationCommandOptionChoiceJsonModel : JsonModel
     {
         [JsonProperty("name")]
         public string Name;

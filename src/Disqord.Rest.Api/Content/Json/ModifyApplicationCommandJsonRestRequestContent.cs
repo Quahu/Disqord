@@ -1,9 +1,9 @@
-﻿using Disqord.Models.Slash;
+﻿using Disqord.Models;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Rest.Api
 {
-    public class ModifySlashCommandJsonRestRequestContent : JsonModelRestRequestContent
+    public class ModifyApplicationCommandJsonRestRequestContent : JsonModelRestRequestContent
     {
         [JsonProperty("name")]
         public Optional<string> Name;
@@ -12,6 +12,6 @@ namespace Disqord.Rest.Api
         public Optional<string> Description;
 
         [JsonProperty("options")]
-        public Optional<SlashCommandOptionJsonModel[]> Options;
+        public Optional<ApplicationCommandOptionJsonModel[]> Options;
     }
 }

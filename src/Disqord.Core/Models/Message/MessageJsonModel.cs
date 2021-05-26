@@ -83,5 +83,11 @@ namespace Disqord.Models
 
         [JsonProperty("referenced_message")]
         public Optional<MessageJsonModel> ReferencedMessage;
+
+        [JsonProperty("interaction")]
+        public Optional<MessageInteractionJsonModel> Interaction;
+
+        [JsonProperty("components")]
+        public Optional<ComponentJsonModel[]> Components;
     }
 }

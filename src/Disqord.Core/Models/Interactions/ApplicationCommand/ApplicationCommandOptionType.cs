@@ -1,6 +1,6 @@
-﻿namespace Disqord.Models.Slash
+﻿namespace Disqord.Models
 {
-    public enum SlashCommandOptionType
+    public enum ApplicationCommandOptionType
     {
         Subcommand = 1,
 

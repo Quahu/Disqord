@@ -1,11 +1,11 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models.Slash
+namespace Disqord.Models
 {
-    public class SlashCommandOptionJsonModel : JsonModel
+    public class ApplicationCommandOptionJsonModel : JsonModel
     {
         [JsonProperty("type")]
-        public SlashCommandOptionType Type;
+        public ApplicationCommandOptionType Type;
 
         [JsonProperty("name")]
         public string Name;
@@ -20,9 +20,9 @@ namespace Disqord.Models.Slash
         public Optional<bool> Required;
 
         [JsonProperty("choices")]
-        public Optional<SlashCommandOptionChoiceJsonModel[]> Choices;
+        public Optional<ApplicationCommandOptionChoiceJsonModel[]> Choices;
 
         [JsonProperty("options")]
-        public Optional<SlashCommandOptionJsonModel[]> Options;
+        public Optional<ApplicationCommandOptionJsonModel[]> Options;
     }
 }
