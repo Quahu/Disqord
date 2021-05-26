@@ -32,7 +32,7 @@ namespace Disqord.Rest.Api.Default
         {
             Version = options.Value.Version;
             Logger = logger;
-            HttpClient = httpClientFactory.CreateClient(IHttpClientFactory.GlobalName);
+            HttpClient = httpClientFactory.CreateClient();
             HttpClient.BaseUri = new Uri($"https://discord.com/api/v{Version}/");
             HttpClient.SetDefaultHeader("User-Agent", Library.UserAgent);
 
