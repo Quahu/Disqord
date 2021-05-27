@@ -37,7 +37,7 @@ namespace Disqord.WebSocket.Default
             {
                 result = await _ws.ReceiveAsync(buffer, cancellationToken).ConfigureAwait(false);
             }
-            catch (TaskCanceledException)
+            catch (OperationCanceledException)
             {
                 throw;
             }
@@ -49,8 +49,21 @@ namespace Disqord.WebSocket.Default
             return new WebSocketResult(result.Count, (WebSocketMessageType) result.MessageType, result.EndOfMessage);
         }
 
-        public ValueTask SendAsync(ReadOnlyMemory<byte> buffer, WebSocketMessageType messageType, bool endOfMessage, CancellationToken cancellationToken = default)
-            => _ws.SendAsync(buffer, (System.Net.WebSockets.WebSocketMessageType) messageType, endOfMessage, cancellationToken);
+        public async ValueTask SendAsync(ReadOnlyMemory<byte> buffer, WebSocketMessageType messageType, bool endOfMessage, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                await _ws.SendAsync(buffer, (System.Net.WebSockets.WebSocketMessageType) messageType, endOfMessage, cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new WebSocketClosedException(CloseStatus, CloseMessage, ex);
+            }
+        }
 
         public void Dispose()
         {
