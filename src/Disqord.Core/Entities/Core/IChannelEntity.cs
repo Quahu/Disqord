@@ -1,7 +1,7 @@
 ﻿namespace Disqord
 {
     /// <summary>
-    ///     Represents an entity existing within channel.
+    ///     Represents an entity existing within a channel.
     /// </summary>
     public interface IChannelEntity : IEntity
     {
