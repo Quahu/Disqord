@@ -62,6 +62,12 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<MessageJsonModel>(route, content, options);
         }
 
+        public static Task<MessageJsonModel> FetchWebhookMessageAsync(this IRestApiClient client, Snowflake webhookId, string token, Snowflake messageId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Webhook.GetWebhookMessage, webhookId, token, messageId);
+            return client.ExecuteAsync<MessageJsonModel>(route, null, options);
+        }
+
         public static Task<MessageJsonModel> ModifyWebhookMessageAsync(this IRestApiClient client, Snowflake webhookId, string token, Snowflake messageId, ModifyWebhookMessageJsonRestRequestContent content, IRestRequestOptions options = null)
         {
             var route = Format(Route.Webhook.ModifyWebhookMessage, webhookId, token, messageId);

@@ -245,6 +245,8 @@ namespace Disqord.Rest.Api
 
             public static readonly Route ExecuteGithubWebhook = Post("webhooks/{0:webhook_id}/{1:webhook_token}/github");
 
+            public static readonly Route GetWebhookMessage = Get("webhooks/{0:webhook_id}/{1:webhook_token}/messages/{2:message_id}");
+
             public static readonly Route ModifyWebhookMessage = Patch("webhooks/{0:webhook_id}/{1:webhook_token}/messages/{2:message_id}");
 
             public static readonly Route DeleteWebhookMessage = Delete("webhooks/{0:webhook_id}/{1:webhook_token}/messages/{2:message_id}");

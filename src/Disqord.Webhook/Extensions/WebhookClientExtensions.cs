@@ -62,6 +62,18 @@ namespace Disqord.Webhook
             => client.RestClient.ExecuteWebhookAsync(client.Id, client.Token, message, wait, options);
 
         /// <summary>
+        ///     Fetch a message sent by this webhook.
+        /// </summary>
+        /// <param name="client"> The webhook client. </param>
+        /// <param name="messageId"> The ID of the message to fetch. </param>
+        /// <param name="options"> The optional request options. </param>
+        /// <returns>
+        ///     A <see cref="Task"/> representing the asynchronous request.
+        /// </returns>
+        public static Task<IUserMessage> FetchMessageAsync(this IWebhookClient client, Snowflake messageId, IRestRequestOptions options = null)
+            => client.RestClient.FetchWebhookMessageAsync(client.Id, client.Token, messageId, options);
+
+        /// <summary>
         ///     Modifies a message sent by this webhook.
         /// </summary>
         /// <param name="client"> The webhook client. </param>

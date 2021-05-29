@@ -35,6 +35,12 @@ namespace Disqord.Rest
             return client.ExecuteWebhookAsync(webhook.Id, webhook.Token, message, wait, options);
         }
 
+        public static Task<IUserMessage> FetchMessageAsync(this IWebhook webhook, Snowflake messageId, IRestRequestOptions options = null)
+        {
+            var client = webhook.GetRestClient();
+            return client.FetchWebhookMessageAsync(webhook.Id, webhook.Token, messageId, options);
+        }
+
         public static Task<IUserMessage> ModifyMessageAsync(this IWebhook webhook, Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action, IRestRequestOptions options = null)
         {
             var client = webhook.GetRestClient();
