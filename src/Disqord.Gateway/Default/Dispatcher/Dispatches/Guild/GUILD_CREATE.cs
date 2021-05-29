@@ -19,105 +19,13 @@ namespace Disqord.Gateway.Default.Dispatcher
 
         public override async ValueTask<EventArgs> HandleDispatchAsync(IGatewayApiClient shard, GatewayGuildJsonModel model)
         {
-            IGatewayGuild guild = null;
-            // Check if the event is guild availability or we joined a new guild.
-            if (model.Unavailable.HasValue)
+            IGatewayGuild guild;
+            var isPending = _readyHandler.IsPendingGuild(shard.Id, model.Id);
+            if (model.Unavailable.HasValue || isPending) // Note: apparently `model.Unavailable` is provided for pending GUILD_CREATEs but not GUILD_DELETEs.
             {
-                // A guild became available.
-                var isPending = _readyHandler.IsPendingGuild(shard.Id, model.Id);
                 try
                 {
-                    if (CacheProvider.TryGetGuilds(out var guildCache))
-                    {
-                        if (isPending)
-                        {
-                            guild = new CachedGuild(Client, model);
-                            guildCache.Add(model.Id, guild as CachedGuild);
-                        }
-                        else
-                        {
-                            guild = guildCache.GetValueOrDefault(model.Id);
-                            guild?.Update(model);
-                        }
-                    }
-
-                    guild ??= new TransientGatewayGuild(Client, model);
-
-                    // TODO: optimise member cache retrieval
-                    if (CacheProvider.TryGetUsers(out var userCache) && CacheProvider.TryGetMembers(model.Id, out var memberCache))
-                    {
-                        foreach (var memberModel in model.Members)
-                            Dispatcher.GetOrAddMember(userCache, memberCache, model.Id, memberModel);
-                    }
-
-                    if (CacheProvider.TryGetChannels(model.Id, out var channelCache))
-                    {
-                        foreach (var channelModel in model.Channels)
-                        {
-                            if (isPending)
-                            {
-                                var channel = CachedGuildChannel.Create(Client, model.Id, channelModel);
-                                channelCache.Add(channel.Id, channel);
-                            }
-                            else
-                            {
-                                var channel = channelCache.GetValueOrDefault(channelModel.Id);
-                                channel?.Update(channelModel);
-                            }
-                        }
-                    }
-
-                    if (CacheProvider.TryGetRoles(model.Id, out var roleCache))
-                    {
-                        foreach (var roleModel in model.Roles)
-                        {
-                            if (isPending)
-                            {
-                                var role = new CachedRole(Client, model.Id, roleModel);
-                                roleCache.Add(role.Id, role);
-                            }
-                            else
-                            {
-                                var role = roleCache.GetValueOrDefault(roleModel.Id);
-                                role?.Update(roleModel);
-                            }
-                        }
-                    }
-
-                    if (CacheProvider.TryGetVoiceStates(model.Id, out var voiceStateCache))
-                    {
-                        foreach (var voiceStateModel in model.VoiceStates)
-                        {
-                            if (isPending)
-                            {
-                                var voiceState = new CachedVoiceState(Client, model.Id, voiceStateModel);
-                                voiceStateCache.Add(voiceState.MemberId, voiceState);
-                            }
-                            else
-                            {
-                                var voiceState = voiceStateCache.GetValueOrDefault(voiceStateModel.UserId);
-                                voiceState?.Update(voiceStateModel);
-                            }
-                        }
-                    }
-
-                    if (CacheProvider.TryGetPresences(model.Id, out var presenceCache))
-                    {
-                        foreach (var presenceModel in model.Presences)
-                        {
-                            if (isPending)
-                            {
-                                var presence = new CachedPresence(Client, presenceModel);
-                                presenceCache.Add(presence.MemberId, presence);
-                            }
-                            else
-                            {
-                                var presence = presenceCache.GetValueOrDefault(presenceModel.User.Id);
-                                presence?.Update(presenceModel);
-                            }
-                        }
-                    }
-
+                    guild = UpdateCache(model, isPending);
                     var logLevel = isPending
                         ? LogLevel.Debug
                         : LogLevel.Information;
@@ -137,65 +45,106 @@ namespace Disqord.Gateway.Default.Dispatcher
 
                 return null;
             }
-            else
+
+            guild = UpdateCache(model, false);
+            shard.Logger.LogInformation("Joined guild {0} ({1}).", guild.Name, guild.Id.RawValue);
+            return new JoinedGuildEventArgs(guild);
+        }
+
+        private IGatewayGuild UpdateCache(GatewayGuildJsonModel model, bool isPending)
+        {
+            IGatewayGuild guild = null;
+            if (CacheProvider.TryGetGuilds(out var guildCache))
             {
-                // We joined a new guild.
-                if (Client.CacheProvider.TryGetGuilds(out var cache))
+                if (isPending)
                 {
                     guild = new CachedGuild(Client, model);
-                    cache.Add(model.Id, guild as CachedGuild);
+                    guildCache.Add(model.Id, guild as CachedGuild);
                 }
                 else
                 {
-                    guild = new TransientGatewayGuild(Client, model);
+                    guild = guildCache.GetValueOrDefault(model.Id);
+                    guild?.Update(model);
                 }
+            }
 
-                // TODO: optimise member cache retrieval
-                if (CacheProvider.TryGetMembers(model.Id, out var memberCache))
-                {
-                    foreach (var memberModel in model.Members)
-                        Dispatcher.GetOrAddMember(model.Id, memberModel);
-                }
+            guild ??= new TransientGatewayGuild(Client, model);
 
-                if (CacheProvider.TryGetChannels(model.Id, out var channelCache))
+            if (CacheProvider.TryGetUsers(out var userCache) && CacheProvider.TryGetMembers(model.Id, out var memberCache))
+            {
+                foreach (var memberModel in model.Members)
+                    Dispatcher.GetOrAddMember(userCache, memberCache, model.Id, memberModel);
+            }
+
+            if (CacheProvider.TryGetChannels(model.Id, out var channelCache))
+            {
+                foreach (var channelModel in model.Channels)
                 {
-                    foreach (var channelModel in model.Channels)
+                    if (isPending)
                     {
                         var channel = CachedGuildChannel.Create(Client, model.Id, channelModel);
                         channelCache.Add(channel.Id, channel);
                     }
+                    else
+                    {
+                        var channel = channelCache.GetValueOrDefault(channelModel.Id);
+                        channel?.Update(channelModel);
+                    }
                 }
+            }
 
-                if (CacheProvider.TryGetRoles(model.Id, out var roleCache))
+            if (CacheProvider.TryGetRoles(model.Id, out var roleCache))
+            {
+                foreach (var roleModel in model.Roles)
                 {
-                    foreach (var roleModel in model.Roles)
+                    if (isPending)
                     {
                         var role = new CachedRole(Client, model.Id, roleModel);
                         roleCache.Add(role.Id, role);
                     }
+                    else
+                    {
+                        var role = roleCache.GetValueOrDefault(roleModel.Id);
+                        role?.Update(roleModel);
+                    }
                 }
+            }
 
-                if (CacheProvider.TryGetVoiceStates(model.Id, out var voiceStateCache))
+            if (CacheProvider.TryGetVoiceStates(model.Id, out var voiceStateCache))
+            {
+                foreach (var voiceStateModel in model.VoiceStates)
                 {
-                    foreach (var voiceStateModel in model.VoiceStates)
+                    if (isPending)
                     {
                         var voiceState = new CachedVoiceState(Client, model.Id, voiceStateModel);
                         voiceStateCache.Add(voiceState.MemberId, voiceState);
                     }
+                    else
+                    {
+                        var voiceState = voiceStateCache.GetValueOrDefault(voiceStateModel.UserId);
+                        voiceState?.Update(voiceStateModel);
+                    }
                 }
+            }
 
-                if (CacheProvider.TryGetPresences(model.Id, out var presenceCache))
+            if (CacheProvider.TryGetPresences(model.Id, out var presenceCache))
+            {
+                foreach (var presenceModel in model.Presences)
                 {
-                    foreach (var presenceModel in model.Presences)
+                    if (isPending)
                     {
                         var presence = new CachedPresence(Client, presenceModel);
                         presenceCache.Add(presence.MemberId, presence);
                     }
+                    else
+                    {
+                        var presence = presenceCache.GetValueOrDefault(presenceModel.User.Id);
+                        presence?.Update(presenceModel);
+                    }
                 }
-
-                shard.Logger.LogInformation("Joined guild {0} ({1}).", guild.Name, guild.Id.RawValue);
-                return new JoinedGuildEventArgs(guild);
             }
+
+            return guild;
         }
     }
 }

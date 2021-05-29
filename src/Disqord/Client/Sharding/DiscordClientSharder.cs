@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -10,7 +10,6 @@ using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Default;
 using Disqord.Gateway.Default.Dispatcher;
 using Disqord.Rest;
-using Disqord.Rest.Default;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -140,8 +139,7 @@ namespace Disqord.Sharding
                 var task = Task.WhenAny(runTask, readyTcs.Task);
                 try
                 {
-                    await task.ConfigureAwait(false);
-                    if (runTask.IsCompleted)
+                    if (await task.ConfigureAwait(false) == runTask)
                     {
                         // If the task that finished is the run task
                         // it means an exception occurred when identifying.
@@ -152,7 +150,6 @@ namespace Disqord.Sharding
                     // If we reached here it means the shard successfully identified,
                     // so we add the task to the list and continue.
                     runTasks.Add(runTask);
-                    continue;
                 }
                 catch (Exception ex)
                 {
@@ -175,7 +172,7 @@ namespace Disqord.Sharding
                 var runTask = await Task.WhenAny(runTasks).ConfigureAwait(false);
                 await runTask.ConfigureAwait(false);
             }
-            catch (Exception ex)
+            catch
             {
                 // TODO: if sharding required redo the process with more shards blah blah
                 linkedCts.Cancel();
@@ -192,7 +189,7 @@ namespace Disqord.Sharding
                 tcs.Cancel(token);
             }
 
-            using (var reg = cancellationToken.UnsafeRegister(CancellationCallback, (tcs, cancellationToken)))
+            await using (var reg = cancellationToken.UnsafeRegister(CancellationCallback, (tcs, cancellationToken)))
             {
                 // TODO: do something on ready closure
                 var task = await Task.WhenAny(InternalWaitUntilReadyAsync(), tcs.Task).ConfigureAwait(false);

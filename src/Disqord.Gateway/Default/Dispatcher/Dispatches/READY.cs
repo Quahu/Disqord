@@ -75,27 +75,17 @@ namespace Disqord.Gateway.Default.Dispatcher
         }
 
         public bool IsPendingGuild(ShardId shardId, Snowflake guildId)
-        {
-            if (PendingGuilds.TryGetValue(shardId, out var guilds))
-            {
-                return guilds.ContainsKey(guildId);
-            }
-
-            return false;
-        }
+            => PendingGuilds.TryGetValue(shardId, out var guilds) && guilds.ContainsKey(guildId);
 
         public void PopPendingGuild(ShardId shardId, Snowflake guildId)
         {
-            if (PendingGuilds.TryGetValue(shardId, out var guilds))
+            if (PendingGuilds.TryGetValue(shardId, out var guilds) && guilds.TryRemove(guildId, out _))
             {
-                if (guilds.TryRemove(guildId, out _))
+                if (guilds.Count == 0 && _delays.TryGetValue(shardId, out var delay))
                 {
-                    if (guilds.Count == 0 && _delays.TryGetValue(shardId, out var delay))
-                    {
-                        // Received all pending guilds, complete the delay.
-                        PendingGuilds.Remove(shardId);
-                        delay.Tcs.Complete();
-                    }
+                    // Received all pending guilds, complete the delay.
+                    PendingGuilds.Remove(shardId);
+                    delay.Tcs.Complete();
                 }
             }
         }

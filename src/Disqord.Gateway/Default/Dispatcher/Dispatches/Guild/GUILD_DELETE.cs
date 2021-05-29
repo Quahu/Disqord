@@ -20,22 +20,16 @@ namespace Disqord.Gateway.Default.Dispatcher
         public override async ValueTask<EventArgs> HandleDispatchAsync(IGatewayApiClient shard, UnavailableGuildJsonModel model)
         {
             CachedGuild guild = null;
-            if (model.Unavailable.HasValue)
+            // TODO: cache the unavailable ID?
+            var isPending = _readyHandler.IsPendingGuild(shard.Id, model.Id);
+            if (model.Unavailable.HasValue || isPending) // Note: apparently `model.Unavailable` is provided for pending GUILD_CREATEs but not GUILD_DELETEs.
             {
-                var isPending = _readyHandler.IsPendingGuild(shard.Id, model.Id);
                 try
                 {
                     if (CacheProvider.TryGetGuilds(out var cache))
                     {
-                        if (isPending)
-                        {
-                            // TODO: cache the id or such if the guild isn't available
-                        }
-                        else
-                        {
-                            guild = cache.GetValueOrDefault(model.Id);
-                            guild?.Update(model);
-                        }
+                        guild = cache.GetValueOrDefault(model.Id);
+                        guild?.Update(model);
                     }
 
                     if (isPending)
@@ -61,24 +55,14 @@ namespace Disqord.Gateway.Default.Dispatcher
 
                 return null;
             }
-            else
-            {
-                if (Client.CacheProvider.TryGetGuilds(out var cache))
-                    cache.TryRemove(model.Id, out guild);
 
-                Client.CacheProvider.TryRemoveCache<CachedGuildChannel>(model.Id, out _);
-                Client.CacheProvider.TryRemoveCache<CachedRole>(model.Id, out _);
-                Client.CacheProvider.TryRemoveCache<CachedVoiceState>(model.Id, out _);
-
-                if (guild == null)
-                {
-                    shard.Logger.LogInformation("Left uncached guild {0}.", model.Id.RawValue);
-                    return null;
-                }
-
+            CacheProvider.Reset(model.Id, out guild);
+            if (guild != null)
                 shard.Logger.LogInformation("Left guild '{0}' ({1}).", guild.Name, guild.Id.RawValue);
-                return new LeftGuildEventArgs(model.Id, guild);
-            }
+            else
+                shard.Logger.LogInformation("Left uncached guild {0}.", model.Id.RawValue);
+
+            return new LeftGuildEventArgs(model.Id, guild);
         }
     }
 }

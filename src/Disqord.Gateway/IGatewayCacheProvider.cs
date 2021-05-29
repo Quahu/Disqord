@@ -62,5 +62,12 @@ namespace Disqord.Gateway
         /// </summary>
         /// <param name="shardId"> The <see cref="ShardId"/> to reset the cache for. </param>
         void Reset(ShardId shardId = default);
+
+        /// <summary>
+        ///     Resets the current cache for the given guild ID.
+        /// </summary>
+        /// <param name="guildId"> The ID of the guild to reset the cache for. </param>
+        /// <param name="guild"> The guild if it was cached. </param>
+        void Reset(Snowflake guildId, out CachedGuild guild);
     }
 }

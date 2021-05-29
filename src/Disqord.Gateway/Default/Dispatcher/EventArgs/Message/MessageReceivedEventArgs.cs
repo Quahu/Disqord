@@ -5,13 +5,13 @@ namespace Disqord.Gateway
     public class MessageReceivedEventArgs : EventArgs
     {
         /// <summary>
-        ///     Gets the ID of the guild in which the message was sent in.
+        ///     Gets the ID of the guild in which the message was sent.
         ///     Returns <see langword="null"/> if the message was sent in a private channel.
         /// </summary>
         public Snowflake? GuildId => Message.GuildId;
 
         /// <summary>
-        ///     Gets the ID of the channel in which the message was sent in.
+        ///     Gets the ID of the channel in which the message was sent.
         /// </summary>
         public Snowflake ChannelId => Message.ChannelId;
 
@@ -26,7 +26,7 @@ namespace Disqord.Gateway
         public IGatewayMessage Message { get; }
 
         /// <summary>
-        ///     Gets the cached text channel in which the message was sent in.
+        ///     Gets the cached text channel in which the message was sent.
         ///     Returns <see langword="null"/> if the channel was not cached of if it was sent outside of a guild.
         /// </summary>
         public CachedTextChannel Channel { get; }

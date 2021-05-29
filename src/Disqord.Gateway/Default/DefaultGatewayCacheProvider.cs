@@ -146,30 +146,61 @@ namespace Disqord.Gateway.Default
                     {
                         lock (guildsCache)
                         {
-                            foreach (var guildId in guildsCache.Keys.Where(x => ShardId.ForGuildId(x, shardId.Count) == shardId))
+                            foreach (var guildId in guildsCache.Keys)
                             {
-                                // TODO: dynamic?
+                                if (ShardId.ForGuildId(guildId, shardId.Count) != shardId)
+                                    continue;
+
                                 guildsCache.Remove(guildId);
-
-                                if (this.TryGetChannels(guildId, out var channelCache))
-                                    channelCache.Clear();
-
-                                if (this.TryGetMembers(guildId, out var memberCache))
-                                    memberCache.Clear();
-
-                                if (this.TryGetRoles(guildId, out var roleCache))
-                                    roleCache.Clear();
-
-                                if (this.TryGetVoiceStates(guildId, out var voiceStates))
-                                    voiceStates.Clear();
-
-                                if (this.TryGetPresences(guildId, out var presences))
-                                    presences.Clear();
+                                InternalReset(guildId);
                             }
                         }
                     }
                 }
             }
+        }
+
+        /// <inheritdoc/>
+        public void Reset(Snowflake guildId, out CachedGuild guild)
+        {
+            lock (this)
+            {
+                if (this.TryGetGuilds(out var guilds))
+                    guilds.TryRemove(guildId, out guild);
+
+                InternalReset(guildId);
+            }
+
+            guild = default;
+        }
+
+        private void InternalReset(Snowflake guildId)
+        {
+            if (TryRemoveCache<CachedGuildChannel>(guildId, out var channelCache))
+            {
+                if (Supports<CachedUserMessage>())
+                {
+                    foreach (var channelId in channelCache.Keys)
+                    {
+                        TryRemoveCache<CachedUserMessage>(channelId, out var messageCache);
+                        messageCache.Clear();
+                    }
+                }
+
+                channelCache.Clear();
+            }
+
+            if (TryRemoveCache<CachedMember>(guildId, out var memberCache))
+                memberCache.Clear();
+
+            if (TryRemoveCache<CachedRole>(guildId, out var roleCache))
+                roleCache.Clear();
+
+            if (TryRemoveCache<CachedVoiceState>(guildId, out var voiceStates))
+                voiceStates.Clear();
+
+            if (TryRemoveCache<CachedPresence>(guildId, out var presences))
+                presences.Clear();
         }
 
         // This automatically removes references from the shared users and removes them as necessary.
