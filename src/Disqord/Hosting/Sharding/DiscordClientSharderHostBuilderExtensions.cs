@@ -3,7 +3,6 @@ using System.ComponentModel;
 using Disqord.DependencyInjection.Extensions;
 using Disqord.Extensions.Interactivity;
 using Disqord.Gateway;
-using Disqord.Gateway.Api;
 using Disqord.Hosting;
 using Disqord.Rest;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,8 +19,8 @@ namespace Disqord.Sharding
                 var discordContext = new DiscordClientSharderHostingContext();
                 configure?.Invoke(context, discordContext);
 
-                services.AddHostedService<DiscordClientRunnerService>();
                 services.ConfigureDiscordClientSharder(context, discordContext);
+                services.AddHostedService<DiscordClientRunnerService>();
             });
 
             return builder;

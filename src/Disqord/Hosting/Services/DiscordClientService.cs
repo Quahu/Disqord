@@ -91,20 +91,13 @@ namespace Disqord.Hosting
         }
 
         /// <inheritdoc/>
-        public virtual async Task StopAsync(CancellationToken cancellationToken)
+        public virtual Task StopAsync(CancellationToken cancellationToken)
         {
             if (_executeTask == null)
-                return;
+                return Task.CompletedTask;
 
-            try
-            {
-                _cts.Cancel();
-            }
-            finally
-            {
-                var delayTask = Task.Delay(Timeout.Infinite, cancellationToken);
-                await Task.WhenAny(_executeTask, delayTask).ConfigureAwait(false);
-            }
+            _cts.Cancel();
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
