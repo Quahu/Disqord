@@ -160,7 +160,6 @@ namespace Disqord.Gateway.Api.Default
                     {
                         var payload = await Gateway.ReceiveAsync(stoppingToken).ConfigureAwait(false);
                         Logger.LogTrace("Received payload: {0}.", payload.Op != GatewayPayloadOperation.Dispatch ? payload.Op : payload.T);
-
                         switch (payload.Op)
                         {
                             case GatewayPayloadOperation.Dispatch:
@@ -329,7 +328,7 @@ namespace Disqord.Gateway.Api.Default
                         Logger.LogWarning(ex, "The gateway was closed with an exception.");
                     }
                 }
-                catch (TaskCanceledException)
+                catch (OperationCanceledException)
                 {
                     Logger.LogInformation("The gateway run was cancelled.");
                     try
@@ -395,7 +394,7 @@ namespace Disqord.Gateway.Api.Default
                     Intents = Intents,
                     LargeThreshold = LargeThreshold,
                     Shard = Id.Count > 1
-                        ? new int[] { Id.Id, Id.Count }
+                        ? new[] { Id.Id, Id.Count }
                         : Optional<int[]>.Empty,
                     Presence = Presence
                 }

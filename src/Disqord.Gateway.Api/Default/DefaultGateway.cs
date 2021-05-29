@@ -54,7 +54,7 @@ namespace Disqord.Gateway.Api.Default
             _ws = new DiscordWebSocket(Logger, WebSocketClientFactory, UsesZLib);
         }
 
-        public ValueTask ConnectAsync(Uri uri, CancellationToken cancellationToken = default)
+        public ValueTask ConnectAsync(Uri uri, CancellationToken cancellationToken)
         {
             var uriBuilder = new UriBuilder(uri)
             {
@@ -69,13 +69,13 @@ namespace Disqord.Gateway.Api.Default
             return _ws.ConnectAsync(uri, cancellationToken);
         }
 
-        public ValueTask CloseAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default)
+        public ValueTask CloseAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken)
         {
             Logger.LogDebug("Closing with status {0}: {1}", closeStatus, closeMessage);
             return _ws.CloseAsync(closeStatus, closeMessage, cancellationToken);
         }
 
-        public ValueTask SendAsync(GatewayPayloadJsonModel payload, CancellationToken cancellationToken = default)
+        public ValueTask SendAsync(GatewayPayloadJsonModel payload, CancellationToken cancellationToken)
         {
             var json = Serializer.Serialize(payload);
             if (LogsPayloads)
@@ -87,13 +87,13 @@ namespace Disqord.Gateway.Api.Default
             return _ws.SendAsync(json, cancellationToken);
         }
 
-        public async ValueTask<GatewayPayloadJsonModel> ReceiveAsync(CancellationToken cancellationToken = default)
+        public async ValueTask<GatewayPayloadJsonModel> ReceiveAsync(CancellationToken cancellationToken)
         {
             var jsonStream = await _ws.ReceiveAsync(cancellationToken).ConfigureAwait(false);
             if (LogsPayloads)
             {
                 var stream = new MemoryStream();
-                jsonStream.CopyTo(stream);
+                await jsonStream.CopyToAsync(stream, cancellationToken).ConfigureAwait(false);
                 Logger.LogTrace("Received payload: {0}", Encoding.UTF8.GetString(stream.GetBuffer()));
                 stream.Position = 0;
                 jsonStream = stream;

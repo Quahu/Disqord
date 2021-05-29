@@ -19,12 +19,12 @@ namespace Disqord.Gateway.Api
 
         IWebSocketClientFactory WebSocketClientFactory { get; }
 
-        ValueTask ConnectAsync(Uri uri, CancellationToken cancellationToken = default);
+        ValueTask ConnectAsync(Uri uri, CancellationToken cancellationToken);
 
         ValueTask CloseAsync(int closeStatus, string closeMessage = null, CancellationToken cancellationToken = default);
 
-        ValueTask SendAsync(GatewayPayloadJsonModel payload, CancellationToken cancellationToken = default);
+        ValueTask SendAsync(GatewayPayloadJsonModel payload, CancellationToken cancellationToken);
 
-        ValueTask<GatewayPayloadJsonModel> ReceiveAsync(CancellationToken cancellationToken = default);
+        ValueTask<GatewayPayloadJsonModel> ReceiveAsync(CancellationToken cancellationToken);
     }
 }
