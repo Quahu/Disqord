@@ -85,5 +85,8 @@ namespace Disqord.Gateway.Api.Models
 
         [JsonProperty("referenced_message")]
         public Optional<MessageJsonModel> ReferencedMessage;
+
+        [JsonProperty("components")]
+        public Optional<ComponentJsonModel[]> Components;
     }
 }
