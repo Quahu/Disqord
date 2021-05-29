@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    public class InteractionApplicationCommandCallbackDataJsonModel : JsonModel
+    public class InteractionCallbackDataJsonModel : JsonModel
     {
         [JsonProperty("tts")]
         public Optional<bool> Tts;
@@ -21,5 +21,8 @@ namespace Disqord.Models
         /// </summary>
         [JsonProperty("flags")]
         public Optional<int> Flags;
+
+        [JsonProperty("components")]
+        public Optional<ComponentJsonModel> Components;
     }
 }

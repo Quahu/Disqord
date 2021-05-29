@@ -8,44 +8,45 @@ namespace Disqord.Hosting
 {
     public partial class DiscordClientMasterService
     {
-        public DiscordClientService[] ReadyServices{ get; }
-        public DiscordClientService[] ChannelCreatedServices{ get; }
-        public DiscordClientService[] ChannelUpdatedServices{ get; }
-        public DiscordClientService[] ChannelDeletedServices{ get; }
-        public DiscordClientService[] ChannelPinsUpdatedServices{ get; }
-        public DiscordClientService[] GuildAvailableServices{ get; }
-        public DiscordClientService[] JoinedGuildServices{ get; }
-        public DiscordClientService[] GuildUpdatedServices{ get; }
-        public DiscordClientService[] GuildUnavailableServices{ get; }
-        public DiscordClientService[] LeftGuildServices{ get; }
-        public DiscordClientService[] BanCreatedServices{ get; }
-        public DiscordClientService[] BanDeletedServices{ get; }
-        public DiscordClientService[] EmojisUpdatedServices{ get; }
-        public DiscordClientService[] IntegrationsUpdatedServices{ get; }
-        public DiscordClientService[] MemberJoinedServices{ get; }
-        public DiscordClientService[] MemberUpdatedServices{ get; }
-        public DiscordClientService[] MemberLeftServices{ get; }
-        public DiscordClientService[] RoleCreatedServices{ get; }
-        public DiscordClientService[] RoleUpdatedServices{ get; }
-        public DiscordClientService[] RoleDeletedServices{ get; }
-        public DiscordClientService[] IntegrationCreatedServices{ get; }
-        public DiscordClientService[] IntegrationUpdatedServices{ get; }
-        public DiscordClientService[] IntegrationDeletedServices{ get; }
-        public DiscordClientService[] InviteCreatedServices{ get; }
-        public DiscordClientService[] InviteDeletedServices{ get; }
-        public DiscordClientService[] MessageReceivedServices{ get; }
-        public DiscordClientService[] MessageUpdatedServices{ get; }
-        public DiscordClientService[] MessageDeletedServices{ get; }
-        public DiscordClientService[] MessagesDeletedServices{ get; }
-        public DiscordClientService[] ReactionAddedServices{ get; }
-        public DiscordClientService[] ReactionRemovedServices{ get; }
-        public DiscordClientService[] ReactionsClearedServices{ get; }
-        public DiscordClientService[] PresenceUpdatedServices{ get; }
-        public DiscordClientService[] TypingStartedServices{ get; }
-        public DiscordClientService[] CurrentUserUpdatedServices{ get; }
-        public DiscordClientService[] VoiceStateUpdatedServices{ get; }
-        public DiscordClientService[] VoiceServerUpdatedServices{ get; }
-        public DiscordClientService[] WebhooksUpdatedServices{ get; }
+        public DiscordClientService[] ReadyServices { get; }
+        public DiscordClientService[] ChannelCreatedServices { get; }
+        public DiscordClientService[] ChannelUpdatedServices { get; }
+        public DiscordClientService[] ChannelDeletedServices { get; }
+        public DiscordClientService[] ChannelPinsUpdatedServices { get; }
+        public DiscordClientService[] GuildAvailableServices { get; }
+        public DiscordClientService[] JoinedGuildServices { get; }
+        public DiscordClientService[] GuildUpdatedServices { get; }
+        public DiscordClientService[] GuildUnavailableServices { get; }
+        public DiscordClientService[] LeftGuildServices { get; }
+        public DiscordClientService[] BanCreatedServices { get; }
+        public DiscordClientService[] BanDeletedServices { get; }
+        public DiscordClientService[] EmojisUpdatedServices { get; }
+        public DiscordClientService[] IntegrationsUpdatedServices { get; }
+        public DiscordClientService[] MemberJoinedServices { get; }
+        public DiscordClientService[] MemberUpdatedServices { get; }
+        public DiscordClientService[] MemberLeftServices { get; }
+        public DiscordClientService[] RoleCreatedServices { get; }
+        public DiscordClientService[] RoleUpdatedServices { get; }
+        public DiscordClientService[] RoleDeletedServices { get; }
+        public DiscordClientService[] IntegrationCreatedServices { get; }
+        public DiscordClientService[] IntegrationUpdatedServices { get; }
+        public DiscordClientService[] IntegrationDeletedServices { get; }
+        public DiscordClientService[] InteractionReceivedServices { get; }
+        public DiscordClientService[] InviteCreatedServices { get; }
+        public DiscordClientService[] InviteDeletedServices { get; }
+        public DiscordClientService[] MessageReceivedServices { get; }
+        public DiscordClientService[] MessageUpdatedServices { get; }
+        public DiscordClientService[] MessageDeletedServices { get; }
+        public DiscordClientService[] MessagesDeletedServices { get; }
+        public DiscordClientService[] ReactionAddedServices { get; }
+        public DiscordClientService[] ReactionRemovedServices { get; }
+        public DiscordClientService[] ReactionsClearedServices { get; }
+        public DiscordClientService[] PresenceUpdatedServices { get; }
+        public DiscordClientService[] TypingStartedServices { get; }
+        public DiscordClientService[] CurrentUserUpdatedServices { get; }
+        public DiscordClientService[] VoiceStateUpdatedServices { get; }
+        public DiscordClientService[] VoiceServerUpdatedServices { get; }
+        public DiscordClientService[] WebhooksUpdatedServices { get; }
 
         private DiscordClientMasterService(
             DiscordClientBase client,
@@ -76,6 +77,7 @@ namespace Disqord.Hosting
             IntegrationCreatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnIntegrationCreated), typeof(IntegrationCreatedEventArgs))).ToArray();
             IntegrationUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnIntegrationUpdated), typeof(IntegrationUpdatedEventArgs))).ToArray();
             IntegrationDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnIntegrationDeleted), typeof(IntegrationDeletedEventArgs))).ToArray();
+            InteractionReceivedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnInteractionReceived), typeof(InteractionReceivedEventArgs))).ToArray();
             InviteCreatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnInviteCreated), typeof(InviteCreatedEventArgs))).ToArray();
             InviteDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnInviteDeleted), typeof(InviteDeletedEventArgs))).ToArray();
             MessageReceivedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMessageReceived), typeof(MessageReceivedEventArgs))).ToArray();
@@ -115,6 +117,7 @@ namespace Disqord.Hosting
             Client.IntegrationCreated += HandleIntegrationCreated;
             Client.IntegrationUpdated += HandleIntegrationUpdated;
             Client.IntegrationDeleted += HandleIntegrationDeleted;
+            Client.InteractionReceived += HandleInteractionReceived;
             Client.InviteCreated += HandleInviteCreated;
             Client.InviteDeleted += HandleInviteDeleted;
             Client.MessageReceived += HandleMessageReceived;
@@ -310,6 +313,14 @@ namespace Disqord.Hosting
         {
             foreach (var service in IntegrationDeletedServices)
                 _ = ExecuteAsync((service, e) => service.OnIntegrationDeleted(e), service, e);
+
+            return default;
+        }
+
+        public ValueTask HandleInteractionReceived(object sender, InteractionReceivedEventArgs e)
+        {
+            foreach (var service in InteractionReceivedServices)
+                _ = ExecuteAsync((service, e) => service.OnInteractionReceived(e), service, e);
 
             return default;
         }

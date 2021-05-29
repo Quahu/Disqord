@@ -21,28 +21,10 @@ namespace Disqord
 
         public IReadOnlyList<Snowflake> MentionedRoleIds => Model.MentionRoles;
 
-        public IReadOnlyList<Attachment> Attachments
-        {
-            get
-            {
-                if (_attachments == null)
-                    _attachments = Model.Attachments.ToReadOnlyList(x => new Attachment(x));
-
-                return _attachments;
-            }
-        }
+        public IReadOnlyList<Attachment> Attachments => _attachments ??= Model.Attachments.ToReadOnlyList(x => new Attachment(x));
         private IReadOnlyList<Attachment> _attachments;
 
-        public IReadOnlyList<Embed> Embeds
-        {
-            get
-            {
-                if (_embeds == null)
-                    _embeds = Model.Embeds.ToReadOnlyList(x => new Embed(x));
-
-                return _embeds;
-            }
-        }
+        public IReadOnlyList<Embed> Embeds => _embeds ??= Model.Embeds.ToReadOnlyList(x => new Embed(x));
         private IReadOnlyList<Embed> _embeds;
 
         public MessageActivity Activity => Optional.ConvertOrDefault(Model.Activity, x => new MessageActivity(x));
@@ -53,29 +35,14 @@ namespace Disqord
 
         public MessageFlag Flags => Model.Flags.GetValueOrDefault();
 
-        public IReadOnlyList<Sticker> Stickers
-        {
-            get
-            {
-                if (_stickers == null)
-                    _stickers = Optional.ConvertOrDefault(Model.Stickers, x => x.ToReadOnlyList(x => new Sticker(x)), Array.Empty<Sticker>());
-
-                return _stickers;
-            }
-        }
+        public IReadOnlyList<Sticker> Stickers => _stickers ??= Optional.ConvertOrDefault(Model.Stickers, x => x.ToReadOnlyList(x => new Sticker(x)), Array.Empty<Sticker>());
         private IReadOnlyList<Sticker> _stickers;
 
-        public virtual Optional<IUserMessage> ReferencedMessage
-        {
-            get
-            {
-                if (_referencedMessage == null)
-                    _referencedMessage = Optional.Convert(Model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage);
-
-                return _referencedMessage.Value;
-            }
-        }
+        public virtual Optional<IUserMessage> ReferencedMessage => _referencedMessage ??= Optional.Convert(Model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage);
         private Optional<IUserMessage>? _referencedMessage;
+
+        public IReadOnlyList<IComponent> Components => _components ??= Optional.ConvertOrDefault(Model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
+        private IReadOnlyList<IComponent> _components;
 
         public TransientUserMessage(IClient client, MessageJsonModel model)
             : base(client, model)

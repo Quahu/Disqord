@@ -165,6 +165,13 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<InteractionReceivedEventArgs> InteractionReceived
+        {
+            add => Dispatcher.InteractionReceivedEvent.Hook(value);
+            remove => Dispatcher.InteractionReceivedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<InviteCreatedEventArgs> InviteCreated
         {
             add => Dispatcher.InviteCreatedEvent.Hook(value);

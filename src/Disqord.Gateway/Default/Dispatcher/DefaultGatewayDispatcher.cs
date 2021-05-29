@@ -94,6 +94,8 @@ namespace Disqord.Gateway.Default
                 ["INTEGRATION_UPDATE"] = new IntegrationUpdateHandler(),
                 ["INTEGRATION_DELETE"] = new IntegrationDeleteHandler(),
 
+                ["INTERACTION_CREATE"] = new InteractionCreateHandler(),
+
                 ["INVITE_CREATE"] = new InviteCreateHandler(),
                 ["INVITE_DELETE"] = new InviteDeleteHandler(),
 

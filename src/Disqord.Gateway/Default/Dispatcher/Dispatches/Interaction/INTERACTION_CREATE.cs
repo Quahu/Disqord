@@ -1,14 +1,21 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway.Api;
+using Disqord.Interaction;
+using Disqord.Models;
 
-namespace Disqord.Gateway.Default
+namespace Disqord.Gateway.Default.Dispatcher
 {
-    public partial class DefaultGatewayDispatcher
+    public class InteractionCreateHandler : Handler<InteractionJsonModel, InteractionReceivedEventArgs>
     {
-        private Task InteractionCreateAsync(GatewayDispatchReceivedEventArgs e)
+        public override ValueTask<InteractionReceivedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, InteractionJsonModel model)
         {
-            //return _messageDeletedEvent.InvokeAsync(this, new MessageDeletedEventArgs());
-            return Task.CompletedTask;
+            CachedMember member = null;
+            if (model.GuildId.HasValue)
+                member = Dispatcher.GetOrAddMember(model.GuildId.Value, model.Member.Value);
+
+            var interaction = TransientInteraction.Create(Client, model);
+            var e = new InteractionReceivedEventArgs(interaction, member);
+            return new(e);
         }
     }
 }

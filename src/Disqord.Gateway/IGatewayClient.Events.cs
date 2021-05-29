@@ -124,6 +124,11 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<IntegrationDeletedEventArgs> IntegrationDeleted;
 
         /// <summary>
+        ///     Fires when an interaction is triggered.
+        /// </summary>
+        event AsynchronousEventHandler<InteractionReceivedEventArgs> InteractionReceived;
+
+        /// <summary>
         ///     Fires when an invite is created.
         /// </summary>
         event AsynchronousEventHandler<InviteCreatedEventArgs> InviteCreated;

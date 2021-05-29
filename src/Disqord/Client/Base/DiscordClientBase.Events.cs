@@ -166,6 +166,13 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<InteractionReceivedEventArgs> InteractionReceived
+        {
+            add => GatewayClient.InteractionReceived += value;
+            remove => GatewayClient.InteractionReceived -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<InviteCreatedEventArgs> InviteCreated
         {
             add => GatewayClient.InviteCreated += value;

@@ -40,6 +40,8 @@ namespace Disqord.Gateway
 
         public Optional<IUserMessage> ReferencedMessage { get; private set; }
 
+        public IReadOnlyList<IComponent> Components { get; private set; }
+
         public CachedUserMessage(IGatewayClient client, CachedMember author, MessageJsonModel model)
             : base(client, author, model)
         {
@@ -70,6 +72,8 @@ namespace Disqord.Gateway
                 // Fix for Discord always sending an empty property.
                 ReferencedMessage = Optional.Convert(model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage);
             }
+
+            Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
         }
 
         public void Update(MessageUpdateJsonModel model)
@@ -141,6 +145,9 @@ namespace Disqord.Gateway
 
             if (model.ReferencedMessage.HasValue)
                 ReferencedMessage = Optional.Convert(model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage);
+
+            if (model.Components.HasValue)
+                Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
         }
     }
 }

@@ -50,6 +50,8 @@ namespace Disqord.Gateway
 
         AsynchronousEvent<IntegrationDeletedEventArgs> IntegrationDeletedEvent { get; }
 
+        AsynchronousEvent<InteractionReceivedEventArgs> InteractionReceivedEvent { get; }
+
         AsynchronousEvent<InviteCreatedEventArgs> InviteCreatedEvent { get; }
 
         AsynchronousEvent<InviteDeletedEventArgs> InviteDeletedEvent { get; }

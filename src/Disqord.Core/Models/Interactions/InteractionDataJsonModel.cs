@@ -2,24 +2,24 @@
 
 namespace Disqord.Models
 {
-    public class ApplicationCommandInteractionDataJsonModel : JsonModel
+    public class InteractionDataJsonModel : JsonModel
     {
         [JsonProperty("id")]
-        public Snowflake Id;
+        public Optional<Snowflake> Id;
 
         [JsonProperty("name")]
-        public string Name;
+        public Optional<string> Name;
 
         [JsonProperty("resolved")]
         public Optional<ApplicationCommandInteractionDataResolvedJsonModel> Resolved;
 
-        [JsonProperty("name")]
+        [JsonProperty("options")]
         public Optional<ApplicationCommandInteractionDataOptionJsonModel[]> Options;
 
         [JsonProperty("custom_id")]
-        public string CustomId;
+        public Optional<string> CustomId;
 
         [JsonProperty("component_type")]
-        public ComponentType ComponentType;
+        public Optional<ComponentType> ComponentType;
     }
 }

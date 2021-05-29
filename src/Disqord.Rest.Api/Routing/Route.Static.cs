@@ -155,11 +155,11 @@ namespace Disqord.Rest.Api
 
             public static readonly Route ModifyWidget = Patch("guilds/{0:guild_id}/widget");
 
-            public static readonly Route GetWidget = Post("guilds/{0:guild_id}/widget.json");
+            public static readonly Route GetWidget = Get("guilds/{0:guild_id}/widget.json");
 
-            public static readonly Route GetVanityUrl = Post("guilds/{0:guild_id}/vanity-url");
+            public static readonly Route GetVanityUrl = Get("guilds/{0:guild_id}/vanity-url");
 
-            public static readonly Route GetWidgetImage = Post("guilds/{0:guild_id}/widget.png");
+            public static readonly Route GetWidgetImage = Get("guilds/{0:guild_id}/widget.png");
         }
 
         public static class Invite
@@ -266,7 +266,7 @@ namespace Disqord.Rest.Api
             public static readonly Route GetCurrentAuthorization = Get("oauth2/@me");
         }
 
-        public static class Slash
+        public static class Interactions
         {
             // TODO: fix broken slash routes
             public static readonly Route GetGlobalCommands = Get("applications/{0:application_id}/commands");
@@ -285,33 +285,33 @@ namespace Disqord.Rest.Api
 
             public static readonly Route DeleteGuildCommand = Delete("applications/{0:application_id}/guilds/{1:guild_id}/commands/{2:command_id}");
 
-            public static readonly Route CreateInteractionResponse = Post("interactions/{0:interaction_id}/{1:interaction_token}/callback");
+            public static readonly Route CreateInitialResponse = Post("interactions/{0:interaction_id}/{1:interaction_token}/callback");
 
-            public static readonly Route ModifyOriginalInteractionResponse = Patch("interactions/{0:interaction_id}/{1:interaction_token}/messages/@original");
+            public static readonly Route ModifyInitialResponse = Patch("webhooks/{0:application_id}/{1:interaction_token}/messages/@original");
 
-            public static readonly Route DeleteOriginalInteractionResponse = Delete("interactions/{0:interaction_id}/{1:interaction_token}/messages/@original");
+            public static readonly Route DeleteInitialResponse = Delete("webhooks/{0:application_id}/{1:interaction_token}/messages/@original");
 
-            public static readonly Route CreateFollowupInteractionResponse = Post("interactions/{0:interaction_id}/{1:interaction_token}");
+            public static readonly Route CreateFollowupResponse = Post("webhooks/{0:application_id}/{1:interaction_token}");
 
-            public static readonly Route ModifyFollowupInteractionResponse = Patch("interactions/{0:interaction_id}/{1:interaction_token}/messages/{2:message_id}");
+            public static readonly Route ModifyFollowupResponse = Patch("webhooks/{0:application_id}/{1:interaction_token}/messages/{2:message_id}");
 
-            public static readonly Route DeleteFollowupInteractionResponse = Delete("interactions/{0:interaction_id}/{1:interaction_token}/messages/{2:message_id}");
+            public static readonly Route DeleteFollowupResponse = Delete("webhooks/{0:application_id}/{1:interaction_token}/messages/{2:message_id}");
         }
 
         public static Route Get(string path)
-            => new Route(HttpRequestMethod.Get, path);
+            => new(HttpRequestMethod.Get, path);
 
         public static Route Post(string path)
-            => new Route(HttpRequestMethod.Post, path);
+            => new(HttpRequestMethod.Post, path);
 
         public static Route Patch(string path)
-            => new Route(HttpRequestMethod.Patch, path);
+            => new(HttpRequestMethod.Patch, path);
 
         public static Route Put(string path)
-            => new Route(HttpRequestMethod.Put, path);
+            => new(HttpRequestMethod.Put, path);
 
         public static Route Delete(string path)
-            => new Route(HttpRequestMethod.Delete, path);
+            => new(HttpRequestMethod.Delete, path);
 
         [ModuleInitializer]
         internal static void ModuleInitializer()
@@ -336,17 +336,11 @@ namespace Disqord.Rest.Api
                             pathSpan = pathSpan.Slice(firstBracketIndex + 1);
                             var secondBracketIndex = pathSpan.IndexOf('}');
                             if (secondBracketIndex == -1)
-                            {
                                 Debug.Fail($"Route {type.Name}.{field.Name} contains an unmatched bracket.");
-                                continue;
-                            }
 
                             var segment = pathSpan.Slice(0, secondBracketIndex);
                             if (argumentIndex != segment[0])
-                            {
                                 Debug.Fail($"Route {type.Name}.{field.Name} contains duplicate argument indice ({argumentIndex}).");
-                                continue;
-                            }
 
                             if (segment.Length > 1)
                             {

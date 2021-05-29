@@ -22,5 +22,8 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("message_reference")]
         public Optional<MessageReferenceJsonModel> MessageReference;
+
+        [JsonProperty("components")]
+        public Optional<ComponentJsonModel[]> Components;
     }
 }

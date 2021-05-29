@@ -86,5 +86,10 @@ namespace Disqord
         ///     so its state is unknown. If the property has a value but the value is null, the referenced message was deleted.
         /// </summary>
         Optional<IUserMessage> ReferencedMessage { get; }
+
+        /// <summary>
+        ///     Gets the components of this message.
+        /// </summary>
+        IReadOnlyList<IComponent> Components { get; }
     }
 }

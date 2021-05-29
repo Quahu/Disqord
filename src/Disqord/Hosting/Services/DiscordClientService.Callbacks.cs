@@ -74,6 +74,9 @@ namespace Disqord.Hosting
         protected internal virtual ValueTask OnIntegrationDeleted(IntegrationDeletedEventArgs e)
             => default;
 
+        protected internal virtual ValueTask OnInteractionReceived(InteractionReceivedEventArgs e)
+            => default;
+
         protected internal virtual ValueTask OnInviteCreated(InviteCreatedEventArgs e)
             => default;
 

@@ -14,7 +14,7 @@ namespace Disqord.Models
         public InteractionType Type;
 
         [JsonProperty("data")]
-        public Optional<ApplicationCommandInteractionDataJsonModel> Data;
+        public Optional<InteractionDataJsonModel> Data;
 
         [JsonProperty("guild_id")]
         public Optional<Snowflake> GuildId;
@@ -31,7 +31,7 @@ namespace Disqord.Models
         [JsonProperty("token")]
         public string Token;
 
-        [JsonProperty("int")]
+        [JsonProperty("version")]
         public int Version;
 
         [JsonProperty("message")]
