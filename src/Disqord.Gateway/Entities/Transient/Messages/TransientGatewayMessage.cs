@@ -38,7 +38,7 @@ namespace Disqord
         /// <returns></returns>
         public static new IGatewayMessage Create(IClient client, MessageJsonModel model)
         {
-            switch ((MessageType) model.Type)
+            switch (model.Type)
             {
                 case MessageType.Default:
                 case MessageType.Reply:

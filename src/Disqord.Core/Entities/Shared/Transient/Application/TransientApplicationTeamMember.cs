@@ -16,7 +16,7 @@ namespace Disqord
         /// <inheritdoc/>
         public IReadOnlyList<string> Permissions => Model.Permissions;
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ITransientEntity{TModel}.Model"/>
         public new TeamMemberJsonModel Model { get; }
 
         public TransientApplicationTeamMember(IClient client, TeamMemberJsonModel model)

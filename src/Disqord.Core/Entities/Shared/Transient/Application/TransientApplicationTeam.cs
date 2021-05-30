@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Disqord.Collections;
 using Disqord.Models;
 
@@ -12,26 +11,14 @@ namespace Disqord
         public Snowflake Id => Model.Id;
 
         /// <inheritdoc/>
-        public DateTimeOffset CreatedAt => Id.CreatedAt;
-
-        /// <inheritdoc/>
         public string IconHash => Model.Icon;
 
         /// <inheritdoc/>
-        public IReadOnlyDictionary<Snowflake, IApplicationTeamMember> Members
+        public IReadOnlyDictionary<Snowflake, IApplicationTeamMember> Members => _members ??= Model.Members.ToReadOnlyDictionary((Client, Id), (x, _) => x.User.Id, (x, tuple) =>
         {
-            get
-            {
-                if (_members == null)
-                    _members = Model.Members.ToReadOnlyDictionary((Client, Id), (x, _) => x.User.Id, (x, tuple) =>
-                    {
-                        var (client, guildId) = tuple;
-                        return new TransientApplicationTeamMember(client, x) as IApplicationTeamMember;
-                    });
-
-                return _members;
-            }
-        }
+            var (client, guildId) = tuple;
+            return new TransientApplicationTeamMember(client, x) as IApplicationTeamMember;
+        });
         private IReadOnlyDictionary<Snowflake, IApplicationTeamMember> _members;
 
         /// <inheritdoc/>

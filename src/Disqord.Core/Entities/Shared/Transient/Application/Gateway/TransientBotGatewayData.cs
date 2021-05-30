@@ -12,16 +12,7 @@ namespace Disqord.Gateway
         public int RecommendedShardCount => Model.Shards;
 
         /// <inheritdoc/>
-        public IBotGatewaySessionData Sessions
-        {
-            get
-            {
-                if (_sessions == null)
-                    _sessions = new TransientBotGatewaySessionData(Client, Model.SessionStartLimit);
-
-                return _sessions;
-            }
-        }
+        public IBotGatewaySessionData Sessions => _sessions ??= new TransientBotGatewaySessionData(Client, Model.SessionStartLimit);
         private TransientBotGatewaySessionData _sessions;
 
         public TransientBotGatewayData(IClient client, BotGatewayJsonModel model)

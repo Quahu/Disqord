@@ -1,13 +1,10 @@
-﻿using System;
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord
 {
     public class CustomEmoji : Emoji, ICustomEmoji
     {
         public Snowflake Id { get; }
-
-        public DateTimeOffset CreatedAt => Id.CreatedAt;
 
         public bool IsAnimated { get; }
 

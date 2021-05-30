@@ -9,9 +9,6 @@ namespace Disqord
         public Snowflake Id => Model.Id;
 
         /// <inheritdoc/>
-        public DateTimeOffset CreatedAt => Id.CreatedAt;
-
-        /// <inheritdoc/>
         public Snowflake GuildId { get; }
 
         /// <inheritdoc/>

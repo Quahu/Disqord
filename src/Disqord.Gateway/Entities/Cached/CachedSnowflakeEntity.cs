@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Disqord.Gateway
+﻿namespace Disqord.Gateway
 {
     /// <summary>
     ///     Represents a gateway Discord entity with a unique id.
@@ -10,10 +8,7 @@ namespace Disqord.Gateway
         /// <inheritdoc/>
         public Snowflake Id { get; }
 
-        /// <inheritdoc/>
-        public DateTimeOffset CreatedAt => Id.CreatedAt;
-
-        public CachedSnowflakeEntity(IGatewayClient client, Snowflake id)
+        protected CachedSnowflakeEntity(IGatewayClient client, Snowflake id)
             : base(client)
         {
             Id = id;

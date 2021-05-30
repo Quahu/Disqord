@@ -7,8 +7,6 @@ namespace Disqord.Interaction
     {
         public Snowflake Id => Model.Id;
 
-        public DateTimeOffset CreatedAt => Id.CreatedAt;
-
         public Snowflake? GuildId => Model.GuildId.GetValueOrNullable();
 
         public Snowflake ChannelId => Model.ChannelId.Value;

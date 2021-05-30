@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Disqord.Collections;
 using Disqord.Models;
 
@@ -9,9 +8,6 @@ namespace Disqord
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;
-
-        /// <inheritdoc/>
-        public DateTimeOffset CreatedAt => Id.CreatedAt;
 
         /// <inheritdoc/>
         public string Name => Model.Name;

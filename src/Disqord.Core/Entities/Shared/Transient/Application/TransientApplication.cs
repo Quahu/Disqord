@@ -1,5 +1,4 @@
-﻿using System;
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord
 {
@@ -8,9 +7,6 @@ namespace Disqord
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;
-
-        /// <inheritdoc/>
-        public DateTimeOffset CreatedAt => Id.CreatedAt;
 
         /// <inheritdoc/>
         public string Name => Model.Name;
@@ -28,16 +24,7 @@ namespace Disqord
         public bool BotRequiresCodeGrant => Model.BotRequireCodeGrant;
 
         /// <inheritdoc/>
-        public IUser Owner
-        {
-            get
-            {
-                if (_owner == null)
-                    _owner = new TransientUser(Client, Model.Owner);
-
-                return _owner;
-            }
-        }
+        public IUser Owner => _owner ??= new TransientUser(Client, Model.Owner);
         private TransientUser _owner;
 
         /// <inheritdoc/>

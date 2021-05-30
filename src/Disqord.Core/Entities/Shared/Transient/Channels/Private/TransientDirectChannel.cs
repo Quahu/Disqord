@@ -6,16 +6,7 @@ namespace Disqord
     {
         public override string Name => Recipient.Tag;
 
-        public IUser Recipient
-        {
-            get
-            {
-                if (_recipient == null)
-                    _recipient = new TransientUser(Client, Model.Recipients.Value[0]);
-
-                return _recipient;
-            }
-        }
+        public IUser Recipient => _recipient ??= new TransientUser(Client, Model.Recipients.Value[0]);
         private IUser _recipient;
 
         public TransientDirectChannel(IClient client, ChannelJsonModel model)

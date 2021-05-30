@@ -5,9 +5,10 @@ namespace Disqord.Gateway
 {
     public abstract class CachedEntity : ICachedEntity, ICloneable
     {
+        /// <inheritdoc/>
         public IGatewayClient Client { get; }
 
-        public CachedEntity(IGatewayClient client)
+        protected CachedEntity(IGatewayClient client)
         {
             if (client == null)
                 throw new ArgumentNullException(nameof(client));

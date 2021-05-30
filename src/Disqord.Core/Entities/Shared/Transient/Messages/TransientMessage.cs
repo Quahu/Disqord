@@ -10,8 +10,6 @@ namespace Disqord
     {
         public Snowflake Id => Model.Id;
 
-        public DateTimeOffset CreatedAt => Id.CreatedAt;
-
         public Snowflake ChannelId => Model.ChannelId;
 
         public virtual IUser Author

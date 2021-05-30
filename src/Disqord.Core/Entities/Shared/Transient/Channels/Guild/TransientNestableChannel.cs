@@ -6,7 +6,7 @@ namespace Disqord
     {
         public Snowflake? CategoryId => Model.ParentId.Value;
 
-        public TransientNestableChannel(IClient client, ChannelJsonModel model)
+        protected TransientNestableChannel(IClient client, ChannelJsonModel model)
             : base(client, model)
         { }
     }

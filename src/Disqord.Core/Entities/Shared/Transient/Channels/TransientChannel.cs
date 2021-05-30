@@ -1,5 +1,4 @@
-﻿using System;
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord
 {
@@ -7,11 +6,9 @@ namespace Disqord
     {
         public Snowflake Id => Model.Id;
 
-        public DateTimeOffset CreatedAt => Id.CreatedAt;
-
         public virtual string Name => Model.Name.Value;
 
-        public TransientChannel(IClient client, ChannelJsonModel model)
+        protected TransientChannel(IClient client, ChannelJsonModel model)
             : base(client, model)
         { }
 
@@ -37,7 +34,7 @@ namespace Disqord
                     return TransientGuildChannel.Create(client, model);
             }
 
-            return null/*TransientUnknownChannel(client, model)*/;
+            return null /*TransientUnknownChannel(client, model)*/;
         }
     }
 }
