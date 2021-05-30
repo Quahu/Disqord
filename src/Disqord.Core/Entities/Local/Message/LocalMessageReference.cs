@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public sealed class LocalMessageReference : ICloneable
+    public class LocalMessageReference : ILocalConstruct
     {
         public Snowflake MessageId { get; set; }
 
