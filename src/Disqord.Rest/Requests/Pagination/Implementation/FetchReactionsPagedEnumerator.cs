@@ -10,12 +10,12 @@ namespace Disqord.Rest
 
         private readonly Snowflake _channelId;
         private readonly Snowflake _messageId;
-        private readonly IEmoji _emoji;
+        private readonly LocalEmoji _emoji;
         private readonly Snowflake? _startFromId;
 
         public FetchReactionsPagedEnumerator(
             IRestClient client,
-            Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, Snowflake? startFromId,
+            Snowflake channelId, Snowflake messageId, LocalEmoji emoji, int limit, Snowflake? startFromId,
             IRestRequestOptions options)
             : base(client, limit, options)
         {

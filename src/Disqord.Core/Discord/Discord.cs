@@ -13,7 +13,7 @@ namespace Disqord
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            return emoji is ICustomEmoji customEmoji
+            return emoji is LocalCustomEmoji customEmoji
                 ? $"{customEmoji.Name ?? "_"}:{customEmoji.Id}"
                 : emoji.Name;
         }
@@ -23,15 +23,14 @@ namespace Disqord
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            return emoji is ICustomEmoji customEmoji
+            return emoji is LocalCustomEmoji customEmoji
                 ? customEmoji.IsAnimated
                     ? $"<a:{customEmoji.Name ?? "_"}:{customEmoji.Id}>"
                     : $"<:{customEmoji.Name ?? "_"}:{customEmoji.Id}>"
                 : emoji.Name;
         }
 
-        public static readonly Regex MessageJumpLinkRegex = new Regex(
-            @"^https?://(?:(ptb|canary)\.)?discord(?:app)?\.com/channels/(?<guild_id>([0-9]{15,21})|(@me))/(?<channel_id>[0-9]{15,21})/(?<message_id>[0-9]{15,21})/?$",
+        public static readonly Regex MessageJumpLinkRegex = new(@"^https?://(?:(ptb|canary)\.)?discord(?:app)?\.com/channels/(?<guild_id>([0-9]{15,21})|(@me))/(?<channel_id>[0-9]{15,21})/(?<message_id>[0-9]{15,21})/?$",
             RegexOptions.Compiled);
 
         public static string MessageJumpLink(Snowflake? guildId, Snowflake channelId, Snowflake messageId) => guildId != null

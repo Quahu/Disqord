@@ -4,13 +4,14 @@ namespace Disqord
 {
     public class LocalCustomEmoji : LocalEmoji, ICustomEmoji
     {
-        public Snowflake Id { get; }
+        public Snowflake Id { get; init; }
 
-        public DateTimeOffset CreatedAt => Id.CreatedAt;
-
-        public bool IsAnimated { get; }
+        public bool IsAnimated { get; init; }
 
         public string Tag => this.GetMessageFormat();
+
+        public LocalCustomEmoji()
+        { }
 
         /// <summary>
         ///     Instantiates a new custom emoji with the specified custom emoji ID
@@ -35,6 +36,9 @@ namespace Disqord
 
         public override string ToString()
             => Tag;
+
+        public override LocalCustomEmoji Clone()
+            => MemberwiseClone() as LocalCustomEmoji;
 
         public static bool TryParse(string value, out LocalCustomEmoji result)
         {

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Disqord.Models;
 
-namespace Disqord.Rest.Models
+namespace Disqord.Models
 {
     public static partial class LocalEntityExtensions
     {
-        public static AllowedMentionsJsonModel ToModel(this LocalMentions mentions)
+        public static AllowedMentionsJsonModel ToModel(this LocalAllowedMentions mentions)
         {
             if (mentions == null)
                 return null;

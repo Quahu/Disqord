@@ -125,12 +125,12 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// </returns>
         protected virtual async ValueTask<IUserMessage> InitializeAsync(Page page)
         {
-            var message = new LocalMessageBuilder
+            var message = new LocalMessage
             {
                 Content = page.Content,
                 Embed = page.Embed,
-                Mentions = LocalMentionsBuilder.None
-            }.Build();
+                Mentions = LocalAllowedMentions.None
+            };
             return await Client.SendMessageAsync(ChannelId, message).ConfigureAwait(false);
         }
 
@@ -153,7 +153,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             await Client.ModifyMessageAsync(ChannelId, MessageId, x =>
             {
                 x.Content = page.Content;
-                x.Embed = page.Embed?.Build();
+                x.Embed = page.Embed;
             }).ConfigureAwait(false);
         }
     }

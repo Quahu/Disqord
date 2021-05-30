@@ -8,19 +8,19 @@ namespace Disqord.Extensions.Interactivity.Menus
 {
     public abstract partial class MenuBase
     {
-        private static readonly ISynchronizedDictionary<Type, KeyValuePair<IEmoji, MethodInfo>[]> _typeCache;
+        private static readonly ISynchronizedDictionary<Type, KeyValuePair<LocalEmoji, MethodInfo>[]> _typeCache;
 
         static MenuBase()
         {
-            _typeCache = new SynchronizedDictionary<Type, KeyValuePair<IEmoji, MethodInfo>[]>();
+            _typeCache = new SynchronizedDictionary<Type, KeyValuePair<LocalEmoji, MethodInfo>[]>();
         }
 
-        static ISynchronizedDictionary<IEmoji, Button> GetButtons(MenuBase menu)
+        static ISynchronizedDictionary<LocalEmoji, Button> GetButtons(MenuBase menu)
         {
             var methods = _typeCache.GetOrAdd(menu.GetType(), static x =>
             {
                 var methods = x.GetMethods(BindingFlags.Public | BindingFlags.Instance);
-                IDictionary<IEmoji, MethodInfo> buttons = null;
+                IDictionary<LocalEmoji, MethodInfo> buttons = null;
                 for (var i = 0; i < methods.Length; i++)
                 {
                     var method = methods[i];
@@ -39,26 +39,26 @@ namespace Disqord.Extensions.Interactivity.Menus
                         throw new InvalidOperationException("A button callback must contain a single ButtonEventArgs parameter.");
 
                     if (buttons == null)
-                        buttons = new Dictionary<IEmoji, MethodInfo>();
+                        buttons = new Dictionary<LocalEmoji, MethodInfo>();
 
                     buttons.Add(buttonAttribute.Emoji, method);
                 }
 
-                KeyValuePair<IEmoji, MethodInfo>[] array;
+                KeyValuePair<LocalEmoji, MethodInfo>[] array;
                 if (buttons != null)
                 {
-                    array = new KeyValuePair<IEmoji, MethodInfo>[buttons.Count];
+                    array = new KeyValuePair<LocalEmoji, MethodInfo>[buttons.Count];
                     buttons.CopyTo(array, 0);
                 }
                 else
                 {
-                    array = Array.Empty<KeyValuePair<IEmoji, MethodInfo>>();
+                    array = Array.Empty<KeyValuePair<LocalEmoji, MethodInfo>>();
                 }
 
                 return array;
             });
 
-            var buttons = new SynchronizedDictionary<IEmoji, Button>(methods.Length);
+            var buttons = new SynchronizedDictionary<LocalEmoji, Button>(methods.Length);
             for (var i = 0; i < methods.Length; i++)
             {
                 var (emoji, method) = methods[i];
@@ -69,7 +69,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             return buttons;
         }
 
-        static Button ButtonFactory(IEmoji emoji, MethodInfo method, int position, object instance)
+        static Button ButtonFactory(LocalEmoji emoji, MethodInfo method, int position, object instance)
         {
             ButtonCallback buttonCallback;
             try
@@ -78,8 +78,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException(
-                    "Failed to create a button callback delegate. Methods marked with the ButtonAttribute must match the ButtonCallback delegate's signature.",
+                throw new InvalidOperationException("Failed to create a button callback delegate. Methods marked with the ButtonAttribute must match the ButtonCallback delegate's signature.",
                     ex);
             }
 

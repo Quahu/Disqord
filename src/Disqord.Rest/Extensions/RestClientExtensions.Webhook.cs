@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Models;
 using Disqord.Rest.Api;
-using Disqord.Rest.Models;
 
 namespace Disqord.Rest
 {

@@ -1,13 +1,10 @@
-﻿using System;
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord
 {
     public class Emoji : IEmoji
     {
         public string Name { get; }
-
-        IClient IEntity.Client => throw new EntityNotManagedException();
 
         protected Emoji(EmojiJsonModel model)
         {
@@ -25,9 +22,6 @@ namespace Disqord
 
         public override string ToString()
             => this.GetMessageFormat();
-
-        void IJsonUpdatable<EmojiJsonModel>.Update(EmojiJsonModel model)
-            => throw new NotSupportedException();
 
         public static IEmoji Create(EmojiJsonModel model)
         {

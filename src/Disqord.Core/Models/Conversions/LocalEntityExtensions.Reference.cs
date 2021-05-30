@@ -1,10 +1,8 @@
-﻿using Disqord.Models;
-
-namespace Disqord.Rest.Models
+﻿namespace Disqord.Models
 {
     public static partial class LocalEntityExtensions
     {
-        public static MessageReferenceJsonModel ToModel(this LocalReference reference)
+        public static MessageReferenceJsonModel ToModel(this LocalMessageReference reference)
             => reference == null ? null : new MessageReferenceJsonModel
             {
                 MessageId = reference.MessageId,

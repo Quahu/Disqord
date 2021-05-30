@@ -20,7 +20,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <summary>
         ///     Gets the emoji of this button.
         /// </summary>
-        public IEmoji Emoji { get; }
+        public LocalEmoji Emoji { get; }
 
         /// <summary>
         ///     Gets the callback of this button.
@@ -39,7 +39,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <param name="emoji"> The emoji this button will be triggered with. </param>
         /// <param name="callback"> The callback this button will execute. </param>
         /// <param name="position"> The position of this button. </param>
-        public Button(IEmoji emoji, ButtonCallback callback, int position = 0)
+        public Button(LocalEmoji emoji, ButtonCallback callback, int position = 0)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));

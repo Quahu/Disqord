@@ -4,75 +4,86 @@ using System.Linq;
 
 namespace Disqord
 {
-    public sealed class LocalMentionsBuilder : ICloneable
+    /// <summary>
+    ///     Represents the allowed mentions in a Discord message.
+    /// </summary>
+    public class LocalAllowedMentions : ILocalConstruct
     {
         public const int MAX_MENTION_AMOUNT = 100;
 
         /// <summary>
-        ///     Get a builder in which all mentions are ignored.
+        ///     Get an instance in which all mentions are ignored.
         /// </summary>
-        public static LocalMentionsBuilder None => new LocalMentionsBuilder()
+        public static LocalAllowedMentions None => new LocalAllowedMentions()
             .WithParsedMentions(ParsedMention.None);
 
         /// <summary>
-        ///     Gets a builder in which all <c>@everyone</c> mentions are ignored.
+        ///     Gets an instance in which all <c>@everyone</c> mentions are ignored.
         /// </summary>
-        public static LocalMentionsBuilder ExceptEveryone => new LocalMentionsBuilder()
+        public static LocalAllowedMentions ExceptEveryone => new LocalAllowedMentions()
             .WithParsedMentions(ParsedMention.Users | ParsedMention.Roles);
 
         /// <summary>
-        ///     Gets a builder in which the author of the replied to message is not mentioned.
+        ///     Gets an instance in which the author of the replied to message is not mentioned.
         /// </summary>
-        public static LocalMentionsBuilder ExceptRepliedUser => new LocalMentionsBuilder()
+        public static LocalAllowedMentions ExceptRepliedUser => new LocalAllowedMentions()
             .WithParsedMentions(ParsedMention.All)
             .WithMentionRepliedUser(false);
 
+        /// <summary>
+        ///     Gets or sets the mention types Discord will parse from the message's content.
+        /// </summary>
         public ParsedMention ParsedMentions { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the IDs of the users that can be mentioned.
+        /// </summary>
         public IList<Snowflake> UserIds
         {
             get => _userIds;
             set => WithUserIds(value);
         }
+        private readonly List<Snowflake> _userIds;
 
+        /// <summary>
+        ///     Gets or sets the IDs of the roles that can be mentioned.
+        /// </summary>
         public IList<Snowflake> RoleIds
         {
             get => _roleIds;
             set => WithRoleIds(value);
         }
+        private readonly List<Snowflake> _roleIds;
 
         /// <summary>
         ///     Gets or sets whether the author of the replied to message is going to be mentioned.
         /// </summary>
         public bool? MentionRepliedUser { get; set; }
 
-        private readonly List<Snowflake> _userIds;
-        private readonly List<Snowflake> _roleIds;
-
-        public LocalMentionsBuilder()
+        public LocalAllowedMentions()
         {
             _userIds = new List<Snowflake>();
             _roleIds = new List<Snowflake>();
         }
 
-        internal LocalMentionsBuilder(LocalMentionsBuilder builder)
+        private LocalAllowedMentions(LocalAllowedMentions other)
         {
-            ParsedMentions = builder.ParsedMentions;
-            _userIds = builder._userIds.ToList();
-            _roleIds = builder._roleIds.ToList();
-            MentionRepliedUser = builder.MentionRepliedUser;
+            ParsedMentions = other.ParsedMentions;
+            _userIds = other._userIds.ToList();
+            _roleIds = other._roleIds.ToList();
+            MentionRepliedUser = other.MentionRepliedUser;
         }
 
-        public LocalMentionsBuilder WithParsedMentions(ParsedMention parsedMentions)
+        public LocalAllowedMentions WithParsedMentions(ParsedMention parsedMentions)
         {
             ParsedMentions = parsedMentions;
             return this;
         }
 
-        public LocalMentionsBuilder WithUserIds(params Snowflake[] userIds)
+        public LocalAllowedMentions WithUserIds(params Snowflake[] userIds)
             => WithUserIds(userIds as IEnumerable<Snowflake>);
 
-        public LocalMentionsBuilder WithUserIds(IEnumerable<Snowflake> userIds)
+        public LocalAllowedMentions WithUserIds(IEnumerable<Snowflake> userIds)
         {
             if (userIds == null)
                 throw new ArgumentNullException(nameof(userIds));
@@ -82,10 +93,10 @@ namespace Disqord
             return this;
         }
 
-        public LocalMentionsBuilder WithRoleIds(params Snowflake[] roleIds)
+        public LocalAllowedMentions WithRoleIds(params Snowflake[] roleIds)
             => WithRoleIds(roleIds as IEnumerable<Snowflake>);
 
-        public LocalMentionsBuilder WithRoleIds(IEnumerable<Snowflake> roleIds)
+        public LocalAllowedMentions WithRoleIds(IEnumerable<Snowflake> roleIds)
         {
             if (roleIds == null)
                 throw new ArgumentNullException(nameof(roleIds));
@@ -95,25 +106,19 @@ namespace Disqord
             return this;
         }
 
-        public LocalMentionsBuilder WithMentionRepliedUser(bool? mentionRepliedUser)
+        public LocalAllowedMentions WithMentionRepliedUser(bool? mentionRepliedUser)
         {
             MentionRepliedUser = mentionRepliedUser;
             return this;
         }
 
-        /// <summary>
-        ///     Creates a deep copy of this <see cref="LocalMentionsBuilder"/>.
-        /// </summary>
-        /// <returns>
-        ///     A deep copy of this <see cref="LocalMentionsBuilder"/>.
-        /// </returns>
-        public LocalMentionsBuilder Clone()
-            => new LocalMentionsBuilder(this);
+        public LocalAllowedMentions Clone()
+            => new(this);
 
         object ICloneable.Clone()
             => Clone();
 
-        public LocalMentions Build()
+        public void Validate()
         {
             if (ParsedMentions != ParsedMention.None && (ParsedMentions.HasFlag(ParsedMention.Users) && UserIds.Count != 0
                 || ParsedMentions.HasFlag(ParsedMention.Roles) && RoleIds.Count != 0))
@@ -121,8 +126,6 @@ namespace Disqord
 
             if (UserIds.Count > MAX_MENTION_AMOUNT || RoleIds.Count > MAX_MENTION_AMOUNT)
                 throw new InvalidOperationException($"The amount of mentions must not exceed {MAX_MENTION_AMOUNT} mentions.");
-
-            return new LocalMentions(this);
         }
     }
 }

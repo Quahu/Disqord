@@ -22,5 +22,8 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("allowed_mentions")]
         public Optional<AllowedMentionsJsonModel> AllowedMentions;
+
+        [JsonProperty("components")]
+        public Optional<ComponentJsonModel[]> Components;
     }
 }

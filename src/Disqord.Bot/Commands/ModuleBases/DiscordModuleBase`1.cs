@@ -3,7 +3,6 @@ using System.Threading;
 using Disqord.Extensions.Interactivity.Menus;
 using Disqord.Extensions.Interactivity.Menus.Paged;
 using Disqord.Rest;
-using Disqord.Rest.Default;
 using Qmmands;
 
 namespace Disqord.Bot
@@ -16,32 +15,55 @@ namespace Disqord.Bot
         /// </summary>
         protected virtual CancellationToken StoppingToken => Context.Bot.StoppingToken;
 
-        protected virtual DiscordResponseCommandResult Reply(string content, LocalMentionsBuilder mentions = null)
+        /// <summary>
+        ///     Returns a result that will reply to the context message with the specified content.
+        /// </summary>
+        /// <param name="content"> The content to reply with. </param>
+        /// <param name="mentions"> The mentions to allow in the content. </param>
+        /// <returns>
+        ///     A <see cref="DiscordResponseCommandResult"/> replying on execution.
+        /// </returns>
+        protected virtual DiscordResponseCommandResult Reply(string content, LocalAllowedMentions mentions = null)
             => Reply(content, null, mentions);
 
-        protected virtual DiscordResponseCommandResult Reply(LocalEmbedBuilder embed, LocalMentionsBuilder mentions = null)
+        /// <summary>
+        ///     Returns a result that will reply to the context message with the specified embed.
+        /// </summary>
+        /// <param name="embed"> The embed to reply with. </param>
+        /// <param name="mentions"> The mentions to allow in the content. </param>
+        /// <returns>
+        ///     A <see cref="DiscordResponseCommandResult"/> replying on execution.
+        /// </returns>
+        protected virtual DiscordResponseCommandResult Reply(LocalEmbed embed, LocalAllowedMentions mentions = null)
             => Reply(null, embed, mentions);
 
-        protected virtual DiscordResponseCommandResult Reply(string content, LocalEmbedBuilder embed, LocalMentionsBuilder mentions = null)
-            => Response(new LocalMessageBuilder()
+        /// <summary>
+        ///     Returns a result that will reply to the context message with the specified content and embed.
+        /// </summary>
+        /// <param name="content"> The content to reply with. </param>
+        /// <param name="embed"> The embed to reply with. </param>
+        /// <param name="mentions"> The mentions to allow in the content. </param>
+        /// <returns>
+        ///     A <see cref="DiscordResponseCommandResult"/> replying on execution.
+        /// </returns>
+        protected virtual DiscordResponseCommandResult Reply(string content, LocalEmbed embed, LocalAllowedMentions mentions = null)
+            => Response(new LocalMessage()
                 .WithContent(content)
                 .WithEmbed(embed)
-                .WithMentions(mentions ?? LocalMentionsBuilder.None)
-                .WithReply(Context.Message.Id, Context.Message.ChannelId, Context.GuildId, false)
-                .Build());
+                .WithMentions(mentions ?? LocalAllowedMentions.None)
+                .WithReply(Context.Message.Id, Context.Message.ChannelId, Context.GuildId, false));
 
-        protected virtual DiscordResponseCommandResult Response(string content, LocalMentionsBuilder mentions = null)
+        protected virtual DiscordResponseCommandResult Response(string content, LocalAllowedMentions mentions = null)
             => Response(content, null, mentions);
 
-        protected virtual DiscordResponseCommandResult Response(LocalEmbedBuilder embed)
+        protected virtual DiscordResponseCommandResult Response(LocalEmbed embed)
             => Response(null, embed, null);
 
-        protected virtual DiscordResponseCommandResult Response(string content, LocalEmbedBuilder embed, LocalMentionsBuilder mentions = null)
-            => Response(new LocalMessageBuilder()
+        protected virtual DiscordResponseCommandResult Response(string content, LocalEmbed embed, LocalAllowedMentions mentions = null)
+            => Response(new LocalMessage()
                 .WithContent(content)
                 .WithEmbed(embed)
-                .WithMentions(mentions ?? LocalMentionsBuilder.None)
-                .Build());
+                .WithMentions(mentions ?? LocalAllowedMentions.None));
 
         //protected virtual DiscordCommandResult Response(LocalAttachment attachment)
         //    => Response();
@@ -49,7 +71,7 @@ namespace Disqord.Bot
         protected virtual DiscordResponseCommandResult Response(LocalMessage message)
             => new(Context, message);
 
-        protected virtual DiscordReactionCommandResult Reaction(IEmoji emoji)
+        protected virtual DiscordReactionCommandResult Reaction(LocalEmoji emoji)
             => new(Context, emoji);
 
         protected virtual DiscordMenuCommandResult Pages(params Page[] pages)

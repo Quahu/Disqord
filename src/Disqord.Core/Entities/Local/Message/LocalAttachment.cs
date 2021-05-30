@@ -6,7 +6,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a local attachment to be sent to Discord.
     /// </summary>
-    public sealed class LocalAttachment : IDisposable
+    public class LocalAttachment : IDisposable
     {
         /// <summary>
         ///     The prefix for spoiler attachments.
@@ -14,7 +14,7 @@ namespace Disqord
         public const string SPOILER_PREFIX = "SPOILER_";
 
         /// <summary>
-        ///     Gets the <see cref="System.IO.Stream"/> to send.
+        ///     Gets or sets the <see cref="System.IO.Stream"/> of this attachment..
         /// </summary>
         public Stream Stream { get; }
 

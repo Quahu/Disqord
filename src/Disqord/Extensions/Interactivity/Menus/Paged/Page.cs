@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace Disqord.Extensions.Interactivity.Menus.Paged
+﻿namespace Disqord.Extensions.Interactivity.Menus.Paged
 {
     /// <summary>
-    ///     Represents what essentially is a <see cref="ValueTuple{T1, T2}"/> of <see cref="string"/> and <see cref="LocalEmbedBuilder"/>
+    ///     Represents what essentially is a <see cref="(T1, T2)"/> of <see cref="string"/> and <see cref="LocalEmbed"/>
     ///     which by default map to <see cref="LocalMessage.Content"/> and <see cref="LocalMessage.Embed"/> respectively.
     /// </summary>
     public class Page
@@ -11,12 +9,18 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// <summary>
         ///     Gets or sets the content of this page.
         /// </summary>
-        public string Content { get; }
+        public string Content { get; set; }
 
         /// <summary>
         ///     Gets or sets the embed of this page.
         /// </summary>
-        public LocalEmbedBuilder Embed { get; }
+        public LocalEmbed Embed { get; set; }
+
+        /// <summary>
+        ///     Instantiates a new <see cref="Page"/> without any properties.
+        /// </summary>
+        protected Page()
+        { }
 
         /// <summary>
         ///     Instantiates a new <see cref="Page"/> with the specified content.
@@ -30,7 +34,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         ///     Instantiates a new <see cref="Page"/> with the specified embed.
         /// </summary>
         /// <param name="embed"> The embed of this page. </param>
-        public Page(LocalEmbedBuilder embed)
+        public Page(LocalEmbed embed)
             : this(null, embed)
         { }
 
@@ -39,11 +43,8 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// </summary>
         /// <param name="content"> The content of this page. </param>
         /// <param name="embed"> The embed of this page. </param>
-        public Page(string content, LocalEmbedBuilder embed)
+        public Page(string content, LocalEmbed embed)
         {
-            if (string.IsNullOrWhiteSpace(content) && embed == null)
-                throw new ArgumentException("At least one of content and embed must be specified.");
-
             Content = content;
             Embed = embed;
         }
@@ -59,14 +60,14 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         ///     Implicitly wraps the specified embed in a <see cref="Page"/>.
         /// </summary>
         /// <param name="value"> The embed to wrap. </param>
-        public static implicit operator Page(LocalEmbedBuilder value)
+        public static implicit operator Page(LocalEmbed value)
             => new(value);
 
         /// <summary>
-        ///     Implicitly wraps the specified <see cref="ValueTuple{T1, T2}"/> of content and embed in a <see cref="Page"/>.
+        ///     Implicitly wraps the specified tuple of content and embed in a <see cref="Page"/>.
         /// </summary>
         /// <param name="value"> The tuple to wrap. </param>
-        public static implicit operator Page((string Content, LocalEmbedBuilder Embed) value)
+        public static implicit operator Page((string Content, LocalEmbed Embed) value)
             => new(value.Content, value.Embed);
     }
 }

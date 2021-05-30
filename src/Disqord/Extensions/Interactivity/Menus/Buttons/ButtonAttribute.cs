@@ -9,7 +9,7 @@ namespace Disqord.Extensions.Interactivity.Menus
     public sealed class ButtonAttribute : Attribute
     {
         /// <inheritdoc cref="Button.Emoji"/>
-        public IEmoji Emoji { get; }
+        public LocalEmoji Emoji { get; }
 
         /// <summary>
         ///     Instantiates a new <see cref="ButtonAttribute"/> with the specified emoji <see cref="string"/>.

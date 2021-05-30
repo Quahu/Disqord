@@ -5,9 +5,9 @@ namespace Disqord.Bot
 {
     public class DiscordReactionCommandResult : DiscordCommandResult
     {
-        public virtual IEmoji Emoji { get; }
+        public virtual LocalEmoji Emoji { get; }
 
-        public DiscordReactionCommandResult(DiscordCommandContext context, IEmoji emoji)
+        public DiscordReactionCommandResult(DiscordCommandContext context, LocalEmoji emoji)
             : base(context)
         {
             Emoji = emoji;

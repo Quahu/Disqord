@@ -1,18 +1,17 @@
 ﻿using System;
-using Disqord.Models;
 
 namespace Disqord
 {
-    public sealed class LocalOverwrite : IOverwrite
+    public sealed class LocalOverwrite : ILocalConstruct
     {
-        public Snowflake TargetId { get; }
+        public Snowflake TargetId { get; set; }
 
-        public OverwritePermissions Permissions { get; }
+        public OverwritePermissions Permissions { get; set; }
 
-        public OverwriteTargetType TargetType { get; }
+        public OverwriteTargetType TargetType { get; set; }
 
-        IClient IEntity.Client => throw new NotSupportedException("A local overwrite is not bound to a client.");
-        Snowflake IChannelEntity.ChannelId => throw new NotSupportedException("A local overwrite is not bound to a channel.");
+        public LocalOverwrite()
+        { }
 
         public LocalOverwrite(Snowflake targetId, OverwriteTargetType targetType, OverwritePermissions permissions)
         {
@@ -29,7 +28,20 @@ namespace Disqord
             : this(target?.Id ?? throw new ArgumentNullException(nameof(target)), OverwriteTargetType.Role, permissions)
         { }
 
-        void IJsonUpdatable<OverwriteJsonModel>.Update(OverwriteJsonModel model)
-            => throw new NotSupportedException();
+        public LocalOverwrite(LocalOverwrite other)
+        {
+            TargetId = other.TargetId;
+            Permissions = other.Permissions;
+            TargetType = other.TargetType;
+        }
+
+        public LocalOverwrite Clone()
+            => new(this);
+
+        object ICloneable.Clone()
+            => throw new NotImplementedException();
+
+        public void Validate()
+        { }
     }
 }

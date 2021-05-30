@@ -6,7 +6,6 @@ using Disqord.Collections;
 using Disqord.Http;
 using Disqord.Models;
 using Disqord.Rest.Api;
-using Disqord.Rest.Models;
 using Disqord.Rest.Pagination;
 
 namespace Disqord.Rest

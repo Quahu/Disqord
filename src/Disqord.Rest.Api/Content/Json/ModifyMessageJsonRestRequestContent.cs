@@ -13,5 +13,8 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("flags")]
         public Optional<MessageFlag> Flags;
+
+        [JsonProperty("components")]
+        public Optional<ComponentJsonModel[]> Components;
     }
 }

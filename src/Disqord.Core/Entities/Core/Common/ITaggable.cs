@@ -20,7 +20,7 @@
     ///         </item>
     ///     </list>
     /// </remarks>
-    public interface ITaggable : IEntity
+    public interface ITaggable
     {
         /// <summary>
         ///     Gets the tag of this object.

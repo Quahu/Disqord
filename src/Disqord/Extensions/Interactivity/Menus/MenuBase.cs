@@ -90,7 +90,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         private bool _isDisposed;
 
         private readonly Tcs _tcs;
-        private readonly ISynchronizedDictionary<IEmoji, Button> _buttons;
+        private readonly ISynchronizedDictionary<LocalEmoji, Button> _buttons;
 
         /// <summary>
         ///     Instantiates a new <see cref="MenuBase"/>.
@@ -115,7 +115,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             if (!TriggersOnRemoval && !e.WasAdded)
                 return;
 
-            if (!_buttons.TryGetValue(e.Emoji, out var button))
+            if (!_buttons.TryGetValue(LocalEmoji.FromEmoji(e.Emoji), out var button))
                 return;
 
             try
@@ -129,11 +129,8 @@ namespace Disqord.Extensions.Interactivity.Menus
                 return;
             }
 
-            if (_timeoutTimer != null)
-            {
-                // When a button is triggered we refresh the menu timeout.
-                _timeoutTimer.Change(_timeout, Timeout.InfiniteTimeSpan);
-            }
+            // When a button is triggered we refresh the menu timeout.
+            _timeoutTimer?.Change(_timeout, Timeout.InfiniteTimeSpan);
 
             try
             {
@@ -191,7 +188,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         }
 
 
-        /// <inheritdoc cref="RemoveButtonAsync(IEmoji)"/>
+        /// <inheritdoc cref="RemoveButtonAsync(LocalEmoji)"/>
         /// <param name="button"> The button to remove. </param>
         public ValueTask RemoveButtonAsync(Button button)
         {
@@ -213,7 +210,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <returns>
         ///     A <see cref="ValueTask"/> representing the removing work.
         /// </returns>
-        public ValueTask RemoveButtonAsync(IEmoji emoji)
+        public ValueTask RemoveButtonAsync(LocalEmoji emoji)
         {
             ThrowIfDisposed();
 

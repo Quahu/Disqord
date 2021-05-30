@@ -55,7 +55,7 @@ namespace Disqord.Bot
                 _ => result.FailureReason
             };
 
-        protected virtual LocalMessageBuilder FormatFailureMessage(DiscordCommandContext context, FailedResult result)
+        protected virtual LocalMessage FormatFailureMessage(DiscordCommandContext context, FailedResult result)
         {
             static string FormatParameter(Parameter parameter)
             {
@@ -81,7 +81,7 @@ namespace Disqord.Bot
             if (reason == null)
                 return null;
 
-            var embed = new LocalEmbedBuilder()
+            var embed = new LocalEmbed()
                 .WithDescription(reason)
                 .WithColor(0x2F3136);
             if (result is OverloadsFailedResult overloadsFailedResult)
@@ -100,14 +100,14 @@ namespace Disqord.Bot
                 embed.WithTitle($"Command: {context.Command.FullAliases[0]} {string.Join(' ', context.Command.Parameters.Select(FormatParameter))}");
             }
 
-            return new LocalMessageBuilder()
+            return new LocalMessage()
                 .WithEmbed(embed)
-                .WithMentions(LocalMentionsBuilder.None);
+                .WithMentions(LocalAllowedMentions.None);
         }
 
         protected virtual ValueTask HandleFailedResultAsync(DiscordCommandContext context, FailedResult result)
         {
-            var message = FormatFailureMessage(context, result)?.Build();
+            var message = FormatFailureMessage(context, result);
             if (message == null)
                 return default;
 

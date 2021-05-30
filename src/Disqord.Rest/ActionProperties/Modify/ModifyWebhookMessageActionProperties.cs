@@ -10,7 +10,7 @@ namespace Disqord
 
         public Optional<LocalAttachment> Attachment { internal get; set; }
 
-        public Optional<LocalMentions> Mentions { internal get; set; }
+        public Optional<LocalAllowedMentions> Mentions { internal get; set; }
 
         internal ModifyWebhookMessageActionProperties()
         { }

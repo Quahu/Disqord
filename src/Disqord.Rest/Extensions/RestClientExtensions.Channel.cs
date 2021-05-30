@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,7 +6,6 @@ using Disqord.Collections;
 using Disqord.Http;
 using Disqord.Models;
 using Disqord.Rest.Api;
-using Disqord.Rest.Models;
 using Disqord.Rest.Pagination;
 using Disqord.Rest.Repetition;
 
@@ -133,14 +132,16 @@ namespace Disqord.Rest
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
 
+            message.Validate();
             var messageContent = new CreateMessageJsonRestRequestContent
             {
                 Content = Optional.FromNullable(message.Content),
-                Tts = message.IsTextToSpeech,
+                Tts = Optional.Conditional(message.IsTextToSpeech, true),
                 Embed = Optional.FromNullable(message.Embed.ToModel()),
                 AllowedMentions = Optional.FromNullable(message.Mentions.ToModel()),
                 MessageReference = Optional.FromNullable(message.Reference.ToModel()),
-                Nonce = Optional.FromNullable(message.Nonce)
+                Nonce = Optional.FromNullable(message.Nonce),
+                Components = Optional.Conditional(message.Components.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), message.Components)
             };
 
             Task<MessageJsonModel> task;
@@ -162,35 +163,34 @@ namespace Disqord.Rest
 
         // TODO: crosspost message
 
-        public static Task AddReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, IRestRequestOptions options = null)
+        public static Task AddReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, IRestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            return client.ApiClient.AddReactionAsync(channelId, messageId, Discord.GetReactionFormat(emoji), options);
+            return client.ApiClient.AddReactionAsync(channelId, messageId, emoji.GetReactionFormat(), options);
         }
 
-        public static Task RemoveOwnReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, IRestRequestOptions options = null)
+        public static Task RemoveOwnReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, IRestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            return client.ApiClient.RemoveOwnReactionAsync(channelId, messageId, Discord.GetReactionFormat(emoji), options);
+            return client.ApiClient.RemoveOwnReactionAsync(channelId, messageId, emoji.GetReactionFormat(), options);
         }
 
-        public static Task RemoveReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, Snowflake userId, IRestRequestOptions options = null)
+        public static Task RemoveReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, Snowflake userId, IRestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            var reactionFormat = Discord.GetReactionFormat(emoji);
             if (client.ApiClient.Token is BotToken botToken && botToken.Id == userId)
-                return client.ApiClient.RemoveOwnReactionAsync(channelId, messageId, reactionFormat, options);
-            else
-                return client.ApiClient.RemoveUserReactionAsync(channelId, messageId, reactionFormat, userId, options);
+                return client.ApiClient.RemoveOwnReactionAsync(channelId, messageId, emoji.GetReactionFormat(), options);
+
+            return client.ApiClient.RemoveUserReactionAsync(channelId, messageId, emoji.GetReactionFormat(), userId, options);
         }
 
-        public static IPagedEnumerable<IUser> EnumerateReactions(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IUser> EnumerateReactions(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, int limit, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
@@ -198,7 +198,7 @@ namespace Disqord.Rest
             return new PagedEnumerable<IUser>(new FetchReactionsPagedEnumerator(client, channelId, messageId, emoji, limit, startFromId, options));
         }
 
-        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
@@ -213,19 +213,18 @@ namespace Disqord.Rest
             return enumerable.FlattenAsync();
         }
 
-        internal static async Task<IReadOnlyList<IUser>> InternalFetchReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        internal static async Task<IReadOnlyList<IUser>> InternalFetchReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
-            var models = await client.ApiClient.FetchReactionsAsync(channelId, messageId, Discord.GetReactionFormat(emoji), limit, startFromId, options).ConfigureAwait(false);
+            var models = await client.ApiClient.FetchReactionsAsync(channelId, messageId, emoji.GetReactionFormat(), limit, startFromId, options).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (x, client) => new TransientUser(client, x));
         }
 
-        public static Task ClearReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IEmoji emoji = null, IRestRequestOptions options = null)
+        public static Task ClearReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji = null, IRestRequestOptions options = null)
         {
             if (emoji == null)
                 return client.ApiClient.ClearReactionsAsync(channelId, messageId, options);
 
-            var reactionFormat = Discord.GetReactionFormat(emoji);
-            return client.ApiClient.ClearEmojiReactionsAsync(channelId, messageId, reactionFormat, options);
+            return client.ApiClient.ClearEmojiReactionsAsync(channelId, messageId, emoji.GetReactionFormat(), options);
         }
 
         public static async Task<IUserMessage> ModifyMessageAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, Action<ModifyMessageActionProperties> action, IRestRequestOptions options = null)
@@ -238,8 +237,17 @@ namespace Disqord.Rest
             var content = new ModifyMessageJsonRestRequestContent
             {
                 Content = properties.Content,
-                Embed = Optional.Convert(properties.Embed, x => x.ToModel()),
-                Flags = properties.Flags
+                Embed = Optional.Convert(properties.Embed, x =>
+                {
+                    x.Validate();
+                    return x.ToModel();
+                }),
+                Flags = properties.Flags,
+                Components = Optional.Convert(properties.Components, models => models.Select(x =>
+                {
+                    x.Validate();
+                    return x.ToModel();
+                }).ToArray())
             };
             var model = await client.ApiClient.ModifyMessageAsync(channelId, messageId, content, options).ConfigureAwait(false);
             return new TransientUserMessage(client, model);

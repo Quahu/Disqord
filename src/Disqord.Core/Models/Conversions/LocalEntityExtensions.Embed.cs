@@ -1,7 +1,6 @@
 ﻿using System.Linq;
-using Disqord.Models;
 
-namespace Disqord.Rest.Models
+namespace Disqord.Models
 {
     public static partial class LocalEntityExtensions
     {

@@ -71,13 +71,13 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             return new(page);
         }
 
-        public static readonly PageFormatter<ArraySegment<T>> DefaultFormatter = static (menu, segment) =>
+        public static readonly PageFormatter<ArraySegment<T>> DefaultFormatter = static(menu, segment) =>
         {
             var description = string.Join('\n', segment.Select((x, i) =>
             {
                 var pageProvider = menu.PageProvider as ArrayPageProvider<T>;
                 var itemPrefix = $"{i + segment.Offset + 1}. ";
-                var maxItemLength = (int) Math.Floor((double) LocalEmbedBuilder.MAX_DESCRIPTION_LENGTH / pageProvider.ItemsPerPage) - itemPrefix.Length - 2;
+                var maxItemLength = (int) Math.Floor((double) LocalEmbed.MAX_DESCRIPTION_LENGTH / pageProvider.ItemsPerPage) - itemPrefix.Length - 2;
                 if (maxItemLength <= 0)
                     throw new InvalidOperationException("There are too many items per-page. Set a lower amount or provide a custom page formatter.");
 
@@ -87,7 +87,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
                 return string.Concat(itemPrefix, item);
             }));
-            return new LocalEmbedBuilder()
+            return new LocalEmbed()
                 .WithDescription(description)
                 .WithFooter($"Page {menu.CurrentPageIndex + 1}/{menu.PageProvider.PageCount}");
         };
