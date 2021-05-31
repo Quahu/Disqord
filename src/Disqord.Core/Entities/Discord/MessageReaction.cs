@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class Reaction
+    public class MessageReaction
     {
         public IEmoji Emoji { get; }
 
@@ -10,14 +10,14 @@ namespace Disqord
 
         public bool HasOwnReaction { get; }
 
-        public Reaction(ReactionJsonModel model)
+        public MessageReaction(ReactionJsonModel model)
         {
             Emoji = Disqord.Emoji.Create(model.Emoji);
             Count = model.Count;
             HasOwnReaction = model.Me;
         }
 
-        public Reaction(EmojiJsonModel emoji, bool hasOwnReaction)
+        public MessageReaction(EmojiJsonModel emoji, bool hasOwnReaction)
         {
             Emoji = Disqord.Emoji.Create(emoji);
             HasOwnReaction = hasOwnReaction;

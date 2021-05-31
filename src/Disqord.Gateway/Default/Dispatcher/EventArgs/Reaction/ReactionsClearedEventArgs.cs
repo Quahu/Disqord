@@ -37,7 +37,7 @@ namespace Disqord.Gateway
         ///     Gets the reactions in the state they were prior to this event.
         ///     Returns a value only if the <see cref="Message"/> is not <see langword="null"/> and the message had reaction data available.
         /// </summary>
-        public Optional<IReadOnlyDictionary<IEmoji, Reaction>> OldReactions { get; }
+        public Optional<IReadOnlyDictionary<IEmoji, MessageReaction>> OldReactions { get; }
 
         public ReactionsClearedEventArgs(
             Snowflake channelId, 
@@ -45,7 +45,7 @@ namespace Disqord.Gateway
             CachedUserMessage message, 
             Snowflake? guildId, 
             IEmoji emoji, 
-            Optional<IReadOnlyDictionary<IEmoji, Reaction>> oldReactions)
+            Optional<IReadOnlyDictionary<IEmoji, MessageReaction>> oldReactions)
         {
             ChannelId = channelId;
             MessageId = messageId;
