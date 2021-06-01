@@ -32,7 +32,7 @@ namespace Disqord
 
         public LocalEmbed Embed { get; set; }
 
-        public LocalAllowedMentions Mentions { get; set; }
+        public LocalAllowedMentions AllowedMentions { get; set; }
 
         public LocalMessageReference Reference { get; set; }
 
@@ -80,7 +80,7 @@ namespace Disqord
             Content = builder.Content;
             IsTextToSpeech = builder.IsTextToSpeech;
             Embed = builder.Embed?.Clone();
-            Mentions = builder.Mentions?.Clone();
+            AllowedMentions = builder.AllowedMentions?.Clone();
             Reference = builder.Reference?.Clone();
             Nonce = builder.Nonce;
             _attachments = builder.Attachments.ToList();
@@ -105,9 +105,9 @@ namespace Disqord
             return this;
         }
 
-        public LocalMessage WithMentions(LocalAllowedMentions mentions)
+        public LocalMessage WithAllowedMentions(LocalAllowedMentions allowedMentions)
         {
-            Mentions = mentions;
+            AllowedMentions = allowedMentions;
             return this;
         }
 
@@ -189,7 +189,7 @@ namespace Disqord
                 throw new InvalidOperationException("A message must contain at least one of content, embed, or attachments.");
 
             Embed?.Validate();
-            Mentions?.Validate();
+            AllowedMentions?.Validate();
             Reference?.Validate();
 
             // for (var i = 0; i < _attachments.Count; i++)

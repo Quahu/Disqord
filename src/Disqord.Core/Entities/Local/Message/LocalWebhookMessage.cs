@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Disqord.Collections;
 
 namespace Disqord
 {
@@ -41,7 +40,7 @@ namespace Disqord
         }
         private readonly List<LocalEmbed> _embeds;
 
-        public LocalAllowedMentions Mentions { get; set; }
+        public LocalAllowedMentions AllowedMentions { get; set; }
 
         public LocalWebhookMessage()
         {
@@ -50,13 +49,13 @@ namespace Disqord
 
         private LocalWebhookMessage(LocalWebhookMessage other)
         {
-            Content = other.Content;
+            _content = other._content;
             Name = other.Name;
             AvatarUrl = other.AvatarUrl;
             IsTextToSpeech = other.IsTextToSpeech;
-            Attachment = other.Attachment;
-            Embeds = other._embeds.Select(x => x.Clone()).ToList();
-            Mentions = other.Mentions?.Clone();
+            Attachment = other.Attachment?.Clone();
+            _embeds = other._embeds.Select(x => x.Clone()).ToList();
+            AllowedMentions = other.AllowedMentions?.Clone();
         }
 
         public LocalWebhookMessage WithContent(string content)
@@ -111,9 +110,9 @@ namespace Disqord
             return this;
         }
 
-        public LocalWebhookMessage WithMentions(LocalAllowedMentions mentions)
+        public LocalWebhookMessage WithAllowedMentions(LocalAllowedMentions allowedMentions)
         {
-            Mentions = mentions;
+            AllowedMentions = allowedMentions;
             return this;
         }
 
