@@ -9,6 +9,6 @@ namespace Disqord.Rest.Api
         public InteractionResponseType Type;
 
         [JsonProperty("data")]
-        public InteractionCallbackDataJsonModel Data;
+        public Optional<InteractionCallbackDataJsonModel> Data;
     }
 }
