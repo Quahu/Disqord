@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Bot;
@@ -37,8 +37,8 @@ namespace Disqord.Test
         public DiscordCommandResult Pages()
         {
             Page page1 = "First page!";
-            Page page2 = new LocalEmbedBuilder().WithDescription("Second page!");
-            Page page3 = ("Third page!", new LocalEmbedBuilder().WithAuthor(Context.Author.Tag));
+            Page page2 = new LocalEmbed().WithDescription("Second page!");
+            Page page3 = ("Third page!", new LocalEmbed().WithAuthor(Context.Author.Tag));
             return Pages(page1, page2, page3);
         }
 
@@ -52,10 +52,10 @@ namespace Disqord.Test
         {
             protected override async ValueTask<Snowflake> InitializeAsync()
             {
-                var message = await Client.SendMessageAsync(ChannelId, new LocalMessageBuilder
+                var message = await Client.SendMessageAsync(ChannelId, new LocalMessage
                 {
                     Content = "pls vote"
-                }.Build());
+                });
                 return message.Id;
             }
 
