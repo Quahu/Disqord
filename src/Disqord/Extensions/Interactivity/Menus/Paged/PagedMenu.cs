@@ -129,7 +129,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             {
                 Content = page.Content,
                 Embed = page.Embed,
-                Mentions = LocalAllowedMentions.None
+                AllowedMentions = LocalAllowedMentions.None
             };
             return await Client.SendMessageAsync(ChannelId, message).ConfigureAwait(false);
         }
