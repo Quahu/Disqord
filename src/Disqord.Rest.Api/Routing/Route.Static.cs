@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -160,6 +160,10 @@ namespace Disqord.Rest.Api
             public static readonly Route GetVanityUrl = Get("guilds/{0:guild_id}/vanity-url");
 
             public static readonly Route GetWidgetImage = Get("guilds/{0:guild_id}/widget.png");
+
+            public static readonly Route GetWelcomeScreen = Get("guilds/{0:guild_id}/welcome-screen");
+
+            public static readonly Route ModifyWelcomeScreen = Patch("guilds/{0:guild_id}/welcome-screen");
         }
 
         public static class Invite
