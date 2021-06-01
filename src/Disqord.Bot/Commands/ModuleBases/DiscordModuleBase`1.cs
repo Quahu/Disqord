@@ -50,7 +50,7 @@ namespace Disqord.Bot
             => Response(new LocalMessage()
                 .WithContent(content)
                 .WithEmbed(embed)
-                .WithMentions(mentions ?? LocalAllowedMentions.None)
+                .WithAllowedMentions(mentions ?? LocalAllowedMentions.None)
                 .WithReply(Context.Message.Id, Context.Message.ChannelId, Context.GuildId, false));
 
         protected virtual DiscordResponseCommandResult Response(string content, LocalAllowedMentions mentions = null)
@@ -63,7 +63,7 @@ namespace Disqord.Bot
             => Response(new LocalMessage()
                 .WithContent(content)
                 .WithEmbed(embed)
-                .WithMentions(mentions ?? LocalAllowedMentions.None));
+                .WithAllowedMentions(mentions ?? LocalAllowedMentions.None));
 
         //protected virtual DiscordCommandResult Response(LocalAttachment attachment)
         //    => Response();

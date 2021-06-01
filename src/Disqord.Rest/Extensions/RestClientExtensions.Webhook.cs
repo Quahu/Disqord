@@ -76,7 +76,7 @@ namespace Disqord.Rest
                 AvatarUrl = Optional.FromNullable(message.AvatarUrl),
                 Tts = Optional.Conditional(message.IsTextToSpeech, true),
                 Embeds = Optional.Conditional(message.Embeds.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), message.Embeds),
-                AllowedMentions = Optional.FromNullable(message.Mentions.ToModel()),
+                AllowedMentions = Optional.FromNullable(message.AllowedMentions.ToModel()),
             };
 
             Task<MessageJsonModel> task;

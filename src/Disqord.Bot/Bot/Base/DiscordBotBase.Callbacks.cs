@@ -102,7 +102,7 @@ namespace Disqord.Bot
 
             return new LocalMessage()
                 .WithEmbed(embed)
-                .WithMentions(LocalAllowedMentions.None);
+                .WithAllowedMentions(LocalAllowedMentions.None);
         }
 
         protected virtual ValueTask HandleFailedResultAsync(DiscordCommandContext context, FailedResult result)

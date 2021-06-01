@@ -138,7 +138,7 @@ namespace Disqord.Rest
                 Content = Optional.FromNullable(message.Content),
                 Tts = Optional.Conditional(message.IsTextToSpeech, true),
                 Embed = Optional.FromNullable(message.Embed.ToModel()),
-                AllowedMentions = Optional.FromNullable(message.Mentions.ToModel()),
+                AllowedMentions = Optional.FromNullable(message.AllowedMentions.ToModel()),
                 MessageReference = Optional.FromNullable(message.Reference.ToModel()),
                 Nonce = Optional.FromNullable(message.Nonce),
                 Components = Optional.Conditional(message.Components.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), message.Components)

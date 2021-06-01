@@ -1,5 +1,4 @@
 ﻿using Disqord.Models;
-using Disqord.Serialization.Json;
 
 namespace Disqord
 {
@@ -15,6 +14,7 @@ namespace Disqord
 
         /// <summary>
         ///     Gets the creator of this webhook.
+        ///     Returns <see langword="null"/> for webhooks fetched with no authorization.
         /// </summary>
         IUser Creator { get; }
 
