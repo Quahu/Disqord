@@ -255,5 +255,17 @@ namespace Disqord.Rest.Api
             var route = Format(Route.Guild.SyncIntegration, guildId, integrationId);
             return client.ExecuteAsync(route, null, options);
         }
+
+        public static Task<WelcomeScreenJsonModel> FetchWelcomeScreenAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.GetWelcomeScreen, guildId);
+            return client.ExecuteAsync<WelcomeScreenJsonModel>(route, null, options);
+        }
+
+        public static Task<WelcomeScreenJsonModel> ModifyWelcomeScreenAsync(this IRestApiClient client, Snowflake guildId, ModifyWelcomeScreenJsonRestRequestContent content, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.ModifyWelcomeScreen, guildId);
+            return client.ExecuteAsync<WelcomeScreenJsonModel>(route, content, options);
+        }
     }
 }
