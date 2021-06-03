@@ -8,9 +8,11 @@ namespace Disqord
 
         public Optional<IEnumerable<LocalEmbed>> Embeds { internal get; set; }
 
+        public Optional<LocalAllowedMentions> AllowedMentions { internal get; set; }
+
         public Optional<LocalAttachment> Attachment { internal get; set; }
 
-        public Optional<LocalAllowedMentions> Mentions { internal get; set; }
+        public Optional<IEnumerable<Snowflake>> AttachmentIds { internal get; set; }
 
         internal ModifyWebhookMessageActionProperties()
         { }

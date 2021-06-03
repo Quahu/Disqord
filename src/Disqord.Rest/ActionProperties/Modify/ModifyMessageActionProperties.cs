@@ -10,6 +10,10 @@ namespace Disqord
 
         public Optional<MessageFlag> Flags { internal get; set; }
 
+        public Optional<LocalAllowedMentions> AllowedMentions { internal get; set; }
+
+        public Optional<IEnumerable<Snowflake>> AttachmentIds { internal get; set; }
+
         public Optional<IEnumerable<LocalRowComponent>> Components { internal get; set; }
 
         internal ModifyMessageActionProperties()

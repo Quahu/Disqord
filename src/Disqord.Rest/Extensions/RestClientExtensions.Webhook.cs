@@ -114,7 +114,11 @@ namespace Disqord.Rest
             {
                 Content = properties.Content,
                 Embeds = Optional.Convert(properties.Embeds, x => x.Select(x => x.ToModel()).ToArray()),
-                AllowedMentions = Optional.Convert(properties.Mentions, x => x.ToModel())
+                AllowedMentions = Optional.Convert(properties.AllowedMentions, x => x.ToModel()),
+                Attachments = Optional.Convert(properties.AttachmentIds, x => x.Select(x => new AttachmentJsonModel
+                {
+                    Id = x
+                }).ToArray())
             };
 
             Task<MessageJsonModel> task;

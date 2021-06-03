@@ -8,7 +8,10 @@ namespace Disqord.Models
         public Snowflake Id;
 
         [JsonProperty("filename")]
-        public string Filename;
+        public string FileName;
+
+        [JsonProperty("content_type")]
+        public Optional<string> ContentType;
 
         [JsonProperty("size")]
         public int Size;
@@ -20,9 +23,9 @@ namespace Disqord.Models
         public string ProxyUrl;
 
         [JsonProperty("height")]
-        public Optional<int?> Height;
+        public Optional<int> Height;
 
         [JsonProperty("width")]
-        public Optional<int?> Width;
+        public Optional<int> Width;
     }
 }

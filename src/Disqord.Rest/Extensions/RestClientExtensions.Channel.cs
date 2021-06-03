@@ -243,6 +243,11 @@ namespace Disqord.Rest
                     return x.ToModel();
                 }),
                 Flags = properties.Flags,
+                AllowedMentions = Optional.Convert(properties.AllowedMentions, x => x.ToModel()),
+                Attachments = Optional.Convert(properties.AttachmentIds, x => x.Select(x => new AttachmentJsonModel
+                {
+                    Id = x
+                }).ToArray()),
                 Components = Optional.Convert(properties.Components, models => models.Select(x =>
                 {
                     x.Validate();

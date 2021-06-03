@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord
 {
@@ -7,29 +6,37 @@ namespace Disqord
     {
         public Snowflake Id { get; }
 
-        public string Filename { get; }
+        public string FileName { get; }
 
-        public int Filesize { get; }
+        /// <summary>
+        ///     Gets the media type of this attachment.
+        ///     Returns <see langword="null"/> if unknown.
+        /// </summary>
+        public string ContentType { get; }
+
+        public int FileSize { get; }
 
         public string Url { get; }
 
         public string ProxyUrl { get; }
 
-        public Size? Size { get; }
+        public int? Width { get; }
+
+        public int? Height { get; }
 
         public Attachment(AttachmentJsonModel model)
         {
             Id = model.Id;
-            Filename = model.Filename;
-            Filesize = model.Size;
+            FileName = model.FileName;
+            ContentType = model.ContentType.GetValueOrDefault();
+            FileSize = model.Size;
             Url = model.Url;
             ProxyUrl = model.ProxyUrl;
-            Size = model.Width.HasValue && model.Height.HasValue
-                ? new Size(model.Width.Value.GetValueOrDefault(), model.Height.Value.GetValueOrDefault())
-                : null;
+            Width = model.Width.GetValueOrNullable();
+            Height = model.Height.GetValueOrNullable();
         }
 
         public override string ToString()
-            => $"Attachment {Filename} ({Id})";
+            => $"Attachment {FileName} ({Id})";
     }
 }
