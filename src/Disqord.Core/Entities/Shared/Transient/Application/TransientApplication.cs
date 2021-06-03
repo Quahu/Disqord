@@ -24,7 +24,17 @@ namespace Disqord
         public bool BotRequiresCodeGrant => Model.BotRequireCodeGrant;
 
         /// <inheritdoc/>
-        public IUser Owner => _owner ??= new TransientUser(Client, Model.Owner);
+        public IUser Owner
+        {
+            get
+            {
+                if (!Model.Owner.HasValue)
+                    return null;
+
+                return _owner ??= new TransientUser(Client, Model.Owner.Value);
+            }
+        }
+
         private TransientUser _owner;
 
         /// <inheritdoc/>

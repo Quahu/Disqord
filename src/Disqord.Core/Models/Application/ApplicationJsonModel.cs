@@ -26,7 +26,7 @@ namespace Disqord.Models
         public bool BotRequireCodeGrant;
 
         [JsonProperty("owner")]
-        public UserJsonModel Owner;
+        public Optional<UserJsonModel> Owner;
 
         [JsonProperty("summary")]
         public string Summary;
