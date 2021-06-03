@@ -23,6 +23,6 @@ namespace Disqord.Models
         public Optional<int> Flags;
 
         [JsonProperty("components")]
-        public Optional<ComponentJsonModel> Components;
+        public Optional<ComponentJsonModel[]> Components;
     }
 }

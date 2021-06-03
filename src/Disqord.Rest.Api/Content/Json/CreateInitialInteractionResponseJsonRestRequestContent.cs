@@ -3,7 +3,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Rest.Api
 {
-    public class CreateInteractionResponseJsonRestRequestContent : JsonModelRestRequestContent
+    public class CreateInitialInteractionResponseJsonRestRequestContent : JsonModelRestRequestContent
     {
         [JsonProperty("type")]
         public InteractionResponseType Type;

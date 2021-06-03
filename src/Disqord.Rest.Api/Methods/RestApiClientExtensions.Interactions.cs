@@ -5,7 +5,7 @@ namespace Disqord.Rest.Api
 {
     public static partial class RestApiClientExtensions
     {
-        public static Task<MessageJsonModel> CreateInitialInteractionResponseAsync(this IRestApiClient client, Snowflake interactionId, string interactionToken, CreateInteractionResponseJsonRestRequestContent content, IRestRequestOptions options = null)
+        public static Task<MessageJsonModel> CreateInitialInteractionResponseAsync(this IRestApiClient client, Snowflake interactionId, string interactionToken, CreateInitialInteractionResponseJsonRestRequestContent content, IRestRequestOptions options = null)
         {
             var route = Format(Route.Interactions.CreateInitialResponse, interactionId, interactionToken);
             return client.ExecuteAsync<MessageJsonModel>(route, content, options);
