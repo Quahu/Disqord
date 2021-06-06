@@ -182,8 +182,8 @@ namespace Disqord.Gateway.Default
                 {
                     foreach (var channelId in channelCache.Keys)
                     {
-                        TryRemoveCache<CachedUserMessage>(channelId, out var messageCache);
-                        messageCache.Clear();
+                        if (TryRemoveCache<CachedUserMessage>(channelId, out var messageCache))
+                            messageCache.Clear();
                     }
                 }
 
