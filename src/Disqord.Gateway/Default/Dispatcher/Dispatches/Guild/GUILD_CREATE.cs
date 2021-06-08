@@ -46,11 +46,12 @@ namespace Disqord.Gateway.Default.Dispatcher
                 return null;
             }
 
-            guild = UpdateCache(model, false);
+            guild = UpdateCache(model, true);
             shard.Logger.LogInformation("Joined guild {0} ({1}).", guild.Name, guild.Id.RawValue);
             return new JoinedGuildEventArgs(guild);
         }
 
+        // TODO: possible cache inconsistencies on unavailable guilds? No idea what Discord sends nor does while it's unavailable.
         private IGatewayGuild UpdateCache(GatewayGuildJsonModel model, bool isPending)
         {
             IGatewayGuild guild = null;
