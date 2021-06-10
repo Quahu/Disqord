@@ -1,4 +1,4 @@
-﻿namespace Disqord.Rest.Api
+﻿namespace Disqord.Rest
 {
     public enum RestApiErrorCode
     {
@@ -79,6 +79,16 @@
         MaximumAttachmentAmountReached = 30015,
 
         MaximumInviteAmountReached = 30016,
+
+        MaximumAnimatedEmojiAmountReached = 30018,
+
+        MaximumMemberAmountReached = 30019,
+
+        GuildAlreadyHasATemplate = 30031,
+
+        MaximumNonMemberBanAmountReached = 30035,
+
+        BanFetchRateLimit = 30037,
 
         Unauthorized = 40001,
 
