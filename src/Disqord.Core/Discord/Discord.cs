@@ -13,7 +13,7 @@ namespace Disqord
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            return emoji is LocalCustomEmoji customEmoji
+            return emoji is ICustomEmoji customEmoji
                 ? $"{customEmoji.Name ?? "_"}:{customEmoji.Id}"
                 : emoji.Name;
         }
@@ -23,7 +23,7 @@ namespace Disqord
             if (emoji == null)
                 throw new ArgumentNullException(nameof(emoji));
 
-            return emoji is LocalCustomEmoji customEmoji
+            return emoji is ICustomEmoji customEmoji
                 ? customEmoji.IsAnimated
                     ? $"<a:{customEmoji.Name ?? "_"}:{customEmoji.Id}>"
                     : $"<:{customEmoji.Name ?? "_"}:{customEmoji.Id}>"
