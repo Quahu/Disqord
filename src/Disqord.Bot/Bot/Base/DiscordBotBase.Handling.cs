@@ -86,6 +86,7 @@ namespace Disqord.Bot
             }
             catch (Exception ex)
             {
+                await DisposeContextAsync(context).ConfigureAwait(false);
                 Logger.LogError(ex, "An exception occurred while executing the before executed callback.");
                 return false;
             }
@@ -99,6 +100,7 @@ namespace Disqord.Bot
             }
             catch (Exception ex)
             {
+                await DisposeContextAsync(context).ConfigureAwait(false);
                 Logger.LogError(ex, "An exception occurred while posting the execution to the command queue.");
                 return false;
             }
