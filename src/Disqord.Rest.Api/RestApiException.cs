@@ -27,10 +27,10 @@ namespace Disqord.Rest
             var message = $"HTTP: {(Enum.IsDefined(statusCode) ? $"{(int) statusCode} {statusCode}" : statusCode)}. Error message: {errorModel.Message}";
 
             // We check if Discord provided more detailed error messages.
-            if (errorModel.ExtensionData.TryGetValue("errors", out var errors))
+            if (errorModel.ExtensionData.TryGetValue("errors", out var errors) && errors is IJsonObject errorsObject)
             {
                 // We extract the errors from the structure shown below.
-                var extracted = ExtractErrors(errors as IJsonObject);
+                var extracted = ExtractErrors(errorsObject);
 
                 // We append the errors the message created above, example:
                 // embed.fields[0].name: "Must be 256 or fewer in length."
@@ -86,13 +86,9 @@ namespace Disqord.Rest
                         continue;
 
                     // Add the key and the message/code for it.
-                    extracted.Add(KeyValuePair.Create(newKey, string.Join(' ', errorsArray.Select(x =>
-                    {
-                        if (x is not IJsonObject jsonObject)
-                            return null;
-
-                        return (jsonObject.GetValueOrDefault("message") ?? jsonObject.GetValueOrDefault("code"))?.ToString();
-                    }))));
+                    var messages = errorsArray.OfType<IJsonObject>()
+                        .Select(static x => (x.GetValueOrDefault("message") ?? x.GetValueOrDefault("code"))?.ToString());
+                    extracted.Add(KeyValuePair.Create(newKey, string.Join("; ", messages)));
                 }
 
                 return extracted;
