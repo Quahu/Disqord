@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Disqord.Collections.Synchronized
@@ -19,12 +20,20 @@ namespace Disqord.Collections.Synchronized
 
         bool TryRemove(TKey key, out TValue value);
 
-        KeyValuePair<TKey, TValue>[] ToArray();
+        KeyValuePair<TKey, TValue>[] ToArray()
+        {
+            lock (this)
+            {
+                var array = new KeyValuePair<TKey, TValue>[Count];
+                CopyTo(array, 0);
+                return array;
+            }
+        }
 
         TValue GetValueOrDefault(TKey key)
             => TryGetValue(key, out var value)
-            ? value
-            : default;
+                ? value
+                : default;
 
         TValue GetOrAdd(TKey key, TValue value)
         {
@@ -74,11 +83,9 @@ namespace Disqord.Collections.Synchronized
                     this[key] = value;
                     return value;
                 }
-                else
-                {
-                    Add(key, addValue);
-                    return addValue;
-                }
+
+                Add(key, addValue);
+                return addValue;
             }
         }
 
@@ -92,12 +99,10 @@ namespace Disqord.Collections.Synchronized
                     this[key] = value;
                     return value;
                 }
-                else
-                {
-                    value = addFactory(key);
-                    Add(key, value);
-                    return value;
-                }
+
+                value = addFactory(key);
+                Add(key, value);
+                return value;
             }
         }
 
@@ -111,13 +116,17 @@ namespace Disqord.Collections.Synchronized
                     this[key] = value;
                     return value;
                 }
-                else
-                {
-                    value = addFactory(key, state);
-                    Add(key, value);
-                    return value;
-                }
+
+                value = addFactory(key, state);
+                Add(key, value);
+                return value;
             }
         }
+
+        IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
+            => (ToArray() as IList<KeyValuePair<TKey, TValue>>).GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
     }
 }

@@ -97,16 +97,6 @@ namespace Disqord.Collections.Synchronized
             }
         }
 
-        public KeyValuePair<TKey, TValue>[] ToArray()
-        {
-            lock (this)
-            {
-                var array = new KeyValuePair<TKey, TValue>[_dictionary.Count];
-                (_dictionary as IDictionary<TKey, TValue>).CopyTo(array, 0);
-                return array;
-            }
-        }
-
         public void Add(TKey key, TValue value)
         {
             lock (this)
@@ -154,15 +144,6 @@ namespace Disqord.Collections.Synchronized
                 return _dictionary.TryGetValue(key, out value);
             }
         }
-
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-        {
-            var list = (IList<KeyValuePair<TKey, TValue>>) ToArray();
-            return list.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
 
         void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
             => Add(item.Key, item.Value);

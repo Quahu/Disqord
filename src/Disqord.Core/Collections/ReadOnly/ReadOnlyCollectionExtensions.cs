@@ -33,7 +33,7 @@ namespace Disqord.Collections
         }
 
         public static IReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<TSource, TKey, TValue, TState>(
-            this IList<TSource> source, TState state, Func<TSource, TState, TKey> keySelector, Func<TSource, TState, TValue> valueSelector)
+            this IEnumerable<TSource> source, TState state, Func<TSource, TState, TKey> keySelector, Func<TSource, TState, TValue> valueSelector)
         {
             var dictionary = new Dictionary<TKey, TValue>();
             foreach (var item in source)
