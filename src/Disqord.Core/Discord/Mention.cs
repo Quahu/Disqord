@@ -6,6 +6,16 @@ namespace Disqord
 {
     public static class Mention
     {
+        /// <summary>
+        ///     Gets the <see cref="string"/> that, if present in a message, will mention all online users that can view the message.
+        /// </summary>
+        public const string Here = "@here";
+
+        /// <summary>
+        ///     Gets the <see cref="string"/> that, if present in a message, will mention all users that can view the message.
+        /// </summary>
+        public const string Everyone = "@everyone";
+
         public static string User(IMember member)
         {
             if (member == null)
@@ -58,10 +68,7 @@ namespace Disqord
         public static bool TryParseUser(ReadOnlySpan<char> value, out Snowflake result)
         {
             result = 0;
-            return value.Length > 3
-                && value[0] == '<'
-                && value[1] == '@'
-                && value[value.Length - 1] == '>'
+            return value.Length > 3 && value[0] == '<' && value[1] == '@' && value[^1] == '>'
                 && Snowflake.TryParse(value[2] == '!' ? value[3..^1] : value[2..^1], out result);
         }
 
