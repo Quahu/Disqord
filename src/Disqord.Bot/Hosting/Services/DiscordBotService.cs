@@ -7,22 +7,31 @@ namespace Disqord.Bot.Hosting
     /// <inheritdoc/>
     public abstract partial class DiscordBotService : DiscordClientService
     {
-        /// <inheritdoc/>
+        /// <inheritdoc cref="DiscordClientService.Client"/>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override DiscordBotBase Client => base.Client as DiscordBotBase;
+        public new DiscordBotBase Client => base.Client as DiscordBotBase;
 
         /// <summary>
         ///     Gets the bot client of this service.
         /// </summary>
-        public virtual DiscordBotBase Bot => Client;
+        /// <remarks>
+        ///     <inheritdoc cref="Client"/>
+        /// </remarks>
+        public DiscordBotBase Bot => Client;
 
         /// <summary>
         ///     Gets the priority of this bot service. Defaults to <c>0</c>.
         /// </summary>
         /// <remarks>
-        ///     More means higher priority.
+        ///     Higher value means higher priority.
         /// </remarks>
         public virtual int Priority => 0;
+
+        /// <summary>
+        ///     Instantiates a new <see cref="DiscordBotService"/>.
+        /// </summary>
+        protected DiscordBotService()
+        { }
 
         /// <summary>
         ///     Instantiates a new <see cref="DiscordBotService"/> with the specified logger and bot client.

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Gateway;
+using Microsoft.Extensions.Logging;
 
 namespace Disqord.Hosting
 {
@@ -50,9 +51,16 @@ namespace Disqord.Hosting
 
         private DiscordClientMasterService(
             DiscordClientBase client,
-            IEnumerable<DiscordClientService> services)
+            IEnumerable<DiscordClientService> services,
+            IServiceProvider serviceProvider)
         {
             Client = client;
+
+            foreach (var service in services)
+            {
+                service.Logger ??= serviceProvider.GetService(typeof(ILogger<>).MakeGenericType(service.GetType())) as ILogger;
+                service.Client ??= client;
+            }
 
             ReadyServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnReady), typeof(ReadyEventArgs))).ToArray();
             ChannelCreatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnChannelCreated), typeof(ChannelCreatedEventArgs))).ToArray();

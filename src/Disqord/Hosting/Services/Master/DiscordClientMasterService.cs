@@ -19,8 +19,9 @@ namespace Disqord.Hosting
         public DiscordClientMasterService(
             ILogger<DiscordClientMasterService> logger,
             DiscordClientBase client,
-            IEnumerable<DiscordClientService> services)
-            : this(client, services)
+            IEnumerable<DiscordClientService> services,
+            IServiceProvider serviceProvider)
+            : this(client, services, serviceProvider)
         {
             Logger = logger;
         }

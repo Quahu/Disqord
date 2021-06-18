@@ -3,27 +3,28 @@ using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Bot;
 using Disqord.Bot.Hosting;
+using Disqord.Gateway;
 using Microsoft.Extensions.Logging;
 
 namespace Disqord.Test
 {
     public class TestService : DiscordBotService
     {
-        public TestService(
-            ILogger<TestService> logger,
-            DiscordBotBase bot)
-            : base(logger, bot)
-        { }
+        protected override ValueTask OnReady(ReadyEventArgs e)
+        {
+            Logger.LogInformation("Ready fired!");
+            return default;
+        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await Client.WaitUntilReadyAsync(stoppingToken);
             Logger.LogInformation("Client says it's ready which is really cool.");
 
-            while (true)
+            while (!stoppingToken.IsCancellationRequested)
             {
                 // long-running background logic here
-                await Task.Delay(TimeSpan.FromMinutes(5));
+                await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
                 Logger.LogInformation("5 minutes passed!");
             }
         }

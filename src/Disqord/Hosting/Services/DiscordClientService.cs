@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,12 +21,18 @@ namespace Disqord.Hosting
         /// <summary>
         ///     Gets the logger of this service.
         /// </summary>
-        public virtual ILogger Logger { get; }
+        /// <remarks>
+        ///     <see langword="null"/> in the parameterless constructor.
+        /// </remarks>
+        public ILogger Logger { get; protected internal set; }
 
         /// <summary>
         ///     Gets the client of this service.
         /// </summary>
-        public virtual DiscordClientBase Client { get; }
+        /// <remarks>
+        ///     <see langword="null"/> in the parameterless constructor.
+        /// </remarks>
+        public DiscordClientBase Client { get; protected internal set; }
 
         /// <summary>
         ///     Gets the <see cref="Task"/> that represents the long-running work from <see cref="ExecuteAsync(CancellationToken)"/>.
@@ -38,6 +44,12 @@ namespace Disqord.Hosting
 
         private Task _executeTask;
         private Cts _cts;
+
+        /// <summary>
+        ///     Instantiates a new <see cref="DiscordClientService"/>.
+        /// </summary>
+        protected DiscordClientService()
+        { }
 
         /// <summary>
         ///     Instantiates a new <see cref="DiscordClientService"/> with the provided logger and client.
