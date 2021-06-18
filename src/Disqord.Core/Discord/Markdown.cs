@@ -22,9 +22,15 @@ namespace Disqord
             '~'
         }.ReadOnly();
 
-        private const int STACK_TEXT_LENGTH = 2000;
-
         // *text*
+        public static string Italics(object value)
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            return Italics(value.ToString().AsSpan());
+        }
+
         public static string Italics(string text)
         {
             if (text == null)
@@ -34,19 +40,17 @@ namespace Disqord
         }
 
         public static string Italics(ReadOnlySpan<char> text)
-        {
-            var length = text.Length + 2;
-            Span<char> buffer = length > STACK_TEXT_LENGTH
-                ? new char[length]
-                : stackalloc char[length];
-
-            buffer[0] = '*';
-            text.CopyTo(buffer.Slice(1));
-            buffer[buffer.Length - 1] = '*';
-            return new string(buffer);
-        }
+            => string.Concat("*", text, "*");
 
         // **text**
+        public static string Bold(object value)
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            return Bold(value.ToString().AsSpan());
+        }
+
         public static string Bold(string text)
         {
             if (text == null)
@@ -56,21 +60,17 @@ namespace Disqord
         }
 
         public static string Bold(ReadOnlySpan<char> text)
-        {
-            var length = text.Length + 4;
-            Span<char> buffer = length > STACK_TEXT_LENGTH
-                ? new char[length]
-                : stackalloc char[length];
-
-            buffer[0] = '*';
-            buffer[1] = '*';
-            text.CopyTo(buffer.Slice(2));
-            buffer[buffer.Length - 2] = '*';
-            buffer[buffer.Length - 1] = '*';
-            return new string(buffer);
-        }
+            => string.Concat("**", text, "**");
 
         // ***text***
+        public static string BoldItalics(object value)
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            return BoldItalics(value.ToString().AsSpan());
+        }
+
         public static string BoldItalics(string text)
         {
             if (text == null)
@@ -80,23 +80,17 @@ namespace Disqord
         }
 
         public static string BoldItalics(ReadOnlySpan<char> text)
-        {
-            var length = text.Length + 6;
-            Span<char> buffer = length > STACK_TEXT_LENGTH
-                ? new char[length]
-                : stackalloc char[length];
-
-            buffer[0] = '*';
-            buffer[1] = '*';
-            buffer[2] = '*';
-            text.CopyTo(buffer.Slice(3));
-            buffer[buffer.Length - 3] = '*';
-            buffer[buffer.Length - 2] = '*';
-            buffer[buffer.Length - 1] = '*';
-            return new string(buffer);
-        }
+            => string.Concat("***", text, "***");
 
         // __text__
+        public static string Underline(object value)
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            return Underline(value.ToString().AsSpan());
+        }
+
         public static string Underline(string text)
         {
             if (text == null)
@@ -106,21 +100,17 @@ namespace Disqord
         }
 
         public static string Underline(ReadOnlySpan<char> text)
-        {
-            var length = text.Length + 4;
-            Span<char> buffer = length > STACK_TEXT_LENGTH
-                ? new char[length]
-                : stackalloc char[length];
-
-            buffer[0] = '_';
-            buffer[1] = '_';
-            text.CopyTo(buffer.Slice(2));
-            buffer[buffer.Length - 2] = '_';
-            buffer[buffer.Length - 1] = '_';
-            return new string(buffer);
-        }
+            => string.Concat("__", text, "__");
 
         // ~~text~~
+        public static string Strikethrough(object value)
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            return Strikethrough(value.ToString().AsSpan());
+        }
+
         public static string Strikethrough(string text)
         {
             if (text == null)
@@ -130,25 +120,32 @@ namespace Disqord
         }
 
         public static string Strikethrough(ReadOnlySpan<char> text)
-        {
-            var length = text.Length + 4;
-            Span<char> buffer = length > STACK_TEXT_LENGTH
-                ? new char[length]
-                : stackalloc char[length];
-
-            buffer[0] = '~';
-            buffer[1] = '~';
-            text.CopyTo(buffer.Slice(2));
-            buffer[buffer.Length - 2] = '~';
-            buffer[buffer.Length - 1] = '~';
-            return new string(buffer);
-        }
+            => string.Concat("~~", text, "~~");
 
         // [title](url)
         public static string Link(string title, string url)
-            => $"[{title}]({url})";
+        {
+            if (title == null)
+                throw new ArgumentNullException(nameof(title));
+
+            if (url == null)
+                throw new ArgumentNullException(nameof(url));
+
+            return Link(title.AsSpan(), url.AsSpan());
+        }
+
+        public static string Link(ReadOnlySpan<char> title, ReadOnlySpan<char> url)
+            => new StringBuilder().Append('[').Append(title).Append("](").Append(url).Append(')').ToString();
 
         // `code`
+        public static string Code(object value)
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            return Code(value.ToString().AsSpan());
+        }
+
         public static string Code(string code)
         {
             if (code == null)
@@ -158,19 +155,17 @@ namespace Disqord
         }
 
         public static string Code(ReadOnlySpan<char> code)
-        {
-            var length = code.Length + 2;
-            Span<char> buffer = length > STACK_TEXT_LENGTH
-                ? new char[length]
-                : stackalloc char[length];
-
-            buffer[0] = '`';
-            code.CopyTo(buffer.Slice(1));
-            buffer[buffer.Length - 1] = '`';
-            return new string(buffer);
-        }
+            => string.Concat("`", code, "`");
 
         // ```\ncode```
+        public static string CodeBlock(object value)
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            return CodeBlock(value.ToString().AsSpan());
+        }
+
         public static string CodeBlock(string code)
         {
             if (code == null)
@@ -180,24 +175,17 @@ namespace Disqord
         }
 
         public static string CodeBlock(ReadOnlySpan<char> code)
-        {
-            var length = code.Length + 7;
-            Span<char> buffer = length > STACK_TEXT_LENGTH
-                ? new char[length]
-                : stackalloc char[length];
-
-            buffer[0] = '`';
-            buffer[1] = '`';
-            buffer[2] = '`';
-            buffer[3] = '\n';
-            code.CopyTo(buffer.Slice(4));
-            buffer[buffer.Length - 3] = '`';
-            buffer[buffer.Length - 2] = '`';
-            buffer[buffer.Length - 1] = '`';
-            return new string(buffer);
-        }
+            => string.Concat("```\n", code, "```");
 
         // ```language\ncode```
+        public static string CodeBlock(string language, object value)
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            return CodeBlock(language, value.ToString());
+        }
+
         public static string CodeBlock(string language, string code)
         {
             if (language == null)
@@ -210,23 +198,7 @@ namespace Disqord
         }
 
         public static string CodeBlock(ReadOnlySpan<char> language, ReadOnlySpan<char> code)
-        {
-            var length = language.Length + code.Length + 7;
-            Span<char> buffer = length > STACK_TEXT_LENGTH
-                ? new char[length]
-                : stackalloc char[length];
-
-            buffer[0] = '`';
-            buffer[1] = '`';
-            buffer[2] = '`';
-            language.CopyTo(buffer.Slice(3));
-            buffer[3 + language.Length] = '\n';
-            code.CopyTo(buffer.Slice(4 + language.Length));
-            buffer[buffer.Length - 3] = '`';
-            buffer[buffer.Length - 2] = '`';
-            buffer[buffer.Length - 1] = '`';
-            return new string(buffer);
-        }
+            => new StringBuilder().Append("```").Append(language).Append('\n').Append(code).Append("```").ToString();
 
         public static string Escape(string text)
         {
@@ -249,6 +221,35 @@ namespace Disqord
             }
 
             return builder.ToString();
+        }
+
+        public static string Timestamp(DateTimeOffset dateTimeOffset)
+            => Timestamp(dateTimeOffset.ToUnixTimeSeconds());
+
+        public static string Timestamp(long unixTimestamp)
+            => string.Concat("<t:", unixTimestamp.ToString(), ">");
+
+        public static string Timestamp(DateTimeOffset dateTimeOffset, TimestampFormat format)
+            => Timestamp(dateTimeOffset.ToUnixTimeSeconds(), format);
+
+        public static string Timestamp(long unixTimestamp, TimestampFormat format)
+            => new StringBuilder().Append("<t:").Append(unixTimestamp).Append(':').Append((char) format).Append('>').ToString();
+
+        public enum TimestampFormat
+        {
+            ShortTime = 't',
+
+            LongTime = 'T',
+
+            ShortDate = 'd',
+
+            LongDate = 'D',
+
+            ShortDateTime = 'f',
+
+            LongDateTime = 'F',
+
+            RelativeTime = 'R'
         }
     }
 }
