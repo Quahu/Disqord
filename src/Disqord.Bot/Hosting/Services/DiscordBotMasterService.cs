@@ -85,7 +85,7 @@ namespace Disqord.Bot.Hosting
             BotMessageReceivedEventArgs args = null;
             if (MessageReceivedServices.Length > 0)
             {
-                args ??= new BotMessageReceivedEventArgs(e);
+                args = new BotMessageReceivedEventArgs(e);
                 foreach (var service in MessageReceivedServices)
                 {
                     try
