@@ -82,9 +82,20 @@ namespace Disqord.Serialization.Json.Default
             {
                 contract.ExtensionDataGetter = instance =>
                 {
-                    return instance is JsonModel model && model.ExtensionData != null
-                        ? model.ExtensionData.Select(x => KeyValuePair.Create(x.Key as object, (x.Value as DefaultJsonNode).Token as object))
-                        : null;
+                    if (instance is not JsonModel model || model.ExtensionData == null)
+                        return null;
+
+                    return model.ExtensionData.Select(x =>
+                    {
+                        var value = x.Value switch
+                        {
+                            null => null,
+                            DefaultJsonNode node => node.Token as object,
+                            _ => JToken.FromObject(x.Value, _serializer.UnderlyingSerializer)
+                        };
+
+                        return KeyValuePair.Create(x.Key as object, value);
+                    });
                 };
 
                 var skippedProperties = objectType.GetCustomAttribute<JsonSkippedPropertiesAttribute>()?.Properties;
@@ -96,19 +107,12 @@ namespace Disqord.Serialization.Json.Default
                     if (skippedProperties != null && Array.IndexOf(skippedProperties, key) != -1)
                         return;
 
-                    IJsonNode node;
-                    if (value == null)
+                    var node = value switch
                     {
-                        node = null;
-                    }
-                    else if (value is JToken jToken)
-                    {
-                        node = DefaultJsonNode.Create(jToken, _serializer.UnderlyingSerializer);
-                    }
-                    else
-                    {
-                        node = DefaultJsonNode.Create(JToken.FromObject(value, _serializer.UnderlyingSerializer), _serializer.UnderlyingSerializer);
-                    }
+                        null => null,
+                        JToken jToken => DefaultJsonNode.Create(jToken, _serializer.UnderlyingSerializer),
+                        _ => DefaultJsonNode.Create(JToken.FromObject(value, _serializer.UnderlyingSerializer), _serializer.UnderlyingSerializer)
+                    };
 
                     model.ExtensionData.Add(key, node);
                 };
@@ -137,7 +141,7 @@ namespace Disqord.Serialization.Json.Default
         {
             if (typeof(Stream).IsAssignableFrom(type))
                 return _streamConverter;
-            
+
             if (typeof(IJsonNode).IsAssignableFrom(type) && !typeof(JsonModel).IsAssignableFrom(type))
                 return _jsonNodeConverter;
 
