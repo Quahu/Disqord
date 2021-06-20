@@ -66,7 +66,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                         throw new ArgumentException("The component has a duplicate custom ID.", nameof(component));
                 }
 
-                static bool TryFitComponent(List<ViewComponent> row, ViewComponent component)
+                static bool TryAddComponent(List<ViewComponent> row, ViewComponent component)
                 {
                     var totalWidth = row.Sum(x => x.Width);
                     if (totalWidth + component.Width > 5)
@@ -86,11 +86,11 @@ namespace Disqord.Extensions.Interactivity.Menus
                     {
                         foreach (var row in rows)
                         {
-                            if (TryFitComponent(row, component))
+                            if (TryAddComponent(row, component))
                                 return;
                         }
 
-                        throw new ArgumentException("No free row found for the component.", nameof(component));
+                        throw new ArgumentException("No free row available for the component.", nameof(component));
                     }
 
                     FindFreeRow(_rows, component);
@@ -98,8 +98,8 @@ namespace Disqord.Extensions.Interactivity.Menus
                 else
                 {
                     var row = _rows[component.Row];
-                    if (!TryFitComponent(row, component))
-                        throw new ArgumentException($"The component cannot fit on row {component.Row} as the total width must be 5 or less.", nameof(component));
+                    if (!TryAddComponent(row, component))
+                        throw new ArgumentException($"The component cannot be added on row {component.Row} as the total width of the row must be 5 or less.", nameof(component));
                 }
 
                 component.View = this;
