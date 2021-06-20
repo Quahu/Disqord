@@ -89,6 +89,6 @@ namespace Disqord.Extensions.Interactivity.Menus
         }
 
         protected internal override LocalComponent ToLocalComponent()
-            => LocalComponent.Button(Label, CustomId, Style, Emoji, IsDisabled);
+            => LocalComponent.Button(CustomId, Label, Style, Emoji, IsDisabled);
     }
 }

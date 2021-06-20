@@ -10,7 +10,7 @@ namespace Disqord
                 Components = components
             };
 
-        public static LocalButtonComponent Button(string label, string customId, ButtonComponentStyle style = ButtonComponentStyle.Primary, LocalEmoji emoji = null, bool isDisabled = false)
+        public static LocalButtonComponent Button(string customId, string label, ButtonComponentStyle style = ButtonComponentStyle.Primary, LocalEmoji emoji = null, bool isDisabled = false)
             => new()
             {
                 Label = label,
@@ -20,7 +20,7 @@ namespace Disqord
                 IsDisabled = isDisabled
             };
 
-        public static LocalButtonComponent Button(LocalEmoji emoji, string customId, ButtonComponentStyle style = ButtonComponentStyle.Primary, bool isDisabled = false)
+        public static LocalButtonComponent Button(string customId, LocalEmoji emoji, ButtonComponentStyle style = ButtonComponentStyle.Primary, bool isDisabled = false)
             => new()
             {
                 CustomId = customId,
@@ -29,7 +29,7 @@ namespace Disqord
                 IsDisabled = isDisabled
             };
 
-        public static LocalButtonComponent LinkButton(string label, string url, LocalEmoji emoji = null, bool isDisabled = false)
+        public static LocalButtonComponent LinkButton(string url, string label, LocalEmoji emoji = null, bool isDisabled = false)
             => new()
             {
                 Label = label,
@@ -39,7 +39,7 @@ namespace Disqord
                 IsDisabled = isDisabled
             };
 
-        public static LocalButtonComponent LinkButton(LocalEmoji emoji, string url, bool isDisabled = false)
+        public static LocalButtonComponent LinkButton(string url, LocalEmoji emoji, bool isDisabled = false)
             => new()
             {
                 Url = url,
