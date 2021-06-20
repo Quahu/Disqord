@@ -4,11 +4,10 @@ using Qmmands;
 namespace Disqord.Test.Modules
 {
     [Group("guild")]
-    [RequireGuild]
-    public class GuildModule : DiscordModuleBase<DiscordGuildCommandContext>
+    public class GuildModule : DiscordGuildModuleBase
     {
         [Command("test")]
         public DiscordCommandResult Test()
-            => Reply("guild test");
+            => Reply("guild only test");
     }
 }

@@ -117,11 +117,20 @@ namespace Disqord.Rest
             var messageContent = new ModifyWebhookMessageJsonRestRequestContent
             {
                 Content = properties.Content,
-                Embeds = Optional.Convert(properties.Embeds, x => x.Select(x => x.ToModel()).ToArray()),
+                Embeds = Optional.Convert(properties.Embeds, x => x.Select(x =>
+                {
+                    x.Validate();
+                    return x.ToModel();
+                }).ToArray()),
                 AllowedMentions = Optional.Convert(properties.AllowedMentions, x => x.ToModel()),
                 Attachments = Optional.Convert(properties.AttachmentIds, x => x.Select(x => new AttachmentJsonModel
                 {
                     Id = x
+                }).ToArray()),
+                Components = Optional.Convert(properties.Components, x => x.Select(x =>
+                {
+                    x.Validate();
+                    return x.ToModel();
                 }).ToArray())
             };
 

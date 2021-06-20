@@ -46,6 +46,9 @@ namespace Disqord.Extensions.Interactivity.Menus
 
         protected virtual async ValueTask ApplyChangesAsync(InteractionReceivedEventArgs e)
         {
+            if (!IsRunning)
+                return;
+            
             // If we have changes, we update the message accordingly.
             var response = e?.Interaction.Response();
             if (HasChanges || View.HasChanges)
@@ -66,6 +69,16 @@ namespace Disqord.Extensions.Interactivity.Menus
                             AllowedMentions = localMessage.AllowedMentions,
                             Components = localMessage.Components
                         }).ConfigureAwait(false);
+                    }
+                    else if (response != null && response.HasResponded)
+                    {
+                        await e.Interaction.Followup().ModifyResponseAsync(x =>
+                        {
+                            x.Content = localMessage.Content;
+                            x.Embeds = new Optional<IEnumerable<LocalEmbed>>(localMessage.Embeds);
+                            x.Components = new Optional<IEnumerable<LocalRowComponent>>(localMessage.Components);
+                            x.AllowedMentions = localMessage.AllowedMentions;
+                        });
                     }
                     else
                     {

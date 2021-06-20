@@ -14,6 +14,8 @@ namespace Disqord
 
         public Optional<IEnumerable<Snowflake>> AttachmentIds { internal get; set; }
 
+        public Optional<IEnumerable<LocalRowComponent>> Components { internal get; set; }
+
         internal ModifyWebhookMessageActionProperties()
         { }
     }

@@ -49,7 +49,8 @@ namespace Disqord
             if (Type == default)
                 throw new InvalidOperationException("The interaction response's type must be set.");
 
-            base.Validate();
+            if (Type == InteractionResponseType.ChannelMessage)
+                base.Validate();
         }
     }
 }
