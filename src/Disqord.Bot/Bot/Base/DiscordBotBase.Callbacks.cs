@@ -101,7 +101,7 @@ namespace Disqord.Bot
             }
 
             return new LocalMessage()
-                .WithEmbed(embed)
+                .WithEmbeds(embed)
                 .WithAllowedMentions(LocalAllowedMentions.None);
         }
 

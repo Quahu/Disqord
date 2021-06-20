@@ -77,14 +77,15 @@ namespace Disqord.Rest
                 Tts = Optional.Conditional(message.IsTextToSpeech, true),
                 Embeds = Optional.Conditional(message.Embeds.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), message.Embeds),
                 AllowedMentions = Optional.FromNullable(message.AllowedMentions.ToModel()),
+                Components = Optional.Conditional(message.Components.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), message.Components)
             };
 
             Task<MessageJsonModel> task;
-            if (message.Attachment != null)
+            if (message._attachments.Count != 0)
             {
                 // If there is an attachment, we must send it via multipart HTTP content.
                 // Our `messageContent` will be serialized into a "payload_json" form data field.
-                var content = new MultipartJsonPayloadRestRequestContent<ExecuteWebhookJsonRestRequestContent>(messageContent, new[] { message.Attachment });
+                var content = new MultipartJsonPayloadRestRequestContent<ExecuteWebhookJsonRestRequestContent>(messageContent, message._attachments);
                 task = client.ApiClient.ExecuteWebhookAsync(webhookId, token, content, wait, options);
             }
             else
@@ -122,15 +123,11 @@ namespace Disqord.Rest
             };
 
             Task<MessageJsonModel> task;
-            if (properties.Attachment.HasValue)
+            if (properties.Attachments.HasValue)
             {
-                // TODO: delete files?
-                if (properties.Attachment.Value == null)
-                    throw new InvalidOperationException("The attachment must not be null.");
-
                 // If there is an attachment, we must send it via multipart HTTP content.
                 // Our `messageContent` will be serialized into a "payload_json" form data field.
-                var content = new MultipartJsonPayloadRestRequestContent<ModifyWebhookMessageJsonRestRequestContent>(messageContent, new[] { properties.Attachment.Value });
+                var content = new MultipartJsonPayloadRestRequestContent<ModifyWebhookMessageJsonRestRequestContent>(messageContent, properties.Attachments.Value);
                 task = client.ApiClient.ModifyWebhookMessageAsync(webhookId, token, messageId, content, options);
             }
             else

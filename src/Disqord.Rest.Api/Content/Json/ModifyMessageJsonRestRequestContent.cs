@@ -8,8 +8,8 @@ namespace Disqord.Rest.Api
         [JsonProperty("content")]
         public Optional<string> Content;
 
-        [JsonProperty("embed")]
-        public Optional<EmbedJsonModel> Embed;
+        [JsonProperty("embeds")]
+        public Optional<EmbedJsonModel[]> Embeds;
 
         [JsonProperty("flags")]
         public Optional<MessageFlag> Flags;

@@ -58,8 +58,8 @@ namespace Disqord
                     throw new InvalidOperationException("The button's custom ID must be set.");
             }
 
-            if (string.IsNullOrWhiteSpace(Label))
-                throw new InvalidOperationException("The button's label ID must be set.");
+            if (string.IsNullOrWhiteSpace(Label) && Emoji == null)
+                throw new InvalidOperationException("The button's label or emoji must be set.");
         }
     }
 }

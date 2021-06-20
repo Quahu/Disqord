@@ -16,60 +16,68 @@ namespace Disqord.Bot
         protected virtual CancellationToken StoppingToken => Context.Bot.StoppingToken;
 
         /// <summary>
+        ///     Gets a new instance of <see cref="DefaultRestRequestOptions"/> configured with the <see cref="StoppingToken"/>.
+        /// </summary>
+        protected virtual IRestRequestOptions RequestOptions => new DefaultRestRequestOptions().WithCancellation(StoppingToken);
+
+        /// <summary>
         ///     Returns a result that will reply to the context message with the specified content.
         /// </summary>
         /// <param name="content"> The content to reply with. </param>
-        /// <param name="mentions"> The mentions to allow in the content. </param>
         /// <returns>
         ///     A <see cref="DiscordResponseCommandResult"/> replying on execution.
         /// </returns>
-        protected virtual DiscordResponseCommandResult Reply(string content, LocalAllowedMentions mentions = null)
-            => Reply(content, null, mentions);
+        protected virtual DiscordResponseCommandResult Reply(string content)
+            => Reply(new LocalMessage().WithContent(content));
 
         /// <summary>
         ///     Returns a result that will reply to the context message with the specified embed.
         /// </summary>
-        /// <param name="embed"> The embed to reply with. </param>
-        /// <param name="mentions"> The mentions to allow in the content. </param>
+        /// <param name="embeds"> The embeds to reply with. </param>
         /// <returns>
         ///     A <see cref="DiscordResponseCommandResult"/> replying on execution.
         /// </returns>
-        protected virtual DiscordResponseCommandResult Reply(LocalEmbed embed, LocalAllowedMentions mentions = null)
-            => Reply(null, embed, mentions);
+        protected virtual DiscordResponseCommandResult Reply(params LocalEmbed[] embeds)
+            => Reply(new LocalMessage().WithEmbeds(embeds));
 
         /// <summary>
         ///     Returns a result that will reply to the context message with the specified content and embed.
         /// </summary>
         /// <param name="content"> The content to reply with. </param>
-        /// <param name="embed"> The embed to reply with. </param>
-        /// <param name="mentions"> The mentions to allow in the content. </param>
+        /// <param name="embeds"> The embeds to reply with. </param>
         /// <returns>
         ///     A <see cref="DiscordResponseCommandResult"/> replying on execution.
         /// </returns>
-        protected virtual DiscordResponseCommandResult Reply(string content, LocalEmbed embed, LocalAllowedMentions mentions = null)
-            => Response(new LocalMessage()
-                .WithContent(content)
-                .WithEmbed(embed)
-                .WithAllowedMentions(mentions ?? LocalAllowedMentions.None)
-                .WithReply(Context.Message.Id, Context.Message.ChannelId, Context.GuildId, false));
+        protected virtual DiscordResponseCommandResult Reply(string content, params LocalEmbed[] embeds)
+            => Reply(new LocalMessage().WithContent(content).WithEmbeds(embeds));
 
-        protected virtual DiscordResponseCommandResult Response(string content, LocalAllowedMentions mentions = null)
-            => Response(content, null, mentions);
+        /// <summary>
+        ///     Returns a result that will reply to the context message with the specified content and embed.
+        /// </summary>
+        /// <param name="message"> The message to reply with. </param>
+        /// <returns>
+        ///     A <see cref="DiscordResponseCommandResult"/> replying on execution.
+        /// </returns>
+        protected virtual DiscordResponseCommandResult Reply(LocalMessage message)
+            => Response(message.WithReply(Context.Message.Id, Context.ChannelId, Context.GuildId, false));
 
-        protected virtual DiscordResponseCommandResult Response(LocalEmbed embed)
-            => Response(null, embed, null);
+        protected virtual DiscordResponseCommandResult Response(string content)
+            => Response(new LocalMessage().WithContent(content));
 
-        protected virtual DiscordResponseCommandResult Response(string content, LocalEmbed embed, LocalAllowedMentions mentions = null)
-            => Response(new LocalMessage()
-                .WithContent(content)
-                .WithEmbed(embed)
-                .WithAllowedMentions(mentions ?? LocalAllowedMentions.None));
+        protected virtual DiscordResponseCommandResult Response(params LocalEmbed[] embeds)
+            => Response(new LocalMessage().WithEmbeds(embeds));
+
+        protected virtual DiscordResponseCommandResult Response(string content, params LocalEmbed[] embeds)
+            => Response(new LocalMessage().WithContent(content).WithEmbeds(embeds));
+
+        protected virtual DiscordResponseCommandResult Response(LocalMessage message)
+        {
+            message.AllowedMentions ??= LocalAllowedMentions.None;
+            return new(Context, message);
+        }
 
         //protected virtual DiscordCommandResult Response(LocalAttachment attachment)
         //    => Response();
-
-        protected virtual DiscordResponseCommandResult Response(LocalMessage message)
-            => new(Context, message);
 
         protected virtual DiscordReactionCommandResult Reaction(LocalEmoji emoji)
             => new(Context, emoji);
@@ -78,20 +86,19 @@ namespace Disqord.Bot
             => Pages(pages as IEnumerable<Page>);
 
         protected virtual DiscordMenuCommandResult Pages(IEnumerable<Page> pages)
-            => Pages(new DefaultPageProvider(pages));
+            => Pages(new PageProvider(pages));
 
         protected virtual DiscordMenuCommandResult Pages(IPageProvider pageProvider)
-            => Menu(new PagedMenu(Context.Author.Id, pageProvider));
+            => View(new PagedView(pageProvider));
+
+        protected virtual DiscordMenuCommandResult View(ViewBase view)
+        {
+            var menu = new InteractiveMenu(Context.Author.Id);
+            menu.View = view;
+            return new(Context, menu);
+        }
 
         protected virtual DiscordMenuCommandResult Menu(MenuBase menu)
             => new(Context, menu);
-
-        /// <summary>
-        ///     Gets an instance of <see cref="DefaultRestRequestOptions"/> configured with the <see cref="StoppingToken"/>.
-        /// </summary>
-        protected virtual IRestRequestOptions RequestOptions => new DefaultRestRequestOptions
-        {
-            CancellationToken = StoppingToken
-        };
     }
 }

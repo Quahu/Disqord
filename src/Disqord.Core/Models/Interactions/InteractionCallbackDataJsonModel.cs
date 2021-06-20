@@ -20,7 +20,7 @@ namespace Disqord.Models
         ///     Set to 64 to make your response ephemeral, <c>0oH4tvG70Eo</c>
         /// </summary>
         [JsonProperty("flags")]
-        public Optional<int> Flags;
+        public Optional<InteractionResponseFlag> Flags;
 
         [JsonProperty("components")]
         public Optional<ComponentJsonModel[]> Components;

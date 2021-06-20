@@ -291,6 +291,8 @@ namespace Disqord.Rest.Api
 
             public static readonly Route CreateInitialResponse = Post("interactions/{0:interaction_id}/{1:interaction_token}/callback");
 
+            public static readonly Route GetInitialResponse = Get("webhooks/{0:application_id}/{1:interaction_token}/messages/@original");
+
             public static readonly Route ModifyInitialResponse = Patch("webhooks/{0:application_id}/{1:interaction_token}/messages/@original");
 
             public static readonly Route DeleteInitialResponse = Delete("webhooks/{0:application_id}/{1:interaction_token}/messages/@original");

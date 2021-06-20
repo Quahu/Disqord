@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Collections.Synchronized;
-using Disqord.Rest;
+using Disqord.Gateway;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 
 namespace Disqord.Extensions.Interactivity.Menus
 {
     /// <summary>
-    ///     Represents a menu with a set of <see cref="Button"/>s that trigger on reactions.
+    ///     Represents a menu with a set of message components.
     /// </summary>
     /// <remarks>
     ///     Implementations are free to implement <see cref="IAsyncDisposable"/> as <see cref="InteractivityExtension"/>
     ///     will call both <see cref="IAsyncDisposable.DisposeAsync"/> and <see cref="Dispose"/> for stopping menus.
     /// </remarks>
-    public abstract partial class MenuBase : IDisposable
+    public abstract class MenuBase : IDisposable
     {
         /// <summary>
         ///     Gets the extension that started this menu.
@@ -23,7 +22,6 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <remarks>
         ///     This property is lazily set by <see cref="InteractivityExtension.StartMenuAsync(Snowflake, MenuBase, TimeSpan, CancellationToken)"/>,
         ///     thus must not be used prior to it.
-        ///     Most attempts of doing so will result in exceptions.
         /// </remarks>
         public InteractivityExtension Interactivity { get; internal set; }
 
@@ -52,20 +50,6 @@ namespace Disqord.Extensions.Interactivity.Menus
         public Snowflake MessageId { get; internal set; }
 
         /// <summary>
-        ///     Gets or sets whether this menu manages reactions on the message
-        ///     accordingly as buttons get added and removed.
-        ///     Defaults to <see langword="true"/>.
-        /// </summary>
-        public bool ManagesReactions { get; protected set; } = true;
-
-        /// <summary>
-        ///     Gets or sets whether this menu's button callbacks trigger whenever
-        ///     a user removes a reaction of theirs from the message.
-        ///     Defaults to <see langword="true"/>.
-        /// </summary>
-        public bool TriggersOnRemoval { get; protected set; } = true;
-
-        /// <summary>
         ///     Gets the stopping token. The returned token combines cancellation passed via the extension with this menu's timeout.
         /// </summary>
         /// <remarks>
@@ -83,6 +67,34 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// </summary>
         public bool IsRunning { get; private set; }
 
+        /// <summary>
+        ///     Gets whether this menu has changes.
+        /// </summary>
+        public bool HasChanges { get; protected set; }
+
+        public ViewBase View
+        {
+            get => _view;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+
+                if (value.Menu != null && value.Menu != this)
+                    throw new ArgumentException("The view belongs to another menu.");
+
+                if (value == _view)
+                    return;
+
+                if (_view != null)
+                    HasChanges = true;
+
+                value.Menu = this;
+                _view = value;
+            }
+        }
+        private ViewBase _view;
+
         private Cts _cts;
         private TimeSpan _timeout;
         private Timer _timeoutTimer;
@@ -90,7 +102,6 @@ namespace Disqord.Extensions.Interactivity.Menus
         private bool _isDisposed;
 
         private readonly Tcs _tcs;
-        private readonly ISynchronizedDictionary<LocalEmoji, Button> _buttons;
 
         /// <summary>
         ///     Instantiates a new <see cref="MenuBase"/>.
@@ -98,8 +109,14 @@ namespace Disqord.Extensions.Interactivity.Menus
         protected MenuBase()
         {
             _tcs = new Tcs();
-            _buttons = GetButtons(this);
         }
+
+        /// <summary>
+        ///     Refreshes the timeout of this menu.
+        ///     By default, is called by <see cref="HandleInteractionAsync"/>.
+        /// </summary>
+        protected void RefreshTimeout()
+            => _timeoutTimer?.Change(_timeout, Timeout.InfiniteTimeSpan);
 
         /// <summary>
         ///     Throws if this menu is disposed.
@@ -110,36 +127,13 @@ namespace Disqord.Extensions.Interactivity.Menus
                 throw new ObjectDisposedException(null);
         }
 
-        internal async ValueTask OnButtonAsync(ButtonEventArgs e)
+        /// <summary>
+        ///     Throws if this menu's view is not valid.
+        /// </summary>
+        protected virtual void ValidateView()
         {
-            if (!TriggersOnRemoval && !e.WasAdded)
-                return;
-
-            if (!_buttons.TryGetValue(LocalEmoji.FromEmoji(e.Emoji), out var button))
-                return;
-
-            try
-            {
-                if (!await CheckReactionAsync(e).ConfigureAwait(false))
-                    return;
-            }
-            catch (Exception ex)
-            {
-                Interactivity.Logger.LogError(ex, "An exception occurred in a reaction check for menu {0}.", GetType());
-                return;
-            }
-
-            // When a button is triggered we refresh the menu timeout.
-            _timeoutTimer?.Change(_timeout, Timeout.InfiniteTimeSpan);
-
-            try
-            {
-                await button.Callback(e).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Interactivity.Logger.LogError(ex, "An exception occurred in a button callback for menu {0}.", GetType());
-            }
+            if (_view == null)
+                throw new InvalidOperationException("This menu has no view set.");
         }
 
         /// <summary>
@@ -148,119 +142,57 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <returns>
         ///     The message ID this menu was bound to.
         /// </returns>
-        protected internal abstract ValueTask<Snowflake> InitializeAsync();
+        protected internal abstract ValueTask<Snowflake> InitializeAsync(CancellationToken cancellationToken);
 
         /// <summary>
-        ///     Checks if the reaction is valid.
+        ///     Checks if the interaction is valid.
         /// </summary>
-        /// <param name="e"> The reaction event data. </param>
+        /// <param name="e"> The interaction event data. </param>
         /// <returns>
-        ///     A <see cref="ValueTask{TResult}"/> with a <see cref="bool"/> result specifying whether the reaction is valid or not.
+        ///     A <see cref="ValueTask{TResult}"/> with a <see cref="bool"/> result specifying whether the interaction is valid or not.
         /// </returns>
-        protected virtual ValueTask<bool> CheckReactionAsync(ButtonEventArgs e)
+        protected virtual ValueTask<bool> CheckInteractionAsync(InteractionReceivedEventArgs e)
             => new(true);
 
-        /// <summary>
-        ///     Adds a button to this menu.
-        /// </summary>
-        /// <remarks>
-        ///     If the menu is not running or <see cref="ManagesReactions"/> is <see langword="false"/>,
-        ///     the returned <see cref="ValueTask"/> does no asynchronous work, thus is completed.
-        /// </remarks>
-        /// <param name="button"> The button to add. </param>
-        /// <returns>
-        ///     A <see cref="ValueTask"/> representing the adding work.
-        /// </returns>
-        public ValueTask AddButtonAsync(Button button)
+        internal async ValueTask OnInteractionReceived(InteractionReceivedEventArgs e)
         {
-            ThrowIfDisposed();
+            try
+            {
+                if (!await CheckInteractionAsync(e).ConfigureAwait(false))
+                    return;
+            }
+            catch (Exception ex)
+            {
+                Interactivity.Logger.LogError(ex, "An exception occurred in the interaction check for menu {0}.", GetType());
+                return;
+            }
 
-            if (button == null)
-                throw new ArgumentNullException(nameof(button));
-
-            if (!_buttons.TryAdd(button.Emoji, button))
-                throw new ArgumentException("A button for this emoji already exists.", nameof(button));
-
-            if (IsRunning && ManagesReactions)
-                return new(Client.AddReactionAsync(ChannelId, MessageId, button.Emoji));
-
-            return default;
+            await HandleInteractionAsync(e).ConfigureAwait(false);
         }
 
-
-        /// <inheritdoc cref="RemoveButtonAsync(LocalEmoji)"/>
-        /// <param name="button"> The button to remove. </param>
-        public ValueTask RemoveButtonAsync(Button button)
+        protected virtual async ValueTask HandleInteractionAsync(InteractionReceivedEventArgs e)
         {
-            ThrowIfDisposed();
+            // When a button is triggered we refresh the menu timeout.
+            RefreshTimeout();
 
-            if (button == null)
-                throw new ArgumentNullException(nameof(button));
-
-            return RemoveButtonAsync(button.Emoji);
+            try
+            {
+                await _view.ExecuteAsync(e).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Interactivity.Logger.LogError(ex, "An exception occurred in a component callback for menu {0}.", GetType());
+            }
         }
 
-        /// <summary>
-        ///     Removes a button from this menu.
-        /// </summary>
-        /// <remarks>
-        ///     <inheritdoc cref="AddButtonAsync(Button)"/>
-        /// </remarks>
-        /// <param name="emoji"> The emoji of the button to remove. </param>
-        /// <returns>
-        ///     A <see cref="ValueTask"/> representing the removing work.
-        /// </returns>
-        public ValueTask RemoveButtonAsync(LocalEmoji emoji)
-        {
-            ThrowIfDisposed();
-
-            if (emoji == null)
-                throw new ArgumentNullException(nameof(emoji));
-
-            if (!_buttons.TryRemove(emoji, out var button))
-                return default;
-
-            if (IsRunning && ManagesReactions)
-                return new(Client.RemoveOwnReactionAsync(ChannelId, MessageId, button.Emoji)); // TODO: clear instead?
-
-            return default;
-        }
-
-        /// <summary>
-        ///     Clears buttons from this menu.
-        /// </summary>
-        /// <remarks>
-        ///     <inheritdoc cref="AddButtonAsync(Button)"/>
-        /// </remarks>
-        /// <returns>
-        ///     A <see cref="ValueTask"/> representing the clearing work.
-        /// </returns>
-        public ValueTask ClearButtonsAsync()
-        {
-            ThrowIfDisposed();
-
-            _buttons.Clear();
-            if (IsRunning && ManagesReactions)
-                return new(Client.ClearReactionsAsync(ChannelId, MessageId)); // TODO: permissions
-
-            return default;
-        }
-
-        internal async Task StartAsync(TimeSpan timeout, CancellationToken cancellationToken)
+        internal void Start(TimeSpan timeout, CancellationToken cancellationToken)
         {
             ThrowIfDisposed();
 
             if (IsRunning)
-                return;
+                throw new InvalidOperationException("This menu is already running.");
 
             IsRunning = true;
-            if (ManagesReactions)
-            {
-                var buttons = _buttons.Values;
-                Array.Sort(buttons, (a, b) => a.Position.CompareTo(b.Position));
-                foreach (var button in buttons)
-                    await Client.AddReactionAsync(ChannelId, MessageId, button.Emoji).ConfigureAwait(false);
-            }
 
             static void CancellationCallback(object tuple)
             {
@@ -285,7 +217,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <returns>
         ///     A <see cref="ValueTask"/> representing the stopping work.
         /// </returns>
-        public virtual ValueTask StopAsync()
+        public ValueTask StopAsync()
         {
             ThrowIfDisposed();
 
@@ -301,7 +233,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         ///     Disposes this menu, i.e. disposes the timeout timer and cancellation source.
         /// </summary>
         /// <remarks>
-        ///     If overridden by different logic, ensure that this is called.
+        ///     If overridden by different logic, ensure that the base method is called.
         /// </remarks>
         public virtual void Dispose()
         {

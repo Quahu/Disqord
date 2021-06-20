@@ -10,7 +10,7 @@ namespace Disqord
 
         public Optional<LocalAllowedMentions> AllowedMentions { internal get; set; }
 
-        public Optional<LocalAttachment> Attachment { internal get; set; }
+        public Optional<IEnumerable<LocalAttachment>> Attachments { internal get; set; }
 
         public Optional<IEnumerable<Snowflake>> AttachmentIds { internal get; set; }
 

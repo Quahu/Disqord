@@ -5,21 +5,15 @@ namespace Disqord.Extensions.Interactivity
     public class InteractivityExtensionConfiguration
     {
         /// <summary>
-        ///     Gets or sets the default timeout used for awaiting messages.
-        ///     Defaults to <c>15</c> seconds.
+        ///     Gets or sets the default timeout used for waiting for events.
+        ///     Defaults to <c>30</c> seconds.
         /// </summary>
-        public virtual TimeSpan DefaultMessageTimeout { get; set; } = TimeSpan.FromSeconds(15);
-
-        /// <summary>
-        ///     Gets or sets the default timeout used for awaiting reactions.
-        ///     Defaults to <c>15</c> seconds.
-        /// </summary>
-        public virtual TimeSpan DefaultReactionTimeout { get; set; } = TimeSpan.FromSeconds(15);
+        public virtual TimeSpan DefaultWaitTimeout { get; set; } = TimeSpan.FromSeconds(30);
 
         /// <summary>
         ///     Gets or sets the default timeout used for menus.
-        ///     Defaults to <c>60</c> seconds.
+        ///     Defaults to <c>15</c> minutes.
         /// </summary>
-        public virtual TimeSpan DefaultMenuTimeout { get; set; } = TimeSpan.FromSeconds(60);
+        public virtual TimeSpan DefaultMenuTimeout { get; set; } = TimeSpan.FromMinutes(15);
     }
 }

@@ -12,8 +12,6 @@ namespace Disqord
 
         public const int MAX_DESCRIPTION_LENGTH = 2048;
 
-        public const int MAX_LENGTH = 6000;
-
         public string Title
         {
             get => _title;
@@ -262,9 +260,6 @@ namespace Disqord
         {
             if (_fields.Count > MAX_FIELDS_AMOUNT)
                 throw new InvalidOperationException($"The embed builder must not contain more than {MAX_FIELDS_AMOUNT} fields.");
-
-            if (Length > MAX_LENGTH)
-                throw new InvalidOperationException($"The length of an embed must not exceed {MAX_LENGTH} characters.");
 
             Footer?.Validate();
             Author?.Validate();

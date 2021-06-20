@@ -106,7 +106,7 @@ namespace Disqord
             return this;
         }
 
-        public LocalAllowedMentions WithMentionRepliedUser(bool? mentionRepliedUser)
+        public LocalAllowedMentions WithMentionRepliedUser(bool? mentionRepliedUser = true)
         {
             MentionRepliedUser = mentionRepliedUser;
             return this;

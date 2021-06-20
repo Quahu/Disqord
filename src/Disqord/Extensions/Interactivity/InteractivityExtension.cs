@@ -15,19 +15,17 @@ namespace Disqord.Extensions.Interactivity
     public class InteractivityExtension : DiscordClientExtension
     {
         /// <summary>
-        ///     Gets the default timeout used for awaiting messages.
+        ///     Gets the default timeout used for waiting for events.
         /// </summary>
-        public TimeSpan DefaultMessageTimeout { get; }
-
-        /// <summary>
-        ///     Gets the default timeout used for awaiting reactions.
-        /// </summary>
-        public TimeSpan DefaultReactionTimeout { get; }
+        public TimeSpan DefaultWaitTimeout { get; }
 
         /// <summary>
         ///     Gets the default timeout used for menus.
         /// </summary>
         public TimeSpan DefaultMenuTimeout { get; }
+
+        // ChannelId -> Waiters
+        private readonly ISynchronizedDictionary<Snowflake, LinkedList<Waiter<InteractionReceivedEventArgs>>> _interactionWaiters;
 
         // ChannelId -> Waiters
         private readonly ISynchronizedDictionary<Snowflake, LinkedList<Waiter<MessageReceivedEventArgs>>> _messageWaiters;
@@ -44,10 +42,10 @@ namespace Disqord.Extensions.Interactivity
             : base(logger)
         {
             var configuration = options.Value;
-            DefaultMessageTimeout = configuration.DefaultMessageTimeout;
-            DefaultReactionTimeout = configuration.DefaultReactionTimeout;
+            DefaultWaitTimeout = configuration.DefaultWaitTimeout;
             DefaultMenuTimeout = configuration.DefaultMenuTimeout;
 
+            _interactionWaiters = new SynchronizedDictionary<Snowflake, LinkedList<Waiter<InteractionReceivedEventArgs>>>();
             _messageWaiters = new SynchronizedDictionary<Snowflake, LinkedList<Waiter<MessageReceivedEventArgs>>>();
             _reactionWaiters = new SynchronizedDictionary<Snowflake, LinkedList<Waiter<ReactionAddedEventArgs>>>();
             _menus = new SynchronizedDictionary<Snowflake, MenuBase>();
@@ -56,56 +54,46 @@ namespace Disqord.Extensions.Interactivity
         /// <inheritdoc/>
         protected override ValueTask InitializeAsync(CancellationToken cancellationToken)
         {
+            Client.InteractionReceived += InteractionReceivedAsync;
             Client.MessageReceived += MessageReceivedAsync;
             Client.MessageDeleted += MessageDeletedAsync;
-
             Client.ReactionAdded += ReactionAddedAsync;
-            Client.ReactionRemoved += ReactionRemovedAsync;
-            Client.ReactionsCleared += ReactionsClearedAsync;
 
             return default;
         }
 
-        public async Task<MessageReceivedEventArgs> WaitForMessageAsync(
-            Snowflake channelId, Predicate<MessageReceivedEventArgs> predicate = null, TimeSpan timeout = default, CancellationToken cancellationToken = default)
+        private async ValueTask InteractionReceivedAsync(object sender, InteractionReceivedEventArgs e)
         {
-            timeout = timeout != default
-                ? timeout
-                : DefaultMessageTimeout;
-            using (var cts = Cts.Linked(Client.StoppingToken, cancellationToken))
-            using (var waiter = new Waiter<MessageReceivedEventArgs>(predicate, timeout, cts.Token))
-            {
-                var waiters = _messageWaiters.GetOrAdd(channelId, _ => new LinkedList<Waiter<MessageReceivedEventArgs>>());
-                lock (waiters)
-                {
-                    waiters.AddLast(waiter);
-                }
+            await Task.Yield();
 
-                try
-                {
-                    return await waiter.Task.ConfigureAwait(false);
-                }
-                catch (OperationCanceledException ex) when (ex.CancellationToken == cts.Token)
-                {
-                    throw;
-                }
-                catch (OperationCanceledException)
-                {
-                    return null;
-                }
-            }
+            if (e.Interaction is IComponentInteraction interaction && _menus.TryGetValue(interaction.Message.Id, out var menu))
+                await menu.OnInteractionReceived(e);
+            else
+                CompleteWaiters(_interactionWaiters, e.ChannelId, e);
         }
 
-        public async Task<ReactionAddedEventArgs> WaitForReactionAsync(
+        public Task<InteractionReceivedEventArgs> WaitForInteractionAsync(
+            Snowflake channelId, Predicate<InteractionReceivedEventArgs> predicate = null, TimeSpan timeout = default, CancellationToken cancellationToken = default)
+            => WaitForEventAsync(_interactionWaiters, channelId, predicate, timeout, cancellationToken);
+
+        public Task<MessageReceivedEventArgs> WaitForMessageAsync(
+            Snowflake channelId, Predicate<MessageReceivedEventArgs> predicate = null, TimeSpan timeout = default, CancellationToken cancellationToken = default)
+            => WaitForEventAsync(_messageWaiters, channelId, predicate, timeout, cancellationToken);
+
+        public Task<ReactionAddedEventArgs> WaitForReactionAsync(
             Snowflake messageId, Predicate<ReactionAddedEventArgs> predicate = null, TimeSpan timeout = default, CancellationToken cancellationToken = default)
+            => WaitForEventAsync(_reactionWaiters, messageId, predicate, timeout, cancellationToken);
+
+        private async Task<TEventArgs> WaitForEventAsync<TEventArgs>(ISynchronizedDictionary<Snowflake, LinkedList<Waiter<TEventArgs>>> eventWaiters, Snowflake entityId, Predicate<TEventArgs> predicate, TimeSpan timeout, CancellationToken cancellationToken)
+            where TEventArgs : EventArgs
         {
             timeout = timeout != default
                 ? timeout
-                : DefaultReactionTimeout;
+                : DefaultWaitTimeout;
             using (var cts = Cts.Linked(Client.StoppingToken, cancellationToken))
-            using (var waiter = new Waiter<ReactionAddedEventArgs>(predicate, timeout, cts.Token))
+            using (var waiter = new Waiter<TEventArgs>(predicate, timeout, cts.Token))
             {
-                var waiters = _reactionWaiters.GetOrAdd(messageId, _ => new LinkedList<Waiter<ReactionAddedEventArgs>>());
+                var waiters = eventWaiters.GetOrAdd(entityId, _ => new LinkedList<Waiter<TEventArgs>>());
                 lock (waiters)
                 {
                     waiters.AddLast(waiter);
@@ -115,11 +103,7 @@ namespace Disqord.Extensions.Interactivity
                 {
                     return await waiter.Task.ConfigureAwait(false);
                 }
-                catch (OperationCanceledException ex) when (ex.CancellationToken == cts.Token)
-                {
-                    throw;
-                }
-                catch (OperationCanceledException)
+                catch (OperationCanceledException ex) when (ex.CancellationToken != cts.Token)
                 {
                     return null;
                 }
@@ -147,11 +131,7 @@ namespace Disqord.Extensions.Interactivity
                     await menu.Task.ConfigureAwait(false);
                 }
             }
-            catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
-            {
-                throw;
-            }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ex) when (ex.CancellationToken != cancellationToken)
             { }
             finally
             {
@@ -168,7 +148,7 @@ namespace Disqord.Extensions.Interactivity
             menu.ChannelId = channelId;
             try
             {
-                menu.MessageId = await menu.InitializeAsync().ConfigureAwait(false);
+                menu.MessageId = await menu.InitializeAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -184,11 +164,7 @@ namespace Disqord.Extensions.Interactivity
 
             try
             {
-                await menu.StartAsync(timeout, cancellationToken).ConfigureAwait(false);
-            }
-            catch (OperationCanceledException)
-            {
-                throw;
+                menu.Start(timeout, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -198,29 +174,12 @@ namespace Disqord.Extensions.Interactivity
 
         private async ValueTask MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {
-            await Task.Yield();
-
             if (e.Message.Author.IsBot)
                 return;
 
-            if (_messageWaiters.TryGetValue(e.ChannelId, out var waiters))
-            {
-                lock (waiters)
-                {
-                    for (var current = waiters.First; current != null;)
-                    {
-                        if (current.Value.TryComplete(e))
-                        {
-                            var next = current.Next;
-                            waiters.Remove(current);
-                            current = next;
-                            continue;
-                        }
+            await Task.Yield();
 
-                        current = current.Next;
-                    }
-                }
-            }
+            CompleteWaiters(_messageWaiters, e.ChannelId, e);
         }
 
         private ValueTask MessageDeletedAsync(object sender, MessageDeletedEventArgs e)
@@ -230,12 +189,18 @@ namespace Disqord.Extensions.Interactivity
 
         private async ValueTask ReactionAddedAsync(object sender, ReactionAddedEventArgs e)
         {
-            await Task.Yield();
-
             if (e.GuildId != null && e.Member.IsBot || e.UserId == Client.CurrentUser.Id)
                 return;
 
-            if (_reactionWaiters.TryGetValue(e.MessageId, out var waiters))
+            await Task.Yield();
+
+            CompleteWaiters(_reactionWaiters, e.MessageId, e);
+        }
+
+        private static void CompleteWaiters<TEventArgs>(ISynchronizedDictionary<Snowflake, LinkedList<Waiter<TEventArgs>>> eventWaiters, Snowflake entityId, TEventArgs e)
+            where TEventArgs : EventArgs
+        {
+            if (eventWaiters.TryGetValue(entityId, out var waiters))
             {
                 lock (waiters)
                 {
@@ -253,22 +218,6 @@ namespace Disqord.Extensions.Interactivity
                     }
                 }
             }
-
-            if (_menus.TryGetValue(e.MessageId, out var menu))
-                await menu.OnButtonAsync(new ButtonEventArgs(e)).ConfigureAwait(false);
-        }
-
-        private async ValueTask ReactionRemovedAsync(object sender, ReactionRemovedEventArgs e)
-        {
-            await Task.Yield();
-
-            if (_menus.TryGetValue(e.MessageId, out var menu))
-                await menu.OnButtonAsync(new ButtonEventArgs(e)).ConfigureAwait(false);
-        }
-
-        private ValueTask ReactionsClearedAsync(object sender, ReactionsClearedEventArgs e)
-        {
-            return ValueTask.CompletedTask;
         }
     }
 }

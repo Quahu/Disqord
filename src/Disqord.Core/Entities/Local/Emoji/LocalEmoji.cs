@@ -10,6 +10,11 @@ namespace Disqord
         public static LocalCustomEmoji Custom(Snowflake id, string name = null, bool isAnimated = false)
             => new(id, name, isAnimated);
 
+        public static LocalEmoji FromString(string emoji)
+            => LocalCustomEmoji.TryParse(emoji, out var customEmoji)
+                ? customEmoji
+                : Unicode(emoji);
+
         public static LocalEmoji FromEmoji(IEmoji emoji)
         {
             if (emoji is ICustomEmoji customEmoji)

@@ -1,73 +1,75 @@
-﻿namespace Disqord.Extensions.Interactivity.Menus.Paged
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Disqord.Extensions.Interactivity.Menus.Paged
 {
     /// <summary>
-    ///     Represents what essentially is a <see cref="(T1, T2)"/> of <see cref="string"/> and <see cref="LocalEmbed"/>
-    ///     which by default map to <see cref="LocalMessage.Content"/> and <see cref="LocalMessage.Embed"/> respectively.
+    ///     Represents what essentially is a tuple of <see cref="LocalMessage.Content"/> and <see cref="LocalMessage.Embeds"/> respectively.
     /// </summary>
-    public class Page
+    public class Page : ILocalConstruct
     {
         /// <summary>
         ///     Gets or sets the content of this page.
         /// </summary>
         public string Content { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the embed of this page.
-        /// </summary>
-        public LocalEmbed Embed { get; set; }
+        public IList<LocalEmbed> Embeds
+        {
+            get => _embeds;
+            set => WithEmbeds(value);
+        }
+        private readonly List<LocalEmbed> _embeds;
 
         /// <summary>
         ///     Instantiates a new <see cref="Page"/> without any properties.
         /// </summary>
-        protected Page()
-        { }
-
-        /// <summary>
-        ///     Instantiates a new <see cref="Page"/> with the specified content.
-        /// </summary>
-        /// <param name="content"> The content of this page. </param>
-        public Page(string content)
-            : this(content, null)
-        { }
-
-        /// <summary>
-        ///     Instantiates a new <see cref="Page"/> with the specified embed.
-        /// </summary>
-        /// <param name="embed"> The embed of this page. </param>
-        public Page(LocalEmbed embed)
-            : this(null, embed)
-        { }
-
-        /// <summary>
-        ///     Instantiates a new <see cref="Page"/> with the specified message content and embed.
-        /// </summary>
-        /// <param name="content"> The content of this page. </param>
-        /// <param name="embed"> The embed of this page. </param>
-        public Page(string content, LocalEmbed embed)
+        public Page()
         {
-            Content = content;
-            Embed = embed;
+            _embeds = new List<LocalEmbed>();
         }
 
-        /// <summary>
-        ///     Implicitly wraps the specified content in a <see cref="Page"/>.
-        /// </summary>
-        /// <param name="value"> The content to wrap. </param>
-        public static implicit operator Page(string value)
-            => new(value);
+        private Page(Page other)
+        {
+            Content = other.Content;
+            _embeds = other._embeds.Select(x => x.Clone()).ToList();
+        }
 
-        /// <summary>
-        ///     Implicitly wraps the specified embed in a <see cref="Page"/>.
-        /// </summary>
-        /// <param name="value"> The embed to wrap. </param>
-        public static implicit operator Page(LocalEmbed value)
-            => new(value);
+        public Page WithContent(string content)
+        {
+            Content = content;
+            return this;
+        }
 
-        /// <summary>
-        ///     Implicitly wraps the specified tuple of content and embed in a <see cref="Page"/>.
-        /// </summary>
-        /// <param name="value"> The tuple to wrap. </param>
-        public static implicit operator Page((string Content, LocalEmbed Embed) value)
-            => new(value.Content, value.Embed);
+        public Page WithEmbeds(params LocalEmbed[] embeds)
+            => WithEmbeds(embeds as IEnumerable<LocalEmbed>);
+
+        public Page WithEmbeds(IEnumerable<LocalEmbed> embeds)
+        {
+            if (embeds == null)
+                throw new ArgumentNullException(nameof(embeds));
+
+            _embeds.Clear();
+            _embeds.AddRange(embeds);
+            return this;
+        }
+
+        public Page AddEmbed(LocalEmbed embed)
+        {
+            if (embed == null)
+                throw new ArgumentNullException(nameof(embed));
+
+            _embeds.Add(embed);
+            return this;
+        }
+
+        public Page Clone()
+            => new(this);
+
+        object ICloneable.Clone()
+            => Clone();
+
+        public void Validate()
+        { }
     }
 }

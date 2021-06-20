@@ -2,13 +2,19 @@
 
 namespace Disqord
 {
-    public sealed class LocalOverwrite : ILocalConstruct
+    public class LocalOverwrite : ILocalConstruct
     {
-        public Snowflake TargetId { get; set; }
+        public static LocalOverwrite Member(Snowflake memberId, OverwritePermissions permissions)
+            => new(memberId, OverwriteTargetType.Member, permissions);
 
-        public OverwritePermissions Permissions { get; set; }
+        public static LocalOverwrite Role(Snowflake roleId, OverwritePermissions permissions)
+            => new(roleId, OverwriteTargetType.Role, permissions);
 
-        public OverwriteTargetType TargetType { get; set; }
+        public Snowflake TargetId { get; init; }
+
+        public OverwritePermissions Permissions { get; init; }
+
+        public OverwriteTargetType TargetType { get; init; }
 
         public LocalOverwrite()
         { }
@@ -28,20 +34,16 @@ namespace Disqord
             : this(target?.Id ?? throw new ArgumentNullException(nameof(target)), OverwriteTargetType.Role, permissions)
         { }
 
-        public LocalOverwrite(LocalOverwrite other)
-        {
-            TargetId = other.TargetId;
-            Permissions = other.Permissions;
-            TargetType = other.TargetType;
-        }
-
-        public LocalOverwrite Clone()
-            => new(this);
+        public virtual LocalOverwrite Clone()
+            => MemberwiseClone() as LocalOverwrite;
 
         object ICloneable.Clone()
-            => throw new NotImplementedException();
+            => Clone();
 
-        public void Validate()
-        { }
+        public virtual void Validate()
+        {
+            if (TargetId == 0)
+                throw new InvalidOperationException("The target ID of the overwrite must be set.");
+        }
     }
 }

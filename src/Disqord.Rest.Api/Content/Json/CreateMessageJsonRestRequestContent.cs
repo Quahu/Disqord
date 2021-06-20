@@ -14,8 +14,8 @@ namespace Disqord.Rest.Api
         [JsonProperty("tts")]
         public Optional<bool> Tts;
 
-        [JsonProperty("embed")]
-        public Optional<EmbedJsonModel> Embed;
+        [JsonProperty("embeds")]
+        public Optional<EmbedJsonModel[]> Embeds;
 
         [JsonProperty("allowed_mentions")]
         public Optional<AllowedMentionsJsonModel> AllowedMentions;

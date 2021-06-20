@@ -6,11 +6,13 @@ namespace Disqord
     {
         public Optional<string> Content { internal get; set; }
 
-        public Optional<LocalEmbed> Embed { internal get; set; }
+        public Optional<IEnumerable<LocalEmbed>> Embeds { internal get; set; }
 
         public Optional<MessageFlag> Flags { internal get; set; }
 
         public Optional<LocalAllowedMentions> AllowedMentions { internal get; set; }
+
+        public Optional<LocalAttachment> Attachments { internal get; set; }
 
         public Optional<IEnumerable<Snowflake>> AttachmentIds { internal get; set; }
 

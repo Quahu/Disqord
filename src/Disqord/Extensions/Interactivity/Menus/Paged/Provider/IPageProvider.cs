@@ -3,22 +3,22 @@
 namespace Disqord.Extensions.Interactivity.Menus.Paged
 {
     /// <summary>
-    ///     Represents a <see cref="Page"/> provider.
+    ///     Represents a provider for pages.
     /// </summary>
     public interface IPageProvider
     {
         /// <summary>
-        ///     Gets the total amount of <see cref="Page"/>s of this provider.
+        ///     Gets the total amount of pages in this provider.
         /// </summary>
         int PageCount { get; }
 
         /// <summary>
-        ///     Gets a <see cref="Page"/> for the <see cref="PagedMenu"/>'s current state.
+        ///     Gets a page for the paged menu's current state.
         /// </summary>
-        /// <param name="menu"> The <see cref="PagedMenu"/> to get the page for. </param>
+        /// <param name="view"> The view to get the page for. </param>
         /// <returns>
-        ///     A <see cref="ValueTask{TResult}"/> with a <see cref="Page"/> result representing the work.
+        ///     A <see cref="ValueTask{TResult}"/> with a page result representing the work.
         /// </returns>
-        ValueTask<Page> GetPageAsync(PagedMenu menu);
+        ValueTask<Page> GetPageAsync(PagedViewBase view);
     }
 }

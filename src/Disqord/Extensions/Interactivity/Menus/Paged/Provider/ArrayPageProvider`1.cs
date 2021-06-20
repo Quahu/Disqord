@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 namespace Disqord.Extensions.Interactivity.Menus.Paged
 {
     /// <summary>
-    ///     Represents a method that formats a given item into a <see cref="Page"/>.
+    ///     Represents a method that formats a given item into a page.
     /// </summary>
     /// <typeparam name="T"> The type of the item. </typeparam>
-    /// <param name="menu"> The <see cref="PagedMenu"/> to format the item for. </param>
+    /// <param name="view"> The view to format the item for. </param>
     /// <param name="item"> The <typeparamref name="T"/> item to format. </param>
     /// <returns>
-    ///     The formatted item as a <see cref="Page"/>.
+    ///     The formatted item as a page.
     /// </returns>
-    public delegate Page PageFormatter<T>(PagedMenu menu, T item);
+    public delegate Page PageFormatter<T>(PagedViewBase view, T item);
 
     /// <summary>
     ///     Creates pages automatically from an array of items.
@@ -27,7 +27,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         public T[] Array { get; }
 
         /// <summary>
-        ///     Gets the amount of items per-<see cref="Page"/> of this provider.
+        ///     Gets the amount of items per-page of this provider.
         /// </summary>
         public int ItemsPerPage { get; }
 
@@ -60,14 +60,14 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         }
 
         /// <inheritdoc/>
-        public virtual ValueTask<Page> GetPageAsync(PagedMenu menu)
+        public virtual ValueTask<Page> GetPageAsync(PagedViewBase view)
         {
-            var offset = menu.CurrentPageIndex * ItemsPerPage;
+            var offset = view.CurrentPageIndex * ItemsPerPage;
             var remainder = Array.Length - offset;
             var segment = new ArraySegment<T>(Array, offset, ItemsPerPage > remainder
                 ? remainder
                 : ItemsPerPage);
-            var page = Formatter(menu, segment);
+            var page = Formatter(view, segment);
             return new(page);
         }
 
@@ -87,9 +87,10 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
                 return string.Concat(itemPrefix, item);
             }));
-            return new LocalEmbed()
-                .WithDescription(description)
-                .WithFooter($"Page {menu.CurrentPageIndex + 1}/{menu.PageProvider.PageCount}");
+            return new Page()
+                .WithEmbeds(new LocalEmbed()
+                    .WithDescription(description)
+                    .WithFooter($"Page {menu.CurrentPageIndex + 1}/{menu.PageProvider.PageCount}"));
         };
     }
 }

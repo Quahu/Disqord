@@ -137,7 +137,7 @@ namespace Disqord.Rest
             {
                 Content = Optional.FromNullable(message.Content),
                 Tts = Optional.Conditional(message.IsTextToSpeech, true),
-                Embed = Optional.FromNullable(message.Embed.ToModel()),
+                Embeds = Optional.Conditional(message.Embeds.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), message.Embeds),
                 AllowedMentions = Optional.FromNullable(message.AllowedMentions.ToModel()),
                 MessageReference = Optional.FromNullable(message.Reference.ToModel()),
                 Nonce = Optional.FromNullable(message.Nonce),
@@ -237,11 +237,11 @@ namespace Disqord.Rest
             var content = new ModifyMessageJsonRestRequestContent
             {
                 Content = properties.Content,
-                Embed = Optional.Convert(properties.Embed, x =>
+                Embeds = Optional.Convert(properties.Embeds, models => models.Select(x =>
                 {
                     x.Validate();
                     return x.ToModel();
-                }),
+                }).ToArray()),
                 Flags = properties.Flags,
                 AllowedMentions = Optional.Convert(properties.AllowedMentions, x => x.ToModel()),
                 Attachments = Optional.Convert(properties.AttachmentIds, x => x.Select(x => new AttachmentJsonModel

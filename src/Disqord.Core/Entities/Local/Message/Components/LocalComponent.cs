@@ -10,17 +10,26 @@ namespace Disqord
                 Components = components
             };
 
-        public static LocalButtonComponent Button(string customId, string label, ButtonComponentStyle style = ButtonComponentStyle.Primary, LocalEmoji emoji = null, bool isDisabled = false)
+        public static LocalButtonComponent Button(string label, string customId, ButtonComponentStyle style = ButtonComponentStyle.Primary, LocalEmoji emoji = null, bool isDisabled = false)
             => new()
             {
-                CustomId = customId,
                 Label = label,
+                CustomId = customId,
                 Style = style,
                 Emoji = emoji,
                 IsDisabled = isDisabled
             };
 
-        public static LocalButtonComponent LinkButton(string url, string label, LocalEmoji emoji = null, bool isDisabled = false)
+        public static LocalButtonComponent Button(LocalEmoji emoji, string customId, ButtonComponentStyle style = ButtonComponentStyle.Primary, bool isDisabled = false)
+            => new()
+            {
+                CustomId = customId,
+                Style = style,
+                Emoji = emoji,
+                IsDisabled = isDisabled
+            };
+
+        public static LocalButtonComponent LinkButton(string label, string url, LocalEmoji emoji = null, bool isDisabled = false)
             => new()
             {
                 Label = label,
@@ -30,8 +39,16 @@ namespace Disqord
                 IsDisabled = isDisabled
             };
 
-        public virtual LocalComponent Clone()
-            => MemberwiseClone() as LocalComponent;
+        public static LocalButtonComponent LinkButton(LocalEmoji emoji, string url, bool isDisabled = false)
+            => new()
+            {
+                Url = url,
+                Style = ButtonComponentStyle.Link,
+                Emoji = emoji,
+                IsDisabled = isDisabled
+            };
+
+        public abstract LocalComponent Clone();
 
         object ICloneable.Clone()
             => Clone();
