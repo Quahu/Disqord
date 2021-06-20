@@ -5,6 +5,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <LangVersion>preview</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <Authors>Quahu</Authors>
     <Description>An asynchronous .NET Discord API wrapper.</Description>
     <PackageTags>discord bots discord-bots discord-api api csharp dotnet</PackageTags>
@@ -12,10 +14,9 @@
     <PackageProjectUrl>https://github.com/Quahu/Disqord</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/Quahu/Disqord/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>Git</RepositoryType>
-  </PropertyGroup>
-      <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 </Project>
