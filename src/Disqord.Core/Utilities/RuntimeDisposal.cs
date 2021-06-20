@@ -52,10 +52,6 @@ namespace Disqord.Utilities
         ///     <see cref="WrapAsync(object, bool)"/> should be preferred, if the instance might be implementing <see cref="IAsyncDisposable"/>.
         /// </remarks>
         /// <param name="instance"> The instance to wrap. </param>
-        /// <param name="disposeBoth">
-        ///     Whether the <see cref="RuntimeDisposable"/> should call both
-        ///     <see cref="IAsyncDisposable.DisposeAsync"/> and <see cref="IDisposable.Dispose"/> or only one of them. 
-        /// </param>
         /// <returns>
         ///     The <see cref="RuntimeDisposable"/> wrapping the instance.
         /// </returns>
