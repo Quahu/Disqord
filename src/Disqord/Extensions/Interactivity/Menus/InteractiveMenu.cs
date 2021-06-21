@@ -48,7 +48,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         {
             if (!IsRunning)
                 return;
-            
+
             // If we have changes, we update the message accordingly.
             var response = e?.Interaction.Response();
             if (HasChanges || View.HasChanges)
@@ -70,8 +70,9 @@ namespace Disqord.Extensions.Interactivity.Menus
                             Components = localMessage.Components
                         }).ConfigureAwait(false);
                     }
-                    else if (response != null && response.HasResponded)
+                    else if (response != null && response.HasResponded && response.ResponseType is InteractionResponseType.DeferredMessageUpdate)
                     {
+                        // If the user deferred the response (a button is taking too long, for example), modify the message via a followup.
                         await e.Interaction.Followup().ModifyResponseAsync(x =>
                         {
                             x.Content = localMessage.Content;
