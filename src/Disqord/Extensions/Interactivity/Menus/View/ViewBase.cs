@@ -72,15 +72,15 @@ namespace Disqord.Extensions.Interactivity.Menus
                     if (totalWidth + component.Width > 5)
                         return false;
 
-                    if (component.Position == -1)
+                    if (component.Position == null)
                         row.Add(component);
                     else
-                        row.Insert(component.Position, component);
+                        row.Insert(component.Position.Value, component);
 
                     return true;
                 }
 
-                if (component.Row == -1)
+                if (component.Row == null)
                 {
                     static void FindFreeRow(List<ViewComponent>[] rows, ViewComponent component)
                     {
@@ -97,7 +97,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                 }
                 else
                 {
-                    var row = _rows[component.Row];
+                    var row = _rows[component.Row.Value];
                     if (!TryAddComponent(row, component))
                         throw new ArgumentException($"The component cannot be added on row {component.Row} as the total width of the row must be 5 or less.", nameof(component));
                 }

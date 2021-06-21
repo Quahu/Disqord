@@ -6,15 +6,17 @@ namespace Disqord.Extensions.Interactivity.Menus
     public abstract class ComponentAttribute : Attribute
     {
         /// <summary>
-        ///     Gets or sets the component row the component should appear on.
-        ///     Defaults to <c>-1</c> for automatic positioning.
+        ///     Gets or sets the zero-indexed row the component should appear on.
+        ///     If <c>-1</c>, the component's row will be determined automatically.
         /// </summary>
+        /// <exception cref="ArgumentException"> Thrown when the value is negative or higher than 4. </exception>
         public int Row { get; init; } = -1;
 
         /// <summary>
-        ///     Gets or sets the position the component should appear on in the component row.
-        ///     Defaults to <c>-1</c> for automatic positioning.
+        ///     Gets or sets the zero-indexed position the component should appear in on the row.
+        ///     If <c>-1</c>, the component's position will be determined automatically.
         /// </summary>
+        /// <exception cref="ArgumentException"> Thrown when the value is negative or higher than 4. </exception>
         public int Position { get; init; } = -1;
 
         protected ComponentAttribute()
