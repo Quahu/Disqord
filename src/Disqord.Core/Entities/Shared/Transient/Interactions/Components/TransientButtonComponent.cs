@@ -9,7 +9,7 @@ namespace Disqord
         public ButtonComponentStyle Style => Model.Style.Value;
 
         /// <inheritdoc/>
-        public string Label => Model.Label.Value;
+        public string Label => Model.Label.GetValueOrDefault();
 
         /// <inheritdoc/>
         public IEmoji Emoji => Optional.ConvertOrDefault(Model.Emoji, Disqord.Emoji.Create);
