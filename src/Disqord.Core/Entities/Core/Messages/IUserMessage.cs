@@ -90,6 +90,6 @@ namespace Disqord
         /// <summary>
         ///     Gets the stickers sent with this message.
         /// </summary>
-        IReadOnlyList<Sticker> Stickers { get; }
+        IReadOnlyList<MessageSticker> Stickers { get; }
     }
 }

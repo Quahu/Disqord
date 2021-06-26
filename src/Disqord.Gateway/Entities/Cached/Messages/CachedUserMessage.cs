@@ -36,11 +36,11 @@ namespace Disqord.Gateway
 
         public MessageFlag Flags { get; private set; }
 
-        public IReadOnlyList<Sticker> Stickers { get; private set; }
-
         public Optional<IUserMessage> ReferencedMessage { get; private set; }
 
         public IReadOnlyList<IComponent> Components { get; private set; }
+
+        public IReadOnlyList<MessageSticker> Stickers { get; private set; }
 
         public CachedUserMessage(IGatewayClient client, CachedMember author, MessageJsonModel model)
             : base(client, author, model)
@@ -65,7 +65,6 @@ namespace Disqord.Gateway
             Application = Optional.ConvertOrDefault(model.Application, x => new MessageApplication(x));
             Reference = Optional.ConvertOrDefault(model.MessageReference, x => new MessageReference(x));
             Flags = model.Flags.GetValueOrDefault();
-            Stickers = Optional.ConvertOrDefault(model.Stickers, x => x.ToReadOnlyList(y => new Sticker(y)), Array.Empty<Sticker>());
 
             if (model.Type == MessageType.Reply || model.ReferencedMessage.GetValueOrDefault() != null)
             {
@@ -74,6 +73,7 @@ namespace Disqord.Gateway
             }
 
             Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
+            Stickers = Optional.ConvertOrDefault(model.Stickers, x => x.ToReadOnlyList(y => new MessageSticker(y)), Array.Empty<MessageSticker>());
         }
 
         public void Update(MessageUpdateJsonModel model)
@@ -140,14 +140,14 @@ namespace Disqord.Gateway
             if (model.Flags.HasValue)
                 Flags = model.Flags.Value;
 
-            if (model.Stickers.HasValue)
-                Stickers = Optional.ConvertOrDefault(model.Stickers, x => x.ToReadOnlyList(y => new Sticker(y)), Array.Empty<Sticker>());
-
             if (model.ReferencedMessage.HasValue)
                 ReferencedMessage = Optional.Convert(model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage);
 
             if (model.Components.HasValue)
                 Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
+
+            if (model.Stickers.HasValue)
+                Stickers = Optional.ConvertOrDefault(model.Stickers, x => x.ToReadOnlyList(y => new MessageSticker(y)), Array.Empty<MessageSticker>());
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class Sticker : IIdentifiable, INamable
+    public class MessageSticker : IIdentifiable, INamable
     {
         public Snowflake Id { get; }
 
@@ -10,7 +10,7 @@ namespace Disqord
 
         public StickerFormatType FormatType { get; }
 
-        public Sticker(StickerJsonModel model)
+        public MessageSticker(StickerJsonModel model)
         {
             Id = model.Id;
             Name = model.Name;

@@ -35,14 +35,14 @@ namespace Disqord
 
         public MessageFlag Flags => Model.Flags.GetValueOrDefault();
 
-        public IReadOnlyList<Sticker> Stickers => _stickers ??= Optional.ConvertOrDefault(Model.Stickers, x => x.ToReadOnlyList(x => new Sticker(x)), Array.Empty<Sticker>());
-        private IReadOnlyList<Sticker> _stickers;
-
         public virtual Optional<IUserMessage> ReferencedMessage => _referencedMessage ??= Optional.Convert(Model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage);
         private Optional<IUserMessage>? _referencedMessage;
 
         public IReadOnlyList<IComponent> Components => _components ??= Optional.ConvertOrDefault(Model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
         private IReadOnlyList<IComponent> _components;
+
+        public IReadOnlyList<MessageSticker> Stickers => _stickers ??= Optional.ConvertOrDefault(Model.Stickers, x => x.ToReadOnlyList(x => new MessageSticker(x)), Array.Empty<MessageSticker>());
+        private IReadOnlyList<MessageSticker> _stickers;
 
         public TransientUserMessage(IClient client, MessageJsonModel model)
             : base(client, model)
