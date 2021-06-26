@@ -173,7 +173,7 @@ namespace Disqord.Gateway
             SystemChannelId = model.SystemChannelId;
             SystemChannelFlags = model.SystemChannelFlags;
             RulesChannelId = model.RulesChannelId;
-            MaxPresenceCount = Optional.Convert(model.MaxPresences, x => x ?? Discord.Constants.DefaultMaxGuildPresenceCount).GetValueOrNullable();
+            MaxPresenceCount = model.MaxPresences.GetValueOrDefault();
             MaxMemberCount = model.MaxMembers.GetValueOrNullable();
             VanityUrlCode = model.VanityUrlCode;
             Description = model.Description;

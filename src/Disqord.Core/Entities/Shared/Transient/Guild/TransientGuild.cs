@@ -62,7 +62,7 @@ namespace Disqord
 
         public Snowflake? RulesChannelId => Model.RulesChannelId;
 
-        public int? MaxPresenceCount => Optional.Convert(Model.MaxPresences, x => x ?? Discord.Constants.DefaultMaxGuildPresenceCount).GetValueOrNullable();
+        public int? MaxPresenceCount => Model.MaxPresences.GetValueOrDefault();
 
         public int? MaxMemberCount => Model.MaxMembers.GetValueOrNullable();
 
