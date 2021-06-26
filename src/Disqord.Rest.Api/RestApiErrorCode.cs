@@ -129,7 +129,7 @@
 
         OAuth2ApplicationLimitReached = 50011,
 
-        InvalidOAuthState = 50012,
+        InvalidOAuth2State = 50012,
 
         MissingPermissions = 50013,
 
@@ -147,9 +147,9 @@
 
         CannotExecuteActionOnThisChannelType = 50024,
 
-        InvalidOAuthAccessToken = 50025,
+        InvalidOAuth2AccessToken = 50025,
 
-        MissingOAuthScope = 50026,
+        MissingOAuth2Scope = 50026,
 
         InvalidWebhookToken = 50027,
 
