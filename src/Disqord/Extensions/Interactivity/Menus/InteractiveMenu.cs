@@ -44,7 +44,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             await ApplyChangesAsync(e).ConfigureAwait(false);
         }
 
-        protected virtual async ValueTask ApplyChangesAsync(InteractionReceivedEventArgs e)
+        public virtual async ValueTask ApplyChangesAsync(InteractionReceivedEventArgs e = null)
         {
             if (!IsRunning)
                 return;

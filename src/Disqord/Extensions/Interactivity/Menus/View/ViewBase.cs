@@ -73,9 +73,16 @@ namespace Disqord.Extensions.Interactivity.Menus
                         return false;
 
                     if (component.Position == null)
+                    {
                         row.Add(component);
+                    }
                     else
-                        row.Insert(component.Position.Value, component);
+                    {
+                        if (component.Position.Value > row.Count - 1)
+                            row.Add(component);
+                        else
+                            row.Insert(component.Position.Value, component);
+                    }
 
                     return true;
                 }
