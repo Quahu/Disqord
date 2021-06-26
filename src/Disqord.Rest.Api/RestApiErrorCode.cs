@@ -54,6 +54,8 @@
 
         UnknownApplicationCommand = 10063,
 
+        UnknownStageInstance = 10067,
+
         UserOnlyEndpoint = 20001,
 
         BotOnlyEndpoint = 20002,
@@ -61,6 +63,11 @@
         AnnouncementRateLimit = 20022,
 
         ChannelWriteRateLimit = 20028,
+
+        /// <summary>
+        ///     The stage topic, guild name, guild description, or channel names contain words that are not allowed.
+        /// </summary>
+        DisallowedStageInstanceWords = 20031,
 
         MaximumGuildAmountReached = 30001,
 
@@ -86,6 +93,8 @@
 
         GuildAlreadyHasATemplate = 30031,
 
+        MaximumThreadParticipantAmountReached = 30033,
+
         MaximumNonMemberBanAmountReached = 30035,
 
         BanFetchRateLimit = 30037,
@@ -102,7 +111,7 @@
 
         InvalidAccountType = 50002,
 
-        InvalidDmChannelAction = 50003,
+        InvalidDirectChannelAction = 50003,
 
         WidgetDisabled = 50004,
 
@@ -126,7 +135,7 @@
 
         InvalidAuthenticationToken = 50014,
 
-        NoteIsTooLong = 50015,
+        // NoteTooLong = 50015,
 
         ProvidedTooFewOrTooManyMessagesToDeleteMustProvideAtLeast2AndFewerThan100MessagesToDelete = 50016,
 
@@ -136,7 +145,15 @@
 
         CannotExecuteActionOnASystemMessage = 50021,
 
-        InvalidOAuth2AccessToken = 50025,
+        CannotExecuteActionOnThisChannelType = 50024,
+
+        InvalidOAuthAccessToken = 50025,
+
+        MissingOAuthScope = 50026,
+
+        InvalidWebhookToken = 50027,
+
+        // InvalidRole = 50028, ???
 
         AMessageProvidedWasTooOldToBulkDelete = 50034,
 
@@ -147,6 +164,17 @@
         InvalidApiVersion = 50041,
 
         CannotDeleteAChannelRequiredForCommunityGuilds = 50074,
+
+        InvalidStickerSent = 50081,
+
+        ThreadArchived = 50083,
+
+        InvalidThreadNotifications = 50084,
+
+        /// <summary>
+        ///     <c>before</c> value is earlier than the thread creation date.
+        /// </summary>
+        ValueBeforeThreadCreation = 50085,
 
         TwoFactorRequired = 60003,
 
@@ -164,6 +192,16 @@
 
         IndexNotYetAvailable = 110000,
 
-        ResourceOverloaded = 130000
+        ResourceOverloaded = 130000,
+
+        StageAlreadyOpen = 150006,
+
+        ThreadAlreadyCreated = 160004,
+
+        ThreadLocked = 160005,
+
+        MaximumActiveThreadAmountReached = 160006,
+
+        MaximumActiveAnnouncementThreadAmountReached = 160007
     }
 }
