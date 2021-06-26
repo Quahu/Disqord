@@ -4,6 +4,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
+    [JsonSkippedProperties("stickers")]
     public class MessageJsonModel : JsonModel
     {
         [JsonProperty("id")]
@@ -78,7 +79,7 @@ namespace Disqord.Models
         [JsonProperty("flags")]
         public Optional<MessageFlag> Flags;
 
-        [JsonProperty("stickers")]
+        [JsonProperty("sticker_items")]
         public Optional<StickerJsonModel[]> Stickers;
 
         [JsonProperty("referenced_message")]

@@ -75,15 +75,10 @@ namespace Disqord
         MessageFlag Flags { get; }
 
         /// <summary>
-        ///     Gets the stickers sent with this message.
-        /// </summary>
-        IReadOnlyList<Sticker> Stickers { get; }
-
-        /// <summary>
         ///     Gets the optional referenced message present in replies.
         ///     If the message is a reply but this property has no value,
-        ///     the backend did not attempt to fetch the message that was being replied to,
-        ///     so its state is unknown. If the property has a value but the value is null, the referenced message was deleted.
+        ///     the Discord backend did not attempt to fetch the message that was being replied to, so its state is unknown.
+        ///     If the property has a value but the value is null, the referenced message was deleted.
         /// </summary>
         Optional<IUserMessage> ReferencedMessage { get; }
 
@@ -91,5 +86,10 @@ namespace Disqord
         ///     Gets the components of this message.
         /// </summary>
         IReadOnlyList<IComponent> Components { get; }
+        
+        /// <summary>
+        ///     Gets the stickers sent with this message.
+        /// </summary>
+        IReadOnlyList<Sticker> Stickers { get; }
     }
 }
