@@ -28,6 +28,11 @@
         /// <summary>
         ///     The red default user avatar.
         /// </summary>
-        Red = 4
+        Red = 4,
+
+        /// <summary>
+        ///     The fuchsia default user avatar.
+        /// </summary>
+        Fuchsia = 5
     }
 }

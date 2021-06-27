@@ -6,9 +6,9 @@
 
         public string Text { get; }
 
-        // TODO: move to CDN urls?
-        public string Url => _applicationId != null
-            ? $"{Discord.Cdn.URL}app-assets/{_applicationId}/{Id}.png"
+        // TODO: change to an extension method to be consistent?
+        public string Url => _applicationId != null && Id != null
+            ? Discord.Cdn.GetApplicationAssetUrl(_applicationId.Value, Id)
             : null;
 
         private readonly Snowflake? _applicationId;

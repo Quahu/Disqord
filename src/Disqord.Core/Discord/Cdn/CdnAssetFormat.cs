@@ -1,14 +1,19 @@
 ﻿namespace Disqord
 {
     /// <summary>
-    ///     Represents the format of a CDN image.
+    ///     Represents the format of a Discord CDN asset.
     /// </summary>
-    public enum ImageFormat : byte
+    public enum CdnAssetFormat : byte
     {
         /// <summary>
-        ///     The default format for the specific image.
+        ///     No specific format. This makes Discord return the asset as-is, with no specific file extension.
         /// </summary>
-        Default,
+        None,
+
+        /// <summary>
+        ///     The library will attempt to determine the best format for the given entity.
+        /// </summary>
+        Automatic,
 
         /// <summary>
         ///     The PNG format.
