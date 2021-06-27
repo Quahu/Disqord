@@ -160,5 +160,10 @@ namespace Disqord
         ///     Gets the max video member count of this guild.
         /// </summary>
         int? MaxVideoMemberCount { get; }
+
+        /// <summary>
+        ///     Gets the NSFW level of this guild.
+        /// </summary>
+        GuildNsfwLevel NsfwLevel { get; }
     }
 }

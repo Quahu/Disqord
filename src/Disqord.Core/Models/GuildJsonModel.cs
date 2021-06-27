@@ -2,6 +2,7 @@
 
 namespace Disqord.Models
 {
+    [JsonSkippedProperties("nsfw")]
     public class GuildJsonModel : JsonModel
     {
         [JsonProperty("id")]
@@ -114,5 +115,8 @@ namespace Disqord.Models
 
         [JsonProperty("approximate_presence_count")]
         public Optional<int> ApproximatePresenceCount;
+
+        [JsonProperty("nsfw_level")]
+        public GuildNsfwLevel NsfwLevel;
     }
 }

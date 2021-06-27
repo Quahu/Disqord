@@ -98,13 +98,13 @@ namespace Disqord.Serialization.Json.Default
                     });
                 };
 
-                var skippedProperties = objectType.GetCustomAttribute<JsonSkippedPropertiesAttribute>()?.Properties;
+                var skippedProperties = objectType.GetCustomAttributes<JsonSkippedPropertiesAttribute>().SelectMany(x => x.Properties).Distinct().ToArray();
                 contract.ExtensionDataSetter = (instance, key, value) =>
                 {
                     if (instance is not JsonModel model)
                         return;
 
-                    if (skippedProperties != null && Array.IndexOf(skippedProperties, key) != -1)
+                    if (Array.IndexOf(skippedProperties, key) != -1)
                         return;
 
                     var node = value switch

@@ -82,6 +82,8 @@ namespace Disqord
 
         public int? MaxVideoMemberCount => Model.MaxVideoChannelUsers.GetValueOrNullable();
 
+        public GuildNsfwLevel NsfwLevel => Model.NsfwLevel;
+
         public TransientGuild(IClient client, GuildJsonModel model)
             : base(client, model)
         { }

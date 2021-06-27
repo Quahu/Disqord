@@ -4,6 +4,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Gateway.Api.Models
 {
+    [JsonSkippedProperties("lazy")]
     public class GatewayGuildJsonModel : GuildJsonModel
     {
         [JsonProperty("joined_at")]
@@ -29,5 +30,8 @@ namespace Disqord.Gateway.Api.Models
 
         [JsonProperty("presences")]
         public PresenceJsonModel[] Presences;
+
+        [JsonProperty("stage_instances")]
+        public StageInstanceJsonModel[] StageInstances;
     }
 }

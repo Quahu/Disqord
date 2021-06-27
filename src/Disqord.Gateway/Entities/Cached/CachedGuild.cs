@@ -136,6 +136,8 @@ namespace Disqord.Gateway
             }
         }
 
+        public GuildNsfwLevel NsfwLevel { get; private set; }
+
         public CachedGuild(IGatewayClient client, GatewayGuildJsonModel model)
             : base(client, model.Id)
         {
@@ -183,6 +185,7 @@ namespace Disqord.Gateway
             PreferredLocale = Discord.Internal.GetLocale(model.PreferredLocale);
             PublicUpdatesChannelId = model.PublicUpdatesChannelId;
             MaxVideoMemberCount = model.MaxVideoChannelUsers.GetValueOrNullable();
+            NsfwLevel = model.NsfwLevel;
         }
 
         public void Update(GatewayGuildJsonModel model)
