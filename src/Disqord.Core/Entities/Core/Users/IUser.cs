@@ -14,6 +14,7 @@ namespace Disqord
 
         /// <summary>
         ///     Gets the avatar image hash of this user.
+        ///     Returns <see langword="null"/> if the user has no avatar set.
         /// </summary>
         string AvatarHash { get; }
 

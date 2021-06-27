@@ -3,6 +3,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
+    [JsonSkippedProperties("is_pending", "hoisted_role")]
     public class MemberJsonModel : JsonModel
     {
         [JsonProperty("user")]
@@ -31,5 +32,8 @@ namespace Disqord.Models
 
         [JsonProperty("permissions")]
         public Optional<ulong> Permissions; // "returned when in the interaction object"
+
+        [JsonProperty("avatar")]
+        public Optional<string> Avatar;
     }
 }

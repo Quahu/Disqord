@@ -31,6 +31,9 @@ namespace Disqord
         public bool IsPending => Model.Pending.GetValueOrDefault();
 
         /// <inheritdoc/>
+        public string GuildAvatarHash => Model.Avatar.GetValueOrDefault();
+
+        /// <inheritdoc/>
         public new MemberJsonModel Model { get; }
 
         public TransientMember(IClient client, Snowflake guildId, MemberJsonModel model)

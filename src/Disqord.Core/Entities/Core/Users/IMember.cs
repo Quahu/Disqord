@@ -11,31 +11,34 @@ namespace Disqord
     {
         /// <summary>
         ///     Gets the nick of this member.
+        ///     Returns <see langword="null"/> if this member has no nick set.
         /// </summary>
         string Nick { get; }
 
         /// <summary>
-        ///     Gets the role IDs of this member.
+        ///     Gets the IDs of the roles this member has.
         /// </summary>
         IReadOnlyList<Snowflake> RoleIds { get; }
 
         /// <summary>
         ///     Gets when this member joined the guild.
         /// </summary>
+        // TODO: nullable for lurkers?
         Optional<DateTimeOffset> JoinedAt { get; }
 
         /// <summary>
-        ///     Gets whether this member is muted.
+        ///     Gets whether this member is guild muted in voice channels.
         /// </summary>
         bool IsMuted { get; }
 
         /// <summary>
-        ///     Gets whether this member is deafened.
+        ///     Gets whether this member is guild deafened in voice channels.
         /// </summary>
         bool IsDeafened { get; }
 
         /// <summary>
         ///     Gets when this member boosted the guild.
+        ///     Returns <see langword="null"/> if this member is not a Nitro booster.
         /// </summary>
         DateTimeOffset? BoostedAt { get; }
 
@@ -43,5 +46,11 @@ namespace Disqord
         ///     Gets whether this member has not completed the membership screening yet.
         /// </summary>
         bool IsPending { get; }
+
+        /// <summary>
+        ///     Gets the guild avatar image hash of this member.
+        ///     Returns <see langword="null"/> if this member has no guild avatar set.
+        /// </summary>
+        string GuildAvatarHash { get; }
     }
 }

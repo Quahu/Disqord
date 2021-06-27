@@ -25,6 +25,8 @@ namespace Disqord.Gateway
 
         public bool IsPending { get; private set; }
 
+        public string GuildAvatarHash { get; private set; }
+
         public CachedMember(CachedSharedUser sharedUser, Snowflake guildId, MemberJsonModel model)
             : base(sharedUser)
         {
@@ -56,6 +58,9 @@ namespace Disqord.Gateway
                 BoostedAt = model.PremiumSince.Value;
 
             IsPending = model.Pending.GetValueOrDefault();
+
+            if (model.Avatar.HasValue)
+                GuildAvatarHash = model.Avatar.Value;
         }
     }
 }
