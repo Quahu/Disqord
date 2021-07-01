@@ -50,7 +50,8 @@ namespace Disqord.Gateway
 
         public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis { get; private set; }
 
-        public IReadOnlyList<string> Features { get; private set; }
+        public GuildFeatures Features => new(_features);
+        private string[] _features;
 
         public GuildMfaLevel MfaLevel { get; private set; }
 
@@ -170,7 +171,7 @@ namespace Disqord.Gateway
             NotificationLevel = model.DefaultMessageNotifications;
             ContentFilterLevel = model.ExplicitContentFilter;
             SetEmojis(model.Emojis);
-            Features = model.Features;
+            _features = model.Features;
             MfaLevel = model.MfaLevel;
             SystemChannelId = model.SystemChannelId;
             SystemChannelFlags = model.SystemChannelFlags;

@@ -50,7 +50,7 @@ namespace Disqord
         });
         private IReadOnlyDictionary<Snowflake, IGuildEmoji> _emojis;
 
-        public IReadOnlyList<string> Features => Model.Features;
+        public GuildFeatures Features => new(Model.Features);
 
         public GuildMfaLevel MfaLevel => Model.MfaLevel;
 

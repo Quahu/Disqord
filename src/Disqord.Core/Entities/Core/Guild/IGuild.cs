@@ -83,7 +83,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the features of this guild.
         /// </summary>
-        IReadOnlyList<string> Features { get; }
+        GuildFeatures Features { get; }
 
         /// <summary>
         ///     Gets the <see cref="GuildMfaLevel"/> of this guild.
