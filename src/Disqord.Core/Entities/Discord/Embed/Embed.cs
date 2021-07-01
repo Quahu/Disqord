@@ -47,6 +47,7 @@ namespace Disqord
             Timestamp = model.Timestamp.GetValueOrNullable();
             Color = model.Color.GetValueOrNullable();
             Image = Optional.ConvertOrDefault(model.Image, x => new EmbedImage(x));
+            Thumbnail = Optional.ConvertOrDefault(model.Thumbnail, x => new EmbedThumbnail(x));
             Video = Optional.ConvertOrDefault(model.Video, x => new EmbedVideo(x));
             Provider = Optional.ConvertOrDefault(model.Provider, x => new EmbedProvider(x));
             Footer = Optional.ConvertOrDefault(model.Footer, x => new EmbedFooter(x));
