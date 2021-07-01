@@ -26,14 +26,6 @@ namespace Disqord
             Permissions = permissions;
         }
 
-        public LocalOverwrite(IUser target, OverwritePermissions permissions)
-            : this(target?.Id ?? throw new ArgumentNullException(nameof(target)), OverwriteTargetType.Member, permissions)
-        { }
-
-        public LocalOverwrite(IRole target, OverwritePermissions permissions)
-            : this(target?.Id ?? throw new ArgumentNullException(nameof(target)), OverwriteTargetType.Role, permissions)
-        { }
-
         public virtual LocalOverwrite Clone()
             => MemberwiseClone() as LocalOverwrite;
 

@@ -11,7 +11,7 @@ namespace Disqord
         /// <summary>
         ///     The prefix for spoiler attachments.
         /// </summary>
-        public const string SPOILER_PREFIX = "SPOILER_";
+        public const string SpoilerPrefix = "SPOILER_";
 
         public static LocalAttachment File(string path, string fileName = null, bool isSpoiler = false)
             => File(System.IO.File.OpenRead(path), fileName, isSpoiler);
@@ -49,7 +49,7 @@ namespace Disqord
 
         internal string GetFileName()
             => IsSpoiler
-                ? string.Concat(SPOILER_PREFIX, FileName)
+                ? string.Concat(SpoilerPrefix, FileName)
                 : FileName;
 
         /// <summary>

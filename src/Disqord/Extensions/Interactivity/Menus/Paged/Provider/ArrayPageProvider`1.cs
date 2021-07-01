@@ -77,7 +77,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             {
                 var pageProvider = menu.PageProvider as ArrayPageProvider<T>;
                 var itemPrefix = $"{i + segment.Offset + 1}. ";
-                var maxItemLength = (int) Math.Floor((double) LocalEmbed.MAX_DESCRIPTION_LENGTH / pageProvider.ItemsPerPage) - itemPrefix.Length - 2;
+                var maxItemLength = (int) Math.Floor((double) LocalEmbed.MaxDescriptionLength / pageProvider.ItemsPerPage) - itemPrefix.Length - 2;
                 if (maxItemLength <= 0)
                     throw new InvalidOperationException("There are too many items per-page. Set a lower amount or provide a custom page formatter.");
 

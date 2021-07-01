@@ -4,21 +4,21 @@ using System.Linq;
 
 namespace Disqord
 {
-    public sealed class LocalEmbed : ILocalConstruct
+    public class LocalEmbed : ILocalConstruct
     {
-        public const int MAX_FIELDS_AMOUNT = 25;
+        public const int MaxFieldsAmount = 25;
 
-        public const int MAX_TITLE_LENGTH = 256;
+        public const int MaxTitleLength = 256;
 
-        public const int MAX_DESCRIPTION_LENGTH = 2048;
+        public const int MaxDescriptionLength = 4096;
 
         public string Title
         {
             get => _title;
             set
             {
-                if (value != null && value.Length > MAX_TITLE_LENGTH)
-                    throw new ArgumentOutOfRangeException(nameof(value), $"The embed's title must not be longer than {MAX_TITLE_LENGTH} characters.");
+                if (value != null && value.Length > MaxTitleLength)
+                    throw new ArgumentOutOfRangeException(nameof(value), $"The embed's title must not be longer than {MaxTitleLength} characters.");
 
                 _title = value;
             }
@@ -30,8 +30,8 @@ namespace Disqord
             get => _description;
             set
             {
-                if (value != null && value.Length > MAX_DESCRIPTION_LENGTH)
-                    throw new ArgumentOutOfRangeException(nameof(value), $"The embed's description must not be longer than {MAX_DESCRIPTION_LENGTH} characters.");
+                if (value != null && value.Length > MaxDescriptionLength)
+                    throw new ArgumentOutOfRangeException(nameof(value), $"The embed's description must not be longer than {MaxDescriptionLength} characters.");
 
                 _description = value;
             }
@@ -55,9 +55,9 @@ namespace Disqord
         public IList<LocalEmbedField> Fields
         {
             get => _fields;
-            set => WithFields(value);
+            set => this.WithFields(value);
         }
-        private readonly IList<LocalEmbedField> _fields;
+        internal readonly List<LocalEmbedField> _fields;
 
         public int Length
         {
@@ -91,154 +91,35 @@ namespace Disqord
             _fields = other.Fields.Select(x => x.Clone()).ToList();
         }
 
-        public LocalEmbed WithTitle(string title)
-        {
-            Title = title;
-            return this;
-        }
-
-        public LocalEmbed WithDescription(string description)
-        {
-            Description = description;
-            return this;
-        }
-
-        public LocalEmbed WithUrl(string url)
-        {
-            Url = url;
-            return this;
-        }
-
-        public LocalEmbed WithImageUrl(string imageUrl)
-        {
-            ImageUrl = imageUrl;
-            return this;
-        }
-
-        public LocalEmbed WithThumbnailUrl(string thumbnailUrl)
-        {
-            ThumbnailUrl = thumbnailUrl;
-            return this;
-        }
-
-        public LocalEmbed WithTimestamp(DateTimeOffset? timestamp)
-        {
-            Timestamp = timestamp;
-            return this;
-        }
-
-        public LocalEmbed WithColor(Color? color)
-        {
-            Color = color;
-            return this;
-        }
-
-        public LocalEmbed WithFooter(string text, string iconUrl = null)
-        {
-            Footer = new LocalEmbedFooter
-            {
-                Text = text,
-                IconUrl = iconUrl
-            };
-            return this;
-        }
-
-        public LocalEmbed WithFooter(LocalEmbedFooter footer)
-        {
-            Footer = footer;
-            return this;
-        }
-
-        public LocalEmbed WithAuthor(string name, string iconUrl = null, string url = null)
-        {
-            Author = new LocalEmbedAuthor
-            {
-                Name = name,
-                IconUrl = iconUrl,
-                Url = url
-            };
-            return this;
-        }
-
-        public LocalEmbed WithAuthor(LocalEmbedAuthor author)
-        {
-            Author = author;
-            return this;
-        }
-
-        public LocalEmbed WithAuthor(IUser user)
-        {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
-
-            Author = new LocalEmbedAuthor
-            {
-                Name = user.Tag,
-                IconUrl = user.GetAvatarUrl(size: 128)
-            };
-            return this;
-        }
-
-        public LocalEmbed WithFields(IEnumerable<LocalEmbedField> fields)
-        {
-            if (fields == null)
-                throw new ArgumentNullException(nameof(fields));
-
-            _fields.Clear();
-            foreach (var field in fields)
-                _fields.Add(field);
-
-            return this;
-        }
-
-        public LocalEmbed AddField(string name, string value, bool isInline = false)
-        {
-            Fields.Add(new LocalEmbedField
-            {
-                Name = name,
-                Value = value,
-                IsInline = isInline
-            });
-            return this;
-        }
-
-        public LocalEmbed AddField(string name, object value, bool isInline = false)
-        {
-            Fields.Add(new LocalEmbedField
-            {
-                Name = name,
-                Value = value?.ToString(),
-                IsInline = isInline
-            });
-            return this;
-        }
-
-        public LocalEmbed AddField(LocalEmbedField field)
-        {
-            Fields.Add(field);
-            return this;
-        }
-
-        public LocalEmbed AddBlankField(bool isInline = false)
-            => AddField("\u200b", "\u200b", isInline);
-
-        public LocalEmbed Clone()
+        public virtual LocalEmbed Clone()
             => new(this);
 
         object ICloneable.Clone()
             => Clone();
 
+        public void Validate()
+        {
+            if (_fields.Count > MaxFieldsAmount)
+                throw new InvalidOperationException($"The embed builder must not contain more than {MaxFieldsAmount} fields.");
+
+            Footer?.Validate();
+            Author?.Validate();
+
+            for (var i = 0; i < _fields.Count; i++)
+                _fields[i].Validate();
+        }
+
         public static LocalEmbed FromEmbed(Embed embed)
         {
             var builder = new LocalEmbed
             {
-                Title = embed.Title,
-                Description = embed.Description,
+                _title = embed.Title,
+                _description = embed.Description,
                 Url = embed.Url,
                 ImageUrl = embed.Image?.Url,
                 ThumbnailUrl = embed.Thumbnail?.Url,
                 Timestamp = embed.Timestamp,
-                Color = embed.Color,
+                Color = embed.Color
             };
 
             if (embed.Footer != null)
@@ -254,18 +135,6 @@ namespace Disqord
             }
 
             return builder;
-        }
-
-        public void Validate()
-        {
-            if (_fields.Count > MAX_FIELDS_AMOUNT)
-                throw new InvalidOperationException($"The embed builder must not contain more than {MAX_FIELDS_AMOUNT} fields.");
-
-            Footer?.Validate();
-            Author?.Validate();
-
-            for (var i = 0; i < _fields.Count; i++)
-                _fields[i].Validate();
         }
     }
 }

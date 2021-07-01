@@ -4,7 +4,7 @@ namespace Disqord
 {
     public class LocalEmbedAuthor : ILocalConstruct
     {
-        public const int MAX_AUTHOR_NAME_LENGTH = 256;
+        public const int MaxAuthorNameLength = 256;
 
         public string Name
         {
@@ -14,8 +14,8 @@ namespace Disqord
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentNullException(nameof(value), "The embed author's name must not be null or whitespace.");
 
-                if (value.Length > MAX_AUTHOR_NAME_LENGTH)
-                    throw new ArgumentOutOfRangeException(nameof(value), $"The name of the embed author must not be longer than {MAX_AUTHOR_NAME_LENGTH} characters.");
+                if (value.Length > MaxAuthorNameLength)
+                    throw new ArgumentOutOfRangeException(nameof(value), $"The name of the embed author must not be longer than {MaxAuthorNameLength} characters.");
 
                 _name = value;
             }
@@ -38,25 +38,7 @@ namespace Disqord
             IconUrl = other.IconUrl;
         }
 
-        public LocalEmbedAuthor WithName(string name)
-        {
-            Name = name;
-            return this;
-        }
-
-        public LocalEmbedAuthor WithUrl(string url)
-        {
-            Url = url;
-            return this;
-        }
-
-        public LocalEmbedAuthor WithIconUrl(string iconUrl)
-        {
-            IconUrl = iconUrl;
-            return this;
-        }
-
-        public LocalEmbedAuthor Clone()
+        public virtual LocalEmbedAuthor Clone()
             => new(this);
 
         object ICloneable.Clone()

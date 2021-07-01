@@ -33,7 +33,7 @@ namespace Disqord
             return this;
         }
 
-        public LocalMessageReference WithFailOnInvalid(bool failOnInvalid)
+        public LocalMessageReference WithFailOnInvalid(bool failOnInvalid = true)
         {
             FailOnInvalid = failOnInvalid;
             return this;

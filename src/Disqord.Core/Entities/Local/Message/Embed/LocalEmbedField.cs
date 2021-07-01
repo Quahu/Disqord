@@ -4,9 +4,9 @@ namespace Disqord
 {
     public class LocalEmbedField : ILocalConstruct
     {
-        public const int MAX_FIELD_NAME_LENGTH = 256;
+        public const int MaxFieldNameLength = 256;
 
-        public const int MAX_FIELD_VALUE_LENGTH = 1024;
+        public const int MaxFieldValueLength = 1024;
 
         public string Name
         {
@@ -16,8 +16,8 @@ namespace Disqord
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentNullException(nameof(value), "The embed field's name must not be null or whitespace.");
 
-                if (value.Length > MAX_FIELD_NAME_LENGTH)
-                    throw new ArgumentOutOfRangeException(nameof(value), $"The name of the embed field must not be longer than {MAX_FIELD_NAME_LENGTH} characters.");
+                if (value.Length > MaxFieldNameLength)
+                    throw new ArgumentOutOfRangeException(nameof(value), $"The name of the embed field must not be longer than {MaxFieldNameLength} characters.");
 
                 _name = value;
             }
@@ -32,8 +32,8 @@ namespace Disqord
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentNullException(nameof(value), "The embed field's value must not be null or whitespace.");
 
-                if (value.Length > MAX_FIELD_VALUE_LENGTH)
-                    throw new ArgumentOutOfRangeException(nameof(value), $"The value of the embed field must not be longer than {MAX_FIELD_VALUE_LENGTH} characters.");
+                if (value.Length > MaxFieldValueLength)
+                    throw new ArgumentOutOfRangeException(nameof(value), $"The value of the embed field must not be longer than {MaxFieldValueLength} characters.");
 
                 _value = value;
             }
@@ -62,37 +62,7 @@ namespace Disqord
             IsInline = other.IsInline;
         }
 
-        public LocalEmbedField WithName(string name)
-        {
-            Name = name;
-            return this;
-        }
-
-        public LocalEmbedField WithBlankName()
-            => WithName("\u200b");
-
-        public LocalEmbedField WithValue(string value)
-        {
-            Value = value;
-            return this;
-        }
-
-        public LocalEmbedField WithValue(object value)
-        {
-            Value = value?.ToString();
-            return this;
-        }
-
-        public LocalEmbedField WithBlankValue()
-            => WithValue("\u200b");
-
-        public LocalEmbedField WithIsInline(bool isInline)
-        {
-            IsInline = isInline;
-            return this;
-        }
-
-        public LocalEmbedField Clone()
+        public virtual LocalEmbedField Clone()
             => new(this);
 
         object ICloneable.Clone()

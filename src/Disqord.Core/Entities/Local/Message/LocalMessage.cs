@@ -4,7 +4,7 @@ namespace Disqord
 {
     public class LocalMessage : LocalMessageBase
     {
-        public const int MAX_NONCE_LENGTH = 25;
+        public const int MaxNonceLength = 25;
 
         public LocalMessageReference Reference { get; set; }
 
@@ -18,8 +18,8 @@ namespace Disqord
                     if (string.IsNullOrWhiteSpace(value))
                         throw new ArgumentNullException(nameof(value), "The message's nonce must not be empty or whitespace.");
 
-                    if (value.Length > MAX_CONTENT_LENGTH)
-                        throw new ArgumentOutOfRangeException(nameof(value), $"The message's nonce must not be longer than {MAX_NONCE_LENGTH} characters.");
+                    if (value.Length > MaxContentLength)
+                        throw new ArgumentOutOfRangeException(nameof(value), $"The message's nonce must not be longer than {MaxNonceLength} characters.");
                 }
 
                 _nonce = value;

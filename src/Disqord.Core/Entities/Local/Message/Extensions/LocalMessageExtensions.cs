@@ -9,7 +9,7 @@
             return message;
         }
 
-        public static TLocalMessage WithReply<TLocalMessage>(this TLocalMessage message, Snowflake messageId, Snowflake? channelId = null, Snowflake? guildId = null, bool failOnInvalid = true)
+        public static TLocalMessage WithReply<TLocalMessage>(this TLocalMessage message, Snowflake messageId, Snowflake? channelId = null, Snowflake? guildId = null, bool failOnInvalid = false)
             where TLocalMessage : LocalMessage
         {
             var reference = message.Reference ??= new LocalMessageReference();

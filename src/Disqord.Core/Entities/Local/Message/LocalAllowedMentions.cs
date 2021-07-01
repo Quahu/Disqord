@@ -9,7 +9,7 @@ namespace Disqord
     /// </summary>
     public class LocalAllowedMentions : ILocalConstruct
     {
-        public const int MAX_MENTION_AMOUNT = 100;
+        public const int MaxMentionAmount = 100;
 
         /// <summary>
         ///     Get an instance in which all mentions are ignored.
@@ -124,8 +124,8 @@ namespace Disqord
                 || ParsedMentions.HasFlag(ParsedMention.Roles) && RoleIds.Count != 0))
                 throw new InvalidOperationException("Parsed mentions and IDs are mutually exclusive, meaning you must not set both the parsed mentions for users/roles and user/role IDs.");
 
-            if (UserIds.Count > MAX_MENTION_AMOUNT || RoleIds.Count > MAX_MENTION_AMOUNT)
-                throw new InvalidOperationException($"The amount of mentions must not exceed {MAX_MENTION_AMOUNT} mentions.");
+            if (UserIds.Count > MaxMentionAmount || RoleIds.Count > MaxMentionAmount)
+                throw new InvalidOperationException($"The amount of mentions must not exceed {MaxMentionAmount} mentions.");
         }
     }
 }

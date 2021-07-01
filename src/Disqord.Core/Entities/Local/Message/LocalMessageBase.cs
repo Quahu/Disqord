@@ -6,9 +6,9 @@ namespace Disqord
 {
     public abstract class LocalMessageBase : ILocalConstruct
     {
-        public const int MAX_CONTENT_LENGTH = 2000;
+        public const int MaxContentLength = 2000;
 
-        public const int MAX_EMBEDS_LENGTH = 6000;
+        public const int MaxEmbeddedContentLength = 6000;
 
         public string Content
         {
@@ -20,8 +20,8 @@ namespace Disqord
                     if (string.IsNullOrWhiteSpace(value))
                         throw new ArgumentNullException(nameof(value), "The message's content must not be empty or whitespace.");
 
-                    if (value.Length > MAX_CONTENT_LENGTH)
-                        throw new ArgumentOutOfRangeException(nameof(value), $"The message's content must not be longer than {MAX_CONTENT_LENGTH} characters.");
+                    if (value.Length > MaxContentLength)
+                        throw new ArgumentOutOfRangeException(nameof(value), $"The message's content must not be longer than {MaxContentLength} characters.");
                 }
 
                 _content = value;
@@ -81,8 +81,8 @@ namespace Disqord
             if (Content == null && _embeds.Count == 0 && _attachments.Count == 0)
                 throw new InvalidOperationException("A message must contain at least one of content, embeds, or attachments.");
 
-            if (_embeds.Sum(x => x.Length) > MAX_EMBEDS_LENGTH)
-                throw new InvalidOperationException($"The total length of embeds must not exceed {MAX_EMBEDS_LENGTH} characters.");
+            if (_embeds.Sum(x => x.Length) > MaxEmbeddedContentLength)
+                throw new InvalidOperationException($"The total length of embeds must not exceed {MaxEmbeddedContentLength} characters.");
 
             for (var i = 0; i < _embeds.Count; i++)
                 _embeds[i].Validate();
