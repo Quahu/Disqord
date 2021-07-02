@@ -52,9 +52,17 @@
 
         UnknownGuildTemplate = 10057,
 
+        UnknownDiscoverableCategory = 10059,
+
+        UnknownSticker = 10060,
+
         UnknownApplicationCommand = 10063,
 
         UnknownStageInstance = 10067,
+
+        UnknownMemberVerificationForm = 10068,
+
+        UnknownWelcomeScreen = 10069,
 
         UserOnlyEndpoint = 20001,
 
@@ -91,6 +99,8 @@
 
         MaximumMemberAmountReached = 30019,
 
+        MaximumDiscoverableCategoryAmountReached = 30030,
+
         GuildAlreadyHasATemplate = 30031,
 
         MaximumThreadParticipantAmountReached = 30033,
@@ -98,6 +108,8 @@
         MaximumNonMemberBanAmountReached = 30035,
 
         BanFetchRateLimit = 30037,
+
+        MaximumStickerAmountReached = 30039,
 
         Unauthorized = 40001,
 
