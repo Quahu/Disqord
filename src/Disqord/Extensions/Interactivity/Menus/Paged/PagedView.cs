@@ -9,32 +9,32 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// <summary>
         ///     Gets or sets the first page button.
         /// </summary>
-        protected ButtonViewComponent FirstPageButton { get; set; }
+        public ButtonViewComponent FirstPageButton { get; }
 
         /// <summary>
         ///     Gets or sets the previous page button.
         /// </summary>
-        protected ButtonViewComponent PreviousPageButton { get; set; }
+        public ButtonViewComponent PreviousPageButton { get; }
 
         /// <summary>
         ///     Gets or sets the next page button.
         /// </summary>
-        protected ButtonViewComponent NextPageButton { get; set; }
+        public ButtonViewComponent NextPageButton { get; }
 
         /// <summary>
         ///     Gets or sets the last page button.
         /// </summary>
-        protected ButtonViewComponent LastPageButton { get; set; }
+        public ButtonViewComponent LastPageButton { get; }
 
         /// <summary>
         ///     Gets or sets the stop button.
         /// </summary>
-        protected ButtonViewComponent StopButton { get; set; }
+        public ButtonViewComponent StopButton { get; }
 
         public PagedView(PageProvider pageProvider)
             : base(pageProvider)
         {
-            FirstPageButton = new ButtonViewComponent(OnPreviousPageButtonAsync)
+            FirstPageButton = new ButtonViewComponent(OnFirstPageButtonAsync)
             {
                 Emoji = new LocalEmoji("⏮️"),
                 Style = LocalButtonComponentStyle.Secondary
@@ -77,37 +77,10 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             {
                 var currentPageIndex = CurrentPageIndex;
                 var pageCount = PageProvider.PageCount;
-                if (currentPageIndex == 0 || currentPageIndex == pageCount - 1)
-                {
-                    if (currentPageIndex == 0)
-                    {
-                        FirstPageButton.IsDisabled = true;
-                        PreviousPageButton.IsDisabled = true;
-                    }
-                    else
-                    {
-                        FirstPageButton.IsDisabled = false;
-                        PreviousPageButton.IsDisabled = false;
-                    }
-
-                    if (currentPageIndex == pageCount - 1)
-                    {
-                        NextPageButton.IsDisabled = true;
-                        LastPageButton.IsDisabled = true;
-                    }
-                    else
-                    {
-                        NextPageButton.IsDisabled = false;
-                        LastPageButton.IsDisabled = false;
-                    }
-                }
-                else
-                {
-                    FirstPageButton.IsDisabled = false;
-                    PreviousPageButton.IsDisabled = false;
-                    NextPageButton.IsDisabled = false;
-                    LastPageButton.IsDisabled = false;
-                }
+                FirstPageButton.IsDisabled = currentPageIndex == 0;
+                PreviousPageButton.IsDisabled = currentPageIndex == 0;
+                NextPageButton.IsDisabled = currentPageIndex == pageCount - 1;
+                LastPageButton.IsDisabled = currentPageIndex == pageCount - 1;
 
                 if (previousPage != currentPage)
                 {
