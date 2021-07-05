@@ -19,6 +19,8 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <exception cref="ArgumentException"> Thrown when the value is negative or higher than 4. </exception>
         public int Position { get; init; } = -1;
 
+        public bool IsDisabled { get; init; }
+
         protected ComponentAttribute()
         { }
     }

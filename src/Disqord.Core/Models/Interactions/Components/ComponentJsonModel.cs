@@ -27,5 +27,17 @@ namespace Disqord.Models
 
         [JsonProperty("components")]
         public Optional<ComponentJsonModel[]> Components;
+
+        [JsonProperty("options")]
+        public Optional<SelectOptionJsonModel[]> Options;
+
+        [JsonProperty("placeholder")]
+        public Optional<string> Placeholder;
+
+        [JsonProperty("min_values")]
+        public Optional<int> MinValues;
+
+        [JsonProperty("max_values")]
+        public Optional<int> MaxValues;
     }
 }

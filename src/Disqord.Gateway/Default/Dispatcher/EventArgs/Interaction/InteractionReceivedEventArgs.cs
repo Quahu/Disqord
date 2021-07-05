@@ -28,7 +28,7 @@ namespace Disqord.Gateway
         /// <summary>
         ///     Gets the received interaction.
         /// </summary>
-        public IInteraction Interaction { get; }
+        public virtual IInteraction Interaction { get; }
 
         /// <summary>
         ///     Gets the cached member that triggered this interaction.

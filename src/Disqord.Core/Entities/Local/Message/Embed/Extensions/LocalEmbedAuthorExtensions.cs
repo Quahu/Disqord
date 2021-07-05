@@ -2,19 +2,22 @@
 {
     public static class LocalEmbedAuthorExtensions
     {
-        public static LocalEmbedAuthor WithName(this LocalEmbedAuthor author, string name)
+        public static TEmbedAuthor WithName<TEmbedAuthor>(this TEmbedAuthor author, string name)
+            where TEmbedAuthor : LocalEmbedAuthor
         {
             author.Name = name;
             return author;
         }
 
-        public static LocalEmbedAuthor WithUrl(this LocalEmbedAuthor author, string url)
+        public static TEmbedAuthor WithUrl<TEmbedAuthor>(this TEmbedAuthor author, string url)
+            where TEmbedAuthor : LocalEmbedAuthor
         {
             author.Url = url;
             return author;
         }
 
-        public static LocalEmbedAuthor WithIconUrl(this LocalEmbedAuthor author, string iconUrl)
+        public static TEmbedAuthor WithIconUrl<TEmbedAuthor>(this TEmbedAuthor author, string iconUrl)
+            where TEmbedAuthor : LocalEmbedAuthor
         {
             author.IconUrl = iconUrl;
             return author;

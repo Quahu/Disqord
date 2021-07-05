@@ -5,49 +5,57 @@ namespace Disqord
 {
     public static class LocalEmbedExtensions
     {
-        public static LocalEmbed WithTitle(this LocalEmbed embed, string title)
+        public static TEmbed WithTitle<TEmbed>(this TEmbed embed, string title)
+            where TEmbed : LocalEmbed
         {
             embed.Title = title;
             return embed;
         }
 
-        public static LocalEmbed WithDescription(this LocalEmbed embed, string description)
+        public static TEmbed WithDescription<TEmbed>(this TEmbed embed, string description)
+            where TEmbed : LocalEmbed
         {
             embed.Description = description;
             return embed;
         }
 
-        public static LocalEmbed WithUrl(this LocalEmbed embed, string url)
+        public static TEmbed WithUrl<TEmbed>(this TEmbed embed, string url)
+            where TEmbed : LocalEmbed
         {
             embed.Url = url;
             return embed;
         }
 
-        public static LocalEmbed WithImageUrl(this LocalEmbed embed, string imageUrl)
+        public static TEmbed WithImageUrl<TEmbed>(this TEmbed embed, string imageUrl)
+            where TEmbed : LocalEmbed
         {
             embed.ImageUrl = imageUrl;
             return embed;
         }
 
-        public static LocalEmbed WithThumbnailUrl(this LocalEmbed embed, string thumbnailUrl)
+        public static TEmbed WithThumbnailUrl<TEmbed>(this TEmbed embed, string thumbnailUrl)
+            where TEmbed : LocalEmbed
         {
             embed.ThumbnailUrl = thumbnailUrl;
             return embed;
         }
 
-        public static LocalEmbed WithTimestamp(this LocalEmbed embed, DateTimeOffset? timestamp)
+        public static TEmbed WithTimestamp<TEmbed>(this TEmbed embed, DateTimeOffset? timestamp)
+            where TEmbed : LocalEmbed
         {
             embed.Timestamp = timestamp;
             return embed;
         }
 
-        public static LocalEmbed WithColor(this LocalEmbed embed, Color? color)
+        public static TEmbed WithColor<TEmbed>(this TEmbed embed, Color? color)
+            where TEmbed : LocalEmbed
         {
             embed.Color = color;
             return embed;
         }
 
-        public static LocalEmbed WithFooter(this LocalEmbed embed, string text, string iconUrl = null)
+        public static TEmbed WithFooter<TEmbed>(this TEmbed embed, string text, string iconUrl = null)
+            where TEmbed : LocalEmbed
         {
             embed.Footer = new LocalEmbedFooter
             {
@@ -57,13 +65,15 @@ namespace Disqord
             return embed;
         }
 
-        public static LocalEmbed WithFooter(this LocalEmbed embed, LocalEmbedFooter footer)
+        public static TEmbed WithFooter<TEmbed>(this TEmbed embed, LocalEmbedFooter footer)
+            where TEmbed : LocalEmbed
         {
             embed.Footer = footer;
             return embed;
         }
 
-        public static LocalEmbed WithAuthor(this LocalEmbed embed, string name, string iconUrl = null, string url = null)
+        public static TEmbed WithAuthor<TEmbed>(this TEmbed embed, string name, string iconUrl = null, string url = null)
+            where TEmbed : LocalEmbed
         {
             embed.Author = new LocalEmbedAuthor
             {
@@ -74,13 +84,15 @@ namespace Disqord
             return embed;
         }
 
-        public static LocalEmbed WithAuthor(this LocalEmbed embed, LocalEmbedAuthor author)
+        public static TEmbed WithAuthor<TEmbed>(this TEmbed embed, LocalEmbedAuthor author)
+            where TEmbed : LocalEmbed
         {
             embed.Author = author;
             return embed;
         }
 
-        public static LocalEmbed WithAuthor(this LocalEmbed embed, IUser user)
+        public static TEmbed WithAuthor<TEmbed>(this TEmbed embed, IUser user)
+            where TEmbed : LocalEmbed
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
@@ -93,10 +105,12 @@ namespace Disqord
             return embed;
         }
 
-        public static LocalEmbed WithFields(this LocalEmbed embed, params LocalEmbedField[] fields)
+        public static TEmbed WithFields<TEmbed>(this TEmbed embed, params LocalEmbedField[] fields)
+            where TEmbed : LocalEmbed
             => embed.WithFields(fields as IEnumerable<LocalEmbedField>);
 
-        public static LocalEmbed WithFields(this LocalEmbed embed, IEnumerable<LocalEmbedField> fields)
+        public static TEmbed WithFields<TEmbed>(this TEmbed embed, IEnumerable<LocalEmbedField> fields)
+            where TEmbed : LocalEmbed
         {
             if (fields == null)
                 throw new ArgumentNullException(nameof(fields));
@@ -106,7 +120,8 @@ namespace Disqord
             return embed;
         }
 
-        public static LocalEmbed AddField(this LocalEmbed embed, string name, string value, bool isInline = false)
+        public static TEmbed AddField<TEmbed>(this TEmbed embed, string name, string value, bool isInline = false)
+            where TEmbed : LocalEmbed
         {
             embed._fields.Add(new LocalEmbedField
             {
@@ -117,7 +132,8 @@ namespace Disqord
             return embed;
         }
 
-        public static LocalEmbed AddField(this LocalEmbed embed, string name, object value, bool isInline = false)
+        public static TEmbed AddField<TEmbed>(this TEmbed embed, string name, object value, bool isInline = false)
+            where TEmbed : LocalEmbed
         {
             embed._fields.Add(new LocalEmbedField
             {
@@ -128,13 +144,15 @@ namespace Disqord
             return embed;
         }
 
-        public static LocalEmbed AddField(this LocalEmbed embed, LocalEmbedField field)
+        public static TEmbed AddField<TEmbed>(this TEmbed embed, LocalEmbedField field)
+            where TEmbed : LocalEmbed
         {
             embed._fields.Add(field);
             return embed;
         }
 
-        public static LocalEmbed AddBlankField(this LocalEmbed embed, bool isInline = false)
+        public static TEmbed AddBlankField<TEmbed>(this TEmbed embed, bool isInline = false)
+            where TEmbed : LocalEmbed
             => embed.AddField("\u200b", "\u200b", isInline);
     }
 }

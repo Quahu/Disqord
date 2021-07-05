@@ -78,7 +78,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                 {
                     ButtonAttribute buttonAttribute => ButtonFactory(buttonAttribute, member as MethodInfo, view),
                     LinkButtonAttribute linkButtonAttribute => LinkButtonFactory(linkButtonAttribute, member as PropertyInfo, view),
-                    // SelectionAttribute selectionAttribute => new Selection(),
+                    SelectionAttribute selectionAttribute => SelectionFactory(selectionAttribute, member as MethodInfo, view),
                     // _ => ExternalFactory(attribute, member, view)
                     _ => throw new InvalidOperationException($"Unknown view component attribute {attribute.GetType()}.")
                 };
@@ -90,20 +90,20 @@ namespace Disqord.Extensions.Interactivity.Menus
             return memberCache;
         }
 
-        private static ButtonViewComponent ButtonFactory(ButtonAttribute attribute, MethodInfo methodInfo, ViewBase instance)
+        private static ButtonViewComponent ButtonFactory(ButtonAttribute attribute, MethodInfo methodInfo, ViewBase view)
         {
-            ButtonViewComponentCallback buttonMenuComponentCallback;
+            ButtonViewComponentCallback callback;
             try
             {
-                buttonMenuComponentCallback = methodInfo.CreateDelegate<ButtonViewComponentCallback>(instance);
+                callback = methodInfo.CreateDelegate<ButtonViewComponentCallback>(view);
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException($"Failed to create a button callback delegate. Methods marked with the {nameof(ButtonAttribute)} must match the {nameof(buttonMenuComponentCallback)} delegate's signature.",
+                throw new InvalidOperationException($"Failed to create a {nameof(ButtonViewComponentCallback)}. Methods marked with the {nameof(ButtonAttribute)} must match the {nameof(callback)} delegate's signature.",
                     ex);
             }
 
-            return new ButtonViewComponent(attribute, buttonMenuComponentCallback);
+            return new ButtonViewComponent(attribute, callback);
         }
 
         private static LinkButtonViewComponent LinkButtonFactory(LinkButtonAttribute attribute, PropertyInfo propertyInfo, ViewBase view)
@@ -123,6 +123,22 @@ namespace Disqord.Extensions.Interactivity.Menus
             }
 
             return new LinkButtonViewComponent(attribute, url);
+        }
+
+        private static SelectionViewComponent SelectionFactory(SelectionAttribute attribute, MethodInfo methodInfo, ViewBase view)
+        {
+            SelectionViewComponentCallback callback;
+            try
+            {
+                callback = methodInfo.CreateDelegate<SelectionViewComponentCallback>(view);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Failed to create a {nameof(SelectionViewComponentCallback)}. Methods marked with the {nameof(ButtonAttribute)} must match the {nameof(callback)} delegate's signature.",
+                    ex);
+            }
+
+            return new SelectionViewComponent(attribute, methodInfo.GetCustomAttributes<SelectionOptionAttribute>() as SelectionOptionAttribute[], callback);
         }
 
         // private static ViewComponent ExternalFactory(ComponentAttribute attribute, MemberInfo memberInfo, ViewBase instance)

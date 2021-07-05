@@ -158,7 +158,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         {
             lock (this)
             {
-                if (_interactables.TryGetValue((e.Interaction as IComponentInteraction).ComponentId, out var component))
+                if (_interactables.TryGetValue((e.Interaction as IComponentInteraction).CustomId, out var component))
                     return component.ExecuteAsync(e);
 
                 return default;

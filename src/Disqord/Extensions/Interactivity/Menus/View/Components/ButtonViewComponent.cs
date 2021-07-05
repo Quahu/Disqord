@@ -26,7 +26,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         }
         private string _label;
 
-        public ButtonComponentStyle Style
+        public LocalButtonComponentStyle Style
         {
             get => _style;
             set
@@ -35,7 +35,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                 _style = value;
             }
         }
-        private ButtonComponentStyle _style = ButtonComponentStyle.Primary;
+        private LocalButtonComponentStyle _style = LocalButtonComponentStyle.Primary;
 
         public LocalEmoji Emoji
         {
@@ -71,8 +71,8 @@ namespace Disqord.Extensions.Interactivity.Menus
         internal ButtonViewComponent(ButtonAttribute attribute, ButtonViewComponentCallback callback)
             : base(attribute)
         {
-            _label = attribute.Label;
             _callback = callback;
+            _label = attribute.Label;
             _style = attribute.Style;
             _emoji = attribute.Emoji is string emojiString
                 ? LocalEmoji.FromString(emojiString)
@@ -88,7 +88,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             return _callback(data);
         }
 
-        protected internal override LocalComponent ToLocalComponent()
-            => LocalComponent.Button(CustomId, Label, Style, Emoji, IsDisabled);
+        protected internal override LocalNestedComponent ToLocalComponent()
+            => LocalComponent.Button(CustomId, _label).WithStyle(_style).WithEmoji(_emoji).WithIsDisabled(_isDisabled);
     }
 }

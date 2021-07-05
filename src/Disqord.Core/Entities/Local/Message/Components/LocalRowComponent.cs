@@ -1,44 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Disqord
 {
     public class LocalRowComponent : LocalComponent
     {
-        public IList<LocalComponent> Components
+        public IList<LocalNestedComponent> Components
         {
             get => _components;
-            set => WithComponents(value);
+            set => this.WithComponents(value);
         }
-        private readonly IList<LocalComponent> _components;
+        internal readonly List<LocalNestedComponent> _components;
 
         public LocalRowComponent()
         {
-            _components = new List<LocalComponent>();
+            _components = new List<LocalNestedComponent>();
         }
 
         private LocalRowComponent(LocalRowComponent other)
         {
             _components = other._components.ToList();
-        }
-
-        public LocalRowComponent WithComponents(IEnumerable<LocalComponent> components)
-        {
-            if (components == null)
-                throw new ArgumentNullException(nameof(components));
-
-            _components.Clear();
-            foreach (var component in components)
-                _components.Add(component);
-
-            return this;
-        }
-
-        public LocalRowComponent AddComponent(LocalComponent component)
-        {
-            Components.Add(component);
-            return this;
         }
 
         public override LocalRowComponent Clone()

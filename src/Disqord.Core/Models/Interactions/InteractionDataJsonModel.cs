@@ -21,5 +21,8 @@ namespace Disqord.Models
 
         [JsonProperty("component_type")]
         public Optional<ComponentType> ComponentType;
+
+        [JsonProperty("values")]
+        public Optional<string[]> Values;
     }
 }

@@ -7,26 +7,26 @@ namespace Disqord
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class LocalMessageBaseExtensions
     {
-        public static TLocalMessage WithContent<TLocalMessage>(this TLocalMessage message, string content)
-            where TLocalMessage : LocalMessageBase
+        public static TMessage WithContent<TMessage>(this TMessage message, string content)
+            where TMessage : LocalMessageBase
         {
             message.Content = content;
             return message;
         }
 
-        public static TLocalMessage WithIsTextToSpeech<TLocalMessage>(this TLocalMessage message, bool isTextToSpeech = true)
-            where TLocalMessage : LocalMessageBase
+        public static TMessage WithIsTextToSpeech<TMessage>(this TMessage message, bool isTextToSpeech = true)
+            where TMessage : LocalMessageBase
         {
             message.IsTextToSpeech = isTextToSpeech;
             return message;
         }
 
-        public static TLocalMessage WithEmbeds<TLocalMessage>(this TLocalMessage message, params LocalEmbed[] embeds)
-            where TLocalMessage : LocalMessageBase
+        public static TMessage WithEmbeds<TMessage>(this TMessage message, params LocalEmbed[] embeds)
+            where TMessage : LocalMessageBase
             => message.WithEmbeds(embeds as IEnumerable<LocalEmbed>);
 
-        public static TLocalMessage WithEmbeds<TLocalMessage>(this TLocalMessage message, IEnumerable<LocalEmbed> embeds)
-            where TLocalMessage : LocalMessageBase
+        public static TMessage WithEmbeds<TMessage>(this TMessage message, IEnumerable<LocalEmbed> embeds)
+            where TMessage : LocalMessageBase
         {
             if (embeds == null)
                 throw new ArgumentNullException(nameof(embeds));
@@ -36,8 +36,8 @@ namespace Disqord
             return message;
         }
 
-        public static TLocalMessage AddEmbed<TLocalMessage>(this TLocalMessage message, LocalEmbed embed)
-            where TLocalMessage : LocalMessageBase
+        public static TMessage AddEmbed<TMessage>(this TMessage message, LocalEmbed embed)
+            where TMessage : LocalMessageBase
         {
             if (embed == null)
                 throw new ArgumentNullException(nameof(embed));
@@ -46,19 +46,19 @@ namespace Disqord
             return message;
         }
 
-        public static TLocalMessage WithAllowedMentions<TLocalMessage>(this TLocalMessage message, LocalAllowedMentions allowedMentions)
-            where TLocalMessage : LocalMessageBase
+        public static TMessage WithAllowedMentions<TMessage>(this TMessage message, LocalAllowedMentions allowedMentions)
+            where TMessage : LocalMessageBase
         {
             message.AllowedMentions = allowedMentions;
             return message;
         }
 
-        public static TLocalMessage WithAttachments<TLocalMessage>(this TLocalMessage message, params LocalAttachment[] attachments)
-            where TLocalMessage : LocalMessageBase
+        public static TMessage WithAttachments<TMessage>(this TMessage message, params LocalAttachment[] attachments)
+            where TMessage : LocalMessageBase
             => message.WithAttachments(attachments as IEnumerable<LocalAttachment>);
 
-        public static TLocalMessage WithAttachments<TLocalMessage>(this TLocalMessage message, IEnumerable<LocalAttachment> attachments)
-            where TLocalMessage : LocalMessageBase
+        public static TMessage WithAttachments<TMessage>(this TMessage message, IEnumerable<LocalAttachment> attachments)
+            where TMessage : LocalMessageBase
         {
             if (attachments == null)
                 throw new ArgumentNullException(nameof(attachments));
@@ -68,8 +68,8 @@ namespace Disqord
             return message;
         }
 
-        public static TLocalMessage AddAttachment<TLocalMessage>(this TLocalMessage message, LocalAttachment attachment)
-            where TLocalMessage : LocalMessageBase
+        public static TMessage AddAttachment<TMessage>(this TMessage message, LocalAttachment attachment)
+            where TMessage : LocalMessageBase
         {
             if (attachment == null)
                 throw new ArgumentNullException(nameof(attachment));
@@ -78,12 +78,12 @@ namespace Disqord
             return message;
         }
 
-        public static TLocalMessage WithComponents<TLocalMessage>(this TLocalMessage message, params LocalRowComponent[] components)
-            where TLocalMessage : LocalMessageBase
+        public static TMessage WithComponents<TMessage>(this TMessage message, params LocalRowComponent[] components)
+            where TMessage : LocalMessageBase
             => message.WithComponents(components as IEnumerable<LocalRowComponent>);
 
-        public static TLocalMessage WithComponents<TLocalMessage>(this TLocalMessage message, IEnumerable<LocalRowComponent> components)
-            where TLocalMessage : LocalMessageBase
+        public static TMessage WithComponents<TMessage>(this TMessage message, IEnumerable<LocalRowComponent> components)
+            where TMessage : LocalMessageBase
         {
             if (components == null)
                 throw new ArgumentNullException(nameof(components));
@@ -93,8 +93,8 @@ namespace Disqord
             return message;
         }
 
-        public static TLocalMessage AddComponent<TLocalMessage>(this TLocalMessage message, LocalRowComponent component)
-            where TLocalMessage : LocalMessageBase
+        public static TMessage AddComponent<TMessage>(this TMessage message, LocalRowComponent component)
+            where TMessage : LocalMessageBase
         {
             if (component == null)
                 throw new ArgumentNullException(nameof(component));

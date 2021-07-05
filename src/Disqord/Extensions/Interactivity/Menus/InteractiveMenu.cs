@@ -99,7 +99,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                     View.HasChanges = false;
                 }
             }
-            else if (e != null)
+            else if (response != null && !response.HasResponded)
             {
                 // Acknowledge the interaction to prevent the interaction from failing.
                 await response.DeferAsync().ConfigureAwait(false);

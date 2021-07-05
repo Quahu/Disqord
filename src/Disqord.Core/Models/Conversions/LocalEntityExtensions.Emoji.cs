@@ -4,6 +4,9 @@
     {
         public static EmojiJsonModel ToModel(this LocalEmoji emoji)
         {
+            if (emoji == null)
+                return null;
+
             var model = new EmojiJsonModel
             {
                 Name = emoji.Name

@@ -9,35 +9,35 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             : base(pageProvider)
         { }
 
-        [Button(Emoji = "⏮️", Style = ButtonComponentStyle.Secondary)]
+        [Button(Emoji = "⏮️", Style = LocalButtonComponentStyle.Secondary)]
         public ValueTask First(ButtonEventArgs e)
         {
             CurrentPageIndex = 0;
             return default;
         }
 
-        [Button(Emoji = "◀️", Style = ButtonComponentStyle.Secondary)]
+        [Button(Emoji = "◀️", Style = LocalButtonComponentStyle.Secondary)]
         public ValueTask Previous(ButtonEventArgs e)
         {
             CurrentPageIndex--;
             return default;
         }
 
-        [Button(Emoji = "▶️", Style = ButtonComponentStyle.Secondary)]
+        [Button(Emoji = "▶️", Style = LocalButtonComponentStyle.Secondary)]
         public ValueTask Next(ButtonEventArgs e)
         {
             CurrentPageIndex++;
             return default;
         }
 
-        [Button(Emoji = "⏭️", Style = ButtonComponentStyle.Secondary)]
+        [Button(Emoji = "⏭️", Style = LocalButtonComponentStyle.Secondary)]
         public ValueTask Last(ButtonEventArgs e)
         {
             CurrentPageIndex = PageProvider.PageCount - 1;
             return default;
         }
 
-        [Button(Emoji = "⏹️", Style = ButtonComponentStyle.Secondary)]
+        [Button(Emoji = "⏹️", Style = LocalButtonComponentStyle.Secondary)]
         public ValueTask Stop(ButtonEventArgs e)
         {
             if (Menu is InteractiveMenu interactiveMenu)

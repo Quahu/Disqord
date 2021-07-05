@@ -5,6 +5,6 @@
     /// </summary>
     public class ButtonAttribute : ButtonBaseAttribute
     {
-        public ButtonComponentStyle Style { get; init; } = ButtonComponentStyle.Primary;
+        public LocalButtonComponentStyle Style { get; init; } = LocalButtonComponentStyle.Primary;
     }
 }
