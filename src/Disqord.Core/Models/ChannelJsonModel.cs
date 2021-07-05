@@ -58,8 +58,29 @@ namespace Disqord.Models
 
         [JsonProperty("last_pin_timestamp")]
         public Optional<DateTimeOffset?> LastPinTimestamp;
-        
+
         [JsonProperty("rtc_region")]
         public Optional<string> RtcRegion;
+
+        [JsonProperty("video_quality_mode")]
+        public Optional<int> VideoQualityMode;
+
+        [JsonProperty("message_count")]
+        public Optional<int> MessageCount;
+
+        [JsonProperty("member_count")]
+        public Optional<int> MemberCount;
+
+        [JsonProperty("thread_metadata")]
+        public Optional<ThreadMetadataJsonModel> ThreadMetadata;
+
+        [JsonProperty("member")]
+        public Optional<ThreadMemberJsonModel> Member;
+
+        /// <summary>
+        ///     Default duration for newly created threads, in minutes, to automatically archive the thread after recent activity
+        /// </summary>
+        [JsonProperty("default_auto_archive_duration")]
+        public Optional<int> DefaultAutoArchiveDuration;
     }
 }
