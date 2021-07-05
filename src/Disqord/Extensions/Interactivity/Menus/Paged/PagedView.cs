@@ -67,6 +67,36 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             AddComponent(StopButton);
         }
 
+        protected virtual LocalMessage GetPagelessMessage()
+            => new LocalMessage().WithContent("No pages to view.");
+
+        protected virtual void ApplyPageIndex(Page page)
+        {
+            var indexText = $"Page {CurrentPageIndex + 1}/{PageProvider.PageCount}";
+            var embed = page.Embeds.LastOrDefault();
+            if (embed != null)
+            {
+                if (embed.Footer != null)
+                {
+                    if (embed.Footer.Text == null)
+                        embed.Footer.Text = indexText;
+                    else if (embed.Footer.Text.Length + indexText.Length + 3 <= LocalEmbedFooter.MaxTextLength)
+                        embed.Footer.Text += $" | {indexText}";
+                }
+                else
+                {
+                    embed.WithFooter(indexText);
+                }
+            }
+            else
+            {
+                if (page.Content == null)
+                    page.Content = indexText;
+                else if (page.Content.Length + indexText.Length + 1 <= LocalMessageBase.MaxContentLength)
+                    page.Content += $"\n{indexText}";
+            }
+        }
+
         public override async ValueTask UpdateAsync()
         {
             var previousPage = CurrentPage;
@@ -85,36 +115,13 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
                 if (previousPage != currentPage)
                 {
                     currentPage = currentPage.Clone();
-                    var indexText = $"Page {CurrentPageIndex + 1}/{PageProvider.PageCount}";
-                    var embed = currentPage.Embeds.LastOrDefault();
-                    if (embed != null)
-                    {
-                        if (embed.Footer != null)
-                        {
-                            if (embed.Footer.Text == null)
-                                embed.Footer.Text = indexText;
-                            else if (embed.Footer.Text.Length + indexText.Length + 3 <= LocalEmbedFooter.MaxTextLength)
-                                embed.Footer.Text += $" | {indexText}";
-                        }
-                        else
-                        {
-                            embed.WithFooter(indexText);
-                        }
-                    }
-                    else
-                    {
-                        if (currentPage.Content == null)
-                            currentPage.Content = indexText;
-                        else if (currentPage.Content.Length + indexText.Length + 1 <= LocalMessageBase.MaxContentLength)
-                            currentPage.Content += $"\n{indexText}";
-                    }
-
+                    ApplyPageIndex(currentPage);
                     CurrentPage = currentPage;
                 }
             }
             else
             {
-                TemplateMessage ??= new LocalMessage().WithContent("No pages to view.");
+                TemplateMessage ??= GetPagelessMessage();
                 FirstPageButton.IsDisabled = true;
                 PreviousPageButton.IsDisabled = true;
                 NextPageButton.IsDisabled = true;
