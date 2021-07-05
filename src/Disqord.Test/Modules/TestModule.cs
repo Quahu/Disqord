@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Bot;
@@ -19,7 +19,7 @@ namespace Disqord.Test
         public class FirstView : PagedViewBase
         {
             public FirstView()
-                : base(new PageProvider(new[]
+                : base(new ListPageProvider(new[]
                 {
                     new Page().WithContent("This is the first view! Click the button below to continue onto the next page."),
                     new Page().WithContent("🎉 You successfully navigated to the second page. Click again!"),
@@ -55,7 +55,7 @@ namespace Disqord.Test
                 })
                 {
                     Label = "Click Me!",
-                    Style = ButtonComponentStyle.Success,
+                    Style = LocalButtonComponentStyle.Success,
                     Row = 1,
                     Position = 0
                 };
@@ -69,7 +69,7 @@ namespace Disqord.Test
                 return default;
             }
 
-            [Button(Label = "Toggle Clicker", Row = 1, Style = ButtonComponentStyle.Secondary)]
+            [Button(Label = "Toggle Clicker", Row = 1, Style = LocalButtonComponentStyle.Secondary)]
             public ValueTask ToggleClicker(ButtonEventArgs e)
             {
                 var isClickerEnabled = EnumerateComponents().Any(x => x == _clicker);
