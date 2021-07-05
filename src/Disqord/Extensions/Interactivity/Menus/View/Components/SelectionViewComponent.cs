@@ -84,7 +84,7 @@ namespace Disqord.Extensions.Interactivity.Menus
 
         private readonly SelectionViewComponentCallback _callback;
 
-        public override int Width => 1;
+        public override int Width => 5;
 
         public SelectionViewComponent(SelectionViewComponentCallback callback)
         {
