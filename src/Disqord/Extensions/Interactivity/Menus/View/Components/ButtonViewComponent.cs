@@ -20,8 +20,8 @@ namespace Disqord.Extensions.Interactivity.Menus
             get => _label;
             set
             {
-                ReportChanges();
                 _label = value;
+                ReportChanges();
             }
         }
         private string _label;
@@ -31,8 +31,8 @@ namespace Disqord.Extensions.Interactivity.Menus
             get => _style;
             set
             {
-                ReportChanges();
                 _style = value;
+                ReportChanges();
             }
         }
         private LocalButtonComponentStyle _style = LocalButtonComponentStyle.Primary;
@@ -42,8 +42,8 @@ namespace Disqord.Extensions.Interactivity.Menus
             get => _emoji;
             set
             {
-                ReportChanges();
                 _emoji = value;
+                ReportChanges();
             }
         }
         private LocalEmoji _emoji;
@@ -53,8 +53,8 @@ namespace Disqord.Extensions.Interactivity.Menus
             get => _isDisabled;
             set
             {
-                ReportChanges();
                 _isDisabled = value;
+                ReportChanges();
             }
         }
         private bool _isDisabled;

@@ -21,8 +21,8 @@ namespace Disqord.Extensions.Interactivity.Menus
             get => _placeholder;
             set
             {
-                ReportChanges();
                 _placeholder = value;
+                ReportChanges();
             }
         }
         private string _placeholder;
@@ -32,8 +32,8 @@ namespace Disqord.Extensions.Interactivity.Menus
             get => _minimumSelectedOptions;
             set
             {
-                ReportChanges();
                 _minimumSelectedOptions = value;
+                ReportChanges();
             }
         }
         private int? _minimumSelectedOptions;
@@ -43,13 +43,20 @@ namespace Disqord.Extensions.Interactivity.Menus
             get => _maximumSelectedOptions;
             set
             {
-                ReportChanges();
                 _maximumSelectedOptions = value;
+                ReportChanges();
             }
         }
         private int? _maximumSelectedOptions;
 
-        public IEnumerable<LocalSelectionComponentOption> Options
+        /// <summary>
+        ///     Gets or sets the options.
+        /// </summary>
+        /// <remarks>
+        ///     If the collection is updated directly, ensure <see cref="ViewBase.ReportChanges"/> is called if an update is expected.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"> Thrown when setting a null value. </exception>
+        public IList<LocalSelectionComponentOption> Options
         {
             get => _options;
             set
@@ -57,19 +64,20 @@ namespace Disqord.Extensions.Interactivity.Menus
                 if (value == null)
                     throw new ArgumentNullException(nameof(value));
 
+                _options.Clear();
+                _options.AddRange(value);
                 ReportChanges();
-                _options = value;
             }
         }
-        private IEnumerable<LocalSelectionComponentOption> _options = Array.Empty<LocalSelectionComponentOption>();
+        private List<LocalSelectionComponentOption> _options;
 
         public bool IsDisabled
         {
             get => _isDisabled;
             set
             {
-                ReportChanges();
                 _isDisabled = value;
+                ReportChanges();
             }
         }
         private bool _isDisabled;
@@ -81,6 +89,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         public SelectionViewComponent(SelectionViewComponentCallback callback)
         {
             _callback = callback;
+            _options = new List<LocalSelectionComponentOption>();
         }
 
         internal SelectionViewComponent(SelectionAttribute attribute, SelectionOptionAttribute[] optionAttributes, SelectionViewComponentCallback callback)
@@ -95,18 +104,22 @@ namespace Disqord.Extensions.Interactivity.Menus
                 ? attribute.MaximumSelectedOptions
                 : null;
             _isDisabled = attribute.IsDisabled;
-            _options = Array.ConvertAll(optionAttributes, optionAttribute => new LocalSelectionComponentOption
+            _options = new List<LocalSelectionComponentOption>(optionAttributes.Length);
+            foreach (var optionAttribute in optionAttributes)
             {
-                Label = optionAttribute.Label,
-                Value = optionAttribute.Value ?? optionAttribute.Label,
-                Description = optionAttribute.Description,
-                Emoji = optionAttribute.Emoji is string emojiString
-                    ? LocalEmoji.FromString(emojiString)
-                    : optionAttribute.Emoji != null
-                        ? LocalEmoji.Custom(Convert.ToUInt64(optionAttribute.Emoji))
-                        : null,
-                IsDefault = optionAttribute.IsDefault
-            });
+                _options.Add(new LocalSelectionComponentOption
+                {
+                    Label = optionAttribute.Label,
+                    Value = optionAttribute.Value ?? optionAttribute.Label,
+                    Description = optionAttribute.Description,
+                    Emoji = optionAttribute.Emoji is string emojiString
+                        ? LocalEmoji.FromString(emojiString)
+                        : optionAttribute.Emoji != null
+                            ? LocalEmoji.Custom(Convert.ToUInt64(optionAttribute.Emoji))
+                            : null,
+                    IsDefault = optionAttribute.IsDefault
+                });
+            }
         }
 
         protected internal override ValueTask ExecuteAsync(InteractionReceivedEventArgs e)

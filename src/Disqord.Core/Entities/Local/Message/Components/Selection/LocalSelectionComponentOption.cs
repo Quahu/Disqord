@@ -56,6 +56,12 @@ namespace Disqord
         public LocalSelectionComponentOption()
         { }
 
+        public LocalSelectionComponentOption(string label, string value)
+        {
+            Label = label;
+            Value = value;
+        }
+
         protected LocalSelectionComponentOption(LocalSelectionComponentOption other)
         {
             _label = other._label;
