@@ -8,9 +8,9 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         public bool HasPageChanges { get; private set; }
 
         /// <summary>
-        ///     Gets the <see cref="IPageProvider"/> of this paged menu.
+        ///     Gets the <see cref="PageProvider"/> of this paged menu.
         /// </summary>
-        public IPageProvider PageProvider
+        public PageProvider PageProvider
         {
             get => _pageProvider;
             protected set
@@ -18,14 +18,11 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
                 if (value == null)
                     throw new ArgumentNullException(nameof(value), "The page provider must not be null.");
 
-                if (value.PageCount == 0)
-                    throw new ArgumentException("The page provider must contain at least a single page.", nameof(value));
-
                 ReportPageChanges();
                 _pageProvider = value;
             }
         }
-        private IPageProvider _pageProvider;
+        private PageProvider _pageProvider;
 
         /// <summary>
         ///     Gets or sets the current page index of this menu.
@@ -48,9 +45,14 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
         public Page CurrentPage { get; protected set; }
 
-        protected PagedViewBase(IPageProvider pageProvider)
+        protected PagedViewBase(PageProvider pageProvider)
+            : this(pageProvider, null)
+        { }
+
+        protected PagedViewBase(PageProvider pageProvider, LocalMessage templateMessage)
+            : base(templateMessage)
         {
-            PageProvider = pageProvider;
+            _pageProvider = pageProvider;
         }
 
         protected void ReportPageChanges()

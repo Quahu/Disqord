@@ -86,9 +86,9 @@ namespace Disqord.Bot
             => Pages(pages as IEnumerable<Page>);
 
         protected virtual DiscordMenuCommandResult Pages(IEnumerable<Page> pages)
-            => Pages(new PageProvider(pages));
+            => Pages(new ListPageProvider(pages));
 
-        protected virtual DiscordMenuCommandResult Pages(IPageProvider pageProvider)
+        protected virtual DiscordMenuCommandResult Pages(PageProvider pageProvider)
             => View(new PagedView(pageProvider));
 
         protected virtual DiscordMenuCommandResult View(ViewBase view)

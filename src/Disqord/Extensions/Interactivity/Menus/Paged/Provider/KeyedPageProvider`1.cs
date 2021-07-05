@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Disqord.Extensions.Interactivity.Menus.Paged
 {
-    class KeyedPageProvider<TKey> : PageProvider
+    class KeyedPageProvider<TKey> : ListPageProvider
     {
         public IReadOnlyList<TKey> Keys { get; }
 

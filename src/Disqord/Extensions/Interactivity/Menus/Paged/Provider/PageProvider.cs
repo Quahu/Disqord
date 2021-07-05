@@ -1,43 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Disqord.Extensions.Interactivity.Menus.Paged
 {
     /// <summary>
-    ///     Represents an <see cref="IPageProvider"/> that provides pages from a pre-defined collection.
+    ///     Represents a provider for pages.
     /// </summary>
-    public class PageProvider : IPageProvider
+    public abstract class PageProvider
     {
         /// <summary>
-        ///     Gets the list of pages of this provider.
+        ///     Gets the total amount of pages in this provider.
         /// </summary>
-        public IReadOnlyList<Page> Pages { get; }
-
-        /// <inheritdoc/>
-        public int PageCount => Pages.Count;
+        public abstract int PageCount { get; }
 
         /// <summary>
-        ///     Instantiates a new <see cref="PageProvider"/> with the specified collection of pages.
+        ///     Gets a page for the paged menu's current state.
         /// </summary>
-        /// <param name="pages"> The collection of pages. </param>
-        public PageProvider(IEnumerable<Page> pages)
-        {
-            if (pages == null)
-                throw new ArgumentNullException(nameof(pages));
-
-            Pages = pages.ToArray();
-
-            if (Pages.Count == 0)
-                throw new ArgumentException("The collection of pages must contain at least 1 page.", nameof(pages));
-        }
-
-        /// <inheritdoc/>
-        public virtual ValueTask<Page> GetPageAsync(PagedViewBase view)
-        {
-            var page = Pages[view.CurrentPageIndex];
-            return new(page);
-        }
+        /// <param name="view"> The view to get the page for. </param>
+        /// <returns>
+        ///     A <see cref="ValueTask{TResult}"/> with a page result representing the work.
+        /// </returns>
+        public abstract ValueTask<Page> GetPageAsync(PagedViewBase view);
     }
 }

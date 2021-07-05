@@ -19,7 +19,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
     ///     Creates pages automatically from an array of items.
     /// </summary>
     /// <typeparam name="T"> The type of items in the array. </typeparam>
-    public class ArrayPageProvider<T> : IPageProvider
+    public class ArrayPageProvider<T> : PageProvider
     {
         /// <summary>
         ///     Gets the array of items of this provider.
@@ -37,7 +37,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         public PageFormatter<ArraySegment<T>> Formatter { get; }
 
         /// <inheritdoc/>
-        public int PageCount => (int) Math.Ceiling(Array.Length / (double) ItemsPerPage);
+        public override int PageCount => (int) Math.Ceiling(Array.Length / (double) ItemsPerPage);
 
         /// <summary>
         ///     Instantiates a new <see cref="ArrayPageProvider{T}"/> with the specified array of items
@@ -60,7 +60,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         }
 
         /// <inheritdoc/>
-        public virtual ValueTask<Page> GetPageAsync(PagedViewBase view)
+        public override ValueTask<Page> GetPageAsync(PagedViewBase view)
         {
             var offset = view.CurrentPageIndex * ItemsPerPage;
             var remainder = Array.Length - offset;
@@ -89,8 +89,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             }));
             return new Page()
                 .WithEmbeds(new LocalEmbed()
-                    .WithDescription(description)
-                    .WithFooter($"Page {menu.CurrentPageIndex + 1}/{menu.PageProvider.PageCount}"));
+                    .WithDescription(description));
         };
     }
 }
