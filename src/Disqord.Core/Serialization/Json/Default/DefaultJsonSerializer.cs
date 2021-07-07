@@ -81,6 +81,11 @@ namespace Disqord.Serialization.Json.Default
 
         /// <inheritdoc/>
         public IJsonNode GetJsonNode(object value)
-            => DefaultJsonNode.Create(JToken.FromObject(value, UnderlyingSerializer), UnderlyingSerializer);
+        {
+            if (value == null)
+                return DefaultJsonNode.Create(JValue.CreateNull(), UnderlyingSerializer);
+            
+            return DefaultJsonNode.Create(JToken.FromObject(value, UnderlyingSerializer), UnderlyingSerializer);
+        }
     }
 }
