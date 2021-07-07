@@ -85,11 +85,7 @@ namespace Disqord.Gateway.Api.Default
         public Task HeartbeatAsync(CancellationToken cancellationToken = default)
         {
             _lastSend = DateTime.Now;
-            var payload = GetPayload();
-            if (payload.S == null)
-                Logger.LogDebug("Heartbeating with a null sequence!");
-
-            return ApiClient.SendAsync(payload, cancellationToken);
+            return ApiClient.SendAsync(GetPayload(), cancellationToken);
         }
 
         public ValueTask AcknowledgeAsync()
