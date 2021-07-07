@@ -86,7 +86,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                 if (value == _view)
                     return;
 
-                if (_view != null)
+                if (_view != null && IsRunning)
                     HasChanges = true;
 
                 value.Menu = this;
@@ -106,9 +106,11 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <summary>
         ///     Instantiates a new <see cref="MenuBase"/>.
         /// </summary>
-        protected MenuBase()
+        /// <param name="view"> The view for this menu. Can be <see langword="null"/> and set later via <see cref="View"/>. </param>
+        protected MenuBase(ViewBase view)
         {
             _tcs = new Tcs();
+            View = view;
         }
 
         /// <summary>

@@ -92,11 +92,7 @@ namespace Disqord.Bot
             => View(new PagedView(pageProvider));
 
         protected virtual DiscordMenuCommandResult View(ViewBase view)
-        {
-            var menu = new InteractiveMenu(Context.Author.Id);
-            menu.View = view;
-            return new(Context, menu);
-        }
+            => new(Context, new InteractiveMenu(Context.Author.Id, view));
 
         protected virtual DiscordMenuCommandResult Menu(MenuBase menu)
             => new(Context, menu);

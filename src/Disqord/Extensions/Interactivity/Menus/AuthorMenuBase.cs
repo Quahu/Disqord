@@ -16,7 +16,9 @@ namespace Disqord.Extensions.Interactivity.Menus
         public Snowflake AuthorId { get; protected set; }
 
         /// <inheritdoc/>
-        protected AuthorMenuBase(Snowflake authorId)
+        /// <param name="authorId"> The ID of the user this menu is restricted to. </param>
+        protected AuthorMenuBase(Snowflake authorId, ViewBase view)
+            : base(view)
         {
             AuthorId = authorId;
         }

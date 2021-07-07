@@ -13,8 +13,9 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// </summary>
         public IUserMessage Message { get; protected set; }
 
-        public InteractiveMenu(Snowflake authorId)
-            : base(authorId)
+        /// <inheritdoc/>
+        public InteractiveMenu(Snowflake authorId, ViewBase view)
+            : base(authorId, view)
         { }
 
         /// <summary>

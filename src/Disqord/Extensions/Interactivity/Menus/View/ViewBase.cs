@@ -27,13 +27,8 @@ namespace Disqord.Extensions.Interactivity.Menus
         private LocalMessage _templateMessage;
 
         protected ViewBase(LocalMessage templateMessage)
-            : this()
         {
             _templateMessage = templateMessage;
-        }
-
-        protected ViewBase()
-        {
             _rows = new List<ViewComponent>[5];
             for (var i = 0; i < 5; i++)
                 _rows[i] = new List<ViewComponent>(5);

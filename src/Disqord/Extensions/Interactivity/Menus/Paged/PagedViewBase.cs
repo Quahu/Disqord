@@ -45,11 +45,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
         public Page CurrentPage { get; protected set; }
 
-        protected PagedViewBase(PageProvider pageProvider)
-            : this(pageProvider, null)
-        { }
-
-        protected PagedViewBase(PageProvider pageProvider, LocalMessage templateMessage)
+        protected PagedViewBase(PageProvider pageProvider, LocalMessage templateMessage = null)
             : base(templateMessage)
         {
             _pageProvider = pageProvider;

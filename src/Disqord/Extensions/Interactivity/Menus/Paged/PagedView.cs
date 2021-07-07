@@ -31,8 +31,8 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// </summary>
         public ButtonViewComponent StopButton { get; }
 
-        public PagedView(PageProvider pageProvider)
-            : base(pageProvider)
+        public PagedView(PageProvider pageProvider, LocalMessage templateMessage = null)
+            : base(pageProvider, templateMessage)
         {
             FirstPageButton = new ButtonViewComponent(OnFirstPageButtonAsync)
             {
