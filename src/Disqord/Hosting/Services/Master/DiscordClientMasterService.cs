@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +32,14 @@ namespace Disqord.Hosting
             var serviceType = service.GetType();
             var method = serviceType.GetMethod(name, BindingFlags.Instance | BindingFlags.NonPublic, null, types, null);
             return method != null && method.DeclaringType != null && method.DeclaringType != method.GetBaseDefinition().DeclaringType;
+        }
+
+        private static DiscordClientService[] GetServices<TEventArgs>(DiscordClientService[] services, string name)
+            where TEventArgs : EventArgs
+        {
+            services = services.Where(x => IsOverridden(x, name, typeof(TEventArgs))).ToArray();
+            Array.Sort(services, (a, b) => b.Priority.CompareTo(a.Priority));
+            return services;
         }
 
         private async ValueTask ExecuteAsync<TEventArgs>(Func<DiscordClientService, TEventArgs, ValueTask> factory,

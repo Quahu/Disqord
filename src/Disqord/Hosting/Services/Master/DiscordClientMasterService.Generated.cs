@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Collections;
 using Disqord.Gateway;
 using Microsoft.Extensions.Logging;
 
@@ -62,45 +62,46 @@ namespace Disqord.Hosting
                 service.Client ??= client;
             }
 
-            ReadyServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnReady), typeof(ReadyEventArgs))).ToArray();
-            ChannelCreatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnChannelCreated), typeof(ChannelCreatedEventArgs))).ToArray();
-            ChannelUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnChannelUpdated), typeof(ChannelUpdatedEventArgs))).ToArray();
-            ChannelDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnChannelDeleted), typeof(ChannelDeletedEventArgs))).ToArray();
-            ChannelPinsUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnChannelPinsUpdated), typeof(ChannelPinsUpdatedEventArgs))).ToArray();
-            GuildAvailableServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnGuildAvailable), typeof(GuildAvailableEventArgs))).ToArray();
-            JoinedGuildServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnJoinedGuild), typeof(JoinedGuildEventArgs))).ToArray();
-            GuildUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnGuildUpdated), typeof(GuildUpdatedEventArgs))).ToArray();
-            GuildUnavailableServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnGuildUnavailable), typeof(GuildUnavailableEventArgs))).ToArray();
-            LeftGuildServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnLeftGuild), typeof(LeftGuildEventArgs))).ToArray();
-            BanCreatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnBanCreated), typeof(BanCreatedEventArgs))).ToArray();
-            BanDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnBanDeleted), typeof(BanDeletedEventArgs))).ToArray();
-            EmojisUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnEmojisUpdated), typeof(EmojisUpdatedEventArgs))).ToArray();
-            IntegrationsUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnIntegrationsUpdated), typeof(IntegrationsUpdatedEventArgs))).ToArray();
-            MemberJoinedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMemberJoined), typeof(MemberJoinedEventArgs))).ToArray();
-            MemberUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMemberUpdated), typeof(MemberUpdatedEventArgs))).ToArray();
-            MemberLeftServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMemberLeft), typeof(MemberLeftEventArgs))).ToArray();
-            RoleCreatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnRoleCreated), typeof(RoleCreatedEventArgs))).ToArray();
-            RoleUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnRoleUpdated), typeof(RoleUpdatedEventArgs))).ToArray();
-            RoleDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnRoleDeleted), typeof(RoleDeletedEventArgs))).ToArray();
-            IntegrationCreatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnIntegrationCreated), typeof(IntegrationCreatedEventArgs))).ToArray();
-            IntegrationUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnIntegrationUpdated), typeof(IntegrationUpdatedEventArgs))).ToArray();
-            IntegrationDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnIntegrationDeleted), typeof(IntegrationDeletedEventArgs))).ToArray();
-            InteractionReceivedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnInteractionReceived), typeof(InteractionReceivedEventArgs))).ToArray();
-            InviteCreatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnInviteCreated), typeof(InviteCreatedEventArgs))).ToArray();
-            InviteDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnInviteDeleted), typeof(InviteDeletedEventArgs))).ToArray();
-            MessageReceivedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMessageReceived), typeof(MessageReceivedEventArgs))).ToArray();
-            MessageUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMessageUpdated), typeof(MessageUpdatedEventArgs))).ToArray();
-            MessageDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMessageDeleted), typeof(MessageDeletedEventArgs))).ToArray();
-            MessagesDeletedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnMessagesDeleted), typeof(MessagesDeletedEventArgs))).ToArray();
-            ReactionAddedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnReactionAdded), typeof(ReactionAddedEventArgs))).ToArray();
-            ReactionRemovedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnReactionRemoved), typeof(ReactionRemovedEventArgs))).ToArray();
-            ReactionsClearedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnReactionsCleared), typeof(ReactionsClearedEventArgs))).ToArray();
-            PresenceUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnPresenceUpdated), typeof(PresenceUpdatedEventArgs))).ToArray();
-            TypingStartedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnTypingStarted), typeof(TypingStartedEventArgs))).ToArray();
-            CurrentUserUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnCurrentUserUpdated), typeof(CurrentUserUpdatedEventArgs))).ToArray();
-            VoiceStateUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnVoiceStateUpdated), typeof(VoiceStateUpdatedEventArgs))).ToArray();
-            VoiceServerUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnVoiceServerUpdated), typeof(VoiceServerUpdatedEventArgs))).ToArray();
-            WebhooksUpdatedServices = services.Where(x => IsOverridden(x, nameof(DiscordClientService.OnWebhooksUpdated), typeof(WebhooksUpdatedEventArgs))).ToArray();
+            var servicesArray = services.GetArray();
+            ReadyServices = GetServices<ReadyEventArgs>(servicesArray, nameof(DiscordClientService.OnReady));
+            ChannelCreatedServices = GetServices<ChannelCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelCreated));
+            ChannelUpdatedServices = GetServices<ChannelUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelUpdated));
+            ChannelDeletedServices = GetServices<ChannelDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelDeleted));
+            ChannelPinsUpdatedServices = GetServices<ChannelPinsUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelPinsUpdated));
+            GuildAvailableServices = GetServices<GuildAvailableEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildAvailable));
+            JoinedGuildServices = GetServices<JoinedGuildEventArgs>(servicesArray, nameof(DiscordClientService.OnJoinedGuild));
+            GuildUpdatedServices = GetServices<GuildUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildUpdated));
+            GuildUnavailableServices = GetServices<GuildUnavailableEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildUnavailable));
+            LeftGuildServices = GetServices<LeftGuildEventArgs>(servicesArray, nameof(DiscordClientService.OnLeftGuild));
+            BanCreatedServices = GetServices<BanCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnBanCreated));
+            BanDeletedServices = GetServices<BanDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnBanDeleted));
+            EmojisUpdatedServices = GetServices<EmojisUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnEmojisUpdated));
+            IntegrationsUpdatedServices = GetServices<IntegrationsUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnIntegrationsUpdated));
+            MemberJoinedServices = GetServices<MemberJoinedEventArgs>(servicesArray, nameof(DiscordClientService.OnMemberJoined));
+            MemberUpdatedServices = GetServices<MemberUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnMemberUpdated));
+            MemberLeftServices = GetServices<MemberLeftEventArgs>(servicesArray, nameof(DiscordClientService.OnMemberLeft));
+            RoleCreatedServices = GetServices<RoleCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnRoleCreated));
+            RoleUpdatedServices = GetServices<RoleUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnRoleUpdated));
+            RoleDeletedServices = GetServices<RoleDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnRoleDeleted));
+            IntegrationCreatedServices = GetServices<IntegrationCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnIntegrationCreated));
+            IntegrationUpdatedServices = GetServices<IntegrationUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnIntegrationUpdated));
+            IntegrationDeletedServices = GetServices<IntegrationDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnIntegrationDeleted));
+            InteractionReceivedServices = GetServices<InteractionReceivedEventArgs>(servicesArray, nameof(DiscordClientService.OnInteractionReceived));
+            InviteCreatedServices = GetServices<InviteCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnInviteCreated));
+            InviteDeletedServices = GetServices<InviteDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnInviteDeleted));
+            MessageReceivedServices = GetServices<MessageReceivedEventArgs>(servicesArray, nameof(DiscordClientService.OnMessageReceived));
+            MessageUpdatedServices = GetServices<MessageUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnMessageUpdated));
+            MessageDeletedServices = GetServices<MessageDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnMessageDeleted));
+            MessagesDeletedServices = GetServices<MessagesDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnMessagesDeleted));
+            ReactionAddedServices = GetServices<ReactionAddedEventArgs>(servicesArray, nameof(DiscordClientService.OnReactionAdded));
+            ReactionRemovedServices = GetServices<ReactionRemovedEventArgs>(servicesArray, nameof(DiscordClientService.OnReactionRemoved));
+            ReactionsClearedServices = GetServices<ReactionsClearedEventArgs>(servicesArray, nameof(DiscordClientService.OnReactionsCleared));
+            PresenceUpdatedServices = GetServices<PresenceUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnPresenceUpdated));
+            TypingStartedServices = GetServices<TypingStartedEventArgs>(servicesArray, nameof(DiscordClientService.OnTypingStarted));
+            CurrentUserUpdatedServices = GetServices<CurrentUserUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnCurrentUserUpdated));
+            VoiceStateUpdatedServices = GetServices<VoiceStateUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnVoiceStateUpdated));
+            VoiceServerUpdatedServices = GetServices<VoiceServerUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnVoiceServerUpdated));
+            WebhooksUpdatedServices = GetServices<WebhooksUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnWebhooksUpdated));
 
             Client.Ready += HandleReady;
             Client.ChannelCreated += HandleChannelCreated;
@@ -149,308 +150,232 @@ namespace Disqord.Hosting
                 await ExecuteAsync((service, e) => service.OnReady(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleChannelCreated(object sender, ChannelCreatedEventArgs e)
+        public async ValueTask HandleChannelCreated(object sender, ChannelCreatedEventArgs e)
         {
             foreach (var service in ChannelCreatedServices)
-                _ = ExecuteAsync((service, e) => service.OnChannelCreated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnChannelCreated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleChannelUpdated(object sender, ChannelUpdatedEventArgs e)
+        public async ValueTask HandleChannelUpdated(object sender, ChannelUpdatedEventArgs e)
         {
             foreach (var service in ChannelUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnChannelUpdated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnChannelUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleChannelDeleted(object sender, ChannelDeletedEventArgs e)
+        public async ValueTask HandleChannelDeleted(object sender, ChannelDeletedEventArgs e)
         {
             foreach (var service in ChannelDeletedServices)
-                _ = ExecuteAsync((service, e) => service.OnChannelDeleted(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnChannelDeleted(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleChannelPinsUpdated(object sender, ChannelPinsUpdatedEventArgs e)
+        public async ValueTask HandleChannelPinsUpdated(object sender, ChannelPinsUpdatedEventArgs e)
         {
             foreach (var service in ChannelPinsUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnChannelPinsUpdated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnChannelPinsUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleGuildAvailable(object sender, GuildAvailableEventArgs e)
+        public async ValueTask HandleGuildAvailable(object sender, GuildAvailableEventArgs e)
         {
             foreach (var service in GuildAvailableServices)
-                _ = ExecuteAsync((service, e) => service.OnGuildAvailable(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnGuildAvailable(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleJoinedGuild(object sender, JoinedGuildEventArgs e)
+        public async ValueTask HandleJoinedGuild(object sender, JoinedGuildEventArgs e)
         {
             foreach (var service in JoinedGuildServices)
-                _ = ExecuteAsync((service, e) => service.OnJoinedGuild(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnJoinedGuild(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleGuildUpdated(object sender, GuildUpdatedEventArgs e)
+        public async ValueTask HandleGuildUpdated(object sender, GuildUpdatedEventArgs e)
         {
             foreach (var service in GuildUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnGuildUpdated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnGuildUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleGuildUnavailable(object sender, GuildUnavailableEventArgs e)
+        public async ValueTask HandleGuildUnavailable(object sender, GuildUnavailableEventArgs e)
         {
             foreach (var service in GuildUnavailableServices)
-                _ = ExecuteAsync((service, e) => service.OnGuildUnavailable(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnGuildUnavailable(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleLeftGuild(object sender, LeftGuildEventArgs e)
+        public async ValueTask HandleLeftGuild(object sender, LeftGuildEventArgs e)
         {
             foreach (var service in LeftGuildServices)
-                _ = ExecuteAsync((service, e) => service.OnLeftGuild(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnLeftGuild(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleBanCreated(object sender, BanCreatedEventArgs e)
+        public async ValueTask HandleBanCreated(object sender, BanCreatedEventArgs e)
         {
             foreach (var service in BanCreatedServices)
-                _ = ExecuteAsync((service, e) => service.OnBanCreated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnBanCreated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleBanDeleted(object sender, BanDeletedEventArgs e)
+        public async ValueTask HandleBanDeleted(object sender, BanDeletedEventArgs e)
         {
             foreach (var service in BanDeletedServices)
-                _ = ExecuteAsync((service, e) => service.OnBanDeleted(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnBanDeleted(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleEmojisUpdated(object sender, EmojisUpdatedEventArgs e)
+        public async ValueTask HandleEmojisUpdated(object sender, EmojisUpdatedEventArgs e)
         {
             foreach (var service in EmojisUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnEmojisUpdated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnEmojisUpdated(e), service, e).ConfigureAwait(false);
         }
         
-        public ValueTask HandleIntegrationsUpdated(object sender, IntegrationsUpdatedEventArgs e)
+        public async ValueTask HandleIntegrationsUpdated(object sender, IntegrationsUpdatedEventArgs e)
         {
             foreach (var service in IntegrationsUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnIntegrationsUpdated(e), service, e);
-
-            return default;
+                await ExecuteAsync((service, e) => service.OnIntegrationsUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleMemberJoined(object sender, MemberJoinedEventArgs e)
+        public async ValueTask HandleMemberJoined(object sender, MemberJoinedEventArgs e)
         {
             foreach (var service in MemberJoinedServices)
-                _ = ExecuteAsync((service, e) => service.OnMemberJoined(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnMemberJoined(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleMemberUpdated(object sender, MemberUpdatedEventArgs e)
+        public async ValueTask HandleMemberUpdated(object sender, MemberUpdatedEventArgs e)
         {
             foreach (var service in MemberUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnMemberUpdated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnMemberUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleMemberLeft(object sender, MemberLeftEventArgs e)
+        public async ValueTask HandleMemberLeft(object sender, MemberLeftEventArgs e)
         {
             foreach (var service in MemberLeftServices)
-                _ = ExecuteAsync((service, e) => service.OnMemberLeft(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnMemberLeft(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleRoleCreated(object sender, RoleCreatedEventArgs e)
+        public async ValueTask HandleRoleCreated(object sender, RoleCreatedEventArgs e)
         {
             foreach (var service in RoleCreatedServices)
-                _ = ExecuteAsync((service, e) => service.OnRoleCreated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnRoleCreated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleRoleUpdated(object sender, RoleUpdatedEventArgs e)
+        public async ValueTask HandleRoleUpdated(object sender, RoleUpdatedEventArgs e)
         {
             foreach (var service in RoleUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnRoleUpdated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnRoleUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleRoleDeleted(object sender, RoleDeletedEventArgs e)
+        public async ValueTask HandleRoleDeleted(object sender, RoleDeletedEventArgs e)
         {
             foreach (var service in RoleDeletedServices)
-                _ = ExecuteAsync((service, e) => service.OnRoleDeleted(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnRoleDeleted(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleIntegrationCreated(object sender, IntegrationCreatedEventArgs e)
+        public async ValueTask HandleIntegrationCreated(object sender, IntegrationCreatedEventArgs e)
         {
             foreach (var service in IntegrationCreatedServices)
-                _ = ExecuteAsync((service, e) => service.OnIntegrationCreated(e), service, e);
-
-            return default;
+                await ExecuteAsync((service, e) => service.OnIntegrationCreated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleIntegrationUpdated(object sender, IntegrationUpdatedEventArgs e)
+        public async ValueTask HandleIntegrationUpdated(object sender, IntegrationUpdatedEventArgs e)
         {
             foreach (var service in IntegrationUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnIntegrationUpdated(e), service, e);
-
-            return default;
+                await ExecuteAsync((service, e) => service.OnIntegrationUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleIntegrationDeleted(object sender, IntegrationDeletedEventArgs e)
+        public async ValueTask HandleIntegrationDeleted(object sender, IntegrationDeletedEventArgs e)
         {
             foreach (var service in IntegrationDeletedServices)
-                _ = ExecuteAsync((service, e) => service.OnIntegrationDeleted(e), service, e);
-
-            return default;
+                await ExecuteAsync((service, e) => service.OnIntegrationDeleted(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleInteractionReceived(object sender, InteractionReceivedEventArgs e)
+        public async ValueTask HandleInteractionReceived(object sender, InteractionReceivedEventArgs e)
         {
             foreach (var service in InteractionReceivedServices)
-                _ = ExecuteAsync((service, e) => service.OnInteractionReceived(e), service, e);
-
-            return default;
+                await ExecuteAsync((service, e) => service.OnInteractionReceived(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleInviteCreated(object sender, InviteCreatedEventArgs e)
+        public async ValueTask HandleInviteCreated(object sender, InviteCreatedEventArgs e)
         {
             foreach (var service in InviteCreatedServices)
-                _ = ExecuteAsync((service, e) => service.OnInviteCreated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnInviteCreated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleInviteDeleted(object sender, InviteDeletedEventArgs e)
+        public async ValueTask HandleInviteDeleted(object sender, InviteDeletedEventArgs e)
         {
             foreach (var service in InviteDeletedServices)
-                _ = ExecuteAsync((service, e) => service.OnInviteDeleted(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnInviteDeleted(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleMessageReceived(object sender, MessageReceivedEventArgs e)
+        public async ValueTask HandleMessageReceived(object sender, MessageReceivedEventArgs e)
         {
             foreach (var service in MessageReceivedServices)
-                _ = ExecuteAsync((service, e) => service.OnMessageReceived(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnMessageReceived(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleMessageUpdated(object sender, MessageUpdatedEventArgs e)
+        public async ValueTask HandleMessageUpdated(object sender, MessageUpdatedEventArgs e)
         {
             foreach (var service in MessageUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnMessageUpdated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnMessageUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleMessageDeleted(object sender, MessageDeletedEventArgs e)
+        public async ValueTask HandleMessageDeleted(object sender, MessageDeletedEventArgs e)
         {
             foreach (var service in MessageDeletedServices)
-                _ = ExecuteAsync((service, e) => service.OnMessageDeleted(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnMessageDeleted(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleMessagesDeleted(object sender, MessagesDeletedEventArgs e)
+        public async ValueTask HandleMessagesDeleted(object sender, MessagesDeletedEventArgs e)
         {
             foreach (var service in MessagesDeletedServices)
-                _ = ExecuteAsync((service, e) => service.OnMessagesDeleted(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnMessagesDeleted(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleReactionAdded(object sender, ReactionAddedEventArgs e)
+        public async ValueTask HandleReactionAdded(object sender, ReactionAddedEventArgs e)
         {
             foreach (var service in ReactionAddedServices)
-                _ = ExecuteAsync((service, e) => service.OnReactionAdded(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnReactionAdded(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleReactionRemoved(object sender, ReactionRemovedEventArgs e)
+        public async ValueTask HandleReactionRemoved(object sender, ReactionRemovedEventArgs e)
         {
             foreach (var service in ReactionRemovedServices)
-                _ = ExecuteAsync((service, e) => service.OnReactionRemoved(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnReactionRemoved(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleReactionsCleared(object sender, ReactionsClearedEventArgs e)
+        public async ValueTask HandleReactionsCleared(object sender, ReactionsClearedEventArgs e)
         {
             foreach (var service in ReactionsClearedServices)
-                _ = ExecuteAsync((service, e) => service.OnReactionsCleared(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnReactionsCleared(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandlePresenceUpdated(object sender, PresenceUpdatedEventArgs e)
+        public async ValueTask HandlePresenceUpdated(object sender, PresenceUpdatedEventArgs e)
         {
             foreach (var service in PresenceUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnPresenceUpdated(e), service, e);
-
-            return default;
+                await ExecuteAsync((service, e) => service.OnPresenceUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleTypingStarted(object sender, TypingStartedEventArgs e)
+        public async ValueTask HandleTypingStarted(object sender, TypingStartedEventArgs e)
         {
             foreach (var service in TypingStartedServices)
-                _ = ExecuteAsync((service, e) => service.OnTypingStarted(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnTypingStarted(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleCurrentUserUpdated(object sender, CurrentUserUpdatedEventArgs e)
+        public async ValueTask HandleCurrentUserUpdated(object sender, CurrentUserUpdatedEventArgs e)
         {
             foreach (var service in CurrentUserUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnCurrentUserUpdated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnCurrentUserUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleVoiceStateUpdated(object sender, VoiceStateUpdatedEventArgs e)
+        public async ValueTask HandleVoiceStateUpdated(object sender, VoiceStateUpdatedEventArgs e)
         {
             foreach (var service in VoiceStateUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnVoiceStateUpdated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnVoiceStateUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleVoiceServerUpdated(object sender, VoiceServerUpdatedEventArgs e)
+        public async ValueTask HandleVoiceServerUpdated(object sender, VoiceServerUpdatedEventArgs e)
         {
             foreach (var service in VoiceServerUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnVoiceServerUpdated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnVoiceServerUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public ValueTask HandleWebhooksUpdated(object sender, WebhooksUpdatedEventArgs e)
+        public async ValueTask HandleWebhooksUpdated(object sender, WebhooksUpdatedEventArgs e)
         {
             foreach (var service in WebhooksUpdatedServices)
-                _ = ExecuteAsync((service, e) => service.OnWebhooksUpdated(e), service, e);
-
-			return default;
+                await ExecuteAsync((service, e) => service.OnWebhooksUpdated(e), service, e).ConfigureAwait(false);
         }
     }
 }

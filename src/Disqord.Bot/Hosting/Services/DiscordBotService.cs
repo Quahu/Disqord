@@ -20,14 +20,6 @@ namespace Disqord.Bot.Hosting
         public DiscordBotBase Bot => Client;
 
         /// <summary>
-        ///     Gets the priority of this bot service. Defaults to <c>0</c>.
-        /// </summary>
-        /// <remarks>
-        ///     Higher value means higher priority.
-        /// </remarks>
-        public virtual int Priority => 0;
-
-        /// <summary>
         ///     Instantiates a new <see cref="DiscordBotService"/>.
         /// </summary>
         protected DiscordBotService()

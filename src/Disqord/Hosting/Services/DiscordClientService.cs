@@ -35,6 +35,16 @@ namespace Disqord.Hosting
         public DiscordClientBase Client { get; protected internal set; }
 
         /// <summary>
+        ///     Gets the priority of this service.
+        ///     This dictates in which order should this service's event callbacks trigger.
+        ///     Defaults to <c>0</c>.
+        /// </summary>
+        /// <remarks>
+        ///     Higher value means higher priority.
+        /// </remarks>
+        public virtual int Priority => 0;
+
+        /// <summary>
         ///     Gets the <see cref="Task"/> that represents the long-running work from <see cref="ExecuteAsync(CancellationToken)"/>.
         /// </summary>
         /// <remarks>
