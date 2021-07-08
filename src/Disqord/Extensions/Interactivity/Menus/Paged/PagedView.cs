@@ -193,7 +193,8 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             if (Menu is InteractiveMenu interactiveMenu)
                 _ = interactiveMenu.Message.DeleteAsync();
 
-            return Menu.StopAsync();
+            Menu.Stop();
+            return default;
         }
     }
 }

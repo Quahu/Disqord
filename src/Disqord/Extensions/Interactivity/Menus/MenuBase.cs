@@ -216,19 +216,15 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <summary>
         ///     Stops this menu. Transitions the <see cref="Task"/> to a completed state.
         /// </summary>
-        /// <returns>
-        ///     A <see cref="ValueTask"/> representing the stopping work.
-        /// </returns>
-        public ValueTask StopAsync()
+        public void Stop()
         {
             ThrowIfDisposed();
 
             if (!IsRunning)
-                return default;
+                return;
 
             IsRunning = false;
             _tcs.Complete();
-            return default;
         }
 
         /// <summary>

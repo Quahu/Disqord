@@ -42,14 +42,14 @@ namespace Disqord.Extensions.Interactivity.Menus
         {
             await base.HandleInteractionAsync(e).ConfigureAwait(false);
 
+            if (!IsRunning)
+                return;
+
             await ApplyChangesAsync(e).ConfigureAwait(false);
         }
 
         public virtual async ValueTask ApplyChangesAsync(InteractionReceivedEventArgs e = null)
         {
-            if (!IsRunning)
-                return;
-
             // If we have changes, we update the message accordingly.
             var response = e?.Interaction.Response();
             if (HasChanges || View.HasChanges)
@@ -80,7 +80,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                             x.Embeds = new Optional<IEnumerable<LocalEmbed>>(localMessage.Embeds);
                             x.Components = new Optional<IEnumerable<LocalRowComponent>>(localMessage.Components);
                             x.AllowedMentions = localMessage.AllowedMentions;
-                        });
+                        }).ConfigureAwait(false);
                     }
                     else
                     {
