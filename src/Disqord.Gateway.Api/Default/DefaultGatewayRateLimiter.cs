@@ -24,13 +24,18 @@ namespace Disqord.Gateway.Api.Default
         /// <inheritdoc/>
         public IGatewayApiClient ApiClient => _binder.Value;
 
+        private readonly ILoggerFactory _loggerFactory;
+
         private readonly Binder<IGatewayApiClient> _binder;
+
         private readonly Bucket _masterBucket;
         private readonly Dictionary<GatewayPayloadOperation, Bucket> _buckets;
 
         public DefaultGatewayRateLimiter(
-            IOptions<DefaultGatewayRateLimiterConfiguration> options)
+            IOptions<DefaultGatewayRateLimiterConfiguration> options,
+            ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
 
             _binder = new Binder<IGatewayApiClient>(this, x =>
             {
@@ -38,7 +43,7 @@ namespace Disqord.Gateway.Api.Default
                     throw new ArgumentException("The default gateway rate-limiter supports only bot tokens.");
             });
 
-            _masterBucket = new Bucket(120 - HEARTBEATS, TimeSpan.FromSeconds(60));
+            _masterBucket = new Bucket(_loggerFactory.CreateLogger("Master Bucket"), 120 - HEARTBEATS, TimeSpan.FromSeconds(60));
             _buckets = new Dictionary<GatewayPayloadOperation, Bucket>(2);
         }
 
@@ -46,8 +51,8 @@ namespace Disqord.Gateway.Api.Default
         {
             _binder.Bind(apiClient);
             // TODO: identify concurrency
-            _buckets[GatewayPayloadOperation.Identify] = GetSharedBucket(ApiClient.Token as BotToken, GatewayPayloadOperation.Identify, 1, TimeSpan.FromSeconds(5.5));
-            _buckets[GatewayPayloadOperation.UpdatePresence] = new Bucket(5, TimeSpan.FromSeconds(60));
+            _buckets[GatewayPayloadOperation.Identify] = GetSharedBucket(_loggerFactory.CreateLogger("Identify Bucket"), ApiClient.Token as BotToken, GatewayPayloadOperation.Identify, 1, TimeSpan.FromSeconds(5.5));
+            _buckets[GatewayPayloadOperation.UpdatePresence] = new Bucket(_loggerFactory.CreateLogger("Presence Bucket"), 5, TimeSpan.FromSeconds(60));
         }
 
         /// <inheritdoc/>
@@ -122,14 +127,14 @@ namespace Disqord.Gateway.Api.Default
             _masterBucket.Release();
         }
 
-        private static Bucket GetSharedBucket(BotToken token, GatewayPayloadOperation operation, int uses, TimeSpan resetDelay)
+        private static Bucket GetSharedBucket(ILogger logger, BotToken token, GatewayPayloadOperation operation, int uses, TimeSpan resetDelay)
         {
             var dictionary = _sharedBuckets.GetOrAdd(token.Id, _ => new SynchronizedDictionary<GatewayPayloadOperation, Bucket>(1));
             var bucket = dictionary.GetOrAdd(operation, (_, tuple) =>
             {
-                var (uses, resetDelay) = tuple;
-                return new Bucket(uses, resetDelay);
-            }, (uses, resetDelay));
+                var (logger, uses, resetDelay) = tuple;
+                return new Bucket(logger, uses, resetDelay);
+            }, (logger, uses, resetDelay));
             return bucket;
         }
 
@@ -151,12 +156,14 @@ namespace Disqord.Gateway.Api.Default
                 }
             }
 
+            private readonly ILogger _logger;
             private readonly BetterSemaphoreSlim _semaphore;
             private readonly TimeSpan _resetDelay;
             private bool _isResetting;
 
-            public Bucket(int uses, TimeSpan resetDelay)
+            public Bucket(ILogger logger, int uses, TimeSpan resetDelay)
             {
+                _logger = logger;
                 _semaphore = new BetterSemaphoreSlim(uses, uses);
                 _resetDelay = resetDelay;
             }
@@ -171,10 +178,13 @@ namespace Disqord.Gateway.Api.Default
 
             public void NotifyCompletion()
             {
-                if (!_isResetting)
+                lock (_semaphore)
                 {
-                    _isResetting = true;
-                    _ = ResetAsync();
+                    if (!_isResetting)
+                    {
+                        _isResetting = true;
+                        _ = ResetAsync();
+                    }
                 }
             }
 
@@ -195,8 +205,18 @@ namespace Disqord.Gateway.Api.Default
                 await Task.Delay(_resetDelay).ConfigureAwait(false);
                 lock (_semaphore)
                 {
-                    _semaphore.Release(_semaphore.MaximumCount - _semaphore.CurrentCount);
-                    _isResetting = false;
+                    var releaseCount = _semaphore.MaximumCount - _semaphore.CurrentCount;
+                    _logger.Log(releaseCount == 0
+                        ? LogLevel.Error
+                        : LogLevel.Debug, "Releasing the semaphore by {0}.", releaseCount);
+                    try
+                    {
+                        _semaphore.Release(releaseCount);
+                    }
+                    finally
+                    {
+                        _isResetting = false;
+                    }
                 }
             }
         }
