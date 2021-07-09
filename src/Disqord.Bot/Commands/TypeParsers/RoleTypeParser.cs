@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Gateway;
-using Disqord.Utilities;
 using Qmmands;
 
 namespace Disqord.Bot.Parsers
@@ -33,19 +32,19 @@ namespace Disqord.Bot.Parsers
         /// <inheritdoc/>
         public override ValueTask<TypeParserResult<IRole>> ParseAsync(Parameter parameter, string value, DiscordGuildCommandContext context)
         {
-            if (!context.Bot.CacheProvider.TryGetRoles(context.GuildId, out var roles))
+            if (!context.Bot.CacheProvider.TryGetRoles(context.GuildId, out var roleCache))
                 throw new InvalidOperationException($"The {GetType().Name} requires the role cache.");
 
             IRole role;
             if (Snowflake.TryParse(value, out var id) || Mention.TryParseRole(value, out id))
             {
                 // The value is a mention or id.
-                role = roles.GetValueOrDefault(id);
+                role = roleCache.GetValueOrDefault(id);
             }
             else
             {
                 // The value is possibly a name.
-                role = roles.Values.FirstOrDefault(x => x.Name == value);
+                role = roleCache.Values.FirstOrDefault(x => x.Name == value);
             }
 
             if (role != null)

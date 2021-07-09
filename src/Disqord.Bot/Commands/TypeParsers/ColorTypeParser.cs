@@ -50,8 +50,16 @@ namespace Disqord.Bot.Parsers
     /// </remarks>
     public class ColorTypeParser : DiscordTypeParser<Color>
     {
+        /// <summary>
+        ///     Gets the dictionary of names mapped to their respective colors.
+        ///     E.g. <c>Red</c> -> <see cref="Color.Red"/>.
+        /// </summary>
         public IReadOnlyDictionary<string, Color> Colors => _colors;
 
+        /// <summary>
+        ///     Gets the dictionary of spaced names to their respective non-spaced names.
+        ///     E.g. <c>Dark Red</c> -> <c>DarkRed</c>.
+        /// </summary>
         public IReadOnlyDictionary<string, string> SpacedNames => _spacedNames;
 
         private readonly bool _allowProperties;

@@ -143,7 +143,7 @@ namespace Disqord.Bot
         ///     Handy for grouping up background logic.
         /// </summary>
         /// <example>
-        ///     Yielding the command execution flow and then re-entering automatically.
+        ///     Yielding the command execution flow and then re-entering the <see cref="ICommandQueue"/> automatically.
         ///     See <see cref="Yield"/> and <see cref="ContinueAsync"/>.
         ///     <code>
         ///     await using (Context.BeginYield())
