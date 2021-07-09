@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway;
 using Disqord.Rest;
+using Microsoft.Extensions.Logging;
 
 namespace Disqord.Extensions.Interactivity.Menus
 {
@@ -45,18 +47,29 @@ namespace Disqord.Extensions.Interactivity.Menus
             if (!IsRunning)
                 return;
 
-            await ApplyChangesAsync(e).ConfigureAwait(false);
+            try
+            {
+                await ApplyChangesAsync(e).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Interactivity.Logger.LogError(ex, "An exception occurred while applying menu changes for view {0}.", View.GetType());
+            }
         }
 
         public virtual async ValueTask ApplyChangesAsync(InteractionReceivedEventArgs e = null)
         {
+            var view = View;
+            if (view == null)
+                return;
+
             // If we have changes, we update the message accordingly.
             var response = e?.Interaction.Response();
-            if (HasChanges || View.HasChanges)
+            if (HasChanges || view.HasChanges)
             {
-                await View.UpdateAsync().ConfigureAwait(false);
+                await view.UpdateAsync().ConfigureAwait(false);
 
-                var localMessage = View.ToLocalMessage();
+                var localMessage = view.ToLocalMessage();
                 try
                 {
                     if (response != null && !response.HasResponded)
@@ -97,7 +110,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                 finally
                 {
                     HasChanges = false;
-                    View.HasChanges = false;
+                    view.HasChanges = false;
                 }
             }
             else if (response != null && !response.HasResponded)
