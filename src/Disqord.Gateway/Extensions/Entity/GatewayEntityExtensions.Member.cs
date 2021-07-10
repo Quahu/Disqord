@@ -89,11 +89,23 @@ namespace Disqord.Gateway
             return roles.ReadOnly();
         }
 
+        /// <inheritdoc cref="GetHierarchy(Disqord.IMember,Disqord.IGuild)"/>
         public static int GetHierarchy(this IMember member)
-            => GetHierarchy(member, member.GetGuild());
-        
+            => member.GetHierarchy(member.GetGuild());
+
+        /// <summary>
+        ///     Gets the role hierarchy of this member, i.e. the position of this member's
+        ///     highest role in the guild.
+        ///     Returns <see cref="int.MaxValue"/> if this member is the guild's owner.
+        /// </summary>
+        /// <param name="member"> The member to get the hierarchy for. </param>
+        /// <param name="guild"> The guild of the member. </param>
+        /// <returns></returns>
         public static int GetHierarchy(this IMember member, IGuild guild)
         {
+            if (member.GuildId != guild.Id)
+                throw new ArgumentException("The member object must be from the specified guild.", nameof(member));
+
             if (guild.OwnerId == member.Id)
                 return int.MaxValue;
 
@@ -103,48 +115,48 @@ namespace Disqord.Gateway
                 : 0;
         }
 
-        /// <inheritdoc cref="GetPermissions(Disqord.IMember,Disqord.IGuild,System.Collections.Generic.IEnumerable{Disqord.IRole})"/>
+        /// <inheritdoc cref="GetPermissions(Disqord.IMember,Disqord.IGuild)"/>
         public static GuildPermissions GetPermissions(this IMember member)
-            => GetPermissions(member, member.GetGuild());
-
-        /// <inheritdoc cref="GetPermissions(Disqord.IMember,Disqord.IGuild,System.Collections.Generic.IEnumerable{Disqord.IRole})"/>
-        public static GuildPermissions GetPermissions(this IMember member, IGuild guild)
-            => GetPermissions(member, guild, member.GetRoles().Values);
+            => member.GetPermissions(member.GetGuild());
 
         /// <summary>
-        ///     Gets the guild permissions for the specified member.
+        ///     Gets the guild permissions of this member.
         ///     This is calculated based on the roles of the member.
         /// </summary>
         /// <param name="member"> The member to get the permissions for. </param>
         /// <param name="guild"> The guild of the member. </param>
-        /// <param name="roles"> The roles of the member. </param>
         /// <returns>
         ///     The guild permissions for this member.
         /// </returns>
-        public static GuildPermissions GetPermissions(this IMember member, IGuild guild, IEnumerable<IRole> roles)
-            => Discord.Permissions.CalculatePermissions(guild, member, roles);
+        public static GuildPermissions GetPermissions(this IMember member, IGuild guild)
+        {
+            if (member.GuildId != guild.Id)
+                throw new ArgumentException("The member object must be from the specified guild.", nameof(member));
 
-        /// <inheritdoc cref="GetPermissions(Disqord.IMember,Disqord.IGuild,Disqord.IGuildChannel,System.Collections.Generic.IEnumerable{Disqord.IRole})"/>
+            return Discord.Permissions.CalculatePermissions(guild, member, member.GetRoles().Values);
+        }
+
+        /// <inheritdoc cref="GetPermissions(Disqord.IMember,Disqord.IGuild,Disqord.IGuildChannel)"/>
         public static ChannelPermissions GetPermissions(this IMember member, IGuildChannel channel)
-            => GetPermissions(member, member.GetGuild(), channel);
-
-        /// <inheritdoc cref="GetPermissions(Disqord.IMember,Disqord.IGuild,Disqord.IGuildChannel,System.Collections.Generic.IEnumerable{Disqord.IRole})"/>
-        public static ChannelPermissions GetPermissions(this IMember member, IGuild guild, IGuildChannel channel)
-            => GetPermissions(member, guild, channel, member.GetRoles().Values);
+            => member.GetPermissions(member.GetGuild(), channel);
 
         /// <summary>
-        ///     Gets the channel permissions for the specified member in the given channel.
+        ///     Gets the channel permissions of this member in the given channel.
         ///     This is calculated based on the roles of the member and overwrites in the channel.
         /// </summary>
         /// <param name="member"> The member to get the permissions for. </param>
         /// <param name="guild"> The guild of the member. </param>
         /// <param name="channel"> The channel to get the permissions for. </param>
-        /// <param name="roles"> The roles of the member. </param>
         /// <returns>
         ///     The channel permissions for this member.
         /// </returns>
-        public static ChannelPermissions GetPermissions(this IMember member, IGuild guild, IGuildChannel channel, IEnumerable<IRole> roles)
-            => Discord.Permissions.CalculatePermissions(guild, channel, member, roles);
+        public static ChannelPermissions GetPermissions(this IMember member, IGuild guild, IGuildChannel channel)
+        {
+            if (member.GuildId != guild.Id)
+                throw new ArgumentException("The member object must be from the specified guild.", nameof(member));
+
+            return Discord.Permissions.CalculatePermissions(guild, channel, member, member.GetRoles().Values);
+        }
 
         /// <summary>
         ///     Gets the cached voice state for the specified member.
