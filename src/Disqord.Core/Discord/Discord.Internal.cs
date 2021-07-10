@@ -14,7 +14,7 @@ namespace Disqord
             {
                 SystemMessageType.RecipientAdded => $"{message.Author.Name} added {message.MentionedUsers[0].Name} to the group.",
                 SystemMessageType.RecipientRemoved => $"{message.Author.Name} removed {message.MentionedUsers[0].Name} from the group.",
-                SystemMessageType.Call => throw new NotImplementedException(), // TODO
+                SystemMessageType.Call => throw new NotSupportedException(),
                 SystemMessageType.ChannelNameChanged => $"{message.Author.Name} changed the channel name: {message.RawContent}",
                 SystemMessageType.ChannelIconChanged => $"{message.Author.Name} changed the channel icon.",
                 SystemMessageType.ChannelMessagePinned => $"{message.Author.Name} pinned a message to this channel.",
@@ -24,7 +24,7 @@ namespace Disqord
                 SystemMessageType.GuildBoostedSecondTier => $"{message.Author.Name} just boosted the server! {guild?.Name ?? "The server"} has achieved **Level 2!**",
                 SystemMessageType.GuildBoostedThirdTier => $"{message.Author.Name} just boosted the server! {guild?.Name ?? "The server"} has achieved **Level 3!**",
                 SystemMessageType.ChannelFollowed => $"{message.Author.Name} has added {message.RawContent} to this channel.",
-                SystemMessageType.GuildStream => $"{message.Author.Name} is live!", // TODO: now streaming {1} or sth
+                SystemMessageType.GuildStream => $"{message.Author.Name} is live!",
                 SystemMessageType.GuildDiscoveryDisqualified => "This server has been removed from Server Discovery because it no longer passes all the requirements. Check Server Settings for more details.",
                 SystemMessageType.GuildDiscoveryRequalified => "This server is eligible for Server Discovery again and has been automatically relisted!",
                 SystemMessageType.GuildDiscoveryGracePeriodInitialWarning => "This server has failed Discovery activity requirements for 1 week. If this server fails for 4 weeks in a row, it will be automatically removed from Discovery.",

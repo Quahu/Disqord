@@ -15,8 +15,6 @@ namespace Disqord
 
         public bool IsStore => Model.Type == ChannelType.Store;
 
-        public bool IsThread => Model.Type == ChannelType.Thread;
-
         public Snowflake? LastMessageId => Model.LastMessageId.Value;
 
         public DateTimeOffset? LastPinTimestamp => Model.LastPinTimestamp.Value;

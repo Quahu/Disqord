@@ -20,7 +20,6 @@ namespace Disqord.Gateway.Default.Dispatcher
         public override async ValueTask<EventArgs> HandleDispatchAsync(IGatewayApiClient shard, UnavailableGuildJsonModel model)
         {
             CachedGuild guild = null;
-            // TODO: cache the unavailable ID?
             var isPending = _readyHandler.IsPendingGuild(shard.Id, model.Id);
             if (model.Unavailable.HasValue || isPending) // Note: apparently `model.Unavailable` is provided for pending GUILD_CREATEs but not GUILD_DELETEs.
             {

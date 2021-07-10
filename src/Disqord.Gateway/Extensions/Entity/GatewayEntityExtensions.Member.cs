@@ -5,7 +5,6 @@ using Disqord.Collections;
 
 namespace Disqord.Gateway
 {
-    // TODO: fix docs inconsistencies in gateway extensions
     public static partial class GatewayEntityExtensions
     {
         /// <summary>

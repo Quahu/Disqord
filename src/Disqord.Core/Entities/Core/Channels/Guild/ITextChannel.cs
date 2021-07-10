@@ -25,16 +25,9 @@
         /// </summary>
         bool IsNews { get; }
 
-        // TODO: confirm
         /// <summary>
         ///     Gets whether this channel is a store channel.
         /// </summary>
         bool IsStore { get; }
-
-        // TODO: confirm
-        /// <summary>
-        ///     Gets whether this channel is a thread channel.
-        /// </summary>
-        bool IsThread { get; }
     }
 }

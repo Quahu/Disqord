@@ -16,8 +16,6 @@ namespace Disqord.Gateway
 
         public bool IsStore => _type == ChannelType.Store;
 
-        public bool IsThread => _type == ChannelType.Thread;
-
         private ChannelType _type;
 
         public Snowflake? LastMessageId { get; set; }

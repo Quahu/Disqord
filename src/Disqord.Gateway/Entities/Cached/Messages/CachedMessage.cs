@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Disqord.Collections;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
@@ -87,17 +88,47 @@ namespace Disqord.Gateway
 
         public void Update(MessageReactionAddJsonModel model)
         {
-            // TODO
+            var emoji = Emoji.Create(model.Emoji);
+            var reactions = Reactions;
+            if (!reactions.HasValue)
+            {
+                var newReactions = new Dictionary<IEmoji, MessageReaction>();
+                newReactions.Add(emoji, new MessageReaction(emoji, 1, model.UserId == Client.CurrentUser.Id));
+                Reactions = new Optional<IReadOnlyDictionary<IEmoji, MessageReaction>>(newReactions.ReadOnly());
+            }
+            else
+            {
+                var newReactions = new Dictionary<IEmoji, MessageReaction>(reactions.Value);
+                var reaction = newReactions.GetValueOrDefault(emoji);
+                newReactions[emoji] = new MessageReaction(emoji, (reaction?.Count ?? 0) + 1, (reaction?.HasOwnReaction ?? false) || model.UserId == Client.CurrentUser.Id);
+                Reactions = newReactions;
+            }
         }
 
         public void Update(MessageReactionRemoveJsonModel model)
         {
-            // TODO
+            var reactions = Reactions;
+            if (reactions.HasValue)
+            {
+                var emoji = Emoji.Create(model.Emoji);
+                if (reactions.Value.TryGetValue(emoji, out var reaction))
+                {
+                    var newReactions = new Dictionary<IEmoji, MessageReaction>(reactions.Value);
+                    if (reaction.Count == 1)
+                        newReactions.Remove(emoji);
+                    else
+                        newReactions[emoji] = new MessageReaction(emoji, reaction.Count - 1, reaction.HasOwnReaction && model.UserId == Client.CurrentUser.Id
+                            ? false
+                            : reaction.HasOwnReaction);
+                    Reactions = newReactions;
+                }
+            }
         }
 
         public void Update(MessageReactionRemoveEmojiJsonModel model)
         {
-            // TODO
+            var emoji = Emoji.Create(model.Emoji);
+            Reactions = Optional.Convert(Reactions, x => x.Where(x => !x.Key.Equals(emoji)).ToReadOnlyDictionary(x => x.Key, x => x.Value));
         }
 
         public void Update(MessageReactionRemoveAllJsonModel model)
