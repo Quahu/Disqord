@@ -34,7 +34,7 @@ namespace Disqord.Gateway
         public static CachedRole GetRole(this IMember member, Snowflake roleId)
         {
             var client = member.GetGatewayClient();
-            if (!member.RoleIds.Any(x => x == roleId) && roleId != member.GuildId)
+            if (roleId != member.GuildId && !member.RoleIds.Any(x => x == roleId))
                 return null;
 
             return client.GetRole(member.GuildId, roleId);
