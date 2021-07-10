@@ -35,6 +35,9 @@
             | Permission.ManageWebhooks
             | Permission.ManageEmojis
             | Permission.UseSlashCommands
-            | Permission.RequestToSpeak);
+            | Permission.RequestToSpeak
+            | Permission.ManageThreads
+            | Permission.UsePublicThreads
+            | Permission.UsePrivateThreads);
     }
 }

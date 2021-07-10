@@ -68,9 +68,15 @@ namespace Disqord
         ManageWebhooks      = 1ul << 29,
 
         ManageEmojis        = 1ul << 30,
-        
+
         UseSlashCommands    = 1ul << 31,
-        
-        RequestToSpeak      = 1ul << 32
+
+        RequestToSpeak      = 1ul << 32,
+
+        ManageThreads       = 1ul << 34,
+
+        UsePublicThreads    = 1ul << 35,
+
+        UsePrivateThreads   = 1ul << 36
     }
 }
