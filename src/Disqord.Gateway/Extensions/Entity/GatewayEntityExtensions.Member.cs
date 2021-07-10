@@ -42,6 +42,7 @@ namespace Disqord.Gateway
 
         /// <summary>
         ///     Gets all cached roles for the specified member.
+        ///     This, as opposed to <see cref="IMember.RoleIds"/>, returns the default guild role (<c>@everyone</c>) as well.
         ///     If <paramref name="skipUncached"/> is set to <see langword="false"/> the
         ///     returned dictionary will contain null values for roles that were not found in the cache.
         /// </summary>
@@ -50,7 +51,7 @@ namespace Disqord.Gateway
         ///     This means that there is a possibility that despite having all guild roles cached,
         ///     the returned roles will differ from <see cref="IMember.RoleIds"/>.
         /// </remarks>
-        /// <param name="member"> The member to get the role for. </param>
+        /// <param name="member"> The member to get the roles for. </param>
         /// <param name="skipUncached"> Whether to skip roles not found in the cache. </param>
         /// <returns>
         ///     A dictionary of cached roles for this member.
@@ -76,17 +77,39 @@ namespace Disqord.Gateway
                 }
             }
 
-            roles.Add(member.GuildId, cache[member.GuildId]);
+            if (cache.TryGetValue(member.GuildId, out var defaultRole))
+            {
+                roles.Add(defaultRole.Id, defaultRole);
+            }
+            else if (!skipUncached)
+            {
+                roles.Add(member.GuildId, null);
+            }
+
             return roles.ReadOnly();
         }
 
-        /// <inheritdoc cref="GetGuildPermissions(IMember, IGuild, IEnumerable{IRole})"/>
-        public static GuildPermissions GetGuildPermissions(this IMember member)
-            => Discord.Permissions.CalculatePermissions(member.GetGuild(), member, member.GetRoles().Values);
+        public static int GetHierarchy(this IMember member)
+            => GetHierarchy(member, member.GetGuild());
+        
+        public static int GetHierarchy(this IMember member, IGuild guild)
+        {
+            if (guild.OwnerId == member.Id)
+                return int.MaxValue;
 
-        /// <inheritdoc cref="GetGuildPermissions(IMember, IGuild, IEnumerable{IRole})"/>
-        public static GuildPermissions GetGuildPermissions(this IMember member, IGuild guild)
-            => Discord.Permissions.CalculatePermissions(guild, member, member.GetRoles().Values);
+            var roles = member.GetRoles();
+            return roles.Count != 0
+                ? roles.Values.Max(x => x.Position)
+                : 0;
+        }
+
+        /// <inheritdoc cref="GetPermissions(Disqord.IMember,Disqord.IGuild,System.Collections.Generic.IEnumerable{Disqord.IRole})"/>
+        public static GuildPermissions GetPermissions(this IMember member)
+            => GetPermissions(member, member.GetGuild());
+
+        /// <inheritdoc cref="GetPermissions(Disqord.IMember,Disqord.IGuild,System.Collections.Generic.IEnumerable{Disqord.IRole})"/>
+        public static GuildPermissions GetPermissions(this IMember member, IGuild guild)
+            => GetPermissions(member, guild, member.GetRoles().Values);
 
         /// <summary>
         ///     Gets the guild permissions for the specified member.
@@ -98,16 +121,16 @@ namespace Disqord.Gateway
         /// <returns>
         ///     The guild permissions for this member.
         /// </returns>
-        public static GuildPermissions GetGuildPermissions(this IMember member, IGuild guild, IEnumerable<IRole> roles)
+        public static GuildPermissions GetPermissions(this IMember member, IGuild guild, IEnumerable<IRole> roles)
             => Discord.Permissions.CalculatePermissions(guild, member, roles);
 
-        /// <inheritdoc cref="GetChannelPermissions(IMember, IGuild, IGuildChannel, IEnumerable{IRole})"/>
-        public static ChannelPermissions GetChannelPermissions(this IMember member, IGuildChannel channel)
-            => Discord.Permissions.CalculatePermissions(member.GetGuild(), channel, member, member.GetRoles().Values);
+        /// <inheritdoc cref="GetPermissions(Disqord.IMember,Disqord.IGuild,Disqord.IGuildChannel,System.Collections.Generic.IEnumerable{Disqord.IRole})"/>
+        public static ChannelPermissions GetPermissions(this IMember member, IGuildChannel channel)
+            => GetPermissions(member, member.GetGuild(), channel);
 
-        /// <inheritdoc cref="GetChannelPermissions(IMember, IGuild, IGuildChannel, IEnumerable{IRole})"/>
-        public static ChannelPermissions GetChannelPermissions(this IMember member, IGuild guild, IGuildChannel channel)
-            => Discord.Permissions.CalculatePermissions(guild, channel, member, member.GetRoles().Values);
+        /// <inheritdoc cref="GetPermissions(Disqord.IMember,Disqord.IGuild,Disqord.IGuildChannel,System.Collections.Generic.IEnumerable{Disqord.IRole})"/>
+        public static ChannelPermissions GetPermissions(this IMember member, IGuild guild, IGuildChannel channel)
+            => GetPermissions(member, guild, channel, member.GetRoles().Values);
 
         /// <summary>
         ///     Gets the channel permissions for the specified member in the given channel.
@@ -120,7 +143,7 @@ namespace Disqord.Gateway
         /// <returns>
         ///     The channel permissions for this member.
         /// </returns>
-        public static ChannelPermissions GetChannelPermissions(this IMember member, IGuild guild, IGuildChannel channel, IEnumerable<IRole> roles)
+        public static ChannelPermissions GetPermissions(this IMember member, IGuild guild, IGuildChannel channel, IEnumerable<IRole> roles)
             => Discord.Permissions.CalculatePermissions(guild, channel, member, roles);
 
         /// <summary>
@@ -136,7 +159,7 @@ namespace Disqord.Gateway
             var client = member.GetGatewayClient();
             return client.GetVoiceState(member.GuildId, member.Id);
         }
-        
+
         /// <summary>
         ///     Gets the cached presence for the specified member.
         ///     Returns <see langword="null"/> if the presence is not cached.
