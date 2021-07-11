@@ -422,10 +422,10 @@ namespace Disqord.Rest
         // public static Task<string> GetVanityInviteAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         // => client.ApiClient.GetGuildVanityUrlAsync(guildId, options);
 
-        //public async Task<RestPreview> GetPreviewAsync(Snowflake guildId, IRestRequestOptions options = null)
-        //{
-        //    var model = await ApiClient.GetGuildPreviewAsync(guildId, options).ConfigureAwait(false);
-        //    return new RestPreview(this, model);
-        //}
+        public static async Task<IGuildPreview> FetchPreviewAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.GetGuildPreviewAsync(guildId, options).ConfigureAwait(false);
+            return new TransientGuildPreview(client, guildId, model);
+        }
     }
 }
