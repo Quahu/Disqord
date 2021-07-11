@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
@@ -94,7 +93,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                         channel?.Update(channelModel);
                     }
                 }
-                
+
                 foreach (var threadModel in model.Threads)
                 {
                     if (isPending)
