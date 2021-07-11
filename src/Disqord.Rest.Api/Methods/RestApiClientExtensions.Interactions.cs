@@ -43,31 +43,31 @@ namespace Disqord.Rest.Api
 
         public static Task<MessageJsonModel> CreateFollowupInteractionResponseAsync(this IRestApiClient client, Snowflake applicationId, string interactionToken, MultipartJsonPayloadRestRequestContent<ExecuteWebhookJsonRestRequestContent> content, IRestRequestOptions options = null)
         {
-            var route = Format(Route.Interactions.CreateFollowupResponse, applicationId, interactionToken);
+            var route = Format(Route.Interactions.CreateFollowupMessage, applicationId, interactionToken);
             return client.ExecuteAsync<MessageJsonModel>(route, content, options);
         }
 
         public static Task<MessageJsonModel> CreateFollowupInteractionResponseAsync(this IRestApiClient client, Snowflake applicationId, string interactionToken, ExecuteWebhookJsonRestRequestContent content, IRestRequestOptions options = null)
         {
-            var route = Format(Route.Interactions.CreateFollowupResponse, applicationId, interactionToken);
+            var route = Format(Route.Interactions.CreateFollowupMessage, applicationId, interactionToken);
             return client.ExecuteAsync<MessageJsonModel>(route, content, options);
         }
 
         public static Task<MessageJsonModel> ModifyFollowupInteractionResponseAsync(this IRestApiClient client, Snowflake applicationId, string interactionToken, Snowflake messageId, MultipartJsonPayloadRestRequestContent<ModifyWebhookMessageJsonRestRequestContent> content, IRestRequestOptions options = null)
         {
-            var route = Format(Route.Interactions.ModifyFollowupResponse, applicationId, interactionToken, messageId);
+            var route = Format(Route.Interactions.ModifyFollowupMessage, applicationId, interactionToken, messageId);
             return client.ExecuteAsync<MessageJsonModel>(route, content, options);
         }
 
         public static Task<MessageJsonModel> ModifyFollowupInteractionResponseAsync(this IRestApiClient client, Snowflake applicationId, string interactionToken, Snowflake messageId, ModifyWebhookMessageJsonRestRequestContent content, IRestRequestOptions options = null)
         {
-            var route = Format(Route.Interactions.ModifyFollowupResponse, applicationId, interactionToken, messageId);
+            var route = Format(Route.Interactions.ModifyFollowupMessage, applicationId, interactionToken, messageId);
             return client.ExecuteAsync<MessageJsonModel>(route, content, options);
         }
 
         public static Task DeleteFollowupInteractionResponseAsync(this IRestApiClient client, Snowflake applicationId, string interactionToken, Snowflake messageId, IRestRequestOptions options = null)
         {
-            var route = Format(Route.Interactions.DeleteFollowupResponse, applicationId, interactionToken, messageId);
+            var route = Format(Route.Interactions.DeleteFollowupMessage, applicationId, interactionToken, messageId);
             return client.ExecuteAsync(route, null, options);
         }
     }

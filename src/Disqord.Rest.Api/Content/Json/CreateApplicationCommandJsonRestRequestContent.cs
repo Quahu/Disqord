@@ -9,14 +9,18 @@ namespace Disqord.Rest.Api
         public string Name;
 
         [JsonProperty("description")]
-        public Optional<string> Description;
+        public string Description;
 
         [JsonProperty("options")]
         public Optional<ApplicationCommandOptionJsonModel[]> Options;
 
-        public CreateApplicationCommandJsonRestRequestContent(string name)
+        [JsonProperty("default_permission")]
+        public Optional<bool> DefaultPermission;
+
+        public CreateApplicationCommandJsonRestRequestContent(string name, string description)
         {
             Name = name;
+            Description = description;
         }
     }
 }
