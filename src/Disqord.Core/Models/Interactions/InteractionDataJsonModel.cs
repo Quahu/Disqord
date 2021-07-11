@@ -22,6 +22,7 @@ namespace Disqord.Models
         [JsonProperty("component_type")]
         public Optional<ComponentType> ComponentType;
 
+        // Todo: Is this needed? Possibly remove since not documented?
         [JsonProperty("values")]
         public Optional<string[]> Values;
     }

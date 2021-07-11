@@ -10,6 +10,9 @@ namespace Disqord.Models
         [JsonProperty("application_id")]
         public Snowflake ApplicationId;
 
+        [JsonProperty("guild_id")]
+        public Optional<Snowflake> GuildId;
+
         [JsonProperty("name")]
         public string Name;
 
