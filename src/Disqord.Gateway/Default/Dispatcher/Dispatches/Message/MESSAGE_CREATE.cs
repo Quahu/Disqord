@@ -38,14 +38,12 @@ namespace Disqord.Gateway.Default.Dispatcher
 
             message ??= TransientGatewayMessage.Create(Client, model);
 
-            CachedTextChannel channel = null;
+            CachedMessageGuildChannel channel = null;
             if (model.GuildId.HasValue && CacheProvider.TryGetChannels(model.GuildId.Value, out var channelCache))
             {
-                channel = channelCache.GetValueOrDefault(model.ChannelId) as CachedTextChannel;
+                channel = channelCache.GetValueOrDefault(model.ChannelId) as CachedMessageGuildChannel;
                 if (channel != null)
-                {
                     channel.LastMessageId = model.Id;
-                }
             }
 
             var e = new MessageReceivedEventArgs(message, channel, author);

@@ -1,7 +1,7 @@
 ﻿namespace Disqord
 {
     /// <summary>
-    ///     Represent a direct message channel with a user.
+    ///     Represent a private direct message channel.
     /// </summary>
     public interface IDirectChannel : IPrivateChannel
     {

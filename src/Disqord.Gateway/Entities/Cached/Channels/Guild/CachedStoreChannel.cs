@@ -3,11 +3,11 @@ using Disqord.Models;
 
 namespace Disqord.Gateway
 {
-    public class CachedVoiceChannel : CachedVocalGuildChannel, IVoiceChannel
+    public class CachedStoreChannel : CachedCategorizableGuildChannel, IStoreChannel
     {
-        public int MemberLimit { get; private set; }
+        public bool IsNsfw { get; private set; }
 
-        public CachedVoiceChannel(IGatewayClient client, ChannelJsonModel model)
+        public CachedStoreChannel(IGatewayClient client, ChannelJsonModel model)
             : base(client, model)
         { }
 
@@ -16,8 +16,8 @@ namespace Disqord.Gateway
         {
             base.Update(model);
 
-            if (model.UserLimit.HasValue)
-                MemberLimit = model.UserLimit.Value;
+            if (model.Nsfw.HasValue)
+                IsNsfw = model.Nsfw.Value;
         }
     }
 }

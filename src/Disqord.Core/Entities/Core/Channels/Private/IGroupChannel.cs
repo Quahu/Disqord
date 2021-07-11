@@ -3,7 +3,7 @@
 namespace Disqord
 {
     /// <summary>
-    ///     Represent a group channel.
+    ///     Represent a private group channel.
     /// </summary>
     public interface IGroupChannel : IPrivateChannel
     {

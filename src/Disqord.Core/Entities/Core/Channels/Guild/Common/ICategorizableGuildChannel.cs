@@ -3,11 +3,11 @@
     /// <summary>
     ///     Represents a guild channel that might be nested within a category channel.
     /// </summary>
-    public interface INestableChannel : IGuildChannel
+    public interface ICategorizableGuildChannel : IGuildChannel
     {
         /// <summary>
-        ///     Gets the category ID of this channel.
-        ///     Returns <see langword="null"/> if the channel is not bound to a category.
+        ///     Gets the ID of the category of this channel.
+        ///     Returns <see langword="null"/> if the channel has no category.
         /// </summary>
         Snowflake? CategoryId { get; }
     }

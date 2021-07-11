@@ -11,7 +11,7 @@ namespace Disqord.Bot
 {
     public abstract partial class DiscordBotBase
     {
-        internal async ValueTask<bool> ProcessCommandsAsync(IGatewayUserMessage message, CachedTextChannel channel)
+        internal async ValueTask<bool> ProcessCommandsAsync(IGatewayUserMessage message, CachedMessageGuildChannel channel)
         {
             // We check if the message is suitable for execution.
             // By default excludes bot messages.

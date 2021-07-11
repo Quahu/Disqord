@@ -31,7 +31,7 @@ namespace Disqord.Bot
         /// <returns>
         ///     A <see cref="DiscordCommandContext"/> or a <see cref="DiscordGuildCommandContext"/> for guild messages.
         /// </returns>
-        public virtual DiscordCommandContext CreateCommandContext(IPrefix prefix, string input, IGatewayUserMessage message, CachedTextChannel channel)
+        public virtual DiscordCommandContext CreateCommandContext(IPrefix prefix, string input, IGatewayUserMessage message, CachedMessageGuildChannel channel)
         {
             var scope = Services.CreateScope();
             var context = message.GuildId != null

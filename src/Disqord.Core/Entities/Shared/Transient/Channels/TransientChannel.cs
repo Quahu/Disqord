@@ -8,6 +8,8 @@ namespace Disqord
 
         public virtual string Name => Model.Name.Value;
 
+        public ChannelType Type => Model.Type;
+
         protected TransientChannel(IClient client, ChannelJsonModel model)
             : base(client, model)
         { }
@@ -30,7 +32,10 @@ namespace Disqord
                 case ChannelType.Category:
                 case ChannelType.News:
                 case ChannelType.Store:
-                case ChannelType.Thread:
+                case ChannelType.NewsThread:
+                case ChannelType.PublicThread:
+                case ChannelType.PrivateThread:
+                case ChannelType.Stage:
                     return TransientGuildChannel.Create(client, model);
             }
 
