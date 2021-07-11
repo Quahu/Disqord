@@ -8,17 +8,17 @@ namespace Disqord
     public interface IGuildPreview : IGuildEntity, INamable, ISnowflakeEntity
     {
         /// <summary>
-        ///     Gets the icon image hash of this guild.
+        ///     Gets the icon image hash of the guild.
         /// </summary>
         string IconHash { get; }
         
         /// <summary>
-        ///     Gets the splash image hash of this guild.
+        ///     Gets the splash image hash of the guild.
         /// </summary>
         string SplashHash { get; }
         
         /// <summary>
-        ///     Gets the discovery image hash of this guild.
+        ///     Gets the discovery image hash of the guild.
         /// </summary>
         string DiscoverySplashHash { get; }
         
@@ -38,12 +38,12 @@ namespace Disqord
         int ApproximateMemberCount { get; }
         
         /// <summary>
-        ///     Gets the approximate number of presences in this guild.
+        ///     Gets the approximate number of presences in the guild.
         /// </summary>
         int ApproximatePresenceCount { get; }
         
         /// <summary>
-        ///     Gets the description for the guild.
+        ///     Gets the description of the guild.
         ///     Only present if the guild is discoverable.
         /// </summary>
         string Description { get; }
