@@ -326,11 +326,11 @@ namespace Disqord.Rest.Api
 
             public static readonly Route DeleteInitialResponse = Delete("webhooks/{0:application_id}/{1:interaction_token}/messages/@original");
 
-            public static readonly Route CreateFollowupMessage = Post("webhooks/{0:application_id}/{1:interaction_token}");
+            public static readonly Route CreateFollowupResponse = Post("webhooks/{0:application_id}/{1:interaction_token}");
 
-            public static readonly Route ModifyFollowupMessage = Patch("webhooks/{0:application_id}/{1:interaction_token}/messages/{2:message_id}");
+            public static readonly Route ModifyFollowupResponse = Patch("webhooks/{0:application_id}/{1:interaction_token}/messages/{2:message_id}");
 
-            public static readonly Route DeleteFollowupMessage = Delete("webhooks/{0:application_id}/{1:interaction_token}/messages/{2:message_id}");
+            public static readonly Route DeleteFollowupResponse = Delete("webhooks/{0:application_id}/{1:interaction_token}/messages/{2:message_id}");
             
             public static readonly Route GetAllCommandPermissions = Get("applications/{0:application_id}/guilds/{1:guild_id}/commands/permissions");
 
