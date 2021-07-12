@@ -7,7 +7,7 @@ namespace Disqord
     public class TransientGuildPreview : TransientEntity<GuildPreviewJsonModel>, IGuildPreview
     {
         /// <inheritdoc/>
-        public Snowflake Id => Model.Id;
+        public Snowflake GuildId => Model.Id;
         
         /// <inheritdoc/>
         public string Name => Model.Name;
@@ -25,7 +25,7 @@ namespace Disqord
         public GuildFeatures Features => new(Model.Features);
         
         /// <inheritdoc/>
-        public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis => _emojis ??= Model.Emojis.ToReadOnlyDictionary((Client, Id), (x, _) => x.Id.Value, (x, tuple) =>
+        public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis => _emojis ??= Model.Emojis.ToReadOnlyDictionary((Client, GuildId), (x, _) => x.Id.Value, (x, tuple) =>
         {
             var (client, guildId) = tuple;
             return new TransientGuildEmoji(client, guildId, x) as IGuildEmoji;

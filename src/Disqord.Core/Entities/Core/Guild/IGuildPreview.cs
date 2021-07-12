@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a guild preview.
     /// </summary>
-    public interface IGuildPreview : ISnowflakeEntity, INamable
+    public interface IGuildPreview : IGuildEntity, INamable
     {
         /// <summary>
         ///     Gets the icon image hash of the guild.
