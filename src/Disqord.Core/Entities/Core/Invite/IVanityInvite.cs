@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represents a guild's vanity invite.
     /// </summary>
-    public interface IVanityInvite : IEntity
+    public interface IVanityInvite : IGuildEntity
     {
         /// <summary>
         ///     Gets the code of this vanity invite.

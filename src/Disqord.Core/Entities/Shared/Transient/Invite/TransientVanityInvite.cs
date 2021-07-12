@@ -9,9 +9,14 @@ namespace Disqord
         
         /// <inheritdoc/>
         public int Uses => Model.Uses.Value;
+        
+        /// <inheritdoc />
+        public Snowflake GuildId { get; }
 
-        public TransientVanityInvite(IClient client, InviteJsonModel model) 
+        public TransientVanityInvite(IClient client, Snowflake guildId, InviteJsonModel model) 
             : base(client, model)
-        { }
+        {
+            GuildId = guildId;
+        }
     }
 }

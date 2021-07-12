@@ -421,7 +421,7 @@ namespace Disqord.Rest
         public static async Task<IVanityInvite> FetchVanityInviteAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchGuildVanityInviteAsync(guildId, options).ConfigureAwait(false);
-            return new TransientVanityInvite(client, model);
+            return new TransientVanityInvite(client, guildId, model);
         }
 
         public static async Task<IGuildPreview> FetchPreviewAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
