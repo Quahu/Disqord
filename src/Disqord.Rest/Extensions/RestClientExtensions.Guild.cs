@@ -333,7 +333,7 @@ namespace Disqord.Rest
         public static async Task<IRole> ModifyRoleAsync(this IRestClient client, Snowflake guildId, Snowflake roleId, Action<ModifyRoleActionProperties> action, IRestRequestOptions options = null)
         {
             var properties = new ModifyRoleActionProperties();
-            action?.Invoke(properties);
+            action(properties);
             if (properties.Position.HasValue)
             {
                 await client.ReorderRolesAsync(guildId, new Dictionary<Snowflake, int>
@@ -406,7 +406,7 @@ namespace Disqord.Rest
         public static async Task<IWidget> ModifyWidgetAsync(this IRestClient client, Snowflake guildId, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null)
         {
             var properties = new ModifyWidgetActionProperties();
-            action?.Invoke(properties);
+            action(properties);
 
             var content = new ModifyGuildWidgetSettingsJsonRestRequestContent
             {
