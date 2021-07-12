@@ -214,7 +214,7 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<PruneJsonModel>(route, null, options);
         }
 
-        public static Task<VoiceRegionJsonModel[]> FetchVoiceRegionsAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
+        public static Task<VoiceRegionJsonModel[]> FetchGuildVoiceRegionsAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Guild.GetVoiceRegions, guildId);
             return client.ExecuteAsync<VoiceRegionJsonModel[]>(route, null, options);
