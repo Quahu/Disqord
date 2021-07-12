@@ -241,20 +241,38 @@ namespace Disqord.Rest
             var client = channel.GetRestClient();
             return client.FetchActiveThreads(channel.Id, options);
         }
+        
+        public static IPagedEnumerable<IThreadChannel> EnumeratePublicArchivedThreads(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.EnumeratePublicArchivedThreads(channel.Id, limit, startFromDate, options);
+        }
 
         public static Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreads(this IThreadChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
             return client.FetchPublicArchivedThreads(channel.Id, limit, startFromDate, options);
         }
+
+        public static IPagedEnumerable<IThreadChannel> EnumeratePrivateArchivedThreads(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.EnumeratePrivateArchivedThreads(channel.Id, limit, startFromDate, options);
+        }
         
-        public static Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreads(this IThreadChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreads(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
             return client.FetchPrivateArchivedThreads(channel.Id, limit, startFromDate, options);
         }
         
-        public static Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreads(this IThreadChannel channel, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IThreadChannel> EnumerateJoinedPrivateArchivedThreads(this ITextChannel channel, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.EnumerateJoinedPrivateArchivedThreads(channel.Id, limit, startFromId, options);
+        }
+        
+        public static Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreads(this ITextChannel channel, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
             return client.FetchJoinedPrivateArchivedThreads(channel.Id, limit, startFromId, options);
