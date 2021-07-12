@@ -218,10 +218,25 @@ namespace Disqord.Rest
         }
 
         // TODO: fetch widget
+        public static Task<IWidget> FetchWidgetAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchWidgetAsync(guild.Id, options);
+        }
 
         // TODO: modify widget
+        public static Task<IWidget> ModifyWidgetAsync(this IGuild guild, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyWidgetAsync(guild.Id, action, options);
+        }
 
         // TODO: fetch vanity invite
+        public static Task<IVanityInvite> FetchVanityInviteAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchVanityInviteAsync(guild.Id, options);
+        }
         
         public static Task<IGuildPreview> FetchPreviewAsync(this IGuild guild, IRestRequestOptions options = null)
         {
