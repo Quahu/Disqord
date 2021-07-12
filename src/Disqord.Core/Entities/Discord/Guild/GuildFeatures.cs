@@ -46,7 +46,6 @@ namespace Disqord
         /// <summary>
         ///     The guild has member screening.
         /// </summary>
-        // TODO: rename to MemberScreening?
         public bool MemberVerificationGateEnabled => Has("MEMBER_VERIFICATION_GATE_ENABLED");
 
         /// <summary>

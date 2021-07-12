@@ -43,7 +43,10 @@
             | Permission.UseExternalEmojis
             | Permission.ManageRoles
             | Permission.ManageWebhooks
-            | Permission.UseSlashCommands);
+            | Permission.UseSlashCommands
+            | Permission.ManageThreads
+            | Permission.UsePublicThreads
+            | Permission.UsePrivateThreads);
 
         public const ulong VOICE_PERMISSIONS_VALUE = (ulong) (
             Permission.CreateInstantInvite
@@ -59,7 +62,7 @@
             | Permission.UseVad
             | Permission.ManageRoles
             // | Permission.RequestToSpeak TODO: stage channel
-            );
+        );
 
         public const ulong CATEGORY_PERMISSIONS_VALUE = (ulong) (
             Permission.CreateInstantInvite

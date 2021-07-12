@@ -37,14 +37,14 @@ namespace Disqord.Bot
         /// <summary>
         ///     Gets the channel the command is being executed in.
         /// </summary>
-        public virtual CachedTextChannel Channel { get; }
+        public virtual CachedMessageGuildChannel Channel { get; }
 
         public DiscordGuildCommandContext(
             DiscordBotBase bot,
             IPrefix prefix,
             string input,
             IGatewayUserMessage message,
-            CachedTextChannel channel,
+            CachedMessageGuildChannel channel,
             IServiceProvider services)
             : base(bot, prefix, input, message, services)
         {
@@ -56,7 +56,7 @@ namespace Disqord.Bot
             IPrefix prefix,
             string input,
             IGatewayUserMessage message,
-            CachedTextChannel channel,
+            CachedMessageGuildChannel channel,
             IServiceScope serviceScope)
             : base(bot, prefix, input, message, serviceScope)
         {

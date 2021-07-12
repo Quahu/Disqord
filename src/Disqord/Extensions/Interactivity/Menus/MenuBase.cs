@@ -169,7 +169,14 @@ namespace Disqord.Extensions.Interactivity.Menus
                 return;
             }
 
-            await HandleInteractionAsync(e).ConfigureAwait(false);
+            try
+            {
+                await HandleInteractionAsync(e).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Interactivity.Logger.LogError(ex, "An exception occurred while handling interaction for menu {0}.", GetType());
+            }
         }
 
         protected virtual async ValueTask HandleInteractionAsync(InteractionReceivedEventArgs e)

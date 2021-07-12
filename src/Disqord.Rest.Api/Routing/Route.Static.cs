@@ -294,7 +294,6 @@ namespace Disqord.Rest.Api
 
         public static class Interactions
         {
-            // TODO: fix broken slash routes
             public static readonly Route GetGlobalCommands = Get("applications/{0:application_id}/commands");
 
             public static readonly Route CreateGlobalCommand = Post("applications/{0:application_id}/commands");

@@ -1,24 +1,13 @@
 ﻿namespace Disqord
 {
     /// <summary>
-    ///     Represents a voice guild channel.
+    ///     Represents a guild voice channel.
     /// </summary>
-    public interface IVoiceChannel : INestableChannel
+    public interface IVoiceChannel : IVocalGuildChannel
     {
-        /// <summary>
-        ///     Gets the bitrate of this channel.
-        /// </summary>
-        int Bitrate { get; }
-        
         /// <summary>
         ///     Gets the member limit of this channel.
         /// </summary>
         int MemberLimit { get; }
-        
-        /// <summary>
-        ///     Gets the RTC region of this channel.
-        ///     Returns <see langword="null"/> for automatic regions.
-        /// </summary>
-        string Region { get; }
     }
 }

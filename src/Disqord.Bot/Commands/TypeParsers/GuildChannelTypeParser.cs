@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Gateway;
-using Disqord.Utilities;
 using Qmmands;
 
 namespace Disqord.Bot.Parsers
@@ -38,11 +37,11 @@ namespace Disqord.Bot.Parsers
         /// <inheritdoc/>
         public override ValueTask<TypeParserResult<TChannel>> ParseAsync(Parameter parameter, string value, DiscordGuildCommandContext context)
         {
-            if (!context.Bot.CacheProvider.TryGetChannels(context.GuildId, out var cache))
+            if (!context.Bot.CacheProvider.TryGetChannels(context.GuildId, out var channelCache))
                 throw new InvalidOperationException($"The {GetType().Name} requires the channel cache.");
 
             // Wraps the cache in a pattern-matching wrapper dictionary.
-            var channels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, TChannel>(cache);
+            var channels = new ReadOnlyOfTypeDictionary<Snowflake, CachedGuildChannel, TChannel>(channelCache);
             TChannel channel;
             if (Snowflake.TryParse(value, out var id) || Mention.TryParseChannel(value, out id))
             {

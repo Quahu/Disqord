@@ -6,7 +6,7 @@ namespace Disqord.Bot
 {
     public class RequireAuthorChannelPermissionsAttribute : DiscordGuildCheckAttribute
     {
-        public Permission Permissions { get; }
+        public ChannelPermissions Permissions { get; }
 
         public RequireAuthorChannelPermissionsAttribute(Permission permissions)
         {
@@ -15,7 +15,7 @@ namespace Disqord.Bot
 
         public override ValueTask<CheckResult> CheckAsync(DiscordGuildCommandContext context)
         {
-            var permissions = context.Author.GetChannelPermissions(context.Guild, context.Channel);
+            var permissions = context.Author.GetPermissions(context.Channel);
             if (permissions.Has(Permissions))
                 return Success();
 

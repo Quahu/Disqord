@@ -26,10 +26,10 @@ namespace Disqord.Gateway
         public IGatewayMessage Message { get; }
 
         /// <summary>
-        ///     Gets the cached text channel in which the message was sent.
+        ///     Gets the cached channel in which the message was sent.
         ///     Returns <see langword="null"/> if the channel was not cached of if it was sent outside of a guild.
         /// </summary>
-        public CachedTextChannel Channel { get; }
+        public CachedMessageGuildChannel Channel { get; }
 
         /// <summary>
         ///     Gets the cached member that sent the message.
@@ -42,7 +42,7 @@ namespace Disqord.Gateway
 
         public MessageReceivedEventArgs(
             IGatewayMessage message,
-            CachedTextChannel channel,
+            CachedMessageGuildChannel channel,
             CachedMember member)
         {
             Message = message;

@@ -4,32 +4,22 @@ using Disqord.Models;
 
 namespace Disqord.Gateway
 {
-    public class CachedTextChannel : CachedNestableChannel, ITextChannel
+    public class CachedTextChannel : CachedMessageGuildChannel, ITextChannel
     {
         public string Topic { get; private set; }
 
         public bool IsNsfw { get; private set; }
 
-        public int Slowmode { get; private set; }
+        public bool IsNews => Type == ChannelType.News;
 
-        public bool IsNews => _type == ChannelType.News;
-
-        public bool IsStore => _type == ChannelType.Store;
-
-        public bool IsThread => _type == ChannelType.Thread;
-
-        private ChannelType _type;
-
-        public Snowflake? LastMessageId { get; set; }
-
-        public DateTimeOffset? LastPinTimestamp { get; set; }
+        public TimeSpan DefaultAutomaticArchiveDuration { get; private set; }
 
         public string Mention => Disqord.Mention.TextChannel(this);
 
         public string Tag => $"#{Name}";
 
-        public CachedTextChannel(IGatewayClient client, Snowflake guildId, ChannelJsonModel model)
-            : base(client, guildId, model)
+        public CachedTextChannel(IGatewayClient client, ChannelJsonModel model)
+            : base(client, model)
         { }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -43,16 +33,8 @@ namespace Disqord.Gateway
             if (model.Nsfw.HasValue)
                 IsNsfw = model.Nsfw.Value;
 
-            if (model.RateLimitPerUser.HasValue)
-                Slowmode = model.RateLimitPerUser.Value;
-
-            _type = model.Type;
-
-            if (model.LastMessageId.HasValue)
-                LastMessageId = model.LastMessageId.Value;
-
-            if (model.LastPinTimestamp.HasValue)
-                LastPinTimestamp = model.LastPinTimestamp.Value;
+            if (model.DefaultAutoArchiveDuration.HasValue)
+                DefaultAutomaticArchiveDuration = TimeSpan.FromMinutes(model.DefaultAutoArchiveDuration.Value);
         }
     }
 }

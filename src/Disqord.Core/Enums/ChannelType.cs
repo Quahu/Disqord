@@ -16,7 +16,12 @@
 
         Store = 6,
 
-        // TODO: ???
-        Thread = 7
+        NewsThread = 10,
+
+        PublicThread = 11,
+
+        PrivateThread = 12,
+
+        Stage = 13
     }
 }

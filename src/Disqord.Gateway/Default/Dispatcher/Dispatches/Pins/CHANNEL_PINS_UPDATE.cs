@@ -8,14 +8,13 @@ namespace Disqord.Gateway.Default.Dispatcher
     {
         public override ValueTask<ChannelPinsUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, ChannelPinsUpdateJsonModel model)
         {
-            CachedTextChannel channel = null;
+            CachedMessageGuildChannel channel = null;
             if (model.GuildId.HasValue)
             {
                 if (CacheProvider.TryGetChannels(model.GuildId.Value, out var cache))
                 {
-                    channel = cache.GetValueOrDefault(model.ChannelId) as CachedTextChannel;
-                    if (channel != null)
-                        channel.LastPinTimestamp = model.LastPinTimestamp.GetValueOrDefault();
+                    channel = cache.GetValueOrDefault(model.ChannelId) as CachedMessageGuildChannel;
+                    channel?.Update(model);
                 }
             }
 

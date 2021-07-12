@@ -3,23 +3,15 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientTextChannel : TransientNestableChannel, ITextChannel
+    public class TransientTextChannel : TransientMessageGuildChannel, ITextChannel
     {
         public string Topic => Model.Topic.Value;
 
         public bool IsNsfw => Model.Nsfw.Value;
 
-        public int Slowmode => Model.RateLimitPerUser.Value;
-
         public bool IsNews => Model.Type == ChannelType.News;
 
-        public bool IsStore => Model.Type == ChannelType.Store;
-
-        public bool IsThread => Model.Type == ChannelType.Thread;
-
-        public Snowflake? LastMessageId => Model.LastMessageId.Value;
-
-        public DateTimeOffset? LastPinTimestamp => Model.LastPinTimestamp.Value;
+        public TimeSpan DefaultAutomaticArchiveDuration => TimeSpan.FromMinutes(Model.DefaultAutoArchiveDuration.Value);
 
         public string Mention => Disqord.Mention.TextChannel(this);
 

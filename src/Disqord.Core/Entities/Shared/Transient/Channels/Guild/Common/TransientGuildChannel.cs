@@ -8,9 +8,9 @@ namespace Disqord
     {
         public Snowflake GuildId => Model.GuildId.Value;
 
-        public int Position => Model.Position.Value;
+        public virtual int Position => Model.Position.Value;
 
-        public IReadOnlyList<IOverwrite> Overwrites => _overwrites ??= Model.PermissionOverwrites.Value.ToReadOnlyList(this, (x, @this) => new TransientOverwrite(@this.Client, @this.Id, x));
+        public virtual IReadOnlyList<IOverwrite> Overwrites => _overwrites ??= Model.PermissionOverwrites.Value.ToReadOnlyList(this, (x, @this) => new TransientOverwrite(@this.Client, @this.Id, x));
         private IReadOnlyList<IOverwrite> _overwrites;
 
         protected TransientGuildChannel(IClient client, ChannelJsonModel model)
@@ -23,9 +23,6 @@ namespace Disqord
             {
                 case ChannelType.Text:
                 case ChannelType.News:
-                case ChannelType.Store:
-                // TODO: threads
-                case ChannelType.Thread:
                     return new TransientTextChannel(client, model);
 
                 case ChannelType.Voice:
@@ -33,9 +30,20 @@ namespace Disqord
 
                 case ChannelType.Category:
                     return new TransientCategoryChannel(client, model);
+
+                case ChannelType.Store:
+                    return new TransientStoreChannel(client, model);
+
+                case ChannelType.NewsThread:
+                case ChannelType.PublicThread:
+                case ChannelType.PrivateThread:
+                    return new TransientThreadChannel(client, model);
+
+                case ChannelType.Stage:
+                    return new TransientStageChannel(client, model);
             }
 
-            return null /*TransientUnknownChannel(client, model)*/;
+            return new TransientUnknownGuildChannel(client, model);
         }
     }
 }

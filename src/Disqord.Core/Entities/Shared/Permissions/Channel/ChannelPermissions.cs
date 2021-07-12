@@ -65,6 +65,12 @@ namespace Disqord
         public bool UseSlashCommands => Discord.Permissions.HasFlag(RawValue, Permission.UseSlashCommands);
 
         public bool RequestToSpeak => Discord.Permissions.HasFlag(RawValue, Permission.RequestToSpeak);
+        
+        public bool ManageThreads => Discord.Permissions.HasFlag(RawValue, Permission.ManageThreads);
+        
+        public bool UsePublicThreads => Discord.Permissions.HasFlag(RawValue, Permission.UsePublicThreads);
+        
+        public bool UsePrivateThreads => Discord.Permissions.HasFlag(RawValue, Permission.UsePrivateThreads);
 
         public Permission Permissions => (Permission) RawValue;
 

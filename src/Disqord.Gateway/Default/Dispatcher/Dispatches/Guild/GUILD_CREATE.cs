@@ -83,13 +83,34 @@ namespace Disqord.Gateway.Default.Dispatcher
                 {
                     if (isPending)
                     {
-                        var channel = CachedGuildChannel.Create(Client, model.Id, channelModel);
+                        channelModel.GuildId = model.Id;
+                        var channel = CachedGuildChannel.Create(Client, channelModel);
                         channelCache.Add(channel.Id, channel);
                     }
                     else
                     {
                         var channel = channelCache.GetValueOrDefault(channelModel.Id);
                         channel?.Update(channelModel);
+                    }
+                }
+
+                foreach (var threadModel in model.Threads)
+                {
+                    if (isPending)
+                    {
+                        threadModel.GuildId = model.Id;
+                        if (threadModel.Member.HasValue)
+                        {
+                            threadModel.Member.Value.Id = threadModel.Id;
+                            threadModel.Member.Value.UserId = Client.CurrentUser.Id;
+                        }
+                        var channel = new CachedThreadChannel(Client, threadModel);
+                        channelCache.Add(channel.Id, channel);
+                    }
+                    else
+                    {
+                        var channel = channelCache.GetValueOrDefault(threadModel.Id);
+                        channel?.Update(threadModel);
                     }
                 }
             }

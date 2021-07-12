@@ -17,9 +17,10 @@ namespace Disqord
             HasOwnReaction = model.Me;
         }
 
-        public MessageReaction(EmojiJsonModel emoji, bool hasOwnReaction)
+        public MessageReaction(IEmoji emoji, int count, bool hasOwnReaction)
         {
-            Emoji = Disqord.Emoji.Create(emoji);
+            Emoji = emoji;
+            Count = count;
             HasOwnReaction = hasOwnReaction;
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Gateway;
 using Qmmands;
@@ -21,31 +20,19 @@ namespace Disqord.Bot
                 throw new InvalidOperationException($"{GetType().Name} requires a non-null guild.");
 
             var (targetName, target) = GetTarget(context);
-            if (argument is IMember member)
+            if (argument is IMember memberArgument)
             {
-                if (GetHierarchy(context.Guild, target) > GetHierarchy(context.Guild, member))
+                if (target.GetHierarchy(context.Guild) > memberArgument.GetHierarchy(context.Guild))
                     return Success();
             }
             else
             {
-                var role = argument as IRole;
-                if (GetHierarchy(context.Guild, target) > role.Position)
+                var roleArgument = argument as IRole;
+                if (target.GetHierarchy(context.Guild) > roleArgument.Position)
                     return Success();
             }
 
             return Failure($"The provided {(argument is IMember ? "member" : "role")} must be below the {targetName} in role hierarchy.");
-        }
-
-        public static int GetHierarchy(IGuild guild, IMember member)
-        {
-            if (guild.OwnerId == member.Id)
-                return int.MaxValue;
-
-            // TODO: account for broken positions?
-            var roles = member.GetRoles();
-            return roles.Count != 0
-                ? roles.Values.Max(x => x.Position)
-                : 0;
         }
     }
 }

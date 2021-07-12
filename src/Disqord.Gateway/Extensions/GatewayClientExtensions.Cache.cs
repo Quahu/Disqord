@@ -5,7 +5,6 @@ namespace Disqord.Gateway
 {
     public static partial class GatewayClientExtensions
     {
-        // TODO: consistent throwing behavior
         public static CachedUser GetUser(this IGatewayClient client, Snowflake userId)
         {
             if (client.CacheProvider.TryGetUsers(out var cache))

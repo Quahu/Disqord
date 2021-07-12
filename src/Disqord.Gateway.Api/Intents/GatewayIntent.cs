@@ -2,7 +2,6 @@
 
 namespace Disqord.Gateway
 {
-    // TODO: xmldocs
     /// <summary>
     ///     Represents one or more gateway intent flags.
     /// </summary>

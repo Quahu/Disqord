@@ -28,6 +28,9 @@ namespace Disqord.Gateway.Api.Models
         [JsonProperty("channels")]
         public ChannelJsonModel[] Channels;
 
+        [JsonProperty("threads")]
+        public ChannelJsonModel[] Threads;
+
         [JsonProperty("presences")]
         public PresenceJsonModel[] Presences;
 

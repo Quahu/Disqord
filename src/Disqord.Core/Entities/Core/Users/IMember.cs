@@ -23,7 +23,6 @@ namespace Disqord
         /// <summary>
         ///     Gets when this member joined the guild.
         /// </summary>
-        // TODO: nullable for lurkers?
         Optional<DateTimeOffset> JoinedAt { get; }
 
         /// <summary>

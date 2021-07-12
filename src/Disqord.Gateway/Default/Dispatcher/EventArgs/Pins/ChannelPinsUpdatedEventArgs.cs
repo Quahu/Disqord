@@ -18,9 +18,9 @@ namespace Disqord.Gateway
         ///     Gets the channel the pins were updated in.
         ///     Returns <see langword="null"/> if the channel was not cached.
         /// </summary>
-        public CachedTextChannel Channel { get; }
+        public CachedMessageGuildChannel Channel { get; }
 
-        public ChannelPinsUpdatedEventArgs(Snowflake? guildId, Snowflake channelId, CachedTextChannel channel)
+        public ChannelPinsUpdatedEventArgs(Snowflake? guildId, Snowflake channelId, CachedMessageGuildChannel channel)
         {
             GuildId = guildId;
             ChannelId = channelId;
