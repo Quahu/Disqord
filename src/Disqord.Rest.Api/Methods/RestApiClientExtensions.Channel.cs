@@ -206,5 +206,100 @@ namespace Disqord.Rest.Api
             var route = Format(Route.Channel.UnpinMessage, channelId, messageId);
             return client.ExecuteAsync(route, null, options);
         }
+
+        public static Task<ChannelJsonModel> CreateThreadAsync(this IRestApiClient client, Snowflake channelId, CreateThreadJsonRestRequestContent content, Snowflake? messageId = null, IRestRequestOptions options = null)
+        {
+            var route = messageId == null
+                ? Format(Route.Channel.StartThread, channelId)
+                : Format(Route.Channel.StartThreadWithMessage, channelId, messageId);
+            return client.ExecuteAsync<ChannelJsonModel>(route, content, options);
+        }
+
+        public static Task JoinThreadAsync(this IRestApiClient client, Snowflake threadId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Channel.JoinThread, threadId);
+            return client.ExecuteAsync(route, null, options);
+        }
+
+        public static Task AddThreadMemberAsync(this IRestApiClient client, Snowflake threadId, Snowflake userId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Channel.AddThreadMember, threadId, userId);
+            return client.ExecuteAsync(route, null, options);
+        }
+
+        public static Task LeaveThreadAsync(this IRestApiClient client, Snowflake threadId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Channel.LeaveThread, threadId);
+            return client.ExecuteAsync(route, null, options);
+        }
+
+        public static Task RemoveThreadMemberAsync(this IRestApiClient client, Snowflake threadId, Snowflake userId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Channel.RemoveThreadMember, threadId, userId);
+            return client.ExecuteAsync(route, null, options);
+        }
+
+        public static Task<ThreadMemberJsonModel[]> FetchThreadMembers(this IRestApiClient client, Snowflake threadId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Channel.ListThreadMembers, threadId);
+            return client.ExecuteAsync<ThreadMemberJsonModel[]>(route, null, options);
+        }
+
+        public static Task<ThreadListJsonModel> FetchActiveThreadsAsync(this IRestApiClient client, Snowflake channelId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Channel.ListActiveThreads, channelId);
+            return client.ExecuteAsync<ThreadListJsonModel>(route, null, options);
+        }
+
+        public static Task<ThreadListJsonModel> FetchPublicArchivedThreads(this IRestApiClient client, Snowflake channelId, int limit = 100, DateTimeOffset? before = null, IRestRequestOptions options = null)
+        {
+            if (limit < 1 || limit > 100)
+                throw new ArgumentOutOfRangeException(nameof(limit));
+            
+            var queryParameters = new Dictionary<string, object>
+            {
+                ["limit"] = limit
+            };
+            
+            if (before != null)
+                queryParameters.Add("before", before.Value.ToString("O"));
+
+            var route = Format(Route.Channel.ListPublicArchivedThreads, queryParameters, channelId);
+            return client.ExecuteAsync<ThreadListJsonModel>(route);
+        }
+
+        public static Task<ThreadListJsonModel> FetchPrivateArchivedThreads(this IRestApiClient client, Snowflake channelId, int limit = 100, DateTimeOffset? before = null, IRestRequestOptions options = null)
+        {
+            if (limit < 1 || limit > 100)
+                throw new ArgumentOutOfRangeException(nameof(limit));
+            
+            var queryParameters = new Dictionary<string, object>
+            {
+                ["limit"] = limit
+            };
+            
+            if (before != null)
+                queryParameters["before"] = before.Value.ToString("O");
+            
+            var route = Format(Route.Channel.ListPrivateArchivedThreads, queryParameters, channelId);
+            return client.ExecuteAsync<ThreadListJsonModel>(route);
+        }
+
+        public static Task<ThreadListJsonModel> FetchJoinedPrivateArchivedThreads(this IRestApiClient client, Snowflake channelId, int limit = 100, Snowflake? beforeId = null, IRestRequestOptions options = null)
+        {
+            if (limit < 1 || limit > 100)
+                throw new ArgumentOutOfRangeException(nameof(limit));
+            
+            var queryParameters = new Dictionary<string, object>
+            {
+                ["limit"] = limit
+            };
+
+            if (beforeId != null)
+                queryParameters["before"] = beforeId;
+
+            var route = Format(Route.Channel.ListJoinedPrivateArchivedThreads, queryParameters, channelId);
+            return client.ExecuteAsync<ThreadListJsonModel>(route);
+        }
     }
 }
