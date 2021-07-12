@@ -27,9 +27,10 @@ namespace Disqord.Rest
             if (previousPage != null && previousPage.Count > 0)
                 startFromTime = previousPage[^1].ArchiveStateChangedAt;
 
-            var response = _enumeratePublicThreads ?
-                await Client.InternalFetchPublicArchivedThreads(_channelId, NextAmount, startFromTime, options).ConfigureAwait(false) :
-                await Client.InternalFetchPrivateArchivedThreads(_channelId, NextAmount, startFromTime, options).ConfigureAwait(false);
+            var task = _enumeratePublicThreads
+                ? Client.InternalFetchPublicArchivedThreads(_channelId, NextAmount, startFromTime, options)
+                : Client.InternalFetchPrivateArchivedThreads(_channelId, NextAmount, startFromTime, options);
+            var response = await task.ConfigureAwait(false);
                 
             if (!response.HasMore)
                 Remaining = 0;

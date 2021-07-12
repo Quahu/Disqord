@@ -221,9 +221,9 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync(route, null, options);
         }
 
-        public static Task AddThreadMemberAsync(this IRestApiClient client, Snowflake threadId, Snowflake userId, IRestRequestOptions options = null)
+        public static Task AddThreadMemberAsync(this IRestApiClient client, Snowflake threadId, Snowflake memberId, IRestRequestOptions options = null)
         {
-            var route = Format(Route.Channel.AddThreadMember, threadId, userId);
+            var route = Format(Route.Channel.AddThreadMember, threadId, memberId);
             return client.ExecuteAsync(route, null, options);
         }
 
@@ -233,9 +233,9 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync(route, null, options);
         }
 
-        public static Task RemoveThreadMemberAsync(this IRestApiClient client, Snowflake threadId, Snowflake userId, IRestRequestOptions options = null)
+        public static Task RemoveThreadMemberAsync(this IRestApiClient client, Snowflake threadId, Snowflake memberId, IRestRequestOptions options = null)
         {
-            var route = Format(Route.Channel.RemoveThreadMember, threadId, userId);
+            var route = Format(Route.Channel.RemoveThreadMember, threadId, memberId);
             return client.ExecuteAsync(route, null, options);
         }
 

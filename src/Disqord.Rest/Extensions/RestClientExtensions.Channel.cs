@@ -66,16 +66,26 @@ namespace Disqord.Rest
                 Position = properties.Position,
                 PermissionOverwrites = Optional.Convert(properties.Overwrites, x => x.Select(x => x.ToModel()).ToArray())
             };
-
+            
             if (properties is ModifyNestableChannelActionProperties nestableProperties)
             {
                 content.ParentId = nestableProperties.CategoryId;
 
-                if (nestableProperties is ModifyTextChannelActionProperties textProperties)
+                if (nestableProperties is ModifyMessageGuildChannelActionProperties messageGuildChannelProperties)
                 {
-                    content.Topic = textProperties.Topic;
-                    content.Nsfw = textProperties.IsNsfw;
-                    content.RateLimitPerUser = textProperties.Slowmode;
+                    content.RateLimitPerUser = Optional.Convert(messageGuildChannelProperties.Slowmode, x => (int)x.TotalMinutes);
+                    
+                    if (nestableProperties is ModifyTextChannelActionProperties textProperties)
+                    {
+                        content.Topic = textProperties.Topic;
+                        content.Nsfw = textProperties.IsNsfw;
+                    }
+                    else if (nestableProperties is ModifyThreadChannelActionProperties threadProperties)
+                    {
+                        content.Archived = threadProperties.IsArchived;
+                        content.AutoArchiveDuration = Optional.Convert(threadProperties.AutoArchiveDuration, x => (int)x.TotalMinutes);
+                        content.Locked = threadProperties.IsLocked;
+                    }
                 }
                 else if (nestableProperties is ModifyVoiceChannelActionProperties voiceProperties)
                 {
@@ -87,13 +97,6 @@ namespace Disqord.Rest
             else if (properties is ModifyCategoryChannelActionProperties categoryProperties)
             {
                 // No extra properties for category channels.
-            }
-            else if (properties is ModifyThreadChannelActionProperties threadProperties)
-            {
-                content.Archived = threadProperties.IsArchived;
-                content.AutoArchiveDuration = threadProperties.AutoArchiveDuration;
-                content.Locked = threadProperties.IsLocked;
-                content.RateLimitPerUser = threadProperties.Slowmode;
             }
             else
             {
@@ -391,25 +394,25 @@ namespace Disqord.Rest
         public static Task UnpinMessageAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IRestRequestOptions options = null)
             => client.ApiClient.UnpinMessageAsync(channelId, messageId, options);
 
-        public static async Task<IThreadChannel> CreatePublicThreadAsync(this IRestClient client, Snowflake channelId, string name, Snowflake? messageId = null, TimeSpan autoArchiveDuration = default, IRestRequestOptions options = null)
+        public static async Task<IThreadChannel> CreatePublicThreadAsync(this IRestClient client, Snowflake channelId, string name, Snowflake? messageId = null, TimeSpan? autoArchiveDuration = null, IRestRequestOptions options = null)
         {
             var content = new CreateThreadJsonRestRequestContent
             {
                 Name = name,
-                AutoArchiveDuration = Optional.Conditional(autoArchiveDuration != default, (int)autoArchiveDuration.TotalMinutes),
-                Type = Optional.Conditional(messageId == null, (int?)ChannelType.PublicThread)
+                AutoArchiveDuration = Optional.Conditional(autoArchiveDuration != null, duration => (int)duration.Value.TotalMinutes, autoArchiveDuration),
+                Type = Optional.Conditional(messageId == null, ChannelType.PublicThread)
             };
             var model = await client.ApiClient.CreateThreadAsync(channelId, content, messageId, options).ConfigureAwait(false);
             return new TransientThreadChannel(client, model);
         }
         
-        public static async Task<IThreadChannel> CreatePrivateThreadAsync(this IRestClient client, Snowflake channelId, string name, TimeSpan autoArchiveDuration = default, IRestRequestOptions options = null)
+        public static async Task<IThreadChannel> CreatePrivateThreadAsync(this IRestClient client, Snowflake channelId, string name, TimeSpan? autoArchiveDuration = null, IRestRequestOptions options = null)
         {
             var content = new CreateThreadJsonRestRequestContent
             {
                 Name = name,
-                AutoArchiveDuration = Optional.Conditional(autoArchiveDuration != default, (int)autoArchiveDuration.TotalMinutes),
-                Type = (int)ChannelType.PrivateThread
+                AutoArchiveDuration = Optional.Conditional(autoArchiveDuration != null, (int)autoArchiveDuration.Value.TotalMinutes),
+                Type = ChannelType.PrivateThread
             };
             var model = await client.ApiClient.CreateThreadAsync(channelId, content, null, options).ConfigureAwait(false);
             return new TransientThreadChannel(client, model);
@@ -418,14 +421,14 @@ namespace Disqord.Rest
         public static Task JoinThreadAsync(this IRestClient client, Snowflake threadId, IRestRequestOptions options = null)
             => client.ApiClient.JoinThreadAsync(threadId, options);
         
-        public static Task AddThreadMemberAsync(this IRestClient client, Snowflake threadId, Snowflake userId, IRestRequestOptions options = null)
-            => client.ApiClient.AddThreadMemberAsync(threadId, userId);
+        public static Task AddThreadMemberAsync(this IRestClient client, Snowflake threadId, Snowflake memberId, IRestRequestOptions options = null)
+            => client.ApiClient.AddThreadMemberAsync(threadId, memberId);
 
         public static Task LeaveThreadAsync(this IRestClient client, Snowflake threadId, IRestRequestOptions options = null)
             => client.ApiClient.LeaveThreadAsync(threadId, options);
         
-        public static Task RemoveThreadMemberAsync(this IRestClient client, Snowflake threadId, Snowflake userId, IRestRequestOptions options = null)
-            => client.ApiClient.RemoveThreadMemberAsync(threadId, userId, options);
+        public static Task RemoveThreadMemberAsync(this IRestClient client, Snowflake threadId, Snowflake memberId, IRestRequestOptions options = null)
+            => client.ApiClient.RemoveThreadMemberAsync(threadId, memberId, options);
 
         public static async Task<IReadOnlyList<IThreadMember>> FetchThreadMembers(this IRestClient client, Snowflake threadId, IRestRequestOptions options = null)
         {
@@ -451,15 +454,9 @@ namespace Disqord.Rest
             return model.Threads.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x));
         }
 
-        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPublicArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
-        {
-            var model = await client.ApiClient.FetchPublicArchivedThreads(channelId, limit, startFromDate, options).ConfigureAwait(false);
-            var models = MatchThreadsToMembers(model);
-            return (model.HasMore, models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x)));
-        }
-
         public static IPagedEnumerable<IThreadChannel> EnumeratePublicArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
             => new PagedEnumerable<IThreadChannel>(new FetchArchivedThreadsPagedEnumerator(client, channelId, limit, startFromDate, true, options));
+
         public static async Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             if (limit == 0)
@@ -471,16 +468,17 @@ namespace Disqord.Rest
             var enumerable = client.EnumeratePublicArchivedThreads(channelId, limit, startFromDate, options);
             return await enumerable.FlattenAsync().ConfigureAwait(false);
         }
-        
-        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+
+        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPublicArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
-            var model = await client.ApiClient.FetchPrivateArchivedThreads(channelId, limit, startFromDate, options).ConfigureAwait(false);
+            var model = await client.ApiClient.FetchPublicArchivedThreads(channelId, limit, startFromDate, options).ConfigureAwait(false);
             var models = MatchThreadsToMembers(model);
             return (model.HasMore, models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x)));
         }
 
         public static IPagedEnumerable<IThreadChannel> EnumeratePrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
             => new PagedEnumerable<IThreadChannel>(new FetchArchivedThreadsPagedEnumerator(client, channelId, limit, startFromDate, false, options));
+
         public static async Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             if (limit == 0)
@@ -492,16 +490,17 @@ namespace Disqord.Rest
             var enumerable = client.EnumeratePrivateArchivedThreads(channelId, limit, startFromDate, options);
             return await enumerable.FlattenAsync().ConfigureAwait(false);
         }
-        
-        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchJoinedPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
+
+        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
-            var model = await client.ApiClient.FetchJoinedPrivateArchivedThreads(channelId, limit, startFromId, options).ConfigureAwait(false);
+            var model = await client.ApiClient.FetchPrivateArchivedThreads(channelId, limit, startFromDate, options).ConfigureAwait(false);
             var models = MatchThreadsToMembers(model);
             return (model.HasMore, models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x)));
         }
 
         public static IPagedEnumerable<IThreadChannel> EnumerateJoinedPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
             => new PagedEnumerable<IThreadChannel>(new FetchJoinedPrivateArchivedThreadsPagedEnumerator(client, channelId, limit, startFromId, options));
+
         public static async Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             if (limit == 0)
@@ -512,6 +511,13 @@ namespace Disqord.Rest
 
             var enumerable = client.EnumerateJoinedPrivateArchivedThreads(channelId, limit, startFromId, options);
             return await enumerable.FlattenAsync().ConfigureAwait(false);
+        }
+
+        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchJoinedPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.FetchJoinedPrivateArchivedThreads(channelId, limit, startFromId, options).ConfigureAwait(false);
+            var models = MatchThreadsToMembers(model);
+            return (model.HasMore, models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x)));
         }
     }
 }
