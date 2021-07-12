@@ -32,9 +32,8 @@ namespace Disqord.Models
         [JsonProperty("source_guild_id")]
         public Snowflake SourceGuildId;
 
-        // TODO: Figure out what to do here since this object does not have properties such as id, etc.
-        // [JsonProperty("serialized_source_guild")]
-        // public GuildJsonModel SerializedSourceGuild;
+        [JsonProperty("serialized_source_guild")]
+        public IJsonObject SerializedSourceGuild;
 
         [JsonProperty("is_dirty")] 
         public bool? IsDirty;
