@@ -222,8 +222,12 @@ namespace Disqord.Rest
         // TODO: modify widget
 
         // TODO: fetch vanity invite
-
-        // TODO: fetch preview
+        
+        public static Task<IGuildPreview> FetchPreviewAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchPreviewAsync(guild.Id, options);
+        }
 
         /*
          * Emoji
