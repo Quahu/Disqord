@@ -216,12 +216,24 @@ namespace Disqord.Rest
             var client = guild.GetRestClient();
             return client.DeleteIntegrationAsync(guild.Id, integrationId, options);
         }
-
-        // TODO: fetch widget
-
-        // TODO: modify widget
-
-        // TODO: fetch vanity invite
+        
+        public static Task<IWidget> FetchWidgetAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchWidgetAsync(guild.Id, options);
+        }
+        
+        public static Task<IWidget> ModifyWidgetAsync(this IGuild guild, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyWidgetAsync(guild.Id, action, options);
+        }
+        
+        public static Task<IVanityInvite> FetchVanityInviteAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchVanityInviteAsync(guild.Id, options);
+        }
         
         public static Task<IGuildPreview> FetchPreviewAsync(this IGuild guild, IRestRequestOptions options = null)
         {

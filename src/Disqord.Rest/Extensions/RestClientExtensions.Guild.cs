@@ -397,34 +397,36 @@ namespace Disqord.Rest
         public static Task DeleteIntegrationAsync(this IRestClient client, Snowflake guildId, Snowflake integrationId, IRestRequestOptions options = null)
             => client.ApiClient.DeleteIntegrationAsync(guildId, integrationId, options);
 
-        //public async Task<RestWidget> GetWidgetAsync(Snowflake guildId, IRestRequestOptions options = null)
-        //{
-        //    var model = await ApiClient.GetGuildEmbedAsync(guildId, options).ConfigureAwait(false);
-        //    return new RestWidget(this, model, guildId);
-        //}
+        public static async Task<IWidget> FetchWidgetAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.FetchGuildWidgetAsync(guildId, options).ConfigureAwait(false);
+            return new TransientWidget(client, guildId, model);
+        }
+        
+        public static async Task<IWidget> ModifyWidgetAsync(this IRestClient client, Snowflake guildId, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null)
+        {
+            var properties = new ModifyWidgetActionProperties();
+            action(properties);
 
-        //public async Task<RestWidget> ModifyWidgetAsync(Snowflake guildId, Action<ModifyWidgetProperties> action, IRestRequestOptions options = null)
-        //{
-        //    var model = await InternalModifyWidgetAsync(guildId, action, options).ConfigureAwait(false);
-        //    return new RestWidget(this, model, guildId);
-        //}
+            var content = new ModifyGuildWidgetSettingsJsonRestRequestContent
+            {
+                Enabled = properties.IsEnabled,
+                ChannelId = properties.ChannelId
+            };
 
-        //internal async Task<WidgetModel> InternalModifyWidgetAsync(Snowflake guildId, Action<ModifyWidgetProperties> action, IRestRequestOptions options = null)
-        //{
-        //    if (action == null)
-        //        throw new ArgumentNullException(nameof(action));
-
-        //    var properties = new ModifyWidgetProperties();
-        //    action(properties);
-        //    return await ApiClient.ModifyGuildEmbedAsync(guildId, properties, options).ConfigureAwait(false);
-        //}
-
-        // public static Task<string> GetVanityInviteAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
-        // => client.ApiClient.GetGuildVanityUrlAsync(guildId, options);
+            var model = await client.ApiClient.ModifyGuildWidgetAsync(guildId, content, options).ConfigureAwait(false);
+            return new TransientWidget(client, guildId, model);
+        }
+        
+        public static async Task<IVanityInvite> FetchVanityInviteAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.FetchGuildVanityInviteAsync(guildId, options).ConfigureAwait(false);
+            return new TransientVanityInvite(client, guildId, model);
+        }
 
         public static async Task<IGuildPreview> FetchPreviewAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
-            var model = await client.ApiClient.GetGuildPreviewAsync(guildId, options).ConfigureAwait(false);
+            var model = await client.ApiClient.FetchGuildPreviewAsync(guildId, options).ConfigureAwait(false);
             return new TransientGuildPreview(client, model);
         }
     }
