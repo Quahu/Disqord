@@ -425,7 +425,7 @@ namespace Disqord.Rest
         public static async Task<IGuildPreview> FetchPreviewAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.GetGuildPreviewAsync(guildId, options).ConfigureAwait(false);
-            return new TransientGuildPreview(client, guildId, model);
+            return new TransientGuildPreview(client, model);
         }
     }
 }
