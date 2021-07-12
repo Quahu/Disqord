@@ -3,13 +3,13 @@
     public interface IGuildVoiceRegion : IVoiceRegion, IGuildEntity
     {
         /// <summary>
-        /// Gets whether this voice region is vip-only.
+        ///     Gets whether this voice region is VIP-only.
         /// </summary>
-        bool Vip { get; }
+        bool IsVip { get; }
         
         /// <summary>
-        /// Gets whether this voice region is custom, used for events/etc.
+        ///     Gets whether this voice region is custom, used for events/etc.
         /// </summary>
-        bool Custom { get; }
+        bool IsCustom { get; }
     }
 }

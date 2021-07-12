@@ -371,7 +371,11 @@ namespace Disqord.Rest
         public static async Task<IReadOnlyList<IGuildVoiceRegion>> FetchGuildVoiceRegionsAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var models = await client.ApiClient.FetchGuildVoiceRegionsAsync(guildId, options).ConfigureAwait(false);
-            return models.ToReadOnlyList(client, (x, client) => new TransientGuildVoiceRegion(client, guildId, x));
+            return models.ToReadOnlyList((client, guildId), static(x, tuple) =>
+            {
+                var (client, guildId) = tuple;
+                return new TransientGuildVoiceRegion(client, guildId, x);
+            });
         }
 
         public static async Task<IReadOnlyList<IInvite>> FetchGuildInvitesAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)

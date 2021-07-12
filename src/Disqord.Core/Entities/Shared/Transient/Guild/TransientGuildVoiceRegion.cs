@@ -8,10 +8,10 @@ namespace Disqord
         public Snowflake GuildId { get; }
 
         /// <inheritdoc/>
-        public bool Vip => Model.Vip;
+        public bool IsVip => Model.Vip;
 
         /// <inheritdoc/>
-        public bool Custom => Model.Custom;
+        public bool IsCustom => Model.Custom;
         
         public TransientGuildVoiceRegion(IClient client, Snowflake guildId, VoiceRegionJsonModel model)
             : base(client, model)

@@ -11,10 +11,10 @@ namespace Disqord
         public string Name => Model.Name;
         
         /// <inheritdoc/>
-        public bool Optimal => Model.Optimal;
+        public bool IsOptimal => Model.Optimal;
         
         /// <inheritdoc/>
-        public bool Deprecated => Model.Deprecated;
+        public bool IsDepreciated => Model.Deprecated;
 
         public TransientVoiceRegion(IClient client, VoiceRegionJsonModel model)
             : base(client, model)
