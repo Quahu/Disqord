@@ -268,11 +268,22 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<WelcomeScreenJsonModel>(route, content, options);
         }
 
-        public static Task<GuildPreviewJsonModel> GetGuildPreviewAsync(this IRestApiClient client, Snowflake guildId,
-            IRestRequestOptions options = null)
+        public static Task<GuildWidgetSettingsJsonModel> FetchGuildWidgetAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
-            var route = Format(Route.Guild.GetGuildPreview, guildId);
-            return client.ExecuteAsync<GuildPreviewJsonModel>(route, null, options);
+            var route = Format(Route.Guild.GetWidgetSettings, guildId);
+            return client.ExecuteAsync<GuildWidgetSettingsJsonModel>(route, null, options);
+        }
+
+        public static Task<GuildWidgetSettingsJsonModel> ModifyGuildWidgetAsync(this IRestApiClient client, Snowflake guildId, ModifyGuildWidgetSettingsJsonRestRequestContent content, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.ModifyWidget, guildId);
+            return client.ExecuteAsync<GuildWidgetSettingsJsonModel>(route, content, options);
+        }
+
+        public static Task<InviteJsonModel> FetchGuildVanityInviteAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.GetVanityUrl, guildId);
+            return client.ExecuteAsync<InviteJsonModel>(route, null, options);
         }
     }
 }
