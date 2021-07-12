@@ -267,5 +267,12 @@ namespace Disqord.Rest.Api
             var route = Format(Route.Guild.ModifyWelcomeScreen, guildId);
             return client.ExecuteAsync<WelcomeScreenJsonModel>(route, content, options);
         }
+
+        public static Task<GuildPreviewJsonModel> GetGuildPreviewAsync(this IRestApiClient client, Snowflake guildId,
+            IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.GetGuildPreview, guildId);
+            return client.ExecuteAsync<GuildPreviewJsonModel>(route, null, options);
+        }
     }
 }
