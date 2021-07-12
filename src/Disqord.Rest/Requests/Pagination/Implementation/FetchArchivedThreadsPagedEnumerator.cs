@@ -9,20 +9,20 @@ namespace Disqord.Rest
         public override int PageSize => 100;
         
         private readonly Snowflake _channelId;
-        private readonly DateTimeOffset? _before;
+        private readonly DateTimeOffset? _startFromTime;
         private readonly bool _enumeratePublicThreads;
 
-        public FetchArchivedThreadsPagedEnumerator(IRestClient client, Snowflake channelId, int limit, DateTimeOffset? before, bool enumeratePublicThreads, IRestRequestOptions options = null) 
+        public FetchArchivedThreadsPagedEnumerator(IRestClient client, Snowflake channelId, int limit, DateTimeOffset? startFromTime, bool enumeratePublicThreads, IRestRequestOptions options = null) 
             : base(client, limit, options)
         {
             _channelId = channelId;
-            _before = before;
+            _startFromTime = startFromTime;
             _enumeratePublicThreads = enumeratePublicThreads;
         }
 
         protected override async Task<IReadOnlyList<IThreadChannel>> NextPageAsync(IReadOnlyList<IThreadChannel> previousPage, IRestRequestOptions options = null)
         {
-            var startFromTime = _before;
+            var startFromTime = _startFromTime;
 
             if (previousPage != null && previousPage.Count > 0)
                 startFromTime = previousPage[^1].ArchiveStateChangedAt;

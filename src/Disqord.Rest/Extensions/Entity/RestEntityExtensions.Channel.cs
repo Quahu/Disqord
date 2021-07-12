@@ -242,22 +242,22 @@ namespace Disqord.Rest
             return client.FetchActiveThreads(channel.Id, options);
         }
 
-        public static Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreads(this IThreadChannel channel, int limit = 100, DateTimeOffset? before = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreads(this IThreadChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
-            return client.FetchPublicArchivedThreads(channel.Id, limit, before, options);
+            return client.FetchPublicArchivedThreads(channel.Id, limit, startFromDate, options);
         }
         
-        public static Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreads(this IThreadChannel channel, int limit = 100, DateTimeOffset? before = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreads(this IThreadChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
-            return client.FetchPrivateArchivedThreads(channel.Id, limit, before, options);
+            return client.FetchPrivateArchivedThreads(channel.Id, limit, startFromDate, options);
         }
         
-        public static Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreads(this IThreadChannel channel, int limit = 100, Snowflake? beforeId = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreads(this IThreadChannel channel, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
-            return client.FetchJoinedPrivateArchivedThreads(channel.Id, limit, beforeId, options);
+            return client.FetchJoinedPrivateArchivedThreads(channel.Id, limit, startFromId, options);
         }
     }
 }

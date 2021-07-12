@@ -5,11 +5,11 @@ namespace Disqord
 {
     public class ModifyThreadChannelActionProperties : ModifyGuildChannelActionProperties
     {
-        public Optional<bool> Archived { internal get; set; }
+        public Optional<bool> IsArchived { internal get; set; }
         
         public Optional<int> AutoArchiveDuration { internal get; set; }
         
-        public Optional<bool> Locked { internal get; set; }
+        public Optional<bool> IsLocked { internal get; set; }
 
         public Optional<int> Slowmode { internal get; set; }
         

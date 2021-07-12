@@ -90,9 +90,9 @@ namespace Disqord.Rest
             }
             else if (properties is ModifyThreadChannelActionProperties threadProperties)
             {
-                content.Archived = threadProperties.Archived;
+                content.Archived = threadProperties.IsArchived;
                 content.AutoArchiveDuration = threadProperties.AutoArchiveDuration;
-                content.Locked = threadProperties.Locked;
+                content.Locked = threadProperties.IsLocked;
                 content.RateLimitPerUser = threadProperties.Slowmode;
             }
             else
@@ -451,66 +451,66 @@ namespace Disqord.Rest
             return model.Threads.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x));
         }
 
-        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPublicArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? before = null, IRestRequestOptions options = null)
+        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPublicArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
-            var model = await client.ApiClient.FetchPublicArchivedThreads(channelId, limit, before, options).ConfigureAwait(false);
+            var model = await client.ApiClient.FetchPublicArchivedThreads(channelId, limit, startFromDate, options).ConfigureAwait(false);
             var models = MatchThreadsToMembers(model);
             return (model.HasMore, models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x)));
         }
 
-        public static IPagedEnumerable<IThreadChannel> EnumeratePublicArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? before = null, IRestRequestOptions options = null)
-            => new PagedEnumerable<IThreadChannel>(new FetchArchivedThreadsPagedEnumerator(client, channelId, limit, before, true, options));
-        public static async Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? before = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IThreadChannel> EnumeratePublicArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+            => new PagedEnumerable<IThreadChannel>(new FetchArchivedThreadsPagedEnumerator(client, channelId, limit, startFromDate, true, options));
+        public static async Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             if (limit == 0)
                 return ReadOnlyList<IThreadChannel>.Empty;
             
             if (limit <= 100)
-                return (await client.InternalFetchPublicArchivedThreads(channelId, limit, before, options).ConfigureAwait(false)).Threads;
+                return (await client.InternalFetchPublicArchivedThreads(channelId, limit, startFromDate, options).ConfigureAwait(false)).Threads;
 
-            var enumerable = client.EnumeratePublicArchivedThreads(channelId, limit, before, options);
+            var enumerable = client.EnumeratePublicArchivedThreads(channelId, limit, startFromDate, options);
             return await enumerable.FlattenAsync().ConfigureAwait(false);
         }
         
-        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? before = null, IRestRequestOptions options = null)
+        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
-            var model = await client.ApiClient.FetchPrivateArchivedThreads(channelId, limit, before, options).ConfigureAwait(false);
+            var model = await client.ApiClient.FetchPrivateArchivedThreads(channelId, limit, startFromDate, options).ConfigureAwait(false);
             var models = MatchThreadsToMembers(model);
             return (model.HasMore, models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x)));
         }
 
-        public static IPagedEnumerable<IThreadChannel> EnumeratePrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? before = null, IRestRequestOptions options = null)
-            => new PagedEnumerable<IThreadChannel>(new FetchArchivedThreadsPagedEnumerator(client, channelId, limit, before, false, options));
-        public static async Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? before = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IThreadChannel> EnumeratePrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+            => new PagedEnumerable<IThreadChannel>(new FetchArchivedThreadsPagedEnumerator(client, channelId, limit, startFromDate, false, options));
+        public static async Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             if (limit == 0)
                 return ReadOnlyList<IThreadChannel>.Empty;
             
             if (limit <= 100)
-                return (await client.InternalFetchPrivateArchivedThreads(channelId, limit, before, options).ConfigureAwait(false)).Threads;
+                return (await client.InternalFetchPrivateArchivedThreads(channelId, limit, startFromDate, options).ConfigureAwait(false)).Threads;
 
-            var enumerable = client.EnumeratePrivateArchivedThreads(channelId, limit, before, options);
+            var enumerable = client.EnumeratePrivateArchivedThreads(channelId, limit, startFromDate, options);
             return await enumerable.FlattenAsync().ConfigureAwait(false);
         }
         
-        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchJoinedPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? beforeId = null, IRestRequestOptions options = null)
+        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchJoinedPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
-            var model = await client.ApiClient.FetchJoinedPrivateArchivedThreads(channelId, limit, beforeId, options).ConfigureAwait(false);
+            var model = await client.ApiClient.FetchJoinedPrivateArchivedThreads(channelId, limit, startFromId, options).ConfigureAwait(false);
             var models = MatchThreadsToMembers(model);
             return (model.HasMore, models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x)));
         }
 
-        public static IPagedEnumerable<IThreadChannel> EnumerateJoinedPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? beforeId = null, IRestRequestOptions options = null)
-            => new PagedEnumerable<IThreadChannel>(new FetchJoinedPrivateArchivedThreadsPagedEnumerator(client, channelId, limit, beforeId, options));
-        public static async Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? beforeId = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IThreadChannel> EnumerateJoinedPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
+            => new PagedEnumerable<IThreadChannel>(new FetchJoinedPrivateArchivedThreadsPagedEnumerator(client, channelId, limit, startFromId, options));
+        public static async Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             if (limit == 0)
                 return ReadOnlyList<IThreadChannel>.Empty;
             
             if (limit <= 100)
-                return (await client.InternalFetchJoinedPrivateArchivedThreads(channelId, limit, beforeId, options).ConfigureAwait(false)).Threads;
+                return (await client.InternalFetchJoinedPrivateArchivedThreads(channelId, limit, startFromId, options).ConfigureAwait(false)).Threads;
 
-            var enumerable = client.EnumerateJoinedPrivateArchivedThreads(channelId, limit, beforeId, options);
+            var enumerable = client.EnumerateJoinedPrivateArchivedThreads(channelId, limit, startFromId, options);
             return await enumerable.FlattenAsync().ConfigureAwait(false);
         }
     }
