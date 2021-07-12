@@ -7,13 +7,10 @@ namespace Disqord
     public class TransientGuildPreview : TransientEntity<GuildPreviewJsonModel>, IGuildPreview
     {
         /// <inheritdoc />
-        public Snowflake GuildId { get; }
+        public Snowflake Id => Model.Id;
         
         /// <inheritdoc />
         public string Name => Model.Name;
-
-        /// <inheritdoc />
-        public Snowflake Id => Model.Id;
 
         /// <inheritdoc />
         public string IconHash => Model.Icon;
@@ -47,7 +44,6 @@ namespace Disqord
         public TransientGuildPreview(IClient client, Snowflake guildId, GuildPreviewJsonModel model) 
             : base(client, model)
         {
-            GuildId = guildId;
         }
     }
 }
