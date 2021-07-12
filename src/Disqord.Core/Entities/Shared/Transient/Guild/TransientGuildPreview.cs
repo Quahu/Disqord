@@ -41,9 +41,8 @@ namespace Disqord
         /// <inheritdoc />
         public string Description => Model.Description;
         
-        public TransientGuildPreview(IClient client, Snowflake guildId, GuildPreviewJsonModel model) 
+        public TransientGuildPreview(IClient client, GuildPreviewJsonModel model) 
             : base(client, model)
-        {
-        }
+        { }
     }
 }
