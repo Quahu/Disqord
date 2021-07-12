@@ -5,11 +5,11 @@ namespace Disqord
     public class TransientWidget : TransientEntity<GuildWidgetSettingsJsonModel>, IWidget
     {
         /// <inheritdoc/>
-        public bool IsEnabled => Model.IsEnabled;
-
-        /// <inheritdoc/>
         public Snowflake ChannelId => Model.ChannelId;
-
+        
+        /// <inheritdoc/>
+        public bool IsEnabled => Model.Enabled;
+        
         public TransientWidget(IClient client, GuildWidgetSettingsJsonModel model)
             : base(client, model)
         { }

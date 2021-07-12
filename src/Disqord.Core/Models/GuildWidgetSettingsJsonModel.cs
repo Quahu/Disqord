@@ -5,7 +5,7 @@ namespace Disqord.Models
     public class GuildWidgetSettingsJsonModel : JsonModel
     {
         [JsonProperty("enabled")]
-        public bool IsEnabled;
+        public bool Enabled;
 
         [JsonProperty("channel_id")]
         public Snowflake ChannelId;
