@@ -8,7 +8,7 @@ namespace Disqord
     {
         public Optional<bool> IsArchived { internal get; set; }
         
-        public Optional<TimeSpan> AutoArchiveDuration { internal get; set; }
+        public Optional<TimeSpan> AutomaticArchiveDuration { internal get; set; }
         
         public Optional<bool> IsLocked { internal get; set; }
 
@@ -30,7 +30,7 @@ namespace Disqord
         public override Optional<Snowflake?> CategoryId
         {
             internal get => Optional<Snowflake?>.Empty;
-            set => throw new InvalidOperationException("Thread channels do not support modifying the category id. Modify the parent channel's category id instead.");
+            set => throw new InvalidOperationException("Thread channels do not support modifying the category ID. Modify the parent channel's category ID instead.");
         }
 
         internal ModifyThreadChannelActionProperties()

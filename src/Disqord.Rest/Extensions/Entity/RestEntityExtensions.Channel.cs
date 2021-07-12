@@ -230,16 +230,16 @@ namespace Disqord.Rest
             return client.RemoveThreadMemberAsync(thread.Id, memberId);
         }
 
-        public static Task<IReadOnlyList<IThreadMember>> FetchMembers(this IThreadChannel thread, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IThreadMember>> FetchMembersAsync(this IThreadChannel thread, IRestRequestOptions options = null)
         {
             var client = thread.GetRestClient();
-            return client.FetchThreadMembers(thread.Id, options);
+            return client.FetchThreadMembersAsync(thread.Id, options);
         }
 
-        public static Task<IReadOnlyList<IThreadChannel>> FetchActiveThreads(this ITextChannel channel, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IThreadChannel>> FetchActiveThreadsAsync(this ITextChannel channel, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
-            return client.FetchActiveThreads(channel.Id, options);
+            return client.FetchActiveThreadsAsync(channel.Id, options);
         }
         
         public static IPagedEnumerable<IThreadChannel> EnumeratePublicArchivedThreads(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
@@ -248,10 +248,10 @@ namespace Disqord.Rest
             return client.EnumeratePublicArchivedThreads(channel.Id, limit, startFromDate, options);
         }
 
-        public static Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreads(this IThreadChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreadsAsync(this IThreadChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
-            return client.FetchPublicArchivedThreads(channel.Id, limit, startFromDate, options);
+            return client.FetchPublicArchivedThreadsAsync(channel.Id, limit, startFromDate, options);
         }
 
         public static IPagedEnumerable<IThreadChannel> EnumeratePrivateArchivedThreads(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
@@ -260,10 +260,10 @@ namespace Disqord.Rest
             return client.EnumeratePrivateArchivedThreads(channel.Id, limit, startFromDate, options);
         }
         
-        public static Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreads(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreadsAsync(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
-            return client.FetchPrivateArchivedThreads(channel.Id, limit, startFromDate, options);
+            return client.FetchPrivateArchivedThreadsAsync(channel.Id, limit, startFromDate, options);
         }
         
         public static IPagedEnumerable<IThreadChannel> EnumerateJoinedPrivateArchivedThreads(this ITextChannel channel, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
@@ -272,10 +272,10 @@ namespace Disqord.Rest
             return client.EnumerateJoinedPrivateArchivedThreads(channel.Id, limit, startFromId, options);
         }
         
-        public static Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreads(this ITextChannel channel, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreadsAsync(this ITextChannel channel, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
-            return client.FetchJoinedPrivateArchivedThreads(channel.Id, limit, startFromId, options);
+            return client.FetchJoinedPrivateArchivedThreadsAsync(channel.Id, limit, startFromId, options);
         }
     }
 }

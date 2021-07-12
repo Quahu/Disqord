@@ -24,7 +24,7 @@ namespace Disqord.Rest
             if (previousPage != null && previousPage.Count > 0)
                 startFromId = previousPage[^1].Id;
 
-            var response = await Client.InternalFetchJoinedPrivateArchivedThreads(_channelId, NextAmount, startFromId, options).ConfigureAwait(false);
+            var response = await Client.InternalFetchJoinedPrivateArchivedThreadsAsync(_channelId, NextAmount, startFromId, options).ConfigureAwait(false);
                 
             if (!response.HasMore)
                 Remaining = 0;

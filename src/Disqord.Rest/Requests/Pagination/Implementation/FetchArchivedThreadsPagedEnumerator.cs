@@ -28,8 +28,8 @@ namespace Disqord.Rest
                 startFromTime = previousPage[^1].ArchiveStateChangedAt;
 
             var task = _enumeratePublicThreads
-                ? Client.InternalFetchPublicArchivedThreads(_channelId, NextAmount, startFromTime, options)
-                : Client.InternalFetchPrivateArchivedThreads(_channelId, NextAmount, startFromTime, options);
+                ? Client.InternalFetchPublicArchivedThreadsAsync(_channelId, NextAmount, startFromTime, options)
+                : Client.InternalFetchPrivateArchivedThreadsAsync(_channelId, NextAmount, startFromTime, options);
             var response = await task.ConfigureAwait(false);
                 
             if (!response.HasMore)
