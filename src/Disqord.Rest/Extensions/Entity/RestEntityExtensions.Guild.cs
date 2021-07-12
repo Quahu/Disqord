@@ -282,5 +282,44 @@ namespace Disqord.Rest
             var client = guild.GetRestClient();
             return client.FetchGuildWebhooksAsync(guild.Id, options);
         }
+        
+        /*
+         * Template
+         */
+        public static Task<IGuildTemplate> FetchTemplateAsync(this IGuild guild, string templateCode, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchTemplateAsync(templateCode, options);
+        }
+
+        public static Task<IReadOnlyList<IGuildTemplate>> FetchTemplatesAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchTemplatesAsync(guild.Id, options);
+        }
+
+        public static Task<IGuildTemplate> CreateTemplateAsync(this IGuild guild, string name, Action<CreateTemplateActionProperties> action = null, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.CreateTemplateAsync(guild.Id, name, action, options);
+        }
+
+        public static Task<IGuildTemplate> SyncTemplateAsync(this IGuild guild, string templateCode, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.SyncTemplateAsync(guild.Id, templateCode, options);
+        }
+
+        public static Task<IGuildTemplate> ModifyTemplateAsync(this IGuild guild, string templateCode, Action<ModifyTemplateActionProperties> action = null, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyTemplateAsync(guild.Id, templateCode, action, options);
+        }
+
+        public static Task<IGuildTemplate> DeleteTemplateAsync(this IGuild guild, string templateCode, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.DeleteTemplateAsync(guild.Id, templateCode, options);
+        }
     }
 }
