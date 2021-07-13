@@ -1,6 +1,8 @@
-﻿namespace Disqord
+﻿using Disqord.Models;
+
+namespace Disqord
 {
-    public interface IVoiceRegion : IEntity, INamable
+    public interface IVoiceRegion : IEntity, INamable, IJsonUpdatable<VoiceRegionJsonModel>
     {
         /// <summary>
         ///     Gets the ID of this voice region.
