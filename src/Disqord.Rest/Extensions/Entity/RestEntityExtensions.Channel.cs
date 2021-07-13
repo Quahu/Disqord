@@ -145,8 +145,11 @@ namespace Disqord.Rest
             return client.CreateInviteAsync(channel.Id, maxAge, maxUses, isTemporaryMembership, isUnique, options);
         }
 
-        public static Task<IFollowedChannel> FollowAsync(this INewsChannel channel, Snowflake targetChannelId, IRestRequestOptions options = null)
+        public static Task<IFollowedChannel> FollowAsync(this ITextChannel channel, Snowflake targetChannelId, IRestRequestOptions options = null)
         {
+            if (!channel.IsNews)
+                throw new ArgumentException("This text channel must be a news channel to follow it.", nameof(channel));
+            
             var client = channel.GetRestClient();
             return client.FollowNewsChannelAsync(channel.Id, targetChannelId, options);
         }

@@ -38,11 +38,9 @@ namespace Disqord.Gateway
             switch (model.Type)
             {
                 case ChannelType.Text:
+                case ChannelType.News:
                     return new CachedTextChannel(client, model);
 
-                case ChannelType.News:
-                    return new CachedNewsChannel(client, model);
-                
                 case ChannelType.Voice:
                     return new CachedVoiceChannel(client, model);
 
