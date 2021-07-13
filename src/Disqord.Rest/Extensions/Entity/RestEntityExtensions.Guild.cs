@@ -304,7 +304,7 @@ namespace Disqord.Rest
             return client.SynchronizeTemplateAsync(guild.Id, templateCode, options);
         }
 
-        public static Task<IGuildTemplate> ModifyTemplateAsync(this IGuild guild, string templateCode, Action<ModifyTemplateActionProperties> action = null, IRestRequestOptions options = null)
+        public static Task<IGuildTemplate> ModifyTemplateAsync(this IGuild guild, string templateCode, Action<ModifyTemplateActionProperties> action, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
             return client.ModifyTemplateAsync(guild.Id, templateCode, action, options);

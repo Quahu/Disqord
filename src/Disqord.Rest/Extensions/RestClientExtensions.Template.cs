@@ -54,7 +54,7 @@ namespace Disqord.Rest
             return new TransientGuildTemplate(client, model);
         }
 
-        public static async Task<IGuildTemplate> ModifyTemplateAsync(this IRestClient client, Snowflake guildId, string templateCode, Action<ModifyTemplateActionProperties> action = null, IRestRequestOptions options = null)
+        public static async Task<IGuildTemplate> ModifyTemplateAsync(this IRestClient client, Snowflake guildId, string templateCode, Action<ModifyTemplateActionProperties> action, IRestRequestOptions options = null)
         {
             var properties = new ModifyTemplateActionProperties();
             action?.Invoke(properties);
