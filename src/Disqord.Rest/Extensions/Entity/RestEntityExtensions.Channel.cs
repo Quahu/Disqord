@@ -145,7 +145,11 @@ namespace Disqord.Rest
             return client.CreateInviteAsync(channel.Id, maxAge, maxUses, isTemporaryMembership, isUnique, options);
         }
 
-        // TODO: follow news channel
+        public static Task<IFollowedChannel> FollowNewsChannelAsync(this IMessageChannel channel, Snowflake webhookChannelId, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.FollowNewsChannelAsync(channel.Id, webhookChannelId, options);
+        }
 
         public static Task TriggerTypingAsync(this IMessageChannel channel, IRestRequestOptions options = null)
         {
