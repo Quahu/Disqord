@@ -55,8 +55,11 @@ namespace Disqord.Rest
             return client.SendMessageAsync(channel.Id, message, options);
         }
 
-        public static Task<IUserMessage> CrosspostMessageAsync(this IMessageChannel channel, Snowflake messageId, IRestRequestOptions options = null)
+        public static Task<IUserMessage> CrosspostMessageAsync(this ITextChannel channel, Snowflake messageId, IRestRequestOptions options = null)
         {
+            if (!channel.IsNews)
+                throw new ArgumentException("This text channel must be a news channel to have messages crossposted from it.", nameof(channel));
+            
             var client = channel.GetRestClient();
             return client.CrosspostMessageAsync(channel.Id, messageId, options);
         }
