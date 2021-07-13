@@ -239,7 +239,7 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync(route, null, options);
         }
 
-        public static Task<ThreadMemberJsonModel[]> FetchThreadMembers(this IRestApiClient client, Snowflake threadId, IRestRequestOptions options = null)
+        public static Task<ThreadMemberJsonModel[]> FetchThreadMembersAsync(this IRestApiClient client, Snowflake threadId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Channel.ListThreadMembers, threadId);
             return client.ExecuteAsync<ThreadMemberJsonModel[]>(route, null, options);
@@ -251,7 +251,7 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<ThreadListJsonModel>(route, null, options);
         }
 
-        public static Task<ThreadListJsonModel> FetchPublicArchivedThreads(this IRestApiClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        public static Task<ThreadListJsonModel> FetchPublicArchivedThreadsAsync(this IRestApiClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             if (limit < 1 || limit > 100)
                 throw new ArgumentOutOfRangeException(nameof(limit));
@@ -268,7 +268,7 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<ThreadListJsonModel>(route);
         }
 
-        public static Task<ThreadListJsonModel> FetchPrivateArchivedThreads(this IRestApiClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        public static Task<ThreadListJsonModel> FetchPrivateArchivedThreadsAsync(this IRestApiClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             if (limit < 1 || limit > 100)
                 throw new ArgumentOutOfRangeException(nameof(limit));
@@ -285,7 +285,7 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<ThreadListJsonModel>(route);
         }
 
-        public static Task<ThreadListJsonModel> FetchJoinedPrivateArchivedThreads(this IRestApiClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static Task<ThreadListJsonModel> FetchJoinedPrivateArchivedThreadsAsync(this IRestApiClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             if (limit < 1 || limit > 100)
                 throw new ArgumentOutOfRangeException(nameof(limit));
