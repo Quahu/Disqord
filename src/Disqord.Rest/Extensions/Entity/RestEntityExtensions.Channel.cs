@@ -55,7 +55,11 @@ namespace Disqord.Rest
             return client.SendMessageAsync(channel.Id, message, options);
         }
 
-        // TODO: crosspost message
+        public static Task<IUserMessage> CrosspostMessageAsync(this IMessageChannel channel, Snowflake messageId, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.CrosspostMessageAsync(channel.Id, messageId, options);
+        }
 
         public static Task AddReactionAsync(this IMessageChannel channel, Snowflake messageId, LocalEmoji emoji, IRestRequestOptions options = null)
         {

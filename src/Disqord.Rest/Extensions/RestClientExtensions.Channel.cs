@@ -161,7 +161,11 @@ namespace Disqord.Rest
             return new TransientUserMessage(client, model);
         }
 
-        // TODO: crosspost message
+        public static async Task<IUserMessage> CrosspostMessageAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.CrosspostMessageAsync(channelId, messageId, options).ConfigureAwait(false);
+            return new TransientUserMessage(client, model);
+        }
 
         public static Task AddReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, IRestRequestOptions options = null)
         {

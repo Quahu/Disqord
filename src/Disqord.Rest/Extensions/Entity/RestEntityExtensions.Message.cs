@@ -13,7 +13,11 @@ namespace Disqord.Rest
             return await client.FetchChannelAsync(message.ChannelId, options).ConfigureAwait(false) as IMessageChannel;
         }
 
-        // TODO: crosspost message
+        public static Task<IUserMessage> CrosspostAsync(this IMessage message, IRestRequestOptions options = null)
+        {
+            var client = message.GetRestClient();
+            return client.CrosspostMessageAsync(message.ChannelId, message.Id, options);
+        }
 
         public static Task AddReactionAsync(this IMessage message, LocalEmoji emoji, IRestRequestOptions options = null)
         {
