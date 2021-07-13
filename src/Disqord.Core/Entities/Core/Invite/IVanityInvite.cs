@@ -1,9 +1,11 @@
-﻿namespace Disqord
+﻿using Disqord.Models;
+
+namespace Disqord
 {
     /// <summary>
     ///     Represents a guild's vanity invite.
     /// </summary>
-    public interface IVanityInvite : IGuildEntity
+    public interface IVanityInvite : IGuildEntity, IJsonUpdatable<InviteJsonModel>
     {
         /// <summary>
         ///     Gets the code of this vanity invite.

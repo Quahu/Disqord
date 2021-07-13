@@ -402,7 +402,7 @@ namespace Disqord.Rest
             var model = await client.ApiClient.FetchGuildWidgetAsync(guildId, options).ConfigureAwait(false);
             return new TransientWidget(client, guildId, model);
         }
-        
+
         public static async Task<IWidget> ModifyWidgetAsync(this IRestClient client, Snowflake guildId, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null)
         {
             var properties = new ModifyWidgetActionProperties();
@@ -417,7 +417,7 @@ namespace Disqord.Rest
             var model = await client.ApiClient.ModifyGuildWidgetAsync(guildId, content, options).ConfigureAwait(false);
             return new TransientWidget(client, guildId, model);
         }
-        
+
         public static async Task<IVanityInvite> FetchVanityInviteAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchGuildVanityInviteAsync(guildId, options).ConfigureAwait(false);

@@ -6,10 +6,10 @@ namespace Disqord
     {
         /// <inheritdoc/>
         public Snowflake GuildId { get; }
-        
+
         /// <inheritdoc/>
         public Snowflake ChannelId => Model.ChannelId;
-        
+
         /// <inheritdoc/>
         public bool IsEnabled => Model.Enabled;
 

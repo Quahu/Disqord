@@ -8,7 +8,7 @@ namespace Disqord
     {
         /// <inheritdoc/>
         public Snowflake GuildId => Model.Id;
-        
+
         /// <inheritdoc/>
         public string Name => Model.Name;
 
@@ -23,7 +23,7 @@ namespace Disqord
 
         /// <inheritdoc/>
         public GuildFeatures Features => new(Model.Features);
-        
+
         /// <inheritdoc/>
         public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis => _emojis ??= Model.Emojis.ToReadOnlyDictionary((Client, GuildId), (x, _) => x.Id.Value, (x, tuple) =>
         {
@@ -40,8 +40,8 @@ namespace Disqord
 
         /// <inheritdoc/>
         public string Description => Model.Description;
-        
-        public TransientGuildPreview(IClient client, GuildPreviewJsonModel model) 
+
+        public TransientGuildPreview(IClient client, GuildPreviewJsonModel model)
             : base(client, model)
         { }
     }
