@@ -286,12 +286,6 @@ namespace Disqord.Rest
         /*
          * Template
          */
-        public static Task<IGuildTemplate> FetchTemplateAsync(this IGuild guild, string templateCode, IRestRequestOptions options = null)
-        {
-            var client = guild.GetRestClient();
-            return client.FetchTemplateAsync(templateCode, options);
-        }
-
         public static Task<IReadOnlyList<IGuildTemplate>> FetchTemplatesAsync(this IGuild guild, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
@@ -304,10 +298,10 @@ namespace Disqord.Rest
             return client.CreateTemplateAsync(guild.Id, name, action, options);
         }
 
-        public static Task<IGuildTemplate> SyncTemplateAsync(this IGuild guild, string templateCode, IRestRequestOptions options = null)
+        public static Task<IGuildTemplate> SynchronizeTemplateAsync(this IGuild guild, string templateCode, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
-            return client.SyncTemplateAsync(guild.Id, templateCode, options);
+            return client.SynchronizeTemplateAsync(guild.Id, templateCode, options);
         }
 
         public static Task<IGuildTemplate> ModifyTemplateAsync(this IGuild guild, string templateCode, Action<ModifyTemplateActionProperties> action = null, IRestRequestOptions options = null)

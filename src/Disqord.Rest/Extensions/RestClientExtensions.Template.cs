@@ -48,9 +48,9 @@ namespace Disqord.Rest
             return new TransientGuildTemplate(client, model);
         }
 
-        public static async Task<IGuildTemplate> SyncTemplateAsync(this IRestClient client, Snowflake guildId, string templateCode, IRestRequestOptions options = null)
+        public static async Task<IGuildTemplate> SynchronizeTemplateAsync(this IRestClient client, Snowflake guildId, string templateCode, IRestRequestOptions options = null)
         {
-            var model = await client.ApiClient.SyncGuildTemplateAsync(guildId, templateCode, options).ConfigureAwait(false);
+            var model = await client.ApiClient.SynchronizeGuildTemplateAsync(guildId, templateCode, options).ConfigureAwait(false);
             return new TransientGuildTemplate(client, model);
         }
 

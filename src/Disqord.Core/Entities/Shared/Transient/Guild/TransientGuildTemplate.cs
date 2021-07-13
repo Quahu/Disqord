@@ -7,22 +7,26 @@ namespace Disqord
     public class TransientGuildTemplate : TransientEntity<GuildTemplateJsonModel>, IGuildTemplate
     {
         /// <inheritdoc/>
-        public string Code => Model.Code;
-        
+        public Snowflake GuildId => Model.SourceGuildId;
+
         /// <inheritdoc/>
         public string Name => Model.Name;
+
+        /// <inheritdoc/>
+        public string Code => Model.Code;
 
         /// <inheritdoc/>
         public string Description => Model.Description;
 
         /// <inheritdoc/>
-        public int UsageCount => Model.UsageCount;
+        public int Uses => Model.UsageCount;
 
         /// <inheritdoc/>
         public Snowflake CreatorId => Model.CreatorId;
 
         /// <inheritdoc/>
-        public IUser Creator => new TransientUser(Client, Model.Creator);
+        public IUser Creator => _creator ??= new TransientUser(Client, Model.Creator);
+        private TransientUser _creator;
 
         /// <inheritdoc/>
         public DateTimeOffset CreatedAt => Model.CreatedAt;
@@ -31,13 +35,10 @@ namespace Disqord
         public DateTimeOffset UpdatedAt => Model.UpdatedAt;
 
         /// <inheritdoc/>
-        public Snowflake GuildId => Model.SourceGuildId;
+        public IJsonObject SerializedGuild => Model.SerializedSourceGuild;
 
         /// <inheritdoc/>
-        public IJsonObject SerializedSourceGuild => Model.SerializedSourceGuild;
-
-        /// <inheritdoc/>
-        public bool? IsDirty => Model.IsDirty;
+        public bool IsDirty => Model.IsDirty.GetValueOrDefault();
 
         public TransientGuildTemplate(IClient client, GuildTemplateJsonModel model) 
             : base(client, model)

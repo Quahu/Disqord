@@ -29,7 +29,7 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<GuildTemplateJsonModel>(route, content, options);
         }
 
-        public static Task<GuildTemplateJsonModel> SyncGuildTemplateAsync(this IRestApiClient client, Snowflake guildId, string templateCode, IRestRequestOptions options = null)
+        public static Task<GuildTemplateJsonModel> SynchronizeGuildTemplateAsync(this IRestApiClient client, Snowflake guildId, string templateCode, IRestRequestOptions options = null)
         {
             var route = Format(Route.Template.SyncTemplate, guildId, templateCode);
             return client.ExecuteAsync<GuildTemplateJsonModel>(route, null, options);
