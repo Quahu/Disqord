@@ -17,6 +17,7 @@ namespace Disqord
         /// </summary>
         bool IsNsfw { get; }
 
+        // TODO: With the addition of INewsChannel, is this made redundant?
         /// <summary>
         ///     Gets whether this text channel is a news channel.
         /// </summary>

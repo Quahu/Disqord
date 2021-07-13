@@ -353,11 +353,11 @@ namespace Disqord.Rest
             return new TransientInvite(client, model);
         }
 
-        public static async Task<IFollowedChannel> FollowNewsChannelAsync(this IRestClient client, Snowflake channelId, Snowflake webhookChannelId, IRestRequestOptions options = null)
+        public static async Task<IFollowedChannel> FollowNewsChannelAsync(this IRestClient client, Snowflake channelId, Snowflake targetChannelId, IRestRequestOptions options = null)
         {
             var content = new FollowNewsChannelJsonRestRequestContent
             {
-                WebhookChannelId = webhookChannelId
+                WebhookChannelId = targetChannelId
             };
 
             var model = await client.ApiClient.FollowNewsChannelAsync(channelId, content, options).ConfigureAwait(false);

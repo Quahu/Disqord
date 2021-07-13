@@ -22,9 +22,11 @@ namespace Disqord
             switch (model.Type)
             {
                 case ChannelType.Text:
-                case ChannelType.News:
                     return new TransientTextChannel(client, model);
 
+                case ChannelType.News:
+                    return new TransientNewsChannel(client, model);
+                
                 case ChannelType.Voice:
                     return new TransientVoiceChannel(client, model);
 
