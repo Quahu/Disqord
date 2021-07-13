@@ -13,7 +13,7 @@ namespace Disqord
         ///     Gets whether this voice region is the closest to the client.
         /// </summary>
         bool IsOptimal { get; }
-        
+
         /// <summary>
         ///     Gets whether this voice region is deprecated.
         /// </summary>

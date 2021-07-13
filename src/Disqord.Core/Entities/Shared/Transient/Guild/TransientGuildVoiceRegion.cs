@@ -12,7 +12,7 @@ namespace Disqord
 
         /// <inheritdoc/>
         public bool IsCustom => Model.Custom;
-        
+
         public TransientGuildVoiceRegion(IClient client, Snowflake guildId, VoiceRegionJsonModel model)
             : base(client, model)
         {
