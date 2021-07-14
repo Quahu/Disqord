@@ -161,7 +161,11 @@ namespace Disqord.Rest
             return new TransientUserMessage(client, model);
         }
 
-        // TODO: crosspost message
+        public static async Task<IUserMessage> CrosspostMessageAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.CrosspostMessageAsync(channelId, messageId, options).ConfigureAwait(false);
+            return new TransientUserMessage(client, model);
+        }
 
         public static Task AddReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, IRestRequestOptions options = null)
         {
@@ -349,7 +353,16 @@ namespace Disqord.Rest
             return new TransientInvite(client, model);
         }
 
-        // TODO: follow news channel
+        public static async Task<IFollowedChannel> FollowNewsChannelAsync(this IRestClient client, Snowflake channelId, Snowflake targetChannelId, IRestRequestOptions options = null)
+        {
+            var content = new FollowNewsChannelJsonRestRequestContent
+            {
+                WebhookChannelId = targetChannelId
+            };
+
+            var model = await client.ApiClient.FollowNewsChannelAsync(channelId, content, options).ConfigureAwait(false);
+            return new TransientFollowedChannel(client, model);
+        }
 
         public static Task TriggerTypingAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null)
             => client.ApiClient.TriggerTypingAsync(channelId, options);
