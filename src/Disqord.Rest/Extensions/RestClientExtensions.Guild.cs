@@ -102,7 +102,7 @@ namespace Disqord.Rest
 
             if (properties is CreateNestedChannelActionProperties nestedProperties)
             {
-                content.ParentId = nestedProperties.ParentId;
+                content.ParentId = nestedProperties.CategoryId;
 
                 if (properties is CreateTextChannelActionProperties textProperties)
                 {
@@ -111,7 +111,7 @@ namespace Disqord.Rest
 
                     content.Type = ChannelType.Text;
                     content.Topic = textProperties.Topic;
-                    content.RateLimitPerUser = textProperties.Slowmode;
+                    content.RateLimitPerUser = Optional.Convert(textProperties.Slowmode, x => (int) x.TotalSeconds);
                     content.Nsfw = textProperties.IsNsfw;
                 }
                 else if (properties is CreateVoiceChannelActionProperties voiceProperties)
