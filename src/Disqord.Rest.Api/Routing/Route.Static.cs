@@ -64,15 +64,15 @@ namespace Disqord.Rest.Api
             public static readonly Route PinMessage = Put("channels/{0:channel_id}/pins/{1:message_id}");
 
             public static readonly Route UnpinMessage = Delete("channels/{0:channel_id}/pins/{1:message_id}");
-            
+
             public static readonly Route StartThreadWithMessage = Post("channels/{0:channel_id}/messages/{1:message_id}/threads");
-            
+
             public static readonly Route StartThread = Post("channels/{0:channel_id}/threads");
 
             public static readonly Route JoinThread = Put("channels/{0:channel_id}/thread-members/@me");
-            
+
             public static readonly Route AddThreadMember = Put("channels/{0:channel_id}/thread-members/{1:user_id}");
-            
+
             public static readonly Route LeaveThread = Delete("channels/{0:channel_id}/thread-members/@me");
 
             public static readonly Route RemoveThreadMember = Delete("channels/{0:channel_id}/thread-members/{1:user_id}");
@@ -84,7 +84,7 @@ namespace Disqord.Rest.Api
             public static readonly Route ListPublicArchivedThreads = Get("channels/{0:channel_id}/threads/archived/public");
 
             public static readonly Route ListPrivateArchivedThreads = Get("channels/{0:channel_id}/threads/archived/private");
-            
+
             public static readonly Route ListJoinedPrivateArchivedThreads = Get("channels/{0:channel_id}/users/@me/threads/archived/private");
         }
 
@@ -299,17 +299,17 @@ namespace Disqord.Rest.Api
             public static readonly Route CreateGlobalCommand = Post("applications/{0:application_id}/commands");
 
             public static readonly Route GetGlobalCommand = Get("applications/{0:application_id}/commands/{1:command_id}");
-            
+
             public static readonly Route ModifyGlobalCommand = Patch("applications/{0:application_id}/commands/{1:command_id}");
 
             public static readonly Route DeleteGlobalCommand = Delete("applications/{0:application_id}/commands/{1:command_id}");
 
             public static readonly Route GetGuildCommands = Get("applications/{0:application_id}/guilds/{1:guild_id}/commands");
 
-            public static readonly Route ModifyGlobalCommands = Put("/applications/{0:application_id}/commands");
+            public static readonly Route ModifyGlobalCommands = Put("applications/{0:application_id}/commands");
 
             public static readonly Route CreateGuildCommand = Post("applications/{0:application_id}/guilds/{1:guild_id}/commands");
-            
+
             public static readonly Route GetGuildCommand = Get("applications/{0:application_id}/guilds/{1:guild_id}/commands/{2:command_id}");
 
             public static readonly Route ModifyGuildCommand = Patch("applications/{0:application_id}/guilds/{1:guild_id}/commands/{2:command_id}");
@@ -331,13 +331,13 @@ namespace Disqord.Rest.Api
             public static readonly Route ModifyFollowupResponse = Patch("webhooks/{0:application_id}/{1:interaction_token}/messages/{2:message_id}");
 
             public static readonly Route DeleteFollowupResponse = Delete("webhooks/{0:application_id}/{1:interaction_token}/messages/{2:message_id}");
-            
+
             public static readonly Route GetAllCommandPermissions = Get("applications/{0:application_id}/guilds/{1:guild_id}/commands/permissions");
 
             public static readonly Route GetCommandPermissions = Get("applications/{0:application_id}/guilds/{1:guild_id}/commands/{2:command_id}/permissions");
-            
+
             public static readonly Route ModifyCommandPermissions = Put("applications/{0:application_id}/guilds/{1:guild_id}/commands/{2:command_id}/permissions");
-            
+
             public static readonly Route ModifyAllCommandPermissions = Put("applications/{0:application_id}/guilds/{1:guild_id}/commands/permissions");
         }
 
