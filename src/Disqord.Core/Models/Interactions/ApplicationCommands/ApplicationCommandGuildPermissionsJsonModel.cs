@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    public class GuildApplicationCommandPermissionsJsonModel : JsonModel
+    public class ApplicationCommandGuildPermissionsJsonModel : JsonModel
     {
         [JsonProperty("id")]
         public Snowflake Id;

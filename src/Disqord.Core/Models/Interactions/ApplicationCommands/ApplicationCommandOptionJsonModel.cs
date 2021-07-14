@@ -13,8 +13,8 @@ namespace Disqord.Models
         [JsonProperty("description")]
         public string Description;
 
-        [JsonProperty("default")]
-        public Optional<bool> Default;
+        //[JsonProperty("default")]
+        //public Optional<bool> Default;
 
         [JsonProperty("required")]
         public Optional<bool> Required;

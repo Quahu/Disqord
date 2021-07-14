@@ -1,4 +1,4 @@
-﻿namespace Disqord.Models
+﻿namespace Disqord
 {
     public enum ApplicationCommandOptionType
     {

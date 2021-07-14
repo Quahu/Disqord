@@ -77,28 +77,28 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, content, options);
         }
 
-        public static Task<GuildApplicationCommandPermissionsJsonModel[]> FetchApplicationCommandPermissionsAsync(this IRestApiClient client, Snowflake applicationId, Snowflake guildId, IRestRequestOptions options = null)
+        public static Task<ApplicationCommandGuildPermissionsJsonModel[]> FetchApplicationCommandPermissionsAsync(this IRestApiClient client, Snowflake applicationId, Snowflake guildId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Interactions.GetAllCommandPermissions, applicationId, guildId);
-            return client.ExecuteAsync<GuildApplicationCommandPermissionsJsonModel[]>(route, null, options);
+            return client.ExecuteAsync<ApplicationCommandGuildPermissionsJsonModel[]>(route, null, options);
         }
         
-        public static Task<GuildApplicationCommandPermissionsJsonModel> FetchApplicationCommandPermissionsAsync(this IRestApiClient client, Snowflake applicationId, Snowflake guildId, Snowflake commandId, IRestRequestOptions options = null)
+        public static Task<ApplicationCommandGuildPermissionsJsonModel> FetchApplicationCommandPermissionsAsync(this IRestApiClient client, Snowflake applicationId, Snowflake guildId, Snowflake commandId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Interactions.GetCommandPermissions, applicationId, guildId, commandId);
-            return client.ExecuteAsync<GuildApplicationCommandPermissionsJsonModel>(route, null, options);
+            return client.ExecuteAsync<ApplicationCommandGuildPermissionsJsonModel>(route, null, options);
         }
 
-        public static Task<GuildApplicationCommandPermissionsJsonModel> ModifyApplicationCommandPermissionsAsync(this IRestApiClient client, Snowflake applicationId, Snowflake guildId, Snowflake commandId, ModifyApplicationCommandPermissionsJsonRestRequestContent content, IRestRequestOptions options = null)
+        public static Task<ApplicationCommandGuildPermissionsJsonModel> ModifyApplicationCommandPermissionsAsync(this IRestApiClient client, Snowflake applicationId, Snowflake guildId, Snowflake commandId, ModifyApplicationCommandPermissionsJsonRestRequestContent content, IRestRequestOptions options = null)
         {
             var route = Format(Route.Interactions.ModifyCommandPermissions, applicationId, guildId, commandId);
-            return client.ExecuteAsync<GuildApplicationCommandPermissionsJsonModel>(route, content, options);
+            return client.ExecuteAsync<ApplicationCommandGuildPermissionsJsonModel>(route, content, options);
         }
 
-        public static Task<GuildApplicationCommandPermissionsJsonModel[]> ModifyApplicationCommandPermissionsAsync(this IRestApiClient client, Snowflake applicationId, Snowflake guildId, JsonObjectRestRequestContent<ModifyApplicationCommandPermissionsJsonRestRequestContent[]> content, IRestRequestOptions options = null)
+        public static Task<ApplicationCommandGuildPermissionsJsonModel[]> ModifyApplicationCommandPermissionsAsync(this IRestApiClient client, Snowflake applicationId, Snowflake guildId, JsonObjectRestRequestContent<ModifyApplicationCommandPermissionsJsonRestRequestContent[]> content, IRestRequestOptions options = null)
         {
             var route = Format(Route.Interactions.ModifyAllCommandPermissions, applicationId, guildId);
-            return client.ExecuteAsync<GuildApplicationCommandPermissionsJsonModel[]>(route, content, options);
+            return client.ExecuteAsync<ApplicationCommandGuildPermissionsJsonModel[]>(route, content, options);
         }
     }
 }
