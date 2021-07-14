@@ -197,7 +197,11 @@ namespace Disqord.Rest
             return client.PruneGuildAsync(guild.Id, days, computePruneCount, roleIds, options);
         }
 
-        // TODO: fetch voice regions
+        public static Task<IReadOnlyList<IGuildVoiceRegion>> FetchVoiceRegionsAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildVoiceRegionsAsync(guild.Id, options);
+        }
 
         public static Task<IReadOnlyList<IInvite>> FetchInvitesAsync(this IGuild guild, IRestRequestOptions options = null)
         {
