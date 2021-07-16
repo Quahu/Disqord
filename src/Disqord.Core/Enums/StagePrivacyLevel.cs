@@ -1,6 +1,6 @@
 namespace Disqord
 {
-    public enum PrivacyLevel
+    public enum StagePrivacyLevel
     {
         Public = 1,
         GuildOnly = 2

@@ -17,7 +17,7 @@ namespace Disqord.Models
         public string Topic;
 
         [JsonProperty("privacy_level")]
-        public PrivacyLevel PrivacyLevel;
+        public StagePrivacyLevel PrivacyLevel;
 
         [JsonProperty("discoverable_disabled")]
         public bool DiscoverableDisabled;
