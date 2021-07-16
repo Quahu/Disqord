@@ -82,5 +82,8 @@ namespace Disqord.Models
         /// </summary>
         [JsonProperty("default_auto_archive_duration")]
         public Optional<int> DefaultAutoArchiveDuration;
+
+        [JsonProperty("permissions")]
+        public Optional<ChannelPermissions> Permissions;
     }
 }
