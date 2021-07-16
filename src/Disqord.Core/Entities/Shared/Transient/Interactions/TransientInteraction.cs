@@ -31,7 +31,6 @@ namespace Disqord.Interaction
         public static IInteraction Create(IClient client, InteractionJsonModel model)
             => model.Type switch
             {
-                InteractionType.ApplicationCommand => new TransientApplicationCommandInteraction(client, model),
                 InteractionType.MessageComponent => new TransientComponentInteraction(client, model),
                 _ => new TransientInteraction(client, model)
             };
