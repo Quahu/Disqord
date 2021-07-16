@@ -1,4 +1,5 @@
-﻿using Disqord.Serialization.Json;
+﻿using System;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
@@ -11,7 +12,7 @@ namespace Disqord.Models
         public ApplicationCommandOptionType Type;
 
         [JsonProperty("value")]
-        public Optional<ApplicationCommandOptionType> Value;
+        public Optional<IJsonValue> Value;
 
         [JsonProperty("options")]
         public Optional<ApplicationCommandInteractionDataOptionJsonModel[]> Options;
