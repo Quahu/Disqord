@@ -73,7 +73,7 @@ namespace Disqord
             get
             {
                 if (_Stages == null)
-                    _Stages = Model.Stages.ToReadOnlyDictionary(Client, (x, _) => x.Id, (x, client) => new TransientStage(client, x) as IStage);
+                    _Stages = Model.StageInstances.ToReadOnlyDictionary(Client, (x, _) => x.Id, (x, client) => new TransientStage(client, x) as IStage);
 
                 return _Stages;
             }

@@ -168,7 +168,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 
             if (CacheProvider.TryGetStages(model.Id, out var StageCache))
             {
-                foreach (var StageModel in model.Stages)
+                foreach (var StageModel in model.StageInstances)
                 {
                     if (isPending)
                     {
