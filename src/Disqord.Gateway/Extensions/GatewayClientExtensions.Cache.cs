@@ -110,6 +110,22 @@ namespace Disqord.Gateway
             return ReadOnlyDictionary<Snowflake, CachedPresence>.Empty;
         }
 
+        public static CachedStageInstance GetStageInstance(this IGatewayClient client, Snowflake guildId, Snowflake stageInstanceId)
+        {
+            if (client.CacheProvider.TryGetStageInstances(guildId, out var cache, true))
+                return cache.GetValueOrDefault(stageInstanceId);
+
+            return null;
+        }
+
+        public static IReadOnlyDictionary<Snowflake, CachedStageInstance> GetStageInstances(this IGatewayClient client, Snowflake guildId)
+        {
+            if (client.CacheProvider.TryGetStageInstances(guildId, out var cache, true))
+                return cache.ReadOnly();
+
+            return ReadOnlyDictionary<Snowflake, CachedStageInstance>.Empty;
+        }
+
         public static CachedUserMessage GetMessage(this IGatewayClient client, Snowflake channelId, Snowflake messageId)
         {
             if (client.CacheProvider.TryGetMessages(channelId, out var cache, true))

@@ -25,6 +25,9 @@ namespace Disqord.Gateway
         public static bool TryGetPresences(this IGatewayCacheProvider cacheProvider, Snowflake guildId, out ISynchronizedDictionary<Snowflake, CachedPresence> cache, bool lookupOnly = false)
             => cacheProvider.TryGetCache(guildId, out cache, lookupOnly);
 
+        public static bool TryGetStageInstances(this IGatewayCacheProvider cacheProvider, Snowflake guildId, out ISynchronizedDictionary<Snowflake, CachedStageInstance> cache, bool lookupOnly = false)
+            => cacheProvider.TryGetCache(guildId, out cache, lookupOnly);
+
         public static bool TryGetMessages(this IGatewayCacheProvider cacheProvider, Snowflake channelId, out ISynchronizedDictionary<Snowflake, CachedUserMessage> cache, bool lookupOnly = false)
             => cacheProvider.TryGetCache(channelId, out cache, lookupOnly);
     }

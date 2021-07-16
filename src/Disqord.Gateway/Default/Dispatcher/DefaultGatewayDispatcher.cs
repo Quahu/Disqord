@@ -111,6 +111,11 @@ namespace Disqord.Gateway.Default
 
                 ["PRESENCE_UPDATE"] = new PresenceUpdateHandler(),
 
+                ["STAGE_INSTANCE_CREATE"] = new StageInstanceCreateHandler(),
+                ["STAGE_INSTANCE_UPDATE"] = new StageInstanceUpdateHandler(),
+                ["STAGE_INSTANCE_DELETE"] = new StageInstanceDeleteHandler(),
+
+
                 ["TYPING_START"] = new TypingStartHandler(),
 
                 ["USER_UPDATE"] = new UserUpdateHandler(),

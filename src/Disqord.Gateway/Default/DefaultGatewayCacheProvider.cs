@@ -201,6 +201,9 @@ namespace Disqord.Gateway.Default
 
             if (TryRemoveCache<CachedPresence>(guildId, out var presences))
                 presences.Clear();
+
+            if (TryRemoveCache<CachedStageInstance>(guildId, out var stageInstances))
+                stageInstances.Clear();
         }
 
         // This automatically removes references from the shared users and removes them as necessary.
