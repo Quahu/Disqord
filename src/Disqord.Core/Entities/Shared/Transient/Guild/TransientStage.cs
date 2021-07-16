@@ -2,8 +2,8 @@
 
 namespace Disqord
 {
-    /// <inheritdoc cref="IStageInstance"/>/>
-    public class TransientStageInstance : TransientEntity<StageInstanceJsonModel>, IStageInstance
+    /// <inheritdoc cref="IStage"/>/>
+    public class TransientStage : TransientEntity<StageInstanceJsonModel>, IStage
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;
@@ -23,7 +23,7 @@ namespace Disqord
         /// <inheritdoc/>
         public bool IsDiscoveryDisabled => Model.DiscoverableDisabled;
 
-        public TransientStageInstance(IClient client, StageInstanceJsonModel model)
+        public TransientStage(IClient client, StageInstanceJsonModel model)
             : base(client, model)
         { }
     }

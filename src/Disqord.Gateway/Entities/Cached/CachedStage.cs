@@ -2,8 +2,8 @@ using Disqord.Models;
 
 namespace Disqord.Gateway
 {
-    /// <inheritdoc cref="IStageInstance"/>
-    public class CachedStageInstance : CachedSnowflakeEntity, IStageInstance
+    /// <inheritdoc cref="IStage"/>
+    public class CachedStage : CachedSnowflakeEntity, IStage
     {
         /// <inheritdoc/>
         public Snowflake GuildId { get; }
@@ -20,7 +20,7 @@ namespace Disqord.Gateway
         /// <inheritdoc/>
         public bool IsDiscoveryDisabled { get; private set; }
 
-        public CachedStageInstance(IGatewayClient client, StageInstanceJsonModel model)
+        public CachedStage(IGatewayClient client, StageInstanceJsonModel model)
             : base(client, model.Id)
         {
             GuildId = model.GuildId;

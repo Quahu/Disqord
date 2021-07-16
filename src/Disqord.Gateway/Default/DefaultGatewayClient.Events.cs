@@ -242,24 +242,24 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
-        public event AsynchronousEventHandler<StageInstanceCreatedEventArgs> StageInstanceCreated
+        public event AsynchronousEventHandler<StageCreatedEventArgs> StageCreated
         {
-            add => Dispatcher.StageInstanceCreatedEvent.Hook(value);
-            remove => Dispatcher.StageInstanceCreatedEvent.Unhook(value);
+            add => Dispatcher.StageCreatedEvent.Hook(value);
+            remove => Dispatcher.StageCreatedEvent.Unhook(value);
         }
 
         /// <inheritdoc/>
-        public event AsynchronousEventHandler<StageInstanceUpdatedEventArgs> StageInstanceUpdated
+        public event AsynchronousEventHandler<StageUpdatedEventArgs> StageUpdated
         {
-            add => Dispatcher.StageInstanceUpdatedEvent.Hook(value);
-            remove => Dispatcher.StageInstanceUpdatedEvent.Unhook(value);
+            add => Dispatcher.StageUpdatedEvent.Hook(value);
+            remove => Dispatcher.StageUpdatedEvent.Unhook(value);
         }
 
         /// <inheritdoc/>
-        public event AsynchronousEventHandler<StageInstanceDeletedEventArgs> StageInstanceDeleted
+        public event AsynchronousEventHandler<StageDeletedEventArgs> StageDeleted
         {
-            add => Dispatcher.StageInstanceDeletedEvent.Hook(value);
-            remove => Dispatcher.StageInstanceDeletedEvent.Unhook(value);
+            add => Dispatcher.StageDeletedEvent.Hook(value);
+            remove => Dispatcher.StageDeletedEvent.Unhook(value);
         }
 
         /// <inheritdoc/>

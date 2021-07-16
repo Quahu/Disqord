@@ -43,9 +43,9 @@ namespace Disqord.Hosting
         public DiscordClientService[] ReactionRemovedServices { get; }
         public DiscordClientService[] ReactionsClearedServices { get; }
         public DiscordClientService[] PresenceUpdatedServices { get; }
-        public DiscordClientService[] StageInstanceCreatedServices { get; }
-        public DiscordClientService[] StageInstanceUpdatedServices { get; }
-        public DiscordClientService[] StageInstanceDeletedServices { get; }
+        public DiscordClientService[] StageCreatedServices { get; }
+        public DiscordClientService[] StageUpdatedServices { get; }
+        public DiscordClientService[] StageDeletedServices { get; }
         public DiscordClientService[] TypingStartedServices { get; }
         public DiscordClientService[] CurrentUserUpdatedServices { get; }
         public DiscordClientService[] VoiceStateUpdatedServices { get; }
@@ -99,9 +99,9 @@ namespace Disqord.Hosting
             ReactionAddedServices = GetServices<ReactionAddedEventArgs>(servicesArray, nameof(DiscordClientService.OnReactionAdded));
             ReactionRemovedServices = GetServices<ReactionRemovedEventArgs>(servicesArray, nameof(DiscordClientService.OnReactionRemoved));
             ReactionsClearedServices = GetServices<ReactionsClearedEventArgs>(servicesArray, nameof(DiscordClientService.OnReactionsCleared));
-            StageInstanceCreatedServices = GetServices<StageInstanceCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnStageInstanceCreated));
-            StageInstanceUpdatedServices = GetServices<StageInstanceUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnStageInstanceUpdated));
-            StageInstanceDeletedServices = GetServices<StageInstanceDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnStageInstanceDeleted));
+            StageCreatedServices = GetServices<StageCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnStageCreated));
+            StageUpdatedServices = GetServices<StageUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnStageUpdated));
+            StageDeletedServices = GetServices<StageDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnStageDeleted));
             PresenceUpdatedServices = GetServices<PresenceUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnPresenceUpdated));
             TypingStartedServices = GetServices<TypingStartedEventArgs>(servicesArray, nameof(DiscordClientService.OnTypingStarted));
             CurrentUserUpdatedServices = GetServices<CurrentUserUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnCurrentUserUpdated));
@@ -143,9 +143,9 @@ namespace Disqord.Hosting
             Client.ReactionRemoved += HandleReactionRemoved;
             Client.ReactionsCleared += HandleReactionsCleared;
             Client.PresenceUpdated += HandlePresenceUpdated;
-            Client.StageInstanceCreated += HandleStageInstanceCreated;
-            Client.StageInstanceUpdated += HandleStageInstanceUpdated;
-            Client.StageInstanceDeleted += HandleStageInstanceDeleted;
+            Client.StageCreated += HandleStageCreated;
+            Client.StageUpdated += HandleStageUpdated;
+            Client.StageDeleted += HandleStageDeleted;
             Client.TypingStarted += HandleTypingStarted;
             Client.CurrentUserUpdated += HandleCurrentUserUpdated;
             Client.VoiceStateUpdated += HandleVoiceStateUpdated;
@@ -357,22 +357,22 @@ namespace Disqord.Hosting
                 await ExecuteAsync((service, e) => service.OnPresenceUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public async ValueTask HandleStageInstanceCreated(object sender, StageInstanceCreatedEventArgs e)
+        public async ValueTask HandleStageCreated(object sender, StageCreatedEventArgs e)
         {
-            foreach (var service in StageInstanceCreatedServices)
-                await ExecuteAsync((service, e) => service.OnStageInstanceCreated(e), service, e).ConfigureAwait(false);
+            foreach (var service in StageCreatedServices)
+                await ExecuteAsync((service, e) => service.OnStageCreated(e), service, e).ConfigureAwait(false);
         }
 
-        public async ValueTask HandleStageInstanceUpdated(object sender, StageInstanceUpdatedEventArgs e)
+        public async ValueTask HandleStageUpdated(object sender, StageUpdatedEventArgs e)
         {
-            foreach (var service in StageInstanceUpdatedServices)
-                await ExecuteAsync((service, e) => service.OnStageInstanceUpdated(e), service, e).ConfigureAwait(false);
+            foreach (var service in StageUpdatedServices)
+                await ExecuteAsync((service, e) => service.OnStageUpdated(e), service, e).ConfigureAwait(false);
         }
 
-        public async ValueTask HandleStageInstanceDeleted(object sender, StageInstanceDeletedEventArgs e)
+        public async ValueTask HandleStageDeleted(object sender, StageDeletedEventArgs e)
         {
-            foreach (var service in StageInstanceDeletedServices)
-                await ExecuteAsync((service, e) => service.OnStageInstanceDeleted(e), service, e).ConfigureAwait(false);
+            foreach (var service in StageDeletedServices)
+                await ExecuteAsync((service, e) => service.OnStageDeleted(e), service, e).ConfigureAwait(false);
         }
 
         public async ValueTask HandleTypingStarted(object sender, TypingStartedEventArgs e)

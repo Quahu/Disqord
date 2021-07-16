@@ -195,15 +195,15 @@ namespace Disqord.Rest.Api
             public static readonly Route DeleteInvite = Delete("invites/{0:invite_code}");
         }
 
-        public static class StageInstances
+        public static class Stages
         {
-            public static readonly Route CreateStageInstance = Post("stage-instances");
+            public static readonly Route CreateStage = Post("stage-instances");
 
-            public static readonly Route FetchStageInstance = Get("stage-instances/{0:channel_id}");
+            public static readonly Route FetchStage = Get("stage-instances/{0:channel_id}");
 
-            public static readonly Route ModifyStageInstance = Patch("stage-instances/{0:channel_id}");
+            public static readonly Route ModifyStage = Patch("stage-instances/{0:channel_id}");
 
-            public static readonly Route DeleteStageInstance = Delete("stage-instances/{0:channel_id}");
+            public static readonly Route DeleteStage = Delete("stage-instances/{0:channel_id}");
         }
 
         public static class Template

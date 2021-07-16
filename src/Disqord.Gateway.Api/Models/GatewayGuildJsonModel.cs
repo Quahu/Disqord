@@ -35,6 +35,6 @@ namespace Disqord.Gateway.Api.Models
         public PresenceJsonModel[] Presences;
 
         [JsonProperty("stage_instances")]
-        public StageInstanceJsonModel[] StageInstances;
+        public StageInstanceJsonModel[] Stages;
     }
 }

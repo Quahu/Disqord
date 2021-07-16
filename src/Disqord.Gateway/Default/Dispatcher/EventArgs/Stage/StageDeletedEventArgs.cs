@@ -2,31 +2,31 @@ using System;
 
 namespace Disqord.Gateway
 {
-    public class StageInstanceDeletedEventArgs : EventArgs
+    public class StageDeletedEventArgs : EventArgs
     {
         /// <summary>
         ///     Gets the ID of the guild in which the stage instance was deleted.
         /// </summary>
-        public Snowflake GuildId => StageInstance.GuildId;
+        public Snowflake GuildId => Stage.GuildId;
 
         /// <summary>
         ///     Gets the ID of the channel in which the stage instance was deleted.
         /// </summary>
-        public Snowflake ChannelId => StageInstance.ChannelId;
+        public Snowflake ChannelId => Stage.ChannelId;
 
         /// <summary>
         ///     Gets the ID of the deleted stage instance.
         /// </summary>
-        public Snowflake StageInstanceId => StageInstance.Id;
+        public Snowflake StageId => Stage.Id;
 
         /// <summary>
         ///     Gets the deleted stage instance.
         /// </summary>
-        public IStageInstance StageInstance { get; }
+        public IStage Stage { get; }
 
-        public StageInstanceDeletedEventArgs(IStageInstance stageInstance)
+        public StageDeletedEventArgs(IStage stage)
         {
-            StageInstance = stageInstance;
+            Stage = stage;
         }
     }
 }

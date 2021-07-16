@@ -181,17 +181,17 @@ namespace Disqord.Gateway
         /// <summary>
         ///     Fires when a stage instance is created.
         /// </summary>
-        event AsynchronousEventHandler<StageInstanceCreatedEventArgs> StageInstanceCreated;
+        event AsynchronousEventHandler<StageCreatedEventArgs> StageCreated;
 
         /// <summary>
         ///     Fires when a stage instance is updated.
         /// </summary>
-        event AsynchronousEventHandler<StageInstanceUpdatedEventArgs> StageInstanceUpdated;
+        event AsynchronousEventHandler<StageUpdatedEventArgs> StageUpdated;
 
         /// <summary>
         ///     Fires when a stage instance is deleted.
         /// </summary>
-        event AsynchronousEventHandler<StageInstanceDeletedEventArgs> StageInstanceDeleted;
+        event AsynchronousEventHandler<StageDeletedEventArgs> StageDeleted;
 
         /// <summary>
         ///     Fires when a user starts typing in a channel.

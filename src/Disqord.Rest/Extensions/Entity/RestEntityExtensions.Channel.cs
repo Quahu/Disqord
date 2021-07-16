@@ -203,18 +203,18 @@ namespace Disqord.Rest
         }
 
         /*
-         * StageInstances
+         * Stages
          */
-        public static Task<IStageInstance> CreateStageInstanceAsync(this IStageChannel channel, string topic, Action<CreateStageInstanceActionProperties> action = null, IRestRequestOptions options = null)
+        public static Task<IStage> CreateStageAsync(this IStageChannel channel, string topic, Action<CreateStageActionProperties> action = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
-            return client.CreateStageInstanceAsync(channel.Id, topic, action, options);
+            return client.CreateStageAsync(channel.Id, topic, action, options);
         }
 
-        public static Task<IStageInstance> FetchStageInstanceAsync(this IStageChannel channel, IRestRequestOptions options = null)
+        public static Task<IStage> FetchStageAsync(this IStageChannel channel, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
-            return client.FetchStageInstanceAsync(channel.Id, options);
+            return client.FetchStageAsync(channel.Id, options);
         }
     }
 }

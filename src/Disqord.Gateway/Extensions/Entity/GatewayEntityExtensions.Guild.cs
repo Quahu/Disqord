@@ -103,14 +103,14 @@ namespace Disqord.Gateway
         ///     Returns <see langword="null"/> if the stage instance is not cached.
         /// </summary>
         /// <param name="guild"> The guild to get the stage instance for. </param>
-        /// <param name="stageInstanceId"> The ID of the stage instance to get. </param>
+        /// <param name="StageId"> The ID of the stage instance to get. </param>
         /// <returns>
         ///     A cached stage instance from this guild.
         /// </returns>
-        public static CachedStageInstance GetStageInstance(this IGuild guild, Snowflake stageInstanceId)
+        public static CachedStage GetStage(this IGuild guild, Snowflake StageId)
         {
             var client = guild.GetGatewayClient();
-            return client.GetStageInstance(guild.Id, stageInstanceId);
+            return client.GetStage(guild.Id, StageId);
         }
 
         /// <summary>
@@ -118,15 +118,15 @@ namespace Disqord.Gateway
         /// </summary>
         /// <param name="guild"> The guild to get the stage instances for. </param>
         /// <returns>
-        ///     A dictionary of cached stage instances for this guild keyed by <see cref="IStageInstance.Id"/>.
+        ///     A dictionary of cached stage instances for this guild keyed by <see cref="IStage.Id"/>.
         /// </returns>
-        public static IReadOnlyDictionary<Snowflake, CachedStageInstance> GetStageInstances(this IGuild guild)
+        public static IReadOnlyDictionary<Snowflake, CachedStage> GetStages(this IGuild guild)
         {
             var client = guild.GetGatewayClient();
-            if (client.CacheProvider.TryGetStageInstances(guild.Id, out var cache, true))
+            if (client.CacheProvider.TryGetStages(guild.Id, out var cache, true))
                 return cache.ReadOnly();
 
-            return ReadOnlyDictionary<Snowflake, CachedStageInstance>.Empty;
+            return ReadOnlyDictionary<Snowflake, CachedStage>.Empty;
         }
 
         /// <summary>

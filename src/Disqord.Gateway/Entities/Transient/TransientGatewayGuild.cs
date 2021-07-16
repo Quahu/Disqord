@@ -68,17 +68,17 @@ namespace Disqord
         }
         private IReadOnlyDictionary<Snowflake, IPresence> _presences;
 
-        public IReadOnlyDictionary<Snowflake, IStageInstance> StageInstances
+        public IReadOnlyDictionary<Snowflake, IStage> Stages
         {
             get
             {
-                if (_stageInstances == null)
-                    _stageInstances = Model.StageInstances.ToReadOnlyDictionary(Client, (x, _) => x.Id, (x, client) => new TransientStageInstance(client, x) as IStageInstance);
+                if (_Stages == null)
+                    _Stages = Model.Stages.ToReadOnlyDictionary(Client, (x, _) => x.Id, (x, client) => new TransientStage(client, x) as IStage);
 
-                return _stageInstances;
+                return _Stages;
             }
         }
-        private IReadOnlyDictionary<Snowflake, IStageInstance> _stageInstances;
+        private IReadOnlyDictionary<Snowflake, IStage> _Stages;
 
         public new GatewayGuildJsonModel Model => base.Model as GatewayGuildJsonModel;
 

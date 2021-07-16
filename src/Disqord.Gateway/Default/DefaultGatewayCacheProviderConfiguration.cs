@@ -25,7 +25,7 @@ namespace Disqord.Gateway.Default
             typeof(CachedVoiceState),
             typeof(CachedPresence),
             typeof(CachedUserMessage),
-            typeof(CachedStageInstance)
+            typeof(CachedStage)
         };
     }
 }

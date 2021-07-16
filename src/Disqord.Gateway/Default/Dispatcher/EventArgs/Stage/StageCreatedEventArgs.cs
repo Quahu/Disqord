@@ -2,31 +2,31 @@ using System;
 
 namespace Disqord.Gateway
 {
-    public class StageInstanceCreatedEventArgs : EventArgs
+    public class StageCreatedEventArgs : EventArgs
     {
         /// <summary>
         ///     Gets the ID of the guild in which the stage instance was created.
         /// </summary>
-        public Snowflake GuildId => StageInstance.GuildId;
+        public Snowflake GuildId => Stage.GuildId;
 
         /// <summary>
         ///     Gets the ID of the channel in which the stage instance was created.
         /// </summary>
-        public Snowflake ChannelId => StageInstance.ChannelId;
+        public Snowflake ChannelId => Stage.ChannelId;
 
         /// <summary>
         ///     Gets the ID of the created stage instance.
         /// </summary>
-        public Snowflake StageInstanceId => StageInstance.Id;
+        public Snowflake StageId => Stage.Id;
 
         /// <summary>
         ///     Gets the created stage instance.
         /// </summary>
-        public IStageInstance StageInstance { get; }
+        public IStage Stage { get; }
 
-        public StageInstanceCreatedEventArgs(IStageInstance stageInstance)
+        public StageCreatedEventArgs(IStage stage)
         {
-            StageInstance = stageInstance;
+            Stage = stage;
         }
     }
 }

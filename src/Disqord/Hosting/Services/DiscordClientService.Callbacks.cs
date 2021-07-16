@@ -107,13 +107,13 @@ namespace Disqord.Hosting
         protected internal virtual ValueTask OnPresenceUpdated(PresenceUpdatedEventArgs e)
             => default;
 
-        protected internal virtual ValueTask OnStageInstanceCreated(StageInstanceCreatedEventArgs e)
+        protected internal virtual ValueTask OnStageCreated(StageCreatedEventArgs e)
             => default;
 
-        protected internal virtual ValueTask OnStageInstanceUpdated(StageInstanceUpdatedEventArgs e)
+        protected internal virtual ValueTask OnStageUpdated(StageUpdatedEventArgs e)
             => default;
 
-        protected internal virtual ValueTask OnStageInstanceDeleted(StageInstanceDeletedEventArgs e)
+        protected internal virtual ValueTask OnStageDeleted(StageDeletedEventArgs e)
             => default;
 
         protected internal virtual ValueTask OnTypingStarted(TypingStartedEventArgs e)

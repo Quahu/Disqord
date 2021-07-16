@@ -137,14 +137,14 @@ namespace Disqord.Gateway
             }
         }
 
-        IReadOnlyDictionary<Snowflake, IStageInstance> IGatewayGuild.StageInstances
+        IReadOnlyDictionary<Snowflake, IStage> IGatewayGuild.Stages
         {
             get
             {
-                if (Client.CacheProvider.TryGetStageInstances(Id, out var cache, true))
-                    return new ReadOnlyUpcastingDictionary<Snowflake, CachedStageInstance, IStageInstance>(cache.ReadOnly());
+                if (Client.CacheProvider.TryGetStages(Id, out var cache, true))
+                    return new ReadOnlyUpcastingDictionary<Snowflake, CachedStage, IStage>(cache.ReadOnly());
 
-                return ReadOnlyDictionary<Snowflake, IStageInstance>.Empty;
+                return ReadOnlyDictionary<Snowflake, IStage>.Empty;
             }
         }
 
