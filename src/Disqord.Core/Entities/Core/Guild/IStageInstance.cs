@@ -11,5 +11,15 @@ namespace Disqord
         ///     Gets the topic of this stage instance.
         /// </summary>
         string Topic { get; }
+
+        /// <summary>
+        ///     Gets the privacy level of this stage instance.
+        /// </summary>
+        PrivacyLevel PrivacyLevel { get; }
+
+        /// <summary>
+        ///     Gets whether discovery is disabled for this stage instance.
+        /// </summary>
+        bool IsDiscoveryDisabled { get; }
     }
 }

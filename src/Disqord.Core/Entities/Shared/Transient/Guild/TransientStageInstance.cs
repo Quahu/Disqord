@@ -17,6 +17,12 @@ namespace Disqord
         /// <inheritdoc/>
         public string Topic => Model.Topic;
 
+        /// <inheritdoc/>
+        public PrivacyLevel PrivacyLevel => Model.PrivacyLevel;
+
+        /// <inheritdoc/>
+        public bool IsDiscoveryDisabled => Model.DiscoverableDisabled;
+
         public TransientStageInstance(IClient client, StageInstanceJsonModel model)
             : base(client, model)
         { }
