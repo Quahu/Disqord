@@ -7,12 +7,16 @@ namespace Disqord.Rest
 {
     public static partial class RestClientExtensions
     {
-        public static async Task<IStageInstance> CreateStageInstanceAsync(this IRestClient client, Snowflake channelId, string topic, IRestRequestOptions options = null)
+        public static async Task<IStageInstance> CreateStageInstanceAsync(this IRestClient client, Snowflake channelId, string topic, Action<CreateStageInstanceActionProperties> action, IRestRequestOptions options = null)
         {
+            var properties = new CreateStageInstanceActionProperties();
+            action?.Invoke(properties);
+
             var content = new CreateStageInstanceJsonRestRequestContent
             {
                 ChannelId = channelId,
-                Topic = topic
+                Topic = topic,
+                PrivacyLevel = properties.PrivacyLevel
             };
             var model = await client.ApiClient.CreateStageInstanceAsync(channelId, content, options).ConfigureAwait(false);
             return new TransientStageInstance(client, model);
@@ -41,6 +45,7 @@ namespace Disqord.Rest
             var content = new ModifyStageInstanceJsonRestRequestContent()
             {
                 Topic = properties.Topic,
+                PrivacyLevel = properties.PrivacyLevel
             };
             var model = await client.ApiClient.ModifyStageInstanceAsync(channelId, content, options).ConfigureAwait(false);
             return new TransientStageInstance(client, model);

@@ -59,7 +59,7 @@ namespace Disqord.Rest
         {
             if (!channel.IsNews)
                 throw new ArgumentException("This text channel must be a news channel to have messages crossposted from it.", nameof(channel));
-            
+
             var client = channel.GetRestClient();
             return client.CrosspostMessageAsync(channel.Id, messageId, options);
         }
@@ -152,7 +152,7 @@ namespace Disqord.Rest
         {
             if (!channel.IsNews)
                 throw new ArgumentException("This text channel must be a news channel to follow it.", nameof(channel));
-            
+
             var client = channel.GetRestClient();
             return client.FollowNewsChannelAsync(channel.Id, targetChannelId, options);
         }
@@ -200,6 +200,21 @@ namespace Disqord.Rest
         {
             var client = channel.GetRestClient();
             return client.FetchChannelWebhooksAsync(channel.Id, options);
+        }
+
+        /*
+         * StageInstances
+         */
+        public static Task<IStageInstance> CreateStageInstanceAsync(this IStageChannel channel, string topic, Action<CreateStageInstanceActionProperties> action, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.CreateStageInstanceAsync(channel.Id, topic, action, options);
+        }
+
+        public static Task<IStageInstance> FetchStageInstanceAsync(this IStageChannel channel, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.FetchStageInstanceAsync(channel.Id, options);
         }
     }
 }
