@@ -205,7 +205,7 @@ namespace Disqord.Rest
         /*
          * StageInstances
          */
-        public static Task<IStageInstance> CreateStageInstanceAsync(this IStageChannel channel, string topic, Action<CreateStageInstanceActionProperties> action, IRestRequestOptions options = null)
+        public static Task<IStageInstance> CreateStageInstanceAsync(this IStageChannel channel, string topic, Action<CreateStageInstanceActionProperties> action = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
             return client.CreateStageInstanceAsync(channel.Id, topic, action, options);

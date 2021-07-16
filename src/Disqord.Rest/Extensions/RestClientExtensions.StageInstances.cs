@@ -7,7 +7,7 @@ namespace Disqord.Rest
 {
     public static partial class RestClientExtensions
     {
-        public static async Task<IStageInstance> CreateStageInstanceAsync(this IRestClient client, Snowflake channelId, string topic, Action<CreateStageInstanceActionProperties> action, IRestRequestOptions options = null)
+        public static async Task<IStageInstance> CreateStageInstanceAsync(this IRestClient client, Snowflake channelId, string topic, Action<CreateStageInstanceActionProperties> action = null, IRestRequestOptions options = null)
         {
             var properties = new CreateStageInstanceActionProperties();
             action?.Invoke(properties);
