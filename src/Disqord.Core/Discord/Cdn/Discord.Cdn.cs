@@ -84,10 +84,22 @@ namespace Disqord
                 return FormatUrl(path, format, size);
             }
 
+            public static string GetStickerPackBannerUrl(string bannerAssetId, CdnAssetFormat format = default, int? size = null)
+            {
+                var path = $"app-assets/710982414301790216/store/{bannerAssetId}";
+                return FormatUrl(path, format, size);
+            }
+
             public static string GetTeamIconUrl(Snowflake teamId, string iconHash, CdnAssetFormat format = default, int? size = null)
             {
                 var path = $"team-icons/{teamId}/{iconHash}";
                 return FormatUrl(path, format, size);
+            }
+
+            public static string GetStickerUrl(Snowflake stickerId, CdnAssetFormat format = default)
+            {
+                var path = $"stickers/{stickerId}";
+                return FormatUrl(path, format, null);
             }
 
             private static string FormatUrl(string path, CdnAssetFormat format, int? size)
@@ -132,6 +144,7 @@ namespace Disqord
                 CdnAssetFormat.Jpg => "jpg",
                 CdnAssetFormat.WebP => "webp",
                 CdnAssetFormat.Gif => "gif",
+                CdnAssetFormat.Lottie => "json",
                 _ => throw new ArgumentOutOfRangeException(nameof(format), "Unknown CDN asset format."),
             };
         }
