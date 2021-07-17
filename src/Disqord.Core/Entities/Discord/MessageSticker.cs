@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class MessageSticker : IIdentifiable, INamable
+    public class MessageSticker : IPartialSticker
     {
         public Snowflake Id { get; }
 

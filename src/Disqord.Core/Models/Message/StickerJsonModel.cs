@@ -32,7 +32,7 @@ namespace Disqord.Models
         public Optional<Snowflake> GuildId;
 
         [JsonProperty("user")]
-        public Optional<IUser> User;
+        public Optional<UserJsonModel> User;
 
         [JsonProperty("sort_value")]
         public Optional<int> SortValue;
