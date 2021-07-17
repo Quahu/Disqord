@@ -17,7 +17,9 @@
         Channel = 7,
 
         Role = 8,
-        
-        Mentionable = 9
+
+        Mentionable = 9,
+
+        Number = 10
     }
 }
