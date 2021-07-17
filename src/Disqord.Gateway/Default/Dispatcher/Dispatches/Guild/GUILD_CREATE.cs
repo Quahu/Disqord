@@ -166,19 +166,19 @@ namespace Disqord.Gateway.Default.Dispatcher
                 }
             }
 
-            if (CacheProvider.TryGetStages(model.Id, out var StageCache))
+            if (CacheProvider.TryGetStages(model.Id, out var stageCache))
             {
-                foreach (var StageModel in model.StageInstances)
+                foreach (var stageModel in model.StageInstances)
                 {
                     if (isPending)
                     {
-                        var Stage = new CachedStage(Client, StageModel);
-                        StageCache.Add(Stage.Id, Stage);
+                        var stage = new CachedStage(Client, stageModel);
+                        stageCache.Add(stage.Id, stage);
                     }
                     else
                     {
-                        var Stage = StageCache.GetValueOrDefault(StageModel.Id);
-                        Stage?.Update(StageModel);
+                        var stage = stageCache.GetValueOrDefault(stageModel.Id);
+                        stage?.Update(stageModel);
                     }
                 }
             }

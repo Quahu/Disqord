@@ -5,22 +5,22 @@ namespace Disqord.Gateway
     public class StageCreatedEventArgs : EventArgs
     {
         /// <summary>
-        ///     Gets the ID of the guild in which the stage instance was created.
+        ///     Gets the ID of the guild in which the stage was created.
         /// </summary>
         public Snowflake GuildId => Stage.GuildId;
 
         /// <summary>
-        ///     Gets the ID of the channel in which the stage instance was created.
+        ///     Gets the ID of the channel in which the stage was created.
         /// </summary>
         public Snowflake ChannelId => Stage.ChannelId;
 
         /// <summary>
-        ///     Gets the ID of the created stage instance.
+        ///     Gets the ID of the created stage.
         /// </summary>
         public Snowflake StageId => Stage.Id;
 
         /// <summary>
-        ///     Gets the created stage instance.
+        ///     Gets the created stage.
         /// </summary>
         public IStage Stage { get; }
 

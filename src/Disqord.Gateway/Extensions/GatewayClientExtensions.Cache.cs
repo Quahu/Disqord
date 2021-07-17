@@ -110,10 +110,10 @@ namespace Disqord.Gateway
             return ReadOnlyDictionary<Snowflake, CachedPresence>.Empty;
         }
 
-        public static CachedStage GetStage(this IGatewayClient client, Snowflake guildId, Snowflake StageId)
+        public static CachedStage GetStage(this IGatewayClient client, Snowflake guildId, Snowflake stageId)
         {
             if (client.CacheProvider.TryGetStages(guildId, out var cache, true))
-                return cache.GetValueOrDefault(StageId);
+                return cache.GetValueOrDefault(stageId);
 
             return null;
         }

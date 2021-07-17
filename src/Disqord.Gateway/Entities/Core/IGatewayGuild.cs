@@ -47,7 +47,7 @@ namespace Disqord.Gateway
         IReadOnlyDictionary<Snowflake, IPresence> Presences { get; }
 
         /// <summary>
-        ///     Gets the stage instances of this guild keyed by the IDs of the stage instances.
+        ///     Gets the stages of this guild keyed by the IDs of the stages.
         /// </summary>
         IReadOnlyDictionary<Snowflake, IStage> Stages { get; }
     }

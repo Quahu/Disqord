@@ -10,10 +10,10 @@ namespace Disqord.Gateway.Default.Dispatcher
         {
             CachedStage oldStage;
             IStage newStage;
-            if (CacheProvider.TryGetStages(model.GuildId, out var cache) && cache.TryGetValue(model.Id, out var Stage))
+            if (CacheProvider.TryGetStages(model.GuildId, out var cache) && cache.TryGetValue(model.Id, out var stage))
             {
-                newStage = Stage;
-                oldStage = Stage.Clone() as CachedStage;
+                newStage = stage;
+                oldStage = stage.Clone() as CachedStage;
                 newStage.Update(model);
             }
             else
