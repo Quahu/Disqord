@@ -25,5 +25,8 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("components")]
         public Optional<ComponentJsonModel[]> Components;
+
+        [JsonProperty("sticker_ids")]
+        public Optional<Snowflake[]> StickerIds;
     }
 }
