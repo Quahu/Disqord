@@ -24,7 +24,7 @@ namespace Disqord
             => model.Type switch
             {
                 StickerType.Guild => new TransientGuildSticker(client, model),
-                StickerType.Standard => new TransientPackSticker(client, model),
+                StickerType.Pack => new TransientPackSticker(client, model),
                 _ => new TransientSticker(client, model)
             };
     }
