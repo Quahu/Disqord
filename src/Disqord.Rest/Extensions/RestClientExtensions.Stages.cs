@@ -18,7 +18,7 @@ namespace Disqord.Rest
                 Topic = topic,
                 PrivacyLevel = properties.PrivacyLevel
             };
-            var model = await client.ApiClient.CreateStageAsync(channelId, content, options).ConfigureAwait(false);
+            var model = await client.ApiClient.CreateStageInstanceAsync(channelId, content, options).ConfigureAwait(false);
             return new TransientStage(client, model);
         }
 
@@ -26,7 +26,7 @@ namespace Disqord.Rest
         {
             try
             {
-                var model = await client.ApiClient.FetchStageAsync(channelId, options).ConfigureAwait(false);
+                var model = await client.ApiClient.FetchStageInstanceAsync(channelId, options).ConfigureAwait(false);
                 return new TransientStage(client, model);
             }
             catch (RestApiException ex) when (ex.StatusCode == HttpResponseStatusCode.NotFound)
@@ -47,11 +47,11 @@ namespace Disqord.Rest
                 Topic = properties.Topic,
                 PrivacyLevel = properties.PrivacyLevel
             };
-            var model = await client.ApiClient.ModifyStageAsync(channelId, content, options).ConfigureAwait(false);
+            var model = await client.ApiClient.ModifyStageInstanceAsync(channelId, content, options).ConfigureAwait(false);
             return new TransientStage(client, model);
         }
 
         public static Task DeleteStageAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null)
-            => client.ApiClient.DeleteStageAsync(channelId, options);
+            => client.ApiClient.DeleteStageInstanceAsync(channelId, options);
     }
 }

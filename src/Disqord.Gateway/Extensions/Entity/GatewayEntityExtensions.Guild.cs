@@ -114,9 +114,9 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets all cached stage for the specified guild.
+        ///     Gets all cached stages for the specified guild.
         /// </summary>
-        /// <param name="guild"> The guild to get the stage for. </param>
+        /// <param name="guild"> The guild to get the stages for. </param>
         /// <returns>
         ///     A dictionary of cached stages for this guild keyed by <see cref="IStage.Id"/>.
         /// </returns>
