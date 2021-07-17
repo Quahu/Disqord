@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 
 namespace Disqord
@@ -96,10 +97,19 @@ namespace Disqord
                 return FormatUrl(path, format, size);
             }
 
-            public static string GetStickerUrl(Snowflake stickerId, CdnAssetFormat format = default)
+            public static string GetStickerUrl(Snowflake stickerId, StickerFormatType format = default)
             {
-                var path = $"stickers/{stickerId}";
-                return FormatUrl(path, format, null);
+                var stringBuilder = new StringBuilder(BaseAddress);
+                stringBuilder.Append($"stickers/{stickerId}");
+
+                var formatString = format switch
+                {
+                    StickerFormatType.Lottie => "json",
+                    _ => "png"
+                };
+
+                stringBuilder.Append('.').Append(formatString);
+                return stringBuilder.ToString();
             }
 
             private static string FormatUrl(string path, CdnAssetFormat format, int? size)
@@ -144,7 +154,6 @@ namespace Disqord
                 CdnAssetFormat.Jpg => "jpg",
                 CdnAssetFormat.WebP => "webp",
                 CdnAssetFormat.Gif => "gif",
-                CdnAssetFormat.Lottie => "json",
                 _ => throw new ArgumentOutOfRangeException(nameof(format), "Unknown CDN asset format."),
             };
         }

@@ -33,11 +33,6 @@
         /// <summary>
         ///     The GIF format.
         /// </summary>
-        Gif,
-
-        /// <summary>
-        ///     The Lottie format.
-        /// </summary>
-        Lottie
+        Gif
     }
 }
