@@ -175,6 +175,10 @@
 
         InvalidApiVersion = 50041,
 
+        MaximumFileSizeExceeded = 50045,
+
+        InvalidFileType = 50046,
+
         CannotDeleteAChannelRequiredForCommunityGuilds = 50074,
 
         InvalidStickerSent = 50081,
@@ -214,6 +218,12 @@
 
         MaximumActiveThreadAmountReached = 160006,
 
-        MaximumActiveAnnouncementThreadAmountReached = 160007
+        MaximumActiveAnnouncementThreadAmountReached = 160007,
+
+        InvalidLottieFile = 170001,
+
+        MaximumLottieDimensionsExceeded = 170005,
+
+        MaximumLottieDurationExceeded = 170007
     }
 }
