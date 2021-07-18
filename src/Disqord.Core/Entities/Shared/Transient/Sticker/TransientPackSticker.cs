@@ -4,9 +4,11 @@ namespace Disqord
 {
     public class TransientPackSticker : TransientSticker, IPackSticker
     {
+        /// <inheritdoc/>
         public Snowflake PackId => Model.PackId.Value;
 
-        public int SortValue => Model.SortValue.Value;
+        /// <inheritdoc/>
+        public int Position => Model.SortValue.Value;
 
         public TransientPackSticker(IClient client, StickerJsonModel model)
             : base(client, model)

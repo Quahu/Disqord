@@ -4,10 +4,13 @@ namespace Disqord
 {
     public class MessageSticker : IPartialSticker
     {
+        /// <inheritdoc/>
         public Snowflake Id { get; }
 
+        /// <inheritdoc/>
         public string Name { get; }
 
+        /// <inheritdoc/>
         public StickerFormatType FormatType { get; }
 
         public MessageSticker(StickerItemJsonModel model)
