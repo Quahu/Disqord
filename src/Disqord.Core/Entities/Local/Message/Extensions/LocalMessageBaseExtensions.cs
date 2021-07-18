@@ -121,9 +121,6 @@ namespace Disqord
         public static TMessage AddStickerId<TMessage>(this TMessage message, Snowflake stickerId)
             where TMessage : LocalMessageBase
         {
-            if (stickerId == null)
-                throw new ArgumentNullException(nameof(stickerId));
-
             message._stickerIds.Add(stickerId);
             return message;
         }
