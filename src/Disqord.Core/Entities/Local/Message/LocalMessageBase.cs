@@ -10,6 +10,8 @@ namespace Disqord
 
         public const int MaxEmbeddedContentLength = 6000;
 
+        public const int MaxStickerIdAmount = 3;
+
         public string Content
         {
             get => _content;
@@ -54,11 +56,19 @@ namespace Disqord
         }
         internal readonly List<LocalRowComponent> _components;
 
+        public IList<Snowflake> StickerIds
+        {
+            get => _stickerIds;
+            set => this.WithStickerIds(value);
+        }
+        internal readonly List<Snowflake> _stickerIds;
+
         protected LocalMessageBase()
         {
             _embeds = new List<LocalEmbed>();
             _attachments = new List<LocalAttachment>();
             _components = new List<LocalRowComponent>();
+            _stickerIds = new List<Snowflake>();
         }
 
         protected LocalMessageBase(LocalMessageBase other)
@@ -69,6 +79,7 @@ namespace Disqord
             AllowedMentions = other.AllowedMentions?.Clone();
             _attachments = other._attachments.Select(x => x.Clone()).ToList();
             _components = other._components.Select(x => x.Clone()).ToList();
+            _stickerIds = other._stickerIds.ToList();
         }
 
         public abstract LocalMessageBase Clone();
@@ -78,11 +89,14 @@ namespace Disqord
 
         public virtual void Validate()
         {
-            if (Content == null && _embeds.Count == 0 && _attachments.Count == 0)
-                throw new InvalidOperationException("A message must contain at least one of content, embeds, or attachments.");
+            if (Content == null && _embeds.Count == 0 && _attachments.Count == 0 && _stickerIds.Count == 0)
+                throw new InvalidOperationException("A message must contain at least one of content, embeds, attachments, or sticker IDs.");
 
             if (_embeds.Sum(x => x.Length) > MaxEmbeddedContentLength)
                 throw new InvalidOperationException($"The total length of embeds must not exceed {MaxEmbeddedContentLength} characters.");
+
+            if (_stickerIds.Count > MaxStickerIdAmount)
+                throw new InvalidOperationException($"The count of sticker IDs must not exceed {MaxStickerIdAmount}.");
 
             for (var i = 0; i < _embeds.Count; i++)
                 _embeds[i].Validate();

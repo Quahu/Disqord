@@ -35,7 +35,7 @@ namespace Disqord.Rest
             var content = new CreateGuildStickerJsonRestRequestContent
             {
                 Name = name,
-                Description = properties.Description.Value,
+                Description = properties.Description,
                 Tags = tags,
                 File = file
             };

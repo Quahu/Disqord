@@ -102,5 +102,30 @@ namespace Disqord
             message._components.Add(component);
             return message;
         }
+
+        public static TMessage WithStickerIds<TMessage>(this TMessage message, params Snowflake[] stickerIds)
+            where TMessage : LocalMessageBase
+            => message.WithStickerIds(stickerIds as IEnumerable<Snowflake>);
+
+        public static TMessage WithStickerIds<TMessage>(this TMessage message, IEnumerable<Snowflake> stickerIds)
+            where TMessage : LocalMessageBase
+        {
+            if (stickerIds == null)
+                throw new ArgumentNullException(nameof(stickerIds));
+
+            message._stickerIds.Clear();
+            message._stickerIds.AddRange(stickerIds);
+            return message;
+        }
+
+        public static TMessage AddStickerId<TMessage>(this TMessage message, Snowflake stickerId)
+            where TMessage : LocalMessageBase
+        {
+            if (stickerId == null)
+                throw new ArgumentNullException(nameof(stickerId));
+
+            message._stickerIds.Add(stickerId);
+            return message;
+        }
     }
 }

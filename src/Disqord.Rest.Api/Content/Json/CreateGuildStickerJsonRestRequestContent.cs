@@ -9,7 +9,7 @@ namespace Disqord.Rest.Api
         public string Name;
 
         [JsonProperty("description")]
-        public string Description;
+        public Optional<string> Description;
 
         [JsonProperty("tags")]
         public string Tags;

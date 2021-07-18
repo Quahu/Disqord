@@ -29,7 +29,7 @@ namespace Disqord.Gateway
         Bans = 1 << 2,
 
         /// <summary>
-        ///     The emojis intent. Required to receive receive emoji-related events.
+        ///     The emojis and stickers intent. Required to receive emoji and sticker related events.
         /// </summary>
         EmojisAndStickers = 1 << 3,
 

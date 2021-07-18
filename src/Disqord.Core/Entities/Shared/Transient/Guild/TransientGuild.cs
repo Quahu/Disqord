@@ -85,7 +85,7 @@ namespace Disqord
         public GuildNsfwLevel NsfwLevel => Model.NsfwLevel;
 
         public IReadOnlyDictionary<Snowflake, IGuildSticker> Stickers => _stickers ??= Optional.ConvertOrDefault(Model.Stickers,
-            x => x.ToReadOnlyDictionary(Client, (k, _) => k.Id, (v, client) => new TransientGuildSticker(client, v) as IGuildSticker),
+            x => x.ToReadOnlyDictionary(Client, (x, _) => x.Id, (x, client) => new TransientGuildSticker(client, x) as IGuildSticker),
             ReadOnlyDictionary<Snowflake, IGuildSticker>.Empty
         );
         private IReadOnlyDictionary<Snowflake, IGuildSticker> _stickers;

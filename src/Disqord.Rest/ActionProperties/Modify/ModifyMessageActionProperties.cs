@@ -18,6 +18,8 @@ namespace Disqord
 
         public Optional<IEnumerable<LocalRowComponent>> Components { internal get; set; }
 
+        public Optional<IEnumerable<Snowflake>> StickerIds { internal get; set; }
+
         internal ModifyMessageActionProperties()
         { }
     }

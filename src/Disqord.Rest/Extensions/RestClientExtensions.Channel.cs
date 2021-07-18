@@ -141,7 +141,8 @@ namespace Disqord.Rest
                 AllowedMentions = Optional.FromNullable(message.AllowedMentions.ToModel()),
                 MessageReference = Optional.FromNullable(message.Reference.ToModel()),
                 Nonce = Optional.FromNullable(message.Nonce),
-                Components = Optional.Conditional(message.Components.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), message.Components)
+                Components = Optional.Conditional(message.Components.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), message.Components),
+                StickerIds = Optional.Conditional(message.StickerIds.Count != 0, x => x.ToArray(), message.StickerIds)
             };
 
             Task<MessageJsonModel> task;
@@ -256,7 +257,8 @@ namespace Disqord.Rest
                 {
                     x.Validate();
                     return x.ToModel();
-                }).ToArray())
+                }).ToArray()),
+                StickerIds = Optional.Convert(properties.StickerIds, x => x.ToArray())
             };
             var model = await client.ApiClient.ModifyMessageAsync(channelId, messageId, content, options).ConfigureAwait(false);
             return new TransientUserMessage(client, model);
