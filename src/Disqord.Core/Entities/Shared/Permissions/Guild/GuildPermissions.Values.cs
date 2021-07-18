@@ -33,11 +33,12 @@
             | Permission.ManageNicknames
             | Permission.ManageRoles
             | Permission.ManageWebhooks
-            | Permission.ManageEmojis
+            | Permission.ManageEmojisAndStickers
             | Permission.UseSlashCommands
             | Permission.RequestToSpeak
             | Permission.ManageThreads
             | Permission.UsePublicThreads
-            | Permission.UsePrivateThreads);
+            | Permission.UsePrivateThreads
+            | Permission.UseExternalStickers);
     }
 }
