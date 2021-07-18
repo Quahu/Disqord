@@ -2,16 +2,10 @@
 
 namespace Disqord.Models
 {
-    public class StickerJsonModel : JsonModel
+    public class StickerJsonModel : StickerItemJsonModel
     {
-        [JsonProperty("id")]
-        public Snowflake Id;
-
         [JsonProperty("pack_id")]
         public Optional<Snowflake> PackId;
-
-        [JsonProperty("name")]
-        public string Name;
 
         [JsonProperty("description")]
         public string Description;
@@ -21,9 +15,6 @@ namespace Disqord.Models
 
         [JsonProperty("type")]
         public StickerType Type;
-
-        [JsonProperty("format_type")]
-        public StickerFormatType FormatType;
 
         [JsonProperty("available")]
         public Optional<bool> Available;

@@ -89,6 +89,6 @@ namespace Disqord.Models
         public Optional<ComponentJsonModel[]> Components;
 
         [JsonProperty("sticker_items")]
-        public Optional<StickerJsonModel[]> Stickers;
+        public Optional<StickerItemJsonModel[]> StickerItems;
     }
 }

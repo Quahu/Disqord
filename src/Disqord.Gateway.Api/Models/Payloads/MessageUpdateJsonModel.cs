@@ -81,7 +81,7 @@ namespace Disqord.Gateway.Api.Models
         public Optional<MessageFlag> Flags;
 
         [JsonProperty("stickers")]
-        public Optional<StickerJsonModel[]> Stickers;
+        public Optional<StickerItemJsonModel[]> StickerItems;
 
         [JsonProperty("referenced_message")]
         public Optional<MessageJsonModel> ReferencedMessage;
