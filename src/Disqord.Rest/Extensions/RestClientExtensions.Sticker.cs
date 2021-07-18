@@ -27,6 +27,8 @@ namespace Disqord.Rest
             return new TransientGuildSticker(client, model);
         }
 
+        // TODO: Impl form data request stuff
+        /*
         public static async Task<IGuildSticker> CreateGuildStickerAsync(this IRestClient client, Snowflake guildId, string name, string tags, Stream file, Action<CreateGuildStickerActionProperties> action = null, IRestRequestOptions options = null)
         {
             var properties = new CreateGuildStickerActionProperties();
@@ -43,6 +45,7 @@ namespace Disqord.Rest
             var model = await client.ApiClient.CreateGuildStickerAsync(guildId, content, options).ConfigureAwait(false);
             return new TransientGuildSticker(client, model);
         }
+        */
 
         public static async Task<IGuildSticker> ModifyGuildStickerAsync(this IRestClient client, Snowflake guildId, Snowflake stickerId, Action<ModifyGuildStickerActionProperties> action, IRestRequestOptions options = null)
         {

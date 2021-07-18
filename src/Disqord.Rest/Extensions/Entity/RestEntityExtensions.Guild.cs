@@ -335,11 +335,13 @@ namespace Disqord.Rest
             return client.FetchGuildStickerAsync(guild.Id, stickerId, options);
         }
 
+        /*
         public static Task<IGuildSticker> CreateStickerAsync(this IGuild guild, string name, string tags, Stream file, Action<CreateGuildStickerActionProperties> action = null, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
             return client.CreateGuildStickerAsync(guild.Id, name, tags, file, action, options);
         }
+        */
 
         public static Task<IGuildSticker> ModifyStickerAsync(this IGuild guild, Snowflake stickerId, Action<ModifyGuildStickerActionProperties> action, IRestRequestOptions options = null)
         {
