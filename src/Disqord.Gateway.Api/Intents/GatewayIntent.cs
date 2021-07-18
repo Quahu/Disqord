@@ -31,7 +31,7 @@ namespace Disqord.Gateway
         /// <summary>
         ///     The emojis intent. Required to receive receive emoji-related events.
         /// </summary>
-        Emojis = 1 << 3,
+        EmojisAndStickers = 1 << 3,
 
         /// <summary>
         ///     The integrations intent. Required to receive integration-related events.

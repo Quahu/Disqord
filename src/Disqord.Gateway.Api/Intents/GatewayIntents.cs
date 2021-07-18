@@ -24,7 +24,7 @@ namespace Disqord.Gateway
 
         public bool Bans => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.Bans);
 
-        public bool Emojis => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.Emojis);
+        public bool EmojisAndStickers => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.EmojisAndStickers);
 
         public bool Integrations => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.Integrations);
 
