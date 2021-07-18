@@ -306,7 +306,7 @@ namespace Disqord.Rest.Api
 
             public static readonly Route GetGuildCommands = Get("applications/{0:application_id}/guilds/{1:guild_id}/commands");
 
-            public static readonly Route ModifyGlobalCommands = Put("applications/{0:application_id}/commands");
+            public static readonly Route SetGlobalCommands = Put("applications/{0:application_id}/commands");
 
             public static readonly Route CreateGuildCommand = Post("applications/{0:application_id}/guilds/{1:guild_id}/commands");
 
@@ -316,7 +316,7 @@ namespace Disqord.Rest.Api
 
             public static readonly Route DeleteGuildCommand = Delete("applications/{0:application_id}/guilds/{1:guild_id}/commands/{2:command_id}");
 
-            public static readonly Route ModifyGuildCommands = Put("applications/{0:application_id}/guilds/{1:guild_id}/commands");
+            public static readonly Route SetGuildCommands = Put("applications/{0:application_id}/guilds/{1:guild_id}/commands");
 
             public static readonly Route CreateInitialResponse = Post("interactions/{0:interaction_id}/{1:interaction_token}/callback");
 
@@ -336,9 +336,9 @@ namespace Disqord.Rest.Api
 
             public static readonly Route GetCommandPermissions = Get("applications/{0:application_id}/guilds/{1:guild_id}/commands/{2:command_id}/permissions");
 
-            public static readonly Route ModifyCommandPermissions = Put("applications/{0:application_id}/guilds/{1:guild_id}/commands/{2:command_id}/permissions");
+            public static readonly Route SetCommandPermissions = Put("applications/{0:application_id}/guilds/{1:guild_id}/commands/{2:command_id}/permissions");
 
-            public static readonly Route ModifyAllCommandPermissions = Put("applications/{0:application_id}/guilds/{1:guild_id}/commands/permissions");
+            public static readonly Route SetCommandsPermissions = Put("applications/{0:application_id}/guilds/{1:guild_id}/commands/permissions");
         }
 
         public static Route Get(string path)

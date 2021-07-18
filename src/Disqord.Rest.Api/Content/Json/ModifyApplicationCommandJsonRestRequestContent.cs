@@ -13,7 +13,7 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("options")]
         public Optional<ApplicationCommandOptionJsonModel[]> Options;
-        
+
         [JsonProperty("default_permission")]
         public Optional<bool> DefaultPermission;
     }
