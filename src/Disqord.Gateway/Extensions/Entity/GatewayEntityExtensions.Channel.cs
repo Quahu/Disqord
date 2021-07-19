@@ -10,12 +10,6 @@ namespace Disqord.Gateway
             return client.GetChannel(thread.GuildId, thread.ChannelId) as CachedTextChannel;
         }
 
-        public static CachedStageChannel GetChannel(this IStage stage)
-        {
-            var client = stage.GetGatewayClient();
-            return client.GetChannel(stage.GuildId, stage.ChannelId) as CachedStageChannel;
-        }
-
         public static CachedStage GetStage(this IStageChannel stageChannel)
         {
             var client = stageChannel.GetGatewayClient();
