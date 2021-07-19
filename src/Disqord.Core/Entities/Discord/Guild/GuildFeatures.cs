@@ -34,6 +34,11 @@ namespace Disqord
         public bool Discoverable => Has("DISCOVERABLE");
 
         /// <summary>
+        ///     The guild cannot be discoverable.
+        /// </summary>
+        public bool DiscoverableDisabled => Has("DISCOVERABLE_DISABLED");
+
+        /// <summary>
         ///     The guild appears in guild directory.
         /// </summary>
         public bool Featurable => Has("FEATURABLE");
