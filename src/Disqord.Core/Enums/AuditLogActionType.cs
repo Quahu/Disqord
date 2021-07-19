@@ -45,6 +45,14 @@
 
         IntegrationCreated = 80,
         IntegrationUpdated = 81,
-        IntegrationDeleted = 82
+        IntegrationDeleted = 82,
+
+        StageCreated = 83,
+        StageUpdated = 84,
+        StageDeleted = 85,
+
+        StickerCreated = 90,
+        StickerUpdated = 91,
+        StickerDeleted = 92
     }
 }
