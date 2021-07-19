@@ -14,9 +14,8 @@ namespace Disqord.Gateway
         {
             var client = stageChannel.GetGatewayClient();
             if (client.CacheProvider.TryGetStages(stageChannel.GuildId, out var cache))
-            {
                 return Array.Find(cache.Values, x => x.ChannelId == stageChannel.Id);
-            }
+
             return null;
         }
     }
