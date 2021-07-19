@@ -111,6 +111,11 @@ namespace Disqord.AuditLogs
             AuditLogActionType.IntegrationUpdated => new TransientIntegrationUpdatedAuditLog(client, guildId, log, entry),
             AuditLogActionType.IntegrationDeleted => new TransientIntegrationDeletedAuditLog(client, guildId, log, entry),
 
+            // Sticker
+            AuditLogActionType.StickerCreated => new TransientStickerCreatedAuditLog(client, guildId, log, entry),
+            AuditLogActionType.StickerUpdated => new TransientStickerUpdatedAuditLog(client, guildId, log, entry),
+            AuditLogActionType.StickerDeleted => new TransientStickerDeletedAuditLog(client, guildId, log, entry),
+
             _ => new TransientUnknownAuditLog(client, guildId, log, entry),
         };
     }
