@@ -203,6 +203,21 @@ namespace Disqord.Rest.Api
             public static readonly Route GetWelcomeScreen = Get("guilds/{0:guild_id}/welcome-screen");
 
             public static readonly Route ModifyWelcomeScreen = Patch("guilds/{0:guild_id}/welcome-screen");
+
+            public static readonly Route GetDiscoveryMetadata = Get("guilds/{0:guild_id}/discovery-metadata");
+
+            public static readonly Route ModifyDiscoveryMetadata = Patch("guilds/{0:guild_id}/discovery-metadata");
+
+            public static readonly Route CreateDiscoverySubcategory = Post("guilds/{0:guild_id}/discovery-categories/{1:category_id}");
+
+            public static readonly Route DeleteDiscoverySubcategory = Delete("guilds/{0:guild_id}/discovery-categories/{1:category_id}");
+        }
+
+        public static class Discovery
+        {
+            public static readonly Route GetCategories = Get("discovery/categories");
+
+            public static readonly Route ValidateSearchTerm = Get("discovery/valid-term");
         }
 
         public static class Invite

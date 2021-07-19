@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Http;
 using Disqord.Models;
+using Disqord.Rest.ActionProperties.Modify;
 using Disqord.Rest.Api;
 using Disqord.Rest.Pagination;
 
@@ -401,6 +402,28 @@ namespace Disqord.Rest
         {
             var model = await client.ApiClient.FetchGuildWidgetAsync(guildId, options).ConfigureAwait(false);
             return new TransientGuildWidget(client, guildId, model);
+        }
+
+        public static async Task<IGuildDiscoveryMetadata> FetchDiscoveryMetadata(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.FetchDiscoveryMetadataAsync(guildId, options);
+            return new TransientGuildDiscoveryMetadata(client, guildId, model);
+        }
+
+        public static async Task<IGuildDiscoveryMetadata> ModifyDiscoveryMetadata(this IRestClient client, Snowflake guildId, Action<ModifyGuildDiscoveryMetadataActionProperties> action, IRestRequestOptions options = null)
+        {
+            var properties = new ModifyGuildDiscoveryMetadataActionProperties();
+            action(properties);
+
+            var content = new ModifyGuildDiscoveryMetadataJsonRestRequestContent
+            {
+                PrimaryCategoryId = properties.PrimaryCategoryId,
+                EmojiDiscoverabilityEnabled = properties.HasEmojis,
+                Keywords = Optional.ConvertOrDefault(properties.Keywords, x => x.ToArray())
+            };
+
+            var model = await client.ApiClient.ModifyDiscoveryMetadataAsync(guildId, content, options);
+            return new TransientGuildDiscoveryMetadata(client, guildId, model);
         }
 
         public static async Task<IGuildWidget> ModifyWidgetAsync(this IRestClient client, Snowflake guildId, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null)

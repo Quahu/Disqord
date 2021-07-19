@@ -256,6 +256,18 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync(route, null, options);
         }
 
+        public static Task<GuildDiscoveryMetdataJsonModel> FetchDiscoveryMetadataAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.GetDiscoveryMetadata, guildId);
+            return client.ExecuteAsync<GuildDiscoveryMetdataJsonModel>(route, null, options);
+        }
+
+        public static Task<GuildDiscoveryMetdataJsonModel> ModifyDiscoveryMetadataAsync(this IRestApiClient client, Snowflake guildId, ModifyGuildDiscoveryMetadataJsonRestRequestContent content, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.ModifyDiscoveryMetadata, guildId);
+            return client.ExecuteAsync<GuildDiscoveryMetdataJsonModel>(route, content, options);
+        }
+
         public static Task<WelcomeScreenJsonModel> FetchWelcomeScreenAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Guild.GetWelcomeScreen, guildId);
