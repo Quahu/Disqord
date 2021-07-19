@@ -137,6 +137,17 @@ namespace Disqord.Gateway
             }
         }
 
+        IReadOnlyDictionary<Snowflake, IStage> IGatewayGuild.Stages
+        {
+            get
+            {
+                if (Client.CacheProvider.TryGetStages(Id, out var cache, true))
+                    return new ReadOnlyUpcastingDictionary<Snowflake, CachedStage, IStage>(cache.ReadOnly());
+
+                return ReadOnlyDictionary<Snowflake, IStage>.Empty;
+            }
+        }
+
         public GuildNsfwLevel NsfwLevel { get; private set; }
 
         public CachedGuild(IGatewayClient client, GatewayGuildJsonModel model)

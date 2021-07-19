@@ -243,6 +243,27 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<StageCreatedEventArgs> StageCreated
+        {
+            add => GatewayClient.StageCreated += value;
+            remove => GatewayClient.StageCreated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<StageUpdatedEventArgs> StageUpdated
+        {
+            add => GatewayClient.StageUpdated += value;
+            remove => GatewayClient.StageUpdated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<StageDeletedEventArgs> StageDeleted
+        {
+            add => GatewayClient.StageDeleted += value;
+            remove => GatewayClient.StageDeleted -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
         {
             add => GatewayClient.TypingStarted += value;

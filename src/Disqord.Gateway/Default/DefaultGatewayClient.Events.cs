@@ -242,6 +242,27 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<StageCreatedEventArgs> StageCreated
+        {
+            add => Dispatcher.StageCreatedEvent.Hook(value);
+            remove => Dispatcher.StageCreatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<StageUpdatedEventArgs> StageUpdated
+        {
+            add => Dispatcher.StageUpdatedEvent.Hook(value);
+            remove => Dispatcher.StageUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<StageDeletedEventArgs> StageDeleted
+        {
+            add => Dispatcher.StageDeletedEvent.Hook(value);
+            remove => Dispatcher.StageDeletedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
         {
             add => Dispatcher.TypingStartedEvent.Hook(value);

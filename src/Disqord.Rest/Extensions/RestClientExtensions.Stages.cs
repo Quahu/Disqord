@@ -7,23 +7,27 @@ namespace Disqord.Rest
 {
     public static partial class RestClientExtensions
     {
-        public static async Task<IStageInstance> CreateStageInstanceAsync(this IRestClient client, Snowflake channelId, string topic, IRestRequestOptions options = null)
+        public static async Task<IStage> CreateStageAsync(this IRestClient client, Snowflake channelId, string topic, Action<CreateStageActionProperties> action = null, IRestRequestOptions options = null)
         {
+            var properties = new CreateStageActionProperties();
+            action?.Invoke(properties);
+
             var content = new CreateStageInstanceJsonRestRequestContent
             {
                 ChannelId = channelId,
-                Topic = topic
+                Topic = topic,
+                PrivacyLevel = properties.PrivacyLevel
             };
             var model = await client.ApiClient.CreateStageInstanceAsync(channelId, content, options).ConfigureAwait(false);
-            return new TransientStageInstance(client, model);
+            return new TransientStage(client, model);
         }
 
-        public static async Task<IStageInstance> FetchStageInstanceAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null)
+        public static async Task<IStage> FetchStageAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null)
         {
             try
             {
                 var model = await client.ApiClient.FetchStageInstanceAsync(channelId, options).ConfigureAwait(false);
-                return new TransientStageInstance(client, model);
+                return new TransientStage(client, model);
             }
             catch (RestApiException ex) when (ex.StatusCode == HttpResponseStatusCode.NotFound)
             {
@@ -31,22 +35,23 @@ namespace Disqord.Rest
             }
         }
 
-        public static async Task<IStageInstance> ModifyStageInstanceAsync(this IRestClient client, Snowflake channelId, Action<ModifyStageInstanceActionProperties> action, IRestRequestOptions options = null)
+        public static async Task<IStage> ModifyStageAsync(this IRestClient client, Snowflake channelId, Action<ModifyStageActionProperties> action, IRestRequestOptions options = null)
         {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
 
-            var properties = new ModifyStageInstanceActionProperties();
+            var properties = new ModifyStageActionProperties();
             action(properties);
             var content = new ModifyStageInstanceJsonRestRequestContent()
             {
                 Topic = properties.Topic,
+                PrivacyLevel = properties.PrivacyLevel
             };
             var model = await client.ApiClient.ModifyStageInstanceAsync(channelId, content, options).ConfigureAwait(false);
-            return new TransientStageInstance(client, model);
+            return new TransientStage(client, model);
         }
 
-        public static Task DeleteStageInstanceAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null)
+        public static Task DeleteStageAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null)
             => client.ApiClient.DeleteStageInstanceAsync(channelId, options);
     }
 }

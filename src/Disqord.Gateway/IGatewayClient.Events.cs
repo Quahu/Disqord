@@ -179,6 +179,21 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<PresenceUpdatedEventArgs> PresenceUpdated;
 
         /// <summary>
+        ///     Fires when a stage is created.
+        /// </summary>
+        event AsynchronousEventHandler<StageCreatedEventArgs> StageCreated;
+
+        /// <summary>
+        ///     Fires when a stage is updated.
+        /// </summary>
+        event AsynchronousEventHandler<StageUpdatedEventArgs> StageUpdated;
+
+        /// <summary>
+        ///     Fires when a stage is deleted.
+        /// </summary>
+        event AsynchronousEventHandler<StageDeletedEventArgs> StageDeleted;
+
+        /// <summary>
         ///     Fires when a user starts typing in a channel.
         /// </summary>
         event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted;

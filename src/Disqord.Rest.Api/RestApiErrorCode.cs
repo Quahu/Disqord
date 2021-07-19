@@ -58,7 +58,7 @@
 
         UnknownApplicationCommand = 10063,
 
-        UnknownStageInstance = 10067,
+        UnknownStage = 10067,
 
         UnknownMemberVerificationForm = 10068,
 
@@ -75,7 +75,7 @@
         /// <summary>
         ///     The stage topic, guild name, guild description, or channel names contain words that are not allowed.
         /// </summary>
-        DisallowedStageInstanceWords = 20031,
+        DisallowedStageWords = 20031,
 
         MaximumGuildAmountReached = 30001,
 

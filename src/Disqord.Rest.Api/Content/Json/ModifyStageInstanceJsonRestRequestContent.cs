@@ -6,5 +6,8 @@ namespace Disqord.Rest.Api
     {
         [JsonProperty("topic")]
         public Optional<string> Topic;
+
+        [JsonProperty("privacy_level")]
+        public Optional<StagePrivacyLevel> PrivacyLevel;
     }
 }

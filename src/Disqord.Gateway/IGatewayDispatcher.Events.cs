@@ -72,6 +72,12 @@ namespace Disqord.Gateway
 
         AsynchronousEvent<PresenceUpdatedEventArgs> PresenceUpdatedEvent { get; }
 
+        AsynchronousEvent<StageCreatedEventArgs> StageCreatedEvent { get; }
+
+        AsynchronousEvent<StageUpdatedEventArgs> StageUpdatedEvent { get; }
+
+        AsynchronousEvent<StageDeletedEventArgs> StageDeletedEvent { get; }
+
         AsynchronousEvent<TypingStartedEventArgs> TypingStartedEvent { get; }
 
         AsynchronousEvent<CurrentUserUpdatedEventArgs> CurrentUserUpdatedEvent { get; }
