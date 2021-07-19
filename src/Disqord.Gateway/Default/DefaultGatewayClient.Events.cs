@@ -95,6 +95,13 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<StickersUpdatedEventArgs> StickersUpdated
+        {
+            add => Dispatcher.StickersUpdatedEvent.Hook(value);
+            remove => Dispatcher.StickersUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<IntegrationsUpdatedEventArgs> IntegrationsUpdated
         {
             add => Dispatcher.IntegrationsUpdatedEvent.Hook(value);

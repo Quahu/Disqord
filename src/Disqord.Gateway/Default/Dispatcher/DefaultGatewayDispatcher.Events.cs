@@ -30,6 +30,8 @@ namespace Disqord.Gateway.Default
 
         public AsynchronousEvent<EmojisUpdatedEventArgs> EmojisUpdatedEvent { get; } = new();
 
+        public AsynchronousEvent<StickersUpdatedEventArgs> StickersUpdatedEvent { get; } = new();
+
         public AsynchronousEvent<IntegrationsUpdatedEventArgs> IntegrationsUpdatedEvent { get; } = new();
 
         public AsynchronousEvent<MemberJoinedEventArgs> MemberJoinedEvent { get; } = new();

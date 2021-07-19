@@ -150,6 +150,8 @@ namespace Disqord.Gateway
 
         public GuildNsfwLevel NsfwLevel { get; private set; }
 
+        public IReadOnlyDictionary<Snowflake, IGuildSticker> Stickers { get; private set; }
+
         public CachedGuild(IGatewayClient client, GatewayGuildJsonModel model)
             : base(client, model.Id)
         {
@@ -182,6 +184,7 @@ namespace Disqord.Gateway
             NotificationLevel = model.DefaultMessageNotifications;
             ContentFilterLevel = model.ExplicitContentFilter;
             SetEmojis(model.Emojis);
+            SetStickers(model.Stickers);
             _features = model.Features;
             MfaLevel = model.MfaLevel;
             SystemChannelId = model.SystemChannelId;
@@ -224,6 +227,11 @@ namespace Disqord.Gateway
             SetEmojis(model.Emojis);
         }
 
+        public void Update(GuildStickersUpdateJsonModel model)
+        {
+            SetStickers(model.Stickers);
+        }
+
         private void SetEmojis(EmojiJsonModel[] emojis)
         {
             Emojis = emojis.ToReadOnlyDictionary((Client, Id), (x, _) => x.Id.Value, (x, tuple) =>
@@ -231,6 +239,14 @@ namespace Disqord.Gateway
                 var (client, guildId) = tuple;
                 return new TransientGuildEmoji(client, guildId, x) as IGuildEmoji;
             });
+        }
+
+        private void SetStickers(Optional<StickerJsonModel[]> stickers)
+        {
+            Stickers = Optional.ConvertOrDefault(stickers,
+                x => x.ToReadOnlyDictionary(Client, (k, _) => k.Id, (v, client) => new TransientGuildSticker(client, v) as IGuildSticker),
+                ReadOnlyDictionary<Snowflake, IGuildSticker>.Empty
+            );
         }
     }
 }

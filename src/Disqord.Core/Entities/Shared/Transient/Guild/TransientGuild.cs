@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Globalization;
 using Disqord.Collections;
 using Disqord.Models;
@@ -83,6 +84,12 @@ namespace Disqord
         public int? MaxVideoMemberCount => Model.MaxVideoChannelUsers.GetValueOrNullable();
 
         public GuildNsfwLevel NsfwLevel => Model.NsfwLevel;
+
+        public IReadOnlyDictionary<Snowflake, IGuildSticker> Stickers => _stickers ??= Optional.ConvertOrDefault(Model.Stickers,
+            x => x.ToReadOnlyDictionary(Client, (k, _) => k.Id, (v, client) => new TransientGuildSticker(client, v) as IGuildSticker),
+            ReadOnlyDictionary<Snowflake, IGuildSticker>.Empty
+        );
+        private IReadOnlyDictionary<Snowflake, IGuildSticker> _stickers;
 
         public TransientGuild(IClient client, GuildJsonModel model)
             : base(client, model)

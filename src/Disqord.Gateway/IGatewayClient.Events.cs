@@ -74,6 +74,11 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<EmojisUpdatedEventArgs> EmojisUpdated;
 
         /// <summary>
+        ///     Fires when the stickers in a guild are updated.
+        /// </summary>
+        event AsynchronousEventHandler<StickersUpdatedEventArgs> StickersUpdated;
+
+        /// <summary>
         ///     Fires when the integrations in a guild are updated.
         /// </summary>
         event AsynchronousEventHandler<IntegrationsUpdatedEventArgs> IntegrationsUpdated;

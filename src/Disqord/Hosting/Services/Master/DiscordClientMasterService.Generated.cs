@@ -22,6 +22,7 @@ namespace Disqord.Hosting
         public DiscordClientService[] BanCreatedServices { get; }
         public DiscordClientService[] BanDeletedServices { get; }
         public DiscordClientService[] EmojisUpdatedServices { get; }
+        public DiscordClientService[] StickersUpdatedServices { get; }
         public DiscordClientService[] IntegrationsUpdatedServices { get; }
         public DiscordClientService[] MemberJoinedServices { get; }
         public DiscordClientService[] MemberUpdatedServices { get; }
@@ -79,6 +80,7 @@ namespace Disqord.Hosting
             BanCreatedServices = GetServices<BanCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnBanCreated));
             BanDeletedServices = GetServices<BanDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnBanDeleted));
             EmojisUpdatedServices = GetServices<EmojisUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnEmojisUpdated));
+            StickersUpdatedServices = GetServices<StickersUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnStickersUpdated));
             IntegrationsUpdatedServices = GetServices<IntegrationsUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnIntegrationsUpdated));
             MemberJoinedServices = GetServices<MemberJoinedEventArgs>(servicesArray, nameof(DiscordClientService.OnMemberJoined));
             MemberUpdatedServices = GetServices<MemberUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnMemberUpdated));
@@ -122,6 +124,7 @@ namespace Disqord.Hosting
             Client.BanCreated += HandleBanCreated;
             Client.BanDeleted += HandleBanDeleted;
             Client.EmojisUpdated += HandleEmojisUpdated;
+            Client.StickersUpdated += HandleStickersUpdated;
             Client.IntegrationsUpdated += HandleIntegrationsUpdated;
             Client.MemberJoined += HandleMemberJoined;
             Client.MemberUpdated += HandleMemberUpdated;
@@ -229,6 +232,12 @@ namespace Disqord.Hosting
         {
             foreach (var service in EmojisUpdatedServices)
                 await ExecuteAsync((service, e) => service.OnEmojisUpdated(e), service, e).ConfigureAwait(false);
+        }
+
+        public async ValueTask HandleStickersUpdated(object sender, StickersUpdatedEventArgs e)
+        {
+            foreach (var service in StickersUpdatedServices)
+                await ExecuteAsync((service, e) => service.OnStickersUpdated(e), service, e).ConfigureAwait(false);
         }
 
         public async ValueTask HandleIntegrationsUpdated(object sender, IntegrationsUpdatedEventArgs e)

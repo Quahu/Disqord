@@ -96,6 +96,13 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<StickersUpdatedEventArgs> StickersUpdated
+        {
+            add => GatewayClient.StickersUpdated += value;
+            remove => GatewayClient.StickersUpdated -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<IntegrationsUpdatedEventArgs> IntegrationsUpdated
         {
             add => GatewayClient.IntegrationsUpdated += value;

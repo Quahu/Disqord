@@ -118,5 +118,8 @@ namespace Disqord.Models
 
         [JsonProperty("nsfw_level")]
         public GuildNsfwLevel NsfwLevel;
+
+        [JsonProperty("stickers")]
+        public Optional<StickerJsonModel[]> Stickers;
     }
 }
