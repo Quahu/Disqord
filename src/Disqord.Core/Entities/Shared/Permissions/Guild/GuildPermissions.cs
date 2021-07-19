@@ -72,17 +72,19 @@ namespace Disqord
 
         public bool ManageWebhooks => Discord.Permissions.HasFlag(RawValue, Permission.ManageWebhooks);
 
-        public bool ManageEmojis => Discord.Permissions.HasFlag(RawValue, Permission.ManageEmojis);
+        public bool ManageEmojis => Discord.Permissions.HasFlag(RawValue, Permission.ManageEmojisAndStickers);
 
         public bool UseSlashCommands => Discord.Permissions.HasFlag(RawValue, Permission.UseSlashCommands);
 
         public bool RequestToSpeak => Discord.Permissions.HasFlag(RawValue, Permission.RequestToSpeak);
 
         public bool ManageThreads => Discord.Permissions.HasFlag(RawValue, Permission.ManageThreads);
-        
+
         public bool UsePublicThreads => Discord.Permissions.HasFlag(RawValue, Permission.UsePublicThreads);
-        
+
         public bool UsePrivateThreads => Discord.Permissions.HasFlag(RawValue, Permission.UsePrivateThreads);
+
+        public bool UseExternalStickers => Discord.Permissions.HasFlag(RawValue, Permission.UseExternalStickers);
 
         public Permission Permissions => (Permission) RawValue;
 

@@ -6,7 +6,7 @@
             GatewayIntent.Guilds
             | GatewayIntent.Members
             | GatewayIntent.Bans
-            | GatewayIntent.Emojis
+            | GatewayIntent.EmojisAndStickers
             | GatewayIntent.Integrations
             | GatewayIntent.Webhooks
             | GatewayIntent.Invites
@@ -22,7 +22,7 @@
         public const ulong UNPRIVILEGED_INTENTS_VALUE = (ulong) (
             GatewayIntent.Guilds
             | GatewayIntent.Bans
-            | GatewayIntent.Emojis
+            | GatewayIntent.EmojisAndStickers
             | GatewayIntent.Integrations
             | GatewayIntent.Webhooks
             | GatewayIntent.Invites
@@ -38,7 +38,7 @@
             GatewayIntent.Guilds
             | GatewayIntent.Members
             | GatewayIntent.Bans
-            | GatewayIntent.Emojis
+            | GatewayIntent.EmojisAndStickers
             | GatewayIntent.Integrations
             | GatewayIntent.Webhooks
             | GatewayIntent.Invites

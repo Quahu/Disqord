@@ -2,15 +2,18 @@
 
 namespace Disqord
 {
-    public class MessageSticker : IIdentifiable, INamable
+    public class MessageSticker : IPartialSticker
     {
+        /// <inheritdoc/>
         public Snowflake Id { get; }
 
+        /// <inheritdoc/>
         public string Name { get; }
 
+        /// <inheritdoc/>
         public StickerFormatType FormatType { get; }
 
-        public MessageSticker(StickerJsonModel model)
+        public MessageSticker(StickerItemJsonModel model)
         {
             Id = model.Id;
             Name = model.Name;

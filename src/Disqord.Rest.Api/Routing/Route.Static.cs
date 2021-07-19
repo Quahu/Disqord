@@ -64,15 +64,15 @@ namespace Disqord.Rest.Api
             public static readonly Route PinMessage = Put("channels/{0:channel_id}/pins/{1:message_id}");
 
             public static readonly Route UnpinMessage = Delete("channels/{0:channel_id}/pins/{1:message_id}");
-            
+
             public static readonly Route StartThreadWithMessage = Post("channels/{0:channel_id}/messages/{1:message_id}/threads");
-            
+
             public static readonly Route StartThread = Post("channels/{0:channel_id}/threads");
 
             public static readonly Route JoinThread = Put("channels/{0:channel_id}/thread-members/@me");
-            
+
             public static readonly Route AddThreadMember = Put("channels/{0:channel_id}/thread-members/{1:user_id}");
-            
+
             public static readonly Route LeaveThread = Delete("channels/{0:channel_id}/thread-members/@me");
 
             public static readonly Route RemoveThreadMember = Delete("channels/{0:channel_id}/thread-members/{1:user_id}");
@@ -84,7 +84,7 @@ namespace Disqord.Rest.Api
             public static readonly Route ListPublicArchivedThreads = Get("channels/{0:channel_id}/threads/archived/public");
 
             public static readonly Route ListPrivateArchivedThreads = Get("channels/{0:channel_id}/threads/archived/private");
-            
+
             public static readonly Route ListJoinedPrivateArchivedThreads = Get("channels/{0:channel_id}/users/@me/threads/archived/private");
         }
 
@@ -99,6 +99,23 @@ namespace Disqord.Rest.Api
             public static readonly Route ModifyGuildEmoji = Patch("guilds/{0:guild_id}/emojis/{1:emoji_id}");
 
             public static readonly Route DeleteGuildEmoji = Delete("guilds/{0:guild_id}/emojis/{1:emoji_id}");
+        }
+
+        public static class Sticker
+        {
+            public static readonly Route GetSticker = Get("stickers/{0:sticker_id}");
+
+            //public static readonly Route GetStickerPacks = Get("sticker-packs");
+
+            public static readonly Route GetGuildStickers = Get("guilds/{0:guild_id}/stickers");
+
+            public static readonly Route GetGuildSticker = Get("guilds/{0:guild_id}/stickers/{1:sticker_id}");
+
+            public static readonly Route CreateGuildSticker = Post("guilds/{0:guild_id}/stickers");
+
+            public static readonly Route ModifyGuildSticker = Patch("guilds/{0:guild_id}/stickers/{1:sticker_id}");
+
+            public static readonly Route DeleteGuildSticker = Delete("guilds/{0:guild_id}/stickers/{1:sticker_id}");
         }
 
         public static class Guild

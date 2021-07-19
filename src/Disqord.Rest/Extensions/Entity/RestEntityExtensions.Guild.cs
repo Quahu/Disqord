@@ -286,7 +286,7 @@ namespace Disqord.Rest
             var client = guild.GetRestClient();
             return client.FetchGuildWebhooksAsync(guild.Id, options);
         }
-        
+
         /*
          * Template
          */
@@ -318,6 +318,41 @@ namespace Disqord.Rest
         {
             var client = guild.GetRestClient();
             return client.DeleteTemplateAsync(guild.Id, templateCode, options);
+        }
+
+        /*
+         * Sticker
+         */
+        public static Task<IReadOnlyList<IGuildSticker>> FetchStickersAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildStickersAsync(guild.Id, options);
+        }
+
+        public static Task<IGuildSticker> FetchStickerAsync(this IGuild guild, Snowflake stickerId, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildStickerAsync(guild.Id, stickerId, options);
+        }
+
+        /*
+        public static Task<IGuildSticker> CreateStickerAsync(this IGuild guild, string name, string tags, Stream file, Action<CreateGuildStickerActionProperties> action = null, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.CreateGuildStickerAsync(guild.Id, name, tags, file, action, options);
+        }
+        */
+
+        public static Task<IGuildSticker> ModifyStickerAsync(this IGuild guild, Snowflake stickerId, Action<ModifyGuildStickerActionProperties> action, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyGuildStickerAsync(guild.Id, stickerId, action, options);
+        }
+
+        public static Task DeleteStickerAsync(this IGuild guild, Snowflake stickerId, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.DeleteGuildStickerAsync(guild.Id, stickerId, options);
         }
     }
 }

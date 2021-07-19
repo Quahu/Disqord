@@ -78,6 +78,8 @@ namespace Disqord.Gateway.Default
 
                 ["GUILD_EMOJIS_UPDATE"] = new GuildEmojisUpdateHandler(),
 
+                ["GUILD_STICKERS_UPDATE"] = new GuildStickersUpdateHandler(),
+
                 ["GUILD_INTEGRATIONS_UPDATE"] = new GuildIntegrationsUpdateHandler(),
 
                 ["GUILD_MEMBER_ADD"] = new GuildMemberAddHandler(),

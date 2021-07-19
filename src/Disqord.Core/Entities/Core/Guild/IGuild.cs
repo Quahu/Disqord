@@ -165,5 +165,10 @@ namespace Disqord
         ///     Gets the NSFW level of this guild.
         /// </summary>
         GuildNsfwLevel NsfwLevel { get; }
+
+        /// <summary>
+        ///     Gets the stickers of this guild.
+        /// </summary>
+        IReadOnlyDictionary<Snowflake, IGuildSticker> Stickers { get; }
     }
 }
