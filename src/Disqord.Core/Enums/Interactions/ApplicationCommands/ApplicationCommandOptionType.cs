@@ -1,4 +1,4 @@
-﻿namespace Disqord.Models
+﻿namespace Disqord
 {
     public enum ApplicationCommandOptionType
     {
@@ -16,6 +16,10 @@
 
         Channel = 7,
 
-        Role = 8
+        Role = 8,
+
+        Mentionable = 9,
+
+        Number = 10
     }
 }

@@ -2,6 +2,9 @@
 
 namespace Disqord
 {
+    /// <summary>
+    ///     Represents a component interaction
+    /// </summary>
     public interface IComponentInteraction : IInteraction
     {
         /// <summary>
