@@ -2,18 +2,18 @@
 
 namespace Disqord
 {
-    public class TransientWidget : TransientEntity<GuildWidgetSettingsJsonModel>, IWidget
+    public class TransientGuildWidget : TransientEntity<GuildWidgetJsonModel>, IGuildWidget
     {
         /// <inheritdoc/>
         public Snowflake GuildId { get; }
 
         /// <inheritdoc/>
-        public Snowflake ChannelId => Model.ChannelId;
+        public Snowflake? ChannelId => Model.ChannelId;
 
         /// <inheritdoc/>
         public bool IsEnabled => Model.Enabled;
 
-        public TransientWidget(IClient client, Snowflake guildId, GuildWidgetSettingsJsonModel model)
+        public TransientGuildWidget(IClient client, Snowflake guildId, GuildWidgetJsonModel model)
             : base(client, model)
         {
             GuildId = guildId;

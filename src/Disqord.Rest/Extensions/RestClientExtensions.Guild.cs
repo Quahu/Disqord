@@ -397,13 +397,13 @@ namespace Disqord.Rest
         public static Task DeleteIntegrationAsync(this IRestClient client, Snowflake guildId, Snowflake integrationId, IRestRequestOptions options = null)
             => client.ApiClient.DeleteIntegrationAsync(guildId, integrationId, options);
 
-        public static async Task<IWidget> FetchWidgetAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        public static async Task<IGuildWidget> FetchWidgetAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchGuildWidgetAsync(guildId, options).ConfigureAwait(false);
-            return new TransientWidget(client, guildId, model);
+            return new TransientGuildWidget(client, guildId, model);
         }
 
-        public static async Task<IWidget> ModifyWidgetAsync(this IRestClient client, Snowflake guildId, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null)
+        public static async Task<IGuildWidget> ModifyWidgetAsync(this IRestClient client, Snowflake guildId, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null)
         {
             var properties = new ModifyWidgetActionProperties();
             action(properties);
@@ -415,7 +415,7 @@ namespace Disqord.Rest
             };
 
             var model = await client.ApiClient.ModifyGuildWidgetAsync(guildId, content, options).ConfigureAwait(false);
-            return new TransientWidget(client, guildId, model);
+            return new TransientGuildWidget(client, guildId, model);
         }
 
         public static async Task<IVanityInvite> FetchVanityInviteAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)

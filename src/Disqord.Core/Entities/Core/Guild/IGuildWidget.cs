@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a guild's widget settings.
     /// </summary>
-    public interface IWidget : IGuildEntity, IChannelEntity, IJsonUpdatable<GuildWidgetSettingsJsonModel>
+    public interface IGuildWidget : IGuildEntity, IPossibleChannelEntity, IJsonUpdatable<GuildWidgetJsonModel>
     {
         /// <summary>
         ///     Gets whether the widget is enabled.

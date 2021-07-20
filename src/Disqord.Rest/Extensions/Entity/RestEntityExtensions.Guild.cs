@@ -221,13 +221,13 @@ namespace Disqord.Rest
             return client.DeleteIntegrationAsync(guild.Id, integrationId, options);
         }
 
-        public static Task<IWidget> FetchWidgetAsync(this IGuild guild, IRestRequestOptions options = null)
+        public static Task<IGuildWidget> FetchWidgetAsync(this IGuild guild, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
             return client.FetchWidgetAsync(guild.Id, options);
         }
 
-        public static Task<IWidget> ModifyWidgetAsync(this IGuild guild, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null)
+        public static Task<IGuildWidget> ModifyWidgetAsync(this IGuild guild, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
             return client.ModifyWidgetAsync(guild.Id, action, options);
