@@ -235,7 +235,7 @@ namespace Disqord.Rest.Api.Default
                         var bucket = _rateLimiter.GetBucket(request.Route, false);
                         if (bucket != this)
                         {
-                            Logger.LogDebug("Bucket {0} is moving the request to the limited bucket {1}.", Id, bucket);
+                            Logger.LogDebug("Bucket {0} is moving the request to the limited bucket {1}.", Id, bucket.Id);
                             bucket.Enqueue(request);
                             continue;
                         }
@@ -247,7 +247,10 @@ namespace Disqord.Rest.Api.Default
                         if (_rateLimiter.UpdateBucket(request.Route, response.HttpResponse))
                         {
                             Logger.LogInformation("Bucket {0} is re-enqueuing the last request due to a hit rate-limit.", Id);
-                            _requests.AddFirst(request);
+                            lock (_requests)
+                            {
+                                _requests.AddFirst(request);
+                            }
                         }
                         else
                         {
