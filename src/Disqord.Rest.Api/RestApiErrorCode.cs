@@ -222,7 +222,15 @@
 
         InvalidLottieFile = 170001,
 
+        LottieCannotContainRasterizedImages = 170002,
+
+        MaximumStickerFrameRateExceeded = 170003,
+
+        MaximumStickerFrameCountExceeded = 170004,
+
         MaximumLottieDimensionsExceeded = 170005,
+
+        InvalidStickerFrameRate = 170006,
 
         MaximumLottieDurationExceeded = 170007
     }
