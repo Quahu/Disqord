@@ -66,14 +66,14 @@ namespace Disqord.Rest
                 Position = properties.Position,
                 PermissionOverwrites = Optional.Convert(properties.Overwrites, x => x.Select(x => x.ToModel()).ToArray())
             };
-            
+
             if (properties is ModifyNestableChannelActionProperties nestableProperties)
             {
                 content.ParentId = nestableProperties.CategoryId;
 
                 if (nestableProperties is ModifyMessageGuildChannelActionProperties messageGuildChannelProperties)
                 {
-                    content.RateLimitPerUser = Optional.Convert(messageGuildChannelProperties.Slowmode, x => (int)x.TotalSeconds);
+                    content.RateLimitPerUser = Optional.Convert(messageGuildChannelProperties.Slowmode, x => (int) x.TotalSeconds);
                     
                     if (nestableProperties is ModifyTextChannelActionProperties textProperties)
                     {
@@ -83,7 +83,7 @@ namespace Disqord.Rest
                     else if (nestableProperties is ModifyThreadChannelActionProperties threadProperties)
                     {
                         content.Archived = threadProperties.IsArchived;
-                        content.AutoArchiveDuration = Optional.Convert(threadProperties.AutomaticArchiveDuration, x => (int)x.TotalMinutes);
+                        content.AutoArchiveDuration = Optional.Convert(threadProperties.AutomaticArchiveDuration, x => (int) x.TotalMinutes);
                         content.Locked = threadProperties.IsLocked;
                     }
                 }
@@ -399,7 +399,7 @@ namespace Disqord.Rest
             var content = new CreateThreadJsonRestRequestContent
             {
                 Name = name,
-                AutoArchiveDuration = Optional.Conditional(automaticArchiveDuration != null, duration => (int)duration.Value.TotalMinutes, automaticArchiveDuration),
+                AutoArchiveDuration = Optional.Conditional(automaticArchiveDuration != null, duration => (int) duration.Value.TotalMinutes, automaticArchiveDuration),
                 Type = Optional.Conditional(messageId == null, ChannelType.PublicThread)
             };
             var model = await client.ApiClient.CreateThreadAsync(channelId, content, messageId, options).ConfigureAwait(false);
@@ -411,7 +411,7 @@ namespace Disqord.Rest
             var content = new CreateThreadJsonRestRequestContent
             {
                 Name = name,
-                AutoArchiveDuration = Optional.Conditional(automaticArchiveDuration != null, (int)automaticArchiveDuration.Value.TotalMinutes),
+                AutoArchiveDuration = Optional.Conditional(automaticArchiveDuration != null, duration => (int) duration.Value.TotalMinutes, automaticArchiveDuration),
                 Type = ChannelType.PrivateThread
             };
             var model = await client.ApiClient.CreateThreadAsync(channelId, content, null, options).ConfigureAwait(false);
@@ -422,7 +422,7 @@ namespace Disqord.Rest
             => client.ApiClient.JoinThreadAsync(threadId, options);
         
         public static Task AddThreadMemberAsync(this IRestClient client, Snowflake threadId, Snowflake memberId, IRestRequestOptions options = null)
-            => client.ApiClient.AddThreadMemberAsync(threadId, memberId);
+            => client.ApiClient.AddThreadMemberAsync(threadId, memberId, options);
 
         public static Task LeaveThreadAsync(this IRestClient client, Snowflake threadId, IRestRequestOptions options = null)
             => client.ApiClient.LeaveThreadAsync(threadId, options);
