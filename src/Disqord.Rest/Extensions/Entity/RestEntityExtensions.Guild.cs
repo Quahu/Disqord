@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Disqord.AuditLogs;
+using Disqord.Rest.ActionProperties.Modify;
 using Disqord.Rest.Pagination;
 
 namespace Disqord.Rest
@@ -219,6 +220,30 @@ namespace Disqord.Rest
         {
             var client = guild.GetRestClient();
             return client.DeleteIntegrationAsync(guild.Id, integrationId, options);
+        }
+
+        public static Task<IGuildDiscoveryMetadata> FetchDiscoveryMetadataAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchDiscoveryMetadataAsync(guild.Id, options);
+        }
+
+        public static Task<IGuildDiscoveryMetadata> ModifyDiscoveryMetadataAsync(this IGuild guild, Action<ModifyGuildDiscoveryMetadataActionProperties> action, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyDiscoveryMetadataAsync(guild.Id, action, options);
+        }
+
+        public static Task CreateDiscoverySubcategoryAsync(this IGuild guild, int categoryId, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.CreateDiscoverySubcategoryAsync(guild.Id, categoryId, options);
+        }
+
+        public static Task DeleteDiscoverySubcategoryAsync(this IGuild guild, int categoryId, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.DeleteDiscoverySubcategoryAsync(guild.Id, categoryId, options);
         }
 
         public static Task<IGuildWidget> FetchWidgetAsync(this IGuild guild, IRestRequestOptions options = null)

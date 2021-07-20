@@ -268,6 +268,18 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<GuildDiscoveryMetdataJsonModel>(route, content, options);
         }
 
+        public static Task AddDiscoverySubcategoryAsync(this IRestApiClient client, Snowflake guildId, int categoryId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.CreateDiscoverySubcategory, guildId, categoryId);
+            return client.ExecuteAsync(route, null, options);
+        }
+
+        public static Task DeleteDiscoverySubcategoryAsync(this IRestApiClient client, Snowflake guildId, int categoryId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.DeleteDiscoverySubcategory, guildId, categoryId);
+            return client.ExecuteAsync(route, null, options);
+        }
+
         public static Task<WelcomeScreenJsonModel> FetchWelcomeScreenAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Guild.GetWelcomeScreen, guildId);

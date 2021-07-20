@@ -404,13 +404,13 @@ namespace Disqord.Rest
             return new TransientGuildWidget(client, guildId, model);
         }
 
-        public static async Task<IGuildDiscoveryMetadata> FetchDiscoveryMetadata(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        public static async Task<IGuildDiscoveryMetadata> FetchDiscoveryMetadataAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchDiscoveryMetadataAsync(guildId, options);
             return new TransientGuildDiscoveryMetadata(client, guildId, model);
         }
 
-        public static async Task<IGuildDiscoveryMetadata> ModifyDiscoveryMetadata(this IRestClient client, Snowflake guildId, Action<ModifyGuildDiscoveryMetadataActionProperties> action, IRestRequestOptions options = null)
+        public static async Task<IGuildDiscoveryMetadata> ModifyDiscoveryMetadataAsync(this IRestClient client, Snowflake guildId, Action<ModifyGuildDiscoveryMetadataActionProperties> action, IRestRequestOptions options = null)
         {
             var properties = new ModifyGuildDiscoveryMetadataActionProperties();
             action(properties);
@@ -425,6 +425,12 @@ namespace Disqord.Rest
             var model = await client.ApiClient.ModifyDiscoveryMetadataAsync(guildId, content, options);
             return new TransientGuildDiscoveryMetadata(client, guildId, model);
         }
+
+        public static Task CreateDiscoverySubcategoryAsync(this IRestClient client, Snowflake guildId, int categoryId, IRestRequestOptions options = null)
+            => client.ApiClient.AddDiscoverySubcategoryAsync(guildId, categoryId, options);
+
+        public static Task DeleteDiscoverySubcategoryAsync(this IRestClient client, Snowflake guildId, int categoryId, IRestRequestOptions options = null)
+            => client.ApiClient.DeleteDiscoverySubcategoryAsync(guildId, categoryId, options);
 
         public static async Task<IGuildWidget> ModifyWidgetAsync(this IRestClient client, Snowflake guildId, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null)
         {

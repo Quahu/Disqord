@@ -12,5 +12,10 @@ namespace Disqord.Rest
             var models = await client.ApiClient.FetchDiscoveryCategoriesAsync(options);
             return models.ToReadOnlyList(client, static (x, client) => new TransientGuildDiscoveryCategory(client, x));
         }
+        public static async Task<bool> ValidateDiscoverySearchTermAsync(this IRestClient client, string term, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.ValidateDiscoverySearchTerm(term, options);
+            return model.Valid;
+        }
     }
 }
