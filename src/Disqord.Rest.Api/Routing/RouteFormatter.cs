@@ -9,13 +9,13 @@ namespace Disqord.Rest.Api
     /// <summary>
     ///     Represents the formatter used with <see cref="string.Format(IFormatProvider?, string, object?[])"/> to format routes with arguments and map them name -> value.
     /// </summary>
-    public sealed class RouteFormatter : IFormatProvider, ICustomFormatter
+    public class RouteFormatter : IFormatProvider, ICustomFormatter
     {
-        private readonly Dictionary<string, object> _parameters;
+        protected readonly Dictionary<string, object> Parameters;
 
-        private RouteFormatter()
+        protected RouteFormatter()
         {
-            _parameters = new Dictionary<string, object>();
+            Parameters = new Dictionary<string, object>();
         }
 
         public static FormattedRoute Format(Route route, object[] arguments = null, IEnumerable<KeyValuePair<string, object>> queryParameters = null)
@@ -52,7 +52,7 @@ namespace Disqord.Rest.Api
                 }
             }
 
-            return new FormattedRoute(route, builder.ToString(), new RouteParameters(formatter._parameters));
+            return new FormattedRoute(route, builder.ToString(), new RouteParameters(formatter.Parameters));
         }
 
         object IFormatProvider.GetFormat(Type formatType)
@@ -68,10 +68,14 @@ namespace Disqord.Rest.Api
             if (string.IsNullOrWhiteSpace(format))
                 throw new FormatException($"No format specified for route parameter '{arg}'.");
 
-            if (!_parameters.TryAdd(format, arg))
+            if (!Parameters.TryAdd(format, arg))
                 throw new FormatException($"Multiple route parameters with the name '{format}' found.");
 
-            return Uri.EscapeDataString(arg.ToString());
+            var argString = arg.ToString();
+            if (string.IsNullOrWhiteSpace(argString))
+                throw new FormatException("The format argument must not return a null or whitespace string.");
+
+            return Uri.EscapeDataString(argString);
         }
     }
 }

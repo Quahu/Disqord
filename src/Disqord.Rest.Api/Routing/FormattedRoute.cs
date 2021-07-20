@@ -36,6 +36,6 @@ namespace Disqord.Rest.Api
         }
 
         public override string ToString()
-            => $"{BaseRoute.Method} | {Path}";
+            => $"{BaseRoute.Method}|{Path}";
     }
 }
