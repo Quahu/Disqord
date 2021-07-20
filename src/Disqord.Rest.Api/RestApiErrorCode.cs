@@ -147,7 +147,7 @@
 
         InvalidAuthenticationToken = 50014,
 
-        // NoteTooLong = 50015,
+        NoteTooLong = 50015,
 
         ProvidedTooFewOrTooManyMessagesToDeleteMustProvideAtLeast2AndFewerThan100MessagesToDelete = 50016,
 
@@ -165,7 +165,7 @@
 
         InvalidWebhookToken = 50027,
 
-        // InvalidRole = 50028, ???
+        InvalidRole = 50028,
 
         AMessageProvidedWasTooOldToBulkDelete = 50034,
 
