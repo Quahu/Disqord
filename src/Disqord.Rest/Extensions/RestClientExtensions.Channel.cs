@@ -44,7 +44,7 @@ namespace Disqord.Rest
             return new TransientCategoryChannel(client, model);
         }
 
-        public static async Task<IThreadChannel> ModifyThreadChannelAsync(this IRestClient client, Snowflake threadId, Action<ModifyThreadChannelActionProperties> action, IRestRequestOptions options)
+        public static async Task<IThreadChannel> ModifyThreadChannelAsync(this IRestClient client, Snowflake threadId, Action<ModifyThreadChannelActionProperties> action, IRestRequestOptions options = null)
         {
             var model = await client.InternalModifyChannelAsync(threadId, action, options).ConfigureAwait(false);
             return new TransientThreadChannel(client, model);
