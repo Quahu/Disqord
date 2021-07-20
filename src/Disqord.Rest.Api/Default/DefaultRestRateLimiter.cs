@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -172,7 +172,6 @@ namespace Disqord.Rest.Api.Default
             public DateTimeOffset ResetsAt { get; internal set; }
 
             private readonly DefaultRestRateLimiter _rateLimiter;
-            private readonly object _lock;
             private readonly LinkedList<IRestRequest> _requests;
 
             private Task _task;
@@ -185,13 +184,12 @@ namespace Disqord.Rest.Api.Default
                 Remaining = 1;
 
                 _rateLimiter = rateLimiter;
-                _lock = new object();
                 _requests = new LinkedList<IRestRequest>();
             }
 
             public void Enqueue(IRestRequest request)
             {
-                lock (_lock)
+                lock (_requests)
                 {
                     _requests.AddLast(request);
                     if (_task == null || _task.IsCompleted)
@@ -206,7 +204,11 @@ namespace Disqord.Rest.Api.Default
                 while ((requestNode = _requests.First) != null)
                 {
                     var request = requestNode.Value;
-                    _requests.RemoveFirst();
+                    lock (_requests)
+                    {
+                        _requests.RemoveFirst();
+                    }
+
                     if (Remaining == 0)
                     {
                         var delay = ResetsAt - DateTimeOffset.UtcNow;
