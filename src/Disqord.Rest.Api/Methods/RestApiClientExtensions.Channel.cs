@@ -265,7 +265,7 @@ namespace Disqord.Rest.Api
                 queryParameters.Add("before", startFromDate.Value.ToString("O"));
 
             var route = Format(Route.Channel.ListPublicArchivedThreads, queryParameters, channelId);
-            return client.ExecuteAsync<ThreadListJsonModel>(route);
+            return client.ExecuteAsync<ThreadListJsonModel>(route, null, options);
         }
 
         public static Task<ThreadListJsonModel> FetchPrivateArchivedThreadsAsync(this IRestApiClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
@@ -282,7 +282,7 @@ namespace Disqord.Rest.Api
                 queryParameters["before"] = startFromDate.Value.ToString("O");
             
             var route = Format(Route.Channel.ListPrivateArchivedThreads, queryParameters, channelId);
-            return client.ExecuteAsync<ThreadListJsonModel>(route);
+            return client.ExecuteAsync<ThreadListJsonModel>(route, null, options);
         }
 
         public static Task<ThreadListJsonModel> FetchJoinedPrivateArchivedThreadsAsync(this IRestApiClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
@@ -299,7 +299,7 @@ namespace Disqord.Rest.Api
                 queryParameters["before"] = startFromId.Value;
 
             var route = Format(Route.Channel.ListJoinedPrivateArchivedThreads, queryParameters, channelId);
-            return client.ExecuteAsync<ThreadListJsonModel>(route);
+            return client.ExecuteAsync<ThreadListJsonModel>(route, null, options);
         }
     }
 }
