@@ -1,13 +1,13 @@
 ﻿namespace Disqord
 {
     /// <summary>
-    ///     Represents an entity that can exist within a guild.
+    ///     Represents an entity that might have a guild ID attached to it.
     /// </summary>
     public interface IPossibleGuildEntity : IEntity
     {
         /// <summary>
-        ///     Gets the optional guild ID this entity is tied to.
-        ///     Returns <see langword="null"/> if this entity came from outside of a guild.
+        ///     Gets the optional ID of the guild of this entity.
+        ///     Returns <see langword="null"/> if this entity has guild attached to it.
         /// </summary>
         Snowflake? GuildId { get; }
     }
