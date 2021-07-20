@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -216,16 +216,15 @@ namespace Disqord.Rest.Api.Default
                         {
                             if (_rateLimiter.MaximumDelayDuration != Timeout.InfiniteTimeSpan && delay > _rateLimiter.MaximumDelayDuration)
                             {
-                                Logger.LogWarning("Bucket {0} is pre-emptively rate-limiting, throwing as the delay {1} exceeds the maximum delay duration.", Id, delay);
-                                // TODO: MaximumDelayDurationExceededException
-                                request.Complete(new TimeoutException());
+                                Logger.LogWarning("Bucket {0} is pre-emptively rate-limiting. Throwing as the delay {1} exceeds the maximum delay duration.", Id, delay);
+                                request.Complete(new MaximumRateLimitDelayExceededException(delay));
                                 continue;
                             }
 
                             var level = request.Route.BaseRoute == Route.Channel.CreateReaction
                                 ? LogLevel.Debug
                                 : LogLevel.Information;
-                            Logger.Log(level, "Bucket {0} is pre-emptively rate-limiting, delaying for {1}.", Id, delay);
+                            Logger.Log(level, "Bucket {0} is pre-emptively rate-limiting. Delaying for {1}.", Id, delay);
                             await Task.Delay(delay).ConfigureAwait(false);
                         }
                     }
