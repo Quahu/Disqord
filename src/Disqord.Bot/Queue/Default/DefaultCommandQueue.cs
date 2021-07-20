@@ -26,7 +26,7 @@ namespace Disqord.Bot
 
         /// <summary>
         ///     Gets the degree of parallelism of this queue,
-        ///     i.e. the amount of parallel command executions per-bucket.
+        ///     i.e. the amount of parallel command executions per-bucket (per-guild).
         /// </summary>
         public int DegreeOfParallelism { get; }
 
@@ -158,29 +158,6 @@ namespace Disqord.Bot
                 var reader = _tokens.Reader;
                 await foreach (var token in reader.ReadAllAsync().ConfigureAwait(false))
                 {
-                    if (_runningTokens.Count == _degreeOfParallelism)
-                    {
-                        using (var cts = new Cts(_timeout))
-                        {
-                            var timeoutTask = Task.Delay(-1, cts.Token);
-                            var whenAnyTask = Task.WhenAny(_runningTokens.Select(x => x.Task));
-                            var finishedTask = await Task.WhenAny(whenAnyTask, timeoutTask).ConfigureAwait(false);
-                            if (finishedTask == timeoutTask)
-                            {
-                                _logger.LogWarning("The command queue has been blocked for over {0} seconds. "
-                                    + "Ensure that long-running work properly utilizes yielding and/or the parallel run mode. "
-                                    + "Commands currently blocking the queue: {1}.", _timeout.TotalSeconds, GetCommandPaths());
-                                await whenAnyTask.ConfigureAwait(false);
-                            }
-                            else
-                            {
-                                cts.Cancel();
-                            }
-
-                            _runningTokens.RemoveAll(x => x.Task.IsCompleted);
-                        }
-                    }
-
                     Task task;
                     try
                     {
@@ -196,6 +173,28 @@ namespace Disqord.Bot
                         continue;
 
                     _runningTokens.Add(token);
+                    if (_runningTokens.Count == _degreeOfParallelism && _runningTokens.RemoveAll(x => x.Task.IsCompleted) == 0)
+                    {
+                        using (var cts = new Cts(_timeout))
+                        {
+                            var timeoutTask = Task.Delay(-1, cts.Token);
+                            var whenAnyTask = Task.WhenAny(_runningTokens.Select(x => x.Task));
+                            var finishedTask = await Task.WhenAny(whenAnyTask, timeoutTask).ConfigureAwait(false);
+                            if (finishedTask == timeoutTask)
+                            {
+                                _logger.LogWarning("The command queue has been blocked for over {0} seconds. "
+                                    + "Ensure that long-running work properly utilizes yielding and/or the parallel run mode. "
+                                    + "Commands blocking the queue: {1}.", _timeout.TotalSeconds, GetCommandPaths());
+                                await whenAnyTask.ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                cts.Cancel();
+                            }
+                        }
+
+                        _runningTokens.RemoveAll(x => x.Task.IsCompleted);
+                    }
                 }
             }
 
