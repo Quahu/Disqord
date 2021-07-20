@@ -195,7 +195,7 @@ namespace Disqord.Rest.Api
             if (roleIds != null)
                 queryParameters["include_roles"] = roleIds;
 
-            var route = Format(Route.Guild.GetPruneCount, guildId);
+            var route = Format(Route.Guild.GetPruneCount, queryParameters, guildId);
             return client.ExecuteAsync<PruneJsonModel>(route, null, options);
         }
 
@@ -210,7 +210,7 @@ namespace Disqord.Rest.Api
             if (roleIds != null)
                 queryParameters["include_roles"] = roleIds;
 
-            var route = Format(Route.Guild.BeginPrune, guildId);
+            var route = Format(Route.Guild.BeginPrune, queryParameters, guildId);
             return client.ExecuteAsync<PruneJsonModel>(route, null, options);
         }
 
