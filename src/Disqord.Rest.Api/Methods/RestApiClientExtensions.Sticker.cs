@@ -31,7 +31,7 @@ namespace Disqord.Rest.Api
 
         public static Task<StickerJsonModel> ModifyGuildStickerAsync(this IRestApiClient client, Snowflake guildId, Snowflake stickerId, ModifyGuildStickerJsonRestRequestContent content, IRestRequestOptions options = null)
         {
-            var route = Format(Route.Sticker.ModifyGuildSticker, guildId);
+            var route = Format(Route.Sticker.ModifyGuildSticker, guildId, stickerId);
             return client.ExecuteAsync<StickerJsonModel>(route, content, options);
         }
 
