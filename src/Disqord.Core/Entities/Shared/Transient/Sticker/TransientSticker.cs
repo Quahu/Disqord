@@ -29,8 +29,8 @@ namespace Disqord
         public static ISticker Create(IClient client, StickerJsonModel model)
             => model.Type switch
             {
-                StickerType.Guild => new TransientGuildSticker(client, model),
                 StickerType.Pack => new TransientPackSticker(client, model),
+                StickerType.Guild => new TransientGuildSticker(client, model),
                 _ => new TransientSticker(client, model)
             };
     }

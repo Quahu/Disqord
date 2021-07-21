@@ -4,7 +4,7 @@ namespace Disqord
 {
     /// <summary>
     ///     Represents a sticker.
-    ///     This can be either an <see cref="IPackSticker"/> or <see cref="IGuildSticker"/>.
+    ///     This can be either an <see cref="IPackSticker"/> or an <see cref="IGuildSticker"/>.
     /// </summary>
     public interface ISticker : IPartialSticker, IEntity, IJsonUpdatable<StickerJsonModel>
     {

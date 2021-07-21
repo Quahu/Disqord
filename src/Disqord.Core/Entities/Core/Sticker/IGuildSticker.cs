@@ -14,7 +14,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the user that created this sticker.
         ///     Returns <see langword="null"/> when the bot does not have <see cref="Permission.ManageEmojisAndStickers"/>
-        ///     in the guild which this sticker belongs to.
+        ///     in the guild this sticker belongs to.
         /// </summary>
         IUser Creator { get; }
     }
