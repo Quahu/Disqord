@@ -30,6 +30,8 @@ namespace Disqord.Gateway.Default
 
         public AsynchronousEvent<EmojisUpdatedEventArgs> EmojisUpdatedEvent { get; } = new();
 
+        public AsynchronousEvent<StickersUpdatedEventArgs> StickersUpdatedEvent { get; } = new();
+
         public AsynchronousEvent<IntegrationsUpdatedEventArgs> IntegrationsUpdatedEvent { get; } = new();
 
         public AsynchronousEvent<MemberJoinedEventArgs> MemberJoinedEvent { get; } = new();
@@ -71,6 +73,12 @@ namespace Disqord.Gateway.Default
         public AsynchronousEvent<ReactionsClearedEventArgs> ReactionsClearedEvent { get; } = new();
 
         public AsynchronousEvent<PresenceUpdatedEventArgs> PresenceUpdatedEvent { get; } = new();
+
+        public AsynchronousEvent<StageCreatedEventArgs> StageCreatedEvent { get; } = new();
+
+        public AsynchronousEvent<StageUpdatedEventArgs> StageUpdatedEvent { get; } = new();
+
+        public AsynchronousEvent<StageDeletedEventArgs> StageDeletedEvent { get; } = new();
 
         public AsynchronousEvent<TypingStartedEventArgs> TypingStartedEvent { get; } = new();
 

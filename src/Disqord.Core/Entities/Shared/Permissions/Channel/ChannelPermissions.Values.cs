@@ -26,7 +26,8 @@
             | Permission.ManageRoles
             | Permission.ManageWebhooks
             | Permission.UseSlashCommands
-            | Permission.RequestToSpeak);
+            | Permission.RequestToSpeak
+            | Permission.UseExternalStickers);
 
         public const ulong TEXT_PERMISSIONS_VALUE = (ulong) (
             Permission.CreateInstantInvite
@@ -46,7 +47,8 @@
             | Permission.UseSlashCommands
             | Permission.ManageThreads
             | Permission.UsePublicThreads
-            | Permission.UsePrivateThreads);
+            | Permission.UsePrivateThreads
+            | Permission.UseExternalStickers);
 
         public const ulong VOICE_PERMISSIONS_VALUE = (ulong) (
             Permission.CreateInstantInvite
@@ -86,6 +88,7 @@
             | Permission.ManageRoles
             | Permission.ManageWebhooks
             | Permission.UseSlashCommands
-            | Permission.RequestToSpeak);
+            | Permission.RequestToSpeak
+            | Permission.UseExternalStickers);
     }
 }

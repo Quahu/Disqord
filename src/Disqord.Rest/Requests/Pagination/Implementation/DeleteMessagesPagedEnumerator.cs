@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Disqord.Rest.Api;
 
 namespace Disqord.Rest
 {
@@ -27,19 +26,12 @@ namespace Disqord.Rest
         protected override async Task<IReadOnlyList<Snowflake>> NextPageAsync(IReadOnlyList<Snowflake> previousPage, IRestRequestOptions options = null)
         {
             var amount = NextAmount;
-            _offset += amount;
             var segment = new ArraySegment<Snowflake>(_messageIds, _offset, amount);
-            if (amount == 1)
-            {
-                var messageId = segment[0];
-                await Client.DeleteMessageAsync(_channelId, messageId, options).ConfigureAwait(false);
-                return segment;
-            }
-            else
-            {
-                await Client.InternalDeleteMessagesAsync(_channelId, segment, options).ConfigureAwait(false);
-                return segment;
-            }
+            _offset += amount;
+            await (amount == 1
+                ? Client.DeleteMessageAsync(_channelId, segment[0], options)
+                : Client.InternalDeleteMessagesAsync(_channelId, segment, options)).ConfigureAwait(false);
+            return segment;
         }
     }
 }

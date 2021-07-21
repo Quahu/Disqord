@@ -23,9 +23,9 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<EmojiJsonModel>(route, content, options);
         }
 
-        public static Task<EmojiJsonModel> ModifyGuildEmojiAsync(this IRestApiClient client, Snowflake guildId, Snowflake emojiid, ModifyGuildEmojiJsonRestRequestContent content, IRestRequestOptions options = null)
+        public static Task<EmojiJsonModel> ModifyGuildEmojiAsync(this IRestApiClient client, Snowflake guildId, Snowflake emojiId, ModifyGuildEmojiJsonRestRequestContent content, IRestRequestOptions options = null)
         {
-            var route = Format(Route.Emoji.ModifyGuildEmoji, guildId, emojiid);
+            var route = Format(Route.Emoji.ModifyGuildEmoji, guildId, emojiId);
             return client.ExecuteAsync<EmojiJsonModel>(route, content, options);
         }
 

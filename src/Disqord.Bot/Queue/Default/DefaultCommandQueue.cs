@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
 using Disqord.Gateway;
 using Disqord.Utilities.Binding;
 using Disqord.Utilities.Threading;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Disqord.Bot
@@ -17,11 +19,14 @@ namespace Disqord.Bot
     public class DefaultCommandQueue : ICommandQueue
     {
         /// <inheritdoc/>
+        public ILogger Logger { get; }
+
+        /// <inheritdoc/>
         public DiscordBotBase Bot => _binder.Value;
 
         /// <summary>
         ///     Gets the degree of parallelism of this queue,
-        ///     i.e. the amount of parallel command executions per-bucket.
+        ///     i.e. the amount of parallel command executions per-bucket (per-guild).
         /// </summary>
         public int DegreeOfParallelism { get; }
 
@@ -34,11 +39,14 @@ namespace Disqord.Bot
         ///     Instantiates a new <see cref="DefaultCommandQueue"/>.
         /// </summary>
         /// <param name="options"> The options instance. </param>
+        /// <param name="logger"> The logger of this queue. </param>
         public DefaultCommandQueue(
-            IOptions<DefaultCommandQueueConfiguration> options)
+            IOptions<DefaultCommandQueueConfiguration> options,
+            ILogger<DefaultCommandQueue> logger)
         {
             var configuration = options.Value;
             DegreeOfParallelism = configuration.DegreeOfParallelism;
+            Logger = logger;
 
             _binder = new Binder<DiscordBotBase>(this);
 
@@ -72,12 +80,12 @@ namespace Disqord.Bot
             {
                 lock (this)
                 {
-                    kamaji = _privateBucket ??= new Bucket(DegreeOfParallelism);
+                    kamaji = _privateBucket ??= new Bucket(Logger, DegreeOfParallelism);
                 }
             }
             else
             {
-                kamaji = _guildBuckets.GetOrAdd(context.GuildId.Value, static(_, queue) => new Bucket(queue.DegreeOfParallelism), this);
+                kamaji = _guildBuckets.GetOrAdd(context.GuildId.Value, (_, queue) => new Bucket(queue.Logger, queue.DegreeOfParallelism), this);
             }
 
             var bathToken = new Token(context, func);
@@ -86,43 +94,51 @@ namespace Disqord.Bot
 
         private sealed class Token
         {
-            private readonly DiscordCommandContext _context;
+            public readonly DiscordCommandContext Context;
+
+            public Task Task;
+
             private readonly CommandQueueDelegate _func;
 
             public Token(DiscordCommandContext context, CommandQueueDelegate func)
             {
-                _context = context;
+                Context = context;
                 _func = func;
             }
 
-            public Task GetTask()
+            public Task CreateTask()
             {
-                if (_context.Task != null)
+                if (Context.Task != null)
                 {
-                    _context.ContinuationTcs.Complete();
-                    _context.YieldTcs = new Tcs();
+                    Context.ContinuationTcs.Complete();
+                    Context.YieldTcs = new Tcs();
                 }
                 else
                 {
-                    _context.Task = _func(_context);
+                    Context.Task = _func(Context);
                 }
 
-                return Task.WhenAny(_context.Task, _context.YieldTcs.Task);
+                return Task = Task.WhenAny(Context.Task, Context.YieldTcs.Task);
             }
         }
 
         private sealed class Bucket
         {
+            private static readonly TimeSpan _timeout = TimeSpan.FromSeconds(20);
+
+            private readonly ILogger _logger;
             private readonly int _degreeOfParallelism;
             private readonly Channel<Token> _tokens;
-            private readonly List<Task> _tasks;
+            private readonly List<Token> _runningTokens;
 
             public Bucket(
+                ILogger logger,
                 int degreeOfParallelism)
             {
+                _logger = logger;
                 _degreeOfParallelism = degreeOfParallelism;
                 _tokens = Channel.CreateUnbounded<Token>();
-                _tasks = new List<Task>(degreeOfParallelism);
+                _runningTokens = new List<Token>(degreeOfParallelism);
 
                 _ = RunAsync();
             }
@@ -142,19 +158,67 @@ namespace Disqord.Bot
                 var reader = _tokens.Reader;
                 await foreach (var token in reader.ReadAllAsync().ConfigureAwait(false))
                 {
-                    if (_tasks.Count == _degreeOfParallelism)
+                    Task task;
+                    try
                     {
-                        await Task.WhenAny(_tasks).ConfigureAwait(false);
-                        // TODO: change to Remove(task)?
-                        _tasks.RemoveAll(x => x.IsCompleted);
+                        task = token.CreateTask();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "An exception occurred while retrieving the task for the command queue token.");
+                        continue;
                     }
 
-                    var task = token.GetTask();
                     if (task.IsCompleted)
                         continue;
 
-                    _tasks.Add(task);
+                    _runningTokens.Add(token);
+                    if (_runningTokens.Count == _degreeOfParallelism && _runningTokens.RemoveAll(x => x.Task.IsCompleted) == 0)
+                    {
+                        using (var cts = new Cts(_timeout))
+                        {
+                            var timeoutTask = Task.Delay(-1, cts.Token);
+                            var whenAnyTask = Task.WhenAny(_runningTokens.Select(x => x.Task));
+                            var finishedTask = await Task.WhenAny(whenAnyTask, timeoutTask).ConfigureAwait(false);
+                            if (finishedTask == timeoutTask)
+                            {
+                                _logger.LogWarning("The command queue has been blocked for over {0} seconds. "
+                                    + "Ensure that long-running work properly utilizes yielding and/or the parallel run mode. "
+                                    + "Commands blocking the queue: {1}.", _timeout.TotalSeconds, GetCommandPaths());
+                                await whenAnyTask.ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                cts.Cancel();
+                            }
+                        }
+
+                        _runningTokens.RemoveAll(x => x.Task.IsCompleted);
+                    }
                 }
+            }
+
+            private List<string> GetCommandPaths()
+            {
+                var commandPaths = new List<string>(_degreeOfParallelism);
+                for (var i = 0; i < _degreeOfParallelism; i++)
+                {
+                    var runningToken = _runningTokens[i];
+                    var path = runningToken.Context.Path;
+                    var command = runningToken.Context.Command;
+                    if (path == null && command == null)
+                        continue;
+
+                    if (path != null)
+                    {
+                        commandPaths.Add(string.Join(' ', path));
+                        continue;
+                    }
+
+                    commandPaths.Add(command.FullAliases[0]);
+                }
+
+                return commandPaths;
             }
         }
     }

@@ -166,6 +166,23 @@ namespace Disqord.Gateway.Default.Dispatcher
                 }
             }
 
+            if (CacheProvider.TryGetStages(model.Id, out var stageCache))
+            {
+                foreach (var stageModel in model.StageInstances)
+                {
+                    if (isPending)
+                    {
+                        var stage = new CachedStage(Client, stageModel);
+                        stageCache.Add(stage.Id, stage);
+                    }
+                    else
+                    {
+                        var stage = stageCache.GetValueOrDefault(stageModel.Id);
+                        stage?.Update(stageModel);
+                    }
+                }
+            }
+
             return guild;
         }
     }

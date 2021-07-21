@@ -96,6 +96,13 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<StickersUpdatedEventArgs> StickersUpdated
+        {
+            add => GatewayClient.StickersUpdated += value;
+            remove => GatewayClient.StickersUpdated -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<IntegrationsUpdatedEventArgs> IntegrationsUpdated
         {
             add => GatewayClient.IntegrationsUpdated += value;
@@ -240,6 +247,27 @@ namespace Disqord
         {
             add => GatewayClient.PresenceUpdated += value;
             remove => GatewayClient.PresenceUpdated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<StageCreatedEventArgs> StageCreated
+        {
+            add => GatewayClient.StageCreated += value;
+            remove => GatewayClient.StageCreated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<StageUpdatedEventArgs> StageUpdated
+        {
+            add => GatewayClient.StageUpdated += value;
+            remove => GatewayClient.StageUpdated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<StageDeletedEventArgs> StageDeleted
+        {
+            add => GatewayClient.StageDeleted += value;
+            remove => GatewayClient.StageDeleted -= value;
         }
 
         /// <inheritdoc/>

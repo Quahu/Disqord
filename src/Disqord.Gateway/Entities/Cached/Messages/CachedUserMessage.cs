@@ -73,7 +73,7 @@ namespace Disqord.Gateway
             }
 
             Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
-            Stickers = Optional.ConvertOrDefault(model.Stickers, x => x.ToReadOnlyList(y => new MessageSticker(y)), Array.Empty<MessageSticker>());
+            Stickers = Optional.ConvertOrDefault(model.StickerItems, x => x.ToReadOnlyList(y => new MessageSticker(y)), Array.Empty<MessageSticker>());
         }
 
         public void Update(MessageUpdateJsonModel model)
@@ -146,8 +146,8 @@ namespace Disqord.Gateway
             if (model.Components.HasValue)
                 Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
 
-            if (model.Stickers.HasValue)
-                Stickers = Optional.ConvertOrDefault(model.Stickers, x => x.ToReadOnlyList(y => new MessageSticker(y)), Array.Empty<MessageSticker>());
+            if (model.StickerItems.HasValue)
+                Stickers = Optional.ConvertOrDefault(model.StickerItems, x => x.ToReadOnlyList(y => new MessageSticker(y)), Array.Empty<MessageSticker>());
         }
     }
 }

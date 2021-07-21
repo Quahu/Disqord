@@ -108,15 +108,22 @@ namespace Disqord.Bot
 
         public async Task ExecuteAsync(DiscordCommandContext context)
         {
-            var result = await Commands.ExecuteAsync(context.Input, context).ConfigureAwait(false);
-            if (result is not FailedResult failedResult)
-                return;
-
-            // These will be handled by the CommandExecutionFailed event handler.
-            if (result is CommandExecutionFailedResult)
-                return;
-
-            await InternalHandleFailedResultAsync(context, failedResult).ConfigureAwait(false);
+            try
+            {
+                var result = await Commands.ExecuteAsync(context.Input, context).ConfigureAwait(false);
+                if (result is not FailedResult failedResult)
+                    return;
+            
+                // These will be handled by the CommandExecutionFailed event handler.
+                if (result is CommandExecutionFailedResult)
+                    return;
+            
+                _ = InternalHandleFailedResultAsync(context, failedResult);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An exception occurred while attempting to execute commands.");
+            }
         }
 
         private async Task DisposeContextAsync(DiscordCommandContext context)

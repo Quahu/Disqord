@@ -78,6 +78,8 @@ namespace Disqord.Gateway.Default
 
                 ["GUILD_EMOJIS_UPDATE"] = new GuildEmojisUpdateHandler(),
 
+                ["GUILD_STICKERS_UPDATE"] = new GuildStickersUpdateHandler(),
+
                 ["GUILD_INTEGRATIONS_UPDATE"] = new GuildIntegrationsUpdateHandler(),
 
                 ["GUILD_MEMBER_ADD"] = new GuildMemberAddHandler(),
@@ -110,6 +112,10 @@ namespace Disqord.Gateway.Default
                 ["MESSAGE_REACTION_REMOVE_EMOJI"] = new MessageReactionRemoveEmojiHandler(),
 
                 ["PRESENCE_UPDATE"] = new PresenceUpdateHandler(),
+
+                ["STAGE_INSTANCE_CREATE"] = new StageCreateHandler(),
+                ["STAGE_INSTANCE_UPDATE"] = new StageUpdateHandler(),
+                ["STAGE_INSTANCE_DELETE"] = new StageDeleteHandler(),
 
                 ["TYPING_START"] = new TypingStartHandler(),
 

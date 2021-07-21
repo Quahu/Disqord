@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Logging;
@@ -12,8 +13,6 @@ namespace Disqord.Rest.Api.Default
 {
     public sealed class DefaultRestRateLimiter : IRestRateLimiter
     {
-        private const string UnlimitedBucketString = "unlimited";
-
         /// <inheritdoc/>
         public ILogger Logger { get; }
 
@@ -25,6 +24,8 @@ namespace Disqord.Rest.Api.Default
         ///     before throwing.
         /// </summary>
         public TimeSpan MaximumDelayDuration { get; }
+
+        private DateTimeOffset? _globalResetsAt;
 
         private readonly Binder<IRestApiClient> _binder;
 
@@ -69,14 +70,8 @@ namespace Disqord.Rest.Api.Default
         /// <inheritdoc/>
         public ValueTask EnqueueRequestAsync(IRestRequest request)
         {
-            if (ApiClient.Requester.Version < 8)
-            {
-                // Asks Discord for accurate, not rounded up rate-limits on API versions before 8.
-                request.Options.Headers["X-Ratelimit-Precision"] = "millisecond";
-            }
-
             var bucket = GetBucket(request.Route, true);
-            bucket.Enqueue(request);
+            bucket.Post(request);
             return default;
         }
 
@@ -84,24 +79,17 @@ namespace Disqord.Rest.Api.Default
         {
             lock (this)
             {
-                var hash = GetRouteHash(route.BaseRoute);
+                var isUnlimited = !_hashes.TryGetValue(route.BaseRoute, out var hash);
+                hash ??= $"unlimited+{route}";
                 var parameters = $"{route.Parameters.GuildId}:{route.Parameters.ChannelId}:{route.Parameters.WebhookId}";
                 var bucketId = $"{hash}:{parameters}";
                 if (!_buckets.TryGetValue(bucketId, out var bucket) && create)
                 {
-                    bucket = new Bucket(this, bucketId);
+                    bucket = new Bucket(this, route, isUnlimited);
                     _buckets.Add(bucketId, bucket);
                 }
 
                 return bucket;
-            }
-        }
-
-        private string GetRouteHash(Route route)
-        {
-            lock (this)
-            {
-                return _hashes.GetValueOrDefault(route) ?? $"{UnlimitedBucketString}+{route}";
             }
         }
 
@@ -112,36 +100,40 @@ namespace Disqord.Rest.Api.Default
                 try
                 {
                     var now = DateTimeOffset.UtcNow;
-                    var bucket = GetBucket(route, true);
-                    var wasUnlimited = bucket.IsUnlimited;
                     var headers = new DefaultRestResponseHeaders(response.Headers);
                     if (headers.Bucket.HasValue)
                     {
                         if (_hashes.TryAdd(route.BaseRoute, headers.Bucket.Value))
                             Logger.LogTrace("Cached bucket hash {0} -> {1}.", route, headers.Bucket.Value);
-
-                        bucket = GetBucket(route, true);
                     }
 
-                    if (headers.IsGlobal.GetValueOrDefault())
+                    var bucket = GetBucket(route, true);
+                    if (response.Code == HttpResponseStatusCode.TooManyRequests)
                     {
-                        Logger.LogError("Hit the global rate-limit! Retry-After: {0}ms.", headers.RetryAfter.Value.TotalMilliseconds);
-                    }
-                    else if ((int) response.Code == 429)
-                    {
-                        bucket.Remaining = 0;
-                        bucket.ResetsAt = now + headers.RetryAfter.Value;
-                        var level = _hitRateLimits.Add(route.BaseRoute)
-                            ? LogLevel.Information
-                            : LogLevel.Warning;
-                        Logger.Log(level, "Bucket {0} hit a rate-limit. Retry-After: {1}ms.", bucket, headers.RetryAfter.Value.TotalMilliseconds);
-                        return true;
+                        if (headers.IsGlobal.GetValueOrDefault() || !headers.GetHeader("Via").HasValue)
+                        {
+                            var type = headers.IsGlobal.GetValueOrDefault()
+                                ? "global"
+                                : "Cloudflare";
+                            Logger.LogError("Hit a {0} rate-limit! Expires after {1}.", type, headers.RetryAfter.Value);
+                            _globalResetsAt = now + headers.RetryAfter.Value;
+                        }
+                        else
+                        {
+                            bucket.Remaining = 0;
+                            bucket.ResetsAt = now + headers.RetryAfter.Value;
+                            var level = _hitRateLimits.Add(route.BaseRoute) && headers.RetryAfter.Value.TotalSeconds < 30
+                                ? LogLevel.Information
+                                : LogLevel.Warning;
+                            Logger.Log(level, "Bucket {0} hit a rate-limit. Expires after {1}ms.", bucket, headers.RetryAfter.Value.TotalMilliseconds);
+                            return true;
+                        }
                     }
 
                     if (!headers.Bucket.HasValue)
                         return false;
 
-                    bucket.Limit = Math.Max(1, headers.Limit.Value);
+                    bucket.Limit = headers.Limit.Value;
                     bucket.Remaining = headers.Remaining.Value;
                     bucket.ResetsAt = now + headers.ResetsAfter.Value;
                     Logger.LogDebug("Updated bucket {0} to ({1}/{2}, {3})", bucket, bucket.Remaining, bucket.Limit, bucket.ResetsAt - now);
@@ -149,9 +141,7 @@ namespace Disqord.Rest.Api.Default
                 }
                 catch (Exception ex)
                 {
-                    var bucket = GetBucket(route, true);
-                    Logger.LogError(ex, "Encountered an exception while updating bucket {0}. Route: {1} Code: {2} Headers:\n{3}",
-                        bucket, route, response.Code, string.Join('\n', response.Headers));
+                    Logger.LogError(ex, "Encountered an exception while updating bucket {0}. Code: {2} Headers:\n{3}", route, response.Code, string.Join('\n', response.Headers));
                     return false;
                 }
             }
@@ -159,110 +149,106 @@ namespace Disqord.Rest.Api.Default
 
         private class Bucket : ILogging
         {
-            public ILogger Logger => _rateLimiter.Logger;
+            public int Limit { get; internal set; } = 1;
 
-            public string Id { get; }
-
-            public bool IsUnlimited => Id.StartsWith("unlimited");
-
-            public int Limit { get; internal set; }
-
-            public int Remaining { get; internal set; }
+            public int Remaining { get; internal set; } = 1;
 
             public DateTimeOffset ResetsAt { get; internal set; }
 
+            public ILogger Logger => _rateLimiter.Logger;
+
             private readonly DefaultRestRateLimiter _rateLimiter;
-            private readonly object _lock;
-            private readonly LinkedList<IRestRequest> _requests;
+            private readonly string _route;
+            private readonly bool _isUnlimited;
+            private readonly Channel<IRestRequest> _requests;
 
-            private Task _task;
-
-            public Bucket(DefaultRestRateLimiter rateLimiter, string id)
+            public Bucket(DefaultRestRateLimiter rateLimiter, FormattedRoute route, bool isUnlimited)
             {
-                Id = id;
-
-                Limit = 1;
-                Remaining = 1;
-
                 _rateLimiter = rateLimiter;
-                _lock = new object();
-                _requests = new LinkedList<IRestRequest>();
+                _route = route.ToString();
+                _isUnlimited = isUnlimited;
+
+                _requests = Channel.CreateUnbounded<IRestRequest>();
+                _ = RunAsync();
             }
 
-            public void Enqueue(IRestRequest request)
+            public void Post(IRestRequest request)
             {
-                lock (_lock)
-                {
-                    _requests.AddLast(request);
-                    if (_task == null || _task.IsCompleted)
-                        _task = Task.Run(RunAsync);
-                }
+                _requests.Writer.TryWrite(request);
             }
 
             private async Task RunAsync()
             {
-                //Logger.LogTrace("Bucket {0} is running {1} requests.", Id, _requests.Count);
-                LinkedListNode<IRestRequest> requestNode;
-                while ((requestNode = _requests.First) != null)
+                var reader = _requests.Reader;
+                await foreach (var request in reader.ReadAllAsync())
                 {
-                    var request = requestNode.Value;
-                    _requests.RemoveFirst();
-                    if (Remaining == 0)
+                    bool retry;
+                    do
                     {
-                        var delay = ResetsAt - DateTimeOffset.UtcNow;
-                        if (delay > TimeSpan.Zero)
+                        retry = false;
+                        try
                         {
-                            if (_rateLimiter.MaximumDelayDuration != Timeout.InfiniteTimeSpan && delay > _rateLimiter.MaximumDelayDuration)
+                            // If this bucket is unlimited we check if there's a proper bucket created and move the requests accordingly.
+                            if (_isUnlimited)
                             {
-                                Logger.LogWarning("Bucket {0} is pre-emptively rate-limiting, throwing as the delay {1} exceeds the maximum delay duration.", Id, delay);
-                                // TODO: MaximumDelayDurationExceededException
-                                request.Complete(new TimeoutException());
-                                continue;
+                                var bucket = _rateLimiter.GetBucket(request.Route, false);
+                                if (bucket != this)
+                                {
+                                    Logger.LogDebug("Bucket {0} is moving the request to the limited bucket.", this);
+                                    bucket.Post(request);
+                                    break;
+                                }
                             }
 
-                            var level = request.Route.BaseRoute == Route.Channel.CreateReaction
-                                ? LogLevel.Debug
-                                : LogLevel.Information;
-                            Logger.Log(level, "Bucket {0} is pre-emptively rate-limiting, delaying for {1}.", Id, delay);
-                            await Task.Delay(delay).ConfigureAwait(false);
-                        }
-                    }
+                            var now = DateTimeOffset.UtcNow;
+                            var globalResetsAt = _rateLimiter._globalResetsAt;
+                            var isGloballyRateLimited = globalResetsAt > now;
+                            if (Remaining == 0 || isGloballyRateLimited)
+                            {
+                                var delay = isGloballyRateLimited
+                                    ? globalResetsAt.Value - now
+                                    : ResetsAt - now;
+                                if (delay > TimeSpan.Zero)
+                                {
+                                    if (_rateLimiter.MaximumDelayDuration != Timeout.InfiniteTimeSpan && delay > _rateLimiter.MaximumDelayDuration)
+                                    {
+                                        Logger.LogWarning("Bucket {0} is rate-limited - throwing as the delay {1} exceeds the maximum delay duration.", this, delay);
+                                        request.Complete(new MaximumRateLimitDelayExceededException(delay, isGloballyRateLimited));
+                                        break;
+                                    }
 
-                    // If this bucket is unlimited we check if there's a proper bucket created and move the requests accordingly.
-                    if (IsUnlimited)
-                    {
-                        var bucket = _rateLimiter.GetBucket(request.Route, false);
-                        if (bucket != this)
-                        {
-                            Logger.LogDebug("Bucket {0} is moving the request to the limited bucket {1}.", Id, bucket);
-                            bucket.Enqueue(request);
-                            continue;
-                        }
-                    }
+                                    var level = request.Route.BaseRoute.Equals(Route.Channel.CreateReaction)
+                                        ? LogLevel.Debug
+                                        : LogLevel.Information;
+                                    Logger.Log(level, "Bucket {0} is rate-limited - delaying for {1}.", this, delay);
+                                    await Task.Delay(delay).ConfigureAwait(false);
+                                }
+                            }
 
-                    try
-                    {
-                        var response = await _rateLimiter.ApiClient.Requester.ExecuteAsync(request).ConfigureAwait(false);
-                        if (_rateLimiter.UpdateBucket(request.Route, response.HttpResponse))
-                        {
-                            Logger.LogInformation("Bucket {0} is re-enqueuing the last request due to a hit rate-limit.", Id);
-                            _requests.AddFirst(request);
+                            var response = await _rateLimiter.ApiClient.Requester.ExecuteAsync(request).ConfigureAwait(false);
+                            if (_rateLimiter.UpdateBucket(request.Route, response.HttpResponse))
+                            {
+                                Logger.LogInformation("Bucket {0} is retrying the last request due to a hit rate-limit.", this);
+                                retry = true;
+                            }
+                            else
+                            {
+                                request.Complete(response);
+                                request.Dispose();
+                            }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            request.Complete(response);
+                            Logger.LogError(ex, "Bucket {0} encountered an exception while processing a request.", this);
                             request.Dispose();
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        Logger.LogError(ex, "Bucket {0} encountered an exception when executing a request.", Id);
-                    }
+                    while (retry);
                 }
             }
 
             public override string ToString()
-                => Id;
+                => _route;
         }
     }
 }

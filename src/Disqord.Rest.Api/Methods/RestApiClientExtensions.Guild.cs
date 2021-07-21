@@ -195,7 +195,7 @@ namespace Disqord.Rest.Api
             if (roleIds != null)
                 queryParameters["include_roles"] = roleIds;
 
-            var route = Format(Route.Guild.GetPruneCount, guildId);
+            var route = Format(Route.Guild.GetPruneCount, queryParameters, guildId);
             return client.ExecuteAsync<PruneJsonModel>(route, null, options);
         }
 
@@ -210,11 +210,11 @@ namespace Disqord.Rest.Api
             if (roleIds != null)
                 queryParameters["include_roles"] = roleIds;
 
-            var route = Format(Route.Guild.BeginPrune, guildId);
+            var route = Format(Route.Guild.BeginPrune, queryParameters, guildId);
             return client.ExecuteAsync<PruneJsonModel>(route, null, options);
         }
 
-        public static Task<VoiceRegionJsonModel[]> FetchVoiceRegionsAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
+        public static Task<VoiceRegionJsonModel[]> FetchGuildVoiceRegionsAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Guild.GetVoiceRegions, guildId);
             return client.ExecuteAsync<VoiceRegionJsonModel[]>(route, null, options);
@@ -266,6 +266,24 @@ namespace Disqord.Rest.Api
         {
             var route = Format(Route.Guild.ModifyWelcomeScreen, guildId);
             return client.ExecuteAsync<WelcomeScreenJsonModel>(route, content, options);
+        }
+
+        public static Task<GuildWidgetSettingsJsonModel> FetchGuildWidgetAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.GetWidgetSettings, guildId);
+            return client.ExecuteAsync<GuildWidgetSettingsJsonModel>(route, null, options);
+        }
+
+        public static Task<GuildWidgetSettingsJsonModel> ModifyGuildWidgetAsync(this IRestApiClient client, Snowflake guildId, ModifyGuildWidgetSettingsJsonRestRequestContent content, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.ModifyWidget, guildId);
+            return client.ExecuteAsync<GuildWidgetSettingsJsonModel>(route, content, options);
+        }
+
+        public static Task<InviteJsonModel> FetchGuildVanityInviteAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.GetVanityUrl, guildId);
+            return client.ExecuteAsync<InviteJsonModel>(route, null, options);
         }
     }
 }

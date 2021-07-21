@@ -79,9 +79,6 @@ namespace Disqord.Models
         [JsonProperty("flags")]
         public Optional<MessageFlag> Flags;
 
-        [JsonProperty("sticker_items")]
-        public Optional<StickerJsonModel[]> Stickers;
-
         [JsonProperty("referenced_message")]
         public Optional<MessageJsonModel> ReferencedMessage;
 
@@ -90,5 +87,8 @@ namespace Disqord.Models
 
         [JsonProperty("components")]
         public Optional<ComponentJsonModel[]> Components;
+
+        [JsonProperty("sticker_items")]
+        public Optional<StickerItemJsonModel[]> StickerItems;
     }
 }

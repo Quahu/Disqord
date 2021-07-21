@@ -2,6 +2,9 @@
 
 namespace Disqord
 {
+    /// <summary>
+    ///     Represents an interaction
+    /// </summary>
     public interface IInteraction : ISnowflakeEntity, IPossibleGuildEntity, IChannelEntity, IJsonUpdatable<InteractionJsonModel>
     {
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Disqord.Logging;
 using Disqord.Utilities.Binding;
 
 namespace Disqord.Bot
@@ -16,7 +17,7 @@ namespace Disqord.Bot
     /// <summary>
     ///     Represents a type responsible for handling command execution load.
     /// </summary>
-    public interface ICommandQueue : IBindable<DiscordBotBase>
+    public interface ICommandQueue : ILogging, IBindable<DiscordBotBase>
     {
         /// <summary>
         ///     Gets the bot this queue is bound to.

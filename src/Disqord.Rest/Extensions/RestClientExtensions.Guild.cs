@@ -102,7 +102,7 @@ namespace Disqord.Rest
 
             if (properties is CreateNestedChannelActionProperties nestedProperties)
             {
-                content.ParentId = nestedProperties.ParentId;
+                content.ParentId = nestedProperties.CategoryId;
 
                 if (properties is CreateTextChannelActionProperties textProperties)
                 {
@@ -111,7 +111,7 @@ namespace Disqord.Rest
 
                     content.Type = ChannelType.Text;
                     content.Topic = textProperties.Topic;
-                    content.RateLimitPerUser = textProperties.Slowmode;
+                    content.RateLimitPerUser = Optional.Convert(textProperties.Slowmode, x => (int) x.TotalSeconds);
                     content.Nsfw = textProperties.IsNsfw;
                 }
                 else if (properties is CreateVoiceChannelActionProperties voiceProperties)
@@ -368,15 +368,15 @@ namespace Disqord.Rest
             return model.Pruned;
         }
 
-        //public async Task<IReadOnlyList<RestGuildVoiceRegion>> GetVoiceRegionsAsync(Snowflake guildId, IRestRequestOptions options = null)
-        //{
-        //    var models = await ApiClient.GetGuildVoiceRegionsAsync(guildId, options).ConfigureAwait(false);
-        //    return models.ToReadOnlyList((this, guildId), (x, tuple) =>
-        //    {
-        //        var (@this, guildId) = tuple;
-        //        return new RestGuildVoiceRegion(@this, guildId, x);
-        //    });
-        //}
+        public static async Task<IReadOnlyList<IGuildVoiceRegion>> FetchGuildVoiceRegionsAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var models = await client.ApiClient.FetchGuildVoiceRegionsAsync(guildId, options).ConfigureAwait(false);
+            return models.ToReadOnlyList((client, guildId), static(x, tuple) =>
+            {
+                var (client, guildId) = tuple;
+                return new TransientGuildVoiceRegion(client, guildId, x);
+            });
+        }
 
         public static async Task<IReadOnlyList<IInvite>> FetchGuildInvitesAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
@@ -397,35 +397,37 @@ namespace Disqord.Rest
         public static Task DeleteIntegrationAsync(this IRestClient client, Snowflake guildId, Snowflake integrationId, IRestRequestOptions options = null)
             => client.ApiClient.DeleteIntegrationAsync(guildId, integrationId, options);
 
-        //public async Task<RestWidget> GetWidgetAsync(Snowflake guildId, IRestRequestOptions options = null)
-        //{
-        //    var model = await ApiClient.GetGuildEmbedAsync(guildId, options).ConfigureAwait(false);
-        //    return new RestWidget(this, model, guildId);
-        //}
+        public static async Task<IWidget> FetchWidgetAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.FetchGuildWidgetAsync(guildId, options).ConfigureAwait(false);
+            return new TransientWidget(client, guildId, model);
+        }
 
-        //public async Task<RestWidget> ModifyWidgetAsync(Snowflake guildId, Action<ModifyWidgetProperties> action, IRestRequestOptions options = null)
-        //{
-        //    var model = await InternalModifyWidgetAsync(guildId, action, options).ConfigureAwait(false);
-        //    return new RestWidget(this, model, guildId);
-        //}
+        public static async Task<IWidget> ModifyWidgetAsync(this IRestClient client, Snowflake guildId, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null)
+        {
+            var properties = new ModifyWidgetActionProperties();
+            action(properties);
 
-        //internal async Task<WidgetModel> InternalModifyWidgetAsync(Snowflake guildId, Action<ModifyWidgetProperties> action, IRestRequestOptions options = null)
-        //{
-        //    if (action == null)
-        //        throw new ArgumentNullException(nameof(action));
+            var content = new ModifyGuildWidgetSettingsJsonRestRequestContent
+            {
+                Enabled = properties.IsEnabled,
+                ChannelId = properties.ChannelId
+            };
 
-        //    var properties = new ModifyWidgetProperties();
-        //    action(properties);
-        //    return await ApiClient.ModifyGuildEmbedAsync(guildId, properties, options).ConfigureAwait(false);
-        //}
+            var model = await client.ApiClient.ModifyGuildWidgetAsync(guildId, content, options).ConfigureAwait(false);
+            return new TransientWidget(client, guildId, model);
+        }
 
-        // public static Task<string> GetVanityInviteAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
-        // => client.ApiClient.GetGuildVanityUrlAsync(guildId, options);
+        public static async Task<IVanityInvite> FetchVanityInviteAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.FetchGuildVanityInviteAsync(guildId, options).ConfigureAwait(false);
+            return new TransientVanityInvite(client, guildId, model);
+        }
 
-        //public async Task<RestPreview> GetPreviewAsync(Snowflake guildId, IRestRequestOptions options = null)
-        //{
-        //    var model = await ApiClient.GetGuildPreviewAsync(guildId, options).ConfigureAwait(false);
-        //    return new RestPreview(this, model);
-        //}
+        public static async Task<IGuildPreview> FetchPreviewAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.FetchGuildPreviewAsync(guildId, options).ConfigureAwait(false);
+            return new TransientGuildPreview(client, model);
+        }
     }
 }

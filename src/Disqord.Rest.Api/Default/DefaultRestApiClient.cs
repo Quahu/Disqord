@@ -50,12 +50,12 @@ namespace Disqord.Rest.Api.Default
         public async Task<TModel> ExecuteAsync<TModel>(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null)
             where TModel : class
         {
-            await using (var jsonStream = await InternalExecuteAsync(route, content, options ?? new DefaultRestRequestOptions()).ConfigureAwait(false))
+            await using (var jsonStream = await InternalExecuteAsync(route, content, options).ConfigureAwait(false))
             {
                 if (typeof(TModel) == typeof(string))
                 {
                     var reader = new StreamReader(jsonStream, Encoding.UTF8);
-                    return (TModel) (object) await reader.ReadToEndAsync();
+                    return (TModel) (object) await reader.ReadToEndAsync().ConfigureAwait(false);
                 }
 
                 return Serializer.Deserialize<TModel>(jsonStream);

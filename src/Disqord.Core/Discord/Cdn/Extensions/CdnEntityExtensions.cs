@@ -91,5 +91,9 @@ namespace Disqord
                 ? Discord.Cdn.GetTeamIconUrl(team.Id, iconHash, format, size)
                 : null;
         }
+
+        public static string GetUrl(this IPartialSticker sticker)
+            => Discord.Cdn.GetStickerUrl(sticker.Id, sticker.FormatType);
+
     }
 }

@@ -58,7 +58,7 @@
 
         UnknownApplicationCommand = 10063,
 
-        UnknownStageInstance = 10067,
+        UnknownStage = 10067,
 
         UnknownMemberVerificationForm = 10068,
 
@@ -75,7 +75,7 @@
         /// <summary>
         ///     The stage topic, guild name, guild description, or channel names contain words that are not allowed.
         /// </summary>
-        DisallowedStageInstanceWords = 20031,
+        DisallowedStageWords = 20031,
 
         MaximumGuildAmountReached = 30001,
 
@@ -147,7 +147,7 @@
 
         InvalidAuthenticationToken = 50014,
 
-        // NoteTooLong = 50015,
+        NoteTooLong = 50015,
 
         ProvidedTooFewOrTooManyMessagesToDeleteMustProvideAtLeast2AndFewerThan100MessagesToDelete = 50016,
 
@@ -165,7 +165,7 @@
 
         InvalidWebhookToken = 50027,
 
-        // InvalidRole = 50028, ???
+        InvalidRole = 50028,
 
         AMessageProvidedWasTooOldToBulkDelete = 50034,
 
@@ -174,6 +174,10 @@
         AnInviteWasAcceptedToAGuildTheApplicationsBotIsNotIn = 50036,
 
         InvalidApiVersion = 50041,
+
+        MaximumFileSizeExceeded = 50045,
+
+        InvalidFileType = 50046,
 
         CannotDeleteAChannelRequiredForCommunityGuilds = 50074,
 
@@ -214,6 +218,20 @@
 
         MaximumActiveThreadAmountReached = 160006,
 
-        MaximumActiveAnnouncementThreadAmountReached = 160007
+        MaximumActiveAnnouncementThreadAmountReached = 160007,
+
+        InvalidLottieFile = 170001,
+
+        LottieCannotContainRasterizedImages = 170002,
+
+        MaximumStickerFrameRateExceeded = 170003,
+
+        MaximumStickerFrameCountExceeded = 170004,
+
+        MaximumLottieDimensionsExceeded = 170005,
+
+        InvalidStickerFrameRate = 170006,
+
+        MaximumLottieDurationExceeded = 170007
     }
 }

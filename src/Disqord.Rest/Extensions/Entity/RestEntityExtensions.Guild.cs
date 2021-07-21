@@ -197,7 +197,11 @@ namespace Disqord.Rest
             return client.PruneGuildAsync(guild.Id, days, computePruneCount, roleIds, options);
         }
 
-        // TODO: fetch voice regions
+        public static Task<IReadOnlyList<IGuildVoiceRegion>> FetchVoiceRegionsAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildVoiceRegionsAsync(guild.Id, options);
+        }
 
         public static Task<IReadOnlyList<IInvite>> FetchInvitesAsync(this IGuild guild, IRestRequestOptions options = null)
         {
@@ -217,13 +221,29 @@ namespace Disqord.Rest
             return client.DeleteIntegrationAsync(guild.Id, integrationId, options);
         }
 
-        // TODO: fetch widget
+        public static Task<IWidget> FetchWidgetAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchWidgetAsync(guild.Id, options);
+        }
 
-        // TODO: modify widget
+        public static Task<IWidget> ModifyWidgetAsync(this IGuild guild, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyWidgetAsync(guild.Id, action, options);
+        }
 
-        // TODO: fetch vanity invite
+        public static Task<IVanityInvite> FetchVanityInviteAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchVanityInviteAsync(guild.Id, options);
+        }
 
-        // TODO: fetch preview
+        public static Task<IGuildPreview> FetchPreviewAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchPreviewAsync(guild.Id, options);
+        }
 
         /*
          * Emoji
@@ -265,6 +285,74 @@ namespace Disqord.Rest
         {
             var client = guild.GetRestClient();
             return client.FetchGuildWebhooksAsync(guild.Id, options);
+        }
+
+        /*
+         * Template
+         */
+        public static Task<IReadOnlyList<IGuildTemplate>> FetchTemplatesAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchTemplatesAsync(guild.Id, options);
+        }
+
+        public static Task<IGuildTemplate> CreateTemplateAsync(this IGuild guild, string name, Action<CreateTemplateActionProperties> action = null, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.CreateTemplateAsync(guild.Id, name, action, options);
+        }
+
+        public static Task<IGuildTemplate> SynchronizeTemplateAsync(this IGuild guild, string templateCode, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.SynchronizeTemplateAsync(guild.Id, templateCode, options);
+        }
+
+        public static Task<IGuildTemplate> ModifyTemplateAsync(this IGuild guild, string templateCode, Action<ModifyTemplateActionProperties> action, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyTemplateAsync(guild.Id, templateCode, action, options);
+        }
+
+        public static Task<IGuildTemplate> DeleteTemplateAsync(this IGuild guild, string templateCode, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.DeleteTemplateAsync(guild.Id, templateCode, options);
+        }
+
+        /*
+         * Sticker
+         */
+        public static Task<IReadOnlyList<IGuildSticker>> FetchStickersAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildStickersAsync(guild.Id, options);
+        }
+
+        public static Task<IGuildSticker> FetchStickerAsync(this IGuild guild, Snowflake stickerId, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildStickerAsync(guild.Id, stickerId, options);
+        }
+
+        /*
+        public static Task<IGuildSticker> CreateStickerAsync(this IGuild guild, string name, string tags, Stream file, Action<CreateGuildStickerActionProperties> action = null, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.CreateGuildStickerAsync(guild.Id, name, tags, file, action, options);
+        }
+        */
+
+        public static Task<IGuildSticker> ModifyStickerAsync(this IGuild guild, Snowflake stickerId, Action<ModifyGuildStickerActionProperties> action, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyGuildStickerAsync(guild.Id, stickerId, action, options);
+        }
+
+        public static Task DeleteStickerAsync(this IGuild guild, Snowflake stickerId, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.DeleteGuildStickerAsync(guild.Id, stickerId, options);
         }
     }
 }

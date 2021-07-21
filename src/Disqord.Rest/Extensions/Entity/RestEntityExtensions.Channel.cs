@@ -61,7 +61,14 @@ namespace Disqord.Rest
             return client.SendMessageAsync(channel.Id, message, options);
         }
 
-        // TODO: crosspost message
+        public static Task<IUserMessage> CrosspostMessageAsync(this ITextChannel channel, Snowflake messageId, IRestRequestOptions options = null)
+        {
+            if (!channel.IsNews)
+                throw new ArgumentException("This text channel must be a news channel to have messages crossposted from it.", nameof(channel));
+
+            var client = channel.GetRestClient();
+            return client.CrosspostMessageAsync(channel.Id, messageId, options);
+        }
 
         public static Task AddReactionAsync(this IMessageChannel channel, Snowflake messageId, LocalEmoji emoji, IRestRequestOptions options = null)
         {
@@ -147,7 +154,14 @@ namespace Disqord.Rest
             return client.CreateInviteAsync(channel.Id, maxAge, maxUses, isTemporaryMembership, isUnique, options);
         }
 
-        // TODO: follow news channel
+        public static Task<IFollowedChannel> FollowAsync(this ITextChannel channel, Snowflake targetChannelId, IRestRequestOptions options = null)
+        {
+            if (!channel.IsNews)
+                throw new ArgumentException("This text channel must be a news channel to follow it.", nameof(channel));
+
+            var client = channel.GetRestClient();
+            return client.FollowNewsChannelAsync(channel.Id, targetChannelId, options);
+        }
 
         public static Task TriggerTypingAsync(this IMessageChannel channel, IRestRequestOptions options = null)
         {
@@ -193,6 +207,10 @@ namespace Disqord.Rest
             var client = channel.GetRestClient();
             return client.FetchChannelWebhooksAsync(channel.Id, options);
         }
+
+        /*
+        * Threads
+        */
 
         public static Task<IThreadChannel> CreatePublicThreadAsync(this ITextChannel channel, string name, Snowflake? messageId = null, TimeSpan? automaticArchiveDuration = null, IRestRequestOptions options = null)
         {
@@ -276,6 +294,21 @@ namespace Disqord.Rest
         {
             var client = channel.GetRestClient();
             return client.FetchJoinedPrivateArchivedThreadsAsync(channel.Id, limit, startFromId, options);
+        }
+
+        /*
+         * Stages
+         */
+        public static Task<IStage> CreateStageAsync(this IStageChannel channel, string topic, Action<CreateStageActionProperties> action = null, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.CreateStageAsync(channel.Id, topic, action, options);
+        }
+
+        public static Task<IStage> FetchStageAsync(this IStageChannel channel, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.FetchStageAsync(channel.Id, options);
         }
     }
 }

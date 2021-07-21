@@ -95,6 +95,13 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<StickersUpdatedEventArgs> StickersUpdated
+        {
+            add => Dispatcher.StickersUpdatedEvent.Hook(value);
+            remove => Dispatcher.StickersUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<IntegrationsUpdatedEventArgs> IntegrationsUpdated
         {
             add => Dispatcher.IntegrationsUpdatedEvent.Hook(value);
@@ -239,6 +246,27 @@ namespace Disqord.Gateway.Default
         {
             add => Dispatcher.PresenceUpdatedEvent.Hook(value);
             remove => Dispatcher.PresenceUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<StageCreatedEventArgs> StageCreated
+        {
+            add => Dispatcher.StageCreatedEvent.Hook(value);
+            remove => Dispatcher.StageCreatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<StageUpdatedEventArgs> StageUpdated
+        {
+            add => Dispatcher.StageUpdatedEvent.Hook(value);
+            remove => Dispatcher.StageUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<StageDeletedEventArgs> StageDeleted
+        {
+            add => Dispatcher.StageDeletedEvent.Hook(value);
+            remove => Dispatcher.StageDeletedEvent.Unhook(value);
         }
 
         /// <inheritdoc/>

@@ -44,6 +44,9 @@ namespace Disqord.Hosting
         protected internal virtual ValueTask OnEmojisUpdated(EmojisUpdatedEventArgs e)
             => default;
 
+        protected internal virtual ValueTask OnStickersUpdated(StickersUpdatedEventArgs e)
+            => default;
+
         protected internal virtual ValueTask OnIntegrationsUpdated(IntegrationsUpdatedEventArgs e)
             => default;
 
@@ -105,6 +108,15 @@ namespace Disqord.Hosting
             => default;
 
         protected internal virtual ValueTask OnPresenceUpdated(PresenceUpdatedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnStageCreated(StageCreatedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnStageUpdated(StageUpdatedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnStageDeleted(StageDeletedEventArgs e)
             => default;
 
         protected internal virtual ValueTask OnTypingStarted(TypingStartedEventArgs e)

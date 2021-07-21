@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 
 namespace Disqord
@@ -84,10 +85,31 @@ namespace Disqord
                 return FormatUrl(path, format, size);
             }
 
+            public static string GetStickerPackBannerUrl(string bannerAssetId, CdnAssetFormat format = default, int? size = null)
+            {
+                var path = $"app-assets/710982414301790216/store/{bannerAssetId}";
+                return FormatUrl(path, format, size);
+            }
+
             public static string GetTeamIconUrl(Snowflake teamId, string iconHash, CdnAssetFormat format = default, int? size = null)
             {
                 var path = $"team-icons/{teamId}/{iconHash}";
                 return FormatUrl(path, format, size);
+            }
+
+            public static string GetStickerUrl(Snowflake stickerId, StickerFormatType format = default)
+            {
+                var stringBuilder = new StringBuilder(BaseAddress);
+                stringBuilder.Append($"stickers/{stickerId}");
+
+                var formatString = format switch
+                {
+                    StickerFormatType.Lottie => "json",
+                    _ => "png"
+                };
+
+                stringBuilder.Append('.').Append(formatString);
+                return stringBuilder.ToString();
             }
 
             private static string FormatUrl(string path, CdnAssetFormat format, int? size)

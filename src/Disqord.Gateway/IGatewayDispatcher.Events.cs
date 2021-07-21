@@ -30,6 +30,8 @@ namespace Disqord.Gateway
 
         AsynchronousEvent<EmojisUpdatedEventArgs> EmojisUpdatedEvent { get; }
 
+        AsynchronousEvent<StickersUpdatedEventArgs> StickersUpdatedEvent { get; }
+
         AsynchronousEvent<IntegrationsUpdatedEventArgs> IntegrationsUpdatedEvent { get; }
 
         AsynchronousEvent<MemberJoinedEventArgs> MemberJoinedEvent { get; }
@@ -71,6 +73,12 @@ namespace Disqord.Gateway
         AsynchronousEvent<ReactionsClearedEventArgs> ReactionsClearedEvent { get; }
 
         AsynchronousEvent<PresenceUpdatedEventArgs> PresenceUpdatedEvent { get; }
+
+        AsynchronousEvent<StageCreatedEventArgs> StageCreatedEvent { get; }
+
+        AsynchronousEvent<StageUpdatedEventArgs> StageUpdatedEvent { get; }
+
+        AsynchronousEvent<StageDeletedEventArgs> StageDeletedEvent { get; }
 
         AsynchronousEvent<TypingStartedEventArgs> TypingStartedEvent { get; }
 

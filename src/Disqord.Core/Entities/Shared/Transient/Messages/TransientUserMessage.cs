@@ -41,7 +41,7 @@ namespace Disqord
         public IReadOnlyList<IComponent> Components => _components ??= Optional.ConvertOrDefault(Model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
         private IReadOnlyList<IComponent> _components;
 
-        public IReadOnlyList<MessageSticker> Stickers => _stickers ??= Optional.ConvertOrDefault(Model.Stickers, x => x.ToReadOnlyList(x => new MessageSticker(x)), Array.Empty<MessageSticker>());
+        public IReadOnlyList<MessageSticker> Stickers => _stickers ??= Optional.ConvertOrDefault(Model.StickerItems, x => x.ToReadOnlyList(x => new MessageSticker(x)), Array.Empty<MessageSticker>());
         private IReadOnlyList<MessageSticker> _stickers;
 
         public TransientUserMessage(IClient client, MessageJsonModel model)

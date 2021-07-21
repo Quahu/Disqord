@@ -74,6 +74,11 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<EmojisUpdatedEventArgs> EmojisUpdated;
 
         /// <summary>
+        ///     Fires when the stickers in a guild are updated.
+        /// </summary>
+        event AsynchronousEventHandler<StickersUpdatedEventArgs> StickersUpdated;
+
+        /// <summary>
         ///     Fires when the integrations in a guild are updated.
         /// </summary>
         event AsynchronousEventHandler<IntegrationsUpdatedEventArgs> IntegrationsUpdated;
@@ -177,6 +182,21 @@ namespace Disqord.Gateway
         ///     Fires when a member's presence is updated.
         /// </summary>
         event AsynchronousEventHandler<PresenceUpdatedEventArgs> PresenceUpdated;
+
+        /// <summary>
+        ///     Fires when a stage is created.
+        /// </summary>
+        event AsynchronousEventHandler<StageCreatedEventArgs> StageCreated;
+
+        /// <summary>
+        ///     Fires when a stage is updated.
+        /// </summary>
+        event AsynchronousEventHandler<StageUpdatedEventArgs> StageUpdated;
+
+        /// <summary>
+        ///     Fires when a stage is deleted.
+        /// </summary>
+        event AsynchronousEventHandler<StageDeletedEventArgs> StageDeleted;
 
         /// <summary>
         ///     Fires when a user starts typing in a channel.

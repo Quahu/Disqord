@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using Disqord.Collections.Proxied;
 
 namespace Disqord.Rest.Api
 {
     /// <summary>
     ///     Represents named parameters found in the route.
     /// </summary>
-    public sealed class RouteParameters : IEnumerable<KeyValuePair<string, object>>
+    public class RouteParameters : ProxiedDictionary<string, object>
     {
         /// <summary>
         ///     Gets the major parameter <c>guild_id</c>.
@@ -24,12 +24,9 @@ namespace Disqord.Rest.Api
         /// </summary>
         public ulong WebhookId => GetParameter<ulong>("webhook_id");
 
-        private readonly Dictionary<string, object> _dictionary;
-
-        internal RouteParameters(Dictionary<string, object> dictionary)
-        {
-            _dictionary = dictionary;
-        }
+        public RouteParameters(IDictionary<string, object> dictionary)
+            : base(dictionary)
+        { }
 
         /// <summary>
         ///     Retrieves a parameter with the given name and converts it or retrieves the default value for its type.
@@ -39,7 +36,7 @@ namespace Disqord.Rest.Api
         /// <returns> The value of the parameter or the default value for its type. </returns>
         public T GetParameter<T>(string name)
         {
-            if (!_dictionary.TryGetValue(name, out var value))
+            if (!TryGetValue(name, out var value))
                 return default;
 
             if (Convert.GetTypeCode(value) == TypeCode.Object)
@@ -47,11 +44,5 @@ namespace Disqord.Rest.Api
 
             return (T) Convert.ChangeType(value, typeof(T));
         }
-
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
-            => _dictionary.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
     }
 }

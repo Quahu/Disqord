@@ -157,7 +157,8 @@ namespace Disqord.Rest
                 AllowedMentions = Optional.FromNullable(message.AllowedMentions.ToModel()),
                 MessageReference = Optional.FromNullable(message.Reference.ToModel()),
                 Nonce = Optional.FromNullable(message.Nonce),
-                Components = Optional.Conditional(message.Components.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), message.Components)
+                Components = Optional.Conditional(message.Components.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), message.Components),
+                StickerIds = Optional.Conditional(message.StickerIds.Count != 0, x => x.ToArray(), message.StickerIds)
             };
 
             Task<MessageJsonModel> task;
@@ -177,7 +178,11 @@ namespace Disqord.Rest
             return new TransientUserMessage(client, model);
         }
 
-        // TODO: crosspost message
+        public static async Task<IUserMessage> CrosspostMessageAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.CrosspostMessageAsync(channelId, messageId, options).ConfigureAwait(false);
+            return new TransientUserMessage(client, model);
+        }
 
         public static Task AddReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, IRestRequestOptions options = null)
         {
@@ -268,7 +273,8 @@ namespace Disqord.Rest
                 {
                     x.Validate();
                     return x.ToModel();
-                }).ToArray())
+                }).ToArray()),
+                StickerIds = Optional.Convert(properties.StickerIds, x => x.ToArray())
             };
             var model = await client.ApiClient.ModifyMessageAsync(channelId, messageId, content, options).ConfigureAwait(false);
             return new TransientUserMessage(client, model);
@@ -365,7 +371,16 @@ namespace Disqord.Rest
             return new TransientInvite(client, model);
         }
 
-        // TODO: follow news channel
+        public static async Task<IFollowedChannel> FollowNewsChannelAsync(this IRestClient client, Snowflake channelId, Snowflake targetChannelId, IRestRequestOptions options = null)
+        {
+            var content = new FollowNewsChannelJsonRestRequestContent
+            {
+                WebhookChannelId = targetChannelId
+            };
+
+            var model = await client.ApiClient.FollowNewsChannelAsync(channelId, content, options).ConfigureAwait(false);
+            return new TransientFollowedChannel(client, model);
+        }
 
         public static Task TriggerTypingAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null)
             => client.ApiClient.TriggerTypingAsync(channelId, options);
