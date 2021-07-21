@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Disqord.Extensions.Interactivity.Menus;
 using Disqord.Extensions.Interactivity.Menus.Paged;
@@ -59,7 +60,7 @@ namespace Disqord.Bot
         ///     A <see cref="DiscordResponseCommandResult"/> replying on execution.
         /// </returns>
         protected virtual DiscordResponseCommandResult Reply(LocalMessage message)
-            => Response(message.WithReply(Context.Message.Id, Context.ChannelId, Context.GuildId, false));
+            => Response(message.WithReply(Context.Message.Id, Context.ChannelId, Context.GuildId));
 
         protected virtual DiscordResponseCommandResult Response(string content)
             => Response(new LocalMessage().WithContent(content));
@@ -76,25 +77,22 @@ namespace Disqord.Bot
             return new(Context, message);
         }
 
-        //protected virtual DiscordCommandResult Response(LocalAttachment attachment)
-        //    => Response();
-
         protected virtual DiscordReactionCommandResult Reaction(LocalEmoji emoji)
             => new(Context, emoji);
 
         protected virtual DiscordMenuCommandResult Pages(params Page[] pages)
             => Pages(pages as IEnumerable<Page>);
 
-        protected virtual DiscordMenuCommandResult Pages(IEnumerable<Page> pages)
-            => Pages(new ListPageProvider(pages));
+        protected virtual DiscordMenuCommandResult Pages(IEnumerable<Page> pages, TimeSpan timeout = default)
+            => Pages(new ListPageProvider(pages), timeout);
 
-        protected virtual DiscordMenuCommandResult Pages(PageProvider pageProvider)
-            => View(new PagedView(pageProvider));
+        protected virtual DiscordMenuCommandResult Pages(PageProvider pageProvider, TimeSpan timeout = default)
+            => View(new PagedView(pageProvider), timeout);
 
-        protected virtual DiscordMenuCommandResult View(ViewBase view)
-            => new(Context, new InteractiveMenu(Context.Author.Id, view));
+        protected virtual DiscordMenuCommandResult View(ViewBase view, TimeSpan timeout = default)
+            => Menu(new InteractiveMenu(Context.Author.Id, view), timeout);
 
-        protected virtual DiscordMenuCommandResult Menu(MenuBase menu)
-            => new(Context, menu);
+        protected virtual DiscordMenuCommandResult Menu(MenuBase menu, TimeSpan timeout = default)
+            => new(Context, menu, timeout);
     }
 }

@@ -7,7 +7,7 @@ namespace Disqord.Bot
 {
     public class DiscordResponseCommandResult : DiscordCommandResult
     {
-        public virtual LocalMessage Message { get; }
+        public LocalMessage Message { get; protected set; }
 
         public DiscordResponseCommandResult(DiscordCommandContext context, LocalMessage message)
             : base(context)
