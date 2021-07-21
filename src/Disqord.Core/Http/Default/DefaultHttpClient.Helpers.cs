@@ -17,33 +17,48 @@ namespace Disqord.Http.Default
 
         public static HttpContent GetHttpContent(HttpRequestContent content)
         {
+            HttpContent httpContent;
             switch (content)
             {
                 case ReadOnlyMemoryHttpRequestContent readOnlyMemoryHttpRequestContent:
-                    return new ReadOnlyMemoryContent(readOnlyMemoryHttpRequestContent.Memory);
-
+                {
+                    httpContent = new ReadOnlyMemoryContent(readOnlyMemoryHttpRequestContent.Memory);
+                    break;
+                }
                 case StreamHttpRequestContent streamHttpRequestContent:
-                    return new CustomStreamContent(streamHttpRequestContent.Stream, streamHttpRequestContent.ShouldDispose);
-
+                {
+                    httpContent = new CustomStreamContent(streamHttpRequestContent.Stream, streamHttpRequestContent.ShouldDispose);
+                    break;
+                }
                 case MultipartFormDataHttpRequestContent multipartFormDataHttpRequestContent:
                 {
                     var multipartFormDataContent = new MultipartFormDataContent(multipartFormDataHttpRequestContent.Boundary);
                     for (var i = 0; i < multipartFormDataHttpRequestContent.FormData.Count; i++)
                     {
                         var formData = multipartFormDataHttpRequestContent.FormData[i];
-                        var httpContent = GetHttpContent(formData.Content);
+                        var formContent = GetHttpContent(formData.Content);
                         if (formData.FileName != null)
-                            multipartFormDataContent.Add(httpContent, formData.Name, formData.FileName);
+                            multipartFormDataContent.Add(formContent, formData.Name, formData.FileName);
                         else
-                            multipartFormDataContent.Add(httpContent, formData.Name);
+                            multipartFormDataContent.Add(formContent, formData.Name);
                     }
 
-                    return multipartFormDataContent;
+                    httpContent = multipartFormDataContent;
+                    break;
                 }
-
                 default:
+                {
                     throw new InvalidOperationException("Unsupported HTTP request content type.");
+                }
             }
+
+            if (content.Headers != null)
+            {
+                foreach (var header in content.Headers)
+                    httpContent.Headers.Set(header.Key, header.Value);
+            }
+
+            return httpContent;
         }
 
         public static HttpRequestMessage GetHttpMessage(IHttpRequest request)
@@ -56,14 +71,7 @@ namespace Disqord.Http.Default
             }
 
             if (request.Content != null)
-            {
                 requestMessage.Content = GetHttpContent(request.Content);
-                if (request.Content.Headers != null)
-                {
-                    foreach (var header in request.Content.Headers)
-                        requestMessage.Content.Headers.Set(header.Key, header.Value);
-                }
-            }
 
             return requestMessage;
         }
