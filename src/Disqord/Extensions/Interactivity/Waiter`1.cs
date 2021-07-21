@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Utilities.Threading;
@@ -10,7 +11,7 @@ namespace Disqord.Extensions.Interactivity
     {
         public Task<TEventArgs> Task => _tcs.Task;
 
-        private readonly Predicate<TEventArgs> _predicate;
+        private readonly Predicate<TEventArgs>[] _predicates;
         private readonly Tcs<TEventArgs> _tcs;
 
         private readonly Timer _timeoutTimer;
@@ -18,7 +19,7 @@ namespace Disqord.Extensions.Interactivity
 
         public Waiter(Predicate<TEventArgs> predicate, TimeSpan timeout, CancellationToken cancellationToken)
         {
-            _predicate = predicate;
+            _predicates = Unsafe.As<Predicate<TEventArgs>[]>(predicate?.GetInvocationList());
             _tcs = new Tcs<TEventArgs>();
 
             static void CancellationCallback(object tuple)
@@ -37,10 +38,13 @@ namespace Disqord.Extensions.Interactivity
         {
             try
             {
-                if (_predicate != null)
+                if (_predicates != null)
                 {
-                    if (!_predicate(e))
-                        return false;
+                    foreach (var predicate in _predicates)
+                    {
+                        if (!predicate(e))
+                            return false;
+                    }
                 }
             }
             catch (Exception ex)

@@ -23,13 +23,13 @@ namespace Disqord.Extensions.Interactivity
         public static Task<MessageReceivedEventArgs> WaitForMessageAsync(this IMessageChannel channel, Predicate<MessageReceivedEventArgs> predicate = null, TimeSpan timeout = default, CancellationToken cancellationToken = default)
         {
             var extension = channel.GetDiscordClient().GetInteractivity();
-            return extension.WaitForMessageAsync(channel.Id, predicate, timeout, cancellationToken);
+            return extension.WaitForMessageAsync(channel.Id, predicate + (e => e.ChannelId == channel.Id), timeout, cancellationToken);
         }
 
         public static Task<ReactionAddedEventArgs> WaitForReactionAsync(this IMessage message, Predicate<ReactionAddedEventArgs> predicate = null, TimeSpan timeout = default, CancellationToken cancellationToken = default)
         {
             var extension = message.GetDiscordClient().GetInteractivity();
-            return extension.WaitForReactionAsync(message.Id, predicate, timeout, cancellationToken);
+            return extension.WaitForReactionAsync(message.Id, predicate + (e => e.MessageId == message.Id), timeout, cancellationToken);
         }
     }
 }
