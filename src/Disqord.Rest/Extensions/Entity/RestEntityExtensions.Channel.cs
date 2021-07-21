@@ -211,7 +211,6 @@ namespace Disqord.Rest
         /*
         * Threads
         */
-
         public static Task<IThreadChannel> CreatePublicThreadAsync(this ITextChannel channel, string name, Snowflake? messageId = null, TimeSpan? automaticArchiveDuration = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
