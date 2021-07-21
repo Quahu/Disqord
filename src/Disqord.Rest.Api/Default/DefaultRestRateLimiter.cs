@@ -56,9 +56,8 @@ namespace Disqord.Rest.Api.Default
         /// <inheritdoc/>
         public bool IsRateLimited(FormattedRoute route = null)
         {
-            // TODO: proper global handling
             if (route == null)
-                return false;
+                return _globalResetsAt > DateTimeOffset.UtcNow;
 
             var bucket = GetBucket(route, false);
             if (bucket == null)
