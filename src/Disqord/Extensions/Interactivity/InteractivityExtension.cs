@@ -174,11 +174,7 @@ namespace Disqord.Extensions.Interactivity
 
         private async ValueTask MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {
-            if (e.Message.Author.IsBot)
-                return;
-
             await Task.Yield();
-
             CompleteWaiters(_messageWaiters, e.ChannelId, e);
         }
 
@@ -189,11 +185,7 @@ namespace Disqord.Extensions.Interactivity
 
         private async ValueTask ReactionAddedAsync(object sender, ReactionAddedEventArgs e)
         {
-            if (e.GuildId != null && e.Member.IsBot || e.UserId == Client.CurrentUser.Id)
-                return;
-
             await Task.Yield();
-
             CompleteWaiters(_reactionWaiters, e.MessageId, e);
         }
 
