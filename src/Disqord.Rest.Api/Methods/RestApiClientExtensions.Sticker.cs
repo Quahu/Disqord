@@ -23,7 +23,7 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<StickerJsonModel>(route, null, options);
         }
 
-        public static Task<StickerJsonModel> CreateGuildStickerAsync(this IRestApiClient client, Snowflake guildId, CreateGuildStickerJsonRestRequestContent content, IRestRequestOptions options = null)
+        public static Task<StickerJsonModel> CreateGuildStickerAsync(this IRestApiClient client, Snowflake guildId, CreateGuildStickerMultipartRestRequestContent content, IRestRequestOptions options = null)
         {
             var route = Format(Route.Sticker.CreateGuildSticker, guildId);
             return client.ExecuteAsync<StickerJsonModel>(route, content, options);
