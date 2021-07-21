@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Disqord.Http;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Rest.Api
 {
@@ -27,11 +28,11 @@ namespace Disqord.Rest.Api
         /// <summary>
         ///     Gets or creates the HTTP content from <see cref="Content"/>.
         /// </summary>
-        /// <param name="client"> The parent REST API client. </param>
+        /// <param name="serializer"> The JSON serializer. </param>
         /// <returns>
         ///     The HTTP request content.
         /// </returns>
-        HttpRequestContent GetOrCreateHttpContent(IRestApiClient client);
+        HttpRequestContent GetOrCreateHttpContent(IJsonSerializer serializer);
 
         /// <summary>
         ///     Asynchronously waits for this request to be completed.

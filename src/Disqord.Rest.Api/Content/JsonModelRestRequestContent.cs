@@ -9,8 +9,8 @@ namespace Disqord.Rest.Api
         public JsonModelRestRequestContent()
         { }
 
-        public HttpRequestContent CreateHttpContent(IRestApiClient client, IRestRequestOptions options = null)
-            => FromObject(this, client.Serializer);
+        public HttpRequestContent CreateHttpContent(IJsonSerializer serializer, IRestRequestOptions options = null)
+            => FromObject(this, serializer);
 
         public static HttpRequestContent FromObject(object obj, IJsonSerializer serializer)
         {

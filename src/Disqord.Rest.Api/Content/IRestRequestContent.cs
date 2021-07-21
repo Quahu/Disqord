@@ -1,9 +1,10 @@
 ﻿using Disqord.Http;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Rest.Api
 {
     public interface IRestRequestContent
     {
-        HttpRequestContent CreateHttpContent(IRestApiClient client, IRestRequestOptions options = null);
+        HttpRequestContent CreateHttpContent(IJsonSerializer serializer, IRestRequestOptions options = null);
     }
 }

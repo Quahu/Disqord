@@ -54,7 +54,7 @@ namespace Disqord.Rest.Api.Default
         {
             var method = request.Route.BaseRoute.Method;
             var uri = new Uri(request.Route.Path, UriKind.Relative);
-            var content = request.GetOrCreateHttpContent(ApiClient);
+            var content = request.GetOrCreateHttpContent(ApiClient.Serializer);
             var httpRequest = new DefaultHttpRequest(method, uri, content);
             if (request.Options?.Headers != null)
             {

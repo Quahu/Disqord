@@ -1,4 +1,5 @@
 ﻿using Disqord.Http;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Rest.Api
 {
@@ -11,7 +12,7 @@ namespace Disqord.Rest.Api
             Object = obj;
         }
 
-        public HttpRequestContent CreateHttpContent(IRestApiClient client, IRestRequestOptions options = null)
-            => JsonModelRestRequestContent.FromObject(Object, client.Serializer);
+        public HttpRequestContent CreateHttpContent(IJsonSerializer serializer, IRestRequestOptions options = null)
+            => JsonModelRestRequestContent.FromObject(Object, serializer);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Disqord.Http;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Rest.Api.Default
 {
@@ -32,10 +33,10 @@ namespace Disqord.Rest.Api.Default
             _tcs = new TaskCompletionSource<IRestResponse>(TaskCreationOptions.RunContinuationsAsynchronously);
         }
 
-        public virtual HttpRequestContent GetOrCreateHttpContent(IRestApiClient client)
+        public virtual HttpRequestContent GetOrCreateHttpContent(IJsonSerializer serializer)
         {
             if (HttpContent == null && Content != null)
-                HttpContent = Content.CreateHttpContent(client, Options);
+                HttpContent = Content.CreateHttpContent(serializer, Options);
 
             return HttpContent;
         }
