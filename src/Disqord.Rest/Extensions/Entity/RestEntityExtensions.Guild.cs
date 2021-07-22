@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Disqord.AuditLogs;
-using Disqord.Rest.ActionProperties.Modify;
 using Disqord.Rest.Pagination;
 
 namespace Disqord.Rest

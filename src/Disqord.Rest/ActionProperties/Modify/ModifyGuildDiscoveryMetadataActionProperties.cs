@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Disqord.Rest.ActionProperties.Modify
+namespace Disqord.Rest
 {
     public sealed class ModifyGuildDiscoveryMetadataActionProperties
     {
