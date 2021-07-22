@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Disqord.Rest
+namespace Disqord
 {
     public sealed class ModifyCurrentUserActionProperties
     {
