@@ -10,6 +10,7 @@ namespace Disqord.Rest
     {
         public Optional<bool> IsSuppressed { internal get; set; }
 
-        internal ModifyMemberVoiceStateActionProperties() { }
+        internal ModifyMemberVoiceStateActionProperties() 
+        { }
     }
 }

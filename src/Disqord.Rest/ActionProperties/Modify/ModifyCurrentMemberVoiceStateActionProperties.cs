@@ -10,6 +10,7 @@ namespace Disqord.Rest
     {
         public Optional<DateTimeOffset?> RequestedToSpeakAt { internal get; set; }
 
-        internal ModifyCurrentMemberVoiceStateActionProperties() { }
+        internal ModifyCurrentMemberVoiceStateActionProperties() 
+        { }
     }
 }
