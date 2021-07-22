@@ -10,6 +10,6 @@ namespace Disqord
     {
         public Optional<bool> Suppress { internal get; set; }
 
-        public Optional<DateTimeOffset> RequestToSpeakTimestamp { internal get; set; }
+        public Optional<DateTimeOffset?> RequestToSpeakTimestamp { internal get; set; }
     }
 }
