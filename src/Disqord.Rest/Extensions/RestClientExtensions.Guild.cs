@@ -430,30 +430,33 @@ namespace Disqord.Rest
             return new TransientGuildPreview(client, model);
         }
 
-        public static Task ModifyCurrentVoiceStateAsync(this IRestClient client, Snowflake guildId, Snowflake channelId, Action<ModifyCurrentVoiceStateActionProperties> action, IRestRequestOptions options = null)
+        public static Task ModifyCurrentMemberVoiceStateAsync(this IRestClient client, Snowflake guildId, Snowflake channelId, Action<ModifyCurrentMemberVoiceStateActionProperties> action, IRestRequestOptions options = null)
         {
-            var properties = new ModifyCurrentVoiceStateActionProperties();
+            var properties = new ModifyCurrentMemberVoiceStateActionProperties();
             action(properties);
 
-            var content = new ModifyCurrentUserVoiceStateJsonRestRequestContent
+            var content = new ModifyCurrentMemberVoiceStateJsonRestRequestContent
             {
                 ChannelId = channelId,
-                Suppress = properties.Suppress,
-                RequestToSpeakTimestamp = properties.RequestToSpeakTimestamp
+                Suppress = properties.IsSuppressed,
+                RequestToSpeakTimestamp = properties.RequestedToSpeakAt
             };
 
-            return client.ApiClient.ModifyCurrentUserVoiceStateAsync(guildId, content, options);
+            return client.ApiClient.ModifyCurrentMemberVoiceStateAsync(guildId, content, options);
         }
 
-        public static Task ModifyVoiceStateAsync(this IRestClient client, Snowflake guildId, Snowflake userId, Snowflake channelId, bool? suppress = null, IRestRequestOptions options = null)
+        public static Task ModifyMemberVoiceStateAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, Snowflake channelId, Action<ModifyMemberVoiceStateActionProperties> action, IRestRequestOptions options = null)
         {
-            var content = new ModifyUserVoiceStateJsonRestRequestContent
+            var properties = new ModifyMemberVoiceStateActionProperties();
+            action(properties);
+
+            var content = new ModifyMemberVoiceStateJsonRestRequestContent
             {
                 ChannelId = channelId,
-                Suppress = Optional.FromNullable(suppress),
+                Suppress = properties.IsSuppressed,
             };
 
-            return client.ApiClient.ModifyUserVoiceStateAsync(guildId, userId, content, options);
+            return client.ApiClient.ModifyMemberVoiceStateAsync(guildId, memberId, content, options);
         }
     }
 }

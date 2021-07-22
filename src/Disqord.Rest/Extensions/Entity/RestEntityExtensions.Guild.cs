@@ -356,16 +356,16 @@ namespace Disqord.Rest
         /*
          * Voice State
         */
-        public static Task ModifyCurrentVoiceStateAsync(this IGuild guild, Snowflake channelId, Action<ModifyCurrentVoiceStateActionProperties> action, IRestRequestOptions options = null)
+        public static Task ModifyCurrentMemberVoiceStateAsync(this IGuild guild, Snowflake channelId, Action<ModifyCurrentMemberVoiceStateActionProperties> action, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
-            return client.ModifyCurrentVoiceStateAsync(guild.Id, channelId, action, options);
+            return client.ModifyCurrentMemberVoiceStateAsync(guild.Id, channelId, action, options);
         }
 
-        public static Task ModifyVoiceStateAsync(this IGuild guild, Snowflake userId, Snowflake channelId, bool? suppress = null, IRestRequestOptions options = null)
+        public static Task ModifyMemberVoiceStateAsync(this IGuild guild, Snowflake memberId, Snowflake channelId, Action<ModifyMemberVoiceStateActionProperties> action, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
-            return client.ModifyVoiceStateAsync(guild.Id, userId, channelId, suppress, options);
+            return client.ModifyMemberVoiceStateAsync(guild.Id, memberId, channelId, action, options);
         }
     }
 }

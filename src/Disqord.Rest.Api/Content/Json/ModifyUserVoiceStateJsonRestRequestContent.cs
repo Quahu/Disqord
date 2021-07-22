@@ -2,12 +2,12 @@
 
 namespace Disqord.Rest.Api
 {
-    public class ModifyUserVoiceStateJsonRestRequestContent : JsonModelRestRequestContent
+    public class ModifyMemberVoiceStateJsonRestRequestContent : JsonModelRestRequestContent
     {
         [JsonProperty("channel_id")]
         public Snowflake ChannelId;
 
-        [JsonProperty("suppress", NullValueHandling.Ignore)]
+        [JsonProperty("suppress")]
         public Optional<bool> Suppress;
     }
 }

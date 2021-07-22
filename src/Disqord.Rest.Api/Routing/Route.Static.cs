@@ -204,9 +204,9 @@ namespace Disqord.Rest.Api
 
             public static readonly Route ModifyWelcomeScreen = Patch("guilds/{0:guild_id}/welcome-screen");
 
-            public static readonly Route ModifyCurrentUserVoiceState = Patch("guilds/{0:guild_id}/voice-states/@me");
+            public static readonly Route ModifyCurrentMemberVoiceState = Patch("guilds/{0:guild_id}/voice-states/@me");
 
-            public static readonly Route ModifyUserVoiceState = Patch("guilds/{0:guild_id}/voice-states/{1:user_id}");
+            public static readonly Route ModifyMemberVoiceState = Patch("guilds/{0:guild_id}/voice-states/{1:user_id}");
         }
 
         public static class Invite

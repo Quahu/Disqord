@@ -3,9 +3,9 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Rest.Api
 {
-    public class ModifyCurrentUserVoiceStateJsonRestRequestContent : ModifyUserVoiceStateJsonRestRequestContent
+    public class ModifyCurrentMemberVoiceStateJsonRestRequestContent : ModifyMemberVoiceStateJsonRestRequestContent
     {
-        [JsonProperty("request_to_speak_timestamp", NullValueHandling.Ignore)]
+        [JsonProperty("request_to_speak_timestamp")]
         public Optional<DateTimeOffset?> RequestToSpeakTimestamp;
     }
 }
