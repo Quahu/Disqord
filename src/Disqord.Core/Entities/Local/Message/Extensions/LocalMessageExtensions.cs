@@ -9,14 +9,14 @@
             return message;
         }
 
-        public static TMessage WithReply<TMessage>(this TMessage message, Snowflake messageId, Snowflake? channelId = null, Snowflake? guildId = null, bool failOnInvalid = false)
+        public static TMessage WithReply<TMessage>(this TMessage message, Snowflake messageId, Snowflake? channelId = null, Snowflake? guildId = null, bool failOnUnknownMessage = false)
             where TMessage : LocalMessage
         {
             var reference = message.Reference ??= new LocalMessageReference();
             reference.MessageId = messageId;
             reference.ChannelId = channelId;
             reference.GuildId = guildId;
-            reference.FailOnInvalid = failOnInvalid;
+            reference.FailOnUnknownMessage = failOnUnknownMessage;
             return message;
         }
 

@@ -8,7 +8,7 @@
                 MessageId = reference.MessageId,
                 ChannelId = Optional.FromNullable(reference.ChannelId),
                 GuildId = Optional.FromNullable(reference.GuildId),
-                FailIfNotExists = reference.FailOnInvalid
+                FailIfNotExists = reference.FailOnUnknownMessage
             };
     }
 }

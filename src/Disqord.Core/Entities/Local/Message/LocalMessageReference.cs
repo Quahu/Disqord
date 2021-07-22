@@ -10,7 +10,13 @@ namespace Disqord
 
         public Snowflake? GuildId { get; set; }
 
-        public bool FailOnInvalid { get; set; }
+        /// <summary>
+        ///     Gets or sets whether the message request should fail if the message is not found.
+        /// </summary>
+        /// <remarks>
+        ///     This does not prevent errors on invalid <see cref="ChannelId"/> and/or <see cref="GuildId"/>.
+        /// </remarks>
+        public bool FailOnUnknownMessage { get; set; }
 
         public LocalMessageReference()
         { }
@@ -33,9 +39,9 @@ namespace Disqord
             return this;
         }
 
-        public LocalMessageReference WithFailOnInvalid(bool failOnInvalid = true)
+        public LocalMessageReference WithFailOnUnknownMessage(bool failOnUnknownMessage = true)
         {
-            FailOnInvalid = failOnInvalid;
+            FailOnUnknownMessage = failOnUnknownMessage;
             return this;
         }
 
