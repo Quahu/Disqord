@@ -352,5 +352,20 @@ namespace Disqord.Rest
             var client = guild.GetRestClient();
             return client.DeleteGuildStickerAsync(guild.Id, stickerId, options);
         }
+
+        /*
+         * Voice State
+        */
+        public static Task ModifyCurrentMemberVoiceStateAsync(this IGuild guild, Snowflake channelId, Action<ModifyCurrentMemberVoiceStateActionProperties> action, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyCurrentMemberVoiceStateAsync(guild.Id, channelId, action, options);
+        }
+
+        public static Task ModifyMemberVoiceStateAsync(this IGuild guild, Snowflake memberId, Snowflake channelId, Action<ModifyMemberVoiceStateActionProperties> action, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyMemberVoiceStateAsync(guild.Id, memberId, channelId, action, options);
+        }
     }
 }

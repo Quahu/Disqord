@@ -429,5 +429,34 @@ namespace Disqord.Rest
             var model = await client.ApiClient.FetchGuildPreviewAsync(guildId, options).ConfigureAwait(false);
             return new TransientGuildPreview(client, model);
         }
+
+        public static Task ModifyCurrentMemberVoiceStateAsync(this IRestClient client, Snowflake guildId, Snowflake channelId, Action<ModifyCurrentMemberVoiceStateActionProperties> action, IRestRequestOptions options = null)
+        {
+            var properties = new ModifyCurrentMemberVoiceStateActionProperties();
+            action(properties);
+
+            var content = new ModifyCurrentMemberVoiceStateJsonRestRequestContent
+            {
+                ChannelId = channelId,
+                Suppress = properties.IsSuppressed,
+                RequestToSpeakTimestamp = properties.RequestedToSpeakAt
+            };
+
+            return client.ApiClient.ModifyCurrentMemberVoiceStateAsync(guildId, content, options);
+        }
+
+        public static Task ModifyMemberVoiceStateAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, Snowflake channelId, Action<ModifyMemberVoiceStateActionProperties> action, IRestRequestOptions options = null)
+        {
+            var properties = new ModifyMemberVoiceStateActionProperties();
+            action(properties);
+
+            var content = new ModifyMemberVoiceStateJsonRestRequestContent
+            {
+                ChannelId = channelId,
+                Suppress = properties.IsSuppressed,
+            };
+
+            return client.ApiClient.ModifyMemberVoiceStateAsync(guildId, memberId, content, options);
+        }
     }
 }

@@ -285,5 +285,17 @@ namespace Disqord.Rest.Api
             var route = Format(Route.Guild.GetVanityUrl, guildId);
             return client.ExecuteAsync<InviteJsonModel>(route, null, options);
         }
+
+        public static Task ModifyCurrentMemberVoiceStateAsync(this IRestApiClient client, Snowflake guildId, ModifyCurrentMemberVoiceStateJsonRestRequestContent content, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.ModifyCurrentMemberVoiceState, guildId);
+            return client.ExecuteAsync(route, content, options);
+        }
+
+        public static Task ModifyMemberVoiceStateAsync(this IRestApiClient client, Snowflake guildId, Snowflake memberId, ModifyMemberVoiceStateJsonRestRequestContent content, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.ModifyMemberVoiceState, guildId, memberId);
+            return client.ExecuteAsync(route, content, options);
+        }
     }
 }
