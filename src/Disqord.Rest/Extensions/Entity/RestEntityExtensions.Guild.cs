@@ -356,7 +356,6 @@ namespace Disqord.Rest
         /*
          * Voice State
         */
-
         public static Task ModifyCurrentVoiceStateAsync(this IGuild guild, Snowflake channelId, Action<ModifyCurrentVoiceStateActionProperties> action, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
