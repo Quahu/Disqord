@@ -2,6 +2,6 @@
 {
     public class DefaultRestRequesterConfiguration
     {
-        public virtual int Version { get; set; } = 8;
+        public virtual int Version { get; set; } = Library.Constants.RestApiVersion;
     }
 }

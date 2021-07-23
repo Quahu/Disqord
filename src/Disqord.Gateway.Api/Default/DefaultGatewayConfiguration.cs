@@ -6,7 +6,7 @@
         ///     Gets or sets the Discord gateway API version the <see cref="DefaultGateway"/> will use.
         ///     Defaults to <c>8</c>.
         /// </summary>
-        public virtual int Version { get; set; } = 8;
+        public virtual int Version { get; set; } = Library.Constants.GatewayApiVersion;
 
         /// <summary>
         ///     Gets or sets whether the Discord gateway should send ZLib compressed payloads.

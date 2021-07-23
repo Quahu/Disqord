@@ -46,7 +46,7 @@ namespace Disqord.Gateway.Default
         private bool _loggedUnknownWarning;
         private readonly SynchronizedHashSet<string> _unknownDispatches = new();
 
-        private readonly SynchronizedDictionary<string, Handler> _handlers;
+        private readonly ISynchronizedDictionary<string, Handler> _handlers;
         private readonly Binder<IGatewayClient> _binder;
 
         public DefaultGatewayDispatcher(
