@@ -4,7 +4,7 @@
     {
         /// <summary>
         ///     Gets or sets the Discord gateway API version the <see cref="DefaultGateway"/> will use.
-        ///     Defaults to <c>8</c>.
+        ///     Defaults to <see cref="Library.Constants.GatewayApiVersion"/>.
         /// </summary>
         public virtual int Version { get; set; } = Library.Constants.GatewayApiVersion;
 
