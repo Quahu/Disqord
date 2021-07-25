@@ -160,7 +160,6 @@ namespace Disqord.Rest
             return models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x));
         }
 
-
         public static async Task<IMember> FetchMemberAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, IRestRequestOptions options = null)
         {
             try
