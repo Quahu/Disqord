@@ -153,6 +153,14 @@ namespace Disqord.Rest
             return client.ApiClient.ReorderGuildChannelsAsync(guildId, content, options);
         }
 
+        public static async Task<IReadOnlyList<IThreadChannel>> FetchActiveThreadsAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null) 
+        { 
+            var model = await client.ApiClient.FetchActiveThreadsAsync(guildId, options).ConfigureAwait(false);
+            var models = MatchThreadsToMembers(model);
+            return models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x));
+        }
+
+
         public static async Task<IMember> FetchMemberAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, IRestRequestOptions options = null)
         {
             try

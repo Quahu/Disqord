@@ -245,12 +245,6 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<ThreadMemberJsonModel[]>(route, null, options);
         }
 
-        public static Task<ThreadListJsonModel> FetchActiveThreadsAsync(this IRestApiClient client, Snowflake channelId, IRestRequestOptions options = null)
-        {
-            var route = Format(Route.Channel.ListActiveThreads, channelId);
-            return client.ExecuteAsync<ThreadListJsonModel>(route, null, options);
-        }
-
         public static Task<ThreadListJsonModel> FetchPublicArchivedThreadsAsync(this IRestApiClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             if (limit < 1 || limit > 100)

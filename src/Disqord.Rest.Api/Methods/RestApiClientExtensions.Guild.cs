@@ -58,6 +58,12 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync(route, content, options);
         }
 
+        public static Task<ThreadListJsonModel> FetchActiveThreadsAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Guild.ListActiveThreads, guildId);
+            return client.ExecuteAsync<ThreadListJsonModel>(route, null, options);
+        }
+
         public static Task<MemberJsonModel> FetchMemberAsync(this IRestApiClient client, Snowflake guildId, Snowflake memberId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Guild.GetMember, guildId, memberId);

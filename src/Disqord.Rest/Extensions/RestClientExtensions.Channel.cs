@@ -463,12 +463,6 @@ namespace Disqord.Rest
             return model.Threads;
         }
 
-        public static async Task<IReadOnlyList<IThreadChannel>> FetchActiveThreadsAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null)
-        {
-            var model = await client.ApiClient.FetchActiveThreadsAsync(channelId, options).ConfigureAwait(false);
-            return model.Threads.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x));
-        }
-
         public static IPagedEnumerable<IThreadChannel> EnumeratePublicArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
             => new PagedEnumerable<IThreadChannel>(new FetchArchivedThreadsPagedEnumerator(client, channelId, limit, startFromDate, true, options));
 

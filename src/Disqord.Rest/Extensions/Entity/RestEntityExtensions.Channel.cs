@@ -253,12 +253,6 @@ namespace Disqord.Rest
             return client.FetchThreadMembersAsync(thread.Id, options);
         }
 
-        public static Task<IReadOnlyList<IThreadChannel>> FetchActiveThreadsAsync(this ITextChannel channel, IRestRequestOptions options = null)
-        {
-            var client = channel.GetRestClient();
-            return client.FetchActiveThreadsAsync(channel.Id, options);
-        }
-        
         public static IPagedEnumerable<IThreadChannel> EnumeratePublicArchivedThreads(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();

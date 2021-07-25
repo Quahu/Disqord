@@ -79,8 +79,6 @@ namespace Disqord.Rest.Api
 
             public static readonly Route ListThreadMembers = Get("channels/{0:channel_id}/thread-members");
 
-            public static readonly Route ListActiveThreads = Get("channels/{0:channel_id}/threads/active");
-
             public static readonly Route ListPublicArchivedThreads = Get("channels/{0:channel_id}/threads/archived/public");
 
             public static readonly Route ListPrivateArchivedThreads = Get("channels/{0:channel_id}/threads/archived/private");
@@ -135,6 +133,8 @@ namespace Disqord.Rest.Api
             public static readonly Route CreateChannel = Post("guilds/{0:guild_id}/channels");
 
             public static readonly Route ReorderChannels = Patch("guilds/{0:guild_id}/channels");
+
+            public static readonly Route ListActiveThreads = Get("guilds/{0:guild_id}/threads/active");
 
             public static readonly Route GetMember = Get("guilds/{0:guild_id}/members/{1:user_id}");
 
