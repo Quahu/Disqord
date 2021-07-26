@@ -61,7 +61,7 @@ namespace Disqord
                     permissions += overwrite.Permissions.Allowed;
                 }
 
-                if (!permissions.ViewChannel)
+                if (!permissions.ViewChannels)
                     return ChannelPermissions.None;
 
                 if (channel is ITextChannel && !permissions.SendMessages)
