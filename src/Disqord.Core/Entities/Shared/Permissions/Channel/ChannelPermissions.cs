@@ -28,7 +28,7 @@ namespace Disqord
 
         public bool Stream => Discord.Permissions.HasFlag(RawValue, Permission.Stream);
 
-        public bool ViewChannel => Discord.Permissions.HasFlag(RawValue, Permission.ViewChannels);
+        public bool ViewChannels => Discord.Permissions.HasFlag(RawValue, Permission.ViewChannels);
 
         public bool SendMessages => Discord.Permissions.HasFlag(RawValue, Permission.SendMessages);
 
