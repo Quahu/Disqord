@@ -72,7 +72,7 @@ namespace Disqord
 
         public string BannerHash => Model.Banner;
 
-        public BoostTier BoostTier => Model.PremiumTier;
+        public GuildBoostTier BoostTier => Model.PremiumTier;
 
         public int? BoostingMemberCount => Model.PremiumSubscriptionCount.GetValueOrNullable();
 

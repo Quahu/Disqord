@@ -96,7 +96,7 @@ namespace Disqord.Models
         public string Banner;
 
         [JsonProperty("premium_tier")]
-        public BoostTier PremiumTier;
+        public GuildBoostTier PremiumTier;
 
         [JsonProperty("premium_subscription_count")]
         public Optional<int> PremiumSubscriptionCount;

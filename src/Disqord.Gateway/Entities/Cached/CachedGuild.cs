@@ -73,7 +73,7 @@ namespace Disqord.Gateway
 
         public string BannerHash { get; private set; }
 
-        public BoostTier BoostTier { get; private set; }
+        public GuildBoostTier BoostTier { get; private set; }
 
         public int? BoostingMemberCount { get; private set; }
 

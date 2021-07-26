@@ -137,9 +137,9 @@ namespace Disqord
         string BannerHash { get; }
 
         /// <summary>
-        ///     Gets the <see cref="Disqord.BoostTier"/> of this guild.
+        ///     Gets the <see cref="Disqord.GuildBoostTier"/> of this guild.
         /// </summary>
-        BoostTier BoostTier { get; }
+        GuildBoostTier BoostTier { get; }
 
         /// <summary>
         ///     Gets the amount of boosting members of this guild.
