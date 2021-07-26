@@ -4,6 +4,8 @@ using System.Threading;
 using Disqord.Extensions.Interactivity.Menus;
 using Disqord.Extensions.Interactivity.Menus.Paged;
 using Disqord.Rest;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Qmmands;
 
 namespace Disqord.Bot
@@ -11,6 +13,26 @@ namespace Disqord.Bot
     public abstract class DiscordModuleBase<T> : ModuleBase<T>
         where T : DiscordCommandContext
     {
+        /// <summary>
+        ///     Gets a logger for the command currently being executed.
+        ///     Returns <see langword="null"/> if accessed before execution.
+        /// </summary>
+        protected virtual ILogger Logger
+        {
+            get
+            {
+                if (_logger != null || Context == null)
+                    return _logger;
+
+                return _logger = Context.Services.GetRequiredService<ILoggerFactory>().CreateLogger($"Command '{Context.Command.Name}'");
+            }
+            set => _logger = value;
+        }
+        private ILogger _logger;
+
+        /// <inheritdoc cref="DiscordCommandContext.Bot"/>
+        protected virtual DiscordBotBase Bot => Context.Bot;
+
         /// <summary>
         ///     Gets the <see cref="DiscordCommandContext.Bot"/>'s stopping token.
         /// </summary>
@@ -20,6 +42,12 @@ namespace Disqord.Bot
         ///     Gets a new instance of <see cref="DefaultRestRequestOptions"/> configured with the <see cref="StoppingToken"/>.
         /// </summary>
         protected virtual IRestRequestOptions RequestOptions => new DefaultRestRequestOptions().WithCancellation(StoppingToken);
+
+        /// <summary>
+        ///     Initializes a new <see cref="DiscordModuleBase"/>.
+        /// </summary>
+        protected DiscordModuleBase()
+        { }
 
         /// <summary>
         ///     Returns a result that will reply to the context message with the specified content.
