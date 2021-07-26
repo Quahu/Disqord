@@ -1,5 +1,4 @@
-﻿using Disqord.Rest;
-using Disqord.Serialization.Json;
+﻿using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {

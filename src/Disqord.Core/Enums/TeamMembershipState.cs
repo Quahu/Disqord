@@ -1,4 +1,4 @@
-﻿namespace Disqord.Rest
+﻿namespace Disqord
 {
     public enum TeamMembershipState : byte
     {

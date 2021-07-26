@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Disqord.Models;
-using Disqord.Rest;
 
 namespace Disqord
 {
