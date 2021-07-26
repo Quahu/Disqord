@@ -12,7 +12,7 @@
             // utility
             var raw = channelPermissions.RawValue; // ulong
             raw = channelPermissions;
-            var canViewChannel = channelPermissions.ViewChannel;
+            var canViewChannel = channelPermissions.ViewChannels;
             // or Has()
             canViewChannel = channelPermissions.Has(Permission.ViewChannels);
             // or stdlib HasFlag()
