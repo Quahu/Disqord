@@ -18,7 +18,7 @@ namespace Disqord
 
         public static ChannelPermissions None => 0;
 
-        public bool CreateInstantInvite => Discord.Permissions.HasFlag(RawValue, Permission.CreateInstantInvite);
+        public bool CreateInvites => Discord.Permissions.HasFlag(RawValue, Permission.CreateInvites);
 
         public bool ManageChannels => Discord.Permissions.HasFlag(RawValue, Permission.ManageChannels);
 
@@ -28,7 +28,7 @@ namespace Disqord
 
         public bool Stream => Discord.Permissions.HasFlag(RawValue, Permission.Stream);
 
-        public bool ViewChannel => Discord.Permissions.HasFlag(RawValue, Permission.ViewChannel);
+        public bool ViewChannel => Discord.Permissions.HasFlag(RawValue, Permission.ViewChannels);
 
         public bool SendMessages => Discord.Permissions.HasFlag(RawValue, Permission.SendMessages);
 
@@ -36,9 +36,9 @@ namespace Disqord
 
         public bool ManageMessages => Discord.Permissions.HasFlag(RawValue, Permission.ManageMessages);
 
-        public bool EmbedLinks => Discord.Permissions.HasFlag(RawValue, Permission.EmbedLinks);
+        public bool SendEmbeds => Discord.Permissions.HasFlag(RawValue, Permission.SendEmbeds);
 
-        public bool AttachFiles => Discord.Permissions.HasFlag(RawValue, Permission.AttachFiles);
+        public bool SendAttachments => Discord.Permissions.HasFlag(RawValue, Permission.SendAttachments);
 
         public bool ReadMessageHistory => Discord.Permissions.HasFlag(RawValue, Permission.ReadMessageHistory);
 

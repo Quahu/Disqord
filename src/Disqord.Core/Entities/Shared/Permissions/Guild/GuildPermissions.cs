@@ -12,7 +12,7 @@ namespace Disqord
 
         public static GuildPermissions None => 0;
 
-        public bool CreateInstantInvite => Discord.Permissions.HasFlag(RawValue, Permission.CreateInstantInvite);
+        public bool CreateInvites => Discord.Permissions.HasFlag(RawValue, Permission.CreateInvites);
 
         public bool KickMembers => Discord.Permissions.HasFlag(RawValue, Permission.KickMembers);
 
@@ -32,7 +32,7 @@ namespace Disqord
 
         public bool Stream => Discord.Permissions.HasFlag(RawValue, Permission.Stream);
 
-        public bool ViewChannel => Discord.Permissions.HasFlag(RawValue, Permission.ViewChannel);
+        public bool ViewChannels => Discord.Permissions.HasFlag(RawValue, Permission.ViewChannels);
 
         public bool SendMessages => Discord.Permissions.HasFlag(RawValue, Permission.SendMessages);
 
@@ -40,9 +40,9 @@ namespace Disqord
 
         public bool ManageMessages => Discord.Permissions.HasFlag(RawValue, Permission.ManageMessages);
 
-        public bool EmbedLinks => Discord.Permissions.HasFlag(RawValue, Permission.EmbedLinks);
+        public bool SendEmbeds => Discord.Permissions.HasFlag(RawValue, Permission.SendEmbeds);
 
-        public bool AttachFiles => Discord.Permissions.HasFlag(RawValue, Permission.AttachFiles);
+        public bool SendAttachments => Discord.Permissions.HasFlag(RawValue, Permission.SendAttachments);
 
         public bool ReadMessageHistory => Discord.Permissions.HasFlag(RawValue, Permission.ReadMessageHistory);
 
@@ -64,15 +64,15 @@ namespace Disqord
 
         public bool UseVad => Discord.Permissions.HasFlag(RawValue, Permission.UseVad);
 
-        public bool ChangeNickname => Discord.Permissions.HasFlag(RawValue, Permission.ChangeNickname);
+        public bool SetNick => Discord.Permissions.HasFlag(RawValue, Permission.SetNick);
 
-        public bool ManageNicknames => Discord.Permissions.HasFlag(RawValue, Permission.ManageNicknames);
+        public bool ManageNicks => Discord.Permissions.HasFlag(RawValue, Permission.ManageNicks);
 
         public bool ManageRoles => Discord.Permissions.HasFlag(RawValue, Permission.ManageRoles);
 
         public bool ManageWebhooks => Discord.Permissions.HasFlag(RawValue, Permission.ManageWebhooks);
 
-        public bool ManageEmojis => Discord.Permissions.HasFlag(RawValue, Permission.ManageEmojisAndStickers);
+        public bool ManageEmojisAndStickers => Discord.Permissions.HasFlag(RawValue, Permission.ManageEmojisAndStickers);
 
         public bool UseSlashCommands => Discord.Permissions.HasFlag(RawValue, Permission.UseSlashCommands);
 

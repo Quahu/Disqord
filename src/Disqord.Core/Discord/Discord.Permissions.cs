@@ -66,8 +66,8 @@ namespace Disqord
 
                 if (channel is ITextChannel && !permissions.SendMessages)
                 {
-                    permissions -= Permission.AttachFiles |
-                        Permission.EmbedLinks |
+                    permissions -= Permission.SendAttachments |
+                        Permission.SendEmbeds |
                         Permission.MentionEveryone |
                         Permission.UseTextToSpeech;
                 }

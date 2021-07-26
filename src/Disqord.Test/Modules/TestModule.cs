@@ -102,7 +102,7 @@ namespace Disqord.Test
             var random = new Random();
             var number = random.Next(0, 10).ToString();
             await Response($"Send dis: {number}");
-            var e = await Context.WaitForMessageAsync(x => x.Message.Author.Id == Context.Author.Id && x.Message.Content == number);
+            var e = await Context.WaitForMessageAsync(x => x.Message.Content == number);
             return Response(e != null
                 ? "Correct!!!"
                 : "You didn't say anything...");

@@ -5,8 +5,8 @@
         void Code()
         {
             // these are all the same
-            ChannelPermissions channelPermissions = new ChannelPermissions(Permission.ViewChannel | Permission.SendMessages);
-            channelPermissions = Permission.ViewChannel | Permission.SendMessages;
+            ChannelPermissions channelPermissions = new ChannelPermissions(Permission.ViewChannels | Permission.SendMessages);
+            channelPermissions = Permission.ViewChannels | Permission.SendMessages;
             channelPermissions = 3072; // view channel and send messages (raw)
 
             // utility
@@ -14,9 +14,9 @@
             raw = channelPermissions;
             var canViewChannel = channelPermissions.ViewChannel;
             // or Has()
-            canViewChannel = channelPermissions.Has(Permission.ViewChannel);
+            canViewChannel = channelPermissions.Has(Permission.ViewChannels);
             // or stdlib HasFlag()
-            channelPermissions.Permissions.HasFlag(Permission.ViewChannel);
+            channelPermissions.Permissions.HasFlag(Permission.ViewChannels);
             foreach (Permission permission in channelPermissions)
             {
                 // enumerates all flags
@@ -30,13 +30,13 @@
             overwritePermissions = (0, 3072);
 
             // utility
-            overwritePermissions = overwritePermissions.Allow(Permission.AttachFiles)
+            overwritePermissions = overwritePermissions.Allow(Permission.SendAttachments)
                 .Deny(Permission.UseTextToSpeech)
-                .Unset(Permission.ViewChannel);
+                .Unset(Permission.ViewChannels);
             // or
-            overwritePermissions += Permission.AttachFiles;
+            overwritePermissions += Permission.SendAttachments;
             overwritePermissions -= Permission.UseTextToSpeech;
-            overwritePermissions /= Permission.ViewChannel;
+            overwritePermissions /= Permission.ViewChannels;
         }
     }
 }
