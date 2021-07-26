@@ -3,6 +3,9 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
+    /// <summary>
+    ///     Specifies that the module or command can only be executed in private (e.g. direct) channels.
+    /// </summary>
     public class RequirePrivateAttribute : DiscordCheckAttribute
     {
         public RequirePrivateAttribute()

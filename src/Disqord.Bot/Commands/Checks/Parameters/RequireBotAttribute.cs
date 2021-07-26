@@ -4,6 +4,9 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
+    /// <summary>
+    ///     Specifies that the <see cref="IUser"/> parameter must be a bot.
+    /// </summary>
     public class RequireBotAttribute : DiscordParameterCheckAttribute
     {
         public override bool CheckType(Type type)

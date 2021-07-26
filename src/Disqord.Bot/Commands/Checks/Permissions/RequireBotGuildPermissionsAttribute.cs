@@ -4,6 +4,9 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
+    /// <summary>
+    ///     Specifies that the module or command can only be executed if the bot has given guild permissions.
+    /// </summary>
     public class RequireBotGuildPermissionsAttribute : DiscordGuildCheckAttribute
     {
         public GuildPermissions Permissions { get; }

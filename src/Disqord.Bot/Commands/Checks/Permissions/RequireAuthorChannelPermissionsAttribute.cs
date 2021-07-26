@@ -4,6 +4,9 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
+    /// <summary>
+    ///     Specifies that the module or command can only be executed by authors with the given channel permissions.
+    /// </summary>
     public class RequireAuthorChannelPermissionsAttribute : DiscordGuildCheckAttribute
     {
         public ChannelPermissions Permissions { get; }

@@ -3,6 +3,9 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
+    /// <summary>
+    ///     Specifies that the module or command can only be executed in the given channel.
+    /// </summary>
     public class RequireChannelAttribute : DiscordCheckAttribute
     {
         public Snowflake Id { get; }

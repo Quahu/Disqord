@@ -3,6 +3,10 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
+    /// <summary>
+    ///     Specifies that the module or command can only be executed within a guild.
+    ///     If the <see cref="Id"/> is specified, then execution is limited to the given guild.
+    /// </summary>
     public class RequireGuildAttribute : DiscordGuildCheckAttribute
     {
         public Snowflake? Id { get; }

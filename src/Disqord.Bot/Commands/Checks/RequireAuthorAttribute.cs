@@ -3,6 +3,9 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
+    /// <summary>
+    ///     Specifies that the module or command can only be executed by given author.
+    /// </summary>
     public class RequireAuthorAttribute : DiscordCheckAttribute
     {
         public Snowflake Id { get; }

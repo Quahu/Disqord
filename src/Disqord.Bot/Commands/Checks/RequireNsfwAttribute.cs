@@ -5,6 +5,9 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
+    /// <summary>
+    ///     Specifies that the module or command can only be executed in NSFW guild channels.
+    /// </summary>
     public class RequireNsfwAttribute : DiscordGuildCheckAttribute
     {
         public override ValueTask<CheckResult> CheckAsync(DiscordGuildCommandContext context)

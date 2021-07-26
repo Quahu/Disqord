@@ -4,6 +4,9 @@ using Qmmands;
 
 namespace Disqord.Bot
 {
+    /// <summary>
+    ///     Specifies that the module or command can only be executed if the bot has the given role.
+    /// </summary>
     public class RequireBotRoleAttribute : DiscordGuildCheckAttribute
     {
         public Snowflake Id { get; }
