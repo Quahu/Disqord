@@ -46,17 +46,17 @@
         GuildBoosted,
 
         /// <summary>
-        ///     Represents a system message indicating a member has boosted a guild and it achieved <see cref="BoostTier.First"/>.
+        ///     Represents a system message indicating a member has boosted a guild and it achieved <see cref="GuildBoostTier.First"/>.
         /// </summary>
         GuildBoostedFirstTier,
 
         /// <summary>
-        ///     Represents a system message indicating a member has boosted a guild and it achieved <see cref="BoostTier.Second"/>.
+        ///     Represents a system message indicating a member has boosted a guild and it achieved <see cref="GuildBoostTier.Second"/>.
         /// </summary>
         GuildBoostedSecondTier,
 
         /// <summary>
-        ///     Represents a system message indicating a member has boosted a guild and it achieved <see cref="BoostTier.Third"/>.
+        ///     Represents a system message indicating a member has boosted a guild and it achieved <see cref="GuildBoostTier.Third"/>.
         /// </summary>
         GuildBoostedThirdTier,
 

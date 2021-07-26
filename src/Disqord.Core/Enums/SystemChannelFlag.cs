@@ -9,17 +9,17 @@ namespace Disqord
     public enum SystemChannelFlag
     {
         /// <summary>
-        ///     Suppresses member join notifications.
+        ///     The system channel does not send member join notifications.
         /// </summary>
         SuppressJoinNotifications = 1 << 0,
 
         /// <summary>
-        ///     Suppresses guild boost notifications.
+        ///     The system channel does not send guild boost notifications.
         /// </summary>
         SuppressBoostNotifications = 1 << 1,
 
         /// <summary>
-        ///     Suppresses guild setup tips.
+        ///     The system channel does not send guild setup tips.
         /// </summary>
         SuppressSetupTips = 1 << 2
     }

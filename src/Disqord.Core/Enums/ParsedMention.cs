@@ -3,7 +3,7 @@
 namespace Disqord
 {
     /// <summary>
-    ///     Represents mention types in a message's content that will be parsed by Discord.
+    ///     Represents the mention types in a message's content that will be parsed by Discord.
     /// </summary>
     [Flags]
     public enum ParsedMention

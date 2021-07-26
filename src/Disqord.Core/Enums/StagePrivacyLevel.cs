@@ -1,7 +1,7 @@
 namespace Disqord
 {
     /// <summary>
-    ///     Represents the privacy level of a stage
+    ///     Represents the privacy level of a stage.
     /// </summary>
     public enum StagePrivacyLevel
     {

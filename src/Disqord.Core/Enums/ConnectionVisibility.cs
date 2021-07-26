@@ -6,12 +6,12 @@
     public enum ConnectionVisibility : byte
     {
         /// <summary>
-        ///     Invisible to everyone except the user themselves.
+        ///     The connection is invisible to everyone except the user themselves.
         /// </summary>
         None = 0,
 
         /// <summary>
-        ///     Visible to everyone.
+        ///     The connection is visible to everyone.
         /// </summary>
         Everyone = 1
     }

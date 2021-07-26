@@ -3,7 +3,7 @@ namespace Disqord
     /// <summary>
     ///     Represents the type of a sticker.
     /// </summary>
-    public enum StickerType
+    public enum StickerType : byte
     {
         /// <summary>
         ///     The sticker belongs to a sticker pack.

@@ -1,22 +1,22 @@
 ﻿namespace Disqord
 {
     /// <summary>
-    ///     Represents the file format of a sticker.
+    ///     Represents the file format type of a sticker.
     /// </summary>
     public enum StickerFormatType : byte
     {
         /// <summary>
-        ///     Represents the PNG file format.
+        ///     The sticker is a PNG.
         /// </summary>
         Png = 1,
 
         /// <summary>
-        ///     Represents the APNG file format.
+        ///     The sticker is an APNG.
         /// </summary>
         APng = 2,
 
         /// <summary>
-        ///     Represents the Lottie file format.
+        ///     The sticker is a Lottie.
         /// </summary>
         Lottie = 3
     }
