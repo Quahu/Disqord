@@ -8,91 +8,91 @@
         /// <summary>
         ///     Represents a system message indicating a recipient has been added to a private channel.
         /// </summary>
-        RecipientAdded,
+        RecipientAdded = 0,
 
         /// <summary>
         ///     Represents a system message indicating a recipient has been removed from a private channel.
         /// </summary>
-        RecipientRemoved,
+        RecipientRemoved = 1,
 
         /// <summary>
         ///     Represents a system message indicating a call has been started or missed.
         /// </summary>
-        Call,
+        Call = 2,
 
         /// <summary>
         ///     Represents a system message indicating the name of a private channel has been changed.
         /// </summary>
-        ChannelNameChanged,
+        ChannelNameChanged = 3,
 
         /// <summary>
         ///     Represents a system message indicating the icon of a private channel has been changed.
         /// </summary>
-        ChannelIconChanged,
+        ChannelIconChanged = 4,
 
         /// <summary>
         ///     Represents a system message indicating a message a channel has been pinned.
         /// </summary>
-        ChannelMessagePinned,
+        ChannelMessagePinned = 5,
 
         /// <summary>
         ///     Represents a system message indicating a new member has joined a guild.
         /// </summary>
-        MemberJoined,
+        MemberJoined = 6,
 
         /// <summary>
         ///     Represents a system message indicating a member has boosted a guild.
         /// </summary>
-        GuildBoosted,
+        GuildBoosted = 7,
 
         /// <summary>
         ///     Represents a system message indicating a member has boosted a guild and it achieved <see cref="GuildBoostTier.First"/>.
         /// </summary>
-        GuildBoostedFirstTier,
+        GuildBoostedFirstTier = 8,
 
         /// <summary>
         ///     Represents a system message indicating a member has boosted a guild and it achieved <see cref="GuildBoostTier.Second"/>.
         /// </summary>
-        GuildBoostedSecondTier,
+        GuildBoostedSecondTier = 9,
 
         /// <summary>
         ///     Represents a system message indicating a member has boosted a guild and it achieved <see cref="GuildBoostTier.Third"/>.
         /// </summary>
-        GuildBoostedThirdTier,
+        GuildBoostedThirdTier = 10,
 
         /// <summary>
         ///     Represents a system message indicating a member has followed another channel.
         /// </summary>
-        ChannelFollowed,
+        ChannelFollowed = 11,
 
         /// <summary>
         ///     Represents a system message indicating a member is streaming.
         /// </summary>
-        GuildStream,
+        GuildStream = 12,
 
         /// <summary>
         ///     Represents a system message indicating the guild is no longer eligible for guild discovery.
         /// </summary>
-        GuildDiscoveryDisqualified,
+        GuildDiscoveryDisqualified = 13,
 
         /// <summary>
-        ///     Represents a system message indicating the guild is once again eligible for guild discovery. 
+        ///     Represents a system message indicating the guild is once again eligible for guild discovery.
         /// </summary>
-        GuildDiscoveryRequalified,
+        GuildDiscoveryRequalified = 14,
 
         /// <summary>
         ///     Represents a system message indicating the guild has not been eligible for guild discovery for a week.
         /// </summary>
-        GuildDiscoveryGracePeriodInitialWarning,
+        GuildDiscoveryGracePeriodInitialWarning = 15,
 
         /// <summary>
         ///     Represents a system message indicating the guild has not been eligible for guild discovery for 3 weeks.
         /// </summary>
-        GuildDiscoveryGracePeriodFinalWarning,
+        GuildDiscoveryGracePeriodFinalWarning = 16,
 
         /// <summary>
         ///     Represents a system message indicating a member has started a thread.
         /// </summary>
-        ThreadCreated
+        ThreadCreated = 17
     }
 }

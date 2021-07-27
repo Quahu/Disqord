@@ -36,7 +36,7 @@ namespace Disqord
         Urgent = 1 << 4,
 
         /// <summary>
-        ///     The message has thread associated with it, with the same ID as the message.
+        ///     The message has a thread associated with it, with the same ID as the message.
         /// </summary>
         HasThread = 1 << 5,
 
