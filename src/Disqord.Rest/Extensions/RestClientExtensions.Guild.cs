@@ -156,7 +156,7 @@ namespace Disqord.Rest
         public static async Task<IReadOnlyList<IThreadChannel>> FetchActiveThreadsAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null) 
         { 
             var model = await client.ApiClient.FetchActiveThreadsAsync(guildId, options).ConfigureAwait(false);
-            var models = MatchThreadsToMembers(model);
+            var models = MatchMembersToThreads(model);
             return models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x));
         }
 

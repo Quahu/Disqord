@@ -451,7 +451,7 @@ namespace Disqord.Rest
             return models.ToReadOnlyList(client, (x, client) => new TransientThreadMember(client, x));
         }
         
-        private static ChannelJsonModel[] MatchThreadsToMembers(ThreadListJsonModel model)
+        private static ChannelJsonModel[] MatchMembersToThreads(ThreadListJsonModel model)
         {
             foreach (var thread in model.Threads)
             {
@@ -481,7 +481,7 @@ namespace Disqord.Rest
         internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPublicArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchPublicArchivedThreadsAsync(channelId, limit, startFromDate, options).ConfigureAwait(false);
-            var models = MatchThreadsToMembers(model);
+            var models = MatchMembersToThreads(model);
             return (model.HasMore, models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x)));
         }
 
@@ -503,7 +503,7 @@ namespace Disqord.Rest
         internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPrivateArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchPrivateArchivedThreadsAsync(channelId, limit, startFromDate, options).ConfigureAwait(false);
-            var models = MatchThreadsToMembers(model);
+            var models = MatchMembersToThreads(model);
             return (model.HasMore, models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x)));
         }
 
@@ -525,7 +525,7 @@ namespace Disqord.Rest
         internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchJoinedPrivateArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchJoinedPrivateArchivedThreadsAsync(channelId, limit, startFromId, options).ConfigureAwait(false);
-            var models = MatchThreadsToMembers(model);
+            var models = MatchMembersToThreads(model);
             return (model.HasMore, models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x)));
         }
     }
