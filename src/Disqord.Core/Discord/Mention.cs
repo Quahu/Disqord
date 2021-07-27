@@ -35,15 +35,15 @@ namespace Disqord
         public static string User(Snowflake id, bool hasNick = false)
             => hasNick ? $"<@!{id}>" : $"<@{id}>";
 
-        public static string TextChannel(ITextChannel channel)
+        public static string Channel(IGuildChannel channel)
         {
             if (channel == null)
                 throw new ArgumentNullException(nameof(channel));
 
-            return TextChannel(channel.Id);
+            return Channel(channel.Id);
         }
 
-        public static string TextChannel(Snowflake id)
+        public static string Channel(Snowflake id)
             => $"<#{id}>";
 
         public static string Role(IRole role)
