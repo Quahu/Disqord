@@ -453,11 +453,11 @@ namespace Disqord.Rest
         
         private static ChannelJsonModel[] MatchMembersToThreads(ThreadListJsonModel model)
         {
-            foreach (var thread in model.Threads)
+            foreach (var threadModel in model.Threads)
             {
-                var member = model.Members.FirstOrDefault(x => x.Id == thread.Id);
-                if (member != null)
-                    thread.Member = member;
+                var memberModel = Array.Find(model.Members, x => x.Id == threadModel.Id);
+                if (memberModel != null)
+                    threadModel.Member = memberModel;
             }
             
             return model.Threads;
