@@ -17,6 +17,21 @@ namespace Disqord.Hosting
         protected internal virtual ValueTask OnChannelDeleted(ChannelDeletedEventArgs e)
             => default;
 
+        protected internal virtual ValueTask OnThreadCreated(ThreadCreatedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnThreadUpdated(ThreadUpdatedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnThreadDeleted(ThreadDeletedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnThreadsSynchronized(ThreadsSynchronizedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnThreadMembersUpdated(ThreadMembersUpdatedEventArgs e)
+            => default;
+
         protected internal virtual ValueTask OnChannelPinsUpdated(ChannelPinsUpdatedEventArgs e)
             => default;
 

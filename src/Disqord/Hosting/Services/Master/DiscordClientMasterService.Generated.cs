@@ -13,6 +13,11 @@ namespace Disqord.Hosting
         public DiscordClientService[] ChannelCreatedServices { get; }
         public DiscordClientService[] ChannelUpdatedServices { get; }
         public DiscordClientService[] ChannelDeletedServices { get; }
+        public DiscordClientService[] ThreadCreatedServices { get; }
+        public DiscordClientService[] ThreadUpdatedServices { get; }
+        public DiscordClientService[] ThreadDeletedServices { get; }
+        public DiscordClientService[] ThreadsSynchronizedServices { get; }
+        public DiscordClientService[] ThreadMembersUpdatedServices { get; }
         public DiscordClientService[] ChannelPinsUpdatedServices { get; }
         public DiscordClientService[] GuildAvailableServices { get; }
         public DiscordClientService[] JoinedGuildServices { get; }
@@ -71,6 +76,11 @@ namespace Disqord.Hosting
             ChannelCreatedServices = GetServices<ChannelCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelCreated));
             ChannelUpdatedServices = GetServices<ChannelUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelUpdated));
             ChannelDeletedServices = GetServices<ChannelDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelDeleted));
+            ThreadCreatedServices = GetServices<ThreadCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnThreadCreated));
+            ThreadUpdatedServices = GetServices<ThreadUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnThreadUpdated));
+            ThreadDeletedServices = GetServices<ThreadDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnThreadDeleted));
+            ThreadsSynchronizedServices = GetServices<ThreadsSynchronizedEventArgs>(servicesArray, nameof(DiscordClientService.OnThreadsSynchronized));
+            ThreadMembersUpdatedServices = GetServices<ThreadMembersUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnThreadMembersUpdated));
             ChannelPinsUpdatedServices = GetServices<ChannelPinsUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelPinsUpdated));
             GuildAvailableServices = GetServices<GuildAvailableEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildAvailable));
             JoinedGuildServices = GetServices<JoinedGuildEventArgs>(servicesArray, nameof(DiscordClientService.OnJoinedGuild));
@@ -115,6 +125,11 @@ namespace Disqord.Hosting
             Client.ChannelCreated += HandleChannelCreated;
             Client.ChannelUpdated += HandleChannelUpdated;
             Client.ChannelDeleted += HandleChannelDeleted;
+            Client.ThreadCreated += HandleThreadCreated;
+            Client.ThreadUpdated += HandleThreadUpdated;
+            Client.ThreadDeleted += HandleThreadDeleted;
+            Client.ThreadsSynchronized += HandleThreadsSynchronized;
+            Client.ThreadMembersUpdated += HandleThreadMembersUpdated;
             Client.ChannelPinsUpdated += HandleChannelPinsUpdated;
             Client.GuildAvailable += HandleGuildAvailable;
             Client.JoinedGuild += HandleJoinedGuild;
@@ -178,6 +193,36 @@ namespace Disqord.Hosting
         {
             foreach (var service in ChannelDeletedServices)
                 await ExecuteAsync((service, e) => service.OnChannelDeleted(e), service, e).ConfigureAwait(false);
+        }
+
+        public async ValueTask HandleThreadCreated(object sender, ThreadCreatedEventArgs e)
+        {
+            foreach (var service in ThreadCreatedServices)
+                await ExecuteAsync((service, e) => service.OnThreadCreated(e), service, e).ConfigureAwait(false);
+        }
+
+        public async ValueTask HandleThreadUpdated(object sender, ThreadUpdatedEventArgs e)
+        {
+            foreach (var service in ThreadUpdatedServices)
+                await ExecuteAsync((service, e) => service.OnThreadUpdated(e), service, e).ConfigureAwait(false);
+        }
+
+        public async ValueTask HandleThreadDeleted(object sender, ThreadDeletedEventArgs e)
+        {
+            foreach (var service in ThreadDeletedServices)
+                await ExecuteAsync((service, e) => service.OnThreadDeleted(e), service, e).ConfigureAwait(false);
+        }
+
+        public async ValueTask HandleThreadsSynchronized(object sender, ThreadsSynchronizedEventArgs e)
+        {
+            foreach (var service in ThreadsSynchronizedServices)
+                await ExecuteAsync((service, e) => service.OnThreadsSynchronized(e), service, e).ConfigureAwait(false);
+        }
+
+        public async ValueTask HandleThreadMembersUpdated(object sender, ThreadMembersUpdatedEventArgs e)
+        {
+            foreach (var service in ThreadMembersUpdatedServices)
+                await ExecuteAsync((service, e) => service.OnThreadMembersUpdated(e), service, e).ConfigureAwait(false);
         }
 
         public async ValueTask HandleChannelPinsUpdated(object sender, ChannelPinsUpdatedEventArgs e)
