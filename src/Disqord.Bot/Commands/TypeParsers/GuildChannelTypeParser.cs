@@ -64,7 +64,7 @@ namespace Disqord.Bot.Parsers
         {
             var type = typeof(TChannel);
             ChannelString = type != typeof(IGuildChannel) && type.IsInterface
-                ? $"{type.Name[1..type.Name.IndexOf("Channel")].ToLower()} channel"
+                ? $"{type.Name[1..type.Name.IndexOf("Channel")].Replace("Guild", "").ToLower()} channel"
                 : "channel";
         }
     }

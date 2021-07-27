@@ -36,9 +36,15 @@ namespace Disqord.Bot
             Commands.AddTypeParser(new CustomEmojiTypeParser());
             Commands.AddTypeParser(new GuildEmojiTypeParser());
             Commands.AddTypeParser(new GuildChannelTypeParser<IGuildChannel>());
+            Commands.AddTypeParser(new GuildChannelTypeParser<ICategorizableGuildChannel>());
+            Commands.AddTypeParser(new GuildChannelTypeParser<IMessageGuildChannel>());
+            Commands.AddTypeParser(new GuildChannelTypeParser<IVocalGuildChannel>());
             Commands.AddTypeParser(new GuildChannelTypeParser<ITextChannel>());
             Commands.AddTypeParser(new GuildChannelTypeParser<IVoiceChannel>());
             Commands.AddTypeParser(new GuildChannelTypeParser<ICategoryChannel>());
+            Commands.AddTypeParser(new GuildChannelTypeParser<IStageChannel>());
+            Commands.AddTypeParser(new GuildChannelTypeParser<IThreadChannel>());
+            Commands.AddTypeParser(new GuildChannelTypeParser<IStoreChannel>());
             Commands.AddTypeParser(new MemberTypeParser());
             Commands.AddTypeParser(new RoleTypeParser());
             return default;
@@ -68,7 +74,7 @@ namespace Disqord.Bot
         public virtual async ValueTask SetupAsync(CancellationToken cancellationToken = default)
         {
             _masterService.Bind(this);
-            
+
             await AddTypeParsersAsync(cancellationToken).ConfigureAwait(false);
             await AddModulesAsync(cancellationToken).ConfigureAwait(false);
         }
