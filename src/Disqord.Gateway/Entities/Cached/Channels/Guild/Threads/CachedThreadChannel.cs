@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Disqord.Gateway.Api.Models;
 using Disqord.Models;
 
 namespace Disqord.Gateway
 {
-    public class CachedThreadChannel : CachedMessageGuildChannel, IThreadChannel
+    public class CachedThreadChannel : CachedMessageGuildChannel, IThreadChannel, IJsonUpdatable<ThreadMembersUpdateJsonModel>, IJsonUpdatable<ThreadMemberJsonModel>
     {
         /// <inheritdoc/>
         public override Snowflake? CategoryId => this.GetChannel()?.CategoryId;
@@ -76,6 +77,30 @@ namespace Disqord.Gateway
                 ArchiveStateChangedAt = metadataModel.ArchiveTimestamp;
                 IsLocked = metadataModel.Locked.GetValueOrDefault();
             }
+        }
+
+        public void Update(ThreadMembersUpdateJsonModel model)
+        {
+            if (model.AddedMembers.HasValue)
+            {
+                var memberModel = Array.Find(model.AddedMembers.Value, x => x.UserId.HasValue && x.UserId.Value == Client.CurrentUser.Id);
+                if (memberModel != null)
+                {
+                    CurrentMember = new TransientThreadMember(Client, memberModel);
+                    return;
+                }
+            }
+
+            if (model.RemovedMemberIds.HasValue)
+            {
+                if (Array.Exists(model.RemovedMemberIds.Value, x => x == Client.CurrentUser.Id))
+                    CurrentMember = null;
+            }
+        }
+
+        public void Update(ThreadMemberJsonModel model)
+        {
+            CurrentMember = new TransientThreadMember(Client, model);
         }
     }
 }

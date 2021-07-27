@@ -21,7 +21,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 channel = TransientGuildChannel.Create(Client, model);
             }
 
-            //  Pass removed messages to e?
+            //  TODO: Pass removed messages to e?
             CacheProvider.TryRemoveCache<CachedUserMessage>(model.Id, out _);
 
             var e = new ChannelDeletedEventArgs(channel);

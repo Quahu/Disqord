@@ -33,6 +33,41 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<ThreadCreatedEventArgs> ThreadCreated
+        {
+            add => GatewayClient.ThreadCreated += value;
+            remove => GatewayClient.ThreadCreated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<ThreadUpdatedEventArgs> ThreadUpdated
+        {
+            add => GatewayClient.ThreadUpdated += value;
+            remove => GatewayClient.ThreadUpdated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<ThreadDeletedEventArgs> ThreadDeleted
+        {
+            add => GatewayClient.ThreadDeleted += value;
+            remove => GatewayClient.ThreadDeleted -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<ThreadsSynchronizedEventArgs> ThreadsSynchronized
+        {
+            add => GatewayClient.ThreadsSynchronized += value;
+            remove => GatewayClient.ThreadsSynchronized -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<ThreadMembersUpdatedEventArgs> ThreadMembersUpdated
+        {
+            add => GatewayClient.ThreadMembersUpdated += value;
+            remove => GatewayClient.ThreadMembersUpdated -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ChannelPinsUpdatedEventArgs> ChannelPinsUpdated
         {
             add => GatewayClient.ChannelPinsUpdated += value;

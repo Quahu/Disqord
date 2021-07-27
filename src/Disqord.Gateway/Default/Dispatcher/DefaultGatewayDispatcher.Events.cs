@@ -12,6 +12,16 @@ namespace Disqord.Gateway.Default
 
         public AsynchronousEvent<ChannelDeletedEventArgs> ChannelDeletedEvent { get; } = new();
 
+        public AsynchronousEvent<ThreadCreatedEventArgs> ThreadCreatedEvent { get; } = new();
+
+        public AsynchronousEvent<ThreadUpdatedEventArgs> ThreadUpdatedEvent { get; } = new();
+
+        public AsynchronousEvent<ThreadDeletedEventArgs> ThreadDeletedEvent { get; } = new();
+
+        public AsynchronousEvent<ThreadsSynchronizedEventArgs> ThreadsSynchronizedEvent { get; } = new();
+
+        public AsynchronousEvent<ThreadMembersUpdatedEventArgs> ThreadMembersUpdatedEvent { get; } = new();
+
         public AsynchronousEvent<ChannelPinsUpdatedEventArgs> ChannelPinsUpdatedEvent { get; } = new();
 
         public AsynchronousEvent<GuildAvailableEventArgs> GuildAvailableEvent { get; } = new();

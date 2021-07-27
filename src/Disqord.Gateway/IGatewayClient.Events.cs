@@ -28,6 +28,43 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<ChannelDeletedEventArgs> ChannelDeleted;
 
         /// <summary>
+        ///     Fires when a thread is created or when the bot gains access to a new thread.
+        /// </summary>
+        /// <remarks>
+        ///     This only triggers for threads the bot can view.
+        /// </remarks>
+        event AsynchronousEventHandler<ThreadCreatedEventArgs> ThreadCreated;
+
+        /// <summary>
+        ///     Fires when a thread is updated.
+        /// </summary>
+        /// <remarks>
+        ///     This only triggers for threads the bot can view.
+        /// </remarks>
+        event AsynchronousEventHandler<ThreadUpdatedEventArgs> ThreadUpdated;
+
+        /// <summary>
+        ///     Fires when a thread is deleted.
+        /// </summary>
+        /// <remarks>
+        ///     This only triggers for threads the bot can view.
+        /// </remarks>
+        event AsynchronousEventHandler<ThreadDeletedEventArgs> ThreadDeleted;
+
+        /// <summary>
+        ///     Fires when the bot gains access to a new channel.
+        /// </summary>
+        event AsynchronousEventHandler<ThreadsSynchronizedEventArgs> ThreadsSynchronized;
+
+        /// <summary>
+        ///     Fires when members are added and/or removed from a thread.
+        /// </summary>
+        /// <remarks>
+        ///     This only triggers for threads the bot can view.
+        /// </remarks>
+        event AsynchronousEventHandler<ThreadMembersUpdatedEventArgs> ThreadMembersUpdated;
+
+        /// <summary>
         ///     Fires when the pinned messages in a channel are updated.
         /// </summary>
         event AsynchronousEventHandler<ChannelPinsUpdatedEventArgs> ChannelPinsUpdated;

@@ -12,6 +12,16 @@ namespace Disqord.Gateway
 
         AsynchronousEvent<ChannelDeletedEventArgs> ChannelDeletedEvent { get; }
 
+        AsynchronousEvent<ThreadCreatedEventArgs> ThreadCreatedEvent { get; }
+
+        AsynchronousEvent<ThreadUpdatedEventArgs> ThreadUpdatedEvent { get; }
+
+        AsynchronousEvent<ThreadDeletedEventArgs> ThreadDeletedEvent { get; }
+
+        AsynchronousEvent<ThreadsSynchronizedEventArgs> ThreadsSynchronizedEvent { get; }
+
+        AsynchronousEvent<ThreadMembersUpdatedEventArgs> ThreadMembersUpdatedEvent { get; }
+
         AsynchronousEvent<ChannelPinsUpdatedEventArgs> ChannelPinsUpdatedEvent { get; }
 
         AsynchronousEvent<GuildAvailableEventArgs> GuildAvailableEvent { get; }

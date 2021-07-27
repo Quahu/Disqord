@@ -67,6 +67,12 @@ namespace Disqord.Gateway.Default
                 ["CHANNEL_UPDATE"] = new ChannelUpdateHandler(),
                 ["CHANNEL_DELETE"] = new ChannelDeleteHandler(),
 
+                ["THREAD_CREATE"] = new ThreadCreateHandler(),
+                ["THREAD_UPDATE"] = new ThreadUpdateHandler(),
+                ["THREAD_DELETE"] = new ThreadDeleteHandler(),
+                ["THREAD_LIST_SYNC"] = new ThreadListSyncHandler(),
+                ["THREAD_MEMBERS_UPDATE"] = new ThreadMembersUpdateHandler(),
+
                 ["CHANNEL_PINS_UPDATE"] = new ChannelPinsUpdateHandler(),
 
                 ["GUILD_CREATE"] = new GuildCreateHandler(),

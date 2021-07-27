@@ -32,6 +32,41 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<ThreadCreatedEventArgs> ThreadCreated
+        {
+            add => Dispatcher.ThreadCreatedEvent.Hook(value);
+            remove => Dispatcher.ThreadCreatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<ThreadUpdatedEventArgs> ThreadUpdated
+        {
+            add => Dispatcher.ThreadUpdatedEvent.Hook(value);
+            remove => Dispatcher.ThreadUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<ThreadDeletedEventArgs> ThreadDeleted
+        {
+            add => Dispatcher.ThreadDeletedEvent.Hook(value);
+            remove => Dispatcher.ThreadDeletedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<ThreadsSynchronizedEventArgs> ThreadsSynchronized
+        {
+            add => Dispatcher.ThreadsSynchronizedEvent.Hook(value);
+            remove => Dispatcher.ThreadsSynchronizedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<ThreadMembersUpdatedEventArgs> ThreadMembersUpdated
+        {
+            add => Dispatcher.ThreadMembersUpdatedEvent.Hook(value);
+            remove => Dispatcher.ThreadMembersUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ChannelPinsUpdatedEventArgs> ChannelPinsUpdated
         {
             add => Dispatcher.ChannelPinsUpdatedEvent.Hook(value);
