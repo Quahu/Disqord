@@ -14,10 +14,6 @@ namespace Disqord.Gateway
 
         public TimeSpan DefaultAutomaticArchiveDuration { get; private set; }
 
-        public string Mention => Disqord.Mention.TextChannel(this);
-
-        public string Tag => $"#{Name}";
-
         public CachedTextChannel(IGatewayClient client, ChannelJsonModel model)
             : base(client, model)
         { }

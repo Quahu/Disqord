@@ -13,10 +13,6 @@ namespace Disqord
 
         public TimeSpan DefaultAutomaticArchiveDuration => TimeSpan.FromMinutes(Model.DefaultAutoArchiveDuration.Value);
 
-        public string Mention => Disqord.Mention.TextChannel(this);
-
-        public string Tag => $"#{Name}";
-
         public TransientTextChannel(IClient client, ChannelJsonModel model)
             : base(client, model)
         { }

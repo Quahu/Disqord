@@ -52,12 +52,6 @@ namespace Disqord
         /// <inheritdoc/>
         public bool IsLocked => Model.ThreadMetadata.Value.Locked.GetValueOrDefault();
 
-        /// <inheritdoc/>
-        public string Mention => Disqord.Mention.TextChannel(Id);
-
-        /// <inheritdoc/>
-        public string Tag => $"#{Name}";
-
         public TransientThreadChannel(IClient client, ChannelJsonModel model)
             : base(client, model)
         { }

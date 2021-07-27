@@ -9,7 +9,7 @@ namespace Disqord
     ///     The <see cref="IGuildChannel.Position"/>, <see cref="IGuildChannel.Overwrites"/>, and <see cref="ICategorizableGuildChannel.CategoryId"/>
     ///     properties are not present for transient implementations of this type, as they are dependant on the parent channel being cached.
     /// </remarks>
-    public interface IThreadChannel : IMessageGuildChannel, IChannelEntity, IMentionable, ITaggable
+    public interface IThreadChannel : IMessageGuildChannel, IChannelEntity
     {
         /// <summary>
         ///     Gets the ID of the creator of this thread.

@@ -43,12 +43,6 @@ namespace Disqord.Gateway
         /// <inheritdoc/>
         public bool IsLocked { get; private set; }
 
-        /// <inheritdoc/>
-        public string Mention => Disqord.Mention.TextChannel(Id);
-
-        /// <inheritdoc/>
-        public string Tag => $"#{Name}";
-
         public CachedThreadChannel(IGatewayClient client, ChannelJsonModel model)
             : base(client, model)
         {
