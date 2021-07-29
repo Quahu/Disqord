@@ -99,13 +99,24 @@ namespace Disqord.Extensions.Interactivity
                     waiters.AddLast(waiter);
                 }
 
+                var task = waiter.Task;
                 try
                 {
-                    return await waiter.Task.ConfigureAwait(false);
+                    return await task.ConfigureAwait(false);
                 }
                 catch (OperationCanceledException ex) when (ex.CancellationToken != cts.Token)
                 {
                     return null;
+                }
+                finally
+                {
+                    if (task.IsCanceled)
+                    {
+                        lock (waiters)
+                        {
+                            waiters.Remove(waiter);
+                        }
+                    }
                 }
             }
         }
