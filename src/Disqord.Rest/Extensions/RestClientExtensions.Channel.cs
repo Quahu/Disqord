@@ -450,17 +450,24 @@ namespace Disqord.Rest
             var models = await client.ApiClient.FetchThreadMembersAsync(threadId, options).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (x, client) => new TransientThreadMember(client, x));
         }
-        
-        private static ChannelJsonModel[] MatchMembersToThreads(ThreadListJsonModel model)
+
+        private static (bool HasMore, IReadOnlyList<IThreadChannel> Threads) CreateThreads(IRestClient client, ThreadListJsonModel model)
         {
-            foreach (var threadModel in model.Threads)
+            static ChannelJsonModel MatchMemberToThread(ChannelJsonModel threadModel, ThreadMemberJsonModel[] memberModels)
             {
-                var memberModel = Array.Find(model.Members, x => x.Id == threadModel.Id);
+                var memberModel = Array.Find(memberModels, x => x.Id == threadModel.Id);
+            
                 if (memberModel != null)
                     threadModel.Member = memberModel;
+
+                return threadModel;
             }
             
-            return model.Threads;
+            return (model.HasMore, model.Threads.ToReadOnlyList((client, model.Members), (threadModel, tuple) =>
+            {
+                var (client, memberModels) = tuple;
+                return new TransientThreadChannel(client, MatchMemberToThread(threadModel, memberModels));
+            }));
         }
 
         public static IPagedEnumerable<IThreadChannel> EnumeratePublicArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
@@ -481,8 +488,7 @@ namespace Disqord.Rest
         internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPublicArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchPublicArchivedThreadsAsync(channelId, limit, startFromDate, options).ConfigureAwait(false);
-            var models = MatchMembersToThreads(model);
-            return (model.HasMore, models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x)));
+            return CreateThreads(client, model);
         }
 
         public static IPagedEnumerable<IThreadChannel> EnumeratePrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
@@ -503,8 +509,7 @@ namespace Disqord.Rest
         internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPrivateArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchPrivateArchivedThreadsAsync(channelId, limit, startFromDate, options).ConfigureAwait(false);
-            var models = MatchMembersToThreads(model);
-            return (model.HasMore, models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x)));
+            return CreateThreads(client, model);
         }
 
         public static IPagedEnumerable<IThreadChannel> EnumerateJoinedPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
@@ -525,8 +530,7 @@ namespace Disqord.Rest
         internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchJoinedPrivateArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchJoinedPrivateArchivedThreadsAsync(channelId, limit, startFromId, options).ConfigureAwait(false);
-            var models = MatchMembersToThreads(model);
-            return (model.HasMore, models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x)));
+            return CreateThreads(client, model);
         }
     }
 }

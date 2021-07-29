@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Http;
@@ -156,8 +157,7 @@ namespace Disqord.Rest
         public static async Task<IReadOnlyList<IThreadChannel>> FetchActiveThreadsAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null) 
         { 
             var model = await client.ApiClient.FetchActiveThreadsAsync(guildId, options).ConfigureAwait(false);
-            var models = MatchMembersToThreads(model);
-            return models.ToReadOnlyList(client, (x, client) => new TransientThreadChannel(client, x));
+            return CreateThreads(client, model).Threads;
         }
 
         public static async Task<IMember> FetchMemberAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, IRestRequestOptions options = null)
