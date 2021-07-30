@@ -1,11 +1,12 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Disqord.Rest;
 
 namespace Disqord.Bot
 {
-    public class DiscordResponseCommandResult : DiscordCommandResult
+    public class DiscordResponseCommandResult : DiscordCommandResult, IDisposable
     {
         public LocalMessage Message { get; protected set; }
 
@@ -21,5 +22,13 @@ namespace Disqord.Bot
 
         public override Task<IUserMessage> ExecuteAsync()
             => Context.Bot.SendMessageAsync(Context.ChannelId, Message);
+
+        public void Dispose()
+        {
+            foreach (var attachment in Message._attachments)
+            {
+                attachment.Dispose();
+            }
+        }
     }
 }
