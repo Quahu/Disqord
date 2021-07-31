@@ -81,8 +81,9 @@ namespace Disqord.Rest
                 throw new ArgumentNullException(nameof(followup));
 
             followup.Validate();
-            var messageContent = new ExecuteWebhookJsonRestRequestContent
+            var messageContent = new CreateFollowupInteractionResponseJsonRestRequestContent
             {
+                Flags = followup.Flags,
                 Content = Optional.FromNullable(followup.Content),
                 Tts = Optional.Conditional(followup.IsTextToSpeech, true),
                 Embeds = Optional.Conditional(followup.Embeds.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), followup.Embeds),
@@ -95,7 +96,7 @@ namespace Disqord.Rest
             {
                 // If there are attachments, we must send them via multipart HTTP content.
                 // Our `messageContent` will be serialized into a "payload_json" form data field.
-                var content = new MultipartJsonPayloadRestRequestContent<ExecuteWebhookJsonRestRequestContent>(messageContent, followup.Attachments);
+                var content = new MultipartJsonPayloadRestRequestContent<CreateFollowupInteractionResponseJsonRestRequestContent>(messageContent, followup.Attachments);
                 task = client.ApiClient.CreateFollowupInteractionResponseAsync(applicationId, interactionToken, content, options);
             }
             else

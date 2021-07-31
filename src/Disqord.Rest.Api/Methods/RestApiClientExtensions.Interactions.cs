@@ -41,13 +41,13 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync(route, null, options);
         }
 
-        public static Task<MessageJsonModel> CreateFollowupInteractionResponseAsync(this IRestApiClient client, Snowflake applicationId, string interactionToken, MultipartJsonPayloadRestRequestContent<ExecuteWebhookJsonRestRequestContent> content, IRestRequestOptions options = null)
+        public static Task<MessageJsonModel> CreateFollowupInteractionResponseAsync(this IRestApiClient client, Snowflake applicationId, string interactionToken, MultipartJsonPayloadRestRequestContent<CreateFollowupInteractionResponseJsonRestRequestContent> content, IRestRequestOptions options = null)
         {
             var route = Format(Route.Interactions.CreateFollowupResponse, applicationId, interactionToken);
             return client.ExecuteAsync<MessageJsonModel>(route, content, options);
         }
 
-        public static Task<MessageJsonModel> CreateFollowupInteractionResponseAsync(this IRestApiClient client, Snowflake applicationId, string interactionToken, ExecuteWebhookJsonRestRequestContent content, IRestRequestOptions options = null)
+        public static Task<MessageJsonModel> CreateFollowupInteractionResponseAsync(this IRestApiClient client, Snowflake applicationId, string interactionToken, CreateFollowupInteractionResponseJsonRestRequestContent content, IRestRequestOptions options = null)
         {
             var route = Format(Route.Interactions.CreateFollowupResponse, applicationId, interactionToken);
             return client.ExecuteAsync<MessageJsonModel>(route, content, options);
