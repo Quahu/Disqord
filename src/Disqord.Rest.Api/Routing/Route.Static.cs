@@ -349,6 +349,8 @@ namespace Disqord.Rest.Api
 
             public static readonly Route CreateFollowupResponse = Post("webhooks/{0:application_id}/{1:interaction_token}");
 
+            public static readonly Route GetFollowupResponse = Get("/webhooks/{0:application_id}/{1:interaction_token}/messages/{2:message_id}");
+
             public static readonly Route ModifyFollowupResponse = Patch("webhooks/{0:application_id}/{1:interaction_token}/messages/{2:message_id}");
 
             public static readonly Route DeleteFollowupResponse = Delete("webhooks/{0:application_id}/{1:interaction_token}/messages/{2:message_id}");

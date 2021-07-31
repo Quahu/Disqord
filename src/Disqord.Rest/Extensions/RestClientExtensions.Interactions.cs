@@ -107,6 +107,12 @@ namespace Disqord.Rest
             return new TransientUserMessage(client, model);
         }
 
+        public static async Task<IUserMessage> FetchInteractionFollowupAsync(this IRestClient client, Snowflake applicationId, string interactionToken, Snowflake messageId, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.FetchFollowupInteractionResponseAsync(applicationId, interactionToken, messageId, options).ConfigureAwait(false);
+            return new TransientUserMessage(client, model);
+        }
+
         public static Task<IUserMessage> ModifyInteractionFollowupAsync(this IRestClient client, Snowflake applicationId, string interactionToken, Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action, IRestRequestOptions options = null)
             => client.InternalModifyInteractionResponseAsync(applicationId, interactionToken, messageId, action, options);
 

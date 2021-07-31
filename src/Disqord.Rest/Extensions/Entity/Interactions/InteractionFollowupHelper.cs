@@ -36,6 +36,12 @@ namespace Disqord.Rest
             return client.CreateInteractionFollowupAsync(Interaction.ApplicationId, Interaction.Token, followup, options);
         }
 
+        public Task<IUserMessage> FetchAsync(Snowflake followupId, IRestRequestOptions options = null)
+        {
+            var client = Interaction.GetRestClient();
+            return client.FetchInteractionFollowupAsync(Interaction.ApplicationId, Interaction.Token, followupId, options);
+        }
+
         public Task<IUserMessage> ModifyAsync(Snowflake followupId, Action<ModifyWebhookMessageActionProperties> action, IRestRequestOptions options = null)
         {
             var client = Interaction.GetRestClient();
