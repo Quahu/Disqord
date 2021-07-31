@@ -445,7 +445,7 @@ namespace Disqord.Rest
             {
                 Enabled = properties.Enabled,
                 Description = properties.Description,
-                WelcomeChannels = Optional.Convert(properties.WelcomeChannels, x => x.Select(x => x.ToModel()).ToArray())
+                WelcomeChannels = Optional.Convert(properties.Channels, x => x.Select(x => x.ToModel()).ToArray())
             };
 
             var model = await client.ApiClient.ModifyGuildWelcomeScreenAsync(guildId, content, options).ConfigureAwait(false);
