@@ -430,6 +430,28 @@ namespace Disqord.Rest
             return new TransientGuildPreview(client, model);
         }
 
+        public static async Task<IGuildWelcomeScreen> FetchGuildWelcomeScreenAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.FetchGuildWelcomeScreenAsync(guildId, options).ConfigureAwait(false);
+            return new TransientGuildWelcomeScreen(client, model);
+        }
+
+        public static async Task<IGuildWelcomeScreen> ModifyGuildWelcomeScreenAsync(this IRestClient client, Snowflake guildId, Action<ModifyWelcomeScreenActionProperties> action, IRestRequestOptions options = null)
+        {
+            var properties = new ModifyWelcomeScreenActionProperties();
+            action(properties);
+
+            var content = new ModifyWelcomeScreenJsonRestRequestContent()
+            {
+                Enabled = properties.Enabled,
+                Description = properties.Description,
+                WelcomeChannels = Optional.Convert(properties.WelcomeChannels, x => x.Select(x => x.ToModel()).ToArray())
+            };
+
+            var model = await client.ApiClient.ModifyGuildWelcomeScreenAsync(guildId, content, options).ConfigureAwait(false);
+            return new TransientGuildWelcomeScreen(client, model);
+        }
+
         public static Task ModifyCurrentMemberVoiceStateAsync(this IRestClient client, Snowflake guildId, Snowflake channelId, Action<ModifyCurrentMemberVoiceStateActionProperties> action, IRestRequestOptions options = null)
         {
             var properties = new ModifyCurrentMemberVoiceStateActionProperties();

@@ -367,5 +367,20 @@ namespace Disqord.Rest
             var client = guild.GetRestClient();
             return client.ModifyMemberVoiceStateAsync(guild.Id, memberId, channelId, action, options);
         }
+
+        /*
+         * Welcome Screen
+         */
+        public static Task<IGuildWelcomeScreen> FetchWelcomeScreenAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildWelcomeScreenAsync(guild.Id, options);
+        }
+
+        public static Task<IGuildWelcomeScreen> ModifyWelcomeScreenAsync(this IGuild guild, Action<ModifyWelcomeScreenActionProperties> action, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyGuildWelcomeScreenAsync(guild.Id, action, options);
+        }
     }
 }

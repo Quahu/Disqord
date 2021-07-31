@@ -256,13 +256,13 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync(route, null, options);
         }
 
-        public static Task<WelcomeScreenJsonModel> FetchWelcomeScreenAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
+        public static Task<WelcomeScreenJsonModel> FetchGuildWelcomeScreenAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Guild.GetWelcomeScreen, guildId);
             return client.ExecuteAsync<WelcomeScreenJsonModel>(route, null, options);
         }
 
-        public static Task<WelcomeScreenJsonModel> ModifyWelcomeScreenAsync(this IRestApiClient client, Snowflake guildId, ModifyWelcomeScreenJsonRestRequestContent content, IRestRequestOptions options = null)
+        public static Task<WelcomeScreenJsonModel> ModifyGuildWelcomeScreenAsync(this IRestApiClient client, Snowflake guildId, ModifyWelcomeScreenJsonRestRequestContent content, IRestRequestOptions options = null)
         {
             var route = Format(Route.Guild.ModifyWelcomeScreen, guildId);
             return client.ExecuteAsync<WelcomeScreenJsonModel>(route, content, options);
