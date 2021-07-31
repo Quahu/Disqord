@@ -93,6 +93,11 @@
         /// <summary>
         ///     Represents a system message indicating a member has started a thread.
         /// </summary>
-        ThreadCreated = 17
+        ThreadCreated = 17,
+
+        /// <summary>
+        ///     Represents a system message indicating a reminder to invite members to a guild.
+        /// </summary>
+        GuildInviteReminder = 21
     }
 }

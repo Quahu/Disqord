@@ -10,6 +10,8 @@
 
         Reply = 19,
 
-        ApplicationCommand = 20
+        ApplicationCommand = 20,
+
+        ThreadStarterMessage = 21
     }
 }

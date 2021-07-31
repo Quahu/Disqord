@@ -30,6 +30,7 @@ namespace Disqord
                 SystemMessageType.GuildDiscoveryGracePeriodInitialWarning => "This server has failed Discovery activity requirements for 1 week. If this server fails for 4 weeks in a row, it will be automatically removed from Discovery.",
                 SystemMessageType.GuildDiscoveryGracePeriodFinalWarning => "This server has failed Discovery activity requirements for 3 weeks in a row. If this server fails for 1 more week, it will be removed from Discovery.",
                 SystemMessageType.ThreadCreated => $"{message.Author.Name} started a thread.",
+                SystemMessageType.GuildInviteReminder => $"",
                 _ => string.Empty
             };
 

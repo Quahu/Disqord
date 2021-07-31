@@ -66,7 +66,7 @@ namespace Disqord.Gateway
             Reference = Optional.ConvertOrDefault(model.MessageReference, x => new MessageReference(x));
             Flags = model.Flags.GetValueOrDefault();
 
-            if (model.Type == MessageType.Reply || model.ReferencedMessage.GetValueOrDefault() != null)
+            if (model.Type == MessageType.Reply || model.Type == MessageType.ThreadStarterMessage || model.ReferencedMessage.GetValueOrDefault() != null)
             {
                 // Fix for Discord always sending an empty property.
                 ReferencedMessage = Optional.Convert(model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage);

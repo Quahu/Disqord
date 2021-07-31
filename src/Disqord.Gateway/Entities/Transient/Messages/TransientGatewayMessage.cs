@@ -43,6 +43,7 @@ namespace Disqord
                 case MessageType.Default:
                 case MessageType.Reply:
                 case MessageType.ApplicationCommand:
+                case MessageType.ThreadStarterMessage:
                     return new TransientGatewayUserMessage(client, model);
 
                 default:
