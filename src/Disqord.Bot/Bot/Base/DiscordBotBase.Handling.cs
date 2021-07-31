@@ -113,11 +113,11 @@ namespace Disqord.Bot
                 var result = await Commands.ExecuteAsync(context.Input, context).ConfigureAwait(false);
                 if (result is not FailedResult failedResult)
                     return;
-            
+
                 // These will be handled by the CommandExecutionFailed event handler.
                 if (result is CommandExecutionFailedResult)
                     return;
-            
+
                 _ = InternalHandleFailedResultAsync(context, failedResult);
             }
             catch (Exception ex)
@@ -138,31 +138,20 @@ namespace Disqord.Bot
             }
         }
 
-        private async Task InternalHandleFailedResultAsync(DiscordCommandContext context, FailedResult result)
+        private Task CommandExecutedAsync(CommandExecutedEventArgs e)
         {
-            try
-            {
-                await HandleFailedResultAsync(context, result).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "An exception occurred while handling the failed result of type {0}.", result.GetType().Name);
-            }
+            if (e.Context is not DiscordCommandContext context)
+                return Task.CompletedTask;
 
-            if (result is CommandNotFoundResult && _masterService != null)
-                await _masterService.HandleCommandNotFound(context).ConfigureAwait(false);
+            if (e.Result is not DiscordCommandResult result)
+                return Task.CompletedTask;
 
-            await DisposeContextAsync(context).ConfigureAwait(false);
+            _ = InternalHandleCommandExecutedAsync(context, result);
+            return Task.CompletedTask;
         }
 
-        private async Task CommandExecutedAsync(CommandExecutedEventArgs e)
+        private async ValueTask InternalHandleCommandExecutedAsync(DiscordCommandContext context, DiscordCommandResult result)
         {
-            if (e.Result is not DiscordCommandResult result)
-                return;
-
-            if (e.Context is not DiscordCommandContext context)
-                return;
-
             try
             {
                 await using (RuntimeDisposal.WrapAsync(result))
@@ -225,7 +214,25 @@ namespace Disqord.Bot
             if (e.Context is not DiscordCommandContext context)
                 return Task.CompletedTask;
 
-            return InternalHandleFailedResultAsync(context, e.Result);
+            _ = InternalHandleFailedResultAsync(context, e.Result);
+            return Task.CompletedTask;
+        }
+
+        private async ValueTask InternalHandleFailedResultAsync(DiscordCommandContext context, FailedResult result)
+        {
+            try
+            {
+                await HandleFailedResultAsync(context, result).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An exception occurred while handling the failed result of type {0}.", result.GetType().Name);
+            }
+
+            if (result is CommandNotFoundResult && _masterService != null)
+                await _masterService.HandleCommandNotFound(context).ConfigureAwait(false);
+
+            await DisposeContextAsync(context).ConfigureAwait(false);
         }
     }
 }
