@@ -195,7 +195,7 @@ namespace Disqord.Rest
                 return AuditLogActionType.StageDeleted;
 
 
-            // Stage
+            // Sticker
             if (typeof(IStickerCreatedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.StickerCreated;
 
