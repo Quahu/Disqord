@@ -1,28 +1,20 @@
+using System;
+
 namespace Disqord
 {
-    public class LocalGuildWelcomeScreenChannel
+    public class LocalGuildWelcomeScreenChannel : ILocalConstruct
     {
         public Snowflake ChannelId { get; }
 
         public string Description { get; }
 
-        public Snowflake? EmojiId { get; }
-
-        public string EmojiName { get; }
-
-        public LocalGuildWelcomeScreenChannel(Snowflake channelId, string description, LocalCustomEmoji emoji)
-        {
-            ChannelId = channelId;
-            Description = description;
-            EmojiId = emoji.Id;
-            EmojiName = emoji.Name;
-        }
+        public LocalEmoji Emoji { get; }
 
         public LocalGuildWelcomeScreenChannel(Snowflake channelId, string description, LocalEmoji emoji)
         {
             ChannelId = channelId;
             Description = description;
-            EmojiName = emoji.Name;
+            Emoji = emoji;
         }
 
         public LocalGuildWelcomeScreenChannel(Snowflake channelId, string description)
@@ -30,5 +22,14 @@ namespace Disqord
             ChannelId = channelId;
             Description = description;
         }
+
+        public virtual LocalGuildWelcomeScreenChannel Clone()
+            => MemberwiseClone() as LocalGuildWelcomeScreenChannel;
+
+        object ICloneable.Clone()
+            => Clone();
+
+        public void Validate()
+        { }
     }
 }

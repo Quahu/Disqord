@@ -9,8 +9,8 @@ namespace Disqord
             {
                 ChannelId = channel.ChannelId,
                 Description = channel.Description,
-                EmojiId = channel.EmojiId,
-                EmojiName = channel.EmojiName
+                EmojiId = (channel.Emoji as LocalCustomEmoji).Id,
+                EmojiName = channel.Emoji.Name
             };
     }
 }

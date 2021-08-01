@@ -433,7 +433,7 @@ namespace Disqord.Rest
         public static async Task<IGuildWelcomeScreen> FetchGuildWelcomeScreenAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchGuildWelcomeScreenAsync(guildId, options).ConfigureAwait(false);
-            return new TransientGuildWelcomeScreen(client, model);
+            return new TransientGuildWelcomeScreen(client, guildId, model);
         }
 
         public static async Task<IGuildWelcomeScreen> ModifyGuildWelcomeScreenAsync(this IRestClient client, Snowflake guildId, Action<ModifyWelcomeScreenActionProperties> action, IRestRequestOptions options = null)
@@ -441,15 +441,18 @@ namespace Disqord.Rest
             var properties = new ModifyWelcomeScreenActionProperties();
             action(properties);
 
+            if (properties.Channels.HasValue && properties.Channels.Value.Count() > 5)
+                throw new InvalidOperationException("The count of welcome screen channels must not exceed 5.");
+
             var content = new ModifyWelcomeScreenJsonRestRequestContent()
             {
-                Enabled = properties.Enabled,
+                Enabled = properties.IsEnabled,
                 Description = properties.Description,
                 WelcomeChannels = Optional.Convert(properties.Channels, x => x.Select(x => x.ToModel()).ToArray())
             };
 
             var model = await client.ApiClient.ModifyGuildWelcomeScreenAsync(guildId, content, options).ConfigureAwait(false);
-            return new TransientGuildWelcomeScreen(client, model);
+            return new TransientGuildWelcomeScreen(client, guildId, model);
         }
 
         public static Task ModifyCurrentMemberVoiceStateAsync(this IRestClient client, Snowflake guildId, Snowflake channelId, Action<ModifyCurrentMemberVoiceStateActionProperties> action, IRestRequestOptions options = null)
