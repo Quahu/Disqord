@@ -4,6 +4,8 @@ namespace Disqord
 {
     public class LocalGuildWelcomeScreenChannel : ILocalConstruct
     {
+        public const int MaxDescriptionLength = 32;
+
         public Snowflake ChannelId { get; }
 
         public string Description { get; }
@@ -30,6 +32,9 @@ namespace Disqord
             => Clone();
 
         public void Validate()
-        { }
+        {
+            if (Description.Length > MaxDescriptionLength)
+                throw new InvalidOperationException($"The length of the description must not exceed {MaxDescriptionLength} characters.");
+        }
     }
 }

@@ -438,11 +438,17 @@ namespace Disqord.Rest
 
         public static async Task<IGuildWelcomeScreen> ModifyGuildWelcomeScreenAsync(this IRestClient client, Snowflake guildId, Action<ModifyWelcomeScreenActionProperties> action, IRestRequestOptions options = null)
         {
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
+
             var properties = new ModifyWelcomeScreenActionProperties();
             action(properties);
 
             if (properties.Channels.HasValue && properties.Channels.Value.Count() > 5)
                 throw new InvalidOperationException("The count of welcome screen channels must not exceed 5.");
+
+            if (properties.Description.HasValue && properties.Description.Value.Length > 140)
+                throw new InvalidOperationException("The length of the description must not exceed 140 characters.");
 
             var content = new ModifyWelcomeScreenJsonRestRequestContent()
             {
