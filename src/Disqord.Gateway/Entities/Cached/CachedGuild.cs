@@ -21,8 +21,6 @@ namespace Disqord.Gateway
 
         public Snowflake OwnerId { get; private set; }
 
-        public string VoiceRegion { get; private set; }
-
         public Snowflake? AfkChannelId { get; private set; }
 
         public TimeSpan AfkTimeout { get; private set; }
@@ -170,7 +168,6 @@ namespace Disqord.Gateway
                 DiscoverySplashHash = model.DiscoverySplash.Value;
 
             OwnerId = model.OwnerId;
-            VoiceRegion = model.Region;
             AfkChannelId = model.AfkChannelId;
             AfkTimeout = TimeSpan.FromSeconds(model.AfkTimeout);
 

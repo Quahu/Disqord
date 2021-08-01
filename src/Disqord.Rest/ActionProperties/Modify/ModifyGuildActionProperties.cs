@@ -8,8 +8,6 @@ namespace Disqord
     {
         public Optional<string> Name { internal get; set; }
 
-        public Optional<string> VoiceRegionId { internal get; set; }
-
         public Optional<GuildVerificationLevel> VerificationLevel { internal get; set; }
 
         public Optional<GuildNotificationLevel> NotificationLevel { internal get; set; }

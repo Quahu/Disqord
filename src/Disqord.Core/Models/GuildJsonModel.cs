@@ -32,9 +32,6 @@ namespace Disqord.Models
         [JsonProperty("permissions")]
         public Optional<ulong> Permissions;
 
-        [JsonProperty("region")]
-        public string Region;
-
         [JsonProperty("afk_channel_id")]
         public Snowflake? AfkChannelId;
 

@@ -31,11 +31,6 @@ namespace Disqord
         Snowflake OwnerId { get; }
 
         /// <summary>
-        ///     Gets the voice region of this guild.
-        /// </summary>
-        string VoiceRegion { get; }
-
-        /// <summary>
         ///     Gets the AFK channel ID of this guild.
         /// </summary>
         Snowflake? AfkChannelId { get; }
@@ -122,7 +117,7 @@ namespace Disqord
         int? MaxMemberCount { get; }
 
         /// <summary>
-        ///     Getsthe vanity URL code of this guild.
+        ///     Gets the vanity URL code of this guild.
         /// </summary>
         string VanityUrlCode { get; }
 
