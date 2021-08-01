@@ -17,6 +17,6 @@ namespace Disqord.Models
         public IntegrationJsonModel[] Integrations;
 
         [JsonProperty("threads")]
-        public ChannelJsonModel Threads;
+        public ChannelJsonModel[] Threads;
     }
 }
