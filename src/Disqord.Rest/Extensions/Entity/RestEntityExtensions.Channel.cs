@@ -112,13 +112,13 @@ namespace Disqord.Rest
             return client.DeleteMessageAsync(channel.Id, messageId, options);
         }
 
-        public static IPagedEnumerable<Snowflake> EnumerateMessageDeletion(this ITextChannel channel, IEnumerable<Snowflake> messageIds, IRestRequestOptions options = null)
+        public static IPagedEnumerable<Snowflake> EnumerateMessageDeletion(this IMessageGuildChannel channel, IEnumerable<Snowflake> messageIds, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
             return client.EnumerateMessageDeletion(channel.Id, messageIds, options);
         }
 
-        public static Task DeleteMessagesAsync(this ITextChannel channel, IEnumerable<Snowflake> messageIds, IRestRequestOptions options = null)
+        public static Task DeleteMessagesAsync(this IMessageGuildChannel channel, IEnumerable<Snowflake> messageIds, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
             return client.DeleteMessagesAsync(channel.Id, messageIds, options);
