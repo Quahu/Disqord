@@ -182,6 +182,16 @@ namespace Disqord.Rest
 
             if (typeof(IIntegrationDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.IntegrationDeleted;
+            
+            // Thread
+            if (typeof(IThreadCreatedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.ThreadCreate;
+            
+            if (typeof(IThreadUpdatedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.ThreadUpdate;
+            
+            if (typeof(IThreadDeletedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.ThreadDelete;
 
             throw new ArgumentOutOfRangeException(nameof(type));
         }
