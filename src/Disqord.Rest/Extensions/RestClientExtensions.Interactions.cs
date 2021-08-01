@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Disqord.Http;
 using Disqord.Models;
 using Disqord.Rest.Api;
-using Microsoft.Extensions.Logging;
 
 namespace Disqord.Rest
 {
