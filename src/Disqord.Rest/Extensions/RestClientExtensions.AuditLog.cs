@@ -183,6 +183,28 @@ namespace Disqord.Rest
             if (typeof(IIntegrationDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.IntegrationDeleted;
 
+
+            // Stage
+            if (typeof(IStageCreatedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.StageCreated;
+
+            if (typeof(IStageUpdatedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.StageUpdated;
+
+            if (typeof(IStageDeletedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.StageDeleted;
+
+
+            // Stage
+            if (typeof(IStickerCreatedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.StickerCreated;
+
+            if (typeof(IStickerUpdatedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.StickerUpdated;
+
+            if (typeof(IStickerDeletedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.StickerDeleted;
+
             throw new ArgumentOutOfRangeException(nameof(type));
         }
     }
