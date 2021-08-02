@@ -6,23 +6,20 @@ namespace Disqord
     {
         public const int MaxDescriptionLength = 32;
 
-        public Snowflake ChannelId { get; }
+        public Snowflake ChannelId { get; init; }
 
-        public string Description { get; }
+        public string Description { get; init; }
 
-        public LocalEmoji Emoji { get; }
+        public LocalEmoji Emoji { get; init; }
 
-        public LocalGuildWelcomeScreenChannel(Snowflake channelId, string description, LocalEmoji emoji)
+        public LocalGuildWelcomeScreenChannel()
+        { }
+
+        public LocalGuildWelcomeScreenChannel(Snowflake channelId, string description, LocalEmoji emoji = null)
         {
             ChannelId = channelId;
             Description = description;
             Emoji = emoji;
-        }
-
-        public LocalGuildWelcomeScreenChannel(Snowflake channelId, string description)
-        {
-            ChannelId = channelId;
-            Description = description;
         }
 
         public virtual LocalGuildWelcomeScreenChannel Clone()
