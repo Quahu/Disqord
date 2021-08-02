@@ -20,8 +20,6 @@ namespace Disqord.AuditLogs
 
         AuditLogChange<Optional<IUser>> Owner { get; }
 
-        AuditLogChange<string> VoiceRegion { get; }
-
         AuditLogChange<CultureInfo> PreferredLocale { get; }
 
         AuditLogChange<Snowflake?> AfkChannelId { get; }
