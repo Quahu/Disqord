@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Http;
 using Disqord.Models;
 using Disqord.Rest.Api;
 
@@ -115,7 +116,7 @@ namespace Disqord.Rest
                 var model = await client.ApiClient.FetchFollowupInteractionResponseAsync(applicationId, interactionToken, messageId, options).ConfigureAwait(false);
                 return new TransientUserMessage(client, model);
             }
-            catch (RestApiException ex) when (ex.ErrorModel.Code == RestApiErrorCode.UnknownMessage)
+            catch (RestApiException ex) when (ex.StatusCode == HttpResponseStatusCode.NotFound && ex.ErrorModel.Code == RestApiErrorCode.UnknownMessage)
             {
                 return null;
             }
