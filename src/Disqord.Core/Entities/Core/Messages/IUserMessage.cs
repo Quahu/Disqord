@@ -65,8 +65,8 @@ namespace Disqord
         MessageApplication Application { get; }
 
         /// <summary>
-        /// Gets the application ID of this message.
-        /// Returns <see langword="null"/> if the message is not a response to an interaction
+        ///     Gets the application ID of this message.
+        ///     Returns <see langword="null"/> if the message is not a response to an interaction
         /// </summary>
         Snowflake? ApplicationId { get; }
 
