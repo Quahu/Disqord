@@ -32,6 +32,8 @@ namespace Disqord.Gateway
 
         public MessageApplication Application { get; private set; }
 
+        public Snowflake? ApplicationId { get; private set; }
+
         public MessageReference Reference { get; private set; }
 
         public MessageFlag Flags { get; private set; }
@@ -46,6 +48,7 @@ namespace Disqord.Gateway
             : base(client, author, model)
         {
             WebhookId = model.WebhookId.GetValueOrNullable();
+            ApplicationId = model.ApplicationId.GetValueOrNullable();
             IsTextToSpeech = model.Tts;
             Nonce = model.Nonce;
         }

@@ -31,6 +31,8 @@ namespace Disqord
 
         public MessageApplication Application => Optional.ConvertOrDefault(Model.Application, x => new MessageApplication(x));
 
+        public Snowflake? ApplicationId => Model.ApplicationId.GetValueOrNullable(); 
+
         public MessageReference Reference => Optional.ConvertOrDefault(Model.MessageReference, x => new MessageReference(x));
 
         public MessageFlag Flags => Model.Flags.GetValueOrDefault();

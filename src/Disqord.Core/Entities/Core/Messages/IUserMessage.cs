@@ -65,6 +65,12 @@ namespace Disqord
         MessageApplication Application { get; }
 
         /// <summary>
+        /// Gets the application ID of this message.
+        /// Returns a valid value only if this message responded to an interaction.
+        /// </summary>
+        Snowflake? ApplicationId { get; }
+
+        /// <summary>
         ///     Gets the reference tied to this message.
         /// </summary>
         MessageReference Reference { get; }
