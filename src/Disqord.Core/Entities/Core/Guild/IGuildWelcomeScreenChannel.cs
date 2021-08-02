@@ -11,14 +11,9 @@ namespace Disqord
         string Description { get; }
 
         /// <summary>
-        ///     Gets the ID of the emoji of this welcome screen channel.
-        ///     Returns <see langword="null"/> if the emoji is not custom.
+        ///     Gets the emoji of this welcome screen channel.
+        ///     This can be either a <see cref="ICustomEmoji"/> or a <see cref="IEmoji"/>.
         /// </summary>
-        Snowflake? EmojiId { get; }
-
-        /// <summary>
-        ///     Gets the name of the emoji of this welcome screen channel.
-        /// </summary>
-        string EmojiName { get; }
+        IEmoji Emoji { get; }
     }
 }

@@ -4,13 +4,19 @@ namespace Disqord
 {
     public class TransientGuildWelcomeScreenChannel : TransientEntity<WelcomeScreenChannelJsonModel>, IGuildWelcomeScreenChannel
     {
+        /// <inheritdoc/>
         public Snowflake ChannelId => Model.ChannelId;
 
+        /// <inheritdoc/>
         public string Description => Model.Description;
 
-        public Snowflake? EmojiId => Model.EmojiId;
-
-        public string EmojiName => Model.EmojiName;
+        /// <inheritdoc/>
+        public IEmoji Emoji => _emoji ??= Disqord.Emoji.Create(new EmojiJsonModel
+        {
+            Id = Model.EmojiId,
+            Name = Model.EmojiName
+        });
+        private IEmoji _emoji;
 
         public TransientGuildWelcomeScreenChannel(IClient client, WelcomeScreenChannelJsonModel model)
             : base(client, model)
