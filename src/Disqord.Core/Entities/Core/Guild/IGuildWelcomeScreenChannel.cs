@@ -12,7 +12,6 @@ namespace Disqord
 
         /// <summary>
         ///     Gets the emoji of this welcome screen channel.
-        ///     This can be either a <see cref="ICustomEmoji"/> or a <see cref="IEmoji"/>.
         /// </summary>
         IEmoji Emoji { get; }
     }
