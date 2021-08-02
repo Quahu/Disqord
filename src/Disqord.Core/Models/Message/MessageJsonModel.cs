@@ -73,6 +73,9 @@ namespace Disqord.Models
         [JsonProperty("application")]
         public Optional<MessageApplicationJsonModel> Application;
 
+        [JsonProperty("application_id")]
+        public Optional<Snowflake> ApplicationId;
+
         [JsonProperty("message_reference")]
         public Optional<MessageReferenceJsonModel> MessageReference;
 
