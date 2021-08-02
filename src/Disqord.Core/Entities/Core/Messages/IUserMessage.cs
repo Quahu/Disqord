@@ -15,7 +15,7 @@ namespace Disqord
 
         /// <summary>
         ///     Gets the webhook ID of this message.
-        ///     Returns a valid value if the message was sent by a webhook.
+        ///     Returns <see langword="null"/> if the message was not sent by a webhook.
         /// </summary>
         Snowflake? WebhookId { get; }
 
@@ -66,7 +66,7 @@ namespace Disqord
 
         /// <summary>
         /// Gets the application ID of this message.
-        /// Returns a valid value only if this message responded to an interaction.
+        /// Returns <see langword="null"/> if the message is not a response to an interaction
         /// </summary>
         Snowflake? ApplicationId { get; }
 
