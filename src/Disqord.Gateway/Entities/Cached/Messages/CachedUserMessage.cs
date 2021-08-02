@@ -32,7 +32,7 @@ namespace Disqord.Gateway
 
         public MessageApplication Application { get; private set; }
 
-        public Snowflake? ApplicationId { get; private set; }
+        public Snowflake? ApplicationId { get; }
 
         public MessageReference Reference { get; private set; }
 

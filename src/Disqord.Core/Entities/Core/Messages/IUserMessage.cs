@@ -14,7 +14,7 @@ namespace Disqord
         DateTimeOffset? EditedAt { get; }
 
         /// <summary>
-        ///     Gets the webhook ID of this message.
+        ///     Gets the ID of the webhook of this message.
         ///     Returns <see langword="null"/> if the message was not sent by a webhook.
         /// </summary>
         Snowflake? WebhookId { get; }
@@ -65,8 +65,8 @@ namespace Disqord
         MessageApplication Application { get; }
 
         /// <summary>
-        ///     Gets the application ID of this message.
-        ///     Returns <see langword="null"/> if the message is not a response to an interaction
+        ///     Gets the ID of the application of this message.
+        ///     Returns <see langword="null"/> if the message is not a response to an interaction.
         /// </summary>
         Snowflake? ApplicationId { get; }
 
