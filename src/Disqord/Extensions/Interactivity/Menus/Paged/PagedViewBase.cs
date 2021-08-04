@@ -10,6 +10,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// <summary>
         ///     Gets the <see cref="PageProvider"/> of this paged menu.
         /// </summary>
+        /// <exception cref="ArgumentNullException"> Thrown if <paramref name="value"/> is <see langword="null"/>. </exception>
         public PageProvider PageProvider
         {
             get => _pageProvider;

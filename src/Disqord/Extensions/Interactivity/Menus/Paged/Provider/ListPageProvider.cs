@@ -22,6 +22,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         ///     Instantiates a new <see cref="ListPageProvider"/> with the specified collection of pages.
         /// </summary>
         /// <param name="pages"> The collection of pages. </param>
+        /// <exception cref="ArgumentNullException"> Thrown if <paramref name="pages"/> is <see langword="null"/>. </exception>
         public ListPageProvider(IEnumerable<Page> pages)
             : this(pages?.ToList())
         { }
@@ -32,7 +33,8 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// <remarks>
         ///     The list is not copied.
         /// </remarks>
-        /// <param name="pages"> The list of pages. </param>
+        /// <param name="pages"> The list of pages. </param>\
+        /// <exception cref="ArgumentNullException"> Thrown if <paramref name="pages"/> is <see langword="null"/>. </exception>
         public ListPageProvider(List<Page> pages)
         {
             if (pages == null)
