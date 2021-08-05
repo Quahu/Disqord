@@ -53,6 +53,10 @@
 
         StickerCreated = 90,
         StickerUpdated = 91,
-        StickerDeleted = 92
+        StickerDeleted = 92,
+
+        ThreadCreate = 110,
+        ThreadUpdate = 111,
+        ThreadDelete = 112
     }
 }

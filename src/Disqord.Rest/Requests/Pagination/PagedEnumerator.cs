@@ -20,7 +20,7 @@ namespace Disqord.Rest
         public IRestClient Client { get; }
 
         /// <inheritdoc/>
-        public int Remaining { get; private set; }
+        public int Remaining { get; protected set; }
 
         /// <inheritdoc/>
         public IRestRequestOptions Options { get; }

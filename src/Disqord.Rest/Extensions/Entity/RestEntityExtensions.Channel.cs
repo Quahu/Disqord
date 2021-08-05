@@ -25,6 +25,12 @@ namespace Disqord.Rest
             return client.ModifyCategoryChannelAsync(channel.Id, action, options);
         }
 
+        public static Task<IThreadChannel> ModifyAsync(this IThreadChannel thread, Action<ModifyThreadChannelActionProperties> action, IRestRequestOptions options = null)
+        {
+            var client = thread.GetRestClient();
+            return client.ModifyThreadChannelAsync(thread.Id, action, options);
+        }
+
         public static Task DeleteAsync(this IChannel channel, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
@@ -200,6 +206,87 @@ namespace Disqord.Rest
         {
             var client = channel.GetRestClient();
             return client.FetchChannelWebhooksAsync(channel.Id, options);
+        }
+
+        /*
+        * Threads
+        */
+        public static Task<IThreadChannel> CreatePublicThreadAsync(this ITextChannel channel, string name, Snowflake? messageId = null, TimeSpan? automaticArchiveDuration = null, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.CreatePublicThreadAsync(channel.Id, name, messageId, automaticArchiveDuration, options);
+        }
+        
+        public static Task<IThreadChannel> CreatePrivateThreadAsync(this ITextChannel channel, string name, TimeSpan? automaticArchiveDuration = null, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.CreatePrivateThreadAsync(channel.Id, name, automaticArchiveDuration, options);
+        }
+
+        public static Task JoinAsync(this IThreadChannel thread, IRestRequestOptions options = null)
+        {
+            var client = thread.GetRestClient();
+            return client.JoinThreadAsync(thread.Id, options);
+        }
+
+        public static Task AddMemberAsync(this IThreadChannel thread, Snowflake memberId, IRestRequestOptions options = null)
+        {
+            var client = thread.GetRestClient();
+            return client.AddThreadMemberAsync(thread.Id, memberId, options);
+        }
+
+        public static Task LeaveAsync(this IThreadChannel thread, IRestRequestOptions options = null)
+        {
+            var client = thread.GetRestClient();
+            return client.LeaveThreadAsync(thread.Id, options);
+        }
+
+        public static Task RemoveMemberAsync(this IThreadChannel thread, Snowflake memberId, IRestRequestOptions options = null)
+        {
+            var client = thread.GetRestClient();
+            return client.RemoveThreadMemberAsync(thread.Id, memberId, options);
+        }
+
+        public static Task<IReadOnlyList<IThreadMember>> FetchMembersAsync(this IThreadChannel thread, IRestRequestOptions options = null)
+        {
+            var client = thread.GetRestClient();
+            return client.FetchThreadMembersAsync(thread.Id, options);
+        }
+
+        public static IPagedEnumerable<IThreadChannel> EnumeratePublicArchivedThreads(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.EnumeratePublicArchivedThreads(channel.Id, limit, startFromDate, options);
+        }
+
+        public static Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreadsAsync(this IThreadChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.FetchPublicArchivedThreadsAsync(channel.Id, limit, startFromDate, options);
+        }
+
+        public static IPagedEnumerable<IThreadChannel> EnumeratePrivateArchivedThreads(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.EnumeratePrivateArchivedThreads(channel.Id, limit, startFromDate, options);
+        }
+        
+        public static Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreadsAsync(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.FetchPrivateArchivedThreadsAsync(channel.Id, limit, startFromDate, options);
+        }
+        
+        public static IPagedEnumerable<IThreadChannel> EnumerateJoinedPrivateArchivedThreads(this ITextChannel channel, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.EnumerateJoinedPrivateArchivedThreads(channel.Id, limit, startFromId, options);
+        }
+        
+        public static Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreadsAsync(this ITextChannel channel, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        {
+            var client = channel.GetRestClient();
+            return client.FetchJoinedPrivateArchivedThreadsAsync(channel.Id, limit, startFromId, options);
         }
 
         /*

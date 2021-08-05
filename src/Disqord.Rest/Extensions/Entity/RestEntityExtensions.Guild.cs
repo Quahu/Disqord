@@ -77,6 +77,12 @@ namespace Disqord.Rest
             return client.ReorderChannelsAsync(guild.Id, positions, options);
         }
 
+        public static Task<IReadOnlyList<IThreadChannel>> FetchActiveThreadsAsync(this IGuild guild, IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchActiveThreadsAsync(guild.Id, options);
+        }
+
         public static Task<IMember> FetchMemberAsync(this IGuild guild, Snowflake memberId, IRestRequestOptions options = null)
         {
             var client = guild.GetRestClient();
