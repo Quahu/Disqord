@@ -42,7 +42,7 @@ namespace Disqord
             set
             {
                 if (value != null && value.Length > MaxDescriptionLength)
-                    throw new ArgumentOutOfRangeException(nameof(value), $"The selection option's value must not be longer than {MaxDescriptionLength} characters.");
+                    throw new ArgumentOutOfRangeException(nameof(value), $"The selection option's description must not be longer than {MaxDescriptionLength} characters.");
 
                 _description = value;
             }
