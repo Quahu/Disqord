@@ -9,9 +9,6 @@ namespace Disqord.Rest.Api
         [JsonProperty("name")]
         public string Name;
 
-        [JsonProperty("region")]
-        public Optional<string> Region;
-
         [JsonProperty("icon")]
         public Optional<Stream> Icon;
 

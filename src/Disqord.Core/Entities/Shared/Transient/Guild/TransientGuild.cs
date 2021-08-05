@@ -20,8 +20,6 @@ namespace Disqord
 
         public Snowflake OwnerId => Model.OwnerId;
 
-        public string VoiceRegion => Model.Region;
-
         public Snowflake? AfkChannelId => Model.AfkChannelId;
 
         public TimeSpan AfkTimeout => TimeSpan.FromSeconds(Model.AfkTimeout);

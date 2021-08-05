@@ -23,8 +23,6 @@ namespace Disqord.AuditLogs
 
         public AuditLogChange<Optional<IUser>> Owner { get; }
 
-        public AuditLogChange<string> VoiceRegion { get; }
-
         public AuditLogChange<CultureInfo> PreferredLocale { get; }
 
         public AuditLogChange<Snowflake?> AfkChannelId { get; }
@@ -104,11 +102,6 @@ namespace Disqord.AuditLogs
                             newOwner = new TransientUser(client, newOwnerModel);
 
                         Owner = new AuditLogChange<Optional<IUser>>(Optional.FromNullable(oldOwner), Optional.FromNullable(newOwner));
-                        break;
-                    }
-                    case "region":
-                    {
-                        VoiceRegion = AuditLogChange<string>.Convert(change);
                         break;
                     }
                     case "preferred_locale":

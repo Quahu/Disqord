@@ -37,7 +37,6 @@ namespace Disqord.Rest
             var content = new ModifyGuildJsonRestRequestContent
             {
                 Name = properties.Name,
-                Region = properties.VoiceRegionId,
                 VerificationLevel = properties.VerificationLevel,
                 DefaultMessageNotifications = properties.NotificationLevel,
                 ExplicitContentFilter = properties.ContentFilterLevel,

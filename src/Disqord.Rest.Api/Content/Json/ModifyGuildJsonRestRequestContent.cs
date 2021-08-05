@@ -8,9 +8,6 @@ namespace Disqord.Rest.Api
         [JsonProperty("name")]
         public Optional<string> Name;
 
-        [JsonProperty("region")]
-        public Optional<string> Region;
-
         [JsonProperty("verification_level")]
         public Optional<GuildVerificationLevel> VerificationLevel;
 
