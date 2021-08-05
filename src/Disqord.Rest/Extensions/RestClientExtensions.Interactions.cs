@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Http;
 using Disqord.Models;
 using Disqord.Rest.Api;
 
@@ -81,13 +82,14 @@ namespace Disqord.Rest
                 throw new ArgumentNullException(nameof(followup));
 
             followup.Validate();
-            var messageContent = new ExecuteWebhookJsonRestRequestContent
+            var messageContent = new CreateFollowupMessageJsonRestRequestContent
             {
                 Content = Optional.FromNullable(followup.Content),
                 Tts = Optional.Conditional(followup.IsTextToSpeech, true),
                 Embeds = Optional.Conditional(followup.Embeds.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), followup.Embeds),
                 AllowedMentions = Optional.FromNullable(followup.AllowedMentions.ToModel()),
-                Components = Optional.Conditional(followup.Components.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), followup.Components)
+                Components = Optional.Conditional(followup.Components.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), followup.Components),
+                Flags = followup.Flags
             };
 
             Task<MessageJsonModel> task;
@@ -95,7 +97,7 @@ namespace Disqord.Rest
             {
                 // If there are attachments, we must send them via multipart HTTP content.
                 // Our `messageContent` will be serialized into a "payload_json" form data field.
-                var content = new MultipartJsonPayloadRestRequestContent<ExecuteWebhookJsonRestRequestContent>(messageContent, followup.Attachments);
+                var content = new MultipartJsonPayloadRestRequestContent<CreateFollowupMessageJsonRestRequestContent>(messageContent, followup.Attachments);
                 task = client.ApiClient.CreateFollowupInteractionResponseAsync(applicationId, interactionToken, content, options);
             }
             else
@@ -105,6 +107,19 @@ namespace Disqord.Rest
 
             var model = await task.ConfigureAwait(false);
             return new TransientUserMessage(client, model);
+        }
+
+        public static async Task<IUserMessage> FetchInteractionFollowupAsync(this IRestClient client, Snowflake applicationId, string interactionToken, Snowflake messageId, IRestRequestOptions options = null)
+        {
+            try
+            {
+                var model = await client.ApiClient.FetchFollowupInteractionResponseAsync(applicationId, interactionToken, messageId, options).ConfigureAwait(false);
+                return new TransientUserMessage(client, model);
+            }
+            catch (RestApiException ex) when (ex.StatusCode == HttpResponseStatusCode.NotFound && ex.ErrorModel.Code == RestApiErrorCode.UnknownMessage)
+            {
+                return null;
+            }
         }
 
         public static Task<IUserMessage> ModifyInteractionFollowupAsync(this IRestClient client, Snowflake applicationId, string interactionToken, Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action, IRestRequestOptions options = null)
