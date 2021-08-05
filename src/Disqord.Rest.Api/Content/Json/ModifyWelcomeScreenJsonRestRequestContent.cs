@@ -9,7 +9,7 @@ namespace Disqord.Rest.Api
         public Optional<bool> Enabled;
 
         [JsonProperty("welcome_channels")]
-        public Optional<WelcomeScreenJsonModel[]> WelcomeChannels;
+        public Optional<WelcomeScreenChannelJsonModel[]> WelcomeChannels;
 
         [JsonProperty("description")]
         public Optional<string> Description;
