@@ -25,6 +25,12 @@ namespace Disqord.Models
         [JsonProperty("bot_require_code_grant")]
         public bool BotRequireCodeGrant;
 
+        [JsonProperty("terms_of_service_url")]
+        public Optional<string> TermsOfServiceUrl;
+
+        [JsonProperty("privacy_policy_url")]
+        public Optional<string> PrivacyPolicyUrl;
+
         [JsonProperty("owner")]
         public Optional<UserJsonModel> Owner;
 

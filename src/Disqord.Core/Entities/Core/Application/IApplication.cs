@@ -29,6 +29,16 @@ namespace Disqord
         bool BotRequiresCodeGrant { get; }
 
         /// <summary>
+        ///     Gets the URL of this application's terms of service.
+        /// </summary>
+        string TermsOfServiceUrl { get; }
+
+        /// <summary>
+        ///     Gets the URL of this application's privacy policy.
+        /// </summary>
+        string PrivacyPolicyUrl { get; }
+
+        /// <summary>
         ///     Gets the owner of this application.
         /// </summary>
         /// <remarks>

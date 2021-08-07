@@ -24,6 +24,12 @@ namespace Disqord
         public bool BotRequiresCodeGrant => Model.BotRequireCodeGrant;
 
         /// <inheritdoc/>
+        public string TermsOfServiceUrl => Model.TermsOfServiceUrl.GetValueOrDefault();
+
+        /// <inheritdoc/>
+        public string PrivacyPolicyUrl => Model.PrivacyPolicyUrl.GetValueOrDefault();
+
+        /// <inheritdoc/>
         public IUser Owner
         {
             get
