@@ -31,8 +31,7 @@ namespace Disqord
             : base(client, model)
         { }
 
-        public static TransientInvite Create(IClient client, InviteJsonModel model)
+        public static IInvite Create(IClient client, InviteJsonModel model)
             => model.Guild.HasValue ? new TransientGuildInvite(client, model) : new TransientInvite(client, model);
-
     }
 }
