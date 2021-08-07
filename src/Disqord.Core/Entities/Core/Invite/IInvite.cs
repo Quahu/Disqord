@@ -13,15 +13,15 @@ namespace Disqord
         string Code { get; }
 
         /// <summary>
+        ///     Gets the channel this invite was created for.
+        /// </summary>
+        IInviteChannel Channel { get; }
+
+        /// <summary>
         ///     Gets the optional user who created this invite.
         /// </summary>
         IUser Inviter { get; }
 
-        // TODO: voice invite fields
-
-        /// <summary>
-        ///     Gets the optional metadata of this invite.
-        /// </summary>
-        IInviteMetadata Metadata { get; }
+        // Todo: request parameter specific data
     }
 }

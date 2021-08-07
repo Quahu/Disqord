@@ -11,6 +11,10 @@ namespace Disqord
         public string Code => Model.Code;
 
         /// <inheritdoc/>
+        public IInviteChannel Channel => _channel ??= new TransientInviteChannel(Client, Model.Channel);
+        private IInviteChannel _channel;
+
+        /// <inheritdoc/>
         public IUser Inviter
         {
             get
@@ -23,21 +27,12 @@ namespace Disqord
         }
         private IUser _inviter;
 
-        /// <inheritdoc/>
-        public IInviteMetadata Metadata
-        {
-            get
-            {
-                if (_metadata == null && Model.Uses.HasValue)
-                    _metadata = new TransientInviteMetadata(Client, Model);
-
-                return _metadata;
-            }
-        }
-        private IInviteMetadata _metadata;
-
         public TransientInvite(IClient client, InviteJsonModel model)
             : base(client, model)
         { }
+
+        public static TransientInvite Create(IClient client, InviteJsonModel model)
+            => model.Guild.HasValue ? new TransientGuildInvite(client, model) : new TransientInvite(client, model);
+
     }
 }

@@ -17,17 +17,26 @@ namespace Disqord.Models
         [JsonProperty("inviter")]
         public Optional<UserJsonModel> Inviter;
 
+        [JsonProperty("target_type")]
+        public Optional<InviteTargetType> TargetType;
+
         [JsonProperty("target_user")]
         public Optional<UserJsonModel> TargetUser;
 
-        [JsonProperty("target_user_type")]
-        public Optional<int> TargetUserType;
+        [JsonProperty("target_application")]
+        public Optional<ApplicationJsonModel> TargetApplication;
 
         [JsonProperty("approximate_presence_count")]
         public Optional<int> ApproximatePresenceCount;
 
         [JsonProperty("approximate_member_count")]
         public Optional<int> ApproximateMemberCount;
+
+        [JsonProperty("expires_at")]
+        public Optional<DateTimeOffset?> ExpiresAt;
+
+        [JsonProperty("stage_instance")]
+        public Optional<InviteStageInstanceJsonModel> StageInstance;
 
         // Metadata
         [JsonProperty("uses")]
