@@ -8,7 +8,7 @@ namespace Disqord.Rest
         public static async Task<IInvite> FetchInviteAsync(this IRestClient client, string code, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchInviteAsync(code, options).ConfigureAwait(false);
-            return new TransientInvite(client, model);
+            return TransientInvite.Create(client, model);
         }
 
         public static Task DeleteInviteAsync(this IRestClient client, string code, IRestRequestOptions options = null)
