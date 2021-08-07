@@ -4,11 +4,11 @@ namespace Disqord
 {
     public class LocalSelectionComponentOption : ILocalConstruct
     {
-        public const int MaxLabelLength = 25;
+        public const int MaxLabelLength = 100;
 
         public const int MaxValueLength = 100;
 
-        public const int MaxDescriptionLength = 50;
+        public const int MaxDescriptionLength = 100;
 
         public string Label
         {
