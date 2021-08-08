@@ -65,13 +65,13 @@ namespace Disqord.Hosting
         {
             Client = client;
 
-            foreach (var service in services)
+            var servicesArray = services.GetArray();
+            foreach (var service in servicesArray)
             {
                 service.Logger ??= serviceProvider.GetService(typeof(ILogger<>).MakeGenericType(service.GetType())) as ILogger;
                 service.Client ??= client;
             }
 
-            var servicesArray = services.GetArray();
             ReadyServices = GetServices<ReadyEventArgs>(servicesArray, nameof(DiscordClientService.OnReady));
             ChannelCreatedServices = GetServices<ChannelCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelCreated));
             ChannelUpdatedServices = GetServices<ChannelUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelUpdated));
