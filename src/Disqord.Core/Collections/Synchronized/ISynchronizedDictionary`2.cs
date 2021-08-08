@@ -39,8 +39,8 @@ namespace Disqord.Collections.Synchronized
         {
             lock (this)
             {
-                if (TryGetValue(key, out value))
-                    return value;
+                if (TryGetValue(key, out var existingValue))
+                    return existingValue;
 
                 Add(key, value);
                 return value;
