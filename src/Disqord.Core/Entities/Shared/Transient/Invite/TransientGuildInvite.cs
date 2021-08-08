@@ -8,8 +8,8 @@ namespace Disqord
         public Snowflake GuildId => Model.Guild.Value.Id;
 
         /// <inheritdoc/>
-        public IInviteGuild Guild => _guild ??= new TransientInviteGuild(Client, Model.Guild.Value);
-        private IInviteGuild _guild;
+        public IInviteGuild TargetGuild => _targetGuild ??= new TransientInviteGuild(Client, Model.Guild.Value);
+        private IInviteGuild _targetGuild;
 
         /// <inheritdoc/>
         public InviteTargetType? TargetType => Model.TargetType.GetValueOrNullable();
@@ -41,17 +41,17 @@ namespace Disqord
         private IApplication _targetApplication;
 
         /// <inheritdoc/>
-        public IInviteStage Stage
+        public IInviteStage TargetStage
         {
             get
             {
                 if (!Model.StageInstance.HasValue)
                     return null;
 
-                return _stage ??= new TransientInviteStage(Client, GuildId, Model.StageInstance.Value);
+                return _targetStage ??= new TransientInviteStage(Client, GuildId, Model.StageInstance.Value);
             }
         }
-        private IInviteStage _stage;
+        private IInviteStage _targetStage;
 
         /// <inheritdoc/>
         public int? ApproximatePresenceCount => Model.ApproximatePresenceCount.GetValueOrNullable();

@@ -14,9 +14,9 @@ namespace Disqord
         string Code { get; }
 
         /// <summary>
-        ///     Gets the channel this invite was created for.
+        ///     Gets the target channel this invite was created for.
         /// </summary>
-        IInviteChannel Channel { get; }
+        IInviteChannel TargetChannel { get; }
 
         /// <summary>
         ///     Gets the optional user who created this invite.
@@ -26,12 +26,18 @@ namespace Disqord
         /// <summary>
         ///     Gets the approximate member count of the guild of this invite.
         /// </summary>
+        /// <remarks>
+        ///     Returned when the invite is fetched by code with the <c>withCounts</c> parameter set to <see langword="true" />.
+        /// </remarks>
         int? ApproximateMemberCount { get; }
 
         /// <summary>
         ///     Gets when this invite expires.
         ///     Returns <see langword="null"/> when this invite has no expiration.
         /// </summary>
+        /// <remarks>
+        ///     Returned when the invite is fetched by code with the <c>withExpiration</c> parameter set to <see langword="true" />.
+        /// </remarks>
         DateTimeOffset? ExpiresAt { get; }
     }
 }

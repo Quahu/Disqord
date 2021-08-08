@@ -6,9 +6,9 @@ namespace Disqord
     public interface IGuildInvite : IInvite, IGuildEntity
     {
         /// <summary>
-        ///     Gets the guild this invite was created for.
+        ///     Gets the target guild this invite was created for.
         /// </summary>
-        IInviteGuild Guild { get; }
+        IInviteGuild TargetGuild { get; }
 
         /// <summary>
         ///     Gets the target type of this invite.
@@ -29,15 +29,18 @@ namespace Disqord
         IApplication TargetApplication { get; }
 
         /// <summary>
-        ///     Gets the stage of this invite.
+        ///     Gets the target stage of this invite.
         ///     Returns <see langword="null"/> when this invite's channel is not a stage channel.
         /// </summary>
-        IInviteStage Stage { get; }
+        IInviteStage TargetStage { get; }
 
         /// <summary>
         ///     Gets the approximate presence count of the guild of this invite.
         ///     Returns <see langword="null"/> when this invite's channel is a group channel.
         /// </summary>
+        /// <remarks>
+        ///     Returned when the invite is fetched by code with the <c>withCounts</c> parameter set to <see langword="true" />.
+        /// </remarks>
         int? ApproximatePresenceCount { get; }
 
         /// <summary>
