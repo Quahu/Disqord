@@ -19,22 +19,52 @@ namespace Disqord.Gateway
         /// </summary>
         public string Code { get; }
 
+        /// <summary>
+        ///     Gets when the invite was created.
+        /// </summary>
         public DateTimeOffset CreatedAt { get; }
 
+        /// <summary>
+        ///     Gets the optional user who created the invite.
+        /// </summary>
         public IUser Inviter { get; }
 
+        /// <summary>
+        ///     Gets the maximum age of the invite.
+        /// </summary>
         public int MaxAge { get; }
 
+        /// <summary>
+        ///     Gets the maximum uses of the invite.
+        /// </summary>
         public int MaxUses { get; }
 
+        /// <summary>
+        ///     Gets the optional target type of the invite.
+        ///     Returns <see langword="null"/> when the invite's channel is not a voice channel.
+        /// </summary>
         public InviteTargetType? TargetType { get; }
 
+        /// <summary>
+        ///     Gets the optional target user of the invite.
+        ///     Returns <see langword="null"/> when <see cref="IGuildInvite.TargetType"/> is not <see cref="InviteTargetType.Stream"/>.
+        /// </summary>
         public IUser TargetUser { get; }
 
+        /// <summary>
+        ///     Gets the optional target application of the invite.
+        ///     Returns <see langword="null"/> when <see cref="IGuildInvite.TargetType"/> is not <see cref="InviteTargetType.EmbeddedApplication"/>.
+        /// </summary>
         public IApplication TargetApplication { get; }
 
-        public bool IsTemporary { get; }
+        /// <summary>
+        ///     Gets whether the invite is temporary membership only.
+        /// </summary>
+        public bool IsTemporaryMembership { get; }
 
+        /// <summary>
+        ///     Gets the current uses of the invite.
+        /// </summary>
         public int Uses { get; }
 
         public InviteCreatedEventArgs(
@@ -48,7 +78,7 @@ namespace Disqord.Gateway
             InviteTargetType? targetType,
             IUser targetUser,
             IApplication targetApplication,
-            bool isTemporary,
+            bool isTemporaryMembership,
             int uses)
         {
             TargetGuildId = targetGuildId;
@@ -61,7 +91,7 @@ namespace Disqord.Gateway
             TargetType = targetType;
             TargetUser = targetUser;
             TargetApplication = targetApplication;
-            IsTemporary = isTemporary;
+            IsTemporaryMembership = isTemporaryMembership;
             Uses = uses;
         }
     }
