@@ -25,14 +25,14 @@ namespace Disqord
 
         public static bool TryGetValue<T>(this Optional<T> optional, out T value)
         {
-            if (!optional.HasValue)
+            if (optional.HasValue)
             {
-                value = default;
+                value = optional.Value;
                 return true;
             }
 
-            value = optional.Value;
-            return true;
+            value = default;
+            return false;
         }
     }
 }
