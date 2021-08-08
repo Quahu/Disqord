@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Disqord.Events
@@ -29,12 +30,12 @@ namespace Disqord.Events
             {
                 lock (this)
                 {
-                    return _handlers.Count;
+                    return _handlers.Count();
                 }
             }
         }
 
-        private ImmutableHashSet<AsynchronousEventHandler<TEventArgs>> _handlers;
+        private ImmutableStack<AsynchronousEventHandler<TEventArgs>> _handlers;
         private readonly Action<Exception> _exceptionHandler;
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace Disqord.Events
         /// </summary>
         public AsynchronousEvent()
         {
-            _handlers = ImmutableHashSet<AsynchronousEventHandler<TEventArgs>>.Empty;
+            _handlers = ImmutableStack<AsynchronousEventHandler<TEventArgs>>.Empty;
         }
 
         /// <summary>
@@ -66,12 +67,10 @@ namespace Disqord.Events
 
             lock (this)
             {
-                var currentHandlers = _handlers;
-                var newHandlers = currentHandlers.Add(handler);
-                if (currentHandlers == newHandlers)
+                if (_handlers.Contains(handler))
                     throw new ArgumentException($"The event handler {handler} is already hooked to this event. Did you hook it up twice by mistake?");
 
-                _handlers = newHandlers;
+                _handlers = _handlers.Push(handler);
             }
         }
 
@@ -86,12 +85,10 @@ namespace Disqord.Events
 
             lock (this)
             {
-                var currentHandlers = _handlers;
-                var newHandlers = currentHandlers.Remove(handler);
-                if (currentHandlers == newHandlers)
+                if (!_handlers.Contains(handler))
                     throw new ArgumentException($"The event handler {handler} was never hooked to this event.");
 
-                _handlers = newHandlers;
+                _handlers = ImmutableStack.CreateRange(_handlers.Where(x => x != handler).Reverse());
             }
         }
 
@@ -119,7 +116,7 @@ namespace Disqord.Events
         /// <param name="e"> The <see cref="EventArgs"/> data for this invocation. </param>
         public async ValueTask InvokeAsync(object sender, TEventArgs e)
         {
-            ImmutableHashSet<AsynchronousEventHandler<TEventArgs>> handlers;
+            ImmutableStack<AsynchronousEventHandler<TEventArgs>> handlers;
             lock (this)
             {
                 handlers = _handlers;
@@ -146,7 +143,7 @@ namespace Disqord.Events
         /// <param name="e"> The <see cref="EventArgs"/> data for this invocation. </param>
         public void Invoke(object sender, TEventArgs e)
         {
-            ImmutableHashSet<AsynchronousEventHandler<TEventArgs>> handlers;
+            ImmutableStack<AsynchronousEventHandler<TEventArgs>> handlers;
             lock (this)
             {
                 handlers = _handlers;

@@ -9,7 +9,7 @@ namespace Disqord
     {
         public static T? GetValueOrNullable<T>(this Optional<T> optional)
             where T : struct
-            => optional.HasValue ? optional.Value : new T?();
+            => optional.HasValue ? optional.Value : default(T?);
 
         public static T GetValueOrDefault<T>(this Optional<T> optional)
             => optional.HasValue ? optional.Value : default;
