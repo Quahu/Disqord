@@ -28,7 +28,7 @@ namespace Disqord.Gateway.Api.Models
         public int MaxUses;
 
         [JsonProperty("target_type")]
-        public Optional<int> TargetType;
+        public Optional<InviteTargetType> TargetType;
 
         [JsonProperty("target_user")]
         public Optional<UserJsonModel> TargetUser;
