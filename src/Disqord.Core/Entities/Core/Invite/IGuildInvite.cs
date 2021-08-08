@@ -11,25 +11,25 @@ namespace Disqord
         IInviteGuild TargetGuild { get; }
 
         /// <summary>
-        ///     Gets the target type of this invite.
+        ///     Gets the optional target type of this invite.
         ///     Returns <see langword="null"/> when this invite's channel is not a voice channel.
         /// </summary>
         InviteTargetType? TargetType { get; }
 
         /// <summary>
-        ///     Gets the target user of this invite.
+        ///     Gets the optional target user of this invite.
         ///     Returns <see langword="null"/> when <see cref="IGuildInvite.TargetType"/> is not <see cref="InviteTargetType.Stream"/>.
         /// </summary>
         IUser TargetUser { get; }
 
         /// <summary>
-        ///     Gets the target application of this invite.
+        ///     Gets the optional target application of this invite.
         ///     Returns <see langword="null"/> when <see cref="IGuildInvite.TargetType"/> is not <see cref="InviteTargetType.EmbeddedApplication"/>.
         /// </summary>
         IApplication TargetApplication { get; }
 
         /// <summary>
-        ///     Gets the target stage of this invite.
+        ///     Gets the optional target stage of this invite.
         ///     Returns <see langword="null"/> when this invite's channel is not a stage channel.
         /// </summary>
         IInviteStage TargetStage { get; }
