@@ -74,7 +74,7 @@ namespace Disqord.Rest
                 if (nestableProperties is ModifyMessageGuildChannelActionProperties messageGuildChannelProperties)
                 {
                     content.RateLimitPerUser = Optional.Convert(messageGuildChannelProperties.Slowmode, x => (int) x.TotalSeconds);
-                    
+
                     if (nestableProperties is ModifyTextChannelActionProperties textProperties)
                     {
                         content.Topic = textProperties.Topic;
@@ -342,7 +342,7 @@ namespace Disqord.Rest
         public static async Task<IReadOnlyList<IInvite>> FetchChannelInvitesAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null)
         {
             var models = await client.ApiClient.FetchChannelInvitesAsync(channelId, options).ConfigureAwait(false);
-            return models.ToReadOnlyList(client, (x, client) => new TransientInvite(client, x));
+            return models.ToReadOnlyList(client, (x, client) => TransientInvite.Create(client, x));
         }
 
         /// <summary>
@@ -368,7 +368,7 @@ namespace Disqord.Rest
                 Unique = isUnique
             };
             var model = await client.ApiClient.CreateChannelInviteAsync(channelId, content, options).ConfigureAwait(false);
-            return new TransientInvite(client, model);
+            return TransientInvite.Create(client, model);
         }
 
         public static async Task<IFollowedChannel> FollowNewsChannelAsync(this IRestClient client, Snowflake channelId, Snowflake targetChannelId, IRestRequestOptions options = null)
@@ -420,7 +420,7 @@ namespace Disqord.Rest
             var model = await client.ApiClient.CreateThreadAsync(channelId, content, messageId, options).ConfigureAwait(false);
             return new TransientThreadChannel(client, model);
         }
-        
+
         public static async Task<IThreadChannel> CreatePrivateThreadAsync(this IRestClient client, Snowflake channelId, string name, TimeSpan? automaticArchiveDuration = null, IRestRequestOptions options = null)
         {
             var content = new CreateThreadJsonRestRequestContent
@@ -435,13 +435,13 @@ namespace Disqord.Rest
 
         public static Task JoinThreadAsync(this IRestClient client, Snowflake threadId, IRestRequestOptions options = null)
             => client.ApiClient.JoinThreadAsync(threadId, options);
-        
+
         public static Task AddThreadMemberAsync(this IRestClient client, Snowflake threadId, Snowflake memberId, IRestRequestOptions options = null)
             => client.ApiClient.AddThreadMemberAsync(threadId, memberId, options);
 
         public static Task LeaveThreadAsync(this IRestClient client, Snowflake threadId, IRestRequestOptions options = null)
             => client.ApiClient.LeaveThreadAsync(threadId, options);
-        
+
         public static Task RemoveThreadMemberAsync(this IRestClient client, Snowflake threadId, Snowflake memberId, IRestRequestOptions options = null)
             => client.ApiClient.RemoveThreadMemberAsync(threadId, memberId, options);
 
@@ -456,13 +456,13 @@ namespace Disqord.Rest
             static ChannelJsonModel MatchMemberToThread(ChannelJsonModel threadModel, ThreadMemberJsonModel[] memberModels)
             {
                 var memberModel = Array.Find(memberModels, x => x.Id == threadModel.Id);
-            
+
                 if (memberModel != null)
                     threadModel.Member = memberModel;
 
                 return threadModel;
             }
-            
+
             return (model.HasMore, model.Threads.ToReadOnlyList((client, model.Members), (threadModel, tuple) =>
             {
                 var (client, memberModels) = tuple;
@@ -477,7 +477,7 @@ namespace Disqord.Rest
         {
             if (limit == 0)
                 return ReadOnlyList<IThreadChannel>.Empty;
-            
+
             if (limit <= 100)
                 return (await client.InternalFetchPublicArchivedThreadsAsync(channelId, limit, startFromDate, options).ConfigureAwait(false)).Threads;
 
@@ -498,7 +498,7 @@ namespace Disqord.Rest
         {
             if (limit == 0)
                 return ReadOnlyList<IThreadChannel>.Empty;
-            
+
             if (limit <= 100)
                 return (await client.InternalFetchPrivateArchivedThreadsAsync(channelId, limit, startFromDate, options).ConfigureAwait(false)).Threads;
 
@@ -519,7 +519,7 @@ namespace Disqord.Rest
         {
             if (limit == 0)
                 return ReadOnlyList<IThreadChannel>.Empty;
-            
+
             if (limit <= 100)
                 return (await client.InternalFetchJoinedPrivateArchivedThreadsAsync(channelId, limit, startFromId, options).ConfigureAwait(false)).Threads;
 
