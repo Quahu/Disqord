@@ -9,11 +9,9 @@ namespace Disqord.Rest.Api
         public static Task<InviteJsonModel> FetchInviteAsync(this IRestApiClient client, string code, bool? withCounts = null, bool? withExpiration = null, IRestRequestOptions options = null)
         {
             FormattedRoute route;
-
             if (withCounts != null || withExpiration != null)
             {
                 var queryParameters = new Dictionary<string, object>(withCounts != null && withExpiration != null ? 2 : 1);
-
                 if (withCounts != null)
                     queryParameters["with_counts"] = withCounts.Value;
 

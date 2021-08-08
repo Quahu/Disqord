@@ -9,22 +9,22 @@ namespace Disqord
     public interface IInviteStage : IGuildEntity, IJsonUpdatable<InviteStageInstanceJsonModel>
     {
         /// <summary>
-        ///     Gets the speakers of this stage keyed by the IDs of the members.
+        ///     Gets the speakers of the stage.
         /// </summary>
         IReadOnlyDictionary<Snowflake, IMember> Speakers { get; }
 
         /// <summary>
-        ///     Gets the participant count of this stage.
+        ///     Gets the participant count of the stage.
         /// </summary>
         int ParticipantCount { get; }
 
         /// <summary>
-        ///     Gets the speaker count of this stage.
+        ///     Gets the speaker count of the stage.
         /// </summary>
         int SpeakerCount { get; }
 
         /// <summary>
-        ///     Gets the topic of this stage.
+        ///     Gets the topic of the stage.
         /// </summary>
         string Topic { get; }
     }
