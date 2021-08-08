@@ -39,5 +39,7 @@ namespace Disqord.Gateway.Api
         void NotifyCompletion(GatewayPayloadOperation? operation = null);
 
         void Release(GatewayPayloadOperation? operation = null);
+
+        void Reset();
     }
 }

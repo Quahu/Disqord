@@ -100,8 +100,9 @@ namespace Disqord.Gateway.Api.Default
                 await Gateway.SendAsync(payload, cancellationToken).ConfigureAwait(false);
                 RateLimiter.NotifyCompletion(payload.Op);
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.LogError(ex, "An exception occurred while sending payload: {0}.", payload.Op);
                 RateLimiter.Release(payload.Op);
                 throw;
             }
@@ -170,6 +171,7 @@ namespace Disqord.Gateway.Api.Default
                                     case "READY":
                                     {
                                         Logger.LogInformation("Successfully identified. The gateway is ready.");
+                                        RateLimiter.Reset();
                                         // LINQ is faster here as we avoid double ToType()ing (later in the dispatch handler).
                                         SessionId = (string) ((payload.D as IJsonObject)["session_id"] as IJsonValue).Value;
                                         Logger.LogTrace("Session ID: {0}.", SessionId);

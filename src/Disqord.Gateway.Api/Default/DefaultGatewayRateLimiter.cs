@@ -92,6 +92,10 @@ namespace Disqord.Gateway.Api.Default
                 var bucket = _buckets.GetValueOrDefault(operation.Value);
                 if (bucket != null)
                     await bucket.WaitAsync(cancellationToken).ConfigureAwait(false);
+
+                // TODO verify: identify payloads don't count towards the master limit.
+                if (operation.Value == GatewayPayloadOperation.Identify)
+                    return;
             }
 
             await _masterBucket.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -107,6 +111,10 @@ namespace Disqord.Gateway.Api.Default
 
                 var bucket = _buckets.GetValueOrDefault(operation.Value);
                 bucket?.NotifyCompletion();
+
+                // TODO verify: identify payloads don't count towards the master limit.
+                if (operation.Value == GatewayPayloadOperation.Identify)
+                    return;
             }
 
             _masterBucket.NotifyCompletion();
@@ -122,9 +130,26 @@ namespace Disqord.Gateway.Api.Default
 
                 var bucket = _buckets.GetValueOrDefault(operation.Value);
                 bucket?.Release();
+
+                // TODO verify: identify payloads don't count towards the master limit.
+                if (operation.Value == GatewayPayloadOperation.Identify)
+                    return;
             }
 
             _masterBucket.Release();
+        }
+
+        public void Reset()
+        {
+            foreach (var kvp in _buckets)
+            {
+                if (kvp.Key == GatewayPayloadOperation.Identify)
+                    continue;
+
+                kvp.Value.Reset();
+            }
+
+            _masterBucket.Reset();
         }
 
         private static Bucket GetSharedBucket(ILogger logger, BotToken token, GatewayPayloadOperation operation, int uses, TimeSpan resetDelay)
@@ -149,7 +174,7 @@ namespace Disqord.Gateway.Api.Default
             {
                 get
                 {
-                    lock (_semaphore)
+                    lock (this)
                     {
                         return _semaphore.CurrentCount;
                     }
@@ -157,40 +182,40 @@ namespace Disqord.Gateway.Api.Default
             }
 
             private readonly ILogger _logger;
-            private readonly BetterSemaphoreSlim _semaphore;
+            private readonly SemaphoreSlim _semaphore;
+            private readonly int _limit;
             private readonly TimeSpan _resetDelay;
+            private Cts _resetCts;
             private bool _isResetting;
 
-            public Bucket(ILogger logger, int uses, TimeSpan resetDelay)
+            public Bucket(ILogger logger, int limit, TimeSpan resetDelay)
             {
                 _logger = logger;
-                _semaphore = new BetterSemaphoreSlim(uses, uses);
+                _semaphore = new SemaphoreSlim(limit, limit);
+                _limit = limit;
                 _resetDelay = resetDelay;
             }
 
+            // TODO edge: release waiters on a session reset?
             public Task WaitAsync(CancellationToken cancellationToken)
-            {
-                lock (_semaphore)
-                {
-                    return _semaphore.WaitAsync(cancellationToken);
-                }
-            }
+                => _semaphore.WaitAsync(cancellationToken);
 
             public void NotifyCompletion()
             {
-                lock (_semaphore)
+                lock (this)
                 {
                     if (!_isResetting)
                     {
                         _isResetting = true;
-                        _ = ResetAsync();
+                        _resetCts = new Cts();
+                        _ = ResetAsync(_resetCts.Token);
                     }
                 }
             }
 
             public void Release()
             {
-                lock (_semaphore)
+                lock (this)
                 {
                     try
                     {
@@ -200,23 +225,40 @@ namespace Disqord.Gateway.Api.Default
                 }
             }
 
-            private async Task ResetAsync()
+            public void Reset()
             {
-                await Task.Delay(_resetDelay).ConfigureAwait(false);
-                lock (_semaphore)
+                lock (this)
                 {
-                    var releaseCount = _semaphore.MaximumCount - _semaphore.CurrentCount;
-                    _logger.Log(releaseCount == 0
-                        ? LogLevel.Error
-                        : LogLevel.Debug, "Releasing the semaphore by {0}.", releaseCount);
+                    _resetCts?.Cancel();
+                    _resetCts?.Dispose();
+
+                    var currentCount = _semaphore.CurrentCount;
+                    var releaseCount = _limit - currentCount;
                     try
                     {
-                        _semaphore.Release(releaseCount);
+                        if (releaseCount != 0)
+                        {
+                            _semaphore.Release(releaseCount);
+                            _logger.LogDebug("Reset the semaphore: {0} -> {1}.", currentCount, _limit);
+                        }
                     }
                     finally
                     {
                         _isResetting = false;
                     }
+                }
+            }
+
+            private async Task ResetAsync(CancellationToken cancellationToken)
+            {
+                await Task.Delay(_resetDelay, cancellationToken).ConfigureAwait(false);
+                lock (this)
+                {
+                    var releaseCount = _limit - _semaphore.CurrentCount;
+                    if (releaseCount == 0)
+                        _logger.LogWarning("Releasing the semaphore by {0}.", 0);
+
+                    Reset();
                 }
             }
         }
