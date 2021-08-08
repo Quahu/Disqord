@@ -53,6 +53,9 @@ namespace Disqord
         private IInviteStage _stage;
 
         /// <inheritdoc/>
+        public int? ApproximatePresenceCount => Model.ApproximatePresenceCount.GetValueOrNullable();
+
+        /// <inheritdoc/>
         public IInviteMetadata Metadata
         {
             get

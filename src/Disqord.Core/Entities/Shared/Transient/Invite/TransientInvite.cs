@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 
 namespace Disqord
 {
@@ -26,6 +27,12 @@ namespace Disqord
             }
         }
         private IUser _inviter;
+
+        /// <inheritdoc/>
+        public int? ApproximateMemberCount => Model.ApproximateMemberCount.GetValueOrNullable();
+
+        /// <inheritdoc/>
+        public DateTimeOffset? ExpiresAt => Model.ExpiresAt.Value;
 
         public TransientInvite(IClient client, InviteJsonModel model)
             : base(client, model)

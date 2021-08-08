@@ -35,6 +35,12 @@ namespace Disqord
         IInviteStage Stage { get; }
 
         /// <summary>
+        ///     Gets the approximate presence count of the guild of this invite.
+        ///     Returns <see langword="null"/> when this invite's channel is a group channel.
+        /// </summary>
+        int? ApproximatePresenceCount { get; }
+
+        /// <summary>
         ///     Gets the optional metadata of this invite.
         /// </summary>
         IInviteMetadata Metadata { get; }

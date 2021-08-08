@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 
 namespace Disqord
 {
@@ -22,6 +23,15 @@ namespace Disqord
         /// </summary>
         IUser Inviter { get; }
 
-        // Todo: request parameter specific data
+        /// <summary>
+        ///     Gets the approximate member count of the guild of this invite.
+        /// </summary>
+        int? ApproximateMemberCount { get; }
+
+        /// <summary>
+        ///     Gets when this invite expires.
+        ///     Returns <see langword="null"/> when this invite has no expiration.
+        /// </summary>
+        DateTimeOffset? ExpiresAt { get; }
     }
 }
