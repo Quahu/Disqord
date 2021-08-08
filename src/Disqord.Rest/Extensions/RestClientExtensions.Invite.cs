@@ -5,7 +5,7 @@ namespace Disqord.Rest
 {
     public static partial class RestClientExtensions
     {
-        public static async Task<IInvite> FetchInviteAsync(this IRestClient client, string code, bool withCounts = false, bool withExpiration = false, IRestRequestOptions options = null)
+        public static async Task<IInvite> FetchInviteAsync(this IRestClient client, string code, bool? withCounts = null, bool? withExpiration = null, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchInviteAsync(code, withCounts, withExpiration, options).ConfigureAwait(false);
             return TransientInvite.Create(client, model);

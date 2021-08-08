@@ -6,15 +6,27 @@ namespace Disqord.Rest.Api
 {
     public static partial class RestApiClientExtensions
     {
-        public static Task<InviteJsonModel> FetchInviteAsync(this IRestApiClient client, string code, bool withCounts = false, bool withExpiration = false, IRestRequestOptions options = null)
+        public static Task<InviteJsonModel> FetchInviteAsync(this IRestApiClient client, string code, bool? withCounts = null, bool? withExpiration = null, IRestRequestOptions options = null)
         {
-            var queryParameters = new Dictionary<string, object>(2)
-            {
-                ["with_counts"] = withCounts,
-                ["with_expiration"] = withExpiration
-            };
+            FormattedRoute route;
 
-            var route = Format(Route.Invite.GetInvite, queryParameters, code);
+            if (withCounts != null || withExpiration != null)
+            {
+                var queryParameters = new Dictionary<string, object>(withCounts != null && withExpiration != null ? 2 : 1);
+
+                if (withCounts != null)
+                    queryParameters["with_counts"] = withCounts.Value;
+
+                if (withExpiration != null)
+                    queryParameters["with_expiration"] = withExpiration.Value;
+
+                route = Format(Route.Invite.GetInvite, queryParameters, code);
+            }
+            else
+            {
+                route = Format(Route.Invite.GetInvite, code);
+            }
+
             return client.ExecuteAsync<InviteJsonModel>(route, null, options);
         }
 

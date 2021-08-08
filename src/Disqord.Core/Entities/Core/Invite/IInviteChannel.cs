@@ -1,7 +1,7 @@
 namespace Disqord
 {
     /// <summary>
-    ///     Represents an invite channel.
+    ///     Represents a channel targeted by an invite.
     /// </summary>
     public interface IInviteChannel : IChannel
     { }

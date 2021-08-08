@@ -3,7 +3,7 @@ using Disqord.Models;
 namespace Disqord
 {
     /// <summary>
-    ///     Represents an invite guild.
+    ///     Represents a guild targeted by an invite.
     /// </summary>
     public interface IInviteGuild : ISnowflakeEntity, INamable, IJsonUpdatable<GuildJsonModel>
     {

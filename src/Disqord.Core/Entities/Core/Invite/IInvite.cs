@@ -14,9 +14,9 @@ namespace Disqord
         string Code { get; }
 
         /// <summary>
-        ///     Gets the target channel this invite was created for.
+        ///     Gets the channel this invite was created for.
         /// </summary>
-        IInviteChannel TargetChannel { get; }
+        IInviteChannel Channel { get; }
 
         /// <summary>
         ///     Gets the optional user who created this invite.

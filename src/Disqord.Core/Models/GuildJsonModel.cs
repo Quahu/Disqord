@@ -120,6 +120,6 @@ namespace Disqord.Models
         public Optional<StickerJsonModel[]> Stickers;
 
         [JsonProperty("welcome_screen")]
-        public WelcomeScreenJsonModel WelcomeScreen;
+        public Optional<WelcomeScreenJsonModel> WelcomeScreen;
     }
 }

@@ -32,7 +32,7 @@ namespace Disqord
         public string VanityUrlCode => Model.VanityUrlCode;
 
         /// <inheritdoc/>
-        public IGuildWelcomeScreen WelcomeScreen => _welcomeScreen ??= new TransientGuildWelcomeScreen(Client, Id, Model.WelcomeScreen);
+        public IGuildWelcomeScreen WelcomeScreen => _welcomeScreen ??= new TransientGuildWelcomeScreen(Client, Id, Model.WelcomeScreen.Value);
         private IGuildWelcomeScreen _welcomeScreen;
 
         /// <inheritdoc/>

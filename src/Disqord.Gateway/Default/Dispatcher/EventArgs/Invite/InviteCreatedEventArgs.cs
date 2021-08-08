@@ -7,12 +7,12 @@ namespace Disqord.Gateway
         /// <summary>
         ///     Gets the optional ID of the guild in which the invite was created.
         /// </summary>
-        public Optional<Snowflake> TargetGuildId { get; }
+        public Optional<Snowflake> GuildId { get; }
 
         /// <summary>
         ///     Gets the ID of the channel the invite was created for.
         /// </summary>
-        public Snowflake TargetChannelId { get; }
+        public Snowflake ChannelId { get; }
 
         /// <summary>
         ///     Gets the code of the created invite.
@@ -68,8 +68,8 @@ namespace Disqord.Gateway
         public int Uses { get; }
 
         public InviteCreatedEventArgs(
-            Optional<Snowflake> targetGuildId,
-            Snowflake targetChannelId,
+            Optional<Snowflake> guildId,
+            Snowflake channelId,
             string code,
             DateTimeOffset createdAt,
             IUser inviter,
@@ -81,8 +81,8 @@ namespace Disqord.Gateway
             bool isTemporaryMembership,
             int uses)
         {
-            TargetGuildId = targetGuildId;
-            TargetChannelId = targetChannelId;
+            GuildId = guildId;
+            ChannelId = channelId;
             Code = code;
             CreatedAt = createdAt;
             Inviter = inviter;

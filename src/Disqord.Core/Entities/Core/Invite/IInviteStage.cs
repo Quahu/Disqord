@@ -4,7 +4,7 @@ using Disqord.Models;
 namespace Disqord
 {
     /// <summary>
-    ///     Represents an invite stage.
+    ///     Represents a stage targeted by an invite.
     /// </summary>
     public interface IInviteStage : IGuildEntity, IJsonUpdatable<InviteStageInstanceJsonModel>
     {
