@@ -8,7 +8,8 @@ namespace Disqord
         public Snowflake GuildId => Model.Guild.Value.Id;
 
         /// <inheritdoc/>
-        public IInviteGuild Guild => new TransientInviteGuild(Client, Model.Guild.Value);
+        public IInviteGuild Guild => _guild ??= new TransientInviteGuild(Client, Model.Guild.Value);
+        private IInviteGuild _guild;
 
         /// <inheritdoc/>
         public InviteTargetType? TargetType => Model.TargetType.GetValueOrNullable();
