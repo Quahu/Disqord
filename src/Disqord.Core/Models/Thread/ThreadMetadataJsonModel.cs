@@ -16,5 +16,8 @@ namespace Disqord.Models
 
         [JsonProperty("locked")]
         public Optional<bool> Locked;
+
+        [JsonProperty("invitable")] 
+        public Optional<bool> Invitable;
     }
 }
