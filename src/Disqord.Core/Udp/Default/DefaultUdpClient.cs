@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Threading.Channels;
 using System.Threading.Tasks;
 using Disqord.Utilities.Threading;
 
@@ -10,62 +10,40 @@ namespace Disqord.Udp.Default
     public sealed class DefaultUdpClient : IUdpClient
     {
         private Cts _cts;
-        private Channel<ReadOnlyMemory<byte>> _channel;
-        private readonly UdpClient _udp;
+        private Socket _socket;
 
         public DefaultUdpClient()
-        {
-            _udp = new UdpClient();
-        }
+        { }
 
-        public void Connect(string hostname, int port)
+        public async ValueTask ConnectAsync(string hostName, int port, CancellationToken cancellationToken = default)
         {
-            _udp.Connect(hostname, port);
             _cts = new Cts();
-            _channel = Channel.CreateUnbounded<ReadOnlyMemory<byte>>();
-            _ = Task.Run(RunReceiveAsync);
+            var hostAddresses = await Dns.GetHostAddressesAsync(hostName).ConfigureAwait(false);
+            var hostAddress = Array.Find(hostAddresses, x => x.AddressFamily == AddressFamily.InterNetwork);
+            if (hostAddress == null)
+                throw new InvalidOperationException($"Could not resolve the UDP client's host '{hostName}'.");
+
+            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            await _socket.ConnectAsync(hostAddress, port, cancellationToken).ConfigureAwait(false);
         }
 
-        public void Close()
+        public ValueTask CloseAsync(CancellationToken cancellationToken = default)
         {
             _cts?.Cancel();
             _cts?.Dispose();
-            _channel?.Writer.Complete();
-            try
-            {
-                _udp.Close();
-            }
-            catch { }
+            _socket.Close();
+            return default;
         }
 
-        public Task SendAsync(ArraySegment<byte> bytes, CancellationToken cancellationToken = default)
-            => _udp.SendAsync(bytes.Array, bytes.Count);
+        public ValueTask<int> SendAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
+            => _socket.SendAsync(buffer, SocketFlags.None, cancellationToken);
 
-        public ValueTask<ReadOnlyMemory<byte>> ReceiveAsync(CancellationToken cancellationToken = default)
-            => _channel.Reader.ReadAsync(cancellationToken);
-
-        private async Task RunReceiveAsync()
-        {
-            var token = _cts.Token;
-            while (!token.IsCancellationRequested)
-            {
-                try
-                {
-                    var result = await _udp.ReceiveAsync().ConfigureAwait(false);
-                    await _channel.Writer.WriteAsync(result.Buffer, token).ConfigureAwait(false);
-                }
-                catch (TaskCanceledException)
-                { }
-                catch (Exception ex)
-                {
-                    _channel.Writer.TryComplete(ex);
-                }
-            }
-        }
+        public ValueTask<int> ReceiveAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+            => _socket.ReceiveAsync(buffer, SocketFlags.None, cancellationToken);
 
         public void Dispose()
         {
-            _udp.Dispose();
+            _socket?.Dispose();
         }
     }
 }

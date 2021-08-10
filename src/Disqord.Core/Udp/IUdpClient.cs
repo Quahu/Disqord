@@ -6,12 +6,12 @@ namespace Disqord.Udp
 {
     public interface IUdpClient : IDisposable
     {
-        void Connect(string hostname, int port);
+        ValueTask ConnectAsync(string hostName, int port, CancellationToken cancellationToken = default);
 
-        void Close();
+        ValueTask CloseAsync(CancellationToken cancellationToken = default);
 
-        Task SendAsync(ArraySegment<byte> data, CancellationToken cancellationToken = default);
+        ValueTask<int> SendAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default);
 
-        ValueTask<ReadOnlyMemory<byte>> ReceiveAsync(CancellationToken cancellationToken = default);
+        ValueTask<int> ReceiveAsync(Memory<byte> buffer, CancellationToken cancellationToken = default);
     }
 }
