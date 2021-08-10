@@ -152,8 +152,8 @@ namespace Disqord.Rest
             return client.ApiClient.ReorderGuildChannelsAsync(guildId, content, options);
         }
 
-        public static async Task<IReadOnlyList<IThreadChannel>> FetchActiveThreadsAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null) 
-        { 
+        public static async Task<IReadOnlyList<IThreadChannel>> FetchActiveThreadsAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        {
             var model = await client.ApiClient.FetchActiveThreadsAsync(guildId, options).ConfigureAwait(false);
             return CreateThreads(client, model).Threads;
         }
@@ -386,7 +386,7 @@ namespace Disqord.Rest
         public static async Task<IReadOnlyList<IInvite>> FetchGuildInvitesAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var models = await client.ApiClient.FetchGuildInvitesAsync(guildId, options).ConfigureAwait(false);
-            return models.ToReadOnlyList(client, (x, client) => new TransientInvite(client, x));
+            return models.ToReadOnlyList(client, (x, client) => TransientInvite.Create(client, x));
         }
 
         public static async Task<IReadOnlyList<IIntegration>> FetchIntegrationsAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)

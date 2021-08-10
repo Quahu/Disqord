@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
-using Disqord.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
@@ -9,20 +8,10 @@ namespace Disqord.Gateway.Default.Dispatcher
     {
         public override ValueTask<InviteCreatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, InviteCreateJsonModel model)
         {
-            var invite = new TransientInvite(Client, new InviteJsonModel
-            {
-                Code = model.Code,
-                Inviter = model.Inviter,
-                MaxUses = model.MaxUses,
-                MaxAge = model.MaxAge,
-                Temporary = model.Temporary,
-                CreatedAt = model.CreatedAt,
-                Channel = new ChannelJsonModel
-                {
-                    Id = model.ChannelId
-                }
-            });
-            var e = new InviteCreatedEventArgs(model.GuildId, invite);
+            var inviter = Optional.ConvertOrDefault(model.Inviter, x => new TransientUser(Client, x)) as IUser;
+            var targetUser = Optional.ConvertOrDefault(model.TargetUser, x => new TransientUser(Client, x)) as IUser;
+            var targetApplication = Optional.ConvertOrDefault(model.TargetApplication, x => new TransientApplication(Client, x)) as IApplication;
+            var e = new InviteCreatedEventArgs(model.GuildId, model.ChannelId, model.Code, model.CreatedAt, inviter, model.MaxAge, model.MaxUses, model.TargetType.GetValueOrNullable(), targetUser, targetApplication, model.Temporary, model.Uses);
             return new(e);
         }
     }

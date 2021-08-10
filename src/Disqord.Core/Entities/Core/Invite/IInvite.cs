@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 
 namespace Disqord
 {
@@ -13,15 +14,30 @@ namespace Disqord
         string Code { get; }
 
         /// <summary>
+        ///     Gets the channel this invite was created for.
+        /// </summary>
+        IInviteChannel Channel { get; }
+
+        /// <summary>
         ///     Gets the optional user who created this invite.
         /// </summary>
         IUser Inviter { get; }
 
-        // TODO: voice invite fields
+        /// <summary>
+        ///     Gets the approximate member count of the guild of this invite.
+        /// </summary>
+        /// <remarks>
+        ///     Returned when the invite is fetched by code with the <c>withCounts</c> parameter set to <see langword="true" />.
+        /// </remarks>
+        int? ApproximateMemberCount { get; }
 
         /// <summary>
-        ///     Gets the optional metadata of this invite.
+        ///     Gets when this invite expires.
+        ///     Returns <see langword="null"/> when this invite has no expiration.
         /// </summary>
-        IInviteMetadata Metadata { get; }
+        /// <remarks>
+        ///     Returned when the invite is fetched by code with the <c>withExpiration</c> parameter set to <see langword="true" />.
+        /// </remarks>
+        DateTimeOffset? ExpiresAt { get; }
     }
 }

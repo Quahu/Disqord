@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 
 namespace Disqord
 {
@@ -9,6 +10,10 @@ namespace Disqord
 
         /// <inheritdoc/>
         public string Code => Model.Code;
+
+        /// <inheritdoc/>
+        public IInviteChannel Channel => _channel ??= new TransientInviteChannel(Client, Model.Channel);
+        private IInviteChannel _channel;
 
         /// <inheritdoc/>
         public IUser Inviter
@@ -24,20 +29,16 @@ namespace Disqord
         private IUser _inviter;
 
         /// <inheritdoc/>
-        public IInviteMetadata Metadata
-        {
-            get
-            {
-                if (_metadata == null && Model.Uses.HasValue)
-                    _metadata = new TransientInviteMetadata(Client, Model);
+        public int? ApproximateMemberCount => Model.ApproximateMemberCount.GetValueOrNullable();
 
-                return _metadata;
-            }
-        }
-        private IInviteMetadata _metadata;
+        /// <inheritdoc/>
+        public DateTimeOffset? ExpiresAt => Model.ExpiresAt.Value;
 
         public TransientInvite(IClient client, InviteJsonModel model)
             : base(client, model)
         { }
+
+        public static IInvite Create(IClient client, InviteJsonModel model)
+            => model.Guild.HasValue ? new TransientGuildInvite(client, model) : new TransientInvite(client, model);
     }
 }
