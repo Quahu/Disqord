@@ -11,7 +11,7 @@ namespace Disqord.WebSocket.Default.Discord
 {
     internal sealed partial class DiscordWebSocket : IDisposable
     {
-        public const int RECEIVE_BUFFER_SIZE = 8192;
+        public const int ReceiveBufferSize = 8192;
 
         public ILogger Logger { get; }
 
@@ -21,7 +21,7 @@ namespace Disqord.WebSocket.Default.Discord
         private IWebSocketClient _ws;
 
         /// <summary>
-        ///     This is a 200 IQ fix for the ClientWebSocket being garbage and aborting itself on a cancelled ReceiveAsync (and possibly SendAsync)
+        ///     This is a fix for the ClientWebSocket being garbage and aborting itself on a cancelled ReceiveAsync (and possibly SendAsync)
         ///     rendering us unable to close the connection gracefully.
         ///     1. We create an infinite task that runs alongside the Send/ReceiveAsync() tasks and pass it the actual cancellation token just to signal cancellation.
         ///     2. We pass the Send/ReceiveAsync() task an essentially bogus cancellation token that gets cancelled when we close the connection,
@@ -39,7 +39,7 @@ namespace Disqord.WebSocket.Default.Discord
         private bool _isDisposed;
 
         public DiscordWebSocket(
-            ILogger logger, 
+            ILogger logger,
             IWebSocketClientFactory webSocketClientFactory,
             bool supportsZLib = true)
         {
@@ -50,8 +50,8 @@ namespace Disqord.WebSocket.Default.Discord
             _sendSemaphore = new SemaphoreSlim(1, 1);
 
             _receiveSemaphore = new SemaphoreSlim(1, 1);
-            _receiveBuffer = new byte[RECEIVE_BUFFER_SIZE];
-            _receiveStream = new MemoryStream(RECEIVE_BUFFER_SIZE * 2);
+            _receiveBuffer = new byte[ReceiveBufferSize];
+            _receiveStream = new MemoryStream(ReceiveBufferSize * 2);
         }
 
         private void ThrowIfDisposed()
@@ -72,8 +72,9 @@ namespace Disqord.WebSocket.Default.Discord
             if (_supportsZLib)
             {
                 _receiveZLibStream?.Dispose();
-                _receiveZLibStream = _createZLibStream(_receiveStream);
+                _receiveZLibStream = CreateZLibStream(_receiveStream);
             }
+
             await _ws.ConnectAsync(url, token).ConfigureAwait(false);
         }
 
@@ -176,8 +177,7 @@ namespace Disqord.WebSocket.Default.Discord
                 {
                     await _ws.CloseAsync(closeStatus, closeMessage, cancellationToken).ConfigureAwait(false);
                 }
-                catch
-                { }
+                catch { }
             }
 
             _limboCts?.Cancel();

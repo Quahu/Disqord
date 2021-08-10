@@ -9,7 +9,7 @@ namespace Disqord.WebSocket.Default.Discord
 {
     internal sealed partial class DiscordWebSocket
     {
-        private static readonly Func<Stream, DeflateStream> _createZLibStream;
+        private static readonly Func<Stream, DeflateStream> CreateZLibStream;
 
         static DiscordWebSocket()
         {
@@ -28,7 +28,7 @@ namespace Disqord.WebSocket.Default.Discord
                 Expression.Constant(15),
                 Expression.Constant((long) -1)
             };
-            _createZLibStream = Expression.Lambda<Func<Stream, DeflateStream>>(Expression.New(constructor, parameters), parameter).Compile();
+            CreateZLibStream = Expression.Lambda<Func<Stream, DeflateStream>>(Expression.New(constructor, parameters), parameter).Compile();
         }
     }
 }
