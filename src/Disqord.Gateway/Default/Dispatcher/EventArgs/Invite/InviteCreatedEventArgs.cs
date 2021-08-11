@@ -5,9 +5,10 @@ namespace Disqord.Gateway
     public class InviteCreatedEventArgs : EventArgs
     {
         /// <summary>
-        ///     Gets the optional ID of the guild in which the invite was created.
+        ///     Gets the ID of the guild in which the invite was created.
+        ///     Returns <see langword="null"/> if the invite was created in a private channel.
         /// </summary>
-        public Optional<Snowflake> GuildId { get; }
+        public Snowflake? GuildId { get; }
 
         /// <summary>
         ///     Gets the ID of the channel the invite was created for.
@@ -68,7 +69,7 @@ namespace Disqord.Gateway
         public int Uses { get; }
 
         public InviteCreatedEventArgs(
-            Optional<Snowflake> guildId,
+            Snowflake? guildId,
             Snowflake channelId,
             string code,
             DateTimeOffset createdAt,

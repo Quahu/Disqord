@@ -5,6 +5,11 @@ namespace Disqord.Gateway
     public class ChannelUpdatedEventArgs : EventArgs
     {
         /// <summary>
+        ///     Gets the ID of the guild the channel was updated in.
+        /// </summary>
+        public Snowflake GuildId => NewChannel.GuildId;
+
+        /// <summary>
         ///     Gets the ID of the updated channel.
         /// </summary>
         public Snowflake ChannelId => NewChannel.Id;

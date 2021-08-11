@@ -5,6 +5,12 @@ namespace Disqord.Gateway
     public class ReactionRemovedEventArgs : EventArgs
     {
         /// <summary>
+        ///     Gets the ID of the guild in which the reaction was removed.
+        ///     Returns <see langword="null"/> if it was removed in a private channel.
+        /// </summary>
+        public Snowflake? GuildId { get; }
+
+        /// <summary>
         ///     Gets the ID of the user who removed the reaction.
         /// </summary>
         public Snowflake UserId { get; }
@@ -26,29 +32,23 @@ namespace Disqord.Gateway
         public CachedUserMessage Message { get; }
 
         /// <summary>
-        ///     Gets the ID of the guild in which the reaction was removed.
-        ///     Returns <see langword="null"/> if it was removed in a private channel.
-        /// </summary>
-        public Snowflake? GuildId { get; }
-
-        /// <summary>
         ///     Gets the emoji that was removed.
         /// </summary>
         public IEmoji Emoji { get; }
 
         public ReactionRemovedEventArgs(
+            Snowflake? guildId,
             Snowflake userId,
             Snowflake channelId,
             Snowflake messageId,
             CachedUserMessage message,
-            Snowflake? guildId,
             IEmoji emoji)
         {
+            GuildId = guildId;
             UserId = userId;
             ChannelId = channelId;
             MessageId = messageId;
             Message = message;
-            GuildId = guildId;
             Emoji = emoji;
         }
     }

@@ -5,9 +5,10 @@ namespace Disqord.Gateway
     public class InviteDeletedEventArgs : EventArgs
     {
         /// <summary>
-        ///     Gets the optional ID of the guild in which the invite was deleted.
+        ///     Gets the ID of the guild in which the invite was deleted.
+        ///     Returns <see langword="null"/> if the invite was deleted in a private channel.
         /// </summary>
-        public Optional<Snowflake> GuildId { get; }
+        public Snowflake? GuildId { get; }
 
         /// <summary>
         ///     Gets the ID of the channel the invite was deleted for.
@@ -20,7 +21,7 @@ namespace Disqord.Gateway
         public string Code { get; }
 
         public InviteDeletedEventArgs(
-            Optional<Snowflake> guildId,
+            Snowflake? guildId,
             Snowflake channelId,
             string code)
         {

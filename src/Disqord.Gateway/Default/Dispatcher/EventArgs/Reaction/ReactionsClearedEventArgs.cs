@@ -6,6 +6,12 @@ namespace Disqord.Gateway
     public class ReactionsClearedEventArgs : EventArgs
     {
         /// <summary>
+        ///     Gets the ID of the guild in which the reactions were cleared.
+        ///     Returns <see langword="null"/> if it was removed in a private channel.
+        /// </summary>
+        public Snowflake? GuildId { get; }
+
+        /// <summary>
         ///     Gets the ID of the channel in which the reactions were cleared.
         /// </summary>
         public Snowflake ChannelId { get; }
@@ -22,12 +28,6 @@ namespace Disqord.Gateway
         public CachedUserMessage Message { get; }
 
         /// <summary>
-        ///     Gets the ID of the guild in which the reactions were cleared.
-        ///     Returns <see langword="null"/> if it was removed in a private channel.
-        /// </summary>
-        public Snowflake? GuildId { get; }
-
-        /// <summary>
         ///     Gets the emoji that was cleared.
         ///     Returns <see langword="null"/> if all emojis were cleared and not just a single one.
         /// </summary>
@@ -40,17 +40,17 @@ namespace Disqord.Gateway
         public Optional<IReadOnlyDictionary<IEmoji, MessageReaction>> OldReactions { get; }
 
         public ReactionsClearedEventArgs(
-            Snowflake channelId, 
-            Snowflake messageId, 
-            CachedUserMessage message, 
-            Snowflake? guildId, 
-            IEmoji emoji, 
+            Snowflake? guildId,
+            Snowflake channelId,
+            Snowflake messageId,
+            CachedUserMessage message,
+            IEmoji emoji,
             Optional<IReadOnlyDictionary<IEmoji, MessageReaction>> oldReactions)
         {
+            GuildId = guildId;
             ChannelId = channelId;
             MessageId = messageId;
             Message = message;
-            GuildId = guildId;
             Emoji = emoji;
             OldReactions = oldReactions;
         }

@@ -23,7 +23,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 oldReactions = default;
             }
 
-            var e = new ReactionsClearedEventArgs(model.ChannelId, model.MessageId, message, model.GuildId.GetValueOrNullable(), null, oldReactions);
+            var e = new ReactionsClearedEventArgs(model.GuildId.GetValueOrNullable(), model.ChannelId, model.MessageId, message, null, oldReactions);
             return new(e);
         }
     }

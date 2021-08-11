@@ -5,6 +5,12 @@ namespace Disqord.Gateway
     public class ReactionAddedEventArgs : EventArgs
     {
         /// <summary>
+        ///     Gets the ID of the guild in which the reaction was added.
+        ///     Returns <see langword="null"/> if it was added in a private channel.
+        /// </summary>
+        public Snowflake? GuildId { get; }
+
+        /// <summary>
         ///     Gets the ID of the user who added the reaction.
         /// </summary>
         public Snowflake UserId { get; }
@@ -26,12 +32,6 @@ namespace Disqord.Gateway
         public CachedUserMessage Message { get; }
 
         /// <summary>
-        ///     Gets the ID of the guild in which the reaction was added.
-        ///     Returns <see langword="null"/> if it was added in a private channel.
-        /// </summary>
-        public Snowflake? GuildId { get; }
-
-        /// <summary>
         ///     Gets the member who added the reaction.
         ///     Returns <see langword="null"/> if it was added in a private channel.
         /// </summary>
@@ -43,19 +43,19 @@ namespace Disqord.Gateway
         public IEmoji Emoji { get; }
 
         public ReactionAddedEventArgs(
+            Snowflake? guildId,
             Snowflake userId,
             Snowflake channelId,
             Snowflake messageId,
             CachedUserMessage message,
-            Snowflake? guildId,
             IMember member,
             IEmoji emoji)
         {
+            GuildId = guildId;
             UserId = userId;
             ChannelId = channelId;
             MessageId = messageId;
             Message = message;
-            GuildId = guildId;
             Member = member;
             Emoji = emoji;
         }

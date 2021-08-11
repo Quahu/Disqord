@@ -5,6 +5,11 @@ namespace Disqord.Gateway
     public class MemberUpdatedEventArgs : EventArgs
     {
         /// <summary>
+        ///     Gets the ID of the guild in which the member was updated.
+        /// </summary>
+        public Snowflake GuildId => NewMember.GuildId;
+
+        /// <summary>
         ///     Gets the ID of the updated member.
         /// </summary>
         public Snowflake MemberId => NewMember.Id;

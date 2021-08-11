@@ -8,7 +8,7 @@ namespace Disqord.Gateway.Default.Dispatcher
     {
         public override ValueTask<InviteDeletedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, InviteDeleteJsonModel model)
         {
-            var e = new InviteDeletedEventArgs(model.GuildId, model.ChannelId, model.Code);
+            var e = new InviteDeletedEventArgs(model.GuildId.GetValueOrNullable(), model.ChannelId, model.Code);
             return new(e);
         }
     }
