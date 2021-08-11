@@ -1,5 +1,4 @@
-﻿using System;
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord.Interaction
 {
@@ -22,6 +21,7 @@ namespace Disqord.Interaction
         public IUser Author => _author ??= Model.Member.HasValue
             ? new TransientMember(Client, GuildId.Value, Model.Member.Value)
             : new TransientUser(Client, Model.User.Value);
+
         private IUser _author;
 
         public TransientInteraction(IClient client, InteractionJsonModel model)
@@ -31,6 +31,12 @@ namespace Disqord.Interaction
         public static IInteraction Create(IClient client, InteractionJsonModel model)
             => model.Type switch
             {
+                InteractionType.ApplicationCommand => model.Data.Value.Type.Value switch
+                {
+                    ApplicationCommandType.Text => new TransientTextCommandInteraction(client, model),
+                    ApplicationCommandType.User or ApplicationCommandType.Message => new TransientContextMenuInteraction(client, model),
+                    _ => new TransientApplicationCommandInteraction(client, model)
+                },
                 InteractionType.MessageComponent => new TransientComponentInteraction(client, model),
                 _ => new TransientInteraction(client, model)
             };

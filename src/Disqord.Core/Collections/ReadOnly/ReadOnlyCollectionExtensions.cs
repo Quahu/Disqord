@@ -33,9 +33,9 @@ namespace Disqord.Collections
         }
 
         public static IReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<TSource, TKey, TValue, TState>(
-            this IEnumerable<TSource> source, TState state, Func<TSource, TState, TKey> keySelector, Func<TSource, TState, TValue> valueSelector)
+            this IEnumerable<TSource> source, TState state, Func<TSource, TState, TKey> keySelector, Func<TSource, TState, TValue> valueSelector, IEqualityComparer<TKey> comparer = null)
         {
-            var dictionary = new Dictionary<TKey, TValue>();
+            var dictionary = new Dictionary<TKey, TValue>(comparer);
             foreach (var item in source)
             {
                 var key = keySelector(item, state);

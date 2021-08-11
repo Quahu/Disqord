@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Bot;
@@ -6,12 +7,44 @@ using Disqord.Extensions.Interactivity;
 using Disqord.Extensions.Interactivity.Menus;
 using Disqord.Extensions.Interactivity.Menus.Paged;
 using Disqord.Gateway;
+using Disqord.Models;
+using Disqord.Rest;
+using Disqord.Rest.Api;
+using Microsoft.Extensions.Logging;
 using Qmmands;
 
 namespace Disqord.Test
 {
     public class TestModule : DiscordModuleBase
     {
+        [Command("slash")]
+        [RequireBotOwner]
+        public async ValueTask Slash()
+        {
+            var api = (Bot as IRestClient).ApiClient;
+            var content = new CreateApplicationCommandJsonRestRequestContent
+            {
+                // slash command creation
+                Name = "echo",
+                Description = "Echoes user input.",
+                Options = new[]
+                {
+                    new ApplicationCommandOptionJsonModel
+                    {
+                        Name = "text",
+                        Description = "The text to echo.",
+                        Required = true,
+                        Type = ApplicationCommandOptionType.String
+                    }
+                }
+
+                // context menu command creation
+                // Name = "Rate Message",
+                // Type = ApplicationCommandType.Message
+            };
+            await api.CreateGuildApplicationCommandAsync(Bot.CurrentUser.Id, Context.GuildId.Value, content);
+        }
+
         [Command("menudemo")]
         public DiscordCommandResult MenuDemo()
             => View(new FirstView());

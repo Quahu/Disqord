@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Bot;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
+using Disqord.Rest;
 using Microsoft.Extensions.Logging;
 
 namespace Disqord.Test
@@ -14,6 +16,44 @@ namespace Disqord.Test
         {
             Logger.LogInformation("Ready fired!");
             return default;
+        }
+
+        protected override async ValueTask OnInteractionReceived(InteractionReceivedEventArgs e)
+        {
+            if (e.Interaction is ITextCommandInteraction textCommandInteraction)
+            {
+                switch (textCommandInteraction.CommandName)
+                {
+                    case "echo":
+                    {
+                        var text = textCommandInteraction.Options.GetValueOrDefault("text")?.Value as string;
+                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse().WithContent(text).WithAllowedMentions(LocalAllowedMentions.None));
+                        break;
+                    }
+                }
+            }
+            else if (e.Interaction is IContextMenuInteraction contextMenuInteraction)
+            {
+                switch (contextMenuInteraction.CommandName)
+                {
+                    case "Rate Message" when contextMenuInteraction.CommandType == ApplicationCommandType.Message:
+                    {
+                        var message = contextMenuInteraction.Entities.Messages.GetValueOrDefault(contextMenuInteraction.TargetId);
+                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse()
+                            .WithContent("I rate it 2/10.")
+                            .AddEmbed(new LocalEmbed()
+                                .WithDescription(message.Content))
+                            .WithAllowedMentions(LocalAllowedMentions.None));
+                        break;
+                    }
+                    case "Give Cookie" when contextMenuInteraction.CommandType == ApplicationCommandType.User:
+                    {
+                        var user = contextMenuInteraction.Entities.Users.GetValueOrDefault(contextMenuInteraction.TargetId);
+                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse().WithContent($"{user.Mention} 🍪."));
+                        break;
+                    }
+                }
+            }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

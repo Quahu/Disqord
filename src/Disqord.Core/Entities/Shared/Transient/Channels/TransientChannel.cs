@@ -17,7 +17,7 @@ namespace Disqord
         public override string ToString()
             => Name;
 
-        public static TransientChannel Create(IClient client, ChannelJsonModel model)
+        public static IChannel Create(IClient client, ChannelJsonModel model)
         {
             switch (model.Type)
             {
