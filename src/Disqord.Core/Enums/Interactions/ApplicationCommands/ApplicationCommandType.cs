@@ -6,9 +6,9 @@ namespace Disqord
     public enum ApplicationCommandType : byte
     {
         /// <summary>
-        ///     A text based command that shows up when a user types <c>slash</c>.
+        ///     A text based command that shows up when a user types <c>&#47;</c>.
         /// </summary>
-        ChatInput = 1,
+        Text = 1,
 
         /// <summary>
         ///     A UI based command that shows up in a user context menu.
