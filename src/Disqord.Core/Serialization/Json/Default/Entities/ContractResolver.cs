@@ -18,6 +18,7 @@ namespace Disqord.Serialization.Json.Default
         internal readonly StreamConverter _streamConverter;
         private readonly JsonNodeConverter _jsonNodeConverter;
         private readonly SnowflakeConverter _snowflakeConverter;
+        private readonly ISynchronizedDictionary<Type, JsonConverter> _snowflakeDictionaryConverters;
         private readonly ISynchronizedDictionary<Type, OptionalConverter> _optionalConverters;
 
         public ContractResolver(DefaultJsonSerializer serializer)
@@ -27,13 +28,13 @@ namespace Disqord.Serialization.Json.Default
             _streamConverter = new StreamConverter(serializer);
             _jsonNodeConverter = new JsonNodeConverter();
             _snowflakeConverter = new SnowflakeConverter();
+            _snowflakeDictionaryConverters = new SynchronizedDictionary<Type, JsonConverter>();
             _optionalConverters = new SynchronizedDictionary<Type, OptionalConverter>();
         }
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var jsonProperty = base.CreateProperty(member, memberSerialization);
-            var accessor = JsonAccessor.Create(member);
             var jsonIgnoreAttribute = member.GetCustomAttribute<JsonIgnoreAttribute>();
             if (jsonIgnoreAttribute != null)
             {
@@ -53,12 +54,12 @@ namespace Disqord.Serialization.Json.Default
 
             if (jsonProperty.PropertyType.IsGenericType && typeof(IOptional).IsAssignableFrom(jsonProperty.PropertyType))
             {
-                jsonProperty.ShouldSerialize = instance => ((IOptional) accessor.GetValue(instance)).HasValue;
-                jsonProperty.Converter = GetOptionalConverter(accessor);
+                jsonProperty.ShouldSerialize = instance => ((IOptional) jsonProperty.ValueProvider.GetValue(instance)).HasValue;
+                jsonProperty.Converter = GetOptionalConverter(jsonProperty.PropertyType);
             }
             else
             {
-                jsonProperty.Converter = GetConverter(accessor.Type) ?? jsonProperty.Converter;
+                jsonProperty.Converter = GetConverter(jsonProperty.PropertyType) ?? jsonProperty.Converter;
             }
 
             return jsonProperty;
@@ -66,11 +67,9 @@ namespace Disqord.Serialization.Json.Default
 
         protected override JsonContract CreateContract(Type objectType)
         {
-            JsonContract contract;
-            if (typeof(JsonModel).IsAssignableFrom(objectType))
-                contract = CreateObjectContract(objectType);
-            else
-                contract = base.CreateContract(objectType);
+            var contract = typeof(JsonModel).IsAssignableFrom(objectType)
+                ? CreateObjectContract(objectType)
+                : base.CreateContract(objectType);
             contract.Converter = GetConverter(objectType) ?? contract.Converter;
             return contract;
         }
@@ -131,9 +130,9 @@ namespace Disqord.Serialization.Json.Default
             return contract;
         }
 
-        private OptionalConverter GetOptionalConverter(JsonAccessor accessor)
+        private OptionalConverter GetOptionalConverter(Type type)
         {
-            var optionalType = accessor.Type.GenericTypeArguments[0];
+            var optionalType = type.GenericTypeArguments[0];
             return _optionalConverters.GetOrAdd(optionalType, (x, @this) => OptionalConverter.Create(@this.GetConverter(x)), this);
         }
 
@@ -162,60 +161,17 @@ namespace Disqord.Serialization.Json.Default
                     return _snowflakeConverter;
                 }
             }
+            else
+            {
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
+                {
+                    var generics = type.GetGenericArguments();
+                    if (generics[0] == typeof(Snowflake))
+                        return _snowflakeDictionaryConverters.GetOrAdd(generics[1], type => Activator.CreateInstance(typeof(SnowflakeDictionaryConverter<>).MakeGenericType(type)) as JsonConverter);
+                }
+            }
 
             return null;
-        }
-
-        private abstract class JsonAccessor
-        {
-            public abstract Type Type { get; }
-
-            public abstract object GetValue(object instance);
-
-            public abstract void SetValue(object instance, object value);
-
-            public static JsonAccessor Create(MemberInfo memberInfo) => memberInfo switch
-            {
-                FieldInfo field => new FieldJsonAccessor(field),
-                PropertyInfo property => new PropertyJsonAccessor(property),
-                _ => throw new InvalidOperationException("Invalid member info accessor type.")
-            };
-        }
-
-        private sealed class FieldJsonAccessor : JsonAccessor
-        {
-            public override Type Type => _field.FieldType;
-
-            private readonly FieldInfo _field;
-
-            public FieldJsonAccessor(FieldInfo field)
-            {
-                _field = field;
-            }
-
-            public override object GetValue(object instance)
-                => _field.GetValue(instance);
-
-            public override void SetValue(object instance, object value)
-                => _field.SetValue(instance, value);
-        }
-
-        private sealed class PropertyJsonAccessor : JsonAccessor
-        {
-            public override Type Type => _property.PropertyType;
-
-            private readonly PropertyInfo _property;
-
-            public PropertyJsonAccessor(PropertyInfo property)
-            {
-                _property = property;
-            }
-
-            public override object GetValue(object instance)
-                => _property.GetValue(instance);
-
-            public override void SetValue(object instance, object value)
-                => _property.SetValue(instance, value);
         }
     }
 }

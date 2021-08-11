@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 using Microsoft.Extensions.Logging;
@@ -93,16 +93,16 @@ namespace Disqord.Serialization.Json.Default
             writer.WriteValue(base64Builder.ToString());
         }
 
+        // This method just checks if the user passed a System.Net.Http content stream and warns them, if they did.
+        // The reasoning is that content streams are lazy, meaning code like `var stream = await HttpClient#GetStreamAsync()`
+        // doesn't actually download the stream completely, as many would expect it to.
+        // It's inconsistent with other GetXAsync() methods which are all content requests while that one, for some reason,
+        // is only a headers request. If the user passes that stream for serialization the base64 encoding code above
+        // won't work due to possible buffer underflowing. If I was to make it work with it - it'd be all synchronous, hence I'd rather just warn the user and have them both
+        // acknowledge how GetStreamAsync() works and pass me a seekable stream, whether it'd be a MemoryStream or a FileStream as
+        // it's going to be both more efficient as well as more reliable.
         public void CheckStreamType(Stream stream)
         {
-            // This method is just checking if the user passed a System.Net.Http content stream and warns them, if they did.
-            // The reasoning is that content streams are lazy, meaning code like `var stream = await HttpClient#GetStreamAsync()`
-            // doesn't actually download the stream completely, as many would expect it to.
-            // It's inconsistent with other GetXAsync() methods which are all content requests while that one, for some reason,
-            // is only a headers request. If the user passes that stream for serialization the base64 encoding code above
-            // won't work due to possible buffer underflowing. If I was to make it work with it - it'd be all synchronous, hence I'd rather just warn the user and have them both
-            // acknowledge how GetStreamAsync() works and pass me a seekable stream, whether it'd be a MemoryStream or a FileStream as
-            // it's going to be both more efficient as well as more reliable.
             lock (this)
             {
                 if (_shownHttpWarning || !_serializer.ShowHttpStreamsWarning)
@@ -142,7 +142,7 @@ namespace Disqord.Serialization.Json.Default
                 }
 
                 // Check if the given stream implements HttpBaseStream.
-                if (!_httpBaseContentType.IsAssignableFrom(stream.GetType()))
+                if (!_httpBaseContentType.IsInstanceOfType(stream))
                     return;
 
                 _httpBaseContentType = null;

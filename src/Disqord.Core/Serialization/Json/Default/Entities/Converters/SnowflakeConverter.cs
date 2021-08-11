@@ -12,7 +12,7 @@ namespace Disqord.Serialization.Json.Default
         {
             var value = reader.Value;
             return value != null
-                ? new Snowflake(Convert.ToUInt64(reader.Value))
+                ? new Snowflake(Convert.ToUInt64(value))
                 : null;
         }
 
