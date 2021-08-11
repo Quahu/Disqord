@@ -53,7 +53,7 @@ namespace Disqord
         {
             var bannerHash = user.BannerHash;
             return bannerHash != null
-                ? Discord.Cdn.GetGuildBannerUrl(user.Id, bannerHash, format, size)
+                ? Discord.Cdn.GetUserBannerUrl(user.Id, bannerHash, format, size)
                 : null;
         }
 
