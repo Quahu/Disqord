@@ -16,5 +16,8 @@ namespace Disqord.Models
 
         [JsonProperty("channels")]
         public Optional<Dictionary<Snowflake, ChannelJsonModel>> Channels;
+
+        [JsonProperty("messages")]
+        public Optional<Dictionary<Snowflake, MessageJsonModel>> Messages;
     }
 }

@@ -10,6 +10,9 @@ namespace Disqord.Models
         [JsonProperty("name")]
         public Optional<string> Name;
 
+        [JsonProperty("type")]
+        public Optional<ApplicationCommandType> Type;
+
         [JsonProperty("resolved")]
         public Optional<ApplicationCommandInteractionDataResolvedJsonModel> Resolved;
 
@@ -24,5 +27,8 @@ namespace Disqord.Models
 
         [JsonProperty("values")]
         public Optional<string[]> Values;
+
+        [JsonProperty("target_id")]
+        public Optional<Snowflake> TargetId;
     }
 }

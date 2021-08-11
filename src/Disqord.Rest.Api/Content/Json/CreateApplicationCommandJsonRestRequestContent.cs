@@ -17,6 +17,9 @@ namespace Disqord.Rest.Api
         [JsonProperty("default_permission")]
         public Optional<bool> DefaultPermission;
 
+        [JsonProperty("type")]
+        public Optional<ApplicationCommandType> Type;
+
         public CreateApplicationCommandJsonRestRequestContent(string name, string description)
         {
             Name = name;

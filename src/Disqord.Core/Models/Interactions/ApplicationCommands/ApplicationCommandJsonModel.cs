@@ -7,6 +7,9 @@ namespace Disqord.Models
         [JsonProperty("id")]
         public Snowflake Id;
 
+        [JsonProperty("type")]
+        public Optional<ApplicationCommandType> Type;
+
         [JsonProperty("application_id")]
         public Snowflake ApplicationId;
 
