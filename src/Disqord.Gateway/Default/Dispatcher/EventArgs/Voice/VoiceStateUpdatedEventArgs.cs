@@ -20,6 +20,11 @@ namespace Disqord.Gateway
         public IMember Member { get; }
 
         /// <summary>
+        ///     Gets whether the <see cref="Member"/> is a lurker, i.e. is missing data like <see cref="IMember.JoinedAt"/>.
+        /// </summary>
+        public bool IsLurker { get; }
+
+        /// <summary>
         ///     Gets the voice state in the state before the update occurred.
         ///     Returns <see langword="null"/> if the voice state was not cached.
         /// </summary>
@@ -32,10 +37,12 @@ namespace Disqord.Gateway
 
         public VoiceStateUpdatedEventArgs(
             IMember member,
+            bool isLurker,
             CachedVoiceState oldVoiceState,
             IVoiceState newVoiceState)
         {
             Member = member;
+            IsLurker = isLurker;
             OldVoiceState = oldVoiceState;
             NewVoiceState = newVoiceState;
         }

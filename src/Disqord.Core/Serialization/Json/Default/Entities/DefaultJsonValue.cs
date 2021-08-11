@@ -15,10 +15,18 @@ namespace Disqord.Serialization.Json.Default
         public new JValue Token => base.Token as JValue;
 
         /// <inheritdoc/>
-        public object Value => Token.Value;
+        public object Value
+        {
+            get => Token.Value;
+            set => Token.Value = value;
+        }
 
         public DefaultJsonValue(JValue token, JsonSerializer serializer)
             : base(token, serializer)
         { }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => Token.ToString();
     }
 }

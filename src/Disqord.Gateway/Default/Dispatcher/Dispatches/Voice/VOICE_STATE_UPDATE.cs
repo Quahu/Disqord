@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
+using Disqord.Models;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
@@ -37,11 +40,16 @@ namespace Disqord.Gateway.Default.Dispatcher
 
             newVoiceState ??= new TransientVoiceState(Client, model);
 
-            IMember member = Dispatcher.GetOrAddMember(model.GuildId.Value, model.Member.Value);
-            if (member == null)
-                member = new TransientMember(Client, model.GuildId.Value, model.Member.Value);
+            var isLurker = false;
+            if (model.Member.Value.TryGetValue("joined_at", out var joinedAt) && joinedAt is IJsonValue jsonValue && jsonValue.Value == null)
+            {
+                isLurker = true;
+                jsonValue.Value = DateTimeOffset.UtcNow;
+            }
 
-            var e = new VoiceStateUpdatedEventArgs(member, oldVoiceState, newVoiceState);
+            var memberModel = model.Member.Value.ToType<MemberJsonModel>();
+            var member = Dispatcher.GetOrAddMember(model.GuildId.Value, memberModel) ?? new TransientMember(Client, model.GuildId.Value, memberModel) as IMember;
+            var e = new VoiceStateUpdatedEventArgs(member, isLurker, oldVoiceState, newVoiceState);
             return new(e);
         }
     }

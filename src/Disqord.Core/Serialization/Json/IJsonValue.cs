@@ -8,6 +8,6 @@
         /// <summary>
         ///     Gets the value of this JSON node.
         /// </summary>
-        object Value { get; }
+        object Value { get; set; }
     }
 }

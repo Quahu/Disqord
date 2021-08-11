@@ -1,5 +1,4 @@
 ﻿using System;
-using Disqord.Models;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Gateway.Api.Models
@@ -16,7 +15,7 @@ namespace Disqord.Gateway.Api.Models
         public Snowflake UserId;
 
         [JsonProperty("member")]
-        public Optional<MemberJsonModel> Member;
+        public Optional<IJsonObject> Member;
 
         [JsonProperty("session_id")]
         public string SessionId;

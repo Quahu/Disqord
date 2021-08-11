@@ -164,7 +164,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         {
             lock (this)
             {
-                var localMessage = (TemplateMessage?.Clone() ?? new LocalMessage());
+                var localMessage = TemplateMessage?.Clone() ?? new LocalMessage();
                 localMessage.AllowedMentions ??= LocalAllowedMentions.None;
                 foreach (var row in _rows)
                 {
