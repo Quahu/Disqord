@@ -19,11 +19,5 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("type")]
         public Optional<ApplicationCommandType> Type;
-
-        public CreateApplicationCommandJsonRestRequestContent(string name, string description)
-        {
-            Name = name;
-            Description = description;
-        }
     }
 }
