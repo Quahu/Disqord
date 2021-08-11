@@ -20,6 +20,14 @@ namespace Disqord
         public virtual bool IsBot => Model.Bot.GetValueOrDefault();
 
         /// <inheritdoc/>
+        public virtual string BannerHash => Model.Banner.Value;
+
+        /// <inheritdoc/>
+        public virtual Color? AccentColor => Model.AccentColor.HasValue
+            ? Model.AccentColor.Value
+            : null;
+
+        /// <inheritdoc/>
         public virtual UserFlag PublicFlags => Model.PublicFlags.Value;
 
         /// <inheritdoc/>

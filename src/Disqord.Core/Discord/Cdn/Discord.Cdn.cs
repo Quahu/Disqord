@@ -46,6 +46,12 @@ namespace Disqord
                 return FormatUrl(path, format, size);
             }
 
+            public static string GetUserBannerUrl(Snowflake userId, string bannerHash, CdnAssetFormat format = default, int? size = null)
+            {
+                var path = $"banners/{userId}/{bannerHash}";
+                return FormatUrl(path, AutomaticGifFormat(format, bannerHash), size);
+            }
+
             public static string GetDefaultAvatarUrl(string discriminator)
                 => GetDefaultAvatarUrl((DefaultAvatarColor) (ushort.Parse(discriminator) % 5));
 

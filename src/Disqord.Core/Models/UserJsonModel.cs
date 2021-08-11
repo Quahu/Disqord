@@ -25,6 +25,12 @@ namespace Disqord.Models
         [JsonProperty("mfa_enabled")]
         public Optional<bool> MfaEnabled;
 
+        [JsonProperty("banner")]
+        public Optional<string> Banner;
+
+        [JsonProperty("accent_color")]
+        public Optional<int?> AccentColor;
+
         [JsonProperty("locale")]
         public Optional<string> Locale;
 
