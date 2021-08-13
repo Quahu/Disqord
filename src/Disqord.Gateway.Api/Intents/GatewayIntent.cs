@@ -39,7 +39,7 @@ namespace Disqord.Gateway
         Integrations = 1 << 4,
 
         /// <summary>
-        ///     The integrations intent. Required to receive integration-related events.
+        ///     The webhooks intent. Required to receive webhook-related events.
         /// </summary>
         Webhooks = 1 << 5,
 
@@ -64,27 +64,27 @@ namespace Disqord.Gateway
         GuildMessages = 1 << 9,
 
         /// <summary>
-        ///     The integrations intent. Required to receive integration-related events.
+        ///     The guild reactions intent. Required to receive guild reaction events.
         /// </summary>
         GuildReactions = 1 << 10,
 
         /// <summary>
-        ///     The integrations intent. Required to receive integration-related events.
+        ///     The guild typing event. Required to receive guild typing events.
         /// </summary>
         GuildTyping = 1 << 11,
 
         /// <summary>
-        ///     The integrations intent. Required to receive integration-related events.
+        ///     The direct messages intent. Required to receive message events for direct channels.
         /// </summary>
         DirectMessages = 1 << 12,
 
         /// <summary>
-        ///     The integrations intent. Required to receive integration-related events.
+        ///     The direct reactions intent. Required to receive reaction events for direct channels.
         /// </summary>
         DirectReactions = 1 << 13,
 
         /// <summary>
-        ///     The integrations intent. Required to receive integration-related events.
+        ///     The direct typing intent. Required to receive typing events for direct channels.
         /// </summary>
         DirectTyping = 1 << 14
     }
