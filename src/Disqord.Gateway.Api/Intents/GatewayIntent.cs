@@ -69,7 +69,7 @@ namespace Disqord.Gateway
         GuildReactions = 1 << 10,
 
         /// <summary>
-        ///     The guild typing event. Required to receive guild typing events.
+        ///     The guild typing intent. Required to receive guild typing events.
         /// </summary>
         GuildTyping = 1 << 11,
 
