@@ -85,7 +85,7 @@ namespace Disqord.Rest
                         content.Archived = threadProperties.IsArchived;
                         content.AutoArchiveDuration = Optional.Convert(threadProperties.AutomaticArchiveDuration, x => (int) x.TotalMinutes);
                         content.Locked = threadProperties.IsLocked;
-                        content.Invitable = threadProperties.AllowInvitation;
+                        content.Invitable = threadProperties.AllowsInvitation;
                     }
                 }
                 else if (nestableProperties is ModifyVoiceChannelActionProperties voiceProperties)

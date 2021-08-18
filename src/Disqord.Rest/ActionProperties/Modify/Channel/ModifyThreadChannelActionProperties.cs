@@ -12,7 +12,7 @@ namespace Disqord
         
         public Optional<bool> IsLocked { internal get; set; }
         
-        public Optional<bool> AllowInvitation { internal get; set; }
+        public Optional<bool> AllowsInvitation { internal get; set; }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override Optional<IEnumerable<LocalOverwrite>> Overwrites
