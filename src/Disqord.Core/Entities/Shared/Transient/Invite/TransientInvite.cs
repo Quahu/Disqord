@@ -12,7 +12,16 @@ namespace Disqord
         public string Code => Model.Code;
 
         /// <inheritdoc/>
-        public IInviteChannel Channel => _channel ??= new TransientInviteChannel(Client, Model.Channel);
+        public IInviteChannel Channel
+        {
+            get
+            {
+                if (_channel == null && Model.Channel != null)
+                    _channel = new TransientInviteChannel(Client, Model.Channel);
+
+                return _channel;
+            }
+        }
         private IInviteChannel _channel;
 
         /// <inheritdoc/>

@@ -15,6 +15,7 @@ namespace Disqord
 
         /// <summary>
         ///     Gets the channel this invite was created for.
+        ///     Returns <see langword="null"/> when this invite is not to a channel.
         /// </summary>
         IInviteChannel Channel { get; }
 
