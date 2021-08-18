@@ -80,11 +80,13 @@ namespace Disqord
 
         public bool ManageThreads => Discord.Permissions.HasFlag(RawValue, Permission.ManageThreads);
 
-        public bool UsePublicThreads => Discord.Permissions.HasFlag(RawValue, Permission.UsePublicThreads);
+        public bool CreatePublicThreads => Discord.Permissions.HasFlag(RawValue, Permission.CreatePublicThreads);
 
-        public bool UsePrivateThreads => Discord.Permissions.HasFlag(RawValue, Permission.UsePrivateThreads);
+        public bool CreatePrivateThreads => Discord.Permissions.HasFlag(RawValue, Permission.CreatePrivateThreads);
 
         public bool UseExternalStickers => Discord.Permissions.HasFlag(RawValue, Permission.UseExternalStickers);
+
+        public bool SendMessagesInThreads => Discord.Permissions.HasFlag(RawValue, Permission.SendMessagesInThreads);
 
         public Permission Permissions => (Permission) RawValue;
 

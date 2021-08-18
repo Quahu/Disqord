@@ -68,6 +68,9 @@ namespace Disqord
         /// <summary>
         ///     Allows sending messages.
         /// </summary>
+        /// <remarks>
+        ///     This permission does not allow sending messages in threads.
+        /// </remarks>
         SendMessages = 1ul << 11,
 
         /// <summary>
@@ -181,18 +184,23 @@ namespace Disqord
         ManageThreads = 1ul << 34,
 
         /// <summary>
-        ///     Allows using public threads.
+        ///     Allows creating public threads.
         /// </summary>
-        UsePublicThreads = 1ul << 35,
+        CreatePublicThreads = 1ul << 35,
 
         /// <summary>
-        ///     Allows using private threads.
+        ///     Allows creating private threads.
         /// </summary>
-        UsePrivateThreads = 1ul << 36,
+        CreatePrivateThreads = 1ul << 36,
 
         /// <summary>
         ///     Allows using stickers from other guilds.
         /// </summary>
-        UseExternalStickers = 1ul << 37
+        UseExternalStickers = 1ul << 37,
+
+        /// <summary>
+        ///     Allows sending messages in threads.
+        /// </summary>
+        SendMessagesInThreads = 1ul << 38,
     }
 }

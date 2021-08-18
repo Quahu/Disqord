@@ -27,7 +27,11 @@
             | Permission.ManageWebhooks
             | Permission.UseSlashCommands
             | Permission.RequestToSpeak
-            | Permission.UseExternalStickers);
+            | Permission.ManageThreads
+            | Permission.UseExternalStickers
+            | Permission.CreatePublicThreads
+            | Permission.CreatePrivateThreads
+            | Permission.SendMessagesInThreads);
 
         public const ulong TEXT_PERMISSIONS_VALUE = (ulong) (
             Permission.CreateInvites
@@ -46,9 +50,10 @@
             | Permission.ManageWebhooks
             | Permission.UseSlashCommands
             | Permission.ManageThreads
-            | Permission.UsePublicThreads
-            | Permission.UsePrivateThreads
-            | Permission.UseExternalStickers);
+            | Permission.CreatePublicThreads
+            | Permission.CreatePrivateThreads
+            | Permission.UseExternalStickers
+            | Permission.SendMessagesInThreads);
 
         public const ulong VOICE_PERMISSIONS_VALUE = (ulong) (
             Permission.CreateInvites
