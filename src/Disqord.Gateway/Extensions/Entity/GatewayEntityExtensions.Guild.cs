@@ -37,6 +37,37 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
+        ///     Gets a cached stage from the specified guild.
+        ///     Returns <see langword="null"/> if the stage is not cached.
+        /// </summary>
+        /// <param name="guild"> The guild to get the stage for. </param>
+        /// <param name="stageId"> The ID of the stage to get. </param>
+        /// <returns>
+        ///     A cached stage from this guild.
+        /// </returns>
+        public static CachedStage GetStage(this IGuild guild, Snowflake stageId)
+        {
+            var client = guild.GetGatewayClient();
+            return client.GetStage(guild.Id, stageId);
+        }
+
+        /// <summary>
+        ///     Gets all cached stages for the specified guild.
+        /// </summary>
+        /// <param name="guild"> The guild to get the stages for. </param>
+        /// <returns>
+        ///     A dictionary of cached stages for this guild keyed by <see cref="IStage.Id"/>.
+        /// </returns>
+        public static IReadOnlyDictionary<Snowflake, CachedStage> GetStages(this IGuild guild)
+        {
+            var client = guild.GetGatewayClient();
+            if (client.CacheProvider.TryGetStages(guild.Id, out var cache, true))
+                return cache.ReadOnly();
+
+            return ReadOnlyDictionary<Snowflake, CachedStage>.Empty;
+        }
+
+        /// <summary>
         ///     Gets a cached member from the specified guild.
         ///     Returns <see langword="null"/> if the member is not cached.
         /// </summary>
@@ -99,34 +130,18 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets a cached stage from the specified guild.
-        ///     Returns <see langword="null"/> if the stage is not cached.
+        ///     Gets a cached presence from the specified guild.
+        ///     Returns <see langword="null"/> if the presence is not cached.
         /// </summary>
-        /// <param name="guild"> The guild to get the stage for. </param>
-        /// <param name="stageId"> The ID of the stage to get. </param>
+        /// <param name="guild"> The guild to get the presence for. </param>
+        /// <param name="memberId"> The ID of the member to get the presence for. </param>
         /// <returns>
-        ///     A cached stage from this guild.
+        ///     A cached presence from this guild.
         /// </returns>
-        public static CachedStage GetStage(this IGuild guild, Snowflake stageId)
+        public static CachedPresence GetPresence(this IGuild guild, Snowflake memberId)
         {
             var client = guild.GetGatewayClient();
-            return client.GetStage(guild.Id, stageId);
-        }
-
-        /// <summary>
-        ///     Gets all cached stages for the specified guild.
-        /// </summary>
-        /// <param name="guild"> The guild to get the stages for. </param>
-        /// <returns>
-        ///     A dictionary of cached stages for this guild keyed by <see cref="IStage.Id"/>.
-        /// </returns>
-        public static IReadOnlyDictionary<Snowflake, CachedStage> GetStages(this IGuild guild)
-        {
-            var client = guild.GetGatewayClient();
-            if (client.CacheProvider.TryGetStages(guild.Id, out var cache, true))
-                return cache.ReadOnly();
-
-            return ReadOnlyDictionary<Snowflake, CachedStage>.Empty;
+            return client.GetPresence(guild.Id, memberId);
         }
 
         /// <summary>
