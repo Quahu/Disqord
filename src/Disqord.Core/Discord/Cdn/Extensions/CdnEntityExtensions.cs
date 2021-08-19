@@ -49,6 +49,14 @@ namespace Disqord
                 : null;
         }
 
+        public static string GetBannerUrl(this IUser user, CdnAssetFormat format = default, int? size = null)
+        {
+            var bannerHash = user.BannerHash;
+            return bannerHash != null
+                ? Discord.Cdn.GetUserBannerUrl(user.Id, bannerHash, format, size)
+                : null;
+        }
+
         public static string GetAvatarUrl(this IUser user, CdnAssetFormat format = default, int? size = null)
         {
             var avatarHash = user.AvatarHash;
