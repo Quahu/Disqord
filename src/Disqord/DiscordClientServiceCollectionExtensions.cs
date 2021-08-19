@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Disqord.DependencyInjection.Extensions;
 using Disqord.Extensions.Interactivity;
 using Disqord.Gateway;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Disqord
 {
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
     public static class DiscordClientServiceCollectionExtensions
     {
         public static IServiceCollection AddDiscordClient(this IServiceCollection services, Action<DiscordClientConfiguration> configure = null)

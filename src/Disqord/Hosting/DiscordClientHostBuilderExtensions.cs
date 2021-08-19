@@ -33,7 +33,7 @@ namespace Disqord.Hosting
         {
             if (!services.Any(x => x.ServiceType == typeof(Token)))
                 services.AddToken(Token.Bot(discordContext.Token));
-            
+
             if (discordContext.Intents != null)
                 services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Intents = discordContext.Intents.Value);
 
@@ -60,20 +60,17 @@ namespace Disqord.Hosting
                         for (var j = 0; j < services.Count; j++)
                         {
                             var service = services[j];
-                            if (service.ServiceType == type
-                                || service.ServiceType == typeof(IHostedService) && service.GetImplementationType() == type)
-                            {
-                                hasService = true;
-                                break;
-                            }
+                            if (service.ServiceType != type && (service.ServiceType != typeof(IHostedService) || service.GetImplementationType() != type))
+                                continue;
+
+                            hasService = true;
+                            break;
                         }
 
                         if (hasService)
                             continue;
 
-                        services.AddSingleton(type);
-                        services.AddSingleton(typeof(DiscordClientService), x => x.GetService(type));
-                        services.AddSingleton(typeof(IHostedService), x => x.GetService(type));
+                        services.AddDiscordClientService(type);
                     }
                 }
             }
