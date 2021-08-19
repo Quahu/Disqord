@@ -58,5 +58,10 @@ namespace Disqord
         ///     Gets whether this thread is locked, i.e. whether it was manually archived by a moderator.
         /// </summary>
         bool IsLocked { get; }
+
+        /// <summary>
+        ///     Gets whether non-moderators can add other non-moderators to this thread.
+        /// </summary>
+        bool AllowsInvitation { get; }
     }
 }

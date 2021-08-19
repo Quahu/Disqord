@@ -12,5 +12,8 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("type")] 
         public Optional<ChannelType> Type;
+
+        [JsonProperty("invitable")] 
+        public Optional<bool> Invitable;
     }
 }

@@ -217,10 +217,10 @@ namespace Disqord.Rest
             return client.CreatePublicThreadAsync(channel.Id, name, messageId, automaticArchiveDuration, options);
         }
         
-        public static Task<IThreadChannel> CreatePrivateThreadAsync(this ITextChannel channel, string name, TimeSpan? automaticArchiveDuration = null, IRestRequestOptions options = null)
+        public static Task<IThreadChannel> CreatePrivateThreadAsync(this ITextChannel channel, string name, TimeSpan? automaticArchiveDuration = null, bool? allowInvitation = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
-            return client.CreatePrivateThreadAsync(channel.Id, name, automaticArchiveDuration, options);
+            return client.CreatePrivateThreadAsync(channel.Id, name, automaticArchiveDuration, allowInvitation, options);
         }
 
         public static Task JoinAsync(this IThreadChannel thread, IRestRequestOptions options = null)

@@ -85,6 +85,7 @@ namespace Disqord.Rest
                         content.Archived = threadProperties.IsArchived;
                         content.AutoArchiveDuration = Optional.Convert(threadProperties.AutomaticArchiveDuration, x => (int) x.TotalMinutes);
                         content.Locked = threadProperties.IsLocked;
+                        content.Invitable = threadProperties.AllowsInvitation;
                     }
                 }
                 else if (nestableProperties is ModifyVoiceChannelActionProperties voiceProperties)
@@ -421,13 +422,14 @@ namespace Disqord.Rest
             return new TransientThreadChannel(client, model);
         }
 
-        public static async Task<IThreadChannel> CreatePrivateThreadAsync(this IRestClient client, Snowflake channelId, string name, TimeSpan? automaticArchiveDuration = null, IRestRequestOptions options = null)
+        public static async Task<IThreadChannel> CreatePrivateThreadAsync(this IRestClient client, Snowflake channelId, string name, TimeSpan? automaticArchiveDuration = null, bool? allowInvitation = null, IRestRequestOptions options = null)
         {
             var content = new CreateThreadJsonRestRequestContent
             {
                 Name = name,
                 AutoArchiveDuration = Optional.Conditional(automaticArchiveDuration != null, duration => (int) duration.Value.TotalMinutes, automaticArchiveDuration),
-                Type = ChannelType.PrivateThread
+                Type = ChannelType.PrivateThread,
+                Invitable = Optional.FromNullable(allowInvitation)
             };
             var model = await client.ApiClient.CreateThreadAsync(channelId, content, null, options).ConfigureAwait(false);
             return new TransientThreadChannel(client, model);

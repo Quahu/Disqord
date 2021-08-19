@@ -41,6 +41,9 @@ namespace Disqord.Gateway
         public DateTimeOffset ArchiveStateChangedAt { get; private set; }
 
         /// <inheritdoc/>
+        public bool AllowsInvitation { get; private set; }
+
+        /// <inheritdoc/>
         public bool IsLocked { get; private set; }
 
         public CachedThreadChannel(IGatewayClient client, ChannelJsonModel model)
@@ -70,6 +73,7 @@ namespace Disqord.Gateway
                 AutomaticArchiveDuration = TimeSpan.FromMinutes(metadataModel.AutoArchiveDuration);
                 ArchiveStateChangedAt = metadataModel.ArchiveTimestamp;
                 IsLocked = metadataModel.Locked.GetValueOrDefault();
+                AllowsInvitation = metadataModel.Invitable.GetValueOrDefault(true);
             }
         }
 
