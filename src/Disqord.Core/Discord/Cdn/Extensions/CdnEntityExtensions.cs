@@ -84,6 +84,14 @@ namespace Disqord
                 : null;
         }
 
+        public static string GetBannerUrl(this IStickerPack stickerPack, CdnAssetFormat format = default, int? size = null)
+        {
+            var bannerAssetId = stickerPack.BannerAssetId;
+            return bannerAssetId != null
+                ? Discord.Cdn.GetStickerPackBannerUrl(bannerAssetId.Value, format, size)
+                : null;
+        }
+
         public static string GetIconUrl(this IApplicationTeam team, CdnAssetFormat format = default, int? size = null)
         {
             var iconHash = team.IconHash;

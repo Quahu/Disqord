@@ -91,7 +91,7 @@ namespace Disqord
                 return FormatUrl(path, format, size);
             }
 
-            public static string GetStickerPackBannerUrl(string bannerAssetId, CdnAssetFormat format = default, int? size = null)
+            public static string GetStickerPackBannerUrl(Snowflake bannerAssetId, CdnAssetFormat format = default, int? size = null)
             {
                 var path = $"app-assets/710982414301790216/store/{bannerAssetId}";
                 return FormatUrl(path, format, size);

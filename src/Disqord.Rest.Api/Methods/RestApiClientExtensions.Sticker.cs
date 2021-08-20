@@ -11,6 +11,12 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<StickerJsonModel>(route, null, options);
         }
 
+        public static Task<StickerPackListJsonModel> FetchNitroStickerPacksAsync(this IRestApiClient client, IRestRequestOptions options = null)
+        {
+            var route = Format(Route.Sticker.GetNitroStickerPacks);
+            return client.ExecuteAsync<StickerPackListJsonModel>(route, null, options);
+        }
+
         public static Task<StickerJsonModel[]> FetchGuildStickersAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var route = Format(Route.Sticker.GetGuildStickers, guildId);

@@ -15,6 +15,12 @@ namespace Disqord.Rest
             return TransientSticker.Create(client, model);
         }
 
+        public static async Task<IReadOnlyList<IStickerPack>> FetchNitroStickerPacksAsync(this IRestClient client, IRestRequestOptions options = null)
+        {
+            var model = await client.ApiClient.FetchNitroStickerPacksAsync(options).ConfigureAwait(false);
+            return model.StickerPacks.ToReadOnlyList(client, static (x, client) => new TransientStickerPack(client, x));
+        }
+
         public static async Task<IReadOnlyList<IGuildSticker>> FetchGuildStickersAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var models = await client.ApiClient.FetchGuildStickersAsync(guildId, options).ConfigureAwait(false);
