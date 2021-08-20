@@ -15,7 +15,8 @@ namespace Disqord
         public ApplicationCommandType CommandType => Model.Data.Value.Type.Value;
 
         /// <inheritdoc/>
-        public IApplicationCommandInteractionEntities Entities => _entities ??= new TransientApplicationCommandInteractionEntities(Client, GuildId, Model.Data.Value.Resolved.Value);
+        public IApplicationCommandInteractionEntities Entities => _entities ??= new TransientApplicationCommandInteractionEntities(Client, GuildId,
+            Model.Data.Value.Resolved.GetValueOrDefault(() => new ApplicationCommandInteractionDataResolvedJsonModel()));
         private IApplicationCommandInteractionEntities _entities;
 
         public TransientApplicationCommandInteraction(IClient client, InteractionJsonModel model)
