@@ -15,9 +15,9 @@ namespace Disqord.Rest
             return TransientSticker.Create(client, model);
         }
 
-        public static async Task<IReadOnlyList<IStickerPack>> FetchNitroStickerPacksAsync(this IRestClient client, IRestRequestOptions options = null)
+        public static async Task<IReadOnlyList<IStickerPack>> FetchStickerPacksAsync(this IRestClient client, IRestRequestOptions options = null)
         {
-            var model = await client.ApiClient.FetchNitroStickerPacksAsync(options).ConfigureAwait(false);
+            var model = await client.ApiClient.FetchStickerPacksAsync(options).ConfigureAwait(false);
             return model.StickerPacks.ToReadOnlyList(client, static (x, client) => new TransientStickerPack(client, x));
         }
 

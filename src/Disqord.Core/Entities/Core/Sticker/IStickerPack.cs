@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace Disqord
 {
     /// <summary>
-    ///     Represents a nitro sticker pack.
+    ///     Represents a sticker pack.
     /// </summary>
     public interface IStickerPack : ISnowflakeEntity, INamable
     {
@@ -13,12 +13,13 @@ namespace Disqord
         IReadOnlyDictionary<Snowflake, IPackSticker> Stickers { get; }
 
         /// <summary>
-        ///     Gets the sku ID of this sticker pack.
+        ///     Gets the ID of the "Game SKU" of this sticker pack.
         /// </summary>
         Snowflake SkuId { get; }
 
         /// <summary>
-        ///     Gets the cover sticker ID of this sticker pack.
+        ///     Gets the ID of the cover sticker of this sticker pack.
+        ///     Returns <see langword="null"/> if this sticker pack has no cover sticker.
         /// </summary>
         Snowflake? CoverStickerId { get; }
 
@@ -28,7 +29,8 @@ namespace Disqord
         string Description { get; }
 
         /// <summary>
-        ///     Gets the banner asset ID of this sticker pack.
+        ///     Gets the ID of the banner asset of this sticker pack.
+        ///     Returns <see langword="null"/> if this sticker pack has no banner.
         /// </summary>
         Snowflake? BannerAssetId { get; }
     }
