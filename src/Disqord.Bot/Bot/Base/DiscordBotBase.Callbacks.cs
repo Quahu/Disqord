@@ -58,7 +58,7 @@ namespace Disqord.Bot
         ///     and <see cref="HandleFailedResultAsync(DiscordCommandContext, FailedResult)"/> are executed.
         /// </summary>
         /// <param name="context"> The execution context. </param>
-        /// <param name="result"> The result of the execution. </param>
+        /// <param name="result"> The result of the execution. <see langword="null"/> if the command executed did not return a result. </param>
         /// <returns>
         ///     A <see cref="ValueTask"/> representing the work where the result indicates whether the appropriate handle method should be executed.
         /// </returns>

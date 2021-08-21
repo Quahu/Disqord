@@ -155,16 +155,13 @@ namespace Disqord.Bot
             if (e.Context is not DiscordCommandContext context)
                 return Task.CompletedTask;
 
-            if (e.Result is not DiscordCommandResult result)
-                return Task.CompletedTask;
-
-            _ = InternalHandleCommandExecutedAsync(context, result);
+            _ = InternalHandleCommandExecutedAsync(context, e.Result as DiscordCommandResult);
             return Task.CompletedTask;
         }
 
         private async ValueTask InternalHandleCommandExecutedAsync(DiscordCommandContext context, DiscordCommandResult result)
         {
-            if (await InvokeAfterExecutedAsync(context, result).ConfigureAwait(false))
+            if (await InvokeAfterExecutedAsync(context, result).ConfigureAwait(false) && result != null)
             {
                 try
                 {
