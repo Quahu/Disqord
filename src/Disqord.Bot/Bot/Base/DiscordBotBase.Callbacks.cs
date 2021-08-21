@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Disqord.Collections;
 using Disqord.Gateway;
 using Disqord.Rest;
+using Disqord.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using Qmmands;
 
@@ -16,7 +17,7 @@ namespace Disqord.Bot
         /// </summary>
         /// <param name="message"> The message to check. </param>
         /// <returns>
-        ///     A <see cref="ValueTask{TResult}"/> where the result indicates whether the message is valid.
+        ///     A <see cref="ValueTask{TResult}"/> representing the work where the result indicates whether the message is valid.
         /// </returns>
         protected virtual ValueTask<bool> CheckMessageAsync(IGatewayUserMessage message)
             => new(!message.Author.IsBot);
@@ -41,9 +42,53 @@ namespace Disqord.Bot
             return context;
         }
 
+        /// <summary>
+        ///     Invoked pre-execution.
+        ///     Returning <see langword="false"/> prevents further execution.
+        /// </summary>
+        /// <param name="context"> The execution context. </param>
+        /// <returns>
+        ///     A <see cref="ValueTask{TResult}"/> representing the work where the result indicates whether execution should proceed.
+        /// </returns>
         protected virtual ValueTask<bool> BeforeExecutedAsync(DiscordCommandContext context)
             => new(true);
 
+        /// <summary>
+        ///     Invoked post-execution, before <see cref="HandleCommandResultAsync(DiscordCommandContext, DiscordCommandResult)"/>
+        ///     and <see cref="HandleFailedResultAsync(DiscordCommandContext, FailedResult)"/> are executed.
+        /// </summary>
+        /// <param name="context"> The execution context. </param>
+        /// <param name="result"> The result of the execution. </param>
+        /// <returns>
+        ///     A <see cref="ValueTask"/> representing the work where the result indicates whether the appropriate handle method should be executed.
+        /// </returns>
+        protected virtual ValueTask<bool> AfterExecutedAsync(DiscordCommandContext context, IResult result)
+            => new(true);
+
+        /// <summary>
+        ///     Invoked post-execution, defines the logic for handling command results.
+        /// </summary>
+        /// <param name="context"> The execution context. </param>
+        /// <param name="result"> The result to handle. </param>
+        /// <returns>
+        ///     A <see cref="ValueTask"/> representing the work.
+        /// </returns>
+        protected virtual async ValueTask HandleCommandResultAsync(DiscordCommandContext context, DiscordCommandResult result)
+        {
+            await using (RuntimeDisposal.WrapAsync(result))
+            {
+                await result.ExecuteAsync().ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        ///     Translates a failed result into a differently formatted <see cref="string"/>.
+        /// </summary>
+        /// <param name="context"> The execution context. </param>
+        /// <param name="result"> The result to format. </param>
+        /// <returns>
+        ///     A <see cref="string"/> representing the failure reason.
+        /// </returns>
         protected virtual string FormatFailureReason(DiscordCommandContext context, FailedResult result)
             => result switch
             {
@@ -55,6 +100,14 @@ namespace Disqord.Bot
                 _ => result.FailureReason
             };
 
+        /// <summary>
+        ///     Translates a failed result into a <see cref="LocalMessage"/>.
+        /// </summary>
+        /// <param name="context"> The execution context. </param>
+        /// <param name="result"> The result to format. </param>
+        /// <returns>
+        ///     A <see cref="LocalMessage"/> representing the failure message.
+        /// </returns>
         protected virtual LocalMessage FormatFailureMessage(DiscordCommandContext context, FailedResult result)
         {
             static string FormatParameter(Parameter parameter)
@@ -105,6 +158,15 @@ namespace Disqord.Bot
                 .WithAllowedMentions(LocalAllowedMentions.None);
         }
 
+
+        /// <summary>
+        ///     Invoked post-execution, defines the logic for handling failed results.
+        /// </summary>
+        /// <param name="context"> The execution context. </param>
+        /// <param name="result"> The result to handle. </param>
+        /// <returns>
+        ///     A <see cref="ValueTask"/> representing the work.
+        /// </returns>
         protected virtual ValueTask HandleFailedResultAsync(DiscordCommandContext context, FailedResult result)
         {
             var message = FormatFailureMessage(context, result);
@@ -114,6 +176,13 @@ namespace Disqord.Bot
             return new(this.SendMessageAsync(context.ChannelId, message));
         }
 
+        /// <summary>
+        ///     Checks if the user of the provided ID is an owner of this bot.
+        /// </summary>
+        /// <param name="userId"> The ID of the user to check. </param>
+        /// <returns>
+        ///     A <see cref="ValueTask{TResult}"/> representing the work where the result indicates whether the user is an owner.
+        /// </returns>
         public virtual async ValueTask<bool> IsOwnerAsync(Snowflake userId)
         {
             var ownerIds = OwnerIds;

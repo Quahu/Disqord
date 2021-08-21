@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Gateway;
-using Disqord.Utilities;
 using Microsoft.Extensions.Logging;
 using Qmmands;
 
@@ -126,7 +125,20 @@ namespace Disqord.Bot
             }
         }
 
-        private async Task DisposeContextAsync(DiscordCommandContext context)
+        private async ValueTask<bool> InvokeAfterExecutedAsync(DiscordCommandContext context, IResult result)
+        {
+            try
+            {
+                return await AfterExecutedAsync(context, result).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An exception occurred while executing the after executed callback.");
+                return true;
+            }
+        }
+
+        private async ValueTask DisposeContextAsync(DiscordCommandContext context)
         {
             try
             {
@@ -152,16 +164,16 @@ namespace Disqord.Bot
 
         private async ValueTask InternalHandleCommandExecutedAsync(DiscordCommandContext context, DiscordCommandResult result)
         {
-            try
+            if (await InvokeAfterExecutedAsync(context, result).ConfigureAwait(false))
             {
-                await using (RuntimeDisposal.WrapAsync(result))
+                try
                 {
-                    await result.ExecuteAsync().ConfigureAwait(false);
+                    await HandleCommandResultAsync(context, result).ConfigureAwait(false);
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "An exception occurred when handling command result of type {0}.", result.GetType().Name);
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex, "An exception occurred when handling command result of type {0}.", result.GetType().Name);
+                }
             }
 
             await DisposeContextAsync(context).ConfigureAwait(false);
@@ -220,13 +232,16 @@ namespace Disqord.Bot
 
         private async ValueTask InternalHandleFailedResultAsync(DiscordCommandContext context, FailedResult result)
         {
-            try
+            if (await InvokeAfterExecutedAsync(context, result).ConfigureAwait(false))
             {
-                await HandleFailedResultAsync(context, result).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "An exception occurred while handling the failed result of type {0}.", result.GetType().Name);
+                try
+                {
+                    await HandleFailedResultAsync(context, result).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex, "An exception occurred while handling the failed result of type {0}.", result.GetType().Name);
+                }
             }
 
             if (result is CommandNotFoundResult && _masterService != null)
