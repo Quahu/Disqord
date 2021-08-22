@@ -13,7 +13,7 @@ namespace Disqord.Rest.Api
 
         public static Task<StickerPackListJsonModel> FetchStickerPacksAsync(this IRestApiClient client, IRestRequestOptions options = null)
         {
-            var route = Format(Route.Sticker.GetNitroStickerPacks);
+            var route = Format(Route.Sticker.GetStickerPacks);
             return client.ExecuteAsync<StickerPackListJsonModel>(route, null, options);
         }
 
