@@ -36,6 +36,7 @@
             | Permission.ManageEmojisAndStickers
             | Permission.UseApplicationCommands
             | Permission.RequestToSpeak
+            | Permission.ManageEvents
             | Permission.ManageThreads
             | Permission.CreatePublicThreads
             | Permission.CreatePrivateThreads

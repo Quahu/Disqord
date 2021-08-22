@@ -179,6 +179,11 @@ namespace Disqord
         RequestToSpeak = 1ul << 32,
 
         /// <summary>
+        ///     Allows management of guild events.
+        /// </summary>
+        ManageEvents = 1ul << 33,
+
+        /// <summary>
         ///     Allows management of threads.
         /// </summary>
         ManageThreads = 1ul << 34,
