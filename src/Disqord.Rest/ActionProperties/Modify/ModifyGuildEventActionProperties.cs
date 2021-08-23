@@ -2,7 +2,7 @@
 
 namespace Disqord.Rest
 {
-    public class ModifyGuildEventActionProperties
+    public sealed class ModifyGuildEventActionProperties
     {
         public Optional<Snowflake> ChannelId { internal get; set; }
 

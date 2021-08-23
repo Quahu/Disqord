@@ -1,6 +1,6 @@
 ﻿namespace Disqord
 {
-    public class CreateGuildEventActionProperties
+    public sealed class CreateGuildEventActionProperties
     {
         public Optional<Snowflake> ChannelId { internal get; set; }
 
