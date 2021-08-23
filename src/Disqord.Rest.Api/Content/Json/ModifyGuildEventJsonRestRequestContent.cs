@@ -21,6 +21,6 @@ namespace Disqord.Rest.Api
         public Optional<string> Description;
 
         [JsonProperty("entity_type")]
-        public Optional<GuildScheduledEventEntityType> EntityType;
+        public Optional<GuildEventTarget> EntityType;
     }
 }

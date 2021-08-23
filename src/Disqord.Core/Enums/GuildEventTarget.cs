@@ -1,10 +1,10 @@
 ﻿namespace Disqord
 {
-    public enum GuildScheduledEventEntityType : byte
+    public enum GuildEventTarget : byte
     {
         None,
 
-        StageInstance,
+        Stage,
 
         Voice,
 

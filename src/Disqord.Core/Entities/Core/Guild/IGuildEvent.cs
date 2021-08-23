@@ -38,22 +38,17 @@ namespace Disqord
         /// <summary>
         ///     Gets the event status of this guild event.
         /// </summary>
-        GuildScheduledEventEntityType Status { get; }
+        GuildEventStatus Status { get; }
 
         /// <summary>
         ///     Gets the entity type of this guild event.
         /// </summary>
-        GuildScheduledEventStatus EntityType { get; }
+        GuildEventTarget EntityType { get; }
 
         /// <summary>
         ///     Gets the ID of the entity of this guild event.
         /// </summary>
         Snowflake? EntityId { get; }
-
-        /// <summary>
-        ///     Gets the metadata of this guild event.
-        /// </summary>
-        IGuildEventMetadata Metadata { get; }
 
         /// <summary>
         ///     Gets the IDs of the "Game SKUs" of this guild event.
@@ -63,6 +58,11 @@ namespace Disqord
         /// <summary>
         ///     Gets the amount of users subscribed to this guild event.
         /// </summary>
-        int UserCount { get; }
+        int? UserCount { get; }
+
+        /// <summary>
+        ///     Gets the IDs of the speakers in the event.
+        /// </summary>
+        IReadOnlyList<Snowflake> SpeakerIds { get; }
     }
 }

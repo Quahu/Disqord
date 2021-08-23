@@ -11,7 +11,7 @@ namespace Disqord.Rest
         public static async Task<IReadOnlyList<IGuildEvent>> FetchGuildEventsAsync(this IRestClient client, Snowflake guildId, bool? withUserCount = null, IRestRequestOptions options = null)
         {
             var models = await client.ApiClient.FetchGuildEventsAsync(guildId, withUserCount, options).ConfigureAwait(false);
-            return models.ToReadOnlyList(x => new TransientGuildEvent(client, x));
+            return models.ToReadOnlyList(client, (x, client) => new TransientGuildEvent(client, x));
         }
 
         public static async Task<IGuildEvent> FetchGuildEventAsync(this IRestClient client, Snowflake eventId, IRestRequestOptions options = null)
@@ -20,7 +20,7 @@ namespace Disqord.Rest
             return new TransientGuildEvent(client, model);
         }
 
-        public static async Task<IGuildEvent> CreateGuildEventAsync(this IRestClient client, Snowflake guildId, string name, StagePrivacyLevel privacyLevel, DateTimeOffset startTime, GuildScheduledEventEntityType entityType, Action<CreateGuildEventActionProperties> action = null, IRestRequestOptions options = null)
+        public static async Task<IGuildEvent> CreateGuildEventAsync(this IRestClient client, Snowflake guildId, string name, StagePrivacyLevel privacyLevel, DateTimeOffset startTime, GuildEventTarget entityType, Action<CreateGuildEventActionProperties> action = null, IRestRequestOptions options = null)
         {
             var properties = new CreateGuildEventActionProperties();
             action?.Invoke(properties);

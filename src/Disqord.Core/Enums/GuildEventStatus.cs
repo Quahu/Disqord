@@ -1,6 +1,6 @@
 ﻿namespace Disqord
 {
-    public enum GuildScheduledEventStatus : byte
+    public enum GuildEventStatus : byte
     {
         Scheduled = 1,
 

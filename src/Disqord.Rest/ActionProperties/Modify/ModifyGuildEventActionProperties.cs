@@ -4,16 +4,16 @@ namespace Disqord.Rest
 {
     public class ModifyGuildEventActionProperties
     {
-        public Optional<Snowflake> ChannelId;
+        public Optional<Snowflake> ChannelId { internal get; set; }
 
-        public Optional<string> Name;
+        public Optional<string> Name { internal get; set; }
 
-        public Optional<StagePrivacyLevel> PrivacyLevel;
+        public Optional<StagePrivacyLevel> PrivacyLevel { internal get; set; }
 
-        public Optional<DateTimeOffset> ScheduledStartTime;
+        public Optional<DateTimeOffset> ScheduledStartTime { internal get; set; }
 
-        public Optional<string> Description;
+        public Optional<string> Description { internal get; set; }
 
-        public Optional<GuildScheduledEventEntityType> EntityType;
+        public Optional<GuildEventTarget> EntityType { internal get; set; }
     }
 }

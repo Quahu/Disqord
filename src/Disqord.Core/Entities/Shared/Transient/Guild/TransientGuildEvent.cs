@@ -15,6 +15,7 @@ namespace Disqord
 
         /// <inheritdoc/>
         public Snowflake? ChannelId => Model.ChannelId;
+
         /// <inheritdoc/>
         public string Name => Model.Name;
 
@@ -34,23 +35,21 @@ namespace Disqord
         public StagePrivacyLevel PrivacyLevel => Model.PrivacyLevel;
 
         /// <inheritdoc/>
-        public GuildScheduledEventEntityType Status => Model.Status;
+        public GuildEventStatus Status => Model.Status;
 
         /// <inheritdoc/>
-        public GuildScheduledEventStatus EntityType => Model.EntityType;
+        public GuildEventTarget EntityType => Model.EntityType;
 
         /// <inheritdoc/>
         public Snowflake? EntityId => Model.EntityId;
 
         /// <inheritdoc/>
-        public IGuildEventMetadata Metadata => _metadata ??= new TransientGuildEventMetadata(Client, Model.EntityMetadata);
-        private IGuildEventMetadata _metadata;
-
-        /// <inheritdoc/>
         public IReadOnlyList<Snowflake> SkuIds => Model.SkuIds.ToReadOnlyList();
 
         /// <inheritdoc/>
-        public int UserCount => Model.UserCount.GetValueOrDefault();
+        public int? UserCount => Model.UserCount.GetValueOrNullable();
+
+        public IReadOnlyList<Snowflake> SpeakerIds => Optional.ConvertOrDefault(Model.EntityMetadata.SpeakerIds, x => x.ToReadOnlyList(), ReadOnlyList<Snowflake>.Empty);
 
         public TransientGuildEvent(IClient client, GuildEventJsonModel model)
             : base(client, model)

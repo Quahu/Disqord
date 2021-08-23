@@ -33,10 +33,10 @@ namespace Disqord.Models
         public StagePrivacyLevel PrivacyLevel;
 
         [JsonProperty("status")]
-        public GuildScheduledEventEntityType Status;
+        public GuildEventStatus Status;
 
         [JsonProperty("entity_type")]
-        public GuildScheduledEventStatus EntityType;
+        public GuildEventTarget EntityType;
 
         [JsonProperty("entity_id")]
         public Snowflake? EntityId;
