@@ -10,7 +10,7 @@ namespace Disqord.Extensions.Interactivity
     {
         public static IServiceCollection AddInteractivity(this IServiceCollection services, Action<InteractivityExtensionConfiguration> configure = null)
         {
-            if (services.TryAddSingleton<DiscordClientExtension, InteractivityExtension>())
+            if (services.TryAddSingletonEnumerable<DiscordClientExtension, InteractivityExtension>())
             {
                 var options = services.AddOptions<InteractivityExtensionConfiguration>();
                 if (configure != null)
