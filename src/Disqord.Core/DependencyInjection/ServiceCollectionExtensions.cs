@@ -257,6 +257,35 @@ namespace Disqord.DependencyInjection.Extensions
             where TService : class
             => services.TryAdd(ServiceDescriptor.Transient(implementationFactory));
 
+        public static bool TryAddSingletonEnumerable<TService, TImplementation>(this IServiceCollection services)
+            where TService : class
+            where TImplementation : class, TService
+            => services.TryAddEnumerable(ServiceDescriptor.Singleton<TService, TImplementation>());
+
+        public static bool TryAddEnumerable(this IServiceCollection services, ServiceDescriptor descriptor)
+        {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
+            if (descriptor == null)
+                throw new ArgumentNullException(nameof(descriptor));
+
+            var implementationType = descriptor.GetImplementationType();
+            if (implementationType == typeof(object) || implementationType == descriptor.ServiceType)
+                throw new ArgumentException("Invalid descriptor implementation type.", nameof(descriptor));
+
+            var count = services.Count;
+            for (var i = 0; i < count; i++)
+            {
+                var service = services[i];
+                if (service.ServiceType == descriptor.ServiceType && service.GetImplementationType() == implementationType)
+                    return false;
+            }
+
+            services.Add(descriptor);
+            return true;
+        }
+
         public static IServiceCollection Replace(this IServiceCollection collection, ServiceDescriptor descriptor)
         {
             if (collection == null)
@@ -265,7 +294,8 @@ namespace Disqord.DependencyInjection.Extensions
             if (descriptor == null)
                 throw new ArgumentNullException(nameof(descriptor));
 
-            for (var i = 0; i < collection.Count; i++)
+            var count = collection.Count;
+            for (var i = 0; i < count; i++)
             {
                 if (collection[i].ServiceType == descriptor.ServiceType)
                 {
@@ -283,7 +313,8 @@ namespace Disqord.DependencyInjection.Extensions
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
 
-            for (var i = 0; i < collection.Count; i++)
+            var count = collection.Count;
+            for (var i = 0; i < count; i++)
             {
                 if (collection[i].ServiceType == typeof(TService))
                 {
