@@ -12,7 +12,7 @@ namespace Disqord.Sharding
     {
         public ILogger Logger { get; }
 
-        public DiscordClientSharder Sharder { get; }
+        public DiscordClientSharder Sharder => _binder.Value;
 
         private readonly Binder<DiscordClientSharder> _binder;
 
