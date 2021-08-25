@@ -60,7 +60,7 @@ namespace Disqord.Gateway.Api.Default
                     await HeartbeatAsync(cancellationToken).ConfigureAwait(false);
                 }
             }
-            catch (TaskCanceledException)
+            catch (OperationCanceledException)
             { }
             catch (Exception ex)
             {
