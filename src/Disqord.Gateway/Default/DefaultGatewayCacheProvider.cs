@@ -233,13 +233,11 @@ namespace Disqord.Gateway.Default
 
             public override void Clear()
             {
-                if (_provider.TryGetUsers(out var cache))
+                _provider.TryGetUsers(out var cache);
+                foreach (var member in Values)
                 {
-                    foreach (var member in Values)
-                    {
-                        if (member.SharedUser.RemoveReference(member) == 0)
-                            cache.Remove(member.Id);
-                    }
+                    if (member.SharedUser.RemoveReference(member) == 0)
+                        cache?.Remove(member.Id);
                 }
 
                 Dictionary.Clear();
@@ -249,8 +247,9 @@ namespace Disqord.Gateway.Default
         // This automatically pops the oldest message whenever the capacity is reached.
         private sealed class MessageDictionary : ProxiedDictionary<Snowflake, CachedUserMessage>
         {
-            private readonly int _capacity;
             private SortedList<Snowflake, CachedUserMessage> List => Dictionary as SortedList<Snowflake, CachedUserMessage>;
+
+            private readonly int _capacity;
 
             public MessageDictionary(int capacity)
                 : base(new SortedList<Snowflake, CachedUserMessage>(capacity))

@@ -1,4 +1,5 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Threading;
 using Disqord.Models;
 
 namespace Disqord.Gateway
@@ -21,16 +22,7 @@ namespace Disqord.Gateway
         public override UserFlag PublicFlags => _publicFlags;
 
         /// <inheritdoc/>
-        public int ReferenceCount
-        {
-            get
-            {
-                lock (this)
-                {
-                    return _referenceCount;
-                }
-            }
-        }
+        public int ReferenceCount => _referenceCount;
 
         private string _name;
         private short _discriminator;
@@ -66,20 +58,10 @@ namespace Disqord.Gateway
 
         /// <inheritdoc/>
         public int AddReference(CachedUser user)
-        {
-            lock (this)
-            {
-                return ++_referenceCount;
-            }
-        }
+            => Interlocked.Increment(ref _referenceCount);
 
         /// <inheritdoc/>
         public int RemoveReference(CachedUser user)
-        {
-            lock (this)
-            {
-                return --_referenceCount;
-            }
-        }
+            => Interlocked.Decrement(ref _referenceCount);
     }
 }
