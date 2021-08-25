@@ -18,9 +18,6 @@ namespace Disqord.Gateway
         public DateTimeOffset? LastPinTimestamp { get; private set; }
 
         /// <inheritdoc/>
-        public string Mention => Disqord.Mention.Channel(this);
-
-        /// <inheritdoc/>
         public string Tag => $"#{Name}";
 
         protected CachedMessageGuildChannel(IGatewayClient client, ChannelJsonModel model)

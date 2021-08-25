@@ -16,9 +16,6 @@ namespace Disqord
         public DateTimeOffset? LastPinTimestamp => Model.LastPinTimestamp.Value;
 
         /// <inheritdoc/>
-        public string Mention => Disqord.Mention.Channel(this);
-
-        /// <inheritdoc/>
         public string Tag => $"#{Name}";
 
         protected TransientMessageGuildChannel(IClient client, ChannelJsonModel model)

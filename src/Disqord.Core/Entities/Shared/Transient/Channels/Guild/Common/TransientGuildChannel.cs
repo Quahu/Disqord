@@ -6,12 +6,18 @@ namespace Disqord
 {
     public abstract class TransientGuildChannel : TransientChannel, IGuildChannel
     {
+        /// <inheritdoc/>
         public Snowflake GuildId => Model.GuildId.Value;
 
+        /// <inheritdoc/>
         public virtual int Position => Model.Position.Value;
 
+        /// <inheritdoc/>
         public virtual IReadOnlyList<IOverwrite> Overwrites => _overwrites ??= Model.PermissionOverwrites.Value.ToReadOnlyList(this, (x, @this) => new TransientOverwrite(@this.Client, @this.Id, x));
         private IReadOnlyList<IOverwrite> _overwrites;
+
+        /// <inheritdoc/>
+        public string Mention => Disqord.Mention.Channel(this);
 
         protected TransientGuildChannel(IClient client, ChannelJsonModel model)
             : base(client, model)

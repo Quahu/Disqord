@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public interface IMessageGuildChannel : ICategorizableGuildChannel, IMessageChannel, IMentionable, ITaggable
+    public interface IMessageGuildChannel : ICategorizableGuildChannel, IMessageChannel, ITaggable
     {
         /// <summary>
         ///     Gets the slowmode of this channel.

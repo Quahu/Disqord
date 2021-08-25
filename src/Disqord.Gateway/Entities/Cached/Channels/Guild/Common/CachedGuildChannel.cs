@@ -7,11 +7,17 @@ namespace Disqord.Gateway
 {
     public abstract class CachedGuildChannel : CachedChannel, IGuildChannel
     {
+        /// <inheritdoc/>
         public Snowflake GuildId { get; }
 
+        /// <inheritdoc/>
         public virtual int Position { get; private set; }
 
+        /// <inheritdoc/>
         public virtual IReadOnlyList<IOverwrite> Overwrites { get; private set; }
+
+        /// <inheritdoc/>
+        public string Mention => Disqord.Mention.Channel(this);
 
         protected CachedGuildChannel(IGatewayClient client, ChannelJsonModel model)
             : base(client, model)
