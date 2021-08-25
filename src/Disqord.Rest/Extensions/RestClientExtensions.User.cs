@@ -15,12 +15,12 @@ namespace Disqord.Rest
             return new TransientCurrentUser(client, model);
         }
 
-        public static async Task<IUser> FetchUserAsync(this IRestClient client, Snowflake userId, IRestRequestOptions options = null)
+        public static async Task<IRestUser> FetchUserAsync(this IRestClient client, Snowflake userId, IRestRequestOptions options = null)
         {
             try
             {
                 var model = await client.ApiClient.FetchUserAsync(userId, options).ConfigureAwait(false);
-                return new TransientUser(client, model);
+                return new TransientRestUser(client, model);
             }
             catch (RestApiException ex) when (ex.ErrorModel.Code == RestApiErrorCode.UnknownUser)
             {
@@ -37,6 +37,7 @@ namespace Disqord.Rest
                 Username = properties.Name,
                 Avatar = properties.Avatar
             };
+
             var model = await client.ApiClient.ModifyCurrentUserAsync(content, options).ConfigureAwait(false);
             return new TransientCurrentUser(client, model);
         }
@@ -78,6 +79,7 @@ namespace Disqord.Rest
             {
                 RecipientId = userId
             };
+
             var model = await client.ApiClient.CreateDirectChannelAsync(content, options).ConfigureAwait(false);
             var channel = new TransientDirectChannel(client, model);
 

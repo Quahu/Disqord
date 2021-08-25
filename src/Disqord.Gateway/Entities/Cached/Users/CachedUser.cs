@@ -14,10 +14,6 @@ namespace Disqord.Gateway
 
         public virtual bool IsBot => SharedUser.IsBot;
 
-        public virtual string BannerHash => SharedUser.BannerHash;
-
-        public virtual Color? AccentColor => SharedUser.AccentColor;
-
         public virtual UserFlag PublicFlags => SharedUser.PublicFlags;
 
         public string Mention => Disqord.Mention.User(this);

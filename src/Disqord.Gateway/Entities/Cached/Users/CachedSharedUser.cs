@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using Disqord.Models;
 
 namespace Disqord.Gateway
@@ -16,12 +16,6 @@ namespace Disqord.Gateway
 
         /// <inheritdoc/>
         public override bool IsBot => _isBot;
-
-        /// <inheritdoc/>
-        public override string BannerHash => _bannerHash;
-
-        /// <inheritdoc/>
-        public override Color? AccentColor => _accentColor;
 
         /// <inheritdoc/>
         public override UserFlag PublicFlags => _publicFlags;
@@ -42,8 +36,6 @@ namespace Disqord.Gateway
         private short _discriminator;
         private string _avatarHash;
         private readonly bool _isBot;
-        private string _bannerHash;
-        private Color? _accentColor;
         private UserFlag _publicFlags;
         private int _referenceCount;
 
@@ -67,12 +59,6 @@ namespace Disqord.Gateway
             _name = model.Username;
             _discriminator = model.Discriminator;
             _avatarHash = model.Avatar;
-
-            if (model.Banner.HasValue)
-                _bannerHash = model.Banner.Value;
-
-            if (model.AccentColor.HasValue)
-                _accentColor = model.AccentColor.Value;
 
             if (model.PublicFlags.HasValue)
                 _publicFlags = model.PublicFlags.Value;
