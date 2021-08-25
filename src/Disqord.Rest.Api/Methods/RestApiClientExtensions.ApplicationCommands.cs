@@ -41,7 +41,7 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, null, options);
         }
 
-        public static Task<ApplicationCommandJsonModel[]> SetGlobalApplicationCommandsAsync(this IRestApiClient client, Snowflake applicationId, JsonObjectRestRequestContent<ModifyApplicationCommandJsonRestRequestContent[]> content, IRestRequestOptions options = null)
+        public static Task<ApplicationCommandJsonModel[]> SetGlobalApplicationCommandsAsync(this IRestApiClient client, Snowflake applicationId, JsonObjectRestRequestContent<CreateApplicationCommandJsonRestRequestContent[]> content, IRestRequestOptions options = null)
         {
             var route = Format(Route.Interactions.SetGlobalCommands, applicationId);
             return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, content, options);
@@ -71,7 +71,7 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync(route, null, options);
         }
 
-        public static Task<ApplicationCommandJsonModel[]> SetGuildApplicationCommandsAsync(this IRestApiClient client, Snowflake applicationId, Snowflake guildId, JsonObjectRestRequestContent<ModifyApplicationCommandJsonRestRequestContent[]> content, IRestRequestOptions options = null)
+        public static Task<ApplicationCommandJsonModel[]> SetGuildApplicationCommandsAsync(this IRestApiClient client, Snowflake applicationId, Snowflake guildId, JsonObjectRestRequestContent<CreateApplicationCommandJsonRestRequestContent[]> content, IRestRequestOptions options = null)
         {
             var route = Format(Route.Interactions.SetGuildCommands, applicationId, guildId);
             return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, content, options);
