@@ -21,7 +21,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the minimum amount of options that must be selected at once of this selection component.
         /// </summary>
-        int MinimimumSelectedOptions { get; }
+        int MinimumSelectedOptions { get; }
 
         /// <summary>
         ///     Gets the maximum amount of options that can be selected at once of this selection component.

@@ -14,7 +14,7 @@ namespace Disqord
         public string Placeholder => Model.Placeholder.GetValueOrDefault();
 
         /// <inheritdoc/>
-        public int MinimimumSelectedOptions => Model.MinValues.Value;
+        public int MinimumSelectedOptions => Model.MinValues.Value;
 
         /// <inheritdoc/>
         public int MaximumSelectedOptions => Model.MaxValues.Value;
