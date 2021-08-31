@@ -17,6 +17,7 @@ namespace Disqord
             {
                 ComponentType.Row => new TransientRowComponent(client, model),
                 ComponentType.Button => new TransientButtonComponent(client, model),
+                ComponentType.Selection => new TransientSelectionComponent(client, model),
                 _ => new TransientComponent(client, model)
             };
     }
