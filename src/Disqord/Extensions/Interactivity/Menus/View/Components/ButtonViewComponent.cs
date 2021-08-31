@@ -79,6 +79,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                 : attribute.Emoji != null
                     ? LocalEmoji.Custom(Convert.ToUInt64(attribute.Emoji))
                     : null;
+
             _isDisabled = attribute.IsDisabled;
         }
 
@@ -89,6 +90,9 @@ namespace Disqord.Extensions.Interactivity.Menus
         }
 
         protected internal override LocalNestedComponent ToLocalComponent()
-            => LocalComponent.Button(CustomId, _label).WithStyle(_style).WithEmoji(_emoji).WithIsDisabled(_isDisabled);
+            => LocalComponent.Button(CustomId, _label)
+                .WithStyle(_style)
+                .WithEmoji(_emoji)
+                .WithIsDisabled(_isDisabled);
     }
 }

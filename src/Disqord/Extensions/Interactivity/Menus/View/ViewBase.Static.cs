@@ -79,6 +79,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                     ButtonAttribute buttonAttribute => ButtonFactory(buttonAttribute, member as MethodInfo, view),
                     LinkButtonAttribute linkButtonAttribute => LinkButtonFactory(linkButtonAttribute, member as PropertyInfo, view),
                     SelectionAttribute selectionAttribute => SelectionFactory(selectionAttribute, member as MethodInfo, view),
+
                     // _ => ExternalFactory(attribute, member, view)
                     _ => throw new InvalidOperationException($"Unknown view component attribute {attribute.GetType()}.")
                 };
@@ -99,8 +100,8 @@ namespace Disqord.Extensions.Interactivity.Menus
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException($"Failed to create a {nameof(ButtonViewComponentCallback)}. Methods marked with the {nameof(ButtonAttribute)} must match the {nameof(callback)} delegate's signature.",
-                    ex);
+                throw new InvalidOperationException($"Failed to create a {nameof(ButtonViewComponentCallback)}. "
+                    + $"Methods marked with the {nameof(ButtonAttribute)} must match the {nameof(callback)} delegate's signature.", ex);
             }
 
             return new ButtonViewComponent(attribute, callback);

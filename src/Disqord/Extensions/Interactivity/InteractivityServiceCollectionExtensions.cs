@@ -8,15 +8,9 @@ namespace Disqord.Extensions.Interactivity
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class InteractivityServiceCollectionExtensions
     {
-        public static IServiceCollection AddInteractivity(this IServiceCollection services, Action<InteractivityExtensionConfiguration> configure = null)
+        public static IServiceCollection AddInteractivityExtension(this IServiceCollection services)
         {
-            if (services.TryAddSingletonEnumerable<DiscordClientExtension, InteractivityExtension>())
-            {
-                var options = services.AddOptions<InteractivityExtensionConfiguration>();
-                if (configure != null)
-                    options.Configure(configure);
-            }
-
+            services.TryAddSingletonEnumerable<DiscordClientExtension, InteractivityExtension>();
             return services;
         }
     }

@@ -35,7 +35,7 @@ namespace Disqord.Sharding
             {
                 services.AddSingleton<DiscordClientBase>(x => x.GetRequiredService<DiscordClientSharder>());
 
-                services.AddInteractivity();
+                services.AddInteractivityExtension();
                 services.AddGatewayClient(ServiceLifetime.Scoped);
                 services.AddRestClient();
 

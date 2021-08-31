@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway;
+using Disqord.Rest;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 
@@ -10,11 +11,7 @@ namespace Disqord.Extensions.Interactivity.Menus
     /// <summary>
     ///     Represents a menu with a set of message components.
     /// </summary>
-    /// <remarks>
-    ///     Implementations are free to implement <see cref="IAsyncDisposable"/> as <see cref="InteractivityExtension"/>
-    ///     will call both <see cref="IAsyncDisposable.DisposeAsync"/> and <see cref="Dispose"/> for stopping menus.
-    /// </remarks>
-    public abstract class MenuBase : IDisposable
+    public abstract class MenuBase : IAsyncDisposable
     {
         /// <summary>
         ///     Gets the extension that started this menu.
@@ -34,7 +31,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         public DiscordClientBase Client => Interactivity.Client;
 
         /// <summary>
-        ///     Gets the channel ID this menu is bound to.
+        ///     Gets the ID of the channel this menu is bound to.
         /// </summary>
         /// <remarks>
         ///     <inheritdoc cref="Interactivity"/>
@@ -42,7 +39,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         public Snowflake ChannelId { get; internal set; }
 
         /// <summary>
-        ///     Gets the message ID this menu is bound to.
+        ///     Gets the ID of the message this menu is bound to.
         /// </summary>
         /// <remarks>
         ///     <inheritdoc cref="Interactivity"/>
@@ -68,10 +65,15 @@ namespace Disqord.Extensions.Interactivity.Menus
         public bool IsRunning { get; private set; }
 
         /// <summary>
-        ///     Gets whether this menu has changes.
+        ///     Gets or sets whether this menu has changes.
         /// </summary>
         public bool HasChanges { get; protected set; }
 
+        /// <summary>
+        ///     Gets or sets the view of this menu.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"> The provided value was <see langword="null"/>. </exception>
+        /// <exception cref="ArgumentException"> The provided value belonged to another menu. </exception>
         public ViewBase View
         {
             get => _view;
@@ -114,13 +116,6 @@ namespace Disqord.Extensions.Interactivity.Menus
         }
 
         /// <summary>
-        ///     Refreshes the timeout of this menu.
-        ///     By default, is called by <see cref="HandleInteractionAsync"/>.
-        /// </summary>
-        protected void RefreshTimeout()
-            => _timeoutTimer?.Change(_timeout, Timeout.InfiniteTimeSpan);
-
-        /// <summary>
         ///     Throws if this menu is disposed.
         /// </summary>
         protected void ThrowIfDisposed()
@@ -139,10 +134,17 @@ namespace Disqord.Extensions.Interactivity.Menus
         }
 
         /// <summary>
+        ///     Refreshes the timeout of this menu.
+        ///     By default, is called by <see cref="HandleInteractionAsync"/>.
+        /// </summary>
+        protected void RefreshTimeout()
+            => _timeoutTimer?.Change(_timeout, Timeout.InfiniteTimeSpan);
+
+        /// <summary>
         ///     Initializes this menu and returns the message ID to which it was bound.
         /// </summary>
         /// <returns>
-        ///     The message ID this menu was bound to.
+        ///     The ID of the message this menu was bound to.
         /// </returns>
         protected internal abstract ValueTask<Snowflake> InitializeAsync(CancellationToken cancellationToken);
 
@@ -155,6 +157,124 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// </returns>
         protected virtual ValueTask<bool> CheckInteractionAsync(InteractionReceivedEventArgs e)
             => new(true);
+
+        /// <summary>
+        ///     Handles the given interaction.
+        ///     By default refreshes the timeout, executes the <see cref="View"/>, and calls <see cref="ApplyChangesAsync"/>.
+        /// </summary>
+        /// <param name="e"> The event data. </param>
+        protected virtual async ValueTask HandleInteractionAsync(InteractionReceivedEventArgs e)
+        {
+            var view = _view;
+            if (view == null)
+                return;
+
+            if (!view.TryExecuteComponent(e, out var task))
+                return;
+
+            // If a component is being executed we refresh the menu timeout.
+            RefreshTimeout();
+
+            try
+            {
+                await task.ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Interactivity.Logger.LogError(ex, "An exception occurred in a component callback for menu {0}.", GetType());
+            }
+
+            if (!IsRunning)
+                return;
+
+            try
+            {
+                await ApplyChangesAsync(e).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Interactivity.Logger.LogError(ex, "An exception occurred while applying menu changes for view {0}.", View.GetType());
+            }
+        }
+
+        /// <summary>
+        ///     Sets <see cref="View"/> to the provided view and disposes of the previous one.
+        /// </summary>
+        /// <param name="view"> The view to set. </param>
+        public virtual async ValueTask SetViewAsync(ViewBase view)
+        {
+            await using (_view.ConfigureAwait(false))
+            {
+                View = view;
+            }
+        }
+
+        /// <summary>
+        ///     Updates the message the menu is bound according to view changes.
+        /// </summary>
+        /// <param name="e"> The event data. If not provided the message is modified normally, i.e. not by using interaction responses. </param>
+        public virtual async ValueTask ApplyChangesAsync(InteractionReceivedEventArgs e = null)
+        {
+            var view = View;
+            if (view == null)
+                return;
+
+            // If we have changes, we update the message accordingly.
+            var response = e?.Interaction.Response();
+            if (HasChanges || view.HasChanges)
+            {
+                await view.UpdateAsync().ConfigureAwait(false);
+
+                var localMessage = view.ToLocalMessage();
+                try
+                {
+                    if (response != null && !response.HasResponded)
+                    {
+                        // If the user hasn't responded, respond to the interaction with modifying the message.
+                        await response.ModifyMessageAsync(new LocalInteractionResponse
+                        {
+                            Content = localMessage.Content,
+                            IsTextToSpeech = localMessage.IsTextToSpeech,
+                            Embeds = localMessage.Embeds,
+                            AllowedMentions = localMessage.AllowedMentions,
+                            Components = localMessage.Components
+                        }).ConfigureAwait(false);
+                    }
+                    else if (response != null && response.HasResponded && response.ResponseType is InteractionResponseType.DeferredMessageUpdate)
+                    {
+                        // If the user deferred the response (a button is taking too long, for example), modify the message via a followup.
+                        await e.Interaction.Followup().ModifyResponseAsync(x =>
+                        {
+                            x.Content = localMessage.Content;
+                            x.Embeds = new(localMessage.Embeds);
+                            x.Components = new(localMessage.Components);
+                            x.AllowedMentions = localMessage.AllowedMentions;
+                        }).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        // If the user has responded, modify the message normally.
+                        await Client.ModifyMessageAsync(ChannelId, MessageId, x =>
+                        {
+                            x.Content = localMessage.Content;
+                            x.Embeds = new(localMessage.Embeds);
+                            x.Components = new(localMessage.Components);
+                            x.AllowedMentions = localMessage.AllowedMentions;
+                        }).ConfigureAwait(false);
+                    }
+                }
+                finally
+                {
+                    HasChanges = false;
+                    view.HasChanges = false;
+                }
+            }
+            else if (response != null && !response.HasResponded)
+            {
+                // Acknowledge the interaction to prevent it from failing.
+                await response.DeferAsync().ConfigureAwait(false);
+            }
+        }
 
         internal async ValueTask OnInteractionReceived(InteractionReceivedEventArgs e)
         {
@@ -179,21 +299,6 @@ namespace Disqord.Extensions.Interactivity.Menus
             }
         }
 
-        protected virtual async ValueTask HandleInteractionAsync(InteractionReceivedEventArgs e)
-        {
-            // When a button is triggered we refresh the menu timeout.
-            RefreshTimeout();
-
-            try
-            {
-                await _view.ExecuteAsync(e).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Interactivity.Logger.LogError(ex, "An exception occurred in a component callback for menu {0}.", GetType());
-            }
-        }
-
         internal void Start(TimeSpan timeout, CancellationToken cancellationToken)
         {
             ThrowIfDisposed();
@@ -205,7 +310,7 @@ namespace Disqord.Extensions.Interactivity.Menus
 
             static void CancellationCallback(object tuple)
             {
-                var (tcs, token) = (ValueTuple<Tcs, CancellationToken>) tuple;
+                var (tcs, token) = ((Tcs, CancellationToken)) tuple;
                 tcs.Cancel(token);
             }
 
@@ -223,24 +328,29 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <summary>
         ///     Stops this menu. Transitions the <see cref="Task"/> to a completed state.
         /// </summary>
-        public void Stop()
+        /// <returns>
+        ///     <see langword="true"/> if this menu was stopped and <see langword="false"/> if it was already stopped.
+        /// </returns>
+        public bool Stop()
         {
             ThrowIfDisposed();
 
             if (!IsRunning)
-                return;
+                return false;
 
             IsRunning = false;
-            _tcs.Complete();
+            _timeoutTimer?.Dispose();
+            return _tcs.Complete();
         }
 
         /// <summary>
-        ///     Disposes this menu, i.e. disposes the timeout timer and cancellation source.
+        ///     Disposes this menu, i.e. disposes the timeout timer, cancellation source, and view.
         /// </summary>
         /// <remarks>
+        ///     This method is called by <see cref="InteractivityExtension"/>.
         ///     If overridden by different logic, ensure that the base method is called.
         /// </remarks>
-        public virtual void Dispose()
+        public virtual async ValueTask DisposeAsync()
         {
             if (_isDisposed)
                 return;
@@ -248,6 +358,10 @@ namespace Disqord.Extensions.Interactivity.Menus
             _isDisposed = true;
             _timeoutTimer?.Dispose();
             _cts.Dispose();
+
+            var view = _view;
+            if (view != null)
+                await view.DisposeAsync().ConfigureAwait(false);
         }
     }
 }

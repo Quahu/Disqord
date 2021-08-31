@@ -69,18 +69,20 @@ namespace Disqord.Extensions.Interactivity.Menus
 
         protected ViewComponent(ComponentAttribute attribute)
         {
-            Row = attribute.Row != -1
+            _row = attribute.Row != -1
                 ? attribute.Row
                 : null;
-            Position = attribute.Position != -1
+
+            _position = attribute.Position != -1
                 ? attribute.Position
                 : null;
         }
 
         protected void ReportChanges()
         {
-            if (View != null)
-                View.HasChanges = true;
+            var view = View;
+            if (view != null)
+                view.HasChanges = true;
         }
 
         protected internal abstract LocalNestedComponent ToLocalComponent();

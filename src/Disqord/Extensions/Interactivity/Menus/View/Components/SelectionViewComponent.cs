@@ -69,7 +69,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                 ReportChanges();
             }
         }
-        private List<LocalSelectionComponentOption> _options;
+        private readonly List<LocalSelectionComponentOption> _options;
 
         public bool IsDisabled
         {
@@ -100,9 +100,11 @@ namespace Disqord.Extensions.Interactivity.Menus
             _minimumSelectedOptions = attribute.MinimumSelectedOptions != -1
                 ? attribute.MinimumSelectedOptions
                 : null;
+
             _maximumSelectedOptions = attribute.MaximumSelectedOptions != -1
                 ? attribute.MaximumSelectedOptions
                 : null;
+
             _isDisabled = attribute.IsDisabled;
             _options = new List<LocalSelectionComponentOption>(optionAttributes.Length);
             foreach (var optionAttribute in optionAttributes)

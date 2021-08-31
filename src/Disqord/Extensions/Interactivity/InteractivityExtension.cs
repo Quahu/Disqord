@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Disqord.Collections.Synchronized;
 using Disqord.Extensions.Interactivity.Menus;
 using Disqord.Gateway;
-using Disqord.Utilities;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -137,7 +136,7 @@ namespace Disqord.Extensions.Interactivity
 
             try
             {
-                await using (RuntimeDisposal.WrapAsync(menu, true).ConfigureAwait(false))
+                await using (menu.ConfigureAwait(false))
                 {
                     await menu.Task.ConfigureAwait(false);
                 }
@@ -171,7 +170,7 @@ namespace Disqord.Extensions.Interactivity
             }
 
             if (!_menus.TryAdd(menu.MessageId, menu))
-                throw new InvalidOperationException($"A menu with the message ID {menu.MessageId} is already added.");
+                throw new InvalidOperationException($"A menu for the message ID {menu.MessageId} has already been added.");
 
             try
             {
@@ -203,22 +202,22 @@ namespace Disqord.Extensions.Interactivity
         private static void CompleteWaiters<TEventArgs>(ISynchronizedDictionary<Snowflake, LinkedList<Waiter<TEventArgs>>> eventWaiters, Snowflake entityId, TEventArgs e)
             where TEventArgs : EventArgs
         {
-            if (eventWaiters.TryGetValue(entityId, out var waiters))
-            {
-                lock (waiters)
-                {
-                    for (var current = waiters.First; current != null;)
-                    {
-                        if (current.Value.TryComplete(e))
-                        {
-                            var next = current.Next;
-                            waiters.Remove(current);
-                            current = next;
-                            continue;
-                        }
+            if (!eventWaiters.TryGetValue(entityId, out var waiters))
+                return;
 
-                        current = current.Next;
+            lock (waiters)
+            {
+                for (var current = waiters.First; current != null;)
+                {
+                    if (current.Value.TryComplete(e))
+                    {
+                        var next = current.Next;
+                        waiters.Remove(current);
+                        current = next;
+                        continue;
                     }
+
+                    current = current.Next;
                 }
             }
         }

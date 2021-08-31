@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using Disqord.DependencyInjection.Extensions;
 using Disqord.Extensions.Interactivity;
@@ -23,7 +23,7 @@ namespace Disqord
                     services.Configure(configure);
             }
 
-            services.AddInteractivity();
+            services.AddInteractivityExtension();
             services.AddGatewayClient();
             services.AddRestClient();
             services.AddWebhookClientFactory();
