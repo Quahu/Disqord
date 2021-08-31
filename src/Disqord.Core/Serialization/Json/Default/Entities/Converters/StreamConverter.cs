@@ -149,7 +149,7 @@ namespace Disqord.Serialization.Json.Default
                 _shownHttpWarning = true;
                 _serializer.Logger.LogWarning(
                     "You are passing HTTP streams directly to the API methods which is highly advised against due to buffer data underflowing for incomplete streams. " +
-                    "If you ignore this warning, do ensure the streams are fully downloaded or copy them over to MemoryStreams. " +
+                    "If you ignore this warning, ensure the streams are fully downloaded or copy them over to MemoryStreams. " +
                     "This warning will not appear again.");
             }
         }
