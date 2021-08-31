@@ -91,8 +91,8 @@ namespace Disqord
         /// <summary>
         ///     Gets the components of this message.
         /// </summary>
-        IReadOnlyList<IComponent> Components { get; }
-        
+        IReadOnlyList<IRowComponent> Components { get; }
+
         /// <summary>
         ///     Gets the stickers sent with this message.
         /// </summary>

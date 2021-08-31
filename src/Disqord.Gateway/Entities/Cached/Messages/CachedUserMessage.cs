@@ -40,7 +40,7 @@ namespace Disqord.Gateway
 
         public Optional<IUserMessage> ReferencedMessage { get; private set; }
 
-        public IReadOnlyList<IComponent> Components { get; private set; }
+        public IReadOnlyList<IRowComponent> Components { get; private set; }
 
         public IReadOnlyList<MessageSticker> Stickers { get; private set; }
 
@@ -75,7 +75,7 @@ namespace Disqord.Gateway
                 ReferencedMessage = Optional.Convert(model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage);
             }
 
-            Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
+            Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => new TransientRowComponent(client, model) as IRowComponent), Client) ?? Array.Empty<IRowComponent>();
             Stickers = Optional.ConvertOrDefault(model.StickerItems, x => x.ToReadOnlyList(y => new MessageSticker(y)), Array.Empty<MessageSticker>());
         }
 
@@ -147,7 +147,7 @@ namespace Disqord.Gateway
                 ReferencedMessage = Optional.Convert(model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage);
 
             if (model.Components.HasValue)
-                Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
+                Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => new TransientRowComponent(client, model) as IRowComponent), Client) ?? Array.Empty<IRowComponent>();
 
             if (model.StickerItems.HasValue)
                 Stickers = Optional.ConvertOrDefault(model.StickerItems, x => x.ToReadOnlyList(y => new MessageSticker(y)), Array.Empty<MessageSticker>());

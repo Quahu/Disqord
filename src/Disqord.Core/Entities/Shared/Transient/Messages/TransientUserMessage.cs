@@ -25,25 +25,56 @@ namespace Disqord
         private IReadOnlyList<Attachment> _attachments;
 
         public IReadOnlyList<Embed> Embeds => _embeds ??= Model.Embeds.ToReadOnlyList(x => new Embed(x));
+
         private IReadOnlyList<Embed> _embeds;
 
         public MessageActivity Activity => Optional.ConvertOrDefault(Model.Activity, x => new MessageActivity(x));
 
         public MessageApplication Application => Optional.ConvertOrDefault(Model.Application, x => new MessageApplication(x));
 
-        public Snowflake? ApplicationId => Model.ApplicationId.GetValueOrNullable(); 
+        public Snowflake? ApplicationId => Model.ApplicationId.GetValueOrNullable();
 
         public MessageReference Reference => Optional.ConvertOrDefault(Model.MessageReference, x => new MessageReference(x));
 
         public MessageFlag Flags => Model.Flags.GetValueOrDefault();
 
-        public virtual Optional<IUserMessage> ReferencedMessage => _referencedMessage ??= Optional.Convert(Model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage);
+        public virtual Optional<IUserMessage> ReferencedMessage
+        {
+            get
+            {
+                if (!Model.ReferencedMessage.HasValue)
+                    return default;
+
+                if (Model.ReferencedMessage.Value == null)
+                    return null;
+
+                return _referencedMessage ??= new TransientUserMessage(Client, Model.ReferencedMessage.Value);
+            }
+        }
         private Optional<IUserMessage>? _referencedMessage;
 
-        public IReadOnlyList<IComponent> Components => _components ??= Optional.ConvertOrDefault(Model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
-        private IReadOnlyList<IComponent> _components;
+        public IReadOnlyList<IRowComponent> Components
+        {
+            get
+            {
+                if (!Model.Components.HasValue)
+                    return Array.Empty<IRowComponent>();
 
-        public IReadOnlyList<MessageSticker> Stickers => _stickers ??= Optional.ConvertOrDefault(Model.StickerItems, x => x.ToReadOnlyList(x => new MessageSticker(x)), Array.Empty<MessageSticker>());
+                return _components ??= Model.Components.Value.ToReadOnlyList(Client, (model, client) => new TransientRowComponent(client, model));
+            }
+        }
+        private IReadOnlyList<IRowComponent> _components;
+
+        public IReadOnlyList<MessageSticker> Stickers
+        {
+            get
+            {
+                if (!Model.StickerItems.HasValue)
+                    return Array.Empty<MessageSticker>();
+
+                return _stickers ??= Model.StickerItems.Value.ToReadOnlyList(x => new MessageSticker(x));
+            }
+        }
         private IReadOnlyList<MessageSticker> _stickers;
 
         public TransientUserMessage(IClient client, MessageJsonModel model)
