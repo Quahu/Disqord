@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
@@ -8,8 +9,14 @@ namespace Disqord.Collections
     internal static class EnumerableExtensions
     {
         public static T[] GetArray<T>(this IEnumerable<T> enumerable)
-            => enumerable is T[] array
-                ? array
-                : enumerable.ToArray();
+        {
+            if (enumerable == null)
+                return Array.Empty<T>();
+
+            if (enumerable is T[] array)
+                return array;
+
+            return enumerable.ToArray();
+        }
     }
 }
