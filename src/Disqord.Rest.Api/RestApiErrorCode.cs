@@ -88,7 +88,7 @@
 
         BotOnlyEndpoint = 20002,
 
-        ExplicitContentCannotBeSentToDesiredRecipient = 20009,
+        ExplicitContentCannotBeSentToRecipient = 20009,
 
         UnauthorizedToPerformActionOnApplication = 20012,
 
@@ -225,7 +225,10 @@
 
         NoteTooLong = 50015,
 
-        ProvidedTooFewOrTooManyMessagesToDeleteMustProvideAtLeast2AndFewerThan100MessagesToDelete = 50016,
+        /// <summary>
+        ///     An invalid amount of messages was provided to the bulk message deletion endpoint which accepts from <c>2</c> to <c>100</c> messages.
+        /// </summary>
+        InvalidBulkMessageDeletionAmount = 50016,
 
         AMessageCanOnlyBePinnedToTheChannelItWasSent = 50019,
 
