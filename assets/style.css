@@ -1,0 +1,33 @@
+﻿html {
+    overflow-y: overlay;
+}
+
+main {
+    color: lightgray;
+    padding: 100px 15px 0;
+}
+
+body {
+    min-height: 100vh;
+}
+
+.icon-col {
+    flex: 0 0 auto;
+    margin-top: -2px;
+    width: 30px;
+    text-align: center;
+    font-size: 20px;
+}
+
+code {
+    font-family: Fantasque Sans Mono, var(--bs-font-monospace);
+    font-variant-ligatures: none;
+}
+
+.alert-heading {
+    margin-bottom: 0;
+}
+
+.header-margin {
+    margin-top: 40px;
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en-us" class="h-100">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Disqord Documentation" />
+    <meta property="og:locale" content="en-us" />
+    <title> Disqord - Disqord </title>
+    <meta name="description" content="Disqord is an asynchronous .NET Discord API wrapper." />
+    <meta property="og:title" content="Disqord - Disqord" />
+    <meta property="og:description" content="Disqord is an asynchronous .NET Discord API wrapper." />
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/fantasque-sans-mono" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/stackoverflow-dark.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/highlight.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+    
+</head>
+<body class="d-flex flex-column h-100">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top border-bottom border-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/index"> Disqord </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse" aria-controls="navCollapse" aria-expanded="false" aria-label="Toggle Navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tutorials">Tutorials</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a target="_blank" class="nav-link" href="https://github.com/Quahu/Disqord"><i class="bi bi-github"></i> GitHub</a>
+                        </li>
+                        <li class="nav-item">
+                            <a target="_blank" class="nav-link" href="https://discord.gg/eUMSXGZ"><i class="bi bi-discord"></i> Discord</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="container w-50">
+        <script>
+            if (navigator.userAgentData.mobile)
+                document.querySelector("main").classList.remove("w-50");
+        </script>
+
+        
+        <div class="jumbotron">
+    <h2>The .NET Discord API Wrapper <em>You</em> Deserve</h2>
+    <p>Disqord aims to be the easiest to start with and most enjoyable to master Discord API wrapper for .NET.</p>
+    <p>The library prioritizes user experience and public API design. Discord's unhandy JSON models are mapped to straightforward and consistent polymorphic entities.</p>
+    <a href="tutorials/getting-started" class="btn btn-primary" role="button">Get Started</a>
+</div>
+<h4 id="shortest-ping-pong-bot-example">Shortest Ping-Pong Bot Example</h4>
+<p>Typing <code>&#64;YourBot ping</code> will make your bot respond with <code>Pong!</code>.
+</p>
+<pre><code class="language-cs">using Disqord.Bot;
+using Disqord.Bot.Hosting;
+using Microsoft.Extensions.Hosting;
+using Qmmands;
+
+await new HostBuilder()
+    .ConfigureDiscordBot((context, bot) =&gt; bot.Token = &quot;YOUR_TOKEN_HERE&quot;)
+    .RunConsoleAsync();
+
+public class ExampleModule : DiscordModuleBase
+{
+    [Command(&quot;ping&quot;)]
+    public DiscordCommandResult Ping()
+        =&gt; Response(&quot;Pong!&quot;);
+}
+</code></pre>
+
+    </main>
+
+    <footer class="footer mt-auto text-center">
+        <div class="container">
+            <span class="text-muted">&copy; 2021 • Quahu</span>
+        </div>
+    </footer>
+
+    <script>hljs.highlightAll();</script>
+    <script src="/assets/jquery.js"></script>
+    <script src="/assets/anchors.js"></script>
+</body>
+</html>
