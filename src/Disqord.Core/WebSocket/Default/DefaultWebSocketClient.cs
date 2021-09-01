@@ -21,14 +21,53 @@ namespace Disqord.WebSocket.Default
             _ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(10);
         }
 
-        public Task ConnectAsync(Uri uri, CancellationToken cancellationToken = default)
-            => _ws.ConnectAsync(uri, cancellationToken);
+        public async Task ConnectAsync(Uri uri, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                await _ws.ConnectAsync(uri, cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new WebSocketClosedException(CloseStatus, CloseMessage, ex);
+            }
+        }
 
-        public Task CloseAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default)
-            => _ws.CloseAsync((WebSocketCloseStatus) closeStatus, closeMessage, cancellationToken);
+        public async Task CloseAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                await _ws.CloseAsync((WebSocketCloseStatus) closeStatus, closeMessage, cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new WebSocketClosedException(CloseStatus, CloseMessage, ex);
+            }
+        }
 
-        public Task CloseOutputAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default)
-            => _ws.CloseOutputAsync((WebSocketCloseStatus) closeStatus, closeMessage, cancellationToken);
+        public async Task CloseOutputAsync(int closeStatus, string closeMessage, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                await _ws.CloseOutputAsync((WebSocketCloseStatus) closeStatus, closeMessage, cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new WebSocketClosedException(CloseStatus, CloseMessage, ex);
+            }
+        }
 
         public async ValueTask<WebSocketResult> ReceiveAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
         {

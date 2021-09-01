@@ -94,8 +94,7 @@ namespace Disqord.WebSocket.Default.Discord
                     infiniteCts.Cancel();
                 }
 
-                if (cancellationToken.IsCancellationRequested)
-                    throw new TaskCanceledException();
+                cancellationToken.ThrowIfCancellationRequested();
             }
             finally
             {
@@ -124,13 +123,20 @@ namespace Disqord.WebSocket.Default.Discord
                     }
 
                     if (cancellationToken.IsCancellationRequested)
-                        throw new TaskCanceledException();
+                        throw new OperationCanceledException(cancellationToken);
 
                     var result = await receiveTask.ConfigureAwait(false);
                     if (result.MessageType == WebSocketMessageType.Close)
                     {
-                        await _ws.CloseOutputAsync(_ws.CloseStatus.Value, _ws.CloseMessage, default).ConfigureAwait(false);
-                        throw new WebSocketClosedException(_ws.CloseStatus, _ws.CloseMessage);
+                        var closeStatus = _ws.CloseStatus;
+                        var closeMessage = _ws.CloseMessage;
+                        try
+                        {
+                            await _ws.CloseOutputAsync(closeStatus.GetValueOrDefault(), closeMessage, default).ConfigureAwait(false);
+                        }
+                        catch { }
+
+                        throw new WebSocketClosedException(closeStatus, closeMessage);
                     }
 
                     _receiveStream.Write(_receiveBuffer.AsSpan().Slice(0, result.Count));
@@ -159,7 +165,7 @@ namespace Disqord.WebSocket.Default.Discord
                 }
                 while (!cancellationToken.IsCancellationRequested);
 
-                throw new TaskCanceledException();
+                throw new OperationCanceledException(cancellationToken);
             }
             finally
             {

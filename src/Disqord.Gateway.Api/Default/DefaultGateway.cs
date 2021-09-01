@@ -98,7 +98,7 @@ namespace Disqord.Gateway.Api.Default
                 stream.Position = 0;
                 jsonStream = stream;
             }
-            
+
             return Serializer.Deserialize<GatewayPayloadJsonModel>(jsonStream);
         }
 
