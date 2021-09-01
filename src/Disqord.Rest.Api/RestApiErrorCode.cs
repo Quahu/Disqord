@@ -52,7 +52,7 @@
 
         UnknownBranch = 10032,
 
-        UnknownStoreLayout = 10033,
+        UnknownStoreDirectoryLayout = 10033,
 
         UnknownRedistributable = 10036,
 
@@ -280,19 +280,9 @@
 
         TwoFactorRequired = 60003,
 
-        IncomingFriendRequestsDisabled = 80000,
-
-        FriendRequestBlocked = 80001,
-
-        BotsCannotHaveFriends = 80002,
-
-        CannotSendFriendRequestToSelf = 80003,
-
         NoUsersWithDiscordTagExist = 80004,
 
         ReactionBlocked = 90001,
-
-        IndexNotYetAvailable = 110000,
 
         ResourceOverloaded = 130000,
 
