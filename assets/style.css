@@ -1,18 +1,27 @@
-﻿html {
+﻿html
+{
     overflow-y: overlay;
 }
 
-main {
+main
+{
     color: lightgray;
-    padding: 100px 15px 0;
+    margin-top: 30px;
 }
 
-body {
+body
+{
     min-height: 100vh;
     font-family: Roboto, var(--bs-font-sans-serif);
 }
 
-.icon-col {
+.breadcrumb
+{
+    margin-bottom: 0;
+}
+
+.icon-col
+{
     flex: 0 0 auto;
     margin-top: -2px;
     width: 30px;
@@ -20,15 +29,43 @@ body {
     font-size: 20px;
 }
 
-code {
+code
+{
     font-family: Fantasque Sans Mono, var(--bs-font-monospace);
     font-variant-ligatures: none;
 }
 
-.alert-heading {
+.alert-heading
+{
     margin-bottom: 0;
 }
 
-.header-margin {
-    margin-top: 40px;
+.header
+{
+    color: white;
+    transition: background-color 1s ease;
+    position: relative;
+}
+
+    .header:target
+    {
+        background-color: var(--bs-gray-700);
+    }
+
+        .header:target::before
+        {
+            content: ">";
+            left: -20px;
+            position: absolute;
+            color: var(--bs-success);
+        }
+
+.header-margin
+{
+    margin-top: 30px;
+}
+
+footer
+{
+    margin-top: 50px;
 }

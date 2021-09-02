@@ -4,10 +4,10 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Disqord Documentation">
     <meta property="og:locale" content="en-us">
-    <title> Disqord - First Application </title>
-    <meta name="description" content="Your first Disqord bot.">
-    <meta property="og:title" content="Disqord - First Application">
-    <meta property="og:description" content="Your first Disqord bot.">
+    <title> Disqord </title>
+    <meta name="description" content="Creating your first Discord bot application.">
+    <meta property="og:title" content="Disqord">
+    <meta property="og:description" content="Creating your first Discord bot application.">
     <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/fantasque-sans-mono" type="text/css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -29,7 +29,7 @@
 </head>
 <body class="d-flex flex-column h-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top border-bottom border-dark">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom border-dark">
             <div class="container">
                 <a class="navbar-brand" href="/Disqord/index"> Disqord </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse" aria-controls="navCollapse" aria-expanded="false" aria-label="Toggle Navigation">
@@ -65,50 +65,75 @@
     <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/Disqord/tutorials">Tutorials</a></li>
                     <li class="breadcrumb-item"><a href="/Disqord/tutorials/getting-started">Getting Started</a></li>
-                    <li class="breadcrumb-item active">First Application</li>
+                    <li class="breadcrumb-item active">First Bot</li>
     </ol>
 </nav>
 
         
 
 
-<h1 id="your-first-bot">Your First Bot</h1>
-<div class="alert alert-info" role="alert">
-<div class="row"><div class="icon-col"><i class="bi bi-info-circle-fill"></i></div><div class="col" style="align-self: center"><h4 class="alert-heading">asdasd</h4>info: asdasd
-</div></div></div>
-<div class="alert alert-primary" role="alert">
-<div class="row"><div class="col" style="align-self: center">DA PUMP <a href="https://google.com/">example link</a>
-</div></div></div>
-<div class="alert alert-success" role="alert">
-<div class="row"><div class="icon-col"><i class="bi bi-check-circle-fill"></i></div><div class="col" style="align-self: center">Yessir
-</div></div></div>
+<h1 id="discord-bot-application">Discord Bot Application</h1>
+<p>To use the Discord API you'll need to create a Discord bot application first.
+</p>
+<p>You can skip this tutorial if you've made a bot application already (optionally take a look at <a href="/Disqord/tutorials/getting-started/first-bot.html#privileged-intents">privileged intents</a>).
+</p>
+<h3 id="creating-the-application">Creating the Application</h3>
+<p>Head over to the <a href="https://discord.com/developers/applications">Discord Developer Portal</a> and log in. You should be looking at the following screen:
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/first-bot/my_applications_empty.png" class="img-fluid" alt="my_applications_empty.png">
+</p>
+<p>From here, click on the <code>New Application</code> button and give your application a name.
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/first-bot/creating_application.png" class="img-fluid" alt="creating_application.png">
+</p>
+<p>You should be looking at the following screen now:
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/first-bot/my_application.png" class="img-fluid" alt="my_application.png">
+</p>
+<p>You can change your application's data here. Here's <code>MyBot</code> with an avatar and a description.
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/first-bot/my_application_custom.png" class="img-fluid" alt="my_application_custom.png">
+</p>
+<h3 id="creating-the-bot">Creating the Bot</h3>
+<p>The application alone isn't quite enough. Now you'll need to head over to the <code>Bot</code> tab:
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/first-bot/bot_empty.png" class="img-fluid" alt="bot_empty.png">
+</p>
+<p>Click on <code>Add Bot</code> and confirm it. You should see your bot account created:
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/first-bot/bot.png" class="img-fluid" alt="bot.png">
+</p>
+<h3 id="privileged-intents">Privileged Intents</h3>
+<p>Last piece of configuration is the privileged intents section. This is a bit of an advanced topic, but to summarize - if your bot is growing, you have to apply for privileged intents that are tied to data that Discord deems sensitive. For now, just toggle on the members intent as it's mandatory for many bot features. Disqord uses this intent by default. You can come back to this later at any time.
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/first-bot/bot_intents.png" class="img-fluid" alt="bot_intents.png">
+</p>
+<h3 id="inviting-the-bot">Inviting the Bot</h3>
+<p>To get the bot in your guild, you'll need to invite it. Head over to the <code>OAuth2</code> tab, scroll down to <code>OAuth2 URL Generator</code>, tick on the <code>bot</code> scope, and copy the generated link.
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/first-bot/oauth2_url_generator.png" class="img-fluid" alt="oauth2_url_generator.png">
+</p>
+<p>Open the generated link (paste it into your browser). Select which server to add your bot to. Here <code>MyBot</code> is getting added to the <code>Testing</code> server:
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/first-bot/oauth2_url.png" class="img-fluid" alt="oauth2_url.png">
+</p>
+<p>Click <code>Authorize</code>, fill out any captcha, and you should see your bot appear in the specified server.
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/first-bot/bot_added.png" class="img-fluid" alt="bot_added.png">
+</p>
+<p>Visual Studio should now open your newly created solution with the most basic "hello world" code:
+</p>
+<h3 id="getting-the-bot-token">Getting the Bot Token</h3>
+<p>You're all done with the bot application setup. You can now head back to the <code>Bot</code> tab and copy the bot's token. It will be used for authorizing all bot requests and connections.
+</p>
 <div class="alert alert-warning" role="alert">
-<div class="row"><div class="icon-col"><i class="bi bi-exclamation-triangle-fill"></i></div><div class="col" style="align-self: center">This library might be too powerful
+<div class="row"><div class="icon-col"><i class="bi bi-exclamation-triangle-fill"></i></div><div class="col" style="align-self: center">Your bot's token is like a password. Do not share it with anyone else.
 </div></div></div>
-<div class="alert alert-danger" role="alert">
-<div class="row"><div class="icon-col"><i class="bi bi-exclamation-circle-fill"></i></div><div class="col" style="align-self: center">Just kidding, you'll love it
-</div></div></div>
-<div class="alert alert-info" role="alert">
-<div class="row"><div class="icon-col"><i class="bi bi-info-circle-fill"></i></div><div class="col" style="align-self: center">False alarm, it's horrible
-</div></div></div>
-<div class="alert alert-success" role="alert">
-<div class="row"><div class="icon-col"><i class="bi bi-check-circle-fill"></i></div><div class="col" style="align-self: center"><h4 class="alert-heading">you did it!</h4>success: you did it!
-Yessir <a href="https://google.com/">example link</a>
-</div></div></div>
-<div class="alert alert-warning" role="alert">
-<div class="row"><div class="icon-col"><i class="bi bi-exclamation-triangle-fill"></i></div><div class="col" style="align-self: center"><h4 class="alert-heading">less go</h4>warning: less go
-This library might be too <a href="https://google.com/">example link</a>
-</div></div></div>
-<div class="alert alert-danger" role="alert">
-<div class="row"><div class="icon-col"><i class="bi bi-exclamation-circle-fill"></i></div><div class="col" style="align-self: center"><h4 class="alert-heading">link here</h4>danger: link here
-Just kidding, you'll love <a href="https://google.com/">example link</a>
-</div></div></div>
-<div class="alert alert-info" role="alert">
-<div class="row"><div class="icon-col"><i class="bi bi-info-circle-fill"></i></div><div class="col" style="align-self: center"><h4 class="alert-heading">heyy</h4>info: heyy
-False alarm, it's <a href="https://google.com/">example link</a>
-</div></div></div>
+<p><img src="/Disqord/assets/tutorials/getting-started/first-bot/bot_token.png" class="img-fluid" alt="bot_token.png">
+</p>
 
 
+<h5> Next up: <a href="/Disqord/tutorials/getting-started/program">First Program</a>. </h5>
 
     </main>
 

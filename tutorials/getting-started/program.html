@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="en-us" class="h-100"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Disqord Documentation">
+    <meta property="og:locale" content="en-us">
+    <title> Disqord </title>
+    <meta name="description" content="Creating your first Disqord program.">
+    <meta property="og:title" content="Disqord">
+    <meta property="og:description" content="Creating your first Disqord program.">
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/fantasque-sans-mono" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/stackoverflow-dark.min.css">
+    <link rel="stylesheet" href="/Disqord/assets/bootstrap.min.css">
+    <link rel="stylesheet" href="/Disqord/assets/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/highlight.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+    
+
+<link rel="stylesheet" href="/Disqord/assets/tutorials/style.css">
+
+
+</head>
+<body class="d-flex flex-column h-100">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom border-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/Disqord/index"> Disqord </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse" aria-controls="navCollapse" aria-expanded="false" aria-label="Toggle Navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Disqord/tutorials">Tutorials</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a target="_blank" class="nav-link" href="https://github.com/Quahu/Disqord"><i class="bi bi-github"></i> GitHub</a>
+                        </li>
+                        <li class="nav-item">
+                            <a target="_blank" class="nav-link" href="https://discord.gg/eUMSXGZ"><i class="bi bi-discord"></i> Discord</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="container w-50">
+        <script>
+            if (navigator.userAgentData.mobile)
+                document.querySelector("main").classList.remove("w-50");
+        </script>
+
+        
+<nav aria-label="breadcrumb bg-dark">
+    <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Disqord/tutorials">Tutorials</a></li>
+                    <li class="breadcrumb-item"><a href="/Disqord/tutorials/getting-started">Getting Started</a></li>
+                    <li class="breadcrumb-item active">First Program</li>
+    </ol>
+</nav>
+
+        
+
+
+<h1 id="first-program">First Program</h1>
+<p>This tutorial covers the installation of your IDE, creating the solution, and installing the library.
+If you have an IDE already setup and are familiar with project creation, skip to <a href="/Disqord/tutorials/getting-started/program.html#gett">getting the NuGet package</a>.
+</p>
+<h3 id="ide">IDE</h3>
+<p>It's a must, for working with a library of this size, to have a good IDE on your hands. It'll simplify writing, debugging, and optimizing your code base.
+</p>
+<p>We recommend:
+</p>
+<ul>
+<li> <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a> or later:
+<ul>
+<li> Windows-only
+</li>
+<li> has a free Community edition
+</li>
+</ul>
+</li>
+<li> <a href="https://www.jetbrains.com/rider/">Rider</a>:
+<ul>
+<li> cross-platform
+</li>
+<li> requires a license (free for open source)
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="workload">Workload</h5>
+<p>Depending on the IDE you chose, the workload installation will differ slightly, but should be more or less the same.
+You will need to install the .NET desktop development workload which includes the latest .NET SDK.
+</p>
+<p>For Visual Studio 2019, you must select the following in the installer:
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/workload.png" class="img-fluid" alt="workload.png">
+</p>
+<h3 id="creating-the-solution">Creating the Solution</h3>
+<p>Open Visual Studio. You should see the following screen appear by default:
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/startup.png" class="img-fluid" alt="startup.png">
+</p>
+<p>Click <code>Create a new project</code>. In the following screen select <code>Console Application</code>. Make sure it's described as a .NET Core application.
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/template.png" class="img-fluid" alt="template.png">
+</p>
+<p>Continue. In the following screen select <code>Console Application</code>. Make sure it's described as a .NET Core application.
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/template.png" class="img-fluid" alt="template.png">
+</p>
+<p>Give the application a name. Just don't use something that'd collide in any way with the <code>Disqord</code> namespace to avoid issues down the line.
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/template_name.png" class="img-fluid" alt="name.png">
+</p>
+<p>Select the framework to be <code>.NET 5.0</code> or higher.
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/template_framework.png" class="img-fluid" alt="framework.png">
+</p>
+<p>You should see Visual Studio open the solution, which is a barebones "hello world" application:
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/hello_world.png" class="img-fluid" alt="hello_world.png">
+</p>
+<h3 id="getting-the-nuget-package">Getting the NuGet Package</h3>
+<p>It's time to grab the NuGet package, i.e. download the library so that we can use it in our code.
+</p>
+<h5 id="stable-builds">Stable Builds</h5>
+<div class="alert alert-warning" role="alert">
+<div class="row"><div class="icon-col"><i class="bi bi-exclamation-triangle-fill"></i></div><div class="col" style="align-self: center">Currently, only <a href="/Disqord/tutorials/getting-started/program.html#nightly-builds">nightly builds</a> are available.
+</div></div></div>
+<h5 id="nightly-builds">Nightly Builds</h5>
+<p>Nightly builds are library builds published instantly after a commit is made to the GitHub repository, meaning that if you want to always be up-to-date you should prefer nightly builds.
+</p>
+<p>These are available via the following MyGet package source: <code>https://www.myget.org/F/disqord/api/v3/index.json</code>.
+</p>
+<p>To add this feed to your Visual Studio package source see <a href="https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-visual-studio#package-sources">Microsoft's tutorial</a>.
+</p>
+<p>Now to install the NuGet package, right click on your project in the solution explorer and choose <code>Manage NuGet Packages</code>.
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/manage_nuget_packages.png" class="img-fluid" alt="manage_nuget_packages.png">
+</p>
+<p>On the NuGet screen, click on <code>Browse</code>, and choose the appropriate package source.
+</p>
+<div class="alert alert-secondary" role="alert">
+<div class="row"><div class="col" style="align-self: center">Check <code>Include prerelease</code> if you're using the MyGet package source.
+</div></div></div>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/nuget.png" class="img-fluid" alt="nuget.png">
+</p>
+<p>Now install the following packages, in any order:
+</p>
+<ul>
+<li> Disqord.Bot
+</li>
+<li> Microsoft.Extensions.Hosting
+</li>
+<li> Serilog.Extensions.Hosting
+</li>
+<li> Serilog.Sinks.Console
+</li>
+</ul>
+<h3 id="using-the-library">Using the Library</h3>
+<p>Let's write a simple, but clean startup for our bot that can be easily expanded on later on:
+</p>
+<pre><code class="language-cs">using Disqord.Bot.Hosting;
+using Microsoft.Extensions.Hosting;
+using Serilog;
+
+namespace MyBot
+{
+    class Program
+    {
+        private static void Main(string[] args)
+        {
+            using (var host = CreateHost())
+            {
+                host.Run();
+            }
+        }
+
+        private static IHost CreateHost()
+        {
+            // All host configuration goes here.
+            return new HostBuilder()
+                .UseSerilog((context, logger) =&gt;
+                {
+                    // Instructs Serilog to log into the console.
+                    logger.WriteTo.Console();
+                })
+                .ConfigureDiscordBot((context, bot) =&gt;
+                {
+                    // Sets the bot token.
+                    bot.Token = "YOUR_BOT_TOKEN";
+
+                    // Allows ? and ! as prefixes for commands.
+                    // You can also mention the bot.
+                    bot.Prefixes = new[] { "?", "!" };
+                })
+                .Build();
+        }
+    }
+}
+</code></pre>
+<p>Press F5 to run (debug) the application and you should see a log similar to:
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/console.png" class="img-fluid" alt="console.png">
+</p>
+<p>Your bot should show up as online:
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/online.png" class="img-fluid" alt="online.png">
+</p>
+<h4 id="creating-a-command-module">Creating a Command Module</h4>
+<p>To create commands, right click on your project in the solution explorer and choose <code>Add &gt; Class</code>
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/add_class.png" class="img-fluid" alt="add_class.png">
+</p>
+<p>Give the module a name. I called it <code>BotModule</code>, because I intend on only having bot-related commands in it. The name can be anything and you can have as many modules as you want.
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/add_class_name.png" class="img-fluid" alt="add_class_name.png">
+</p>
+<p>Now, in our new class write the following code in:
+</p>
+<pre><code class="language-cs">using Disqord.Bot;
+using Qmmands;
+
+namespace MyBot
+{
+    public class BotModule : DiscordModuleBase
+    {
+        [Command("ping")]
+        public DiscordCommandResult Ping()
+        {
+            return Response("Pong!");
+        }
+    }
+}
+</code></pre>
+<p>This adds a basic ping-pong command. Let's try it out! Boot up your bot and type <code>?ping</code>, <code>!ping</code> or <code>@YourBot ping</code> in a channel.
+</p>
+<p><img src="/Disqord/assets/tutorials/getting-started/program/ping-pong.gif" class="img-fluid" alt="ping-pong.gif">
+</p>
+
+
+
+    </main>
+
+    <footer class="footer mt-auto text-center">
+        <div class="container">
+            <span class="text-muted">© 2021 • Quahu</span>
+        </div>
+    </footer>
+
+    <script>hljs.highlightAll();</script>
+    <script src="/Disqord/assets/jquery.js"></script>
+    <script src="/Disqord/assets/anchors.js"></script>
+
+</body></html>

@@ -8,4 +8,4 @@ $(".alert").find("a").addClass("alert-link");
 
 $(":header.header-margin").not("h1").addClass("anchored");
 
-$(":header").css("color", "white");
+$(":header").addClass("header");
