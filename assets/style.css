@@ -9,6 +9,7 @@ main {
 
 body {
     min-height: 100vh;
+    font-family: Roboto, var(--bs-font-sans-serif);
 }
 
 .icon-col {
