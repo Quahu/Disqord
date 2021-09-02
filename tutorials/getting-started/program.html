@@ -74,7 +74,7 @@
 
 <h1 id="first-program">First Program</h1>
 <p>This tutorial covers the installation of your IDE, creating the solution, and installing the library.
-If you have an IDE already setup and are familiar with project creation, skip to <a href="/Disqord/tutorials/getting-started/program.html#gett">getting the NuGet package</a>.
+If you have an IDE already setup and are familiar with project creation, skip to <a href="/Disqord/tutorials/getting-started/program.html#getting-the-nuget-package">getting the NuGet package</a>.
 </p>
 <h3 id="ide">IDE</h3>
 <p>It's a must, for working with a library of this size, to have a good IDE on your hands. It'll simplify writing, debugging, and optimizing your code base.
@@ -128,7 +128,7 @@ You will need to install the .NET desktop development workload which includes th
 </p>
 <p><img src="/Disqord/assets/tutorials/getting-started/program/template_framework.png" class="img-fluid" alt="framework.png">
 </p>
-<p>You should see Visual Studio open the solution, which is a barebones "hello world" application:
+<p>You should see Visual Studio open the solution, which currently is just a barebones "hello world" application:
 </p>
 <p><img src="/Disqord/assets/tutorials/getting-started/program/hello_world.png" class="img-fluid" alt="hello_world.png">
 </p>
@@ -235,11 +235,14 @@ using Qmmands;
 
 namespace MyBot
 {
+    // DiscordModuleBase is required to mark the class as a command module.
     public class BotModule : DiscordModuleBase
     {
+        // Marks the method as a command, with the specified alias(es).
         [Command("ping")]
         public DiscordCommandResult Ping()
         {
+            // Means the command should respond with the given string.
             return Response("Pong!");
         }
     }
