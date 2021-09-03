@@ -59,7 +59,7 @@ namespace Disqord
 
         public void Validate()
         {
-            if (string.IsNullOrWhiteSpace(Description) && Name.Length > MaxNameLength)
+            if (string.IsNullOrWhiteSpace(Name) && Name.Length > MaxNameLength)
                 throw new InvalidOperationException($"Name must not be null and can only consist of 1-{MaxNameLength} characters.");
 
             if (string.IsNullOrWhiteSpace(Description) && Description.Length > MaxDescriptionLength)
