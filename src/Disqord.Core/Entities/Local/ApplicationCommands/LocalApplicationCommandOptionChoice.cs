@@ -55,6 +55,9 @@ namespace Disqord
 
             if (!AllowedTypes.Contains(Value.GetType()))
                 throw new InvalidOperationException($"Value type must be a string, integer, or double");
+
+            if (Value is string str && str.Length > MaxValueStringLength)
+                throw new InvalidOperationException($"Value length cannot exceed {MaxValueStringLength} characters as a string");
         }
     }
 }
