@@ -15,6 +15,8 @@ namespace Disqord
 
         public const int MaxDescriptionLength = 100;
 
+        public const string NameRegex = "^[\\w -]{1, 32}$";
+
         public ApplicationCommandOptionType Type { get; set; }
 
         public string Name { get; set; }
@@ -103,10 +105,10 @@ namespace Disqord
 
         public void Validate()
         {
-            if (!Regex.IsMatch(Name, "^[\\w-]{1,32}$"))
+            if (!Regex.IsMatch(Name, NameRegex))
                 throw new InvalidOperationException($"Name must be lowercase and consist of 1-{MaxNameLength} characters.");
 
-            if (string.IsNullOrWhiteSpace(Description) && Description.Length > 100)
+            if (string.IsNullOrWhiteSpace(Description) && Description.Length > MaxDescriptionLength)
                 throw new InvalidOperationException($"Description cannot be null or whitespace, and must be between 1-{MaxDescriptionLength} characters");
 
             for (var i = 0; i < _choices.Count; i++)
