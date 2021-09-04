@@ -169,9 +169,9 @@ namespace Disqord
         ManageEmojisAndStickers = 1ul << 30,
 
         /// <summary>
-        ///     Allows using slash commands.
+        ///     Allows using application commands, including slash commands and context menu commands.
         /// </summary>
-        UseSlashCommands = 1ul << 31,
+        UseApplicationCommands = 1ul << 31,
 
         /// <summary>
         ///     Allows requesting to speak in stage channels.

@@ -74,7 +74,7 @@ namespace Disqord
 
         public bool ManageEmojisAndStickers => Discord.Permissions.HasFlag(RawValue, Permission.ManageEmojisAndStickers);
 
-        public bool UseSlashCommands => Discord.Permissions.HasFlag(RawValue, Permission.UseSlashCommands);
+        public bool UseApplicationCommands => Discord.Permissions.HasFlag(RawValue, Permission.UseApplicationCommands);
 
         public bool RequestToSpeak => Discord.Permissions.HasFlag(RawValue, Permission.RequestToSpeak);
 

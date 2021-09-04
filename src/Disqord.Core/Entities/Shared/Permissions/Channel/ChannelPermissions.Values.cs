@@ -25,7 +25,7 @@
             | Permission.UseVad
             | Permission.ManageRoles
             | Permission.ManageWebhooks
-            | Permission.UseSlashCommands
+            | Permission.UseApplicationCommands
             | Permission.RequestToSpeak
             | Permission.ManageThreads
             | Permission.UseExternalStickers
@@ -48,7 +48,7 @@
             | Permission.UseExternalEmojis
             | Permission.ManageRoles
             | Permission.ManageWebhooks
-            | Permission.UseSlashCommands
+            | Permission.UseApplicationCommands
             | Permission.ManageThreads
             | Permission.CreatePublicThreads
             | Permission.CreatePrivateThreads

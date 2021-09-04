@@ -34,7 +34,7 @@
             | Permission.ManageRoles
             | Permission.ManageWebhooks
             | Permission.ManageEmojisAndStickers
-            | Permission.UseSlashCommands
+            | Permission.UseApplicationCommands
             | Permission.RequestToSpeak
             | Permission.ManageThreads
             | Permission.CreatePublicThreads

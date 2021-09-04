@@ -62,7 +62,7 @@ namespace Disqord
 
         public bool ManageWebhooks => Discord.Permissions.HasFlag(RawValue, Permission.ManageWebhooks);
 
-        public bool UseSlashCommands => Discord.Permissions.HasFlag(RawValue, Permission.UseSlashCommands);
+        public bool UseApplicationCommands => Discord.Permissions.HasFlag(RawValue, Permission.UseApplicationCommands);
 
         public bool RequestToSpeak => Discord.Permissions.HasFlag(RawValue, Permission.RequestToSpeak);
 
