@@ -34,6 +34,10 @@
 
         UnknownWebhook = 10015,
 
+        UnknownWebhookService = 10016,
+
+        UnknownSession = 10020,
+
         UnknownBan = 10026,
 
         UnknownSku = 10027,
@@ -48,7 +52,15 @@
 
         UnknownBranch = 10032,
 
+        UnknownStoreDirectoryLayout = 10033,
+
         UnknownRedistributable = 10036,
+
+        UnknownGiftCode = 10038,
+
+        UnknownStream = 10049,
+
+        UnknownBoostCooldown = 10050,
 
         UnknownGuildTemplate = 10057,
 
@@ -56,7 +68,11 @@
 
         UnknownSticker = 10060,
 
+        UnknownInteraction = 10062,
+
         UnknownApplicationCommand = 10063,
+
+        UnknownApplicationCommandPermissions = 10066,
 
         UnknownStage = 10067,
 
@@ -64,9 +80,21 @@
 
         UnknownWelcomeScreen = 10069,
 
+        UnknownGuildEvent = 10070,
+
+        UnknownGuildEventUser = 10071,
+
         UserOnlyEndpoint = 20001,
 
         BotOnlyEndpoint = 20002,
+
+        ExplicitContentCannotBeSentToRecipient = 20009,
+
+        UnauthorizedToPerformActionOnApplication = 20012,
+
+        SlowmodeRateLimit = 20016,
+
+        AccountOwnerOnlyAction = 20018,
 
         AnnouncementRateLimit = 20022,
 
@@ -77,28 +105,64 @@
         /// </summary>
         DisallowedStageWords = 20031,
 
+        GuildBoostLevelTooLow = 20035,
+
         MaximumGuildAmountReached = 30001,
 
+        /// <summary>
+        ///     The maximum of <c>1000</c> friends was reached.
+        /// </summary>
         MaximumFriendAmountReached = 30002,
 
+        /// <summary>
+        ///     The maximum of <c>50</c> pins was reached.
+        /// </summary>
         MaximumPinAmountReached = 30003,
 
+        /// <summary>
+        ///     The maximum of <c>10</c> recipients was reached.
+        /// </summary>
+        MaximumRecipientsAmountReached = 30004,
+
+        /// <summary>
+        ///     The maximum of <c>250</c> roles was reached.
+        /// </summary>
         MaximumRoleAmountReached = 30005,
 
+        /// <summary>
+        ///     The maximum of <c>10</c> webhooks was reached.
+        /// </summary>
         MaximumWebhookAmountReached = 30007,
 
+        MaximumEmojisAmountReached = 30008,
+
+        /// <summary>
+        ///     The maximum of <c>20</c> reactions was reached.
+        /// </summary>
         MaximumReactionAmountReached = 30010,
 
+        /// <summary>
+        ///     The maximum of <c>500</c> channels was reached.
+        /// </summary>
         MaximumGuildChannelAmountReached = 30013,
 
+        /// <summary>
+        ///     The maximum of <c>10</c> attachments was reached.
+        /// </summary>
         MaximumAttachmentAmountReached = 30015,
 
+        /// <summary>
+        ///     The maximum of <c>1000</c> invites was reached.
+        /// </summary>
         MaximumInviteAmountReached = 30016,
 
         MaximumAnimatedEmojiAmountReached = 30018,
 
         MaximumMemberAmountReached = 30019,
 
+        /// <summary>
+        ///     The maximum of <c>5</c> categories was reached.
+        /// </summary>
         MaximumDiscoverableCategoryAmountReached = 30030,
 
         GuildAlreadyHasATemplate = 30031,
@@ -111,13 +175,25 @@
 
         MaximumStickerAmountReached = 30039,
 
+        MaximumPruneRequestAmountReached = 30040,
+
         Unauthorized = 40001,
+
+        VerifiedAccountRequiredToPerformAction = 40002,
+
+        DirectMessageChannelRateLimit = 40003,
+
+        RequestEntityTooLarge = 40005,
 
         FeatureTemporarilyDisabled = 40006,
 
         UserBanned = 40007,
 
+        TargetUserNotConnectedToVoice = 40032,
+
         MessageAlreadyCrossposted = 40033,
+
+        ApplicationCommandAlreadyExists = 40041,
 
         MissingAccess = 50001,
 
@@ -137,7 +213,7 @@
 
         ChannelVerificationLevelIsTooHigh = 50009,
 
-        OAuth2ApplicationdDoesNotHaveABot = 50010,
+        OAuth2ApplicationDoesNotHaveABot = 50010,
 
         OAuth2ApplicationLimitReached = 50011,
 
@@ -149,7 +225,10 @@
 
         NoteTooLong = 50015,
 
-        ProvidedTooFewOrTooManyMessagesToDeleteMustProvideAtLeast2AndFewerThan100MessagesToDelete = 50016,
+        /// <summary>
+        ///     An invalid amount of messages was provided to the bulk message deletion endpoint which accepts from <c>2</c> to <c>100</c> messages.
+        /// </summary>
+        InvalidBulkMessageDeletionAmount = 50016,
 
         AMessageCanOnlyBePinnedToTheChannelItWasSent = 50019,
 
@@ -167,6 +246,8 @@
 
         InvalidRole = 50028,
 
+        InvalidRecipient = 50033,
+
         AMessageProvidedWasTooOldToBulkDelete = 50034,
 
         InvalidFormBody = 50035,
@@ -178,6 +259,10 @@
         MaximumFileSizeExceeded = 50045,
 
         InvalidFileType = 50046,
+
+        CannotSelfRedeemGift = 50054,
+
+        PaymentSourceRequiredToRedeemGift = 50070,
 
         CannotDeleteAChannelRequiredForCommunityGuilds = 50074,
 
@@ -192,21 +277,15 @@
         /// </summary>
         ValueBeforeThreadCreation = 50085,
 
+        GuildNotAvailableInCurrentLocation = 50095,
+
+        GuildMonetizationRequiredForAction = 50097,
+
         TwoFactorRequired = 60003,
-
-        IncomingFriendRequestsDisabled = 80000,
-
-        FriendRequestBlocked = 80001,
-
-        BotsCannotHaveFriends = 80002,
-
-        CannotSendFriendRequestToSelf = 80003,
 
         NoUsersWithDiscordTagExist = 80004,
 
         ReactionBlocked = 90001,
-
-        IndexNotYetAvailable = 110000,
 
         ResourceOverloaded = 130000,
 
@@ -226,12 +305,18 @@
 
         MaximumStickerFrameRateExceeded = 170003,
 
+        /// <summary>
+        ///     The maximum of <c>1000</c> frames was reached.
+        /// </summary>
         MaximumStickerFrameCountExceeded = 170004,
 
         MaximumLottieDimensionsExceeded = 170005,
 
         InvalidStickerFrameRate = 170006,
 
+        /// <summary>
+        ///     The maximum duration of <c>5</c> seconds was reached.
+        /// </summary>
         MaximumLottieDurationExceeded = 170007
     }
 }
