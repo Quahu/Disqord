@@ -103,7 +103,7 @@ namespace Disqord.Rest.Api
         {
             public static readonly Route GetSticker = Get("stickers/{0:sticker_id}");
 
-            //public static readonly Route GetStickerPacks = Get("sticker-packs");
+            public static readonly Route GetStickerPacks = Get("sticker-packs");
 
             public static readonly Route GetGuildStickers = Get("guilds/{0:guild_id}/stickers");
 
