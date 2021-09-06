@@ -27,6 +27,8 @@ namespace Disqord
 
         public string Name => Model.Name;
 
+        public Snowflake Version => Model.Version;
+
         public TransientApplicationCommand(IClient client, ApplicationCommandJsonModel model)
             : base(client, model)
         { }

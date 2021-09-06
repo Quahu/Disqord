@@ -27,5 +27,8 @@ namespace Disqord.Models
 
         [JsonProperty("default_permission")]
         public Optional<bool> DefaultPermission;
+
+        [JsonProperty("version")]
+        public Snowflake Version;
     }
 }

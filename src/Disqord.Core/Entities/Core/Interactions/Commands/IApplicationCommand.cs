@@ -17,5 +17,7 @@ namespace Disqord
         IReadOnlyList<IApplicationCommandOption> Options { get; }
 
         bool? IsEnabledByDefault { get; } 
+
+        Snowflake Version { get; }
     }
 }
