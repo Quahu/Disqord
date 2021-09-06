@@ -49,6 +49,10 @@ namespace Disqord
         /// <inheritdoc/>
         public int? UserCount => Model.UserCount.GetValueOrNullable();
 
+        /// <inheritdoc/>
+        public IGuildEventMetadata Metadata => _metadata ??= new TransientGuildEventMetadata(Client, Model.EntityMetadata);
+        private IGuildEventMetadata _metadata;
+
         public IReadOnlyList<Snowflake> SpeakerIds => Optional.ConvertOrDefault(Model.EntityMetadata.SpeakerIds, x => x.ToReadOnlyList(), ReadOnlyList<Snowflake>.Empty);
 
         public TransientGuildEvent(IClient client, GuildEventJsonModel model)

@@ -61,8 +61,8 @@ namespace Disqord
         int? UserCount { get; }
 
         /// <summary>
-        ///     Gets the IDs of the speakers in the event.
+        ///     Gets the metadata of this guild event.
         /// </summary>
-        IReadOnlyList<Snowflake> SpeakerIds { get; }
+        IGuildEventMetadata Metadata { get; }
     }
 }
