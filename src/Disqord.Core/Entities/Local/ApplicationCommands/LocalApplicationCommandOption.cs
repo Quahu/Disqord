@@ -106,10 +106,10 @@ namespace Disqord
         public void Validate()
         {
             if (!Regex.IsMatch(Name, NameRegex))
-                throw new InvalidOperationException($"Name must be lowercase and consist of 1-{MaxNameLength} characters.");
+                throw new InvalidOperationException($"Name cannot be null or whitespace, must be lowercase, and must be between of 1-{MaxNameLength} characters.");
 
-            if (string.IsNullOrWhiteSpace(Description) && Description.Length > MaxDescriptionLength)
-                throw new InvalidOperationException($"Description cannot be null or whitespace, and must be between 1-{MaxDescriptionLength} characters");
+            if (string.IsNullOrWhiteSpace(Description) || Description.Length > MaxDescriptionLength)
+                throw new InvalidOperationException($"Description cannot be null or whitespace, and must be between 1-{MaxDescriptionLength} characters.");
 
             for (var i = 0; i < _choices.Count; i++)
                 _choices[i].Validate();
