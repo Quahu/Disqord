@@ -12,7 +12,7 @@ namespace Disqord
 
         public const int MaxValueStringLength = 100;
 
-        public Type[] AllowedTypes = { typeof(string), typeof(int), typeof(double) };
+        public static readonly Type[] AllowedTypes = { typeof(string), typeof(int), typeof(double) };
 
         public string Name { get; set; }
 
@@ -50,7 +50,7 @@ namespace Disqord
 
         public void Validate()
         {
-            if (string.IsNullOrWhiteSpace(Name) && Name.Length > MaxNameLength)
+            if (string.IsNullOrWhiteSpace(Name) || Name.Length > MaxNameLength)
                 throw new InvalidOperationException($"Name cannot be null or whitespace, and must be between 1-{MaxNameLength} characters.");
 
             if (!AllowedTypes.Contains(Value.GetType()))

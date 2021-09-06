@@ -59,10 +59,10 @@ namespace Disqord
 
         public void Validate()
         {
-            if (string.IsNullOrWhiteSpace(Name) && Name.Length > MaxNameLength)
+            if (string.IsNullOrWhiteSpace(Name) || Name.Length > MaxNameLength)
                 throw new InvalidOperationException($"Name cannot be null or whitespace, and must be between 1-{MaxNameLength} characters.");
 
-            if (string.IsNullOrWhiteSpace(Description) && Description.Length > MaxDescriptionLength)
+            if (string.IsNullOrWhiteSpace(Description) || Description.Length > MaxDescriptionLength)
                 throw new InvalidOperationException($"Description cannot be null or whitespace, and must be between 1-{MaxDescriptionLength} characters.");
 
             for (var i = 0; i < _options.Count; i++)
