@@ -62,7 +62,17 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <summary>
         ///     Gets whether this menu has been started and is running.
         /// </summary>
-        public bool IsRunning { get; private set; }
+        public bool IsRunning
+        {
+            get
+            {
+                var tcs = _tcs;
+                if (tcs == null)
+                    return false;
+
+                return !tcs.Task.IsCompleted;
+            }
+        }
 
         /// <summary>
         ///     Gets or sets whether this menu has changes.
@@ -97,13 +107,12 @@ namespace Disqord.Extensions.Interactivity.Menus
         }
         private ViewBase _view;
 
+        private Tcs _tcs;
         private Cts _cts;
         private TimeSpan _timeout;
         private Timer _timeoutTimer;
 
         private bool _isDisposed;
-
-        private readonly Tcs _tcs;
 
         /// <summary>
         ///     Instantiates a new <see cref="MenuBase"/>.
@@ -111,7 +120,6 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <param name="view"> The view for this menu. Can be <see langword="null"/> and set later via <see cref="View"/>. </param>
         protected MenuBase(ViewBase view)
         {
-            _tcs = new Tcs();
             View = view;
         }
 
@@ -138,7 +146,12 @@ namespace Disqord.Extensions.Interactivity.Menus
         ///     By default, is called by <see cref="HandleInteractionAsync"/>.
         /// </summary>
         protected void RefreshTimeout()
-            => _timeoutTimer?.Change(_timeout, Timeout.InfiniteTimeSpan);
+        {
+            if (!IsRunning)
+                return;
+
+            _timeoutTimer?.Change(_timeout, Timeout.InfiniteTimeSpan);
+        }
 
         /// <summary>
         ///     Initializes this menu and returns the message ID to which it was bound.
@@ -306,22 +319,24 @@ namespace Disqord.Extensions.Interactivity.Menus
             if (IsRunning)
                 throw new InvalidOperationException("This menu is already running.");
 
-            IsRunning = true;
-
-            static void CancellationCallback(object tuple)
+            _tcs = new Tcs();
+            _cts = Cts.Linked(Client.StoppingToken, cancellationToken);
+            _cts.Token.UnsafeRegister(tuple =>
             {
                 var (tcs, token) = ((Tcs, CancellationToken)) tuple;
                 tcs.Cancel(token);
-            }
-
-            _cts = Cts.Linked(Client.StoppingToken, cancellationToken);
-            _cts.Token.UnsafeRegister(CancellationCallback, (_tcs, cancellationToken));
+            }, (_tcs, cancellationToken));
 
             if (timeout != Timeout.InfiniteTimeSpan)
             {
                 // We store the timeout so it can be refreshed when a button is triggered in OnButtonAsync.
                 _timeout = timeout;
-                _timeoutTimer = new Timer(CancellationCallback, (_tcs, _cts.Token), timeout, Timeout.InfiniteTimeSpan);
+                _timeoutTimer = new Timer(tuple =>
+                {
+                    var (tcs, cts) = ((Tcs, Cts)) tuple;
+                    cts.Cancel();
+                    tcs.Cancel(cts.Token);
+                }, (_tcs, _cts), timeout, Timeout.InfiniteTimeSpan);
             }
         }
 
@@ -338,9 +353,12 @@ namespace Disqord.Extensions.Interactivity.Menus
             if (!IsRunning)
                 return false;
 
-            IsRunning = false;
+            if (!_tcs.Complete())
+                return false;
+
             _timeoutTimer?.Dispose();
-            return _tcs.Complete();
+            _timeoutTimer = null;
+            return true;
         }
 
         /// <summary>
@@ -357,7 +375,9 @@ namespace Disqord.Extensions.Interactivity.Menus
 
             _isDisposed = true;
             _timeoutTimer?.Dispose();
+            _timeoutTimer = null;
             _cts.Dispose();
+            _cts = null;
 
             var view = _view;
             if (view != null)

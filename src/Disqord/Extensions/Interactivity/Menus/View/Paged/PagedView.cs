@@ -194,8 +194,12 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// </returns>
         protected virtual ValueTask OnStopButtonAsync(ButtonEventArgs e)
         {
-            if (Menu is DefaultMenu interactiveMenu)
-                _ = interactiveMenu.Message.DeleteAsync();
+            if (Menu is DefaultMenu defaultMenu)
+            {
+                var message = defaultMenu.Message;
+                if (message != null)
+                    _ = message.DeleteAsync();
+            }
 
             Menu.Stop();
             return default;
