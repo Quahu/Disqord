@@ -6,5 +6,8 @@ namespace Disqord.Models
     {
         [JsonProperty("speaker_ids")]
         public Optional<Snowflake[]> SpeakerIds;
+
+        [JsonProperty("location")]
+        public Optional<string> Location;
     }
 }
