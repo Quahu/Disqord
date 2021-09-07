@@ -12,16 +12,44 @@ namespace Disqord
 
         public const int MaxDescriptionLength = 100;
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException($"The name cannot be null or whitespace, and must be between 1-{MaxNameLength} characters.");
 
-        public string Description { get; set; }
+                if (value.Length > MaxNameLength)
+                    throw new ArgumentOutOfRangeException($"The name length must be between 1-{MaxNameLength} characters.");
+
+                _name = value;
+            }
+        }
+        private string _name;
+
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new InvalidOperationException($"The description cannot be null or whitespace.");
+
+                if (value.Length > MaxDescriptionLength)
+                    throw new ArgumentOutOfRangeException($"The description must be between 1-{MaxDescriptionLength} characters.");
+
+                _description = value;
+            }
+        }
+        private string _description;
 
         public bool IsEnabledByDefault { get; set; }
 
         public IList<LocalApplicationCommandOption> Options
         {
             get => _options;
-            set => WithOptions(value);
+            set => this.WithOptions(value);
         }
         internal readonly List<LocalApplicationCommandOption> _options;
 
@@ -41,16 +69,6 @@ namespace Disqord
             _options = other.Options.Select(x => x.Clone()).ToList();
         }
 
-        public LocalApplicationCommand WithOptions(IEnumerable<LocalApplicationCommandOption> options)
-        {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
-
-            _options.Clear();
-            _options.AddRange(options);
-            return this;
-        }
-
         object ICloneable.Clone()
             => Clone();
 
@@ -59,12 +77,6 @@ namespace Disqord
 
         public void Validate()
         {
-            if (string.IsNullOrWhiteSpace(Name) || Name.Length > MaxNameLength)
-                throw new InvalidOperationException($"Name cannot be null or whitespace, and must be between 1-{MaxNameLength} characters.");
-
-            if (string.IsNullOrWhiteSpace(Description) || Description.Length > MaxDescriptionLength)
-                throw new InvalidOperationException($"Description cannot be null or whitespace, and must be between 1-{MaxDescriptionLength} characters.");
-
             for (var i = 0; i < _options.Count; i++)
                 _options[i].Validate();
         }

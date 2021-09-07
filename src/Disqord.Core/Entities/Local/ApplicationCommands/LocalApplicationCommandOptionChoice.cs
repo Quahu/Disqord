@@ -14,9 +14,40 @@ namespace Disqord
 
         public static readonly Type[] AllowedTypes = { typeof(string), typeof(int), typeof(double) };
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new InvalidOperationException($"The name cannot be null or whitespace.");
 
-        public object Value { get; set; }
+                if(value.Length > MaxNameLength)
+                    throw new InvalidOperationException($"The name length must be between 1-{MaxNameLength} characters.");
+
+                _name = value;
+            }
+        }
+        private string _name;
+
+        public object Value
+        {
+            get => _value;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("Value cannot be null");
+
+                if (!AllowedTypes.Contains(value.GetType()))
+                    throw new ArgumentException($"Value type must be a string, integer, or double.");
+
+                if (value is string str && str.Length > MaxValueStringLength)
+                    throw new ArgumentOutOfRangeException($"Value length must be between 1-{MaxValueStringLength} characters.");
+
+                _value = value;
+            }
+        }
+        private object _value;
 
         public LocalApplicationCommandOptionChoice(string name, object value)
         {
@@ -49,15 +80,6 @@ namespace Disqord
             => new(this);
 
         public void Validate()
-        {
-            if (string.IsNullOrWhiteSpace(Name) || Name.Length > MaxNameLength)
-                throw new InvalidOperationException($"Name cannot be null or whitespace, and must be between 1-{MaxNameLength} characters.");
-
-            if (!AllowedTypes.Contains(Value.GetType()))
-                throw new InvalidOperationException($"Value type must be a string, integer, or double.");
-
-            if (Value is string str && str.Length > MaxValueStringLength)
-                throw new InvalidOperationException($"Value length must be between 1-{MaxValueStringLength} characters.");
-        }
+        { }
     }
 }

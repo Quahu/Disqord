@@ -19,9 +19,34 @@ namespace Disqord
 
         public ApplicationCommandOptionType Type { get; set; }
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (!Regex.IsMatch(Name, NameRegex))
+                    throw new ArgumentException($"The name cannot be null or whitespace, must be lowercase, and must be between of 1-{MaxNameLength} characters.");
 
-        public string Description { get; set; }
+                _name = value;
+            }
+        }
+        private string _name;
+
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException($"The description cannot be null or whitespace.");
+
+                if (value.Length > MaxDescriptionLength)
+                    throw new ArgumentOutOfRangeException($"The description length must be between 1-{MaxDescriptionLength} characters");
+
+                _description = value;
+            }
+        }
+        private string _description;
 
         public bool Required { get; set; }
 
@@ -105,12 +130,6 @@ namespace Disqord
 
         public void Validate()
         {
-            if (!Regex.IsMatch(Name, NameRegex))
-                throw new InvalidOperationException($"Name cannot be null or whitespace, must be lowercase, and must be between of 1-{MaxNameLength} characters.");
-
-            if (string.IsNullOrWhiteSpace(Description) || Description.Length > MaxDescriptionLength)
-                throw new InvalidOperationException($"Description cannot be null or whitespace, and must be between 1-{MaxDescriptionLength} characters.");
-
             for (var i = 0; i < _choices.Count; i++)
                 _choices[i].Validate();
 
