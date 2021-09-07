@@ -8,7 +8,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord
 {
-    public static partial class LocalEntityExtensions
+    public static class LocalApplicationCommandOptionExtensions
     {
         public static ApplicationCommandOptionJsonModel ToModel(this LocalApplicationCommandOption option, IJsonSerializer serializer)
             => option == null ? null : new ApplicationCommandOptionJsonModel
