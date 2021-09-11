@@ -202,5 +202,10 @@ namespace Disqord
         ///     Allows sending messages in threads.
         /// </summary>
         SendMessagesInThreads = 1ul << 38,
+
+        /// <summary>
+        ///     Allows starting activities in voice channels.
+        /// </summary>
+        StartActivities = 1ul << 39
     }
 }

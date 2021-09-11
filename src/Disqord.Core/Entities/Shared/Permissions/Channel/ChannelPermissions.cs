@@ -76,6 +76,8 @@ namespace Disqord
 
         public bool SendMessagesInThreads => Discord.Permissions.HasFlag(RawValue, Permission.SendMessagesInThreads);
 
+        public bool StartActivities => Discord.Permissions.HasFlag(RawValue, Permission.StartActivities);
+
         public Permission Permissions => (Permission) RawValue;
 
         public ulong RawValue { get; }

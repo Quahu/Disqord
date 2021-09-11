@@ -31,7 +31,8 @@
             | Permission.UseExternalStickers
             | Permission.CreatePublicThreads
             | Permission.CreatePrivateThreads
-            | Permission.SendMessagesInThreads);
+            | Permission.SendMessagesInThreads
+            | Permission.StartActivities);
 
         public const ulong TEXT_PERMISSIONS_VALUE = (ulong) (
             Permission.CreateInvites
@@ -68,6 +69,7 @@
             | Permission.MoveMembers
             | Permission.UseVad
             | Permission.ManageRoles
+            | Permission.StartActivities
             // | Permission.RequestToSpeak TODO: stage channel
         );
 

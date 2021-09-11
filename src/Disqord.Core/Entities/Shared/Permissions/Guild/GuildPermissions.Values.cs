@@ -40,6 +40,7 @@
             | Permission.CreatePublicThreads
             | Permission.CreatePrivateThreads
             | Permission.UseExternalStickers
-            | Permission.SendMessagesInThreads);
+            | Permission.SendMessagesInThreads
+            | Permission.StartActivities);
     }
 }
