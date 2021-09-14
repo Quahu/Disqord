@@ -7,9 +7,9 @@ $("#tutorial-tree").find("a").addClass("collapse-link");
 $("#tutorial-tree").find(".collapse")
     .on("show.bs.collapse", e => {
         e.stopPropagation();
-        $(e.target).parent().find(`a[href$=${e.target.id}]`).children("i").removeClass("bi-arrow-right").addClass("bi-arrow-down");
+        $(e.target).parent().find(`a[href$=${e.target.id}]`).children("i").removeClass("bi-chevron-right").addClass("bi-chevron-down");
     })
     .on("hide.bs.collapse", e => {
         e.stopPropagation();
-        $(e.target).parent().find(`a[href$=${e.target.id}]`).children("i").removeClass("bi-arrow-down").addClass("bi-arrow-right");
+        $(e.target).parent().find(`a[href$=${e.target.id}]`).children("i").removeClass("bi-chevron-down").addClass("bi-chevron-right");
     });
