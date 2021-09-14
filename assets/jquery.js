@@ -6,6 +6,6 @@ $("code").not("pre > code").addClass("hljs");
 
 $(".alert").find("a").addClass("alert-link");
 
-$(":header.header-margin").not("h1").addClass("anchored");
+$(":header.header-margin").not("h1").not(".next-up").addClass("anchored");
 
-$(":header").addClass("header");
+$("main").find(":header").addClass("header");

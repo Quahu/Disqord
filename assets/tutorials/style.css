@@ -1,1 +1,52 @@
-﻿
+﻿.breadcrumb-item > a
+{
+    text-decoration: none;
+}
+
+.next-up > a
+{
+    text-decoration: none;
+}
+
+.side-col > div
+{
+    margin-top: 30px;
+}
+
+.collapse-group
+{
+    margin: 0;
+    padding: 0;
+}
+
+.collapse-item
+{
+    padding-bottom: 2px;
+    padding-top: 4px;
+}
+
+.collapse-link
+{
+    color: lightgray;
+    text-decoration: none;
+}
+
+.collapse-button
+{
+    padding: 0;
+}
+
+    .collapse-button:focus
+    {
+        box-shadow: none !important;
+    }
+
+.img-fluid
+{
+    max-height: 480px;
+}
+
+.sticky-top
+{
+    top: 30px;
+}

@@ -20,6 +20,11 @@ body
     margin-bottom: 0;
 }
 
+    .breadcrumb a
+    {
+        color: lightgray;
+    }
+
 .icon-col
 {
     flex: 0 0 auto;
@@ -68,4 +73,15 @@ code
 footer
 {
     margin-top: 50px;
+}
+
+.side-col
+{
+    max-width: 25%;
+}
+
+#left-col, #right-col
+{
+    margin-left: 20px;
+    margin-right: 20px;
 }
