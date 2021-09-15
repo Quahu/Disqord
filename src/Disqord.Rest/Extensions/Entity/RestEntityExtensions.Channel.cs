@@ -259,7 +259,7 @@ namespace Disqord.Rest
             return client.EnumeratePublicArchivedThreads(channel.Id, limit, startFromDate, options);
         }
 
-        public static Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreadsAsync(this IThreadChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreadsAsync(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
             return client.FetchPublicArchivedThreadsAsync(channel.Id, limit, startFromDate, options);
