@@ -20,6 +20,9 @@
 [![Discord](https://img.shields.io/discord/416256456505950215.svg?style=flat-square&label=Discord&logo=discord&color=738ADB)](https://discord.gg/eUMSXGZ)
 </div>
 
+## Documentation
+Documentation is available [here](https://quahu.github.io/Disqord/).
+
 ## Installation
 Nightly Disqord builds can be pulled as NuGet packages from the MyGet feed: `https://www.myget.org/F/disqord/api/v3/index.json`.
 
