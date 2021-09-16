@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Disqord
 {
     public class LocalApplicationCommandOption : ILocalConstruct
     {
-        public const int MaxChoiceSize = 25;
-
         public const int MaxNameLength = 32;
 
         public const int MaxDescriptionLength = 100;
+
+        public const int MaxOptionsAmount = 25;
+
+        public const int MaxChoicesAmount = 25;
 
         public const string NameRegex = "^[\\w -]{1, 32}$";
 
@@ -25,7 +25,7 @@ namespace Disqord
             set
             {
                 if (!Regex.IsMatch(Name, NameRegex))
-                    throw new ArgumentException($"The name cannot be null or whitespace, must be lowercase, and must be between of 1-{MaxNameLength} characters.");
+                    throw new ArgumentException($"The command option's name must not be empty or whitespace, must be lowercase, and must be between of 1-{MaxNameLength} characters.");
 
                 _name = value;
             }
@@ -38,29 +38,29 @@ namespace Disqord
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException($"The description cannot be null or whitespace.");
+                    throw new ArgumentNullException(nameof(value), "The command option's description must not be empty or whitespace.");
 
                 if (value.Length > MaxDescriptionLength)
-                    throw new ArgumentOutOfRangeException($"The description length must be between 1-{MaxDescriptionLength} characters");
+                    throw new ArgumentOutOfRangeException($"The command option's description must not be longer than {MaxDescriptionLength} characters.");
 
                 _description = value;
             }
         }
         private string _description;
 
-        public bool Required { get; set; }
+        public bool IsRequired { get; set; }
 
         public IList<LocalApplicationCommandOptionChoice> Choices
         {
             get => _choices;
-            set => WithChoices(value);
+            set => this.WithChoices(value);
         }
         internal readonly List<LocalApplicationCommandOptionChoice> _choices;
 
         public IList<LocalApplicationCommandOption> Options
         {
             get => _options;
-            set => WithOptions(value);
+            set => this.WithOptions(value);
         }
         internal readonly List<LocalApplicationCommandOption> _options;
 
@@ -70,7 +70,7 @@ namespace Disqord
             Name = name;
             Description = description;
 
-            _choices = new List<LocalApplicationCommandOptionChoice>(MaxChoiceSize);
+            _choices = new List<LocalApplicationCommandOptionChoice>();
             _options = new List<LocalApplicationCommandOption>();
         }
 
@@ -84,44 +84,6 @@ namespace Disqord
             _options = other._options.Select(x => x.Clone()).ToList();
         }
 
-        public LocalApplicationCommandOption WithType(ApplicationCommandOptionType type)
-        {
-            Type = type;
-            return this;
-        }
-
-        public LocalApplicationCommandOption WithName(string name)
-        {
-            Name = name;
-            return this;
-        }
-
-        public LocalApplicationCommandOption WithRequired(bool required)
-        {
-            Required = required;
-            return this;
-        }
-
-        public LocalApplicationCommandOption WithChoices(IEnumerable<LocalApplicationCommandOptionChoice> choices)
-        {
-            if (choices == null)
-                throw new ArgumentNullException(nameof(choices));
-
-            _choices.Clear();
-            _choices.AddRange(choices);
-            return this;
-        }
-
-        public LocalApplicationCommandOption WithOptions(IEnumerable<LocalApplicationCommandOption> options)
-        {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
-
-            _options.Clear();
-            _options.AddRange(options);
-            return this;
-        }
-
         object ICloneable.Clone()
             => Clone();
 
@@ -130,6 +92,12 @@ namespace Disqord
 
         public void Validate()
         {
+            if (_options.Count > MaxOptionsAmount)
+                throw new InvalidOperationException($"The command option must not contain more than {MaxOptionsAmount} options.");
+
+            if (_choices.Count > MaxChoicesAmount)
+                throw new InvalidOperationException($"The command option must not contain more than {MaxChoicesAmount} choices.");
+
             for (var i = 0; i < _choices.Count; i++)
                 _choices[i].Validate();
 

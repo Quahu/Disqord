@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Disqord.Collections;
 using Disqord.Models;
 
@@ -10,22 +6,22 @@ namespace Disqord
 {
     public class TransientApplicationCommand : TransientEntity<ApplicationCommandJsonModel>, IApplicationCommand
     {
-        public ApplicationCommandType? Type => Model.Type.GetValueOrNullable();
+        public Snowflake Id => Model.Id;
+
+        public Snowflake? GuildId => Model.GuildId.GetValueOrNullable();
+
+        public string Name => Model.Name;
+
+        public ApplicationCommandType Type => Model.Type.GetValueOrDefault(ApplicationCommandType.Text);
 
         public Snowflake ApplicationId => Model.ApplicationId;
 
         public string Description => Model.Description;
 
-        public virtual IReadOnlyList<IApplicationCommandOption> Options => _options ??= Model.Options.Value.ToReadOnlyList(this, (x, @this) => new TransientApplicationCommandOption(@this.Client, x));
+        public virtual IReadOnlyList<IApplicationCommandOption> Options => _options ??= Model.Options.Value.ToReadOnlyList(Client, (model, client) => new TransientApplicationCommandOption(client, model));
         private IReadOnlyList<IApplicationCommandOption> _options;
 
-        public bool? IsEnabledByDefault => Model.DefaultPermission.GetValueOrNullable();
-
-        public Snowflake? GuildId => Model.GuildId.GetValueOrNullable();
-
-        public Snowflake Id => Model.Id;
-
-        public string Name => Model.Name;
+        public bool IsEnabledByDefault => Model.DefaultPermission.GetValueOrDefault();
 
         public Snowflake Version => Model.Version;
 

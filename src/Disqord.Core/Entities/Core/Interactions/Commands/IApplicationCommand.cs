@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Disqord
 {
-    public interface IApplicationCommand : IPossibleGuildEntity, ISnowflakeEntity, INamable
+    public interface IApplicationCommand : ISnowflakeEntity, IPossibleGuildEntity, INamable
     {
-        ApplicationCommandType? Type { get; }
+        ApplicationCommandType Type { get; }
 
         Snowflake ApplicationId { get; }
 
@@ -16,7 +12,7 @@ namespace Disqord
 
         IReadOnlyList<IApplicationCommandOption> Options { get; }
 
-        bool? IsEnabledByDefault { get; } 
+        bool IsEnabledByDefault { get; }
 
         Snowflake Version { get; }
     }

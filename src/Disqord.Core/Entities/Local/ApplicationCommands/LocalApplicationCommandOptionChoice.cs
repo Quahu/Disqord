@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Disqord.Collections;
 
 namespace Disqord
 {
@@ -10,9 +9,9 @@ namespace Disqord
     {
         public const int MaxNameLength = 100;
 
-        public const int MaxValueStringLength = 100;
+        public const int MaxStringValueLength = 100;
 
-        public static readonly Type[] AllowedTypes = { typeof(string), typeof(int), typeof(double) };
+        private static readonly IReadOnlyList<Type> AllowedTypes = new [] { typeof(string), typeof(int), typeof(double) }.ReadOnly();
 
         public string Name
         {
@@ -20,10 +19,10 @@ namespace Disqord
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new InvalidOperationException($"The name cannot be null or whitespace.");
+                    throw new ArgumentNullException(nameof(value), "The command option choice's name must not be empty or whitespace.");
 
-                if(value.Length > MaxNameLength)
-                    throw new InvalidOperationException($"The name length must be between 1-{MaxNameLength} characters.");
+                if (value.Length > MaxNameLength)
+                    throw new ArgumentOutOfRangeException(nameof(value), $"The command option choice's name must not be longer than {MaxNameLength} characters.");
 
                 _name = value;
             }
@@ -36,13 +35,13 @@ namespace Disqord
             set
             {
                 if (value == null)
-                    throw new ArgumentNullException("Value cannot be null");
+                    throw new ArgumentNullException(nameof(value), "Value cannot be null");
 
                 if (!AllowedTypes.Contains(value.GetType()))
-                    throw new ArgumentException($"Value type must be a string, integer, or double.");
+                    throw new ArgumentException("Value type must be a string, integer, or double.");
 
-                if (value is string str && str.Length > MaxValueStringLength)
-                    throw new ArgumentOutOfRangeException($"Value length must be between 1-{MaxValueStringLength} characters.");
+                if (value is string str && str.Length > MaxStringValueLength)
+                    throw new ArgumentOutOfRangeException($"The command option choice's value must not be longer than {MaxStringValueLength} characters.");
 
                 _value = value;
             }
@@ -59,18 +58,6 @@ namespace Disqord
         {
             Name = other.Name;
             Value = other.Name;
-        }
-
-        public LocalApplicationCommandOptionChoice WithName(string name)
-        {
-            Name = name;
-            return this;
-        }
-
-        public LocalApplicationCommandOptionChoice WithValue(object value)
-        {
-            Value = value;
-            return this;
         }
 
         object ICloneable.Clone()

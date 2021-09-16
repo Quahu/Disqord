@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Disqord.Rest.Api;
 using Disqord.Collections;
@@ -16,21 +15,20 @@ namespace Disqord.Rest
             return models.ToReadOnlyList(client, (x, client) => new TransientApplicationCommand(client, x));
         }
 
-        public static async Task<IApplicationCommand> CreateGlobalApplicationCommandAsync(this IRestClient client, Snowflake applicationId, string name, string description, Action<CreateApplicationCommandActionProperties> action, IRestRequestOptions options = null)
+        public static async Task<IApplicationCommand> CreateGlobalApplicationCommandAsync(this IRestClient client, Snowflake applicationId, LocalApplicationCommand command, IRestRequestOptions options = null)
         {
-            var properties = new CreateApplicationCommandActionProperties();
-            action(properties);
+            if (command == null)
+                throw new ArgumentNullException(nameof(command));
 
+            command.Validate();
             var content = new CreateApplicationCommandJsonRestRequestContent
             {
-                Name = name,
-                Description = description,
-                DefaultPermission = properties.IsEnabledByDefault,
-                Type = properties.Type
+                Name = command.Name,
+                Description = command.Description,
+                DefaultPermission = command.IsEnabledByDefault,
+                Type = command.Type,
+                Options = Optional.Conditional(command.Options.Count != 0, x => x.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray(), command.Options)
             };
-
-            if (properties.Options.HasValue)
-                content.Options = properties.Options.Value.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray();
 
             var model = await client.ApiClient.CreateGlobalApplicationCommandAsync(applicationId, content, options).ConfigureAwait(false);
             return new TransientApplicationCommand(client, model);
@@ -84,21 +82,20 @@ namespace Disqord.Rest
             return models.ToReadOnlyList(client, (x, client) => new TransientApplicationCommand(client, x));
         }
 
-        public static async Task<IApplicationCommand> CreateGuildApplicationCommandAsync(this IRestClient client, Snowflake applicationId, Snowflake guildId, string name, string description, Action<CreateApplicationCommandActionProperties> action, IRestRequestOptions options = null)
+        public static async Task<IApplicationCommand> CreateGuildApplicationCommandAsync(this IRestClient client, Snowflake applicationId, Snowflake guildId, LocalApplicationCommand command, IRestRequestOptions options = null)
         {
-            var properties = new CreateApplicationCommandActionProperties();
-            action(properties);
+            if (command == null)
+                throw new ArgumentNullException(nameof(command));
 
+            command.Validate();
             var content = new CreateApplicationCommandJsonRestRequestContent
             {
-                Name = name,
-                Description = description,
-                DefaultPermission = properties.IsEnabledByDefault,
-                Type = properties.Type
+                Name = command.Name,
+                Description = command.Description,
+                DefaultPermission = command.IsEnabledByDefault,
+                Type = command.Type,
+                Options = Optional.Conditional(command.Options.Count != 0, x => x.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray(), command.Options)
             };
-
-            if (properties.Options.HasValue)
-                content.Options = properties.Options.Value.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray();
 
             var model = await client.ApiClient.CreateGuildApplicationCommandAsync(applicationId, guildId, content, options).ConfigureAwait(false);
             return new TransientApplicationCommand(client, model);
