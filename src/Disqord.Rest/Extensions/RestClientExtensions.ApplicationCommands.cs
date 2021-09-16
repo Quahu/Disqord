@@ -72,7 +72,7 @@ namespace Disqord.Rest
 
         public static async Task<IReadOnlyList<IApplicationCommand>> SetGlobalApplicationCommandsAsync(this IRestClient client, Snowflake applicationId, IEnumerable<LocalApplicationCommand> commands, IRestRequestOptions options = null)
         {
-            var contents = commands.Select(x => new ModifyApplicationCommandJsonRestRequestContent
+            var contents = commands.Select(x => new CreateApplicationCommandJsonRestRequestContent
             {
                 Name = x.Name,
                 Description = x.Description,
@@ -80,7 +80,7 @@ namespace Disqord.Rest
                 Options = x.Options.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray()
             }).ToArray();
 
-            var models = await client.ApiClient.SetGlobalApplicationCommandsAsync(applicationId, new JsonObjectRestRequestContent<ModifyApplicationCommandJsonRestRequestContent[]>(contents), options);
+            var models = await client.ApiClient.SetGlobalApplicationCommandsAsync(applicationId, new JsonObjectRestRequestContent<CreateApplicationCommandJsonRestRequestContent[]>(contents), options);
             return models.ToReadOnlyList(client, (x, client) => new TransientApplicationCommand(client, x));
         }
 
@@ -134,7 +134,7 @@ namespace Disqord.Rest
 
         public static async Task<IReadOnlyList<IApplicationCommand>> SetGuildApplicationCommandsAsync(this IRestClient client, Snowflake applicationId, Snowflake guildId, IEnumerable<LocalApplicationCommand> commands, IRestRequestOptions options = null)
         {
-            var contents = commands.Select(x => new ModifyApplicationCommandJsonRestRequestContent
+            var contents = commands.Select(x => new CreateApplicationCommandJsonRestRequestContent
             {
                 Name = x.Name,
                 Description = x.Description,
@@ -142,7 +142,7 @@ namespace Disqord.Rest
                 Options = x.Options.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray()
             }).ToArray();
 
-            var models = await client.ApiClient.SetGuildApplicationCommandsAsync(applicationId, guildId, new JsonObjectRestRequestContent<ModifyApplicationCommandJsonRestRequestContent[]>(contents), options);
+            var models = await client.ApiClient.SetGuildApplicationCommandsAsync(applicationId, guildId, new JsonObjectRestRequestContent<CreateApplicationCommandJsonRestRequestContent[]>(contents), options);
             return models.ToReadOnlyList(client, (x, client) => new TransientApplicationCommand(client, x));
         }
     }
