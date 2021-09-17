@@ -58,6 +58,17 @@ namespace Disqord
             return option;
         }
 
+        public static TApplicationCommandOption WithChannelTypes<TApplicationCommandOption>(this TApplicationCommandOption option, IEnumerable<ChannelType> channelTypes)
+            where TApplicationCommandOption : LocalApplicationCommandOption
+        {
+            if (channelTypes == null)
+                throw new ArgumentNullException(nameof(channelTypes));
+
+            option._channelTypes.Clear();
+            option._channelTypes.AddRange(channelTypes);
+            return option;
+        }
+
         public static ApplicationCommandOptionJsonModel ToModel(this LocalApplicationCommandOption option, IJsonSerializer serializer)
             => option == null ? null : new ApplicationCommandOptionJsonModel
             {

@@ -13,5 +13,7 @@ namespace Disqord
         IReadOnlyList<IApplicationCommandOptionChoice> Choices { get; }
 
         IReadOnlyList<IApplicationCommandOption> Options { get; }
+
+        IReadOnlyList<ChannelType> ChannelTypes { get; }
     }
 }

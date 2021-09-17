@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Disqord.Collections;
 using Disqord.Models;
 
@@ -18,7 +19,7 @@ namespace Disqord
 
         public string Description => Model.Description;
 
-        public virtual IReadOnlyList<IApplicationCommandOption> Options => _options ??= Model.Options.Value.ToReadOnlyList(Client, (model, client) => new TransientApplicationCommandOption(client, model));
+        public IReadOnlyList<IApplicationCommandOption> Options => _options ??= Optional.ConvertOrDefault(Model.Options, (models, client) => models.ToReadOnlyList(client, (model, client) => new TransientApplicationCommandOption(client, model)), Client) ?? ReadOnlyList<IApplicationCommandOption>.Empty;
         private IReadOnlyList<IApplicationCommandOption> _options;
 
         public bool IsEnabledByDefault => Model.DefaultPermission.GetValueOrDefault();

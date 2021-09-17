@@ -21,5 +21,8 @@ namespace Disqord.Models
 
         [JsonProperty("options")]
         public Optional<ApplicationCommandOptionJsonModel[]> Options;
+
+        [JsonProperty("channel_types")]
+        public Optional<ChannelType[]> ChannelTypes;
     }
 }

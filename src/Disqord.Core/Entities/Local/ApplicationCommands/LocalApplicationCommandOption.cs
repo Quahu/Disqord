@@ -64,6 +64,13 @@ namespace Disqord
         }
         internal readonly List<LocalApplicationCommandOption> _options;
 
+        public IList<ChannelType> ChannelTypes
+        {
+            get => _channelTypes;
+            set => this.WithChannelTypes(value);
+        }
+        internal readonly List<ChannelType> _channelTypes;
+
         public LocalApplicationCommandOption(ApplicationCommandOptionType type, string name, string description)
         {
             Type = type;
@@ -72,6 +79,7 @@ namespace Disqord
 
             _choices = new List<LocalApplicationCommandOptionChoice>();
             _options = new List<LocalApplicationCommandOption>();
+            _channelTypes = new List<ChannelType>();
         }
 
         public LocalApplicationCommandOption(LocalApplicationCommandOption other)
@@ -82,6 +90,7 @@ namespace Disqord
 
             _choices = other._choices.Select(x => x.Clone()).ToList();
             _options = other._options.Select(x => x.Clone()).ToList();
+            _channelTypes = other._channelTypes.ToList();
         }
 
         object ICloneable.Clone()
