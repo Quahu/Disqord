@@ -1,6 +1,8 @@
 ﻿if (navigator.userAgentData && navigator.userAgentData.mobile || navigator.userAgent.match(/Mobi/i)) {
-    if (navigator.userAgent.match(/iPhone/i))
+    if (navigator.userAgent.match(/iPhone/i)) {
+        document.documentElement.style.height = "-webkit-fill-available";
         document.body.style.minHeight = "-webkit-fill-available";
+    }
 
     const leftColumn = document.querySelector("#left-col");
     const main = document.querySelector("main");
