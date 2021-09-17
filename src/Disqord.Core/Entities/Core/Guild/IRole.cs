@@ -20,6 +20,11 @@ namespace Disqord
         bool IsHoisted { get; }
 
         /// <summary>
+        ///     Gets the icon image hash of this role.
+        /// </summary>
+        string IconHash { get; }
+
+        /// <summary>
         ///     Gets the position of this role.
         /// </summary>
         int Position { get; }

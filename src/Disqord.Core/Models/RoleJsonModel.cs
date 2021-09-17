@@ -16,6 +16,9 @@ namespace Disqord.Models
         [JsonProperty("hoist")]
         public bool Hoist;
 
+        [JsonProperty("icon")]
+        public string Icon;
+
         [JsonProperty("position")]
         public int Position;
 

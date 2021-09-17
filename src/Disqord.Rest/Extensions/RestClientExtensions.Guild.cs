@@ -408,6 +408,7 @@ namespace Disqord.Rest
                 Permissions = Optional.Convert(properties.Permissions, x => x.RawValue),
                 Color = Optional.Convert(properties.Color, x => x?.RawValue ?? 0),
                 Hoist = properties.IsHoisted,
+                Icon = properties.Icon,
                 Mentionable = properties.IsMentionable
             };
 
@@ -457,6 +458,7 @@ namespace Disqord.Rest
                 Permissions = Optional.Convert(properties.Permissions, x => x.RawValue),
                 Color = Optional.Convert(properties.Color, x => x?.RawValue ?? 0),
                 Hoist = properties.IsHoisted,
+                Icon = properties.Icon,
                 Mentionable = properties.IsMentionable
             };
 

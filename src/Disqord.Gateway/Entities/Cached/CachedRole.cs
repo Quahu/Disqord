@@ -12,6 +12,8 @@ namespace Disqord.Gateway
 
         public bool IsHoisted { get; private set; }
 
+        public string IconHash { get; private set; }
+
         public int Position { get; private set; }
 
         public GuildPermissions Permissions { get; private set; }
@@ -39,6 +41,7 @@ namespace Disqord.Gateway
                 ? model.Color
                 : null;
             IsHoisted = model.Hoist;
+            IconHash = model.Icon;
             Position = model.Position;
             Permissions = model.Permissions;
             IsManaged = model.Managed;

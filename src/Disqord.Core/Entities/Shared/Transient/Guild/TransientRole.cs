@@ -25,6 +25,9 @@ namespace Disqord
         public bool IsHoisted => Model.Hoist;
 
         /// <inheritdoc/>
+        public string IconHash => Model.Icon;
+
+        /// <inheritdoc/>
         public int Position => Model.Position;
 
         /// <inheritdoc/>
