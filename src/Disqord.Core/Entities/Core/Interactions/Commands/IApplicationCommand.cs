@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Disqord.Models;
 
 namespace Disqord
 {
-    public interface IApplicationCommand : ISnowflakeEntity, IPossibleGuildEntity, INamable
+    public interface IApplicationCommand : ISnowflakeEntity, IPossibleGuildEntity, INamable, IJsonUpdatable<ApplicationCommandJsonModel>
     {
         ApplicationCommandType Type { get; }
 

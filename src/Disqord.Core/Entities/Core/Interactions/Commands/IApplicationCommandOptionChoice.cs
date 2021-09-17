@@ -1,6 +1,8 @@
-﻿namespace Disqord
+﻿using Disqord.Models;
+
+namespace Disqord
 {
-    public interface IApplicationCommandOptionChoice : INamable
+    public interface IApplicationCommandOptionChoice : INamable, IJsonUpdatable<ApplicationCommandOptionChoiceJsonModel>
     {
         object Value { get; }
     }

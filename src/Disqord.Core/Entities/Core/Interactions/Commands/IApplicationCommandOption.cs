@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Disqord.Models;
 
 namespace Disqord
 {
-    public interface IApplicationCommandOption : INamable
+    public interface IApplicationCommandOption : INamable, IJsonUpdatable<ApplicationCommandOptionJsonModel>
     {
         ApplicationCommandOptionType Type { get; }
 
