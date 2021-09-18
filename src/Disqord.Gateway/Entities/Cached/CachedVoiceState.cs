@@ -46,10 +46,7 @@ namespace Disqord.Gateway
             IsMuted = model.Mute;
             IsSelfDeafened = model.SelfDeaf;
             IsSelfMuted = model.SelfMute;
-
-            if (model.SelfStream.HasValue)
-                IsStreaming = model.SelfStream.Value;
-
+            IsStreaming = model.SelfStream.GetValueOrDefault();
             IsTransmittingVideo = model.SelfVideo;
             RequestedToSpeakAt = model.RequestToSpeakTimestamp;
         }
