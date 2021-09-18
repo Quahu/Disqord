@@ -62,7 +62,7 @@ namespace Disqord
             _options = new List<LocalApplicationCommandOption>();
         }
 
-        public LocalApplicationCommand(LocalApplicationCommand other)
+        private LocalApplicationCommand(LocalApplicationCommand other)
         {
             Name = other.Name;
             Description = other.Description;
@@ -71,11 +71,11 @@ namespace Disqord
             _options = other.Options.Select(x => x.Clone()).ToList();
         }
 
+        public virtual LocalApplicationCommand Clone()
+            => new(this);
+
         object ICloneable.Clone()
             => Clone();
-
-        public LocalApplicationCommand Clone()
-            => new(this);
 
         public void Validate()
         {

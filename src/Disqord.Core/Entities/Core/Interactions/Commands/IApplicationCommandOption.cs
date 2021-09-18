@@ -9,7 +9,7 @@ namespace Disqord
 
         string Description { get; }
 
-        bool Required { get; }
+        bool IsRequired { get; }
 
         IReadOnlyList<IApplicationCommandOptionChoice> Choices { get; }
 

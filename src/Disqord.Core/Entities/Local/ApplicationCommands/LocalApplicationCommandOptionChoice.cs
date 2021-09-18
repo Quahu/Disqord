@@ -11,7 +11,7 @@ namespace Disqord
 
         public const int MaxStringValueLength = 100;
 
-        private static readonly IReadOnlyList<Type> AllowedTypes = new [] { typeof(string), typeof(int), typeof(double) }.ReadOnly();
+        public static readonly IReadOnlyList<Type> AllowedTypes = new [] { typeof(string), typeof(int), typeof(double) }.ReadOnly();
 
         public string Name
         {
@@ -35,13 +35,13 @@ namespace Disqord
             set
             {
                 if (value == null)
-                    throw new ArgumentNullException(nameof(value), "Value cannot be null");
+                    throw new ArgumentNullException(nameof(value), "The command option choice's value must not be null");
 
                 if (!AllowedTypes.Contains(value.GetType()))
-                    throw new ArgumentException("Value type must be a string, integer, or double.");
+                    throw new ArgumentException("The command option choice's value must be of type: string, int, or double.");
 
                 if (value is string str && str.Length > MaxStringValueLength)
-                    throw new ArgumentOutOfRangeException($"The command option choice's value must not be longer than {MaxStringValueLength} characters.");
+                    throw new ArgumentOutOfRangeException(nameof(value), $"The command option choice's value must not be longer than {MaxStringValueLength} characters.");
 
                 _value = value;
             }
@@ -54,17 +54,17 @@ namespace Disqord
             Value = value;
         }
 
-        public LocalApplicationCommandOptionChoice(LocalApplicationCommandOptionChoice other)
+        private LocalApplicationCommandOptionChoice(LocalApplicationCommandOptionChoice other)
         {
             Name = other.Name;
             Value = other.Name;
         }
 
+        public virtual LocalApplicationCommandOptionChoice Clone()
+            => new(this);
+
         object ICloneable.Clone()
             => Clone();
-
-        public LocalApplicationCommandOptionChoice Clone()
-            => new(this);
 
         public void Validate()
         { }

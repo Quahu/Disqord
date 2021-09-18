@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Disqord
 {
@@ -15,8 +14,6 @@ namespace Disqord
 
         public const int MaxChoicesAmount = 25;
 
-        public const string NameRegex = "^[\\w -]{1, 32}$";
-
         public ApplicationCommandOptionType Type { get; set; }
 
         public string Name
@@ -24,8 +21,11 @@ namespace Disqord
             get => _name;
             set
             {
-                if (!Regex.IsMatch(Name, NameRegex))
-                    throw new ArgumentException($"The command option's name must not be empty or whitespace, must be lowercase, and must be between of 1-{MaxNameLength} characters.");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "The command's name must not be empty or whitespace.");
+
+                if (value.Length > MaxNameLength)
+                    throw new ArgumentOutOfRangeException(nameof(value), $"The command's name must not be longer than {MaxNameLength} characters.");
 
                 _name = value;
             }
@@ -82,7 +82,7 @@ namespace Disqord
             _channelTypes = new List<ChannelType>();
         }
 
-        public LocalApplicationCommandOption(LocalApplicationCommandOption other)
+        private LocalApplicationCommandOption(LocalApplicationCommandOption other)
         {
             Type = other.Type;
             Name = other.Name;
@@ -93,19 +93,19 @@ namespace Disqord
             _channelTypes = other._channelTypes.ToList();
         }
 
+        public virtual LocalApplicationCommandOption Clone()
+            => new(this);
+
         object ICloneable.Clone()
             => Clone();
 
-        public LocalApplicationCommandOption Clone()
-            => new(this);
-
         public void Validate()
         {
-            if (_options.Count > MaxOptionsAmount)
-                throw new InvalidOperationException($"The command option must not contain more than {MaxOptionsAmount} options.");
-
             if (_choices.Count > MaxChoicesAmount)
                 throw new InvalidOperationException($"The command option must not contain more than {MaxChoicesAmount} choices.");
+
+            if (_options.Count > MaxOptionsAmount)
+                throw new InvalidOperationException($"The command option must not contain more than {MaxOptionsAmount} options.");
 
             for (var i = 0; i < _choices.Count; i++)
                 _choices[i].Validate();

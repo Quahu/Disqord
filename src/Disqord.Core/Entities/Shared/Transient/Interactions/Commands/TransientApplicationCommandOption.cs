@@ -12,7 +12,7 @@ namespace Disqord
 
         public string Description => Model.Description;
 
-        public bool Required => Model.Required.GetValueOrDefault();
+        public bool IsRequired => Model.Required.GetValueOrDefault();
 
         public IReadOnlyList<IApplicationCommandOptionChoice> Choices => _choices ??= Optional.ConvertOrDefault(Model.Choices, (models, client) => models.ToReadOnlyList(client, (model, client) => new TransientApplicationCommandOptionChoice(client, model)), Client) ?? ReadOnlyList<IApplicationCommandOptionChoice>.Empty;
         private IReadOnlyList<IApplicationCommandOptionChoice> _choices;
