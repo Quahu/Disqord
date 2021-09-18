@@ -27,5 +27,8 @@ namespace Disqord.Models
 
         [JsonProperty("width")]
         public Optional<int> Width;
+
+        [JsonProperty("ephemeral")]
+        public Optional<bool> Ephemeral;
     }
 }
