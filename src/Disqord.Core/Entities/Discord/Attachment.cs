@@ -24,6 +24,8 @@ namespace Disqord
 
         public int? Height { get; }
 
+        public bool IsEphemeral { get; }
+
         public Attachment(AttachmentJsonModel model)
         {
             Id = model.Id;
@@ -34,6 +36,7 @@ namespace Disqord
             ProxyUrl = model.ProxyUrl;
             Width = model.Width.GetValueOrNullable();
             Height = model.Height.GetValueOrNullable();
+            IsEphemeral = model.Ephemeral.GetValueOrDefault();
         }
 
         public override string ToString()
