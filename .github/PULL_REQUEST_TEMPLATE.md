@@ -9,5 +9,5 @@ Fixes #issue-number.
 [//]: # "Put an x in [ ] to check the checkbox, e.g. [x]"
 
 - [ ] I discussed this PR with the maintainer(s) prior to opening it.
-- [ ] I read the [contributing guidelines](./.github/CONTRIBUTING.md).
+- [ ] I read the [contributing guidelines](https://github.com/Quahu/Disqord/blob/master/.github/CONTRIBUTING.md).
 - [ ] I tested the changes in this PR.
