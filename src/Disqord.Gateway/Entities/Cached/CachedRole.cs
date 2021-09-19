@@ -4,24 +4,37 @@ namespace Disqord.Gateway
 {
     public class CachedRole : CachedSnowflakeEntity, IRole
     {
+        /// <inheritdoc/>
         public Snowflake GuildId { get; }
 
+        /// <inheritdoc/>
         public string Name { get; private set; }
 
+        /// <inheritdoc/>
         public Color? Color { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsHoisted { get; private set; }
 
+        /// <inheritdoc/>
         public string IconHash { get; private set; }
 
+        /// <inheritdoc/>
         public int Position { get; private set; }
 
+        /// <inheritdoc/>
         public GuildPermissions Permissions { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsManaged { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsMentionable { get; private set; }
 
+        /// <inheritdoc/>
+        public IEmoji Emoji { get; private set; }
+
+        /// <inheritdoc/>
         public IRoleTags Tags { get; private set; }
 
         public string Mention => Disqord.Mention.Role(this);
@@ -46,6 +59,7 @@ namespace Disqord.Gateway
             Permissions = model.Permissions;
             IsManaged = model.Managed;
             IsMentionable = model.Mentionable;
+            Emoji = model.UnicodeEmoji is null ? null : new TransientEmoji(model.UnicodeEmoji);
             Tags = Optional.ConvertOrDefault(model.Tags, model => new TransientRoleTags(model), IRoleTags.Empty);
         }
     }

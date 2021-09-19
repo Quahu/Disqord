@@ -45,6 +45,11 @@ namespace Disqord
         bool IsMentionable { get; }
 
         /// <summary>
+        ///     Gets the unicode emoji of this role.
+        /// </summary>
+        IEmoji Emoji { get; }
+
+        /// <summary>
         ///     Gets the role tags of this role.
         ///     This can be used to, for example, determine if the role is the Nitro booster role.
         ///     <example>

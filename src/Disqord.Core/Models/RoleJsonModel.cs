@@ -31,6 +31,9 @@ namespace Disqord.Models
         [JsonProperty("mentionable")]
         public bool Mentionable;
 
+        [JsonProperty("unicode_emoji")]
+        public string UnicodeEmoji;
+
         [JsonProperty("tags")]
         public Optional<RoleTagsJsonModel> Tags;
     }

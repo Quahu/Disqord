@@ -13,6 +13,8 @@ namespace Disqord.AuditLogs
 
         public AuditLogChange<bool> IsHoisted { get; }
 
+        public AuditLogChange<string> IconHash { get; }
+
         public AuditLogChange<bool> IsMentionable { get; }
 
         public TransientRoleAuditLogChanges(IClient client, AuditLogEntryJsonModel model)
@@ -40,6 +42,11 @@ namespace Disqord.AuditLogs
                     case "hoist":
                     {
                         IsHoisted = AuditLogChange<bool>.Convert(change);
+                        break;
+                    }
+                    case "icon_hash":
+                    {
+                        IconHash = AuditLogChange<string>.Convert(change);
                         break;
                     }
                     case "mentionable":

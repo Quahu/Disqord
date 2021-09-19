@@ -11,6 +11,13 @@ namespace Disqord
             : base(model)
         { }
 
+        public TransientEmoji(string name)
+            : base(new EmojiJsonModel
+            {
+                Name = name
+            })
+        { }
+
         public TransientEmoji(Snowflake? id, string name)
             : base(new EmojiJsonModel
             {

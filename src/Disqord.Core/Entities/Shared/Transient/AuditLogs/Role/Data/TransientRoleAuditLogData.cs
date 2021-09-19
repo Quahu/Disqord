@@ -12,6 +12,8 @@ namespace Disqord.AuditLogs
 
         public Optional<bool> IsHoisted { get; }
 
+        public Optional<string> IconHash { get; }
+
         public Optional<bool> IsMentionable { get; }
 
         public TransientRoleAuditLogData(IClient client, AuditLogEntryJsonModel model, bool isCreated)
@@ -23,6 +25,7 @@ namespace Disqord.AuditLogs
                 Permissions = changes.Permissions.NewValue;
                 Color = changes.Color.NewValue;
                 IsHoisted = changes.IsHoisted.NewValue;
+                IconHash = changes.IconHash.NewValue;
                 IsMentionable = changes.IsMentionable.NewValue;
             }
             else
@@ -31,6 +34,7 @@ namespace Disqord.AuditLogs
                 Permissions = changes.Permissions.OldValue;
                 Color = changes.Color.OldValue;
                 IsHoisted = changes.IsHoisted.OldValue;
+                IconHash = changes.IconHash.OldValue;
                 IsMentionable = changes.IsMentionable.OldValue;
             }
         }
