@@ -402,6 +402,10 @@ namespace Disqord.Rest
         {
             var properties = new CreateRoleActionProperties();
             action?.Invoke(properties);
+
+            if (properties.Emoji.HasValue && properties.Emoji.Value is LocalCustomEmoji)
+                throw new ArgumentException("The role's emoji must be a unicode emoji.");
+
             var content = new CreateRoleJsonRestRequestContent
             {
                 Name = properties.Name,
@@ -409,7 +413,8 @@ namespace Disqord.Rest
                 Color = Optional.Convert(properties.Color, x => x?.RawValue ?? 0),
                 Hoist = properties.IsHoisted,
                 Icon = properties.Icon,
-                Mentionable = properties.IsMentionable
+                Mentionable = properties.IsMentionable,
+                UnicodeEmoji = Optional.Convert(properties.Emoji, x => x.Name)
             };
 
             var model = await client.ApiClient.CreateRoleAsync(guildId, content, options, cancellationToken).ConfigureAwait(false);
@@ -444,6 +449,10 @@ namespace Disqord.Rest
         {
             var properties = new ModifyRoleActionProperties();
             action?.Invoke(properties);
+
+            if (properties.Emoji.HasValue && properties.Emoji.Value is LocalCustomEmoji)
+                throw new ArgumentException("The role's emoji must be a unicode emoji.");
+
             if (properties.Position.HasValue)
             {
                 await client.ReorderRolesAsync(guildId, new Dictionary<Snowflake, int>
@@ -459,7 +468,8 @@ namespace Disqord.Rest
                 Color = Optional.Convert(properties.Color, x => x?.RawValue ?? 0),
                 Hoist = properties.IsHoisted,
                 Icon = properties.Icon,
-                Mentionable = properties.IsMentionable
+                Mentionable = properties.IsMentionable,
+                UnicodeEmoji = Optional.Convert(properties.Emoji, x => x.Name)
             };
 
             var model = await client.ApiClient.ModifyRoleAsync(guildId, roleId, content, options, cancellationToken).ConfigureAwait(false);

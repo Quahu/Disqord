@@ -16,6 +16,8 @@ namespace Disqord
 
         public Optional<bool> IsMentionable { internal get; set; }
 
+        public Optional<LocalEmoji> Emoji { internal get; set; }
+
         public Optional<int> Position { internal get; set; }
 
         internal bool HasValues

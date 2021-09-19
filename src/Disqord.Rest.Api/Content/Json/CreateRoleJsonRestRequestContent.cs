@@ -22,5 +22,8 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("mentionable")]
         public Optional<bool> Mentionable;
+
+        [JsonProperty("unicode_emoji")]
+        public Optional<string> UnicodeEmoji;
     }
 }

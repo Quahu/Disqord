@@ -15,5 +15,7 @@ namespace Disqord
         public Optional<Stream> Icon { internal get; set; }
 
         public Optional<bool> IsMentionable { internal get; set; }
+
+        public Optional<LocalEmoji> Emoji { internal get; set; }
     }
 }
