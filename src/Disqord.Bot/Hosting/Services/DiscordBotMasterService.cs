@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Disqord.Gateway;
 using Disqord.Hosting;
-using Disqord.Utilities.Binding;
+using Qommon.Binding;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

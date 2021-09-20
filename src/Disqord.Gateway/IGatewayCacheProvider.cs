@@ -1,6 +1,6 @@
-﻿using Disqord.Collections.Synchronized;
+﻿using Qommon.Collections.Synchronized;
 using Disqord.Gateway.Api;
-using Disqord.Utilities.Binding;
+using Qommon.Binding;
 
 namespace Disqord.Gateway
 {

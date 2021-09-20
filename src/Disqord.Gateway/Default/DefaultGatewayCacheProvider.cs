@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Disqord.Collections.Proxied;
-using Disqord.Collections.Synchronized;
+using Qommon.Collections.Proxied;
+using Qommon.Collections.Synchronized;
 using Disqord.Gateway.Api;
 using Microsoft.Extensions.Options;
 

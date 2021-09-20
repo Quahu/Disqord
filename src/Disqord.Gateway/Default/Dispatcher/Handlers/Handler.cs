@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Disqord.Collections.Synchronized;
-using Disqord.Events;
+using Qommon.Collections.Synchronized;
+using Qommon.Events;
 using Disqord.Gateway.Api;
 using Disqord.Serialization.Json;
-using Disqord.Utilities.Binding;
+using Qommon.Binding;
 using Microsoft.Extensions.Logging;
 
 namespace Disqord.Gateway.Default.Dispatcher
@@ -41,7 +41,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             where TEventArgs : EventArgs
             => new InterceptingHandler<TModel, TEventArgs>(handler, func);
 
-        private protected static readonly ISynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, AsynchronousEvent>> _eventsByDispatcher = new SynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, AsynchronousEvent>>(1);
+        private protected static readonly ISynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>> _eventsByDispatcher = new SynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>>(1);
         private protected static readonly PropertyInfo[] _eventsProperties;
 
         static Handler()

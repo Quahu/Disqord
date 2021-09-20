@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Disqord.Gateway.Api.Models;
 using Disqord.Logging;
 using Disqord.Serialization.Json;
-using Disqord.Utilities.Binding;
+using Qommon.Binding;
 using Disqord.WebSocket;
 
 namespace Disqord.Gateway.Api

@@ -5,7 +5,7 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Logging;
-using Disqord.Utilities.Binding;
+using Qommon.Binding;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Disqord.Collections.Synchronized;
+using Qommon.Collections.Synchronized;
 using Disqord.Gateway;
 
 namespace Disqord.Extensions.Interactivity.Menus

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Disqord.Collections;
+using Qommon.Collections;
 using Disqord.Gateway;
 using Disqord.Gateway.Api.Models;
 

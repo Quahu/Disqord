@@ -150,13 +150,13 @@ namespace Disqord.Bot
             }
         }
 
-        private Task CommandExecutedAsync(CommandExecutedEventArgs e)
+        private ValueTask CommandExecutedAsync(object sender, CommandExecutedEventArgs e)
         {
             if (e.Context is not DiscordCommandContext context)
-                return Task.CompletedTask;
+                return default;
 
             _ = InternalHandleCommandExecutedAsync(context, e.Result as DiscordCommandResult);
-            return Task.CompletedTask;
+            return default;
         }
 
         private async ValueTask InternalHandleCommandExecutedAsync(DiscordCommandContext context, DiscordCommandResult result)
@@ -176,7 +176,7 @@ namespace Disqord.Bot
             await DisposeContextAsync(context).ConfigureAwait(false);
         }
 
-        private Task CommandExecutionFailedAsync(CommandExecutionFailedEventArgs e)
+        private ValueTask CommandExecutionFailedAsync(object sender, CommandExecutionFailedEventArgs e)
         {
             if (e.Result.CommandExecutionStep == CommandExecutionStep.Command && e.Result.Exception is ContextTypeMismatchException contextTypeMismatchException)
             {
@@ -214,17 +214,17 @@ namespace Disqord.Bot
                 if (e.Result.Exception is OperationCanceledException && StoppingToken.IsCancellationRequested)
                 {
                     // Means the bot is stopping and any exceptions caused by cancellation we can ignore.
-                    return Task.CompletedTask;
+                    return default;
                 }
 
                 Logger.LogError(e.Result.Exception, e.Result.FailureReason);
             }
 
             if (e.Context is not DiscordCommandContext context)
-                return Task.CompletedTask;
+                return default;
 
             _ = InternalHandleFailedResultAsync(context, e.Result);
-            return Task.CompletedTask;
+            return default;
         }
 
         private async ValueTask InternalHandleFailedResultAsync(DiscordCommandContext context, FailedResult result)

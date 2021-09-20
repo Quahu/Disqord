@@ -60,6 +60,9 @@ namespace Disqord
         public static TNew ConvertOrDefault<TOld, TState, TNew>(Optional<TOld> optional, Func<TOld, TState, TNew> converter, TState state)
             => optional.HasValue ? converter(optional.Value, state) : default;
 
+        public static TNew ConvertOrDefault<TOld, TState, TNew>(Optional<TOld> optional, Func<TOld, TState, TNew> converter, TState state, TNew defaultValue)
+            => optional.HasValue ? converter(optional.Value, state) : defaultValue;
+
         public static Optional<T> Conditional<T>(bool condition, T value)
             => condition ? value : Optional<T>.Empty;
 

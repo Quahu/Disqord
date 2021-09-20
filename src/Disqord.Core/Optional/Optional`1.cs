@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Disqord.Serialization;
 
 namespace Disqord
@@ -7,7 +8,7 @@ namespace Disqord
     ///     Represents an optional value.
     /// </summary>
     /// <typeparam name="T"> The type of the optional value. </typeparam>
-    public readonly struct Optional<T> : IOptional, IEquatable<Optional<T>>
+    public readonly struct Optional<T> : IOptional, IEquatable<Optional<T>>, IEquatable<T>, IComparable<Optional<T>>, IComparable<T>
     {
         /// <summary>
         ///     An empty <see cref="Optional{T}"/> instance.
@@ -53,7 +54,7 @@ namespace Disqord
         /// <summary>
         ///     Checks whether this optional is equal to another.
         /// </summary>
-        /// <param name="other"> The <see cref="Optional{T}"/> to compare against. </param>
+        /// <param name="other"> The optional to compare against. </param>
         /// <returns>
         ///     <see langword="true"/> if the optionals are equal.
         /// </returns>
@@ -68,11 +69,62 @@ namespace Disqord
             return _value.Equals(other._value);
         }
 
+        /// <summary>
+        ///     Checks whether this optional is equal to a value.
+        /// </summary>
+        /// <param name="other"> The value to compare against. </param>
+        /// <returns>
+        ///     <see langword="true"/> if this optional has a value and its value is equal the provided value.
+        /// </returns>
+        public bool Equals(T other)
+        {
+            if (!HasValue)
+                return false;
+
+            return _value.Equals(other);
+        }
+
+        /// <summary>
+        ///     Compares this optional against another.
+        /// </summary>
+        /// <param name="other"> The optional to compare against. </param>
+        /// <returns>
+        ///     <inheritdoc/>
+        /// </returns>
+        public int CompareTo(Optional<T> other)
+        {
+            if (HasValue && !other.HasValue)
+                return 1;
+
+            if (!HasValue && other.HasValue)
+                return -1;
+
+            return Comparer<T>.Default.Compare(_value, other._value);
+        }
+
+        /// <summary>
+        ///     Compares this optional to a value.
+        /// </summary>
+        /// <param name="other"> The value to compare against. </param>
+        /// <returns>
+        ///     <inheritdoc/>
+        /// </returns>
+        public int CompareTo(T other)
+        {
+            if (!HasValue)
+                return -1;
+
+            return Comparer<T>.Default.Compare(_value, other);
+        }
+
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (obj is Optional<T> optional)
                 return Equals(optional);
+
+            if (obj is T value)
+                return Equals(value);
 
             return false;
         }
@@ -93,7 +145,7 @@ namespace Disqord
             => new(value);
 
         /// <summary>
-        ///     Checks whether this optional is equal to another.
+        ///     Checks whether two optionals are equal.
         /// </summary>
         /// <param name="left"> The left-hand side <see cref="Optional{T}"/>. </param>
         /// <param name="right"> The right-hand side <see cref="Optional{T}"/> to compare against. </param>
@@ -104,7 +156,7 @@ namespace Disqord
             => left.Equals(right);
 
         /// <summary>
-        ///     Checks whether this optional is equal to another.
+        ///     Checks whether two optionals are equal.
         /// </summary>
         /// <param name="left"> The left-hand side <see cref="Optional{T}"/>. </param>
         /// <param name="right"> The right-hand side <see cref="Optional{T}"/> to compare against. </param>
@@ -112,6 +164,28 @@ namespace Disqord
         ///     <see langword="true"/> if the optionals are not equal.
         /// </returns>
         public static bool operator !=(Optional<T> left, Optional<T> right)
+            => !left.Equals(right);
+
+        /// <summary>
+        ///     Checks whether an optional an a value are equal.
+        /// </summary>
+        /// <param name="left"> The left-hand side optional. </param>
+        /// <param name="right"> The right-hand side value to compare against. </param>
+        /// <returns>
+        ///     <see langword="true"/> if the optional has a value and its value is equal the value.
+        /// </returns>
+        public static bool operator ==(Optional<T> left, T right)
+            => left.Equals(right);
+
+        /// <summary>
+        ///     Checks whether an optional and a value are equal.
+        /// </summary>
+        /// <param name="left"> The left-hand side optional. </param>
+        /// <param name="right"> The right-hand side value to compare against. </param>
+        /// <returns>
+        ///     <see langword="true"/> if the optional has a value and its value is equal the value.
+        /// </returns>
+        public static bool operator !=(Optional<T> left, T right)
             => !left.Equals(right);
     }
 }

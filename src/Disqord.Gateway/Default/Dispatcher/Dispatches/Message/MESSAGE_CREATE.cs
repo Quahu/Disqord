@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Disqord.Api;
 using Disqord.Gateway.Api;
 using Disqord.Models;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {

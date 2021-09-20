@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Disqord.Collections;
+using Qommon.Collections;
 using Disqord.Gateway;
 using Disqord.Rest;
-using Disqord.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using Qmmands;
+using Qommon.Disposal;
 
 namespace Disqord.Bot
 {
@@ -13,7 +13,7 @@ namespace Disqord.Bot
     {
         /// <summary>
         ///     Checks if the received message is valid.
-        ///     By default ensures the message author is not a bot. 
+        ///     By default ensures the message author is not a bot.
         /// </summary>
         /// <param name="message"> The message to check. </param>
         /// <returns>

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Collections;
-using Disqord.Collections.Synchronized;
+using Qommon.Collections;
+using Qommon.Collections.Synchronized;
 using Disqord.Gateway.Api;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

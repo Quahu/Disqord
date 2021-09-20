@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Http.Default;
-using Disqord.Utilities.Binding;
+using Qommon.Binding;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

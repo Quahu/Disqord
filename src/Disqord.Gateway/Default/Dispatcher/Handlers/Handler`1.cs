@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Disqord.Events;
+using Qommon.Collections.Synchronized;
+using Qommon.Events;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
@@ -11,7 +12,7 @@ namespace Disqord.Gateway.Default.Dispatcher
         private protected AsynchronousEvent<TEventArgs> Event { get; private set; }
 
         // TEventArgs -> AsynchronousEvent<TEventArgs>.
-        private protected Dictionary<Type, AsynchronousEvent> _events;
+        private protected Dictionary<Type, IAsynchronousEvent> _events;
 
         private protected Handler()
         { }
@@ -23,11 +24,11 @@ namespace Disqord.Gateway.Default.Dispatcher
             // Gets or adds the map of events for the given dispatcher instance.
             _events = _eventsByDispatcher.GetOrAdd(Dispatcher, dispatcher =>
             {
-                var dictionary = new Dictionary<Type, AsynchronousEvent>(_eventsProperties.Length);
+                var dictionary = new Dictionary<Type, IAsynchronousEvent>(_eventsProperties.Length);
                 for (var i = 0; i < _eventsProperties.Length; i++)
                 {
                     var property = _eventsProperties[i];
-                    dictionary.Add(property.PropertyType.GenericTypeArguments[0], (AsynchronousEvent) property.GetValue(dispatcher));
+                    dictionary.Add(property.PropertyType.GenericTypeArguments[0], (IAsynchronousEvent) property.GetValue(dispatcher));
                 }
 
                 return dictionary;

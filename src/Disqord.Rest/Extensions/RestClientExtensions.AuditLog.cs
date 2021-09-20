@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Disqord.AuditLogs;
-using Disqord.Collections;
+using Qommon.Collections;
 using Disqord.Rest.Api;
 using Disqord.Rest.Pagination;
 

@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Events;
+using Qommon.Events;
 using Disqord.Gateway.Api.Models;
 using Disqord.Serialization.Json;
 using Disqord.WebSocket;

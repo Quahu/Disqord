@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Gateway;
 using Qmmands;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Bot.Parsers
 {

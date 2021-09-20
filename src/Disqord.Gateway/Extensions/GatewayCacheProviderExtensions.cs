@@ -1,4 +1,4 @@
-﻿using Disqord.Collections.Synchronized;
+﻿using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway
 {

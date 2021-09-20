@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Disqord.Collections.Proxied;
+using Qommon.Collections.Proxied;
 
 namespace Disqord.Rest.Api
 {

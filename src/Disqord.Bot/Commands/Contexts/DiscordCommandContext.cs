@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Disqord.Gateway;
-using Disqord.Utilities;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Qmmands;
+using Qommon.Disposal;
 
 namespace Disqord.Bot
 {

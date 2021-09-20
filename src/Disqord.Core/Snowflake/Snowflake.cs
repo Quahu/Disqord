@@ -3,7 +3,7 @@
 namespace Disqord
 {
     /// <summary>
-    ///     Represents a Discord snowflake, i.e. a <see cref="ulong"/> offset by the constant <see cref="EPOCH"/>.
+    ///     Represents a Discord snowflake, i.e. a <see cref="ulong"/> offset by the constant <see cref="Epoch"/>.
     ///     <see cref="Snowflake"/> can be implicitly casted to and from <see cref="ulong"/>.
     /// </summary>
     public readonly partial struct Snowflake : IConvertible, IEquatable<ulong>, IEquatable<Snowflake>, IComparable<ulong>, IComparable<Snowflake>
@@ -11,7 +11,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the constant epoch.
         /// </summary>
-        public const ulong EPOCH = 1420070400000;
+        public const ulong Epoch = 1420070400000;
 
         /// <summary>
         ///     Gets the wrapped <see cref="ulong"/> value.
@@ -100,10 +100,9 @@ namespace Disqord
                 : throw new FormatException();
 
         public static Snowflake FromDateTimeOffset(DateTimeOffset dateTimeOffset)
-            => ((ulong) dateTimeOffset.ToUniversalTime().ToUnixTimeMilliseconds() - EPOCH) << 22;
+            => ((ulong) dateTimeOffset.ToUniversalTime().ToUnixTimeMilliseconds() - Epoch) << 22;
 
         public static DateTimeOffset ToDateTimeOffset(ulong id)
-            => DateTimeOffset.FromUnixTimeMilliseconds((long) ((id >> 22) + EPOCH));
-
+            => DateTimeOffset.FromUnixTimeMilliseconds((long) ((id >> 22) + Epoch));
     }
 }

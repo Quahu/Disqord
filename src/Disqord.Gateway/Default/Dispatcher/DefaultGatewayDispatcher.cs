@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using Disqord.Collections.Synchronized;
+using Qommon.Collections.Synchronized;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Default.Dispatcher;
-using Disqord.Utilities.Binding;
+using Qommon.Binding;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Collections.Synchronized;
+using Qommon.Collections.Synchronized;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Disqord.Utilities.Threading;

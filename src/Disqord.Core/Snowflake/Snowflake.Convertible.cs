@@ -5,54 +5,54 @@ namespace Disqord
     public readonly partial struct Snowflake
     {
         TypeCode IConvertible.GetTypeCode()
-            => RawValue.GetTypeCode();
+            => TypeCode.UInt64;
 
         bool IConvertible.ToBoolean(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToBoolean(provider);
+            => Convert.ToBoolean(RawValue, provider);
 
         byte IConvertible.ToByte(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToByte(provider);
+            => Convert.ToByte(RawValue, provider);
 
         char IConvertible.ToChar(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToChar(provider);
+            => Convert.ToChar(RawValue, provider);
 
         DateTime IConvertible.ToDateTime(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToDateTime(provider);
+            => Convert.ToDateTime(RawValue, provider);
 
         decimal IConvertible.ToDecimal(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToDecimal(provider);
+            => Convert.ToDecimal(RawValue, provider);
 
         double IConvertible.ToDouble(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToDouble(provider);
+            => Convert.ToDouble(RawValue, provider);
 
         short IConvertible.ToInt16(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToInt16(provider);
+            => Convert.ToInt16(RawValue, provider);
 
         int IConvertible.ToInt32(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToInt32(provider);
+            => Convert.ToInt32(RawValue, provider);
 
         long IConvertible.ToInt64(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToInt64(provider);
+            => Convert.ToInt64(RawValue, provider);
 
         sbyte IConvertible.ToSByte(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToSByte(provider);
+            => Convert.ToSByte(RawValue, provider);
 
         float IConvertible.ToSingle(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToSingle(provider);
+            => Convert.ToSingle(RawValue, provider);
 
         string IConvertible.ToString(IFormatProvider provider)
             => RawValue.ToString(provider);
 
         object IConvertible.ToType(Type conversionType, IFormatProvider provider)
-            => ((IConvertible) RawValue).ToType(conversionType, provider);
+            => Convert.ChangeType(RawValue, conversionType, provider);
 
         ushort IConvertible.ToUInt16(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToUInt16(provider);
+            => Convert.ToUInt16(RawValue, provider);
 
         uint IConvertible.ToUInt32(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToUInt32(provider);
+            => Convert.ToUInt32(RawValue, provider);
 
         ulong IConvertible.ToUInt64(IFormatProvider provider)
-            => ((IConvertible) RawValue).ToUInt64(provider);
+            => Convert.ToUInt64(RawValue, provider);
     }
 }

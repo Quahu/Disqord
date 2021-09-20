@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api.Models;
 using Disqord.Serialization.Json;
-using Disqord.Utilities.Binding;
+using Qommon.Binding;
 using Disqord.WebSocket;
 using Disqord.WebSocket.Default.Discord;
 using Microsoft.Extensions.Logging;

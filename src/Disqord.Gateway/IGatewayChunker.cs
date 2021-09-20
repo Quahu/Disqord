@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api.Models;
 using Disqord.Logging;
-using Disqord.Utilities.Binding;
+using Qommon.Binding;
 
 namespace Disqord.Gateway
 {

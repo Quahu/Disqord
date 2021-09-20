@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Disqord.Api;
-using Disqord.Collections;
+using Qommon.Collections;
 using Disqord.Models;
 
 namespace Disqord

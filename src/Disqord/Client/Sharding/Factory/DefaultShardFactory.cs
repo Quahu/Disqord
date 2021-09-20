@@ -1,7 +1,7 @@
 ﻿using System;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Default;
-using Disqord.Utilities.Binding;
+using Qommon.Binding;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

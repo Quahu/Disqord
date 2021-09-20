@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using Disqord.Bot.Hosting;
-using Disqord.Collections;
+using Qommon.Collections;
 using Disqord.Gateway;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

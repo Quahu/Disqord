@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Logging;
-using Disqord.Utilities.Binding;
+using Qommon.Binding;
 
 namespace Disqord.Rest.Api
 {

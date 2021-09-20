@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Disqord.Collections;
+using Qommon.Collections;
 using Disqord.Models;
 
 namespace Disqord.Gateway

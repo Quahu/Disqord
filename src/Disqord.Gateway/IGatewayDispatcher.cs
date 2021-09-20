@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Logging;
-using Disqord.Utilities.Binding;
+using Qommon.Binding;
 
 namespace Disqord.Gateway
 {

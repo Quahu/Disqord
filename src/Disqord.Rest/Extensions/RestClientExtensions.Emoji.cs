@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Disqord.Collections;
+using Qommon.Collections;
 using Disqord.Rest.Api;
 
 namespace Disqord.Rest

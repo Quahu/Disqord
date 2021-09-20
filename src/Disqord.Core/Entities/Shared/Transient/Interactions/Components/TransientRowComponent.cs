@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Disqord.Collections;
+using Qommon.Collections;
 using Disqord.Models;
 
 namespace Disqord

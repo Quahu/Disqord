@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Disqord.Collections;
+using Qommon.Collections;
 
 namespace Disqord.Rest.Pagination
 {

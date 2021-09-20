@@ -1,4 +1,4 @@
-﻿using Disqord.Events;
+﻿using Qommon.Events;
 
 namespace Disqord.Gateway.Default
 {

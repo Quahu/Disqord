@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Disqord.Collections.Synchronized;
+using Qommon.Collections.Synchronized;
 using Disqord.Rest.Api;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

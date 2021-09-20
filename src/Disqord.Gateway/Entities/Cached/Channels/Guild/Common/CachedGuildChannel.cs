@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Disqord.Collections;
+using Qommon.Collections;
 using Disqord.Enums.Extensions;
 using Disqord.Models;
 

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api.Models;
-using Disqord.Utilities.Binding;
+using Qommon.Binding;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

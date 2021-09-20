@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Disqord.Collections.Synchronized;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Utilities
 {
@@ -50,12 +50,12 @@ namespace Disqord.Utilities
 
         internal static ulong[] GetAllFlags<TFlag>()
             where TFlag : Enum
-            => _flagsCache.GetOrAdd(typeof(TFlag), type =>
+            => FlagsCache.GetOrAdd(typeof(TFlag), type =>
             {
                 var flags = (TFlag[]) Enum.GetValues(type);
                 return flags.Select(x => (x as IConvertible).ToUInt64(null)).Where(x => x != 0).ToArray();
             });
 
-        internal static readonly ISynchronizedDictionary<Type, ulong[]> _flagsCache = new SynchronizedDictionary<Type, ulong[]>();
+        internal static readonly ISynchronizedDictionary<Type, ulong[]> FlagsCache = new SynchronizedDictionary<Type, ulong[]>();
     }
 }

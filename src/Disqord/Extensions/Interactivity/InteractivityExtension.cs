@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Collections.Synchronized;
+using Qommon.Collections.Synchronized;
 using Disqord.Extensions.Interactivity.Menus;
 using Disqord.Gateway;
 using Disqord.Utilities.Threading;

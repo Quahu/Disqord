@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Disqord.Collections;
+using Qommon.Collections;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway
 {

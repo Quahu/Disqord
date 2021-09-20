@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using Disqord.Collections;
+using Qommon.Collections;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
 

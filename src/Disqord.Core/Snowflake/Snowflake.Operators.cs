@@ -9,16 +9,16 @@
             => left.RawValue != right.RawValue;
 
         public static bool operator <(Snowflake left, Snowflake right)
-            => left.CompareTo(right) < 0;
+            => left.RawValue < right.RawValue;
 
         public static bool operator <=(Snowflake left, Snowflake right)
-            => left.CompareTo(right) <= 0;
+            => left.RawValue <= right.RawValue;
 
         public static bool operator >(Snowflake left, Snowflake right)
-            => left.CompareTo(right) > 0;
+            => left.RawValue > right.RawValue;
 
         public static bool operator >=(Snowflake left, Snowflake right)
-            => left.CompareTo(right) >= 0;
+            => left.RawValue >= right.RawValue;
 
         public static implicit operator Snowflake(ulong value)
             => new(value);
