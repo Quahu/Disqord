@@ -2,7 +2,7 @@ using Disqord.Models;
 
 namespace Disqord.AuditLogs
 {
-    public class TransientThreadUpdatedAuditLog : TransientChangesAuditLog<IThreadAuditLogChanges>, IThreadUpdatedAuditLog 
+    public class TransientThreadUpdatedAuditLog : TransientChangesAuditLog<IThreadAuditLogChanges>, IThreadUpdatedAuditLog
     {
         public override IThreadAuditLogChanges Changes { get; }
 

@@ -4,13 +4,13 @@ namespace Disqord.Models
 {
     public class ThreadListJsonModel : JsonModel
     {
-        [JsonProperty("threads")] 
+        [JsonProperty("threads")]
         public ChannelJsonModel[] Threads;
-        
-        [JsonProperty("members")] 
+
+        [JsonProperty("members")]
         public ThreadMemberJsonModel[] Members;
 
-        [JsonProperty("has_more")] 
+        [JsonProperty("has_more")]
         public bool HasMore;
     }
 }

@@ -62,7 +62,6 @@ namespace Disqord.Gateway
                     return null;
 
                 return _largeAsset ??= new RichActivityAsset(ApplicationId, assets.LargeImage, assets.LargeText);
-
             }
         }
         private RichActivityAsset _largeAsset;
@@ -80,7 +79,6 @@ namespace Disqord.Gateway
                     return null;
 
                 return _smallAsset ??= new RichActivityAsset(ApplicationId, assets.SmallImage, assets.SmallText);
-
             }
         }
         private RichActivityAsset _smallAsset;
@@ -94,7 +92,6 @@ namespace Disqord.Gateway
                     return null;
 
                 return _party ??= new RichActivityParty(Model.Party.Value);
-
             }
         }
         private RichActivityParty _party;

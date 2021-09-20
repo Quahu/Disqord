@@ -41,12 +41,12 @@ namespace Disqord.Gateway.Default.Dispatcher
             where TEventArgs : EventArgs
             => new InterceptingHandler<TModel, TEventArgs>(handler, func);
 
-        private protected static readonly ISynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>> _eventsByDispatcher = new SynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>>(1);
-        private protected static readonly PropertyInfo[] _eventsProperties;
+        private protected static readonly ISynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>> EventsByDispatcher = new SynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>>(1);
+        private protected static readonly PropertyInfo[] EventProperties;
 
         static Handler()
         {
-            _eventsProperties = typeof(DefaultGatewayDispatcher).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            EventProperties = typeof(DefaultGatewayDispatcher).GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Where(x => x.PropertyType.IsGenericType && x.PropertyType.GetGenericTypeDefinition() == typeof(AsynchronousEvent<>))
                 .ToArray();
         }

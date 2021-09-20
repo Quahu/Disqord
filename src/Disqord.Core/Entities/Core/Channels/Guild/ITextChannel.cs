@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a guild text channel.
     /// </summary>
-    public interface ITextChannel : IMessageGuildChannel, IMentionable, ITaggable
+    public interface ITextChannel : IMessageGuildChannel
     {
         /// <summary>
         ///     Gets the topic of this channel.

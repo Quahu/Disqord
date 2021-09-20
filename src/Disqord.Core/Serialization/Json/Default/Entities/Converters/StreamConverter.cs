@@ -9,7 +9,7 @@ namespace Disqord.Serialization.Json.Default
     internal sealed class StreamConverter : JsonConverter
     {
         // This header works regardless of the actual type of the attachment.
-        public const string HEADER = "data:image/jpeg;base64,";
+        public const string Header = "data:image/jpeg;base64,";
 
         private readonly DefaultJsonSerializer _serializer;
 
@@ -51,7 +51,7 @@ namespace Disqord.Serialization.Json.Default
                 // Check if it's an empty attachment.
                 if (stream.Length == 0)
                 {
-                    writer.WriteValue(HEADER);
+                    writer.WriteValue(Header);
                     return;
                 }
 
@@ -63,18 +63,18 @@ namespace Disqord.Serialization.Json.Default
                 // so we can skip the reading as all of the memory is already allocated anyways.
                 if (stream is MemoryStream memoryStream && memoryStream.TryGetBuffer(out var memoryStreamBuffer))
                 {
-                    var base64 = string.Concat(HEADER, Convert.ToBase64String(memoryStreamBuffer.AsSpan()));
+                    var base64 = string.Concat(Header, Convert.ToBase64String(memoryStreamBuffer.AsSpan()));
                     writer.WriteValue(base64);
                     return;
                 }
 
                 // Because the stream is seekable we can use its length and position to roughly calculate its base64 length.
-                base64Builder = new StringBuilder(HEADER, (int) ((stream.Length - stream.Position) * 1.37f) + HEADER.Length);
+                base64Builder = new StringBuilder(Header, (int) ((stream.Length - stream.Position) * 1.37f) + Header.Length);
             }
             else
             {
                 // If the stream isn't seekable all we can do is start reading from it.
-                base64Builder = new StringBuilder(HEADER);
+                base64Builder = new StringBuilder(Header);
             }
 
             // Allocate a byte span buffer for reading data from the stream

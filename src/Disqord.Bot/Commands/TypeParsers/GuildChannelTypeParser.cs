@@ -30,7 +30,7 @@ namespace Disqord.Bot.Parsers
     ///     </list>
     /// </remarks>
     public class GuildChannelTypeParser<TChannel> : DiscordGuildTypeParser<TChannel>
-        where TChannel : IGuildChannel
+        where TChannel : class, IGuildChannel
     {
         private static readonly string ChannelString;
 
@@ -64,7 +64,7 @@ namespace Disqord.Bot.Parsers
         {
             var type = typeof(TChannel);
             ChannelString = type != typeof(IGuildChannel) && type.IsInterface
-                ? $"{type.Name[1..type.Name.IndexOf("Channel")].Replace("Guild", "").ToLower()} channel"
+                ? $"{type.Name[1..type.Name.IndexOf("Channel", StringComparison.Ordinal)].Replace("Guild", "").ToLower()} channel"
                 : "channel";
         }
     }

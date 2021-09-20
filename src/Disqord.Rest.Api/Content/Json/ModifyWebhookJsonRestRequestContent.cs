@@ -10,7 +10,7 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("avatar")]
         public Optional<Stream> Avatar;
-        
+
         [JsonProperty("channel_id")]
         public Optional<Snowflake> ChannelId;
     }

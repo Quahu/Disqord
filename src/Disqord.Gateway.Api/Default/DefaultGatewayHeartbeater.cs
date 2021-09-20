@@ -2,10 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api.Models;
-using Qommon.Binding;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Qommon.Binding;
 
 namespace Disqord.Gateway.Api.Default
 {

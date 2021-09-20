@@ -8,7 +8,7 @@ namespace Disqord.Gateway
         ///     Gets the ID of the guild from which the user left.
         /// </summary>
         public Snowflake GuildId { get; }
-        
+
         /// <summary>
         ///     Gets the user that left.
         /// </summary>

@@ -130,7 +130,7 @@ namespace Disqord.Bot.Parsers
                     if (valueSpan.Length == 3)
                     {
                         // 123 -> 112233
-                        valueSpan = new char[6]
+                        valueSpan = new[]
                         {
                             valueSpan[0], valueSpan[0],
                             valueSpan[1], valueSpan[1],

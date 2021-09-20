@@ -12,10 +12,10 @@ namespace Disqord.Bot
     public abstract class DiscordGuildTypeParser<T> : DiscordTypeParser<T>
     {
         /// <inheritdoc cref="ParseAsync(Parameter, string, DiscordCommandContext)"/>
-        public abstract ValueTask<TypeParserResult<T>> ParseAsync(Parameter parameter, string value, DiscordGuildCommandContext context); 
+        public abstract ValueTask<TypeParserResult<T>> ParseAsync(Parameter parameter, string value, DiscordGuildCommandContext context);
 
         /// <inheritdoc/>
-        public override sealed ValueTask<TypeParserResult<T>> ParseAsync(Parameter parameter, string value, DiscordCommandContext context)
+        public sealed override ValueTask<TypeParserResult<T>> ParseAsync(Parameter parameter, string value, DiscordCommandContext context)
         {
             if (context.GuildId == null)
                 return Failure("This can only be executed within a guild.");

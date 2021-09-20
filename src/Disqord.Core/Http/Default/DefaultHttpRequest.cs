@@ -30,7 +30,7 @@ namespace Disqord.Http.Default
         }
 
         /// <inheritdoc/>
-        public virtual void Dispose() 
+        public virtual void Dispose()
             => Content?.Dispose();
     }
 }

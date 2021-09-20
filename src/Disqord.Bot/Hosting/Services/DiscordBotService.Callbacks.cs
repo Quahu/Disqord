@@ -47,5 +47,4 @@ namespace Disqord.Bot.Hosting
         protected internal virtual ValueTask OnCommandNotFound(DiscordCommandContext context)
             => default;
     }
-
 }

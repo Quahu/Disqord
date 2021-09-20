@@ -5,7 +5,7 @@
         Row = 1,
 
         Button = 2,
-        
+
         Selection = 3
     }
 }

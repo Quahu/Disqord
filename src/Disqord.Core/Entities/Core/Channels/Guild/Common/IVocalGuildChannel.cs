@@ -7,10 +7,10 @@
         /// </summary>
         int Bitrate { get; }
 
-        /// <summary> 
-        ///     Gets the RTC region of this channel. 
-        ///     Returns <see langword="null"/> for automatic regions. 
-        /// </summary> 
+        /// <summary>
+        ///     Gets the RTC region of this channel.
+        ///     Returns <see langword="null"/> for automatic regions.
+        /// </summary>
         string Region { get; }
     }
 }

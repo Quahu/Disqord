@@ -7,15 +7,15 @@ namespace Disqord.AuditLogs
     public class TransientThreadAuditLogChanges : IThreadAuditLogChanges
     {
         public AuditLogChange<string> Name { get; }
-        
+
         public AuditLogChange<bool> IsArchived { get; }
-        
+
         public AuditLogChange<bool> IsLocked { get; }
-        
+
         public AuditLogChange<TimeSpan> AutomaticArchiveDuration { get; }
-        
+
         public AuditLogChange<TimeSpan> Slowmode { get; }
-        
+
         public AuditLogChange<ChannelType> Type { get; }
 
         public TransientThreadAuditLogChanges(IClient client, AuditLogEntryJsonModel model)

@@ -10,13 +10,13 @@ namespace Disqord.Rest
             var client = template.GetRestClient();
             return client.SynchronizeTemplateAsync(template.GuildId, template.Code, options);
         }
-        
+
         public static Task<IGuildTemplate> ModifyAsync(this IGuildTemplate template, Action<ModifyTemplateActionProperties> action, IRestRequestOptions options = null)
         {
             var client = template.GetRestClient();
             return client.ModifyTemplateAsync(template.GuildId, template.Code, action, options);
         }
-        
+
         public static Task<IGuildTemplate> DeleteAsync(this IGuildTemplate template, IRestRequestOptions options = null)
         {
             var client = template.GetRestClient();

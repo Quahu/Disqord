@@ -7,11 +7,11 @@ namespace Disqord
     public class ModifyThreadChannelActionProperties : ModifyMessageGuildChannelActionProperties
     {
         public Optional<bool> IsArchived { internal get; set; }
-        
+
         public Optional<TimeSpan> AutomaticArchiveDuration { internal get; set; }
-        
+
         public Optional<bool> IsLocked { internal get; set; }
-        
+
         public Optional<bool> AllowsInvitation { internal get; set; }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -27,7 +27,7 @@ namespace Disqord
             internal get => Optional<int>.Empty;
             set => throw new InvalidOperationException("Thread channels do not support modifying positions.");
         }
-        
+
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override Optional<Snowflake?> CategoryId
         {

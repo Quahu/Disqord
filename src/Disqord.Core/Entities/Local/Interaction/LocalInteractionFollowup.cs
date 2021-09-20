@@ -33,10 +33,5 @@
 
         public override LocalInteractionFollowup Clone()
             => new(this);
-
-        public override void Validate()
-        {
-            base.Validate();
-        }
     }
 }

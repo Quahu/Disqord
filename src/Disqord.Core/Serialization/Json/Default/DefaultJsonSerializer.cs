@@ -84,7 +84,7 @@ namespace Disqord.Serialization.Json.Default
         {
             if (value == null)
                 return DefaultJsonNode.Create(JValue.CreateNull(), UnderlyingSerializer);
-            
+
             return DefaultJsonNode.Create(JToken.FromObject(value, UnderlyingSerializer), UnderlyingSerializer);
         }
     }

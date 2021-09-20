@@ -51,7 +51,7 @@ namespace Disqord.Gateway
 
             return services;
         }
-        
+
         public static IServiceCollection AddGatewayChunker(this IServiceCollection services, Action<DefaultGatewayChunkerConfiguration> action = null)
         {
             if (services.TryAddSingleton<IGatewayChunker, DefaultGatewayChunker>())

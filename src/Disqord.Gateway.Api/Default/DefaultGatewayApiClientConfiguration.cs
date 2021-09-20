@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Api.Default

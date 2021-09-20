@@ -212,6 +212,7 @@ namespace Disqord.Rest.Api
             var route = messageId == null
                 ? Format(Route.Channel.StartThread, channelId)
                 : Format(Route.Channel.StartThreadWithMessage, channelId, messageId);
+
             return client.ExecuteAsync<ChannelJsonModel>(route, content, options);
         }
 
@@ -249,12 +250,12 @@ namespace Disqord.Rest.Api
         {
             if (limit < 1 || limit > 100)
                 throw new ArgumentOutOfRangeException(nameof(limit));
-            
+
             var queryParameters = new Dictionary<string, object>
             {
                 ["limit"] = limit
             };
-            
+
             if (startFromDate != null)
                 queryParameters.Add("before", startFromDate.Value.ToString("O"));
 
@@ -266,15 +267,15 @@ namespace Disqord.Rest.Api
         {
             if (limit < 1 || limit > 100)
                 throw new ArgumentOutOfRangeException(nameof(limit));
-            
+
             var queryParameters = new Dictionary<string, object>
             {
                 ["limit"] = limit
             };
-            
+
             if (startFromDate != null)
                 queryParameters["before"] = startFromDate.Value.ToString("O");
-            
+
             var route = Format(Route.Channel.ListPrivateArchivedThreads, queryParameters, channelId);
             return client.ExecuteAsync<ThreadListJsonModel>(route, null, options);
         }
@@ -283,7 +284,7 @@ namespace Disqord.Rest.Api
         {
             if (limit < 1 || limit > 100)
                 throw new ArgumentOutOfRangeException(nameof(limit));
-            
+
             var queryParameters = new Dictionary<string, object>
             {
                 ["limit"] = limit

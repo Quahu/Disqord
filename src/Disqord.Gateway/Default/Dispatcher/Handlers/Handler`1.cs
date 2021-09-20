@@ -12,7 +12,7 @@ namespace Disqord.Gateway.Default.Dispatcher
         private protected AsynchronousEvent<TEventArgs> Event { get; private set; }
 
         // TEventArgs -> AsynchronousEvent<TEventArgs>.
-        private protected Dictionary<Type, IAsynchronousEvent> _events;
+        private protected Dictionary<Type, IAsynchronousEvent> Events;
 
         private protected Handler()
         { }
@@ -22,12 +22,12 @@ namespace Disqord.Gateway.Default.Dispatcher
             base.Bind(value);
 
             // Gets or adds the map of events for the given dispatcher instance.
-            _events = _eventsByDispatcher.GetOrAdd(Dispatcher, dispatcher =>
+            Events = EventsByDispatcher.GetOrAdd(Dispatcher, dispatcher =>
             {
-                var dictionary = new Dictionary<Type, IAsynchronousEvent>(_eventsProperties.Length);
-                for (var i = 0; i < _eventsProperties.Length; i++)
+                var dictionary = new Dictionary<Type, IAsynchronousEvent>(EventProperties.Length);
+                for (var i = 0; i < EventProperties.Length; i++)
                 {
-                    var property = _eventsProperties[i];
+                    var property = EventProperties[i];
                     dictionary.Add(property.PropertyType.GenericTypeArguments[0], (IAsynchronousEvent) property.GetValue(dispatcher));
                 }
 
@@ -38,7 +38,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             if (typeof(TEventArgs) == typeof(EventArgs))
                 return;
 
-            if (!_events.TryGetValue(typeof(TEventArgs), out var @event))
+            if (!Events.TryGetValue(typeof(TEventArgs), out var @event))
                 throw new ArgumentException($"No {nameof(DefaultGatewayDispatcher)} event found matching the type of {nameof(TEventArgs)}.");
 
             Event = (AsynchronousEvent<TEventArgs>) @event;

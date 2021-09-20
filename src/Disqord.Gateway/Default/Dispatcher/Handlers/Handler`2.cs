@@ -38,7 +38,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             }
 
             // The dispatch maps to multiple events. We get the event for the type of the event args.
-            if (!_events.TryGetValue(eventArgs.GetType(), out var @event))
+            if (!Events.TryGetValue(eventArgs.GetType(), out var @event))
                 throw new InvalidOperationException($"The dispatch handler {GetType()} returned an invalid instance of event args: {eventArgs.GetType()}.");
 
             @event.Invoke(Dispatcher, eventArgs);

@@ -58,11 +58,9 @@ namespace Disqord.Rest
                 || type == typeof(TransientAuditLog) || type == typeof(TransientUnknownAuditLog))
                 return null;
 
-
             // Guild
             if (typeof(IGuildUpdatedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.GuildUpdated;
-
 
             // Channel
             if (typeof(IChannelCreatedAuditLog).IsAssignableFrom(type))
@@ -74,7 +72,6 @@ namespace Disqord.Rest
             if (typeof(IChannelDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.ChannelDeleted;
 
-
             // Overwrite
             if (typeof(IOverwriteCreatedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.OverwriteCreated;
@@ -84,7 +81,6 @@ namespace Disqord.Rest
 
             if (typeof(IOverwriteDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.OverwriteDeleted;
-
 
             // Member
             if (typeof(IMemberKickedAuditLog).IsAssignableFrom(type))
@@ -114,7 +110,6 @@ namespace Disqord.Rest
             if (typeof(IBotAddedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.BotAdded;
 
-
             // Role
             if (typeof(IRoleCreatedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.RoleCreated;
@@ -124,7 +119,6 @@ namespace Disqord.Rest
 
             if (typeof(IRoleDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.RoleDeleted;
-
 
             // Invite
             if (typeof(IInviteCreatedAuditLog).IsAssignableFrom(type))
@@ -136,7 +130,6 @@ namespace Disqord.Rest
             if (typeof(IInviteDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.InviteDeleted;
 
-
             // Webhook
             if (typeof(IWebhookCreatedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.WebhookCreated;
@@ -147,7 +140,6 @@ namespace Disqord.Rest
             if (typeof(IWebhookDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.WebhookDeleted;
 
-
             // Emoji
             if (typeof(IEmojiCreatedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.EmojiCreated;
@@ -157,7 +149,6 @@ namespace Disqord.Rest
 
             if (typeof(IEmojiDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.EmojiDeleted;
-
 
             // Message
             if (typeof(IMessagesDeletedAuditLog).IsAssignableFrom(type))
@@ -172,7 +163,6 @@ namespace Disqord.Rest
             if (typeof(IMessageUnpinnedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.MessageUnpinned;
 
-
             // Integration
             if (typeof(IIntegrationCreatedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.IntegrationCreated;
@@ -182,17 +172,16 @@ namespace Disqord.Rest
 
             if (typeof(IIntegrationDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.IntegrationDeleted;
-            
+
             // Thread
             if (typeof(IThreadCreatedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.ThreadCreate;
-            
+
             if (typeof(IThreadUpdatedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.ThreadUpdate;
-            
+
             if (typeof(IThreadDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.ThreadDelete;
-
 
             // Stage
             if (typeof(IStageCreatedAuditLog).IsAssignableFrom(type))
@@ -203,7 +192,6 @@ namespace Disqord.Rest
 
             if (typeof(IStageDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.StageDeleted;
-
 
             // Sticker
             if (typeof(IStickerCreatedAuditLog).IsAssignableFrom(type))

@@ -7,12 +7,12 @@ namespace Disqord.Rest
     public class FetchArchivedThreadsPagedEnumerator : PagedEnumerator<IThreadChannel>
     {
         public override int PageSize => 100;
-        
+
         private readonly Snowflake _channelId;
         private readonly DateTimeOffset? _startFromTime;
         private readonly bool _enumeratePublicThreads;
 
-        public FetchArchivedThreadsPagedEnumerator(IRestClient client, Snowflake channelId, int limit, DateTimeOffset? startFromTime, bool enumeratePublicThreads, IRestRequestOptions options = null) 
+        public FetchArchivedThreadsPagedEnumerator(IRestClient client, Snowflake channelId, int limit, DateTimeOffset? startFromTime, bool enumeratePublicThreads, IRestRequestOptions options = null)
             : base(client, limit, options)
         {
             _channelId = channelId;
@@ -30,11 +30,11 @@ namespace Disqord.Rest
             var task = _enumeratePublicThreads
                 ? Client.InternalFetchPublicArchivedThreadsAsync(_channelId, NextAmount, startFromTime, options)
                 : Client.InternalFetchPrivateArchivedThreadsAsync(_channelId, NextAmount, startFromTime, options);
+
             var response = await task.ConfigureAwait(false);
-                
             if (!response.HasMore)
                 Remaining = 0;
-            
+
             return response.Threads;
         }
     }

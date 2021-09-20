@@ -49,6 +49,7 @@ namespace Disqord.Gateway
         {
             GuildId = guildId;
             ThreadId = threadId;
+            Thread = thread;
             MemberCount = memberCount;
             AddedMembers = addedMembers;
             RemovedMemberIds = removedMemberIds;

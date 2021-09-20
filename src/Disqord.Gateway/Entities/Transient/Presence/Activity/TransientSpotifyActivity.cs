@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Qommon.Collections;
 using Disqord.Gateway.Api.Models;
+using Qommon.Collections;
 
 namespace Disqord.Gateway
 {
@@ -70,5 +70,4 @@ namespace Disqord.Gateway
         public override string ToString()
             => $"{TrackTitle} on {AlbumTitle} by {Model.State}";
     }
-
 }

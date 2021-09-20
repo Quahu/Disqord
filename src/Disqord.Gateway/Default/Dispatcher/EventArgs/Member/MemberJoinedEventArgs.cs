@@ -8,7 +8,7 @@ namespace Disqord.Gateway
         ///     Gets the ID of the guild which the member joined.
         /// </summary>
         public Snowflake GuildId => Member.GuildId;
-        
+
         /// <summary>
         ///     Gets the member that joined.
         /// </summary>

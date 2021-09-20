@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using Disqord.Rest.Api;
 
 namespace Disqord.Rest
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Threading.Tasks;
-using Disqord.Rest.Api;
-using Disqord.Serialization.Json;
+﻿using System.ComponentModel;
 
 namespace Disqord.Rest
 {

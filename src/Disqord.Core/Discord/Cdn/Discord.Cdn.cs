@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Text;
 
 namespace Disqord
@@ -153,15 +152,16 @@ namespace Disqord
                 return hash.StartsWith("a_") ? CdnAssetFormat.Gif : CdnAssetFormat.Png;
             }
 
-            private static string GetFormatString(CdnAssetFormat format) => format switch
-            {
-                CdnAssetFormat.None => null,
-                CdnAssetFormat.Png => "png",
-                CdnAssetFormat.Jpg => "jpg",
-                CdnAssetFormat.WebP => "webp",
-                CdnAssetFormat.Gif => "gif",
-                _ => throw new ArgumentOutOfRangeException(nameof(format), "Unknown CDN asset format."),
-            };
+            private static string GetFormatString(CdnAssetFormat format)
+                => format switch
+                {
+                    CdnAssetFormat.None => null,
+                    CdnAssetFormat.Png => "png",
+                    CdnAssetFormat.Jpg => "jpg",
+                    CdnAssetFormat.WebP => "webp",
+                    CdnAssetFormat.Gif => "gif",
+                    _ => throw new ArgumentOutOfRangeException(nameof(format), "Unknown CDN asset format."),
+                };
         }
     }
 }

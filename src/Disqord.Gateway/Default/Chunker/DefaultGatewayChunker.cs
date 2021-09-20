@@ -85,7 +85,7 @@ namespace Disqord.Gateway.Default
             if (guild == null)
                 throw new ArgumentNullException(nameof(guild));
 
-            if (!Client.CacheProvider.TryGetUsers(out var userCache) || !Client.CacheProvider.TryGetMembers(guild.Id, out var memberCache))
+            if (!Client.CacheProvider.TryGetUsers(out _) || !Client.CacheProvider.TryGetMembers(guild.Id, out var memberCache))
                 return false;
 
             if (memberCache.Count == guild.MemberCount)

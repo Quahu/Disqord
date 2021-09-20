@@ -4,7 +4,7 @@ namespace Disqord.Rest.Api
 {
     public class ModifyGuildWidgetSettingsJsonRestRequestContent : JsonModelRestRequestContent
     {
-        [JsonProperty("enabled")] 
+        [JsonProperty("enabled")]
         public Optional<bool> Enabled;
 
         [JsonProperty("channel_id")]

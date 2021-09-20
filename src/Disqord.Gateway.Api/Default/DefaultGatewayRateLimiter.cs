@@ -16,7 +16,7 @@ namespace Disqord.Gateway.Api.Default
         // The buckets that are shared between all gateway connections.
         private static readonly ISynchronizedDictionary<Snowflake, ISynchronizedDictionary<GatewayPayloadOperation, Bucket>> _sharedBuckets;
 
-        private const int HEARTBEATS = 2;
+        private const int HeartbeatCount = 2;
 
         /// <inheritdoc/>
         public ILogger Logger => ApiClient.Logger;
@@ -43,7 +43,7 @@ namespace Disqord.Gateway.Api.Default
                     throw new ArgumentException("The default gateway rate-limiter supports only bot tokens.");
             });
 
-            _masterBucket = new Bucket(_loggerFactory.CreateLogger("Master Bucket"), 120 - HEARTBEATS, TimeSpan.FromSeconds(60));
+            _masterBucket = new Bucket(_loggerFactory.CreateLogger("Master Bucket"), 120 - HeartbeatCount, TimeSpan.FromSeconds(60));
             _buckets = new Dictionary<GatewayPayloadOperation, Bucket>(2);
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Disqord.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 

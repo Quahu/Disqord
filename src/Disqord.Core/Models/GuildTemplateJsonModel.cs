@@ -7,10 +7,10 @@ namespace Disqord.Models
     {
         [JsonProperty("code")]
         public string Code;
-        
+
         [JsonProperty("name")]
         public string Name;
-        
+
         [JsonProperty("description")]
         public string Description;
 
@@ -35,7 +35,7 @@ namespace Disqord.Models
         [JsonProperty("serialized_source_guild")]
         public IJsonObject SerializedSourceGuild;
 
-        [JsonProperty("is_dirty")] 
+        [JsonProperty("is_dirty")]
         public bool? IsDirty;
     }
 }

@@ -40,7 +40,7 @@ namespace Disqord
         /// <inheritdoc/>
         public bool IsDirty => Model.IsDirty.GetValueOrDefault();
 
-        public TransientGuildTemplate(IClient client, GuildTemplateJsonModel model) 
+        public TransientGuildTemplate(IClient client, GuildTemplateJsonModel model)
             : base(client, model)
         { }
     }

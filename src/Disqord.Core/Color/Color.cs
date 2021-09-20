@@ -96,7 +96,7 @@ namespace Disqord
         ///     Returns the hexadecimal representation of this <see cref="Color"/>.
         /// </summary>
         /// <returns>
-        ///     The hexadecimal representation of this <see cref="Color"/>. 
+        ///     The hexadecimal representation of this <see cref="Color"/>.
         /// </returns>
         public override string ToString()
             => $"#{RawValue:X6}";

@@ -100,11 +100,9 @@ namespace Disqord.Bot.Parsers
                         // Checks for tag, e.g. Clyde#0001.
                         return members.FirstOrDefault(x => x.Name == name && x.Discriminator == discriminator);
                     }
-                    else
-                    {
-                        // Checks for name and then nick.
-                        return members.FirstOrDefault(x => x.Name == name) ?? members.FirstOrDefault(x => x.Nick == name);
-                    }
+
+                    // Checks for name and then nick.
+                    return members.FirstOrDefault(x => x.Name == name) ?? members.FirstOrDefault(x => x.Nick == name);
                 }
 
                 member = FindMember(memberCache.Values, name, discriminator);

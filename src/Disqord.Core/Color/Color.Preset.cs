@@ -290,11 +290,9 @@ namespace Disqord
         {
             get
             {
-                if (_random == null)
-                    _random = new Random();
-
                 lock (_random)
                 {
+                    _random ??= new Random();
                     return FromHsv(_random.Next(0, 360), 1f, 1f);
                 }
             }

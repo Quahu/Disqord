@@ -7,10 +7,10 @@ namespace Disqord.Rest.Api
     {
         [JsonProperty("content")]
         public Optional<string> Content;
-        
+
         [JsonProperty("username")]
         public Optional<string> Username;
-        
+
         [JsonProperty("avatar_url")]
         public Optional<string> AvatarUrl;
 

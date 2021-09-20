@@ -10,10 +10,10 @@ namespace Disqord.Rest.Api
         [JsonProperty("auto_archive_duration")]
         public Optional<int> AutoArchiveDuration;
 
-        [JsonProperty("type")] 
+        [JsonProperty("type")]
         public Optional<ChannelType> Type;
 
-        [JsonProperty("invitable")] 
+        [JsonProperty("invitable")]
         public Optional<bool> Invitable;
     }
 }

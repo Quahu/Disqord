@@ -30,8 +30,9 @@ namespace Disqord.Extensions.Interactivity.Menus
         public Snowflake? AuthorId { get; set; }
 
         /// <summary>
-        ///
-        /// </summary>Instantiates a new
+        ///     Instantiates a new <see cref="DefaultMenu"/>.
+        /// </summary>
+        /// <param name="view"> The initial view. </param>
         public DefaultMenu(ViewBase view)
             : base(view)
         { }
@@ -40,6 +41,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         ///     Instantiates a new <see cref="DefaultMenu"/> with a pre-existing message ID.
         ///     This makes <see cref="InitializeAsync"/> return it instead of sending a new message.
         /// </summary>
+        /// <param name="view"> The initial view. </param>
         /// <param name="messageId"> The ID of the message to use for this menu. If one is provided, <see cref="InitializeAsync"/> does not send a new message. </param>
         /// <remarks>
         ///     This does <b>not</b> persist the view's state as it has no way of doing so.

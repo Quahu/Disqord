@@ -1,5 +1,4 @@
-﻿using Disqord.Gateway;
-using Disqord.Gateway.Default;
+﻿using Disqord.Gateway.Default;
 
 namespace Disqord
 {

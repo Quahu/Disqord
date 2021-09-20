@@ -27,6 +27,5 @@ namespace Disqord.Http
         ///     The HTTP response.
         /// </returns>
         Task<IHttpResponse> SendAsync(IHttpRequest request, CancellationToken cancellationToken = default);
-
     }
 }

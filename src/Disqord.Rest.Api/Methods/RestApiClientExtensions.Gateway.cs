@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Models;
-using Disqord.Serialization.Json;
 
 namespace Disqord.Rest.Api
 {

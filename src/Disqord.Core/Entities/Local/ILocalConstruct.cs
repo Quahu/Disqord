@@ -8,7 +8,7 @@ namespace Disqord
     public interface ILocalConstruct : ICloneable
     {
         /// <summary>
-        ///     Checks whether this local entity is valid for interacting with the Discord API. 
+        ///     Checks whether this local entity is valid for interacting with the Discord API.
         /// </summary>
         void Validate();
     }

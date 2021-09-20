@@ -6,11 +6,11 @@ namespace Disqord.Rest
     public class FetchJoinedPrivateArchivedThreadsPagedEnumerator : PagedEnumerator<IThreadChannel>
     {
         public override int PageSize => 100;
-        
+
         private readonly Snowflake _channelId;
         private readonly Snowflake? _startFromId;
 
-        public FetchJoinedPrivateArchivedThreadsPagedEnumerator(IRestClient client, Snowflake channelId, int limit, Snowflake? startFromId, IRestRequestOptions options = null) 
+        public FetchJoinedPrivateArchivedThreadsPagedEnumerator(IRestClient client, Snowflake channelId, int limit, Snowflake? startFromId, IRestRequestOptions options = null)
             : base(client, limit, options)
         {
             _channelId = channelId;
@@ -25,10 +25,9 @@ namespace Disqord.Rest
                 startFromId = previousPage[^1].Id;
 
             var response = await Client.InternalFetchJoinedPrivateArchivedThreadsAsync(_channelId, NextAmount, startFromId, options).ConfigureAwait(false);
-                
             if (!response.HasMore)
                 Remaining = 0;
-            
+
             return response.Threads;
         }
     }

@@ -6,15 +6,15 @@ namespace Disqord.AuditLogs
     public class TransientThreadAuditLogData : IThreadAuditLogData
     {
         public Optional<string> Name { get; }
-        
+
         public Optional<bool> IsArchived { get; }
-        
+
         public Optional<bool> IsLocked { get; }
-        
+
         public Optional<TimeSpan> AutomaticArchiveDuration { get; }
-        
+
         public Optional<TimeSpan> Slowmode { get; }
-        
+
         public Optional<ChannelType> Type { get; }
 
         public TransientThreadAuditLogData(IClient client, AuditLogEntryJsonModel model, bool isCreated)

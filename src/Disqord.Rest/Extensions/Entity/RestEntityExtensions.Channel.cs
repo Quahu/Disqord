@@ -216,7 +216,7 @@ namespace Disqord.Rest
             var client = channel.GetRestClient();
             return client.CreatePublicThreadAsync(channel.Id, name, messageId, automaticArchiveDuration, options);
         }
-        
+
         public static Task<IThreadChannel> CreatePrivateThreadAsync(this ITextChannel channel, string name, TimeSpan? automaticArchiveDuration = null, bool? allowInvitation = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
@@ -270,19 +270,19 @@ namespace Disqord.Rest
             var client = channel.GetRestClient();
             return client.EnumeratePrivateArchivedThreads(channel.Id, limit, startFromDate, options);
         }
-        
+
         public static Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreadsAsync(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
             return client.FetchPrivateArchivedThreadsAsync(channel.Id, limit, startFromDate, options);
         }
-        
+
         public static IPagedEnumerable<IThreadChannel> EnumerateJoinedPrivateArchivedThreads(this ITextChannel channel, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();
             return client.EnumerateJoinedPrivateArchivedThreads(channel.Id, limit, startFromId, options);
         }
-        
+
         public static Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreadsAsync(this ITextChannel channel, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null)
         {
             var client = channel.GetRestClient();

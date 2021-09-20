@@ -17,7 +17,7 @@ namespace Disqord.Gateway
         ///     Gets the type of this activity.
         /// </summary>
         ActivityType Type { get; }
-        
+
         /// <summary>
         ///     Gets the creation date of this activity.
         /// </summary>

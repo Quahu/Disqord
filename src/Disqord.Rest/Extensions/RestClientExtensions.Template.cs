@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Qommon.Collections;
 using Disqord.Rest.Api;
+using Qommon.Collections;
 
 namespace Disqord.Rest
 {
@@ -18,12 +18,12 @@ namespace Disqord.Rest
         {
             var properties = new CreateGuildFromTemplateActionProperties();
             action?.Invoke(properties);
-            
+
             var content = new CreateGuildFromTemplateJsonRestRequestContent(name)
             {
                 Icon = properties.Icon
             };
-            
+
             var model = await client.ApiClient.CreateGuildFromTemplateAsync(templateCode, content, options).ConfigureAwait(false);
             return new TransientGuild(client, model);
         }
@@ -31,7 +31,7 @@ namespace Disqord.Rest
         public static async Task<IReadOnlyList<IGuildTemplate>> FetchTemplatesAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchGuildTemplatesAsync(guildId, options).ConfigureAwait(false);
-            return model.ToReadOnlyList(client, static(x, client) => new TransientGuildTemplate(client, x));
+            return model.ToReadOnlyList(client, static (x, client) => new TransientGuildTemplate(client, x));
         }
 
         public static async Task<IGuildTemplate> CreateTemplateAsync(this IRestClient client, Snowflake guildId, string name, Action<CreateTemplateActionProperties> action = null, IRestRequestOptions options = null)
@@ -68,7 +68,7 @@ namespace Disqord.Rest
             var model = await client.ApiClient.ModifyGuildTemplateAsync(guildId, templateCode, content, options).ConfigureAwait(false);
             return new TransientGuildTemplate(client, model);
         }
-        
+
         public static async Task<IGuildTemplate> DeleteTemplateAsync(this IRestClient client, Snowflake guildId, string templateCode, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.DeleteGuildTemplateAsync(guildId, templateCode, options).ConfigureAwait(false);

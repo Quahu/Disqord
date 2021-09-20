@@ -38,16 +38,16 @@ namespace Disqord.Rest.Api
         [JsonProperty("rtc_region")]
         public Optional<string> RtcRegion;
 
-        [JsonProperty("archived")] 
+        [JsonProperty("archived")]
         public Optional<bool> Archived;
 
         [JsonProperty("auto_archive_duration")]
         public Optional<int> AutoArchiveDuration;
-        
-        [JsonProperty("locked")] 
+
+        [JsonProperty("locked")]
         public Optional<bool> Locked;
 
-        [JsonProperty("invitable")] 
+        [JsonProperty("invitable")]
         public Optional<bool> Invitable;
     }
 }

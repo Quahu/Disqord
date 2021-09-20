@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Disqord.Api;
-using Qommon.Collections;
 using Disqord.Models;
+using Qommon.Collections;
 
 namespace Disqord
 {
@@ -67,7 +66,7 @@ namespace Disqord
         /// <returns></returns>
         public static IMessage Create(IClient client, MessageJsonModel model)
         {
-            switch ((MessageType) model.Type)
+            switch (model.Type)
             {
                 case MessageType.Default:
                 case MessageType.Reply:

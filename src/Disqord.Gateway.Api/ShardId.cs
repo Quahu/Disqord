@@ -35,9 +35,6 @@ namespace Disqord.Gateway.Api
             if (id < 0 || id >= count)
                 throw new ArgumentOutOfRangeException(nameof(id));
 
-            if (count <= 0)
-                throw new ArgumentOutOfRangeException(nameof(count));
-
             Id = id;
             Count = count;
         }
