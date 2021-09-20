@@ -10,6 +10,9 @@ namespace Disqord.Http.Default
         /// <inheritdoc/>
         public HttpResponseStatusCode Code => (HttpResponseStatusCode) _message.StatusCode;
 
+        /// <inheritdoc/>
+        public string ReasonPhrase => _message.ReasonPhrase;
+
         private readonly HttpResponseMessage _message;
 
         /// <summary>

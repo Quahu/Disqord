@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Disqord.Serialization.Json;
@@ -44,7 +46,8 @@ namespace Disqord.Rest.Api.Default
         /// <inheritdoc/>
         public async Task ExecuteAsync(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null)
         {
-            await InternalExecuteAsync(route, content, options ?? new DefaultRestRequestOptions()).ConfigureAwait(false);
+            var stream = await InternalExecuteAsync(route, content, options ?? new DefaultRestRequestOptions()).ConfigureAwait(false);
+            await stream.DisposeAsync().ConfigureAwait(false);
         }
 
         public async Task<TModel> ExecuteAsync<TModel>(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null)
@@ -55,32 +58,47 @@ namespace Disqord.Rest.Api.Default
                 if (typeof(TModel) == typeof(string))
                 {
                     var reader = new StreamReader(jsonStream, Encoding.UTF8);
-                    return (TModel) (object) await reader.ReadToEndAsync().ConfigureAwait(false);
+                    return Unsafe.As<TModel>(await reader.ReadToEndAsync().ConfigureAwait(false));
                 }
 
                 return Serializer.Deserialize<TModel>(jsonStream);
             }
         }
 
-        private static bool IsValidResponse(IRestResponse response)
-            => (int) response.HttpResponse.Code > 199 && (int) response.HttpResponse.Code < 300;
-
         private async ValueTask<Stream> InternalExecuteAsync(FormattedRoute route, IRestRequestContent content, IRestRequestOptions options)
         {
             var request = new DefaultRestRequest(route, content, options);
+
             var defaultOptions = options as DefaultRestRequestOptions;
             defaultOptions?.RequestAction?.Invoke(request);
+
             await RateLimiter.EnqueueRequestAsync(request).ConfigureAwait(false);
+
             var response = await request.WaitAsync().ConfigureAwait(false);
             defaultOptions?.HeadersAction?.Invoke(new DefaultRestResponseHeaders(response.HttpResponse.Headers));
-            var jsonStream = await response.HttpResponse.ReadAsync().ConfigureAwait(false);
-            if (IsValidResponse(response))
-                return jsonStream;
 
-            await using (jsonStream)
+            var responseStream = await response.HttpResponse.ReadAsync().ConfigureAwait(false);
+
+            var statusCode = (int) response.HttpResponse.Code;
+            if (statusCode > 199 && statusCode < 300)
+                return responseStream;
+
+            if (statusCode > 499 && statusCode < 600)
+                throw new RestApiException(response.HttpResponse.Code, response.HttpResponse.ReasonPhrase, null);
+
+            await using (responseStream)
             {
-                var errorModel = Serializer.Deserialize<RestApiErrorJsonModel>(jsonStream);
-                throw new RestApiException(response.HttpResponse.Code, errorModel);
+                RestApiErrorJsonModel errorModel = null;
+                try
+                {
+                    errorModel = Serializer.Deserialize<RestApiErrorJsonModel>(responseStream);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex, "An exception occurred while attempting to deserialize the error model.");
+                }
+
+                throw new RestApiException(response.HttpResponse.Code, response.HttpResponse.ReasonPhrase, errorModel);
             }
         }
     }

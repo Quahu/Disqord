@@ -15,6 +15,11 @@ namespace Disqord.Http
         HttpResponseStatusCode Code { get; }
 
         /// <summary>
+        ///     Gets the HTTP reason phrase sent along status codes.
+        /// </summary>
+        string ReasonPhrase { get; }
+
+        /// <summary>
         ///     Reads the HTTP body content of this response.
         /// </summary>
         /// <returns> The stream representing the body. </returns>

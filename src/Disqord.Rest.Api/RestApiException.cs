@@ -9,22 +9,50 @@ namespace Disqord.Rest
 {
     public class RestApiException : Exception
     {
+        /// <summary>
+        ///     Gets the status code sent by the API.
+        /// </summary>
         public HttpResponseStatusCode StatusCode { get; }
 
+        /// <summary>
+        ///     Gets the reason phrase describing the failure.
+        /// </summary>
+        public string ReasonPhrase { get; }
+
+        /// <summary>
+        ///     Gets the error model sent by the API describing the error.
+        ///     Returns <see langword="null"/> for <c>5xx</c> status codes.
+        /// </summary>
         public RestApiErrorJsonModel ErrorModel { get; }
 
-        public RestApiException(HttpResponseStatusCode statusCode, RestApiErrorJsonModel errorModel)
-            : base(GetMessage(statusCode, errorModel))
+        /// <summary>
+        ///     Gets whether Discord failed to fulfill the request, i.e. Discord is the one at fault and returned a <c>5xx</c> status code..
+        /// </summary>
+        public bool IsServerError
+        {
+            get
+            {
+                var statusCode = (int) StatusCode;
+                return statusCode > 499 && statusCode < 600;
+            }
+        }
+
+        public RestApiException(HttpResponseStatusCode statusCode, string reasonPhrase, RestApiErrorJsonModel errorModel)
+            : base(GetErrorMessage(statusCode, reasonPhrase, errorModel))
         {
             StatusCode = statusCode;
+            ReasonPhrase = reasonPhrase;
             ErrorModel = errorModel;
         }
 
-        private static string GetMessage(HttpResponseStatusCode statusCode, RestApiErrorJsonModel errorModel)
+        private static string GetErrorMessage(HttpResponseStatusCode statusCode, string reasonPhrase, RestApiErrorJsonModel errorModel)
         {
-            // We create an easily readable exception message, example:
+            var httpMessage = $"HTTP: {(Enum.IsDefined(statusCode) ? $"{(int) statusCode} {statusCode}" : statusCode)}.";
+            if (errorModel == null)
+                return $"{httpMessage} Reason phrase: {reasonPhrase}";
+
             // HTTP: 400 BadRequest. Error message: Invalid Form Body
-            var message = $"HTTP: {(Enum.IsDefined(statusCode) ? $"{(int) statusCode} {statusCode}" : statusCode)}. Error message: {errorModel.Message}";
+            var message = $"{httpMessage} Error message: {errorModel.Message}";
 
             // We check if Discord provided more detailed error messages.
             if (errorModel.ExtensionData.TryGetValue("errors", out var errors) && errors is IJsonObject errorsObject)
@@ -56,6 +84,7 @@ namespace Disqord.Rest
             static IEnumerable<KeyValuePair<string, string>> ExtractErrors(IJsonObject jsonObject, string key = null)
             {
                 var extracted = new List<KeyValuePair<string, string>>();
+
                 // We enumerate the fields in the `errors` JSON object.
                 foreach (var (name, value) in jsonObject)
                 {
@@ -88,6 +117,7 @@ namespace Disqord.Rest
                     // Add the key and the message/code for it.
                     var messages = errorsArray.OfType<IJsonObject>()
                         .Select(static x => (x.GetValueOrDefault("message") ?? x.GetValueOrDefault("code"))?.ToString());
+
                     extracted.Add(KeyValuePair.Create(newKey, string.Join("; ", messages)));
                 }
 

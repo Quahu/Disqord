@@ -1,6 +1,6 @@
 ﻿namespace Disqord.Http
 {
-    public enum HttpResponseStatusCode : int
+    public enum HttpResponseStatusCode
     {
         Ok = 200,
 
@@ -21,6 +21,8 @@
         MethodNotAllowed = 405,
 
         TooManyRequests = 429,
+
+        InternalServerError = 500,
 
         GatewayUnavailable = 502
     }
