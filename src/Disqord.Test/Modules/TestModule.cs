@@ -34,7 +34,7 @@ namespace Disqord.Test
                         Name = "text",
                         Description = "The text to echo.",
                         Required = true,
-                        Type = ApplicationCommandOptionType.String
+                        Type = SlashCommandOptionType.String
                     }
                 }
 

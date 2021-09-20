@@ -33,7 +33,7 @@ namespace Disqord.Interaction
             {
                 InteractionType.ApplicationCommand => model.Data.Value.Type.Value switch
                 {
-                    ApplicationCommandType.Text => new TransientTextCommandInteraction(client, model),
+                    ApplicationCommandType.Slash => new TransientSlashCommandInteraction(client, model),
                     ApplicationCommandType.User or ApplicationCommandType.Message => new TransientContextMenuInteraction(client, model),
                     _ => new TransientApplicationCommandInteraction(client, model)
                 },

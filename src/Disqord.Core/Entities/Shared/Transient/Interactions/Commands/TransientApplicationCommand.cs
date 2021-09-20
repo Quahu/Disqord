@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Disqord.Collections;
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord
 {
@@ -13,14 +10,9 @@ namespace Disqord
 
         public string Name => Model.Name;
 
-        public ApplicationCommandType Type => Model.Type.GetValueOrDefault(ApplicationCommandType.Text);
+        public ApplicationCommandType Type => Model.Type.GetValueOrDefault(ApplicationCommandType.Slash);
 
         public Snowflake ApplicationId => Model.ApplicationId;
-
-        public string Description => Model.Description;
-
-        public IReadOnlyList<IApplicationCommandOption> Options => _options ??= Optional.ConvertOrDefault(Model.Options, (models, client) => models.ToReadOnlyList(client, (model, client) => new TransientApplicationCommandOption(client, model)), Client) ?? ReadOnlyList<IApplicationCommandOption>.Empty;
-        private IReadOnlyList<IApplicationCommandOption> _options;
 
         public bool IsEnabledByDefault => Model.DefaultPermission.GetValueOrDefault();
 
@@ -29,5 +21,15 @@ namespace Disqord
         public TransientApplicationCommand(IClient client, ApplicationCommandJsonModel model)
             : base(client, model)
         { }
+
+        public static IApplicationCommand Create(IClient client, ApplicationCommandJsonModel model)
+            => model.Type.HasValue
+                ? model.Type.Value switch
+                {
+                    ApplicationCommandType.Slash => new TransientSlashCommand(client, model),
+                    ApplicationCommandType.Message or ApplicationCommandType.User => new TransientContextMenuCommand(client, model),
+                    _ => new TransientApplicationCommand(client, model)
+                }
+                : new TransientSlashCommand(client, model);  // Have to assume that this is a slash command since the type for it is often not provided
     }
 }

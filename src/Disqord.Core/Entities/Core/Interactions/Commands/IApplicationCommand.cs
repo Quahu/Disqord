@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord
 {
@@ -8,10 +7,6 @@ namespace Disqord
         ApplicationCommandType Type { get; }
 
         Snowflake ApplicationId { get; }
-
-        string Description { get; }
-
-        IReadOnlyList<IApplicationCommandOption> Options { get; }
 
         bool IsEnabledByDefault { get; }
 

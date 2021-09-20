@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Disqord
 {
-    public class LocalApplicationCommandOption : ILocalConstruct
+    public class LocalSlashCommandOption : ILocalConstruct
     {
         public const int MaxNameLength = 32;
 
@@ -14,7 +14,7 @@ namespace Disqord
 
         public const int MaxChoicesAmount = 25;
 
-        public ApplicationCommandOptionType Type { get; set; }
+        public SlashCommandOptionType Type { get; set; }
 
         public string Name
         {
@@ -50,19 +50,19 @@ namespace Disqord
 
         public bool IsRequired { get; set; }
 
-        public IList<LocalApplicationCommandOptionChoice> Choices
+        public IList<LocalSlashCommandOptionChoice> Choices
         {
             get => _choices;
             set => this.WithChoices(value);
         }
-        internal readonly List<LocalApplicationCommandOptionChoice> _choices;
+        internal readonly List<LocalSlashCommandOptionChoice> _choices;
 
-        public IList<LocalApplicationCommandOption> Options
+        public IList<LocalSlashCommandOption> Options
         {
             get => _options;
             set => this.WithOptions(value);
         }
-        internal readonly List<LocalApplicationCommandOption> _options;
+        internal readonly List<LocalSlashCommandOption> _options;
 
         public IList<ChannelType> ChannelTypes
         {
@@ -71,18 +71,18 @@ namespace Disqord
         }
         internal readonly List<ChannelType> _channelTypes;
 
-        public LocalApplicationCommandOption(ApplicationCommandOptionType type, string name, string description)
+        public LocalSlashCommandOption(SlashCommandOptionType type, string name, string description)
         {
             Type = type;
             Name = name;
             Description = description;
 
-            _choices = new List<LocalApplicationCommandOptionChoice>();
-            _options = new List<LocalApplicationCommandOption>();
+            _choices = new List<LocalSlashCommandOptionChoice>();
+            _options = new List<LocalSlashCommandOption>();
             _channelTypes = new List<ChannelType>();
         }
 
-        private LocalApplicationCommandOption(LocalApplicationCommandOption other)
+        private LocalSlashCommandOption(LocalSlashCommandOption other)
         {
             Type = other.Type;
             Name = other.Name;
@@ -93,7 +93,7 @@ namespace Disqord
             _channelTypes = other._channelTypes.ToList();
         }
 
-        public virtual LocalApplicationCommandOption Clone()
+        public virtual LocalSlashCommandOption Clone()
             => new(this);
 
         object ICloneable.Clone()

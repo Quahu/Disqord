@@ -20,7 +20,7 @@ namespace Disqord.Test
 
         protected override async ValueTask OnInteractionReceived(InteractionReceivedEventArgs e)
         {
-            if (e.Interaction is ITextCommandInteraction textCommandInteraction)
+            if (e.Interaction is ISlashCommandInteraction textCommandInteraction)
             {
                 switch (textCommandInteraction.CommandName)
                 {

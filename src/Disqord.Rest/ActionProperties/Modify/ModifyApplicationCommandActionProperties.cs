@@ -8,7 +8,7 @@ namespace Disqord.Rest
 
         public Optional<string> Description { internal get; set; }
 
-        public Optional<IEnumerable<LocalApplicationCommandOption>> Options { internal get; set; }
+        public Optional<IEnumerable<LocalSlashCommandOption>> Options { internal get; set; }
 
         public Optional<bool> EnabledByDefault { internal get; set; }
     }

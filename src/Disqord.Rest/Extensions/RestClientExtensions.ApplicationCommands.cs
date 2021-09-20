@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Rest.Api;
-using Disqord.Collections;
+using Qommon.Collections;
 
 namespace Disqord.Rest
 {
@@ -12,7 +12,7 @@ namespace Disqord.Rest
         public static async Task<IReadOnlyList<IApplicationCommand>> FetchGlobalApplicationCommandsAsync(this IRestClient client, Snowflake applicationId, IRestRequestOptions options = null)
         {
             var models = await client.ApiClient.FetchGlobalApplicationCommandsAsync(applicationId, options).ConfigureAwait(false);
-            return models.ToReadOnlyList(client, (x, client) => new TransientApplicationCommand(client, x));
+            return models.ToReadOnlyList(client, (x, client) => TransientApplicationCommand.Create(client, x));
         }
 
         public static async Task<IApplicationCommand> CreateGlobalApplicationCommandAsync(this IRestClient client, Snowflake applicationId, LocalApplicationCommand command, IRestRequestOptions options = null)
@@ -24,20 +24,32 @@ namespace Disqord.Rest
             var content = new CreateApplicationCommandJsonRestRequestContent
             {
                 Name = command.Name,
-                Description = command.Description,
-                DefaultPermission = command.IsEnabledByDefault,
-                Type = command.Type,
-                Options = Optional.Conditional(command.Options.Count != 0, x => x.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray(), command.Options)
+                DefaultPermission = command.IsEnabledByDefault
             };
 
+            if (command is LocalSlashCommand slashCommand)
+            {
+                content.Type = ApplicationCommandType.Slash;
+                content.Description = slashCommand.Description;
+                content.Options = Optional.Conditional(slashCommand.Options.Count != 0, x => x.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray(), slashCommand.Options);
+            }
+            else if (command is LocalUserContextMenuCommand)
+            {
+                content.Type = ApplicationCommandType.User;
+            }
+            else if (command is LocalMessageContextMenuCommand)
+            {
+                content.Type = ApplicationCommandType.Message;
+            }
+
             var model = await client.ApiClient.CreateGlobalApplicationCommandAsync(applicationId, content, options).ConfigureAwait(false);
-            return new TransientApplicationCommand(client, model);
+            return TransientApplicationCommand.Create(client, model);
         }
 
         public static async Task<IApplicationCommand> FetchGlobalApplicationCommandAsync(this IRestClient client, Snowflake applicationId, Snowflake commandId, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchGlobalApplicationCommandAsync(applicationId, commandId, options).ConfigureAwait(false);
-            return new TransientApplicationCommand(client, model);
+            return TransientApplicationCommand.Create(client, model);
         }
 
         public static async Task<IApplicationCommand> ModifyGlobalApplicationCommandAsync(this IRestClient client, Snowflake applicationId, Snowflake commandId, Action<ModifyApplicationCommandActionProperties> action, IRestRequestOptions options = null)
@@ -56,7 +68,7 @@ namespace Disqord.Rest
                 content.Options = properties.Options.Value.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray();
 
             var model = await client.ApiClient.ModifyGlobalApplicationCommandAsync(applicationId, commandId, content, options).ConfigureAwait(false);
-            return new TransientApplicationCommand(client, model);
+            return TransientApplicationCommand.Create(client, model);
         }
 
         public static Task DeleteGlobalApplicationCommandAsync(this IRestClient client, Snowflake applicationId, Snowflake commandId, IRestRequestOptions options = null)
@@ -65,21 +77,39 @@ namespace Disqord.Rest
         public static async Task<IReadOnlyList<IApplicationCommand>> FetchGuildApplicationCommandsAsync(this IRestClient client, Snowflake applicationId, Snowflake guildId, IRestRequestOptions options = null)
         {
             var models = await client.ApiClient.FetchGuildApplicationCommandsAsync(applicationId, guildId, options).ConfigureAwait(false);
-            return models.ToReadOnlyList(client, (x, client) => new TransientApplicationCommand(client, x));
+            return models.ToReadOnlyList(client, (x, client) => TransientApplicationCommand.Create(client, x));
         }
 
         public static async Task<IReadOnlyList<IApplicationCommand>> SetGlobalApplicationCommandsAsync(this IRestClient client, Snowflake applicationId, IEnumerable<LocalApplicationCommand> commands, IRestRequestOptions options = null)
         {
-            var contents = commands.Select(x => new CreateApplicationCommandJsonRestRequestContent
+            var contents = commands.Select(x =>
             {
-                Name = x.Name,
-                Description = x.Description,
-                DefaultPermission = x.IsEnabledByDefault,
-                Options = x.Options.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray()
+                var content = new CreateApplicationCommandJsonRestRequestContent
+                {
+                    Name = x.Name,
+                    DefaultPermission = x.IsEnabledByDefault
+                };
+
+                if (x is LocalSlashCommand slashCommand)
+                {
+                    content.Type = ApplicationCommandType.Slash;
+                    content.Description = slashCommand.Description;
+                    content.Options = Optional.Conditional(slashCommand.Options.Count != 0, x => x.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray(), slashCommand.Options);
+                }
+                else if (x is LocalUserContextMenuCommand)
+                {
+                    content.Type = ApplicationCommandType.User;
+                }
+                else if (x is LocalMessageContextMenuCommand)
+                {
+                    content.Type = ApplicationCommandType.Message;
+                }
+
+                return content;
             }).ToArray();
 
             var models = await client.ApiClient.SetGlobalApplicationCommandsAsync(applicationId, new JsonObjectRestRequestContent<CreateApplicationCommandJsonRestRequestContent[]>(contents), options);
-            return models.ToReadOnlyList(client, (x, client) => new TransientApplicationCommand(client, x));
+            return models.ToReadOnlyList(client, (x, client) => TransientApplicationCommand.Create(client, x));
         }
 
         public static async Task<IApplicationCommand> CreateGuildApplicationCommandAsync(this IRestClient client, Snowflake applicationId, Snowflake guildId, LocalApplicationCommand command, IRestRequestOptions options = null)
@@ -91,20 +121,32 @@ namespace Disqord.Rest
             var content = new CreateApplicationCommandJsonRestRequestContent
             {
                 Name = command.Name,
-                Description = command.Description,
-                DefaultPermission = command.IsEnabledByDefault,
-                Type = command.Type,
-                Options = Optional.Conditional(command.Options.Count != 0, x => x.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray(), command.Options)
+                DefaultPermission = command.IsEnabledByDefault
             };
 
+            if (command is LocalSlashCommand slashCommand)
+            {
+                content.Type = ApplicationCommandType.Slash;
+                content.Description = slashCommand.Description;
+                content.Options = Optional.Conditional(slashCommand.Options.Count != 0, x => x.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray(), slashCommand.Options);
+            }
+            else if (command is LocalUserContextMenuCommand)
+            {
+                content.Type = ApplicationCommandType.User;
+            }
+            else if (command is LocalMessageContextMenuCommand)
+            {
+                content.Type = ApplicationCommandType.Message;
+            }
+
             var model = await client.ApiClient.CreateGuildApplicationCommandAsync(applicationId, guildId, content, options).ConfigureAwait(false);
-            return new TransientApplicationCommand(client, model);
+            return TransientApplicationCommand.Create(client, model);
         }
 
         public static async Task<IApplicationCommand> FetchGuildApplicationCommandAsync(this IRestClient client, Snowflake applicationId, Snowflake guildId, Snowflake commandId, IRestRequestOptions options = null)
         {
             var model = await client.ApiClient.FetchGuildApplicationCommandAsync(applicationId, guildId, commandId, options).ConfigureAwait(false);
-            return new TransientApplicationCommand(client, model);
+            return TransientApplicationCommand.Create(client, model);
         }
 
         public static async Task<IApplicationCommand> ModifyGuildApplicationCommandAsync(this IRestClient client, Snowflake applicationId, Snowflake guildId, Snowflake commandId, Action<ModifyApplicationCommandActionProperties> action, IRestRequestOptions options = null)
@@ -123,7 +165,7 @@ namespace Disqord.Rest
                 content.Options = properties.Options.Value.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray();
 
             var model = await client.ApiClient.ModifyGuildApplicationCommandAsync(applicationId, guildId, commandId, content, options).ConfigureAwait(false);
-            return new TransientApplicationCommand(client, model);
+            return TransientApplicationCommand.Create(client, model);
         }
 
         public static Task DeleteGuildApplicationCommandAsync(this IRestClient client, Snowflake applicationId, Snowflake guildId, Snowflake commandId, IRestRequestOptions options = null)
@@ -131,16 +173,34 @@ namespace Disqord.Rest
 
         public static async Task<IReadOnlyList<IApplicationCommand>> SetGuildApplicationCommandsAsync(this IRestClient client, Snowflake applicationId, Snowflake guildId, IEnumerable<LocalApplicationCommand> commands, IRestRequestOptions options = null)
         {
-            var contents = commands.Select(x => new CreateApplicationCommandJsonRestRequestContent
+            var contents = commands.Select(x =>
             {
-                Name = x.Name,
-                Description = x.Description,
-                DefaultPermission = x.IsEnabledByDefault,
-                Options = x.Options.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray()
+                var content = new CreateApplicationCommandJsonRestRequestContent
+                {
+                    Name = x.Name,
+                    DefaultPermission = x.IsEnabledByDefault
+                };
+
+                if (x is LocalSlashCommand slashCommand)
+                {
+                    content.Type = ApplicationCommandType.Slash;
+                    content.Description = slashCommand.Description;
+                    content.Options = Optional.Conditional(slashCommand.Options.Count != 0, x => x.Select(x => x.ToModel(client.ApiClient.Serializer)).ToArray(), slashCommand.Options);
+                }
+                else if (x is LocalUserContextMenuCommand)
+                {
+                    content.Type = ApplicationCommandType.User;
+                }
+                else if (x is LocalMessageContextMenuCommand)
+                {
+                    content.Type = ApplicationCommandType.Message;
+                }
+
+                return content;
             }).ToArray();
 
             var models = await client.ApiClient.SetGuildApplicationCommandsAsync(applicationId, guildId, new JsonObjectRestRequestContent<CreateApplicationCommandJsonRestRequestContent[]>(contents), options);
-            return models.ToReadOnlyList(client, (x, client) => new TransientApplicationCommand(client, x));
+            return models.ToReadOnlyList(client, (x, client) => TransientApplicationCommand.Create(client, x));
         }
     }
 }

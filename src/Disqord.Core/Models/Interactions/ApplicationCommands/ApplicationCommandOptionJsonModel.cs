@@ -5,7 +5,7 @@ namespace Disqord.Models
     public class ApplicationCommandOptionJsonModel : JsonModel
     {
         [JsonProperty("type")]
-        public ApplicationCommandOptionType Type;
+        public SlashCommandOptionType Type;
 
         [JsonProperty("name")]
         public string Name;

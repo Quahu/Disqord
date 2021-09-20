@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Disqord.Collections;
+using Qommon.Collections;
 
 namespace Disqord
 {
-    public class LocalApplicationCommandOptionChoice : ILocalConstruct
+    public class LocalSlashCommandOptionChoice : ILocalConstruct
     {
         public const int MaxNameLength = 100;
 
@@ -48,19 +48,19 @@ namespace Disqord
         }
         private object _value;
 
-        public LocalApplicationCommandOptionChoice(string name, object value)
+        public LocalSlashCommandOptionChoice(string name, object value)
         {
             Name = name;
             Value = value;
         }
 
-        private LocalApplicationCommandOptionChoice(LocalApplicationCommandOptionChoice other)
+        private LocalSlashCommandOptionChoice(LocalSlashCommandOptionChoice other)
         {
             Name = other.Name;
             Value = other.Name;
         }
 
-        public virtual LocalApplicationCommandOptionChoice Clone()
+        public virtual LocalSlashCommandOptionChoice Clone()
             => new(this);
 
         object ICloneable.Clone()
