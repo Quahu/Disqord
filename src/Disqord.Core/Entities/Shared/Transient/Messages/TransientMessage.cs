@@ -70,8 +70,9 @@ namespace Disqord
             {
                 case MessageType.Default:
                 case MessageType.Reply:
-                case MessageType.ApplicationCommand:
+                case MessageType.SlashCommand:
                 case MessageType.ThreadStarterMessage:
+                case MessageType.ContextMenuCommand:
                     return new TransientUserMessage(client, model);
 
                 default:

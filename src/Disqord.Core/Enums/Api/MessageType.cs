@@ -10,8 +10,10 @@
 
         Reply = 19,
 
-        ApplicationCommand = 20,
+        SlashCommand = 20,
 
-        ThreadStarterMessage = 21
+        ThreadStarterMessage = 21,
+
+        ContextMenuCommand = 23
     }
 }
