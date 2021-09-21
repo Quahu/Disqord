@@ -1,12 +1,12 @@
 namespace Disqord
 {
-    public class LocalUserContextMenuCommand : LocalApplicationCommand
+    public class LocalUserContextMenuCommand : LocalContextMenuCommand
     {
         public LocalUserContextMenuCommand(string name)
             : base(name)
         { }
 
-        protected LocalUserContextMenuCommand(LocalApplicationCommand other)
+        protected LocalUserContextMenuCommand(LocalUserContextMenuCommand other)
             : base(other)
         { }
 

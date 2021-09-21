@@ -27,7 +27,8 @@ namespace Disqord
                 ? model.Type.Value switch
                 {
                     ApplicationCommandType.Slash => new TransientSlashCommand(client, model),
-                    ApplicationCommandType.Message or ApplicationCommandType.User => new TransientContextMenuCommand(client, model),
+                    ApplicationCommandType.User => new TransientUserContextMenuCommand(client, model),
+                    ApplicationCommandType.Message => new TransientMessageContextMenuCommand(client, model),
                     _ => new TransientApplicationCommand(client, model)
                 }
                 : new TransientSlashCommand(client, model);  // Have to assume that this is a slash command since the type for it is often not provided
