@@ -40,11 +40,11 @@ namespace Disqord
         {
             switch (model.Type)
             {
-                case MessageType.Default:
-                case MessageType.Reply:
-                case MessageType.SlashCommand:
-                case MessageType.ThreadStarterMessage:
-                case MessageType.ContextMenuCommand:
+                case UserMessageType.Default:
+                case UserMessageType.Reply:
+                case UserMessageType.SlashCommand:
+                case UserMessageType.ThreadStarterMessage:
+                case UserMessageType.ContextMenuCommand:
                     return new TransientGatewayUserMessage(client, model);
 
                 default:

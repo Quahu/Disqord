@@ -4,10 +4,13 @@ namespace Disqord
 {
     public class TransientSystemMessage : TransientMessage, ISystemMessage
     {
-        public string RawContent => base.Content;
-
+        /// <inheritdoc/>
         public SystemMessageType Type { get; }
 
+        /// <inheritdoc/>
+        public string RawContent => base.Content;
+
+        /// <inheritdoc/>
         public override string Content => Discord.Internal.GetSystemMessageContent(this, null);
 
         public TransientSystemMessage(IClient client, MessageJsonModel model)

@@ -30,7 +30,7 @@ namespace Disqord
         {
             get
             {
-                if (Model.Type == MessageType.Reply || Model.Type == MessageType.ThreadStarterMessage || Model.ReferencedMessage.GetValueOrDefault() != null)
+                if (Model.Type == UserMessageType.Reply || Model.Type == UserMessageType.ThreadStarterMessage || Model.ReferencedMessage.GetValueOrDefault() != null)
                 {
                     // Fix for Discord always sending an empty property.
                     return base.ReferencedMessage;

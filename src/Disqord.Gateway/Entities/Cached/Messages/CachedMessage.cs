@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using Qommon.Collections;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
+using Qommon.Collections;
 
 namespace Disqord.Gateway
 {
@@ -11,10 +11,13 @@ namespace Disqord.Gateway
         IJsonUpdatable<MessageReactionAddJsonModel>, IJsonUpdatable<MessageReactionRemoveJsonModel>,
         IJsonUpdatable<MessageReactionRemoveEmojiJsonModel>, IJsonUpdatable<MessageReactionRemoveAllJsonModel>
     {
+        /// <inheritdoc/>
         public Snowflake ChannelId { get; }
 
+        /// <inheritdoc/>
         public Snowflake? GuildId { get; }
 
+        /// <inheritdoc/>
         public IUser Author
         {
             get
@@ -28,10 +31,13 @@ namespace Disqord.Gateway
         protected TransientUser _transientAuthor;
         private CachedMember _cachedAuthor;
 
+        /// <inheritdoc/>
         public virtual string Content { get; protected set; }
 
+        /// <inheritdoc/>
         public IReadOnlyList<IUser> MentionedUsers { get; protected set; }
 
+        /// <inheritdoc/>
         public Optional<IReadOnlyDictionary<IEmoji, MessageReaction>> Reactions { get; protected set; }
 
         protected CachedMessage(IGatewayClient client, CachedMember author, MessageJsonModel model)
@@ -117,9 +123,7 @@ namespace Disqord.Gateway
                     if (reaction.Count == 1)
                         newReactions.Remove(emoji);
                     else
-                        newReactions[emoji] = new MessageReaction(emoji, reaction.Count - 1, reaction.HasOwnReaction && model.UserId == Client.CurrentUser.Id
-                            ? false
-                            : reaction.HasOwnReaction);
+                        newReactions[emoji] = new MessageReaction(emoji, reaction.Count - 1, (!reaction.HasOwnReaction || model.UserId != Client.CurrentUser.Id) && reaction.HasOwnReaction);
                     Reactions = newReactions;
                 }
             }

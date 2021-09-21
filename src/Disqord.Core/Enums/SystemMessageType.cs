@@ -1,8 +1,11 @@
 ﻿namespace Disqord
 {
     /// <summary>
-    ///     Represents the type of a message.
+    ///     Represents the type of a system message.
     /// </summary>
+    /// <remarks>
+    ///     This enumeration defines only the system message types. The remaining types are defined in <see cref="UserMessageType"/>.
+    /// </remarks>
     public enum SystemMessageType
     {
         /// <summary>

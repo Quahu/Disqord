@@ -1,52 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Disqord.Api;
-using Qommon.Collections;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
+using Qommon.Collections;
 
 namespace Disqord.Gateway
 {
     public class CachedUserMessage : CachedMessage, IGatewayUserMessage, IJsonUpdatable<MessageUpdateJsonModel>
     {
+        /// <inheritdoc/>
+        public UserMessageType Type { get; }
+
+        /// <inheritdoc/>
         public DateTimeOffset? EditedAt { get; private set; }
 
+        /// <inheritdoc/>
         public Snowflake? WebhookId { get; }
 
+        /// <inheritdoc/>
         public bool IsTextToSpeech { get; }
 
+        /// <inheritdoc/>
         public Optional<string> Nonce { get; }
 
+        /// <inheritdoc/>
         public bool IsPinned { get; private set; }
 
+        /// <inheritdoc/>
         public bool MentionsEveryone { get; private set; }
 
+        /// <inheritdoc/>
         public IReadOnlyList<Snowflake> MentionedRoleIds { get; private set; }
 
+        /// <inheritdoc/>
         public IReadOnlyList<Attachment> Attachments { get; private set; }
 
+        /// <inheritdoc/>
         public IReadOnlyList<Embed> Embeds { get; private set; }
 
+        /// <inheritdoc/>
         public MessageActivity Activity { get; private set; }
 
+        /// <inheritdoc/>
         public MessageApplication Application { get; private set; }
 
+        /// <inheritdoc/>
         public Snowflake? ApplicationId { get; }
 
+        /// <inheritdoc/>
         public MessageReference Reference { get; private set; }
 
+        /// <inheritdoc/>
         public MessageFlag Flags { get; private set; }
 
+        /// <inheritdoc/>
         public Optional<IUserMessage> ReferencedMessage { get; private set; }
 
+        /// <inheritdoc/>
         public IReadOnlyList<IRowComponent> Components { get; private set; }
 
+        /// <inheritdoc/>
         public IReadOnlyList<MessageSticker> Stickers { get; private set; }
 
         public CachedUserMessage(IGatewayClient client, CachedMember author, MessageJsonModel model)
             : base(client, author, model)
         {
+            Type = model.Type;
             WebhookId = model.WebhookId.GetValueOrNullable();
             ApplicationId = model.ApplicationId.GetValueOrNullable();
             IsTextToSpeech = model.Tts;
@@ -69,7 +89,7 @@ namespace Disqord.Gateway
             Reference = Optional.ConvertOrDefault(model.MessageReference, x => new MessageReference(x));
             Flags = model.Flags.GetValueOrDefault();
 
-            if (model.Type == MessageType.Reply || model.Type == MessageType.ThreadStarterMessage || model.ReferencedMessage.GetValueOrDefault() != null)
+            if (model.Type == UserMessageType.Reply || model.Type == UserMessageType.ThreadStarterMessage || model.ReferencedMessage.GetValueOrDefault() != null)
             {
                 // Fix for Discord always sending an empty property.
                 ReferencedMessage = Optional.Convert(model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage);

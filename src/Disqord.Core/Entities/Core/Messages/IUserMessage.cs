@@ -9,6 +9,11 @@ namespace Disqord
     public interface IUserMessage : IMessage
     {
         /// <summary>
+        ///     Gets the <see cref="UserMessageType"/> of this message.
+        /// </summary>
+        UserMessageType Type { get; }
+
+        /// <summary>
         ///     Gets the edit date of this message.
         /// </summary>
         DateTimeOffset? EditedAt { get; }

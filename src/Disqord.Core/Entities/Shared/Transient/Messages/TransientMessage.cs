@@ -7,10 +7,13 @@ namespace Disqord
 {
     public abstract class TransientMessage : TransientEntity<MessageJsonModel>, IMessage
     {
+        /// <inheritdoc/>
         public Snowflake Id => Model.Id;
 
+        /// <inheritdoc/>
         public Snowflake ChannelId => Model.ChannelId;
 
+        /// <inheritdoc/>
         public virtual IUser Author
         {
             get
@@ -23,8 +26,10 @@ namespace Disqord
         }
         protected IUser _author;
 
+        /// <inheritdoc/>
         public virtual string Content => Model.Content;
 
+        /// <inheritdoc/>
         public IReadOnlyList<IUser> MentionedUsers
         {
             get
@@ -37,6 +42,7 @@ namespace Disqord
         }
         private IReadOnlyList<IUser> _mentionedUsers;
 
+        /// <inheritdoc/>
         public Optional<IReadOnlyDictionary<IEmoji, MessageReaction>> Reactions
         {
             get
@@ -68,11 +74,11 @@ namespace Disqord
         {
             switch (model.Type)
             {
-                case MessageType.Default:
-                case MessageType.Reply:
-                case MessageType.SlashCommand:
-                case MessageType.ThreadStarterMessage:
-                case MessageType.ContextMenuCommand:
+                case UserMessageType.Default:
+                case UserMessageType.Reply:
+                case UserMessageType.SlashCommand:
+                case UserMessageType.ThreadStarterMessage:
+                case UserMessageType.ContextMenuCommand:
                     return new TransientUserMessage(client, model);
 
                 default:

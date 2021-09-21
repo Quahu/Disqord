@@ -30,7 +30,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 }
 
                 if (CacheProvider.TryGetMessages(model.ChannelId, out var messageCache)
-                    && model.Type is MessageType.Default or MessageType.Reply or MessageType.SlashCommand or MessageType.ThreadStarterMessage or MessageType.ContextMenuCommand)
+                    && model.Type is UserMessageType.Default or UserMessageType.Reply or UserMessageType.SlashCommand or UserMessageType.ThreadStarterMessage or UserMessageType.ContextMenuCommand)
                 {
                     message = new CachedUserMessage(Client, author, model);
                     messageCache.Add(model.Id, message as CachedUserMessage);

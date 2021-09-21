@@ -65,7 +65,7 @@ namespace Disqord.Models
         public Optional<Snowflake> WebhookId;
 
         [JsonProperty("type")]
-        public MessageType Type;
+        public UserMessageType Type;
 
         [JsonProperty("activity")]
         public Optional<MessageActivityJsonModel> Activity;
