@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Disqord.Models;
 using Disqord.Rest.Api;
 using Qommon.Collections;
 

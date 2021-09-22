@@ -22,7 +22,7 @@ namespace Disqord
         }
         private string _name;
 
-        public bool IsEnabledByDefault { get; set; }
+        public bool IsEnabledByDefault { get; set; } = true;
 
         protected LocalApplicationCommand(string name)
         {
