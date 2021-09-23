@@ -10,6 +10,6 @@ namespace Disqord.Rest
 
         public Optional<IEnumerable<LocalSlashCommandOption>> Options { internal get; set; }
 
-        public Optional<bool> EnabledByDefault { internal get; set; }
+        public Optional<bool> IsEnabledByDefault { internal get; set; }
     }
 }

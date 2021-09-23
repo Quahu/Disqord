@@ -62,7 +62,7 @@ namespace Disqord.Rest
             {
                 Name = properties.Name,
                 Description = properties.Description,
-                DefaultPermission = properties.EnabledByDefault
+                DefaultPermission = properties.IsEnabledByDefault
             };
 
             if (properties.Options.HasValue)
@@ -159,7 +159,7 @@ namespace Disqord.Rest
             {
                 Name = properties.Name,
                 Description = properties.Description,
-                DefaultPermission = properties.EnabledByDefault
+                DefaultPermission = properties.IsEnabledByDefault
             };
 
             if (properties.Options.HasValue)

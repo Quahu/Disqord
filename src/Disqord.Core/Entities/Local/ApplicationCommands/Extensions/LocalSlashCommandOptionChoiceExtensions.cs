@@ -2,15 +2,15 @@
 {
     public static class LocalSlashCommandOptionChoiceExtensions
     {
-        public static TApplicationCommandOptionChoice WithName<TApplicationCommandOptionChoice>(this TApplicationCommandOptionChoice option, string name)
-            where TApplicationCommandOptionChoice : LocalSlashCommandOptionChoice
+        public static TSlashCommandOptionChoice WithName<TSlashCommandOptionChoice>(this TSlashCommandOptionChoice option, string name)
+            where TSlashCommandOptionChoice : LocalSlashCommandOptionChoice
         {
             option.Name = name;
             return option;
         }
 
-        public static TApplicationCommandOptionChoice WithValue<TApplicationCommandOptionChoice>(this TApplicationCommandOptionChoice option, object value)
-            where TApplicationCommandOptionChoice : LocalSlashCommandOptionChoice
+        public static TSlashCommandOptionChoice WithValue<TSlashCommandOptionChoice>(this TSlashCommandOptionChoice option, object value)
+            where TSlashCommandOptionChoice : LocalSlashCommandOptionChoice
         {
             option.Value = value;
             return option;

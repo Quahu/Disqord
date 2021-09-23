@@ -4,18 +4,25 @@ namespace Disqord
 {
     public class TransientApplicationCommand : TransientEntity<ApplicationCommandJsonModel>, IApplicationCommand
     {
+        /// <inheritdoc/>
         public Snowflake Id => Model.Id;
 
+        /// <inheritdoc/>
         public Snowflake? GuildId => Model.GuildId.GetValueOrNullable();
 
+        /// <inheritdoc/>
         public string Name => Model.Name;
 
+        /// <inheritdoc/>
         public ApplicationCommandType Type => Model.Type.GetValueOrDefault(ApplicationCommandType.Slash);
 
+        /// <inheritdoc/>
         public Snowflake ApplicationId => Model.ApplicationId;
 
-        public bool IsEnabledByDefault => Model.DefaultPermission.GetValueOrDefault();
+        /// <inheritdoc/>
+        public bool IsEnabledByDefault => Model.DefaultPermission.GetValueOrDefault(true);
 
+        /// <inheritdoc/>
         public Snowflake Version => Model.Version;
 
         public TransientApplicationCommand(IClient client, ApplicationCommandJsonModel model)

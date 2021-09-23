@@ -5,15 +5,15 @@ namespace Disqord
 {
     public static class LocalSlashCommandExtensions
     {
-        public static TApplicationCommand WithDescription<TApplicationCommand>(this TApplicationCommand command, string description)
-            where TApplicationCommand : LocalSlashCommand
+        public static TSlashCommand WithDescription<TSlashCommand>(this TSlashCommand command, string description)
+            where TSlashCommand : LocalSlashCommand
         {
             command.Description = description;
             return command;
         }
 
-        public static TApplicationCommand WithOptions<TApplicationCommand>(this TApplicationCommand command, IEnumerable<LocalSlashCommandOption> options)
-            where TApplicationCommand : LocalSlashCommand
+        public static TSlashCommand WithOptions<TSlashCommand>(this TSlashCommand command, IEnumerable<LocalSlashCommandOption> options)
+            where TSlashCommand : LocalSlashCommand
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));

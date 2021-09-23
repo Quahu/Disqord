@@ -5,36 +5,36 @@ namespace Disqord
 {
     public static class LocalSlashCommandOptionExtensions
     {
-        public static TApplicationCommandOption WithType<TApplicationCommandOption>(this TApplicationCommandOption option, SlashCommandOptionType type)
-            where TApplicationCommandOption : LocalSlashCommandOption
+        public static TSlashCommandOption WithType<TSlashCommandOption>(this TSlashCommandOption option, SlashCommandOptionType type)
+            where TSlashCommandOption : LocalSlashCommandOption
         {
             option.Type = type;
             return option;
         }
 
-        public static TApplicationCommandOption WithName<TApplicationCommandOption>(this TApplicationCommandOption option, string name)
-            where TApplicationCommandOption : LocalSlashCommandOption
+        public static TSlashCommandOption WithName<TSlashCommandOption>(this TSlashCommandOption option, string name)
+            where TSlashCommandOption : LocalSlashCommandOption
         {
             option.Name = name;
             return option;
         }
 
-        public static TApplicationCommandOption WithDescription<TApplicationCommandOption>(this TApplicationCommandOption option, string description)
-            where TApplicationCommandOption : LocalSlashCommandOption
+        public static TSlashCommandOption WithDescription<TSlashCommandOption>(this TSlashCommandOption option, string description)
+            where TSlashCommandOption : LocalSlashCommandOption
         {
             option.Description = description;
             return option;
         }
 
-        public static TApplicationCommandOption WithIsRequired<TApplicationCommandOption>(this TApplicationCommandOption option, bool isRequired)
-            where TApplicationCommandOption : LocalSlashCommandOption
+        public static TSlashCommandOption WithIsRequired<TSlashCommandOption>(this TSlashCommandOption option, bool isRequired)
+            where TSlashCommandOption : LocalSlashCommandOption
         {
             option.IsRequired = isRequired;
             return option;
         }
 
-        public static TApplicationCommandOption WithChoices<TApplicationCommandOption>(this TApplicationCommandOption option, IEnumerable<LocalSlashCommandOptionChoice> choices)
-            where TApplicationCommandOption : LocalSlashCommandOption
+        public static TSlashCommandOption WithChoices<TSlashCommandOption>(this TSlashCommandOption option, IEnumerable<LocalSlashCommandOptionChoice> choices)
+            where TSlashCommandOption : LocalSlashCommandOption
         {
             if (choices == null)
                 throw new ArgumentNullException(nameof(choices));
@@ -44,8 +44,8 @@ namespace Disqord
             return option;
         }
 
-        public static TApplicationCommandOption WithOptions<TApplicationCommandOption>(this TApplicationCommandOption option, IEnumerable<LocalSlashCommandOption> options)
-            where TApplicationCommandOption : LocalSlashCommandOption
+        public static TSlashCommandOption WithOptions<TSlashCommandOption>(this TSlashCommandOption option, IEnumerable<LocalSlashCommandOption> options)
+            where TSlashCommandOption : LocalSlashCommandOption
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
@@ -55,8 +55,8 @@ namespace Disqord
             return option;
         }
 
-        public static TApplicationCommandOption WithChannelTypes<TApplicationCommandOption>(this TApplicationCommandOption option, IEnumerable<ChannelType> channelTypes)
-            where TApplicationCommandOption : LocalSlashCommandOption
+        public static TSlashCommandOption WithChannelTypes<TSlashCommandOption>(this TSlashCommandOption option, IEnumerable<ChannelType> channelTypes)
+            where TSlashCommandOption : LocalSlashCommandOption
         {
             if (channelTypes == null)
                 throw new ArgumentNullException(nameof(channelTypes));

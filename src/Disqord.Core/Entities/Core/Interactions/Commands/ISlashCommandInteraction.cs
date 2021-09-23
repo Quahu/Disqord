@@ -3,12 +3,12 @@
 namespace Disqord
 {
     /// <summary>
-    ///     Represents a text application command interaction, i.e. a slash command.
+    ///     Represents a slash command command interaction.
     /// </summary>
     public interface ISlashCommandInteraction : IApplicationCommandInteraction
     {
         /// <summary>
-        ///     Gets the options of this text interaction.
+        ///     Gets the options of this slash command interaction.
         /// </summary>
         IReadOnlyDictionary<string, ISlashCommandInteractionOption> Options { get; }
     }

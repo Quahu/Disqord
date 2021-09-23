@@ -21,7 +21,7 @@ namespace Disqord.Models
             => choice == null ? null : new ApplicationCommandOptionChoiceJsonModel
             {
                 Name = choice.Name,
-                Value = (IJsonValue)serializer.GetJsonNode(choice.Value)
+                Value = serializer.GetJsonNode(choice.Value) as IJsonValue
             };
     }
 }

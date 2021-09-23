@@ -3,7 +3,7 @@
 namespace Disqord
 {
     /// <summary>
-    ///     Represents a provided value for a text command option.
+    ///     Represents a provided value for a slash command option.
     /// </summary>
     public interface ISlashCommandInteractionOption
     {
