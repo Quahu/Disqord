@@ -54,7 +54,7 @@ namespace Disqord
             Value = value;
         }
 
-        private LocalSlashCommandOptionChoice(LocalSlashCommandOptionChoice other)
+        protected LocalSlashCommandOptionChoice(LocalSlashCommandOptionChoice other)
         {
             Name = other.Name;
             Value = other.Name;

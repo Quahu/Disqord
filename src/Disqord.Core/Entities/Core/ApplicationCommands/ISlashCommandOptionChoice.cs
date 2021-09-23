@@ -3,12 +3,12 @@
 namespace Disqord
 {
     /// <summary>
-    ///     Gets the type of this slash command option choice.
+    ///     Represents a preset choice for a slash command option.
     /// </summary>
     public interface ISlashCommandOptionChoice : INamable, IJsonUpdatable<ApplicationCommandOptionChoiceJsonModel>
     {
         /// <summary>
-        ///     Gets the value of this slash command option choice.
+        ///     Gets the value of this choice.
         /// </summary>
         object Value { get; }
     }

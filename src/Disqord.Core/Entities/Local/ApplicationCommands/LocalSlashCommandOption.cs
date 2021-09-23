@@ -82,7 +82,7 @@ namespace Disqord
             _channelTypes = new List<ChannelType>();
         }
 
-        private LocalSlashCommandOption(LocalSlashCommandOption other)
+        protected LocalSlashCommandOption(LocalSlashCommandOption other)
         {
             Type = other.Type;
             Name = other.Name;

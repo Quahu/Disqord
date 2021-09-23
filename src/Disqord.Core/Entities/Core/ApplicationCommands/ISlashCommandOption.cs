@@ -34,7 +34,7 @@ namespace Disqord
         IReadOnlyList<ISlashCommandOption> Options { get; }
 
         /// <summary>
-        ///     Gets the restricted channel types of this slash command option.
+        ///     Gets the channel types this option is restricted to.
         /// </summary>
         IReadOnlyList<ChannelType> ChannelTypes { get; }
     }
