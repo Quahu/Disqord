@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Qommon.Collections.Synchronized;
 using Disqord.Gateway;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
@@ -14,6 +13,7 @@ using Disqord.Utilities.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Sharding
 {
@@ -80,10 +80,7 @@ namespace Disqord.Sharding
             }
             else
             {
-                var botGatewayData = await this.FetchBotGatewayDataAsync(new DefaultRestRequestOptions
-                {
-                    CancellationToken = stoppingToken
-                }).ConfigureAwait(false);
+                var botGatewayData = await this.FetchBotGatewayDataAsync(cancellationToken: stoppingToken);
                 Logger.LogDebug("Using Discord's recommended shard count of {0}.", botGatewayData.RecommendedShardCount);
                 for (var i = 0; i < botGatewayData.RecommendedShardCount; i++)
                 {

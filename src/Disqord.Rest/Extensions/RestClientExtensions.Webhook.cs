@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Qommon.Collections;
 using Disqord.Models;
@@ -10,7 +11,7 @@ namespace Disqord.Rest
 {
     public static partial class RestClientExtensions
     {
-        public static async Task<IWebhook> CreateWebhookAsync(this IRestClient client, Snowflake channelId, string name, Action<CreateWebhookActionProperties> action = null, IRestRequestOptions options = null)
+        public static async Task<IWebhook> CreateWebhookAsync(this IRestClient client, Snowflake channelId, string name, Action<CreateWebhookActionProperties> action = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var properties = new CreateWebhookActionProperties();
             action?.Invoke(properties);
@@ -18,27 +19,27 @@ namespace Disqord.Rest
             {
                 Avatar = properties.Avatar
             };
-            var model = await client.ApiClient.CreateWebhookAsync(channelId, content, options).ConfigureAwait(false);
+            var model = await client.ApiClient.CreateWebhookAsync(channelId, content, options, cancellationToken).ConfigureAwait(false);
             return new TransientWebhook(client, model);
         }
 
-        public static async Task<IReadOnlyList<IWebhook>> FetchChannelWebhooksAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null)
+        public static async Task<IReadOnlyList<IWebhook>> FetchChannelWebhooksAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var models = await client.ApiClient.FetchChannelWebhooksAsync(channelId, options).ConfigureAwait(false);
+            var models = await client.ApiClient.FetchChannelWebhooksAsync(channelId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, static(x, client) => new TransientWebhook(client, x));
         }
 
-        public static async Task<IReadOnlyList<IWebhook>> FetchGuildWebhooksAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
+        public static async Task<IReadOnlyList<IWebhook>> FetchGuildWebhooksAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var models = await client.ApiClient.FetchGuildWebhooksAsync(guildId, options).ConfigureAwait(false);
+            var models = await client.ApiClient.FetchGuildWebhooksAsync(guildId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, static(x, client) => new TransientWebhook(client, x));
         }
 
-        public static async Task<IWebhook> FetchWebhookAsync(this IRestClient client, Snowflake webhookId, string token = null, IRestRequestOptions options = null)
+        public static async Task<IWebhook> FetchWebhookAsync(this IRestClient client, Snowflake webhookId, string token = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             try
             {
-                var model = await client.ApiClient.FetchWebhookAsync(webhookId, token, options).ConfigureAwait(false);
+                var model = await client.ApiClient.FetchWebhookAsync(webhookId, token, options, cancellationToken).ConfigureAwait(false);
                 return new TransientWebhook(client, model);
             }
             catch (RestApiException ex) when (ex.ErrorModel.Code == RestApiErrorCode.UnknownWebhook)
@@ -47,7 +48,7 @@ namespace Disqord.Rest
             }
         }
 
-        public static async Task<IWebhook> ModifyWebhookAsync(this IRestClient client, Snowflake webhookId, Action<ModifyWebhookActionProperties> action, string token = null, IRestRequestOptions options = null)
+        public static async Task<IWebhook> ModifyWebhookAsync(this IRestClient client, Snowflake webhookId, Action<ModifyWebhookActionProperties> action, string token = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var properties = new ModifyWebhookActionProperties();
             action.Invoke(properties);
@@ -57,14 +58,14 @@ namespace Disqord.Rest
                 Avatar = properties.Avatar,
                 ChannelId = properties.ChannelId
             };
-            var model = await client.ApiClient.ModifyWebhookAsync(webhookId, content, token, options).ConfigureAwait(false);
+            var model = await client.ApiClient.ModifyWebhookAsync(webhookId, content, token, options, cancellationToken).ConfigureAwait(false);
             return new TransientWebhook(client, model);
         }
 
-        public static Task DeleteWebhookAsync(this IRestClient client, Snowflake webhookId, string token = null, IRestRequestOptions options = null)
-            => client.ApiClient.DeleteWebhookAsync(webhookId, token, options);
+        public static Task DeleteWebhookAsync(this IRestClient client, Snowflake webhookId, string token = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+            => client.ApiClient.DeleteWebhookAsync(webhookId, token, options, cancellationToken);
 
-        public static async Task<IUserMessage> ExecuteWebhookAsync(this IRestClient client, Snowflake webhookId, string token, LocalWebhookMessage message, bool wait = false, IRestRequestOptions options = null)
+        public static async Task<IUserMessage> ExecuteWebhookAsync(this IRestClient client, Snowflake webhookId, string token, LocalWebhookMessage message, bool wait = false, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
@@ -86,11 +87,11 @@ namespace Disqord.Rest
                 // If there is an attachment, we must send it via multipart HTTP content.
                 // Our `messageContent` will be serialized into a "payload_json" form data field.
                 var content = new MultipartJsonPayloadRestRequestContent<ExecuteWebhookJsonRestRequestContent>(messageContent, message._attachments);
-                task = client.ApiClient.ExecuteWebhookAsync(webhookId, token, content, wait, options);
+                task = client.ApiClient.ExecuteWebhookAsync(webhookId, token, content, wait, options, cancellationToken);
             }
             else
             {
-                task = client.ApiClient.ExecuteWebhookAsync(webhookId, token, messageContent, wait, options);
+                task = client.ApiClient.ExecuteWebhookAsync(webhookId, token, messageContent, wait, options, cancellationToken);
             }
 
             // If the `wait` parameter is false the model will be null.
@@ -101,13 +102,13 @@ namespace Disqord.Rest
             return new TransientUserMessage(client, model);
         }
 
-        public static async Task<IUserMessage> FetchWebhookMessageAsync(this IRestClient client, Snowflake webhookId, string token, Snowflake messageId, IRestRequestOptions options = null)
+        public static async Task<IUserMessage> FetchWebhookMessageAsync(this IRestClient client, Snowflake webhookId, string token, Snowflake messageId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var model = await client.ApiClient.FetchWebhookMessageAsync(webhookId, token, messageId, options).ConfigureAwait(false);
+            var model = await client.ApiClient.FetchWebhookMessageAsync(webhookId, token, messageId, options, cancellationToken).ConfigureAwait(false);
             return new TransientUserMessage(client, model);
         }
 
-        public static async Task<IUserMessage> ModifyWebhookMessageAsync(this IRestClient client, Snowflake webhookId, string token, Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action, IRestRequestOptions options = null)
+        public static async Task<IUserMessage> ModifyWebhookMessageAsync(this IRestClient client, Snowflake webhookId, string token, Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var properties = new ModifyWebhookMessageActionProperties();
             action.Invoke(properties);
@@ -128,18 +129,18 @@ namespace Disqord.Rest
                 // If there is an attachment, we must send it via multipart HTTP content.
                 // Our `messageContent` will be serialized into a "payload_json" form data field.
                 var content = new MultipartJsonPayloadRestRequestContent<ModifyWebhookMessageJsonRestRequestContent>(messageContent, properties.Attachments.Value);
-                task = client.ApiClient.ModifyWebhookMessageAsync(webhookId, token, messageId, content, options);
+                task = client.ApiClient.ModifyWebhookMessageAsync(webhookId, token, messageId, content, options, cancellationToken);
             }
             else
             {
-                task = client.ApiClient.ModifyWebhookMessageAsync(webhookId, token, messageId, messageContent, options);
+                task = client.ApiClient.ModifyWebhookMessageAsync(webhookId, token, messageId, messageContent, options, cancellationToken);
             }
 
             var model = await task.ConfigureAwait(false);
             return new TransientUserMessage(client, model);
         }
 
-        public static Task DeleteWebhookMessageAsync(this IRestClient client, Snowflake webhookId, string token, Snowflake messageId, IRestRequestOptions options = null)
-            => client.ApiClient.DeleteWebhookMessageAsync(webhookId, token, messageId, options);
+        public static Task DeleteWebhookMessageAsync(this IRestClient client, Snowflake webhookId, string token, Snowflake messageId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+            => client.ApiClient.DeleteWebhookMessageAsync(webhookId, token, messageId, options, cancellationToken);
     }
 }

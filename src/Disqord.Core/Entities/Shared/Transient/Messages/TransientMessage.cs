@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Disqord.Api;
 using Disqord.Models;
 using Qommon.Collections;
 

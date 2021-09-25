@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Serialization.Json;
 using Microsoft.Extensions.Logging;
@@ -44,13 +45,13 @@ namespace Disqord.Rest.Api.Default
         }
 
         /// <inheritdoc/>
-        public async Task ExecuteAsync(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null)
+        public async Task ExecuteAsync(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var stream = await InternalExecuteAsync(route, content, options ?? new DefaultRestRequestOptions()).ConfigureAwait(false);
             await stream.DisposeAsync().ConfigureAwait(false);
         }
 
-        public async Task<TModel> ExecuteAsync<TModel>(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null)
+        public async Task<TModel> ExecuteAsync<TModel>(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
             where TModel : class
         {
             await using (var jsonStream = await InternalExecuteAsync(route, content, options).ConfigureAwait(false))
@@ -74,7 +75,7 @@ namespace Disqord.Rest.Api.Default
 
             await RateLimiter.EnqueueRequestAsync(request).ConfigureAwait(false);
 
-            var response = await request.WaitAsync().ConfigureAwait(false);
+            var response = await request.WaitForCompletionAsync().ConfigureAwait(false);
             defaultOptions?.HeadersAction?.Invoke(new DefaultRestResponseHeaders(response.HttpResponse.Headers));
 
             var responseStream = await response.HttpResponse.ReadAsync().ConfigureAwait(false);

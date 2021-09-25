@@ -13,12 +13,12 @@ namespace Disqord
         /// </summary>
         public Snowflake Id { get; }
 
-        internal BotToken(string value)
-            : base(value)
+        internal BotToken(string token)
+            : base(token)
         {
             // Example bot token: MjM4NDk0NzU2NTIxMzc3Nzky.CunGFQ.wUILz7z6HoJzVeq6pyHPmVgQgV4
             // Contains 3 parts separated by periods.
-            var split = value.Split('.');
+            var split = token.Split('.');
             if (split.Length != 3)
                 throw new FormatException("The provided token is not a valid bot token.");
 

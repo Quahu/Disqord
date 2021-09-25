@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Qommon;
 
 namespace Disqord.Rest.Api.Default
 {
@@ -55,8 +56,7 @@ namespace Disqord.Rest.Api.Default
 
         public DefaultRestResponseHeaders(IDictionary<string, string> headers)
         {
-            if (headers == null)
-                throw new ArgumentNullException(nameof(headers));
+            Guard.IsNotNull(headers);
 
             _headers = headers;
         }

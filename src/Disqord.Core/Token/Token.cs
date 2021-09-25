@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Qommon;
 
 namespace Disqord
 {
@@ -12,12 +12,11 @@ namespace Disqord
         /// </summary>
         public string RawValue { get; }
 
-        private protected Token(string value)
+        private protected Token(string token)
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentNullException(nameof(value), "The token must not be null or whitespace.");
+            Guard.IsNotNullOrWhiteSpace(token);
 
-            RawValue = value;
+            RawValue = token;
         }
 
         // No authorization ctor.

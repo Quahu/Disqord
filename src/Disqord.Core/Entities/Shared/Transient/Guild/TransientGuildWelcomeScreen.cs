@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Qommon.Collections;
 using Disqord.Models;
+using Qommon.Collections;
 
 namespace Disqord
 {
@@ -14,6 +14,7 @@ namespace Disqord
 
         /// <inheritdoc/>
         public IReadOnlyList<IGuildWelcomeScreenChannel> Channels => _channels ??= Model.Channels.ToReadOnlyList(x => new TransientGuildWelcomeScreenChannel(Client, x));
+
         private IReadOnlyList<IGuildWelcomeScreenChannel> _channels;
 
         public TransientGuildWelcomeScreen(IClient client, Snowflake guildId, WelcomeScreenJsonModel model)
@@ -21,6 +22,5 @@ namespace Disqord
         {
             GuildId = guildId;
         }
-
     }
 }

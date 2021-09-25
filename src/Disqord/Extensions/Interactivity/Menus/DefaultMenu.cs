@@ -70,7 +70,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             if (messageId != default)
                 return messageId;
 
-            Message = await Client.SendMessageAsync(ChannelId, View.ToLocalMessage(), new DefaultRestRequestOptions().WithCancellation(cancellationToken));
+            Message = await Client.SendMessageAsync(ChannelId, View.ToLocalMessage(), cancellationToken: cancellationToken);
             return Message.Id;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Models;
 
@@ -7,25 +8,25 @@ namespace Disqord.Rest.Api
 {
     public static partial class RestApiClientExtensions
     {
-        public static Task<UserJsonModel> FetchCurrentUserAsync(this IRestApiClient client, IRestRequestOptions options = null)
+        public static Task<UserJsonModel> FetchCurrentUserAsync(this IRestApiClient client, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.User.GetCurrentUser);
-            return client.ExecuteAsync<UserJsonModel>(route, null, options);
+            return client.ExecuteAsync<UserJsonModel>(route, null, options, cancellationToken);
         }
 
-        public static Task<UserJsonModel> FetchUserAsync(this IRestApiClient client, Snowflake userId, IRestRequestOptions options = null)
+        public static Task<UserJsonModel> FetchUserAsync(this IRestApiClient client, Snowflake userId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.User.GetUser, userId);
-            return client.ExecuteAsync<UserJsonModel>(route, null, options);
+            return client.ExecuteAsync<UserJsonModel>(route, null, options, cancellationToken);
         }
 
-        public static Task<UserJsonModel> ModifyCurrentUserAsync(this IRestApiClient client, ModifyCurrentUserJsonRestRequestContent content, IRestRequestOptions options = null)
+        public static Task<UserJsonModel> ModifyCurrentUserAsync(this IRestApiClient client, ModifyCurrentUserJsonRestRequestContent content, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.User.ModifyCurrentUser);
-            return client.ExecuteAsync<UserJsonModel>(route, content, options);
+            return client.ExecuteAsync<UserJsonModel>(route, content, options, cancellationToken);
         }
 
-        public static Task<GuildJsonModel[]> FetchGuildsAsync(this IRestApiClient client, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static Task<GuildJsonModel[]> FetchGuildsAsync(this IRestApiClient client, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (limit < 1 || limit > 100)
                 throw new ArgumentOutOfRangeException(nameof(limit));
@@ -56,25 +57,25 @@ namespace Disqord.Rest.Api
             }
 
             var route = Format(Route.User.GetGuilds, queryParameters);
-            return client.ExecuteAsync<GuildJsonModel[]>(route, null, options);
+            return client.ExecuteAsync<GuildJsonModel[]>(route, null, options, cancellationToken);
         }
 
-        public static Task LeaveGuildAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null)
+        public static Task LeaveGuildAsync(this IRestApiClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.User.LeaveGuild, guildId);
-            return client.ExecuteAsync(route, null, options);
+            return client.ExecuteAsync(route, null, options, cancellationToken);
         }
 
-        public static Task<ChannelJsonModel> CreateDirectChannelAsync(this IRestApiClient client, CreateDirectChannelJsonRestRequestContent content, IRestRequestOptions options = null)
+        public static Task<ChannelJsonModel> CreateDirectChannelAsync(this IRestApiClient client, CreateDirectChannelJsonRestRequestContent content, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.User.CreateDirectChannel);
-            return client.ExecuteAsync<ChannelJsonModel>(route, content, options);
+            return client.ExecuteAsync<ChannelJsonModel>(route, content, options, cancellationToken);
         }
 
-        public static Task<ConnectionJsonModel[]> FetchConnectionsAsync(this IRestApiClient client, IRestRequestOptions options = null)
+        public static Task<ConnectionJsonModel[]> FetchConnectionsAsync(this IRestApiClient client, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.User.CreateDirectChannel);
-            return client.ExecuteAsync<ConnectionJsonModel[]>(route, null, options);
+            return client.ExecuteAsync<ConnectionJsonModel[]>(route, null, options, cancellationToken);
         }
     }
 }

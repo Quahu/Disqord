@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Disqord.Rest
 {
-    internal sealed class DeleteMessagesPagedEnumerator : PagedEnumerator<Snowflake>
+    public class DeleteMessagesPagedEnumerator : PagedEnumerator<Snowflake>
     {
-        public override int PageSize => 100;
+        public override int PageSize => Discord.Limits.Rest.DeleteMessagesPageSize;
 
         private readonly Snowflake _channelId;
         private readonly Snowflake[] _messageIds;
@@ -16,21 +17,24 @@ namespace Disqord.Rest
         public DeleteMessagesPagedEnumerator(
             IRestClient client,
             Snowflake channelId, Snowflake[] messageIds,
-            IRestRequestOptions options)
-            : base(client, messageIds.Length, options)
+            IRestRequestOptions options,
+            CancellationToken cancellationToken)
+            : base(client, messageIds.Length, options, cancellationToken)
         {
             _channelId = channelId;
             _messageIds = messageIds;
         }
 
-        protected override async Task<IReadOnlyList<Snowflake>> NextPageAsync(IReadOnlyList<Snowflake> previousPage, IRestRequestOptions options = null)
+        protected override async Task<IReadOnlyList<Snowflake>> NextPageAsync(
+            IReadOnlyList<Snowflake> previousPage, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var amount = NextAmount;
+            var amount = NextPageSize;
             var segment = new ArraySegment<Snowflake>(_messageIds, _offset, amount);
             _offset += amount;
             await (amount == 1
-                ? Client.DeleteMessageAsync(_channelId, segment[0], options)
-                : Client.InternalDeleteMessagesAsync(_channelId, segment, options)).ConfigureAwait(false);
+                ? Client.DeleteMessageAsync(_channelId, segment[0], options, cancellationToken)
+                : Client.InternalDeleteMessagesAsync(_channelId, segment, options, cancellationToken)).ConfigureAwait(false);
+
             return segment;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Qommon;
 
 namespace Disqord.Rest
 {
@@ -19,6 +20,8 @@ namespace Disqord.Rest
 
         public InteractionResponseHelper(IInteraction interaction)
         {
+            Guard.IsNotNull(interaction);
+
             Interaction = interaction;
         }
 
@@ -57,6 +60,7 @@ namespace Disqord.Rest
             var client = Interaction.GetRestClient();
             await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, new LocalInteractionResponse(InteractionResponseType.DeferredChannelMessage)
                 .WithIsEphemeral(isEphemeral), options).ConfigureAwait(false);
+
             SetResponded(InteractionResponseType.DeferredChannelMessage);
         }
 
@@ -67,8 +71,10 @@ namespace Disqord.Rest
             var responseType = deferViaMessageUpdate
                 ? InteractionResponseType.DeferredMessageUpdate
                 : InteractionResponseType.DeferredChannelMessage;
+
             await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, new LocalInteractionResponse(responseType)
                 .WithIsEphemeral(isEphemeral), options).ConfigureAwait(false);
+
             SetResponded(responseType);
         }
 

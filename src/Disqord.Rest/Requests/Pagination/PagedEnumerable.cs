@@ -1,23 +1,12 @@
 ﻿using System;
+using System.Threading;
 using Disqord.Rest.Pagination;
 
 namespace Disqord.Rest
 {
-    /// <inheritdoc cref="IPagedEnumerable{TEntity}"/>
-    public class PagedEnumerable<TEntity> : IPagedEnumerable<TEntity>
+    public static class PagedEnumerable
     {
-        private readonly IPagedEnumerator<TEntity> _enumerator;
-
-        public PagedEnumerable(IPagedEnumerator<TEntity> enumerator)
-        {
-            if (enumerator == null)
-                throw new ArgumentNullException(nameof(enumerator));
-
-            _enumerator = enumerator;
-        }
-
-        /// <inheritdoc/>
-        public IPagedEnumerator<TEntity> GetAsyncEnumerator()
-            => _enumerator;
+        public static PagedEnumerable<TState, TEntity> Create<TState, TEntity>(Func<TState, CancellationToken, IPagedEnumerator<TEntity>> factory, TState state)
+            => new(factory, state);
     }
 }

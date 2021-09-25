@@ -2,6 +2,7 @@
 using System.IO;
 using Disqord.Http;
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Rest.Api
 {
@@ -26,7 +27,7 @@ namespace Disqord.Rest.Api
             {
                 StickerFormatType.Png or StickerFormatType.APng => ("png", "image/png"),
                 StickerFormatType.Lottie => ("json", "application/json"),
-                _ => throw new InvalidOperationException("Invalid sticker format type.")
+                _ => Throw.InvalidOperationException<(string, string)>("Invalid sticker format type.")
             };
             var content = Add(File, "file", $"file.{extension}");
             content.Headers["Content-Type"] = contentType;

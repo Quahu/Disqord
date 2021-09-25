@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Utilities.Threading;
+using Qommon;
 
 namespace Disqord.Udp.Default
 {
@@ -21,7 +22,7 @@ namespace Disqord.Udp.Default
             var hostAddresses = await Dns.GetHostAddressesAsync(hostName).ConfigureAwait(false);
             var hostAddress = Array.Find(hostAddresses, x => x.AddressFamily == AddressFamily.InterNetwork);
             if (hostAddress == null)
-                throw new InvalidOperationException($"Could not resolve the UDP client's host '{hostName}'.");
+                Throw.InvalidOperationException($"Could not resolve the UDP client's host '{hostName}'.");
 
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             await _socket.ConnectAsync(hostAddress, port, cancellationToken).ConfigureAwait(false);
