@@ -187,7 +187,7 @@ namespace Disqord.Rest
             }, (client, guildId, limit, startFromId, options));
         }
 
-        public static Task<IReadOnlyList<IMember>> FetchMembersAsync(this IRestClient client, Snowflake guildId, int limit = 1000, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IMember>> FetchMembersAsync(this IRestClient client, Snowflake guildId, int limit = Discord.Limits.Rest.FetchMembersPageSize, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
 
@@ -198,7 +198,7 @@ namespace Disqord.Rest
                 return client.InternalFetchMembersAsync(guildId, limit, startFromId, options, cancellationToken);
 
             var enumerator = client.EnumerateMembers(guildId, limit, startFromId, options);
-            return enumerator.FlattenAsync();
+            return enumerator.FlattenAsync(cancellationToken);
         }
 
         internal static async Task<IReadOnlyList<IMember>> InternalFetchMembersAsync(this IRestClient client, Snowflake guildId, int limit, Snowflake? startFromId, IRestRequestOptions options, CancellationToken cancellationToken)
@@ -211,7 +211,7 @@ namespace Disqord.Rest
             });
         }
 
-        public static async Task<IReadOnlyList<IMember>> SearchMembersAsync(this IRestClient client, Snowflake guildId, string query, int limit = 1000, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IMember>> SearchMembersAsync(this IRestClient client, Snowflake guildId, string query, int limit = Discord.Limits.Rest.FetchMembersPageSize, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.SearchMembersAsync(guildId, query, limit, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList((client, guildId), static (x, tuple) =>

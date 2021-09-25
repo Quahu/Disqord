@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Rest.Pagination;
-using Qommon;
 
 namespace Disqord.Rest
 {
@@ -45,7 +44,7 @@ namespace Disqord.Rest
             return client.EnumerateMessages(channel.Id, limit, direction, startFromId, options);
         }
 
-        public static Task<IReadOnlyList<IMessage>> FetchMessagesAsync(this IMessageChannel channel, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IMessage>> FetchMessagesAsync(this IMessageChannel channel, int limit = Discord.Limits.Rest.FetchMessagesPageSize, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = channel.GetRestClient();
             return client.FetchMessagesAsync(channel.Id, limit, direction, startFromId, options, cancellationToken);
@@ -66,7 +65,7 @@ namespace Disqord.Rest
         public static Task<IUserMessage> CrosspostMessageAsync(this ITextChannel channel, Snowflake messageId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (!channel.IsNews)
-                Throw.ArgumentException("This text channel must be a news channel to have messages crossposted from it.", nameof(channel));
+                throw new ArgumentException("This text channel must be a news channel to have messages crossposted from it.", nameof(channel));
 
             var client = channel.GetRestClient();
             return client.CrosspostMessageAsync(channel.Id, messageId, options, cancellationToken);
@@ -96,7 +95,7 @@ namespace Disqord.Rest
             return client.EnumerateReactions(channel.Id, messageId, emoji, limit, startFromId, options);
         }
 
-        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IMessageChannel channel, Snowflake messageId, LocalEmoji emoji, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IMessageChannel channel, Snowflake messageId, LocalEmoji emoji, int limit = Discord.Limits.Rest.FetchReactionsPageSize, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = channel.GetRestClient();
             return client.FetchReactionsAsync(channel.Id, messageId, emoji, limit, startFromId, options, cancellationToken);
@@ -261,7 +260,7 @@ namespace Disqord.Rest
             return client.EnumeratePublicArchivedThreads(channel.Id, limit, startFromDate, options);
         }
 
-        public static Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreadsAsync(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreadsAsync(this ITextChannel channel, int limit = Discord.Limits.Rest.FetchThreadsPageSize, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = channel.GetRestClient();
             return client.FetchPublicArchivedThreadsAsync(channel.Id, limit, startFromDate, options, cancellationToken);
@@ -273,7 +272,7 @@ namespace Disqord.Rest
             return client.EnumeratePrivateArchivedThreads(channel.Id, limit, startFromDate, options);
         }
 
-        public static Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreadsAsync(this ITextChannel channel, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreadsAsync(this ITextChannel channel, int limit = Discord.Limits.Rest.FetchThreadsPageSize, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = channel.GetRestClient();
             return client.FetchPrivateArchivedThreadsAsync(channel.Id, limit, startFromDate, options, cancellationToken);
@@ -285,7 +284,7 @@ namespace Disqord.Rest
             return client.EnumerateJoinedPrivateArchivedThreads(channel.Id, limit, startFromId, options);
         }
 
-        public static Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreadsAsync(this ITextChannel channel, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreadsAsync(this ITextChannel channel, int limit = Discord.Limits.Rest.FetchThreadsPageSize, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = channel.GetRestClient();
             return client.FetchJoinedPrivateArchivedThreadsAsync(channel.Id, limit, startFromId, options, cancellationToken);

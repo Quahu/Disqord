@@ -40,9 +40,9 @@ namespace Disqord
                 public const int FetchGuildsPageSize = 100;
 
                 /// <summary>
-                ///     Represents the page size for fetching archived threads.
+                ///     Represents the page size for fetching threads.
                 /// </summary>
-                public const int FetchArchivedThreadsPageSize = 100;
+                public const int FetchThreadsPageSize = 100;
             }
         }
     }

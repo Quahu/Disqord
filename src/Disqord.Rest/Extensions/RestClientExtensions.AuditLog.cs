@@ -29,12 +29,12 @@ namespace Disqord.Rest
             }, (client, guildId, limit, actorId, startFromId, options));
 
         public static Task<IReadOnlyList<IAuditLog>> FetchAuditLogsAsync(this IRestClient client,
-            Snowflake guildId, int limit = 100, Snowflake? actorId = null, Snowflake? startFromId = null,
+            Snowflake guildId, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? actorId = null, Snowflake? startFromId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
             => client.FetchAuditLogsAsync<IAuditLog>(guildId, limit, actorId, startFromId, options, cancellationToken);
 
         public static Task<IReadOnlyList<TAuditLog>> FetchAuditLogsAsync<TAuditLog>(this IRestClient client,
-            Snowflake guildId, int limit = 100, Snowflake? actorId = null, Snowflake? startFromId = null,
+            Snowflake guildId, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? actorId = null, Snowflake? startFromId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
             where TAuditLog : class, IAuditLog
         {

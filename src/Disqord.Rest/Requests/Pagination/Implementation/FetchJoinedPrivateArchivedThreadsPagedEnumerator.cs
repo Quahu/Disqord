@@ -6,7 +6,7 @@ namespace Disqord.Rest
 {
     public class FetchJoinedPrivateArchivedThreadsPagedEnumerator : PagedEnumerator<IThreadChannel>
     {
-        public override int PageSize => Discord.Limits.Rest.FetchArchivedThreadsPageSize;
+        public override int PageSize => Discord.Limits.Rest.FetchThreadsPageSize;
 
         private readonly Snowflake _channelId;
         private readonly Snowflake? _startFromId;

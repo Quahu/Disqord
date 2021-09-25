@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Disqord.Http;
 using Disqord.Serialization.Json;
 using Qommon;

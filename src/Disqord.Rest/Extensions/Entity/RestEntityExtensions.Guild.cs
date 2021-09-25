@@ -20,10 +20,10 @@ namespace Disqord.Rest
             return client.EnumerateAuditLogs<TAuditLog>(guild.Id, limit, actorId, startFromId, options);
         }
 
-        public static Task<IReadOnlyList<IAuditLog>> FetchAuditLogsAsync(this IGuild guild, int limit = 100, Snowflake? actorId = null, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IAuditLog>> FetchAuditLogsAsync(this IGuild guild, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? actorId = null, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
             => guild.FetchAuditLogsAsync<IAuditLog>(limit, actorId, startFromId, options, cancellationToken);
 
-        public static Task<IReadOnlyList<TAuditLog>> FetchAuditLogsAsync<TAuditLog>(this IGuild guild, int limit = 100, Snowflake? actorId = null, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<TAuditLog>> FetchAuditLogsAsync<TAuditLog>(this IGuild guild, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? actorId = null, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
             where TAuditLog : class, IAuditLog
         {
             var client = guild.GetRestClient();
@@ -96,13 +96,13 @@ namespace Disqord.Rest
             return client.EnumerateMembers(guild.Id, limit, startFromId, options);
         }
 
-        public static Task<IReadOnlyList<IMember>> FetchMembersAsync(this IGuild guild, int limit = 1000, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IMember>> FetchMembersAsync(this IGuild guild, int limit = Discord.Limits.Rest.FetchMembersPageSize, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = guild.GetRestClient();
             return client.FetchMembersAsync(guild.Id, limit, startFromId, options, cancellationToken);
         }
 
-        public static Task<IReadOnlyList<IMember>> SearchMembersAsync(this IGuild guild, string query, int limit = 1000, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IMember>> SearchMembersAsync(this IGuild guild, string query, int limit = Discord.Limits.Rest.FetchMembersPageSize, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = guild.GetRestClient();
             return client.SearchMembersAsync(guild.Id, query, limit, options, cancellationToken);

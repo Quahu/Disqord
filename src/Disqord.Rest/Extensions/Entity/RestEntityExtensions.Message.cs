@@ -38,7 +38,7 @@ namespace Disqord.Rest
             return client.EnumerateReactions(message.ChannelId, message.Id, emoji, limit, startFromId, options);
         }
 
-        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IMessage message, LocalEmoji emoji, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IMessage message, LocalEmoji emoji, int limit = Discord.Limits.Rest.FetchReactionsPageSize, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = message.GetRestClient();
             return client.FetchReactionsAsync(message.ChannelId, message.Id, emoji, limit, startFromId, options, cancellationToken);

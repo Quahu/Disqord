@@ -147,7 +147,7 @@ namespace Disqord.Rest
             }, (client, channelId, limit, direction, startFromId, options));
         }
 
-        public static Task<IReadOnlyList<IMessage>> FetchMessagesAsync(this IRestClient client, Snowflake channelId, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IMessage>> FetchMessagesAsync(this IRestClient client, Snowflake channelId, int limit = Discord.Limits.Rest.FetchMessagesPageSize, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
 
@@ -256,7 +256,7 @@ namespace Disqord.Rest
             }, (client, channelId, messageId, emoji, limit, startFromId, options));
         }
 
-        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, int limit = Discord.Limits.Rest.FetchReactionsPageSize, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(emoji);
             Guard.IsGreaterThanOrEqualTo(limit, 0);
@@ -401,6 +401,7 @@ namespace Disqord.Rest
         /// <param name="isTemporaryMembership"></param>
         /// <param name="isUnique"></param>
         /// <param name="options"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public static async Task<IInvite> CreateInviteAsync(this IRestClient client, Snowflake channelId, TimeSpan maxAge = default, int maxUses = 0, bool isTemporaryMembership = false, bool isUnique = false, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
@@ -516,7 +517,7 @@ namespace Disqord.Rest
             }, (client, channelId, limit, startFromDate, options));
         }
 
-        public static async Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = Discord.Limits.Rest.FetchThreadsPageSize, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
 
@@ -547,7 +548,7 @@ namespace Disqord.Rest
             }, (client, channelId, limit, startFromDate, options));
         }
 
-        public static async Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = 100, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = Discord.Limits.Rest.FetchThreadsPageSize, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
 
@@ -578,7 +579,7 @@ namespace Disqord.Rest
             }, (client, channelId, limit, startFromId, options));
         }
 
-        public static async Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = 100, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = Discord.Limits.Rest.FetchThreadsPageSize, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
 

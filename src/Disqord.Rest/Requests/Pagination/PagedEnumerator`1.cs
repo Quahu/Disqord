@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Rest.Pagination;
-using Disqord.Utilities.Threading;
 using Qommon;
 
 namespace Disqord.Rest
