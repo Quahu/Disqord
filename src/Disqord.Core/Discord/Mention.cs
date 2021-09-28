@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Qommon;
 
 namespace Disqord
 {
+    /// <summary>
+    ///     Represents utilities for formatting and parsing Discord mentions.
+    /// </summary>
     public static class Mention
     {
         /// <summary>
@@ -18,16 +22,14 @@ namespace Disqord
 
         public static string User(IMember member)
         {
-            if (member == null)
-                throw new ArgumentNullException(nameof(member));
+            Guard.IsNotNull(member);
 
             return User(member.Id, member.Nick != null);
         }
 
         public static string User(IUser user)
         {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
+            Guard.IsNotNull(user);
 
             return User(user.Id, user is IMember member && member.Nick != null);
         }
@@ -37,8 +39,7 @@ namespace Disqord
 
         public static string Channel(IGuildChannel channel)
         {
-            if (channel == null)
-                throw new ArgumentNullException(nameof(channel));
+            Guard.IsNotNull(channel);
 
             return Channel(channel.Id);
         }
@@ -48,8 +49,7 @@ namespace Disqord
 
         public static string Role(IRole role)
         {
-            if (role == null)
-                throw new ArgumentNullException(nameof(role));
+            Guard.IsNotNull(role);
 
             return Role(role.Id);
         }
@@ -59,8 +59,7 @@ namespace Disqord
 
         public static bool TryParseUser(string value, out Snowflake result)
         {
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
+            Guard.IsNotNull(value);
 
             return TryParseUser(value.AsSpan(), out result);
         }
@@ -74,8 +73,7 @@ namespace Disqord
 
         public static bool TryParseChannel(string value, out Snowflake result)
         {
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
+            Guard.IsNotNull(value);
 
             return TryParseChannel(value.AsSpan(), out result);
         }
@@ -86,14 +84,13 @@ namespace Disqord
             return value.Length > 3
                 && value[0] == '<'
                 && value[1] == '#'
-                && value[value.Length - 1] == '>'
+                && value[^1] == '>'
                 && Snowflake.TryParse(value[2..^1], out result);
         }
 
         public static bool TryParseRole(string value, out Snowflake result)
         {
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
+            Guard.IsNotNull(value);
 
             return TryParseRole(value.AsSpan(), out result);
         }
@@ -105,7 +102,7 @@ namespace Disqord
                 && value[0] == '<'
                 && value[1] == '@'
                 && value[2] == '&'
-                && value[value.Length - 1] == '>'
+                && value[^1] == '>'
                 && Snowflake.TryParse(value[3..^1], out result);
         }
 
@@ -144,10 +141,9 @@ namespace Disqord
 
         public static string Escape(string input)
         {
-            if (input == null)
-                throw new ArgumentNullException(nameof(input));
+            Guard.IsNotNull(input);
 
-            return Regex.Replace(input, "@(everyone|here|[!&]?[0-9]{17,21})", x => $"@\u200b{x.Groups[1]}", RegexOptions.Compiled);
+            return Regex.Replace(input, "@(everyone|here|[!&]?[0-9]{17,21})", x => $"@\u200b{x.Groups[1]}");
         }
     }
 }

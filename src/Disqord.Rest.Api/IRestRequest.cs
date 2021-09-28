@@ -40,7 +40,7 @@ namespace Disqord.Rest.Api
         /// <returns>
         ///     The REST response.
         /// </returns>
-        Task<IRestResponse> WaitAsync();
+        Task<IRestResponse> WaitForCompletionAsync();
 
         /// <summary>
         ///     Completes this request with a response.

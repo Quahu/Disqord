@@ -1,5 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Qommon;
 
 namespace Disqord.Rest
 {
@@ -19,13 +19,15 @@ namespace Disqord.Rest
 
         public InteractionResponseHelper(IInteraction interaction)
         {
+            Guard.IsNotNull(interaction);
+
             Interaction = interaction;
         }
 
         private void ThrowIfResponded()
         {
             if (HasResponded)
-                throw new InvalidOperationException("This interaction has already been responded to.");
+                Throw.InvalidOperationException("This interaction has already been responded to.");
         }
 
         private void SetResponded(InteractionResponseType type)
@@ -37,7 +39,7 @@ namespace Disqord.Rest
         public async Task PongAsync(IRestRequestOptions options = null)
         {
             if (Interaction.Type != InteractionType.Ping)
-                throw new InvalidOperationException("The interaction type must be a ping to pong it.");
+                Throw.InvalidOperationException("The interaction type must be a ping to pong it.");
 
             ThrowIfResponded();
             var client = Interaction.GetRestClient();
@@ -57,6 +59,7 @@ namespace Disqord.Rest
             var client = Interaction.GetRestClient();
             await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, new LocalInteractionResponse(InteractionResponseType.DeferredChannelMessage)
                 .WithIsEphemeral(isEphemeral), options).ConfigureAwait(false);
+
             SetResponded(InteractionResponseType.DeferredChannelMessage);
         }
 
@@ -67,8 +70,10 @@ namespace Disqord.Rest
             var responseType = deferViaMessageUpdate
                 ? InteractionResponseType.DeferredMessageUpdate
                 : InteractionResponseType.DeferredChannelMessage;
+
             await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, new LocalInteractionResponse(responseType)
                 .WithIsEphemeral(isEphemeral), options).ConfigureAwait(false);
+
             SetResponded(responseType);
         }
 

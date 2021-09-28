@@ -23,7 +23,7 @@ namespace Disqord.Gateway
         public static Task SetPresenceAsync(this IGatewayClient client, UserStatus status, LocalActivity activity, CancellationToken cancellationToken = default)
             => client.InternalSetPresenceAsync(status, activity != null ? new[] { activity } : null, cancellationToken);
 
-        private static Task InternalSetPresenceAsync(this IGatewayClient client, Optional<UserStatus> status, Optional<IEnumerable<LocalActivity>> activities, CancellationToken cancellationToken = default)
+        private static Task InternalSetPresenceAsync(this IGatewayClient client, Optional<UserStatus> status, Optional<IEnumerable<LocalActivity>> activities, CancellationToken cancellationToken)
             => Task.WhenAll(client.Shards.Values.Select(x => x.InternalSetPresenceAsync(status, activities, cancellationToken)));
 
         public static Task SetPresenceAsync(this IGatewayApiClient shard, UserStatus status, CancellationToken cancellationToken = default)
@@ -38,7 +38,7 @@ namespace Disqord.Gateway
         public static Task SetPresenceAsync(this IGatewayApiClient shard, UserStatus status, LocalActivity activity, CancellationToken cancellationToken = default)
             => shard.InternalSetPresenceAsync(status, activity != null ? new[] { activity } : null, cancellationToken);
 
-        private static Task InternalSetPresenceAsync(this IGatewayApiClient shard, Optional<UserStatus> status, Optional<IEnumerable<LocalActivity>> activities, CancellationToken cancellationToken = default)
+        private static Task InternalSetPresenceAsync(this IGatewayApiClient shard, Optional<UserStatus> status, Optional<IEnumerable<LocalActivity>> activities, CancellationToken cancellationToken)
         {
             var presence = shard.Presence;
             if (presence == null)

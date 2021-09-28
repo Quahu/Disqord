@@ -1,5 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using Qommon;
 
 namespace Disqord.Rest
 {
@@ -14,7 +14,7 @@ namespace Disqord.Rest
         public static InteractionFollowupHelper Followup(this IInteraction interaction)
         {
             if (!InitialInteractionResponseHelpers.TryGetValue(interaction, out var helper) || !helper.HasResponded)
-                throw new InvalidOperationException("You must first respond to an interaction in order to use followups.");
+                Throw.InvalidOperationException("You must first respond to the interaction in order to use followups.");
 
             return FollowupInteractionResponseHelpers.GetValue(interaction, interaction => new InteractionFollowupHelper(interaction));
         }

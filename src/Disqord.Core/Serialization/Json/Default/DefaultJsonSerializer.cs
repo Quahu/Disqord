@@ -35,6 +35,7 @@ namespace Disqord.Serialization.Json.Default
 
             UnderlyingSerializer = new JsonSerializer
             {
+                DateParseHandling = DateParseHandling.None,
                 ContractResolver = new ContractResolver(this)
             };
         }

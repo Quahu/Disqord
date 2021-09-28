@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Qommon;
 
 namespace Disqord.Rest.Api
 {
@@ -21,14 +21,9 @@ namespace Disqord.Rest.Api
 
         public FormattedRoute(Route baseRoute, string path, RouteParameters parameters)
         {
-            if (baseRoute == null)
-                throw new ArgumentNullException(nameof(baseRoute));
-
-            if (path == null)
-                throw new ArgumentNullException(nameof(path));
-
-            if (parameters == null)
-                throw new ArgumentNullException(nameof(parameters));
+            Guard.IsNotNull(baseRoute);
+            Guard.IsNotNull(path);
+            Guard.IsNotNull(parameters);
 
             BaseRoute = baseRoute;
             Path = path;

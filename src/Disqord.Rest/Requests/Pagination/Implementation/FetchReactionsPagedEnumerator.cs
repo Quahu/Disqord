@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Disqord.Rest
 {
-    internal sealed class FetchReactionsPagedEnumerator : PagedEnumerator<IUser>
+    public class FetchReactionsPagedEnumerator : PagedEnumerator<IUser>
     {
-        public override int PageSize => 100;
+        public override int PageSize => Discord.Limits.Rest.FetchReactionsPageSize;
 
         private readonly Snowflake _channelId;
         private readonly Snowflake _messageId;
@@ -16,8 +16,9 @@ namespace Disqord.Rest
         public FetchReactionsPagedEnumerator(
             IRestClient client,
             Snowflake channelId, Snowflake messageId, LocalEmoji emoji, int limit, Snowflake? startFromId,
-            IRestRequestOptions options)
-            : base(client, limit, options)
+            IRestRequestOptions options,
+            CancellationToken cancellationToken)
+            : base(client, limit, options, cancellationToken)
         {
             _channelId = channelId;
             _messageId = messageId;
@@ -25,14 +26,14 @@ namespace Disqord.Rest
             _startFromId = startFromId;
         }
 
-        [SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Passed via constructor, method is not exposed to the user.")]
-        protected override Task<IReadOnlyList<IUser>> NextPageAsync(IReadOnlyList<IUser> previousPage, IRestRequestOptions options = null)
+        protected override Task<IReadOnlyList<IUser>> NextPageAsync(
+            IReadOnlyList<IUser> previousPage, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var startFromId = _startFromId;
             if (previousPage != null && previousPage.Count > 0)
                 startFromId = previousPage[^1].Id;
 
-            return Client.InternalFetchReactionsAsync(_channelId, _messageId, _emoji, NextAmount, startFromId, options);
+            return Client.InternalFetchReactionsAsync(_channelId, _messageId, _emoji, NextPageSize, startFromId, options, cancellationToken);
         }
     }
 }

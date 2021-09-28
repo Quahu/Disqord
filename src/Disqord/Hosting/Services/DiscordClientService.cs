@@ -93,15 +93,20 @@ namespace Disqord.Hosting
                 return Task.CompletedTask;
 
             _cts = Cts.Linked(cancellationToken);
+            var stoppingToken = _cts.Token;
             _executeTask = Task.Run(async () =>
             {
                 try
                 {
-                    await ExecuteAsync(_cts.Token).ConfigureAwait(false);
+                    await ExecuteAsync(stoppingToken).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException ex) when (ex.CancellationToken == stoppingToken)
+                {
+                    // Ignore cancellation exceptions caused by the stopping token.
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogError(ex, "An exception occurred while executing {0}.", GetType().Name);
+                    Logger.LogError(ex, "An exception occurred while executing service {0}.", GetType().Name);
                     throw;
                 }
             }, cancellationToken);

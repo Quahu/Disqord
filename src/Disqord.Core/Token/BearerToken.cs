@@ -5,8 +5,8 @@
     /// </summary>
     public sealed class BearerToken : Token
     {
-        internal BearerToken(string value)
-            : base(value)
+        internal BearerToken(string token)
+            : base(token)
         { }
 
         /// <inheritdoc/>

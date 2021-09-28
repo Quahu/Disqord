@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Utilities.Threading;
-using Microsoft.Extensions.Logging;
 
 namespace Disqord.Rest.Repetition
 {
@@ -22,7 +21,7 @@ namespace Disqord.Rest.Repetition
         public IRestClient Client { get; }
 
         /// <summary>
-        ///     Gets the initial request options passed.
+        ///     Gets the request options passed initially to the method that created the repeater.
         /// </summary>
         public IRestRequestOptions Options { get; }
 
@@ -33,41 +32,34 @@ namespace Disqord.Rest.Repetition
         /// </summary>
         /// <param name="client"> The client to execute the requests with. </param>
         /// <param name="options"> The optional request options. </param>
-        protected Repeater(IRestClient client, IRestRequestOptions options = null)
+        /// <param name="cancellationToken"> The cancellation token to observe. </param>
+        protected Repeater(IRestClient client, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Client = client;
             Options = options;
 
-            _cts = new Cts();
-            _ = Task.Run(RunAsync);
+            _cts = Cts.Linked(cancellationToken);
+            _ = Task.Run(RunAsync, cancellationToken);
         }
 
         /// <summary>
-        ///     Finalizes this <see cref="Repeater"/>.
+        ///     The callback method executed at the set <see cref="Interval"/>.
         /// </summary>
-        ~Repeater()
-        {
-            Dispose();
-
-            // This is VERY far-fetched. For removal, probably.
-            Client.Logger.LogWarning("The finalizer for {0} was executed. Repeaters should be properly disposed instead.", GetType().Name);
-        }
-
-        /// <summary>
-        ///     
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="cancellationToken"> The cancellation token to observe. </param>
+        /// <returns>
+        ///     A <see cref="Task"/> representing the asynchronous work.
+        /// </returns>
         protected abstract Task ExecuteAsync(CancellationToken cancellationToken);
 
         private async Task RunAsync()
         {
             await Task.Yield();
-            var token = _cts.Token;
-            while (!token.IsCancellationRequested)
+
+            var cancellationToken = _cts.Token;
+            while (!cancellationToken.IsCancellationRequested)
             {
-                await ExecuteAsync(token);
-                await Task.Delay(Interval, token);
+                await ExecuteAsync(cancellationToken);
+                await Task.Delay(Interval, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -76,7 +68,6 @@ namespace Disqord.Rest.Repetition
         {
             _cts.Cancel();
             _cts.Dispose();
-            GC.SuppressFinalize(this);
         }
     }
 }

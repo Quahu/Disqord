@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Qommon;
 
 namespace Disqord.Rest.Api
 {
@@ -31,11 +32,11 @@ namespace Disqord.Rest.Api
                 foreach (var parameter in queryParameters)
                 {
                     if (string.IsNullOrWhiteSpace(parameter.Key))
-                        throw new ArgumentException("Query parameters must not contain null or whitespace keys.");
+                        Throw.ArgumentException("Query parameters must not contain null or whitespace keys.");
 
                     var value = parameter.Value;
                     if (value == null)
-                        throw new ArgumentException("Query parameters must not contain null values.");
+                        Throw.ArgumentException("Query parameters must not contain null values.");
 
                     builder.Append(first ? '?' : '&');
                     builder.Append(parameter.Key);
@@ -66,14 +67,14 @@ namespace Disqord.Rest.Api
         string ICustomFormatter.Format(string format, object arg, IFormatProvider formatProvider)
         {
             if (string.IsNullOrWhiteSpace(format))
-                throw new FormatException($"No format specified for route parameter '{arg}'.");
+                Throw.FormatException($"No format specified for route parameter '{arg}'.");
 
             if (!Parameters.TryAdd(format, arg))
-                throw new FormatException($"Multiple route parameters with the name '{format}' found.");
+                Throw.FormatException($"Multiple route parameters with the name '{format}' found.");
 
             var argString = arg.ToString();
             if (string.IsNullOrWhiteSpace(argString))
-                throw new FormatException("The format argument must not return a null or whitespace string.");
+                Throw.FormatException("The format argument must not return a null or whitespace string.");
 
             return Uri.EscapeDataString(argString);
         }

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
+using Qommon;
 
 namespace Disqord
 {
@@ -102,10 +102,9 @@ namespace Disqord
                 return FormatUrl(path, format, size);
             }
 
-            public static string GetStickerUrl(Snowflake stickerId, StickerFormatType format = default)
+            public static string GetStickerUrl(Snowflake stickerId, StickerFormatType format = StickerFormatType.Png)
             {
-                var stringBuilder = new StringBuilder(BaseAddress);
-                stringBuilder.Append($"stickers/{stickerId}");
+                Guard.IsDefined(format);
 
                 var formatString = format switch
                 {
@@ -113,17 +112,18 @@ namespace Disqord
                     _ => "png"
                 };
 
-                stringBuilder.Append('.').Append(formatString);
-                return stringBuilder.ToString();
+                return $"{BaseAddress}stickers/{stickerId}.{formatString}";
             }
 
             private static string FormatUrl(string path, CdnAssetFormat format, int? size)
             {
+                Guard.IsDefined(format);
+
                 if (size != null)
                 {
                     var value = size.Value;
                     if (value < 16 || value > 2048 || (value & -value) != value)
-                        throw new ArgumentOutOfRangeException(nameof(size), "Size must be a power of 2 between 16 and 2048.");
+                        Throw.ArgumentOutOfRangeException(nameof(size), "Size must be a power of 2 between 16 and 2048.");
                 }
 
                 if (format == CdnAssetFormat.Automatic)
@@ -160,7 +160,7 @@ namespace Disqord
                     CdnAssetFormat.Jpg => "jpg",
                     CdnAssetFormat.WebP => "webp",
                     CdnAssetFormat.Gif => "gif",
-                    _ => throw new ArgumentOutOfRangeException(nameof(format), "Unknown CDN asset format."),
+                    _ => Throw.ArgumentOutOfRangeException<string>(nameof(format), "Unknown CDN asset format."),
                 };
         }
     }

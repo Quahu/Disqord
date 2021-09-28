@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Qommon.Collections.Synchronized;
 using Disqord.Gateway.Api.Models;
-using Qommon.Binding;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Qommon;
+using Qommon.Binding;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Default
 {
@@ -94,7 +95,7 @@ namespace Disqord.Gateway.Default
             var model = new RequestMembersJsonModel
             {
                 GuildId = guild.Id,
-                Query = "",
+                Query = string.Empty,
                 Limit = 0
             };
 
@@ -102,13 +103,10 @@ namespace Disqord.Gateway.Default
             return true;
         }
 
-        public ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, string query, int limit = 100, CancellationToken cancellationToken = default)
+        public ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, string query, int limit = Discord.Limits.Gateway.QueryMembersLimit, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(query))
-                throw new ArgumentNullException(nameof(query));
-
-            if (limit == 0 || limit > 100)
-                throw new ArgumentOutOfRangeException(nameof(limit));
+            Guard.IsNotNull(query);
+            Guard.IsBetweenOrEqualTo(limit, 0, Discord.Limits.Gateway.QueryMembersLimit);
 
             var model = new RequestMembersJsonModel
             {
@@ -122,15 +120,15 @@ namespace Disqord.Gateway.Default
         public ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, IEnumerable<Snowflake> memberIds, CancellationToken cancellationToken = default)
         {
             var ids = memberIds.ToArray();
-            if (ids.Length == 0 || ids.Length > 100)
-                throw new ArgumentOutOfRangeException(nameof(memberIds));
+            Guard.HasSizeGreaterThanOrEqualTo(ids, 1, nameof(memberIds));
+            Guard.HasSizeLessThanOrEqualTo(ids, Discord.Limits.Gateway.QueryMembersLimit, nameof(memberIds));
 
             var model = new RequestMembersJsonModel
             {
                 GuildId = guildId,
                 // Since the gateway is clowning around and not sending back the nonce for small limits
                 // or whatever, let's just ask for the max limit always.
-                Limit = 100,
+                Limit = Discord.Limits.Gateway.QueryMembersLimit,
                 UserIds = ids
             };
             return InternalOperationAsync(model, true, cancellationToken);
@@ -182,13 +180,13 @@ namespace Disqord.Gateway.Default
 
             public void AddMembers(IReadOnlyList<IMember> members)
             {
-                if (_members != null)
+                if (_members == null)
+                    return;
+
+                for (var i = 0; i < members.Count; i++)
                 {
-                    for (var i = 0; i < members.Count; i++)
-                    {
-                        var member = members[i];
-                        _members.Add(member.Id, member);
-                    }
+                    var member = members[i];
+                    _members.Add(member.Id, member);
                 }
             }
 

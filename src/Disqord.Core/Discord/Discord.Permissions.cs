@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Disqord.Utilities;
+using Qommon;
 
 namespace Disqord
 {
@@ -24,14 +24,13 @@ namespace Disqord
 
             public static ChannelPermissions CalculatePermissions(IGuild guild, IGuildChannel channel, IMember member, IEnumerable<IRole> roles)
             {
-                if (channel == null)
-                    throw new ArgumentNullException(nameof(channel));
-
-                if (member == null)
-                    throw new ArgumentNullException(nameof(member));
+                Guard.IsNotNull(guild);
+                Guard.IsNotNull(channel);
+                Guard.IsNotNull(member);
+                Guard.IsNotNull(roles);
 
                 if (member.GuildId != channel.GuildId)
-                    throw new InvalidOperationException("The entities must be from the same guild.");
+                    Throw.InvalidOperationException("The entities must be from the same guild.");
 
                 var guildPermissions = CalculatePermissions(guild, member, roles);
                 if (guildPermissions.Administrator)
@@ -77,17 +76,12 @@ namespace Disqord
 
             public static GuildPermissions CalculatePermissions(IGuild guild, IMember member, IEnumerable<IRole> roles)
             {
-                if (guild == null)
-                    throw new ArgumentNullException(nameof(guild));
-
-                if (member == null)
-                    throw new ArgumentNullException(nameof(member));
-
-                if (roles == null)
-                    throw new ArgumentNullException(nameof(roles));
+                Guard.IsNotNull(guild);
+                Guard.IsNotNull(member);
+                Guard.IsNotNull(roles);
 
                 if (guild.Id != member.GuildId)
-                    throw new InvalidOperationException("The entities must be from the same guild.");
+                    Throw.InvalidOperationException("The entities must be from the same guild.");
 
                 if (guild.OwnerId == member.Id)
                     return GuildPermissions.All;
@@ -100,8 +94,7 @@ namespace Disqord
 
             public static GuildPermissions SumPermissions(IEnumerable<IRole> roles)
             {
-                if (roles == null)
-                    throw new ArgumentNullException(nameof(roles));
+                Guard.IsNotNull(roles);
 
                 return roles.Aggregate(GuildPermissions.None, (permissions, role) => permissions + role.Permissions);
             }

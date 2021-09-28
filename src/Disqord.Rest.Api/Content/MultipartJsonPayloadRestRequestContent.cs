@@ -4,6 +4,7 @@ using Disqord.Http;
 using Disqord.Http.Default;
 using Disqord.Serialization.Json;
 using Disqord.Serialization.Json.Default;
+using Qommon;
 
 namespace Disqord.Rest.Api
 {
@@ -37,8 +38,10 @@ namespace Disqord.Rest.Api
 
         private static void ValidateStream(IJsonSerializer serializer, Stream stream)
         {
+            Guard.CanRead(stream);
+
             if (stream.CanSeek && stream.Length != 0 && stream.Position == stream.Length)
-                throw new InvalidDataException("The attachment stream's position is the same as its length. Did you forget to rewind it?");
+                Throw.InvalidDataException("The attachment stream's position is the same as its length. Did you forget to rewind it?");
 
             if (serializer is DefaultJsonSerializer jsonSerializer)
             {

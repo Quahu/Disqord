@@ -42,7 +42,7 @@ namespace Disqord.Rest.Api.Default
         }
 
         /// <inheritdoc/>
-        public Task<IRestResponse> WaitAsync()
+        public Task<IRestResponse> WaitForCompletionAsync()
             => _tcs.Task;
 
         /// <inheritdoc/>

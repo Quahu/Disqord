@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Disqord.Rest.Pagination
@@ -6,8 +7,8 @@ namespace Disqord.Rest.Pagination
     /// <summary>
     ///     Represents an asynchronous enumerator that handles REST request pagination.
     /// </summary>
-    /// <typeparam name="TEntity"> The paged entity type. </typeparam>
-    public interface IPagedEnumerator<TEntity> : IAsyncEnumerator<IReadOnlyList<TEntity>>
+    /// <typeparam name="TEntity"> The type of the paged entities. </typeparam>
+    public interface IPagedEnumerator<out TEntity> : IAsyncEnumerator<IReadOnlyList<TEntity>>
     {
         /// <summary>
         ///     Gets the constant page size (per-request entity count).
@@ -20,14 +21,19 @@ namespace Disqord.Rest.Pagination
         IRestClient Client { get; }
 
         /// <summary>
-        ///     Gets the remaining amount of entities.
+        ///     Gets the amount of remaining entities.
         /// </summary>
-        int Remaining { get; }
+        int RemainingCount { get; }
 
         /// <summary>
-        ///     Gets the default <see cref="IRestRequestOptions"/> for each request.
+        ///     Gets the default request options for each request.
         /// </summary>
         IRestRequestOptions Options { get; }
+
+        /// <summary>
+        ///     Gets the cancellation token passed when requesting this enumerator from the enumerable.
+        /// </summary>
+        CancellationToken CancellationToken { get; }
 
         /// <summary>
         ///     Executes the next REST request and sets the next page.

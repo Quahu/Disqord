@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using Disqord.Rest.Api;
 using Disqord.Rest.Api.Default;
 
@@ -11,11 +10,6 @@ namespace Disqord.Rest
     /// </summary>
     public class DefaultRestRequestOptions : IRestRequestOptions
     {
-        /// <summary>
-        ///     Gets or sets the cancellation token for the request.
-        /// </summary>
-        public CancellationToken CancellationToken { get; set; }
-
         /// <inheritdoc/>
         public string Reason
         {

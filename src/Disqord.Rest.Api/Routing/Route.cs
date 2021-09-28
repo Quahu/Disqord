@@ -1,5 +1,6 @@
 ﻿using System;
 using Disqord.Http;
+using Qommon;
 
 namespace Disqord.Rest.Api
 {
@@ -26,11 +27,11 @@ namespace Disqord.Rest.Api
         /// <param name="path"> The formattable relative path. </param>
         public Route(HttpRequestMethod method, string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-                throw new ArgumentNullException(nameof(path));
+            Guard.IsDefined(method);
+            Guard.IsNotNullOrWhiteSpace(path);
 
             if (path.StartsWith('/'))
-                throw new FormatException("The path must be a relative path with no leading slash.");
+                Throw.FormatException("The path must be a relative path with no leading slash.");
 
             Method = method;
             Path = path;
@@ -43,6 +44,6 @@ namespace Disqord.Rest.Api
             => obj is Route route && Method == route.Method && Path == route.Path;
 
         public override string ToString()
-            => $"{Method}/ {Path}";
+            => $"{Method}|{Path}";
     }
 }

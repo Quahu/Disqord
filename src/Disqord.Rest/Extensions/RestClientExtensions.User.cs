@@ -1,25 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
-using Qommon.Collections;
 using Disqord.Rest.Api;
 using Disqord.Rest.Pagination;
+using Qommon;
+using Qommon.Collections;
 
 namespace Disqord.Rest
 {
     public static partial class RestClientExtensions
     {
-        public static async Task<ICurrentUser> FetchCurrentUserAsync(this IRestClient client, IRestRequestOptions options = null)
+        public static async Task<ICurrentUser> FetchCurrentUserAsync(this IRestClient client,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var model = await client.ApiClient.FetchCurrentUserAsync(options).ConfigureAwait(false);
+            var model = await client.ApiClient.FetchCurrentUserAsync(options, cancellationToken).ConfigureAwait(false);
             return new TransientCurrentUser(client, model);
         }
 
-        public static async Task<IRestUser> FetchUserAsync(this IRestClient client, Snowflake userId, IRestRequestOptions options = null)
+        public static async Task<IRestUser> FetchUserAsync(this IRestClient client,
+            Snowflake userId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             try
             {
-                var model = await client.ApiClient.FetchUserAsync(userId, options).ConfigureAwait(false);
+                var model = await client.ApiClient.FetchUserAsync(userId, options, cancellationToken).ConfigureAwait(false);
                 return new TransientRestUser(client, model);
             }
             catch (RestApiException ex) when (ex.ErrorModel.Code == RestApiErrorCode.UnknownUser)
@@ -28,8 +33,12 @@ namespace Disqord.Rest
             }
         }
 
-        public static async Task<ICurrentUser> ModifyCurrentUserAsync(this IRestClient client, Action<ModifyCurrentUserActionProperties> action, IRestRequestOptions options = null)
+        public static async Task<ICurrentUser> ModifyCurrentUserAsync(this IRestClient client,
+            Action<ModifyCurrentUserActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
+            Guard.IsNotNull(action);
+
             var properties = new ModifyCurrentUserActionProperties();
             action(properties);
             var content = new ModifyCurrentUserJsonRestRequestContent
@@ -38,38 +47,57 @@ namespace Disqord.Rest
                 Avatar = properties.Avatar
             };
 
-            var model = await client.ApiClient.ModifyCurrentUserAsync(content, options).ConfigureAwait(false);
+            var model = await client.ApiClient.ModifyCurrentUserAsync(content, options, cancellationToken).ConfigureAwait(false);
             return new TransientCurrentUser(client, model);
         }
 
-        public static IPagedEnumerable<IPartialGuild> EnumerateGuilds(this IRestClient client, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IPartialGuild> EnumerateGuilds(this IRestClient client,
+            int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null,
+            IRestRequestOptions options = null)
         {
-            var enumerator = new FetchGuildsPagedEnumerator(client, limit, direction, startFromId, options);
-            return new PagedEnumerable<IPartialGuild>(enumerator);
+            Guard.IsGreaterThanOrEqualTo(limit, 0);
+
+            return PagedEnumerable.Create((state, cancellationToken) =>
+            {
+                var (client, limit, direction, startFromId, options) = state;
+                return new FetchGuildsPagedEnumerator(client, limit, direction, startFromId, options, cancellationToken);
+            }, (client, limit, direction, startFromId, options));
         }
 
-        public static Task<IReadOnlyList<IPartialGuild>> FetchGuildsAsync(this IRestClient client, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static Task<IReadOnlyList<IPartialGuild>> FetchGuildsAsync(this IRestClient client,
+            int limit = Discord.Limits.Rest.FetchGuildsPageSize, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
+            Guard.IsGreaterThanOrEqualTo(limit, 0);
+
             if (limit == 0)
                 return Task.FromResult(ReadOnlyList<IPartialGuild>.Empty);
 
-            if (limit <= 100)
-                return client.InternalFetchGuildsAsync(limit, direction, startFromId, options);
+            if (limit <= Discord.Limits.Rest.FetchGuildsPageSize)
+                return client.InternalFetchGuildsAsync(limit, direction, startFromId, options, cancellationToken);
 
             var enumerable = client.EnumerateGuilds(limit, direction, startFromId, options);
-            return enumerable.FlattenAsync();
+            return enumerable.FlattenAsync(cancellationToken);
         }
 
-        internal static async Task<IReadOnlyList<IPartialGuild>> InternalFetchGuildsAsync(this IRestClient client, int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        internal static async Task<IReadOnlyList<IPartialGuild>> InternalFetchGuildsAsync(this IRestClient client,
+            int limit, RetrievalDirection direction, Snowflake? startFromId,
+            IRestRequestOptions options, CancellationToken cancellationToken)
         {
-            var models = await client.ApiClient.FetchGuildsAsync(limit, direction, startFromId, options).ConfigureAwait(false);
+            var models = await client.ApiClient.FetchGuildsAsync(limit, direction, startFromId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (x, client) => new TransientPartialGuild(client, x));
         }
 
-        public static Task LeaveGuildAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null)
-            => client.ApiClient.LeaveGuildAsync(guildId, options);
+        public static Task LeaveGuildAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.LeaveGuildAsync(guildId, options, cancellationToken);
+        }
 
-        public static async Task<IDirectChannel> CreateDirectChannelAsync(this IRestClient client, Snowflake userId, IRestRequestOptions options = null)
+        public static async Task<IDirectChannel> CreateDirectChannelAsync(this IRestClient client,
+            Snowflake userId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var channels = client.DirectChannels;
             if (channels != null && channels.TryGetValue(userId, out var cachedChannel))
@@ -80,7 +108,7 @@ namespace Disqord.Rest
                 RecipientId = userId
             };
 
-            var model = await client.ApiClient.CreateDirectChannelAsync(content, options).ConfigureAwait(false);
+            var model = await client.ApiClient.CreateDirectChannelAsync(content, options, cancellationToken).ConfigureAwait(false);
             var channel = new TransientDirectChannel(client, model);
 
             if (channels != null && !channels.IsReadOnly)
@@ -89,9 +117,10 @@ namespace Disqord.Rest
             return channel;
         }
 
-        //public static async Task<IReadOnlyList<IConnection>> FetchConnectionsAsync(this IRestClient client, IRestRequestOptions options = null)
+        //public static async Task<IReadOnlyList<IConnection>> FetchConnectionsAsync(this IRestClient client,
+        //    IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         //{
-        //    var models = await client.ApiClient.FetchConnectionsAsync(options).ConfigureAwait(false);
+        //    var models = await client.ApiClient.FetchConnectionsAsync(options, cancellationToken).ConfigureAwait(false);
         //    return models.ToReadOnlyList(client, (x, client) => new TransientConnection(client, x));
         //}
     }

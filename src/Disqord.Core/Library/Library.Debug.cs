@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using Qommon;
 
 namespace Disqord
 {
@@ -16,8 +17,7 @@ namespace Disqord
                 get => _dumpWriter;
                 set
                 {
-                    if (value == null)
-                        throw new ArgumentNullException(nameof(value));
+                    Guard.IsNotNull(value);
 
                     _dumpWriter = value;
                 }

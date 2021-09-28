@@ -1,18 +1,16 @@
-using System;
 using System.Text.RegularExpressions;
 using Qommon;
 
 namespace Disqord
 {
     /// <summary>
-    ///     Provides various Discord utilities.
+    ///     Represents various Discord constants and utilities.
     /// </summary>
     public static partial class Discord
     {
         public static string GetReactionFormat(this IEmoji emoji)
         {
-            if (emoji == null)
-                throw new ArgumentNullException(nameof(emoji));
+            Guard.IsNotNull(emoji);
 
             return emoji is ICustomEmoji customEmoji
                 ? $"{customEmoji.Name ?? "_"}:{customEmoji.Id}"

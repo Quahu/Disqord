@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using Disqord.Extensions.Interactivity.Menus;
 using Disqord.Extensions.Interactivity.Menus.Paged;
-using Disqord.Rest;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Qmmands;
@@ -32,16 +30,6 @@ namespace Disqord.Bot
 
         /// <inheritdoc cref="DiscordCommandContext.Bot"/>
         protected virtual DiscordBotBase Bot => Context.Bot;
-
-        /// <summary>
-        ///     Gets the <see cref="DiscordCommandContext.Bot"/>'s stopping token.
-        /// </summary>
-        protected virtual CancellationToken StoppingToken => Context.Bot.StoppingToken;
-
-        /// <summary>
-        ///     Gets a new instance of <see cref="DefaultRestRequestOptions"/> configured with the <see cref="StoppingToken"/>.
-        /// </summary>
-        protected virtual IRestRequestOptions RequestOptions => new DefaultRestRequestOptions().WithCancellation(StoppingToken);
 
         /// <summary>
         ///     Initializes a new <see cref="DiscordModuleBase"/>.
@@ -144,7 +132,7 @@ namespace Disqord.Bot
         protected virtual DiscordReactionCommandResult Reaction(LocalEmoji emoji)
             => new(Context, emoji);
 
-        /// <inheritdoc cref="Pages(IEnumerable{Page},TimeSpan)"/>
+        /// <inheritdoc cref="Pages(System.Collections.Generic.IEnumerable{Disqord.Extensions.Interactivity.Menus.Paged.Page},TimeSpan)"/>
         protected virtual DiscordMenuCommandResult Pages(params Page[] pages)
             => Pages(pages as IEnumerable<Page>);
 

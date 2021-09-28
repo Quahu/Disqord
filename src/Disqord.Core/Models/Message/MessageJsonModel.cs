@@ -1,5 +1,4 @@
 ﻿using System;
-using Disqord.Api;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Models

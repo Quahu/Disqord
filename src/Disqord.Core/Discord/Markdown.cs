@@ -6,12 +6,12 @@ using Qommon.Collections;
 namespace Disqord
 {
     /// <summary>
-    ///     Represents utility methods related to Discord's Markdown.
+    ///     Represents utility methods for Discord's Markdown syntax.
     /// </summary>
     public static class Markdown
     {
         /// <summary>
-        ///     The set containing the escaped markdown characters.
+        ///     The set containing the markdown characters that get escaped by <see cref="Escape(string)"/>.
         /// </summary>
         public static readonly IReadOnlySet<char> EscapedCharacters = new HashSet<char>(5)
         {
@@ -101,7 +101,7 @@ namespace Disqord
 
         // ```language\ncode```
         public static string CodeBlock(string language, object value)
-            => CodeBlock(language, (value?.ToString()));
+            => CodeBlock(language, value?.ToString());
 
         public static string CodeBlock(string language, string code)
             => CodeBlock(language.AsSpan(), code.AsSpan());

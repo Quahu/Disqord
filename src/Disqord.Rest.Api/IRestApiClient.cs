@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Disqord.Api;
 using Disqord.Serialization.Json;
 
@@ -12,8 +13,9 @@ namespace Disqord.Rest.Api
 
         IJsonSerializer Serializer { get; }
 
-        Task ExecuteAsync(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null);
+        Task ExecuteAsync(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default);
 
-        Task<TModel> ExecuteAsync<TModel>(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null) where TModel : class;
+        Task<TModel> ExecuteAsync<TModel>(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+            where TModel : class;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Models;
 
@@ -6,7 +7,9 @@ namespace Disqord.Rest.Api
 {
     public static partial class RestApiClientExtensions
     {
-        public static Task<AuditLogJsonModel> FetchAuditLogsAsync(this IRestApiClient client, Snowflake guildId, int limit = 100, Snowflake? userId = null, AuditLogActionType? type = null, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static Task<AuditLogJsonModel> FetchAuditLogsAsync(this IRestApiClient client,
+            Snowflake guildId, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? userId = null, AuditLogActionType? type = null, Snowflake? startFromId = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -23,7 +26,7 @@ namespace Disqord.Rest.Api
                 parameters["before"] = startFromId.Value;
 
             var route = Format(Route.AuditLog.GetAuditLogs, parameters, guildId);
-            return client.ExecuteAsync<AuditLogJsonModel>(route, null, options);
+            return client.ExecuteAsync<AuditLogJsonModel>(route, null, options, cancellationToken);
         }
     }
 }

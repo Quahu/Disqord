@@ -7,22 +7,7 @@ namespace Disqord.DependencyInjection.Extensions
     internal static class ServiceCollectionExtensions
     {
         public static Type GetImplementationType(this ServiceDescriptor descriptor)
-        {
-            if (descriptor.ImplementationType != null)
-            {
-                return descriptor.ImplementationType;
-            }
-            else if (descriptor.ImplementationInstance != null)
-            {
-                return descriptor.ImplementationInstance.GetType();
-            }
-            else if (descriptor.ImplementationFactory != null)
-            {
-                return descriptor.ImplementationFactory.GetType().GenericTypeArguments[1];
-            }
-
-            return null;
-        }
+            => descriptor.ImplementationType ?? (descriptor.ImplementationInstance?.GetType() ?? descriptor.ImplementationFactory?.GetType().GenericTypeArguments[1]);
 
         public static bool TryAdd<TService, TImplementation>(this IServiceCollection collection, ServiceLifetime lifetime)
         {

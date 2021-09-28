@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Qommon;
 
 namespace Disqord.Serialization.Json.Default
 {
@@ -38,8 +39,7 @@ namespace Disqord.Serialization.Json.Default
                 return;
             }
 
-            if (!stream.CanRead)
-                throw new ArgumentException("The stream is not readable.");
+            Guard.CanRead(stream);
 
             // Shows a warning for System.Net.Http content streams.
             // See CheckStreamType for more information.
@@ -84,10 +84,10 @@ namespace Disqord.Serialization.Json.Default
             int bytesRead;
             while ((bytesRead = stream.Read(byteSpan)) != 0)
             {
-                if (!Convert.TryToBase64Chars(byteSpan.Slice(0, bytesRead), charSpan, out var charsWritten))
+                if (!Convert.TryToBase64Chars(byteSpan[..bytesRead], charSpan, out var charsWritten))
                     throw new ArgumentException("The stream could not be converted to base64.");
 
-                base64Builder.Append(charSpan.Slice(0, charsWritten));
+                base64Builder.Append(charSpan[..charsWritten]);
             }
 
             writer.WriteValue(base64Builder.ToString());

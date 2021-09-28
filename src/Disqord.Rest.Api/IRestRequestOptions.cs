@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 
 namespace Disqord.Rest
 {
@@ -8,11 +7,6 @@ namespace Disqord.Rest
     /// </summary>
     public interface IRestRequestOptions
     {
-        /// <summary>
-        ///     Gets or sets the cancellation token for the request.
-        /// </summary>
-        CancellationToken CancellationToken { get; set; }
-
         /// <summary>
         ///     Gets or sets the audit log reason for the request.
         ///     This is a shortcut for setting the <c>X-Audit-Log-Reason</c> header in <see cref="Headers"/>.

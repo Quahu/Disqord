@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Models;
@@ -9,7 +10,9 @@ namespace Disqord.Rest
 {
     public static partial class RestClientExtensions
     {
-        public static Task CreateInteractionResponseAsync(this IRestClient client, Snowflake interactionId, string interactionToken, LocalInteractionResponse response, IRestRequestOptions options = null)
+        public static Task CreateInteractionResponseAsync(this IRestClient client,
+            Snowflake interactionId, string interactionToken, LocalInteractionResponse response,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (response == null)
                 throw new ArgumentNullException(nameof(response));
@@ -54,29 +57,41 @@ namespace Disqord.Rest
                 // If there is an attachment, we must send it via multipart HTTP content.
                 // Our `messageContent` will be serialized into a "payload_json" form data field.
                 var content = new MultipartJsonPayloadRestRequestContent<CreateInitialInteractionResponseJsonRestRequestContent>(messageContent, response.Attachments);
-                task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, content, options);
+                task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, content, options, cancellationToken);
             }
             else
             {
-                task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, messageContent, options);
+                task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, messageContent, options, cancellationToken);
             }
 
             return task;
         }
 
-        public static async Task<IUserMessage> FetchInteractionResponseAsync(this IRestClient client, Snowflake applicationId, string interactionToken, IRestRequestOptions options = null)
+        public static async Task<IUserMessage> FetchInteractionResponseAsync(this IRestClient client,
+            Snowflake applicationId, string interactionToken,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var model = await client.ApiClient.FetchInitialInteractionResponseAsync(applicationId, interactionToken, options).ConfigureAwait(false);
+            var model = await client.ApiClient.FetchInitialInteractionResponseAsync(applicationId, interactionToken, options, cancellationToken).ConfigureAwait(false);
             return new TransientUserMessage(client, model);
         }
 
-        public static Task<IUserMessage> ModifyInteractionResponseAsync(this IRestClient client, Snowflake applicationId, string interactionToken, Action<ModifyWebhookMessageActionProperties> action, IRestRequestOptions options = null)
-            => client.InternalModifyInteractionResponseAsync(applicationId, interactionToken, null, action, options);
+        public static Task<IUserMessage> ModifyInteractionResponseAsync(this IRestClient client,
+            Snowflake applicationId, string interactionToken, Action<ModifyWebhookMessageActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.InternalModifyInteractionResponseAsync(applicationId, interactionToken, null, action, options, cancellationToken);
+        }
 
-        public static Task DeleteInteractionResponseAsync(this IRestClient client, Snowflake applicationId, string interactionToken, IRestRequestOptions options = null)
-            => client.ApiClient.DeleteInitialInteractionResponseAsync(applicationId, interactionToken, options);
+        public static Task DeleteInteractionResponseAsync(this IRestClient client,
+            Snowflake applicationId, string interactionToken,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.DeleteInitialInteractionResponseAsync(applicationId, interactionToken, options, cancellationToken);
+        }
 
-        public static async Task<IUserMessage> CreateInteractionFollowupAsync(this IRestClient client, Snowflake applicationId, string interactionToken, LocalInteractionFollowup followup, IRestRequestOptions options = null)
+        public static async Task<IUserMessage> CreateInteractionFollowupAsync(this IRestClient client,
+            Snowflake applicationId, string interactionToken, LocalInteractionFollowup followup,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (followup == null)
                 throw new ArgumentNullException(nameof(followup));
@@ -98,22 +113,24 @@ namespace Disqord.Rest
                 // If there are attachments, we must send them via multipart HTTP content.
                 // Our `messageContent` will be serialized into a "payload_json" form data field.
                 var content = new MultipartJsonPayloadRestRequestContent<CreateFollowupMessageJsonRestRequestContent>(messageContent, followup.Attachments);
-                task = client.ApiClient.CreateFollowupInteractionResponseAsync(applicationId, interactionToken, content, options);
+                task = client.ApiClient.CreateFollowupInteractionResponseAsync(applicationId, interactionToken, content, options, cancellationToken);
             }
             else
             {
-                task = client.ApiClient.CreateFollowupInteractionResponseAsync(applicationId, interactionToken, messageContent, options);
+                task = client.ApiClient.CreateFollowupInteractionResponseAsync(applicationId, interactionToken, messageContent, options, cancellationToken);
             }
 
             var model = await task.ConfigureAwait(false);
             return new TransientUserMessage(client, model);
         }
 
-        public static async Task<IUserMessage> FetchInteractionFollowupAsync(this IRestClient client, Snowflake applicationId, string interactionToken, Snowflake messageId, IRestRequestOptions options = null)
+        public static async Task<IUserMessage> FetchInteractionFollowupAsync(this IRestClient client,
+            Snowflake applicationId, string interactionToken, Snowflake messageId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             try
             {
-                var model = await client.ApiClient.FetchFollowupInteractionResponseAsync(applicationId, interactionToken, messageId, options).ConfigureAwait(false);
+                var model = await client.ApiClient.FetchFollowupInteractionResponseAsync(applicationId, interactionToken, messageId, options, cancellationToken).ConfigureAwait(false);
                 return new TransientUserMessage(client, model);
             }
             catch (RestApiException ex) when (ex.StatusCode == HttpResponseStatusCode.NotFound && ex.ErrorModel.Code == RestApiErrorCode.UnknownMessage)
@@ -122,10 +139,16 @@ namespace Disqord.Rest
             }
         }
 
-        public static Task<IUserMessage> ModifyInteractionFollowupAsync(this IRestClient client, Snowflake applicationId, string interactionToken, Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action, IRestRequestOptions options = null)
-            => client.InternalModifyInteractionResponseAsync(applicationId, interactionToken, messageId, action, options);
+        public static Task<IUserMessage> ModifyInteractionFollowupAsync(this IRestClient client,
+            Snowflake applicationId, string interactionToken, Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.InternalModifyInteractionResponseAsync(applicationId, interactionToken, messageId, action, options, cancellationToken);
+        }
 
-        private static async Task<IUserMessage> InternalModifyInteractionResponseAsync(this IRestClient client, Snowflake applicationId, string interactionToken, Snowflake? messageId, Action<ModifyWebhookMessageActionProperties> action, IRestRequestOptions options = null)
+        private static async Task<IUserMessage> InternalModifyInteractionResponseAsync(this IRestClient client,
+            Snowflake applicationId, string interactionToken, Snowflake? messageId, Action<ModifyWebhookMessageActionProperties> action,
+            IRestRequestOptions options, CancellationToken cancellationToken)
         {
             var properties = new ModifyWebhookMessageActionProperties();
             action.Invoke(properties);
@@ -156,21 +179,25 @@ namespace Disqord.Rest
                 // Our `messageContent` will be serialized into a "payload_json" form data field.
                 var content = new MultipartJsonPayloadRestRequestContent<ModifyWebhookMessageJsonRestRequestContent>(messageContent, properties.Attachments.Value);
                 task = messageId == null
-                    ? client.ApiClient.ModifyInitialInteractionResponseAsync(applicationId, interactionToken, content, options)
-                    : client.ApiClient.ModifyFollowupInteractionResponseAsync(applicationId, interactionToken, messageId.Value, content, options);
+                    ? client.ApiClient.ModifyInitialInteractionResponseAsync(applicationId, interactionToken, content, options, cancellationToken)
+                    : client.ApiClient.ModifyFollowupInteractionResponseAsync(applicationId, interactionToken, messageId.Value, content, options, cancellationToken);
             }
             else
             {
                 task = messageId == null
-                    ? client.ApiClient.ModifyInitialInteractionResponseAsync(applicationId, interactionToken, messageContent, options)
-                    : client.ApiClient.ModifyFollowupInteractionResponseAsync(applicationId, interactionToken, messageId.Value, messageContent, options);
+                    ? client.ApiClient.ModifyInitialInteractionResponseAsync(applicationId, interactionToken, messageContent, options, cancellationToken)
+                    : client.ApiClient.ModifyFollowupInteractionResponseAsync(applicationId, interactionToken, messageId.Value, messageContent, options, cancellationToken);
             }
 
             var model = await task.ConfigureAwait(false);
             return new TransientUserMessage(client, model);
         }
 
-        public static Task DeleteInteractionFollowupAsync(this IRestClient client, Snowflake applicationId, string interactionToken, Snowflake messageId, IRestRequestOptions options = null)
-            => client.ApiClient.DeleteFollowupInteractionResponseAsync(applicationId, interactionToken, messageId, options);
+        public static Task DeleteInteractionFollowupAsync(this IRestClient client,
+            Snowflake applicationId, string interactionToken, Snowflake messageId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.DeleteFollowupInteractionResponseAsync(applicationId, interactionToken, messageId, options, cancellationToken);
+        }
     }
 }
