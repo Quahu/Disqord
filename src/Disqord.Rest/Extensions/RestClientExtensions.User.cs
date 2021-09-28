@@ -11,13 +11,16 @@ namespace Disqord.Rest
 {
     public static partial class RestClientExtensions
     {
-        public static async Task<ICurrentUser> FetchCurrentUserAsync(this IRestClient client, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<ICurrentUser> FetchCurrentUserAsync(this IRestClient client,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var model = await client.ApiClient.FetchCurrentUserAsync(options, cancellationToken).ConfigureAwait(false);
             return new TransientCurrentUser(client, model);
         }
 
-        public static async Task<IRestUser> FetchUserAsync(this IRestClient client, Snowflake userId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IRestUser> FetchUserAsync(this IRestClient client,
+            Snowflake userId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -62,7 +65,7 @@ namespace Disqord.Rest
         }
 
         public static Task<IReadOnlyList<IPartialGuild>> FetchGuildsAsync(this IRestClient client,
-            int limit = 100, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null,
+            int limit = Discord.Limits.Rest.FetchGuildsPageSize, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
@@ -70,7 +73,7 @@ namespace Disqord.Rest
             if (limit == 0)
                 return Task.FromResult(ReadOnlyList<IPartialGuild>.Empty);
 
-            if (limit <= 100)
+            if (limit <= Discord.Limits.Rest.FetchGuildsPageSize)
                 return client.InternalFetchGuildsAsync(limit, direction, startFromId, options, cancellationToken);
 
             var enumerable = client.EnumerateGuilds(limit, direction, startFromId, options);
@@ -85,10 +88,16 @@ namespace Disqord.Rest
             return models.ToReadOnlyList(client, (x, client) => new TransientPartialGuild(client, x));
         }
 
-        public static Task LeaveGuildAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.LeaveGuildAsync(guildId, options, cancellationToken);
+        public static Task LeaveGuildAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.LeaveGuildAsync(guildId, options, cancellationToken);
+        }
 
-        public static async Task<IDirectChannel> CreateDirectChannelAsync(this IRestClient client, Snowflake userId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IDirectChannel> CreateDirectChannelAsync(this IRestClient client,
+            Snowflake userId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var channels = client.DirectChannels;
             if (channels != null && channels.TryGetValue(userId, out var cachedChannel))
@@ -108,7 +117,8 @@ namespace Disqord.Rest
             return channel;
         }
 
-        //public static async Task<IReadOnlyList<IConnection>> FetchConnectionsAsync(this IRestClient client, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        //public static async Task<IReadOnlyList<IConnection>> FetchConnectionsAsync(this IRestClient client,
+        //    IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         //{
         //    var models = await client.ApiClient.FetchConnectionsAsync(options, cancellationToken).ConfigureAwait(false);
         //    return models.ToReadOnlyList(client, (x, client) => new TransientConnection(client, x));

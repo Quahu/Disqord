@@ -4,14 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Qommon.Collections;
 using Disqord.Rest.Api;
+using Qommon.Collections;
 
 namespace Disqord.Rest
 {
     public static partial class RestClientExtensions
     {
-        public static async Task<IReadOnlyList<IGuildEmoji>> FetchGuildEmojisAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IGuildEmoji>> FetchGuildEmojisAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchGuildEmojisAsync(guildId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
@@ -21,13 +23,17 @@ namespace Disqord.Rest
             });
         }
 
-        public static async Task<IGuildEmoji> FetchGuildEmojiAsync(this IRestClient client, Snowflake guildId, Snowflake emojiId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IGuildEmoji> FetchGuildEmojiAsync(this IRestClient client,
+            Snowflake guildId, Snowflake emojiId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var model = await client.ApiClient.FetchGuildEmojiAsync(guildId, emojiId, options, cancellationToken).ConfigureAwait(false);
             return new TransientGuildEmoji(client, guildId, model);
         }
 
-        public static async Task<IGuildEmoji> CreateGuildEmojiAsync(this IRestClient client, Snowflake guildId, string name, Stream image, Action<CreateGuildEmojiActionProperties> action = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IGuildEmoji> CreateGuildEmojiAsync(this IRestClient client,
+            Snowflake guildId, string name, Stream image, Action<CreateGuildEmojiActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var properties = new CreateGuildEmojiActionProperties();
             action?.Invoke(properties);
@@ -35,11 +41,14 @@ namespace Disqord.Rest
             {
                 Roles = Optional.Convert(properties.RoleIds, x => x.ToArray())
             };
+
             var model = await client.ApiClient.CreateGuildEmojiAsync(guildId, content, options, cancellationToken).ConfigureAwait(false);
             return new TransientGuildEmoji(client, guildId, model);
         }
 
-        public static async Task<IGuildEmoji> ModifyGuildEmojiAsync(this IRestClient client, Snowflake guildId, Snowflake emojiId, Action<ModifyGuildEmojiActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IGuildEmoji> ModifyGuildEmojiAsync(this IRestClient client,
+            Snowflake guildId, Snowflake emojiId, Action<ModifyGuildEmojiActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var properties = new ModifyGuildEmojiActionProperties();
             action?.Invoke(properties);
@@ -48,11 +57,16 @@ namespace Disqord.Rest
                 Name = properties.Name,
                 Roles = Optional.Convert(properties.RoleIds, x => x.ToArray())
             };
+
             var model = await client.ApiClient.ModifyGuildEmojiAsync(guildId, emojiId, content, options, cancellationToken).ConfigureAwait(false);
             return new TransientGuildEmoji(client, guildId, model);
         }
 
-        public static Task DeleteGuildEmojiAsync(this IRestClient client, Snowflake guildId, Snowflake emojiId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.DeleteGuildEmojiAsync(guildId, emojiId, options, cancellationToken);
+        public static Task DeleteGuildEmojiAsync(this IRestClient client,
+            Snowflake guildId, Snowflake emojiId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.DeleteGuildEmojiAsync(guildId, emojiId, options, cancellationToken);
+        }
     }
 }

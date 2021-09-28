@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Qommon.Collections;
 using Disqord.Rest.Api;
+using Qommon.Collections;
 
 namespace Disqord.Rest
 {
@@ -25,7 +25,7 @@ namespace Disqord.Rest
         public static async Task<IReadOnlyList<IGuildSticker>> FetchGuildStickersAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchGuildStickersAsync(guildId, options, cancellationToken).ConfigureAwait(false);
-            return models.ToReadOnlyList(client, static(x, client) => new TransientGuildSticker(client, x));
+            return models.ToReadOnlyList(client, static (x, client) => new TransientGuildSticker(client, x));
         }
 
         public static async Task<IGuildSticker> FetchGuildStickerAsync(this IRestClient client, Snowflake guildId, Snowflake stickerId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)

@@ -7,7 +7,7 @@ namespace Disqord
             /// <summary>
             ///     Represents limits within Discord's REST API.
             /// </summary>
-            public static partial class Rest
+            public static class Rest
             {
                 /// <summary>
                 ///     Represents the page size for fetching audit logs.

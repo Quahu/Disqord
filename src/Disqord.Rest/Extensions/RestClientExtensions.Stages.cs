@@ -8,7 +8,9 @@ namespace Disqord.Rest
 {
     public static partial class RestClientExtensions
     {
-        public static async Task<IStage> CreateStageAsync(this IRestClient client, Snowflake channelId, string topic, Action<CreateStageActionProperties> action = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IStage> CreateStageAsync(this IRestClient client,
+            Snowflake channelId, string topic, Action<CreateStageActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var properties = new CreateStageActionProperties();
             action?.Invoke(properties);
@@ -19,11 +21,14 @@ namespace Disqord.Rest
                 Topic = topic,
                 PrivacyLevel = properties.PrivacyLevel
             };
+
             var model = await client.ApiClient.CreateStageInstanceAsync(channelId, content, options, cancellationToken).ConfigureAwait(false);
             return new TransientStage(client, model);
         }
 
-        public static async Task<IStage> FetchStageAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IStage> FetchStageAsync(this IRestClient client,
+            Snowflake channelId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -36,7 +41,9 @@ namespace Disqord.Rest
             }
         }
 
-        public static async Task<IStage> ModifyStageAsync(this IRestClient client, Snowflake channelId, Action<ModifyStageActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IStage> ModifyStageAsync(this IRestClient client,
+            Snowflake channelId, Action<ModifyStageActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
@@ -48,11 +55,16 @@ namespace Disqord.Rest
                 Topic = properties.Topic,
                 PrivacyLevel = properties.PrivacyLevel
             };
+
             var model = await client.ApiClient.ModifyStageInstanceAsync(channelId, content, options, cancellationToken).ConfigureAwait(false);
             return new TransientStage(client, model);
         }
 
-        public static Task DeleteStageAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.DeleteStageInstanceAsync(channelId, options, cancellationToken);
+        public static Task DeleteStageAsync(this IRestClient client,
+            Snowflake channelId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.DeleteStageInstanceAsync(channelId, options, cancellationToken);
+        }
     }
 }

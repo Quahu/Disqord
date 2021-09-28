@@ -15,7 +15,9 @@ namespace Disqord.Rest
 {
     public static partial class RestClientExtensions
     {
-        public static async Task<IChannel> FetchChannelAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IChannel> FetchChannelAsync(this IRestClient client,
+            Snowflake channelId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -28,7 +30,9 @@ namespace Disqord.Rest
             }
         }
 
-        public static async Task<ITextChannel> ModifyTextChannelAsync(this IRestClient client, Snowflake channelId, Action<ModifyTextChannelActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<ITextChannel> ModifyTextChannelAsync(this IRestClient client,
+            Snowflake channelId, Action<ModifyTextChannelActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(action);
 
@@ -36,7 +40,9 @@ namespace Disqord.Rest
             return new TransientTextChannel(client, model);
         }
 
-        public static async Task<IVoiceChannel> ModifyVoiceChannelAsync(this IRestClient client, Snowflake channelId, Action<ModifyVoiceChannelActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IVoiceChannel> ModifyVoiceChannelAsync(this IRestClient client,
+            Snowflake channelId, Action<ModifyVoiceChannelActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(action);
 
@@ -44,7 +50,9 @@ namespace Disqord.Rest
             return new TransientVoiceChannel(client, model);
         }
 
-        public static async Task<ICategoryChannel> ModifyCategoryChannelAsync(this IRestClient client, Snowflake channelId, Action<ModifyCategoryChannelActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<ICategoryChannel> ModifyCategoryChannelAsync(this IRestClient client,
+            Snowflake channelId, Action<ModifyCategoryChannelActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(action);
 
@@ -52,7 +60,9 @@ namespace Disqord.Rest
             return new TransientCategoryChannel(client, model);
         }
 
-        public static async Task<IThreadChannel> ModifyThreadChannelAsync(this IRestClient client, Snowflake threadId, Action<ModifyThreadChannelActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IThreadChannel> ModifyThreadChannelAsync(this IRestClient client,
+            Snowflake threadId, Action<ModifyThreadChannelActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(action);
 
@@ -60,7 +70,9 @@ namespace Disqord.Rest
             return new TransientThreadChannel(client, model);
         }
 
-        internal static Task<ChannelJsonModel> InternalModifyChannelAsync<T>(this IRestClient client, Snowflake channelId, Action<T> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        internal static Task<ChannelJsonModel> InternalModifyChannelAsync<T>(this IRestClient client,
+            Snowflake channelId, Action<T> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
             where T : ModifyGuildChannelActionProperties
         {
             Guard.IsNotNull(action);
@@ -133,10 +145,16 @@ namespace Disqord.Rest
             return client.ApiClient.ModifyChannelAsync(channelId, content, options, cancellationToken);
         }
 
-        public static Task DeleteChannelAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.DeleteChannelAsync(channelId, options, cancellationToken);
+        public static Task DeleteChannelAsync(this IRestClient client,
+            Snowflake channelId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.DeleteChannelAsync(channelId, options, cancellationToken);
+        }
 
-        public static IPagedEnumerable<IMessage> EnumerateMessages(this IRestClient client, Snowflake channelId, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IMessage> EnumerateMessages(this IRestClient client,
+            Snowflake channelId, int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null,
+            IRestRequestOptions options = null)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
 
@@ -147,27 +165,31 @@ namespace Disqord.Rest
             }, (client, channelId, limit, direction, startFromId, options));
         }
 
-        public static Task<IReadOnlyList<IMessage>> FetchMessagesAsync(this IRestClient client, Snowflake channelId, int limit = Discord.Limits.Rest.FetchMessagesPageSize, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IMessage>> FetchMessagesAsync(this IRestClient client,
+            Snowflake channelId, int limit = Discord.Limits.Rest.FetchMessagesPageSize, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            Guard.IsGreaterThanOrEqualTo(limit, 0);
-
             if (limit == 0)
                 return Task.FromResult(ReadOnlyList<IMessage>.Empty);
 
-            if (limit <= 100)
+            if (limit <= Discord.Limits.Rest.FetchMessagesPageSize)
                 return client.InternalFetchMessagesAsync(channelId, limit, direction, startFromId, options, cancellationToken);
 
             var enumerable = client.EnumerateMessages(channelId, limit, direction, startFromId, options);
             return enumerable.FlattenAsync(cancellationToken);
         }
 
-        internal static async Task<IReadOnlyList<IMessage>> InternalFetchMessagesAsync(this IRestClient client, Snowflake channelId, int limit, RetrievalDirection direction, Snowflake? startFromId, IRestRequestOptions options, CancellationToken cancellationToken)
+        internal static async Task<IReadOnlyList<IMessage>> InternalFetchMessagesAsync(this IRestClient client,
+            Snowflake channelId, int limit, RetrievalDirection direction, Snowflake? startFromId,
+            IRestRequestOptions options, CancellationToken cancellationToken)
         {
             var models = await client.ApiClient.FetchMessagesAsync(channelId, limit, direction, startFromId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (x, client) => TransientMessage.Create(client, x));
         }
 
-        public static async Task<IMessage> FetchMessageAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IMessage> FetchMessageAsync(this IRestClient client,
+            Snowflake channelId, Snowflake messageId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -180,7 +202,9 @@ namespace Disqord.Rest
             }
         }
 
-        public static async Task<IUserMessage> SendMessageAsync(this IRestClient client, Snowflake channelId, LocalMessage message, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IUserMessage> SendMessageAsync(this IRestClient client,
+            Snowflake channelId, LocalMessage message,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(message);
 
@@ -214,27 +238,35 @@ namespace Disqord.Rest
             return new TransientUserMessage(client, model);
         }
 
-        public static async Task<IUserMessage> CrosspostMessageAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IUserMessage> CrosspostMessageAsync(this IRestClient client,
+            Snowflake channelId, Snowflake messageId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var model = await client.ApiClient.CrosspostMessageAsync(channelId, messageId, options, cancellationToken).ConfigureAwait(false);
             return new TransientUserMessage(client, model);
         }
 
-        public static Task AddReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task AddReactionAsync(this IRestClient client,
+            Snowflake channelId, Snowflake messageId, LocalEmoji emoji,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(emoji);
 
             return client.ApiClient.AddReactionAsync(channelId, messageId, emoji.GetReactionFormat(), options, cancellationToken);
         }
 
-        public static Task RemoveOwnReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task RemoveOwnReactionAsync(this IRestClient client,
+            Snowflake channelId, Snowflake messageId, LocalEmoji emoji,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(emoji);
 
             return client.ApiClient.RemoveOwnReactionAsync(channelId, messageId, emoji.GetReactionFormat(), options, cancellationToken);
         }
 
-        public static Task RemoveReactionAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, Snowflake userId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task RemoveReactionAsync(this IRestClient client,
+            Snowflake channelId, Snowflake messageId, LocalEmoji emoji, Snowflake userId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(emoji);
 
@@ -244,7 +276,9 @@ namespace Disqord.Rest
             return client.ApiClient.RemoveUserReactionAsync(channelId, messageId, emoji.GetReactionFormat(), userId, options, cancellationToken);
         }
 
-        public static IPagedEnumerable<IUser> EnumerateReactions(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, int limit, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IUser> EnumerateReactions(this IRestClient client,
+            Snowflake channelId, Snowflake messageId, LocalEmoji emoji, int limit, Snowflake? startFromId = null,
+            IRestRequestOptions options = null)
         {
             Guard.IsNotNull(emoji);
             Guard.IsGreaterThanOrEqualTo(limit, 0);
@@ -256,28 +290,33 @@ namespace Disqord.Rest
             }, (client, channelId, messageId, emoji, limit, startFromId, options));
         }
 
-        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, int limit = Discord.Limits.Rest.FetchReactionsPageSize, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IUser>> FetchReactionsAsync(this IRestClient client,
+            Snowflake channelId, Snowflake messageId, LocalEmoji emoji, int limit = Discord.Limits.Rest.FetchReactionsPageSize, Snowflake? startFromId = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(emoji);
-            Guard.IsGreaterThanOrEqualTo(limit, 0);
 
             if (limit == 0)
                 return Task.FromResult(ReadOnlyList<IUser>.Empty);
 
-            if (limit <= 100)
+            if (limit <= Discord.Limits.Rest.FetchReactionsPageSize)
                 return client.InternalFetchReactionsAsync(channelId, messageId, emoji, limit, startFromId, options, cancellationToken);
 
             var enumerable = client.EnumerateReactions(channelId, messageId, emoji, limit, startFromId, options);
             return enumerable.FlattenAsync(cancellationToken);
         }
 
-        internal static async Task<IReadOnlyList<IUser>> InternalFetchReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji, int limit, Snowflake? startFromId, IRestRequestOptions options, CancellationToken cancellationToken)
+        internal static async Task<IReadOnlyList<IUser>> InternalFetchReactionsAsync(this IRestClient client,
+            Snowflake channelId, Snowflake messageId, LocalEmoji emoji, int limit, Snowflake? startFromId,
+            IRestRequestOptions options, CancellationToken cancellationToken)
         {
             var models = await client.ApiClient.FetchReactionsAsync(channelId, messageId, emoji.GetReactionFormat(), limit, startFromId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (x, client) => new TransientUser(client, x));
         }
 
-        public static Task ClearReactionsAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, LocalEmoji emoji = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task ClearReactionsAsync(this IRestClient client,
+            Snowflake channelId, Snowflake messageId, LocalEmoji emoji = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (emoji == null)
                 return client.ApiClient.ClearReactionsAsync(channelId, messageId, options, cancellationToken);
@@ -285,7 +324,9 @@ namespace Disqord.Rest
             return client.ApiClient.ClearEmojiReactionsAsync(channelId, messageId, emoji.GetReactionFormat(), options, cancellationToken);
         }
 
-        public static async Task<IUserMessage> ModifyMessageAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, Action<ModifyMessageActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IUserMessage> ModifyMessageAsync(this IRestClient client,
+            Snowflake channelId, Snowflake messageId, Action<ModifyMessageActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(action);
 
@@ -317,10 +358,16 @@ namespace Disqord.Rest
             return new TransientUserMessage(client, model);
         }
 
-        public static Task DeleteMessageAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.DeleteMessageAsync(channelId, messageId, options, cancellationToken);
+        public static Task DeleteMessageAsync(this IRestClient client,
+            Snowflake channelId, Snowflake messageId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.DeleteMessageAsync(channelId, messageId, options, cancellationToken);
+        }
 
-        public static IPagedEnumerable<Snowflake> EnumerateMessageDeletion(this IRestClient client, Snowflake channelId, IEnumerable<Snowflake> messageIds, IRestRequestOptions options = null)
+        public static IPagedEnumerable<Snowflake> EnumerateMessageDeletion(this IRestClient client,
+            Snowflake channelId, IEnumerable<Snowflake> messageIds,
+            IRestRequestOptions options = null)
         {
             Guard.IsNotNull(messageIds);
 
@@ -331,7 +378,9 @@ namespace Disqord.Rest
             }, (client, channelId, messageIds.ToArray(), options));
         }
 
-        public static async Task DeleteMessagesAsync(this IRestClient client, Snowflake channelId, IEnumerable<Snowflake> messageIds, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task DeleteMessagesAsync(this IRestClient client,
+            Snowflake channelId, IEnumerable<Snowflake> messageIds,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(messageIds);
 
@@ -345,7 +394,7 @@ namespace Disqord.Rest
                 return;
             }
 
-            if (messages.Length <= 100)
+            if (messages.Length <= Discord.Limits.Rest.DeleteMessagesPageSize)
             {
                 await client.InternalDeleteMessagesAsync(channelId, messages, options, cancellationToken).ConfigureAwait(false);
                 return;
@@ -360,7 +409,9 @@ namespace Disqord.Rest
             }
         }
 
-        internal static Task InternalDeleteMessagesAsync(this IRestClient client, Snowflake channelId, ArraySegment<Snowflake> messageIds, IRestRequestOptions options, CancellationToken cancellationToken)
+        internal static Task InternalDeleteMessagesAsync(this IRestClient client,
+            Snowflake channelId, ArraySegment<Snowflake> messageIds,
+            IRestRequestOptions options, CancellationToken cancellationToken)
         {
             var content = new DeleteMessagesJsonRestRequestContent
             {
@@ -370,7 +421,9 @@ namespace Disqord.Rest
             return client.ApiClient.DeleteMessagesAsync(channelId, content, options, cancellationToken);
         }
 
-        public static Task SetOverwriteAsync(this IRestClient client, Snowflake channelId, LocalOverwrite overwrite, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task SetOverwriteAsync(this IRestClient client,
+            Snowflake channelId, LocalOverwrite overwrite,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var content = new SetOverwriteJsonRestRequestContent
             {
@@ -382,10 +435,16 @@ namespace Disqord.Rest
             return client.ApiClient.SetOverwriteAsync(channelId, overwrite.TargetId, content, options, cancellationToken);
         }
 
-        public static Task DeleteOverwriteAsync(this IRestClient client, Snowflake channelId, Snowflake targetId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.DeleteOverwriteAsync(channelId, targetId, options, cancellationToken);
+        public static Task DeleteOverwriteAsync(this IRestClient client,
+            Snowflake channelId, Snowflake targetId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.DeleteOverwriteAsync(channelId, targetId, options, cancellationToken);
+        }
 
-        public static async Task<IReadOnlyList<IInvite>> FetchChannelInvitesAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IInvite>> FetchChannelInvitesAsync(this IRestClient client,
+            Snowflake channelId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchChannelInvitesAsync(channelId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (x, client) => TransientInvite.Create(client, x));
@@ -403,7 +462,9 @@ namespace Disqord.Rest
         /// <param name="options"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<IInvite> CreateInviteAsync(this IRestClient client, Snowflake channelId, TimeSpan maxAge = default, int maxUses = 0, bool isTemporaryMembership = false, bool isUnique = false, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IInvite> CreateInviteAsync(this IRestClient client,
+            Snowflake channelId, TimeSpan maxAge = default, int maxUses = 0, bool isTemporaryMembership = false, bool isUnique = false,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var content = new CreateChannelInviteJsonRestRequestContent
             {
@@ -421,7 +482,9 @@ namespace Disqord.Rest
             return TransientInvite.Create(client, model);
         }
 
-        public static async Task<IFollowedChannel> FollowNewsChannelAsync(this IRestClient client, Snowflake channelId, Snowflake targetChannelId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IFollowedChannel> FollowNewsChannelAsync(this IRestClient client,
+            Snowflake channelId, Snowflake targetChannelId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var content = new FollowNewsChannelJsonRestRequestContent
             {
@@ -432,8 +495,12 @@ namespace Disqord.Rest
             return new TransientFollowedChannel(client, model);
         }
 
-        public static Task TriggerTypingAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.TriggerTypingAsync(channelId, options, cancellationToken);
+        public static Task TriggerTypingAsync(this IRestClient client,
+            Snowflake channelId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.TriggerTypingAsync(channelId, options, cancellationToken);
+        }
 
         /// <summary>
         ///     Begins typing in the specified channel, i.e. calls <see cref="TriggerTypingAsync"/> at an interval
@@ -446,22 +513,38 @@ namespace Disqord.Rest
         /// <returns>
         ///     A disposable object that stops the typing.
         /// </returns>
-        public static IDisposable BeginTyping(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => new TypingRepeater(client, channelId, options, cancellationToken);
+        public static IDisposable BeginTyping(this IRestClient client,
+            Snowflake channelId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return new TypingRepeater(client, channelId, options, cancellationToken);
+        }
 
-        public static async Task<IReadOnlyList<IUserMessage>> FetchPinnedMessagesAsync(this IRestClient client, Snowflake channelId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IUserMessage>> FetchPinnedMessagesAsync(this IRestClient client,
+            Snowflake channelId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchPinnedMessagesAsync(channelId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (x, client) => new TransientUserMessage(client, x));
         }
 
-        public static Task PinMessageAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.PinMessageAsync(channelId, messageId, options, cancellationToken);
+        public static Task PinMessageAsync(this IRestClient client,
+            Snowflake channelId, Snowflake messageId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.PinMessageAsync(channelId, messageId, options, cancellationToken);
+        }
 
-        public static Task UnpinMessageAsync(this IRestClient client, Snowflake channelId, Snowflake messageId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.UnpinMessageAsync(channelId, messageId, options, cancellationToken);
+        public static Task UnpinMessageAsync(this IRestClient client,
+            Snowflake channelId, Snowflake messageId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.UnpinMessageAsync(channelId, messageId, options, cancellationToken);
+        }
 
-        public static async Task<IThreadChannel> CreatePublicThreadAsync(this IRestClient client, Snowflake channelId, string name, Snowflake? messageId = null, TimeSpan? automaticArchiveDuration = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IThreadChannel> CreatePublicThreadAsync(this IRestClient client,
+            Snowflake channelId, string name, Snowflake? messageId = null, TimeSpan? automaticArchiveDuration = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var content = new CreateThreadJsonRestRequestContent
             {
@@ -474,7 +557,9 @@ namespace Disqord.Rest
             return new TransientThreadChannel(client, model);
         }
 
-        public static async Task<IThreadChannel> CreatePrivateThreadAsync(this IRestClient client, Snowflake channelId, string name, TimeSpan? automaticArchiveDuration = null, bool? allowInvitation = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IThreadChannel> CreatePrivateThreadAsync(this IRestClient client,
+            Snowflake channelId, string name, TimeSpan? automaticArchiveDuration = null, bool? allowInvitation = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var content = new CreateThreadJsonRestRequestContent
             {
@@ -488,25 +573,45 @@ namespace Disqord.Rest
             return new TransientThreadChannel(client, model);
         }
 
-        public static Task JoinThreadAsync(this IRestClient client, Snowflake threadId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.JoinThreadAsync(threadId, options, cancellationToken);
+        public static Task JoinThreadAsync(this IRestClient client,
+            Snowflake threadId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.JoinThreadAsync(threadId, options, cancellationToken);
+        }
 
-        public static Task AddThreadMemberAsync(this IRestClient client, Snowflake threadId, Snowflake memberId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.AddThreadMemberAsync(threadId, memberId, options, cancellationToken);
+        public static Task AddThreadMemberAsync(this IRestClient client,
+            Snowflake threadId, Snowflake memberId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.AddThreadMemberAsync(threadId, memberId, options, cancellationToken);
+        }
 
-        public static Task LeaveThreadAsync(this IRestClient client, Snowflake threadId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.LeaveThreadAsync(threadId, options, cancellationToken);
+        public static Task LeaveThreadAsync(this IRestClient client,
+            Snowflake threadId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.LeaveThreadAsync(threadId, options, cancellationToken);
+        }
 
-        public static Task RemoveThreadMemberAsync(this IRestClient client, Snowflake threadId, Snowflake memberId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.RemoveThreadMemberAsync(threadId, memberId, options, cancellationToken);
+        public static Task RemoveThreadMemberAsync(this IRestClient client,
+            Snowflake threadId, Snowflake memberId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.RemoveThreadMemberAsync(threadId, memberId, options, cancellationToken);
+        }
 
-        public static async Task<IReadOnlyList<IThreadMember>> FetchThreadMembersAsync(this IRestClient client, Snowflake threadId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IThreadMember>> FetchThreadMembersAsync(this IRestClient client,
+            Snowflake threadId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchThreadMembersAsync(threadId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (x, client) => new TransientThreadMember(client, x));
         }
 
-        public static IPagedEnumerable<IThreadChannel> EnumeratePublicArchivedThreads(this IRestClient client, Snowflake channelId, int limit, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IThreadChannel> EnumeratePublicArchivedThreads(this IRestClient client,
+            Snowflake channelId, int limit, DateTimeOffset? startFromDate = null,
+            IRestRequestOptions options = null)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
 
@@ -517,27 +622,31 @@ namespace Disqord.Rest
             }, (client, channelId, limit, startFromDate, options));
         }
 
-        public static async Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = Discord.Limits.Rest.FetchThreadsPageSize, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IThreadChannel>> FetchPublicArchivedThreadsAsync(this IRestClient client,
+            Snowflake channelId, int limit = Discord.Limits.Rest.FetchThreadsPageSize, DateTimeOffset? startFromDate = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            Guard.IsGreaterThanOrEqualTo(limit, 0);
-
             if (limit == 0)
                 return ReadOnlyList<IThreadChannel>.Empty;
 
-            if (limit <= 100)
+            if (limit <= Discord.Limits.Rest.FetchThreadsPageSize)
                 return (await client.InternalFetchPublicArchivedThreadsAsync(channelId, limit, startFromDate, options, cancellationToken).ConfigureAwait(false)).Threads;
 
             var enumerable = client.EnumeratePublicArchivedThreads(channelId, limit, startFromDate, options);
             return await enumerable.FlattenAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPublicArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit, DateTimeOffset? startFromDate, IRestRequestOptions options, CancellationToken cancellationToken)
+        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPublicArchivedThreadsAsync(this IRestClient client,
+            Snowflake channelId, int limit, DateTimeOffset? startFromDate,
+            IRestRequestOptions options, CancellationToken cancellationToken)
         {
             var model = await client.ApiClient.FetchPublicArchivedThreadsAsync(channelId, limit, startFromDate, options, cancellationToken).ConfigureAwait(false);
             return CreateThreads(client, model);
         }
 
-        public static IPagedEnumerable<IThreadChannel> EnumeratePrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IThreadChannel> EnumeratePrivateArchivedThreads(this IRestClient client,
+            Snowflake channelId, int limit, DateTimeOffset? startFromDate = null,
+            IRestRequestOptions options = null)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
 
@@ -548,27 +657,31 @@ namespace Disqord.Rest
             }, (client, channelId, limit, startFromDate, options));
         }
 
-        public static async Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = Discord.Limits.Rest.FetchThreadsPageSize, DateTimeOffset? startFromDate = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IThreadChannel>> FetchPrivateArchivedThreadsAsync(this IRestClient client,
+            Snowflake channelId, int limit = Discord.Limits.Rest.FetchThreadsPageSize, DateTimeOffset? startFromDate = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            Guard.IsGreaterThanOrEqualTo(limit, 0);
-
             if (limit == 0)
                 return ReadOnlyList<IThreadChannel>.Empty;
 
-            if (limit <= 100)
+            if (limit <= Discord.Limits.Rest.FetchThreadsPageSize)
                 return (await client.InternalFetchPrivateArchivedThreadsAsync(channelId, limit, startFromDate, options, cancellationToken).ConfigureAwait(false)).Threads;
 
             var enumerable = client.EnumeratePrivateArchivedThreads(channelId, limit, startFromDate, options);
             return await enumerable.FlattenAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPrivateArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit, DateTimeOffset? startFromDate, IRestRequestOptions options, CancellationToken cancellationToken)
+        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchPrivateArchivedThreadsAsync(this IRestClient client,
+            Snowflake channelId, int limit, DateTimeOffset? startFromDate,
+            IRestRequestOptions options, CancellationToken cancellationToken)
         {
             var model = await client.ApiClient.FetchPrivateArchivedThreadsAsync(channelId, limit, startFromDate, options, cancellationToken).ConfigureAwait(false);
             return CreateThreads(client, model);
         }
 
-        public static IPagedEnumerable<IThreadChannel> EnumerateJoinedPrivateArchivedThreads(this IRestClient client, Snowflake channelId, int limit, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IThreadChannel> EnumerateJoinedPrivateArchivedThreads(this IRestClient client,
+            Snowflake channelId, int limit, Snowflake? startFromId = null,
+            IRestRequestOptions options = null)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
 
@@ -579,27 +692,30 @@ namespace Disqord.Rest
             }, (client, channelId, limit, startFromId, options));
         }
 
-        public static async Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit = Discord.Limits.Rest.FetchThreadsPageSize, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IThreadChannel>> FetchJoinedPrivateArchivedThreadsAsync(this IRestClient client,
+            Snowflake channelId, int limit = Discord.Limits.Rest.FetchThreadsPageSize, Snowflake? startFromId = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            Guard.IsGreaterThanOrEqualTo(limit, 0);
-
             if (limit == 0)
                 return ReadOnlyList<IThreadChannel>.Empty;
 
-            if (limit <= 100)
+            if (limit <= Discord.Limits.Rest.FetchThreadsPageSize)
                 return (await client.InternalFetchJoinedPrivateArchivedThreadsAsync(channelId, limit, startFromId, options, cancellationToken).ConfigureAwait(false)).Threads;
 
             var enumerable = client.EnumerateJoinedPrivateArchivedThreads(channelId, limit, startFromId, options);
             return await enumerable.FlattenAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchJoinedPrivateArchivedThreadsAsync(this IRestClient client, Snowflake channelId, int limit, Snowflake? startFromId, IRestRequestOptions options, CancellationToken cancellationToken)
+        internal static async Task<(bool HasMore, IReadOnlyList<IThreadChannel> Threads)> InternalFetchJoinedPrivateArchivedThreadsAsync(this IRestClient client,
+            Snowflake channelId, int limit, Snowflake? startFromId,
+            IRestRequestOptions options, CancellationToken cancellationToken)
         {
             var model = await client.ApiClient.FetchJoinedPrivateArchivedThreadsAsync(channelId, limit, startFromId, options, cancellationToken).ConfigureAwait(false);
             return CreateThreads(client, model);
         }
 
-        private static (bool HasMore, IReadOnlyList<IThreadChannel> Threads) CreateThreads(IRestClient client, ThreadListJsonModel model)
+        private static (bool HasMore, IReadOnlyList<IThreadChannel> Threads) CreateThreads(IRestClient client,
+            ThreadListJsonModel model)
         {
             static ChannelJsonModel MatchMemberToThread(ChannelJsonModel threadModel, ThreadMemberJsonModel[] memberModels)
             {

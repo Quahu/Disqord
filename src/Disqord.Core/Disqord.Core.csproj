@@ -12,6 +12,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Discord\Limits\Entities" />
-    <Folder Include="Discord\Limits\Gateway" />
   </ItemGroup>
 </Project>

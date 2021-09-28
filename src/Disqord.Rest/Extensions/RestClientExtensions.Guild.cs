@@ -16,7 +16,9 @@ namespace Disqord.Rest
     {
         // TODO: create guild?
 
-        public static async Task<IGuild> FetchGuildAsync(this IRestClient client, Snowflake guildId, bool? withCounts = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IGuild> FetchGuildAsync(this IRestClient client,
+            Snowflake guildId, bool? withCounts = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -29,7 +31,9 @@ namespace Disqord.Rest
             }
         }
 
-        public static async Task<IGuild> ModifyGuildAsync(this IRestClient client, Snowflake guildId, Action<ModifyGuildActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IGuild> ModifyGuildAsync(this IRestClient client,
+            Snowflake guildId, Action<ModifyGuildActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
@@ -62,34 +66,48 @@ namespace Disqord.Rest
             return new TransientGuild(client, model);
         }
 
-        public static Task DeleteGuildAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.DeleteGuildAsync(guildId, options, cancellationToken);
+        public static Task DeleteGuildAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.DeleteGuildAsync(guildId, options, cancellationToken);
+        }
 
-        public static async Task<IReadOnlyList<IGuildChannel>> FetchChannelsAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IGuildChannel>> FetchChannelsAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchGuildChannelsAsync(guildId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (x, client) => TransientGuildChannel.Create(client, x));
         }
 
-        public static async Task<ITextChannel> CreateTextChannelAsync(this IRestClient client, Snowflake guildId, string name, Action<CreateTextChannelActionProperties> action = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<ITextChannel> CreateTextChannelAsync(this IRestClient client,
+            Snowflake guildId, string name, Action<CreateTextChannelActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var model = await client.InternalCreateGuildChannelAsync(guildId, name, action, options, cancellationToken).ConfigureAwait(false);
             return new TransientTextChannel(client, model);
         }
 
-        public static async Task<IVoiceChannel> CreateVoiceChannelAsync(this IRestClient client, Snowflake guildId, string name, Action<CreateVoiceChannelActionProperties> action = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IVoiceChannel> CreateVoiceChannelAsync(this IRestClient client,
+            Snowflake guildId, string name, Action<CreateVoiceChannelActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var model = await client.InternalCreateGuildChannelAsync(guildId, name, action, options, cancellationToken).ConfigureAwait(false);
             return new TransientVoiceChannel(client, model);
         }
 
-        public static async Task<ICategoryChannel> CreateCategoryChannelAsync(this IRestClient client, Snowflake guildId, string name, Action<CreateCategoryChannelActionProperties> action = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<ICategoryChannel> CreateCategoryChannelAsync(this IRestClient client,
+            Snowflake guildId, string name, Action<CreateCategoryChannelActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var model = await client.InternalCreateGuildChannelAsync(guildId, name, action, options, cancellationToken).ConfigureAwait(false);
             return new TransientCategoryChannel(client, model);
         }
 
-        internal static Task<ChannelJsonModel> InternalCreateGuildChannelAsync<T>(this IRestClient client, Snowflake guildId, string name, Action<T> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        internal static Task<ChannelJsonModel> InternalCreateGuildChannelAsync<T>(this IRestClient client,
+            Snowflake guildId, string name, Action<T> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
             where T : CreateGuildChannelActionProperties
         {
             // Can't use the new() generic constraint because the constructors are internal.
@@ -142,7 +160,9 @@ namespace Disqord.Rest
             return client.ApiClient.CreateGuildChannelAsync(guildId, content, options, cancellationToken);
         }
 
-        public static Task ReorderChannelsAsync(this IRestClient client, Snowflake guildId, IReadOnlyDictionary<Snowflake, int> positions, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task ReorderChannelsAsync(this IRestClient client,
+            Snowflake guildId, IReadOnlyDictionary<Snowflake, int> positions,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (positions == null)
                 throw new ArgumentNullException(nameof(positions));
@@ -157,13 +177,17 @@ namespace Disqord.Rest
             return client.ApiClient.ReorderGuildChannelsAsync(guildId, content, options, cancellationToken);
         }
 
-        public static async Task<IReadOnlyList<IThreadChannel>> FetchActiveThreadsAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IThreadChannel>> FetchActiveThreadsAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var model = await client.ApiClient.FetchActiveThreadsAsync(guildId, options, cancellationToken).ConfigureAwait(false);
             return CreateThreads(client, model).Threads;
         }
 
-        public static async Task<IMember> FetchMemberAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IMember> FetchMemberAsync(this IRestClient client,
+            Snowflake guildId, Snowflake memberId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -176,7 +200,9 @@ namespace Disqord.Rest
             }
         }
 
-        public static IPagedEnumerable<IMember> EnumerateMembers(this IRestClient client, Snowflake guildId, int limit, Snowflake? startFromId = null, IRestRequestOptions options = null)
+        public static IPagedEnumerable<IMember> EnumerateMembers(this IRestClient client,
+            Snowflake guildId, int limit, Snowflake? startFromId = null,
+            IRestRequestOptions options = null)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
 
@@ -187,7 +213,9 @@ namespace Disqord.Rest
             }, (client, guildId, limit, startFromId, options));
         }
 
-        public static Task<IReadOnlyList<IMember>> FetchMembersAsync(this IRestClient client, Snowflake guildId, int limit = Discord.Limits.Rest.FetchMembersPageSize, Snowflake? startFromId = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task<IReadOnlyList<IMember>> FetchMembersAsync(this IRestClient client,
+            Snowflake guildId, int limit = Discord.Limits.Rest.FetchMembersPageSize, Snowflake? startFromId = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
 
@@ -201,7 +229,9 @@ namespace Disqord.Rest
             return enumerator.FlattenAsync(cancellationToken);
         }
 
-        internal static async Task<IReadOnlyList<IMember>> InternalFetchMembersAsync(this IRestClient client, Snowflake guildId, int limit, Snowflake? startFromId, IRestRequestOptions options, CancellationToken cancellationToken)
+        internal static async Task<IReadOnlyList<IMember>> InternalFetchMembersAsync(this IRestClient client,
+            Snowflake guildId, int limit, Snowflake? startFromId,
+            IRestRequestOptions options, CancellationToken cancellationToken)
         {
             var models = await client.ApiClient.FetchMembersAsync(guildId, limit, startFromId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList((client, guildId), (x, tuple) =>
@@ -211,7 +241,9 @@ namespace Disqord.Rest
             });
         }
 
-        public static async Task<IReadOnlyList<IMember>> SearchMembersAsync(this IRestClient client, Snowflake guildId, string query, int limit = Discord.Limits.Rest.FetchMembersPageSize, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IMember>> SearchMembersAsync(this IRestClient client,
+            Snowflake guildId, string query, int limit = Discord.Limits.Rest.FetchMembersPageSize,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.SearchMembersAsync(guildId, query, limit, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
@@ -223,7 +255,9 @@ namespace Disqord.Rest
 
         // TODO: add member
 
-        public static Task SetCurrentMemberNickAsync(this IRestClient client, Snowflake guildId, string nick, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task SetCurrentMemberNickAsync(this IRestClient client,
+            Snowflake guildId, string nick,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var content = new SetOwnNickJsonRestRequestContent
             {
@@ -233,7 +267,9 @@ namespace Disqord.Rest
             return client.ApiClient.SetOwnNickAsync(guildId, content, options, cancellationToken);
         }
 
-        public static async Task<IMember> ModifyMemberAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, Action<ModifyMemberActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IMember> ModifyMemberAsync(this IRestClient client,
+            Snowflake guildId, Snowflake memberId, Action<ModifyMemberActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
@@ -262,16 +298,30 @@ namespace Disqord.Rest
             return new TransientMember(client, guildId, model);
         }
 
-        public static Task GrantRoleAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, Snowflake roleId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.GrantRoleAsync(guildId, memberId, roleId, options, cancellationToken);
+        public static Task GrantRoleAsync(this IRestClient client,
+            Snowflake guildId, Snowflake memberId, Snowflake roleId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.GrantRoleAsync(guildId, memberId, roleId, options, cancellationToken);
+        }
 
-        public static Task RevokeRoleAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, Snowflake roleId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.RevokeRoleAsync(guildId, memberId, roleId, options, cancellationToken);
+        public static Task RevokeRoleAsync(this IRestClient client,
+            Snowflake guildId, Snowflake memberId, Snowflake roleId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.RevokeRoleAsync(guildId, memberId, roleId, options, cancellationToken);
+        }
 
-        public static Task KickMemberAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.KickMemberAsync(guildId, memberId, options, cancellationToken);
+        public static Task KickMemberAsync(this IRestClient client,
+            Snowflake guildId, Snowflake memberId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.KickMemberAsync(guildId, memberId, options, cancellationToken);
+        }
 
-        public static async Task<IReadOnlyList<IBan>> FetchBansAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IBan>> FetchBansAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchBansAsync(guildId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
@@ -281,7 +331,9 @@ namespace Disqord.Rest
             });
         }
 
-        public static async Task<IBan> FetchBanAsync(this IRestClient client, Snowflake guildId, Snowflake userId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IBan> FetchBanAsync(this IRestClient client,
+            Snowflake guildId, Snowflake userId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -294,7 +346,9 @@ namespace Disqord.Rest
             }
         }
 
-        public static Task CreateBanAsync(this IRestClient client, Snowflake guildId, Snowflake userId, string reason = null, int? deleteMessageDays = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task CreateBanAsync(this IRestClient client,
+            Snowflake guildId, Snowflake userId, string reason = null, int? deleteMessageDays = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var content = new CreateBanJsonRestRequestContent
             {
@@ -305,10 +359,16 @@ namespace Disqord.Rest
             return client.ApiClient.CreateBanAsync(guildId, userId, content, options, cancellationToken);
         }
 
-        public static Task DeleteBanAsync(this IRestClient client, Snowflake guildId, Snowflake userId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.DeleteBanAsync(guildId, userId, options, cancellationToken);
+        public static Task DeleteBanAsync(this IRestClient client,
+            Snowflake guildId, Snowflake userId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.DeleteBanAsync(guildId, userId, options, cancellationToken);
+        }
 
-        public static async Task<IReadOnlyList<IRole>> FetchRolesAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IRole>> FetchRolesAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchRolesAsync(guildId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
@@ -318,7 +378,9 @@ namespace Disqord.Rest
             });
         }
 
-        public static async Task<IRole> CreateRoleAsync(this IRestClient client, Snowflake guildId, Action<CreateRoleActionProperties> action = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IRole> CreateRoleAsync(this IRestClient client,
+            Snowflake guildId, Action<CreateRoleActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var properties = new CreateRoleActionProperties();
             action?.Invoke(properties);
@@ -335,7 +397,9 @@ namespace Disqord.Rest
             return new TransientRole(client, guildId, model);
         }
 
-        public static async Task<IReadOnlyList<IRole>> ReorderRolesAsync(this IRestClient client, Snowflake guildId, IReadOnlyDictionary<Snowflake, int> positions, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IRole>> ReorderRolesAsync(this IRestClient client,
+            Snowflake guildId, IReadOnlyDictionary<Snowflake, int> positions,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (positions == null)
                 throw new ArgumentNullException(nameof(positions));
@@ -355,7 +419,9 @@ namespace Disqord.Rest
             });
         }
 
-        public static async Task<IRole> ModifyRoleAsync(this IRestClient client, Snowflake guildId, Snowflake roleId, Action<ModifyRoleActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IRole> ModifyRoleAsync(this IRestClient client,
+            Snowflake guildId, Snowflake roleId, Action<ModifyRoleActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var properties = new ModifyRoleActionProperties();
             action?.Invoke(properties);
@@ -380,22 +446,32 @@ namespace Disqord.Rest
             return new TransientRole(client, guildId, model);
         }
 
-        public static Task DeleteRoleAsync(this IRestClient client, Snowflake guildId, Snowflake roleId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.DeleteRoleAsync(guildId, roleId, options, cancellationToken);
+        public static Task DeleteRoleAsync(this IRestClient client,
+            Snowflake guildId, Snowflake roleId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.DeleteRoleAsync(guildId, roleId, options, cancellationToken);
+        }
 
-        public static async Task<int> FetchPruneGuildCountAsync(this IRestClient client, Snowflake guildId, int days, IEnumerable<Snowflake> roleIds = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<int> FetchPruneGuildCountAsync(this IRestClient client,
+            Snowflake guildId, int days, IEnumerable<Snowflake> roleIds = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var model = await client.ApiClient.FetchPruneGuildCountAsync(guildId, days, roleIds?.ToArray(), options, cancellationToken).ConfigureAwait(false);
             return model.Pruned.Value;
         }
 
-        public static async Task<int?> PruneGuildAsync(this IRestClient client, Snowflake guildId, int days, bool computePruneCount = true, IEnumerable<Snowflake> roleIds = null, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<int?> PruneGuildAsync(this IRestClient client,
+            Snowflake guildId, int days, bool computePruneCount = true, IEnumerable<Snowflake> roleIds = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var model = await client.ApiClient.PruneGuildAsync(guildId, days, computePruneCount, roleIds?.ToArray(), options, cancellationToken).ConfigureAwait(false);
             return model.Pruned;
         }
 
-        public static async Task<IReadOnlyList<IGuildVoiceRegion>> FetchGuildVoiceRegionsAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IGuildVoiceRegion>> FetchGuildVoiceRegionsAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchGuildVoiceRegionsAsync(guildId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
@@ -405,13 +481,17 @@ namespace Disqord.Rest
             });
         }
 
-        public static async Task<IReadOnlyList<IInvite>> FetchGuildInvitesAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IInvite>> FetchGuildInvitesAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchGuildInvitesAsync(guildId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (x, client) => TransientInvite.Create(client, x));
         }
 
-        public static async Task<IReadOnlyList<IIntegration>> FetchIntegrationsAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IReadOnlyList<IIntegration>> FetchIntegrationsAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchIntegrationsAsync(guildId, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
@@ -421,16 +501,24 @@ namespace Disqord.Rest
             });
         }
 
-        public static Task DeleteIntegrationAsync(this IRestClient client, Snowflake guildId, Snowflake integrationId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.DeleteIntegrationAsync(guildId, integrationId, options, cancellationToken);
+        public static Task DeleteIntegrationAsync(this IRestClient client,
+            Snowflake guildId, Snowflake integrationId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            return client.ApiClient.DeleteIntegrationAsync(guildId, integrationId, options, cancellationToken);
+        }
 
-        public static async Task<IGuildWidget> FetchWidgetAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IGuildWidget> FetchWidgetAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var model = await client.ApiClient.FetchGuildWidgetAsync(guildId, options, cancellationToken).ConfigureAwait(false);
             return new TransientGuildWidget(client, guildId, model);
         }
 
-        public static async Task<IGuildWidget> ModifyWidgetAsync(this IRestClient client, Snowflake guildId, Action<ModifyWidgetActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IGuildWidget> ModifyWidgetAsync(this IRestClient client,
+            Snowflake guildId, Action<ModifyWidgetActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var properties = new ModifyWidgetActionProperties();
             action(properties);
@@ -445,25 +533,33 @@ namespace Disqord.Rest
             return new TransientGuildWidget(client, guildId, model);
         }
 
-        public static async Task<IVanityInvite> FetchVanityInviteAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IVanityInvite> FetchVanityInviteAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var model = await client.ApiClient.FetchGuildVanityInviteAsync(guildId, options, cancellationToken).ConfigureAwait(false);
             return new TransientVanityInvite(client, guildId, model);
         }
 
-        public static async Task<IGuildPreview> FetchPreviewAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IGuildPreview> FetchPreviewAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var model = await client.ApiClient.FetchGuildPreviewAsync(guildId, options, cancellationToken).ConfigureAwait(false);
             return new TransientGuildPreview(client, model);
         }
 
-        public static async Task<IGuildWelcomeScreen> FetchGuildWelcomeScreenAsync(this IRestClient client, Snowflake guildId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IGuildWelcomeScreen> FetchGuildWelcomeScreenAsync(this IRestClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var model = await client.ApiClient.FetchGuildWelcomeScreenAsync(guildId, options, cancellationToken).ConfigureAwait(false);
             return new TransientGuildWelcomeScreen(client, guildId, model);
         }
 
-        public static async Task<IGuildWelcomeScreen> ModifyGuildWelcomeScreenAsync(this IRestClient client, Snowflake guildId, Action<ModifyWelcomeScreenActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static async Task<IGuildWelcomeScreen> ModifyGuildWelcomeScreenAsync(this IRestClient client,
+            Snowflake guildId, Action<ModifyWelcomeScreenActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
@@ -482,7 +578,9 @@ namespace Disqord.Rest
             return new TransientGuildWelcomeScreen(client, guildId, model);
         }
 
-        public static Task ModifyCurrentMemberVoiceStateAsync(this IRestClient client, Snowflake guildId, Snowflake channelId, Action<ModifyCurrentMemberVoiceStateActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task ModifyCurrentMemberVoiceStateAsync(this IRestClient client,
+            Snowflake guildId, Snowflake channelId, Action<ModifyCurrentMemberVoiceStateActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var properties = new ModifyCurrentMemberVoiceStateActionProperties();
             action(properties);
@@ -497,7 +595,9 @@ namespace Disqord.Rest
             return client.ApiClient.ModifyCurrentMemberVoiceStateAsync(guildId, content, options, cancellationToken);
         }
 
-        public static Task ModifyMemberVoiceStateAsync(this IRestClient client, Snowflake guildId, Snowflake memberId, Snowflake channelId, Action<ModifyMemberVoiceStateActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task ModifyMemberVoiceStateAsync(this IRestClient client,
+            Snowflake guildId, Snowflake memberId, Snowflake channelId, Action<ModifyMemberVoiceStateActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var properties = new ModifyMemberVoiceStateActionProperties();
             action(properties);

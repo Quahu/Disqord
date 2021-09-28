@@ -8,7 +8,7 @@ namespace Disqord.Rest.Api
     public static partial class RestApiClientExtensions
     {
         public static Task<AuditLogJsonModel> FetchAuditLogsAsync(this IRestApiClient client,
-            Snowflake guildId, int limit = 100, Snowflake? userId = null, AuditLogActionType? type = null, Snowflake? startFromId = null,
+            Snowflake guildId, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? userId = null, AuditLogActionType? type = null, Snowflake? startFromId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, object>
