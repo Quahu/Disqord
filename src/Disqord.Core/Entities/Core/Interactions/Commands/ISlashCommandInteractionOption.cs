@@ -3,14 +3,14 @@
 namespace Disqord
 {
     /// <summary>
-    ///     Represents a provided value for a text command option.
+    ///     Represents a provided value for a slash command option.
     /// </summary>
-    public interface ITextCommandInteractionOption
+    public interface ISlashCommandInteractionOption
     {
         /// <summary>
         ///     Gets the type of this option.
         /// </summary>
-        ApplicationCommandOptionType Type { get; }
+        SlashCommandOptionType Type { get; }
 
         /// <summary>
         ///     Gets the value of this option.
@@ -20,6 +20,6 @@ namespace Disqord
         /// <summary>
         ///     Gets the nested options of this option.
         /// </summary>
-        IReadOnlyDictionary<string, ITextCommandInteractionOption> Options { get; }
+        IReadOnlyDictionary<string, ISlashCommandInteractionOption> Options { get; }
     }
 }

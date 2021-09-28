@@ -1,6 +1,6 @@
 ﻿namespace Disqord
 {
-    public enum ApplicationCommandOptionType
+    public enum SlashCommandOptionType
     {
         Subcommand = 1,
 

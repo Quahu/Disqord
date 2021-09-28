@@ -8,7 +8,7 @@ namespace Disqord
         /// <summary>
         ///     A text based command that shows up when a user types <c>&#47;</c>.
         /// </summary>
-        Text = 1,
+        Slash = 1,
 
         /// <summary>
         ///     A UI based command that shows up in a user context menu.

@@ -498,5 +498,48 @@ namespace Disqord.Rest
             var client = guild.GetRestClient();
             return client.ModifyGuildWelcomeScreenAsync(guild.Id, action, options, cancellationToken);
         }
+
+        /*
+         * Application Commands
+         */
+        public static Task<IReadOnlyList<IApplicationCommand>> FetchApplicationCommandsAsync(this IGuild guild,
+            Snowflake applicationId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildApplicationCommandsAsync(applicationId, guild.Id, options, cancellationToken);
+        }
+
+        public static Task<IApplicationCommand> CreateApplicationCommandAsync(this IGuild guild,
+            Snowflake applicationId, LocalApplicationCommand command,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.CreateGuildApplicationCommandAsync(applicationId, guild.Id, command, options, cancellationToken);
+        }
+
+        public static Task<IApplicationCommand> FetchApplicationCommandAsync(this IGuild guild,
+            Snowflake applicationId, Snowflake commandId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildApplicationCommandAsync(applicationId, guild.Id, commandId, options, cancellationToken);
+        }
+
+        public static Task<IApplicationCommand> ModifyApplicationCommandAsync(this IGuild guild,
+            Snowflake applicationId, Snowflake commandId, Action<ModifyApplicationCommandActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyGuildApplicationCommandAsync(applicationId, guild.Id, commandId, action, options, cancellationToken);
+        }
+
+        public static Task DeleteApplicationCommandAsync(this IGuild guild,
+            Snowflake applicationId, Snowflake commandId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.DeleteGuildApplicationCommandAsync(applicationId, guild.Id, commandId, options, cancellationToken);
+        }
     }
 }

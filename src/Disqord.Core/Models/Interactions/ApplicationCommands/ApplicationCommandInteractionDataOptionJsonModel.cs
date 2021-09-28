@@ -8,7 +8,7 @@ namespace Disqord.Models
         public string Name;
 
         [JsonProperty("type")]
-        public ApplicationCommandOptionType Type;
+        public SlashCommandOptionType Type;
 
         [JsonProperty("value")]
         public Optional<IJsonValue> Value;
