@@ -19,4 +19,10 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+  <PropertyGroup>
+    <NoWarn>
+        CA1816, <!-- Call GC.SuppressFinalize correctly -->
+        CS0078 <!-- The 'l' suffix is easily confused with the digit '1' - use 'L' for clarity -->
+    </NoWarn>
+  </PropertyGroup>
 </Project>
