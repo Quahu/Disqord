@@ -21,16 +21,31 @@ namespace Disqord
                 return $"\"{name}\"";
             }
 
-            [DoesNotReturn]
-            public static void ArgumentExceptionForHasValue<T>(Optional<T> optional, string name)
+            [Pure]
+            private static string GetValueString(object value)
             {
-                throw new ArgumentException($"Parameter {GetNameString(name)} ({typeof(Optional<T>).ToTypeString()}) must have a value.", name);
+                return value switch
+                {
+                    string _ => $"\"{value}\"",
+                    null => "null",
+                    _ => $"<{value}>"
+                };
             }
 
             [DoesNotReturn]
-            public static void ArgumentExceptionForHasNoValue<T>(Optional<T> optional, string name)
+            public static void ArgumentExceptionForHasValue<T>(Optional<T> optional, string name, string message)
             {
-                throw new ArgumentException($"Parameter {GetNameString(name)} ({typeof(Optional<T>).ToTypeString()}) must not have a value.", name);
+                throw new ArgumentException(message != null
+                    ? $"Parameter {GetNameString(name)} ({typeof(Optional<T>).ToTypeString()}) must have a value: {GetValueString(message)}"
+                    : $"Parameter {GetNameString(name)} ({typeof(Optional<T>).ToTypeString()}) must have a value.", name);
+            }
+
+            [DoesNotReturn]
+            public static void ArgumentExceptionForHasNoValue<T>(Optional<T> optional, string name, string message)
+            {
+                throw new ArgumentException(message != null
+                    ? $"Parameter {GetNameString(name)} ({typeof(Optional<T>).ToTypeString()}) must not have a value: {GetValueString(message)}"
+                    : $"Parameter {GetNameString(name)} ({typeof(Optional<T>).ToTypeString()}) must not have a value.", name);
             }
 
             [DoesNotReturn]

@@ -11,15 +11,15 @@ namespace Disqord
         /// <typeparam name="T"> The type of reference value type being tested. </typeparam>
         /// <param name="optional"> The input optional to test. </param>
         /// <param name="name"> The name of the input parameter being tested. </param>
+        /// <param name="message"> The message for the exception. </param>
         /// <exception cref="ArgumentException"> Thrown if <paramref name="optional"/> has no value. </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasValue<T>(Optional<T> optional, [CallerArgumentExpression("optional")] string name = null)
-            where T : class
+        public static void HasValue<T>(Optional<T> optional, [CallerArgumentExpression("optional")] string name = null, string message = null)
         {
             if (optional.HasValue)
                 return;
 
-            Throw.ArgumentExceptionForHasValue(optional, name);
+            Throw.ArgumentExceptionForHasValue(optional, name, message);
         }
 
         /// <summary>
@@ -28,15 +28,15 @@ namespace Disqord
         /// <typeparam name="T"> The type of reference value type being tested. </typeparam>
         /// <param name="optional"> The input optional to test. </param>
         /// <param name="name"> The name of the input parameter being tested. </param>
+        /// <param name="message"> The message for the exception. </param>
         /// <exception cref="ArgumentException"> Thrown if <paramref name="optional"/> has a value. </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasNoValue<T>(Optional<T> optional, [CallerArgumentExpression("optional")] string name = null)
-            where T : class
+        public static void HasNoValue<T>(Optional<T> optional, [CallerArgumentExpression("optional")] string name = null, string message = null)
         {
             if (!optional.HasValue)
                 return;
 
-            Throw.ArgumentExceptionForHasNoValue(optional, name);
+            Throw.ArgumentExceptionForHasNoValue(optional, name, message);
         }
 
         /// <summary>
@@ -49,7 +49,6 @@ namespace Disqord
         /// <exception cref="ArgumentException"> Thrown if <paramref name="optional"/> has a value but it failed to pass assertions. </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CheckValue<T>(Optional<T> optional, Action<T> assert, [CallerArgumentExpression("optional")] string name = null)
-            where T : class
         {
             if (!optional.HasValue)
                 return;
