@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -87,20 +87,21 @@ namespace Disqord.Rest.Api.Default
             if (statusCode > 499 && statusCode < 600)
                 throw new RestApiException(response.HttpResponse.Code, response.HttpResponse.ReasonPhrase, null);
 
-            await using (responseStream)
+            RestApiErrorJsonModel errorModel = null;
+            try
             {
-                RestApiErrorJsonModel errorModel = null;
-                try
-                {
-                    errorModel = Serializer.Deserialize<RestApiErrorJsonModel>(responseStream);
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex, "An exception occurred while attempting to deserialize the error model.");
-                }
-
-                throw new RestApiException(response.HttpResponse.Code, response.HttpResponse.ReasonPhrase, errorModel);
+                errorModel = Serializer.Deserialize<RestApiErrorJsonModel>(responseStream);
             }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An exception occurred while attempting to deserialize the error model.");
+            }
+            finally
+            {
+                await responseStream.DisposeAsync().ConfigureAwait(false);
+            }
+
+            throw new RestApiException(response.HttpResponse.Code, response.HttpResponse.ReasonPhrase, errorModel);
         }
     }
 }
