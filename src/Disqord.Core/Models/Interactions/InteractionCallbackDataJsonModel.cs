@@ -16,9 +16,6 @@ namespace Disqord.Models
         [JsonProperty("allowed_mentions")]
         public Optional<AllowedMentionsJsonModel> AllowedMentions;
 
-        /// <summary>
-        ///     Set to 64 to make your response ephemeral, <c>0oH4tvG70Eo</c>
-        /// </summary>
         [JsonProperty("flags")]
         public Optional<InteractionResponseFlag> Flags;
 

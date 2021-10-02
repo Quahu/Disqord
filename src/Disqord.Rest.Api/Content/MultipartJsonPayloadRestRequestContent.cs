@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using Disqord.Http;
 using Disqord.Http.Default;
 using Disqord.Serialization.Json;
@@ -13,43 +13,53 @@ namespace Disqord.Rest.Api
     {
         public T Payload { get; }
 
-        public IEnumerable<LocalAttachment> Attachments { get; }
+        public LocalAttachment[] Attachments { get; }
+
+        // Hack for the log in Validate().
+        private DefaultJsonSerializer _serializer;
 
         public MultipartJsonPayloadRestRequestContent(T payload, IEnumerable<LocalAttachment> attachments)
         {
             Payload = payload;
-            Attachments = attachments;
+            Attachments = attachments.ToArray();
         }
 
         public override HttpRequestContent CreateHttpContent(IJsonSerializer serializer, IRestRequestOptions options = null)
         {
+            _serializer = serializer as DefaultJsonSerializer;
+
             if (Payload != null)
                 FormData.Add((Payload.CreateHttpContent(serializer, options), "payload_json", null));
 
-            var counter = 0;
-            foreach (var attachment in Attachments)
+            for (var i = 0; i < Attachments.Length; i++)
             {
-                ValidateStream(serializer, attachment.Stream);
-                FormData.Add((new StreamHttpRequestContent(attachment.Stream), $"file{counter++}", attachment.GetFileName()));
+                var attachment = Attachments[i];
+                var content = new StreamHttpRequestContent(attachment.Stream);
+                var name = $"file{i}";
+                var fileName = attachment.GetFileName();
+                FormData.Add((content, name, fileName));
             }
 
             return base.CreateHttpContent(serializer, options);
         }
 
-        private static void ValidateStream(IJsonSerializer serializer, Stream stream)
+        public override void Validate()
         {
-            Guard.CanRead(stream);
+            base.Validate();
 
-            if (stream.CanSeek && stream.Length != 0 && stream.Position == stream.Length)
-                Throw.InvalidDataException("The attachment stream's position is the same as its length. Did you forget to rewind it?");
-
-            if (serializer is DefaultJsonSerializer jsonSerializer)
+            foreach (var attachment in Attachments)
             {
+                var stream = attachment.Stream;
+                Guard.CanRead(stream);
+
+                if (stream.CanSeek && stream.Length != 0 && stream.Position == stream.Length)
+                    Throw.InvalidDataException("The attachment stream's position is the same as its length. Did you forget to rewind it?");
+
                 // See CheckStreamType for more info.
                 // Arguably this isn't "correct" to call it here as this isn't JSON serialization
                 // but it doesn't matter and warning the user is more important to me.
-                var streamConverter = (jsonSerializer.UnderlyingSerializer.ContractResolver as ContractResolver)._streamConverter;
-                streamConverter.CheckStreamType(stream);
+                var streamConverter = (_serializer?.UnderlyingSerializer.ContractResolver as ContractResolver)?._streamConverter;
+                streamConverter?.CheckStreamType(stream);
             }
         }
     }

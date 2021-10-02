@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -68,6 +68,8 @@ namespace Disqord.Rest.Api.Default
 
         private async ValueTask<Stream> InternalExecuteAsync(FormattedRoute route, IRestRequestContent content, IRestRequestOptions options)
         {
+            content?.Validate();
+
             var request = new DefaultRestRequest(route, content, options);
 
             var defaultOptions = options as DefaultRestRequestOptions;

@@ -20,20 +20,20 @@ namespace Disqord
                 var dictionary = new Dictionary<Snowflake, IUser>(Model.Users.Value.Count);
                 if (Model.Members.HasValue)
                 {
-                    foreach (var kvp in Model.Members.Value)
+                    foreach (var (id, memberModel) in Model.Members.Value)
                     {
-                        if (!Model.Users.Value.TryGetValue(kvp.Key, out var userModel))
+                        if (!Model.Users.Value.TryGetValue(id, out var userModel))
                             continue;
 
-                        kvp.Value.User = userModel;
-                        dictionary.Add(kvp.Key, new TransientMember(Client, _guildId.Value, kvp.Value));
+                        memberModel.User = userModel;
+                        dictionary.Add(id, new TransientMember(Client, _guildId.Value, memberModel));
                     }
 
                     return dictionary;
                 }
 
-                foreach (var kvp in Model.Users.Value)
-                    dictionary.Add(kvp.Key, new TransientUser(Client, kvp.Value));
+                foreach (var (id, userModel) in Model.Users.Value)
+                    dictionary.Add(id, new TransientUser(Client, userModel));
 
                 return _users = dictionary;
             }
@@ -48,7 +48,13 @@ namespace Disqord
                 if (!Model.Roles.HasValue)
                     return ReadOnlyDictionary<Snowflake, IRole>.Empty;
 
-                return _roles ??= Model.Roles.Value.ToReadOnlyDictionary(Client, (kvp, _) => kvp.Key, (kvp, client) => new TransientRole(client, _guildId.Value, kvp.Value) as IRole);
+                return _roles ??= Model.Roles.Value.ToReadOnlyDictionary((Client, _guildId.Value),
+                    (kvp, _) => kvp.Key,
+                    (kvp, state) =>
+                    {
+                        var (client, guildId) = state;
+                        return new TransientRole(client, guildId, kvp.Value) as IRole;
+                    });
             }
         }
         private IReadOnlyDictionary<Snowflake, IRole> _roles;
@@ -61,7 +67,9 @@ namespace Disqord
                 if (!Model.Channels.HasValue)
                     return ReadOnlyDictionary<Snowflake, IChannel>.Empty;
 
-                return _channels ??= Model.Channels.Value.ToReadOnlyDictionary(Client, (kvp, _) => kvp.Key, (kvp, client) => TransientChannel.Create(client, kvp.Value));
+                return _channels ??= Model.Channels.Value.ToReadOnlyDictionary(Client,
+                    (kvp, _) => kvp.Key,
+                    (kvp, client) => TransientChannel.Create(client, kvp.Value));
             }
         }
         private IReadOnlyDictionary<Snowflake, IChannel> _channels;
@@ -74,7 +82,9 @@ namespace Disqord
                 if (!Model.Messages.HasValue)
                     return ReadOnlyDictionary<Snowflake, IMessage>.Empty;
 
-                return _messages ??= Model.Messages.Value.ToReadOnlyDictionary(Client, (kvp, _) => kvp.Key, (kvp, client) => TransientMessage.Create(client, kvp.Value));
+                return _messages ??= Model.Messages.Value.ToReadOnlyDictionary(Client,
+                    (kvp, _) => kvp.Key,
+                    (kvp, client) => TransientMessage.Create(client, kvp.Value));
             }
         }
         private IReadOnlyDictionary<Snowflake, IMessage> _messages;

@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Serialization.Json;
+using Disqord.Utilities.Threading;
+using Qommon;
 
 namespace Disqord.Rest.Api.Default
 {
@@ -19,18 +21,17 @@ namespace Disqord.Rest.Api.Default
 
         protected HttpRequestContent HttpContent;
 
-        private readonly TaskCompletionSource<IRestResponse> _tcs;
+        private readonly Tcs<IRestResponse> _tcs;
 
-        public DefaultRestRequest(FormattedRoute route, IRestRequestContent content, IRestRequestOptions options = null)
+        public DefaultRestRequest(FormattedRoute route, IRestRequestContent content = null, IRestRequestOptions options = null)
         {
-            if (route == null)
-                throw new ArgumentNullException(nameof(route));
+            Guard.IsNotNull(route);
 
             Route = route;
             Content = content;
             Options = options;
 
-            _tcs = new TaskCompletionSource<IRestResponse>(TaskCreationOptions.RunContinuationsAsynchronously);
+            _tcs = new Tcs<IRestResponse>();
         }
 
         public virtual HttpRequestContent GetOrCreateHttpContent(IJsonSerializer serializer)
@@ -43,24 +44,24 @@ namespace Disqord.Rest.Api.Default
 
         /// <inheritdoc/>
         public Task<IRestResponse> WaitForCompletionAsync()
-            => _tcs.Task;
+        {
+            return _tcs.Task;
+        }
 
         /// <inheritdoc/>
         public void Complete(IRestResponse response)
         {
-            if (response == null)
-                throw new ArgumentNullException(nameof(response));
+            Guard.IsNotNull(response);
 
-            _tcs.SetResult(response);
+            _tcs.Complete(response);
         }
 
         /// <inheritdoc/>
         public void Complete(Exception exception)
         {
-            if (exception == null)
-                throw new ArgumentNullException(nameof(exception));
+            Guard.IsNotNull(exception);
 
-            _tcs.SetException(exception);
+            _tcs.Throw(exception);
         }
 
         /// <inheritdoc/>

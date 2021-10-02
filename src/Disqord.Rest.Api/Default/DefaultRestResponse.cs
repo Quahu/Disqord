@@ -1,4 +1,5 @@
 ﻿using Disqord.Http;
+using Qommon;
 
 namespace Disqord.Rest.Api.Default
 {
@@ -6,9 +7,11 @@ namespace Disqord.Rest.Api.Default
     {
         public IHttpResponse HttpResponse { get; }
 
-        public DefaultRestResponse(IHttpResponse response)
+        public DefaultRestResponse(IHttpResponse httpResponse)
         {
-            HttpResponse = response;
+            Guard.IsNotNull(httpResponse);
+
+            HttpResponse = httpResponse;
         }
 
         public void Dispose()

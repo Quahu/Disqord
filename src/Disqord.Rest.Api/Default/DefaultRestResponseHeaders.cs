@@ -18,36 +18,43 @@ namespace Disqord.Rest.Api.Default
         public Optional<bool> IsGlobal => GetHeader("X-RateLimit-Global", bool.Parse);
 
         /// <summary>
+        ///     Gets the time after which it is safe to retry the request.
         ///     Header: <c>Retry-After</c>.
         /// </summary>
         public Optional<TimeSpan> RetryAfter => GetHeader("Retry-After", x => TimeSpan.FromSeconds(int.Parse(x)));
 
         /// <summary>
+        ///     Gets the amount of requests allowed in the bucket.
         ///     Header: <c>X-RateLimit-Limit</c>.
         /// </summary>
         public Optional<int> Limit => GetHeader("X-RateLimit-Limit", int.Parse);
 
         /// <summary>
+        ///     Gets the amount of requests remaining in the bucket.
         ///     Header: <c>X-RateLimit-Remaining</c>.
         /// </summary>
         public Optional<int> Remaining => GetHeader("X-RateLimit-Remaining", int.Parse);
 
         /// <summary>
+        ///     Gets the date at which the bucket will reset at.
         ///     Header: <c>X-RateLimit-Reset</c>.
         /// </summary>
         public Optional<DateTimeOffset> ResetsAt => GetHeader("X-RateLimit-Reset", x => DateTimeOffset.UnixEpoch + TimeSpan.FromSeconds(ParseDouble(x)));
 
         /// <summary>
+        ///     Gets the time after which the bucket resets.
         ///     Header: <c>X-RateLimit-Reset-After</c>.
         /// </summary>
         public Optional<TimeSpan> ResetsAfter => GetHeader("X-RateLimit-Reset-After", x => TimeSpan.FromSeconds(ParseDouble(x)));
 
         /// <summary>
+        ///     Gets the hash of the bucket.
         ///     Header: <c>X-RateLimit-Bucket</c>.
         /// </summary>
         public Optional<string> Bucket => GetHeader("X-RateLimit-Bucket");
 
         /// <summary>
+        ///     Gets the server date of the bucket.
         ///     Header: <c>Date</c>.
         /// </summary>
         public Optional<DateTimeOffset> Date => GetHeader("Date", DateTimeOffset.Parse);

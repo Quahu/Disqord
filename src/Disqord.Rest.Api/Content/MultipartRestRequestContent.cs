@@ -4,6 +4,7 @@ using System.IO;
 using Disqord.Http;
 using Disqord.Http.Default;
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Rest.Api
 {
@@ -35,6 +36,15 @@ namespace Disqord.Rest.Api
             var content = new MultipartFormDataHttpRequestContent($"---------{DateTime.Now}--");
             content.FormData.AddRange(FormData);
             return content;
+        }
+
+        public virtual void Validate()
+        {
+            foreach (var (content, name, _) in FormData)
+            {
+                Guard.IsNotNull(content);
+                Guard.IsNotNullOrWhiteSpace(name);
+            }
         }
     }
 }

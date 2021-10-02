@@ -38,6 +38,6 @@ namespace Disqord
                     ApplicationCommandType.Message => new TransientMessageContextMenuCommand(client, model),
                     _ => new TransientApplicationCommand(client, model)
                 }
-                : new TransientSlashCommand(client, model);  // Have to assume that this is a slash command since the type for it is often not provided
+                : new TransientSlashCommand(client, model); // Have to assume that this is a slash command since the type for it is often not provided
     }
 }

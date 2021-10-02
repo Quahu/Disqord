@@ -15,7 +15,8 @@ namespace Disqord.Rest
         {
             get
             {
-                if (_headers != null && _headers.TryGetValue("X-Audit-Log-Reason", out var value))
+                var headers = _headers;
+                if (headers != null && headers.TryGetValue("X-Audit-Log-Reason", out var value))
                     return value;
 
                 return null;

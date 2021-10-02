@@ -3,9 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Http.Default;
-using Qommon.Binding;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Qommon;
+using Qommon.Binding;
 
 namespace Disqord.Rest.Api.Default
 {
@@ -52,10 +53,13 @@ namespace Disqord.Rest.Api.Default
         /// <inheritdoc/>
         public async Task<IRestResponse> ExecuteAsync(IRestRequest request, CancellationToken cancellationToken = default)
         {
+            Guard.IsNotNull(request);
+
             var method = request.Route.BaseRoute.Method;
             var uri = new Uri(request.Route.Path, UriKind.Relative);
             var content = request.GetOrCreateHttpContent(ApiClient.Serializer);
             var httpRequest = new DefaultHttpRequest(method, uri, content);
+
             if (request.Options?.Headers != null)
             {
                 foreach (var header in request.Options.Headers)

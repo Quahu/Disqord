@@ -14,5 +14,8 @@ namespace Disqord.Rest.Api
 
         public HttpRequestContent CreateHttpContent(IJsonSerializer serializer, IRestRequestOptions options = null)
             => JsonModelRestRequestContent.FromObject(Object, serializer);
+
+        public virtual void Validate()
+        { }
     }
 }

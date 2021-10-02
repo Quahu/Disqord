@@ -55,11 +55,11 @@ namespace Disqord.Rest.Api
         }
 
         public static Task<ApplicationCommandJsonModel[]> SetGlobalApplicationCommandsAsync(this IRestApiClient client,
-            Snowflake applicationId, JsonObjectRestRequestContent<CreateApplicationCommandJsonRestRequestContent[]> content,
+            Snowflake applicationId, CreateApplicationCommandJsonRestRequestContent[] contents,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.Interactions.SetGlobalCommands, applicationId);
-            return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, content, options, cancellationToken);
+            return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, contents.ToContent(), options, cancellationToken);
         }
 
         public static Task<ApplicationCommandJsonModel> CreateGuildApplicationCommandAsync(this IRestApiClient client,
@@ -95,11 +95,11 @@ namespace Disqord.Rest.Api
         }
 
         public static Task<ApplicationCommandJsonModel[]> SetGuildApplicationCommandsAsync(this IRestApiClient client,
-            Snowflake applicationId, Snowflake guildId, JsonObjectRestRequestContent<CreateApplicationCommandJsonRestRequestContent[]> content,
+            Snowflake applicationId, Snowflake guildId, CreateApplicationCommandJsonRestRequestContent[] contents,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.Interactions.SetGuildCommands, applicationId, guildId);
-            return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, content, options, cancellationToken);
+            return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, contents.ToContent(), options, cancellationToken);
         }
 
         public static Task<ApplicationCommandGuildPermissionsJsonModel[]> FetchApplicationCommandPermissionsAsync(this IRestApiClient client,
@@ -127,11 +127,11 @@ namespace Disqord.Rest.Api
         }
 
         public static Task<ApplicationCommandGuildPermissionsJsonModel[]> SetApplicationCommandsPermissionsAsync(this IRestApiClient client,
-            Snowflake applicationId, Snowflake guildId, JsonObjectRestRequestContent<SetApplicationCommandPermissionsJsonRestRequestContent[]> content,
+            Snowflake applicationId, Snowflake guildId, SetApplicationCommandPermissionsJsonRestRequestContent[] contents,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.Interactions.SetCommandsPermissions, applicationId, guildId);
-            return client.ExecuteAsync<ApplicationCommandGuildPermissionsJsonModel[]>(route, content, options, cancellationToken);
+            return client.ExecuteAsync<ApplicationCommandGuildPermissionsJsonModel[]>(route, contents.ToContent(), options, cancellationToken);
         }
     }
 }
