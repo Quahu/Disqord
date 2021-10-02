@@ -33,7 +33,7 @@ namespace Disqord
         object ICloneable.Clone()
             => Clone();
 
-        public void Validate()
+        void ILocalConstruct.Validate()
         { }
     }
 }
