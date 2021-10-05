@@ -21,28 +21,18 @@ namespace Disqord.Test
         [RequireBotOwner]
         public async ValueTask Slash()
         {
-            var api = (Bot as IRestClient).ApiClient;
-            var content = new CreateApplicationCommandJsonRestRequestContent
-            {
-                // slash command creation
-                Name = "echo",
-                Description = "Echoes user input.",
-                Options = new[]
+            var slashCommand = new LocalSlashCommand()
+                .WithName("echo")
+                .WithDescription("Echoes user input.")
+                .WithOptions(new []
                 {
-                    new ApplicationCommandOptionJsonModel
-                    {
-                        Name = "text",
-                        Description = "The text to echo.",
-                        Required = true,
-                        Type = SlashCommandOptionType.String
-                    }
-                }
-
-                // context menu command creation
-                // Name = "Rate Message",
-                // Type = ApplicationCommandType.Message
-            };
-            await api.CreateGuildApplicationCommandAsync(Bot.CurrentUser.Id, Context.GuildId.Value, content);
+                    new LocalSlashCommandOption()
+                        .WithName("text")
+                        .WithDescription("The text to echo.")
+                        .WithIsRequired()
+                        .WithType(SlashCommandOptionType.String)
+                });
+            await Context.Bot.CreateGuildApplicationCommandAsync(Context.Bot.CurrentUser.Id, Context.GuildId.Value, slashCommand);
         }
 
         [Command("menudemo")]
