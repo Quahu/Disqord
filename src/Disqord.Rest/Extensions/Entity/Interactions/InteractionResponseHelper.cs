@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Qommon;
 
 namespace Disqord.Rest
@@ -13,7 +14,7 @@ namespace Disqord.Rest
         public bool HasResponded { get; private set; }
 
         /// <summary>
-        ///     Gets the type of the response if <see cref="HasResponded"/> is <see langword="true"/>.
+        ///     Gets the type of the response if <see cref="HasResponded"/> returns <see langword="true"/>.
         /// </summary>
         public InteractionResponseType ResponseType { get; private set; }
 
@@ -36,60 +37,85 @@ namespace Disqord.Rest
             ResponseType = type;
         }
 
-        public async Task PongAsync(IRestRequestOptions options = null)
+        public async Task PongAsync(
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (Interaction.Type != InteractionType.Ping)
                 Throw.InvalidOperationException("The interaction type must be a ping to pong it.");
 
             ThrowIfResponded();
+
             var client = Interaction.GetRestClient();
-            await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, new LocalInteractionResponse(InteractionResponseType.Pong), options).ConfigureAwait(false);
+            var response = new LocalInteractionResponse(InteractionResponseType.Pong);
+            await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken: cancellationToken).ConfigureAwait(false);
+
             SetResponded(InteractionResponseType.Pong);
         }
 
-        public async Task DeferAsync(bool isEphemeral = false, IRestRequestOptions options = null)
+        public async Task DeferAsync(
+            bool isEphemeral = false,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (Interaction is IComponentInteraction)
             {
-                await DeferAsync(true, isEphemeral, options).ConfigureAwait(false);
+                await DeferAsync(true, isEphemeral, options, cancellationToken).ConfigureAwait(false);
                 return;
             }
 
             ThrowIfResponded();
             var client = Interaction.GetRestClient();
-            await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, new LocalInteractionResponse(InteractionResponseType.DeferredChannelMessage)
-                .WithIsEphemeral(isEphemeral), options).ConfigureAwait(false);
+            var response = new LocalInteractionResponse(InteractionResponseType.DeferredChannelMessage)
+                .WithIsEphemeral(isEphemeral);
+
+            await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
 
             SetResponded(InteractionResponseType.DeferredChannelMessage);
         }
 
-        public async Task DeferAsync(bool deferViaMessageUpdate, bool isEphemeral = false, IRestRequestOptions options = null)
+        public async Task DeferAsync(
+            bool deferViaMessageUpdate, bool isEphemeral = false,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             ThrowIfResponded();
+
             var client = Interaction.GetRestClient();
             var responseType = deferViaMessageUpdate
                 ? InteractionResponseType.DeferredMessageUpdate
                 : InteractionResponseType.DeferredChannelMessage;
 
-            await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, new LocalInteractionResponse(responseType)
-                .WithIsEphemeral(isEphemeral), options).ConfigureAwait(false);
+            var response = new LocalInteractionResponse(responseType)
+                .WithIsEphemeral(isEphemeral);
+
+            await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
 
             SetResponded(responseType);
         }
 
-        public async Task SendMessageAsync(LocalInteractionResponse response, IRestRequestOptions options = null)
+        public async Task SendMessageAsync(
+            LocalInteractionResponse response,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
+            Guard.IsNotNull(response);
+
             response.Type = InteractionResponseType.ChannelMessage;
+
             var client = Interaction.GetRestClient();
-            await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options).ConfigureAwait(false);
+            await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
+
             SetResponded(InteractionResponseType.ChannelMessage);
         }
 
-        public async Task ModifyMessageAsync(LocalInteractionResponse response, IRestRequestOptions options = null)
+        public async Task ModifyMessageAsync(
+            LocalInteractionResponse response,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
+            Guard.IsNotNull(response);
+
             response.Type = InteractionResponseType.MessageUpdate;
+
             var client = Interaction.GetRestClient();
-            await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options).ConfigureAwait(false);
+            await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
+
             SetResponded(InteractionResponseType.MessageUpdate);
         }
     }
