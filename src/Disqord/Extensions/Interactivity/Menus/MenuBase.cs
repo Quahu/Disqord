@@ -113,6 +113,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         private Timer _timeoutTimer;
 
         private bool _isDisposed;
+        private readonly object _disposeLock = new();
 
         /// <summary>
         ///     Instantiates a new <see cref="MenuBase"/>.
@@ -150,7 +151,10 @@ namespace Disqord.Extensions.Interactivity.Menus
             if (!IsRunning)
                 return;
 
-            _timeoutTimer?.Change(_timeout, Timeout.InfiniteTimeSpan);
+            lock (_disposeLock)
+            {
+                _timeoutTimer?.Change(_timeout, Timeout.InfiniteTimeSpan);
+            }
         }
 
         /// <summary>
@@ -321,23 +325,33 @@ namespace Disqord.Extensions.Interactivity.Menus
 
             _tcs = new Tcs();
             _cts = Cts.Linked(Client.StoppingToken, cancellationToken);
-            _cts.Token.UnsafeRegister(tuple =>
+            _cts.Token.UnsafeRegister(state =>
             {
-                var (tcs, token) = ((Tcs, CancellationToken)) tuple;
+                var (tcs, token) = ((Tcs, CancellationToken)) state;
                 tcs.Cancel(token);
             }, (_tcs, cancellationToken));
 
-            if (timeout != Timeout.InfiniteTimeSpan)
+            if (timeout == Timeout.InfiniteTimeSpan)
+                return;
+
+            // We store the timeout so it can be refreshed when a button is triggered in HandleInteractionAsync.
+            _timeout = timeout;
+            _timeoutTimer = new Timer(state =>
             {
-                // We store the timeout so it can be refreshed when a button is triggered in OnButtonAsync.
-                _timeout = timeout;
-                _timeoutTimer = new Timer(tuple =>
+                var menu = (MenuBase) state;
+                lock (menu._disposeLock)
                 {
-                    var (tcs, cts) = ((Tcs, Cts)) tuple;
+                    if (!menu.IsRunning)
+                        return;
+
+                    var cts = menu._cts;
+                    if (cts == null)
+                        return;
+
                     cts.Cancel();
-                    tcs.Cancel(cts.Token);
-                }, (_tcs, _cts), timeout, Timeout.InfiniteTimeSpan);
-            }
+                    menu._tcs.Cancel(cts.Token);
+                }
+            }, this, timeout, Timeout.InfiniteTimeSpan);
         }
 
         /// <summary>
@@ -373,11 +387,17 @@ namespace Disqord.Extensions.Interactivity.Menus
             if (_isDisposed)
                 return;
 
-            _isDisposed = true;
-            _timeoutTimer?.Dispose();
-            _timeoutTimer = null;
-            _cts.Dispose();
-            _cts = null;
+            lock (_disposeLock)
+            {
+                if (_isDisposed)
+                    return;
+
+                _isDisposed = true;
+                _cts?.Dispose();
+                _cts = null;
+                _timeoutTimer?.Dispose();
+                _timeoutTimer = null;
+            }
 
             var view = _view;
             if (view != null)
