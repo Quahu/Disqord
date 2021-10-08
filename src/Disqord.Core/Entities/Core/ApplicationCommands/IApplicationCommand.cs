@@ -26,7 +26,7 @@ namespace Disqord
         ///     Gets the auto-incrementing version of this command.
         /// </summary>
         /// <remarks>
-        ///     The <see cref="Snowflake"> is automatically incremented by Discord each time the command is updated.
+        ///     The <see cref="Snowflake"/> is automatically incremented by Discord each time the command is updated.
         ///     Note that this seems to happen in bulk updates even if the command remains unchanged.
         /// </remarks>
         Snowflake Version { get; }
