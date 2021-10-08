@@ -38,13 +38,9 @@ namespace Disqord
         {
             Guard.IsNotNull(choice);
 
-            if (!@this.Choices.TryGetValue(out var list) || list == null)
-            {
-                list = new List<LocalSlashCommandOptionChoice>();
+            if (!@this.Choices.Add(choice, out var list))
                 @this.Choices = new(list);
-            }
 
-            list.Add(choice);
             return @this;
         }
 
@@ -53,16 +49,8 @@ namespace Disqord
         {
             Guard.IsNotNull(choices);
 
-            if (!@this.Choices.TryGetValue(out var list) || list == null)
-            {
-                list = new List<LocalSlashCommandOptionChoice>(choices);
+            if (!@this.Choices.With(choices, out var list))
                 @this.Choices = new(list);
-                return @this;
-            }
-
-            list.Clear();
-            foreach (var choice in choices)
-                list.Add(choice);
 
             return @this;
         }
@@ -76,13 +64,9 @@ namespace Disqord
         {
             Guard.IsNotNull(option);
 
-            if (!@this.Options.TryGetValue(out var list) || list == null)
-            {
-                list = new List<LocalSlashCommandOption>();
+            if (!@this.Options.Add(option, out var list))
                 @this.Options = new(list);
-            }
 
-            list.Add(option);
             return @this;
         }
 
@@ -91,16 +75,8 @@ namespace Disqord
         {
             Guard.IsNotNull(options);
 
-            if (!@this.Options.TryGetValue(out var list) || list == null)
-            {
-                list = new List<LocalSlashCommandOption>(options);
+            if (!@this.Options.With(options, out var list))
                 @this.Options = new(list);
-                return @this;
-            }
-
-            list.Clear();
-            foreach (var option in options)
-                list.Add(option);
 
             return @this;
         }
@@ -114,13 +90,9 @@ namespace Disqord
         {
             Guard.IsDefined(channelType);
 
-            if (!@this.ChannelTypes.TryGetValue(out var list) || list == null)
-            {
-                list = new List<ChannelType>();
+            if (!@this.ChannelTypes.Add(channelType, out var list))
                 @this.ChannelTypes = new(list);
-            }
 
-            list.Add(channelType);
             return @this;
         }
 
@@ -129,16 +101,8 @@ namespace Disqord
         {
             Guard.IsNotNull(channelTypes);
 
-            if (!@this.ChannelTypes.TryGetValue(out var list) || list == null)
-            {
-                list = new List<ChannelType>(channelTypes);
+            if (!@this.ChannelTypes.With(channelTypes, out var list))
                 @this.ChannelTypes = new(list);
-                return @this;
-            }
-
-            list.Clear();
-            foreach (var channelType in channelTypes)
-                list.Add(channelType);
 
             return @this;
         }

@@ -17,13 +17,9 @@ namespace Disqord
         {
             Guard.IsNotNull(option);
 
-            if (!@this.Options.TryGetValue(out var list) || list == null)
-            {
-                list = new List<LocalSlashCommandOption>();
+            if (!@this.Options.Add(option, out var list))
                 @this.Options = new(list);
-            }
 
-            list.Add(option);
             return @this;
         }
 
@@ -32,16 +28,8 @@ namespace Disqord
         {
             Guard.IsNotNull(options);
 
-            if (!@this.Options.TryGetValue(out var list) || list == null)
-            {
-                list = new List<LocalSlashCommandOption>(options);
+            if (!@this.Options.With(options, out var list))
                 @this.Options = new(list);
-                return @this;
-            }
-
-            list.Clear();
-            foreach (var option in options)
-                list.Add(option);
 
             return @this;
         }
