@@ -21,6 +21,9 @@ namespace Disqord
             if (x is ICustomEmoji customEmoji && y is ICustomEmoji otherCustomEmoji)
                 return customEmoji.Id == otherCustomEmoji.Id;
 
+            if (x is ICustomEmoji || y is ICustomEmoji)
+                return false;
+
             return x.Name == y.Name;
         }
 
