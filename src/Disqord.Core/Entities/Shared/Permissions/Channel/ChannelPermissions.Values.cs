@@ -25,9 +25,14 @@
             | Permission.UseVad
             | Permission.ManageRoles
             | Permission.ManageWebhooks
-            | Permission.UseSlashCommands
+            | Permission.UseApplicationCommands
             | Permission.RequestToSpeak
-            | Permission.UseExternalStickers);
+            | Permission.ManageThreads
+            | Permission.UseExternalStickers
+            | Permission.CreatePublicThreads
+            | Permission.CreatePrivateThreads
+            | Permission.SendMessagesInThreads
+            | Permission.StartActivities);
 
         public const ulong TEXT_PERMISSIONS_VALUE = (ulong) (
             Permission.CreateInvites
@@ -44,11 +49,12 @@
             | Permission.UseExternalEmojis
             | Permission.ManageRoles
             | Permission.ManageWebhooks
-            | Permission.UseSlashCommands
+            | Permission.UseApplicationCommands
             | Permission.ManageThreads
-            | Permission.UsePublicThreads
-            | Permission.UsePrivateThreads
-            | Permission.UseExternalStickers);
+            | Permission.CreatePublicThreads
+            | Permission.CreatePrivateThreads
+            | Permission.UseExternalStickers
+            | Permission.SendMessagesInThreads);
 
         public const ulong VOICE_PERMISSIONS_VALUE = (ulong) (
             Permission.CreateInvites
@@ -63,6 +69,7 @@
             | Permission.MoveMembers
             | Permission.UseVad
             | Permission.ManageRoles
+            | Permission.StartActivities
             // | Permission.RequestToSpeak TODO: stage channel
         );
 

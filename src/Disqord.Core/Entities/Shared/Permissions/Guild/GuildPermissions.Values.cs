@@ -34,11 +34,13 @@
             | Permission.ManageRoles
             | Permission.ManageWebhooks
             | Permission.ManageEmojisAndStickers
-            | Permission.UseSlashCommands
+            | Permission.UseApplicationCommands
             | Permission.RequestToSpeak
             | Permission.ManageThreads
-            | Permission.UsePublicThreads
-            | Permission.UsePrivateThreads
-            | Permission.UseExternalStickers);
+            | Permission.CreatePublicThreads
+            | Permission.CreatePrivateThreads
+            | Permission.UseExternalStickers
+            | Permission.SendMessagesInThreads
+            | Permission.StartActivities);
     }
 }
