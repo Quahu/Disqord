@@ -3,7 +3,7 @@
 namespace Disqord
 {
     /// <inheritdoc cref="IApplication"/>
-    public class TransientApplication : TransientEntity<ApplicationJsonModel>, IApplication
+    public class TransientApplication : TransientClientEntity<ApplicationJsonModel>, IApplication
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;

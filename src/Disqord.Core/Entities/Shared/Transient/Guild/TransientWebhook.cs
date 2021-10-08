@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class TransientWebhook : TransientEntity<WebhookJsonModel>, IWebhook
+    public class TransientWebhook : TransientClientEntity<WebhookJsonModel>, IWebhook
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;

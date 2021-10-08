@@ -8,7 +8,7 @@ namespace Disqord
 
         public bool IsAnimated { get; init; }
 
-        public string Tag => this.GetMessageFormat();
+        public string Tag => this.GetString();
 
         public LocalCustomEmoji()
         { }
@@ -33,9 +33,6 @@ namespace Disqord
 
         public bool Equals(ICustomEmoji other)
             => Comparers.Emoji.Equals(this, other);
-
-        public override string ToString()
-            => Tag;
 
         public override LocalCustomEmoji Clone()
             => MemberwiseClone() as LocalCustomEmoji;

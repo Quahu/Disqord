@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class TransientIntegrationAccount : TransientEntity<IntegrationAccountJsonModel>, IIntegrationAccount
+    public class TransientIntegrationAccount : TransientClientEntity<IntegrationAccountJsonModel>, IIntegrationAccount
     {
         /// <inheritdoc/>
         public string Id => Model.Id;

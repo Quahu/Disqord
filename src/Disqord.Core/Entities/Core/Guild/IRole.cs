@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a guild role.
     /// </summary>
-    public interface IRole : ISnowflakeEntity, IGuildEntity, INamable, IMentionable, IJsonUpdatable<RoleJsonModel>
+    public interface IRole : ISnowflakeEntity, IGuildEntity, INamableEntity, IMentionableEntity, IJsonUpdatable<RoleJsonModel>
     {
         /// <summary>
         ///     Gets the color of this role.
@@ -50,6 +50,6 @@ namespace Disqord
         ///     </code>
         ///     </example>
         /// </summary>
-        RoleTags Tags { get; }
+        IRoleTags Tags { get; }
     }
 }

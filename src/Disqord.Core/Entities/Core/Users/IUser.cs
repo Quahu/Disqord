@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a user.
     /// </summary>
-    public interface IUser : ISnowflakeEntity, INamable, IMentionable, ITaggable, IJsonUpdatable<UserJsonModel>
+    public interface IUser : ISnowflakeEntity, INamableEntity, IMentionableEntity, ITaggableEntity, IJsonUpdatable<UserJsonModel>
     {
         /// <summary>
         ///     Gets the 4-digit discriminator of this user.

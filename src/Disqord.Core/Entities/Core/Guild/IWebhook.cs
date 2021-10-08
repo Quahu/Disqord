@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a webhook.
     /// </summary>
-    public interface IWebhook : ISnowflakeEntity, IChannelEntity, IGuildEntity, INamable, IJsonUpdatable<WebhookJsonModel>
+    public interface IWebhook : ISnowflakeEntity, IChannelEntity, IGuildEntity, INamableEntity, IJsonUpdatable<WebhookJsonModel>
     {
         /// <summary>
         ///     Gets the avatar image hash of this webhook.

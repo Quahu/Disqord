@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Qommon;
 
 namespace Disqord.Gateway
 {
@@ -7,15 +7,12 @@ namespace Disqord.Gateway
     public static partial class GatewayEntityExtensions
     {
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static IGatewayClient GetGatewayClient(this IEntity entity)
+        public static IGatewayClient GetGatewayClient(this IClientEntity entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+            Guard.IsNotNull(entity);
+            Guard.IsAssignableToType<IGatewayClient>(entity.Client);
 
-            if (entity.Client is not IGatewayClient client)
-                throw new InvalidOperationException("This entity's client is not a gateway client implementation.");
-
-            return client;
+            return entity.Client as IGatewayClient;
         }
     }
 }

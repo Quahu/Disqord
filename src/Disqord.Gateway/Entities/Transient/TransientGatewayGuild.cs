@@ -6,7 +6,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord
 {
-    public class TransientGatewayGuild : TransientGuild, IGatewayGuild, ITransientEntity<GatewayGuildJsonModel>
+    public class TransientGatewayGuild : TransientGuild, IGatewayGuild, ITransientClientEntity<GatewayGuildJsonModel>
     {
         public DateTimeOffset JoinedAt => Model.JoinedAt;
 

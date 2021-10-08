@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a guild channel.
     /// </summary>
-    public interface IGuildChannel : IChannel, IGuildEntity, IMentionable
+    public interface IGuildChannel : IChannel, IGuildEntity, IMentionableEntity
     {
         /// <summary>
         ///     Gets the position within the guild of this channel.

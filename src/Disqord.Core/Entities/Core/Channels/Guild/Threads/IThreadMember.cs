@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a member of a thread channel.
     /// </summary>
-    public interface IThreadMember : IIdentifiable
+    public interface IThreadMember : IIdentifiableEntity
     {
         /// <summary>
         ///     Gets the ID of the thread of this member.

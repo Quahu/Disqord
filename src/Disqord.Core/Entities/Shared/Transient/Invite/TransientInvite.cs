@@ -3,7 +3,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientInvite : TransientEntity<InviteJsonModel>, IInvite
+    public class TransientInvite : TransientClientEntity<InviteJsonModel>, IInvite
     {
         /// <inheritdoc/>
         public Snowflake ChannelId => Model.Channel.Id;

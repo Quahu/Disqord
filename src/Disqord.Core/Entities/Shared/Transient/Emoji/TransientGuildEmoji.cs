@@ -3,7 +3,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientGuildEmoji : TransientEntity<EmojiJsonModel>, IGuildEmoji
+    public class TransientGuildEmoji : TransientClientEntity<EmojiJsonModel>, IGuildEmoji
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id.Value;
@@ -34,7 +34,7 @@ namespace Disqord
         public bool IsAvailable => Model.Available.Value;
 
         /// <inheritdoc/>
-        public string Tag => this.GetMessageFormat();
+        public string Tag => ToString();
 
         public TransientGuildEmoji(IClient client, Snowflake guildId, EmojiJsonModel model)
             : base(client, model)
@@ -55,6 +55,6 @@ namespace Disqord
             => Comparers.Emoji.GetHashCode(this);
 
         public override string ToString()
-            => Tag;
+            => this.GetString();
     }
 }

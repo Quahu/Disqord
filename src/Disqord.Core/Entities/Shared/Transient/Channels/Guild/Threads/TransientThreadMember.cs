@@ -3,7 +3,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientThreadMember : TransientEntity<ThreadMemberJsonModel>, IThreadMember
+    public class TransientThreadMember : TransientClientEntity<ThreadMemberJsonModel>, IThreadMember
     {
         public Snowflake Id => Model.UserId.Value;
 

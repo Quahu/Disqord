@@ -7,7 +7,7 @@ namespace Disqord
     /// <summary>
     ///     Represents current <see cref="BearerToken"/> authorization.
     /// </summary>
-    public interface IBearerAuthorization : IEntity, IJsonUpdatable<AuthorizationJsonModel>
+    public interface IBearerAuthorization : IClientEntity, IJsonUpdatable<AuthorizationJsonModel>
     {
         /// <summary>
         ///     Gets the partial application of this authorization.

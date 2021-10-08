@@ -20,7 +20,7 @@ namespace Disqord.Gateway
 
         public bool IsMentionable { get; private set; }
 
-        public RoleTags Tags { get; private set; }
+        public IRoleTags Tags { get; private set; }
 
         public string Mention => Disqord.Mention.Role(this);
 
@@ -43,7 +43,7 @@ namespace Disqord.Gateway
             Permissions = model.Permissions;
             IsManaged = model.Managed;
             IsMentionable = model.Mentionable;
-            Tags = Optional.ConvertOrDefault(model.Tags, x => new RoleTags(x), RoleTags.Empty);
+            Tags = Optional.ConvertOrDefault(model.Tags, model => new TransientRoleTags(model), IRoleTags.Empty);
         }
     }
 }

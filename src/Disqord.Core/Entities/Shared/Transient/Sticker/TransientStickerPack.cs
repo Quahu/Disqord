@@ -4,7 +4,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientStickerPack : TransientEntity<StickerPackJsonModel>, IStickerPack
+    public class TransientStickerPack : TransientClientEntity<StickerPackJsonModel>, IStickerPack
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;

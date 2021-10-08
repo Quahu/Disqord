@@ -6,13 +6,12 @@ namespace Disqord.Gateway
     public static partial class GatewayEntityExtensions
     {
         /// <summary>
-        ///     Gets a cached channel from the specified guild.
-        ///     Returns <see langword="null"/> if the channel is not cached.
+        ///     Gets a cached channel with the given ID within this guild.
         /// </summary>
-        /// <param name="guild"> The guild to get the channel for. </param>
+        /// <param name="guild"> The guild to get the channel within. </param>
         /// <param name="channelId"> The ID of the channel to get. </param>
         /// <returns>
-        ///     A cached channel from this guild.
+        ///     The channel or <see langword="null"/> if it was not cached.
         /// </returns>
         public static CachedGuildChannel GetChannel(this IGuild guild, Snowflake channelId)
         {
@@ -21,11 +20,11 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets all cached channels for the specified guild.
+        ///     Gets all channels within this guild.
         /// </summary>
-        /// <param name="guild"> The guild to get the channels for. </param>
+        /// <param name="guild"> The guild to get the channels within. </param>
         /// <returns>
-        ///     A dictionary of cached channels for this guild.
+        ///     A dictionary of channels within this guild keyed by their IDs.
         /// </returns>
         public static IReadOnlyDictionary<Snowflake, CachedGuildChannel> GetChannels(this IGuild guild)
         {
@@ -37,13 +36,12 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets a cached stage from the specified guild.
-        ///     Returns <see langword="null"/> if the stage is not cached.
+        ///     Gets a cached stage with the given ID within this guild.
         /// </summary>
-        /// <param name="guild"> The guild to get the stage for. </param>
+        /// <param name="guild"> The guild to get the stage within. </param>
         /// <param name="stageId"> The ID of the stage to get. </param>
         /// <returns>
-        ///     A cached stage from this guild.
+        ///     The stage or <see langword="null"/> if it was not cached.
         /// </returns>
         public static CachedStage GetStage(this IGuild guild, Snowflake stageId)
         {
@@ -52,11 +50,11 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets all cached stages for the specified guild.
+        ///     Gets all cached stages within this guild.
         /// </summary>
-        /// <param name="guild"> The guild to get the stages for. </param>
+        /// <param name="guild"> The guild to get the stages within. </param>
         /// <returns>
-        ///     A dictionary of cached stages for this guild keyed by <see cref="IStage.Id"/>.
+        ///     A dictionary of stages within this guild keyed by their IDs.
         /// </returns>
         public static IReadOnlyDictionary<Snowflake, CachedStage> GetStages(this IGuild guild)
         {
@@ -68,13 +66,12 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets a cached member from the specified guild.
-        ///     Returns <see langword="null"/> if the member is not cached.
+        ///     Gets a cached member with the given ID within this guild.
         /// </summary>
-        /// <param name="guild"> The guild to get the member for. </param>
+        /// <param name="guild"> The guild to get the member within. </param>
         /// <param name="memberId"> The ID of the member to get. </param>
         /// <returns>
-        ///     A cached member from this guild.
+        ///     The member or <see langword="null"/> if it was not cached.
         /// </returns>
         public static CachedMember GetMember(this IGuild guild, Snowflake memberId)
         {
@@ -83,11 +80,11 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets all cached members for the specified guild.
+        ///     Gets all cached members within this guild.
         /// </summary>
-        /// <param name="guild"> The guild to get the members for. </param>
+        /// <param name="guild"> The guild to get the members within. </param>
         /// <returns>
-        ///     A dictionary of cached members for this guild.
+        ///     A dictionary of members within this guild keyed by their IDs.
         /// </returns>
         public static IReadOnlyDictionary<Snowflake, CachedMember> GetMembers(this IGuild guild)
         {
@@ -99,13 +96,12 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets a cached voice state from the specified guild.
-        ///     Returns <see langword="null"/> if the voice state is not cached.
+        ///     Gets a cached voice state for of a member with the given ID within this guild.
         /// </summary>
-        /// <param name="guild"> The guild to get the voice state for. </param>
-        /// <param name="memberId"> The ID of the member to get the voice state for. </param>
+        /// <param name="guild"> The guild to get the voice state within. </param>
+        /// <param name="memberId"> The ID of the member to get the voice state of. </param>
         /// <returns>
-        ///     A cached voice state from this guild.
+        ///     The voice state or <see langword="null"/> if it was not cached.
         /// </returns>
         public static CachedVoiceState GetVoiceState(this IGuild guild, Snowflake memberId)
         {
@@ -114,11 +110,11 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets all cached voice states for the specified guild.
+        ///     Gets all cached voice states within this guild.
         /// </summary>
-        /// <param name="guild"> The guild to get the voice states for. </param>
+        /// <param name="guild"> The guild to get the voice states within. </param>
         /// <returns>
-        ///     A dictionary of cached voice states for this guild keyed by <see cref="IVoiceState.MemberId"/>.
+        ///     A dictionary of voice states within this guild keyed by IDs of their members.
         /// </returns>
         public static IReadOnlyDictionary<Snowflake, CachedVoiceState> GetVoiceStates(this IGuild guild)
         {
@@ -130,13 +126,12 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets a cached presence from the specified guild.
-        ///     Returns <see langword="null"/> if the presence is not cached.
+        ///     Gets a cached presence of a member with the given ID within this guild.
         /// </summary>
-        /// <param name="guild"> The guild to get the presence for. </param>
-        /// <param name="memberId"> The ID of the member to get the presence for. </param>
+        /// <param name="guild"> The guild to get the presence within. </param>
+        /// <param name="memberId"> The ID of the member to get the presence of. </param>
         /// <returns>
-        ///     A cached presence from this guild.
+        ///     The presence or <see langword="null"/> if it was not cached.
         /// </returns>
         public static CachedPresence GetPresence(this IGuild guild, Snowflake memberId)
         {
@@ -145,11 +140,11 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets all cached presences for the specified guild.
+        ///     Gets all cached presences within this guild.
         /// </summary>
-        /// <param name="guild"> The guild to get the presences for. </param>
+        /// <param name="guild"> The guild to get the presences within. </param>
         /// <returns>
-        ///     A dictionary of cached presences for this guild keyed by <see cref="IPresence.MemberId"/>.
+        ///     A dictionary of presences within this guild keyed by IDs of their members.
         /// </returns>
         public static IReadOnlyDictionary<Snowflake, CachedPresence> GetPresences(this IGuild guild)
         {

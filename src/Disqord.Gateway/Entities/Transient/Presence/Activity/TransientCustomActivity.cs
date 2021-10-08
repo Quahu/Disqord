@@ -15,7 +15,7 @@ namespace Disqord.Gateway
                 if (Model.Emoji.GetValueOrDefault() == null)
                     return null;
 
-                return _emoji ??= Disqord.Emoji.Create(Model.Emoji.Value);
+                return _emoji ??= TransientEmoji.Create(Model.Emoji.Value);
             }
         }
         private IEmoji _emoji;

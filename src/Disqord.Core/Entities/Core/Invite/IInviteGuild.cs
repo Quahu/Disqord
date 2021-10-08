@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a guild targeted by an invite.
     /// </summary>
-    public interface IInviteGuild : ISnowflakeEntity, INamable, IJsonUpdatable<GuildJsonModel>
+    public interface IInviteGuild : ISnowflakeEntity, INamableEntity, IJsonUpdatable<GuildJsonModel>
     {
         /// <summary>
         ///     Gets the splash image hash of the guild.

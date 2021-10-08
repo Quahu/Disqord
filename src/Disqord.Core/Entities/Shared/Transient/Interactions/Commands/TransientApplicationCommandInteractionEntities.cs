@@ -4,7 +4,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientApplicationCommandInteractionEntities : TransientEntity<ApplicationCommandInteractionDataResolvedJsonModel>, IApplicationCommandInteractionEntities
+    public class TransientApplicationCommandInteractionEntities : TransientClientEntity<ApplicationCommandInteractionDataResolvedJsonModel>, IApplicationCommandInteractionEntities
     {
         /// <inheritdoc/>
         public IReadOnlyDictionary<Snowflake, IUser> Users

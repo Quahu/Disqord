@@ -3,7 +3,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway
 {
-    public class TransientVoiceState : TransientEntity<VoiceStateJsonModel>, IVoiceState
+    public class TransientVoiceState : TransientClientEntity<VoiceStateJsonModel>, IVoiceState
     {
         public Snowflake GuildId => Model.GuildId.Value;
 

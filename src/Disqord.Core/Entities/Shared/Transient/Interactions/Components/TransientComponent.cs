@@ -3,7 +3,7 @@
 namespace Disqord
 {
     /// <inheritdoc cref="IComponent"/>
-    public class TransientComponent : TransientEntity<ComponentJsonModel>, IComponent
+    public class TransientComponent : TransientClientEntity<ComponentJsonModel>, IComponent
     {
         /// <inheritdoc/>
         public ComponentType Type => Model.Type;

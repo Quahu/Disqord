@@ -6,7 +6,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a slash command option.
     /// </summary>
-    public interface ISlashCommandOption : INamable, IJsonUpdatable<ApplicationCommandOptionJsonModel>
+    public interface ISlashCommandOption : IEntity, INamableEntity, IJsonUpdatable<ApplicationCommandOptionJsonModel>
     {
         /// <summary>
         ///     Gets the type of this option.

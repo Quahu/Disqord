@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represents a guild ban.
     /// </summary>
-    public interface IBan : IGuildEntity
+    public interface IBan : IClientEntity, IGuildEntity
     {
         /// <summary>
         ///     Gets the user of this ban.

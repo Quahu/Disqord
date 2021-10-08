@@ -4,7 +4,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientInviteStage: TransientEntity<InviteStageInstanceJsonModel>, IInviteStage
+    public class TransientInviteStage: TransientClientEntity<InviteStageInstanceJsonModel>, IInviteStage
     {
         /// <inheritdoc/>
         public Snowflake GuildId { get; }

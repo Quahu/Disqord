@@ -6,7 +6,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a custom emoji (e.g. <c>&lt;:professor:667582610431803437&gt;</c>) retrieved from a known guild.
     /// </summary>
-    public interface IGuildEmoji : ICustomEmoji, IGuildEntity, IJsonUpdatable<EmojiJsonModel>
+    public interface IGuildEmoji : ICustomEmoji, IGuildEntity, IClientEntity, IJsonUpdatable<EmojiJsonModel>
     {
         /// <summary>
         ///     Gets the role IDs that can use this emoji.

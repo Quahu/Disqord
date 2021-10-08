@@ -5,7 +5,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientSlashCommandInteractionOption : TransientEntity<ApplicationCommandInteractionDataOptionJsonModel>, ISlashCommandInteractionOption
+    public class TransientSlashCommandInteractionOption : TransientClientEntity<ApplicationCommandInteractionDataOptionJsonModel>, ISlashCommandInteractionOption
     {
         /// <inheritdoc/>
         public SlashCommandOptionType Type => Model.Type;

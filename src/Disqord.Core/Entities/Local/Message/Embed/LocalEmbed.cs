@@ -109,7 +109,7 @@ namespace Disqord
                 _fields[i].Validate();
         }
 
-        public static LocalEmbed FromEmbed(Embed embed)
+        public static LocalEmbed FromEmbed(IEmbed embed)
         {
             var builder = new LocalEmbed
             {

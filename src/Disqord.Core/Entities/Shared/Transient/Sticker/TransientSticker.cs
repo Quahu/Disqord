@@ -2,7 +2,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientSticker : TransientEntity<StickerJsonModel>, ISticker
+    public class TransientSticker : TransientClientEntity<StickerJsonModel>, ISticker
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;
@@ -33,5 +33,8 @@ namespace Disqord
                 StickerType.Guild => new TransientGuildSticker(client, model),
                 _ => new TransientSticker(client, model)
             };
+
+        public override string ToString()
+            => this.GetString();
     }
 }

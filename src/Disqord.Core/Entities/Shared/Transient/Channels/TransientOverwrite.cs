@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class TransientOverwrite : TransientEntity<OverwriteJsonModel>, IOverwrite
+    public class TransientOverwrite : TransientClientEntity<OverwriteJsonModel>, IOverwrite
     {
         public Snowflake ChannelId { get; }
 

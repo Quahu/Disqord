@@ -4,7 +4,7 @@ using Disqord.Models;
 namespace Disqord.Gateway
 {
     /// <inheritdoc cref="IBotGatewaySessionData"/>/>
-    public class TransientBotGatewaySessionData : TransientEntity<SessionStartLimitJsonModel>, IBotGatewaySessionData
+    public class TransientBotGatewaySessionData : TransientClientEntity<SessionStartLimitJsonModel>, IBotGatewaySessionData
     {
         /// <inheritdoc/>
         public int MaxCount => Model.Total;

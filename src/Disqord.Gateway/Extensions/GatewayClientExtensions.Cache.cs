@@ -6,6 +6,14 @@ namespace Disqord.Gateway
 {
     public static partial class GatewayClientExtensions
     {
+        /// <summary>
+        ///     Gets a cached user with the given ID.
+        /// </summary>
+        /// <param name="client"> The client to get the user from. </param>
+        /// <param name="userId"> The ID of the user to get. </param>
+        /// <returns>
+        ///     The user or <see langword="null"/>, if it was not cached or the user does not exist.
+        /// </returns>
         public static CachedUser GetUser(this IGatewayClient client, Snowflake userId)
         {
             if (client.CacheProvider.TryGetUsers(out var cache))
@@ -14,6 +22,14 @@ namespace Disqord.Gateway
             return null;
         }
 
+        /// <summary>
+        ///     Gets a cached guild with the given ID.
+        /// </summary>
+        /// <param name="client"> The client to get the guild from. </param>
+        /// <param name="guildId"> The ID of the guild to get. </param>
+        /// <returns>
+        ///     The user or <see langword="null"/>, if it was not cached or the bot is not in the guild.
+        /// </returns>
         public static CachedGuild GetGuild(this IGatewayClient client, Snowflake guildId)
         {
             if (client.CacheProvider.TryGetGuilds(out var cache))
@@ -22,6 +38,7 @@ namespace Disqord.Gateway
             return null;
         }
 
+        // TODO: xmldocs
         public static IReadOnlyDictionary<Snowflake, CachedGuild> GetGuilds(this IGatewayClient client)
         {
             if (client.CacheProvider.TryGetGuilds(out var cache))
@@ -29,7 +46,6 @@ namespace Disqord.Gateway
 
             return ReadOnlyDictionary<Snowflake, CachedGuild>.Empty;
         }
-
 
         public static CachedGuildChannel GetChannel(this IGatewayClient client, Snowflake guildId, Snowflake channelId)
         {

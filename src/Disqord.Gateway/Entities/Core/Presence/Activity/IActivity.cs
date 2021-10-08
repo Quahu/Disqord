@@ -6,7 +6,7 @@ namespace Disqord.Gateway
     /// <summary>
     ///     Represents a member's activity.
     /// </summary>
-    public interface IActivity : IEntity, IJsonUpdatable<ActivityJsonModel>
+    public interface IActivity : IClientEntity, IJsonUpdatable<ActivityJsonModel>
     {
         /// <summary>
         ///     Gets the name of this activity.

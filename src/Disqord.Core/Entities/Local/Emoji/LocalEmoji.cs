@@ -10,10 +10,10 @@ namespace Disqord
         public static LocalCustomEmoji Custom(Snowflake id, string name = null, bool isAnimated = false)
             => new(id, name, isAnimated);
 
-        public static LocalEmoji FromString(string emoji)
-            => LocalCustomEmoji.TryParse(emoji, out var customEmoji)
+        public static LocalEmoji FromString(string emojiString)
+            => LocalCustomEmoji.TryParse(emojiString, out var customEmoji)
                 ? customEmoji
-                : Unicode(emoji);
+                : Unicode(emojiString);
 
         public static LocalEmoji FromEmoji(IEmoji emoji)
         {
@@ -43,7 +43,7 @@ namespace Disqord
             => Comparers.Emoji.GetHashCode(this);
 
         public override string ToString()
-            => Name;
+            => this.GetString();
 
         public virtual LocalEmoji Clone()
             => MemberwiseClone() as LocalEmoji;
@@ -51,7 +51,7 @@ namespace Disqord
         object ICloneable.Clone()
             => Clone();
 
-        public virtual void Validate()
+        void ILocalConstruct.Validate()
         { }
     }
 }

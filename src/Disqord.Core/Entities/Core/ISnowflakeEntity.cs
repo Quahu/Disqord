@@ -1,8 +1,8 @@
 ﻿namespace Disqord
 {
     /// <summary>
-    ///     Represents a Discord entity with a unique <see cref="Snowflake"/> ID.
+    ///     Represents a Discord entity with a unique <see cref="Snowflake"/> ID that is also tied to a client.
     /// </summary>
-    public interface ISnowflakeEntity : IIdentifiable, IEntity
+    public interface ISnowflakeEntity : IIdentifiableEntity, IClientEntity
     { }
 }

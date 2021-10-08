@@ -6,7 +6,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a guild preview.
     /// </summary>
-    public interface IGuildPreview : IGuildEntity, INamable, IJsonUpdatable<GuildPreviewJsonModel>
+    public interface IGuildPreview : IGuildEntity, INamableEntity, IJsonUpdatable<GuildPreviewJsonModel>
     {
         /// <summary>
         ///     Gets the icon image hash of the guild.
@@ -26,7 +26,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the features of the guild.
         /// </summary>
-        GuildFeatures Features { get; }
+        IReadOnlyList<string> Features { get; }
 
         /// <summary>
         ///     Gets the emojis of the guild.

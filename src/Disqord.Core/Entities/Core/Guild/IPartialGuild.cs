@@ -3,7 +3,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public interface IPartialGuild : ISnowflakeEntity, INamable, IJsonUpdatable<GuildJsonModel>
+    public interface IPartialGuild : ISnowflakeEntity, INamableEntity, IJsonUpdatable<GuildJsonModel>
     {
         /// <summary>
         ///     Gets the icon image hash of this guild.

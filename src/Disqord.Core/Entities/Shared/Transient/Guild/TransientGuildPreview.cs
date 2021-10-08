@@ -4,7 +4,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientGuildPreview : TransientEntity<GuildPreviewJsonModel>, IGuildPreview
+    public class TransientGuildPreview : TransientClientEntity<GuildPreviewJsonModel>, IGuildPreview
     {
         /// <inheritdoc/>
         public Snowflake GuildId => Model.Id;
@@ -22,14 +22,16 @@ namespace Disqord
         public string DiscoverySplashHash => Model.DiscoverySplash.GetValueOrDefault();
 
         /// <inheritdoc/>
-        public GuildFeatures Features => new(Model.Features);
+        public IReadOnlyList<string> Features => Model.Features;
 
         /// <inheritdoc/>
-        public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis => _emojis ??= Model.Emojis.ToReadOnlyDictionary((Client, GuildId), (x, _) => x.Id.Value, (x, tuple) =>
-        {
-            var (client, guildId) = tuple;
-            return new TransientGuildEmoji(client, guildId, x) as IGuildEmoji;
-        });
+        public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis => _emojis ??= Model.Emojis.ToReadOnlyDictionary((Client, GuildId),
+            (model, _) => model.Id.Value,
+            (model, state) =>
+            {
+                var (client, guildId) = state;
+                return new TransientGuildEmoji(client, guildId, model) as IGuildEmoji;
+            });
         private IReadOnlyDictionary<Snowflake, IGuildEmoji> _emojis;
 
         /// <inheritdoc/>
@@ -44,5 +46,8 @@ namespace Disqord
         public TransientGuildPreview(IClient client, GuildPreviewJsonModel model)
             : base(client, model)
         { }
+
+        public override string ToString()
+            => this.GetString();
     }
 }

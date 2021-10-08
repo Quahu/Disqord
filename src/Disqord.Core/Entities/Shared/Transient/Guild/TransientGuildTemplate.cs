@@ -4,7 +4,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord
 {
-    public class TransientGuildTemplate : TransientEntity<GuildTemplateJsonModel>, IGuildTemplate
+    public class TransientGuildTemplate : TransientClientEntity<GuildTemplateJsonModel>, IGuildTemplate
     {
         /// <inheritdoc/>
         public Snowflake GuildId => Model.SourceGuildId;
@@ -43,5 +43,8 @@ namespace Disqord
         public TransientGuildTemplate(IClient client, GuildTemplateJsonModel model)
             : base(client, model)
         { }
+
+        public override string ToString()
+            => this.GetString();
     }
 }

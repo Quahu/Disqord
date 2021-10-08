@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public abstract class TransientChannel : TransientEntity<ChannelJsonModel>, IChannel
+    public abstract class TransientChannel : TransientClientEntity<ChannelJsonModel>, IChannel
     {
         public Snowflake Id => Model.Id;
 

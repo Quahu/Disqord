@@ -3,11 +3,11 @@
     /// <summary>
     ///     Represents a gateway Discord entity.
     /// </summary>
-    public interface IGatewayEntity : IEntity
+    public interface IGatewayEntity : IClientEntity
     {
-        /// <inheritdoc cref="IEntity.Client"/>
+        /// <inheritdoc cref="IClientEntity.Client"/>
         new IGatewayClient Client { get; }
 
-        IClient IEntity.Client => Client;
+        IClient IClientEntity.Client => Client;
     }
 }

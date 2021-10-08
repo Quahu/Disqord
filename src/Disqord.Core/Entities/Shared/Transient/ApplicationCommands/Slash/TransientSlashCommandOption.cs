@@ -4,7 +4,7 @@ using Qommon.Collections;
 
 namespace Disqord
 {
-    public class TransientSlashCommandOption : TransientEntity<ApplicationCommandOptionJsonModel>, ISlashCommandOption
+    public class TransientSlashCommandOption : TransientClientEntity<ApplicationCommandOptionJsonModel>, ISlashCommandOption
     {
         /// <inheritdoc/>
         public string Name => Model.Name;

@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a sticker pack.
     /// </summary>
-    public interface IStickerPack : ISnowflakeEntity, INamable
+    public interface IStickerPack : ISnowflakeEntity, INamableEntity
     {
         /// <summary>
         ///     Gets the stickers of this sticker pack.

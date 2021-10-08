@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents an application command.
     /// </summary>
-    public interface IApplicationCommand : ISnowflakeEntity, IPossibleGuildEntity, INamable, IJsonUpdatable<ApplicationCommandJsonModel>
+    public interface IApplicationCommand : ISnowflakeEntity, IPossibleGuildEntity, INamableEntity, IJsonUpdatable<ApplicationCommandJsonModel>
     {
         /// <summary>
         ///     Gets the type of this command.

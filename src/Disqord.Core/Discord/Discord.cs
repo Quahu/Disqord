@@ -17,17 +17,6 @@ namespace Disqord
                 : emoji.Name;
         }
 
-        public static string GetMessageFormat(this IEmoji emoji)
-        {
-            Guard.IsNotNull(emoji);
-
-            return emoji is ICustomEmoji customEmoji
-                ? customEmoji.IsAnimated
-                    ? $"<a:{customEmoji.Name ?? "_"}:{customEmoji.Id}>"
-                    : $"<:{customEmoji.Name ?? "_"}:{customEmoji.Id}>"
-                : emoji.Name;
-        }
-
         public static readonly Regex MessageJumpLinkRegex = new(@"^https?://(?:(ptb|canary)\.)?discord(?:app)?\.com/channels/(?<guild_id>([0-9]{15,21})|(@me))/(?<channel_id>[0-9]{15,21})/(?<message_id>[0-9]{15,21})/?$");
 
         public static string MessageJumpLink(Snowflake? guildId, Snowflake channelId, Snowflake messageId)

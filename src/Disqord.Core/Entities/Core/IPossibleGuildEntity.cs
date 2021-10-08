@@ -1,12 +1,12 @@
 ﻿namespace Disqord
 {
     /// <summary>
-    ///     Represents an entity that might have a guild ID attached to it.
+    ///     Represents a Discord entity that might exist within a guild.
     /// </summary>
-    public interface IPossibleGuildEntity : IEntity
+    public interface IPossibleGuildEntity
     {
         /// <summary>
-        ///     Gets the optional ID of the guild of this entity.
+        ///     Gets the ID of the guild of this entity.
         ///     Returns <see langword="null"/> if this entity has guild attached to it.
         /// </summary>
         Snowflake? GuildId { get; }

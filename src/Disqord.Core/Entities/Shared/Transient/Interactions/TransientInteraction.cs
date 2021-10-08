@@ -2,7 +2,7 @@
 
 namespace Disqord.Interaction
 {
-    public class TransientInteraction : TransientEntity<InteractionJsonModel>, IInteraction
+    public class TransientInteraction : TransientClientEntity<InteractionJsonModel>, IInteraction
     {
         public Snowflake Id => Model.Id;
 

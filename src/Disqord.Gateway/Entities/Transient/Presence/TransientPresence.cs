@@ -4,7 +4,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway
 {
-    public class TransientPresence : TransientEntity<PresenceJsonModel>, IPresence
+    public class TransientPresence : TransientClientEntity<PresenceJsonModel>, IPresence
     {
         /// <inheritdoc/>
         public Snowflake MemberId => Model.User.Id;

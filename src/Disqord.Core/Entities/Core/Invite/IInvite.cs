@@ -6,7 +6,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a channel invite.
     /// </summary>
-    public interface IInvite : IChannelEntity, IJsonUpdatable<InviteJsonModel>
+    public interface IInvite : IChannelEntity, IClientEntity, IJsonUpdatable<InviteJsonModel>
     {
         /// <summary>
         ///     Gets the code of this invite.

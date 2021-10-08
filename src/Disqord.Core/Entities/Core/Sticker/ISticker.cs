@@ -6,7 +6,7 @@ namespace Disqord
     ///     Represents a sticker.
     ///     This can be either an <see cref="IPackSticker"/> or an <see cref="IGuildSticker"/>.
     /// </summary>
-    public interface ISticker : IPartialSticker, IEntity, IJsonUpdatable<StickerJsonModel>
+    public interface ISticker : IPartialSticker, IClientEntity, IJsonUpdatable<StickerJsonModel>
     {
         /// <summary>
         ///     Gets the description of this sticker.
@@ -19,7 +19,7 @@ namespace Disqord
         /// <remarks>
         ///     This returns different values based on the sticker type.
         ///     Guild stickers return the Discord name of the Unicode emoji.
-        ///     Pack stickers return comma separated tags.
+        ///     Pack stickers return comma separated tags the desktop client uses to find the sticker.
         /// </remarks>
         string Tags { get; }
 

@@ -3,12 +3,11 @@
     public static partial class GatewayEntityExtensions
     {
         /// <summary>
-        ///     Gets the <see cref="CachedMessageGuildChannel"/> for the specified gateway message.
-        ///     Returns <see langword="null"/> if the channel is not cached or the message was sent in a private channel.
+        ///     Gets the cached channel of this message.
         /// </summary>
-        /// <param name="message"> The message to get the channel for. </param>
+        /// <param name="message"> The message to get the channel of. </param>
         /// <returns>
-        ///     The cached channel of this message.
+        ///     The channel or <see langword="null"/> if it was not cached.
         /// </returns>
         public static CachedMessageGuildChannel GetChannel(this IGatewayMessage message)
         {
@@ -20,11 +19,11 @@
         }
 
         /// <summary>
-        ///     Gets a URL that can be used to jump the specified message in the Discord client.
+        ///     Gets a URL for this message that can be used to jump to it in the Discord client.
         /// </summary>
         /// <param name="message"> The message to get the jump URL for. </param>
         /// <returns>
-        ///     The jump URL for the message.
+        ///     The jump URL for this message.
         /// </returns>
         public static string GetJumpUrl(this IGatewayMessage message)
             => Discord.MessageJumpLink(message.GuildId, message.ChannelId, message.Id);

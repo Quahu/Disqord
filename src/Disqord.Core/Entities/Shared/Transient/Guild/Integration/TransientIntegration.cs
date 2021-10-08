@@ -3,7 +3,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientIntegration : TransientEntity<IntegrationJsonModel>, IIntegration
+    public class TransientIntegration : TransientClientEntity<IntegrationJsonModel>, IIntegration
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;

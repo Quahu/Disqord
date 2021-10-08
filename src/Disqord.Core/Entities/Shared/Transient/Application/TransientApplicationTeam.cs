@@ -5,7 +5,7 @@ using Disqord.Models;
 namespace Disqord
 {
     /// <inheritdoc cref="IApplicationTeam"/>
-    public class TransientApplicationTeam : TransientEntity<TeamJsonModel>, IApplicationTeam
+    public class TransientApplicationTeam : TransientClientEntity<TeamJsonModel>, IApplicationTeam
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;

@@ -3,7 +3,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientInviteMetadata : TransientEntity<InviteJsonModel>, IInviteMetadata
+    public class TransientInviteMetadata : TransientClientEntity<InviteJsonModel>, IInviteMetadata
     {
         /// <inheritdoc/>
         public DateTimeOffset CreatedAt => Model.CreatedAt.Value;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Qommon;
 using Qommon.Collections;
 
 namespace Disqord.Gateway
@@ -8,12 +9,11 @@ namespace Disqord.Gateway
     public static partial class GatewayEntityExtensions
     {
         /// <summary>
-        ///     Gets the cached guild for the specified member.
-        ///     Returns <see langword="null"/> if the guild is not cached.
+        ///     Gets the cached guild of this member.
         /// </summary>
-        /// <param name="member"> The member to get the guild for. </param>
+        /// <param name="member"> The member to get the guild of. </param>
         /// <returns>
-        ///     The cached guild for this member.
+        ///     The guild or <see langword="null"/> if it was not cached.
         /// </returns>
         public static CachedGuild GetGuild(this IMember member)
         {
@@ -22,44 +22,45 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets a cached role for the specified member.
-        ///     Returns <see langword="null"/> if the role is not cached or the member does not have the given role.
+        ///     Gets a cached role with the given ID of this member.
         /// </summary>
-        /// <param name="member"> The member to get the role for. </param>
+        /// <param name="member"> The member to get the role of. </param>
         /// <param name="roleId"> The ID of the role to get. </param>
         /// <returns>
-        ///     A cached role for this member.
+        ///     The role or <see langword="null"/>, if it was not cached or the member does not have the role.
         /// </returns>
         public static CachedRole GetRole(this IMember member, Snowflake roleId)
         {
             var client = member.GetGatewayClient();
-            if (roleId != member.GuildId && !member.RoleIds.Any(x => x == roleId))
+            if (roleId != member.GuildId && !member.RoleIds.Contains(roleId))
                 return null;
 
             return client.GetRole(member.GuildId, roleId);
         }
 
         /// <summary>
-        ///     Gets all cached roles for the specified member.
-        ///     This, as opposed to <see cref="IMember.RoleIds"/>, returns the default guild role (<c>@everyone</c>) as well.
-        ///     If <paramref name="skipUncached"/> is set to <see langword="false"/> the
-        ///     returned dictionary will contain null values for roles that were not found in the cache.
+        ///     Gets all cached roles of this member.
         /// </summary>
         /// <remarks>
-        ///     Discord sometimes sends members with non-existent role IDs, usually in very large guilds.
-        ///     This means that there is a possibility that despite having all guild roles cached,
+        ///     This method, as opposed to <see cref="IMember.RoleIds"/>, returns the default guild role (<c>@everyone</c>).
+        ///     <para/>
+        ///     Discord sometimes sends members with non-existent role IDs, usually in very large guilds,
+        ///     so there is a possibility that despite having all guild roles cached,
         ///     the returned roles will differ from <see cref="IMember.RoleIds"/>.
+        ///     <br/>
+        ///     If <paramref name="skipUncached"/> is set to <see langword="false"/> the
+        ///     returned dictionary will contain null values for roles that were not found in the cache.
         /// </remarks>
-        /// <param name="member"> The member to get the roles for. </param>
+        /// <param name="member"> The member to get the roles from. </param>
         /// <param name="skipUncached"> Whether to skip roles not found in the cache. </param>
         /// <returns>
-        ///     A dictionary of cached roles for this member.
+        ///     A dictionary of roles of this member keyed by their IDs.
         /// </returns>
         public static IReadOnlyDictionary<Snowflake, CachedRole> GetRoles(this IMember member, bool skipUncached = true)
         {
             var client = member.GetGatewayClient();
             if (!client.CacheProvider.TryGetRoles(member.GuildId, out var cache, true))
-                throw new InvalidOperationException("The role cache must be enabled.");
+                Throw.InvalidOperationException("The role cache must be enabled.");
 
             var roleIds = member.RoleIds;
             var roles = new Dictionary<Snowflake, CachedRole>(roleIds.Count);
@@ -93,13 +94,14 @@ namespace Disqord.Gateway
             => member.GetHierarchy(member.GetGuild());
 
         /// <summary>
-        ///     Gets the role hierarchy of this member, i.e. the position of this member's
-        ///     highest role in the guild.
-        ///     Returns <see cref="int.MaxValue"/> if this member is the guild's owner.
+        ///     Gets the role hierarchy of this member,
+        ///     i.e. the position of this member's highest role in the guild.
         /// </summary>
         /// <param name="member"> The member to get the hierarchy for. </param>
         /// <param name="guild"> The guild of the member. </param>
-        /// <returns></returns>
+        /// <returns>
+        ///     The highest role's position or <see cref="int.MaxValue"/> if this member is the guild's owner.
+        /// </returns>
         public static int GetHierarchy(this IMember member, IGuild guild)
         {
             if (member.GuildId != guild.Id)
@@ -158,12 +160,11 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets the cached voice state for the specified member.
-        ///     Returns <see langword="null"/> if the voice state is not cached.
+        ///     Gets the cached voice state of the specified member.
         /// </summary>
-        /// <param name="member"> The member to get the voice state for. </param>
+        /// <param name="member"> The member to get the voice state of. </param>
         /// <returns>
-        ///     The cached voice state for this member.
+        ///     The voice state or <see langword="null"/>, if not cached or the member is not in a voice channel.
         /// </returns>
         public static CachedVoiceState GetVoiceState(this IMember member)
         {
@@ -172,12 +173,11 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
-        ///     Gets the cached presence for the specified member.
-        ///     Returns <see langword="null"/> if the presence is not cached.
+        ///     Gets the cached presence of the specified member.
         /// </summary>
-        /// <param name="member"> The member to get the presence for. </param>
+        /// <param name="member"> The member to get the presence of. </param>
         /// <returns>
-        ///     The cached presence for this member.
+        ///     The presence or <see langword="null"/> if not cached.
         /// </returns>
         public static CachedPresence GetPresence(this IMember member)
         {

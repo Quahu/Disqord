@@ -3,7 +3,7 @@
 namespace Disqord.Gateway
 {
     /// <inheritdoc cref="IBotGatewayData"/>/>
-    public class TransientBotGatewayData : TransientEntity<BotGatewayJsonModel>, IBotGatewayData
+    public class TransientBotGatewayData : TransientClientEntity<BotGatewayJsonModel>, IBotGatewayData
     {
         /// <inheritdoc/>
         public string Url => Model.Url;

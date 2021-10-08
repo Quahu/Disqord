@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class TransientBan : TransientEntity<BanJsonModel>, IBan
+    public class TransientBan : TransientClientEntity<BanJsonModel>, IBan
     {
         public Snowflake GuildId { get; }
 
@@ -16,5 +16,8 @@ namespace Disqord
         {
             GuildId = guildId;
         }
+
+        public override string ToString()
+            => this.GetString();
     }
 }

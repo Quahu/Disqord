@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class TransientRole : TransientEntity<RoleJsonModel>, IRole
+    public class TransientRole : TransientClientEntity<RoleJsonModel>, IRole
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;
@@ -37,8 +37,17 @@ namespace Disqord
         public bool IsMentionable => Model.Mentionable;
 
         /// <inheritdoc/>
-        public RoleTags Tags => _tags ??= Optional.ConvertOrDefault(Model.Tags, x => new RoleTags(x), RoleTags.Empty);
-        private RoleTags _tags;
+        public IRoleTags Tags
+        {
+            get
+            {
+                if (!Model.Tags.HasValue)
+                    return IRoleTags.Empty;
+
+                return _tags ??= new TransientRoleTags(Model.Tags.Value);
+            }
+        }
+        private IRoleTags _tags;
 
         public TransientRole(IClient client, Snowflake guildId, RoleJsonModel model)
             : base(client, model)

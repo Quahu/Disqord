@@ -4,7 +4,7 @@ using Qommon.Collections;
 
 namespace Disqord
 {
-    public class TransientGuildWelcomeScreen : TransientEntity<WelcomeScreenJsonModel>, IGuildWelcomeScreen
+    public class TransientGuildWelcomeScreen : TransientClientEntity<WelcomeScreenJsonModel>, IGuildWelcomeScreen
     {
         /// <inheritdoc/>
         public Snowflake GuildId { get; }
@@ -14,7 +14,6 @@ namespace Disqord
 
         /// <inheritdoc/>
         public IReadOnlyList<IGuildWelcomeScreenChannel> Channels => _channels ??= Model.Channels.ToReadOnlyList(x => new TransientGuildWelcomeScreenChannel(Client, x));
-
         private IReadOnlyList<IGuildWelcomeScreenChannel> _channels;
 
         public TransientGuildWelcomeScreen(IClient client, Snowflake guildId, WelcomeScreenJsonModel model)

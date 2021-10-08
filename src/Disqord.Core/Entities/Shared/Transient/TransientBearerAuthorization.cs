@@ -5,7 +5,7 @@ using Disqord.Models;
 namespace Disqord
 {
     /// <inheritdoc cref="IBearerAuthorization"/>
-    public class TransientBearerAuthorization : TransientEntity<AuthorizationJsonModel>, IBearerAuthorization
+    public class TransientBearerAuthorization : TransientClientEntity<AuthorizationJsonModel>, IBearerAuthorization
     {
         /// <inheritdoc/>
         public IApplication Application => _application ??= new TransientApplication(Client, Model.Application);

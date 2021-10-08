@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a team of a Discord application.
     /// </summary>
-    public interface IApplicationTeam : ISnowflakeEntity, INamable
+    public interface IApplicationTeam : ISnowflakeEntity, INamableEntity
     {
         /// <summary>
         ///     Gets the icon image hash of this team.

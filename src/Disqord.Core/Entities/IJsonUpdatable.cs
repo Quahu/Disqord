@@ -7,7 +7,7 @@ namespace Disqord
     ///     Represents an entity that can be updated from a <typeparamref name="TModel"/>.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public interface IJsonUpdatable<TModel>
+    public interface IJsonUpdatable<in TModel>
         where TModel : JsonModel
     {
         /// <summary>

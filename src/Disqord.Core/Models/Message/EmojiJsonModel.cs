@@ -1,8 +1,9 @@
-﻿using Disqord.Serialization.Json;
+﻿using System;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
-    public class EmojiJsonModel : JsonModel
+    public class EmojiJsonModel : JsonModel, IEquatable<IEmoji>
     {
         [JsonProperty("id")]
         public Snowflake? Id;
@@ -27,5 +28,22 @@ namespace Disqord.Models
 
         [JsonProperty("available")]
         public Optional<bool> Available;
+
+        public bool Equals(IEmoji other)
+        {
+            if (other == null)
+                return false;
+
+            var id = Id;
+            if (id != null)
+            {
+                if (other is not ICustomEmoji customEmoji)
+                    return false;
+
+                return id.Value == customEmoji.Id;
+            }
+
+            return Name == other.Name;
+        }
     }
 }

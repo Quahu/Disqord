@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class TransientSlashCommandOptionChoice : TransientEntity<ApplicationCommandOptionChoiceJsonModel>, ISlashCommandOptionChoice
+    public class TransientSlashCommandOptionChoice : TransientClientEntity<ApplicationCommandOptionChoiceJsonModel>, ISlashCommandOptionChoice
     {
         /// <inheritdoc/>
         public string Name => Model.Name;

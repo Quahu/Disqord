@@ -11,7 +11,7 @@ namespace Disqord.Gateway.Default.Dispatcher
         public override ValueTask<ReactionsClearedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionRemoveEmojiJsonModel model)
         {
             CachedUserMessage message;
-            Optional<IReadOnlyDictionary<IEmoji, MessageReaction>> oldReactions;
+            Optional<IReadOnlyDictionary<IEmoji, IMessageReaction>> oldReactions;
             if (CacheProvider.TryGetMessages(model.ChannelId, out var messageCache))
             {
                 message = messageCache.GetValueOrDefault(model.MessageId);
@@ -24,7 +24,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 oldReactions = default;
             }
 
-            var e = new ReactionsClearedEventArgs(model.GuildId.GetValueOrNullable(), model.ChannelId, model.MessageId, message, Emoji.Create(model.Emoji), oldReactions);
+            var e = new ReactionsClearedEventArgs(model.GuildId.GetValueOrNullable(), model.ChannelId, model.MessageId, message, TransientEmoji.Create(model.Emoji), oldReactions);
             return new(e);
         }
     }

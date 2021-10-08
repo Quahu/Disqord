@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class TransientFollowedChannel : TransientEntity<FollowedChannelJsonModel>, IFollowedChannel
+    public class TransientFollowedChannel : TransientClientEntity<FollowedChannelJsonModel>, IFollowedChannel
     {
         /// <inheritdoc/>
         public Snowflake ChannelId => Model.ChannelId;

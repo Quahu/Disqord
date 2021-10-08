@@ -4,7 +4,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientPartialGuild : TransientEntity<GuildJsonModel>, IPartialGuild
+    public class TransientPartialGuild : TransientClientEntity<GuildJsonModel>, IPartialGuild
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;

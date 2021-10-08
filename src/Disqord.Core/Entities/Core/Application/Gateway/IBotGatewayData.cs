@@ -4,7 +4,7 @@
     ///     Represents a Discord gateway bot response providing the gateway url,
     ///     recommended shard count, and gateway session usage data.
     /// </summary>
-    public interface IBotGatewayData
+    public interface IBotGatewayData : IEntity
     {
         /// <summary>
         ///     Gets the gateway URL.

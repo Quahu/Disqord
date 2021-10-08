@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class TransientIntegrationApplication : TransientEntity<IntegrationApplicationJsonModel>, IIntegrationApplication
+    public class TransientIntegrationApplication : TransientClientEntity<IntegrationApplicationJsonModel>, IIntegrationApplication
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;

@@ -4,10 +4,10 @@ using Disqord.Serialization.Json;
 namespace Disqord
 {
     /// <summary>
-    ///     Represents a short-lived entity that wraps a JSON model.
+    ///     Represents a short-lived client entity that wraps a JSON model.
     /// </summary>
     /// <typeparam name="TModel"> The type of the JSON model. </typeparam>
-    public interface ITransientEntity<TModel> : IEntity, IJsonUpdatable<TModel>
+    public interface ITransientEntity<TModel> : IJsonUpdatable<TModel>, IEntity
         where TModel : JsonModel
     {
         /// <summary>

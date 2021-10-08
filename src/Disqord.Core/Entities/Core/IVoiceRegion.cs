@@ -2,7 +2,10 @@
 
 namespace Disqord
 {
-    public interface IVoiceRegion : IEntity, INamable, IJsonUpdatable<VoiceRegionJsonModel>
+    /// <summary>
+    ///     Represents a Discord voice region.
+    /// </summary>
+    public interface IVoiceRegion : IClientEntity, INamableEntity, IJsonUpdatable<VoiceRegionJsonModel>
     {
         /// <summary>
         ///     Gets the ID of this voice region.

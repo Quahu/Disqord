@@ -38,7 +38,10 @@ namespace Disqord.Gateway
         public IReadOnlyList<IUser> MentionedUsers { get; protected set; }
 
         /// <inheritdoc/>
-        public Optional<IReadOnlyDictionary<IEmoji, MessageReaction>> Reactions { get; protected set; }
+        public Optional<IReadOnlyDictionary<IEmoji, IMessageReaction>> Reactions { get; protected set; }
+
+        /// <inheritdoc/>
+        public MessageFlag Flags { get; protected set; }
 
         protected CachedMessage(IGatewayClient client, CachedMember author, MessageJsonModel model)
             : base(client, model.Id)
@@ -80,6 +83,7 @@ namespace Disqord.Gateway
                     _transientAuthor = new TransientUser(Client, model.Author);
                 }
             }
+
             Content = model.Content;
             MentionedUsers = model.Mentions.ToReadOnlyList(Client, (x, client) =>
             {
@@ -89,24 +93,56 @@ namespace Disqord.Gateway
 
                 return new TransientUser(client, x) as IUser;
             });
-            Reactions = Optional.Convert(model.Reactions, x => x.ToReadOnlyDictionary(x => Emoji.Create(x.Emoji), x => new MessageReaction(x)));
+
+            Reactions = Optional.Convert(model.Reactions, models => models.ToReadOnlyDictionary(
+                x => TransientEmoji.Create(x.Emoji),
+                x => new TransientMessageReaction(x) as IMessageReaction));
+
+            Flags = model.Flags.GetValueOrDefault();
         }
 
         public void Update(MessageReactionAddJsonModel model)
         {
-            var emoji = Emoji.Create(model.Emoji);
             var reactions = Reactions;
             if (!reactions.HasValue)
             {
-                var newReactions = new Dictionary<IEmoji, MessageReaction>();
-                newReactions.Add(emoji, new MessageReaction(emoji, 1, model.UserId == Client.CurrentUser.Id));
-                Reactions = new Optional<IReadOnlyDictionary<IEmoji, MessageReaction>>(newReactions.ReadOnly());
+                var newReactions = new Dictionary<IEmoji, IMessageReaction>();
+                var reaction = new TransientMessageReaction(model.Emoji, 1, model.UserId == Client.CurrentUser.Id);
+                newReactions.Add(reaction.Emoji, reaction);
+                Reactions = new Optional<IReadOnlyDictionary<IEmoji, IMessageReaction>>(newReactions.ReadOnly());
             }
             else
             {
-                var newReactions = new Dictionary<IEmoji, MessageReaction>(reactions.Value);
-                var reaction = newReactions.GetValueOrDefault(emoji);
-                newReactions[emoji] = new MessageReaction(emoji, (reaction?.Count ?? 0) + 1, (reaction?.HasOwnReaction ?? false) || model.UserId == Client.CurrentUser.Id);
+                var newReactions = new Dictionary<IEmoji, IMessageReaction>();
+                TransientMessageReaction reaction = null;
+                foreach (var kvp in reactions.Value)
+                {
+                    var emoji = kvp.Key;
+                    if (model.Emoji.Id != null)
+                    {
+                        if (emoji is ICustomEmoji customEmoji && model.Emoji.Id == customEmoji.Id)
+                            reaction = kvp.Value as TransientMessageReaction;
+                    }
+                    else if (emoji is not ICustomEmoji && model.Emoji.Name == emoji.Name)
+                    {
+                        reaction = kvp.Value as TransientMessageReaction;
+                    }
+
+                    newReactions.Add(emoji, kvp.Value);
+                }
+
+                if (reaction == null)
+                {
+                    reaction = new TransientMessageReaction(model.Emoji, 1, false);
+                    newReactions.Add(reaction.Emoji, reaction);
+                }
+                else
+                {
+                    var reactionModel = reaction.Model;
+                    reactionModel.Count++;
+                    reactionModel.Me = reactionModel.Me || model.UserId == Client.CurrentUser.Id;
+                }
+
                 Reactions = newReactions;
             }
         }
@@ -114,25 +150,30 @@ namespace Disqord.Gateway
         public void Update(MessageReactionRemoveJsonModel model)
         {
             var reactions = Reactions;
-            if (reactions.HasValue)
+            if (!reactions.HasValue)
+                return;
+
+            var emoji = TransientEmoji.Create(model.Emoji);
+            if (reactions.Value.GetValueOrDefault(emoji) is not TransientMessageReaction reaction)
+                return;
+
+            var newReactions = new Dictionary<IEmoji, IMessageReaction>(reactions.Value);
+            if (reaction.Count == 1)
+                newReactions.Remove(emoji);
+            else
             {
-                var emoji = Emoji.Create(model.Emoji);
-                if (reactions.Value.TryGetValue(emoji, out var reaction))
-                {
-                    var newReactions = new Dictionary<IEmoji, MessageReaction>(reactions.Value);
-                    if (reaction.Count == 1)
-                        newReactions.Remove(emoji);
-                    else
-                        newReactions[emoji] = new MessageReaction(emoji, reaction.Count - 1, (!reaction.HasOwnReaction || model.UserId != Client.CurrentUser.Id) && reaction.HasOwnReaction);
-                    Reactions = newReactions;
-                }
+                var emojiModel = reaction.Model;
+                emojiModel.Count--;
+                if (reaction.HasOwnReaction && model.UserId != Client.CurrentUser.Id)
+                    emojiModel.Me = false;
             }
+
+            Reactions = newReactions;
         }
 
         public void Update(MessageReactionRemoveEmojiJsonModel model)
         {
-            var emoji = Emoji.Create(model.Emoji);
-            Reactions = Optional.Convert(Reactions, x => x.Where(x => !x.Key.Equals(emoji)).ToReadOnlyDictionary(x => x.Key, x => x.Value));
+            Reactions = Optional.Convert(Reactions, reactions => reactions.Where(kvp => !model.Emoji.Equals(kvp.Key)).ToReadOnlyDictionary(kvp => kvp.Key, kvp => kvp.Value));
         }
 
         public void Update(MessageReactionRemoveAllJsonModel model)

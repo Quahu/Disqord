@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents additional information about an <see cref="IInvite"/>.
     /// </summary>
-    public interface IInviteMetadata : IEntity
+    public interface IInviteMetadata : IClientEntity
     {
         /// <summary>
         ///     Gets the current uses of this invite.

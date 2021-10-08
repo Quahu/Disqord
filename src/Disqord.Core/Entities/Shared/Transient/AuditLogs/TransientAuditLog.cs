@@ -3,7 +3,7 @@ using Disqord.Models;
 
 namespace Disqord.AuditLogs
 {
-    public class TransientAuditLog : TransientEntity<AuditLogEntryJsonModel>, IAuditLog
+    public class TransientAuditLog : TransientClientEntity<AuditLogEntryJsonModel>, IAuditLog
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;

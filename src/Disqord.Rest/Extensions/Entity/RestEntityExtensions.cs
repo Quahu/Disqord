@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Qommon;
 
 namespace Disqord.Rest
 {
@@ -7,15 +7,12 @@ namespace Disqord.Rest
     public static partial class RestEntityExtensions
     {
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static IRestClient GetRestClient(this IEntity entity)
+        public static IRestClient GetRestClient(this IClientEntity entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+            Guard.IsNotNull(entity);
+            Guard.IsAssignableToType<IRestClient>(entity.Client);
 
-            if (entity.Client is not IRestClient client)
-                throw new InvalidOperationException("This entity's client is not a REST client implementation.");
-
-            return client;
+            return entity.Client as IRestClient;
         }
     }
 }

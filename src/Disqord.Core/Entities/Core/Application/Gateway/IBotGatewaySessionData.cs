@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents gateway session usage data.
     /// </summary>
-    public interface IBotGatewaySessionData
+    public interface IBotGatewaySessionData : IEntity
     {
         /// <summary>
         ///     Gets the maximum session count available per-day.

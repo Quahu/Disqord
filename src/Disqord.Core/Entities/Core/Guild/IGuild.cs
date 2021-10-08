@@ -8,7 +8,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a guild.
     /// </summary>
-    public interface IGuild : ISnowflakeEntity, INamable, IJsonUpdatable<GuildJsonModel>
+    public interface IGuild : ISnowflakeEntity, INamableEntity, IJsonUpdatable<GuildJsonModel>
     {
         /// <summary>
         ///     Gets the icon image hash of this guild.
@@ -78,7 +78,10 @@ namespace Disqord
         /// <summary>
         ///     Gets the features of this guild.
         /// </summary>
-        GuildFeatures Features { get; }
+        /// <remarks>
+        ///     For most use cases, <see cref="GuildExtensions.GetFeatures(IGuild)"/> should be preferred for simplicity.
+        /// </remarks>
+        IReadOnlyList<string> Features { get; }
 
         /// <summary>
         ///     Gets the <see cref="GuildMfaLevel"/> of this guild.

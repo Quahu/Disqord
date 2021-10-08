@@ -34,25 +34,22 @@ namespace Disqord.Gateway
         public IReadOnlyList<Snowflake> MentionedRoleIds { get; private set; }
 
         /// <inheritdoc/>
-        public IReadOnlyList<Attachment> Attachments { get; private set; }
+        public IReadOnlyList<IAttachment> Attachments { get; private set; }
 
         /// <inheritdoc/>
-        public IReadOnlyList<Embed> Embeds { get; private set; }
+        public IReadOnlyList<IEmbed> Embeds { get; private set; }
 
         /// <inheritdoc/>
-        public MessageActivity Activity { get; private set; }
+        public IMessageActivity Activity { get; private set; }
 
         /// <inheritdoc/>
-        public MessageApplication Application { get; private set; }
+        public IMessageApplication Application { get; private set; }
 
         /// <inheritdoc/>
         public Snowflake? ApplicationId { get; }
 
         /// <inheritdoc/>
-        public MessageReference Reference { get; private set; }
-
-        /// <inheritdoc/>
-        public MessageFlag Flags { get; private set; }
+        public IMessageReference Reference { get; private set; }
 
         /// <inheritdoc/>
         public Optional<IUserMessage> ReferencedMessage { get; private set; }
@@ -61,7 +58,7 @@ namespace Disqord.Gateway
         public IReadOnlyList<IRowComponent> Components { get; private set; }
 
         /// <inheritdoc/>
-        public IReadOnlyList<MessageSticker> Stickers { get; private set; }
+        public IReadOnlyList<IMessageSticker> Stickers { get; private set; }
 
         public CachedUserMessage(IGatewayClient client, CachedMember author, MessageJsonModel model)
             : base(client, author, model)
@@ -82,12 +79,11 @@ namespace Disqord.Gateway
             IsPinned = model.Pinned;
             MentionsEveryone = model.MentionEveryone;
             MentionedRoleIds = model.MentionRoles.ReadOnly();
-            Attachments = model.Attachments.ToReadOnlyList(x => new Attachment(x));
-            Embeds = model.Embeds.ToReadOnlyList(x => new Embed(x));
-            Activity = Optional.ConvertOrDefault(model.Activity, x => new MessageActivity(x));
-            Application = Optional.ConvertOrDefault(model.Application, x => new MessageApplication(x));
-            Reference = Optional.ConvertOrDefault(model.MessageReference, x => new MessageReference(x));
-            Flags = model.Flags.GetValueOrDefault();
+            Attachments = model.Attachments.ToReadOnlyList(model => new TransientAttachment(model));
+            Embeds = model.Embeds.ToReadOnlyList(model => new TransientEmbed(model));
+            Activity = Optional.ConvertOrDefault(model.Activity, model => new TransientMessageActivity(model));
+            Application = Optional.ConvertOrDefault(model.Application, model => new TransientMessageApplication(model));
+            Reference = Optional.ConvertOrDefault(model.MessageReference, model => new TransientMessageReference(model));
 
             if (model.Type == UserMessageType.Reply || model.Type == UserMessageType.ThreadStarterMessage || model.ReferencedMessage.GetValueOrDefault() != null)
             {
@@ -96,7 +92,7 @@ namespace Disqord.Gateway
             }
 
             Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => new TransientRowComponent(client, model) as IRowComponent), Client) ?? Array.Empty<IRowComponent>();
-            Stickers = Optional.ConvertOrDefault(model.StickerItems, x => x.ToReadOnlyList(y => new MessageSticker(y)), Array.Empty<MessageSticker>());
+            Stickers = Optional.ConvertOrDefault(model.StickerItems, models => models.ToReadOnlyList(model => new TransientMessageSticker(model) as IMessageSticker), Array.Empty<IMessageSticker>());
         }
 
         public void Update(MessageUpdateJsonModel model)
@@ -131,7 +127,7 @@ namespace Disqord.Gateway
                 });
 
             if (model.Reactions.HasValue)
-                Reactions = Optional.Convert(model.Reactions, x => x.ToReadOnlyDictionary(x => Emoji.Create(x.Emoji), x => new MessageReaction(x)));
+                Reactions = Optional.Convert(model.Reactions, models => models.ToReadOnlyDictionary(model => TransientEmoji.Create(model.Emoji), model => new TransientMessageReaction(model) as IMessageReaction));
 
             if (model.EditedTimestamp.HasValue)
                 EditedAt = model.EditedTimestamp.Value;
@@ -146,19 +142,19 @@ namespace Disqord.Gateway
                 MentionedRoleIds = model.MentionRoles.Value.ReadOnly();
 
             if (model.Attachments.HasValue)
-                Attachments = model.Attachments.Value.ToReadOnlyList(x => new Attachment(x));
+                Attachments = model.Attachments.Value.ToReadOnlyList(model => new TransientAttachment(model));
 
             if (model.Embeds.HasValue)
-                Embeds = model.Embeds.Value.ToReadOnlyList(x => new Embed(x));
+                Embeds = model.Embeds.Value.ToReadOnlyList(model => new TransientEmbed(model));
 
             if (model.Activity.HasValue)
-                Activity = Optional.ConvertOrDefault(model.Activity, x => new MessageActivity(x));
+                Activity = Optional.ConvertOrDefault(model.Activity, model => new TransientMessageActivity(model));
 
             if (model.Application.HasValue)
-                Application = Optional.ConvertOrDefault(model.Application, x => new MessageApplication(x));
+                Application = Optional.ConvertOrDefault(model.Application, model => new TransientMessageApplication(model));
 
             if (model.MessageReference.HasValue)
-                Reference = Optional.ConvertOrDefault(model.MessageReference, x => new MessageReference(x));
+                Reference = Optional.ConvertOrDefault(model.MessageReference, model => new TransientMessageReference(model));
 
             if (model.Flags.HasValue)
                 Flags = model.Flags.Value;
@@ -170,7 +166,7 @@ namespace Disqord.Gateway
                 Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => new TransientRowComponent(client, model) as IRowComponent), Client) ?? Array.Empty<IRowComponent>();
 
             if (model.StickerItems.HasValue)
-                Stickers = Optional.ConvertOrDefault(model.StickerItems, x => x.ToReadOnlyList(y => new MessageSticker(y)), Array.Empty<MessageSticker>());
+                Stickers = Optional.ConvertOrDefault(model.StickerItems, models => models.ToReadOnlyList(model => new TransientMessageSticker(model) as IMessageSticker), Array.Empty<IMessageSticker>());
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class TransientUser : TransientEntity<UserJsonModel>, IUser
+    public class TransientUser : TransientClientEntity<UserJsonModel>, IUser
     {
         /// <inheritdoc/>
         public virtual Snowflake Id => Model.Id;
@@ -33,6 +33,6 @@ namespace Disqord
         { }
 
         public override string ToString()
-            => Tag;
+            => this.GetString();
     }
 }

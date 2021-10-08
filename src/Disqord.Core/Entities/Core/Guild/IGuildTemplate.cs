@@ -7,7 +7,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a guild template.
     /// </summary>
-    public interface IGuildTemplate : IGuildEntity, INamable, IJsonUpdatable<GuildTemplateJsonModel>
+    public interface IGuildTemplate : IGuildEntity, IClientEntity, INamableEntity, IJsonUpdatable<GuildTemplateJsonModel>
     {
         /// <summary>
         ///     Gets the code of this template.

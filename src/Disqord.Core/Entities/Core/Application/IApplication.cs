@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a Discord application, e.g. a bot or a game.
     /// </summary>
-    public interface IApplication : ISnowflakeEntity, INamable, IJsonUpdatable<ApplicationJsonModel>
+    public interface IApplication : ISnowflakeEntity, INamableEntity, IJsonUpdatable<ApplicationJsonModel>
     {
         /// <summary>
         ///     Gets the icon image hash of this application.

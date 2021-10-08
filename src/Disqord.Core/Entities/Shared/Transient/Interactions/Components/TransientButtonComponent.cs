@@ -12,7 +12,7 @@ namespace Disqord
         public string Label => Model.Label.GetValueOrDefault();
 
         /// <inheritdoc/>
-        public IEmoji Emoji => Optional.ConvertOrDefault(Model.Emoji, Disqord.Emoji.Create);
+        public IEmoji Emoji => Optional.ConvertOrDefault(Model.Emoji, TransientEmoji.Create);
 
         /// <inheritdoc/>
         public string CustomId => Model.CustomId.Value;

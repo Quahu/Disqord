@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class TransientVoiceRegion : TransientEntity<VoiceRegionJsonModel>, IVoiceRegion
+    public class TransientVoiceRegion : TransientClientEntity<VoiceRegionJsonModel>, IVoiceRegion
     {
         /// <inheritdoc/>
         public string Name => Model.Name;
@@ -19,5 +19,8 @@ namespace Disqord
         public TransientVoiceRegion(IClient client, VoiceRegionJsonModel model)
             : base(client, model)
         { }
+
+        public override string ToString()
+            => this.GetString();
     }
 }

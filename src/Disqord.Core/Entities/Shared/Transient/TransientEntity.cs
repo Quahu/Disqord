@@ -1,27 +1,27 @@
-﻿using System;
-using Disqord.Serialization.Json;
+﻿using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord
 {
     /// <inheritdoc cref="ITransientEntity{TModel}"/>
-    public abstract class TransientEntity<TModel> : Entity, ITransientEntity<TModel>
+    public abstract class TransientEntity<TModel> : ITransientEntity<TModel>
         where TModel : JsonModel
     {
         /// <inheritdoc/>
         public TModel Model { get; }
 
         /// <summary>
-        ///     Instantiates a new <see cref="TransientEntity{TModel}"/> with the specified client and JSON model.
+        ///     Instantiates a new <see cref="TransientEntity{TModel}"/> with the specified JSON model.
         /// </summary>
-        /// <param name="client"> The managing client. </param>
-        /// <param name="model"> The JSON model. </param>
-        protected TransientEntity(IClient client, TModel model)
-            : base(client)
+        /// <param name="model"> The JSON model of this entity. </param>
+        protected TransientEntity(TModel model)
         {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+            Guard.IsNotNull(model);
 
             Model = model;
         }
+
+        public override string ToString()
+            => this.GetString();
     }
 }

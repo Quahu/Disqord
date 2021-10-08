@@ -2,7 +2,7 @@
 
 namespace Disqord
 {
-    public class TransientVanityInvite : TransientEntity<InviteJsonModel>, IVanityInvite
+    public class TransientVanityInvite : TransientClientEntity<InviteJsonModel>, IVanityInvite
     {
         /// <inheritdoc/>
         public string Code => Model.Code;

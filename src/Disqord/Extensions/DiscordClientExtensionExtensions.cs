@@ -6,7 +6,7 @@ namespace Disqord.Extensions
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class DiscordClientExtensionExtensions
     {
-        internal static DiscordClientBase GetDiscordClient(this IEntity entity)
+        internal static DiscordClientBase GetDiscordClient(this IClientEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));

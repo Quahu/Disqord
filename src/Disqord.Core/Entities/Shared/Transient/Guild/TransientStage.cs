@@ -3,7 +3,7 @@
 namespace Disqord
 {
     /// <inheritdoc cref="IStage"/>/>
-    public class TransientStage : TransientEntity<StageInstanceJsonModel>, IStage
+    public class TransientStage : TransientClientEntity<StageInstanceJsonModel>, IStage
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;

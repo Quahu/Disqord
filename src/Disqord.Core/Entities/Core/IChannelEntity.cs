@@ -1,12 +1,12 @@
 ﻿namespace Disqord
 {
     /// <summary>
-    ///     Represents an entity existing within a channel.
+    ///     Represents a Discord entity that exists within a channel.
     /// </summary>
     public interface IChannelEntity : IEntity
     {
         /// <summary>
-        ///     Gets the channel ID this entity is tied to.
+        ///     Gets the ID of the channel this entity is tied to.
         /// </summary>
         Snowflake ChannelId { get; }
     }

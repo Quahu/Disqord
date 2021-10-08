@@ -2,7 +2,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientGuildWelcomeScreenChannel : TransientEntity<WelcomeScreenChannelJsonModel>, IGuildWelcomeScreenChannel
+    public class TransientGuildWelcomeScreenChannel : TransientClientEntity<WelcomeScreenChannelJsonModel>, IGuildWelcomeScreenChannel
     {
         /// <inheritdoc/>
         public Snowflake ChannelId => Model.ChannelId;
@@ -11,7 +11,7 @@ namespace Disqord
         public string Description => Model.Description;
 
         /// <inheritdoc/>
-        public IEmoji Emoji => _emoji ??= Disqord.Emoji.Create(new EmojiJsonModel
+        public IEmoji Emoji => _emoji ??= TransientEmoji.Create(new EmojiJsonModel
         {
             Id = Model.EmojiId,
             Name = Model.EmojiName

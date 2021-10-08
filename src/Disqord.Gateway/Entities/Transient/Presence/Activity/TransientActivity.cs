@@ -3,7 +3,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway
 {
-    public class TransientActivity : TransientEntity<ActivityJsonModel>, IActivity
+    public class TransientActivity : TransientClientEntity<ActivityJsonModel>, IActivity
     {
         /// <inheritdoc/>
         public virtual string Name => Model.Name;
