@@ -8,7 +8,7 @@ namespace Disqord
     {
         /// <summary>
         ///     Gets the creation date of this entity.
-        ///     Short for <see cref="Snowflake.CreatedAt"/> from <see cref="ISnowflakeEntity.Id"/>.
+        ///     Short for <see cref="Snowflake.CreatedAt"/> from <see cref="IIdentifiableEntity.Id"/>.
         /// </summary>
         /// <returns>
         ///     The date at which the entity was created.

@@ -4,7 +4,7 @@ using Disqord.Models;
 namespace Disqord
 {
     /// <inheritdoc cref="IApplicationTeamMember"/>
-    public class TransientApplicationTeamMember : TransientUser, IApplicationTeamMember
+    public class TransientApplicationTeamMember : TransientUser, IApplicationTeamMember, ITransientEntity<TeamMemberJsonModel>
     {
         /// <inheritdoc/>
         public Snowflake TeamId => Model.TeamId;
@@ -15,7 +15,7 @@ namespace Disqord
         /// <inheritdoc/>
         public IReadOnlyList<string> Permissions => Model.Permissions;
 
-        /// <inheritdoc cref="ITransientClientEntity{TModel}.Model"/>
+        /// <inheritdoc/>
         public new TeamMemberJsonModel Model { get; }
 
         public TransientApplicationTeamMember(IClient client, TeamMemberJsonModel model)

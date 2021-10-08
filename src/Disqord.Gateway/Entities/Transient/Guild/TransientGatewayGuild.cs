@@ -4,12 +4,11 @@ using System.Globalization;
 using Disqord.Gateway;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
-using Qommon;
 using Qommon.Collections;
 
 namespace Disqord
 {
-    public class TransientGatewayGuild : TransientGatewayClientEntity<GatewayGuildJsonModel>, IGatewayGuild
+    public class TransientGatewayGuild : TransientGatewayClientEntity<GatewayGuildJsonModel>, IGatewayGuild, ITransientEntity<GuildJsonModel>
     {
         public Snowflake Id => Model.Id;
 
@@ -44,7 +43,6 @@ namespace Disqord
                 var (client, guildId) = state;
                 return new TransientRole(client, guildId, model) as IRole;
             });
-
         private IReadOnlyDictionary<Snowflake, IRole> _roles;
 
         public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis => _emojis ??= Model.Emojis.ToReadOnlyDictionary((Client, Id),
@@ -54,7 +52,6 @@ namespace Disqord
                 var (client, guildId) = state;
                 return new TransientGuildEmoji(client, guildId, model) as IGuildEmoji;
             });
-
         private IReadOnlyDictionary<Snowflake, IGuildEmoji> _emojis;
 
         public IReadOnlyList<string> Features => Model.Features;
@@ -124,7 +121,6 @@ namespace Disqord
                 var (client, guildId) = state;
                 return new TransientMember(client, guildId, model) as IMember;
             });
-
         private IReadOnlyDictionary<Snowflake, IMember> _members;
 
         public IReadOnlyDictionary<Snowflake, IGuildChannel> Channels => _channels ??= Model.Channels.ToReadOnlyDictionary(Client,
@@ -142,12 +138,11 @@ namespace Disqord
             (model, client) => new TransientStage(client, model) as IStage);
         private IReadOnlyDictionary<Snowflake, IStage> _stages;
 
+        GuildJsonModel ITransientEntity<GuildJsonModel>.Model => Model;
+
         public TransientGatewayGuild(IClient client, GatewayGuildJsonModel model)
             : base(client, model)
         { }
-
-        void IJsonUpdatable<GuildJsonModel>.Update(GuildJsonModel model)
-            => Throw.NotSupportedException();
 
         public override string ToString()
             => this.GetString();
