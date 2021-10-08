@@ -23,7 +23,7 @@ namespace Disqord.Gateway
                 {
                     lock (this)
                     {
-                        var activities = models.ToReadOnlyList(Client, (x, client) => TransientActivity.Create(client, x));
+                        var activities = models.ToReadOnlyList(Client, (models, client) => TransientActivity.Create(client, models));
                         _activities = activities;
                         return activities;
                     }

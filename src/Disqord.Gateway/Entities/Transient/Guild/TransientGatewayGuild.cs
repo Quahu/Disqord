@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Disqord.Gateway;
+using Disqord.Gateway.Api.Models;
 using Disqord.Models;
+using Qommon;
 using Qommon.Collections;
 
 namespace Disqord
 {
-    // If you update any members of this class, make sure to do the same for the gateway equivalent.
-
-    public class TransientGuild : TransientClientEntity<GuildJsonModel>, IGuild
+    public class TransientGatewayGuild : TransientGatewayClientEntity<GatewayGuildJsonModel>, IGatewayGuild
     {
         public Snowflake Id => Model.Id;
 
@@ -43,6 +44,7 @@ namespace Disqord
                 var (client, guildId) = state;
                 return new TransientRole(client, guildId, model) as IRole;
             });
+
         private IReadOnlyDictionary<Snowflake, IRole> _roles;
 
         public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis => _emojis ??= Model.Emojis.ToReadOnlyDictionary((Client, Id),
@@ -52,6 +54,7 @@ namespace Disqord
                 var (client, guildId) = state;
                 return new TransientGuildEmoji(client, guildId, model) as IGuildEmoji;
             });
+
         private IReadOnlyDictionary<Snowflake, IGuildEmoji> _emojis;
 
         public IReadOnlyList<string> Features => Model.Features;
@@ -102,9 +105,49 @@ namespace Disqord
         }
         private IReadOnlyDictionary<Snowflake, IGuildSticker> _stickers;
 
-        public TransientGuild(IClient client, GuildJsonModel model)
+        public DateTimeOffset JoinedAt => Model.JoinedAt;
+
+        public bool IsLarge => Model.Large;
+
+        public bool IsUnavailable => Model.Unavailable.GetValueOrDefault();
+
+        public int MemberCount => Model.MemberCount;
+
+        public IReadOnlyDictionary<Snowflake, IVoiceState> VoiceStates => _voiceStates ??= Model.VoiceStates.ToReadOnlyDictionary(Client,
+            (model, _) => model.UserId,
+            (model, client) => new TransientVoiceState(client, model) as IVoiceState);
+        private IReadOnlyDictionary<Snowflake, IVoiceState> _voiceStates;
+
+        public IReadOnlyDictionary<Snowflake, IMember> Members => _members ??= Model.Members.ToReadOnlyDictionary((Client, Id),
+            (model, _) => model.User.Value.Id, (model, state) =>
+            {
+                var (client, guildId) = state;
+                return new TransientMember(client, guildId, model) as IMember;
+            });
+
+        private IReadOnlyDictionary<Snowflake, IMember> _members;
+
+        public IReadOnlyDictionary<Snowflake, IGuildChannel> Channels => _channels ??= Model.Channels.ToReadOnlyDictionary(Client,
+            (model, _) => model.Id,
+            (model, client) => TransientGuildChannel.Create(client, model) as IGuildChannel);
+        private IReadOnlyDictionary<Snowflake, IGuildChannel> _channels;
+
+        public IReadOnlyDictionary<Snowflake, IPresence> Presences => _presences ??= Model.Presences.ToReadOnlyDictionary(Client,
+            (model, _) => model.User.Id,
+            (model, client) => new TransientPresence(client, model) as IPresence);
+        private IReadOnlyDictionary<Snowflake, IPresence> _presences;
+
+        public IReadOnlyDictionary<Snowflake, IStage> Stages => _stages ??= Model.StageInstances.ToReadOnlyDictionary(Client,
+            (model, _) => model.Id,
+            (model, client) => new TransientStage(client, model) as IStage);
+        private IReadOnlyDictionary<Snowflake, IStage> _stages;
+
+        public TransientGatewayGuild(IClient client, GatewayGuildJsonModel model)
             : base(client, model)
         { }
+
+        void IJsonUpdatable<GuildJsonModel>.Update(GuildJsonModel model)
+            => Throw.NotSupportedException();
 
         public override string ToString()
             => this.GetString();

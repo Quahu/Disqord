@@ -14,8 +14,11 @@
         ///     Gets the raw content of this message.
         /// </summary>
         /// <remarks>
-        ///     <see cref="IMessage.Content"/> is normally preferred, however if there's a new or unrecognised <see cref="SystemMessageType"/>
-        ///     this can be used for manual construction of the content. See <see cref="Discord.Internal.GetSystemMessageContent(ISystemMessage, IGuild)"/>.
+        ///     <see cref="IMessage.Content"/> is normally preferred as usually it's the content shown in the desktop Discord client,
+        ///     however that's manually formatted by the library and if there's a new or unrecognized <see cref="SystemMessageType"/>
+        ///     this can be used for manual construction of the content.
+        ///     <br/>
+        ///     See <see cref="Discord.Internal.GetSystemMessageContent(ISystemMessage, IGuild)"/>.
         /// </remarks>
         string RawContent { get; }
     }

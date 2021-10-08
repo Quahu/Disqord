@@ -1,8 +1,6 @@
 ﻿namespace Disqord.Gateway
 {
-    /// <summary>
-    ///     Represents a gateway Discord entity with a unique id.
-    /// </summary>
+    /// <inheritdoc cref="ISnowflakeEntity"/>
     public abstract class CachedSnowflakeEntity : CachedEntity, ISnowflakeEntity
     {
         /// <inheritdoc/>

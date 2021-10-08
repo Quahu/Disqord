@@ -1,6 +1,8 @@
-﻿namespace Disqord.Gateway
+﻿using System;
+
+namespace Disqord.Gateway
 {
-    public class LocalActivity
+    public class LocalActivity : ILocalConstruct
     {
         public static LocalActivity Playing(string name)
             => new(name, ActivityType.Playing);
@@ -17,11 +19,14 @@
         public static LocalActivity Competing(string name)
             => new(name, ActivityType.Competing);
 
-        public string Name { get; }
+        public string Name { get; init; }
 
-        public string Url { get; }
+        public string Url { get; init; }
 
-        public ActivityType Type { get; }
+        public ActivityType Type { get; init; }
+
+        public LocalActivity()
+        { }
 
         public LocalActivity(string name, ActivityType type, string url = null)
         {
@@ -36,5 +41,14 @@
             Url = url;
             Type = ActivityType.Streaming;
         }
+
+        public LocalActivity Clone()
+            => MemberwiseClone() as LocalActivity;
+
+        object ICloneable.Clone()
+            => Clone();
+
+        void ILocalConstruct.Validate()
+        { }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Qommon;
 
 namespace Disqord.Gateway
 {
@@ -10,8 +11,7 @@ namespace Disqord.Gateway
 
         protected CachedEntity(IGatewayClient client)
         {
-            if (client == null)
-                throw new ArgumentNullException(nameof(client));
+            Guard.IsNotNull(client);
 
             Client = client;
         }
@@ -19,5 +19,9 @@ namespace Disqord.Gateway
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual object Clone()
             => MemberwiseClone();
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => this.GetString();
     }
 }

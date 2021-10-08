@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Qommon.Collections;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
+using Qommon.Collections;
 
 namespace Disqord.Gateway
 {
@@ -230,19 +230,23 @@ namespace Disqord.Gateway
 
         private void SetEmojis(EmojiJsonModel[] emojis)
         {
-            Emojis = emojis.ToReadOnlyDictionary((Client, Id), (x, _) => x.Id.Value, (x, tuple) =>
-            {
-                var (client, guildId) = tuple;
-                return new TransientGuildEmoji(client, guildId, x) as IGuildEmoji;
-            });
+            Emojis = emojis.ToReadOnlyDictionary((Client, Id),
+                (model, _) => model.Id.Value,
+                (model, state) =>
+                {
+                    var (client, guildId) = state;
+                    return new TransientGuildEmoji(client, guildId, model) as IGuildEmoji;
+                });
         }
 
         private void SetStickers(Optional<StickerJsonModel[]> stickers)
         {
-            Stickers = Optional.ConvertOrDefault(stickers,
-                x => x.ToReadOnlyDictionary(Client, (k, _) => k.Id, (v, client) => new TransientGuildSticker(client, v) as IGuildSticker),
-                ReadOnlyDictionary<Snowflake, IGuildSticker>.Empty
-            );
+            if (!stickers.HasValue)
+                Stickers = ReadOnlyDictionary<Snowflake, IGuildSticker>.Empty;
+
+            Stickers = stickers.Value.ToReadOnlyDictionary(Client,
+                (model, _) => model.Id,
+                (model, client) => new TransientGuildSticker(client, model) as IGuildSticker);
         }
     }
 }

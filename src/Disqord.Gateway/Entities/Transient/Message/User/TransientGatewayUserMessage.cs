@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Disqord.Gateway;
 using Disqord.Models;
 using Qommon.Collections;
 
 namespace Disqord
 {
-    // If you update any members of this class, make sure to do the same for the gateway equivalent.
-
-    public class TransientUserMessage : TransientMessage, IUserMessage
+    public class TransientGatewayUserMessage : TransientGatewayMessage, IGatewayUserMessage
     {
         /// <inheritdoc/>
         public UserMessageType Type => Model.Type;
@@ -95,7 +94,7 @@ namespace Disqord
         }
         private IReadOnlyList<IMessageSticker> _stickers;
 
-        public TransientUserMessage(IClient client, MessageJsonModel model)
+        public TransientGatewayUserMessage(IClient client, MessageJsonModel model)
             : base(client, model)
         { }
     }
