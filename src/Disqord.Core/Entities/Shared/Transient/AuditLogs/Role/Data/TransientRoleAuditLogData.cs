@@ -16,6 +16,8 @@ namespace Disqord.AuditLogs
 
         public Optional<bool> IsMentionable { get; }
 
+        public Optional<string> UnicodeEmoji { get; }
+
         public TransientRoleAuditLogData(IClient client, AuditLogEntryJsonModel model, bool isCreated)
         {
             var changes = new TransientRoleAuditLogChanges(client, model);
@@ -27,6 +29,7 @@ namespace Disqord.AuditLogs
                 IsHoisted = changes.IsHoisted.NewValue;
                 IconHash = changes.IconHash.NewValue;
                 IsMentionable = changes.IsMentionable.NewValue;
+                UnicodeEmoji = changes.UnicodeEmoji.NewValue;
             }
             else
             {
@@ -36,6 +39,7 @@ namespace Disqord.AuditLogs
                 IsHoisted = changes.IsHoisted.OldValue;
                 IconHash = changes.IconHash.OldValue;
                 IsMentionable = changes.IsMentionable.OldValue;
+                UnicodeEmoji = changes.UnicodeEmoji.OldValue;
             }
         }
     }

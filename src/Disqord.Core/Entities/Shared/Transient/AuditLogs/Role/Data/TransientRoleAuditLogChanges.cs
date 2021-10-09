@@ -17,6 +17,8 @@ namespace Disqord.AuditLogs
 
         public AuditLogChange<bool> IsMentionable { get; }
 
+        public AuditLogChange<string> UnicodeEmoji { get; }
+
         public TransientRoleAuditLogChanges(IClient client, AuditLogEntryJsonModel model)
         {
             for (var i = 0; i < model.Changes.Value.Length; i++)
@@ -52,6 +54,11 @@ namespace Disqord.AuditLogs
                     case "mentionable":
                     {
                         IsMentionable = AuditLogChange<bool>.Convert(change);
+                        break;
+                    }
+                    case "unicode_emoji":
+                    {
+                        UnicodeEmoji = AuditLogChange<string>.Convert(change);
                         break;
                     }
                     default:

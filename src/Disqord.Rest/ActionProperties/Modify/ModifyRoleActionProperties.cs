@@ -21,6 +21,6 @@ namespace Disqord
         public Optional<int> Position { internal get; set; }
 
         internal bool HasValues
-            => Name.HasValue || Permissions.HasValue || Color.HasValue || IsHoisted.HasValue || Icon.HasValue || IsMentionable.HasValue || Position.HasValue;
+            => Name.HasValue || Permissions.HasValue || Color.HasValue || IsHoisted.HasValue || Icon.HasValue || IsMentionable.HasValue || Emoji.HasValue || Position.HasValue;
     }
 }

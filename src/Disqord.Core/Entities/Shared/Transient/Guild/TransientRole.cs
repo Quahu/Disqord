@@ -25,7 +25,7 @@ namespace Disqord
         public bool IsHoisted => Model.Hoist;
 
         /// <inheritdoc/>
-        public string IconHash => Model.Icon;
+        public string IconHash => Model.Icon.GetValueOrDefault();
 
         /// <inheritdoc/>
         public int Position => Model.Position;
@@ -44,10 +44,10 @@ namespace Disqord
         {
             get
             {
-                if (Model.UnicodeEmoji is null)
+                if (!Model.UnicodeEmoji.HasValue)
                     return null;
 
-                return _emoji ??= new TransientEmoji(Model.UnicodeEmoji);
+                return _emoji ??= new TransientEmoji(Model.UnicodeEmoji.Value);
             }
         }
         private IEmoji _emoji;

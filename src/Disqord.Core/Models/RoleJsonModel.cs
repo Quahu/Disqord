@@ -17,7 +17,7 @@ namespace Disqord.Models
         public bool Hoist;
 
         [JsonProperty("icon")]
-        public string Icon;
+        public Optional<string> Icon;
 
         [JsonProperty("position")]
         public int Position;
@@ -32,7 +32,7 @@ namespace Disqord.Models
         public bool Mentionable;
 
         [JsonProperty("unicode_emoji")]
-        public string UnicodeEmoji;
+        public Optional<string> UnicodeEmoji;
 
         [JsonProperty("tags")]
         public Optional<RoleTagsJsonModel> Tags;

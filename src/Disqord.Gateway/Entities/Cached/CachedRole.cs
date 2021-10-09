@@ -54,12 +54,15 @@ namespace Disqord.Gateway
                 ? model.Color
                 : null;
             IsHoisted = model.Hoist;
-            IconHash = model.Icon;
+            IconHash = model.Icon.GetValueOrDefault();
             Position = model.Position;
             Permissions = model.Permissions;
             IsManaged = model.Managed;
             IsMentionable = model.Mentionable;
-            Emoji = model.UnicodeEmoji is null ? null : new TransientEmoji(model.UnicodeEmoji);
+
+            if (model.UnicodeEmoji.HasValue)
+                Emoji = new TransientEmoji(model.UnicodeEmoji.Value);
+
             Tags = Optional.ConvertOrDefault(model.Tags, model => new TransientRoleTags(model), IRoleTags.Empty);
         }
     }

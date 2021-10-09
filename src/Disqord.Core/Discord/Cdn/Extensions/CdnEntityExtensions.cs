@@ -129,6 +129,8 @@ namespace Disqord
 
         public static string GetIconUrl(this IRole role, CdnAssetFormat format = default, int? size = null)
         {
+            Guard.IsNotNull(role);
+
             var iconHash = role.IconHash;
             return iconHash != null
                 ? Discord.Cdn.GetRoleIconUrl(role.Id, iconHash, format, size)
