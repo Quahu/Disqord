@@ -284,7 +284,7 @@ namespace Disqord
 
         /// <summary>
         ///     Gets a random color.
-        ///     Randomised using HSV with a random hue value.
+        ///     Randomized using HSV with a random hue value.
         /// </summary>
         public static Color Random
         {
@@ -292,11 +292,10 @@ namespace Disqord
             {
                 lock (_random)
                 {
-                    _random ??= new Random();
                     return FromHsv(_random.Next(0, 360), 1f, 1f);
                 }
             }
         }
-        private static Random _random;
+        private static readonly Random _random = new();
     }
 }
