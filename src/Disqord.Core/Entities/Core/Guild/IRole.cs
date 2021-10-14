@@ -46,6 +46,7 @@ namespace Disqord
 
         /// <summary>
         ///     Gets the unicode emoji of this role.
+        ///     This is used as the role's icon when an icon hash is not set.
         /// </summary>
         IEmoji Emoji { get; }
 
