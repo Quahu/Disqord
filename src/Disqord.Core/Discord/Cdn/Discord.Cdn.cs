@@ -42,7 +42,7 @@ namespace Disqord
             public static string GetGuildBannerUrl(Snowflake guildId, string bannerHash, CdnAssetFormat format = default, int? size = null)
             {
                 var path = $"banners/{guildId}/{bannerHash}";
-                return FormatUrl(path, format, size);
+                return FormatUrl(path, AutomaticGifFormat(format, bannerHash), size);
             }
 
             public static string GetUserBannerUrl(Snowflake userId, string bannerHash, CdnAssetFormat format = default, int? size = null)
