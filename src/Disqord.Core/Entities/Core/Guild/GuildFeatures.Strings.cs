@@ -3,6 +3,11 @@ namespace Disqord
     public readonly partial struct GuildFeatures
     {
         /// <summary>
+        ///     The guild can set an animated banner.
+        /// </summary>
+        public const string AnimatedBanner = "ANIMATED_BANNER";
+
+        /// <summary>
         ///     The guild can set an animated icon.
         /// </summary>
         public const string AnimatedIcon = "ANIMATED_ICON";

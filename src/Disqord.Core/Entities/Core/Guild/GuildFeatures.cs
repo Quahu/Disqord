@@ -17,6 +17,11 @@ namespace Disqord
     public readonly partial struct GuildFeatures : IReadOnlyList<string>
     {
         /// <summary>
+        ///     Gets whether the guild can set an animated banner.
+        /// </summary>
+        public bool HasAnimatedBanner => Has(AnimatedBanner);
+
+        /// <summary>
         ///     Gets whether the guild can set an animated icon.
         /// </summary>
         public bool HasAnimatedIcon => Has(AnimatedIcon);
