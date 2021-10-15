@@ -32,7 +32,7 @@ namespace Disqord.Gateway
         public bool IsMentionable { get; private set; }
 
         /// <inheritdoc/>
-        public IEmoji Emoji { get; private set; }
+        public IEmoji UnicodeEmoji { get; private set; }
 
         /// <inheritdoc/>
         public IRoleTags Tags { get; private set; }
@@ -59,7 +59,7 @@ namespace Disqord.Gateway
             Permissions = model.Permissions;
             IsManaged = model.Managed;
             IsMentionable = model.Mentionable;
-            Emoji = Optional.ConvertOrDefault(model.UnicodeEmoji, x => new TransientEmoji(x));
+            UnicodeEmoji = Optional.ConvertOrDefault(model.UnicodeEmoji, x => new TransientEmoji(x));
             Tags = Optional.ConvertOrDefault(model.Tags, model => new TransientRoleTags(model), IRoleTags.Empty);
         }
     }

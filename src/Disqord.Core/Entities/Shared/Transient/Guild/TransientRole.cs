@@ -40,17 +40,17 @@ namespace Disqord
         public bool IsMentionable => Model.Mentionable;
 
         /// <inheritdoc/>
-        public IEmoji Emoji
+        public IEmoji UnicodeEmoji
         {
             get
             {
                 if (!Model.UnicodeEmoji.HasValue)
                     return null;
 
-                return _emoji ??= new TransientEmoji(Model.UnicodeEmoji.Value);
+                return _unicodeEmoji ??= new TransientEmoji(Model.UnicodeEmoji.Value);
             }
         }
-        private IEmoji _emoji;
+        private IEmoji _unicodeEmoji;
 
         /// <inheritdoc/>
         public IRoleTags Tags

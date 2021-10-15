@@ -45,10 +45,10 @@ namespace Disqord
         bool IsMentionable { get; }
 
         /// <summary>
-        ///     Gets the unicode emoji of this role.
+        ///     Gets the Unicode emoji of this role.
         ///     This is used as the role's icon when an icon hash is not set.
         /// </summary>
-        IEmoji Emoji { get; }
+        IEmoji UnicodeEmoji { get; }
 
         /// <summary>
         ///     Gets the role tags of this role.

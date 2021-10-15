@@ -403,8 +403,8 @@ namespace Disqord.Rest
             var properties = new CreateRoleActionProperties();
             action?.Invoke(properties);
 
-            if (properties.Emoji.HasValue && properties.Emoji.Value is LocalCustomEmoji)
-                throw new ArgumentException("The role's emoji must be a unicode emoji.");
+            if (properties.UnicodeEmoji.HasValue && properties.UnicodeEmoji.Value is LocalCustomEmoji)
+                throw new ArgumentException("The role's emoji must be a Unicode emoji.");
 
             var content = new CreateRoleJsonRestRequestContent
             {
@@ -414,7 +414,7 @@ namespace Disqord.Rest
                 Hoist = properties.IsHoisted,
                 Icon = properties.Icon,
                 Mentionable = properties.IsMentionable,
-                UnicodeEmoji = Optional.Convert(properties.Emoji, x => x.Name)
+                UnicodeEmoji = Optional.Convert(properties.UnicodeEmoji, x => x.Name)
             };
 
             var model = await client.ApiClient.CreateRoleAsync(guildId, content, options, cancellationToken).ConfigureAwait(false);
@@ -450,8 +450,8 @@ namespace Disqord.Rest
             var properties = new ModifyRoleActionProperties();
             action?.Invoke(properties);
 
-            if (properties.Emoji.HasValue && properties.Emoji.Value is LocalCustomEmoji)
-                throw new ArgumentException("The role's emoji must be a unicode emoji.");
+            if (properties.UnicodeEmoji.HasValue && properties.UnicodeEmoji.Value is LocalCustomEmoji)
+                throw new ArgumentException("The role's emoji must be a Unicode emoji.");
 
             if (properties.Position.HasValue)
             {
@@ -469,7 +469,7 @@ namespace Disqord.Rest
                 Hoist = properties.IsHoisted,
                 Icon = properties.Icon,
                 Mentionable = properties.IsMentionable,
-                UnicodeEmoji = Optional.Convert(properties.Emoji, x => x.Name)
+                UnicodeEmoji = Optional.Convert(properties.UnicodeEmoji, x => x.Name)
             };
 
             var model = await client.ApiClient.ModifyRoleAsync(guildId, roleId, content, options, cancellationToken).ConfigureAwait(false);
