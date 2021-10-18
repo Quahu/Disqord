@@ -406,7 +406,7 @@ namespace Disqord.Rest.Api
 
                             var segment = pathSpan.Slice(0, secondBracketIndex);
                             if (argumentIndex != segment[0])
-                                Debug.Fail($"Route {type.Name}.{field.Name} contains duplicate argument indice ({argumentIndex}).");
+                                Debug.Fail($"Route {type.Name}.{field.Name} contains duplicate argument index ({argumentIndex}).");
 
                             if (segment.Length > 1)
                             {
