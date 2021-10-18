@@ -253,7 +253,25 @@ namespace Disqord.Rest
             });
         }
 
-        // TODO: add member
+        public static async Task<IMember> AddMemberAsync(this IRestClient client,
+            Snowflake guildId, Snowflake userId, BearerToken token,
+            Action<AddMemberActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var content = new AddMemberJsonRestRequestContent(token.RawValue);
+            if (action != null)
+            {
+                var properties = new AddMemberActionProperties();
+                action(properties);
+                content.Nick = properties.Nick;
+                content.Roles = Optional.Convert(properties.RoleIds, roleIds => roleIds.ToArray());
+                content.Mute = properties.IsMuted;
+                content.Deaf = properties.IsDeafened;
+            }
+
+            var model = await client.ApiClient.AddMemberAsync(guildId, userId, content, options, cancellationToken);
+            return new TransientMember(client, guildId, model);
+        }
 
         public static Task SetCurrentMemberNickAsync(this IRestClient client,
             Snowflake guildId, string nick,
