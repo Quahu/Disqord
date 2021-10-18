@@ -29,7 +29,8 @@ namespace Disqord.OAuth2.Default
             var restApiClient = _restApiClientFactory(_services, new object[]
             {
                 token,
-                ActivatorUtilities.CreateInstance<DefaultRestRateLimiter>(_services)
+                ActivatorUtilities.CreateInstance<DefaultRestRateLimiter>(_services),
+                ActivatorUtilities.CreateInstance<DefaultRestRequester>(_services)
             }) as IRestApiClient;
 
             var restClient = _restClientFactory(_services, new object[]
@@ -49,7 +50,7 @@ namespace Disqord.OAuth2.Default
 
         static DefaultBearerClientFactory()
         {
-            _restApiClientFactory = ActivatorUtilities.CreateFactory(typeof(DefaultRestApiClient), new[] { typeof(Token), typeof(IRestRateLimiter) });
+            _restApiClientFactory = ActivatorUtilities.CreateFactory(typeof(DefaultRestApiClient), new[] { typeof(Token), typeof(IRestRateLimiter), typeof(IRestRequester) });
             _restClientFactory = ActivatorUtilities.CreateFactory(typeof(DefaultRestClient), new[] { typeof(IOptions<DefaultRestClientConfiguration>), typeof(IRestApiClient) });
         }
     }

@@ -31,8 +31,7 @@ namespace Disqord.Hosting
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static void ConfigureDiscordClient(this IServiceCollection services, HostBuilderContext context, DiscordClientHostingContext discordContext)
         {
-            if (!services.Any(x => x.ServiceType == typeof(Token)))
-                services.AddToken(Token.Bot(discordContext.Token));
+            services.Replace(ServiceDescriptor.Singleton<Token>(Token.Bot(discordContext.Token)));
 
             if (discordContext.Intents != null)
                 services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Intents = discordContext.Intents.Value);

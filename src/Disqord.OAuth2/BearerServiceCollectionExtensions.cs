@@ -16,6 +16,7 @@ namespace Disqord.OAuth2
         /// </returns>
         public static IServiceCollection AddBearerClientFactory(this IServiceCollection services)
         {
+            services.AddToken(Token.None);
             services.AddRestClient();
             services.TryAddSingleton<IBearerClientFactory, DefaultBearerClientFactory>();
 
