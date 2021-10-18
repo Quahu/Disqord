@@ -85,7 +85,7 @@ namespace Disqord.Rest
             IRestRequestOptions options, CancellationToken cancellationToken)
         {
             var models = await client.ApiClient.FetchGuildsAsync(limit, direction, startFromId, options, cancellationToken).ConfigureAwait(false);
-            return models.ToReadOnlyList(client, (x, client) => new TransientPartialGuild(client, x));
+            return models.ToReadOnlyList(client, (model, client) => new TransientPartialGuild(client, model));
         }
 
         public static Task LeaveGuildAsync(this IRestClient client,
@@ -116,12 +116,5 @@ namespace Disqord.Rest
 
             return channel;
         }
-
-        //public static async Task<IReadOnlyList<IConnection>> FetchConnectionsAsync(this IRestClient client,
-        //    IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-        //{
-        //    var models = await client.ApiClient.FetchConnectionsAsync(options, cancellationToken).ConfigureAwait(false);
-        //    return models.ToReadOnlyList(client, (x, client) => new TransientConnection(client, x));
-        //}
     }
 }

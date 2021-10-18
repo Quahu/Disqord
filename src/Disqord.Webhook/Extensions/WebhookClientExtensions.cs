@@ -13,7 +13,7 @@ namespace Disqord.Webhook
     public static class WebhookClientExtensions
     {
         /// <summary>
-        ///     Fetches this webhook..
+        ///     Fetches this webhook.
         /// </summary>
         /// <param name="client"> The webhook client. </param>
         /// <param name="options"> The optional request options. </param>
@@ -24,7 +24,9 @@ namespace Disqord.Webhook
         /// </returns>
         public static Task<IWebhook> FetchAsync(this IWebhookClient client,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.RestClient.FetchWebhookAsync(client.Id, client.Token, options, cancellationToken);
+        {
+            return client.RestClient.FetchWebhookAsync(client.Id, client.Token, options, cancellationToken);
+        }
 
         /// <summary>
         ///     Modifies this webhook using the provided action.
@@ -37,9 +39,12 @@ namespace Disqord.Webhook
         ///     A <see cref="Task{TResult}"/> representing the asynchronous request
         ///     that wraps the returned <see cref="IWebhook"/>.
         /// </returns>
-        public static Task<IWebhook> ModifyAsync(this IWebhookClient client, Action<ModifyWebhookActionProperties> action,
+        public static Task<IWebhook> ModifyAsync(this IWebhookClient client,
+            Action<ModifyWebhookActionProperties> action,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.RestClient.ModifyWebhookAsync(client.Id, action, client.Token, options, cancellationToken);
+        {
+            return client.RestClient.ModifyWebhookAsync(client.Id, action, client.Token, options, cancellationToken);
+        }
 
         /// <summary>
         ///     Deletes this webhook.
@@ -52,7 +57,9 @@ namespace Disqord.Webhook
         /// </returns>
         public static Task DeleteAsync(this IWebhookClient client,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.RestClient.DeleteWebhookAsync(client.Id, client.Token, options, cancellationToken);
+        {
+            return client.RestClient.DeleteWebhookAsync(client.Id, client.Token, options, cancellationToken);
+        }
 
         /// <summary>
         ///     Executes this webhook, i.e. sends a message from it.
@@ -66,9 +73,12 @@ namespace Disqord.Webhook
         ///     A <see cref="Task{TResult}"/> representing the asynchronous request
         ///     that wraps the returned <see cref="IUserMessage"/> if <paramref name="wait"/> is <see langword="true"/>.
         /// </returns>
-        public static Task<IUserMessage> ExecuteAsync(this IWebhookClient client, LocalWebhookMessage message, bool wait = false,
+        public static Task<IUserMessage> ExecuteAsync(this IWebhookClient client,
+            LocalWebhookMessage message, bool wait = false,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.RestClient.ExecuteWebhookAsync(client.Id, client.Token, message, wait, options, cancellationToken);
+        {
+            return client.RestClient.ExecuteWebhookAsync(client.Id, client.Token, message, wait, options, cancellationToken);
+        }
 
         /// <summary>
         ///     Fetch a message sent by this webhook.
@@ -80,9 +90,12 @@ namespace Disqord.Webhook
         /// <returns>
         ///     A <see cref="Task"/> representing the asynchronous request.
         /// </returns>
-        public static Task<IUserMessage> FetchMessageAsync(this IWebhookClient client, Snowflake messageId,
+        public static Task<IUserMessage> FetchMessageAsync(this IWebhookClient client,
+            Snowflake messageId,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.RestClient.FetchWebhookMessageAsync(client.Id, client.Token, messageId, options, cancellationToken);
+        {
+            return client.RestClient.FetchWebhookMessageAsync(client.Id, client.Token, messageId, options, cancellationToken);
+        }
 
         /// <summary>
         ///     Modifies a message sent by this webhook.
@@ -96,9 +109,12 @@ namespace Disqord.Webhook
         ///     A <see cref="Task{TResult}"/> representing the asynchronous request
         ///     that wraps the updated <see cref="IUserMessage"/>.
         /// </returns>
-        public static Task<IUserMessage> ModifyMessageAsync(this IWebhookClient client, Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action,
+        public static Task<IUserMessage> ModifyMessageAsync(this IWebhookClient client,
+            Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.RestClient.ModifyWebhookMessageAsync(client.Id, client.Token, messageId, action, options, cancellationToken);
+        {
+            return client.RestClient.ModifyWebhookMessageAsync(client.Id, client.Token, messageId, action, options, cancellationToken);
+        }
 
         /// <summary>
         ///     Deletes a message sent by this webhook.
@@ -110,8 +126,11 @@ namespace Disqord.Webhook
         /// <returns>
         ///     A <see cref="Task"/> representing the asynchronous request.
         /// </returns>
-        public static Task DeleteMessageAsync(this IWebhookClient client, Snowflake messageId,
+        public static Task DeleteMessageAsync(this IWebhookClient client,
+            Snowflake messageId,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.RestClient.DeleteWebhookMessageAsync(client.Id, client.Token, messageId, options, cancellationToken);
+        {
+            return client.RestClient.DeleteWebhookMessageAsync(client.Id, client.Token, messageId, options, cancellationToken);
+        }
     }
 }

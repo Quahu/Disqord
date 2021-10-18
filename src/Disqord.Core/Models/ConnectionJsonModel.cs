@@ -29,6 +29,6 @@ namespace Disqord.Models
         public bool ShowActivity;
 
         [JsonProperty("visibility")]
-        public ConnectionVisibility Visibility;
+        public UserConnectionVisibility Visibility;
     }
 }

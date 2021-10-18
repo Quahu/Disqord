@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Disqord.Models;
 
-namespace Disqord
+namespace Disqord.OAuth2
 {
     /// <summary>
     ///     Represents current <see cref="BearerToken"/> authorization.

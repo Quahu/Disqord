@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Disqord.Rest;
+﻿using Disqord.Rest;
 
 namespace Disqord.Webhook.Default
 {
@@ -7,14 +6,14 @@ namespace Disqord.Webhook.Default
     public class DefaultWebhookClient : IWebhookClient
     {
         /// <inheritdoc/>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public IRestClient RestClient { get; }
-
-        /// <inheritdoc/>
         public Snowflake Id { get; }
 
         /// <inheritdoc/>
         public string Token { get; }
+
+        private readonly IRestClient _restClient;
+
+        IRestClient IWebhookClient.RestClient => _restClient;
 
         /// <summary>
         ///     Instantiates a new <see cref="DefaultWebhookClient"/> for the given REST client
@@ -28,7 +27,7 @@ namespace Disqord.Webhook.Default
             Snowflake id,
             string token)
         {
-            RestClient = restClient;
+            _restClient = restClient;
             Id = id;
             Token = token;
         }

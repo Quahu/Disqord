@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Disqord.Models;
 
-namespace Disqord
+namespace Disqord.OAuth2
 {
     /// <inheritdoc cref="IBearerAuthorization"/>
     public class TransientBearerAuthorization : TransientClientEntity<AuthorizationJsonModel>, IBearerAuthorization

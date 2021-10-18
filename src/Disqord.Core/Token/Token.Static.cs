@@ -16,8 +16,8 @@ namespace Disqord
         /// <returns>
         ///     A <see cref="Token"/>instance representing a bot token.
         /// </returns>
-        public static Token Bot(string token)
-            => new BotToken(token);
+        public static BotToken Bot(string token)
+            => new(token);
 
         /// <summary>
         ///     Creates a new <see cref="BearerToken"/> from the provided <see cref="string"/>.
@@ -26,8 +26,8 @@ namespace Disqord
         /// <returns>
         ///     A <see cref="Token"/>instance representing a bearer token.
         /// </returns>
-        public static Token Bearer(string token)
-            => new BearerToken(token);
+        public static BearerToken Bearer(string token)
+            => new(token);
 
         /// <summary>
         ///     Creates a new <see cref="UserToken"/> from the provided <see cref="string"/>.
@@ -37,8 +37,8 @@ namespace Disqord
         ///     A <see cref="Token"/>instance representing a user token.
         /// </returns>
         [Obsolete("The usage of user account tokens is not supported and will result in the account's termination.", true)]
-        public static Token User(string token)
-            => new UserToken(token);
+        public static UserToken User(string token)
+            => new(token);
 
         private class NoToken : Token
         {

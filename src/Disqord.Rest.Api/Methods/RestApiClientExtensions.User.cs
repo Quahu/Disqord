@@ -86,7 +86,7 @@ namespace Disqord.Rest.Api
         public static Task<ConnectionJsonModel[]> FetchConnectionsAsync(this IRestApiClient client,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var route = Format(Route.User.CreateDirectChannel);
+            var route = Format(Route.User.GetConnections);
             return client.ExecuteAsync<ConnectionJsonModel[]>(route, null, options, cancellationToken);
         }
     }

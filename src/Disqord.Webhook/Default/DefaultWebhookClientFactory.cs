@@ -1,4 +1,5 @@
 ﻿using Disqord.Rest;
+using Qommon;
 
 namespace Disqord.Webhook.Default
 {
@@ -18,6 +19,10 @@ namespace Disqord.Webhook.Default
 
         /// <inheritdoc/>
         public IWebhookClient CreateClient(Snowflake id, string token)
-            => new DefaultWebhookClient(_restClient, id, token);
+        {
+            Guard.IsNotNull(token);
+
+            return new DefaultWebhookClient(_restClient, id, token);
+        }
     }
 }
