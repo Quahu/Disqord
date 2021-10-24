@@ -23,6 +23,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                     if (memberModel == null)
                         continue;
 
+                    memberModel.User = userModel;
                     Dispatcher.GetOrAddMember(userCache, memberCache, model.GuildId.Value, memberModel);
                 }
 
