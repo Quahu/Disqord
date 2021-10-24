@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Disqord.Api;
+﻿using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Models;
 using Qommon.Collections.Synchronized;
@@ -19,13 +17,12 @@ namespace Disqord.Gateway.Default.Dispatcher
             {
                 model.Member.Value.User = model.Author;
                 author = Dispatcher.GetOrAddMember(userCache, memberCache, model.GuildId.Value, model.Member.Value);
-                foreach (var memberModel in model.Mentions.Select(static x =>
+                foreach (var userModel in model.Mentions)
                 {
-                    var memberModel = x["member"].ToType<MemberJsonModel>();
-                    memberModel.User = x;
-                    return memberModel;
-                }))
-                {
+                    var memberModel = userModel["member"]?.ToType<MemberJsonModel>();
+                    if (memberModel == null)
+                        continue;
+
                     Dispatcher.GetOrAddMember(userCache, memberCache, model.GuildId.Value, memberModel);
                 }
 
