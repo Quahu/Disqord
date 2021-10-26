@@ -302,6 +302,14 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync(route, null, options, cancellationToken);
         }
 
+        public static Task<ThreadMemberJsonModel> FetchThreadMemberAsync(this IRestApiClient client,
+            Snowflake threadId, Snowflake memberId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var route = Format(Route.Channel.GetThreadMember, threadId, memberId);
+            return client.ExecuteAsync<ThreadMemberJsonModel>(route, null, options, cancellationToken);
+        }
+
         public static Task<ThreadMemberJsonModel[]> FetchThreadMembersAsync(this IRestApiClient client,
             Snowflake threadId,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)

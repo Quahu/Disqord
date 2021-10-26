@@ -316,6 +316,14 @@ namespace Disqord.Rest
             return client.RemoveThreadMemberAsync(thread.Id, memberId, options, cancellationToken);
         }
 
+        public static Task FetchMemberAsync(this IThreadChannel thread,
+            Snowflake memberId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = thread.GetRestClient();
+            return client.FetchThreadMemberAsync(thread.Id, memberId, options, cancellationToken);
+        }
+
         public static Task<IReadOnlyList<IThreadMember>> FetchMembersAsync(this IThreadChannel thread,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {

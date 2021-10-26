@@ -45,6 +45,12 @@ namespace Disqord.Rest
             ErrorModel = errorModel;
         }
 
+        public bool IsError(RestApiErrorCode code)
+        {
+            var errorModel = ErrorModel;
+            return errorModel != null && errorModel.Code == code;
+        }
+
         private static string GetErrorMessage(HttpResponseStatusCode statusCode, string reasonPhrase, RestApiErrorJsonModel errorModel)
         {
             var httpMessage = $"HTTP: {(Enum.IsDefined(statusCode) ? $"{(int) statusCode} {statusCode}" : statusCode)}.";

@@ -77,6 +77,8 @@ namespace Disqord.Rest.Api
 
             public static readonly Route RemoveThreadMember = Delete("channels/{0:channel_id}/thread-members/{1:user_id}");
 
+            public static readonly Route GetThreadMember = Get("channels/{0:channel_id}/thread-members/{1:user_id}");
+
             public static readonly Route ListThreadMembers = Get("channels/{0:channel_id}/thread-members");
 
             public static readonly Route ListPublicArchivedThreads = Get("channels/{0:channel_id}/threads/archived/public");

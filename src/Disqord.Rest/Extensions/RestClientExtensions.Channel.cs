@@ -601,6 +601,21 @@ namespace Disqord.Rest
             return client.ApiClient.RemoveThreadMemberAsync(threadId, memberId, options, cancellationToken);
         }
 
+        public static async Task<IThreadMember> FetchThreadMemberAsync(this IRestClient client,
+            Snowflake threadId, Snowflake memberId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var model = await client.ApiClient.FetchThreadMemberAsync(threadId, memberId, options, cancellationToken).ConfigureAwait(false);
+                return new TransientThreadMember(client, model);
+            }
+            catch (RestApiException ex) when (ex.StatusCode == HttpResponseStatusCode.NotFound && ex.IsError(RestApiErrorCode.UnknownMember))
+            {
+                return null;
+            }
+        }
+
         public static async Task<IReadOnlyList<IThreadMember>> FetchThreadMembersAsync(this IRestClient client,
             Snowflake threadId,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
