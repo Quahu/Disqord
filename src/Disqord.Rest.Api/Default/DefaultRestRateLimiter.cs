@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Channels;
@@ -167,7 +167,11 @@ namespace Disqord.Rest.Api.Default
                 _rateLimiter = rateLimiter;
                 _isUnlimited = isUnlimited;
 
-                _requests = Channel.CreateUnbounded<IRestRequest>();
+                _requests = Channel.CreateUnbounded<IRestRequest>(new UnboundedChannelOptions
+                {
+                    SingleReader = true,
+                });
+
                 _ = RunAsync();
             }
 

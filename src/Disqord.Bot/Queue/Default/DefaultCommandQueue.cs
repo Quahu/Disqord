@@ -137,7 +137,11 @@ namespace Disqord.Bot
             {
                 _logger = logger;
                 _degreeOfParallelism = degreeOfParallelism;
-                _tokens = Channel.CreateUnbounded<Token>();
+                _tokens = Channel.CreateUnbounded<Token>(new UnboundedChannelOptions
+                {
+                    SingleReader = true,
+                });
+
                 _runningTokens = new List<Token>(degreeOfParallelism);
 
                 _ = RunAsync();
@@ -185,6 +189,7 @@ namespace Disqord.Bot
                                 _logger.LogWarning("The command queue has been blocked for over {0} seconds. "
                                     + "Ensure that long-running work properly utilizes yielding and/or the parallel run mode. "
                                     + "Commands blocking the queue: {1}.", _timeout.TotalSeconds, GetCommandPaths());
+
                                 await whenAnyTask.ConfigureAwait(false);
                             }
                             else
