@@ -37,35 +37,39 @@ namespace Disqord.Rest
         }
 
         public static Task<IUserMessage> ExecuteAsync(this IWebhook webhook,
-            LocalWebhookMessage message, bool wait = false,
+            LocalWebhookMessage message,
+            Snowflake? threadId = null, bool wait = false,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = webhook.GetRestClient();
-            return client.ExecuteWebhookAsync(webhook.Id, webhook.Token, message, wait, options, cancellationToken);
+            return client.ExecuteWebhookAsync(webhook.Id, webhook.Token, message, threadId, wait, options, cancellationToken);
         }
 
         public static Task<IUserMessage> FetchMessageAsync(this IWebhook webhook,
             Snowflake messageId,
+            Snowflake? threadId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = webhook.GetRestClient();
-            return client.FetchWebhookMessageAsync(webhook.Id, webhook.Token, messageId, options, cancellationToken);
+            return client.FetchWebhookMessageAsync(webhook.Id, webhook.Token, messageId, threadId, options, cancellationToken);
         }
 
         public static Task<IUserMessage> ModifyMessageAsync(this IWebhook webhook,
             Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action,
+            Snowflake? threadId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = webhook.GetRestClient();
-            return client.ModifyWebhookMessageAsync(webhook.Id, webhook.Token, messageId, action, options, cancellationToken);
+            return client.ModifyWebhookMessageAsync(webhook.Id, webhook.Token, messageId, action, threadId, options, cancellationToken);
         }
 
         public static Task DeleteMessageAsync(this IWebhook webhook,
             Snowflake messageId,
+            Snowflake? threadId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = webhook.GetRestClient();
-            return client.DeleteWebhookMessageAsync(webhook.Id, webhook.Token, messageId, options, cancellationToken);
+            return client.DeleteWebhookMessageAsync(webhook.Id, webhook.Token, messageId, threadId, options, cancellationToken);
         }
     }
 }

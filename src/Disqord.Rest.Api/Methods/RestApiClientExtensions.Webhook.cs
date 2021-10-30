@@ -65,52 +65,86 @@ namespace Disqord.Rest.Api
         }
 
         public static Task<MessageJsonModel> ExecuteWebhookAsync(this IRestApiClient client,
-            Snowflake webhookId, string token, ExecuteWebhookJsonRestRequestContent content, bool wait = false,
+            Snowflake webhookId, string token, ExecuteWebhookJsonRestRequestContent content,
+            Snowflake? threadId = null, bool wait = false,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             // TODO: query param utility
-            var route = Format(Route.Webhook.ExecuteWebhook, new[] { KeyValuePair.Create("wait", (object) wait) }, webhookId, token);
+            var queryParameters = new KeyValuePair<string, object>[threadId != null ? 2 : 1];
+            queryParameters[0] = KeyValuePair.Create("wait", (object) wait);
+
+            if (threadId != null)
+                queryParameters[1] = new("thread_id", threadId.Value);
+
+            var route = Format(Route.Webhook.ExecuteWebhook, queryParameters, webhookId, token);
             return client.ExecuteAsync<MessageJsonModel>(route, content, options, cancellationToken);
         }
 
         public static Task<MessageJsonModel> ExecuteWebhookAsync(this IRestApiClient client,
-            Snowflake webhookId, string token, MultipartJsonPayloadRestRequestContent<ExecuteWebhookJsonRestRequestContent> content, bool wait = false,
+            Snowflake webhookId, string token, MultipartJsonPayloadRestRequestContent<ExecuteWebhookJsonRestRequestContent> content,
+            Snowflake? threadId = null, bool wait = false,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             // TODO: query param utility
-            var route = Format(Route.Webhook.ExecuteWebhook, new[] { KeyValuePair.Create("wait", (object) wait) }, webhookId, token);
+            var queryParameters = new KeyValuePair<string, object>[threadId != null ? 2 : 1];
+            queryParameters[0] = KeyValuePair.Create("wait", (object) wait);
+
+            if (threadId != null)
+                queryParameters[1] = new("thread_id", threadId.Value);
+
+            var route = Format(Route.Webhook.ExecuteWebhook, queryParameters, webhookId, token);
             return client.ExecuteAsync<MessageJsonModel>(route, content, options, cancellationToken);
         }
 
         public static Task<MessageJsonModel> FetchWebhookMessageAsync(this IRestApiClient client,
             Snowflake webhookId, string token, Snowflake messageId,
+            Snowflake? threadId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
+            var queryParameters = threadId != null
+                ? new KeyValuePair<string, object>[] { new("thread_id", threadId.Value) }
+                : null;
+
             var route = Format(Route.Webhook.GetWebhookMessage, webhookId, token, messageId);
             return client.ExecuteAsync<MessageJsonModel>(route, null, options, cancellationToken);
         }
 
         public static Task<MessageJsonModel> ModifyWebhookMessageAsync(this IRestApiClient client,
             Snowflake webhookId, string token, Snowflake messageId, ModifyWebhookMessageJsonRestRequestContent content,
+            Snowflake? threadId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var route = Format(Route.Webhook.ModifyWebhookMessage, webhookId, token, messageId);
+            var queryParameters = threadId != null
+                ? new KeyValuePair<string, object>[] { new("thread_id", threadId.Value) }
+                : null;
+
+            var route = Format(Route.Webhook.ModifyWebhookMessage, queryParameters, webhookId, token, messageId);
             return client.ExecuteAsync<MessageJsonModel>(route, content, options, cancellationToken);
         }
 
         public static Task<MessageJsonModel> ModifyWebhookMessageAsync(this IRestApiClient client,
             Snowflake webhookId, string token, Snowflake messageId, MultipartJsonPayloadRestRequestContent<ModifyWebhookMessageJsonRestRequestContent> content,
+            Snowflake? threadId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var route = Format(Route.Webhook.ModifyWebhookMessage, webhookId, token, messageId);
+            var queryParameters = threadId != null
+                ? new KeyValuePair<string, object>[] { new("thread_id", threadId.Value) }
+                : null;
+
+            var route = Format(Route.Webhook.ModifyWebhookMessage, queryParameters, webhookId, token, messageId);
             return client.ExecuteAsync<MessageJsonModel>(route, content, options, cancellationToken);
         }
 
         public static Task DeleteWebhookMessageAsync(this IRestApiClient client,
             Snowflake webhookId, string token, Snowflake messageId,
+            Snowflake? threadId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var route = Format(Route.Webhook.DeleteWebhookMessage, webhookId, token, messageId);
+            var queryParameters = threadId != null
+                ? new KeyValuePair<string, object>[] { new("thread_id", threadId.Value) }
+                : null;
+
+            var route = Format(Route.Webhook.DeleteWebhookMessage, queryParameters, webhookId, token, messageId);
             return client.ExecuteAsync<MessageJsonModel>(route, null, options, cancellationToken);
         }
     }

@@ -82,7 +82,8 @@ namespace Disqord.Rest
         }
 
         public static async Task<IUserMessage> ExecuteWebhookAsync(this IRestClient client,
-            Snowflake webhookId, string token, LocalWebhookMessage message, bool wait = false,
+            Snowflake webhookId, string token, LocalWebhookMessage message,
+            Snowflake? threadId = null, bool wait = false,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (message == null)
@@ -105,11 +106,11 @@ namespace Disqord.Rest
                 // If there is an attachment, we must send it via multipart HTTP content.
                 // Our `messageContent` will be serialized into a "payload_json" form data field.
                 var content = new MultipartJsonPayloadRestRequestContent<ExecuteWebhookJsonRestRequestContent>(messageContent, message._attachments);
-                task = client.ApiClient.ExecuteWebhookAsync(webhookId, token, content, wait, options, cancellationToken);
+                task = client.ApiClient.ExecuteWebhookAsync(webhookId, token, content, threadId, wait, options, cancellationToken);
             }
             else
             {
-                task = client.ApiClient.ExecuteWebhookAsync(webhookId, token, messageContent, wait, options, cancellationToken);
+                task = client.ApiClient.ExecuteWebhookAsync(webhookId, token, messageContent, threadId, wait, options, cancellationToken);
             }
 
             // If the `wait` parameter is false the model will be null.
@@ -122,14 +123,16 @@ namespace Disqord.Rest
 
         public static async Task<IUserMessage> FetchWebhookMessageAsync(this IRestClient client,
             Snowflake webhookId, string token, Snowflake messageId,
+            Snowflake? threadId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var model = await client.ApiClient.FetchWebhookMessageAsync(webhookId, token, messageId, options, cancellationToken).ConfigureAwait(false);
+            var model = await client.ApiClient.FetchWebhookMessageAsync(webhookId, token, messageId, threadId, options, cancellationToken).ConfigureAwait(false);
             return new TransientUserMessage(client, model);
         }
 
         public static async Task<IUserMessage> ModifyWebhookMessageAsync(this IRestClient client,
             Snowflake webhookId, string token, Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action,
+            Snowflake? threadId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var properties = new ModifyWebhookMessageActionProperties();
@@ -151,11 +154,11 @@ namespace Disqord.Rest
                 // If there is an attachment, we must send it via multipart HTTP content.
                 // Our `messageContent` will be serialized into a "payload_json" form data field.
                 var content = new MultipartJsonPayloadRestRequestContent<ModifyWebhookMessageJsonRestRequestContent>(messageContent, properties.Attachments.Value);
-                task = client.ApiClient.ModifyWebhookMessageAsync(webhookId, token, messageId, content, options, cancellationToken);
+                task = client.ApiClient.ModifyWebhookMessageAsync(webhookId, token, messageId, content, threadId, options, cancellationToken);
             }
             else
             {
-                task = client.ApiClient.ModifyWebhookMessageAsync(webhookId, token, messageId, messageContent, options, cancellationToken);
+                task = client.ApiClient.ModifyWebhookMessageAsync(webhookId, token, messageId, messageContent, threadId, options, cancellationToken);
             }
 
             var model = await task.ConfigureAwait(false);
@@ -164,9 +167,10 @@ namespace Disqord.Rest
 
         public static Task DeleteWebhookMessageAsync(this IRestClient client,
             Snowflake webhookId, string token, Snowflake messageId,
+            Snowflake? threadId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            return client.ApiClient.DeleteWebhookMessageAsync(webhookId, token, messageId, options, cancellationToken);
+            return client.ApiClient.DeleteWebhookMessageAsync(webhookId, token, messageId, threadId, options, cancellationToken);
         }
     }
 }

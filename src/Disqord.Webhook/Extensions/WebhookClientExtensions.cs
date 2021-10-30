@@ -66,7 +66,8 @@ namespace Disqord.Webhook
         /// </summary>
         /// <param name="client"> The webhook client. </param>
         /// <param name="message"> The message to send. </param>
-        /// <param name="wait"> Whether the API should return a message. </param>
+        /// <param name="threadId"> The ID of the thread (within the webhook's channel) in which this request should be performed. </param>
+        /// <param name="wait"> Whether the API should return the sent message object. </param>
         /// <param name="options"> The optional request options. </param>
         /// <param name="cancellationToken"> The cancellation token to observe. </param>
         /// <returns>
@@ -74,10 +75,11 @@ namespace Disqord.Webhook
         ///     that wraps the returned <see cref="IUserMessage"/> if <paramref name="wait"/> is <see langword="true"/>.
         /// </returns>
         public static Task<IUserMessage> ExecuteAsync(this IWebhookClient client,
-            LocalWebhookMessage message, bool wait = false,
+            LocalWebhookMessage message,
+            Snowflake? threadId = null, bool wait = false,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            return client.RestClient.ExecuteWebhookAsync(client.Id, client.Token, message, wait, options, cancellationToken);
+            return client.RestClient.ExecuteWebhookAsync(client.Id, client.Token, message, threadId, wait, options, cancellationToken);
         }
 
         /// <summary>
@@ -85,6 +87,7 @@ namespace Disqord.Webhook
         /// </summary>
         /// <param name="client"> The webhook client. </param>
         /// <param name="messageId"> The ID of the message to fetch. </param>
+        /// <param name="threadId"> The ID of the thread (within the webhook's channel) in which this request should be performed. </param>
         /// <param name="options"> The optional request options. </param>
         /// <param name="cancellationToken"> The cancellation token to observe. </param>
         /// <returns>
@@ -92,9 +95,10 @@ namespace Disqord.Webhook
         /// </returns>
         public static Task<IUserMessage> FetchMessageAsync(this IWebhookClient client,
             Snowflake messageId,
+            Snowflake? threadId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            return client.RestClient.FetchWebhookMessageAsync(client.Id, client.Token, messageId, options, cancellationToken);
+            return client.RestClient.FetchWebhookMessageAsync(client.Id, client.Token, messageId, threadId, options, cancellationToken);
         }
 
         /// <summary>
@@ -103,6 +107,7 @@ namespace Disqord.Webhook
         /// <param name="client"> The webhook client. </param>
         /// <param name="messageId"> The ID of the message to modify. </param>
         /// <param name="action"> The action specifying what properties to modify. </param>
+        /// <param name="threadId"> The ID of the thread (within the webhook's channel) in which this request should be performed. </param>
         /// <param name="options"> The optional request options. </param>
         /// <param name="cancellationToken"> The cancellation token to observe. </param>
         /// <returns>
@@ -111,9 +116,10 @@ namespace Disqord.Webhook
         /// </returns>
         public static Task<IUserMessage> ModifyMessageAsync(this IWebhookClient client,
             Snowflake messageId, Action<ModifyWebhookMessageActionProperties> action,
+            Snowflake? threadId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            return client.RestClient.ModifyWebhookMessageAsync(client.Id, client.Token, messageId, action, options, cancellationToken);
+            return client.RestClient.ModifyWebhookMessageAsync(client.Id, client.Token, messageId, action, threadId, options, cancellationToken);
         }
 
         /// <summary>
@@ -121,6 +127,7 @@ namespace Disqord.Webhook
         /// </summary>
         /// <param name="client"> The webhook client. </param>
         /// <param name="messageId"> The ID of the message to modify. </param>
+        /// <param name="threadId"> The ID of the thread (within the webhook's channel) in which this request should be performed. </param>
         /// <param name="options"> The optional request options. </param>
         /// <param name="cancellationToken"> The cancellation token to observe. </param>
         /// <returns>
@@ -128,9 +135,10 @@ namespace Disqord.Webhook
         /// </returns>
         public static Task DeleteMessageAsync(this IWebhookClient client,
             Snowflake messageId,
+            Snowflake? threadId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            return client.RestClient.DeleteWebhookMessageAsync(client.Id, client.Token, messageId, options, cancellationToken);
+            return client.RestClient.DeleteWebhookMessageAsync(client.Id, client.Token, messageId, threadId, options, cancellationToken);
         }
     }
 }
