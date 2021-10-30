@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Channels;
@@ -122,11 +122,16 @@ namespace Disqord.Rest.Api.Default
                         {
                             bucket.Remaining = 0;
                             bucket.ResetsAt = now + headers.RetryAfter.Value;
-                            var level = _hitRateLimits.Add(route.BaseRoute) && headers.RetryAfter.Value.TotalSeconds < 30
+                            var isShared = headers.Scope == "shared";
+                            var level = _hitRateLimits.Add(route.BaseRoute) && headers.RetryAfter.Value.TotalSeconds < 30 || isShared
                                 ? LogLevel.Information
                                 : LogLevel.Warning;
 
-                            Logger.Log(level, "Hit a rate-limit on route {0}. Expires after {1}ms.", route, headers.RetryAfter.Value.TotalMilliseconds);
+                            var message = isShared
+                                ? "Hit a shared rate-limit on route {0}. Expires after {1}ms."
+                                : "Hit a rate-limit on route {0}. Expires after {1}ms.";
+
+                            Logger.Log(level, message, route, headers.RetryAfter.Value.TotalMilliseconds);
                             return true;
                         }
                     }
