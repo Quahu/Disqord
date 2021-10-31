@@ -39,7 +39,7 @@ namespace Disqord.Models
             if (Type is not SlashCommandOptionType.String and not SlashCommandOptionType.Integer and not SlashCommandOptionType.Number)
                 OptionalGuard.HasNoValue(Choices, "Choices can only be specified for string, integer, and number options.");
 
-            if (Type is SlashCommandOptionType.Subcommand or SlashCommandOptionType.SubcommandGroup)
+            if (Type is not SlashCommandOptionType.Subcommand and not SlashCommandOptionType.SubcommandGroup)
                 OptionalGuard.HasNoValue(Options, "Nested options can only be specified for subcommands and subcommand groups.");
 
             OptionalGuard.CheckValue(Choices, value =>
