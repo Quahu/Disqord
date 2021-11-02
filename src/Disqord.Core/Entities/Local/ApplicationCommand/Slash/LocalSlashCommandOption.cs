@@ -45,6 +45,11 @@ namespace Disqord
         public Optional<IList<LocalSlashCommandOptionChoice>> Choices { get; set; }
 
         /// <summary>
+        ///     Gets or sets whether this option should be autocompleted.
+        /// </summary>
+        public Optional<bool> IsAutoComplete { get; set; }
+
+        /// <summary>
         ///     Gets or sets the nested options of this option.
         /// </summary>
         public Optional<IList<LocalSlashCommandOption>> Options { get; set; }
@@ -66,6 +71,7 @@ namespace Disqord
             Description = other.Description;
             IsRequired = other.IsRequired;
             Choices = Optional.Convert(other.Choices, choices => choices?.Select(choice => choice?.Clone()).ToList() as IList<LocalSlashCommandOptionChoice>);
+            IsAutoComplete = other.IsAutoComplete;
             Options = Optional.Convert(other.Options, options => options?.Select(option => option?.Clone()).ToList() as IList<LocalSlashCommandOption>);
             ChannelTypes = Optional.Convert(other.ChannelTypes, channelTypes => channelTypes?.ToList() as IList<ChannelType>);
         }

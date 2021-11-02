@@ -20,6 +20,9 @@ namespace Disqord.Models
         [JsonProperty("choices")]
         public Optional<ApplicationCommandOptionChoiceJsonModel[]> Choices;
 
+        [JsonProperty("autocomplete")]
+        public Optional<bool> AutoComplete;
+
         [JsonProperty("options")]
         public Optional<ApplicationCommandOptionJsonModel[]> Options;
 
@@ -41,6 +44,9 @@ namespace Disqord.Models
 
             if (Type is not SlashCommandOptionType.Subcommand and not SlashCommandOptionType.SubcommandGroup)
                 OptionalGuard.HasNoValue(Options, "Nested options can only be specified for subcommands and subcommand groups.");
+
+            if (AutoComplete.HasValue && AutoComplete.Value)
+                OptionalGuard.HasNoValue(Choices, "Choices can not be present when auto complete is set to true.");
 
             OptionalGuard.CheckValue(Choices, value =>
             {
@@ -73,6 +79,9 @@ namespace Disqord.Models
                 foreach (var channelType in value)
                     Guard.IsDefined(channelType);
             });
+
+            if (AutoComplete.HasValue && AutoComplete.Value)
+                OptionalGuard.HasNoValue(Choices, "Choices cannot be specified for an autocompletable option.");
         }
     }
 }

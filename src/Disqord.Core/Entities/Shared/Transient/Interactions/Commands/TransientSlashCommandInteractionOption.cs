@@ -28,6 +28,8 @@ namespace Disqord
         }
         private IReadOnlyDictionary<string, ISlashCommandInteractionOption> _options;
 
+        public bool IsFocused => Model.Focused.GetValueOrDefault();
+
         public TransientSlashCommandInteractionOption(IClient client, ApplicationCommandInteractionDataOptionJsonModel model)
             : base(client, model)
         { }

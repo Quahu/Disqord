@@ -28,7 +28,19 @@ namespace Disqord.Test
                     case "echo":
                     {
                         var text = textCommandInteraction.Options.GetValueOrDefault("text")?.Value as string;
-                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse().WithContent(text).WithAllowedMentions(LocalAllowedMentions.None));
+
+                        if (e.Interaction.Type == InteractionType.ApplicationCommandAutoComplete)
+                        {
+                            var choices = new[]
+                            {
+                                new LocalSlashCommandOptionChoice().WithName($"{text} owo").WithValue("choice_1"),
+                                new LocalSlashCommandOptionChoice().WithName($"{text} uwu").WithValue("choice_2")
+                            };
+                        }
+                        else
+                        {
+                            await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse().WithContent(text).WithAllowedMentions(LocalAllowedMentions.None));
+                        }
                         break;
                     }
                     case "coinflip":

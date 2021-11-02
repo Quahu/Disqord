@@ -13,6 +13,8 @@
 
         DeferredMessageUpdate = 6,
 
-        MessageUpdate = 7
+        MessageUpdate = 7,
+
+        ApplicationCommandAutoComplete = 8
     }
 }

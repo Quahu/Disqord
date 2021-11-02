@@ -21,5 +21,10 @@ namespace Disqord
         ///     Gets the nested options of this option.
         /// </summary>
         IReadOnlyDictionary<string, ISlashCommandInteractionOption> Options { get; }
+
+        /// <summary>
+        ///     Gets whether this option is focused.
+        /// </summary>
+        bool IsFocused { get; }
     }
 }
