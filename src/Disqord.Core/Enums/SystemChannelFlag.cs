@@ -21,6 +21,12 @@ namespace Disqord
         /// <summary>
         ///     The system channel does not send guild setup tips.
         /// </summary>
-        SuppressSetupTips = 1 << 2
+        SuppressSetupTips = 1 << 2,
+
+        /// <summary>
+        ///     The system channel does not show buttons that let members reply with stickers
+        ///     on member join notifications.
+        /// </summary>
+        SuppressJoinNotificationReplies = 1 << 3
     }
 }
