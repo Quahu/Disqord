@@ -49,12 +49,12 @@ namespace Disqord
         HypeSquadBalance = 1 << 8,
 
         /// <summary>
-        ///     The user is an early supporter.
+        ///     The user is an early Nitro supporter.
         /// </summary>
         EarlySupporter = 1 << 9,
 
         /// <summary>
-        ///     The user is a team user.
+        ///     The user is a pseudo user object returned for application teams.
         /// </summary>
         TeamUser = 1 << 10,
 
@@ -76,6 +76,11 @@ namespace Disqord
         /// <summary>
         ///     The user is a Discord certified moderator.
         /// </summary>
-        CertifiedModerator = 1 << 18
+        CertifiedModerator = 1 << 18,
+
+        /// <summary>
+        ///     The user is a bot using HTTP interactions and is shown online in member lists.
+        /// </summary>
+        HttpInteractionsBot = 1 << 19
     }
 }
