@@ -53,8 +53,8 @@ namespace Disqord
         IApplicationTeam Team { get; }
 
         /// <summary>
-        ///     Gets the public flags of this application.
+        ///     Gets the flags of this application.
         /// </summary>
-        Optional<int> Flags { get; }
+        Optional<ApplicationFlag> Flags { get; }
     }
 }

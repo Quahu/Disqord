@@ -56,6 +56,6 @@ namespace Disqord.Models
         public Optional<string> CoverImage;
 
         [JsonProperty("flags")]
-        public Optional<int> Flags;
+        public Optional<ApplicationFlag> Flags;
     }
 }

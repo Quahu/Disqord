@@ -57,7 +57,7 @@ namespace Disqord
         private IApplicationTeam _team;
 
         /// <inheritdoc/>
-        public Optional<int> Flags => Model.Flags;
+        public Optional<ApplicationFlag> Flags => Model.Flags;
 
         public TransientApplication(IClient client, ApplicationJsonModel model)
             : base(client, model)
