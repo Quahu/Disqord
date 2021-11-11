@@ -12,7 +12,10 @@ namespace Disqord
             if (namable != null)
                 return $"'{namable.Name}'";
 
-            return $"ID: {identifiable.Id}";
+            if (identifiable != null)
+                return $"ID: {identifiable.Id}";
+
+            return entity.GetType().ToString();
         }
 
         public static string GetString(this IUser user)
