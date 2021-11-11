@@ -102,6 +102,8 @@ namespace Disqord
         }
         private IReadOnlyDictionary<Snowflake, IGuildSticker> _stickers;
 
+        public bool IsBoostProgressBarEnabled => Model.PremiumProgressBarEnabled;
+
         public DateTimeOffset JoinedAt => Model.JoinedAt;
 
         public bool IsLarge => Model.Large;

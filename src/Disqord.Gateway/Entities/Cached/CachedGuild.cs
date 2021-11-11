@@ -149,6 +149,8 @@ namespace Disqord.Gateway
 
         public IReadOnlyDictionary<Snowflake, IGuildSticker> Stickers { get; private set; }
 
+        public bool IsBoostProgressBarEnabled { get; private set; }
+
         public CachedGuild(IGatewayClient client, GatewayGuildJsonModel model)
             : base(client, model.Id)
         {
@@ -197,6 +199,7 @@ namespace Disqord.Gateway
             PublicUpdatesChannelId = model.PublicUpdatesChannelId;
             MaxVideoMemberCount = model.MaxVideoChannelUsers.GetValueOrNullable();
             NsfwLevel = model.NsfwLevel;
+            IsBoostProgressBarEnabled = model.PremiumProgressBarEnabled;
         }
 
         public void Update(GatewayGuildJsonModel model)

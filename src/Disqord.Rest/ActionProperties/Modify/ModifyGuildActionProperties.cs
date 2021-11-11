@@ -42,6 +42,8 @@ namespace Disqord
 
         public Optional<string> Description { internal get; set; }
 
+        public Optional<bool> IsBoostProgressBarEnabled { internal get; set; }
+
         internal ModifyGuildActionProperties()
         { }
     }

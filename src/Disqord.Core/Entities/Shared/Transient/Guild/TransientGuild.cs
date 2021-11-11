@@ -102,6 +102,8 @@ namespace Disqord
         }
         private IReadOnlyDictionary<Snowflake, IGuildSticker> _stickers;
 
+        public bool IsBoostProgressBarEnabled => Model.PremiumProgressBarEnabled;
+
         public TransientGuild(IClient client, GuildJsonModel model)
             : base(client, model)
         { }
