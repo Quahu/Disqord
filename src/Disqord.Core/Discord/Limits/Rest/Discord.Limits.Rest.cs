@@ -37,7 +37,7 @@ namespace Disqord
                 /// <summary>
                 ///     Represents the page size for fetching guilds.
                 /// </summary>
-                public const int FetchGuildsPageSize = 100;
+                public const int FetchGuildsPageSize = 200;
 
                 /// <summary>
                 ///     Represents the page size for fetching threads.
