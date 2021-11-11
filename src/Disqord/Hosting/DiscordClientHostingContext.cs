@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Reflection;
 using Disqord.Gateway;
 
@@ -44,5 +45,15 @@ namespace Disqord.Hosting
         ///     Defaults to <see langword="null"/>, which will result in no activities.
         /// </summary>
         public virtual IEnumerable<LocalActivity> Activities { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the proxy to use for Discord's REST API.
+        /// </summary>
+        public virtual IWebProxy RestProxy { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the proxy to use for Discord's Gateway API.
+        /// </summary>
+        public virtual IWebProxy GatewayProxy { get; set; }
     }
 }

@@ -45,7 +45,7 @@ namespace Disqord.Rest.Api
                     options.Configure(configure);
             }
 
-            services.AddHttp();
+            services.AddHttpClientFactory();
 
             return services;
         }

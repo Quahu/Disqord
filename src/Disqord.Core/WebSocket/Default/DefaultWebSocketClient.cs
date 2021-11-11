@@ -7,6 +7,8 @@ namespace Disqord.WebSocket.Default
 {
     public class DefaultWebSocketClient : IWebSocketClient
     {
+        public ClientWebSocket Client => _ws;
+
         public WebSocketState State => (WebSocketState) _ws.State;
 
         public int? CloseStatus => (int?) _ws.CloseStatus;
@@ -15,10 +17,9 @@ namespace Disqord.WebSocket.Default
 
         private readonly ClientWebSocket _ws;
 
-        public DefaultWebSocketClient()
+        public DefaultWebSocketClient(ClientWebSocket ws)
         {
-            _ws = new ClientWebSocket();
-            _ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(10);
+            _ws = ws;
         }
 
         public async Task ConnectAsync(Uri uri, CancellationToken cancellationToken = default)

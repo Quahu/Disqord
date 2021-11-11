@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading;
+using Microsoft.Extensions.Options;
 
 namespace Disqord.Http.Default
 {
@@ -9,13 +10,16 @@ namespace Disqord.Http.Default
     {
         private readonly SocketsHttpHandler _handler;
 
-        public DefaultHttpClientFactory()
+        public DefaultHttpClientFactory(
+            IOptions<DefaultHttpClientFactoryConfiguration> options)
         {
             _handler = new SocketsHttpHandler
             {
                 AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
                 PooledConnectionLifetime = TimeSpan.FromMinutes(2)
             };
+
+            options.Value.ClientConfiguration?.Invoke(_handler);
         }
 
         public IHttpClient CreateClient()
@@ -24,6 +28,7 @@ namespace Disqord.Http.Default
             {
                 Timeout = Timeout.InfiniteTimeSpan
             };
+
             return new DefaultHttpClient(client);
         }
     }

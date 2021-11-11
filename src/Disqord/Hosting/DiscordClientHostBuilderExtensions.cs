@@ -6,6 +6,8 @@ using Disqord.Gateway.Api.Default;
 using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Default;
 using Disqord.Gateway.Models;
+using Disqord.Http.Default;
+using Disqord.WebSocket.Default;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -33,8 +35,9 @@ namespace Disqord.Hosting
         {
             services.Replace(ServiceDescriptor.Singleton<Token>(Token.Bot(discordContext.Token)));
 
-            if (discordContext.Intents != null)
-                services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Intents = discordContext.Intents.Value);
+            var intents = discordContext.Intents;
+            if (intents != null)
+                services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Intents = intents.Value);
 
             services.Configure<DefaultGatewayDispatcherConfiguration>(x => x.ReadyEventDelayMode = discordContext.ReadyEventDelayMode);
 
@@ -74,12 +77,33 @@ namespace Disqord.Hosting
                 }
             }
 
-            if (discordContext.Status != null || discordContext.Activities != null)
+            var status = discordContext.Status;
+            var activities = discordContext.Activities;
+            if (status != null || activities != null)
             {
                 services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Presence = new UpdatePresenceJsonModel
                 {
-                    Status = discordContext.Status ?? UserStatus.Online,
-                    Activities = discordContext.Activities?.Select(x => x.ToModel()).ToArray() ?? Array.Empty<ActivityJsonModel>()
+                    Status = status ?? UserStatus.Online,
+                    Activities = activities?.Select(x => x.ToModel()).ToArray() ?? Array.Empty<ActivityJsonModel>()
+                });
+            }
+
+            var restProxy = discordContext.RestProxy;
+            if (restProxy != null)
+            {
+                services.Configure<DefaultHttpClientFactoryConfiguration>(x => x.ClientConfiguration = client =>
+                {
+                    client.Proxy = restProxy;
+                    client.UseProxy = true;
+                });
+            }
+
+            var gatewayProxy = discordContext.GatewayProxy;
+            if (gatewayProxy != null)
+            {
+                services.Configure<DefaultWebSocketClientFactoryConfiguration>(x => x.ClientConfiguration = client =>
+                {
+                    client.Proxy = gatewayProxy;
                 });
             }
         }
