@@ -60,7 +60,7 @@ namespace Disqord.OAuth2
         ///     A paged enumerable yielding the requested guilds.
         /// </returns>
         public static IPagedEnumerable<IPartialGuild> EnumerateGuilds(this IBearerClient client,
-            int limit, RetrievalDirection retrievalDirection = RetrievalDirection.Before, Snowflake? startFromId = null,
+            int limit, RetrievalDirection retrievalDirection = RetrievalDirection.After, Snowflake? startFromId = null,
             IRestRequestOptions options = null)
         {
             return client.RestClient.EnumerateGuilds(limit, retrievalDirection, startFromId, options);

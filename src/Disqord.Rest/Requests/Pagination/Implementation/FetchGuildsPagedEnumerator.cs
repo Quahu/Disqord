@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Qommon;
@@ -32,9 +31,8 @@ namespace Disqord.Rest
             {
                 startFromId = _direction switch
                 {
-                    RetrievalDirection.Before => previousPage[^1].Id,
-                    RetrievalDirection.After => previousPage[0].Id,
-                    RetrievalDirection.Around => throw new NotImplementedException(),
+                    RetrievalDirection.Before => previousPage[0].Id,
+                    RetrievalDirection.After => previousPage[^1].Id,
                     _ => Throw.ArgumentOutOfRangeException<Snowflake>("direction"),
                 };
             }

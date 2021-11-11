@@ -33,7 +33,7 @@ namespace Disqord.Rest.Api
         }
 
         public static Task<GuildJsonModel[]> FetchGuildsAsync(this IRestApiClient client,
-            int limit = Discord.Limits.Rest.FetchGuildsPageSize, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null,
+            int limit = Discord.Limits.Rest.FetchGuildsPageSize, RetrievalDirection direction = RetrievalDirection.After, Snowflake? startFromId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsBetweenOrEqualTo(limit, 0, Discord.Limits.Rest.FetchGuildsPageSize);
@@ -54,7 +54,9 @@ namespace Disqord.Rest.Api
                 }
                 case RetrievalDirection.After:
                 {
-                    queryParameters["after"] = startFromId ?? throw new ArgumentNullException(nameof(startFromId), "The ID to fetch guilds after must not be null.");
+                    if (startFromId != null)
+                        queryParameters["after"] = startFromId;
+
                     break;
                 }
                 default:

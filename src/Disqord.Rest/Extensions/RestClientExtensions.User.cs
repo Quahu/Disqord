@@ -52,7 +52,7 @@ namespace Disqord.Rest
         }
 
         public static IPagedEnumerable<IPartialGuild> EnumerateGuilds(this IRestClient client,
-            int limit, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null,
+            int limit, RetrievalDirection direction = RetrievalDirection.After, Snowflake? startFromId = null,
             IRestRequestOptions options = null)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
@@ -65,7 +65,7 @@ namespace Disqord.Rest
         }
 
         public static Task<IReadOnlyList<IPartialGuild>> FetchGuildsAsync(this IRestClient client,
-            int limit = Discord.Limits.Rest.FetchGuildsPageSize, RetrievalDirection direction = RetrievalDirection.Before, Snowflake? startFromId = null,
+            int limit = Discord.Limits.Rest.FetchGuildsPageSize, RetrievalDirection direction = RetrievalDirection.After, Snowflake? startFromId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsGreaterThanOrEqualTo(limit, 0);
