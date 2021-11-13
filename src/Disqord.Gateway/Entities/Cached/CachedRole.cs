@@ -59,7 +59,7 @@ namespace Disqord.Gateway
             Permissions = model.Permissions;
             IsManaged = model.Managed;
             IsMentionable = model.Mentionable;
-            UnicodeEmoji = Optional.ConvertOrDefault(model.UnicodeEmoji, x => new TransientEmoji(x));
+            UnicodeEmoji = Optional.ConvertOrDefault(model.UnicodeEmoji, x => new TransientEmoji(null, x));
             Tags = Optional.ConvertOrDefault(model.Tags, model => new TransientRoleTags(model), IRoleTags.Empty);
         }
     }

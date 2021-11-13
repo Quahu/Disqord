@@ -447,30 +447,15 @@ namespace Disqord.Rest
             Snowflake guildId, Snowflake roleId, Action<ModifyRoleActionProperties> action,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var properties = new ModifyRoleActionProperties();
-            action?.Invoke(properties);
+            var content = action.ToContent(out var position);
 
-            if (properties.UnicodeEmoji.HasValue && properties.UnicodeEmoji.Value is LocalCustomEmoji)
-                throw new ArgumentException("The role's emoji must be a Unicode emoji.");
-
-            if (properties.Position.HasValue)
+            if (position.HasValue)
             {
                 await client.ReorderRolesAsync(guildId, new Dictionary<Snowflake, int>
                 {
-                    [roleId] = properties.Position.Value
+                    [roleId] = position.Value
                 }, options, cancellationToken).ConfigureAwait(false);
             }
-
-            var content = new ModifyRoleJsonRestRequestContent
-            {
-                Name = properties.Name,
-                Permissions = Optional.Convert(properties.Permissions, x => x.RawValue),
-                Color = Optional.Convert(properties.Color, x => x?.RawValue ?? 0),
-                Hoist = properties.IsHoisted,
-                Icon = properties.Icon,
-                Mentionable = properties.IsMentionable,
-                UnicodeEmoji = Optional.Convert(properties.UnicodeEmoji, x => x.Name)
-            };
 
             var model = await client.ApiClient.ModifyRoleAsync(guildId, roleId, content, options, cancellationToken).ConfigureAwait(false);
             return new TransientRole(client, guildId, model);

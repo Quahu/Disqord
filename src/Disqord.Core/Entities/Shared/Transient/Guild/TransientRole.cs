@@ -47,7 +47,7 @@ namespace Disqord
                 if (!Model.UnicodeEmoji.HasValue)
                     return null;
 
-                return _unicodeEmoji ??= new TransientEmoji(Model.UnicodeEmoji.Value);
+                return _unicodeEmoji ??= new TransientEmoji(null, Model.UnicodeEmoji.Value);
             }
         }
         private IEmoji _unicodeEmoji;
