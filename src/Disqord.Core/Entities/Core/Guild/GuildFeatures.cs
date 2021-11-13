@@ -132,6 +132,11 @@ namespace Disqord
         /// </summary>
         public bool HasRoleIcons => Has(RoleIcons);
 
+        /// <summary>
+        ///     Gets whether the guild can set channel banners.
+        /// </summary>
+        public bool HasChannelBanners => Has(ChannelBanners);
+
         private readonly IReadOnlyList<string> _features;
 
         public GuildFeatures(IReadOnlyList<string> features)

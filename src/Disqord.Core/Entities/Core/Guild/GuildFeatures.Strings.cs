@@ -117,5 +117,10 @@ namespace Disqord
         ///     The guild can set role icons.
         /// </summary>
         public const string RoleIcons = "ROLE_ICONS";
+
+        /// <summary>
+        ///     The guild can set channel banners.
+        /// </summary>
+        public const string ChannelBanners = "CHANNEL_BANNER";
     }
 }

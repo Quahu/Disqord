@@ -47,6 +47,9 @@ namespace Disqord.Models
         [JsonProperty("icon")]
         public Optional<string> Icon;
 
+        [JsonProperty("banner")]
+        public Optional<string> Banner;
+
         [JsonProperty("owner_id")]
         public Optional<Snowflake> OwnerId;
 
