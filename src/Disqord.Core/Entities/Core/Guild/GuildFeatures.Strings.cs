@@ -121,6 +121,6 @@ namespace Disqord
         /// <summary>
         ///     The guild can set channel banners.
         /// </summary>
-        public const string ChannelBanners = "CHANNEL_BANNER";
+        public const string ChannelBanner = "CHANNEL_BANNER";
     }
 }
