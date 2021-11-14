@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Models;
-using Disqord.Rest.ActionProperties.Modify;
 using Disqord.Rest.Api;
 using Disqord.Rest.Pagination;
 using Qommon;

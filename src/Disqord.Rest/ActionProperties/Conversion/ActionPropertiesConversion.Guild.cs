@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Disqord.Rest.ActionProperties.Modify;
 using Qommon;
 
 namespace Disqord.Rest.Api
