@@ -64,7 +64,6 @@ namespace Disqord.Gateway
             if (model.Avatar.HasValue)
                 GuildAvatarHash = model.Avatar.Value;
 
-            // Let's hope discord doesn't screw this up
             if (model.CommunicationDisabledUntil.HasValue)
                 TimedOutUntil = model.CommunicationDisabledUntil.Value;
         }

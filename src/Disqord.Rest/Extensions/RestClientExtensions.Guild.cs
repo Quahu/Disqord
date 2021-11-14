@@ -281,7 +281,10 @@ namespace Disqord.Rest
             if (nick.HasValue && client.ApiClient.Token is BotToken botToken)
             {
                 if (memberId == botToken.Id)
+                {
                     await client.ModifyCurrentMemberAsync(guildId, x => x.Nick = nick, options, cancellationToken).ConfigureAwait(false);
+                    content.Nick = Optional<string>.Empty;
+                }
             }
 
             var model = await client.ApiClient.ModifyMemberAsync(guildId, memberId, content, options, cancellationToken).ConfigureAwait(false);

@@ -143,7 +143,7 @@ namespace Disqord.Rest
             return client.SearchMembersAsync(guild.Id, query, limit, options, cancellationToken);
         }
 
-        [Obsolete("The SetCurrentMemberNickAsync method is deprecated in favour of ModifyCurrentMemberAsync, please use it instead.")]
+        [Obsolete("Use ModifyCurrentMemberAsync() instead.")]
         public static Task SetCurrentMemberNickAsync(this IGuild guild,
             string nick,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)

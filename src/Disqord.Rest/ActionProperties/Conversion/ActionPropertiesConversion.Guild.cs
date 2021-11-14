@@ -39,9 +39,6 @@ namespace Disqord.Rest.Api
 
             nick = properties.Nick;
 
-            if (properties.Nick.HasValue)
-                properties.Nick = Optional<string>.Empty;
-
             var content = new ModifyMemberJsonRestRequestContent
             {
                 Nick = properties.Nick,
