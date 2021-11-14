@@ -35,5 +35,8 @@ namespace Disqord.Models
 
         [JsonProperty("avatar")]
         public Optional<string> Avatar;
+
+        [JsonProperty("communication_disabled_until")]
+        public Optional<DateTimeOffset?> CommunicationDisabledUntil;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Disqord
 {
@@ -14,10 +15,9 @@ namespace Disqord
 
         public Optional<Snowflake?> VoiceChannelId { internal get; set; }
 
-        internal ModifyMemberActionProperties()
-        { }
+        public Optional<DateTimeOffset?> TimedOutUntil { internal get; set; }
 
         internal bool HasValues
-            => Nick.HasValue || RoleIds.HasValue || Mute.HasValue || Deaf.HasValue || VoiceChannelId.HasValue;
+            => Nick.HasValue || RoleIds.HasValue || Mute.HasValue || Deaf.HasValue || VoiceChannelId.HasValue || TimedOutUntil.HasValue;
     }
 }

@@ -34,6 +34,9 @@ namespace Disqord
         public string GuildAvatarHash => Model.Avatar.GetValueOrDefault();
 
         /// <inheritdoc/>
+        public DateTimeOffset? TimedOutUntil => Model.CommunicationDisabledUntil.GetValueOrDefault();
+
+        /// <inheritdoc/>
         public new MemberJsonModel Model { get; }
 
         public TransientMember(IClient client, Snowflake guildId, MemberJsonModel model)

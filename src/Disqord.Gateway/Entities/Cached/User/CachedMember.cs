@@ -27,6 +27,8 @@ namespace Disqord.Gateway
 
         public string GuildAvatarHash { get; private set; }
 
+        public DateTimeOffset? TimedOutUntil { get; private set; }
+
         public CachedMember(CachedSharedUser sharedUser, Snowflake guildId, MemberJsonModel model)
             : base(sharedUser)
         {
@@ -61,6 +63,10 @@ namespace Disqord.Gateway
 
             if (model.Avatar.HasValue)
                 GuildAvatarHash = model.Avatar.Value;
+
+            // Let's hope discord doesn't screw this up
+            if (model.CommunicationDisabledUntil.HasValue)
+                TimedOutUntil = model.CommunicationDisabledUntil.Value;
         }
     }
 }

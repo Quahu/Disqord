@@ -148,6 +148,8 @@ namespace Disqord.Rest.Api
 
             public static readonly Route ModifyMember = Patch("guilds/{0:guild_id}/members/{1:user_id}");
 
+            public static readonly Route ModifyCurrentMember = Patch("guilds/{0:guild_id}/members/@me");
+
             public static readonly Route SetOwnNick = Patch("guilds/{0:guild_id}/members/@me/nick");
 
             public static readonly Route GrantRole = Put("guilds/{0:guild_id}/members/{1:user_id}/roles/{2:role_id}");
