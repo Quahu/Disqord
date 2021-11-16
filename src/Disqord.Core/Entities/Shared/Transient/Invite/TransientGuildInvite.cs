@@ -54,6 +54,19 @@ namespace Disqord
         private IInviteStage _stage;
 
         /// <inheritdoc/>
+        public IGuildEvent GuildEvent
+        {
+            get
+            {
+                if (!Model.GuildScheduledEvent.HasValue)
+                    return null;
+
+                return _guildEvent ??= new TransientGuildEvent(Client, Model.GuildScheduledEvent.Value);
+            }
+        }
+        private IGuildEvent _guildEvent;
+
+        /// <inheritdoc/>
         public int? ApproximatePresenceCount => Model.ApproximatePresenceCount.GetValueOrNullable();
 
         /// <inheritdoc/>
