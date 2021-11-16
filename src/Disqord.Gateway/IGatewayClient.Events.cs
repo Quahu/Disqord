@@ -168,12 +168,12 @@ namespace Disqord.Gateway
         /// <summary>
         ///     Fires when a user subscribes to a guild event.
         /// </summary>
-        event AsynchronousEventHandler<GuildEventUserAddedEventArgs> GuildEventUserAdded;
+        event AsynchronousEventHandler<GuildEventMemberAddedEventArgs> GuildEventMemberAdded;
 
         /// <summary>
         ///     Fires when a user unsubscribes from a guild event.
         /// </summary>
-        event AsynchronousEventHandler<GuildEventUserRemovedEventArgs> GuildEventUserRemoved;
+        event AsynchronousEventHandler<GuildEventMemberRemovedEventArgs> GuildEventMemberRemoved;
 
         /// <summary>
         ///     Fires when a guild integration is created.

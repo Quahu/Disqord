@@ -207,17 +207,17 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
-        public event AsynchronousEventHandler<GuildEventUserAddedEventArgs> GuildEventUserAdded
+        public event AsynchronousEventHandler<GuildEventMemberAddedEventArgs> GuildEventMemberAdded
         {
-            add => Dispatcher.GuildEventUserAddedEvent.Hook(value);
-            remove => Dispatcher.GuildEventUserAddedEvent.Unhook(value);
+            add => Dispatcher.GuildEventMemberAddedEvent.Hook(value);
+            remove => Dispatcher.GuildEventMemberAddedEvent.Unhook(value);
         }
 
         /// <inheritdoc/>
-        public event AsynchronousEventHandler<GuildEventUserRemovedEventArgs> GuildEventUserRemoved
+        public event AsynchronousEventHandler<GuildEventMemberRemovedEventArgs> GuildEventMemberRemoved
         {
-            add => Dispatcher.GuildEventUserRemovedEvent.Hook(value);
-            remove => Dispatcher.GuildEventUserRemovedEvent.Unhook(value);
+            add => Dispatcher.GuildEventMemberRemovedEvent.Hook(value);
+            remove => Dispatcher.GuildEventMemberRemovedEvent.Unhook(value);
         }
 
         /// <inheritdoc/>

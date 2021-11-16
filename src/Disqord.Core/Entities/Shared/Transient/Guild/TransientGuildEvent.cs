@@ -18,6 +18,19 @@ namespace Disqord
         public Snowflake? CreatorId => Model.CreatorId.GetValueOrNullable();
 
         /// <inheritdoc/>
+        public IUser Creator
+        {
+            get
+            {
+                if (!Model.Creator.HasValue)
+                    return null;
+
+                return _creator ??= new TransientUser(Client, Model.Creator.Value);
+            }
+        }
+        private IUser _creator;
+
+        /// <inheritdoc/>
         public string Name => Model.Name;
 
         /// <inheritdoc/>
@@ -27,10 +40,10 @@ namespace Disqord
         public string ImageHash => Model.Image;
 
         /// <inheritdoc/>
-        public DateTimeOffset StartTime => Model.ScheduledStartTime;
+        public DateTimeOffset StartsAt => Model.ScheduledStartTime;
 
         /// <inheritdoc/>
-        public DateTimeOffset? EndTime => Model.ScheduledEndTime;
+        public DateTimeOffset? EndsAt => Model.ScheduledEndTime;
 
         /// <inheritdoc/>
         public PrivacyLevel PrivacyLevel => Model.PrivacyLevel;
@@ -39,10 +52,10 @@ namespace Disqord
         public GuildEventStatus Status => Model.Status;
 
         /// <inheritdoc/>
-        public GuildEventTargetType TargetEntityType => Model.EntityType;
+        public GuildEventTargetType TargetType => Model.EntityType;
 
         /// <inheritdoc/>
-        public Snowflake? EntityId => Model.EntityId;
+        public Snowflake? TargetId => Model.EntityId;
 
         /// <inheritdoc/>
         public IGuildEventMetadata Metadata
@@ -56,19 +69,6 @@ namespace Disqord
             }
         }
         private IGuildEventMetadata _metadata;
-
-        /// <inheritdoc/>
-        public IUser Creator
-        {
-            get
-            {
-                if (!Model.Creator.HasValue)
-                    return null;
-
-                return _creator ??= new TransientUser(Client, Model.Creator.Value);
-            }
-        }
-        private IUser _creator;
 
         /// <inheritdoc/>
         public int? MemberCount => Model.UserCount.GetValueOrNullable();

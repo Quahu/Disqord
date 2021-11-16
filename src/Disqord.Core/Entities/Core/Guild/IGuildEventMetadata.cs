@@ -11,7 +11,7 @@ namespace Disqord
         IReadOnlyList<Snowflake> SpeakerIds { get; }
 
         /// <summary>
-        ///     Gets the location of the guild event.
+        ///     Gets the location of the event.
         /// </summary>
         string Location { get; }
     }

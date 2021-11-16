@@ -73,10 +73,10 @@ namespace Disqord.Gateway
         /// <returns>
         ///     The guild event or <see langword="null"/> if it was not cached.
         /// </returns>
-        public static CachedGuildEvent GetGuildEvent(this IGuild guild, Snowflake guildEventId)
+        public static CachedGuildEvent GetEvent(this IGuild guild, Snowflake eventId)
         {
             var client = guild.GetGatewayClient();
-            return client.GetGuildEvent(guild.Id, guildEventId);
+            return client.GetGuildEvent(guild.Id, eventId);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Disqord.Gateway
         /// <returns>
         ///     A dictionary of guild events within this guild keyed by their IDs.
         /// </returns>
-        public static IReadOnlyDictionary<Snowflake, CachedGuildEvent> GetGuildEvents(this IGuild guild)
+        public static IReadOnlyDictionary<Snowflake, CachedGuildEvent> GetEvents(this IGuild guild)
         {
             var client = guild.GetGatewayClient();
             if (client.CacheProvider.TryGetGuildEvents(guild.Id, out var cache, true))

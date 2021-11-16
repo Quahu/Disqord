@@ -16,6 +16,9 @@ namespace Disqord.Gateway
         public Snowflake? CreatorId { get; private set; }
 
         /// <inheritdoc/>
+        public IUser Creator { get; private set; }
+
+        /// <inheritdoc/>
         public string Name { get; private set; }
 
         /// <inheritdoc/>
@@ -25,10 +28,10 @@ namespace Disqord.Gateway
         public string ImageHash { get; private set; }
 
         /// <inheritdoc/>
-        public DateTimeOffset StartTime { get; private set; }
+        public DateTimeOffset StartsAt { get; private set; }
 
         /// <inheritdoc/>
-        public DateTimeOffset? EndTime { get; private set; }
+        public DateTimeOffset? EndsAt { get; private set; }
 
         /// <inheritdoc/>
         public PrivacyLevel PrivacyLevel { get; private set; }
@@ -37,16 +40,13 @@ namespace Disqord.Gateway
         public GuildEventStatus Status { get; private set; }
 
         /// <inheritdoc/>
-        public GuildEventTargetType TargetEntityType { get; private set; }
+        public GuildEventTargetType TargetType { get; private set; }
 
         /// <inheritdoc/>
-        public Snowflake? EntityId { get; private set; }
+        public Snowflake? TargetId { get; private set; }
 
         /// <inheritdoc/>
         public IGuildEventMetadata Metadata { get; private set; }
-
-        /// <inheritdoc/>
-        public IUser Creator { get; private set; }
 
         /// <inheritdoc/>
         public int? MemberCount { get; private set; }
@@ -64,22 +64,22 @@ namespace Disqord.Gateway
             if (model.CreatorId.HasValue)
                 CreatorId = model.CreatorId.Value;
 
+            if (model.Creator.HasValue)
+                Creator = new TransientUser(Client, model.Creator.Value);
+
             ChannelId = model.ChannelId;
             Name = model.Name;
             Description = model.Description.Value;
             ImageHash = model.Image;
-            StartTime = model.ScheduledStartTime;
-            EndTime = model.ScheduledEndTime;
+            StartsAt = model.ScheduledStartTime;
+            EndsAt = model.ScheduledEndTime;
             PrivacyLevel = model.PrivacyLevel;
             Status = model.Status;
-            TargetEntityType = model.EntityType;
-            EntityId = model.EntityId;
+            TargetType = model.EntityType;
+            TargetId = model.EntityId;
 
             if (model.EntityMetadata != null)
                 Metadata = new TransientGuildEventMetadata(model.EntityMetadata);
-
-            if (model.Creator.HasValue)
-                Creator = new TransientUser(Client, model.Creator.Value);
 
             MemberCount = model.UserCount.GetValueOrNullable();
         }

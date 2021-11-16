@@ -208,17 +208,17 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
-        public event AsynchronousEventHandler<GuildEventUserAddedEventArgs> GuildEventUserAdded
+        public event AsynchronousEventHandler<GuildEventMemberAddedEventArgs> GuildEventMemberAdded
         {
-            add => GatewayClient.GuildEventUserAdded += value;
-            remove => GatewayClient.GuildEventUserAdded -= value;
+            add => GatewayClient.GuildEventMemberAdded += value;
+            remove => GatewayClient.GuildEventMemberAdded -= value;
         }
 
         /// <inheritdoc/>
-        public event AsynchronousEventHandler<GuildEventUserRemovedEventArgs> GuildEventUserRemoved
+        public event AsynchronousEventHandler<GuildEventMemberRemovedEventArgs> GuildEventMemberRemoved
         {
-            add => GatewayClient.GuildEventUserRemoved += value;
-            remove => GatewayClient.GuildEventUserRemoved -= value;
+            add => GatewayClient.GuildEventMemberRemoved += value;
+            remove => GatewayClient.GuildEventMemberRemoved -= value;
         }
 
         /// <inheritdoc/>

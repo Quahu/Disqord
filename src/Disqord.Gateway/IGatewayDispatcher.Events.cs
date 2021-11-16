@@ -62,9 +62,9 @@ namespace Disqord.Gateway
 
         AsynchronousEvent<GuildEventDeletedEventArgs> GuildEventDeletedEvent { get; }
 
-        AsynchronousEvent<GuildEventUserAddedEventArgs> GuildEventUserAddedEvent { get; }
+        AsynchronousEvent<GuildEventMemberAddedEventArgs> GuildEventMemberAddedEvent { get; }
 
-        AsynchronousEvent<GuildEventUserRemovedEventArgs> GuildEventUserRemovedEvent { get; }
+        AsynchronousEvent<GuildEventMemberRemovedEventArgs> GuildEventMemberRemovedEvent { get; }
 
         AsynchronousEvent<IntegrationCreatedEventArgs> IntegrationCreatedEvent { get; }
 

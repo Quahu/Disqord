@@ -38,8 +38,8 @@ namespace Disqord.Hosting
         public DiscordClientService[] GuildEventCreatedServices { get; }
         public DiscordClientService[] GuildEventUpdatedServices { get; }
         public DiscordClientService[] GuildEventDeletedServices { get; }
-        public DiscordClientService[] GuildEventUserAddedServices { get; }
-        public DiscordClientService[] GuildEventUserRemovedServices { get; }
+        public DiscordClientService[] GuildEventMemberAddedServices { get; }
+        public DiscordClientService[] GuildEventMemberRemovedServices { get; }
         public DiscordClientService[] IntegrationCreatedServices { get; }
         public DiscordClientService[] IntegrationUpdatedServices { get; }
         public DiscordClientService[] IntegrationDeletedServices { get; }
@@ -106,8 +106,8 @@ namespace Disqord.Hosting
             GuildEventCreatedServices = GetServices<GuildEventCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildEventCreated));
             GuildEventUpdatedServices = GetServices<GuildEventUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildEventUpdated));
             GuildEventDeletedServices = GetServices<GuildEventDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildEventDeleted));
-            GuildEventUserAddedServices = GetServices<GuildEventUserAddedEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildEventUserAdded));
-            GuildEventUserRemovedServices = GetServices<GuildEventUserRemovedEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildEventUserRemoved));
+            GuildEventMemberAddedServices = GetServices<GuildEventMemberAddedEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildEventMemberAdded));
+            GuildEventMemberRemovedServices = GetServices<GuildEventMemberRemovedEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildEventMemberRemoved));
             IntegrationCreatedServices = GetServices<IntegrationCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnIntegrationCreated));
             IntegrationUpdatedServices = GetServices<IntegrationUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnIntegrationUpdated));
             IntegrationDeletedServices = GetServices<IntegrationDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnIntegrationDeleted));
@@ -157,7 +157,11 @@ namespace Disqord.Hosting
             Client.RoleCreated += HandleRoleCreated;
             Client.RoleUpdated += HandleRoleUpdated;
             Client.RoleDeleted += HandleRoleDeleted;
-
+            Client.GuildEventCreated += HandleGuildEventCreated;
+            Client.GuildEventUpdated += HandleGuildEventUpdated;
+            Client.GuildEventDeleted += HandleGuildEventDeleted;
+            Client.GuildEventMemberAdded += HandleGuildEventMemberAdded;
+            Client.GuildEventMemberRemoved += HandleGuildEventMemberRemoved;
             Client.IntegrationCreated += HandleIntegrationCreated;
             Client.IntegrationUpdated += HandleIntegrationUpdated;
             Client.IntegrationDeleted += HandleIntegrationDeleted;
@@ -356,16 +360,16 @@ namespace Disqord.Hosting
                 await ExecuteAsync((service, e) => service.OnGuildEventDeleted(e), service, e).ConfigureAwait(false);
         }
 
-        public async ValueTask HandleGuildEventUserAdded(object sender, GuildEventUserAddedEventArgs e)
+        public async ValueTask HandleGuildEventMemberAdded(object sender, GuildEventMemberAddedEventArgs e)
         {
-            foreach (var service in GuildEventUserAddedServices)
-                await ExecuteAsync((service, e) => service.OnGuildEventUserAdded(e), service, e).ConfigureAwait(false);
+            foreach (var service in GuildEventMemberAddedServices)
+                await ExecuteAsync((service, e) => service.OnGuildEventMemberAdded(e), service, e).ConfigureAwait(false);
         }
 
-        public async ValueTask HandleGuildEventUserRemoved(object sender, GuildEventUserRemovedEventArgs e)
+        public async ValueTask HandleGuildEventMemberRemoved(object sender, GuildEventMemberRemovedEventArgs e)
         {
-            foreach (var service in GuildEventUserRemovedServices)
-                await ExecuteAsync((service, e) => service.OnGuildEventUserRemoved(e), service, e).ConfigureAwait(false);
+            foreach (var service in GuildEventMemberRemovedServices)
+                await ExecuteAsync((service, e) => service.OnGuildEventMemberRemoved(e), service, e).ConfigureAwait(false);
         }
 
         public async ValueTask HandleIntegrationCreated(object sender, IntegrationCreatedEventArgs e)
