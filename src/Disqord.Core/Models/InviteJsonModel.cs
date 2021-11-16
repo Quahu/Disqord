@@ -39,7 +39,7 @@ namespace Disqord.Models
         public Optional<InviteStageInstanceJsonModel> StageInstance;
 
         [JsonProperty("guild_scheduled_event")]
-        public Optional<GuildEventJsonModel> GuildScheduledEvent;
+        public Optional<GuildScheduledEventJsonModel> GuildScheduledEvent;
 
         // Metadata
         [JsonProperty("uses")]

@@ -98,6 +98,12 @@ namespace Disqord.Gateway.Default
                 [GatewayDispatchNames.GuildRoleUpdate] = new GuildRoleUpdateHandler(),
                 [GatewayDispatchNames.GuildRoleDelete] = new GuildRoleDeleteHandler(),
 
+                [GatewayDispatchNames.GuildScheduledEventCreate] = new GuildScheduledEventCreateHandler(),
+                [GatewayDispatchNames.GuildScheduledEventUpdate] = new GuildScheduledEventUpdateHandler(),
+                [GatewayDispatchNames.GuildScheduledEventDelete] = new GuildScheduledEventDeleteHandler(),
+                [GatewayDispatchNames.GuildScheduledEventUserAdd] = new GuildScheduledEventUserAddHandler(),
+                [GatewayDispatchNames.GuildScheduledEventUserRemove] = new GuildScheduledEventUserRemoveHandler(),
+
                 [GatewayDispatchNames.IntegrationCreate] = new IntegrationCreateHandler(),
                 [GatewayDispatchNames.IntegrationUpdate] = new IntegrationUpdateHandler(),
                 [GatewayDispatchNames.IntegrationDelete] = new IntegrationDeleteHandler(),

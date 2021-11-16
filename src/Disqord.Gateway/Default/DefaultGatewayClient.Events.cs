@@ -186,6 +186,41 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildEventCreatedEventArgs> GuildEventCreated
+        {
+            add => Dispatcher.GuildEventCreatedEvent.Hook(value);
+            remove => Dispatcher.GuildEventCreatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildEventUpdatedEventArgs> GuildEventUpdated
+        {
+            add => Dispatcher.GuildEventUpdatedEvent.Hook(value);
+            remove => Dispatcher.GuildEventUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildEventDeletedEventArgs> GuildEventDeleted
+        {
+            add => Dispatcher.GuildEventDeletedEvent.Hook(value);
+            remove => Dispatcher.GuildEventDeletedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildEventUserAddedEventArgs> GuildEventUserAdded
+        {
+            add => Dispatcher.GuildEventUserAddedEvent.Hook(value);
+            remove => Dispatcher.GuildEventUserAddedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildEventUserRemovedEventArgs> GuildEventUserRemoved
+        {
+            add => Dispatcher.GuildEventUserRemovedEvent.Hook(value);
+            remove => Dispatcher.GuildEventUserRemovedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<IntegrationCreatedEventArgs> IntegrationCreated
         {
             add => Dispatcher.IntegrationCreatedEvent.Hook(value);

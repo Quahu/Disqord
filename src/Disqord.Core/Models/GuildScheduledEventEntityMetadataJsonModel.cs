@@ -2,7 +2,7 @@
 
 namespace Disqord.Models
 {
-    public class GuildEventEntityMetadataJsonModel : JsonModel
+    public class GuildScheduledEventEntityMetadataJsonModel : JsonModel
     {
         [JsonProperty("speaker_ids")]
         public Optional<Snowflake[]> SpeakerIds;

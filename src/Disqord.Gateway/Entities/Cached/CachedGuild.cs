@@ -145,6 +145,17 @@ namespace Disqord.Gateway
             }
         }
 
+        IReadOnlyDictionary<Snowflake, IGuildEvent> IGatewayGuild.GuildEvents
+        {
+            get
+            {
+                if (Client.CacheProvider.TryGetGuildEvents(Id, out var cache, true))
+                    return new ReadOnlyUpcastingDictionary<Snowflake, CachedGuildEvent, IGuildEvent>(cache.ReadOnly());
+
+                return ReadOnlyDictionary<Snowflake, IGuildEvent>.Empty;
+            }
+        }
+
         public GuildNsfwLevel NsfwLevel { get; private set; }
 
         public IReadOnlyDictionary<Snowflake, IGuildSticker> Stickers { get; private set; }

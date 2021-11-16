@@ -66,6 +66,36 @@ namespace Disqord.Gateway
         }
 
         /// <summary>
+        ///     Gets a cached guild event with the given ID within this guild.
+        /// </summary>
+        /// <param name="guild"> The guild to get the guild event within. </param>
+        /// <param name="guildEventId"> The ID of the guild event to get. </param>
+        /// <returns>
+        ///     The guild event or <see langword="null"/> if it was not cached.
+        /// </returns>
+        public static CachedGuildEvent GetGuildEvent(this IGuild guild, Snowflake guildEventId)
+        {
+            var client = guild.GetGatewayClient();
+            return client.GetGuildEvent(guild.Id, guildEventId);
+        }
+
+        /// <summary>
+        ///     Gets all cached guild events within this guild.
+        /// </summary>
+        /// <param name="guild"> The guild to get the guild events within. </param>
+        /// <returns>
+        ///     A dictionary of guild events within this guild keyed by their IDs.
+        /// </returns>
+        public static IReadOnlyDictionary<Snowflake, CachedGuildEvent> GetGuildEvents(this IGuild guild)
+        {
+            var client = guild.GetGatewayClient();
+            if (client.CacheProvider.TryGetGuildEvents(guild.Id, out var cache, true))
+                return cache.ReadOnly();
+
+            return ReadOnlyDictionary<Snowflake, CachedGuildEvent>.Empty;
+        }
+
+        /// <summary>
         ///     Gets a cached member with the given ID within this guild.
         /// </summary>
         /// <param name="guild"> The guild to get the member within. </param>

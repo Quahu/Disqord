@@ -6,7 +6,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a guild event.
     /// </summary>
-    public interface IGuildEvent : ISnowflakeEntity, IGuildEntity, IPossibleChannelEntity, INamableEntity, IJsonUpdatable<GuildEventJsonModel>
+    public interface IGuildEvent : ISnowflakeEntity, IGuildEntity, IPossibleChannelEntity, INamableEntity, IJsonUpdatable<GuildScheduledEventJsonModel>
     {
         /// <summary>
         ///     Gets the ID of the user who created this guild event.

@@ -3,7 +3,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Models
 {
-    public class GuildEventJsonModel : JsonModel
+    public class GuildScheduledEventJsonModel : JsonModel
     {
         [JsonProperty("id")]
         public Snowflake Id;
@@ -45,7 +45,7 @@ namespace Disqord.Models
         public Snowflake? EntityId;
 
         [JsonProperty("entity_metadata")]
-        public GuildEventEntityMetadataJsonModel EntityMetadata;
+        public GuildScheduledEventEntityMetadataJsonModel EntityMetadata;
 
         [JsonProperty("creator")]
         public Optional<UserJsonModel> Creator;

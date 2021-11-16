@@ -3,7 +3,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public interface IGuildEventMetadata : IEntity, IJsonUpdatable<GuildEventEntityMetadataJsonModel>
+    public interface IGuildEventMetadata : IEntity, IJsonUpdatable<GuildScheduledEventEntityMetadataJsonModel>
     {
         /// <summary>
         ///     Gets the IDs of the speakers in the event.

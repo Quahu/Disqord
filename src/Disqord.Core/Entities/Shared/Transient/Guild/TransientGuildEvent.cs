@@ -3,7 +3,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientGuildEvent : TransientClientEntity<GuildEventJsonModel>, IGuildEvent
+    public class TransientGuildEvent : TransientClientEntity<GuildScheduledEventJsonModel>, IGuildEvent
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;
@@ -73,7 +73,7 @@ namespace Disqord
         /// <inheritdoc/>
         public int? MemberCount => Model.UserCount.GetValueOrNullable();
 
-        public TransientGuildEvent(IClient client, GuildEventJsonModel model)
+        public TransientGuildEvent(IClient client, GuildScheduledEventJsonModel model)
             : base(client, model)
         { }
     }
