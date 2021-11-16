@@ -49,6 +49,8 @@ namespace Disqord.Gateway
 
         public bool DirectTyping => Has(GatewayIntent.DirectTyping);
 
+        public bool GuildEvents => Has(GatewayIntent.GuildEvents);
+
         public GatewayIntent Flags => (GatewayIntent) RawValue;
 
         public ulong RawValue { get; }
