@@ -1,12 +1,19 @@
-﻿using System.Collections.Generic;
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord.AuditLogs
 {
     public class TransientGuildEventAuditLogData : IGuildEventAuditLogData
     {
-        public Optional<IReadOnlyList<Snowflake>> SkuIds { get; }
-        public Optional<GuildEventTargetType> EntityType { get; }
+        public Optional<Snowflake> ChannelId { get; }
+
+        public Optional<string> Description { get; }
+
+        public Optional<GuildEventTargetType> TargetEntityType { get; }
+
+        public Optional<string> Location { get; }
+
+        public Optional<PrivacyLevel> PrivacyLevel { get; }
+
         public Optional<GuildEventStatus> Status { get; }
 
         public TransientGuildEventAuditLogData(IClient client, AuditLogEntryJsonModel model, bool isCreated)
@@ -14,14 +21,20 @@ namespace Disqord.AuditLogs
             var changes = new TransientGuildEventAuditLogChanges(client, model);
             if (isCreated)
             {
-                SkuIds = changes.SkuIds.NewValue;
-                EntityType = changes.EntityType.NewValue;
+                ChannelId = changes.ChannelId.NewValue;
+                Description = changes.Description.NewValue;
+                TargetEntityType = changes.TargetEntityType.NewValue;
+                Location = changes.Location.NewValue;
+                PrivacyLevel = changes.PrivacyLevel.NewValue;
                 Status = changes.Status.NewValue;
             }
             else
             {
-                SkuIds = changes.SkuIds.OldValue;
-                EntityType = changes.EntityType.OldValue;
+                ChannelId = changes.ChannelId.OldValue;
+                Description = changes.Description.OldValue;
+                TargetEntityType = changes.TargetEntityType.OldValue;
+                Location = changes.Location.OldValue;
+                PrivacyLevel = changes.PrivacyLevel.OldValue;
                 Status = changes.Status.OldValue;
             }
         }

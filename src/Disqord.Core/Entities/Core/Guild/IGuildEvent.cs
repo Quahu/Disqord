@@ -45,9 +45,9 @@ namespace Disqord
         GuildEventStatus Status { get; }
 
         /// <summary>
-        ///     Gets the target type of this guild event.
+        ///     Gets the target entity type of this guild event.
         /// </summary>
-        GuildEventTargetType TargetType { get; }
+        GuildEventTargetType TargetEntityType { get; }
 
         /// <summary>
         ///     Gets the ID of the entity of this guild event.
@@ -55,7 +55,8 @@ namespace Disqord
         Snowflake? EntityId { get; }
 
         /// <summary>
-        ///     Gets the metadata of this guild event.
+        ///     Gets the entity metadata of this guild event.
+        ///     Returns <see langword="null"/> if the event has no entity metadata.
         /// </summary>
         IGuildEventMetadata Metadata { get; }
 

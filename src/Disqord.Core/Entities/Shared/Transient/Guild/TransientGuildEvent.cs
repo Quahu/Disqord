@@ -39,7 +39,7 @@ namespace Disqord
         public GuildEventStatus Status => Model.Status;
 
         /// <inheritdoc/>
-        public GuildEventTargetType TargetType => Model.EntityType;
+        public GuildEventTargetType TargetEntityType => Model.EntityType;
 
         /// <inheritdoc/>
         public Snowflake? EntityId => Model.EntityId;

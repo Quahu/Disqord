@@ -1,13 +1,20 @@
-﻿using System.Collections.Generic;
-using Disqord.Models;
+﻿using Disqord.Models;
 using Microsoft.Extensions.Logging;
 
 namespace Disqord.AuditLogs
 {
     public class TransientGuildEventAuditLogChanges : IGuildEventAuditLogChanges
     {
-        public AuditLogChange<IReadOnlyList<Snowflake>> SkuIds { get; }
-        public AuditLogChange<GuildEventTargetType> EntityType { get; }
+        public AuditLogChange<Snowflake> ChannelId { get; }
+
+        public AuditLogChange<string> Description { get; }
+
+        public AuditLogChange<GuildEventTargetType> TargetEntityType { get; }
+
+        public AuditLogChange<string> Location { get; }
+
+        public AuditLogChange<PrivacyLevel> PrivacyLevel { get; }
+
         public AuditLogChange<GuildEventStatus> Status { get; }
 
         public TransientGuildEventAuditLogChanges(IClient client, AuditLogEntryJsonModel model)
@@ -17,14 +24,29 @@ namespace Disqord.AuditLogs
                 var change = model.Changes.Value[i];
                 switch (change.Key)
                 {
-                    case "sku_ids":
+                    case "channel_id":
                     {
-                        SkuIds = AuditLogChange<IReadOnlyList<Snowflake>>.Convert(change);
+                        ChannelId = AuditLogChange<Snowflake>.Convert(change);
+                        break;
+                    }
+                    case "description":
+                    {
+                        Description = AuditLogChange<string>.Convert(change);
                         break;
                     }
                     case "entity_type":
                     {
-                        EntityType = AuditLogChange<GuildEventTargetType>.Convert(change);
+                        TargetEntityType = AuditLogChange<GuildEventTargetType>.Convert(change);
+                        break;
+                    }
+                    case "location":
+                    {
+                        Location = AuditLogChange<string>.Convert(change);
+                        break;
+                    }
+                    case "privacy_level":
+                    {
+                        PrivacyLevel = AuditLogChange<PrivacyLevel>.Convert(change);
                         break;
                     }
                     case "status":

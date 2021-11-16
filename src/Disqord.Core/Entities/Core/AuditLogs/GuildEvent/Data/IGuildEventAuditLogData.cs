@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
-
-namespace Disqord.AuditLogs
+﻿namespace Disqord.AuditLogs
 {
     public interface IGuildEventAuditLogData
     {
-        Optional<IReadOnlyList<Snowflake>> SkuIds { get; }
+        Optional<Snowflake> ChannelId { get; }
 
-        Optional<GuildEventTargetType> EntityType { get; }
+        Optional<string> Description { get; }
+
+        Optional<GuildEventTargetType> TargetEntityType { get; }
+
+        Optional<string> Location { get; }
+
+        Optional<PrivacyLevel> PrivacyLevel { get; }
 
         Optional<GuildEventStatus> Status { get; }
     }
