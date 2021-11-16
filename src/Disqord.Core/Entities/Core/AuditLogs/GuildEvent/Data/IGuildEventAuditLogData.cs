@@ -6,7 +6,7 @@ namespace Disqord.AuditLogs
     {
         Optional<IReadOnlyList<Snowflake>> SkuIds { get; }
 
-        Optional<GuildEventTarget> EntityType { get; }
+        Optional<GuildEventTargetType> EntityType { get; }
 
         Optional<GuildEventStatus> Status { get; }
     }

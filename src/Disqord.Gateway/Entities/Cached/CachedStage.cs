@@ -15,7 +15,7 @@ namespace Disqord.Gateway
         public string Topic { get; private set; }
 
         /// <inheritdoc/>
-        public StagePrivacyLevel PrivacyLevel { get; private set; }
+        public PrivacyLevel PrivacyLevel { get; private set; }
 
         /// <inheritdoc/>
         public bool IsDiscoveryDisabled { get; private set; }

@@ -4,6 +4,6 @@ namespace Disqord.AuditLogs
     {
         Optional<string> Topic { get; }
 
-        Optional<StagePrivacyLevel> PrivacyLevel { get; }
+        Optional<PrivacyLevel> PrivacyLevel { get; }
     }
 }

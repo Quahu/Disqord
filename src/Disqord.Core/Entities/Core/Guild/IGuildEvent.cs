@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Disqord.Models;
 
 namespace Disqord
@@ -9,6 +8,11 @@ namespace Disqord
     /// </summary>
     public interface IGuildEvent : ISnowflakeEntity, IGuildEntity, IPossibleChannelEntity, INamableEntity, IJsonUpdatable<GuildEventJsonModel>
     {
+        /// <summary>
+        ///     Gets the ID of the user who created this guild event.
+        /// </summary>
+        Snowflake? CreatorId { get; }
+
         /// <summary>
         ///     Gets the description of this guild event.
         /// </summary>
@@ -33,17 +37,17 @@ namespace Disqord
         /// <summary>
         ///     Gets the privacy level of this guild event.
         /// </summary>
-        StagePrivacyLevel PrivacyLevel { get; }
+        PrivacyLevel PrivacyLevel { get; }
 
         /// <summary>
-        ///     Gets the event status of this guild event.
+        ///     Gets the status of this guild event.
         /// </summary>
         GuildEventStatus Status { get; }
 
         /// <summary>
-        ///     Gets the entity type of this guild event.
+        ///     Gets the target type of this guild event.
         /// </summary>
-        GuildEventTarget EntityType { get; }
+        GuildEventTargetType TargetType { get; }
 
         /// <summary>
         ///     Gets the ID of the entity of this guild event.
@@ -51,18 +55,18 @@ namespace Disqord
         Snowflake? EntityId { get; }
 
         /// <summary>
-        ///     Gets the IDs of the "Game SKUs" of this guild event.
-        /// </summary>
-        IReadOnlyList<Snowflake> SkuIds { get; }
-
-        /// <summary>
-        ///     Gets the amount of users subscribed to this guild event.
-        /// </summary>
-        int? UserCount { get; }
-
-        /// <summary>
         ///     Gets the metadata of this guild event.
         /// </summary>
         IGuildEventMetadata Metadata { get; }
+
+        /// <summary>
+        ///     Gets the user who created this guild event.
+        /// </summary>
+        IUser Creator { get; }
+
+        /// <summary>
+        ///     Gets the amount of members subscribed to this guild event.
+        /// </summary>
+        int? MemberCount { get; }
     }
 }

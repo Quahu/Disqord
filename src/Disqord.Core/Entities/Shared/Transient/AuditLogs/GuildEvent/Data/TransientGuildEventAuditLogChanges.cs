@@ -7,7 +7,7 @@ namespace Disqord.AuditLogs
     public class TransientGuildEventAuditLogChanges : IGuildEventAuditLogChanges
     {
         public AuditLogChange<IReadOnlyList<Snowflake>> SkuIds { get; }
-        public AuditLogChange<GuildEventTarget> EntityType { get; }
+        public AuditLogChange<GuildEventTargetType> EntityType { get; }
         public AuditLogChange<GuildEventStatus> Status { get; }
 
         public TransientGuildEventAuditLogChanges(IClient client, AuditLogEntryJsonModel model)
@@ -24,7 +24,7 @@ namespace Disqord.AuditLogs
                     }
                     case "entity_type":
                     {
-                        EntityType = AuditLogChange<GuildEventTarget>.Convert(change);
+                        EntityType = AuditLogChange<GuildEventTargetType>.Convert(change);
                         break;
                     }
                     case "status":

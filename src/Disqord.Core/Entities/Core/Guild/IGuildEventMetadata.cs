@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Disqord.Models;
 
 namespace Disqord
 {
-    public interface IGuildEventMetadata
+    public interface IGuildEventMetadata : IEntity, IJsonUpdatable<GuildEventEntityMetadataJsonModel>
     {
         /// <summary>
         ///     Gets the IDs of the speakers in the event.

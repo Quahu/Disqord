@@ -12,7 +12,7 @@ namespace Disqord.Rest.Api
         public string Name;
 
         [JsonProperty("privacy_level")]
-        public StagePrivacyLevel PrivacyLevel;
+        public PrivacyLevel PrivacyLevel;
 
         [JsonProperty("scheduled_start_time")]
         public DateTimeOffset ScheduledStartTime;
@@ -21,6 +21,6 @@ namespace Disqord.Rest.Api
         public Optional<string> Description;
 
         [JsonProperty("entity_type")]
-        public GuildEventTarget EntityType;
+        public GuildEventTargetType EntityType;
     }
 }

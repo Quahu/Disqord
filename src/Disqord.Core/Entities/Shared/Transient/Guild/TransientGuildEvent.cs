@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using Disqord.Models;
-using Qommon.Collections;
 
 namespace Disqord
 {
@@ -15,6 +13,9 @@ namespace Disqord
 
         /// <inheritdoc/>
         public Snowflake? ChannelId => Model.ChannelId;
+
+        /// <inheritdoc/>
+        public Snowflake? CreatorId => Model.CreatorId.GetValueOrNullable();
 
         /// <inheritdoc/>
         public string Name => Model.Name;
@@ -32,28 +33,45 @@ namespace Disqord
         public DateTimeOffset? EndTime => Model.ScheduledEndTime;
 
         /// <inheritdoc/>
-        public StagePrivacyLevel PrivacyLevel => Model.PrivacyLevel;
+        public PrivacyLevel PrivacyLevel => Model.PrivacyLevel;
 
         /// <inheritdoc/>
         public GuildEventStatus Status => Model.Status;
 
         /// <inheritdoc/>
-        public GuildEventTarget EntityType => Model.EntityType;
+        public GuildEventTargetType TargetType => Model.EntityType;
 
         /// <inheritdoc/>
         public Snowflake? EntityId => Model.EntityId;
 
         /// <inheritdoc/>
-        public IReadOnlyList<Snowflake> SkuIds => Model.SkuIds.ToReadOnlyList();
+        public IGuildEventMetadata Metadata
+        {
+            get
+            {
+                if (Model.EntityMetadata == null)
+                    return null;
 
-        /// <inheritdoc/>
-        public int? UserCount => Model.UserCount.GetValueOrNullable();
-
-        /// <inheritdoc/>
-        public IGuildEventMetadata Metadata => _metadata ??= new TransientGuildEventMetadata(Client, Model.EntityMetadata);
+                return _metadata ??= new TransientGuildEventMetadata(Model.EntityMetadata);
+            }
+        }
         private IGuildEventMetadata _metadata;
 
-        public IReadOnlyList<Snowflake> SpeakerIds => Optional.ConvertOrDefault(Model.EntityMetadata.SpeakerIds, x => x.ToReadOnlyList(), ReadOnlyList<Snowflake>.Empty);
+        /// <inheritdoc/>
+        public IUser Creator
+        {
+            get
+            {
+                if (!Model.Creator.HasValue)
+                    return null;
+
+                return _creator ??= new TransientUser(Client, Model.Creator.Value);
+            }
+        }
+        private IUser _creator;
+
+        /// <inheritdoc/>
+        public int? MemberCount => Model.UserCount.GetValueOrNullable();
 
         public TransientGuildEvent(IClient client, GuildEventJsonModel model)
             : base(client, model)

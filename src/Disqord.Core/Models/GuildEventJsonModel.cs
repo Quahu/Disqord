@@ -14,6 +14,9 @@ namespace Disqord.Models
         [JsonProperty("channel_id")]
         public Snowflake? ChannelId;
 
+        [JsonProperty("creator_id")]
+        public Optional<Snowflake> CreatorId;
+
         [JsonProperty("name")]
         public string Name;
 
@@ -30,13 +33,13 @@ namespace Disqord.Models
         public DateTimeOffset? ScheduledEndTime;
 
         [JsonProperty("privacy_level")]
-        public StagePrivacyLevel PrivacyLevel;
+        public PrivacyLevel PrivacyLevel;
 
         [JsonProperty("status")]
         public GuildEventStatus Status;
 
         [JsonProperty("entity_type")]
-        public GuildEventTarget EntityType;
+        public GuildEventTargetType EntityType;
 
         [JsonProperty("entity_id")]
         public Snowflake? EntityId;
@@ -44,8 +47,8 @@ namespace Disqord.Models
         [JsonProperty("entity_metadata")]
         public GuildEventEntityMetadataJsonModel EntityMetadata;
 
-        [JsonProperty("sku_ids")]
-        public Snowflake[] SkuIds;
+        [JsonProperty("creator")]
+        public Optional<UserJsonModel> Creator;
 
         [JsonProperty("user_count")]
         public Optional<int> UserCount;

@@ -20,7 +20,7 @@ namespace Disqord.Rest
             return new TransientGuildEvent(client, model);
         }
 
-        public static async Task<IGuildEvent> CreateGuildEventAsync(this IRestClient client, Snowflake guildId, string name, StagePrivacyLevel privacyLevel, DateTimeOffset startTime, GuildEventTarget entityType, Action<CreateGuildEventActionProperties> action = null, IRestRequestOptions options = null)
+        public static async Task<IGuildEvent> CreateGuildEventAsync(this IRestClient client, Snowflake guildId, string name, PrivacyLevel privacyLevel, DateTimeOffset startTime, GuildEventTargetType entityType, Action<CreateGuildEventActionProperties> action = null, IRestRequestOptions options = null)
         {
             var properties = new CreateGuildEventActionProperties();
             action?.Invoke(properties);

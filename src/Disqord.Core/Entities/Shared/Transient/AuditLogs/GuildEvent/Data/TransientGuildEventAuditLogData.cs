@@ -6,7 +6,7 @@ namespace Disqord.AuditLogs
     public class TransientGuildEventAuditLogData : IGuildEventAuditLogData
     {
         public Optional<IReadOnlyList<Snowflake>> SkuIds { get; }
-        public Optional<GuildEventTarget> EntityType { get; }
+        public Optional<GuildEventTargetType> EntityType { get; }
         public Optional<GuildEventStatus> Status { get; }
 
         public TransientGuildEventAuditLogData(IClient client, AuditLogEntryJsonModel model, bool isCreated)
