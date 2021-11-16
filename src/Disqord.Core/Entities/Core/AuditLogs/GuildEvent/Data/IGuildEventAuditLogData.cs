@@ -4,6 +4,8 @@
     {
         Optional<Snowflake> ChannelId { get; }
 
+        Optional<string> Name { get; }
+
         Optional<string> Description { get; }
 
         Optional<GuildEventTargetType> TargetEntityType { get; }

@@ -6,6 +6,8 @@ namespace Disqord.AuditLogs
     {
         public Optional<Snowflake> ChannelId { get; }
 
+        public Optional<string> Name { get; }
+
         public Optional<string> Description { get; }
 
         public Optional<GuildEventTargetType> TargetEntityType { get; }
@@ -22,6 +24,7 @@ namespace Disqord.AuditLogs
             if (isCreated)
             {
                 ChannelId = changes.ChannelId.NewValue;
+                Name = changes.Name.NewValue;
                 Description = changes.Description.NewValue;
                 TargetEntityType = changes.TargetEntityType.NewValue;
                 Location = changes.Location.NewValue;
@@ -31,6 +34,7 @@ namespace Disqord.AuditLogs
             else
             {
                 ChannelId = changes.ChannelId.OldValue;
+                Name = changes.Name.OldValue;
                 Description = changes.Description.OldValue;
                 TargetEntityType = changes.TargetEntityType.OldValue;
                 Location = changes.Location.OldValue;

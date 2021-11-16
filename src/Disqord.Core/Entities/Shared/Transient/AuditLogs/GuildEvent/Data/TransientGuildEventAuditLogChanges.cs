@@ -7,6 +7,8 @@ namespace Disqord.AuditLogs
     {
         public AuditLogChange<Snowflake> ChannelId { get; }
 
+        public AuditLogChange<string> Name { get; }
+
         public AuditLogChange<string> Description { get; }
 
         public AuditLogChange<GuildEventTargetType> TargetEntityType { get; }
@@ -27,6 +29,11 @@ namespace Disqord.AuditLogs
                     case "channel_id":
                     {
                         ChannelId = AuditLogChange<Snowflake>.Convert(change);
+                        break;
+                    }
+                    case "name":
+                    {
+                        Name = AuditLogChange<string>.Convert(change);
                         break;
                     }
                     case "description":
