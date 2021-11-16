@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Disqord.Collections;
 using Disqord.Models;
+using Qommon.Collections;
 
 namespace Disqord
 {
-    public class TransientGuildEvent : TransientEntity<GuildEventJsonModel>, IGuildEvent
+    public class TransientGuildEvent : TransientClientEntity<GuildEventJsonModel>, IGuildEvent
     {
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;
