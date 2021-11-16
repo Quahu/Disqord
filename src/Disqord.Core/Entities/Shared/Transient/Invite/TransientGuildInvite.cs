@@ -62,7 +62,7 @@ namespace Disqord
             get
             {
                 if (_metadata == null && Model.Uses.HasValue)
-                    _metadata = new TransientInviteMetadata(Client, Model);
+                    _metadata = new TransientInviteMetadata(Model);
 
                 return _metadata;
             }
