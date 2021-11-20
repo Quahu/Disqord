@@ -381,6 +381,7 @@ namespace Disqord.Rest.Api
         public static Route Delete(string path)
             => new(HttpRequestMethod.Delete, path);
 
+#if DEBUG
         [ModuleInitializer]
         internal static void ModuleInitializer()
         {
@@ -430,5 +431,6 @@ namespace Disqord.Rest.Api
                 }
             }
         }
+#endif
     }
 }
