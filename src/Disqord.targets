@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <VersionPrefix>1.0.0</VersionPrefix>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <LangVersion>preview</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -22,7 +22,8 @@
   <PropertyGroup>
     <NoWarn>
         CA1816, <!-- Call GC.SuppressFinalize correctly -->
-        CS0078 <!-- The 'l' suffix is easily confused with the digit '1' - use 'L' for clarity -->
+        CA2255, <!-- The 'ModuleInitializer' attribute is only intended to be used in application code or advanced source generator scenarios -->
+        CS0078, <!-- The 'l' suffix is easily confused with the digit '1' - use 'L' for clarity -->
     </NoWarn>
   </PropertyGroup>
 </Project>
