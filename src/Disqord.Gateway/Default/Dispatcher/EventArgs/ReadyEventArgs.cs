@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Disqord.Gateway.Api;
+using Qommon;
 
 namespace Disqord.Gateway
 {
@@ -23,11 +24,8 @@ namespace Disqord.Gateway
 
         public ReadyEventArgs(ShardId shardId, ICurrentUser currentUser, IReadOnlyList<Snowflake> guildIds)
         {
-            if (currentUser == null)
-                throw new ArgumentNullException(nameof(currentUser));
-
-            if (guildIds == null)
-                throw new ArgumentNullException(nameof(guildIds));
+            Guard.IsNotNull(currentUser);
+            Guard.IsNotNull(guildIds);
 
             ShardId = shardId;
             CurrentUser = currentUser;

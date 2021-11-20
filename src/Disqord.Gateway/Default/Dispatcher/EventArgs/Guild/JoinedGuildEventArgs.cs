@@ -1,4 +1,5 @@
 ﻿using System;
+using Qommon;
 
 namespace Disqord.Gateway
 {
@@ -16,8 +17,7 @@ namespace Disqord.Gateway
 
         public JoinedGuildEventArgs(IGatewayGuild guild)
         {
-            if (guild == null)
-                throw new ArgumentNullException(nameof(guild));
+            Guard.IsNotNull(guild);
 
             Guild = guild;
         }

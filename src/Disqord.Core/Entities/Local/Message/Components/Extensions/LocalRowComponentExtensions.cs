@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Qommon;
 
 namespace Disqord
 {
@@ -12,8 +12,7 @@ namespace Disqord
         public static TComponent WithComponents<TComponent>(this TComponent rowComponent, IEnumerable<LocalNestedComponent> components)
             where TComponent : LocalRowComponent
         {
-            if (components == null)
-                throw new ArgumentNullException(nameof(components));
+            Guard.IsNotNull(components);
 
             rowComponent._components.Clear();
             rowComponent._components.AddRange(components);

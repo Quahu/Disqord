@@ -1,5 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using Qommon;
 
 namespace Disqord.Http.Default
 {
@@ -11,8 +11,7 @@ namespace Disqord.Http.Default
 
         public StreamHttpRequestContent(Stream stream, bool shouldDispose = false)
         {
-            if (stream == null)
-                throw new ArgumentNullException(nameof(stream));
+            Guard.IsNotNull(stream);
 
             Stream = stream;
             ShouldDispose = shouldDispose;

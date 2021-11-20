@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Qommon;
 
 namespace Disqord
 {
@@ -85,8 +86,7 @@ namespace Disqord
 
         public LocalAllowedMentions WithUserIds(IEnumerable<Snowflake> userIds)
         {
-            if (userIds == null)
-                throw new ArgumentNullException(nameof(userIds));
+            Guard.IsNotNull(userIds);
 
             _userIds.Clear();
             _userIds.AddRange(userIds);
@@ -98,8 +98,7 @@ namespace Disqord
 
         public LocalAllowedMentions WithRoleIds(IEnumerable<Snowflake> roleIds)
         {
-            if (roleIds == null)
-                throw new ArgumentNullException(nameof(roleIds));
+            Guard.IsNotNull(roleIds);
 
             _roleIds.Clear();
             _roleIds.AddRange(roleIds);

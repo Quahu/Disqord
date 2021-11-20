@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Models;
 using Disqord.Rest.Api;
+using Qommon;
 
 namespace Disqord.Rest
 {
@@ -14,8 +15,7 @@ namespace Disqord.Rest
             Snowflake interactionId, string interactionToken, LocalInteractionResponse response,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            if (response == null)
-                throw new ArgumentNullException(nameof(response));
+            Guard.IsNotNull(response);
 
             response.Validate();
             var messageContent = new CreateInitialInteractionResponseJsonRestRequestContent
@@ -93,8 +93,7 @@ namespace Disqord.Rest
             Snowflake applicationId, string interactionToken, LocalInteractionFollowup followup,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            if (followup == null)
-                throw new ArgumentNullException(nameof(followup));
+            Guard.IsNotNull(followup);
 
             followup.Validate();
             var messageContent = new CreateFollowupMessageJsonRestRequestContent

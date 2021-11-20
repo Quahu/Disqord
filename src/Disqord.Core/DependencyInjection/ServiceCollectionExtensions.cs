@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using Qommon;
 
 namespace Disqord.DependencyInjection.Extensions
 {
@@ -11,19 +12,15 @@ namespace Disqord.DependencyInjection.Extensions
 
         public static bool TryAdd<TService, TImplementation>(this IServiceCollection collection, ServiceLifetime lifetime)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
+            Guard.IsNotNull(collection);
 
             return collection.TryAdd(ServiceDescriptor.Describe(typeof(TService), typeof(TImplementation), lifetime));
         }
 
         public static bool TryAdd(this IServiceCollection collection, ServiceDescriptor descriptor)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            if (descriptor == null)
-                throw new ArgumentNullException(nameof(descriptor));
+            Guard.IsNotNull(collection);
+            Guard.IsNotNull(descriptor);
 
             if (!collection.Any(d => d.ServiceType == descriptor.ServiceType))
             {
@@ -36,11 +33,8 @@ namespace Disqord.DependencyInjection.Extensions
 
         public static bool TryAddSingleton(this IServiceCollection collection, Type service)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
+            Guard.IsNotNull(collection);
+            Guard.IsNotNull(service);
 
             var descriptor = ServiceDescriptor.Singleton(service, service);
             return TryAdd(collection, descriptor);
@@ -48,14 +42,9 @@ namespace Disqord.DependencyInjection.Extensions
 
         public static bool TryAddSingleton(this IServiceCollection collection, Type service, Type implementationType)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
-
-            if (implementationType == null)
-                throw new ArgumentNullException(nameof(implementationType));
+            Guard.IsNotNull(collection);
+            Guard.IsNotNull(service);
+            Guard.IsNotNull(implementationType);
 
             var descriptor = ServiceDescriptor.Singleton(service, implementationType);
             return TryAdd(collection, descriptor);
@@ -63,14 +52,9 @@ namespace Disqord.DependencyInjection.Extensions
 
         public static bool TryAddSingleton(this IServiceCollection collection, Type service, Func<IServiceProvider, object> implementationFactory)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
-
-            if (implementationFactory == null)
-                throw new ArgumentNullException(nameof(implementationFactory));
+            Guard.IsNotNull(collection);
+            Guard.IsNotNull(service);
+            Guard.IsNotNull(implementationFactory);
 
             var descriptor = ServiceDescriptor.Singleton(service, implementationFactory);
             return TryAdd(collection, descriptor);
@@ -79,8 +63,7 @@ namespace Disqord.DependencyInjection.Extensions
         public static bool TryAddSingleton<TService>(this IServiceCollection collection)
             where TService : class
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
+            Guard.IsNotNull(collection);
 
             return TryAddSingleton(collection, typeof(TService), typeof(TService));
         }
@@ -89,8 +72,7 @@ namespace Disqord.DependencyInjection.Extensions
             where TService : class
             where TImplementation : class, TService
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
+            Guard.IsNotNull(collection);
 
             return TryAddSingleton(collection, typeof(TService), typeof(TImplementation));
         }
@@ -98,11 +80,8 @@ namespace Disqord.DependencyInjection.Extensions
         public static bool TryAddSingleton<TService>(this IServiceCollection collection, TService instance)
             where TService : class
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            if (instance == null)
-                throw new ArgumentNullException(nameof(instance));
+            Guard.IsNotNull(collection);
+            Guard.IsNotNull(instance);
 
             var descriptor = ServiceDescriptor.Singleton(typeof(TService), instance);
             return TryAdd(collection, descriptor);
@@ -114,11 +93,8 @@ namespace Disqord.DependencyInjection.Extensions
 
         public static bool TryAddScoped(this IServiceCollection collection, Type service)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
+            Guard.IsNotNull(collection);
+            Guard.IsNotNull(service);
 
             var descriptor = ServiceDescriptor.Scoped(service, service);
             return TryAdd(collection, descriptor);
@@ -126,14 +102,9 @@ namespace Disqord.DependencyInjection.Extensions
 
         public static bool TryAddScoped(this IServiceCollection collection, Type service, Type implementationType)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
-
-            if (implementationType == null)
-                throw new ArgumentNullException(nameof(implementationType));
+            Guard.IsNotNull(collection);
+            Guard.IsNotNull(service);
+            Guard.IsNotNull(implementationType);
 
             var descriptor = ServiceDescriptor.Scoped(service, implementationType);
             return TryAdd(collection, descriptor);
@@ -141,14 +112,9 @@ namespace Disqord.DependencyInjection.Extensions
 
         public static bool TryAddScoped(this IServiceCollection collection, Type service, Func<IServiceProvider, object> implementationFactory)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
-
-            if (implementationFactory == null)
-                throw new ArgumentNullException(nameof(implementationFactory));
+            Guard.IsNotNull(collection);
+            Guard.IsNotNull(service);
+            Guard.IsNotNull(implementationFactory);
 
             var descriptor = ServiceDescriptor.Scoped(service, implementationFactory);
             return TryAdd(collection, descriptor);
@@ -157,8 +123,7 @@ namespace Disqord.DependencyInjection.Extensions
         public static bool TryAddScoped<TService>(this IServiceCollection collection)
             where TService : class
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
+            Guard.IsNotNull(collection);
 
             return TryAddScoped(collection, typeof(TService), typeof(TService));
         }
@@ -167,8 +132,7 @@ namespace Disqord.DependencyInjection.Extensions
             where TService : class
             where TImplementation : class, TService
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
+            Guard.IsNotNull(collection);
 
             return TryAddScoped(collection, typeof(TService), typeof(TImplementation));
         }
@@ -179,11 +143,8 @@ namespace Disqord.DependencyInjection.Extensions
 
         public static bool TryAddTransient(this IServiceCollection collection, Type service)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
+            Guard.IsNotNull(collection);
+            Guard.IsNotNull(service);
 
             var descriptor = ServiceDescriptor.Transient(service, service);
             return TryAdd(collection, descriptor);
@@ -191,14 +152,9 @@ namespace Disqord.DependencyInjection.Extensions
 
         public static bool TryAddTransient(this IServiceCollection collection, Type service, Type implementationType)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
-
-            if (implementationType == null)
-                throw new ArgumentNullException(nameof(implementationType));
+            Guard.IsNotNull(collection);
+            Guard.IsNotNull(service);
+            Guard.IsNotNull(implementationType);
 
             var descriptor = ServiceDescriptor.Transient(service, implementationType);
             return TryAdd(collection, descriptor);
@@ -206,14 +162,9 @@ namespace Disqord.DependencyInjection.Extensions
 
         public static bool TryAddTransient(this IServiceCollection collection, Type service, Func<IServiceProvider, object> implementationFactory)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
-
-            if (implementationFactory == null)
-                throw new ArgumentNullException(nameof(implementationFactory));
+            Guard.IsNotNull(collection);
+            Guard.IsNotNull(service);
+            Guard.IsNotNull(implementationFactory);
 
             var descriptor = ServiceDescriptor.Transient(service, implementationFactory);
             return TryAdd(collection, descriptor);
@@ -222,8 +173,7 @@ namespace Disqord.DependencyInjection.Extensions
         public static bool TryAddTransient<TService>(this IServiceCollection collection)
             where TService : class
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
+            Guard.IsNotNull(collection);
 
             return TryAddTransient(collection, typeof(TService), typeof(TService));
         }
@@ -232,8 +182,7 @@ namespace Disqord.DependencyInjection.Extensions
             where TService : class
             where TImplementation : class, TService
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
+            Guard.IsNotNull(collection);
 
             return TryAddTransient(collection, typeof(TService), typeof(TImplementation));
         }
@@ -249,11 +198,8 @@ namespace Disqord.DependencyInjection.Extensions
 
         public static bool TryAddEnumerable(this IServiceCollection services, ServiceDescriptor descriptor)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-
-            if (descriptor == null)
-                throw new ArgumentNullException(nameof(descriptor));
+            Guard.IsNotNull(services);
+            Guard.IsNotNull(descriptor);
 
             var implementationType = descriptor.GetImplementationType();
             if (implementationType == typeof(object) || implementationType == descriptor.ServiceType)
@@ -273,11 +219,8 @@ namespace Disqord.DependencyInjection.Extensions
 
         public static IServiceCollection Replace(this IServiceCollection collection, ServiceDescriptor descriptor)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            if (descriptor == null)
-                throw new ArgumentNullException(nameof(descriptor));
+            Guard.IsNotNull(collection);
+            Guard.IsNotNull(descriptor);
 
             var count = collection.Count;
             for (var i = 0; i < count; i++)
@@ -295,8 +238,7 @@ namespace Disqord.DependencyInjection.Extensions
 
         public static bool Remove<TService>(this IServiceCollection collection)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
+            Guard.IsNotNull(collection);
 
             var count = collection.Count;
             for (var i = 0; i < count; i++)

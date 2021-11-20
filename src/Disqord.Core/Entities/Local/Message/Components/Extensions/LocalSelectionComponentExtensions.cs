@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Qommon;
 
 namespace Disqord
 {
@@ -33,8 +33,7 @@ namespace Disqord
         public static TComponent WithOptions<TComponent>(this TComponent rowComponent, IEnumerable<LocalSelectionComponentOption> options)
             where TComponent : LocalSelectionComponent
         {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
+            Guard.IsNotNull(options);
 
             rowComponent._options.Clear();
             rowComponent._options.AddRange(options);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Qommon;
 
 namespace Disqord.Extensions.Interactivity.Menus.Paged
 {
@@ -50,8 +51,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// <exception cref="ArgumentOutOfRangeException"> Thrown if <paramref name="itemsPerPage"/> is not positive. </exception>
         public ArrayPageProvider(T[] array, ArrayPageFormatter<T> formatter = null, int itemsPerPage = 10)
         {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
+            Guard.IsNotNull(array);
 
             if (itemsPerPage <= 0)
                 throw new ArgumentOutOfRangeException(nameof(itemsPerPage));

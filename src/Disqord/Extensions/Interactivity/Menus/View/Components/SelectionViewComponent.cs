@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Disqord.Gateway;
+using Qommon;
 
 namespace Disqord.Extensions.Interactivity.Menus
 {
@@ -61,8 +62,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             get => _options;
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException(nameof(value));
+                Guard.IsNotNull(value);
 
                 _options.Clear();
                 _options.AddRange(value);

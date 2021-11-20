@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Qommon;
 
 namespace Disqord
 {
@@ -94,8 +95,7 @@ namespace Disqord
         public static TEmbed WithAuthor<TEmbed>(this TEmbed embed, IUser user)
             where TEmbed : LocalEmbed
         {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
+            Guard.IsNotNull(user);
 
             embed.Author = new LocalEmbedAuthor
             {
@@ -112,8 +112,7 @@ namespace Disqord
         public static TEmbed WithFields<TEmbed>(this TEmbed embed, IEnumerable<LocalEmbedField> fields)
             where TEmbed : LocalEmbed
         {
-            if (fields == null)
-                throw new ArgumentNullException(nameof(fields));
+            Guard.IsNotNull(fields);
 
             embed._fields.Clear();
             embed._fields.AddRange(fields);

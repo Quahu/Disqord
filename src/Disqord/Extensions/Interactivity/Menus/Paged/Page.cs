@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Qommon;
 
 namespace Disqord.Extensions.Interactivity.Menus.Paged
 {
@@ -46,8 +47,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
         public Page WithEmbeds(IEnumerable<LocalEmbed> embeds)
         {
-            if (embeds == null)
-                throw new ArgumentNullException(nameof(embeds));
+            Guard.IsNotNull(embeds);
 
             _embeds.Clear();
             _embeds.AddRange(embeds);
@@ -56,8 +56,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
         public Page AddEmbed(LocalEmbed embed)
         {
-            if (embed == null)
-                throw new ArgumentNullException(nameof(embed));
+            Guard.IsNotNull(embed);
 
             _embeds.Add(embed);
             return this;

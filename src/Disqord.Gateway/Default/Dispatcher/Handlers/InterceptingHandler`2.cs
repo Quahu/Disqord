@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
@@ -15,11 +16,8 @@ namespace Disqord.Gateway.Default.Dispatcher
 
         public InterceptingHandler(Handler<TModel, TEventArgs> handler, Action<IGatewayApiClient, TModel> func)
         {
-            if (handler == null)
-                throw new ArgumentNullException(nameof(handler));
-
-            if (func == null)
-                throw new ArgumentNullException(nameof(func));
+            Guard.IsNotNull(handler);
+            Guard.IsNotNull(func);
 
             Handler = handler;
             _func = func;

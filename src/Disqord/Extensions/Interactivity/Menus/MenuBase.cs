@@ -5,6 +5,7 @@ using Disqord.Gateway;
 using Disqord.Rest;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
+using Qommon;
 
 namespace Disqord.Extensions.Interactivity.Menus
 {
@@ -89,8 +90,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             get => _view;
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException(nameof(value));
+                Guard.IsNotNull(value);
 
                 if (value.Menu != null && value.Menu != this)
                     throw new ArgumentException("The view belongs to another menu.");

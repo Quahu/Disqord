@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Qommon;
 
 namespace Disqord.Http.Default
 {
@@ -22,8 +23,7 @@ namespace Disqord.Http.Default
 
         public async Task<IHttpResponse> SendAsync(IHttpRequest request, CancellationToken cancellationToken)
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
+            Guard.IsNotNull(request);
 
             using (var requestMessage = GetHttpMessage(request))
             {

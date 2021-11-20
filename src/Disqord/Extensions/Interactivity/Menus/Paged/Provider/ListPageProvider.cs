@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Qommon;
 
 namespace Disqord.Extensions.Interactivity.Menus.Paged
 {
@@ -37,8 +38,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// <exception cref="ArgumentNullException"> Thrown if <paramref name="pages"/> is <see langword="null"/>. </exception>
         public ListPageProvider(List<Page> pages)
         {
-            if (pages == null)
-                throw new ArgumentNullException(nameof(pages));
+            Guard.IsNotNull(pages);
 
             Pages = pages;
         }

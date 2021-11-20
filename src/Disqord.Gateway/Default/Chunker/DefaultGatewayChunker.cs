@@ -83,8 +83,7 @@ namespace Disqord.Gateway.Default
 
         public async ValueTask<bool> ChunkAsync(IGatewayGuild guild, CancellationToken cancellationToken = default)
         {
-            if (guild == null)
-                throw new ArgumentNullException(nameof(guild));
+            Guard.IsNotNull(guild);
 
             if (!Client.CacheProvider.TryGetUsers(out _) || !Client.CacheProvider.TryGetMembers(guild.Id, out var memberCache))
                 return false;

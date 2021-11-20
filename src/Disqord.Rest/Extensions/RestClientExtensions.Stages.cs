@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Rest.Api;
+using Qommon;
 
 namespace Disqord.Rest
 {
@@ -45,8 +46,7 @@ namespace Disqord.Rest
             Snowflake channelId, Action<ModifyStageActionProperties> action,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
+            Guard.IsNotNull(action);
 
             var properties = new ModifyStageActionProperties();
             action(properties);

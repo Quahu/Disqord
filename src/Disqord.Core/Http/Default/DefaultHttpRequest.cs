@@ -1,4 +1,5 @@
 ﻿using System;
+using Qommon;
 
 namespace Disqord.Http.Default
 {
@@ -21,8 +22,7 @@ namespace Disqord.Http.Default
         /// <param name="content"> The content. </param>
         public DefaultHttpRequest(HttpRequestMethod method, Uri uri, HttpRequestContent content)
         {
-            if (uri == null)
-                throw new ArgumentNullException(nameof(uri));
+            Guard.IsNotNull(uri);
 
             Method = method;
             Uri = uri;

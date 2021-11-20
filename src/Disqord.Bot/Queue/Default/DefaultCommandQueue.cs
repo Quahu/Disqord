@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Channels;
 using System.Threading.Tasks;
-using Qommon.Collections.Synchronized;
 using Disqord.Gateway;
-using Qommon.Binding;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Qommon;
+using Qommon.Binding;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Bot
 {
@@ -72,8 +73,7 @@ namespace Disqord.Bot
         /// <inheritdoc/>
         public void Post(DiscordCommandContext context, CommandQueueDelegate func)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+            Guard.IsNotNull(context);
 
             Bucket kamaji;
             if (context.GuildId == null)

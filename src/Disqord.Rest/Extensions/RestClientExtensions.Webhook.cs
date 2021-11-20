@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Models;
 using Disqord.Rest.Api;
+using Qommon;
 using Qommon.Collections;
 
 namespace Disqord.Rest
@@ -86,8 +87,7 @@ namespace Disqord.Rest
             Snowflake? threadId = null, bool wait = false,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            if (message == null)
-                throw new ArgumentNullException(nameof(message));
+            Guard.IsNotNull(message);
 
             var messageContent = new ExecuteWebhookJsonRestRequestContent
             {

@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Rest.Api;
+using Qommon;
 using Qommon.Collections;
 
 namespace Disqord.Rest
@@ -51,8 +52,7 @@ namespace Disqord.Rest
 
         public static async Task<IGuildSticker> ModifyGuildStickerAsync(this IRestClient client, Snowflake guildId, Snowflake stickerId, Action<ModifyGuildStickerActionProperties> action, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
+            Guard.IsNotNull(action);
 
             var properties = new ModifyGuildStickerActionProperties();
             action(properties);

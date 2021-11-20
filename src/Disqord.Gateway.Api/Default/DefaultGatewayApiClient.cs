@@ -9,6 +9,7 @@ using Disqord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Qommon;
 
 namespace Disqord.Gateway.Api.Default
 {
@@ -90,8 +91,7 @@ namespace Disqord.Gateway.Api.Default
 
         public async Task SendAsync(GatewayPayloadJsonModel payload, CancellationToken cancellationToken = default)
         {
-            if (payload == null)
-                throw new ArgumentNullException(nameof(payload));
+            Guard.IsNotNull(payload);
 
             await RateLimiter.WaitAsync(payload.Op, cancellationToken).ConfigureAwait(false);
             try

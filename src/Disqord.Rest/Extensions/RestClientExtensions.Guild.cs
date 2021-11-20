@@ -35,8 +35,7 @@ namespace Disqord.Rest
             Snowflake guildId, Action<ModifyGuildActionProperties> action,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
+            Guard.IsNotNull(action);
 
             var properties = new ModifyGuildActionProperties();
             action(properties);
@@ -164,8 +163,7 @@ namespace Disqord.Rest
             Snowflake guildId, IReadOnlyDictionary<Snowflake, int> positions,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            if (positions == null)
-                throw new ArgumentNullException(nameof(positions));
+            Guard.IsNotNull(positions);
 
             var contents = positions.Select(x => new ReorderJsonRestRequestContent
             {
@@ -289,8 +287,7 @@ namespace Disqord.Rest
             Snowflake guildId, Snowflake memberId, Action<ModifyMemberActionProperties> action,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
+            Guard.IsNotNull(action);
 
             var properties = new ModifyMemberActionProperties();
             action(properties);
@@ -419,8 +416,7 @@ namespace Disqord.Rest
             Snowflake guildId, IReadOnlyDictionary<Snowflake, int> positions,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            if (positions == null)
-                throw new ArgumentNullException(nameof(positions));
+            Guard.IsNotNull(positions);
 
             var contents = positions.Select(x => new ReorderJsonRestRequestContent
             {
@@ -579,8 +575,7 @@ namespace Disqord.Rest
             Snowflake guildId, Action<ModifyWelcomeScreenActionProperties> action,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            if (action == null)
-                throw new ArgumentNullException(nameof(action));
+            Guard.IsNotNull(action);
 
             var properties = new ModifyWelcomeScreenActionProperties();
             action(properties);

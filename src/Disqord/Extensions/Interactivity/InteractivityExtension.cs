@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Qommon.Collections.Synchronized;
 using Disqord.Extensions.Interactivity.Menus;
 using Disqord.Gateway;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Qommon;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Extensions.Interactivity
 {
@@ -128,8 +129,7 @@ namespace Disqord.Extensions.Interactivity
 
         public async Task RunMenuAsync(Snowflake channelId, MenuBase menu, TimeSpan timeout = default, CancellationToken cancellationToken = default)
         {
-            if (menu == null)
-                throw new ArgumentNullException(nameof(menu));
+            Guard.IsNotNull(menu);
 
             if (!menu.IsRunning)
                 await InternalStartMenuAsync(channelId, menu, timeout, cancellationToken).ConfigureAwait(false);

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
+using Qommon;
 
 namespace Disqord
 {
@@ -28,8 +28,7 @@ namespace Disqord
         public static TMessage WithEmbeds<TMessage>(this TMessage message, IEnumerable<LocalEmbed> embeds)
             where TMessage : LocalMessageBase
         {
-            if (embeds == null)
-                throw new ArgumentNullException(nameof(embeds));
+            Guard.IsNotNull(embeds);
 
             message._embeds.Clear();
             message._embeds.AddRange(embeds);
@@ -39,8 +38,7 @@ namespace Disqord
         public static TMessage AddEmbed<TMessage>(this TMessage message, LocalEmbed embed)
             where TMessage : LocalMessageBase
         {
-            if (embed == null)
-                throw new ArgumentNullException(nameof(embed));
+            Guard.IsNotNull(embed);
 
             message._embeds.Add(embed);
             return message;
@@ -60,8 +58,7 @@ namespace Disqord
         public static TMessage WithAttachments<TMessage>(this TMessage message, IEnumerable<LocalAttachment> attachments)
             where TMessage : LocalMessageBase
         {
-            if (attachments == null)
-                throw new ArgumentNullException(nameof(attachments));
+            Guard.IsNotNull(attachments);
 
             message._attachments.Clear();
             message._attachments.AddRange(attachments);
@@ -71,8 +68,7 @@ namespace Disqord
         public static TMessage AddAttachment<TMessage>(this TMessage message, LocalAttachment attachment)
             where TMessage : LocalMessageBase
         {
-            if (attachment == null)
-                throw new ArgumentNullException(nameof(attachment));
+            Guard.IsNotNull(attachment);
 
             message._attachments.Add(attachment);
             return message;
@@ -85,8 +81,7 @@ namespace Disqord
         public static TMessage WithComponents<TMessage>(this TMessage message, IEnumerable<LocalRowComponent> components)
             where TMessage : LocalMessageBase
         {
-            if (components == null)
-                throw new ArgumentNullException(nameof(components));
+            Guard.IsNotNull(components);
 
             message._components.Clear();
             message._components.AddRange(components);
@@ -96,8 +91,7 @@ namespace Disqord
         public static TMessage AddComponent<TMessage>(this TMessage message, LocalRowComponent component)
             where TMessage : LocalMessageBase
         {
-            if (component == null)
-                throw new ArgumentNullException(nameof(component));
+            Guard.IsNotNull(component);
 
             message._components.Add(component);
             return message;
@@ -110,8 +104,7 @@ namespace Disqord
         public static TMessage WithStickerIds<TMessage>(this TMessage message, IEnumerable<Snowflake> stickerIds)
             where TMessage : LocalMessageBase
         {
-            if (stickerIds == null)
-                throw new ArgumentNullException(nameof(stickerIds));
+            Guard.IsNotNull(stickerIds);
 
             message._stickerIds.Clear();
             message._stickerIds.AddRange(stickerIds);

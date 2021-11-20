@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
@@ -12,8 +13,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 
         public RuntimeHandler(Func<IGatewayApiClient, TModel, ValueTask> func)
         {
-            if (func == null)
-                throw new ArgumentNullException(nameof(func));
+            Guard.IsNotNull(func);
 
             _func = func;
         }

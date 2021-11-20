@@ -1,4 +1,5 @@
 ﻿using System;
+using Qommon;
 
 namespace Disqord.Gateway
 {
@@ -21,8 +22,7 @@ namespace Disqord.Gateway
 
         public ChannelDeletedEventArgs(IGuildChannel channel)
         {
-            if (channel == null)
-                throw new ArgumentNullException(nameof(channel));
+            Guard.IsNotNull(channel);
 
             Channel = channel;
         }

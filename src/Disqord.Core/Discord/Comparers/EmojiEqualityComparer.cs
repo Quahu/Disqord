@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Qommon;
 
 namespace Disqord
 {
@@ -40,8 +40,7 @@ namespace Disqord
 
         public int GetHashCode(IEmoji obj)
         {
-            if (obj == null)
-                throw new ArgumentNullException(nameof(obj));
+            Guard.IsNotNull(obj);
 
             if (obj is ICustomEmoji customEmoji)
                 return customEmoji.Id.GetHashCode();
@@ -51,8 +50,7 @@ namespace Disqord
 
         public int GetHashCode(ICustomEmoji obj)
         {
-            if (obj == null)
-                throw new ArgumentNullException(nameof(obj));
+            Guard.IsNotNull(obj);
 
             return obj.Id.GetHashCode();
         }
