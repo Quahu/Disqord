@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET5_0
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -32,3 +33,4 @@ namespace Disqord.WebSocket.Default.Discord
         }
     }
 }
+#endif

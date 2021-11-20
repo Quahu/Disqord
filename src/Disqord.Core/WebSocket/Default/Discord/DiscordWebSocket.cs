@@ -34,7 +34,7 @@ namespace Disqord.WebSocket.Default.Discord
         private readonly SemaphoreSlim _receiveSemaphore;
         private readonly byte[] _receiveBuffer;
         private readonly MemoryStream _receiveStream;
-        private DeflateStream _receiveZLibStream;
+        private Stream _receiveZLibStream;
 
         private bool _isDisposed;
 
@@ -72,7 +72,12 @@ namespace Disqord.WebSocket.Default.Discord
             if (_supportsZLib)
             {
                 _receiveZLibStream?.Dispose();
-                _receiveZLibStream = CreateZLibStream(_receiveStream);
+                _receiveZLibStream =
+#if NET5_0
+                    CreateZLibStream(_receiveStream);
+#else
+                    new ZLibStream(_receiveStream, CompressionMode.Decompress);
+#endif
             }
 
             await _ws.ConnectAsync(url, token).ConfigureAwait(false);
@@ -139,7 +144,7 @@ namespace Disqord.WebSocket.Default.Discord
                         throw new WebSocketClosedException(closeStatus, closeMessage);
                     }
 
-                    _receiveStream.Write(_receiveBuffer.AsSpan().Slice(0, result.Count));
+                    _receiveStream.Write(_receiveBuffer.AsSpan(0, result.Count));
                     if (!result.EndOfMessage)
                         continue;
 
@@ -153,13 +158,8 @@ namespace Disqord.WebSocket.Default.Discord
 
                     // We check the data for the ZLib flush which marks the end of the actual message.
                     if (streamBuffer.Count < 4 || BinaryPrimitives.ReadUInt32BigEndian(streamBuffer[^4..]) != 0x0000FFFF)
-                    {
-                        Logger.LogInformation("Received a payload spanning multiple web socket messages.");
                         continue;
-                    }
 
-                    //// We rewind the stream to 0 or 2 based on whether the data has the ZLib header or not (DeflateStream breaks on the header).
-                    //_receiveStream.Position = streamBuffer.Array[0] == 0x78 ? 2 : 0;
                     _receiveStream.Position = 0;
                     return _receiveZLibStream;
                 }
