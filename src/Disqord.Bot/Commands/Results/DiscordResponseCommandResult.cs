@@ -27,7 +27,7 @@ namespace Disqord.Bot
         {
             foreach (var attachment in Message._attachments)
             {
-                attachment.Dispose();
+                attachment?.Dispose();
             }
         }
     }
