@@ -171,6 +171,14 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<MessageJsonModel>(route, content, options, cancellationToken);
         }
 
+        public static Task<MessageJsonModel> ModifyMessageAsync(this IRestApiClient client,
+            Snowflake channelId, Snowflake messageId, MultipartJsonPayloadRestRequestContent<ModifyMessageJsonRestRequestContent> content,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var route = Format(Route.Channel.ModifyMessage, channelId, messageId);
+            return client.ExecuteAsync<MessageJsonModel>(route, content, options, cancellationToken);
+        }
+
         public static Task DeleteMessageAsync(this IRestApiClient client,
             Snowflake channelId, Snowflake messageId,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)

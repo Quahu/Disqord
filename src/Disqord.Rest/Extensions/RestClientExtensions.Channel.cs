@@ -332,7 +332,7 @@ namespace Disqord.Rest
 
             var properties = new ModifyMessageActionProperties();
             action(properties);
-            var content = new ModifyMessageJsonRestRequestContent
+            var messageContent = new ModifyMessageJsonRestRequestContent
             {
                 Content = properties.Content,
                 Embeds = Optional.Convert(properties.Embeds, models => models.Select(x =>
@@ -354,7 +354,21 @@ namespace Disqord.Rest
                 StickerIds = Optional.Convert(properties.StickerIds, x => x.ToArray())
             };
 
-            var model = await client.ApiClient.ModifyMessageAsync(channelId, messageId, content, options, cancellationToken).ConfigureAwait(false);
+            Task<MessageJsonModel> task;
+            LocalAttachment[] attachments;
+            if (properties.Attachments.TryGetValue(out var attachmentsEnumerable) && (attachments = attachmentsEnumerable.GetArray()).Length != 0)
+            {
+                // If there are attachments, we must send them via multipart HTTP content.
+                // Our `messageContent` will be serialized into a "payload_json" form data field.
+                var content = new MultipartJsonPayloadRestRequestContent<ModifyMessageJsonRestRequestContent>(messageContent, attachments);
+                task = client.ApiClient.ModifyMessageAsync(channelId, messageId, content, options, cancellationToken);
+            }
+            else
+            {
+                task = client.ApiClient.ModifyMessageAsync(channelId, messageId, messageContent, options, cancellationToken);
+            }
+
+            var model = await client.ApiClient.ModifyMessageAsync(channelId, messageId, messageContent, options, cancellationToken).ConfigureAwait(false);
             return new TransientUserMessage(client, model);
         }
 
