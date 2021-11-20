@@ -103,9 +103,6 @@ namespace Disqord
 
             AllowedMentions?.Validate();
 
-            for (var i = 0; i < _attachments.Count; i++)
-                _attachments[i].Validate();
-
             for (var i = 0; i < _components.Count; i++)
                 _components[i].Validate();
         }

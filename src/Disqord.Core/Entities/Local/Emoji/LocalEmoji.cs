@@ -50,8 +50,5 @@ namespace Disqord
 
         object ICloneable.Clone()
             => Clone();
-
-        void ILocalConstruct.Validate()
-        { }
     }
 }

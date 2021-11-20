@@ -47,8 +47,5 @@ namespace Disqord.Gateway
 
         object ICloneable.Clone()
             => Clone();
-
-        void ILocalConstruct.Validate()
-        { }
     }
 }

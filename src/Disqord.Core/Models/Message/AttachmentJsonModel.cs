@@ -2,11 +2,8 @@
 
 namespace Disqord.Models
 {
-    public class AttachmentJsonModel : JsonModel
+    public class AttachmentJsonModel : PartialAttachmentJsonModel
     {
-        [JsonProperty("id")]
-        public Snowflake Id;
-
         [JsonProperty("filename")]
         public string FileName;
 

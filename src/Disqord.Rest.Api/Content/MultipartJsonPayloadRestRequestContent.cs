@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Disqord.Http;
 using Disqord.Http.Default;
+using Disqord.Models;
 using Disqord.Serialization.Json;
 using Disqord.Serialization.Json.Default;
+using Newtonsoft.Json.Linq;
 using Qommon;
 
 namespace Disqord.Rest.Api
@@ -28,16 +30,36 @@ namespace Disqord.Rest.Api
         {
             _serializer = serializer as DefaultJsonSerializer;
 
-            if (Payload != null)
-                FormData.Add((Payload.CreateHttpContent(serializer, options), "payload_json", null));
-
-            for (var i = 0; i < Attachments.Length; i++)
+            var attachments = Attachments;
+            List<PartialAttachmentJsonModel> attachmentModels = null;
+            for (var i = 0; i < attachments.Length; i++)
             {
-                var attachment = Attachments[i];
-                var content = new StreamHttpRequestContent(attachment.Stream);
-                var name = $"file{i}";
-                var fileName = attachment.GetFileName();
+                var attachment = attachments[i];
+                var content = new StreamHttpRequestContent(attachment.Stream.Value);
+                var name = $"files[{i}]";
+                var fileName = attachment.IsSpoiler.GetValueOrDefault()
+                    ? string.Concat(LocalAttachment.SpoilerPrefix, attachment.FileName.Value)
+                    : attachment.FileName.Value;
+
+                if (attachment.Description.TryGetValue(out var description) && !string.IsNullOrWhiteSpace(description))
+                {
+                    attachmentModels ??= new List<PartialAttachmentJsonModel>();
+                    attachmentModels.Add(new PartialAttachmentJsonModel
+                    {
+                        Id = (ulong) i,
+                        Description = description
+                    });
+                }
+
                 FormData.Add((content, name, fileName));
+            }
+
+            if (Payload != null)
+            {
+                if (attachmentModels != null)
+                    Payload["attachments"] = serializer.GetJsonNode(attachmentModels);
+
+                FormData.Insert(0, (Payload.CreateHttpContent(serializer, options), "payload_json", null));
             }
 
             return base.CreateHttpContent(serializer, options);
@@ -49,7 +71,10 @@ namespace Disqord.Rest.Api
 
             foreach (var attachment in Attachments)
             {
-                var stream = attachment.Stream;
+                OptionalGuard.HasValue(attachment.Stream);
+                OptionalGuard.HasValue(attachment.FileName);
+
+                var stream = attachment.Stream.Value;
                 Guard.CanRead(stream);
 
                 if (stream.CanSeek && stream.Length != 0 && stream.Position == stream.Length)
