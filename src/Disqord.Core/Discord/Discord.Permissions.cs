@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -22,6 +23,16 @@ namespace Disqord
             internal static void UnsetFlag(ref ulong rawValue, Permission flag)
                 => FlagUtilities.UnsetFlag(ref rawValue, (ulong) flag);
 
+            /// <summary>
+            ///     Calculates a member's channel permissions.
+            /// </summary>
+            /// <param name="guild"> The guild the member to use for the calculation. </param>
+            /// <param name="channel"> The channel to use for the calculation. </param>
+            /// <param name="member"> The member to use for the calculation. </param>
+            /// <param name="roles"> The roles of the member to use for the calculation. This must include the <c>@everyone</c> role. </param>
+            /// <returns>
+            ///     The channel permissions of the member.
+            /// </returns>
             public static ChannelPermissions CalculatePermissions(IGuild guild, IGuildChannel channel, IMember member, IEnumerable<IRole> roles)
             {
                 Guard.IsNotNull(guild);
@@ -32,32 +43,47 @@ namespace Disqord
                 if (member.GuildId != channel.GuildId)
                     Throw.InvalidOperationException("The entities must be from the same guild.");
 
-                var guildPermissions = CalculatePermissions(guild, member, roles);
+                var rolesArray = roles.ToArray();
+                var guildPermissions = CalculatePermissions(guild, member, rolesArray);
                 if (guildPermissions.Administrator)
                     return ChannelPermissions.All;
 
                 var permissions = ChannelPermissions.Mask(guildPermissions, channel);
-                foreach (var role in roles.OrderBy(x => x.Position).ThenBy(x => x.Id))
+                Array.Sort(rolesArray, (a, b) =>
                 {
-                    for (var i = 0; i < channel.Overwrites.Count; i++)
+                    var difference = a.Position.CompareTo(b.Position);
+                    if (difference != 0)
+                        return difference;
+
+                    return a.Id.CompareTo(b.Id);
+                });
+
+                var overwrites = channel.Overwrites;
+                foreach (var role in rolesArray)
+                {
+                    for (var i = 0; i < overwrites.Count; i++)
                     {
-                        var overwrite = channel.Overwrites[i];
-                        if (overwrite.TargetId != role.Id)
+                        var overwrite = overwrites[i];
+                        if (overwrite.TargetType != OverwriteTargetType.Role || overwrite.TargetId != role.Id)
                             continue;
 
-                        permissions -= overwrite.Permissions.Denied;
-                        permissions += overwrite.Permissions.Allowed;
+                        var overwritePermissions = overwrite.Permissions;
+                        permissions -= overwritePermissions.Denied;
+                        permissions += overwritePermissions.Allowed;
+                        break;
                     }
                 }
 
-                for (var i = 0; i < channel.Overwrites.Count; i++)
+                for (var i = 0; i < overwrites.Count; i++)
                 {
-                    var overwrite = channel.Overwrites[i];
-                    if (overwrite.TargetId != member.Id)
+                    var overwrite = overwrites[i];
+                    if (overwrite.TargetType != OverwriteTargetType.Member || overwrite.TargetId != member.Id)
                         continue;
 
-                    permissions -= overwrite.Permissions.Denied;
-                    permissions += overwrite.Permissions.Allowed;
+                    var overwritePermissions = overwrite.Permissions;
+                    permissions -= overwritePermissions.Denied;
+                    permissions += overwritePermissions.Allowed;
+                    break;
                 }
 
                 if (!permissions.ViewChannels)
@@ -74,6 +100,15 @@ namespace Disqord
                 return permissions;
             }
 
+            /// <summary>
+            ///     Calculates a member's guild permissions.
+            /// </summary>
+            /// <param name="guild"> The guild the member to use for the calculation. </param>
+            /// <param name="member"> The member to use for the calculation. </param>
+            /// <param name="roles"> The roles of the member to use for the calculation. This must include the <c>@everyone</c> role. </param>
+            /// <returns>
+            ///     The channel permissions of the member.
+            /// </returns>
             public static GuildPermissions CalculatePermissions(IGuild guild, IMember member, IEnumerable<IRole> roles)
             {
                 Guard.IsNotNull(guild);
@@ -86,17 +121,10 @@ namespace Disqord
                 if (guild.OwnerId == member.Id)
                     return GuildPermissions.All;
 
-                var permissions = SumPermissions(roles);
-                return permissions.Administrator
+                var permissions = roles.Aggregate(Permission.None, (permissions, role) => permissions | role.Permissions);
+                return permissions.HasFlag(Permission.Administrator)
                     ? GuildPermissions.All
                     : permissions;
-            }
-
-            public static GuildPermissions SumPermissions(IEnumerable<IRole> roles)
-            {
-                Guard.IsNotNull(roles);
-
-                return roles.Aggregate(GuildPermissions.None, (permissions, role) => permissions + role.Permissions);
             }
         }
     }
