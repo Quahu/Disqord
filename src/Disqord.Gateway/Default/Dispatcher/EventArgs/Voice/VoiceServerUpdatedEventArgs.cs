@@ -19,7 +19,10 @@ namespace Disqord.Gateway
         /// </summary>
         public string Endpoint { get; }
 
-        public VoiceServerUpdatedEventArgs(Snowflake guildId, string token, string endpoint)
+        public VoiceServerUpdatedEventArgs(
+            Snowflake guildId,
+            string token,
+            string endpoint)
         {
             GuildId = guildId;
             Token = token;

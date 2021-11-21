@@ -25,7 +25,9 @@ namespace Disqord.Gateway
         /// </summary>
         public IGuildChannel NewChannel { get; }
 
-        public ChannelUpdatedEventArgs(CachedGuildChannel oldChannel, IGuildChannel newChannel)
+        public ChannelUpdatedEventArgs(
+            CachedGuildChannel oldChannel,
+            IGuildChannel newChannel)
         {
             OldChannel = oldChannel;
             NewChannel = newChannel;

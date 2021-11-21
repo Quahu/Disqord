@@ -20,7 +20,9 @@ namespace Disqord.Gateway
         /// </summary>
         public IGuild NewGuild { get; }
 
-        public GuildUpdatedEventArgs(CachedGuild oldGuild, IGuild newGuild)
+        public GuildUpdatedEventArgs(
+            CachedGuild oldGuild,
+            IGuild newGuild)
         {
             OldGuild = oldGuild;
             NewGuild = newGuild;

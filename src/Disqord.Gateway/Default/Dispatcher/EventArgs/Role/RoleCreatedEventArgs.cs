@@ -19,7 +19,8 @@ namespace Disqord.Gateway
         /// </summary>
         public IRole Role { get; }
 
-        public RoleCreatedEventArgs(IRole role)
+        public RoleCreatedEventArgs(
+            IRole role)
         {
             Role = role;
         }

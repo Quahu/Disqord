@@ -21,11 +21,6 @@ namespace Disqord.Gateway
         public Snowflake InteractionId => Interaction.Id;
 
         /// <summary>
-        ///     Gets the ID of the interaction author.
-        /// </summary>
-        public Snowflake AuthorId => Interaction.Author.Id;
-
-        /// <summary>
         ///     Gets the received interaction.
         /// </summary>
         public virtual IInteraction Interaction { get; }
@@ -38,6 +33,11 @@ namespace Disqord.Gateway
         ///     If this returns <see langword="null"/>, retrieve the author from the <see cref="Interaction"/> instead.
         /// </remarks>
         public CachedMember Member { get; }
+
+        /// <summary>
+        ///     Gets the ID of the interaction author.
+        /// </summary>
+        public Snowflake AuthorId => Interaction.Author.Id;
 
         public InteractionReceivedEventArgs(
             IInteraction interaction,

@@ -15,7 +15,8 @@ namespace Disqord.Gateway
         /// </summary>
         public IGatewayGuild Guild { get; }
 
-        public GuildAvailableEventArgs(IGatewayGuild guild)
+        public GuildAvailableEventArgs(
+            IGatewayGuild guild)
         {
             Guard.IsNotNull(guild);
 

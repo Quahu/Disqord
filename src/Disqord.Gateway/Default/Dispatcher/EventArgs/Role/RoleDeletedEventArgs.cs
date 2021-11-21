@@ -20,7 +20,10 @@ namespace Disqord.Gateway
         /// </summary>
         public CachedRole Role { get; }
 
-        public RoleDeletedEventArgs(Snowflake guildId, Snowflake roleId, CachedRole role)
+        public RoleDeletedEventArgs(
+            Snowflake guildId,
+            Snowflake roleId,
+            CachedRole role)
         {
             GuildId = guildId;
             RoleId = roleId;

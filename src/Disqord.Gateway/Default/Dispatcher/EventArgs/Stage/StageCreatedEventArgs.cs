@@ -24,7 +24,8 @@ namespace Disqord.Gateway
         /// </summary>
         public IStage Stage { get; }
 
-        public StageCreatedEventArgs(IStage stage)
+        public StageCreatedEventArgs(
+            IStage stage)
         {
             Stage = stage;
         }

@@ -25,7 +25,9 @@ namespace Disqord.Gateway
         /// </summary>
         public IThreadChannel NewThread { get; }
 
-        public ThreadUpdatedEventArgs(CachedThreadChannel oldThread, IThreadChannel newThread)
+        public ThreadUpdatedEventArgs(
+            CachedThreadChannel oldThread,
+            IThreadChannel newThread)
         {
             OldThread = oldThread;
             NewThread = newThread;

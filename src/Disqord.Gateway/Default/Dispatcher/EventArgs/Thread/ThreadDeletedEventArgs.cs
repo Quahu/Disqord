@@ -20,7 +20,8 @@ namespace Disqord.Gateway
         /// </summary>
         public IThreadChannel Thread { get; }
 
-        public ThreadDeletedEventArgs(IThreadChannel thread)
+        public ThreadDeletedEventArgs(
+            IThreadChannel thread)
         {
             Guard.IsNotNull(thread);
 

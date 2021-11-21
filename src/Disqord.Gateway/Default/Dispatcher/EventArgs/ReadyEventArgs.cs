@@ -22,7 +22,10 @@ namespace Disqord.Gateway
         /// </summary>
         public IReadOnlyList<Snowflake> GuildIds { get; }
 
-        public ReadyEventArgs(ShardId shardId, ICurrentUser currentUser, IReadOnlyList<Snowflake> guildIds)
+        public ReadyEventArgs(
+            ShardId shardId,
+            ICurrentUser currentUser,
+            IReadOnlyList<Snowflake> guildIds)
         {
             Guard.IsNotNull(currentUser);
             Guard.IsNotNull(guildIds);

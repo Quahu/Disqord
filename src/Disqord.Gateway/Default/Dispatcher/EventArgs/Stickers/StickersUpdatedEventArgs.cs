@@ -27,7 +27,11 @@ namespace Disqord.Gateway
         /// </summary>
         public IReadOnlyDictionary<Snowflake, IGuildSticker> NewStickers { get; }
 
-        public StickersUpdatedEventArgs(Snowflake guildId, CachedGuild guild, IReadOnlyDictionary<Snowflake, IGuildSticker> oldStickers, IReadOnlyDictionary<Snowflake, IGuildSticker> newStickers)
+        public StickersUpdatedEventArgs(
+            Snowflake guildId,
+            CachedGuild guild,
+            IReadOnlyDictionary<Snowflake, IGuildSticker> oldStickers,
+            IReadOnlyDictionary<Snowflake, IGuildSticker> newStickers)
         {
             GuildId = guildId;
             Guild = guild;

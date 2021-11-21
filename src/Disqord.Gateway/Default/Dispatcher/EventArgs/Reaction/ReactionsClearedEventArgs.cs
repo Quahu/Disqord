@@ -22,7 +22,7 @@ namespace Disqord.Gateway
         public Snowflake MessageId { get; }
 
         /// <summary>
-        ///     Gets the message from swhich the reactions were cleared.
+        ///     Gets the message from which the reactions were cleared.
         ///     Returns <see langword="null"/> if the message was not cached.
         /// </summary>
         public CachedUserMessage Message { get; }

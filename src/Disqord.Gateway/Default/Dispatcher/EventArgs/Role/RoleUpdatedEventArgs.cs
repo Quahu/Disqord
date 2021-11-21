@@ -25,7 +25,10 @@ namespace Disqord.Gateway
         /// </summary>
         public IRole NewRole { get; }
 
-        public RoleUpdatedEventArgs(Snowflake guildId, CachedRole oldRole, IRole newRole)
+        public RoleUpdatedEventArgs(
+            Snowflake guildId,
+            CachedRole oldRole,
+            IRole newRole)
         {
             GuildId = guildId;
             OldRole = oldRole;

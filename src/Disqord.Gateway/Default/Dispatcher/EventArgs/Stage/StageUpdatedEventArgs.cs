@@ -30,7 +30,9 @@ namespace Disqord.Gateway
         /// </summary>
         public IStage NewStage { get; }
 
-        public StageUpdatedEventArgs(CachedStage oldStage, IStage newStage)
+        public StageUpdatedEventArgs(
+            CachedStage oldStage,
+            IStage newStage)
         {
             OldStage = oldStage;
             NewStage = newStage;

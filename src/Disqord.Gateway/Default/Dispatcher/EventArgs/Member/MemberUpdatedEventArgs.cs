@@ -25,7 +25,9 @@ namespace Disqord.Gateway
         /// </summary>
         public IMember NewMember { get; }
 
-        public MemberUpdatedEventArgs(CachedMember oldMember, IMember newMember)
+        public MemberUpdatedEventArgs(
+            CachedMember oldMember,
+            IMember newMember)
         {
             OldMember = oldMember;
             NewMember = newMember;

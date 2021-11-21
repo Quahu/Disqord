@@ -10,11 +10,17 @@ namespace Disqord.Gateway
         public Snowflake GuildId => Member.GuildId;
 
         /// <summary>
+        ///     Gets the ID of the member that joined.
+        /// </summary>
+        public Snowflake MemberId => Member.Id;
+
+        /// <summary>
         ///     Gets the member that joined.
         /// </summary>
         public IMember Member { get; }
 
-        public MemberJoinedEventArgs(IMember member)
+        public MemberJoinedEventArgs(
+            IMember member)
         {
             Member = member;
         }

@@ -6,6 +6,7 @@ namespace Disqord.Gateway
     {
         /// <summary>
         ///     Gets the ID of the guild the pins were updated in.
+        ///     Returns <see langword="null"/> if the pins were updated in a private channel.
         /// </summary>
         public Snowflake? GuildId { get; }
 
@@ -16,11 +17,14 @@ namespace Disqord.Gateway
 
         /// <summary>
         ///     Gets the channel the pins were updated in.
-        ///     Returns <see langword="null"/> if the channel was not cached.
+        ///     Returns <see langword="null"/> if the channel was not cached or the pins were updated in a private channel.
         /// </summary>
         public CachedMessageGuildChannel Channel { get; }
 
-        public ChannelPinsUpdatedEventArgs(Snowflake? guildId, Snowflake channelId, CachedMessageGuildChannel channel)
+        public ChannelPinsUpdatedEventArgs(
+            Snowflake? guildId,
+            Snowflake channelId,
+            CachedMessageGuildChannel channel)
         {
             GuildId = guildId;
             ChannelId = channelId;

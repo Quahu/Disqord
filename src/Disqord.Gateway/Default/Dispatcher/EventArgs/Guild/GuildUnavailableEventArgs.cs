@@ -15,7 +15,9 @@ namespace Disqord.Gateway
         /// </summary>
         public CachedGuild Guild { get; }
 
-        public GuildUnavailableEventArgs(Snowflake guildId, CachedGuild guild)
+        public GuildUnavailableEventArgs(
+            Snowflake guildId,
+            CachedGuild guild)
         {
             GuildId = guildId;
             Guild = guild;

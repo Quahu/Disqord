@@ -20,7 +20,8 @@ namespace Disqord.Gateway
         /// </summary>
         public IGuildChannel Channel { get; }
 
-        public ChannelCreatedEventArgs(IGuildChannel channel)
+        public ChannelCreatedEventArgs(
+            IGuildChannel channel)
         {
             Guard.IsNotNull(channel);
 

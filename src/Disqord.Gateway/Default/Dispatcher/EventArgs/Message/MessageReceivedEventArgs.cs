@@ -40,6 +40,11 @@ namespace Disqord.Gateway
         /// </remarks>
         public CachedMember Member { get; }
 
+        /// <summary>
+        ///     Gets the ID of the message author.
+        /// </summary>
+        public Snowflake AuthorId => Message.Author.Id;
+
         public MessageReceivedEventArgs(
             IGatewayMessage message,
             CachedMessageGuildChannel channel,

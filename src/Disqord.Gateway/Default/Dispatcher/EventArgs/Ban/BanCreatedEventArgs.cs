@@ -19,7 +19,9 @@ namespace Disqord.Gateway
         /// </summary>
         public IUser User { get; }
 
-        public BanCreatedEventArgs(Snowflake guildId, IUser user)
+        public BanCreatedEventArgs(
+            Snowflake guildId,
+            IUser user)
         {
             GuildId = guildId;
             User = user;

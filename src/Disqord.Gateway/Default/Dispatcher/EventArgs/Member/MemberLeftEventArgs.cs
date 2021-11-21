@@ -10,11 +10,18 @@ namespace Disqord.Gateway
         public Snowflake GuildId { get; }
 
         /// <summary>
+        ///     Gets the ID of the member that left.
+        /// </summary>
+        public Snowflake MemberId => User.Id;
+
+        /// <summary>
         ///     Gets the user that left.
         /// </summary>
         public IUser User { get; }
 
-        public MemberLeftEventArgs(Snowflake guildId, IUser user)
+        public MemberLeftEventArgs(
+            Snowflake guildId,
+            IUser user)
         {
             GuildId = guildId;
             User = user;
