@@ -13,7 +13,7 @@ namespace Disqord.Gateway
         public Snowflake? ChannelId { get; private set; }
 
         /// <inheritdoc/>
-        public Snowflake? CreatorId { get; private set; }
+        public Snowflake? CreatorId { get; }
 
         /// <inheritdoc/>
         public IUser Creator { get; private set; }
@@ -55,15 +55,13 @@ namespace Disqord.Gateway
             : base(client, model.Id)
         {
             GuildId = model.GuildId;
+            CreatorId = model.CreatorId;
 
             Update(model);
         }
 
         public void Update(GuildScheduledEventJsonModel model)
         {
-            if (model.CreatorId.HasValue)
-                CreatorId = model.CreatorId.Value;
-
             if (model.Creator.HasValue)
                 Creator = new TransientUser(Client, model.Creator.Value);
 

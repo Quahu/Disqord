@@ -6,11 +6,6 @@
     public enum GuildEventTargetType
     {
         /// <summary>
-        ///     The guild event does not have a target.
-        /// </summary>
-        None = 0,
-
-        /// <summary>
         ///     The guild event targets a stage channel.
         /// </summary>
         Stage = 1,

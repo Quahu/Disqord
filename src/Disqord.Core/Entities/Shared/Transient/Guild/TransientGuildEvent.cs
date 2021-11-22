@@ -15,7 +15,7 @@ namespace Disqord
         public Snowflake? ChannelId => Model.ChannelId;
 
         /// <inheritdoc/>
-        public Snowflake? CreatorId => Model.CreatorId.GetValueOrNullable();
+        public Snowflake? CreatorId => Model.CreatorId;
 
         /// <inheritdoc/>
         public IUser Creator

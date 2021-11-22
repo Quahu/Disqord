@@ -15,7 +15,7 @@ namespace Disqord.Models
         public Snowflake? ChannelId;
 
         [JsonProperty("creator_id")]
-        public Optional<Snowflake> CreatorId;
+        public Snowflake? CreatorId;
 
         [JsonProperty("name")]
         public string Name;

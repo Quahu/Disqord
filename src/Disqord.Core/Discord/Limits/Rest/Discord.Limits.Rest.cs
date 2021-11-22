@@ -43,6 +43,11 @@ namespace Disqord
                 ///     Represents the page size for fetching threads.
                 /// </summary>
                 public const int FetchThreadsPageSize = 100;
+
+                /// <summary>
+                ///     Represents the page size for fetching event users.
+                /// </summary>
+                public const int FetchGuildEventUsersPageSize = 100;
             }
         }
     }
