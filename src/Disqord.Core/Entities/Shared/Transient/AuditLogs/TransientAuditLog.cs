@@ -116,7 +116,7 @@ namespace Disqord.AuditLogs
 
                 // Guild Event
                 AuditLogActionType.GuildEventCreated => new TransientGuildEventCreatedAuditLog(client, guildId, log, entry),
-                AuditLogActionType.GuildEventUpdated => new TransientGuildUpdatedAuditLog(client, guildId, log, entry),
+                AuditLogActionType.GuildEventUpdated => new TransientGuildEventUpdatedAuditLog(client, guildId, log, entry),
                 AuditLogActionType.GuildEventDeleted => new TransientGuildEventDeletedAuditLog(client, guildId, log, entry),
 
                 // Thread

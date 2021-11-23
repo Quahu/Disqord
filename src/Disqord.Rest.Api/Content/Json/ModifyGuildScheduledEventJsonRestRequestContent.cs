@@ -1,6 +1,7 @@
 ﻿using System;
 using Disqord.Models;
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Rest.Api
 {
@@ -32,5 +33,36 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("status")]
         public Optional<GuildEventStatus> Status;
+
+        protected override void OnValidate()
+        {
+            OptionalGuard.CheckValue(EntityType, value =>
+            {
+                switch (value)
+                {
+                    case GuildEventTargetType.Stage:
+                    case GuildEventTargetType.Voice:
+                    {
+                        OptionalGuard.HasValue(ChannelId, "Stage or Voice events must have a channel ID set.");
+                        OptionalGuard.HasNoValue(EntityMetadata, "Stage or Voice events must not have entity metadata set.");
+                        break;
+                    }
+                    case GuildEventTargetType.External:
+                    {
+                        OptionalGuard.HasNoValue(ChannelId, "External events must not have a channel ID set.");
+                        OptionalGuard.CheckValue(EntityMetadata, metadata =>
+                        {
+                            Guard.IsNotNull(metadata);
+                            ContentValidation.GuildEvents.Metadata.ValidateLocation(metadata.Location);
+                        });
+                        OptionalGuard.HasValue(ScheduledEndTime, "External events must have an end time set.");
+                        break;
+                    }
+                }
+            });
+
+            OptionalGuard.CheckValue(Name, value => ContentValidation.GuildEvents.ValidateName(value));
+            ContentValidation.GuildEvents.ValidateDescription(Description);
+        }
     }
 }

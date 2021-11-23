@@ -8,7 +8,7 @@
 
         Optional<string> Description { get; }
 
-        Optional<GuildEventTargetType> TargetEntityType { get; }
+        Optional<GuildEventTargetType> TargetType { get; }
 
         Optional<string> Location { get; }
 

@@ -21,8 +21,8 @@ namespace Disqord.Rest
         }
 
         public static async Task<IGuildEvent> CreateGuildEventAsync(this IRestClient client,
-            Snowflake guildId, string name, PrivacyLevel privacyLevel, DateTimeOffset startsAt,
-            GuildEventTargetType targetType, Action<CreateGuildEventActionProperties> action = null,
+            Snowflake guildId, string name, DateTimeOffset startsAt, GuildEventTargetType targetType,
+            PrivacyLevel privacyLevel = PrivacyLevel.GuildOnly, Action<CreateGuildEventActionProperties> action = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var properties = new CreateGuildEventActionProperties();

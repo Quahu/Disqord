@@ -10,7 +10,7 @@ namespace Disqord.AuditLogs
 
         public Optional<string> Description { get; }
 
-        public Optional<GuildEventTargetType> TargetEntityType { get; }
+        public Optional<GuildEventTargetType> TargetType { get; }
 
         public Optional<string> Location { get; }
 
@@ -26,7 +26,7 @@ namespace Disqord.AuditLogs
                 ChannelId = changes.ChannelId.NewValue;
                 Name = changes.Name.NewValue;
                 Description = changes.Description.NewValue;
-                TargetEntityType = changes.TargetEntityType.NewValue;
+                TargetType = changes.TargetType.NewValue;
                 Location = changes.Location.NewValue;
                 PrivacyLevel = changes.PrivacyLevel.NewValue;
                 Status = changes.Status.NewValue;
@@ -36,7 +36,7 @@ namespace Disqord.AuditLogs
                 ChannelId = changes.ChannelId.OldValue;
                 Name = changes.Name.OldValue;
                 Description = changes.Description.OldValue;
-                TargetEntityType = changes.TargetEntityType.OldValue;
+                TargetType = changes.TargetType.OldValue;
                 Location = changes.Location.OldValue;
                 PrivacyLevel = changes.PrivacyLevel.OldValue;
                 Status = changes.Status.OldValue;

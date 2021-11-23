@@ -11,7 +11,7 @@ namespace Disqord.AuditLogs
 
         public AuditLogChange<string> Description { get; }
 
-        public AuditLogChange<GuildEventTargetType> TargetEntityType { get; }
+        public AuditLogChange<GuildEventTargetType> TargetType { get; }
 
         public AuditLogChange<string> Location { get; }
 
@@ -43,7 +43,7 @@ namespace Disqord.AuditLogs
                     }
                     case "entity_type":
                     {
-                        TargetEntityType = AuditLogChange<GuildEventTargetType>.Convert(change);
+                        TargetType = AuditLogChange<GuildEventTargetType>.Convert(change);
                         break;
                     }
                     case "location":

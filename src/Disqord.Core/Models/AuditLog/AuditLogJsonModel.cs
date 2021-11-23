@@ -4,19 +4,22 @@ namespace Disqord.Models
 {
     public class AuditLogJsonModel : JsonModel
     {
-        [JsonProperty("webhooks")]
-        public WebhookJsonModel[] Webhooks;
-
-        [JsonProperty("users")]
-        public UserJsonModel[] Users;
-
         [JsonProperty("audit_log_entries")]
         public AuditLogEntryJsonModel[] AuditLogEntries;
+
+        [JsonProperty("guild_scheduled_events")]
+        public GuildScheduledEventJsonModel[] GuildScheduledEvents;
 
         [JsonProperty("integrations")]
         public IntegrationJsonModel[] Integrations;
 
         [JsonProperty("threads")]
         public ChannelJsonModel[] Threads;
+
+        [JsonProperty("users")]
+        public UserJsonModel[] Users;
+
+        [JsonProperty("webhooks")]
+        public WebhookJsonModel[] Webhooks;
     }
 }

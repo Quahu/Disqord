@@ -8,7 +8,7 @@
 
         AuditLogChange<string> Description { get; }
 
-        AuditLogChange<GuildEventTargetType> TargetEntityType { get; }
+        AuditLogChange<GuildEventTargetType> TargetType { get; }
 
         AuditLogChange<string> Location { get; }
 

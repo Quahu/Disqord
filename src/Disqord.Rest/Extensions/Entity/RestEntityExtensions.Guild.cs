@@ -563,12 +563,12 @@ namespace Disqord.Rest
         }
 
         public static Task<IGuildEvent> CreateEventAsync(this IGuild guild,
-            string name, PrivacyLevel privacyLevel, DateTimeOffset startsAt, GuildEventTargetType targetType,
-            Action<CreateGuildEventActionProperties> action = null,
+            string name, DateTimeOffset startsAt, GuildEventTargetType targetType,
+            PrivacyLevel privacyLevel = PrivacyLevel.GuildOnly, Action<CreateGuildEventActionProperties> action = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = guild.GetRestClient();
-            return client.CreateGuildEventAsync(guild.Id, name, privacyLevel, startsAt, targetType, action, options, cancellationToken);
+            return client.CreateGuildEventAsync(guild.Id, name, startsAt, targetType, privacyLevel, action, options, cancellationToken);
         }
 
         public static Task<IGuildEvent> FetchEventAsync(this IGuild guild,
