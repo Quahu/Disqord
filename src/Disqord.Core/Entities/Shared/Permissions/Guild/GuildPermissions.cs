@@ -91,7 +91,9 @@ namespace Disqord
 
         public bool StartActivities => Has(Permission.StartActivities);
 
-        public Permission Flags => (Permission) RawValue;
+        public bool ModerateMembers => Has(Permission.ModerateMembers);
+
+        public Permission Permissions => (Permission) RawValue;
 
         public ulong RawValue { get; }
 

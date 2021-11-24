@@ -206,6 +206,11 @@ namespace Disqord
         /// <summary>
         ///     Allows starting activities in voice channels.
         /// </summary>
-        StartActivities = 1ul << 39
+        StartActivities = 1ul << 39,
+
+        /// <summary>
+        ///     Allows performing moderation actions on members.
+        /// </summary>
+        ModerateMembers = 1ul << 40
     }
 }
