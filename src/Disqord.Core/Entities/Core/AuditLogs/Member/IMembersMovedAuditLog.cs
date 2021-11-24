@@ -5,11 +5,11 @@
         /// <summary>
         ///     Gets the ID of the channel to which the members were moved.
         /// </summary>
-        public Snowflake ChannelId { get; }
+        Snowflake ChannelId { get; }
 
         /// <summary>
-        ///     Gets the count of members which were moved.
+        ///     Gets the amount of members which were moved.
         /// </summary>
-        public int Count { get; }
+        int Count { get; }
     }
 }

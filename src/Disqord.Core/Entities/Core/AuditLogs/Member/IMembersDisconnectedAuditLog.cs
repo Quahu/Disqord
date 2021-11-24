@@ -3,7 +3,7 @@
     public interface IMembersDisconnectedAuditLog : IAuditLog
     {
         /// <summary>
-        ///     Gets the count of members which were disconnected.
+        ///     Gets the amount of members which were disconnected.
         /// </summary>
         int Count { get; }
     }

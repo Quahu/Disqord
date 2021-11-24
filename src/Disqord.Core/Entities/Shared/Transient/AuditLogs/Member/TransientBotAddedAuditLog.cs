@@ -6,21 +6,21 @@ namespace Disqord.AuditLogs
     public class TransientBotAddedAuditLog : TransientAuditLog, IBotAddedAuditLog
     {
         /// <inheritdoc/>
-        public IUser Bot
+        public IUser User
         {
             get
             {
-                if (_bot == null)
+                if (_user == null)
                 {
-                    var bot = Array.Find(AuditLogJsonModel.Users, x => x.Id == TargetId);
-                    if (bot != null)
-                        _bot = new TransientUser(Client, bot);
+                    var userModel = Array.Find(AuditLogJsonModel.Users, userModel => userModel.Id == TargetId);
+                    if (userModel != null)
+                        _user = new TransientUser(Client, userModel);
                 }
 
-                return _bot;
+                return _user;
             }
         }
-        private IUser _bot;
+        private IUser _user;
 
         public TransientBotAddedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
             : base(client, guildId, auditLogJsonModel, model)

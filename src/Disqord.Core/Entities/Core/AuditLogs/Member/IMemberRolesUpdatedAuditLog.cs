@@ -7,12 +7,12 @@ namespace Disqord.AuditLogs
         /// <summary>
         ///     Gets the names of the roles granted keyed by their IDs.
         /// </summary>
-        Optional<IReadOnlyDictionary<Snowflake, string>> RolesGranted { get; }
+        Optional<IReadOnlyDictionary<Snowflake, string>> GrantedRoles { get; }
 
         /// <summary>
         ///     Gets the names of the roles revoked keyed by their IDs.
         /// </summary>
-        Optional<IReadOnlyDictionary<Snowflake, string>> RolesRevoked { get; }
+        Optional<IReadOnlyDictionary<Snowflake, string>> RevokedRoles { get; }
 
         /// <summary>
         ///     Gets the user this audit log is targeting.

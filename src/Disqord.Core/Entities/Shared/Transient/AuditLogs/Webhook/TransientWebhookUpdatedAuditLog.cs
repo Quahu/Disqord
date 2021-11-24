@@ -14,9 +14,9 @@ namespace Disqord.AuditLogs
             {
                 if (_webhook == null)
                 {
-                    var webhook = Array.Find(AuditLogJsonModel.Webhooks, x => x.Id == TargetId);
-                    if (webhook != null)
-                        _webhook = new TransientWebhook(Client, webhook);
+                    var webhookModel = Array.Find(AuditLogJsonModel.Webhooks, webhookModel => webhookModel.Id == TargetId);
+                    if (webhookModel != null)
+                        _webhook = new TransientWebhook(Client, webhookModel);
                 }
 
                 return _webhook;

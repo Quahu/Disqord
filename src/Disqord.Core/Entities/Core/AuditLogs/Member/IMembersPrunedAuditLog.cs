@@ -8,7 +8,7 @@
         int Days { get; }
 
         /// <summary>
-        ///     Gets the count of inactive members which were pruned.
+        ///     Gets the amount of inactive members which were pruned.
         /// </summary>
         int Count { get; }
     }

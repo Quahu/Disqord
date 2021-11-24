@@ -9,10 +9,10 @@ namespace Disqord.AuditLogs
     public class TransientMemberRolesUpdatedAuditLog : TransientAuditLog, IMemberRolesUpdatedAuditLog
     {
         /// <inheritdoc/>
-        public Optional<IReadOnlyDictionary<Snowflake, string>> RolesGranted { get; }
+        public Optional<IReadOnlyDictionary<Snowflake, string>> GrantedRoles { get; }
 
         /// <inheritdoc/>
-        public Optional<IReadOnlyDictionary<Snowflake, string>> RolesRevoked { get; }
+        public Optional<IReadOnlyDictionary<Snowflake, string>> RevokedRoles { get; }
 
         /// <inheritdoc/>
         public IUser User
@@ -21,9 +21,9 @@ namespace Disqord.AuditLogs
             {
                 if (_user == null)
                 {
-                    var user = Array.Find(AuditLogJsonModel.Users, x => x.Id == TargetId);
-                    if (user != null)
-                        _user = new TransientUser(Client, user);
+                    var userModel = Array.Find(AuditLogJsonModel.Users, userModel => userModel.Id == TargetId);
+                    if (userModel != null)
+                        _user = new TransientUser(Client, userModel);
                 }
 
                 return _user;
@@ -41,7 +41,7 @@ namespace Disqord.AuditLogs
                 {
                     case "$add":
                     {
-                        RolesGranted = Optional.Convert(change.NewValue, x =>
+                        GrantedRoles = Optional.Convert(change.NewValue, x =>
                         {
                             var models = x.ToType<RoleJsonModel[]>();
                             return models.ToReadOnlyDictionary(x => x.Id, x => x.Name);
@@ -50,7 +50,7 @@ namespace Disqord.AuditLogs
                     }
                     case "$remove":
                     {
-                        RolesRevoked = Optional.Convert(change.NewValue, x =>
+                        RevokedRoles = Optional.Convert(change.NewValue, x =>
                         {
                             var models = x.ToType<RoleJsonModel[]>();
                             return models.ToReadOnlyDictionary(x => x.Id, x => x.Name);

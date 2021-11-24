@@ -14,9 +14,9 @@ namespace Disqord.AuditLogs
             {
                 if (_thread == null)
                 {
-                    var thread = Array.Find(AuditLogJsonModel.Threads, x => x.Id == TargetId);
-                    if (thread != null)
-                        _thread = new TransientThreadChannel(Client, thread);
+                    var threadModel = Array.Find(AuditLogJsonModel.Threads, threadModel => threadModel.Id == TargetId);
+                    if (threadModel != null)
+                        _thread = new TransientThreadChannel(Client, threadModel);
                 }
 
                 return _thread;

@@ -8,7 +8,7 @@
         Snowflake ChannelId { get; }
 
         /// <summary>
-        ///     Gets the count of the messages which were deleted.
+        ///     Gets the amount of the messages which were deleted.
         /// </summary>
         int Count { get; }
     }

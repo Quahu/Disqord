@@ -24,9 +24,9 @@ namespace Disqord.AuditLogs
             {
                 if (_actor == null)
                 {
-                    var actor = Array.Find(AuditLogJsonModel.Users, x => x.Id == ActorId);
-                    if (actor != null)
-                        _actor = new TransientUser(Client, actor);
+                    var userModel = Array.Find(AuditLogJsonModel.Users, userModel => userModel.Id == ActorId);
+                    if (userModel != null)
+                        _actor = new TransientUser(Client, userModel);
                 }
 
                 return _actor;
