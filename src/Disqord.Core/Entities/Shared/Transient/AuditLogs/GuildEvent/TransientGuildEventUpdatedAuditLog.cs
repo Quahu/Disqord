@@ -7,6 +7,7 @@ namespace Disqord.AuditLogs
     {
         public override IGuildEventAuditLogChanges Changes { get; }
 
+        /// <inheritdoc/>
         public IGuildEvent Event
         {
             get

@@ -7,6 +7,7 @@ namespace Disqord.AuditLogs
     {
         public override IGuildEventAuditLogData Data { get; }
 
+        /// <inheritdoc/>
         public IGuildEvent Event
         {
             get
