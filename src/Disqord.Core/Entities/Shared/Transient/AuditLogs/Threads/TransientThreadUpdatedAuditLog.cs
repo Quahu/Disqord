@@ -5,7 +5,6 @@ namespace Disqord.AuditLogs
 {
     public class TransientThreadUpdatedAuditLog : TransientChangesAuditLog<IThreadAuditLogChanges>, IThreadUpdatedAuditLog
     {
-        /// <inheritdoc/>
         public override IThreadAuditLogChanges Changes { get; }
 
         /// <inheritdoc/>

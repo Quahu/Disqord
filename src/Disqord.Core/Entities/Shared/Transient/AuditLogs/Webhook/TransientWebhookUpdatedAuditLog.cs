@@ -5,7 +5,6 @@ namespace Disqord.AuditLogs
 {
     public class TransientWebhookUpdatedAuditLog : TransientChangesAuditLog<IWebhookAuditLogChanges>, IWebhookUpdatedAuditLog
     {
-        /// <inheritdoc/>
         public override IWebhookAuditLogChanges Changes { get; }
 
         /// <inheritdoc/>

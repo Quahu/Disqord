@@ -5,7 +5,6 @@ namespace Disqord.AuditLogs
 {
     public class TransientWebhookCreatedAuditLog : TransientDataAuditLog<IWebhookAuditLogData>, IWebhookCreatedAuditLog
     {
-        /// <inheritdoc/>
         public override IWebhookAuditLogData Data { get; }
 
         /// <inheritdoc/>
