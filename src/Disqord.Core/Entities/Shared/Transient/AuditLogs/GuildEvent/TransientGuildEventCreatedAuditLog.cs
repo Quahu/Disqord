@@ -13,7 +13,7 @@ namespace Disqord.AuditLogs
             {
                 if (_event == null)
                 {
-                    var @event = Array.Find(_auditLogJsonModel.GuildScheduledEvents, x => x.Id == TargetId);
+                    var @event = Array.Find(AuditLogJsonModel.GuildScheduledEvents, x => x.Id == TargetId);
                     if (@event != null)
                         _event = new TransientGuildEvent(Client, @event);
                 }
