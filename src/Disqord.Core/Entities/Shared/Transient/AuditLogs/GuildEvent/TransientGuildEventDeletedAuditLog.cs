@@ -9,7 +9,7 @@ namespace Disqord.AuditLogs
         public TransientGuildEventDeletedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
             : base(client, guildId, auditLogJsonModel, model)
         {
-            Data = new TransientGuildEventAuditLogData(client, model, true);
+            Data = new TransientGuildEventAuditLogData(client, model, false);
         }
     }
 }
