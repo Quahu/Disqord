@@ -4,6 +4,7 @@ namespace Disqord.AuditLogs
 {
     public class TransientThreadDeletedAuditLog : TransientDataAuditLog<IThreadAuditLogData>, IThreadDeletedAuditLog
     {
+        /// <inheritdoc/>
         public override IThreadAuditLogData Data { get; }
 
         public TransientThreadDeletedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)

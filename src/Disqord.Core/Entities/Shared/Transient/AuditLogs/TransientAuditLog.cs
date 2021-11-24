@@ -11,26 +11,20 @@ namespace Disqord.AuditLogs
         /// <inheritdoc/>
         public Snowflake GuildId { get; }
 
-        /// <summary>
-        ///     Gets the ID of the entity this audit log is targeting.
-        /// </summary>
+        /// <inheritdoc/>
         public Snowflake? TargetId => Model.TargetId;
 
-        /// <summary>
-        ///     Gets the ID of the user this audit log was actioned by.
-        /// </summary>
+        /// <inheritdoc/>
         public Snowflake? ActorId => Model.UserId;
 
-        /// <summary>
-        ///     Gets the optional user this audit log was actioned by.
-        /// </summary>
+        /// <inheritdoc/>
         public IUser Actor
         {
             get
             {
                 if (_actor == null)
                 {
-                    var actor = Array.Find(_auditLogJsonModel.Users, x => x.Id == ActorId);
+                    var actor = Array.Find(AuditLogJsonModel.Users, x => x.Id == ActorId);
                     if (actor != null)
                         _actor = new TransientUser(Client, actor);
                 }
@@ -40,17 +34,15 @@ namespace Disqord.AuditLogs
         }
         private IUser _actor;
 
-        /// <summary>
-        ///     Gets the reason of this audit log.
-        /// </summary>
+        /// <inheritdoc/>
         public string Reason => Model.Reason.GetValueOrDefault();
 
-        private readonly AuditLogJsonModel _auditLogJsonModel;
+        protected readonly AuditLogJsonModel AuditLogJsonModel;
 
         public TransientAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
             : base(client, model)
         {
-            _auditLogJsonModel = auditLogJsonModel;
+            AuditLogJsonModel = auditLogJsonModel;
             GuildId = guildId;
         }
 
