@@ -19,9 +19,9 @@ namespace Disqord.Gateway
         /// </summary>
         public IGuildEvent Event { get; }
 
-        public GuildEventCreatedEventArgs(IGuildEvent guildEvent)
+        public GuildEventCreatedEventArgs(IGuildEvent @event)
         {
-            Event = guildEvent;
+            Event = @event;
         }
     }
 }

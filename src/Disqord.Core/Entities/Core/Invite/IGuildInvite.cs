@@ -39,9 +39,9 @@ namespace Disqord
         ///     Returns <see langword="null"/> when this invite's guild event ID parameter is not a valid guild event ID.
         /// </summary>
         /// <remarks>
-        ///     Returned when the invite is fetched by code with the <c>guildEventId</c> parameter set to a valid guild event ID.
+        ///     Returned when the invite is fetched by code with the <c>eventId</c> parameter set to a valid guild event ID.
         /// </remarks>
-        IGuildEvent GuildEvent { get; }
+        IGuildEvent Event { get; }
 
         /// <summary>
         ///     Gets the approximate presence count of the guild of this invite.

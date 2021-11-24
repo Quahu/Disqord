@@ -54,7 +54,7 @@ namespace Disqord
         private IInviteStage _stage;
 
         /// <inheritdoc/>
-        public IGuildEvent GuildEvent
+        public IGuildEvent Event
         {
             get
             {
