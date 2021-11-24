@@ -69,7 +69,7 @@ namespace Disqord.Gateway
         ///     Gets a cached guild event with the given ID within this guild.
         /// </summary>
         /// <param name="guild"> The guild to get the guild event within. </param>
-        /// <param name="guildEventId"> The ID of the guild event to get. </param>
+        /// <param name="eventId"> The ID of the guild event to get. </param>
         /// <returns>
         ///     The guild event or <see langword="null"/> if it was not cached.
         /// </returns>

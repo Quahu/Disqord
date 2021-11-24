@@ -143,10 +143,10 @@ namespace Disqord.Gateway
             return ReadOnlyDictionary<Snowflake, CachedStage>.Empty;
         }
 
-        public static CachedGuildEvent GetGuildEvent(this IGatewayClient client, Snowflake guildId, Snowflake guildEventId)
+        public static CachedGuildEvent GetGuildEvent(this IGatewayClient client, Snowflake guildId, Snowflake eventId)
         {
             if (client.CacheProvider.TryGetGuildEvents(guildId, out var cache, true))
-                return cache.GetValueOrDefault(guildEventId);
+                return cache.GetValueOrDefault(eventId);
 
             return null;
         }
