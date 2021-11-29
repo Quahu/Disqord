@@ -8,21 +8,21 @@ namespace Disqord.AuditLogs
         public override IWebhookAuditLogData Data { get; }
 
         /// <inheritdoc/>
-        public IWebhook Webhook
+        public IWebhook Target
         {
             get
             {
-                if (_webhook == null)
+                if (_target == null)
                 {
                     var webhookModel = Array.Find(AuditLogJsonModel.Webhooks, webhookModel => webhookModel.Id == TargetId);
                     if (webhookModel != null)
-                        _webhook = new TransientWebhook(Client, webhookModel);
+                        _target = new TransientWebhook(Client, webhookModel);
                 }
 
-                return _webhook;
+                return _target;
             }
         }
-        private IWebhook _webhook;
+        private IWebhook _target;
 
         public TransientWebhookCreatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
             : base(client, guildId, auditLogJsonModel, model)

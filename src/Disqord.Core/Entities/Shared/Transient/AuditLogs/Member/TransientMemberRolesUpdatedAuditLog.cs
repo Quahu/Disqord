@@ -15,21 +15,21 @@ namespace Disqord.AuditLogs
         public Optional<IReadOnlyDictionary<Snowflake, string>> RevokedRoles { get; }
 
         /// <inheritdoc/>
-        public IUser User
+        public IUser Target
         {
             get
             {
-                if (_user == null)
+                if (_target == null)
                 {
                     var userModel = Array.Find(AuditLogJsonModel.Users, userModel => userModel.Id == TargetId);
                     if (userModel != null)
-                        _user = new TransientUser(Client, userModel);
+                        _target = new TransientUser(Client, userModel);
                 }
 
-                return _user;
+                return _target;
             }
         }
-        private IUser _user;
+        private IUser _target;
 
         public TransientMemberRolesUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
             : base(client, guildId, auditLogJsonModel, model)

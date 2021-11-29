@@ -8,21 +8,21 @@ namespace Disqord.AuditLogs
         public override IThreadAuditLogData Data { get; }
 
         /// <inheritdoc/>
-        public IThreadChannel Thread
+        public IThreadChannel Target
         {
             get
             {
-                if (_thread == null)
+                if (_target == null)
                 {
                     var threadModel = Array.Find(AuditLogJsonModel.Threads, threadModel => threadModel.Id == TargetId);
                     if (threadModel != null)
-                        _thread = new TransientThreadChannel(Client, threadModel);
+                        _target = new TransientThreadChannel(Client, threadModel);
                 }
 
-                return _thread;
+                return _target;
             }
         }
-        private IThreadChannel _thread;
+        private IThreadChannel _target;
 
         public TransientThreadCreatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
             : base(client, guildId, auditLogJsonModel, model)
