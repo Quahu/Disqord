@@ -14,12 +14,12 @@ namespace Disqord.Rest.Api
             var content = new ModifyRoleJsonRestRequestContent
             {
                 Name = properties.Name,
-                Permissions = Optional.Convert(properties.Permissions, x => x.RawValue),
-                Color = Optional.Convert(properties.Color, x => x?.RawValue ?? 0),
+                Permissions = Optional.Convert(properties.Permissions, guildPermissions => guildPermissions.RawValue),
+                Color = Optional.Convert(properties.Color, color => color?.RawValue ?? 0),
                 Hoist = properties.IsHoisted,
                 Icon = properties.Icon,
                 Mentionable = properties.IsMentionable,
-                UnicodeEmoji = Optional.Convert(properties.UnicodeEmoji, x => x.Name)
+                UnicodeEmoji = Optional.Convert(properties.UnicodeEmoji, localEmoji => localEmoji.Name)
             };
             position = properties.Position;
 

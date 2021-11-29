@@ -409,12 +409,12 @@ namespace Disqord.Rest
             var content = new CreateRoleJsonRestRequestContent
             {
                 Name = properties.Name,
-                Permissions = Optional.Convert(properties.Permissions, x => x.RawValue),
-                Color = Optional.Convert(properties.Color, x => x?.RawValue ?? 0),
+                Permissions = Optional.Convert(properties.Permissions, guildPermissions => guildPermissions.RawValue),
+                Color = Optional.Convert(properties.Color, color => color?.RawValue ?? 0),
                 Hoist = properties.IsHoisted,
                 Icon = properties.Icon,
                 Mentionable = properties.IsMentionable,
-                UnicodeEmoji = Optional.Convert(properties.UnicodeEmoji, x => x.Name)
+                UnicodeEmoji = Optional.Convert(properties.UnicodeEmoji, localEmoji => localEmoji.Name)
             };
 
             var model = await client.ApiClient.CreateRoleAsync(guildId, content, options, cancellationToken).ConfigureAwait(false);
@@ -448,7 +448,6 @@ namespace Disqord.Rest
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var content = action.ToContent(out var position);
-
             if (position.HasValue)
             {
                 await client.ReorderRolesAsync(guildId, new Dictionary<Snowflake, int>
