@@ -8,21 +8,21 @@ namespace Disqord.AuditLogs
         public override IGuildEventAuditLogChanges Changes { get; }
 
         /// <inheritdoc/>
-        public IGuildEvent Event
+        public IGuildEvent Target
         {
             get
             {
-                if (_event == null)
+                if (_target == null)
                 {
-                    var guildEventModel = Array.Find(AuditLogJsonModel.GuildScheduledEvents, guildEventModel => guildEventModel.Id == TargetId);
-                    if (guildEventModel != null)
-                        _event = new TransientGuildEvent(Client, guildEventModel);
+                    var eventModel = Array.Find(AuditLogJsonModel.GuildScheduledEvents, eventModel => eventModel.Id == TargetId);
+                    if (eventModel != null)
+                        _target = new TransientGuildEvent(Client, eventModel);
                 }
 
-                return _event;
+                return _target;
             }
         }
-        private IGuildEvent _event;
+        private IGuildEvent _target;
 
         public TransientGuildEventUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
             : base(client, guildId, auditLogJsonModel, model)
