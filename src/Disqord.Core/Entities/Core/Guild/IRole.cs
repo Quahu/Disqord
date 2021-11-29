@@ -20,6 +20,11 @@ namespace Disqord
         bool IsHoisted { get; }
 
         /// <summary>
+        ///     Gets the icon image hash of this role.
+        /// </summary>
+        string IconHash { get; }
+
+        /// <summary>
         ///     Gets the position of this role.
         /// </summary>
         int Position { get; }
@@ -38,6 +43,12 @@ namespace Disqord
         ///     Gets whether this role is mentionable.
         /// </summary>
         bool IsMentionable { get; }
+
+        /// <summary>
+        ///     Gets the Unicode emoji of this role.
+        ///     This is used as the role's icon when an icon hash is not set.
+        /// </summary>
+        IEmoji UnicodeEmoji { get; }
 
         /// <summary>
         ///     Gets the role tags of this role.

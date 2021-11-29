@@ -1,4 +1,6 @@
-﻿namespace Disqord
+﻿using System.IO;
+
+namespace Disqord
 {
     public sealed class ModifyRoleActionProperties
     {
@@ -10,14 +12,15 @@
 
         public Optional<bool> IsHoisted { internal get; set; }
 
+        public Optional<Stream> Icon { internal get; set; }
+
         public Optional<bool> IsMentionable { internal get; set; }
+
+        public Optional<LocalEmoji> UnicodeEmoji { internal get; set; }
 
         public Optional<int> Position { internal get; set; }
 
-        internal ModifyRoleActionProperties()
-        { }
-
         internal bool HasValues
-            => Name.HasValue || Permissions.HasValue || Color.HasValue || IsHoisted.HasValue || IsMentionable.HasValue || Position.HasValue;
+            => Name.HasValue || Permissions.HasValue || Color.HasValue || IsHoisted.HasValue || Icon.HasValue || IsMentionable.HasValue || UnicodeEmoji.HasValue || Position.HasValue;
     }
 }

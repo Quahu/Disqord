@@ -10,6 +10,10 @@
 
         Optional<bool> IsHoisted { get; }
 
+        Optional<string> IconHash { get; }
+
         Optional<bool> IsMentionable { get; }
+
+        Optional<string> UnicodeEmoji { get; }
     }
 }

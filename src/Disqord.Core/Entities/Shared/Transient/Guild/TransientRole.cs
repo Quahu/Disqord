@@ -25,6 +25,9 @@ namespace Disqord
         public bool IsHoisted => Model.Hoist;
 
         /// <inheritdoc/>
+        public string IconHash => Model.Icon.GetValueOrDefault();
+
+        /// <inheritdoc/>
         public int Position => Model.Position;
 
         /// <inheritdoc/>
@@ -35,6 +38,19 @@ namespace Disqord
 
         /// <inheritdoc/>
         public bool IsMentionable => Model.Mentionable;
+
+        /// <inheritdoc/>
+        public IEmoji UnicodeEmoji
+        {
+            get
+            {
+                if (!Model.UnicodeEmoji.HasValue)
+                    return null;
+
+                return _unicodeEmoji ??= new TransientEmoji(null, Model.UnicodeEmoji.Value);
+            }
+        }
+        private IEmoji _unicodeEmoji;
 
         /// <inheritdoc/>
         public IRoleTags Tags

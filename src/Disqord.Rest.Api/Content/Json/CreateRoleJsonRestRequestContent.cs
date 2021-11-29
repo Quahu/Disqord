@@ -1,4 +1,5 @@
-﻿using Disqord.Serialization.Json;
+﻿using System.IO;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Rest.Api
 {
@@ -16,7 +17,13 @@ namespace Disqord.Rest.Api
         [JsonProperty("hoist")]
         public Optional<bool> Hoist;
 
+        [JsonProperty("icon")]
+        public Optional<Stream> Icon;
+
         [JsonProperty("mentionable")]
         public Optional<bool> Mentionable;
+
+        [JsonProperty("unicode_emoji")]
+        public Optional<string> UnicodeEmoji;
     }
 }

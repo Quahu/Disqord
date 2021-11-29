@@ -13,7 +13,11 @@ namespace Disqord.AuditLogs
 
         public AuditLogChange<bool> IsHoisted { get; }
 
+        public AuditLogChange<string> IconHash { get; }
+
         public AuditLogChange<bool> IsMentionable { get; }
+
+        public AuditLogChange<string> UnicodeEmoji { get; }
 
         public TransientRoleAuditLogChanges(IClient client, AuditLogEntryJsonModel model)
         {
@@ -42,9 +46,19 @@ namespace Disqord.AuditLogs
                         IsHoisted = AuditLogChange<bool>.Convert(change);
                         break;
                     }
+                    case "icon_hash":
+                    {
+                        IconHash = AuditLogChange<string>.Convert(change);
+                        break;
+                    }
                     case "mentionable":
                     {
                         IsMentionable = AuditLogChange<bool>.Convert(change);
+                        break;
+                    }
+                    case "unicode_emoji":
+                    {
+                        UnicodeEmoji = AuditLogChange<string>.Convert(change);
                         break;
                     }
                     default:

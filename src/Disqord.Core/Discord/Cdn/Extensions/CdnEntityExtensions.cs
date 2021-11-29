@@ -127,6 +127,16 @@ namespace Disqord
                 : null;
         }
 
+        public static string GetIconUrl(this IRole role, CdnAssetFormat format = default, int? size = null)
+        {
+            Guard.IsNotNull(role);
+
+            var iconHash = role.IconHash;
+            return iconHash != null
+                ? Discord.Cdn.GetRoleIconUrl(role.Id, iconHash, format, size)
+                : null;
+        }
+
         public static string GetUrl(this IPartialSticker sticker)
         {
             Guard.IsNotNull(sticker);

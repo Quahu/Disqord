@@ -399,13 +399,19 @@ namespace Disqord.Rest
         {
             var properties = new CreateRoleActionProperties();
             action?.Invoke(properties);
+
+            if (properties.UnicodeEmoji.HasValue && properties.UnicodeEmoji.Value is LocalCustomEmoji)
+                throw new ArgumentException("The role's emoji must be a Unicode emoji.");
+
             var content = new CreateRoleJsonRestRequestContent
             {
                 Name = properties.Name,
-                Permissions = Optional.Convert(properties.Permissions, x => x.RawValue),
-                Color = Optional.Convert(properties.Color, x => x?.RawValue ?? 0),
+                Permissions = Optional.Convert(properties.Permissions, permissions => permissions.RawValue),
+                Color = Optional.Convert(properties.Color, color => color?.RawValue ?? 0),
                 Hoist = properties.IsHoisted,
-                Mentionable = properties.IsMentionable
+                Icon = properties.Icon,
+                Mentionable = properties.IsMentionable,
+                UnicodeEmoji = Optional.Convert(properties.UnicodeEmoji, emoji => emoji.Name)
             };
 
             var model = await client.ApiClient.CreateRoleAsync(guildId, content, options, cancellationToken).ConfigureAwait(false);
@@ -437,24 +443,14 @@ namespace Disqord.Rest
             Snowflake guildId, Snowflake roleId, Action<ModifyRoleActionProperties> action,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var properties = new ModifyRoleActionProperties();
-            action?.Invoke(properties);
-            if (properties.Position.HasValue)
+            var content = action.ToContent(out var position);
+            if (position.HasValue)
             {
                 await client.ReorderRolesAsync(guildId, new Dictionary<Snowflake, int>
                 {
-                    [roleId] = properties.Position.Value
+                    [roleId] = position.Value
                 }, options, cancellationToken).ConfigureAwait(false);
             }
-
-            var content = new ModifyRoleJsonRestRequestContent
-            {
-                Name = properties.Name,
-                Permissions = Optional.Convert(properties.Permissions, x => x.RawValue),
-                Color = Optional.Convert(properties.Color, x => x?.RawValue ?? 0),
-                Hoist = properties.IsHoisted,
-                Mentionable = properties.IsMentionable
-            };
 
             var model = await client.ApiClient.ModifyRoleAsync(guildId, roleId, content, options, cancellationToken).ConfigureAwait(false);
             return new TransientRole(client, guildId, model);

@@ -10,6 +10,10 @@
 
         AuditLogChange<bool> IsHoisted { get; }
 
+        AuditLogChange<string> IconHash { get; }
+
         AuditLogChange<bool> IsMentionable { get; }
+
+        AuditLogChange<string> UnicodeEmoji { get; }
     }
 }

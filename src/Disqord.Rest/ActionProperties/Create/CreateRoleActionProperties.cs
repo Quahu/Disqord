@@ -1,4 +1,6 @@
-﻿namespace Disqord
+﻿using System.IO;
+
+namespace Disqord
 {
     public sealed class CreateRoleActionProperties
     {
@@ -10,9 +12,10 @@
 
         public Optional<bool> IsHoisted { internal get; set; }
 
+        public Optional<Stream> Icon { internal get; set; }
+
         public Optional<bool> IsMentionable { internal get; set; }
 
-        internal CreateRoleActionProperties()
-        { }
+        public Optional<LocalEmoji> UnicodeEmoji { internal get; set; }
     }
 }

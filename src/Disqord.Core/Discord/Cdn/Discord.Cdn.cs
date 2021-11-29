@@ -115,6 +115,12 @@ namespace Disqord
                 return $"{BaseAddress}stickers/{stickerId}.{formatString}";
             }
 
+            public static string GetRoleIconUrl(Snowflake roleId, string iconHash, CdnAssetFormat format = default, int? size = null)
+            {
+                var path = $"role-icons/{roleId}/{iconHash}";
+                return FormatUrl(path, format, size);
+            }
+
             private static string FormatUrl(string path, CdnAssetFormat format, int? size)
             {
                 Guard.IsDefined(format);
