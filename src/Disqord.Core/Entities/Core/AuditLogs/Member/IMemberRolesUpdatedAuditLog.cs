@@ -2,7 +2,7 @@
 
 namespace Disqord.AuditLogs
 {
-    public interface IMemberRolesUpdatedAuditLog : IAuditLog, ITargetedAuditLog<IUser>
+    public interface IMemberRolesUpdatedAuditLog : ITargetedAuditLog<IUser>
     {
         /// <summary>
         ///     Gets the names of the roles granted keyed by their IDs.

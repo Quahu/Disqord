@@ -1,5 +1,5 @@
 ﻿namespace Disqord.AuditLogs
 {
-    public interface IMemberUnbannedAuditLog : IAuditLog, ITargetedAuditLog<IUser>
+    public interface IMemberUnbannedAuditLog : ITargetedAuditLog<IUser>
     { }
 }

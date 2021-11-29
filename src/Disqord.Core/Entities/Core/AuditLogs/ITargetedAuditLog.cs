@@ -1,6 +1,6 @@
 namespace Disqord.AuditLogs
 {
-    public interface ITargetedAuditLog<TTarget>
+    public interface ITargetedAuditLog<TTarget> : IAuditLog
         where TTarget : ISnowflakeEntity
     {
         /// <summary>
@@ -9,5 +9,4 @@ namespace Disqord.AuditLogs
         /// </summary>
         TTarget Target { get; }
     }
-
 }
