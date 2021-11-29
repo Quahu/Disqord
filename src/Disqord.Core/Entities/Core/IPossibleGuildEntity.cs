@@ -7,7 +7,7 @@
     {
         /// <summary>
         ///     Gets the ID of the guild of this entity.
-        ///     Returns <see langword="null"/> if this entity has guild attached to it.
+        ///     Returns <see langword="null"/> if this entity has no guild attached to it.
         /// </summary>
         Snowflake? GuildId { get; }
     }
