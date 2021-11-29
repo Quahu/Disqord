@@ -122,8 +122,8 @@ namespace Disqord
                 if (size != null)
                 {
                     var value = size.Value;
-                    if (value < 16 || value > 2048 || (value & -value) != value)
-                        Throw.ArgumentOutOfRangeException(nameof(size), "Size must be a power of 2 between 16 and 2048.");
+                    if (value < 16 || value > 4096 || (value & -value) != value)
+                        Throw.ArgumentOutOfRangeException(nameof(size), "Size must be a power of 2 between 16 and 4096.");
                 }
 
                 if (format == CdnAssetFormat.Automatic)
