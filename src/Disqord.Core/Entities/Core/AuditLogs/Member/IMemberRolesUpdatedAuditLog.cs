@@ -2,10 +2,16 @@
 
 namespace Disqord.AuditLogs
 {
-    public interface IMemberRolesUpdatedAuditLog : IAuditLog
+    public interface IMemberRolesUpdatedAuditLog : ITargetedAuditLog<IUser>
     {
-        Optional<IReadOnlyDictionary<Snowflake, string>> RolesGranted { get; }
+        /// <summary>
+        ///     Gets the names of the roles granted keyed by their IDs.
+        /// </summary>
+        Optional<IReadOnlyDictionary<Snowflake, string>> GrantedRoles { get; }
 
-        Optional<IReadOnlyDictionary<Snowflake, string>> RolesRevoked { get; }
+        /// <summary>
+        ///     Gets the names of the roles revoked keyed by their IDs.
+        /// </summary>
+        Optional<IReadOnlyDictionary<Snowflake, string>> RevokedRoles { get; }
     }
 }

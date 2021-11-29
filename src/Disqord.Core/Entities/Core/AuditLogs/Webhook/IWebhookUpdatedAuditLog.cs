@@ -1,5 +1,5 @@
 ﻿namespace Disqord.AuditLogs
 {
-    public interface IWebhookUpdatedAuditLog : IChangesAuditLog<IWebhookAuditLogChanges>
+    public interface IWebhookUpdatedAuditLog : IChangesAuditLog<IWebhookAuditLogChanges>, ITargetedAuditLog<IWebhook>
     { }
 }

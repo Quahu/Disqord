@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Qommon.Collections;
 using Disqord.Models;
 using Microsoft.Extensions.Logging;
@@ -7,9 +8,28 @@ namespace Disqord.AuditLogs
 {
     public class TransientMemberRolesUpdatedAuditLog : TransientAuditLog, IMemberRolesUpdatedAuditLog
     {
-        public Optional<IReadOnlyDictionary<Snowflake, string>> RolesGranted { get; }
+        /// <inheritdoc/>
+        public Optional<IReadOnlyDictionary<Snowflake, string>> GrantedRoles { get; }
 
-        public Optional<IReadOnlyDictionary<Snowflake, string>> RolesRevoked { get; }
+        /// <inheritdoc/>
+        public Optional<IReadOnlyDictionary<Snowflake, string>> RevokedRoles { get; }
+
+        /// <inheritdoc/>
+        public IUser Target
+        {
+            get
+            {
+                if (_target == null)
+                {
+                    var userModel = Array.Find(AuditLogJsonModel.Users, userModel => userModel.Id == TargetId);
+                    if (userModel != null)
+                        _target = new TransientUser(Client, userModel);
+                }
+
+                return _target;
+            }
+        }
+        private IUser _target;
 
         public TransientMemberRolesUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
             : base(client, guildId, auditLogJsonModel, model)
@@ -21,7 +41,7 @@ namespace Disqord.AuditLogs
                 {
                     case "$add":
                     {
-                        RolesGranted = Optional.Convert(change.NewValue, x =>
+                        GrantedRoles = Optional.Convert(change.NewValue, x =>
                         {
                             var models = x.ToType<RoleJsonModel[]>();
                             return models.ToReadOnlyDictionary(x => x.Id, x => x.Name);
@@ -30,7 +50,7 @@ namespace Disqord.AuditLogs
                     }
                     case "$remove":
                     {
-                        RolesRevoked = Optional.Convert(change.NewValue, x =>
+                        RevokedRoles = Optional.Convert(change.NewValue, x =>
                         {
                             var models = x.ToType<RoleJsonModel[]>();
                             return models.ToReadOnlyDictionary(x => x.Id, x => x.Name);

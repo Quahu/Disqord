@@ -1,5 +1,5 @@
 namespace Disqord.AuditLogs
 {
-    public interface IThreadUpdatedAuditLog : IChangesAuditLog<IThreadAuditLogChanges>
+    public interface IThreadUpdatedAuditLog : IChangesAuditLog<IThreadAuditLogChanges>, ITargetedAuditLog<IThreadChannel>
     { }
 }

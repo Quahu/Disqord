@@ -2,8 +2,14 @@
 {
     public interface IMembersMovedAuditLog : IAuditLog
     {
-        public Snowflake ChannelId { get; }
+        /// <summary>
+        ///     Gets the ID of the channel to which the members were moved.
+        /// </summary>
+        Snowflake ChannelId { get; }
 
-        public int Count { get; }
+        /// <summary>
+        ///     Gets the amount of members which were moved.
+        /// </summary>
+        int Count { get; }
     }
 }

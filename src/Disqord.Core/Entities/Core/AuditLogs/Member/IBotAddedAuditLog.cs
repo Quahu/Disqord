@@ -1,5 +1,5 @@
 ﻿namespace Disqord.AuditLogs
 {
-    public interface IBotAddedAuditLog : IAuditLog
+    public interface IBotAddedAuditLog : ITargetedAuditLog<IUser>
     { }
 }
