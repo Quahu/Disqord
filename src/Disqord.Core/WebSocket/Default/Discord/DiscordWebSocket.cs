@@ -76,7 +76,7 @@ namespace Disqord.WebSocket.Default.Discord
 #if NET5_0
                     CreateZLibStream(_receiveStream);
 #else
-                    new ZLibStream(_receiveStream, CompressionMode.Decompress);
+                    new ZLibStream(_receiveStream, CompressionMode.Decompress, true);
 #endif
             }
 
