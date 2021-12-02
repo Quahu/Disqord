@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Disqord.Utilities;
+using Qommon;
 
 namespace Disqord.Gateway
 {
@@ -125,5 +126,13 @@ namespace Disqord.Gateway
 
         public static GatewayIntents operator |(GatewayIntents left, GatewayIntents right)
             => left.RawValue | right.RawValue;
+
+        [Obsolete("The '+' and '-' operators have been removed, use '|' and '& ~' respectively.", true)]
+        public static GatewayIntents operator +(GatewayIntents left, GatewayIntents right)
+            => Throw.InvalidOperationException<GatewayIntents>();
+
+        [Obsolete("The '+' and '-' operators have been removed, use '|' and '& ~' respectively.", true)]
+        public static GatewayIntents operator -(GatewayIntents left, GatewayIntents right)
+            => Throw.InvalidOperationException<GatewayIntents>();
     }
 }
