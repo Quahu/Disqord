@@ -16,7 +16,7 @@ namespace Disqord
         {
             if (services.TryAddSingleton<DiscordClient>())
             {
-                services.TryAddSingleton<DiscordClientBase>(x => x.GetRequiredService<DiscordClient>());
+                services.TryAddSingleton<DiscordClientBase>(services => services.GetRequiredService<DiscordClient>());
                 services.AddOptions<DiscordClientConfiguration>();
 
                 if (configure != null)

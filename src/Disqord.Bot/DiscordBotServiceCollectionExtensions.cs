@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Disqord.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -26,11 +27,24 @@ namespace Disqord.Bot
 
             if (services.TryAddSingleton<TDiscordBot>())
             {
-                if (typeof(TDiscordBot) != typeof(DiscordBot))
-                    services.TryAddSingleton<DiscordBot>(x => x.GetRequiredService<TDiscordBot>());
+                var callCount = 0;
 
-                services.TryAddSingleton<DiscordBotBase>(x => x.GetRequiredService<TDiscordBot>());
-                services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(x => x.GetRequiredService<TDiscordBot>()));
+                TDiscordBot GetBotService(IServiceProvider services)
+                {
+                    if (Interlocked.Increment(ref callCount) > 1)
+                        throw new InvalidOperationException($"Disqord detected a circular dependency for the bot client of type '{typeof(TDiscordBot)}'. "
+                            + "This means that most likely your prefix provider or another service depends on the bot client and vice versa.");
+
+                    var service = services.GetRequiredService<TDiscordBot>();
+                    Interlocked.Decrement(ref callCount);
+                    return service;
+                }
+
+                if (typeof(TDiscordBot) != typeof(DiscordBot))
+                    services.TryAddSingleton<DiscordBot>(GetBotService);
+
+                services.TryAddSingleton<DiscordBotBase>(GetBotService);
+                services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(GetBotService));
             }
 
             services.AddPrefixProvider();
@@ -73,9 +87,9 @@ namespace Disqord.Bot
 
         public static IServiceCollection AddCommands(this IServiceCollection services, Action<CommandServiceConfiguration> configure = null)
         {
-            if (services.TryAddSingleton(x =>
+            if (services.TryAddSingleton(services =>
             {
-                var options = x.GetRequiredService<IOptions<CommandServiceConfiguration>>();
+                var options = services.GetRequiredService<IOptions<CommandServiceConfiguration>>();
                 return new CommandService(options.Value);
             }))
             {
