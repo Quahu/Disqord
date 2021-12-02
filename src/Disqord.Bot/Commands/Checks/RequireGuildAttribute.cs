@@ -19,7 +19,7 @@ namespace Disqord.Bot
             Id = id;
         }
 
-        public override sealed ValueTask<CheckResult> CheckAsync(DiscordGuildCommandContext context)
+        public override ValueTask<CheckResult> CheckAsync(DiscordGuildCommandContext context)
         {
             if (Id == null || Id == context.GuildId)
                 return Success();

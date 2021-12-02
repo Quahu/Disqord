@@ -24,10 +24,10 @@ namespace Disqord.Bot
         public abstract ValueTask<TypeParserResult<T>> ParseAsync(Parameter parameter, string value, DiscordCommandContext context);
 
         /// <inheritdoc/>
-        public override sealed ValueTask<TypeParserResult<T>> ParseAsync(Parameter parameter, string value, CommandContext context)
+        public sealed override ValueTask<TypeParserResult<T>> ParseAsync(Parameter parameter, string value, CommandContext context)
         {
             if (context is not DiscordCommandContext discordContext)
-                throw new InvalidOperationException($"The {GetType().Name} only accepts a DiscordCommandContext.");
+                throw new InvalidOperationException($"The {GetType().Name} only accepts a {nameof(DiscordCommandContext)}.");
 
             return ParseAsync(parameter, value, discordContext);
         }

@@ -11,7 +11,7 @@ namespace Disqord.Bot
         public RequirePrivateAttribute()
         { }
 
-        public override sealed ValueTask<CheckResult> CheckAsync(DiscordCommandContext context)
+        public override ValueTask<CheckResult> CheckAsync(DiscordCommandContext context)
         {
             if (context.GuildId == null)
                 return Success();
