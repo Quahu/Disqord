@@ -218,9 +218,10 @@ namespace Disqord.Rest.Api.Default
 
                                 if (delay > TimeSpan.Zero)
                                 {
-                                    if (_rateLimiter.MaximumDelayDuration != Timeout.InfiniteTimeSpan && delay > _rateLimiter.MaximumDelayDuration)
+                                    var maximumDelayDuration = (request.Options as DefaultRestRequestOptions)?.MaximumDelayDuration ?? _rateLimiter.MaximumDelayDuration;
+                                    if (maximumDelayDuration != Timeout.InfiniteTimeSpan && delay > maximumDelayDuration)
                                     {
-                                        Logger.LogWarning("Route {0} is rate-limited - throwing as the delay {1} exceeds the maximum delay duration.", request.Route, delay);
+                                        Logger.LogDebug("Route {0} is rate-limited - throwing as the delay {1} exceeds the maximum delay duration.", request.Route, delay);
                                         request.Complete(new MaximumRateLimitDelayExceededException(delay, isGloballyRateLimited));
                                         break;
                                     }

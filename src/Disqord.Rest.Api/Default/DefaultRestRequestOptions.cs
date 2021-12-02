@@ -54,5 +54,13 @@ namespace Disqord.Rest
         ///     </code>
         /// </example>
         public Action<DefaultRestResponseHeaders> HeadersAction { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the maximum rate-limit delay allowed before throwing an exception.
+        /// </summary>
+        /// <remarks>
+        ///     If set, this overrides the <see cref="DefaultRestRateLimiter.MaximumDelayDuration"/>.
+        /// </remarks>
+        public TimeSpan? MaximumDelayDuration { get; set; }
     }
 }
