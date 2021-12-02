@@ -5,38 +5,41 @@
         void Code()
         {
             // these are all the same
-            ChannelPermissions channelPermissions = new ChannelPermissions(Permission.ViewChannels | Permission.SendMessages);
+            var channelPermissions = new ChannelPermissions(Permission.ViewChannels | Permission.SendMessages);
             channelPermissions = Permission.ViewChannels | Permission.SendMessages;
-            channelPermissions = 3072; // view channel and send messages (raw)
+            channelPermissions = 3072; // view channel and send messages (raw value)
 
             // utility
-            var raw = channelPermissions.RawValue; // ulong
-            raw = channelPermissions;
-            var canViewChannel = channelPermissions.ViewChannels;
+            ulong rawValue = channelPermissions.RawValue; // raw value
+            Permission permission = channelPermissions; // implicit permission
+
+            if (channelPermissions.ViewChannels) ; // bool properties
+
             // or Has()
-            canViewChannel = channelPermissions.Has(Permission.ViewChannels);
+            if (channelPermissions.Has(Permission.ViewChannels)) ;
+
             // or stdlib HasFlag()
-            channelPermissions.Permissions.HasFlag(Permission.ViewChannels);
-            foreach (Permission permission in channelPermissions)
-            {
-                // enumerates all flags
-            }
+            if (channelPermissions.Flags.HasFlag(Permission.ViewChannels)) ;
+
+            // Enumerates all flags
+            foreach (Permission perm in channelPermissions)
+            { }
 
             // what about overwriting permissions in a channel?
-            // these are also all the same
-            OverwritePermissions overwritePermissions = new OverwritePermissions(allowed: ChannelPermissions.None, denied: channelPermissions);
-            overwritePermissions = new OverwritePermissions(Permission.None, channelPermissions);
+            var overwritePermissions = new OverwritePermissions(allowed: ChannelPermissions.None, denied: channelPermissions);
             overwritePermissions = (Permission.None, channelPermissions);
-            overwritePermissions = (0, 3072);
 
             // utility
-            overwritePermissions = overwritePermissions.Allow(Permission.SendAttachments)
+            overwritePermissions = overwritePermissions
+                .Allow(Permission.SendAttachments)
                 .Deny(Permission.UseTextToSpeech)
                 .Unset(Permission.ViewChannels);
+
             // or
-            overwritePermissions += Permission.SendAttachments;
-            overwritePermissions -= Permission.UseTextToSpeech;
-            overwritePermissions /= Permission.ViewChannels;
+            overwritePermissions.Allowed |= Permission.SendAttachments;
+            overwritePermissions.Denied |= Permission.UseTextToSpeech;
+            overwritePermissions.Allowed &= ~Permission.ViewChannels;
+            overwritePermissions.Denied &= ~Permission.ViewChannels;
         }
     }
 }

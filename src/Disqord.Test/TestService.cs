@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Bot;
@@ -28,6 +29,17 @@ namespace Disqord.Test
                     {
                         var text = textCommandInteraction.Options.GetValueOrDefault("text")?.Value as string;
                         await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse().WithContent(text).WithAllowedMentions(LocalAllowedMentions.None));
+                        break;
+                    }
+                    case "coinflip":
+                    {
+                        var random = new Random();
+                        var rawAmount = textCommandInteraction.Options.GetValueOrDefault("amount")?.Value;
+                        var amount = 1;
+                        if (rawAmount != null)
+                            amount = (int) Math.Clamp(Convert.ToInt64(rawAmount), 1, 100);
+                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse()
+                            .WithContent(string.Join(", ", Enumerable.Range(0, amount).Select(x => random.Next(2) == 1 ? "heads" : "tails"))));
                         break;
                     }
                 }

@@ -39,6 +39,7 @@ namespace Disqord.Test
                             .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}", theme: AnsiConsoleTheme.Code)
                             .WriteTo.File($"logs/log-{DateTime.Now:HH_mm_ss}.txt", restrictedToMinimumLevel: LogEventLevel.Verbose, fileSizeLimitBytes: null, buffered: true)
                             .CreateLogger();
+
                         x.AddSerilog(logger, true);
 
                         x.Services.Remove(x.Services.First(x => x.ServiceType == typeof(ILogger<>)));
@@ -49,9 +50,11 @@ namespace Disqord.Test
                         bot.Token = context.Configuration["TOKEN"];
                         bot.UseMentionPrefix = true;
                         bot.Prefixes = new[] { "?", "!" };
+                        bot.Intents |= GatewayIntent.DirectMessages | GatewayIntent.DirectReactions;
                     })
                     .UseDefaultServiceProvider(x =>
                     {
+                        x.ValidateScopes = true;
                         x.ValidateOnBuild = true;
                     })
                     .Build())
