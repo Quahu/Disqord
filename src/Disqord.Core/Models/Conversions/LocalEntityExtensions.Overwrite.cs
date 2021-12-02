@@ -3,12 +3,15 @@
     public static partial class LocalEntityExtensions
     {
         public static OverwriteJsonModel ToModel(this LocalOverwrite overwrite)
-            => new OverwriteJsonModel
+        {
+            var overwritePermission = overwrite.Permissions;
+            return new()
             {
                 Id = overwrite.TargetId,
                 Type = overwrite.TargetType,
-                Allow = overwrite.Permissions.Allowed,
-                Deny = overwrite.Permissions.Denied
+                Allow = overwritePermission.Allowed.RawValue,
+                Deny = overwritePermission.Denied.RawValue
             };
+        }
     }
 }

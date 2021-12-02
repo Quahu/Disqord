@@ -2,7 +2,7 @@
 {
     public readonly partial struct GuildPermissions
     {
-        public const ulong ALL_PERMISSIONS_VALUE = (ulong) (
+        private const ulong AllPermissionsValue = (ulong) (
             Permission.CreateInvites
             | Permission.KickMembers
             | Permission.BanMembers
@@ -28,7 +28,7 @@
             | Permission.MuteMembers
             | Permission.DeafenMembers
             | Permission.MoveMembers
-            | Permission.UseVad
+            | Permission.UseVoiceActivity
             | Permission.SetNick
             | Permission.ManageNicks
             | Permission.ManageRoles

@@ -1,24 +1,27 @@
-﻿namespace Disqord
+﻿using System;
+using Qommon;
+
+namespace Disqord
 {
     /// <summary>
-    ///     Represents an overwritten permissions set of a channel overwrite.
+    ///     Represents the allowed and denied permission set of a channel permission overwrite.
     /// </summary>
-    public readonly struct OverwritePermissions
+    public struct OverwritePermissions : IEquatable<OverwritePermissions>
     {
         /// <summary>
         ///     Gets an <see cref="OverwritePermissions"/> with no permissions set.
         /// </summary>
-        public static OverwritePermissions None => new OverwritePermissions(0, 0);
+        public static OverwritePermissions None => new(0, 0);
 
         /// <summary>
-        ///     Gets the allowed permissions of this set.
+        ///     Gets or sets the allowed permissions of this set.
         /// </summary>
-        public ChannelPermissions Allowed { get; }
+        public ChannelPermissions Allowed { get; set; }
 
         /// <summary>
-        ///     Gets the denied permissions of this set.
+        ///     Gets or sets the denied permissions of this set.
         /// </summary>
-        public ChannelPermissions Denied { get; }
+        public ChannelPermissions Denied { get; set; }
 
         /// <summary>
         ///     Instantiates a new <see cref="OverwritePermissions"/> with the specified allowed and denied permissions.
@@ -31,37 +34,54 @@
             Denied = denied;
         }
 
-        public static implicit operator OverwritePermissions((Permission Allowed, Permission Denied) value)
-            => new OverwritePermissions(value.Allowed, value.Denied);
+        public OverwritePermissions Allow(Permission permission)
+            => new(Allowed | permission, Denied & ~permission);
 
-        public static implicit operator OverwritePermissions((ulong Allowed, ulong Denied) value)
-            => new OverwritePermissions(value.Allowed, value.Denied);
+        public OverwritePermissions Deny(Permission permission)
+            => new(Allowed & ~permission, Denied | permission);
+
+        public OverwritePermissions Unset(Permission permission)
+            => new(Allowed & ~permission, Denied & ~permission);
+
+        public bool Equals(OverwritePermissions other)
+            => Allowed.Equals(other.Allowed) && Denied.Equals(other.Denied);
+
+        public override bool Equals(object obj)
+        {
+            if (obj is OverwritePermissions overwritePermissions)
+                return Equals(overwritePermissions);
+
+            return false;
+        }
+
+        public override int GetHashCode()
+            => HashCode.Combine(Allowed, Denied);
+
+        public override string ToString()
+            => $"{Allowed} | {Denied}";
+
+        public static implicit operator OverwritePermissions((Permission Allowed, Permission Denied) value)
+            => new(value.Allowed, value.Denied);
 
         public static implicit operator (Permission, Permission)(OverwritePermissions value)
             => (value.Allowed, value.Denied);
 
-        public static implicit operator (ulong, ulong)(OverwritePermissions value)
-            => (value.Allowed, value.Denied);
+        public static bool operator ==(OverwritePermissions left, OverwritePermissions right)
+            => left.Equals(right);
 
-        public OverwritePermissions Allow(Permission permission)
-            => new OverwritePermissions(Allowed + permission, Denied - permission);
+        public static bool operator !=(OverwritePermissions left, OverwritePermissions right)
+            => !left.Equals(right);
 
-        public OverwritePermissions Deny(Permission permission)
-            => new OverwritePermissions(Allowed - permission, Denied + permission);
+        [Obsolete("The '+', '-', and '/' operators have been removed, use '|' and '& ~' (for '/' use it for both allowed and denied permissions) respectively.", true)]
+        public static OverwritePermissions operator +(OverwritePermissions left, OverwritePermissions right)
+            => Throw.InvalidOperationException<OverwritePermissions>();
 
-        public OverwritePermissions Unset(Permission permission)
-            => new OverwritePermissions(Allowed - permission, Denied - permission);
+        [Obsolete("The '+', '-', and '/' operators have been removed, use '|' and '& ~' (for '/' use it for both allowed and denied permissions) respectively.", true)]
+        public static OverwritePermissions operator -(OverwritePermissions left, OverwritePermissions right)
+            => Throw.InvalidOperationException<OverwritePermissions>();
 
-        public static OverwritePermissions operator +(OverwritePermissions left, Permission right)
-            => left.Allow(right);
-
-        public static OverwritePermissions operator -(OverwritePermissions left, Permission right)
-            => left.Deny(right);
-
-        public static OverwritePermissions operator /(OverwritePermissions left, Permission right)
-            => left.Unset(right);
-
-        public override string ToString()
-            => $"{Allowed} | {Denied}";
+        [Obsolete("The '+', '-', and '/' operators have been removed, use '|' and '& ~' (for '/' use it for both allowed and denied permissions) respectively.", true)]
+        public static OverwritePermissions operator /(OverwritePermissions left, OverwritePermissions right)
+            => Throw.InvalidOperationException<OverwritePermissions>();
     }
 }

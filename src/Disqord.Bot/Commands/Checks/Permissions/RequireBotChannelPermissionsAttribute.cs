@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway;
 using Qmmands;
+using Qommon;
 
 namespace Disqord.Bot
 {
@@ -13,6 +14,10 @@ namespace Disqord.Bot
 
         public RequireBotChannelPermissionsAttribute(Permission permissions)
         {
+            Permissions = ChannelPermissions.Mask(permissions, out var remainingPermissions);
+            if (remainingPermissions != Permission.None)
+                Throw.ArgumentOutOfRangeException(nameof(remainingPermissions), $"The permissions specified for {GetType()} contain non-channel permissions: {remainingPermissions}.");
+
             Permissions = permissions;
         }
 
@@ -22,7 +27,7 @@ namespace Disqord.Bot
             if (permissions.Has(Permissions))
                 return Success();
 
-            return Failure($"The bot lacks the necessary channel permissions ({Permissions - permissions}) to execute this.");
+            return Failure($"The bot lacks the necessary channel permissions ({Permissions & ~permissions}) to execute this.");
         }
     }
 }

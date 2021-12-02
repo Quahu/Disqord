@@ -22,7 +22,7 @@ namespace Disqord.Bot
             if (permissions.Has(Permissions))
                 return Success();
 
-            return Failure($"You lack the necessary guild permissions ({Permissions - permissions}) to execute this.");
+            return Failure($"You lack the necessary guild permissions ({Permissions & ~permissions}) to execute this.");
         }
     }
 }

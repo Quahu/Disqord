@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using Disqord.Utilities;
 using Qommon;
 
 namespace Disqord
@@ -11,18 +8,6 @@ namespace Disqord
     {
         public static class Permissions
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static void SetFlag(ref ulong rawValue, Permission flag)
-                => FlagUtilities.SetFlag(ref rawValue, (ulong) flag);
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static bool HasFlag(ulong rawValue, Permission flag)
-                => FlagUtilities.HasFlag(rawValue, (ulong) flag);
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static void UnsetFlag(ref ulong rawValue, Permission flag)
-                => FlagUtilities.UnsetFlag(ref rawValue, (ulong) flag);
-
             /// <summary>
             ///     Calculates a member's channel permissions.
             /// </summary>
@@ -44,57 +29,70 @@ namespace Disqord
                     Throw.InvalidOperationException("The entities must be from the same guild.");
 
                 var rolesArray = roles.ToArray();
+                Guard.HasSizeGreaterThan(rolesArray, 0);
+
                 var guildPermissions = CalculatePermissions(guild, member, rolesArray);
                 if (guildPermissions.Administrator)
                     return ChannelPermissions.All;
 
                 var permissions = ChannelPermissions.Mask(guildPermissions, channel);
-                Array.Sort(rolesArray, (a, b) =>
-                {
-                    var difference = a.Position.CompareTo(b.Position);
-                    if (difference != 0)
-                        return difference;
-
-                    return a.Id.CompareTo(b.Id);
-                });
-
+                var overwrittenPermissions = OverwritePermissions.None;
+                var overwrittenMemberPermissions = OverwritePermissions.None;
                 var overwrites = channel.Overwrites;
-                foreach (var role in rolesArray)
+                var overwriteCount = overwrites.Count;
+                for (var i = 0; i < overwriteCount; i++)
                 {
-                    for (var i = 0; i < overwrites.Count; i++)
+                    var overwrite = overwrites[i];
+                    if (overwrite.TargetType == OverwriteTargetType.Member)
                     {
-                        var overwrite = overwrites[i];
-                        if (overwrite.TargetType != OverwriteTargetType.Role || overwrite.TargetId != role.Id)
+                        // Skips the overwrite if it's a member overwrite and it doesn't target the member.
+                        if (overwrite.TargetId != member.Id)
+                            continue;
+
+                        // Stores the overwritten permissions for the member.
+                        overwrittenMemberPermissions = overwrite.Permissions;
+                        continue;
+                    }
+
+                    foreach (var role in rolesArray)
+                    {
+                        // Skips the role if it's not for the current overwrite.
+                        if (overwrite.TargetId != role.Id)
                             continue;
 
                         var overwritePermissions = overwrite.Permissions;
-                        permissions -= overwritePermissions.Denied;
-                        permissions += overwritePermissions.Allowed;
-                        break;
+                        if (role.Id == role.GuildId)
+                        {
+                            // If the role is the @everyone role, apply the permissions directly.
+                            permissions &= ~overwritePermissions.Denied;
+                            permissions |= overwritePermissions.Allowed;
+                        }
+                        else
+                        {
+                            // Sum the overwrite permissions.
+                            overwrittenPermissions.Denied |= overwritePermissions.Denied;
+                            overwrittenPermissions.Allowed |= overwritePermissions.Allowed;
+                        }
                     }
                 }
 
-                for (var i = 0; i < overwrites.Count; i++)
-                {
-                    var overwrite = overwrites[i];
-                    if (overwrite.TargetType != OverwriteTargetType.Member || overwrite.TargetId != member.Id)
-                        continue;
+                // Apply the total overwrite permissions.
+                permissions &= ~overwrittenPermissions.Denied;
+                permissions |= overwrittenPermissions.Allowed;
 
-                    var overwritePermissions = overwrite.Permissions;
-                    permissions -= overwritePermissions.Denied;
-                    permissions += overwritePermissions.Allowed;
-                    break;
-                }
+                // Apply the member overwrite permissions.
+                permissions &= ~overwrittenMemberPermissions.Denied;
+                permissions |= overwrittenMemberPermissions.Allowed;
 
                 if (!permissions.ViewChannels)
                     return ChannelPermissions.None;
 
                 if (channel is ITextChannel && !permissions.SendMessages)
                 {
-                    permissions -= Permission.SendAttachments |
+                    permissions &= ~(Permission.SendAttachments |
                         Permission.SendEmbeds |
                         Permission.MentionEveryone |
-                        Permission.UseTextToSpeech;
+                        Permission.UseTextToSpeech);
                 }
 
                 return permissions;

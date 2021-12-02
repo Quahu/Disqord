@@ -2,88 +2,89 @@
 using System.Collections;
 using System.Collections.Generic;
 using Disqord.Utilities;
+using Qommon;
 
 namespace Disqord
 {
     public readonly partial struct ChannelPermissions : IEquatable<ulong>, IEquatable<Permission>, IEquatable<ChannelPermissions>,
         IEnumerable<Permission>
     {
-        public static ChannelPermissions All => ALL_PERMISSIONS_VALUE;
+        public static ChannelPermissions All => AllPermissionsValue;
 
-        public static ChannelPermissions Text => TEXT_PERMISSIONS_VALUE;
+        public static ChannelPermissions Text => TextPermissionsValue;
 
-        public static ChannelPermissions Voice => VOICE_PERMISSIONS_VALUE;
+        public static ChannelPermissions Voice => VoicePermissionsValue;
 
-        public static ChannelPermissions Category => CATEGORY_PERMISSIONS_VALUE;
+        public static ChannelPermissions Category => CategoryPermissionsValue;
 
         public static ChannelPermissions None => 0;
 
-        public bool CreateInvites => Discord.Permissions.HasFlag(RawValue, Permission.CreateInvites);
+        public bool CreateInvites => Has(Permission.CreateInvites);
 
-        public bool ManageChannels => Discord.Permissions.HasFlag(RawValue, Permission.ManageChannels);
+        public bool ManageChannels => Has(Permission.ManageChannels);
 
-        public bool AddReactions => Discord.Permissions.HasFlag(RawValue, Permission.AddReactions);
+        public bool AddReactions => Has(Permission.AddReactions);
 
-        public bool PrioritySpeaker => Discord.Permissions.HasFlag(RawValue, Permission.PrioritySpeaker);
+        public bool PrioritySpeaker => Has(Permission.PrioritySpeaker);
 
-        public bool Stream => Discord.Permissions.HasFlag(RawValue, Permission.Stream);
+        public bool Stream => Has(Permission.Stream);
 
-        public bool ViewChannels => Discord.Permissions.HasFlag(RawValue, Permission.ViewChannels);
+        public bool ViewChannels => Has(Permission.ViewChannels);
 
-        public bool SendMessages => Discord.Permissions.HasFlag(RawValue, Permission.SendMessages);
+        public bool SendMessages => Has(Permission.SendMessages);
 
-        public bool UseTextToSpeech => Discord.Permissions.HasFlag(RawValue, Permission.UseTextToSpeech);
+        public bool UseTextToSpeech => Has(Permission.UseTextToSpeech);
 
-        public bool ManageMessages => Discord.Permissions.HasFlag(RawValue, Permission.ManageMessages);
+        public bool ManageMessages => Has(Permission.ManageMessages);
 
-        public bool SendEmbeds => Discord.Permissions.HasFlag(RawValue, Permission.SendEmbeds);
+        public bool SendEmbeds => Has(Permission.SendEmbeds);
 
-        public bool SendAttachments => Discord.Permissions.HasFlag(RawValue, Permission.SendAttachments);
+        public bool SendAttachments => Has(Permission.SendAttachments);
 
-        public bool ReadMessageHistory => Discord.Permissions.HasFlag(RawValue, Permission.ReadMessageHistory);
+        public bool ReadMessageHistory => Has(Permission.ReadMessageHistory);
 
-        public bool MentionEveryone => Discord.Permissions.HasFlag(RawValue, Permission.MentionEveryone);
+        public bool MentionEveryone => Has(Permission.MentionEveryone);
 
-        public bool UseExternalEmojis => Discord.Permissions.HasFlag(RawValue, Permission.UseExternalEmojis);
+        public bool UseExternalEmojis => Has(Permission.UseExternalEmojis);
 
-        public bool Connect => Discord.Permissions.HasFlag(RawValue, Permission.Connect);
+        public bool Connect => Has(Permission.Connect);
 
-        public bool Speak => Discord.Permissions.HasFlag(RawValue, Permission.Speak);
+        public bool Speak => Has(Permission.Speak);
 
-        public bool MuteMembers => Discord.Permissions.HasFlag(RawValue, Permission.MuteMembers);
+        public bool MuteMembers => Has(Permission.MuteMembers);
 
-        public bool DeafenMembers => Discord.Permissions.HasFlag(RawValue, Permission.DeafenMembers);
+        public bool DeafenMembers => Has(Permission.DeafenMembers);
 
-        public bool MoveMembers => Discord.Permissions.HasFlag(RawValue, Permission.MoveMembers);
+        public bool MoveMembers => Has(Permission.MoveMembers);
 
-        public bool UseVad => Discord.Permissions.HasFlag(RawValue, Permission.UseVad);
+        public bool UseVoiceActivity => Has(Permission.UseVoiceActivity);
 
-        public bool ManageRoles => Discord.Permissions.HasFlag(RawValue, Permission.ManageRoles);
+        public bool ManageRoles => Has(Permission.ManageRoles);
 
-        public bool ManageWebhooks => Discord.Permissions.HasFlag(RawValue, Permission.ManageWebhooks);
+        public bool ManageWebhooks => Has(Permission.ManageWebhooks);
 
-        public bool UseApplicationCommands => Discord.Permissions.HasFlag(RawValue, Permission.UseApplicationCommands);
+        public bool UseApplicationCommands => Has(Permission.UseApplicationCommands);
 
-        public bool RequestToSpeak => Discord.Permissions.HasFlag(RawValue, Permission.RequestToSpeak);
+        public bool RequestToSpeak => Has(Permission.RequestToSpeak);
 
-        public bool ManageThreads => Discord.Permissions.HasFlag(RawValue, Permission.ManageThreads);
+        public bool ManageThreads => Has(Permission.ManageThreads);
 
-        public bool CreatePublicThreads => Discord.Permissions.HasFlag(RawValue, Permission.CreatePublicThreads);
+        public bool CreatePublicThreads => Has(Permission.CreatePublicThreads);
 
-        public bool CreatePrivateThreads => Discord.Permissions.HasFlag(RawValue, Permission.CreatePrivateThreads);
+        public bool CreatePrivateThreads => Has(Permission.CreatePrivateThreads);
 
-        public bool UseExternalStickers => Discord.Permissions.HasFlag(RawValue, Permission.UseExternalStickers);
+        public bool UseExternalStickers => Has(Permission.UseExternalStickers);
 
-        public bool SendMessagesInThreads => Discord.Permissions.HasFlag(RawValue, Permission.SendMessagesInThreads);
+        public bool SendMessagesInThreads => Has(Permission.SendMessagesInThreads);
 
-        public bool StartActivities => Discord.Permissions.HasFlag(RawValue, Permission.StartActivities);
+        public bool StartActivities => Has(Permission.StartActivities);
 
-        public Permission Permissions => (Permission) RawValue;
+        public Permission Flags => (Permission) RawValue;
 
         public ulong RawValue { get; }
 
-        public ChannelPermissions(Permission permission)
-            : this((ulong) permission)
+        public ChannelPermissions(Permission permissions)
+            : this((ulong) permissions)
         { }
 
         public ChannelPermissions(ulong rawValue)
@@ -91,20 +92,28 @@ namespace Disqord
             RawValue = rawValue;
         }
 
-        public static ChannelPermissions Mask(ulong rawValue, IGuildChannel channel)
+        public static ChannelPermissions Mask(Permission permissions, IGuildChannel channel)
         {
             var mask = channel switch
             {
-                IMessageGuildChannel _ => TEXT_PERMISSIONS_VALUE,
-                IVocalGuildChannel _ => VOICE_PERMISSIONS_VALUE,
-                ICategoryChannel _ => CATEGORY_PERMISSIONS_VALUE,
-                _ => ALL_PERMISSIONS_VALUE,
+                IMessageGuildChannel _ => TextPermissionsValue,
+                IVocalGuildChannel _ => VoicePermissionsValue,
+                ICategoryChannel _ => CategoryPermissionsValue,
+                _ => AllPermissionsValue,
             };
-            return new ChannelPermissions(rawValue & mask);
+
+            return new ChannelPermissions(permissions & (Permission) mask);
         }
 
-        public bool Has(Permission permission)
-            => Discord.Permissions.HasFlag(RawValue, permission);
+        public static ChannelPermissions Mask(Permission permissions, out Permission remainingPermissions)
+        {
+            var allPermission = (Permission) AllPermissionsValue;
+            remainingPermissions = permissions & ~allPermission;
+            return new ChannelPermissions(permissions & allPermission);
+        }
+
+        public bool Has(Permission permissions)
+            => Flags.HasFlag(permissions);
 
         public bool Equals(ulong other)
             => RawValue == other;
@@ -133,44 +142,47 @@ namespace Disqord
             => RawValue.GetHashCode();
 
         public override string ToString()
-            => Permissions.ToString();
+            => Flags.ToString();
 
         public IEnumerator<Permission> GetEnumerator()
-            => FlagUtilities.GetFlags(Permissions).GetEnumerator();
+            => FlagUtilities.GetFlags(Flags).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
 
         public static implicit operator ChannelPermissions(ulong value)
-            => new ChannelPermissions(value);
-
-        public static implicit operator ulong(ChannelPermissions value)
-            => value.RawValue;
+            => new(value);
 
         public static implicit operator ChannelPermissions(Permission value)
-            => (ulong) value;
+            => new(value);
 
         public static implicit operator Permission(ChannelPermissions value)
-            => value.Permissions;
+            => value.Flags;
 
-        public static ChannelPermissions operator +(ChannelPermissions left, Permission right)
-        {
-            var rawValue = left.RawValue;
-            Discord.Permissions.SetFlag(ref rawValue, right);
-            return rawValue;
-        }
+        public static bool operator ==(ChannelPermissions left, ChannelPermissions right)
+            => left.RawValue == right.RawValue;
 
-        public static ChannelPermissions operator -(ChannelPermissions left, Permission right)
-        {
-            var rawValue = left.RawValue;
-            Discord.Permissions.UnsetFlag(ref rawValue, right);
-            return rawValue;
-        }
+        public static bool operator !=(ChannelPermissions left, ChannelPermissions right)
+            => left.RawValue != right.RawValue;
 
-        public static bool operator ==(ChannelPermissions left, Permission right)
-            => left.Equals(right);
+        public static ChannelPermissions operator ~(ChannelPermissions value)
+            => ~value.RawValue;
 
-        public static bool operator !=(ChannelPermissions left, Permission right)
-            => !left.Equals(right);
+        public static ChannelPermissions operator &(ChannelPermissions left, ChannelPermissions right)
+            => left.RawValue & right.RawValue;
+
+        public static ChannelPermissions operator ^(ChannelPermissions left, ChannelPermissions right)
+            => left.RawValue ^ right.RawValue;
+
+        public static ChannelPermissions operator |(ChannelPermissions left, ChannelPermissions right)
+            => left.RawValue | right.RawValue;
+
+        [Obsolete("The '+' and '-' operators have been removed, use '|' and '& ~' respectively.", true)]
+        public static ChannelPermissions operator +(ChannelPermissions left, ChannelPermissions right)
+            => Throw.InvalidOperationException<ChannelPermissions>();
+
+        [Obsolete("The '+' and '-' operators have been removed, use '|' and '& ~' respectively.", true)]
+        public static ChannelPermissions operator -(ChannelPermissions left, ChannelPermissions right)
+            => Throw.InvalidOperationException<ChannelPermissions>();
     }
 }

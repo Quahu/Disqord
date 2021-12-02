@@ -2,7 +2,7 @@
 {
     public readonly partial struct GatewayIntents
     {
-        public const ulong ALL_INTENTS_VALUE = (ulong) (
+        private const ulong AllIntentsValue = (ulong) (
             GatewayIntent.Guilds
             | GatewayIntent.Members
             | GatewayIntent.Bans
@@ -19,7 +19,7 @@
             | GatewayIntent.DirectReactions
             | GatewayIntent.DirectTyping);
 
-        public const ulong UNPRIVILEGED_INTENTS_VALUE = (ulong) (
+        private const ulong UnprivilegedIntentsValue = (ulong) (
             GatewayIntent.Guilds
             | GatewayIntent.Bans
             | GatewayIntent.EmojisAndStickers
@@ -34,7 +34,7 @@
             | GatewayIntent.DirectReactions
             | GatewayIntent.DirectTyping);
 
-        public const ulong RECOMMENDED_VALUE = (ulong)(
+        private const ulong RecommendedValue = (ulong) (
             GatewayIntent.Guilds
             | GatewayIntent.Members
             | GatewayIntent.Bans

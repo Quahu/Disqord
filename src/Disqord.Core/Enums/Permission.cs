@@ -141,7 +141,7 @@ namespace Disqord
         /// <summary>
         ///     Allows using voice activity detection over just push-to-talk.
         /// </summary>
-        UseVad = 1ul << 25,
+        UseVoiceActivity = 1ul << 25,
 
         /// <summary>
         ///     Allows setting the own nick.

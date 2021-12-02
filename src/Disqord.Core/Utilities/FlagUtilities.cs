@@ -1,25 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Qommon.Collections.Synchronized;
 
 namespace Disqord.Utilities
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class FlagUtilities
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool HasFlag(ulong rawValue, ulong flag)
-            => (rawValue & flag) == flag;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetFlag(ref ulong rawValue, ulong flag)
-            => rawValue |= flag;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void UnsetFlag(ref ulong rawValue, ulong flag)
-            => rawValue &= ~flag;
-
         public static IEnumerable<TFlag> GetFlags<TFlag>(TFlag flags)
             where TFlag : Enum
         {
@@ -31,7 +20,7 @@ namespace Disqord.Utilities
                 if (flag > value)
                     yield break;
 
-                if (HasFlag(value, flag))
+                if ((value & flag) == flag)
                     yield return (TFlag) (object) flag;
             }
         }
@@ -44,7 +33,7 @@ namespace Disqord.Utilities
             for (var i = 0; i < allFlags.Length; i++)
             {
                 var flag = allFlags[i];
-                yield return KeyValuePair.Create((TFlag) (object) flag, flag <= value && HasFlag(value, flag));
+                yield return KeyValuePair.Create((TFlag) (object) flag, flag <= value && (value & flag) == flag);
             }
         }
 

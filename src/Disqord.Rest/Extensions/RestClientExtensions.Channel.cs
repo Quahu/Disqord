@@ -442,8 +442,8 @@ namespace Disqord.Rest
             var content = new SetOverwriteJsonRestRequestContent
             {
                 Type = overwrite.TargetType,
-                Allow = overwrite.Permissions.Allowed,
-                Deny = overwrite.Permissions.Denied
+                Allow = overwrite.Permissions.Allowed.RawValue,
+                Deny = overwrite.Permissions.Denied.RawValue
             };
 
             return client.ApiClient.SetOverwriteAsync(channelId, overwrite.TargetId, content, options, cancellationToken);

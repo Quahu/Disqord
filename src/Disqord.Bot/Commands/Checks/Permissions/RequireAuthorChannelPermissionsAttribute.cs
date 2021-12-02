@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway;
 using Qmmands;
+using Qommon;
 
 namespace Disqord.Bot
 {
@@ -13,7 +14,9 @@ namespace Disqord.Bot
 
         public RequireAuthorChannelPermissionsAttribute(Permission permissions)
         {
-            Permissions = permissions;
+            Permissions = ChannelPermissions.Mask(permissions, out var remainingPermissions);
+            if (remainingPermissions != Permission.None)
+                Throw.ArgumentOutOfRangeException(nameof(permissions), $"The permissions specified for {GetType()} contain non-channel permissions: {remainingPermissions}.");
         }
 
         public override ValueTask<CheckResult> CheckAsync(DiscordGuildCommandContext context)
@@ -22,7 +25,7 @@ namespace Disqord.Bot
             if (permissions.Has(Permissions))
                 return Success();
 
-            return Failure($"You lack the necessary channel permissions ({Permissions - permissions}) to execute this.");
+            return Failure($"You lack the necessary channel permissions ({Permissions & ~permissions}) to execute this.");
         }
     }
 }

@@ -393,7 +393,7 @@ namespace Disqord.Gateway.Api.Default
                         Device = "Disqord",
                         Browser = "Disqord"
                     },
-                    Intents = Intents,
+                    Intents = Intents.RawValue,
                     LargeThreshold = LargeThreshold,
                     Shard = Id.Count > 1
                         ? new[] { Id.Id, Id.Count }

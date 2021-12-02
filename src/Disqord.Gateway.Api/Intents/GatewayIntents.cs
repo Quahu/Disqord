@@ -8,51 +8,52 @@ namespace Disqord.Gateway
     public readonly partial struct GatewayIntents : IEquatable<ulong>, IEquatable<GatewayIntent>, IEquatable<GatewayIntents>,
         IEnumerable<GatewayIntent>
     {
-        public static GatewayIntents All => ALL_INTENTS_VALUE;
+        public static GatewayIntents All => AllIntentsValue;
 
-        public static GatewayIntents Unprivileged => UNPRIVILEGED_INTENTS_VALUE;
+        public static GatewayIntents Unprivileged => UnprivilegedIntentsValue;
+
+        public static GatewayIntents Recommended => RecommendedValue;
+
+        public static GatewayIntents RecommendedUnprivileged => Recommended & ~GatewayIntent.Members;
 
         public static GatewayIntents None => 0;
 
-        public static GatewayIntents Recommended => RECOMMENDED_VALUE;
+        public bool Guilds => Has(GatewayIntent.Guilds);
 
-        public static GatewayIntents RecommendedUnprivileged => Recommended - GatewayIntent.Members;
+        public bool Members => Has(GatewayIntent.Members);
 
-        public bool Guilds => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.Guilds);
+        public bool Bans => Has(GatewayIntent.Bans);
 
-        public bool Members => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.Members);
+        public bool EmojisAndStickers => Has(GatewayIntent.EmojisAndStickers);
 
-        public bool Bans => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.Bans);
+        public bool Integrations => Has(GatewayIntent.Integrations);
 
-        public bool EmojisAndStickers => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.EmojisAndStickers);
+        public bool Webhooks => Has(GatewayIntent.Webhooks);
 
-        public bool Integrations => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.Integrations);
+        public bool Invites => Has(GatewayIntent.Invites);
 
-        public bool Webhooks => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.Webhooks);
+        public bool VoiceStates => Has(GatewayIntent.VoiceStates);
 
-        public bool Invites => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.Invites);
+        public bool Presences => Has(GatewayIntent.Presences);
 
-        public bool VoiceStates => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.VoiceStates);
+        public bool GuildMessages => Has(GatewayIntent.GuildMessages);
 
-        public bool Presences => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.Presences);
+        public bool GuildReactions => Has(GatewayIntent.GuildReactions);
 
-        public bool GuildMessages => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.GuildMessages);
+        public bool GuildTyping => Has(GatewayIntent.GuildTyping);
 
-        public bool GuildReactions => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.GuildReactions);
+        public bool DirectMessages => Has(GatewayIntent.DirectMessages);
 
-        public bool GuildTyping => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.GuildTyping);
+        public bool DirectReactions => Has(GatewayIntent.DirectReactions);
 
-        public bool DirectMessages => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.DirectMessages);
+        public bool DirectTyping => Has(GatewayIntent.DirectTyping);
 
-        public bool DirectReactions => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.DirectReactions);
-
-        public bool DirectTyping => FlagUtilities.HasFlag(RawValue, (ulong) GatewayIntent.DirectTyping);
-
-        public GatewayIntent Intents => (GatewayIntent) RawValue;
+        public GatewayIntent Flags => (GatewayIntent) RawValue;
 
         public ulong RawValue { get; }
 
-        public GatewayIntents(GatewayIntent intent) : this((ulong) intent)
+        public GatewayIntents(GatewayIntent intents)
+            : this((ulong) intents)
         { }
 
         public GatewayIntents(ulong rawValue)
@@ -60,8 +61,8 @@ namespace Disqord.Gateway
             RawValue = rawValue;
         }
 
-        public bool Has(GatewayIntent intent)
-            => FlagUtilities.HasFlag(RawValue, (ulong) intent);
+        public bool Has(GatewayIntent intents)
+            => Flags.HasFlag(intents);
 
         public bool Equals(ulong other)
             => RawValue == other;
@@ -90,44 +91,39 @@ namespace Disqord.Gateway
             => RawValue.GetHashCode();
 
         public override string ToString()
-            => Intents.ToString();
+            => Flags.ToString();
 
         public IEnumerator<GatewayIntent> GetEnumerator()
-            => FlagUtilities.GetFlags(Intents).GetEnumerator();
+            => FlagUtilities.GetFlags(Flags).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
 
         public static implicit operator GatewayIntents(ulong value)
-            => new GatewayIntents(value);
-
-        public static implicit operator ulong(GatewayIntents value)
-            => value.RawValue;
+            => new(value);
 
         public static implicit operator GatewayIntents(GatewayIntent value)
             => (ulong) value;
 
         public static implicit operator GatewayIntent(GatewayIntents value)
-            => value.Intents;
+            => value.Flags;
 
-        public static GatewayIntents operator +(GatewayIntents left, GatewayIntent right)
-        {
-            var rawValue = left.RawValue;
-            FlagUtilities.SetFlag(ref rawValue, (ulong) right);
-            return rawValue;
-        }
+        public static bool operator ==(GatewayIntents left, GatewayIntents right)
+            => left.RawValue == right.RawValue;
 
-        public static GatewayIntents operator -(GatewayIntents left, GatewayIntent right)
-        {
-            var rawValue = left.RawValue;
-            FlagUtilities.UnsetFlag(ref rawValue, (ulong) right);
-            return rawValue;
-        }
+        public static bool operator !=(GatewayIntents left, GatewayIntents right)
+            => left.RawValue != right.RawValue;
 
-        public static bool operator ==(GatewayIntents left, GatewayIntent right)
-            => left.Equals(right);
+        public static GatewayIntents operator ~(GatewayIntents value)
+            => ~value.RawValue;
 
-        public static bool operator !=(GatewayIntents left, GatewayIntent right)
-            => !left.Equals(right);
+        public static GatewayIntents operator &(GatewayIntents left, GatewayIntents right)
+            => left.RawValue & right.RawValue;
+
+        public static GatewayIntents operator ^(GatewayIntents left, GatewayIntents right)
+            => left.RawValue ^ right.RawValue;
+
+        public static GatewayIntents operator |(GatewayIntents left, GatewayIntents right)
+            => left.RawValue | right.RawValue;
     }
 }

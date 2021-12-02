@@ -2,7 +2,7 @@
 {
     public readonly partial struct ChannelPermissions
     {
-        public const ulong ALL_PERMISSIONS_VALUE = (ulong) (
+        private const ulong AllPermissionsValue = (ulong) (
             Permission.CreateInvites
             | Permission.ManageChannels
             | Permission.AddReactions
@@ -22,7 +22,7 @@
             | Permission.MuteMembers
             | Permission.DeafenMembers
             | Permission.MoveMembers
-            | Permission.UseVad
+            | Permission.UseVoiceActivity
             | Permission.ManageRoles
             | Permission.ManageWebhooks
             | Permission.UseApplicationCommands
@@ -34,7 +34,7 @@
             | Permission.SendMessagesInThreads
             | Permission.StartActivities);
 
-        public const ulong TEXT_PERMISSIONS_VALUE = (ulong) (
+        private const ulong TextPermissionsValue = (ulong) (
             Permission.CreateInvites
             | Permission.ManageChannels
             | Permission.AddReactions
@@ -56,7 +56,7 @@
             | Permission.UseExternalStickers
             | Permission.SendMessagesInThreads);
 
-        public const ulong VOICE_PERMISSIONS_VALUE = (ulong) (
+        private const ulong VoicePermissionsValue = (ulong) (
             Permission.CreateInvites
             | Permission.ManageChannels
             | Permission.PrioritySpeaker
@@ -67,12 +67,12 @@
             | Permission.MuteMembers
             | Permission.DeafenMembers
             | Permission.MoveMembers
-            | Permission.UseVad
+            | Permission.UseVoiceActivity
             | Permission.ManageRoles
             | Permission.StartActivities
             // | Permission.RequestToSpeak TODO: stage channel
         );
 
-        public const ulong CATEGORY_PERMISSIONS_VALUE = ALL_PERMISSIONS_VALUE;
+        private const ulong CategoryPermissionsValue = AllPermissionsValue;
     }
 }

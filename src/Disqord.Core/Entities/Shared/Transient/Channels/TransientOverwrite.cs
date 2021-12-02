@@ -10,7 +10,7 @@ namespace Disqord
 
         public OverwriteTargetType TargetType => Model.Type;
 
-        public OverwritePermissions Permissions => (Model.Allow, Model.Deny);
+        public OverwritePermissions Permissions => new(Model.Allow, Model.Deny);
 
         public TransientOverwrite(IClient client, Snowflake channelId, OverwriteJsonModel model)
             : base(client, model)
