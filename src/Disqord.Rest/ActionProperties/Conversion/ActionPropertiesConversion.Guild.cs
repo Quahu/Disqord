@@ -6,7 +6,6 @@ namespace Disqord.Rest.Api
 {
     internal static partial class ActionPropertiesConversion
     {
-
         public static ModifyRoleJsonRestRequestContent ToContent(this Action<ModifyRoleActionProperties> action, out Optional<int> position)
         {
             Guard.IsNotNull(action);
