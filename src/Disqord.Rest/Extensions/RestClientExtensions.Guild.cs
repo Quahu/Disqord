@@ -58,7 +58,8 @@ namespace Disqord.Rest
                 PublicUpdatesChannelId = properties.PublicUpdatesChannelId,
                 PreferredLocale = Optional.Convert(properties.PreferredLocale, x => x.Name),
                 Features = Optional.Convert(properties.Features, x => x.ToArray()),
-                Description = properties.Description
+                Description = properties.Description,
+                PremiumProgressBarEnabled = properties.IsBoostProgressBarEnabled
             };
 
             var model = await client.ApiClient.ModifyGuildAsync(guildId, content, options, cancellationToken).ConfigureAwait(false);

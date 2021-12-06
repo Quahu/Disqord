@@ -121,5 +121,8 @@ namespace Disqord.Models
 
         [JsonProperty("welcome_screen")]
         public Optional<WelcomeScreenJsonModel> WelcomeScreen;
+
+        [JsonProperty("premium_progress_bar_enabled")]
+        public bool PremiumProgressBarEnabled;
     }
 }

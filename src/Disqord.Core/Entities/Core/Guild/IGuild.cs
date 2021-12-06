@@ -168,5 +168,10 @@ namespace Disqord
         ///     Gets the stickers of this guild.
         /// </summary>
         IReadOnlyDictionary<Snowflake, IGuildSticker> Stickers { get; }
+
+        /// <summary>
+        ///     Gets whether this guild has the boost progress bar enabled.
+        /// </summary>
+        bool IsBoostProgressBarEnabled { get; }
     }
 }

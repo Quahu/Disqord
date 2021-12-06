@@ -58,5 +58,8 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("description")]
         public Optional<string> Description;
+
+        [JsonProperty("premium_progress_bar_enabled")]
+        public Optional<bool> PremiumProgressBarEnabled;
     }
 }
