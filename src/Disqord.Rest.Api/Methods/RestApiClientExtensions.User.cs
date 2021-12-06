@@ -69,6 +69,14 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<GuildJsonModel[]>(route, null, options, cancellationToken);
         }
 
+        public static Task<MemberJsonModel> FetchCurrentGuildMemberAsync(this IRestApiClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var route = Format(Route.User.GetCurrentGuildMember, guildId);
+            return client.ExecuteAsync<MemberJsonModel>(route, null, options, cancellationToken);
+        }
+
         public static Task LeaveGuildAsync(this IRestApiClient client,
             Snowflake guildId,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
