@@ -93,7 +93,7 @@ namespace Disqord
 
         public bool ModerateMembers => Has(Permission.ModerateMembers);
 
-        public Permission Permissions => (Permission) RawValue;
+        public Permission Flags => (Permission) RawValue;
 
         public ulong RawValue { get; }
 
