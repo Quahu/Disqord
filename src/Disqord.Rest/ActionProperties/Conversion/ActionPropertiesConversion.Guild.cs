@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Qommon;
 
 namespace Disqord.Rest.Api
@@ -8,6 +9,7 @@ namespace Disqord.Rest.Api
         public static ModifyRoleJsonRestRequestContent ToContent(this Action<ModifyRoleActionProperties> action, out Optional<int> position)
         {
             Guard.IsNotNull(action);
+
             var properties = new ModifyRoleActionProperties();
             action(properties);
 
@@ -22,6 +24,43 @@ namespace Disqord.Rest.Api
                 UnicodeEmoji = Optional.Convert(properties.UnicodeEmoji, emoji => emoji.Name)
             };
             position = properties.Position;
+
+            return content;
+        }
+
+        public static ModifyMemberJsonRestRequestContent ToContent(this Action<ModifyMemberActionProperties> action, out Optional<string> nick)
+        {
+            Guard.IsNotNull(action);
+
+            var properties = new ModifyMemberActionProperties();
+            action(properties);
+
+            nick = properties.Nick;
+
+            var content = new ModifyMemberJsonRestRequestContent
+            {
+                Nick = properties.Nick,
+                Roles = Optional.Convert(properties.RoleIds, x => x.ToArray()),
+                ChannelId = properties.VoiceChannelId,
+                Mute = properties.Mute,
+                Deaf = properties.Deaf,
+                CommunicationDisabledUntil = properties.TimedOutUntil
+            };
+
+            return content;
+        }
+
+        public static ModifyCurrentMemberJsonRestRequestContent ToContent(this Action<ModifyCurrentMemberActionProperties> action)
+        {
+            Guard.IsNotNull(action);
+
+            var properties = new ModifyCurrentMemberActionProperties();
+            action(properties);
+
+            var content = new ModifyCurrentMemberJsonRestRequestContent
+            {
+                Nick = properties.Nick
+            };
 
             return content;
         }

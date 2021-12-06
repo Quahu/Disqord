@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 using Microsoft.Extensions.Logging;
 
 namespace Disqord.AuditLogs
@@ -10,6 +11,8 @@ namespace Disqord.AuditLogs
         public AuditLogChange<bool> IsMuted { get; }
 
         public AuditLogChange<bool> IsDeafened { get; }
+
+        public AuditLogChange<DateTimeOffset> TimedOutUntil { get; }
 
         public TransientMemberAuditLogChanges(IClient client, AuditLogEntryJsonModel model)
         {
@@ -31,6 +34,11 @@ namespace Disqord.AuditLogs
                     case "deaf":
                     {
                         IsDeafened = AuditLogChange<bool>.Convert(change);
+                        break;
+                    }
+                    case "communication_disabled_until":
+                    {
+                        TimedOutUntil = AuditLogChange<DateTimeOffset>.Convert(change);
                         break;
                     }
                     default:

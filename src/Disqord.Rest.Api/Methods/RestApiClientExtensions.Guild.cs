@@ -143,6 +143,14 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<MemberJsonModel>(route, content, options, cancellationToken);
         }
 
+        public static Task<MemberJsonModel> ModifyCurrentMemberAsync(this IRestApiClient client,
+            Snowflake guildId, ModifyCurrentMemberJsonRestRequestContent content,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var route = Format(Route.Guild.ModifyCurrentMember, guildId);
+            return client.ExecuteAsync<MemberJsonModel>(route, content, options, cancellationToken);
+        }
+
         public static Task SetOwnNickAsync(this IRestApiClient client,
             Snowflake guildId, SetOwnNickJsonRestRequestContent content,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)

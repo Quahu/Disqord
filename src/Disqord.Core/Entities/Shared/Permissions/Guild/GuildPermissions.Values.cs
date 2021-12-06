@@ -41,6 +41,7 @@
             | Permission.CreatePrivateThreads
             | Permission.UseExternalStickers
             | Permission.SendMessagesInThreads
-            | Permission.StartActivities);
+            | Permission.StartActivities
+            | Permission.ModerateMembers);
     }
 }

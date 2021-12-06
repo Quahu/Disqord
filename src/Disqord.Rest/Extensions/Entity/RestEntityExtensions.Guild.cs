@@ -142,6 +142,7 @@ namespace Disqord.Rest
             return client.SearchMembersAsync(guild.Id, query, limit, options, cancellationToken);
         }
 
+        [Obsolete("Use ModifyCurrentMemberAsync() instead.")]
         public static Task SetCurrentMemberNickAsync(this IGuild guild,
             string nick,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
@@ -156,6 +157,14 @@ namespace Disqord.Rest
         {
             var client = guild.GetRestClient();
             return client.ModifyMemberAsync(guild.Id, memberId, action, options, cancellationToken);
+        }
+
+        public static Task<IMember> ModifyCurrentMemberAsync(this IGuild guild,
+            Action<ModifyCurrentMemberActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyCurrentMemberAsync(guild.Id, action, options, cancellationToken);
         }
 
         public static Task GrantRoleAsync(this IGuild guild,

@@ -1,4 +1,5 @@
-﻿using Disqord.Serialization.Json;
+﻿using System;
+using Disqord.Serialization.Json;
 
 namespace Disqord.Rest.Api
 {
@@ -18,5 +19,8 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("channel_id")]
         public Optional<Snowflake?> ChannelId;
+
+        [JsonProperty("communication_disabled_until")]
+        public Optional<DateTimeOffset?> CommunicationDisabledUntil;
     }
 }

@@ -51,5 +51,11 @@ namespace Disqord
         ///     Returns <see langword="null"/> if this member has no guild avatar set.
         /// </summary>
         string GuildAvatarHash { get; }
+
+        /// <summary>
+        ///     Gets until when this member is timed out.
+        ///     Returns <see langword="null"/> if this member has not been timed out.
+        /// </summary>
+        DateTimeOffset? TimedOutUntil { get; }
     }
 }

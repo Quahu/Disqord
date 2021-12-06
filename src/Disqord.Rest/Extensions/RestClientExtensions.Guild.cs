@@ -271,6 +271,35 @@ namespace Disqord.Rest
             return new TransientMember(client, guildId, model);
         }
 
+        public static async Task<IMember> ModifyMemberAsync(this IRestClient client,
+            Snowflake guildId, Snowflake memberId, Action<ModifyMemberActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var content = action.ToContent(out var nick);
+
+            if (nick.HasValue && client.ApiClient.Token is BotToken botToken)
+            {
+                if (memberId == botToken.Id)
+                {
+                    await client.ModifyCurrentMemberAsync(guildId, x => x.Nick = nick, options, cancellationToken).ConfigureAwait(false);
+                    content.Nick = Optional<string>.Empty;
+                }
+            }
+
+            var model = await client.ApiClient.ModifyMemberAsync(guildId, memberId, content, options, cancellationToken).ConfigureAwait(false);
+            return new TransientMember(client, guildId, model);
+        }
+
+        public static async Task<IMember> ModifyCurrentMemberAsync(this IRestClient client,
+            Snowflake guildId, Action<ModifyCurrentMemberActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var content = action.ToContent();
+            var model = await client.ApiClient.ModifyCurrentMemberAsync(guildId, content, options, cancellationToken).ConfigureAwait(false);
+            return new TransientMember(client, guildId, model);
+        }
+
+        [Obsolete("Use ModifyCurrentMemberAsync() instead.")]
         public static Task SetCurrentMemberNickAsync(this IRestClient client,
             Snowflake guildId, string nick,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
@@ -281,36 +310,6 @@ namespace Disqord.Rest
             };
 
             return client.ApiClient.SetOwnNickAsync(guildId, content, options, cancellationToken);
-        }
-
-        public static async Task<IMember> ModifyMemberAsync(this IRestClient client,
-            Snowflake guildId, Snowflake memberId, Action<ModifyMemberActionProperties> action,
-            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-        {
-            Guard.IsNotNull(action);
-
-            var properties = new ModifyMemberActionProperties();
-            action(properties);
-            if (properties.Nick.HasValue && client.ApiClient.Token is BotToken botToken)
-            {
-                if (memberId == botToken.Id)
-                {
-                    await client.SetCurrentMemberNickAsync(guildId, properties.Nick.Value, options, cancellationToken).ConfigureAwait(false);
-                    properties.Nick = Optional<string>.Empty;
-                }
-            }
-
-            var content = new ModifyMemberJsonRestRequestContent
-            {
-                Nick = properties.Nick,
-                Roles = Optional.Convert(properties.RoleIds, x => x.ToArray()),
-                ChannelId = properties.VoiceChannelId,
-                Mute = properties.Mute,
-                Deaf = properties.Deaf
-            };
-
-            var model = await client.ApiClient.ModifyMemberAsync(guildId, memberId, content, options, cancellationToken).ConfigureAwait(false);
-            return new TransientMember(client, guildId, model);
         }
 
         public static Task GrantRoleAsync(this IRestClient client,
