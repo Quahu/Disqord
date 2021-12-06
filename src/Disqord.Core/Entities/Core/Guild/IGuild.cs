@@ -170,7 +170,7 @@ namespace Disqord
         IReadOnlyDictionary<Snowflake, IGuildSticker> Stickers { get; }
 
         /// <summary>
-        ///     Gets whether this guild has the premium progress bar enabled.
+        ///     Gets whether this guild has the boost progress bar enabled.
         /// </summary>
         bool IsBoostProgressBarEnabled { get; }
     }
