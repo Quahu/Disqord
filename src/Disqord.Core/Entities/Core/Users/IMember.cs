@@ -53,7 +53,7 @@ namespace Disqord
         string GuildAvatarHash { get; }
 
         /// <summary>
-        ///     Gets when this member is timed out until.
+        ///     Gets until when this member is timed out.
         ///     Returns <see langword="null"/> if this member has not been timed out.
         /// </summary>
         DateTimeOffset? TimedOutUntil { get; }
