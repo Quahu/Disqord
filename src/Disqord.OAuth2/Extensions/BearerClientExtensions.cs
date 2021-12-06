@@ -87,6 +87,25 @@ namespace Disqord.OAuth2
         }
 
         /// <summary>
+        ///     Fetches the current member from a guild tied to this bearer token.
+        /// </summary>
+        /// <param name="client"> The bearer client. </param>
+        /// <param name="guildId"> The ID of the guild to fetch the member from. </param>
+        /// <param name="options"> The optional request options. </param>
+        /// <param name="cancellationToken"> The cancellation token to observe. </param>
+        /// <returns>
+        ///     A <see cref="Task{TResult}"/> representing the asynchronous request
+        ///     that wraps the returned <see cref="IMember"/>.
+        /// </returns>
+        public static async Task<IMember> FetchCurrentGuildMemberAsync(this IBearerClient client,
+            Snowflake guildId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var model = await client.RestClient.ApiClient.FetchCurrentGuildMemberAsync(guildId, options, cancellationToken).ConfigureAwait(false);
+            return new TransientMember(client.RestClient, guildId, model);
+        }
+
+        /// <summary>
         ///     Fetches the connections of the user tied to this bearer token.
         /// </summary>
         /// <param name="client"> The bearer client. </param>

@@ -258,6 +258,8 @@ namespace Disqord.Rest.Api
 
             public static readonly Route GetGuilds = Get("users/@me/guilds");
 
+            public static readonly Route GetCurrentGuildMember = Get("users/@me/guilds/{0:guild_id}/member");
+
             public static readonly Route LeaveGuild = Delete("users/@me/guilds/{0:guild_id}");
 
             public static readonly Route CreateDirectChannel = Post("users/@me/channels");
