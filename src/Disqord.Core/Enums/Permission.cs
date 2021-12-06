@@ -211,6 +211,10 @@ namespace Disqord
         /// <summary>
         ///     Allows performing moderation actions on members.
         /// </summary>
+        /// <remarks>
+        ///     Note that this permission allows you to, for example, time out a member,
+        ///     but does not allow actions that have their own permission like, for example, <see cref="Permission.KickMembers"/>.
+        /// </remarks>
         ModerateMembers = 1ul << 40
     }
 }
