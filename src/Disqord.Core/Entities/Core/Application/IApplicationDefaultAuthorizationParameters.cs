@@ -3,7 +3,7 @@
 namespace Disqord
 {
     /// <summary>
-    ///     Represents the default authorization parameters of the application.
+    ///     Represents the default authorization parameters of an application.
     /// </summary>
     public interface IApplicationDefaultAuthorizationParameters : IEntity
     {
