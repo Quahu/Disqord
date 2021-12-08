@@ -1,4 +1,6 @@
-﻿using Disqord.Models;
+﻿using System.Collections.Generic;
+using Disqord.Models;
+using Qommon.Collections;
 
 namespace Disqord
 {
@@ -40,7 +42,6 @@ namespace Disqord
                 return _owner ??= new TransientUser(Client, Model.Owner.Value);
             }
         }
-
         private TransientUser _owner;
 
         /// <inheritdoc/>
@@ -58,6 +59,34 @@ namespace Disqord
 
         /// <inheritdoc/>
         public Optional<ApplicationFlag> Flags => Model.Flags;
+
+        /// <inheritdoc/>
+        public IReadOnlyList<string> Tags
+        {
+            get
+            {
+                if (!Model.Tags.HasValue)
+                    return ReadOnlyList<string>.Empty;
+
+                return Model.Tags.Value.ToReadOnlyList();
+            }
+        }
+
+        /// <inheritdoc/>
+        public IApplicationInstallationParameters InstallationParameters
+        {
+            get
+            {
+                if (!Model.InstallParams.HasValue)
+                    return null;
+
+                return _installationParameters ??= new TransientApplicationInstallationParameters(Model.InstallParams.Value);
+            }
+        }
+        private IApplicationInstallationParameters _installationParameters;
+
+        /// <inheritdoc/>
+        public string AuthorizationUrl => Model.CustomInstallUrl.GetValueOrDefault();
 
         public TransientApplication(IClient client, ApplicationJsonModel model)
             : base(client, model)

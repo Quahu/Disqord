@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System.Collections.Generic;
+using Disqord.Models;
 
 namespace Disqord
 {
@@ -56,5 +57,20 @@ namespace Disqord
         ///     Gets the flags of this application.
         /// </summary>
         Optional<ApplicationFlag> Flags { get; }
+
+        /// <summary>
+        ///     Gets the tags of this application.
+        /// </summary>
+        IReadOnlyList<string> Tags { get; }
+
+        /// <summary>
+        ///     Gets the installation parameters of this application.
+        /// </summary>
+        IApplicationInstallationParameters InstallationParameters { get; }
+
+        /// <summary>
+        ///     Gets the authorization URL of this application.
+        /// </summary>
+        string AuthorizationUrl { get; }
     }
 }
