@@ -64,7 +64,7 @@ namespace Disqord
         IReadOnlyList<string> Tags { get; }
 
         /// <summary>
-        ///     Gets the default authorization of this application.
+        ///     Gets the default authorization parameters of this application.
         /// </summary>
         IApplicationDefaultAuthorizationParameters DefaultAuthorizationParameters { get; }
 
