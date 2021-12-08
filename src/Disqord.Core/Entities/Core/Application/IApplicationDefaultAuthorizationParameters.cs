@@ -2,10 +2,13 @@
 
 namespace Disqord
 {
-    public interface IApplicationInstallationParameters : IEntity
+    /// <summary>
+    ///     Gets the default authorization parameters of the application.
+    /// </summary>
+    public interface IApplicationDefaultAuthorizationParameters : IEntity
     {
         /// <summary>
-        ///     Gets the scopes required by the application.
+        ///     Gets the OAuth2 scopes required by the application.
         /// </summary>
         IReadOnlyList<string> Scopes { get; }
 

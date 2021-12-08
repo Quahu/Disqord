@@ -73,17 +73,17 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
-        public IApplicationInstallationParameters InstallationParameters
+        public IApplicationDefaultAuthorizationParameters DefaultAuthorizationParameters
         {
             get
             {
                 if (!Model.InstallParams.HasValue)
                     return null;
 
-                return _installationParameters ??= new TransientApplicationInstallationParameters(Model.InstallParams.Value);
+                return _defaultAuthorizationParameters ??= new TransientApplicationDefaultAuthorizationParameters(Model.InstallParams.Value);
             }
         }
-        private IApplicationInstallationParameters _installationParameters;
+        private IApplicationDefaultAuthorizationParameters _defaultAuthorizationParameters;
 
         /// <inheritdoc/>
         public string AuthorizationUrl => Model.CustomInstallUrl.GetValueOrDefault();
