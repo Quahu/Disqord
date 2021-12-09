@@ -57,5 +57,14 @@ namespace Disqord.Models
 
         [JsonProperty("flags")]
         public Optional<ApplicationFlag> Flags;
+
+        [JsonProperty("tags")]
+        public Optional<string[]> Tags;
+
+        [JsonProperty("install_params")]
+        public Optional<InstallParamsJsonModel> InstallParams;
+
+        [JsonProperty("custom_install_url")]
+        public Optional<string> CustomInstallUrl;
     }
 }
