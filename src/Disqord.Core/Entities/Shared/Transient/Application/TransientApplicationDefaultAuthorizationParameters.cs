@@ -8,7 +8,7 @@ namespace Disqord
     public class TransientApplicationDefaultAuthorizationParameters : TransientEntity<InstallParamsJsonModel>, IApplicationDefaultAuthorizationParameters
     {
         /// <inheritdoc/>
-        public IReadOnlyList<string> Scopes => Model.Scopes.ToReadOnlyList();
+        public IReadOnlyList<string> Scopes => Model.Scopes;
 
         /// <inheritdoc/>
         public GuildPermissions Permissions => Model.Permissions;
