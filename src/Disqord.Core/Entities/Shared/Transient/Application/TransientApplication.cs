@@ -86,7 +86,7 @@ namespace Disqord
         private IApplicationDefaultAuthorizationParameters _defaultAuthorizationParameters;
 
         /// <inheritdoc/>
-        public string AuthorizationUrl => Model.CustomInstallUrl.GetValueOrDefault();
+        public string CustomAuthorizationUrl => Model.CustomInstallUrl.GetValueOrDefault();
 
         public TransientApplication(IClient client, ApplicationJsonModel model)
             : base(client, model)

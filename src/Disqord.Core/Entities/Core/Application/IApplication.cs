@@ -69,8 +69,8 @@ namespace Disqord
         IApplicationDefaultAuthorizationParameters DefaultAuthorizationParameters { get; }
 
         /// <summary>
-        ///     Gets the authorization URL of this application.
+        ///     Gets the custom authorization URL of this application.
         /// </summary>
-        string AuthorizationUrl { get; }
+        string CustomAuthorizationUrl { get; }
     }
 }
