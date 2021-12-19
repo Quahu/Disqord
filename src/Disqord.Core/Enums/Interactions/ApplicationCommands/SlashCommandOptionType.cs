@@ -54,6 +54,12 @@
         /// <summary>
         ///     The option is a floating-point numeric parameter.
         /// </summary>
-        Number = 10
+        Number = 10,
+        
+        /// <summary>
+        ///     The option is an attachment,
+        ///     i.e. any image.
+        /// </summary>
+        Attachment = 11
     }
 }
