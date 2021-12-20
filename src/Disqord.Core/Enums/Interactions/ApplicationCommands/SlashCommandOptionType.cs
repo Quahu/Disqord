@@ -57,8 +57,7 @@
         Number = 10,
         
         /// <summary>
-        ///     The option is an attachment,
-        ///     i.e. any image.
+        ///     The option is an attachment.
         /// </summary>
         Attachment = 11
     }
