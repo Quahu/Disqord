@@ -98,7 +98,7 @@ namespace Disqord
                     return ReadOnlyDictionary<Snowflake, IAttachment>.Empty;
                 return _attachments ??= Model.Attachments.Value.ToReadOnlyDictionary(Client,
                     (kvp, _) => kvp.Key,
-                    (kvp, client) => TransientAttachment.Create(kvp.Value));
+                    (kvp, _) => TransientAttachment.Create(kvp.Value));
             }
         }
 
