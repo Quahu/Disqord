@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net.Mail;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Models
@@ -19,5 +20,8 @@ namespace Disqord.Models
 
         [JsonProperty("messages")]
         public Optional<Dictionary<Snowflake, MessageJsonModel>> Messages;
+
+        [JsonProperty("attachments")] 
+        public Optional<Dictionary<Snowflake, AttachmentJsonModel>> Attachments;
     }
 }

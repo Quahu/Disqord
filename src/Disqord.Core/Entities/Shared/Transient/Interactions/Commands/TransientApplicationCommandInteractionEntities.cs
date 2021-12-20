@@ -88,6 +88,21 @@ namespace Disqord
             }
         }
         private IReadOnlyDictionary<Snowflake, IMessage> _messages;
+        
+        /// <inheritdoc /> 
+        public IReadOnlyDictionary<Snowflake, IAttachment> Attachments
+        {
+            get
+            {
+                if (!Model.Attachments.HasValue)
+                    return ReadOnlyDictionary<Snowflake, IAttachment>.Empty;
+                return _attachments ??= Model.Attachments.Value.ToReadOnlyDictionary(Client,
+                    (kvp, _) => kvp.Key,
+                    (kvp, client) => TransientAttachment.Create(kvp.Value));
+            }
+        }
+
+        private IReadOnlyDictionary<Snowflake, IAttachment> _attachments;
 
         private readonly Snowflake? _guildId;
 

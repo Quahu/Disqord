@@ -35,6 +35,10 @@ namespace Disqord
             : base(model)
         { }
 
+        public static IAttachment Create(AttachmentJsonModel model)
+        {
+            return new TransientAttachment(model);
+        }
         public override string ToString()
             => $"Attachment '{FileName}' ({Id})";
     }
