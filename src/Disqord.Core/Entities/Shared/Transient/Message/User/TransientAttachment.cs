@@ -34,6 +34,7 @@ namespace Disqord
         public TransientAttachment(AttachmentJsonModel model)
             : base(model)
         { }
+
         public override string ToString()
             => $"Attachment '{FileName}' ({Id})";
     }
