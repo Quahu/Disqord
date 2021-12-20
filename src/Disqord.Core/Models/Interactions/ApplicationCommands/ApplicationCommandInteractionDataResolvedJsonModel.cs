@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net.Mail;
 using Disqord.Serialization.Json;
 
 namespace Disqord.Models
