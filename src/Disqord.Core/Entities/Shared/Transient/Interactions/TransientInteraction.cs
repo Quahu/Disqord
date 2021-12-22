@@ -22,13 +22,12 @@ namespace Disqord.Interaction
         public IUser Author => _author ??= Model.Member.HasValue
             ? new TransientMember(Client, GuildId.Value, Model.Member.Value)
             : new TransientUser(Client, Model.User.Value);
-        
+
         public CultureInfo Locale => Model.Locale.HasValue
             ? Discord.Internal.GetLocale(Model.Locale.Value)
             : null;
 
-        public CultureInfo GuildPreferredLocale =>
-            Model.GuildPreferredLocale.HasValue
+        public CultureInfo GuildPreferredLocale => Model.GuildPreferredLocale.HasValue
                 ? Discord.Internal.GetLocale(Model.GuildPreferredLocale.Value)
                 : null;
 
