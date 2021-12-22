@@ -28,8 +28,8 @@ namespace Disqord.Interaction
             : null;
 
         public CultureInfo GuildPreferredLocale => Model.GuildPreferredLocale.HasValue
-                ? Discord.Internal.GetLocale(Model.GuildPreferredLocale.Value)
-                : null;
+            ? Discord.Internal.GetLocale(Model.GuildPreferredLocale.Value)
+            : null;
 
         private IUser _author;
 
