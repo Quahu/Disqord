@@ -41,7 +41,7 @@ namespace Disqord
 
         /// <summary>
         ///     Gets the preferred locale of the guild this interaction was triggered in.
-        ///     Returns <see langword="null"/> if this interaction was not triggered in a guild.
+        ///     Returns <see langword="null"/> if this interaction was was triggered in a private channel.
         /// </summary>
         CultureInfo GuildPreferredLocale { get; }
     }
