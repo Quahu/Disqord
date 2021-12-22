@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System.Globalization;
+using Disqord.Models;
 
 namespace Disqord
 {
@@ -31,5 +32,17 @@ namespace Disqord
         ///     Gets the user/member who triggered this interaction.
         /// </summary>
         IUser Author { get; }
+
+        /// <summary>
+        ///     Gets the locale of the user who triggered this interaction.
+        ///     Returns <see langword="null"/> if the <see cref="Type"/> of this interaction is <see cref="InteractionType.Ping"/>.
+        /// </summary>
+        CultureInfo Locale { get; }
+
+        /// <summary>
+        ///     Gets the preferred locale of the guild this interaction was triggered in.
+        ///     Returns <see langword="null"/> if this interaction was not triggered in a guild.
+        /// </summary>
+        CultureInfo GuildPreferredLocale { get; }
     }
 }
