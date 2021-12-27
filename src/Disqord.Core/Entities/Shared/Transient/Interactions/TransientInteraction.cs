@@ -27,8 +27,8 @@ namespace Disqord.Interaction
             ? Discord.Internal.GetLocale(Model.Locale.Value)
             : null;
 
-        public CultureInfo GuildPreferredLocale => Model.GuildPreferredLocale.HasValue
-            ? Discord.Internal.GetLocale(Model.GuildPreferredLocale.Value)
+        public CultureInfo GuildLocale => Model.GuildLocale.HasValue
+            ? Discord.Internal.GetLocale(Model.GuildLocale.Value)
             : null;
 
         private IUser _author;

@@ -35,14 +35,14 @@ namespace Disqord
 
         /// <summary>
         ///     Gets the locale of the user who triggered this interaction.
-        ///     Returns <see langword="null"/> if the <see cref="Type"/> of this interaction is <see cref="InteractionType.Ping"/>.
+        ///     Returns <see langword="null"/> if <see cref="Type"/> is <see cref="InteractionType.Ping"/>.
         /// </summary>
         CultureInfo Locale { get; }
 
         /// <summary>
         ///     Gets the preferred locale of the guild this interaction was triggered in.
-        ///     Returns <see langword="null"/> if this interaction was was triggered in a private channel.
+        ///     Returns <see langword="null"/> if this interaction was triggered in a private channel.
         /// </summary>
-        CultureInfo GuildPreferredLocale { get; }
+        CultureInfo GuildLocale { get; }
     }
 }

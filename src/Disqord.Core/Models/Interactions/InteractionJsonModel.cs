@@ -41,6 +41,6 @@ namespace Disqord.Models
         public Optional<string> Locale;
 
         [JsonProperty("guild_locale")] 
-        public Optional<string> GuildPreferredLocale;
+        public Optional<string> GuildLocale;
     }
 }

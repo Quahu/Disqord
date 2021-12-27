@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 namespace Disqord.Gateway
 {
@@ -39,18 +38,6 @@ namespace Disqord.Gateway
         ///     Gets the ID of the interaction author.
         /// </summary>
         public Snowflake AuthorId => Interaction.Author.Id;
-
-        /// <summary>
-        ///     Gets the locale the interaction author.
-        ///     Returns <see langword="null"/> if the type of the received interaction is <see cref="InteractionType.Ping"/>.
-        /// </summary>
-        public CultureInfo Locale => Interaction.Locale;
-
-        /// <summary>
-        ///     Gets the preferred locale of the guild in which the interaction was received.
-        ///     Returns <see langword="null"/> if the interaction was received in a private channel.
-        /// </summary>
-        public CultureInfo GuildPreferredLocale => Interaction.GuildPreferredLocale;
 
         public InteractionReceivedEventArgs(
             IInteraction interaction,
