@@ -19,5 +19,8 @@ namespace Disqord.Models
 
         [JsonProperty("messages")]
         public Optional<Dictionary<Snowflake, MessageJsonModel>> Messages;
+
+        [JsonProperty("attachments")] 
+        public Optional<Dictionary<Snowflake, AttachmentJsonModel>> Attachments;
     }
 }
