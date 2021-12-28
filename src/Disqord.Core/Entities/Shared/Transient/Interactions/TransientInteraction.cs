@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System.Globalization;
+using Disqord.Models;
 
 namespace Disqord.Interaction
 {
@@ -21,6 +22,14 @@ namespace Disqord.Interaction
         public IUser Author => _author ??= Model.Member.HasValue
             ? new TransientMember(Client, GuildId.Value, Model.Member.Value)
             : new TransientUser(Client, Model.User.Value);
+
+        public CultureInfo Locale => Model.Locale.HasValue
+            ? Discord.Internal.GetLocale(Model.Locale.Value)
+            : null;
+
+        public CultureInfo GuildLocale => Model.GuildLocale.HasValue
+            ? Discord.Internal.GetLocale(Model.GuildLocale.Value)
+            : null;
 
         private IUser _author;
 
