@@ -35,9 +35,7 @@ namespace Disqord.Hosting
         {
             services.Replace(ServiceDescriptor.Singleton<Token>(Token.Bot(discordContext.Token)));
 
-            var intents = discordContext.Intents;
-            if (intents != null)
-                services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Intents = intents.Value);
+            services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Intents = discordContext.Intents);
 
             services.Configure<DefaultGatewayDispatcherConfiguration>(x => x.ReadyEventDelayMode = discordContext.ReadyEventDelayMode);
 
@@ -81,11 +79,13 @@ namespace Disqord.Hosting
             var activities = discordContext.Activities;
             if (status != null || activities != null)
             {
-                services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Presence = new UpdatePresenceJsonModel
+                var presence = new UpdatePresenceJsonModel
                 {
                     Status = status ?? UserStatus.Online,
-                    Activities = activities?.Select(x => x.ToModel()).ToArray() ?? Array.Empty<ActivityJsonModel>()
-                });
+                    Activities = activities?.Select(activity => activity.ToModel()).ToArray() ?? Array.Empty<ActivityJsonModel>()
+                };
+
+                services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Presence = presence);
             }
 
             var restProxy = discordContext.RestProxy;
