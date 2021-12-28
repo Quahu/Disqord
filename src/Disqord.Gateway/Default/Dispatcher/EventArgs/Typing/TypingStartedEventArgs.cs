@@ -27,16 +27,16 @@ namespace Disqord.Gateway
 
         /// <summary>
         ///     Gets the cached member that started typing.
-        ///     Returns <see langword="null"/> if the member was not cached or if the typing started in a private channel.
+        ///     Returns <see langword="null"/> if the typing started in a private channel.
         /// </summary>
-        public CachedMember Member { get; }
+        public IMember Member { get; }
 
         public TypingStartedEventArgs(
             Snowflake? guildId,
             Snowflake channelId,
             Snowflake userId,
             DateTimeOffset startedAt,
-            CachedMember member)
+            IMember member)
         {
             GuildId = guildId;
             ChannelId = channelId;

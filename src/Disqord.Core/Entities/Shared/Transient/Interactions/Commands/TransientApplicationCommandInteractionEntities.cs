@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Qommon.Collections;
 using Disqord.Models;
+using Qommon.Collections;
 
 namespace Disqord
 {
@@ -17,7 +17,7 @@ namespace Disqord
                 if (_users != null)
                     return _users;
 
-                var dictionary = new Dictionary<Snowflake, IUser>(Model.Users.Value.Count);
+                var users = new Dictionary<Snowflake, IUser>(Model.Users.Value.Count);
                 if (Model.Members.HasValue)
                 {
                     foreach (var (id, memberModel) in Model.Members.Value)
@@ -26,19 +26,19 @@ namespace Disqord
                             continue;
 
                         memberModel.User = userModel;
-                        dictionary.Add(id, new TransientMember(Client, _guildId.Value, memberModel));
+                        users.Add(id, new TransientMember(Client, _guildId.Value, memberModel));
                     }
-
-                    return dictionary;
+                }
+                else
+                {
+                    foreach (var (id, userModel) in Model.Users.Value)
+                        users.Add(id, new TransientUser(Client, userModel));
                 }
 
-                foreach (var (id, userModel) in Model.Users.Value)
-                    dictionary.Add(id, new TransientUser(Client, userModel));
-
-                return _users = dictionary;
+                return _users = users.ReadOnly();
             }
         }
-        private IReadOnlyDictionary<Snowflake, IUser> _users;
+        internal IReadOnlyDictionary<Snowflake, IUser> _users;
 
         /// <inheritdoc/>
         public IReadOnlyDictionary<Snowflake, IRole> Roles

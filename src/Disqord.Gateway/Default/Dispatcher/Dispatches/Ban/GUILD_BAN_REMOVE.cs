@@ -8,7 +8,7 @@ namespace Disqord.Gateway.Default.Dispatcher
     {
         public override ValueTask<BanDeletedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildBanRemoveJsonModel model)
         {
-            var user = Dispatcher.GetSharedOrTransientUser(model.User);
+            var user = Dispatcher.GetSharedUserTransient(model.User);
             var e = new BanDeletedEventArgs(model.GuildId, user);
             return new(e);
         }

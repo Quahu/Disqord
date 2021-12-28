@@ -48,7 +48,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             }
 
             var memberModel = model.Member.Value.ToType<MemberJsonModel>();
-            var member = Dispatcher.GetOrAddMember(model.GuildId.Value, memberModel) ?? new TransientMember(Client, model.GuildId.Value, memberModel) as IMember;
+            var member = Dispatcher.GetOrAddMemberTransient(model.GuildId.Value, memberModel);
             var e = new VoiceStateUpdatedEventArgs(member, isLurker, oldVoiceState, newVoiceState);
             return new(e);
         }

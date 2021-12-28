@@ -7,7 +7,8 @@ using Qommon.Collections;
 
 namespace Disqord.Gateway
 {
-    public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild, IJsonUpdatable<UnavailableGuildJsonModel>, IJsonUpdatable<GuildEmojisUpdateJsonModel>
+    public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild,
+        IJsonUpdatable<UnavailableGuildJsonModel>, IJsonUpdatable<GuildEmojisUpdateJsonModel>, IJsonUpdatable<GuildMemberAddJsonModel>, IJsonUpdatable<GuildMemberRemoveJsonModel>
     {
         // Interface: INamable
         public string Name { get; private set; }
@@ -87,7 +88,6 @@ namespace Disqord.Gateway
 
         public bool IsUnavailable { get; private set; }
 
-        // TODO: track member count
         public int MemberCount { get; private set; }
 
         public IReadOnlyDictionary<Snowflake, IMember> Members
@@ -229,6 +229,16 @@ namespace Disqord.Gateway
         public void Update(GuildStickersUpdateJsonModel model)
         {
             SetStickers(model.Stickers);
+        }
+
+        public void Update(GuildMemberAddJsonModel model)
+        {
+            MemberCount++;
+        }
+
+        public void Update(GuildMemberRemoveJsonModel model)
+        {
+            MemberCount--;
         }
 
         private void SetEmojis(EmojiJsonModel[] emojis)

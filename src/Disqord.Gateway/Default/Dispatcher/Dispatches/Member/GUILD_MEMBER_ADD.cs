@@ -8,17 +8,11 @@ namespace Disqord.Gateway.Default.Dispatcher
     {
         public override ValueTask<MemberJoinedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildMemberAddJsonModel model)
         {
-            IMember member = null;
-            var sharedUser = Dispatcher.GetOrAddSharedUser(model.User.Value);
-            if (sharedUser != null && CacheProvider.TryGetMembers(model.GuildId, out var cache))
-            {
-                member = new CachedMember(sharedUser, model.GuildId, model);
-                cache.Add(member.Id, member as CachedMember);
-            }
+            var guild = Client.GetGuild(model.GuildId);
+            guild?.Update(model); // Increments the member count.
 
-            member ??= new TransientMember(Client, model.GuildId, model);
-
-            var e = new MemberJoinedEventArgs(member);
+            var member = Dispatcher.GetOrAddMemberTransient(model.GuildId, model);
+            var e = new MemberJoinedEventArgs(guild, member);
             return new(e);
         }
     }

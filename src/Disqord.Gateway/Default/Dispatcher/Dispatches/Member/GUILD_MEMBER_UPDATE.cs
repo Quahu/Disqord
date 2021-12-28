@@ -22,11 +22,9 @@ namespace Disqord.Gateway.Default.Dispatcher
                 }
                 else if (CacheProvider.TryGetUsers(out var userCache))
                 {
-                    newMember = Dispatcher.GetOrAddMember(userCache, memberCache, model.GuildId, model);
+                    newMember = Dispatcher.GetOrAddMemberTransient(userCache, memberCache, model.GuildId, model);
                 }
             }
-
-            newMember ??= new TransientMember(Client, model.GuildId, model);
 
             var e = new MemberUpdatedEventArgs(oldMember, newMember);
             return new(e);

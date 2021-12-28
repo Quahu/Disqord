@@ -8,6 +8,9 @@ namespace Disqord.Gateway.Default.Dispatcher
     {
         public override ValueTask<MemberLeftEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildMemberRemoveJsonModel model)
         {
+            var guild = Client.GetGuild(model.GuildId);
+            guild?.Update(model); // Decrements the member count.
+
             IUser user;
             if (CacheProvider.TryGetMembers(model.GuildId, out var cache) && cache.TryRemove(model.User.Id, out var cachedMember))
             {
@@ -18,7 +21,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                 user = new TransientUser(Client, model.User);
             }
 
-            var e = new MemberLeftEventArgs(model.GuildId, user);
+            var e = new MemberLeftEventArgs(model.GuildId, guild, user);
             return new(e);
         }
     }

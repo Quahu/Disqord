@@ -48,7 +48,7 @@ namespace Disqord.Gateway.Default
                 {
                     foreach (var memberModel in model.Members)
                     {
-                        var member = Client.Dispatcher.GetOrAddMember(userCache, memberCache, model.GuildId, memberModel);
+                        var member = Client.Dispatcher.GetOrAddMemberTransient(userCache, memberCache, model.GuildId, memberModel);
                         members.Add(member);
                     }
                 }
@@ -65,14 +65,16 @@ namespace Disqord.Gateway.Default
             if (!model.Nonce.HasValue)
                 return default;
 
-            var isLast = model.ChunkIndex == model.ChunkCount - 1;
-            if (!(isLast
+            var isLastChunk = model.ChunkIndex == model.ChunkCount - 1;
+            var hasOperation = isLastChunk
                 ? _operations.TryRemove(model.Nonce.Value, out var operation)
-                : _operations.TryGetValue(model.Nonce.Value, out operation)))
+                : _operations.TryGetValue(model.Nonce.Value, out operation);
+
+            if (!hasOperation)
                 return default;
 
             operation.AddMembers(members);
-            if (isLast)
+            if (isLastChunk)
             {
                 operation.Complete();
                 operation.Dispose();
@@ -113,6 +115,7 @@ namespace Disqord.Gateway.Default
                 Query = query,
                 Limit = limit
             };
+
             return InternalOperationAsync(model, true, cancellationToken);
         }
 
@@ -125,11 +128,13 @@ namespace Disqord.Gateway.Default
             var model = new RequestMembersJsonModel
             {
                 GuildId = guildId,
+
                 // Since the gateway is clowning around and not sending back the nonce for small limits
                 // or whatever, let's just ask for the max limit always.
                 Limit = Discord.Limits.Gateway.QueryMembersLimit,
                 UserIds = ids
             };
+
             return InternalOperationAsync(model, true, cancellationToken);
         }
 
@@ -145,6 +150,7 @@ namespace Disqord.Gateway.Default
                 Op = GatewayPayloadOperation.RequestMembers,
                 D = model
             }, cancellationToken).ConfigureAwait(false);
+
             return await operation.WaitAsync().ConfigureAwait(false);
         }
 
@@ -163,6 +169,7 @@ namespace Disqord.Gateway.Default
                 _members = isQuery
                     ? new SynchronizedDictionary<Snowflake, IMember>()
                     : null;
+
                 _tcs = new Tcs<IReadOnlyDictionary<Snowflake, IMember>>();
 
                 static void CancellationCallback(object tuple)

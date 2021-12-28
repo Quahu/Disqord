@@ -22,7 +22,7 @@ namespace Disqord.Gateway.Default.Dispatcher
             }
 
             if (model.GuildId.HasValue)
-                member = Dispatcher.GetOrAddMember(model.GuildId.Value, model.Member.Value) ?? new TransientMember(Client, model.GuildId.Value, model.Member.Value) as IMember;
+                member = Dispatcher.GetOrAddMemberTransient(model.GuildId.Value, model.Member.Value);
 
             var e = new ReactionAddedEventArgs(model.GuildId.GetValueOrNullable(), model.UserId, model.ChannelId, model.MessageId, message, member, TransientEmoji.Create(model.Emoji));
             return new(e);

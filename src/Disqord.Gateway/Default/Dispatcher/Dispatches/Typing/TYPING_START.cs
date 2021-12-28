@@ -9,10 +9,10 @@ namespace Disqord.Gateway.Default.Dispatcher
     {
         public override ValueTask<TypingStartedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, TypingStartJsonModel model)
         {
-            CachedMember member = null;
+            IMember member = null;
             if (model.GuildId.HasValue)
             {
-                member = Dispatcher.GetOrAddMember(model.GuildId.Value, model.Member.Value);
+                member = Dispatcher.GetOrAddMemberTransient(model.GuildId.Value, model.Member.Value);
             }
 
             var e = new TypingStartedEventArgs(model.GuildId.GetValueOrNullable(), model.ChannelId, model.UserId, DateTimeOffset.FromUnixTimeSeconds(model.Timestamp), member);

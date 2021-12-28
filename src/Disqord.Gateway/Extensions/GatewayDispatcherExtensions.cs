@@ -1,61 +1,73 @@
-﻿using Qommon.Collections.Synchronized;
-using Disqord.Models;
+﻿using Disqord.Models;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway
 {
     public static class GatewayDispatcherExtensions
     {
-        public static IUser GetSharedOrTransientUser(this IGatewayDispatcher dispatcher, UserJsonModel model)
+        public static IUser GetSharedUserTransient(this IGatewayDispatcher dispatcher, UserJsonModel userModel)
         {
             if (dispatcher.Client.CacheProvider.TryGetUsers(out var cache))
             {
-                if (cache.TryGetValue(model.Id, out var user))
+                if (cache.TryGetValue(userModel.Id, out var user))
                     return user;
             }
 
-            return new TransientUser(dispatcher.Client, model);
+            return new TransientUser(dispatcher.Client, userModel);
         }
 
-        public static CachedSharedUser GetOrAddSharedUser(this IGatewayDispatcher dispatcher, UserJsonModel model)
+        public static CachedSharedUser GetOrAddSharedUser(this IGatewayDispatcher dispatcher, UserJsonModel userModel)
         {
             if (dispatcher.Client.CacheProvider.TryGetUsers(out var cache))
             {
-                return cache.GetOrAdd(model.Id, static(_, tuple) =>
+                return cache.GetOrAdd(userModel.Id, static (_, tuple) =>
                 {
                     var (client, model) = tuple;
                     return new CachedSharedUser(client, model);
-                }, (dispatcher.Client, model));
+                }, (dispatcher.Client, model: userModel));
             }
 
             return null;
         }
 
-        public static CachedMember GetOrAddMember(this IGatewayDispatcher dispatcher, Snowflake guildId, MemberJsonModel model)
+        public static CachedMember GetOrAddMember(this IGatewayDispatcher dispatcher, Snowflake guildId, MemberJsonModel memberModel)
         {
-            var sharedUser = dispatcher.GetOrAddSharedUser(model.User.Value);
+            if (!memberModel.User.HasValue)
+                return null;
+
+            var sharedUser = dispatcher.GetOrAddSharedUser(memberModel.User.Value);
             if (sharedUser == null)
                 return null;
 
             if (dispatcher.Client.CacheProvider.TryGetMembers(guildId, out var cache))
             {
-                if (cache.TryGetValue(model.User.Value.Id, out var member))
+                if (cache.TryGetValue(memberModel.User.Value.Id, out var member))
                 {
-                    member.Update(model);
+                    member.Update(memberModel);
                     return member;
                 }
 
-                member = new CachedMember(sharedUser, guildId, model);
-                cache.Add(model.User.Value.Id, member);
+                member = new CachedMember(sharedUser, guildId, memberModel);
+                cache.Add(memberModel.User.Value.Id, member);
                 return member;
             }
 
             return null;
         }
 
+        public static IMember GetOrAddMemberTransient(this IGatewayDispatcher dispatcher, Snowflake guildId, MemberJsonModel memberModel)
+        {
+            if (!memberModel.User.HasValue)
+                return null;
+
+            var member = dispatcher.GetOrAddMember(guildId, memberModel);
+            return member ?? new TransientMember(dispatcher.Client, guildId, memberModel) as IMember;
+        }
+
         public static CachedSharedUser GetOrAddSharedUser(this IGatewayDispatcher dispatcher,
             ISynchronizedDictionary<Snowflake, CachedSharedUser> userCache, UserJsonModel model)
         {
-            return userCache.GetOrAdd(model.Id, static(_, tuple) =>
+            return userCache.GetOrAdd(model.Id, static (_, tuple) =>
             {
                 var (client, model) = tuple;
                 return new CachedSharedUser(client, model);
@@ -64,21 +76,35 @@ namespace Disqord.Gateway
 
         public static CachedMember GetOrAddMember(this IGatewayDispatcher dispatcher,
             ISynchronizedDictionary<Snowflake, CachedSharedUser> userCache, ISynchronizedDictionary<Snowflake, CachedMember> memberCache,
-            Snowflake guildId, MemberJsonModel model)
+            Snowflake guildId, MemberJsonModel memberModel)
         {
-            var sharedUser = dispatcher.GetOrAddSharedUser(userCache, model.User.Value);
+            if (!memberModel.User.HasValue)
+                return null;
+
+            var sharedUser = dispatcher.GetOrAddSharedUser(userCache, memberModel.User.Value);
             if (sharedUser == null)
                 return null;
 
-            if (memberCache.TryGetValue(model.User.Value.Id, out var member))
+            if (memberCache.TryGetValue(memberModel.User.Value.Id, out var member))
             {
-                member.Update(model);
+                member.Update(memberModel);
                 return member;
             }
 
-            member = new CachedMember(sharedUser, guildId, model);
-            memberCache.Add(model.User.Value.Id, member);
+            member = new CachedMember(sharedUser, guildId, memberModel);
+            memberCache.Add(memberModel.User.Value.Id, member);
             return member;
+        }
+
+        public static IMember GetOrAddMemberTransient(this IGatewayDispatcher dispatcher,
+            ISynchronizedDictionary<Snowflake, CachedSharedUser> userCache, ISynchronizedDictionary<Snowflake, CachedMember> memberCache,
+            Snowflake guildId, MemberJsonModel memberModel)
+        {
+            if (!memberModel.User.HasValue)
+                return null;
+
+            var member = dispatcher.GetOrAddMember(userCache, memberCache, guildId, memberModel);
+            return member ?? new TransientMember(dispatcher.Client, guildId, memberModel) as IMember;
         }
     }
 }
