@@ -82,8 +82,8 @@ namespace Disqord.Bot.Parsers
                 return;
 
             _colors = typeof(Color).GetProperties(BindingFlags.Public | BindingFlags.Static)
-                .Where(x => x.Name != nameof(Color.Random))
-                .ToDictionary(x => x.Name, x => (Color) x.GetValue(null), StringComparer.OrdinalIgnoreCase);
+                .Where(property => property.Name != nameof(Color.Random))
+                .ToDictionary(property => property.Name, property => (Color) property.GetValue(null), StringComparer.OrdinalIgnoreCase);
             _colors.TrimExcess();
 
             if (!_allowSpaces)

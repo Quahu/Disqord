@@ -9,7 +9,7 @@ namespace Disqord.Bot
         /// <summary>
         ///     Gets the ID of the guild the command is being executed in.
         /// </summary>
-        public virtual new Snowflake GuildId => base.GuildId.Value;
+        public new virtual Snowflake GuildId => base.GuildId.Value;
 
         /// <summary>
         ///     Gets the guild the command is being executed in.

@@ -8,7 +8,7 @@ namespace Disqord
     public interface IApplicationCommandInteractionEntities
     {
         /// <summary>
-        ///     Gets the resolved users and/or members for the interaction.
+        ///     Gets the resolved users/members for the interaction.
         /// </summary>
         IReadOnlyDictionary<Snowflake, IUser> Users { get; }
 
