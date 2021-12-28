@@ -182,6 +182,7 @@ namespace Disqord.Bot
             {
                 var message = "A command context type mismatch occurred while attempting to execute {0}. " +
                     "The module expected {1}, but got {2}.";
+
                 var args = new List<object>(5)
                 {
                     e.Result.Command.Name,
@@ -204,6 +205,7 @@ namespace Disqord.Bot
                 {
                     message += " If you have not overridden {4}, you must do so and have it return the given context type. " +
                         "Otherwise ensure it returns the correct context types.";
+
                     args.Add(nameof(CreateCommandContext));
                 }
 

@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Qommon.Collections;
 using Disqord.Gateway;
 using Disqord.Rest;
 using Microsoft.Extensions.DependencyInjection;
 using Qmmands;
+using Qommon.Collections;
 using Qommon.Disposal;
 
 namespace Disqord.Bot
@@ -38,6 +38,7 @@ namespace Disqord.Bot
             var context = message.GuildId != null
                 ? new DiscordGuildCommandContext(this, prefix, input, message, channel, scope)
                 : new DiscordCommandContext(this, prefix, input, message, scope);
+
             context.Services.GetRequiredService<ICommandContextAccessor>().Context = context;
             return context;
         }
@@ -122,6 +123,7 @@ namespace Disqord.Bot
                     format = parameter.IsRemainder
                         ? "{0}…"
                         : "{0}";
+
                     format = parameter.IsOptional
                         ? $"[{format}]"
                         : $"<{format}>";
@@ -137,6 +139,7 @@ namespace Disqord.Bot
             var embed = new LocalEmbed()
                 .WithDescription(reason)
                 .WithColor(0x2F3136);
+
             if (result is OverloadsFailedResult overloadsFailedResult)
             {
                 foreach (var (overload, overloadResult) in overloadsFailedResult.FailedOverloads)
@@ -157,7 +160,6 @@ namespace Disqord.Bot
                 .WithEmbeds(embed)
                 .WithAllowedMentions(LocalAllowedMentions.None);
         }
-
 
         /// <summary>
         ///     Invoked post-execution, defines the logic for handling failed results.
