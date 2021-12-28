@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Buffers.Binary;
 using System.IO;
-using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
+#if NET6_0_OR_GREATER
+using System.IO.Compression;
+#endif
 
 namespace Disqord.WebSocket.Default.Discord
 {
@@ -35,6 +37,9 @@ namespace Disqord.WebSocket.Default.Discord
         private readonly byte[] _receiveBuffer;
         private readonly MemoryStream _receiveStream;
         private Stream _receiveZLibStream;
+
+        // Used to ensure the ZLib suffix was read after deserialization.
+        private bool _wasLastPayloadZLib;
 
         private bool _isDisposed;
 
@@ -71,6 +76,7 @@ namespace Disqord.WebSocket.Default.Discord
             _ws = _webSocketClientFactory.CreateClient();
             if (_supportsZLib)
             {
+                _wasLastPayloadZLib = false;
                 _receiveZLibStream?.Dispose();
                 _receiveZLibStream =
 #if NET5_0
@@ -114,6 +120,13 @@ namespace Disqord.WebSocket.Default.Discord
             await _receiveSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
             {
+                // Ensures that the receive stream is fully read and the underlying DeflateStream acknowledges the ZLib suffix.
+                if (_supportsZLib && _wasLastPayloadZLib && _receiveStream.Position != _receiveStream.Length)
+                {
+                    // We just need the inflater to read further so that it picks up the suffix and knows it's done.
+                    _receiveZLibStream.Read(Array.Empty<byte>());
+                }
+
                 _receiveStream.Position = 0;
                 _receiveStream.SetLength(0);
                 do
@@ -150,6 +163,7 @@ namespace Disqord.WebSocket.Default.Discord
 
                     if (result.MessageType != WebSocketMessageType.Binary)
                     {
+                        _wasLastPayloadZLib = false;
                         _receiveStream.Position = 0;
                         return _receiveStream;
                     }
@@ -160,6 +174,7 @@ namespace Disqord.WebSocket.Default.Discord
                     if (streamBuffer.Count < 4 || BinaryPrimitives.ReadUInt32BigEndian(streamBuffer[^4..]) != 0x0000FFFF)
                         continue;
 
+                    _wasLastPayloadZLib = true;
                     _receiveStream.Position = 0;
                     return _receiveZLibStream;
                 }
