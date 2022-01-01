@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Qommon.Collections.Proxied;
-using Qommon.Collections.Synchronized;
 using Disqord.Gateway.Api;
 using Microsoft.Extensions.Options;
+using Qommon.Collections.Proxied;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Default
 {
@@ -166,12 +166,16 @@ namespace Disqord.Gateway.Default
             lock (this)
             {
                 if (this.TryGetGuilds(out var guilds))
+                {
                     guilds.TryRemove(guildId, out guild);
+                }
+                else
+                {
+                    guild = default;
+                }
 
                 InternalReset(guildId);
             }
-
-            guild = default;
         }
 
         private void InternalReset(Snowflake guildId)
