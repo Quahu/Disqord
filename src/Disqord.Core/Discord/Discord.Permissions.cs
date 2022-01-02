@@ -87,12 +87,13 @@ namespace Disqord
                 if (!permissions.ViewChannels)
                     return ChannelPermissions.None;
 
-                if (channel is ITextChannel && !permissions.SendMessages)
+                if ((channel is ITextChannel && !permissions.SendMessages) || (channel is IThreadChannel && !permissions.SendMessagesInThreads))
                 {
                     permissions &= ~(Permission.SendAttachments |
                         Permission.SendEmbeds |
                         Permission.MentionEveryone |
-                        Permission.UseTextToSpeech);
+                        Permission.UseTextToSpeech |
+                        Permission.SendMessages);
                 }
 
                 return permissions;
