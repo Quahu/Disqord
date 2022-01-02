@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 
@@ -6,10 +7,46 @@ namespace Disqord.Gateway.Default.Dispatcher
 {
     public class GuildMemberRemoveHandler : Handler<GuildMemberRemoveJsonModel, MemberLeftEventArgs>
     {
+        private GuildMemberAddHandler _guildMemberAddHandler;
+
+        // GuildId -> MemberId
+        private Dictionary<Snowflake, Snowflake> _lastMemberIds;
+
+        public override void Bind(DefaultGatewayDispatcher value)
+        {
+            _guildMemberAddHandler = value[GatewayDispatchNames.GuildMemberAdd] as GuildMemberAddHandler;
+            if (_guildMemberAddHandler != null)
+                _lastMemberIds = new();
+
+            base.Bind(value);
+        }
+
+        public void OnMemberAdd(Snowflake guildId, Snowflake memberId)
+        {
+            if (_lastMemberIds.TryGetValue(guildId, out var lastMemberId) && lastMemberId == memberId)
+                _lastMemberIds.Remove(guildId);
+        }
+
         public override ValueTask<MemberLeftEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildMemberRemoveJsonModel model)
         {
             var guild = Client.GetGuild(model.GuildId);
-            guild?.Update(model); // Decrements the member count.
+            if (_lastMemberIds != null)
+            {
+                if (_lastMemberIds.TryGetValue(model.GuildId, out var lastMemberId) && lastMemberId == model.User.Id)
+                {
+                    // If the event is a duplicate, we don't handle it nor trigger event handlers.
+                    return default;
+                }
+
+                // Decrements the guild member count if the received event is not a duplicate.
+                guild?.Update(model);
+
+                // Stores the user ID to check in the next received dispatch.
+                _lastMemberIds[model.GuildId] = model.User.Id;
+
+                // Notifies GuildMemberAddHandler that the user left, so it can clear its own duplicate cache.
+                _guildMemberAddHandler.OnMemberRemove(model.GuildId, model.User.Id);
+            }
 
             IUser user;
             if (CacheProvider.TryGetMembers(model.GuildId, out var cache) && cache.TryRemove(model.User.Id, out var cachedMember))

@@ -13,7 +13,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 
         public override void Bind(DefaultGatewayDispatcher value)
         {
-            _readyHandler = value["READY"] as ReadyHandler;
+            _readyHandler = value[GatewayDispatchNames.Ready] as ReadyHandler;
 
             base.Bind(value);
         }

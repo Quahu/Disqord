@@ -13,7 +13,7 @@ namespace Disqord.Gateway.Default.Dispatcher
 
         public override void Bind(DefaultGatewayDispatcher value)
         {
-            _readyHandler = value["READY"] as ReadyHandler;
+            _readyHandler = value[GatewayDispatchNames.Ready] as ReadyHandler;
 
             base.Bind(value);
         }
@@ -30,9 +30,11 @@ namespace Disqord.Gateway.Default.Dispatcher
                     var logLevel = isPending
                         ? LogLevel.Debug
                         : LogLevel.Information;
+
                     var message = isPending
                         ? "Pending guild {0} ({1}) is available."
                         : "Guild {0} ({1}) became available.";
+
                     shard.Logger.Log(logLevel, message, guild.Name, guild.Id.RawValue);
 
                     //  Invoke the event and possibly invoke ready afterwards.
@@ -105,6 +107,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                             threadModel.Member.Value.Id = threadModel.Id;
                             threadModel.Member.Value.UserId = Client.CurrentUser.Id;
                         }
+
                         var channel = new CachedThreadChannel(Client, threadModel);
                         channelCache.Add(channel.Id, channel);
                     }
