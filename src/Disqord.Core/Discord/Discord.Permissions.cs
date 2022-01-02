@@ -87,13 +87,21 @@ namespace Disqord
                 if (!permissions.ViewChannels)
                     return ChannelPermissions.None;
 
-                if ((channel is ITextChannel && !permissions.SendMessages) || (channel is IThreadChannel && !permissions.SendMessagesInThreads))
+                // In threads, the SendMessagesInThreads permission is used instead of the SendMessages permission
+                if (channel is IThreadChannel)
+                {
+                    if (permissions.SendMessagesInThreads)
+                        permissions |= Permission.SendMessages;
+                    else
+                        permissions &= ~Permission.SendMessages;
+                }
+
+                if (channel is IMessageGuildChannel && !permissions.SendMessages)
                 {
                     permissions &= ~(Permission.SendAttachments |
                         Permission.SendEmbeds |
                         Permission.MentionEveryone |
-                        Permission.UseTextToSpeech |
-                        Permission.SendMessages);
+                        Permission.UseTextToSpeech);
                 }
 
                 return permissions;
