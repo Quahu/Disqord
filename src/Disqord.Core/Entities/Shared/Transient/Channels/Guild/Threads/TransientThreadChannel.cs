@@ -7,13 +7,13 @@ namespace Disqord
     public class TransientThreadChannel : TransientMessageGuildChannel, IThreadChannel
     {
         /// <inheritdoc/>
-        public override Snowflake? CategoryId => null;
+        public override Snowflake? CategoryId => throw new InvalidOperationException($"{nameof(TransientThreadChannel)} does not support {nameof(CategoryId)}.");
 
         /// <inheritdoc/>
-        public override int Position => 0;
+        public override int Position => throw new InvalidOperationException($"{nameof(TransientThreadChannel)} does not support {nameof(Position)}.");
 
         /// <inheritdoc/>
-        public override IReadOnlyList<IOverwrite> Overwrites => Array.Empty<IOverwrite>();
+        public override IReadOnlyList<IOverwrite> Overwrites => throw new InvalidOperationException($"{nameof(TransientThreadChannel)} does not support {nameof(Overwrites)}.");
 
         /// <inheritdoc/>
         public Snowflake ChannelId => Model.ParentId.Value.Value;
