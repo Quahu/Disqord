@@ -50,10 +50,13 @@ namespace Disqord
         public DateTimeOffset ArchiveStateChangedAt => Model.ThreadMetadata.Value.ArchiveTimestamp;
 
         /// <inheritdoc/>
+        public bool IsLocked => Model.ThreadMetadata.Value.Locked.GetValueOrDefault();
+
+        /// <inheritdoc/>
         public bool AllowsInvitation => Model.ThreadMetadata.Value.Invitable.GetValueOrDefault(true);
 
         /// <inheritdoc/>
-        public bool IsLocked => Model.ThreadMetadata.Value.Locked.GetValueOrDefault();
+        public DateTimeOffset? CreatedAt => Model.ThreadMetadata.Value.CreateTimestamp.GetValueOrNullable();
 
         public TransientThreadChannel(IClient client, ChannelJsonModel model)
             : base(client, model)

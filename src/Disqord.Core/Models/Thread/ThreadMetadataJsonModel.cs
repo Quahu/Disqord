@@ -19,5 +19,8 @@ namespace Disqord.Models
 
         [JsonProperty("invitable")]
         public Optional<bool> Invitable;
+
+        [JsonProperty("create_timestamp")]
+        public Optional<DateTimeOffset> CreateTimestamp;
     }
 }
