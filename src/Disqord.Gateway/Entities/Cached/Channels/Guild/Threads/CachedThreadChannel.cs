@@ -41,16 +41,24 @@ namespace Disqord.Gateway
         public DateTimeOffset ArchiveStateChangedAt { get; private set; }
 
         /// <inheritdoc/>
+        public bool IsLocked { get; private set; }
+
+        /// <inheritdoc/>
         public bool AllowsInvitation { get; private set; }
 
         /// <inheritdoc/>
-        public bool IsLocked { get; private set; }
+        public DateTimeOffset? CreatedAt { get; }
 
         public CachedThreadChannel(IGatewayClient client, ChannelJsonModel model)
             : base(client, model)
         {
             ChannelId = model.ParentId.Value.Value;
             CreatorId = model.OwnerId.Value;
+
+            if (model.ThreadMetadata.HasValue)
+            {
+                CreatedAt = model.ThreadMetadata.Value.CreateTimestamp.GetValueOrNullable();
+            }
         }
 
         public override void Update(ChannelJsonModel model)
