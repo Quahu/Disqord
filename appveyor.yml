@@ -70,6 +70,6 @@ deploy:
   - provider: NuGet
     symbol_server: https://www.nuget.org/api/v2/symbolpackage
     api_key:
-      secure: ZA9rOVRyEGSLgfrsc9kRkVaMG9xJOf+vJM9jlS/A286iVYmCq/gdGF30A3AYUUaF
+      secure: Q3cqDs8CwgBcw4zMx1xTUpq/vuPKAHQ+qtRsoK059qxnmugRUsNzWmN3ZTXmycbm
     on:
       appveyor_repo_tag: true
