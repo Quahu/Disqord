@@ -25,6 +25,13 @@ namespace Disqord
             where TMessage : LocalMessageBase
             => message.WithEmbeds(embeds as IEnumerable<LocalEmbed>);
 
+        public static TMessage WithFlags<TMessage>(this TMessage message, MessageFlag flags)
+            where TMessage : LocalMessageBase
+        {
+            message.Flags = flags;
+            return message;
+        }
+
         public static TMessage WithEmbeds<TMessage>(this TMessage message, IEnumerable<LocalEmbed> embeds)
             where TMessage : LocalMessageBase
         {

@@ -214,6 +214,7 @@ namespace Disqord.Rest
                 Content = Optional.FromNullable(message.Content),
                 Tts = Optional.Conditional(message.IsTextToSpeech, true),
                 Embeds = Optional.Conditional(message.Embeds.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), message.Embeds),
+                Flags = Optional.Conditional(message.Flags != 0, message.Flags),
                 AllowedMentions = Optional.FromNullable(message.AllowedMentions.ToModel()),
                 MessageReference = Optional.FromNullable(message.Reference.ToModel()),
                 Nonce = Optional.FromNullable(message.Nonce),

@@ -17,6 +17,9 @@ namespace Disqord.Rest.Api
         [JsonProperty("embeds")]
         public Optional<EmbedJsonModel[]> Embeds;
 
+        [JsonProperty("flags")]
+        public Optional<MessageFlag> Flags;
+
         [JsonProperty("allowed_mentions")]
         public Optional<AllowedMentionsJsonModel> AllowedMentions;
 

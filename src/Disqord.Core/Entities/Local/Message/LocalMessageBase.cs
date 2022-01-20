@@ -40,6 +40,8 @@ namespace Disqord
         }
         internal readonly List<LocalEmbed> _embeds;
 
+        public MessageFlag Flags { get; set; }
+
         public LocalAllowedMentions AllowedMentions { get; set; }
 
         public IList<LocalAttachment> Attachments
@@ -76,6 +78,7 @@ namespace Disqord
             Content = other.Content;
             IsTextToSpeech = other.IsTextToSpeech;
             _embeds = other._embeds.Select(x => x.Clone()).ToList();
+            Flags = other.Flags;
             AllowedMentions = other.AllowedMentions?.Clone();
             _attachments = other._attachments.Select(x => x.Clone()).ToList();
             _components = other._components.Select(x => x.Clone()).ToList();
