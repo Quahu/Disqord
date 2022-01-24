@@ -3,7 +3,7 @@ using Disqord.Models;
 
 namespace Disqord
 {
-    public class TransientInviteMetadata : TransientClientEntity<InviteJsonModel>, IInviteMetadata
+    public class TransientInviteMetadata : TransientEntity<InviteJsonModel>, IInviteMetadata
     {
         /// <inheritdoc/>
         public DateTimeOffset CreatedAt => Model.CreatedAt.Value;
@@ -20,8 +20,8 @@ namespace Disqord
         /// <inheritdoc/>
         public bool IsTemporaryMembership => Model.Temporary.Value;
 
-        public TransientInviteMetadata(IClient client, InviteJsonModel model)
-            : base(client, model)
+        public TransientInviteMetadata(InviteJsonModel model)
+            : base(model)
         { }
     }
 }

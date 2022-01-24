@@ -18,7 +18,7 @@ namespace Disqord
         public string Topic => Model.Topic;
 
         /// <inheritdoc/>
-        public StagePrivacyLevel PrivacyLevel => Model.PrivacyLevel;
+        public PrivacyLevel PrivacyLevel => Model.PrivacyLevel;
 
         /// <inheritdoc/>
         public bool IsDiscoveryDisabled => Model.DiscoverableDisabled;

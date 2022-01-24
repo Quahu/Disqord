@@ -187,6 +187,23 @@ namespace Disqord.Gateway.Default.Dispatcher
                 }
             }
 
+            if (CacheProvider.TryGetGuildEvents(model.Id, out var guildEventsCache))
+            {
+                foreach (var guildEventModel in model.GuildScheduledEvents)
+                {
+                    if (isPending)
+                    {
+                        var guildEvent = new CachedGuildEvent(Client, guildEventModel);
+                        guildEventsCache.Add(guildEvent.Id, guildEvent);
+                    }
+                    else
+                    {
+                        var guildEvent = guildEventsCache.GetValueOrDefault(guildEventModel.Id);
+                        guildEvent?.Update(guildEventModel);
+                    }
+                }
+            }
+
             return guild;
         }
     }

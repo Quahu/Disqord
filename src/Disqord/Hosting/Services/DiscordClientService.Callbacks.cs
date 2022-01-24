@@ -83,6 +83,21 @@ namespace Disqord.Hosting
         protected internal virtual ValueTask OnRoleDeleted(RoleDeletedEventArgs e)
             => default;
 
+        protected internal virtual ValueTask OnGuildEventCreated(GuildEventCreatedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnGuildEventUpdated(GuildEventUpdatedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnGuildEventDeleted(GuildEventDeletedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnGuildEventMemberAdded(GuildEventMemberAddedEventArgs e)
+            => default;
+
+        protected internal virtual ValueTask OnGuildEventMemberRemoved(GuildEventMemberRemovedEventArgs e)
+            => default;
+
         protected internal virtual ValueTask OnIntegrationCreated(IntegrationCreatedEventArgs e)
             => default;
 

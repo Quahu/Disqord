@@ -15,7 +15,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the privacy level of this stage.
         /// </summary>
-        StagePrivacyLevel PrivacyLevel { get; }
+        PrivacyLevel PrivacyLevel { get; }
 
         /// <summary>
         ///     Gets whether discovery is disabled for this stage.

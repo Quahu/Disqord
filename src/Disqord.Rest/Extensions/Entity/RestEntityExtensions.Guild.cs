@@ -550,5 +550,68 @@ namespace Disqord.Rest
             var client = guild.GetRestClient();
             return client.DeleteGuildApplicationCommandAsync(applicationId, guild.Id, commandId, options, cancellationToken);
         }
+
+        /*
+         * Guild Events
+         */
+        public static Task<IReadOnlyList<IGuildEvent>> FetchEventsAsync(this IGuild guild,
+            bool? withSubscriberCount = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildEventsAsync(guild.Id, withSubscriberCount, options, cancellationToken);
+        }
+
+        public static Task<IGuildEvent> CreateEventAsync(this IGuild guild,
+            string name, DateTimeOffset startsAt, GuildEventTargetType targetType,
+            PrivacyLevel privacyLevel = PrivacyLevel.GuildOnly, Action<CreateGuildEventActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.CreateGuildEventAsync(guild.Id, name, startsAt, targetType, privacyLevel, action, options, cancellationToken);
+        }
+
+        public static Task<IGuildEvent> FetchEventAsync(this IGuild guild,
+            Snowflake eventId, bool? withUserCount = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildEventAsync(guild.Id, eventId, withUserCount, options, cancellationToken);
+        }
+
+        public static Task<IGuildEvent> ModifyEventAsync(this IGuild guild,
+            Snowflake eventId, Action<ModifyGuildEventActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyGuildEventAsync(guild.Id, eventId, action, options, cancellationToken);
+        }
+
+        public static Task DeleteEventAsync(this IGuild guild,
+            Snowflake eventId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.DeleteGuildEventAsync(guild.Id, eventId, options, cancellationToken);
+        }
+
+        public static IPagedEnumerable<IUser> EnumerateEventUsers(this IGuild guild,
+            Snowflake eventId, int limit, RetrievalDirection direction = RetrievalDirection.After,
+            Snowflake? startFromId = null, bool? withMember = null,
+            IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.EnumerateGuildEventUsers(guild.Id, eventId, limit, direction, startFromId, withMember, options);
+        }
+
+        public static Task<IReadOnlyList<IUser>> FetchEventUsersAsync(this IGuild guild,
+            Snowflake eventId, int limit = Discord.Limits.Rest.FetchGuildEventUsersPageSize,
+            RetrievalDirection direction = RetrievalDirection.After, Snowflake? startFromId = null,
+            bool? withMember = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchGuildEventUsersAsync(guild.Id, eventId, limit, direction, startFromId, withMember, options, cancellationToken);
+        }
     }
 }

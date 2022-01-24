@@ -4,6 +4,6 @@ namespace Disqord.AuditLogs
     {
         AuditLogChange<string> Topic { get; }
 
-        AuditLogChange<StagePrivacyLevel> PrivacyLevel { get; }
+        AuditLogChange<PrivacyLevel> PrivacyLevel { get; }
     }
 }

@@ -6,7 +6,7 @@ namespace Disqord.AuditLogs
     {
         public Optional<string> Topic { get; }
 
-        public Optional<StagePrivacyLevel> PrivacyLevel { get; }
+        public Optional<PrivacyLevel> PrivacyLevel { get; }
 
         public TransientStageAuditLogData(IClient client, AuditLogEntryJsonModel model, bool isCreated)
         {

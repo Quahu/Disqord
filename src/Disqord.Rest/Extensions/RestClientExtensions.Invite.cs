@@ -7,10 +7,10 @@ namespace Disqord.Rest
     public static partial class RestClientExtensions
     {
         public static async Task<IInvite> FetchInviteAsync(this IRestClient client,
-            string code, bool? withCounts = null, bool? withExpiration = null,
+            string code, bool? withCounts = null, bool? withExpiration = null, Snowflake? eventId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var model = await client.ApiClient.FetchInviteAsync(code, withCounts, withExpiration, options, cancellationToken).ConfigureAwait(false);
+            var model = await client.ApiClient.FetchInviteAsync(code, withCounts, withExpiration, eventId, options, cancellationToken).ConfigureAwait(false);
             return TransientInvite.Create(client, model);
         }
 

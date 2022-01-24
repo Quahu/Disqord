@@ -79,6 +79,8 @@ namespace Disqord
 
         public bool RequestToSpeak => Has(Permission.RequestToSpeak);
 
+        public bool ManageEvents => Has(Permission.ManageEvents);
+
         public bool ManageThreads => Has(Permission.ManageThreads);
 
         public bool CreatePublicThreads => Has(Permission.CreatePublicThreads);

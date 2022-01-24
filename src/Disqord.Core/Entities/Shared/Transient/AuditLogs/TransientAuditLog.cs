@@ -114,6 +114,11 @@ namespace Disqord.AuditLogs
                 AuditLogActionType.StickerUpdated => new TransientStickerUpdatedAuditLog(client, guildId, log, entry),
                 AuditLogActionType.StickerDeleted => new TransientStickerDeletedAuditLog(client, guildId, log, entry),
 
+                // Guild Event
+                AuditLogActionType.GuildEventCreated => new TransientGuildEventCreatedAuditLog(client, guildId, log, entry),
+                AuditLogActionType.GuildEventUpdated => new TransientGuildEventUpdatedAuditLog(client, guildId, log, entry),
+                AuditLogActionType.GuildEventDeleted => new TransientGuildEventDeletedAuditLog(client, guildId, log, entry),
+
                 // Thread
                 AuditLogActionType.ThreadCreate => new TransientThreadCreatedAuditLog(client, guildId, log, entry),
                 AuditLogActionType.ThreadUpdate => new TransientThreadUpdatedAuditLog(client, guildId, log, entry),

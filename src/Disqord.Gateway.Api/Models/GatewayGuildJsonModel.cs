@@ -36,5 +36,8 @@ namespace Disqord.Gateway.Api.Models
 
         [JsonProperty("stage_instances")]
         public StageInstanceJsonModel[] StageInstances;
+
+        [JsonProperty("guild_scheduled_events")]
+        public GuildScheduledEventJsonModel[] GuildScheduledEvents;
     }
 }

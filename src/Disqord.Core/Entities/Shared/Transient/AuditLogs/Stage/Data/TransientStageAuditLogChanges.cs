@@ -7,7 +7,7 @@ namespace Disqord.AuditLogs
     {
         public AuditLogChange<string> Topic { get; }
 
-        public AuditLogChange<StagePrivacyLevel> PrivacyLevel { get; }
+        public AuditLogChange<PrivacyLevel> PrivacyLevel { get; }
 
         public TransientStageAuditLogChanges(IClient client, AuditLogEntryJsonModel model)
         {
@@ -23,7 +23,7 @@ namespace Disqord.AuditLogs
                     }
                     case "privacy_level":
                     {
-                        PrivacyLevel = AuditLogChange<StagePrivacyLevel>.Convert(change);
+                        PrivacyLevel = AuditLogChange<PrivacyLevel>.Convert(change);
                         break;
                     }
                     default:

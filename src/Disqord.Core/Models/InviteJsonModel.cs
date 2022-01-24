@@ -38,6 +38,9 @@ namespace Disqord.Models
         [JsonProperty("stage_instance")]
         public Optional<InviteStageInstanceJsonModel> StageInstance;
 
+        [JsonProperty("guild_scheduled_event")]
+        public Optional<GuildScheduledEventJsonModel> GuildScheduledEvent;
+
         // Metadata
         [JsonProperty("uses")]
         public Optional<int> Uses;
@@ -55,4 +58,3 @@ namespace Disqord.Models
         public Optional<DateTimeOffset> CreatedAt;
     }
 }
-

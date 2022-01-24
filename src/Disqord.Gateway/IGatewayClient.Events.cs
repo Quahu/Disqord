@@ -151,6 +151,31 @@ namespace Disqord.Gateway
         event AsynchronousEventHandler<RoleDeletedEventArgs> RoleDeleted;
 
         /// <summary>
+        ///     Fires when a guild event is created.
+        /// </summary>
+        event AsynchronousEventHandler<GuildEventCreatedEventArgs> GuildEventCreated;
+
+        /// <summary>
+        ///     Fires when a guild event is updated.
+        /// </summary>
+        event AsynchronousEventHandler<GuildEventUpdatedEventArgs> GuildEventUpdated;
+
+        /// <summary>
+        ///     Fires when a guild event is deleted.
+        /// </summary>
+        event AsynchronousEventHandler<GuildEventDeletedEventArgs> GuildEventDeleted;
+
+        /// <summary>
+        ///     Fires when a user subscribes to a guild event.
+        /// </summary>
+        event AsynchronousEventHandler<GuildEventMemberAddedEventArgs> GuildEventMemberAdded;
+
+        /// <summary>
+        ///     Fires when a user unsubscribes from a guild event.
+        /// </summary>
+        event AsynchronousEventHandler<GuildEventMemberRemovedEventArgs> GuildEventMemberRemoved;
+
+        /// <summary>
         ///     Fires when a guild integration is created.
         /// </summary>
         event AsynchronousEventHandler<IntegrationCreatedEventArgs> IntegrationCreated;

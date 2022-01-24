@@ -35,6 +35,15 @@ namespace Disqord
         IInviteStage Stage { get; }
 
         /// <summary>
+        ///     Gets the optional guild event tied to this invite.
+        ///     Returns <see langword="null"/> when this invite's guild event ID parameter is not a valid guild event ID.
+        /// </summary>
+        /// <remarks>
+        ///     Returned when the invite is fetched by code with the <c>eventId</c> parameter set to a valid guild event ID.
+        /// </remarks>
+        IGuildEvent Event { get; }
+
+        /// <summary>
         ///     Gets the approximate presence count of the guild of this invite.
         ///     Returns <see langword="null"/> when this invite's channel is a group channel.
         /// </summary>

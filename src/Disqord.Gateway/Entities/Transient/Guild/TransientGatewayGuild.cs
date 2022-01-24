@@ -140,6 +140,11 @@ namespace Disqord
             (model, client) => new TransientStage(client, model) as IStage);
         private IReadOnlyDictionary<Snowflake, IStage> _stages;
 
+        public IReadOnlyDictionary<Snowflake, IGuildEvent> GuildEvents => _guildEvents ??= Model.GuildScheduledEvents.ToReadOnlyDictionary(Client,
+            (model, _) => model.Id,
+            (model, client) => new TransientGuildEvent(client, model) as IGuildEvent);
+        private IReadOnlyDictionary<Snowflake, IGuildEvent> _guildEvents;
+
         GuildJsonModel ITransientEntity<GuildJsonModel>.Model => Model;
 
         public TransientGatewayGuild(IClient client, GatewayGuildJsonModel model)

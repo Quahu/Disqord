@@ -86,6 +86,11 @@ namespace Disqord.Gateway
         /// <summary>
         ///     The direct typing intent. Required to receive typing events for direct channels.
         /// </summary>
-        DirectTyping = 1 << 14
+        DirectTyping = 1 << 14,
+
+        /// <summary>
+        ///     The guild events intent. Required to receive events related to guild events.
+        /// </summary>
+        GuildEvents = 1 << 16
     }
 }

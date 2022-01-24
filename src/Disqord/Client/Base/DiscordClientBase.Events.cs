@@ -187,6 +187,41 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildEventCreatedEventArgs> GuildEventCreated
+        {
+            add => GatewayClient.GuildEventCreated += value;
+            remove => GatewayClient.GuildEventCreated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildEventUpdatedEventArgs> GuildEventUpdated
+        {
+            add => GatewayClient.GuildEventUpdated += value;
+            remove => GatewayClient.GuildEventUpdated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildEventDeletedEventArgs> GuildEventDeleted
+        {
+            add => GatewayClient.GuildEventDeleted += value;
+            remove => GatewayClient.GuildEventDeleted -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildEventMemberAddedEventArgs> GuildEventMemberAdded
+        {
+            add => GatewayClient.GuildEventMemberAdded += value;
+            remove => GatewayClient.GuildEventMemberAdded -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<GuildEventMemberRemovedEventArgs> GuildEventMemberRemoved
+        {
+            add => GatewayClient.GuildEventMemberRemoved += value;
+            remove => GatewayClient.GuildEventMemberRemoved -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<IntegrationCreatedEventArgs> IntegrationCreated
         {
             add => GatewayClient.IntegrationCreated += value;

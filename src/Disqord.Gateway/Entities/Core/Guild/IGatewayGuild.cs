@@ -50,5 +50,10 @@ namespace Disqord.Gateway
         ///     Gets the stages of this guild keyed by the IDs of the stages.
         /// </summary>
         IReadOnlyDictionary<Snowflake, IStage> Stages { get; }
+
+        /// <summary>
+        ///     Gets the guild events of this guild keyed by the IDs of the events.
+        /// </summary>
+        IReadOnlyDictionary<Snowflake, IGuildEvent> GuildEvents { get; }
     }
 }

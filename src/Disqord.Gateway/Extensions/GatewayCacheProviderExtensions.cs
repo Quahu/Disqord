@@ -66,6 +66,13 @@ namespace Disqord.Gateway
 
         /// <inheritdoc cref="TryGetUsers"/>
         /// <summary>
+        ///     Attempts to get the guild events cache from this cache provider.
+        /// </summary>
+        public static bool TryGetGuildEvents(this IGatewayCacheProvider cacheProvider, Snowflake guildId, out ISynchronizedDictionary<Snowflake, CachedGuildEvent> cache, bool lookupOnly = false)
+            => cacheProvider.TryGetCache(guildId, out cache, lookupOnly);
+
+        /// <inheritdoc cref="TryGetUsers"/>
+        /// <summary>
         ///     Attempts to get the messages cache from this cache provider.
         /// </summary>
         public static bool TryGetMessages(this IGatewayCacheProvider cacheProvider, Snowflake channelId, out ISynchronizedDictionary<Snowflake, CachedUserMessage> cache, bool lookupOnly = false)

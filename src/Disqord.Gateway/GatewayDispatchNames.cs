@@ -136,6 +136,31 @@ namespace Disqord.Gateway
         public const string GuildRoleDelete = "GUILD_ROLE_DELETE";
 
         /// <summary>
+        /// 	The <c>GUILD_SCHEDULED_EVENT_CREATE</c> dispatch.
+        /// </summary>
+        public const string GuildScheduledEventCreate = "GUILD_SCHEDULED_EVENT_CREATE";
+        
+        /// <summary>
+        /// 	The <c>GUILD_SCHEDULED_EVENT_UPDATE</c> dispatch.
+        /// </summary>
+        public const string GuildScheduledEventUpdate = "GUILD_SCHEDULED_EVENT_UPDATE";
+        
+        /// <summary>
+        /// 	The <c>GUILD_SCHEDULED_EVENT_DELETE</c> dispatch.
+        /// </summary>
+        public const string GuildScheduledEventDelete = "GUILD_SCHEDULED_EVENT_DELETE";
+        
+        /// <summary>
+        /// 	The <c>GUILD_SCHEDULED_EVENT_USER_ADD</c> dispatch.
+        /// </summary>
+        public const string GuildScheduledEventUserAdd = "GUILD_SCHEDULED_EVENT_USER_ADD";
+        
+        /// <summary>
+        /// 	The <c>GUILD_SCHEDULED_EVENT_USER_REMOVE</c> dispatch.
+        /// </summary>
+        public const string GuildScheduledEventUserRemove = "GUILD_SCHEDULED_EVENT_USER_REMOVE";
+        
+        /// <summary>
         /// 	The <c>INTEGRATION_CREATE</c> dispatch.
         /// </summary>
         public const string IntegrationCreate = "INTEGRATION_CREATE";

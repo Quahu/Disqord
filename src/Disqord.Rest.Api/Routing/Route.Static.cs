@@ -213,6 +213,21 @@ namespace Disqord.Rest.Api
             public static readonly Route ModifyMemberVoiceState = Patch("guilds/{0:guild_id}/voice-states/{1:user_id}");
         }
 
+        public static class GuildEvents
+        {
+            public static readonly Route GetEvents = Get("guilds/{0:guild_id}/scheduled-events");
+
+            public static readonly Route CreateEvent = Post("guilds/{0:guild_id}/scheduled-events");
+
+            public static readonly Route GetEvent = Get("guilds/{0:guild_id}/scheduled-events/{1:event_id}");
+
+            public static readonly Route ModifyEvent = Patch("guilds/{0:guild_id}/scheduled-events/{1:event_id}");
+
+            public static readonly Route DeleteEvent = Delete("guilds/{0:guild_id}/scheduled-events/{1:event_id}");
+
+            public static readonly Route GetEventUsers = Get("guilds/{0:guild_id}/scheduled-events/{1:event_id}/users");
+        }
+
         public static class Invite
         {
             public static readonly Route GetInvite = Get("invites/{0:invite_code}");

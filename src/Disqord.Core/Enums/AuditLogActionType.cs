@@ -55,6 +55,10 @@
         StickerUpdated = 91,
         StickerDeleted = 92,
 
+        GuildEventCreated = 100,
+        GuildEventUpdated = 101,
+        GuildEventDeleted = 102,
+
         ThreadCreate = 110,
         ThreadUpdate = 111,
         ThreadDelete = 112
