@@ -71,7 +71,7 @@ namespace Disqord
         private IGuildEventMetadata _metadata;
 
         /// <inheritdoc/>
-        public int? MemberCount => Model.UserCount.GetValueOrNullable();
+        public int? SubscriberCount => Model.UserCount.GetValueOrNullable();
 
         public TransientGuildEvent(IClient client, GuildScheduledEventJsonModel model)
             : base(client, model)

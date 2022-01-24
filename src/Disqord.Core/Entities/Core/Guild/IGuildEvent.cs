@@ -11,11 +11,23 @@ namespace Disqord
         /// <summary>
         ///     Gets the ID of the user who created this event.
         /// </summary>
+        /// <remarks>
+        ///     This property is only available for events created after October 25th, 2021.
+        /// </remarks>
+        /// <returns>
+        ///     The ID of the user who created this event or <see langword="null"/> for older events (see remarks).
+        /// </returns>
         Snowflake? CreatorId { get; }
 
         /// <summary>
         ///     Gets the user who created this event.
         /// </summary>
+        /// <remarks>
+        ///     This property is only available for events created after October 25th, 2021.
+        /// </remarks>
+        /// <returns>
+        ///     The user who created this event or <see langword="null"/> for older events (see remarks).
+        /// </returns>
         IUser Creator { get; }
 
         /// <summary>
@@ -35,8 +47,10 @@ namespace Disqord
 
         /// <summary>
         ///     Gets the time this event will end.
-        ///     Returns <see langword="null"/> if the event has no scheduled end time.
         /// </summary>
+        /// <returns>
+        ///     The time this event will end or <see langword="null"/> if the event has no scheduled end time.
+        /// </returns>
         DateTimeOffset? EndsAt { get; }
 
         /// <summary>
@@ -57,17 +71,25 @@ namespace Disqord
         /// <summary>
         ///     Gets the ID of the target of this event.
         /// </summary>
+        /// <remarks>
+        ///     This property is <see langword="null"/> when <see cref="IGuildEvent.TargetType"/> is <see cref="GuildEventTargetType.External"/>.
+        /// </remarks>
         Snowflake? TargetId { get; }
 
         /// <summary>
         ///     Gets the entity metadata of this event.
-        ///     Returns <see langword="null"/> if the event has no entity metadata.
         /// </summary>
+        /// <returns>
+        ///     The entity metadata of this event or <see langword="null"/> if the event has no entity metadata.
+        /// </returns>
         IGuildEventMetadata Metadata { get; }
 
         /// <summary>
         ///     Gets the amount of members subscribed to this event.
         /// </summary>
-        int? MemberCount { get; }
+        /// <remarks>
+        ///     This property is only available when the event is fetched with the <c>withSubscriberCount</c> parameter set to <see langword="true" />.
+        /// </remarks>
+        int? SubscriberCount { get; }
     }
 }

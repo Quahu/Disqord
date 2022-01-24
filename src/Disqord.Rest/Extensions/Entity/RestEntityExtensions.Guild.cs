@@ -555,11 +555,11 @@ namespace Disqord.Rest
          * Guild Events
          */
         public static Task<IReadOnlyList<IGuildEvent>> FetchEventsAsync(this IGuild guild,
-            bool? withUserCount = null,
+            bool? withSubscriberCount = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = guild.GetRestClient();
-            return client.FetchGuildEventsAsync(guild.Id, withUserCount, options, cancellationToken);
+            return client.FetchGuildEventsAsync(guild.Id, withSubscriberCount, options, cancellationToken);
         }
 
         public static Task<IGuildEvent> CreateEventAsync(this IGuild guild,

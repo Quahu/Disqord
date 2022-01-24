@@ -49,7 +49,7 @@ namespace Disqord.Gateway
         public IGuildEventMetadata Metadata { get; private set; }
 
         /// <inheritdoc/>
-        public int? MemberCount { get; private set; }
+        public int? SubscriberCount { get; private set; }
 
         public CachedGuildEvent(IGatewayClient client, GuildScheduledEventJsonModel model)
             : base(client, model.Id)
@@ -79,7 +79,7 @@ namespace Disqord.Gateway
             if (model.EntityMetadata != null)
                 Metadata = new TransientGuildEventMetadata(model.EntityMetadata);
 
-            MemberCount = model.UserCount.GetValueOrNullable();
+            SubscriberCount = model.UserCount.GetValueOrNullable();
         }
     }
 }

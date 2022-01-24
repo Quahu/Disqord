@@ -10,13 +10,13 @@ namespace Disqord.Rest.Api
     public static partial class RestApiClientExtensions
     {
         public static Task<GuildScheduledEventJsonModel[]> FetchGuildScheduledEventsAsync(this IRestApiClient client,
-            Snowflake guildId, bool? withUserCount = null,
+            Snowflake guildId, bool? withSubscriberCount = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             FormattedRoute route;
-            if (withUserCount != null)
+            if (withSubscriberCount != null)
             {
-                var queryParameters = new[] { new KeyValuePair<string, object>("with_user_count", withUserCount.Value) };
+                var queryParameters = new[] { new KeyValuePair<string, object>("with_user_count", withSubscriberCount.Value) };
 
                 route = Format(Route.GuildEvents.GetEvents, queryParameters, guildId);
             }
