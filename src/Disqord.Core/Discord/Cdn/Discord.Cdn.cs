@@ -121,6 +121,12 @@ namespace Disqord
                 return FormatUrl(path, format, size);
             }
 
+            public static string GetEventCoverImageUrl(Snowflake eventId, string coverImageHash, CdnAssetFormat format = default, int? size = null)
+            {
+                var path = $"guild-events/{eventId}/{coverImageHash}";
+                return FormatUrl(path, format, size);
+            }
+
             private static string FormatUrl(string path, CdnAssetFormat format, int? size)
             {
                 Guard.IsDefined(format);

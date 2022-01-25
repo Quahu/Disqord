@@ -25,7 +25,7 @@ namespace Disqord.Gateway
         public string Description { get; private set; }
 
         /// <inheritdoc/>
-        public string ImageHash { get; private set; }
+        public string CoverImageHash { get; private set; }
 
         /// <inheritdoc/>
         public DateTimeOffset StartsAt { get; private set; }
@@ -68,7 +68,7 @@ namespace Disqord.Gateway
             ChannelId = model.ChannelId;
             Name = model.Name;
             Description = model.Description.Value;
-            ImageHash = model.Image;
+            CoverImageHash = model.Image;
             StartsAt = model.ScheduledStartTime;
             EndsAt = model.ScheduledEndTime;
             PrivacyLevel = model.PrivacyLevel;

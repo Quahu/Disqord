@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Disqord.Models;
 using Disqord.Serialization.Json;
 using Qommon;
@@ -30,6 +31,9 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("entity_type")]
         public GuildEventTargetType EntityType;
+
+        [JsonProperty("image")]
+        public Optional<Stream> Image;
 
         protected override void OnValidate()
         {

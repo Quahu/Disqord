@@ -137,6 +137,16 @@ namespace Disqord
                 : null;
         }
 
+        public static string GetCoverImageUrl(this IGuildEvent @event, CdnAssetFormat format = default, int? size = null)
+        {
+            Guard.IsNotNull(@event);
+
+            var coverImageHash = @event.CoverImageHash;
+            return coverImageHash != null
+                ? Discord.Cdn.GetEventCoverImageUrl(@event.Id, coverImageHash, format, size)
+                : null;
+        }
+
         public static string GetUrl(this IPartialSticker sticker)
         {
             Guard.IsNotNull(sticker);
