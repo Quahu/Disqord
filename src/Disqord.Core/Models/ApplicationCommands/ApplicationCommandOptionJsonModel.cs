@@ -40,13 +40,18 @@ namespace Disqord.Models
             Guard.HasSizeBetweenOrEqualTo(Description, Discord.Limits.ApplicationCommands.Options.MinDescriptionLength, Discord.Limits.ApplicationCommands.Options.MaxDescriptionLength);
 
             if (Type is not SlashCommandOptionType.String and not SlashCommandOptionType.Integer and not SlashCommandOptionType.Number)
+            {
                 OptionalGuard.HasNoValue(Choices, "Choices can only be specified for string, integer, and number options.");
+
+                if (AutoComplete.HasValue)
+                    Guard.IsNotEqualTo(true, AutoComplete.Value);
+            }
 
             if (Type is not SlashCommandOptionType.Subcommand and not SlashCommandOptionType.SubcommandGroup)
                 OptionalGuard.HasNoValue(Options, "Nested options can only be specified for subcommands and subcommand groups.");
 
             if (AutoComplete.HasValue && AutoComplete.Value)
-                OptionalGuard.HasNoValue(Choices, "Choices can not be present when auto complete is set to true.");
+                OptionalGuard.HasNoValue(Choices, "Choices cannot be present when auto complete is set to true.");
 
             OptionalGuard.CheckValue(Choices, value =>
             {
@@ -79,9 +84,6 @@ namespace Disqord.Models
                 foreach (var channelType in value)
                     Guard.IsDefined(channelType);
             });
-
-            if (AutoComplete.HasValue && AutoComplete.Value)
-                OptionalGuard.HasNoValue(Choices, "Choices cannot be specified for an autocompletable option.");
         }
     }
 }
