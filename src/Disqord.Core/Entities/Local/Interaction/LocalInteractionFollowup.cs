@@ -2,17 +2,15 @@
 {
     public class LocalInteractionFollowup : LocalMessageBase
     {
-        public InteractionResponseFlag Flags { get; set; }
-
         public bool IsEphemeral
         {
-            get => Flags.HasFlag(InteractionResponseFlag.Ephemeral);
+            get => Flags.HasFlag(MessageFlag.Ephemeral);
             set
             {
                 if (value)
-                    Flags |= InteractionResponseFlag.Ephemeral;
+                    Flags |= MessageFlag.Ephemeral;
                 else
-                    Flags &= ~InteractionResponseFlag.Ephemeral;
+                    Flags &= ~MessageFlag.Ephemeral;
             }
         }
 

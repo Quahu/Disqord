@@ -27,19 +27,29 @@ namespace Disqord.Test
                 {
                     case "echo":
                     {
-                        var text = textCommandInteraction.Options.GetValueOrDefault("text")?.Value as string;
+                        var textOption = textCommandInteraction.Options.GetValueOrDefault("text");
+                        var text = textOption?.Value as string;
 
                         if (e.Interaction.Type == InteractionType.ApplicationCommandAutoComplete)
                         {
-                            var choices = new[]
+                            if (textOption.IsFocused)
                             {
-                                new LocalSlashCommandOptionChoice().WithName($"{text} owo").WithValue("choice_1"),
-                                new LocalSlashCommandOptionChoice().WithName($"{text} uwu").WithValue("choice_2")
-                            };
+                                var choices = new List<LocalSlashCommandOptionChoice>()
+                                {
+                                    new LocalSlashCommandOptionChoice().WithName($"{text} owo").WithValue($"{text} owo"),
+                                    new LocalSlashCommandOptionChoice().WithName($"{text} kek").WithValue($"{text} kek"),
+                                    new LocalSlashCommandOptionChoice().WithName($"{text} lol").WithValue($"{text} lol")
+                                };
+
+                                if (!string.IsNullOrWhiteSpace(text))
+                                    choices.Add(new LocalSlashCommandOptionChoice().WithName(text).WithValue(text));
+
+                                await e.Interaction.Response().AutoCompleteAsync(choices);
+                            }
                         }
                         else
                         {
-                            await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse().WithContent(text).WithAllowedMentions(LocalAllowedMentions.None));
+                            await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse().WithIsEphemeral().WithContent(text).WithAllowedMentions(LocalAllowedMentions.None));
                         }
                         break;
                     }
@@ -50,7 +60,7 @@ namespace Disqord.Test
                         var amount = 1;
                         if (rawAmount != null)
                             amount = (int) Math.Clamp(Convert.ToInt64(rawAmount), 1, 100);
-                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse()
+                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse()
                             .WithContent(string.Join(", ", Enumerable.Range(0, amount).Select(x => random.Next(2) == 1 ? "heads" : "tails"))));
                         break;
                     }
@@ -63,7 +73,7 @@ namespace Disqord.Test
                     case "Rate Message" when contextMenuInteraction.CommandType == ApplicationCommandType.Message:
                     {
                         var message = contextMenuInteraction.Entities.Messages.GetValueOrDefault(contextMenuInteraction.TargetId);
-                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse()
+                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse()
                             .WithContent("I rate it 2/10.")
                             .AddEmbed(new LocalEmbed()
                                 .WithDescription(message.Content))
@@ -73,7 +83,7 @@ namespace Disqord.Test
                     case "Give Cookie" when contextMenuInteraction.CommandType == ApplicationCommandType.User:
                     {
                         var user = contextMenuInteraction.Entities.Users.GetValueOrDefault(contextMenuInteraction.TargetId);
-                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse().WithContent($"{user.Mention} 🍪."));
+                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse().WithContent($"{user.Mention} 🍪."));
                         break;
                     }
                 }

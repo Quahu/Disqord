@@ -66,7 +66,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Prompt
             {
                 var task = result
                     ? Menu.Client.DeleteMessageAsync(Menu.ChannelId, Menu.MessageId)
-                    : e.Interaction.Response().ModifyMessageAsync(new LocalInteractionResponse().WithContent("Action aborted."));
+                    : e.Interaction.Response().ModifyMessageAsync(new LocalInteractionMessageResponse().WithContent("Action aborted."));
 
                 await task.ConfigureAwait(false);
             }

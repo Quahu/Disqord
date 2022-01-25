@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Bot;
@@ -10,7 +9,6 @@ using Disqord.Gateway;
 using Disqord.Models;
 using Disqord.Rest;
 using Disqord.Rest.Api;
-using Microsoft.Extensions.Logging;
 using Qmmands;
 
 namespace Disqord.Test
