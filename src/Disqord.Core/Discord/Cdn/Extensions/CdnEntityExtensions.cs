@@ -143,7 +143,7 @@ namespace Disqord
 
             var coverImageHash = @event.CoverImageHash;
             return coverImageHash != null
-                ? Discord.Cdn.GetEventCoverUrl(@event.Id, coverImageHash, format, size)
+                ? Discord.Cdn.GetEventCoverImageUrl(@event.Id, coverImageHash, format, size)
                 : null;
         }
 
