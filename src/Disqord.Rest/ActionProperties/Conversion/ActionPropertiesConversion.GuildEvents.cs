@@ -22,7 +22,8 @@ namespace Disqord.Rest.Api
                 ScheduledEndTime = properties.EndsAt,
                 Description = properties.Description,
                 EntityType = properties.TargetType,
-                Status = properties.Status
+                Status = properties.Status,
+                Image = properties.CoverImage
             };
 
             if (properties.Location.HasValue)

@@ -36,7 +36,8 @@ namespace Disqord.Rest
                 ScheduledStartTime = startsAt,
                 ScheduledEndTime = properties.EndsAt,
                 Description = properties.Description,
-                EntityType = targetType
+                EntityType = targetType,
+                Image = properties.CoverImage
             };
 
             if (properties.Location.HasValue)

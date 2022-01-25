@@ -36,9 +36,9 @@ namespace Disqord
         string Description { get; }
 
         /// <summary>
-        ///     Gets the image hash of this event.
+        ///     Gets the cover image hash of this event.
         /// </summary>
-        string ImageHash { get; }
+        string CoverImageHash { get; }
 
         /// <summary>
         ///     Gets the time this event will start.

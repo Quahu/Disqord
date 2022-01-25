@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Disqord.Rest
 {
@@ -21,5 +22,7 @@ namespace Disqord.Rest
         public Optional<GuildEventTargetType> TargetType { internal get; set; }
 
         public Optional<GuildEventStatus> Status { internal get; set; }
+
+        public Optional<Stream> CoverImage { internal get; set; }
     }
 }

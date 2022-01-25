@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Disqord.Models;
 using Disqord.Serialization.Json;
 using Qommon;
@@ -33,6 +34,9 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("status")]
         public Optional<GuildEventStatus> Status;
+
+        [JsonProperty("image")]
+        public Optional<Stream> Image;
 
         protected override void OnValidate()
         {

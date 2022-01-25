@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Disqord
 {
@@ -11,5 +12,7 @@ namespace Disqord
         public Optional<DateTimeOffset> EndsAt { internal get; set; }
 
         public Optional<string> Description { internal get; set; }
+
+        public Optional<Stream> CoverImage { internal get; set; }
     }
 }
