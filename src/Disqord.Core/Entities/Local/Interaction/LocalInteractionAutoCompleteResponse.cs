@@ -2,38 +2,39 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Disqord;
-
-public class LocalInteractionAutoCompleteResponse : ILocalInteractionResponse
+namespace Disqord
 {
-    public InteractionResponseType Type { get; set; }
-
-    /// <summary>
-    ///     Gets or sets the choices of this response.
-    /// </summary>
-    public IList<LocalSlashCommandOptionChoice> Choices { get; set; }
-
-    public LocalInteractionAutoCompleteResponse()
+    public class LocalInteractionAutoCompleteResponse : ILocalInteractionResponse
     {
-        Type = InteractionResponseType.ApplicationCommandAutoComplete;
-        Choices = new List<LocalSlashCommandOptionChoice>();
-    }
+        public InteractionResponseType Type { get; set; }
 
-    private LocalInteractionAutoCompleteResponse(LocalInteractionAutoCompleteResponse other)
-    {
-        Type = other.Type;
-        Choices = other.Choices.Select(x => x.Clone()).ToList();
-    }
+        /// <summary>
+        ///     Gets or sets the choices of this response.
+        /// </summary>
+        public IList<LocalSlashCommandOptionChoice> Choices { get; set; }
 
-    public virtual LocalInteractionAutoCompleteResponse Clone()
-        => new(this);
+        public LocalInteractionAutoCompleteResponse()
+        {
+            Type = InteractionResponseType.ApplicationCommandAutoComplete;
+            Choices = new List<LocalSlashCommandOptionChoice>();
+        }
 
-    object ICloneable.Clone()
-        => Clone();
+        private LocalInteractionAutoCompleteResponse(LocalInteractionAutoCompleteResponse other)
+        {
+            Type = other.Type;
+            Choices = other.Choices.Select(x => x.Clone()).ToList();
+        }
 
-    public void Validate()
-    {
-        if (Type != InteractionResponseType.ApplicationCommandAutoComplete)
-            throw new InvalidOperationException("The interaction response's type must be autocomplete.");
+        public virtual LocalInteractionAutoCompleteResponse Clone()
+            => new(this);
+
+        object ICloneable.Clone()
+            => Clone();
+
+        public void Validate()
+        {
+            if (Type != InteractionResponseType.ApplicationCommandAutoComplete)
+                throw new InvalidOperationException("The interaction response's type must be autocomplete.");
+        }
     }
 }
