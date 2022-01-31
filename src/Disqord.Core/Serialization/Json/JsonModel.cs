@@ -5,6 +5,9 @@ using System.Runtime.CompilerServices;
 
 namespace Disqord.Serialization.Json
 {
+    /// <summary>
+    ///     Represents a JSON model.
+    /// </summary>
     public class JsonModel : IJsonObject
     {
         /// <summary>
@@ -31,9 +34,16 @@ namespace Disqord.Serialization.Json
             set => ExtensionData[key] = value;
         }
 
+        /// <summary>
+        ///     Instantiates a new <see cref="JsonModel"/>.
+        /// </summary>
         public JsonModel()
         { }
 
+        /// <inheritdoc cref="Validate"/>
+        /// <remarks>
+        ///     This is called by <see cref="Validate"/>.
+        /// </remarks>
         protected virtual void OnValidate()
         { }
 
