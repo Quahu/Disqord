@@ -57,7 +57,7 @@ namespace Disqord.Gateway
 
             if (model.ThreadMetadata.HasValue)
             {
-                CreatedAt = model.ThreadMetadata.Value.CreateTimestamp.GetValueOrNullable();
+                CreatedAt = model.ThreadMetadata.Value.CreateTimestamp.GetValueOrDefault();
             }
         }
 

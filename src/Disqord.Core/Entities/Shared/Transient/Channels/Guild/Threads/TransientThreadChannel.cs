@@ -56,7 +56,7 @@ namespace Disqord
         public bool AllowsInvitation => Model.ThreadMetadata.Value.Invitable.GetValueOrDefault(true);
 
         /// <inheritdoc/>
-        public DateTimeOffset? CreatedAt => Model.ThreadMetadata.Value.CreateTimestamp.GetValueOrNullable();
+        public DateTimeOffset? CreatedAt => Model.ThreadMetadata.Value.CreateTimestamp.GetValueOrDefault();
 
         public TransientThreadChannel(IClient client, ChannelJsonModel model)
             : base(client, model)
