@@ -30,11 +30,5 @@ namespace Disqord
 
         object ICloneable.Clone()
             => Clone();
-
-        public void Validate()
-        {
-            if (Type != InteractionResponseType.ApplicationCommandAutoComplete)
-                throw new InvalidOperationException("The interaction response's type must be autocomplete.");
-        }
     }
 }

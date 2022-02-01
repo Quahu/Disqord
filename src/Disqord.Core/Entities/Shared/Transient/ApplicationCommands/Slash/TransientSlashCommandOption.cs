@@ -32,7 +32,7 @@ namespace Disqord
         private IReadOnlyList<ISlashCommandOptionChoice> _choices;
 
         /// <inheritdoc/>
-        public bool IsAutoComplete => Model.AutoComplete.GetValueOrDefault();
+        public bool HasAutoComplete => Model.AutoComplete.GetValueOrDefault();
 
         /// <inheritdoc/>
         public IReadOnlyList<ISlashCommandOption> Options

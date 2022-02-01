@@ -1,5 +1,3 @@
-using System;
-
 namespace Disqord
 {
     public class LocalInteractionMessageResponse : LocalMessageBase, ILocalInteractionResponse
@@ -38,9 +36,6 @@ namespace Disqord
 
         public override void Validate()
         {
-            if (Type == default)
-                throw new InvalidOperationException("The interaction response's type must be set.");
-
             if (Type == InteractionResponseType.ChannelMessage)
                 base.Validate();
         }

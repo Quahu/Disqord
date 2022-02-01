@@ -15,73 +15,12 @@ namespace Disqord.Rest
             Snowflake interactionId, string interactionToken, ILocalInteractionResponse response,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            Guard.IsNotNull(response);
-            response.Validate();
+            var content = response.ToContent(client.ApiClient.Serializer, out var attachments);
+            if (attachments.Count == 0)
+                return client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, content, options, cancellationToken);
 
-            var interactionResponse = new CreateInitialInteractionResponseJsonRestRequestContent
-            {
-                Type = response.Type
-            };
-
-            Task task;
-
-            if (response.Type == InteractionResponseType.ApplicationCommandAutoComplete)
-            {
-                var autoCompleteResponse = response as LocalInteractionAutoCompleteResponse;
-
-                interactionResponse.Data = new InteractionCallbackAutoCompleteDataJsonModel
-                {
-                    Choices = autoCompleteResponse.Choices.Select(choice => choice.ToModel(client.ApiClient.Serializer)).ToArray()
-                };
-
-                task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, interactionResponse, options, cancellationToken);
-            }
-            else
-            {
-                var messageResponse = response as LocalInteractionMessageResponse;
-
-                if (interactionResponse.Type != InteractionResponseType.Pong)
-                {
-                    if (interactionResponse.Type is not (InteractionResponseType.MessageUpdate or InteractionResponseType.DeferredMessageUpdate))
-                    {
-                        interactionResponse.Data = new InteractionCallbackMessageDataJsonModel
-                        {
-                            Tts = Optional.Conditional(messageResponse.IsTextToSpeech, true),
-                            Content = Optional.FromNullable(messageResponse.Content),
-                            Embeds = Optional.Conditional(messageResponse.Embeds.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), messageResponse.Embeds),
-                            AllowedMentions = Optional.FromNullable(messageResponse.AllowedMentions.ToModel()),
-                            Components = Optional.Conditional(messageResponse.Components.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), messageResponse.Components),
-                            Flags = Optional.Conditional(messageResponse.Flags != MessageFlag.None, messageResponse.Flags)
-                        };
-                    }
-                    else
-                    {
-                        // TODO: make properties properly optional via different LocalInteractionResponse types?
-                        interactionResponse.Data = new InteractionCallbackMessageDataJsonModel
-                        {
-                            Content = messageResponse.Content,
-                            Embeds = messageResponse.Embeds.Select(x => x.ToModel()).ToArray(),
-                            AllowedMentions = messageResponse.AllowedMentions?.ToModel(),
-                            Components = messageResponse.Components.Select(x => x.ToModel()).ToArray(),
-                            Flags = messageResponse.Flags
-                        };
-                    }
-                }
-
-                if (messageResponse.Attachments.Count != 0)
-                {
-                    // If there is an attachment, we must send it via multipart HTTP content.
-                    // Our `messageContent` will be serialized into a "payload_json" form data field.
-                    var content = new MultipartJsonPayloadRestRequestContent<CreateInitialInteractionResponseJsonRestRequestContent>(interactionResponse, messageResponse.Attachments);
-                    task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, content, options, cancellationToken);
-                }
-                else
-                {
-                    task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, interactionResponse, options, cancellationToken);
-                }
-            }
-
-            return task;
+            var multipartContent = new MultipartJsonPayloadRestRequestContent<CreateInitialInteractionResponseJsonRestRequestContent>(content, attachments);
+            return client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, multipartContent, options, cancellationToken);
         }
 
         public static async Task<IUserMessage> FetchInteractionResponseAsync(this IRestClient client,

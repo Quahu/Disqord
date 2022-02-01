@@ -1,6 +1,7 @@
 ﻿using System;
 using Disqord.Models;
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Rest.Api
 {
@@ -10,13 +11,24 @@ namespace Disqord.Rest.Api
         public InteractionResponseType Type;
 
         [JsonProperty("data")]
-        public Optional<IInteractionCallbackData> Data;
+        public Optional<JsonModel> Data;
 
         protected override void OnValidate()
         {
-            if (Type == InteractionResponseType.ApplicationCommandAutoComplete && Data.Value is not InteractionCallbackAutoCompleteDataJsonModel)
+            if (Type == default)
+                throw new InvalidOperationException("The interaction response's type must be set.");
+
+            switch (Type)
             {
-                throw new InvalidOperationException("Data must be an instance of InteractionCallbackAutoCompleteDataJsonModel.");
+                case InteractionResponseType.Pong:
+                    OptionalGuard.HasNoValue(Data);
+                    break;
+                case InteractionResponseType.ApplicationCommandAutoComplete:
+                    Guard.IsAssignableToType<InteractionCallbackAutoCompleteDataJsonModel>(Data.Value);
+                    break;
+                case InteractionResponseType.ChannelMessage or InteractionResponseType.MessageUpdate:
+                    Guard.IsAssignableToType<InteractionCallbackMessageDataJsonModel>(Data.Value);
+                    break;
             }
         }
     }
