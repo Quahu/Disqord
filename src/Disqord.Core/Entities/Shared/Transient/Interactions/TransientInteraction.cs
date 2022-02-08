@@ -40,7 +40,7 @@ namespace Disqord.Interaction
         public static IInteraction Create(IClient client, InteractionJsonModel model)
             => model.Type switch
             {
-                InteractionType.ApplicationCommand or InteractionType.ApplicationCommandAutoComplete => model.Data.Value.Type.Value switch
+                InteractionType.ApplicationCommand or InteractionType.ApplicationCommandAutocomplete => model.Data.Value.Type.Value switch
                 {
                     ApplicationCommandType.Slash => new TransientSlashCommandInteraction(client, model),
                     ApplicationCommandType.User or ApplicationCommandType.Message => new TransientContextMenuInteraction(client, model),

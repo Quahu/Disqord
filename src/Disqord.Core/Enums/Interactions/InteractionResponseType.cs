@@ -15,6 +15,6 @@
 
         MessageUpdate = 7,
 
-        ApplicationCommandAutoComplete = 8
+        ApplicationCommandAutocomplete = 8
     }
 }

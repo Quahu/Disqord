@@ -30,7 +30,7 @@ namespace Disqord.Test
                         var textOption = textCommandInteraction.Options.GetValueOrDefault("text");
                         var text = textOption?.Value as string;
 
-                        if (e.Interaction.Type == InteractionType.ApplicationCommandAutoComplete && textOption is ISlashCommandAutoCompleteInteractionOption autoCompleteTextOption)
+                        if (e.Interaction.Type == InteractionType.ApplicationCommandAutocomplete && textOption is ISlashCommandAutocompleteInteractionOption autoCompleteTextOption)
                         {
                             if (autoCompleteTextOption.IsFocused)
                             {
@@ -44,7 +44,7 @@ namespace Disqord.Test
                                 if (!string.IsNullOrWhiteSpace(text))
                                     choices.Add(new LocalSlashCommandOptionChoice().WithName(text).WithValue(text));
 
-                                await e.Interaction.Response().AutoCompleteAsync(choices);
+                                await e.Interaction.Response().AutocompleteAsync(choices);
                             }
                         }
                         else

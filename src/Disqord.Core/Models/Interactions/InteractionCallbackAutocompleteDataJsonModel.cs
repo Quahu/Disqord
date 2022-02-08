@@ -3,7 +3,7 @@ using Qommon;
 
 namespace Disqord.Models
 {
-    public class InteractionCallbackAutoCompleteDataJsonModel : JsonModel
+    public class InteractionCallbackAutocompleteDataJsonModel : JsonModel
     {
         [JsonProperty("choices")]
         public Optional<ApplicationCommandOptionChoiceJsonModel[]> Choices;

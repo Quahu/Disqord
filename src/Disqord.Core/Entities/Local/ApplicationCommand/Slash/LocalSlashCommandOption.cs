@@ -47,7 +47,7 @@ namespace Disqord
         /// <summary>
         ///     Gets or sets whether this option should be autocompleted.
         /// </summary>
-        public Optional<bool> IsAutoComplete { get; set; }
+        public Optional<bool> IsAutocomplete { get; set; }
 
         /// <summary>
         ///     Gets or sets the nested options of this option.
@@ -71,7 +71,7 @@ namespace Disqord
             Description = other.Description;
             IsRequired = other.IsRequired;
             Choices = Optional.Convert(other.Choices, choices => choices?.Select(choice => choice?.Clone()).ToList() as IList<LocalSlashCommandOptionChoice>);
-            IsAutoComplete = other.IsAutoComplete;
+            IsAutocomplete = other.IsAutocomplete;
             Options = Optional.Convert(other.Options, options => options?.Select(option => option?.Clone()).ToList() as IList<LocalSlashCommandOption>);
             ChannelTypes = Optional.Convert(other.ChannelTypes, channelTypes => channelTypes?.ToList() as IList<ChannelType>);
         }

@@ -31,7 +31,7 @@ namespace Disqord
         /// <summary>
         ///     Gets whether this option should be autocompleted.
         /// </summary>
-        bool HasAutoComplete { get; }
+        bool HasAutocomplete { get; }
 
         /// <summary>
         ///     Gets the nested options of this option.

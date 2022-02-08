@@ -1,6 +1,6 @@
 namespace Disqord
 {
-    public interface ISlashCommandAutoCompleteInteractionOption : ISlashCommandInteractionOption
+    public interface ISlashCommandAutocompleteInteractionOption : ISlashCommandInteractionOption
     {
         /// <summary>
         ///     Gets whether this option is focused.
