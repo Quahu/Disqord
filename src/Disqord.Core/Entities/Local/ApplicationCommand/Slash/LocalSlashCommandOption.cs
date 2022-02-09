@@ -45,7 +45,7 @@ namespace Disqord
         public Optional<IList<LocalSlashCommandOptionChoice>> Choices { get; set; }
 
         /// <summary>
-        ///     Gets or sets whether this option supports auto-completed.
+        ///     Gets or sets whether this option supports auto-complete.
         /// </summary>
         public Optional<bool> HasAutoComplete { get; set; }
 

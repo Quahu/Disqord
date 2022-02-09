@@ -16,11 +16,18 @@ namespace Disqord.Rest
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var content = response.ToContent(client.ApiClient.Serializer, out var attachments);
-            if (attachments.Count == 0)
-                return client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, content, options, cancellationToken);
+            Task task;
+            if (attachments.Count != 0)
+            {
+                var multipartContent = new MultipartJsonPayloadRestRequestContent<CreateInitialInteractionResponseJsonRestRequestContent>(content, attachments);
+                task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, multipartContent, options, cancellationToken);
+            }
+            else
+            {
+                task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, content, options, cancellationToken);
+            }
 
-            var multipartContent = new MultipartJsonPayloadRestRequestContent<CreateInitialInteractionResponseJsonRestRequestContent>(content, attachments);
-            return client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, multipartContent, options, cancellationToken);
+            return task;
         }
 
         public static async Task<IUserMessage> FetchInteractionResponseAsync(this IRestClient client,

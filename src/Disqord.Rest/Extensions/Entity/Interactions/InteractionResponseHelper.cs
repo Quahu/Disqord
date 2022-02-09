@@ -121,7 +121,7 @@ namespace Disqord.Rest
         }
 
         public async Task AutoCompleteAsync(
-            IList<LocalSlashCommandOptionChoice> choices,
+            IEnumerable<LocalSlashCommandOptionChoice> choices,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(choices);

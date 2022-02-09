@@ -51,7 +51,7 @@ namespace Disqord.Models
                 OptionalGuard.HasNoValue(Options, "Nested options can only be specified for subcommands and subcommand groups.");
 
             if (AutoComplete.HasValue && AutoComplete.Value)
-                OptionalGuard.HasNoValue(Choices, "Choices cannot be present when auto complete is set to true.");
+                OptionalGuard.HasNoValue(Choices, "Choices cannot be present when auto-complete is enabled.");
 
             OptionalGuard.CheckValue(Choices, value =>
             {

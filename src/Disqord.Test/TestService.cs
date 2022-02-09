@@ -36,9 +36,8 @@ namespace Disqord.Test
                             {
                                 var choices = new List<LocalSlashCommandOptionChoice>
                                 {
-                                    new LocalSlashCommandOptionChoice().WithName($"{text} owo").WithValue($"{text} owo"),
-                                    new LocalSlashCommandOptionChoice().WithName($"{text} kek").WithValue($"{text} kek"),
-                                    new LocalSlashCommandOptionChoice().WithName($"{text} lol").WithValue($"{text} lol")
+                                    new LocalSlashCommandOptionChoice().WithName("hi").WithValue("hi"),
+                                    new LocalSlashCommandOptionChoice().WithName("hello").WithValue("hello")
                                 };
 
                                 if (!string.IsNullOrWhiteSpace(text))
