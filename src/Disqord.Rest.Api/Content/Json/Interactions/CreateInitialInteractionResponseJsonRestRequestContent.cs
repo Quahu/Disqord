@@ -23,8 +23,8 @@ namespace Disqord.Rest.Api
                 case InteractionResponseType.Pong:
                     OptionalGuard.HasNoValue(Data);
                     break;
-                case InteractionResponseType.ApplicationCommandAutocomplete:
-                    Guard.IsAssignableToType<InteractionCallbackAutocompleteDataJsonModel>(Data.Value);
+                case InteractionResponseType.ApplicationCommandAutoComplete:
+                    Guard.IsAssignableToType<InteractionCallbackAutoCompleteDataJsonModel>(Data.Value);
                     break;
                 case InteractionResponseType.ChannelMessage or InteractionResponseType.MessageUpdate:
                     Guard.IsAssignableToType<InteractionCallbackMessageDataJsonModel>(Data.Value);

@@ -120,19 +120,19 @@ namespace Disqord.Rest
             SetResponded(InteractionResponseType.MessageUpdate);
         }
 
-        public async Task AutocompleteAsync(
+        public async Task AutoCompleteAsync(
             IList<LocalSlashCommandOptionChoice> choices,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(choices);
 
-            var response = new LocalInteractionAutocompleteResponse();
+            var response = new LocalInteractionAutoCompleteResponse();
             response.WithChoices(choices);
 
             var client = Interaction.GetRestClient();
             await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
 
-            SetResponded(InteractionResponseType.ApplicationCommandAutocomplete);
+            SetResponded(InteractionResponseType.ApplicationCommandAutoComplete);
         }
     }
 }

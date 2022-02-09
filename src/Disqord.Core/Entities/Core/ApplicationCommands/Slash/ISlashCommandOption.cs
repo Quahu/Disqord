@@ -29,9 +29,9 @@ namespace Disqord
         IReadOnlyList<ISlashCommandOptionChoice> Choices { get; }
 
         /// <summary>
-        ///     Gets whether this option should be autocompleted.
+        ///     Gets whether this option should be auto-completed.
         /// </summary>
-        bool HasAutocomplete { get; }
+        bool HasAutoComplete { get; }
 
         /// <summary>
         ///     Gets the nested options of this option.

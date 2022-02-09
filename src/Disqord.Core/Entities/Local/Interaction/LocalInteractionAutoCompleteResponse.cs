@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Disqord
 {
-    public class LocalInteractionAutocompleteResponse : ILocalInteractionResponse
+    public class LocalInteractionAutoCompleteResponse : ILocalInteractionResponse
     {
         public InteractionResponseType Type { get; set; }
 
@@ -13,19 +13,19 @@ namespace Disqord
         /// </summary>
         public IList<LocalSlashCommandOptionChoice> Choices { get; set; }
 
-        public LocalInteractionAutocompleteResponse()
+        public LocalInteractionAutoCompleteResponse()
         {
-            Type = InteractionResponseType.ApplicationCommandAutocomplete;
+            Type = InteractionResponseType.ApplicationCommandAutoComplete;
             Choices = new List<LocalSlashCommandOptionChoice>();
         }
 
-        private LocalInteractionAutocompleteResponse(LocalInteractionAutocompleteResponse other)
+        private LocalInteractionAutoCompleteResponse(LocalInteractionAutoCompleteResponse other)
         {
             Type = other.Type;
             Choices = other.Choices.Select(x => x.Clone()).ToList();
         }
 
-        public virtual LocalInteractionAutocompleteResponse Clone()
+        public virtual LocalInteractionAutoCompleteResponse Clone()
             => new(this);
 
         object ICloneable.Clone()

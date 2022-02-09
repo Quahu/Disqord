@@ -11,6 +11,6 @@
 
         MessageComponent = 3,
 
-        ApplicationCommandAutocomplete = 4
+        ApplicationCommandAutoComplete = 4
     }
 }

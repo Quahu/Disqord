@@ -20,9 +20,9 @@ namespace Disqord.Rest.Api
             };
             attachments = Array.Empty<LocalAttachment>();
 
-            if (response is LocalInteractionAutocompleteResponse autoCompleteResponse)
+            if (response is LocalInteractionAutoCompleteResponse autoCompleteResponse)
             {
-                content.Data = new InteractionCallbackAutocompleteDataJsonModel
+                content.Data = new InteractionCallbackAutoCompleteDataJsonModel
                 {
                     Choices = autoCompleteResponse.Choices.Select(choice => choice.ToModel(serializer)).ToArray()
                 };

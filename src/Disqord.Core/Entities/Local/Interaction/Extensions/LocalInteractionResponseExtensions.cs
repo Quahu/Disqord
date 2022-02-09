@@ -21,7 +21,7 @@ namespace Disqord
         }
 
         public static TResponse AddChoice<TResponse>(this TResponse @this, LocalSlashCommandOptionChoice choice)
-            where TResponse : LocalInteractionAutocompleteResponse
+            where TResponse : LocalInteractionAutoCompleteResponse
         {
             Guard.IsNotNull(choice);
 
@@ -30,7 +30,7 @@ namespace Disqord
         }
 
         public static TResponse WithChoices<TResponse>(this TResponse @this, IEnumerable<LocalSlashCommandOptionChoice> choices)
-            where TResponse : LocalInteractionAutocompleteResponse
+            where TResponse : LocalInteractionAutoCompleteResponse
         {
             Guard.IsNotNull(choices);
 
@@ -40,7 +40,7 @@ namespace Disqord
         }
 
         public static TResponse WithChoices<TResponse>(this TResponse @this, params LocalSlashCommandOptionChoice[] choices)
-            where TResponse : LocalInteractionAutocompleteResponse
+            where TResponse : LocalInteractionAutoCompleteResponse
             => @this.WithChoices(choices as IEnumerable<LocalSlashCommandOptionChoice>);
     }
 }
