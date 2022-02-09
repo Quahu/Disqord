@@ -16,7 +16,7 @@ namespace Disqord
         public static TResponse WithIsEphemeral<TResponse>(this TResponse response, bool isEphemeral = true)
             where TResponse : LocalInteractionMessageResponse
         {
-            response.IsEphemeral = true;
+            response.IsEphemeral = isEphemeral;
             return response;
         }
 
