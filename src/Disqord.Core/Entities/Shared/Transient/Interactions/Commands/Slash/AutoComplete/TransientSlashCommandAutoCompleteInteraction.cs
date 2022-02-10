@@ -17,7 +17,7 @@ namespace Disqord
 
                 return _options ??= Model.Data.Value.Options.Value.ToReadOnlyDictionary(Client,
                     (model, _) => model.Name,
-                    (model, client) => new TransientSlashCommandInteractionOption(client, model) as ISlashCommandAutoCompleteInteractionOption, StringComparer.OrdinalIgnoreCase);
+                    (model, client) => new TransientSlashCommandAutoCompleteInteractionOption(client, model) as ISlashCommandAutoCompleteInteractionOption, StringComparer.OrdinalIgnoreCase);
             }
         }
         private IReadOnlyDictionary<string, ISlashCommandAutoCompleteInteractionOption> _options;
