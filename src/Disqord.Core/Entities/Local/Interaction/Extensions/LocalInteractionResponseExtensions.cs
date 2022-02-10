@@ -1,18 +1,10 @@
 ﻿using System.Collections.Generic;
 using Qommon;
-using Qommon.Collections;
 
 namespace Disqord
 {
     public static class LocalInteractionResponseExtensions
     {
-        public static TResponse WithType<TResponse>(this TResponse response, InteractionResponseType type)
-            where TResponse : ILocalInteractionResponse
-        {
-            response.Type = type;
-            return response;
-        }
-
         public static TResponse WithIsEphemeral<TResponse>(this TResponse response, bool isEphemeral = true)
             where TResponse : LocalInteractionMessageResponse
         {
@@ -25,7 +17,9 @@ namespace Disqord
         {
             Guard.IsNotNull(choice);
 
-            @this.Choices.Add(choice);
+            if (!@this.Choices.Add(choice, out var list))
+                @this.Choices = new(list);
+
             return @this;
         }
 
@@ -34,8 +28,9 @@ namespace Disqord
         {
             Guard.IsNotNull(choices);
 
-            @this.Choices.Clear();
-            @this.Choices.AddRange(choices);
+            if (!@this.Choices.With(choices, out var list))
+                @this.Choices = new(list);
+
             return @this;
         }
 

@@ -29,27 +29,7 @@ namespace Disqord.Test
                     {
                         var textOption = textCommandInteraction.Options.GetValueOrDefault("text");
                         var text = textOption?.Value as string;
-
-                        if (e.Interaction.Type == InteractionType.ApplicationCommandAutoComplete && textOption is ISlashCommandAutoCompleteInteractionOption autoCompleteTextOption)
-                        {
-                            if (autoCompleteTextOption.IsFocused)
-                            {
-                                var choices = new List<LocalSlashCommandOptionChoice>
-                                {
-                                    new LocalSlashCommandOptionChoice().WithName("hi").WithValue("hi"),
-                                    new LocalSlashCommandOptionChoice().WithName("hello").WithValue("hello")
-                                };
-
-                                if (!string.IsNullOrWhiteSpace(text))
-                                    choices.Add(new LocalSlashCommandOptionChoice().WithName(text).WithValue(text));
-
-                                await e.Interaction.Response().AutoCompleteAsync(choices);
-                            }
-                        }
-                        else
-                        {
-                            await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse().WithIsEphemeral().WithContent(text).WithAllowedMentions(LocalAllowedMentions.None).WithIsTextToSpeech());
-                        }
+                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse().WithIsEphemeral().WithContent(text).WithAllowedMentions(LocalAllowedMentions.None).WithIsTextToSpeech());
                         break;
                     }
                     case "coinflip":
@@ -59,8 +39,10 @@ namespace Disqord.Test
                         var amount = 1;
                         if (rawAmount != null)
                             amount = (int) Math.Clamp(Convert.ToInt64(rawAmount), 1, 100);
+
                         await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse()
                             .WithContent(string.Join(", ", Enumerable.Range(0, amount).Select(x => random.Next(2) == 1 ? "heads" : "tails"))));
+
                         break;
                     }
                 }
@@ -77,12 +59,38 @@ namespace Disqord.Test
                             .AddEmbed(new LocalEmbed()
                                 .WithDescription(message.Content))
                             .WithAllowedMentions(LocalAllowedMentions.None));
+
                         break;
                     }
                     case "Give Cookie" when contextMenuInteraction.CommandType == ApplicationCommandType.User:
                     {
                         var user = contextMenuInteraction.Entities.Users.GetValueOrDefault(contextMenuInteraction.TargetId);
                         await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse().WithContent($"{user.Mention} 🍪."));
+                        break;
+                    }
+                }
+            }
+            else if (e.Interaction is ISlashCommandAutoCompleteInteraction autoCompleteInteraction)
+            {
+                switch (autoCompleteInteraction.CommandName)
+                {
+                    case "echo":
+                    {
+                        var textOption = autoCompleteInteraction.Options["text"];
+                        if (!textOption.IsFocused)
+                            return;
+
+                        var choices = new List<LocalSlashCommandOptionChoice>
+                        {
+                            new LocalSlashCommandOptionChoice().WithName("hi").WithValue("hi"),
+                            new LocalSlashCommandOptionChoice().WithName("hello").WithValue("hello")
+                        };
+
+                        var text = textOption.Value as string;
+                        if (!string.IsNullOrWhiteSpace(text))
+                            choices.Add(new LocalSlashCommandOptionChoice().WithName(text).WithValue(text));
+
+                        await e.Interaction.Response().AutoCompleteAsync(choices);
                         break;
                     }
                 }

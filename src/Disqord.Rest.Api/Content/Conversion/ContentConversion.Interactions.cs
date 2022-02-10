@@ -24,7 +24,7 @@ namespace Disqord.Rest.Api
             {
                 content.Data = new InteractionCallbackAutoCompleteDataJsonModel
                 {
-                    Choices = autoCompleteResponse.Choices.Select(choice => choice.ToModel(serializer)).ToArray()
+                    Choices = Optional.Convert(autoCompleteResponse.Choices, choices => choices?.Select(choice => choice.ToModel(serializer)).ToArray())
                 };
             }
             else if (response is LocalInteractionMessageResponse messageResponse)

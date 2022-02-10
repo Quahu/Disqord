@@ -6,23 +6,19 @@ namespace Disqord
 {
     public class LocalInteractionAutoCompleteResponse : ILocalInteractionResponse
     {
-        public InteractionResponseType Type { get; set; }
+        InteractionResponseType ILocalInteractionResponse.Type => InteractionResponseType.ApplicationCommandAutoComplete;
 
         /// <summary>
         ///     Gets or sets the choices of this response.
         /// </summary>
-        public IList<LocalSlashCommandOptionChoice> Choices { get; set; }
+        public Optional<IList<LocalSlashCommandOptionChoice>> Choices { get; set; }
 
         public LocalInteractionAutoCompleteResponse()
-        {
-            Type = InteractionResponseType.ApplicationCommandAutoComplete;
-            Choices = new List<LocalSlashCommandOptionChoice>();
-        }
+        { }
 
-        private LocalInteractionAutoCompleteResponse(LocalInteractionAutoCompleteResponse other)
+        protected LocalInteractionAutoCompleteResponse(LocalInteractionAutoCompleteResponse other)
         {
-            Type = other.Type;
-            Choices = other.Choices.Select(x => x.Clone()).ToList();
+            Choices = Optional.Convert(other.Choices, choices => choices?.Select(choice => choice?.Clone()).ToList() as IList<LocalSlashCommandOptionChoice>);
         }
 
         public virtual LocalInteractionAutoCompleteResponse Clone()
