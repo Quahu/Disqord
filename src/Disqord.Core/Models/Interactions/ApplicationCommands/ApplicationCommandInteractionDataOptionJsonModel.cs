@@ -15,5 +15,8 @@ namespace Disqord.Models
 
         [JsonProperty("options")]
         public Optional<ApplicationCommandInteractionDataOptionJsonModel[]> Options;
+
+        [JsonProperty("focused")]
+        public Optional<bool> Focused;
     }
 }

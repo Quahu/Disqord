@@ -248,7 +248,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                     if (response != null && !response.HasResponded)
                     {
                         // If the user hasn't responded, respond to the interaction with modifying the message.
-                        await response.ModifyMessageAsync(new LocalInteractionResponse
+                        await response.ModifyMessageAsync(new LocalInteractionMessageResponse()
                         {
                             Content = localMessage.Content,
                             IsTextToSpeech = localMessage.IsTextToSpeech,

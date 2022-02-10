@@ -20,6 +20,9 @@ namespace Disqord.Models
         [JsonProperty("choices")]
         public Optional<ApplicationCommandOptionChoiceJsonModel[]> Choices;
 
+        [JsonProperty("autocomplete")]
+        public Optional<bool> AutoComplete;
+
         [JsonProperty("options")]
         public Optional<ApplicationCommandOptionJsonModel[]> Options;
 
@@ -37,10 +40,18 @@ namespace Disqord.Models
             Guard.HasSizeBetweenOrEqualTo(Description, Discord.Limits.ApplicationCommands.Options.MinDescriptionLength, Discord.Limits.ApplicationCommands.Options.MaxDescriptionLength);
 
             if (Type is not SlashCommandOptionType.String and not SlashCommandOptionType.Integer and not SlashCommandOptionType.Number)
+            {
                 OptionalGuard.HasNoValue(Choices, "Choices can only be specified for string, integer, and number options.");
+
+                if (AutoComplete.HasValue)
+                    Guard.IsNotEqualTo(true, AutoComplete.Value);
+            }
 
             if (Type is not SlashCommandOptionType.Subcommand and not SlashCommandOptionType.SubcommandGroup)
                 OptionalGuard.HasNoValue(Options, "Nested options can only be specified for subcommands and subcommand groups.");
+
+            if (AutoComplete.HasValue && AutoComplete.Value)
+                OptionalGuard.HasNoValue(Choices, "Choices cannot be present when auto-complete is enabled.");
 
             OptionalGuard.CheckValue(Choices, value =>
             {

@@ -49,6 +49,7 @@ namespace Disqord.Rest.Api
                 Description = option.Description.Value,
                 Required = option.IsRequired,
                 Choices = Optional.Convert(option.Choices, choices => choices?.Select(choice => choice?.ToModel(serializer)).ToArray()),
+                AutoComplete = option.HasAutoComplete,
                 Options = Optional.Convert(option.Options, options => options?.Select(option => option?.ToModel(serializer)).ToArray()),
                 ChannelTypes = Optional.Convert(option.ChannelTypes, channelTypes => channelTypes?.ToArray())
             };

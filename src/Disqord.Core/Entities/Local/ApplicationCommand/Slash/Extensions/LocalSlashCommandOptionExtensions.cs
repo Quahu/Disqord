@@ -59,6 +59,13 @@ namespace Disqord
             where TSlashCommandOption : LocalSlashCommandOption
             => @this.WithChoices(choices as IEnumerable<LocalSlashCommandOptionChoice>);
 
+        public static TSlashCommandOption WithHasAutoComplete<TSlashCommandOption>(this TSlashCommandOption @this, bool hasAutoComplete = true)
+            where TSlashCommandOption : LocalSlashCommandOption
+        {
+            @this.HasAutoComplete = hasAutoComplete;
+            return @this;
+        }
+
         public static TSlashCommandOption AddOption<TSlashCommandOption>(this TSlashCommandOption @this, LocalSlashCommandOption option)
             where TSlashCommandOption : LocalSlashCommandOption
         {

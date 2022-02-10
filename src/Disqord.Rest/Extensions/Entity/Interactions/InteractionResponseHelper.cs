@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Qommon;
 
@@ -46,7 +47,7 @@ namespace Disqord.Rest
             ThrowIfResponded();
 
             var client = Interaction.GetRestClient();
-            var response = new LocalInteractionResponse(InteractionResponseType.Pong);
+            var response = new LocalInteractionMessageResponse(InteractionResponseType.Pong);
             await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken: cancellationToken).ConfigureAwait(false);
 
             SetResponded(InteractionResponseType.Pong);
@@ -64,7 +65,7 @@ namespace Disqord.Rest
 
             ThrowIfResponded();
             var client = Interaction.GetRestClient();
-            var response = new LocalInteractionResponse(InteractionResponseType.DeferredChannelMessage)
+            var response = new LocalInteractionMessageResponse(InteractionResponseType.DeferredChannelMessage)
                 .WithIsEphemeral(isEphemeral);
 
             await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
@@ -83,7 +84,7 @@ namespace Disqord.Rest
                 ? InteractionResponseType.DeferredMessageUpdate
                 : InteractionResponseType.DeferredChannelMessage;
 
-            var response = new LocalInteractionResponse(responseType)
+            var response = new LocalInteractionMessageResponse(responseType)
                 .WithIsEphemeral(isEphemeral);
 
             await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
@@ -92,7 +93,7 @@ namespace Disqord.Rest
         }
 
         public async Task SendMessageAsync(
-            LocalInteractionResponse response,
+            LocalInteractionMessageResponse response,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(response);
@@ -106,7 +107,7 @@ namespace Disqord.Rest
         }
 
         public async Task ModifyMessageAsync(
-            LocalInteractionResponse response,
+            LocalInteractionMessageResponse response,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             Guard.IsNotNull(response);
@@ -117,6 +118,21 @@ namespace Disqord.Rest
             await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
 
             SetResponded(InteractionResponseType.MessageUpdate);
+        }
+
+        public async Task AutoCompleteAsync(
+            IEnumerable<LocalSlashCommandOptionChoice> choices,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            Guard.IsNotNull(choices);
+
+            var response = new LocalInteractionAutoCompleteResponse();
+            response.WithChoices(choices);
+
+            var client = Interaction.GetRestClient();
+            await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
+
+            SetResponded(InteractionResponseType.ApplicationCommandAutoComplete);
         }
     }
 }

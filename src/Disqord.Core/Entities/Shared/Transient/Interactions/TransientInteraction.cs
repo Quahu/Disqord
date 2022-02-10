@@ -47,6 +47,7 @@ namespace Disqord.Interaction
                     _ => new TransientApplicationCommandInteraction(client, model)
                 },
                 InteractionType.MessageComponent => new TransientComponentInteraction(client, model),
+                InteractionType.ApplicationCommandAutoComplete => new TransientSlashCommandAutoCompleteInteraction(client, model),
                 _ => new TransientInteraction(client, model)
             };
     }

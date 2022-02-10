@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Qommon.Collections;
 using Disqord.Models;
+using Qommon.Collections;
 
 namespace Disqord
 {

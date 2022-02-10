@@ -27,8 +27,9 @@ namespace Disqord.Test
                 {
                     case "echo":
                     {
-                        var text = textCommandInteraction.Options.GetValueOrDefault("text")?.Value as string;
-                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse().WithContent(text).WithAllowedMentions(LocalAllowedMentions.None));
+                        var textOption = textCommandInteraction.Options.GetValueOrDefault("text");
+                        var text = textOption?.Value as string;
+                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse().WithIsEphemeral().WithContent(text).WithAllowedMentions(LocalAllowedMentions.None).WithIsTextToSpeech());
                         break;
                     }
                     case "coinflip":
@@ -38,8 +39,10 @@ namespace Disqord.Test
                         var amount = 1;
                         if (rawAmount != null)
                             amount = (int) Math.Clamp(Convert.ToInt64(rawAmount), 1, 100);
-                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse()
+
+                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse()
                             .WithContent(string.Join(", ", Enumerable.Range(0, amount).Select(x => random.Next(2) == 1 ? "heads" : "tails"))));
+
                         break;
                     }
                 }
@@ -51,17 +54,43 @@ namespace Disqord.Test
                     case "Rate Message" when contextMenuInteraction.CommandType == ApplicationCommandType.Message:
                     {
                         var message = contextMenuInteraction.Entities.Messages.GetValueOrDefault(contextMenuInteraction.TargetId);
-                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse()
+                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse()
                             .WithContent("I rate it 2/10.")
                             .AddEmbed(new LocalEmbed()
                                 .WithDescription(message.Content))
                             .WithAllowedMentions(LocalAllowedMentions.None));
+
                         break;
                     }
                     case "Give Cookie" when contextMenuInteraction.CommandType == ApplicationCommandType.User:
                     {
                         var user = contextMenuInteraction.Entities.Users.GetValueOrDefault(contextMenuInteraction.TargetId);
-                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionResponse().WithContent($"{user.Mention} 🍪."));
+                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse().WithContent($"{user.Mention} 🍪."));
+                        break;
+                    }
+                }
+            }
+            else if (e.Interaction is ISlashCommandAutoCompleteInteraction autoCompleteInteraction)
+            {
+                switch (autoCompleteInteraction.CommandName)
+                {
+                    case "echo":
+                    {
+                        var textOption = autoCompleteInteraction.Options["text"];
+                        if (!textOption.IsFocused)
+                            return;
+
+                        var choices = new List<LocalSlashCommandOptionChoice>
+                        {
+                            new LocalSlashCommandOptionChoice().WithName("hi").WithValue("hi"),
+                            new LocalSlashCommandOptionChoice().WithName("hello").WithValue("hello")
+                        };
+
+                        var text = textOption.Value as string;
+                        if (!string.IsNullOrWhiteSpace(text))
+                            choices.Add(new LocalSlashCommandOptionChoice().WithName(text).WithValue(text));
+
+                        await e.Interaction.Response().AutoCompleteAsync(choices);
                         break;
                     }
                 }
