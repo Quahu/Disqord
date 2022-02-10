@@ -16,6 +16,7 @@ namespace Disqord.Rest
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var content = response.ToContent(client.ApiClient.Serializer, out var attachments);
+
             Task task;
             if (attachments.Count != 0)
             {
