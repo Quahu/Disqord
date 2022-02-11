@@ -8,6 +8,11 @@ namespace Disqord
     public interface ISlashCommandInteractionOption
     {
         /// <summary>
+        ///     Gets the name of this option.
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         ///     Gets the type of this option.
         /// </summary>
         SlashCommandOptionType Type { get; }

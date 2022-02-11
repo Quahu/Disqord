@@ -26,7 +26,7 @@ namespace Disqord
         ///     Gets the resolved messages for the interaction.
         /// </summary>
         IReadOnlyDictionary<Snowflake, IMessage> Messages { get; }
-        
+
         /// <summary>
         ///     Gets the resolved attachments for the interaction.
         /// </summary>

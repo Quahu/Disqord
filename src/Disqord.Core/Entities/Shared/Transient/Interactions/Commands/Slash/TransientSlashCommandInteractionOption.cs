@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using Qommon.Collections;
 using Disqord.Models;
+using Qommon.Collections;
 
 namespace Disqord
 {
     public class TransientSlashCommandInteractionOption : TransientClientEntity<ApplicationCommandInteractionDataOptionJsonModel>, ISlashCommandInteractionOption
     {
+        /// <inheritdoc/>
+        public string Name => Model.Name;
+
         /// <inheritdoc/>
         public SlashCommandOptionType Type => Model.Type;
 

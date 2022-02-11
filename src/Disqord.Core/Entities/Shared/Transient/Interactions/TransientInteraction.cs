@@ -19,9 +19,16 @@ namespace Disqord.Interaction
 
         public string Token => Model.Token;
 
-        public IUser Author => _author ??= Model.Member.HasValue
-            ? new TransientMember(Client, GuildId.Value, Model.Member.Value)
-            : new TransientUser(Client, Model.User.Value);
+        public IUser Author
+        {
+            get
+            {
+                return _author ??= Model.Member.HasValue
+                    ? new TransientMember(Client, GuildId.Value, Model.Member.Value)
+                    : new TransientUser(Client, Model.User.Value);
+            }
+        }
+        private IUser _author;
 
         public CultureInfo Locale => Model.Locale.HasValue
             ? Discord.Internal.GetLocale(Model.Locale.Value)
@@ -30,8 +37,6 @@ namespace Disqord.Interaction
         public CultureInfo GuildLocale => Model.GuildLocale.HasValue
             ? Discord.Internal.GetLocale(Model.GuildLocale.Value)
             : null;
-
-        private IUser _author;
 
         public TransientInteraction(IClient client, InteractionJsonModel model)
             : base(client, model)
@@ -47,7 +52,7 @@ namespace Disqord.Interaction
                     _ => new TransientApplicationCommandInteraction(client, model)
                 },
                 InteractionType.MessageComponent => new TransientComponentInteraction(client, model),
-                InteractionType.ApplicationCommandAutoComplete => new TransientSlashCommandAutoCompleteInteraction(client, model),
+                InteractionType.ApplicationCommandAutoComplete => new TransientAutoCompleteInteraction(client, model),
                 _ => new TransientInteraction(client, model)
             };
     }

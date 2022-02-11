@@ -70,7 +70,7 @@ namespace Disqord.Test
                     }
                 }
             }
-            else if (e.Interaction is ISlashCommandAutoCompleteInteraction autoCompleteInteraction)
+            else if (e.Interaction is IAutoCompleteInteraction autoCompleteInteraction)
             {
                 switch (autoCompleteInteraction.CommandName)
                 {
