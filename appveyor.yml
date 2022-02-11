@@ -19,11 +19,10 @@ build_script:
 after_build:
   - pwsh: |
       $HasRepoTag = $Env:APPVEYOR_REPO_TAG -eq "true" 
-      $Date = Get-Date -format "MMddyyyy" 
-      $BuildString = "$Date-$Env:APPVEYOR_BUILD_NUMBER" 
-      Invoke-Expression "dotnet pack .\src\Disqord.sln -c Release -o .\artifacts --no-restore --no-build $(!$HasRepoTag ? "--version-suffix=$BuildString" : $null)"
+      $VersionSuffix = "$Env:APPVEYOR_BUILD_NUMBER" 
+      Invoke-Expression "dotnet pack .\src\Disqord.sln -c Release -o .\artifacts --no-restore --no-build $(!$HasRepoTag ? "--version-suffix=$VersionSuffix" : $null)"
       if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode) }
-#   docfx docs/docfx.json
+# docfx docs/docfx.json
 
 # after_deploy: # docfx
 #   - pwsh: |
@@ -44,7 +43,7 @@ after_build:
 #       Copy-Item ".\docs\_site\*" -Destination $Directory -Force -Recurse
 #       cd $Directory
 #       add .
-#       git commit --allow-empty -m "Updated $Directory to $BuildString."
+#       git commit --allow-empty -m "Updated $Directory to $VersionSuffix."
 #       push origin gh-pages
 
 nuget:
