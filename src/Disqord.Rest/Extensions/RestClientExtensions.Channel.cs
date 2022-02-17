@@ -369,7 +369,7 @@ namespace Disqord.Rest
                 task = client.ApiClient.ModifyMessageAsync(channelId, messageId, messageContent, options, cancellationToken);
             }
 
-            var model = await client.ApiClient.ModifyMessageAsync(channelId, messageId, messageContent, options, cancellationToken).ConfigureAwait(false);
+            var model = await task.ConfigureAwait(false);
             return new TransientUserMessage(client, model);
         }
 
