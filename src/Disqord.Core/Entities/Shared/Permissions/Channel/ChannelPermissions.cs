@@ -15,6 +15,8 @@ namespace Disqord
 
         public static ChannelPermissions Voice => VoicePermissionsValue;
 
+        public static ChannelPermissions Stage => StagePermissionsValue;
+
         public static ChannelPermissions Category => CategoryPermissionsValue;
 
         public static ChannelPermissions None => 0;
@@ -97,7 +99,8 @@ namespace Disqord
             var mask = channel switch
             {
                 IMessageGuildChannel _ => TextPermissionsValue,
-                IVocalGuildChannel _ => VoicePermissionsValue,
+                IVoiceChannel _ => VoicePermissionsValue,
+                IStageChannel _ => StagePermissionsValue,
                 ICategoryChannel _ => CategoryPermissionsValue,
                 _ => AllPermissionsValue,
             };
