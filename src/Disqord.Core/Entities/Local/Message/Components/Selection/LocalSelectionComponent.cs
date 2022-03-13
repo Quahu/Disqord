@@ -6,7 +6,7 @@ namespace Disqord
 {
     public class LocalSelectionComponent : LocalNestedComponent, ILocalInteractiveComponent
     {
-        public const int MaxPlaceholderLength = 100;
+        public const int MaxPlaceholderLength = 150;
 
         public const int MaxOptionsAmount = 25;
 
