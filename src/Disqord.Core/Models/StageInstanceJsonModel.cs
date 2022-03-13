@@ -21,5 +21,8 @@ namespace Disqord.Models
 
         [JsonProperty("discoverable_disabled")]
         public bool DiscoverableDisabled;
+
+        [JsonProperty("guild_scheduled_event_id")]
+        public Snowflake? GuildScheduledEventId;
     }
 }

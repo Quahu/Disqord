@@ -23,6 +23,9 @@ namespace Disqord
         /// <inheritdoc/>
         public bool IsDiscoveryDisabled => Model.DiscoverableDisabled;
 
+        /// <inheritdoc/>
+        public Snowflake? GuildEventId => Model.GuildScheduledEventId;
+
         public TransientStage(IClient client, StageInstanceJsonModel model)
             : base(client, model)
         { }
