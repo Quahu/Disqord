@@ -68,7 +68,7 @@ namespace Disqord.Gateway
             ChannelId = model.ChannelId;
             Name = model.Name;
             Description = model.Description.Value;
-            CoverImageHash = model.Image;
+            CoverImageHash = model.Image.GetValueOrDefault();
             StartsAt = model.ScheduledStartTime;
             EndsAt = model.ScheduledEndTime;
             PrivacyLevel = model.PrivacyLevel;
