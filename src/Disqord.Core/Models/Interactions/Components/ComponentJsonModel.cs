@@ -1,4 +1,5 @@
 ﻿using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Models
 {
@@ -51,5 +52,36 @@ namespace Disqord.Models
 
         [JsonProperty("value")]
         public Optional<string> Value;
+
+        protected override void OnValidate()
+        {
+            switch (Type)
+            {
+                case ComponentType.Row:
+                    OptionalGuard.CheckValue(Components, components =>
+                    {
+                        foreach (var component in components)
+                        {
+                            component.Validate();
+                        }
+                    });
+                    break;
+                case ComponentType.TextInput:
+                    OptionalGuard.HasValue(CustomId);
+                    OptionalGuard.HasValue(Label);
+
+                    OptionalGuard.CheckValue(Value, value =>
+                    {
+                        Guard.IsNotNull(value);
+
+                        if (MinLength.HasValue)
+                            Guard.IsGreaterThanOrEqualTo(value.Length, MinLength.Value);
+
+                        if (MaxLength.HasValue)
+                            Guard.IsLessThanOrEqualTo(value.Length, MaxLength.Value);
+                    });
+                    break;
+            }
+        }
     }
 }

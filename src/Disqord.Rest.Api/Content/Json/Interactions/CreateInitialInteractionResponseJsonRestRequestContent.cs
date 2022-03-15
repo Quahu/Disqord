@@ -29,7 +29,13 @@ namespace Disqord.Rest.Api
                 case InteractionResponseType.ChannelMessage or InteractionResponseType.MessageUpdate:
                     Guard.IsAssignableToType<InteractionCallbackMessageDataJsonModel>(Data.Value);
                     break;
+                case InteractionResponseType.Modal:
+                    Guard.IsAssignableToType<InteractionCallbackModalDataJsonModel>(Data.Value);
+                    break;
             }
+
+            if (Data.HasValue)
+                Data.Value.Validate();
         }
     }
 }
