@@ -6,7 +6,7 @@ namespace Disqord
     public class TransientButtonComponent : TransientComponent, IButtonComponent
     {
         /// <inheritdoc/>
-        public ButtonComponentStyle Style => Model.Style.Value;
+        public ButtonComponentStyle Style => (ButtonComponentStyle) Model.Style.Value;
 
         /// <inheritdoc/>
         public string Label => Model.Label.GetValueOrDefault();

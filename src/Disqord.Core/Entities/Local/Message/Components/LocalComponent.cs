@@ -45,6 +45,13 @@ namespace Disqord
                 Options = options
             };
 
+        public static LocalTextInputComponent TextInput(string customId, string label)
+            => new()
+            {
+                CustomId = customId,
+                Label = label
+            };
+
         public abstract LocalComponent Clone();
 
         object ICloneable.Clone()

@@ -8,7 +8,7 @@ namespace Disqord.Models
         public ComponentType Type;
 
         [JsonProperty("style")]
-        public Optional<ButtonComponentStyle> Style;
+        public Optional<byte> Style;
 
         [JsonProperty("label")]
         public Optional<string> Label;
@@ -39,5 +39,17 @@ namespace Disqord.Models
 
         [JsonProperty("max_values")]
         public Optional<int> MaxValues;
+
+        [JsonProperty("min_length")]
+        public Optional<int> MinLength;
+
+        [JsonProperty("max_length")]
+        public Optional<int> MaxLength;
+
+        [JsonProperty("required")]
+        public Optional<bool> Required;
+
+        [JsonProperty("value")]
+        public Optional<string> Value;
     }
 }

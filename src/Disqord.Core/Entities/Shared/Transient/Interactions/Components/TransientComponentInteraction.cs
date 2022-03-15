@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
+using Disqord.Interactions;
 using Disqord.Models;
 
 namespace Disqord.Interaction
 {
-    public class TransientComponentInteraction : TransientInteraction, IComponentInteraction
+    public class TransientComponentInteraction : TransientIdentifiableInteraction, IComponentInteraction
     {
-        public string CustomId => Model.Data.Value.CustomId.Value;
-
         public ComponentType ComponentType => Model.Data.Value.ComponentType.Value;
 
         public IReadOnlyList<string> SelectedValues => Model.Data.Value.Values.Value;

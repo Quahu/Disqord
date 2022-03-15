@@ -30,11 +30,11 @@ namespace Disqord.Models
 
                     if (buttonComponentBase is LocalButtonComponent buttonComponent)
                     {
-                        model.Style = (ButtonComponentStyle) buttonComponent.Style;
+                        model.Style = (byte) buttonComponent.Style;
                     }
                     else if (buttonComponentBase is LocalLinkButtonComponent linkButtonComponent)
                     {
-                        model.Style = ButtonComponentStyle.Link;
+                        model.Style = (byte) ButtonComponentStyle.Link;
                         model.Url = linkButtonComponent.Url;
                     }
                     else
@@ -49,6 +49,18 @@ namespace Disqord.Models
                     model.MinValues = Optional.FromNullable(selectionComponent.MinimumSelectedOptions);
                     model.MaxValues = Optional.FromNullable(selectionComponent.MaximumSelectedOptions);
                     model.Options = selectionComponent.Options.Select(x => x.ToModel()).ToArray();
+                }
+                else if (component is LocalTextInputComponent textInputComponent)
+                {
+                    model.Type = ComponentType.TextInput;
+                    model.Style = (byte) textInputComponent.Style;
+                    model.CustomId = textInputComponent.CustomId;
+                    model.Label = textInputComponent.Label;
+                    model.MinLength = textInputComponent.MinimumInputLength;
+                    model.MaxLength = textInputComponent.MaximumInputLength;
+                    model.Required = textInputComponent.IsRequired;
+                    model.Value = textInputComponent.PrefilledValue;
+                    model.Placeholder = textInputComponent.Placeholder;
                 }
                 else
                 {

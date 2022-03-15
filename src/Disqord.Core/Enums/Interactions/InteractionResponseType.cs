@@ -15,6 +15,8 @@
 
         MessageUpdate = 7,
 
-        ApplicationCommandAutoComplete = 8
+        ApplicationCommandAutoComplete = 8,
+
+        Modal = 9
     }
 }
