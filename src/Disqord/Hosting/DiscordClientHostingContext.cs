@@ -39,7 +39,7 @@ namespace Disqord.Hosting
         public virtual IList<Assembly> ServiceAssemblies { get; set; } = new List<Assembly> { Assembly.GetEntryAssembly() };
 
         /// <summary>
-        ///     Gets or sets the status> the bot will identify with.
+        ///     Gets or sets the status the bot will identify with.
         /// </summary>
         /// <remarks>
         ///     Defaults to <see langword="null"/>, i.e. the bot will show up as <see cref="UserStatus.Online"/>.
