@@ -178,7 +178,7 @@
         BanFetchRateLimit = 30037,
 
         /// <summary>
-        ///     The maximum of <c>100</c> uncomplete guild events was reached.
+        ///     The maximum of <c>100</c> uncompleted guild events was reached.
         /// </summary>
         MaximumUncompletedGuildEventsReached = 30038,
 
@@ -199,7 +199,7 @@
 
         DirectMessageChannelRateLimit = 40003,
 
-        SendMessagesTemporarilyDisabled = 40004,
+        SendingMessagesTemporarilyDisabled = 40004,
 
         RequestEntityTooLarge = 40005,
 
@@ -321,7 +321,7 @@
 
         StageAlreadyOpen = 150006,
 
-        CannotReplyWithoutPermissionToReadHistory = 160002,
+        CannotReplyWithoutReadHistoryPermissions = 160002,
 
         ThreadAlreadyCreated = 160004,
 
