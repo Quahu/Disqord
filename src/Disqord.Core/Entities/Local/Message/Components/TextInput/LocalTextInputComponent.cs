@@ -58,71 +58,71 @@ namespace Disqord
         /// <summary>
         ///     Gets or sets the minimum input length of this text input.
         /// </summary>
-        public int MinimumInputLength
+        public Optional<int> MinimumInputLength
         {
             get => _minimumInputLength;
             set
             {
-                if (value < MinMinimumInputLength || value > MaxMinimumInputLength)
+                if (value.HasValue && (value.Value < MinMinimumInputLength || value.Value > MaxMinimumInputLength))
                     throw new ArgumentOutOfRangeException(nameof(value), $"The text input's minimum input length must be between {MinMinimumInputLength} and {MaxMinimumInputLength} characters.");
 
                 _minimumInputLength = value;
             }
         }
-        private int _minimumInputLength;
+        private Optional<int> _minimumInputLength;
 
         /// <summary>
         ///     Gets or sets the maximum input length of this text input.
         /// </summary>
-        public int MaximumInputLength
+        public Optional<int> MaximumInputLength
         {
             get => _maximumInputLength;
             set
             {
-                if (value < MinMaximumInputLength || value > MaxMaximumInputLength)
+                if (value.HasValue && (value.Value < MinMaximumInputLength || value.Value > MaxMaximumInputLength))
                     throw new ArgumentOutOfRangeException(nameof(value), $"The text input's maximum input length must be between {MinMaximumInputLength} and {MaxMaximumInputLength} characters.");
 
                 _maximumInputLength = value;
             }
         }
-        private int _maximumInputLength;
+        private Optional<int> _maximumInputLength;
 
         /// <summary>
         ///     Gets or sets whether this text input is required.
         /// </summary>
-        public bool IsRequired { get; set; }
+        public Optional<bool> IsRequired { get; set; }
 
         /// <summary>
         ///     Gets or sets the prefilled value of this text input.
         /// </summary>
-        public string PrefilledValue
+        public Optional<string> PrefilledValue
         {
             get => _prefilledValue;
             set
             {
-                if (value != null && value.Length > MaxPrefilledValueLength)
+                if (value.HasValue && value.Value.Length > MaxPrefilledValueLength)
                     throw new ArgumentOutOfRangeException(nameof(value), $"The text input's prefilled value must not be longer than {MaxPrefilledValueLength} characters.");
 
                 _prefilledValue = value;
             }
         }
-        private string _prefilledValue;
+        private Optional<string> _prefilledValue;
 
         /// <summary>
         ///     Gets or sets the placeholder of this text input.
         /// </summary>
-        public string Placeholder
+        public Optional<string> Placeholder
         {
             get => _placeholder;
             set
             {
-                if (value != null && value.Length > MaxPlaceholderLength)
+                if (value.HasValue && value.Value.Length > MaxPlaceholderLength)
                     throw new ArgumentOutOfRangeException(nameof(value), $"The text input's placeholder must not be longer than {MaxPlaceholderLength} characters.");
 
                 _placeholder = value;
             }
         }
-        private string _placeholder;
+        private Optional<string> _placeholder;
 
         public LocalTextInputComponent()
         { }
@@ -150,7 +150,7 @@ namespace Disqord
             if (string.IsNullOrWhiteSpace(Label))
                 throw new InvalidOperationException("The text input's custom ID must be set.");
 
-            if (MinimumInputLength > MaximumInputLength)
+            if ((MinimumInputLength.HasValue && MaximumInputLength.HasValue) && MinimumInputLength.Value > MaximumInputLength.Value)
                 throw new InvalidOperationException("The text input's minimum input length cannot be greater than the maximum input length.");
         }
     }

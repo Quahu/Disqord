@@ -21,7 +21,7 @@ namespace Disqord
         public int? MaximumLength => Model.MaxLength.GetValueOrNullable();
 
         /// <inheritdoc/>
-        public bool Required => Model.Required.GetValueOrDefault(true);
+        public bool IsRequired => Model.Required.GetValueOrDefault(true);
 
         /// <inheritdoc/>
         public string Value => Model.Value.GetValueOrDefault();

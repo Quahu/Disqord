@@ -58,6 +58,7 @@ namespace Disqord.Models
             switch (Type)
             {
                 case ComponentType.Row:
+                {
                     OptionalGuard.CheckValue(Components, components =>
                     {
                         foreach (var component in components)
@@ -66,7 +67,9 @@ namespace Disqord.Models
                         }
                     });
                     break;
+                }
                 case ComponentType.TextInput:
+                {
                     OptionalGuard.HasValue(CustomId);
                     OptionalGuard.HasValue(Label);
 
@@ -74,13 +77,18 @@ namespace Disqord.Models
                     {
                         Guard.IsNotNull(value);
 
-                        if (MinLength.HasValue)
-                            Guard.IsGreaterThanOrEqualTo(value.Length, MinLength.Value);
+                        OptionalGuard.CheckValue(MinLength, min =>
+                        {
+                            Guard.IsGreaterThanOrEqualTo(value.Length, min);
+                        });
 
-                        if (MaxLength.HasValue)
-                            Guard.IsLessThanOrEqualTo(value.Length, MaxLength.Value);
+                        OptionalGuard.CheckValue(MaxLength, max =>
+                        {
+                            Guard.IsLessThanOrEqualTo(value.Length, max);
+                        });
                     });
                     break;
+                }
             }
         }
     }

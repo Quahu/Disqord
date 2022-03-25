@@ -31,9 +31,9 @@ namespace Disqord
         int? MaximumLength { get; }
 
         /// <summary>
-        ///     Gets whether it is required to fill this text input component .
+        ///     Gets whether it is required to fill this text input component.
         /// </summary>
-        bool Required { get; }
+        bool IsRequired { get; }
 
         /// <summary>
         ///     Gets the pre-filled text of this text input component

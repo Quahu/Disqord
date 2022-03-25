@@ -34,8 +34,11 @@ namespace Disqord.Rest.Api
                     break;
             }
 
-            if (Data.HasValue)
-                Data.Value.Validate();
+            OptionalGuard.CheckValue(Data, data =>
+            {
+                Guard.IsNotNull(data);
+                data.Validate();
+            });
         }
     }
 }
