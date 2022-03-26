@@ -8,6 +8,8 @@
 
         Optional<string> Description { get; }
 
+        Optional<string> CoverImageHash { get; }
+
         Optional<GuildEventTargetType> TargetType { get; }
 
         Optional<string> Location { get; }

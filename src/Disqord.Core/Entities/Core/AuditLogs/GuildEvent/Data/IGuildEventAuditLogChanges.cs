@@ -8,6 +8,8 @@
 
         AuditLogChange<string> Description { get; }
 
+        AuditLogChange<string> CoverImageHash { get; }
+
         AuditLogChange<GuildEventTargetType> TargetType { get; }
 
         AuditLogChange<string> Location { get; }

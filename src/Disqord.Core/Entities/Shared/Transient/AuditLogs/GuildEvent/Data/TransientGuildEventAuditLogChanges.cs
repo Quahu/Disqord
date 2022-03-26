@@ -11,6 +11,8 @@ namespace Disqord.AuditLogs
 
         public AuditLogChange<string> Description { get; }
 
+        public AuditLogChange<string> CoverImageHash { get; }
+
         public AuditLogChange<GuildEventTargetType> TargetType { get; }
 
         public AuditLogChange<string> Location { get; }
@@ -39,6 +41,11 @@ namespace Disqord.AuditLogs
                     case "description":
                     {
                         Description = AuditLogChange<string>.Convert(change);
+                        break;
+                    }
+                    case "image_hash":
+                    {
+                        CoverImageHash = AuditLogChange<string>.Convert(change);
                         break;
                     }
                     case "entity_type":
