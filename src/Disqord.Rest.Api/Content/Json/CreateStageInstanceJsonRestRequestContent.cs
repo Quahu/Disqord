@@ -12,5 +12,8 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("privacy_level")]
         public Optional<PrivacyLevel> PrivacyLevel;
+
+        [JsonProperty("send_start_notification")]
+        public Optional<bool> SendStartNotification;
     }
 }

@@ -20,7 +20,8 @@ namespace Disqord.Rest
             {
                 ChannelId = channelId,
                 Topic = topic,
-                PrivacyLevel = properties.PrivacyLevel
+                PrivacyLevel = properties.PrivacyLevel,
+                SendStartNotification = properties.NotifyEveryone
             };
 
             var model = await client.ApiClient.CreateStageInstanceAsync(channelId, content, options, cancellationToken).ConfigureAwait(false);
