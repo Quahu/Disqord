@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Qommon.Collections;
 using Disqord.Models;
+using Qommon.Collections;
 
 namespace Disqord
 {
@@ -13,7 +13,17 @@ namespace Disqord
         public virtual int Position => Model.Position.Value;
 
         /// <inheritdoc/>
-        public virtual IReadOnlyList<IOverwrite> Overwrites => _overwrites ??= Model.PermissionOverwrites.Value.ToReadOnlyList(this, (x, @this) => new TransientOverwrite(@this.Client, @this.Id, x));
+        public virtual IReadOnlyList<IOverwrite> Overwrites
+        {
+            get
+            {
+                if (!Model.PermissionOverwrites.HasValue)
+                    return ReadOnlyList<IOverwrite>.Empty;
+
+                return _overwrites ??= Model.PermissionOverwrites.Value.ToReadOnlyList(this, (x, @this) => new TransientOverwrite(@this.Client, @this.Id, x));
+            }
+        }
+
         private IReadOnlyList<IOverwrite> _overwrites;
 
         /// <inheritdoc/>
@@ -23,7 +33,7 @@ namespace Disqord
             : base(client, model)
         { }
 
-        public static new TransientGuildChannel Create(IClient client, ChannelJsonModel model)
+        public new static TransientGuildChannel Create(IClient client, ChannelJsonModel model)
         {
             switch (model.Type)
             {
