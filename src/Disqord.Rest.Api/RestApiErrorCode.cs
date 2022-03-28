@@ -72,6 +72,8 @@
 
         UnknownApplicationCommand = 10063,
 
+        UnknownVoiceState = 10065,
+
         UnknownApplicationCommandPermissions = 10066,
 
         UnknownStage = 10067,
@@ -99,6 +101,8 @@
         AnnouncementRateLimit = 20022,
 
         ChannelWriteRateLimit = 20028,
+
+        GuildWriteRateLimit = 20029,
 
         /// <summary>
         ///     The stage topic, guild name, guild description, or channel names contain words that are not allowed.
@@ -173,15 +177,29 @@
 
         BanFetchRateLimit = 30037,
 
+        /// <summary>
+        ///     The maximum of <c>100</c> uncompleted guild events was reached.
+        /// </summary>
+        MaximumUncompletedGuildEventsReached = 30038,
+
         MaximumStickerAmountReached = 30039,
 
         MaximumPruneRequestAmountReached = 30040,
+
+        MaximumGuildWidgetSettingsUpdatesReached = 30042,
+
+        /// <summary>
+        ///     The maximum number of edits to messages older than 1 hour was reached.
+        /// </summary>
+        MaximumEditsToOldMessagesReached = 30046,
 
         Unauthorized = 40001,
 
         VerifiedAccountRequiredToPerformAction = 40002,
 
         DirectMessageChannelRateLimit = 40003,
+
+        SendingMessagesTemporarilyDisabled = 40004,
 
         RequestEntityTooLarge = 40005,
 
@@ -194,6 +212,8 @@
         MessageAlreadyCrossposted = 40033,
 
         ApplicationCommandAlreadyExists = 40041,
+
+        InteractionAlreadyAcknowledged = 40060,
 
         MissingAccess = 50001,
 
@@ -209,7 +229,7 @@
 
         CannotSendMessagesToThisUser = 50007,
 
-        CannotSendMessagesInAVoiceChannel = 50008,
+        CannotSendMessagesInANonTextChannel = 50008,
 
         ChannelVerificationLevelIsTooHigh = 50009,
 
@@ -262,6 +282,10 @@
 
         CannotSelfRedeemGift = 50054,
 
+        InvalidGuild = 50055,
+
+        InvalidMessageType = 50068,
+
         PaymentSourceRequiredToRedeemGift = 50070,
 
         CannotDeleteAChannelRequiredForCommunityGuilds = 50074,
@@ -277,9 +301,15 @@
         /// </summary>
         ValueBeforeThreadCreation = 50085,
 
+        CommunityChannelsMustBeTextChannels = 50086,
+
         GuildNotAvailableInCurrentLocation = 50095,
 
         GuildMonetizationRequiredForAction = 50097,
+
+        GuildBoostsRequiredForAction = 50101,
+
+        RequestBodyContainsInvalidJson = 50109,
 
         TwoFactorRequired = 60003,
 
@@ -290,6 +320,8 @@
         ResourceOverloaded = 130000,
 
         StageAlreadyOpen = 150006,
+
+        CannotReplyWithoutReadHistoryPermissions = 160002,
 
         ThreadAlreadyCreated = 160004,
 
@@ -317,6 +349,10 @@
         /// <summary>
         ///     The maximum duration of <c>5</c> seconds was reached.
         /// </summary>
-        MaximumLottieDurationExceeded = 170007
+        MaximumLottieDurationExceeded = 170007,
+
+        CannotUpdateFinishedEvent = 180000,
+
+        FailedToCreateEventStageChannel = 180002
     }
 }
