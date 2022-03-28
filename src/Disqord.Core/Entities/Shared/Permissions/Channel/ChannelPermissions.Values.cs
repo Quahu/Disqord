@@ -69,8 +69,22 @@
             | Permission.MoveMembers
             | Permission.UseVoiceActivity
             | Permission.ManageRoles
+            | Permission.ManageEvents
             | Permission.StartActivities
-            // | Permission.RequestToSpeak TODO: stage channel
+        );
+
+        private const ulong StagePermissionsValue = (ulong) (
+            Permission.CreateInvites
+            | Permission.ManageChannels
+            | Permission.ViewChannels
+            | Permission.MentionEveryone
+            | Permission.Connect
+            | Permission.MuteMembers
+            | Permission.DeafenMembers
+            | Permission.MoveMembers
+            | Permission.ManageRoles
+            | Permission.RequestToSpeak // This is currently not used by the client or API but can be set and unset
+            | Permission.ManageEvents
         );
 
         private const ulong CategoryPermissionsValue = AllPermissionsValue;
