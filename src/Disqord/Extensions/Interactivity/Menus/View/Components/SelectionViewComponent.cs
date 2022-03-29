@@ -28,7 +28,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         }
         private string _placeholder;
 
-        public int? MinimumSelectedOptions
+        public Optional<int> MinimumSelectedOptions
         {
             get => _minimumSelectedOptions;
             set
@@ -37,9 +37,9 @@ namespace Disqord.Extensions.Interactivity.Menus
                 ReportChanges();
             }
         }
-        private int? _minimumSelectedOptions;
+        private Optional<int> _minimumSelectedOptions;
 
-        public int? MaximumSelectedOptions
+        public Optional<int> MaximumSelectedOptions
         {
             get => _maximumSelectedOptions;
             set
@@ -48,7 +48,7 @@ namespace Disqord.Extensions.Interactivity.Menus
                 ReportChanges();
             }
         }
-        private int? _maximumSelectedOptions;
+        private Optional<int> _maximumSelectedOptions;
 
         /// <summary>
         ///     Gets or sets the options.
@@ -99,11 +99,11 @@ namespace Disqord.Extensions.Interactivity.Menus
             _placeholder = attribute.Placeholder;
             _minimumSelectedOptions = attribute.MinimumSelectedOptions != -1
                 ? attribute.MinimumSelectedOptions
-                : null;
+                : Optional<int>.Empty;
 
             _maximumSelectedOptions = attribute.MaximumSelectedOptions != -1
                 ? attribute.MaximumSelectedOptions
-                : null;
+                : Optional<int>.Empty;
 
             _isDisabled = attribute.IsDisabled;
             _options = new List<LocalSelectionComponentOption>(optionAttributes.Length);
@@ -131,11 +131,19 @@ namespace Disqord.Extensions.Interactivity.Menus
         }
 
         protected internal override LocalNestedComponent ToLocalComponent()
-            => LocalComponent.Selection(CustomId)
+        {
+            var selection = LocalComponent.Selection(CustomId)
                 .WithPlaceholder(_placeholder)
-                .WithMinimumSelectedOptions(_minimumSelectedOptions)
-                .WithMaximumSelectedOptions(_maximumSelectedOptions)
                 .WithOptions(_options)
                 .WithIsDisabled(_isDisabled);
+
+            if (_minimumSelectedOptions.HasValue)
+                selection.WithMinimumSelectedOptions(_minimumSelectedOptions.Value);
+
+            if (_maximumSelectedOptions.HasValue)
+                selection.WithMaximumSelectedOptions(_maximumSelectedOptions.Value);
+
+            return selection;
+        }
     }
 }

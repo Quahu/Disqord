@@ -10,6 +10,7 @@ namespace Disqord.Rest.Api
         public static CreateApplicationCommandJsonRestRequestContent ToContent(this LocalApplicationCommand command, IJsonSerializer serializer)
         {
             Guard.IsNotNull(command);
+            OptionalGuard.HasValue(command.Name);
 
             var content = new CreateApplicationCommandJsonRestRequestContent
             {
@@ -19,6 +20,8 @@ namespace Disqord.Rest.Api
 
             if (command is LocalSlashCommand slashCommand)
             {
+                OptionalGuard.HasValue(slashCommand.Description);
+
                 content.Type = ApplicationCommandType.Slash;
                 content.Description = slashCommand.Description;
                 content.Options = Optional.Convert(slashCommand.Options, options => options?.Select(option => option?.ToModel(serializer)).ToArray());

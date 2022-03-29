@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Disqord
+﻿namespace Disqord
 {
     public class LocalButtonComponent : LocalButtonComponentBase, ILocalInteractiveComponent
     {
@@ -24,13 +22,5 @@ namespace Disqord
 
         public override LocalButtonComponent Clone()
             => new(this);
-
-        public override void Validate()
-        {
-            if (string.IsNullOrWhiteSpace(CustomId))
-                throw new InvalidOperationException("The button's custom ID must be set.");
-
-            base.Validate();
-        }
     }
 }

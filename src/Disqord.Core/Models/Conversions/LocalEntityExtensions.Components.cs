@@ -25,7 +25,7 @@ namespace Disqord.Models
                 if (component is LocalButtonComponentBase buttonComponentBase)
                 {
                     model.Type = ComponentType.Button;
-                    model.Label = Optional.FromNullable(buttonComponentBase.Label);
+                    model.Label = buttonComponentBase.Label;
                     model.Emoji = Optional.FromNullable(buttonComponentBase.Emoji.ToModel());
 
                     if (buttonComponentBase is LocalButtonComponent buttonComponent)
@@ -45,9 +45,9 @@ namespace Disqord.Models
                 else if (component is LocalSelectionComponent selectionComponent)
                 {
                     model.Type = ComponentType.Selection;
-                    model.Placeholder = Optional.FromNullable(selectionComponent.Placeholder);
-                    model.MinValues = Optional.FromNullable(selectionComponent.MinimumSelectedOptions);
-                    model.MaxValues = Optional.FromNullable(selectionComponent.MaximumSelectedOptions);
+                    model.Placeholder = selectionComponent.Placeholder;
+                    model.MinValues = selectionComponent.MinimumSelectedOptions;
+                    model.MaxValues = selectionComponent.MaximumSelectedOptions;
                     model.Options = selectionComponent.Options.Select(x => x.ToModel()).ToArray();
                 }
                 else if (component is LocalTextInputComponent textInputComponent)
@@ -80,9 +80,9 @@ namespace Disqord.Models
             {
                 Label = option.Label,
                 Value = option.Value,
-                Description = Optional.FromNullable(option.Description),
-                Emoji = Optional.FromNullable(option.Emoji.ToModel()),
-                Default = Optional.Conditional(option.IsDefault, true)
+                Description = option.Description,
+                Emoji = Optional.Convert(option.Emoji, localEmoji => localEmoji.ToModel()),
+                Default = option.IsDefault
             };
     }
 }

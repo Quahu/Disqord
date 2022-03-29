@@ -1,4 +1,5 @@
-﻿using Disqord.Serialization.Json;
+﻿using System;
+using Disqord.Serialization.Json;
 using Qommon;
 
 namespace Disqord.Models
@@ -55,37 +56,123 @@ namespace Disqord.Models
 
         protected override void OnValidate()
         {
+            Guard.IsDefined(Type);
+
+            if (Type is ComponentType.Selection or ComponentType.TextInput)
+            {
+                OptionalGuard.HasValue(CustomId);
+                Guard.IsNotNullOrWhiteSpace(CustomId.Value);
+                Guard.IsLessThanOrEqualTo(CustomId.Value.Length, Discord.Limits.Components.MaxCustomIdLength);
+            }
+
             switch (Type)
             {
                 case ComponentType.Row:
                 {
                     OptionalGuard.CheckValue(Components, components =>
                     {
-                        foreach (var component in components)
-                        {
-                            component.Validate();
-                        }
+                        for (var i = 0; i < components.Length; i++)
+                            components[i].Validate();
                     });
+                    break;
+                }
+                case ComponentType.Button:
+                {
+                    OptionalGuard.HasValue(Style);
+
+                    if (Style.Value == (byte) ButtonComponentStyle.Link)
+                    {
+                        OptionalGuard.HasValue(Url);
+                        Guard.IsNotNullOrWhiteSpace(Url.Value);
+                    }
+                    else
+                    {
+                        OptionalGuard.HasValue(CustomId);
+                        Guard.IsNotNullOrWhiteSpace(CustomId.Value);
+                        Guard.IsLessThanOrEqualTo(CustomId.Value.Length, Discord.Limits.Components.MaxCustomIdLength);
+                    }
+
+                    if (!Label.HasValue || Emoji.HasValue)
+                        throw new InvalidOperationException("The button's label or emoji must be set.");
+
+                    OptionalGuard.CheckValue(Label, label =>
+                    {
+                        Guard.IsNotNullOrWhiteSpace(label);
+                        Guard.IsLessThanOrEqualTo(label.Length, Discord.Limits.Components.Button.MaxLabelLength);
+                    });
+
+                    OptionalGuard.CheckValue(Emoji, emoji =>
+                    {
+                        Guard.IsNotNull(emoji);
+                    });
+
+                    break;
+                }
+                case ComponentType.Selection:
+                {
+                    OptionalGuard.HasValue(Options);
+                    Guard.IsLessThanOrEqualTo(Options.Value.Length, Discord.Limits.Components.Selection.MaxOptionsAmount);
+
+                    OptionalGuard.CheckValue(Placeholder, placeholder =>
+                    {
+                        Guard.IsNotNull(placeholder);
+                        Guard.IsLessThanOrEqualTo(placeholder.Length, Discord.Limits.Components.Selection.MaxPlaceholderLength);
+                    });
+
+                    OptionalGuard.CheckValue(MinValues, minValues =>
+                    {
+                        Guard.IsBetweenOrEqualTo(minValues, Discord.Limits.Components.Selection.MinMinimumValues, Discord.Limits.Components.Selection.MaxMinimumValues);
+                    });
+
+                    OptionalGuard.CheckValue(MaxValues, maxValues =>
+                    {
+                        Guard.IsBetweenOrEqualTo(maxValues, Discord.Limits.Components.Selection.MinMaximumValues, Discord.Limits.Components.Selection.MaxMaximumValues);
+                    });
+
+                    if (MinValues.HasValue && MaxValues.HasValue)
+                        Guard.IsLessThanOrEqualTo(MinValues.Value, MaxValues.Value);
+
                     break;
                 }
                 case ComponentType.TextInput:
                 {
-                    OptionalGuard.HasValue(CustomId);
                     OptionalGuard.HasValue(Label);
+                    Guard.IsNotNullOrWhiteSpace(Label.Value);
+                    Guard.IsBetweenOrEqualTo(Label.Value.Length, Discord.Limits.Components.TextInput.MinLabelLength, Discord.Limits.Components.TextInput.MaxLabelLength);
+
+                    OptionalGuard.CheckValue(MinLength, minLength =>
+                    {
+                        Guard.IsBetweenOrEqualTo(minLength, Discord.Limits.Components.TextInput.MinMinimumInputLength, Discord.Limits.Components.TextInput.MaxMinimumInputLength);
+                    });
+
+                    OptionalGuard.CheckValue(MaxLength, maxLength =>
+                    {
+                        Guard.IsBetweenOrEqualTo(maxLength, Discord.Limits.Components.TextInput.MinMaximumInputLength, Discord.Limits.Components.TextInput.MaxMaximumInputLength);
+                    });
+
+                    if (MinLength.HasValue && MaxLength.HasValue)
+                        Guard.IsLessThanOrEqualTo(MinLength.Value, MaxLength.Value);
 
                     OptionalGuard.CheckValue(Value, value =>
                     {
                         Guard.IsNotNull(value);
+                        Guard.IsLessThanOrEqualTo(value.Length, Discord.Limits.Components.TextInput.MaxPrefilledValueLength);
 
-                        OptionalGuard.CheckValue(MinLength, min =>
+                        OptionalGuard.CheckValue(MinLength, minLength =>
                         {
-                            Guard.IsGreaterThanOrEqualTo(value.Length, min);
+                            Guard.IsGreaterThanOrEqualTo(value.Length, minLength);
                         });
 
-                        OptionalGuard.CheckValue(MaxLength, max =>
+                        OptionalGuard.CheckValue(MaxLength, maxLength =>
                         {
-                            Guard.IsLessThanOrEqualTo(value.Length, max);
+                            Guard.IsLessThanOrEqualTo(value.Length, maxLength);
                         });
+                    });
+
+                    OptionalGuard.CheckValue(Placeholder, placeholder =>
+                    {
+                        Guard.IsNotNull(placeholder);
+                        Guard.IsLessThanOrEqualTo(placeholder.Length, Discord.Limits.Components.TextInput.MaxPlaceholderLength);
                     });
                     break;
                 }

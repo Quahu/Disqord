@@ -1,44 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Disqord
 {
     public class LocalSelectionComponent : LocalNestedComponent, ILocalInteractiveComponent
     {
-        public const int MaxPlaceholderLength = 150;
+        /// <inheritdoc/>
+        public string CustomId { get; set; }
 
-        public const int MaxOptionsAmount = 25;
+        public Optional<string> Placeholder { get; set; }
 
-        public string CustomId
-        {
-            get => _customId;
-            set
-            {
-                if (value != null && value.Length > ILocalInteractiveComponent.MaxCustomIdLength)
-                    throw new ArgumentOutOfRangeException(nameof(value), $"The selection's custom ID must not be longer than {ILocalInteractiveComponent.MaxCustomIdLength} characters.");
+        public Optional<int> MinimumSelectedOptions { get; set; }
 
-                _customId = value;
-            }
-        }
-        private string _customId;
-
-        public string Placeholder
-        {
-            get => _placeholder;
-            set
-            {
-                if (value != null && value.Length > MaxPlaceholderLength)
-                    throw new ArgumentOutOfRangeException(nameof(value), $"The selection's placeholder must not be longer than {MaxPlaceholderLength} characters.");
-
-                _placeholder = value;
-            }
-        }
-        private string _placeholder;
-
-        public int? MinimumSelectedOptions { get; set; }
-
-        public int? MaximumSelectedOptions { get; set; }
+        public Optional<int> MaximumSelectedOptions { get; set; }
 
         public IList<LocalSelectionComponentOption> Options
         {
@@ -63,14 +37,5 @@ namespace Disqord
 
         public override LocalSelectionComponent Clone()
             => new(this);
-
-        public override void Validate()
-        {
-            if (string.IsNullOrWhiteSpace(CustomId))
-                throw new InvalidOperationException("The selection's custom ID must be set.");
-
-            if (_options.Count > MaxOptionsAmount)
-                throw new InvalidOperationException($"The selection must not have more than {MaxOptionsAmount} options.");
-        }
     }
 }

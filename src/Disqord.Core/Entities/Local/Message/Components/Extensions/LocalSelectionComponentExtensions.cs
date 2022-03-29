@@ -12,14 +12,14 @@ namespace Disqord
             return component;
         }
 
-        public static TComponent WithMinimumSelectedOptions<TComponent>(this TComponent component, int? minimumSelectedOptions)
+        public static TComponent WithMinimumSelectedOptions<TComponent>(this TComponent component, int minimumSelectedOptions)
             where TComponent : LocalSelectionComponent
         {
             component.MinimumSelectedOptions = minimumSelectedOptions;
             return component;
         }
 
-        public static TComponent WithMaximumSelectedOptions<TComponent>(this TComponent component, int? maximumSelectedOptions)
+        public static TComponent WithMaximumSelectedOptions<TComponent>(this TComponent component, int maximumSelectedOptions)
             where TComponent : LocalSelectionComponent
         {
             component.MaximumSelectedOptions = maximumSelectedOptions;
