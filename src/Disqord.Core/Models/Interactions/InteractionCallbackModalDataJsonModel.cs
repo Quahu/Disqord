@@ -16,11 +16,11 @@ namespace Disqord.Models
 
         protected override void OnValidate()
         {
-            Guard.IsNotNull(CustomId);
+            Guard.IsNotNullOrWhiteSpace(CustomId);
             Guard.IsLessThanOrEqualTo(CustomId.Length, Discord.Limits.Interactions.Modals.MaxCustomIdLength);
 
-            Guard.IsNotEmpty(Title);
-            Guard.IsLessThanOrEqualTo(CustomId.Length, Discord.Limits.Interactions.Modals.MaxTitleLength);
+            Guard.IsNotNullOrWhiteSpace(Title);
+            Guard.IsLessThanOrEqualTo(Title.Length, Discord.Limits.Interactions.Modals.MaxTitleLength);
 
             Guard.IsNotEmpty(Components);
             foreach (var component in Components)
