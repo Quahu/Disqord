@@ -37,7 +37,7 @@ namespace Disqord
         public string Description => Model.Description.GetValueOrDefault();
 
         /// <inheritdoc/>
-        public string CoverImageHash => Model.Image;
+        public string CoverImageHash => Model.Image.GetValueOrDefault();
 
         /// <inheritdoc/>
         public DateTimeOffset StartsAt => Model.ScheduledStartTime;

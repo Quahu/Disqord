@@ -20,11 +20,15 @@ namespace Disqord.Gateway
         /// <inheritdoc/>
         public bool IsDiscoveryDisabled { get; private set; }
 
+        /// <inheritdoc/>
+        public Snowflake? GuildEventId { get; }
+
         public CachedStage(IGatewayClient client, StageInstanceJsonModel model)
             : base(client, model.Id)
         {
             GuildId = model.GuildId;
             ChannelId = model.ChannelId;
+            GuildEventId = model.GuildScheduledEventId;
 
             Update(model);
         }

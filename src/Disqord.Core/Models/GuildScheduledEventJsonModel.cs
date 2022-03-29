@@ -24,7 +24,7 @@ namespace Disqord.Models
         public Optional<string> Description;
 
         [JsonProperty("image")]
-        public string Image;
+        public Optional<string> Image;
 
         [JsonProperty("scheduled_start_time")]
         public DateTimeOffset ScheduledStartTime;

@@ -21,5 +21,10 @@ namespace Disqord
         ///     Gets whether discovery is disabled for this stage.
         /// </summary>
         bool IsDiscoveryDisabled { get; }
+
+        /// <summary>
+        ///     Gets the ID of the event this stage is for.
+        /// </summary>
+        Snowflake? GuildEventId { get; }
     }
 }
