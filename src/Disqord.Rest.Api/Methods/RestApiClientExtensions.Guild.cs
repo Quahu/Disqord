@@ -185,9 +185,39 @@ namespace Disqord.Rest.Api
 
         public static Task<BanJsonModel[]> FetchBansAsync(this IRestApiClient client,
             Snowflake guildId,
+            int limit = Discord.Limits.Rest.FetchBansPageSize, RetrievalDirection direction = RetrievalDirection.After, Snowflake? startFromId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var route = Format(Route.Guild.GetBans, guildId);
+            Guard.IsBetweenOrEqualTo(limit, 0, Discord.Limits.Rest.FetchBansPageSize);
+
+            var queryParameters = new Dictionary<string, object>(startFromId != null ? 2 : 1)
+            {
+                ["limit"] = limit
+            };
+
+            switch (direction)
+            {
+                case RetrievalDirection.Before:
+                {
+                    if (startFromId != null)
+                        queryParameters["before"] = startFromId;
+
+                    break;
+                }
+                case RetrievalDirection.After:
+                {
+                    if (startFromId != null)
+                        queryParameters["after"] = startFromId;
+
+                    break;
+                }
+                default:
+                {
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction, "Invalid ban fetch direction.");
+                }
+            }
+
+            var route = Format(Route.Guild.GetBans, queryParameters, guildId);
             return client.ExecuteAsync<BanJsonModel[]>(route, null, options, cancellationToken);
         }
 

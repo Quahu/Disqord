@@ -191,11 +191,20 @@ namespace Disqord.Rest
             return client.KickMemberAsync(guild.Id, memberId, options, cancellationToken);
         }
 
+        public static IPagedEnumerable<IBan> EnumerateBans(this IGuild guild,
+            int limit, RetrievalDirection direction = RetrievalDirection.After, Snowflake? startFromId = null,
+            IRestRequestOptions options = null)
+        {
+            var client = guild.GetRestClient();
+            return client.EnumerateBans(guild.Id, limit, direction, startFromId, options);
+        }
+
         public static Task<IReadOnlyList<IBan>> FetchBansAsync(this IGuild guild,
+            int limit = Discord.Limits.Rest.FetchBansPageSize, RetrievalDirection direction = RetrievalDirection.After, Snowflake? startFromId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = guild.GetRestClient();
-            return client.FetchBansAsync(guild.Id, options, cancellationToken);
+            return client.FetchBansAsync(guild.Id, limit, direction, startFromId, options, cancellationToken);
         }
 
         public static Task<IBan> FetchBanAsync(this IGuild guild,

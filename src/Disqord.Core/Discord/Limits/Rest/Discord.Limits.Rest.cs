@@ -35,6 +35,11 @@ namespace Disqord
                 public const int FetchMembersPageSize = 1000;
 
                 /// <summary>
+                ///     Represents the page size for fetching bans.
+                /// </summary>
+                public const int FetchBansPageSize = 1000;
+
+                /// <summary>
                 ///     Represents the page size for fetching guilds.
                 /// </summary>
                 public const int FetchGuildsPageSize = 200;

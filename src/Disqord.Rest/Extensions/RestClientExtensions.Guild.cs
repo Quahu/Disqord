@@ -233,9 +233,9 @@ namespace Disqord.Rest
             IRestRequestOptions options, CancellationToken cancellationToken)
         {
             var models = await client.ApiClient.FetchMembersAsync(guildId, limit, startFromId, options, cancellationToken).ConfigureAwait(false);
-            return models.ToReadOnlyList((client, guildId), (x, tuple) =>
+            return models.ToReadOnlyList((client, guildId), (x, state) =>
             {
-                var (client, guildId) = tuple;
+                var (client, guildId) = state;
                 return new TransientMember(client, guildId, x);
             });
         }
@@ -245,9 +245,9 @@ namespace Disqord.Rest
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.SearchMembersAsync(guildId, query, limit, options, cancellationToken).ConfigureAwait(false);
-            return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
+            return models.ToReadOnlyList((client, guildId), static (x, state) =>
             {
-                var (client, guildId) = tuple;
+                var (client, guildId) = state;
                 return new TransientMember(client, guildId, x);
             });
         }
@@ -334,15 +334,47 @@ namespace Disqord.Rest
             return client.ApiClient.KickMemberAsync(guildId, memberId, options, cancellationToken);
         }
 
-        public static async Task<IReadOnlyList<IBan>> FetchBansAsync(this IRestClient client,
+        public static IPagedEnumerable<IBan> EnumerateBans(this IRestClient client,
             Snowflake guildId,
+            int limit, RetrievalDirection direction = RetrievalDirection.After, Snowflake? startFromId = null,
+            IRestRequestOptions options = null)
+        {
+            Guard.IsGreaterThanOrEqualTo(limit, 0);
+
+            return PagedEnumerable.Create((state, cancellationToken) =>
+            {
+                var (client, guildId, limit, direction, startFromId, options) = state;
+                return new FetchBansEnumerator(client, guildId, limit, direction, startFromId, options, cancellationToken);
+            }, (client, guildId, limit, direction, startFromId, options));
+        }
+
+        public static Task<IReadOnlyList<IBan>> FetchBansAsync(this IRestClient client,
+            Snowflake guildId,
+            int limit = Discord.Limits.Rest.FetchBansPageSize, RetrievalDirection direction = RetrievalDirection.After, Snowflake? startFromId = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var models = await client.ApiClient.FetchBansAsync(guildId, options, cancellationToken).ConfigureAwait(false);
-            return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
+            Guard.IsGreaterThanOrEqualTo(limit, 0);
+
+            if (limit == 0)
+                return Task.FromResult(ReadOnlyList<IBan>.Empty);
+
+            if (limit <= Discord.Limits.Rest.FetchBansPageSize)
+                return client.InternalFetchBansAsync(guildId, limit, direction, startFromId, options, cancellationToken);
+
+            var enumerable = client.EnumerateBans(guildId, limit, direction, startFromId, options);
+            return enumerable.FlattenAsync(cancellationToken);
+        }
+
+        internal static async Task<IReadOnlyList<IBan>> InternalFetchBansAsync(this IRestClient client,
+            Snowflake guildId,
+            int limit, RetrievalDirection direction, Snowflake? startFromId,
+            IRestRequestOptions options, CancellationToken cancellationToken)
+        {
+            var models = await client.ApiClient.FetchBansAsync(guildId, limit, direction, startFromId, options, cancellationToken).ConfigureAwait(false);
+            return models.ToReadOnlyList((client, guildId), (model, state) =>
             {
-                var (client, guildId) = tuple;
-                return new TransientBan(client, guildId, x);
+                var (client, guildId) = state;
+                return new TransientBan(client, guildId, model);
             });
         }
 
@@ -386,9 +418,9 @@ namespace Disqord.Rest
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchRolesAsync(guildId, options, cancellationToken).ConfigureAwait(false);
-            return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
+            return models.ToReadOnlyList((client, guildId), static (x, state) =>
             {
-                var (client, guildId) = tuple;
+                var (client, guildId) = state;
                 return new TransientRole(client, guildId, x);
             });
         }
@@ -432,9 +464,9 @@ namespace Disqord.Rest
 
             var content = new JsonObjectRestRequestContent<ReorderJsonRestRequestContent[]>(contents);
             var models = await client.ApiClient.ReorderRolesAsync(guildId, content, options, cancellationToken).ConfigureAwait(false);
-            return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
+            return models.ToReadOnlyList((client, guildId), static (x, state) =>
             {
-                var (client, guildId) = tuple;
+                var (client, guildId) = state;
                 return new TransientRole(client, guildId, x);
             });
         }
@@ -484,9 +516,9 @@ namespace Disqord.Rest
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchGuildVoiceRegionsAsync(guildId, options, cancellationToken).ConfigureAwait(false);
-            return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
+            return models.ToReadOnlyList((client, guildId), static (x, state) =>
             {
-                var (client, guildId) = tuple;
+                var (client, guildId) = state;
                 return new TransientGuildVoiceRegion(client, guildId, x);
             });
         }
@@ -504,9 +536,9 @@ namespace Disqord.Rest
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var models = await client.ApiClient.FetchIntegrationsAsync(guildId, options, cancellationToken).ConfigureAwait(false);
-            return models.ToReadOnlyList((client, guildId), static (x, tuple) =>
+            return models.ToReadOnlyList((client, guildId), static (x, state) =>
             {
-                var (client, guildId) = tuple;
+                var (client, guildId) = state;
                 return new TransientIntegration(client, guildId, x);
             });
         }
