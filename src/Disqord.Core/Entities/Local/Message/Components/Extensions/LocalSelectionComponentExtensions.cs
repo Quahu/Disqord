@@ -26,6 +26,13 @@ namespace Disqord
             return component;
         }
 
+        public static TComponent WithIsDisabled<TComponent>(this TComponent component, bool isDisabled = true)
+            where TComponent : LocalSelectionComponent
+        {
+            component.IsDisabled = isDisabled;
+            return component;
+        }
+
         public static TComponent WithOptions<TComponent>(this TComponent rowComponent, params LocalSelectionComponentOption[] options)
             where TComponent : LocalSelectionComponent
             => rowComponent.WithOptions(options as IEnumerable<LocalSelectionComponentOption>);

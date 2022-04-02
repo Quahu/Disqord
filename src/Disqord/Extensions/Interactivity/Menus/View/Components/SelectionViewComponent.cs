@@ -130,7 +130,7 @@ namespace Disqord.Extensions.Interactivity.Menus
             return _callback(data);
         }
 
-        protected internal override LocalNestedComponent ToLocalComponent()
+        protected internal override LocalComponent ToLocalComponent()
         {
             var selection = LocalComponent.Selection(CustomId)
                 .WithPlaceholder(_placeholder)

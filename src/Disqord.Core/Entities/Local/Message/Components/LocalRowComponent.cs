@@ -5,16 +5,16 @@ namespace Disqord
 {
     public class LocalRowComponent : LocalComponent
     {
-        public IList<LocalNestedComponent> Components
+        public IList<LocalComponent> Components
         {
             get => _components;
             set => this.WithComponents(value);
         }
-        internal readonly List<LocalNestedComponent> _components;
+        internal readonly List<LocalComponent> _components;
 
         public LocalRowComponent()
         {
-            _components = new List<LocalNestedComponent>();
+            _components = new List<LocalComponent>();
         }
 
         private LocalRowComponent(LocalRowComponent other)

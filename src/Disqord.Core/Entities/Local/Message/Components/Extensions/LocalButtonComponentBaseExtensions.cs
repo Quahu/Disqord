@@ -15,5 +15,12 @@
             component.Emoji = emoji;
             return component;
         }
+
+        public static TComponent WithIsDisabled<TComponent>(this TComponent component, bool isDisabled = true)
+            where TComponent : LocalButtonComponentBase
+        {
+            component.IsDisabled = isDisabled;
+            return component;
+        }
     }
 }

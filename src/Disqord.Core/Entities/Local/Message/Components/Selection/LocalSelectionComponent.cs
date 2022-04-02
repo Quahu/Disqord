@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Disqord
 {
-    public class LocalSelectionComponent : LocalNestedComponent, ILocalInteractiveComponent
+    public class LocalSelectionComponent : LocalComponent, ILocalInteractiveComponent
     {
         /// <inheritdoc/>
         public string CustomId { get; set; }
@@ -13,6 +13,11 @@ namespace Disqord
         public Optional<int> MinimumSelectedOptions { get; set; }
 
         public Optional<int> MaximumSelectedOptions { get; set; }
+
+        /// <summary>
+        ///     Gets or sets whether this interactive component is disabled.
+        /// </summary>
+        public Optional<bool> IsDisabled { get; set; }
 
         public IList<LocalSelectionComponentOption> Options
         {

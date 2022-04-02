@@ -4,7 +4,7 @@ namespace Disqord
 {
     public abstract class LocalComponent : ILocalConstruct
     {
-        public static LocalRowComponent Row(params LocalNestedComponent[] components)
+        public static LocalRowComponent Row(params LocalComponent[] components)
             => new()
             {
                 Components = components

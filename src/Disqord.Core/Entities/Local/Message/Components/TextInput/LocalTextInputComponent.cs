@@ -1,6 +1,6 @@
 namespace Disqord
 {
-    public class LocalTextInputComponent : LocalNestedComponent, ILocalInteractiveComponent
+    public class LocalTextInputComponent : LocalComponent, ILocalInteractiveComponent
     {
         /// <summary>
         ///     Gets or sets the style of this text input.
