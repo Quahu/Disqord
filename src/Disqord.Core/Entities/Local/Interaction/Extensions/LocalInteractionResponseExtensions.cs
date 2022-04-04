@@ -59,7 +59,10 @@ namespace Disqord
             where TResponse : LocalInteractionModalResponse
         {
             Guard.IsNotNull(component);
-            @this.Components.Add(component);
+
+            if (!@this.Components.Add(component, out var list))
+                @this.Components = new(list);
+
             return @this;
         }
 
@@ -67,7 +70,10 @@ namespace Disqord
             where TResponse : LocalInteractionModalResponse
         {
             Guard.IsNotNull(components);
-            @this.Components = components.ToList();
+
+            if (!@this.Components.With(components, out var list))
+                @this.Components = new(list);
+
             return @this;
         }
 

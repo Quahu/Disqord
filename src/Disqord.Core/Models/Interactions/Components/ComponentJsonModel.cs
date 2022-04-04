@@ -58,7 +58,7 @@ namespace Disqord.Models
         {
             Guard.IsDefined(Type);
 
-            if (Type is ComponentType.Selection or ComponentType.TextInput)
+            if (Type is ComponentType.Selection or ComponentType.TextInput || Type is ComponentType.Button && Style != (byte) ButtonComponentStyle.Link)
             {
                 OptionalGuard.HasValue(CustomId);
                 Guard.IsNotNullOrWhiteSpace(CustomId.Value);
@@ -85,14 +85,8 @@ namespace Disqord.Models
                         OptionalGuard.HasValue(Url);
                         Guard.IsNotNullOrWhiteSpace(Url.Value);
                     }
-                    else
-                    {
-                        OptionalGuard.HasValue(CustomId);
-                        Guard.IsNotNullOrWhiteSpace(CustomId.Value);
-                        Guard.IsLessThanOrEqualTo(CustomId.Value.Length, Discord.Limits.Components.MaxCustomIdLength);
-                    }
 
-                    if (!Label.HasValue || Emoji.HasValue)
+                    if (!Label.HasValue && !Emoji.HasValue)
                         throw new InvalidOperationException("The button's label or emoji must be set.");
 
                     OptionalGuard.CheckValue(Label, label =>

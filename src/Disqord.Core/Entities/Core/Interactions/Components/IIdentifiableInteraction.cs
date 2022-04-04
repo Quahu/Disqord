@@ -6,7 +6,7 @@ namespace Disqord
     public interface IIdentifiableInteraction : IInteraction
     {
         /// <summary>
-        ///     Gets the custom ID of the component of this interaction.
+        ///     Gets the custom ID of this interaction.
         /// </summary>
         string CustomId { get; }
     }

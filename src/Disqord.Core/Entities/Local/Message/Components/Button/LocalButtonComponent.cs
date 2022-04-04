@@ -8,7 +8,7 @@
         public LocalButtonComponentStyle Style { get; set; } = LocalButtonComponentStyle.Primary;
 
         /// <inheritdoc/>
-        public string CustomId { get; set; }
+        public Optional<string> CustomId { get; set; }
 
         public LocalButtonComponent()
         { }

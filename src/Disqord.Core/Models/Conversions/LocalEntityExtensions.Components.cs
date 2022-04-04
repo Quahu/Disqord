@@ -76,7 +76,7 @@ namespace Disqord.Models
                 Label = option.Label,
                 Value = option.Value,
                 Description = option.Description,
-                Emoji = Optional.Convert(option.Emoji, localEmoji => localEmoji.ToModel()),
+                Emoji = Optional.Convert(option.Emoji, emoji => emoji.ToModel()),
                 Default = option.IsDefault
             };
     }

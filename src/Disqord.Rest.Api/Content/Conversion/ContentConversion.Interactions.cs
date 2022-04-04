@@ -66,7 +66,7 @@ namespace Disqord.Rest.Api
                 {
                     CustomId = modalResponse.CustomId,
                     Title = modalResponse.Title,
-                    Components = modalResponse.Components.Select(x => x.ToModel()).ToArray()
+                    Components = Optional.Convert(modalResponse.Components, components => components?.Select(component => component?.ToModel()).ToArray())
                 };
             }
 

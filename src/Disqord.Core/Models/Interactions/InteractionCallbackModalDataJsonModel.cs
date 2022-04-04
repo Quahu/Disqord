@@ -6,24 +6,27 @@ namespace Disqord.Models
     public class InteractionCallbackModalDataJsonModel : JsonModel
     {
         [JsonProperty("custom_id")]
-        public string CustomId;
+        public Optional<string> CustomId;
 
         [JsonProperty("title")]
-        public string Title;
+        public Optional<string> Title;
 
         [JsonProperty("components")]
-        public ComponentJsonModel[] Components;
+        public Optional<ComponentJsonModel[]> Components;
 
         protected override void OnValidate()
         {
-            Guard.IsNotNullOrWhiteSpace(CustomId);
-            Guard.IsLessThanOrEqualTo(CustomId.Length, Discord.Limits.Interactions.Modals.MaxCustomIdLength);
+            OptionalGuard.HasValue(CustomId);
+            Guard.IsNotNullOrWhiteSpace(CustomId.Value);
+            Guard.IsLessThanOrEqualTo(CustomId.Value.Length, Discord.Limits.Interactions.Modals.MaxCustomIdLength);
 
-            Guard.IsNotNullOrWhiteSpace(Title);
-            Guard.IsLessThanOrEqualTo(Title.Length, Discord.Limits.Interactions.Modals.MaxTitleLength);
+            OptionalGuard.HasValue(Title);
+            Guard.IsNotNullOrWhiteSpace(Title.Value);
+            Guard.IsLessThanOrEqualTo(Title.Value.Length, Discord.Limits.Interactions.Modals.MaxTitleLength);
 
-            Guard.IsNotEmpty(Components);
-            foreach (var component in Components)
+            OptionalGuard.HasValue(Components);
+            Guard.IsNotEmpty(Components.Value);
+            foreach (var component in Components.Value)
             {
                 Guard.IsNotNull(component);
                 component.Validate();

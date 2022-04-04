@@ -8,7 +8,7 @@ namespace Disqord
         public TextInputComponentStyle Style { get; set; } = TextInputComponentStyle.Short;
 
         /// <inheritdoc/>
-        public string CustomId { get; set; }
+        public Optional<string> CustomId { get; set; }
 
         /// <summary>
         ///     Gets or sets the label of this text input.

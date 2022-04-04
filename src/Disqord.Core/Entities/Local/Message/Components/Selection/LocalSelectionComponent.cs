@@ -6,7 +6,7 @@ namespace Disqord
     public class LocalSelectionComponent : LocalComponent, ILocalInteractiveComponent
     {
         /// <inheritdoc/>
-        public string CustomId { get; set; }
+        public Optional<string> CustomId { get; set; }
 
         public Optional<string> Placeholder { get; set; }
 
