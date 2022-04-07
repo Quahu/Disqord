@@ -24,6 +24,8 @@
 
         Stage = 13,
 
-        Directory = 14
+        Directory = 14,
+
+        Forum = 15
     }
 }

@@ -278,6 +278,15 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<ChannelJsonModel>(route, content, options, cancellationToken);
         }
 
+        public static Task<ChannelJsonModel> CreateThreadInForumAsync(this IRestApiClient client,
+            Snowflake channelId, CreateThreadJsonRestRequestContent content, Snowflake? messageId = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var route = Format(Route.Channel.StartThreadInForum, channelId);
+
+            return client.ExecuteAsync<ChannelJsonModel>(route, content, options, cancellationToken);
+        }
+
         public static Task JoinThreadAsync(this IRestApiClient client,
             Snowflake threadId,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)

@@ -37,6 +37,7 @@ namespace Disqord
                 case ChannelType.PrivateThread:
                 case ChannelType.Stage:
                 case ChannelType.Directory:
+                case ChannelType.Forum:
                     return TransientGuildChannel.Create(client, model);
             }
 

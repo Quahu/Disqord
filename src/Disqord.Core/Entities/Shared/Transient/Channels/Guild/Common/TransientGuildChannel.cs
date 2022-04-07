@@ -58,6 +58,9 @@ namespace Disqord
 
                 case ChannelType.Stage:
                     return new TransientStageChannel(client, model);
+
+                case ChannelType.Forum:
+                    return new TransientForumChannel(client, model);
             }
 
             return new TransientUnknownGuildChannel(client, model);
