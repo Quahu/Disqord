@@ -22,6 +22,8 @@
 
         PrivateThread = 12,
 
-        Stage = 13
+        Stage = 13,
+
+        Directory = 14
     }
 }
