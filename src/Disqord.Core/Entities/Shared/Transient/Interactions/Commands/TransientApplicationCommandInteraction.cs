@@ -15,6 +15,9 @@ namespace Disqord
         public ApplicationCommandType CommandType => Model.Data.Value.Type.Value;
 
         /// <inheritdoc/>
+        public Snowflake? CommandGuildId => Model.Data.Value.GuildId.GetValueOrNullable();
+
+        /// <inheritdoc/>
         public IApplicationCommandInteractionEntities Entities => _entities ??= new TransientApplicationCommandInteractionEntities(Client, GuildId,
             Model.Data.Value.Resolved.GetValueOrDefault(() => new ApplicationCommandInteractionDataResolvedJsonModel()));
         private IApplicationCommandInteractionEntities _entities;
