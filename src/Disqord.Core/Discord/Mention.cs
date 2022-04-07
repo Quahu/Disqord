@@ -24,18 +24,18 @@ namespace Disqord
         {
             Guard.IsNotNull(member);
 
-            return User(member.Id, member.Nick != null);
+            return User(member.Id);
         }
 
         public static string User(IUser user)
         {
             Guard.IsNotNull(user);
 
-            return User(user.Id, user is IMember member && member.Nick != null);
+            return User(user.Id);
         }
 
-        public static string User(Snowflake id, bool hasNick = false)
-            => hasNick ? $"<@!{id}>" : $"<@{id}>";
+        public static string User(Snowflake id)
+            => $"<@{id}>";
 
         public static string Channel(IGuildChannel channel)
         {
