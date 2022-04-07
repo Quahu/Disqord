@@ -8,6 +8,8 @@
 
         public Optional<string> Region { internal get; set; }
 
+        public Optional<VideoQualityMode> VideoQualityMode { internal get; set; }
+
         internal ModifyVoiceChannelActionProperties()
         { }
     }

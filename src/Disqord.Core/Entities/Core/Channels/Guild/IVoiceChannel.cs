@@ -9,5 +9,10 @@
         ///     Gets the member limit of this channel.
         /// </summary>
         int MemberLimit { get; }
+
+        /// <summary>
+        ///     Gets the camera video quality mode of this channel.
+        /// </summary>
+        VideoQualityMode VideoQualityMode { get; }
     }
 }
