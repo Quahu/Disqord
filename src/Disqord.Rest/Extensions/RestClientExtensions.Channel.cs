@@ -106,6 +106,7 @@ namespace Disqord.Rest
                                 {
                                     content.Topic = textProperties.Topic;
                                     content.Nsfw = textProperties.IsNsfw;
+                                    content.DefaultAutoArchiveDuration = Optional.Convert(textProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
                                     break;
                                 }
                                 case ModifyThreadChannelActionProperties threadProperties:
@@ -125,6 +126,7 @@ namespace Disqord.Rest
                             content.Bitrate = voiceProperties.Bitrate;
                             content.UserLimit = voiceProperties.MemberLimit;
                             content.RtcRegion = voiceProperties.Region;
+                            content.VideoQualityMode = voiceProperties.VideoQualityMode;
                             break;
                         }
                     }

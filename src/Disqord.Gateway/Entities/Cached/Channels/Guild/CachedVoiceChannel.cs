@@ -7,6 +7,8 @@ namespace Disqord.Gateway
     {
         public int MemberLimit { get; private set; }
 
+        public VideoQualityMode VideoQualityMode { get; private set; }
+
         public CachedVoiceChannel(IGatewayClient client, ChannelJsonModel model)
             : base(client, model)
         { }
