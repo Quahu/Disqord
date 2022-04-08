@@ -8,7 +8,7 @@ namespace Disqord
         /// <summary>
         ///     Discord chooses the quality for optimal performance.
         /// </summary>
-        Auto = 1,
+        Automatic = 1,
 
         /// <summary>
         ///     Full video quality (720p).
