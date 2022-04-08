@@ -21,7 +21,7 @@
         ApplicationCommandType CommandType { get; }
 
         /// <summary>
-        ///     Gets the ID of the guild in which the application command of this interaction is registered to.
+        ///     Gets the ID of the guild in which the application command of this interaction is registered in.
         /// </summary>
         Snowflake? CommandGuildId { get; }
 
