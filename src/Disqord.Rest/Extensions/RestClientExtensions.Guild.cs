@@ -133,6 +133,7 @@ namespace Disqord.Rest
                     content.Topic = textProperties.Topic;
                     content.RateLimitPerUser = Optional.Convert(textProperties.Slowmode, x => (int) x.TotalSeconds);
                     content.Nsfw = textProperties.IsNsfw;
+                    content.DefaultAutoArchiveDuration = Optional.Convert(textProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
                 }
                 else if (properties is CreateVoiceChannelActionProperties voiceProperties)
                 {
