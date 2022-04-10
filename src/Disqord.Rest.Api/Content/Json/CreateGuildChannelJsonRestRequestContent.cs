@@ -35,6 +35,9 @@ namespace Disqord.Rest.Api
         [JsonProperty("nsfw")]
         public Optional<bool> Nsfw;
 
+        [JsonProperty("default_auto_archive_duration")]
+        public Optional<int> DefaultAutoArchiveDuration;
+
         [JsonProperty("rtc_region")]
         public Optional<string> RtcRegion;
 
