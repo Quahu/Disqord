@@ -2,11 +2,11 @@
 {
     public static class LocalCustomIdentifiableExtensions
     {
-        public static TCustomIdentifiable WithCustomId<TCustomIdentifiable>(this TCustomIdentifiable localEntity, string customId)
+        public static TCustomIdentifiable WithCustomId<TCustomIdentifiable>(this TCustomIdentifiable localCustomIdentifiable, string customId)
             where TCustomIdentifiable : ILocalCustomIdentifiable
         {
-            localEntity.CustomId = customId;
-            return localEntity;
+            localCustomIdentifiable.CustomId = customId;
+            return localCustomIdentifiable;
         }
     }
 }
