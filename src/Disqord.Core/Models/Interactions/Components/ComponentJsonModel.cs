@@ -58,7 +58,7 @@ namespace Disqord.Models
         {
             Guard.IsDefined(Type);
 
-            if (Type is ComponentType.Selection or ComponentType.TextInput || Type is ComponentType.Button && Style != (byte) ButtonComponentStyle.Link)
+            if (Type == ComponentType.Selection || Type == ComponentType.TextInput || Type == ComponentType.Button && Style != (byte) ButtonComponentStyle.Link)
             {
                 OptionalGuard.HasValue(CustomId);
                 Guard.IsNotNullOrWhiteSpace(CustomId.Value);
@@ -107,6 +107,9 @@ namespace Disqord.Models
                     OptionalGuard.HasValue(Options);
                     Guard.IsLessThanOrEqualTo(Options.Value.Length, Discord.Limits.Components.Selection.MaxOptionAmount);
 
+                    for (var i = 0; i < Options.Value.Length; i++)
+                        Options.Value[i].Validate();
+
                     OptionalGuard.CheckValue(Placeholder, placeholder =>
                     {
                         Guard.IsNotNull(placeholder);
@@ -130,6 +133,8 @@ namespace Disqord.Models
                 }
                 case ComponentType.TextInput:
                 {
+                    OptionalGuard.HasValue(Style);
+
                     OptionalGuard.HasValue(Label);
                     Guard.IsNotNullOrWhiteSpace(Label.Value);
                     Guard.IsBetweenOrEqualTo(Label.Value.Length, Discord.Limits.Components.TextInput.MinLabelLength, Discord.Limits.Components.TextInput.MaxLabelLength);

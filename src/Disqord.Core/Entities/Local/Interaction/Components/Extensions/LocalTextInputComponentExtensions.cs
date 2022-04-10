@@ -2,6 +2,13 @@ namespace Disqord
 {
     public static class LocalTextInputComponentExtensions
     {
+        public static TComponent WithStyle<TComponent>(this TComponent component, TextInputComponentStyle style)
+            where TComponent : LocalTextInputComponent
+        {
+            component.Style = style;
+            return component;
+        }
+
         public static TComponent WithLabel<TComponent>(this TComponent component, string label)
             where TComponent : LocalTextInputComponent
         {

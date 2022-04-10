@@ -135,7 +135,7 @@ namespace Disqord.Rest
             SetResponded(InteractionResponseType.ApplicationCommandAutoComplete);
         }
 
-        public async Task OpenModalAsync(
+        public async Task SendModalAsync(
             LocalInteractionModalResponse response,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
