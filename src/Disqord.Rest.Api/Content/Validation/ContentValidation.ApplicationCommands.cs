@@ -28,7 +28,7 @@ namespace Disqord.Rest.Api
                 OptionalGuard.CheckValue(options, value =>
                 {
                     Guard.IsNotNull(value);
-                    Guard.HasSizeLessThanOrEqualTo(value, Discord.Limits.ApplicationCommands.MaxOptionsAmount);
+                    Guard.HasSizeLessThanOrEqualTo(value, Discord.Limits.ApplicationCommands.MaxOptionAmount);
 
                     var isRequired = true;
                     foreach (var option in value)

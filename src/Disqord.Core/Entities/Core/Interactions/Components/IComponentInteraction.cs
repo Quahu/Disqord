@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a component interaction
     /// </summary>
-    public interface IComponentInteraction : IIdentifiableInteraction
+    public interface IComponentInteraction : IInteraction, ICustomIdentifiable
     {
         /// <summary>
         ///     Gets the component type of this interaction.

@@ -17,7 +17,7 @@ namespace Disqord
 
                 public const int MaxDescriptionLength = 100;
 
-                public const int MaxOptionsAmount = 25;
+                public const int MaxOptionAmount = 25;
 
                 public static class Options
                 {

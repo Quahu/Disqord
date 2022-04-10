@@ -17,15 +17,15 @@ namespace Disqord
                 {
                     public const int MaxPlaceholderLength = 150;
 
-                    public const int MaxOptionsAmount = 25;
+                    public const int MaxOptionAmount = 25;
 
-                    public const int MinMinimumValues = 0;
+                    public const int MinMinimumValueAmount = 0;
 
-                    public const int MaxMinimumValues = 25;
+                    public const int MaxMinimumValueAmount = 25;
 
-                    public const int MinMaximumValues = 1;
+                    public const int MinMaximumValueAmount = 1;
 
-                    public const int MaxMaximumValues = 25;
+                    public const int MaxMaximumValueAmount = 25;
 
                     public class Option
                     {

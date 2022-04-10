@@ -56,8 +56,5 @@ namespace Disqord
 
         object ICloneable.Clone()
             => Clone();
-
-        public virtual void Validate()
-        { }
     }
 }

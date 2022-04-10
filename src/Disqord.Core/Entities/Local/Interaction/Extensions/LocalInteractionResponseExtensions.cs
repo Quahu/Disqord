@@ -39,14 +39,6 @@ namespace Disqord
             where TResponse : LocalInteractionAutoCompleteResponse
             => @this.WithChoices(choices as IEnumerable<LocalSlashCommandOptionChoice>);
 
-        public static TResponse WithCustomId<TResponse>(this TResponse @this, string customId)
-            where TResponse : LocalInteractionModalResponse
-        {
-            Guard.IsNotNull(customId);
-            @this.CustomId = customId;
-            return @this;
-        }
-
         public static TResponse WithTitle<TResponse>(this TResponse @this, string title)
             where TResponse : LocalInteractionModalResponse
         {

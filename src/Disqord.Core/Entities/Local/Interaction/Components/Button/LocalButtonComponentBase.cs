@@ -7,7 +7,7 @@
         public LocalEmoji Emoji { get; set; }
 
         /// <summary>
-        ///     Gets or sets whether this interactive component is disabled.
+        ///     Gets or sets whether this button is disabled.
         /// </summary>
         public Optional<bool> IsDisabled { get; set; }
 

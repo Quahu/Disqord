@@ -6,6 +6,9 @@ namespace Disqord
     public class TransientButtonComponent : TransientComponent, IButtonComponent
     {
         /// <inheritdoc/>
+        public string CustomId => Model.CustomId.Value;
+
+        /// <inheritdoc/>
         public ButtonComponentStyle Style => (ButtonComponentStyle) Model.Style.Value;
 
         /// <inheritdoc/>
@@ -13,9 +16,6 @@ namespace Disqord
 
         /// <inheritdoc/>
         public IEmoji Emoji => Optional.ConvertOrDefault(Model.Emoji, TransientEmoji.Create);
-
-        /// <inheritdoc/>
-        public string CustomId => Model.CustomId.Value;
 
         /// <inheritdoc/>
         public string Url => Model.Url.GetValueOrDefault();

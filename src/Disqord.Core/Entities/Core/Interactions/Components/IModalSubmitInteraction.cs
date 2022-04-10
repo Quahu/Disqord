@@ -3,9 +3,9 @@ using System.Collections.Generic;
 namespace Disqord
 {
     /// <summary>
-    ///     Represents a modal submit interaction
+    ///     Represents a modal being submitted.
     /// </summary>
-    public interface IModalSubmitInteraction : IIdentifiableInteraction
+    public interface IModalSubmitInteraction : IInteraction, ICustomIdentifiable
     {
         /// <summary>
         ///     Gets the components of this interaction.

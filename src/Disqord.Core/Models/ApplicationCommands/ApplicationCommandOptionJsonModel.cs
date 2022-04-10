@@ -68,7 +68,7 @@ namespace Disqord.Models
             OptionalGuard.CheckValue(Options, value =>
             {
                 Guard.IsNotNull(value);
-                Guard.HasSizeLessThanOrEqualTo(value, Discord.Limits.ApplicationCommands.MaxOptionsAmount);
+                Guard.HasSizeLessThanOrEqualTo(value, Discord.Limits.ApplicationCommands.MaxOptionAmount);
 
                 foreach (var option in value)
                 {

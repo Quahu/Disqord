@@ -1,11 +1,14 @@
 ﻿namespace Disqord
 {
-    public class LocalButtonComponent : LocalButtonComponentBase, ILocalInteractiveComponent
+    public class LocalButtonComponent : LocalButtonComponentBase, ILocalCustomIdentifiable
     {
         /// <summary>
         ///     Gets or sets the style of this button.
         /// </summary>
-        public LocalButtonComponentStyle Style { get; set; } = LocalButtonComponentStyle.Primary;
+        /// <remarks>
+        ///     This property is required.
+        /// </remarks>
+        public Optional<LocalButtonComponentStyle> Style { get; set; } = LocalButtonComponentStyle.Primary;
 
         /// <inheritdoc/>
         public Optional<string> CustomId { get; set; }

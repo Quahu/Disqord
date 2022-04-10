@@ -105,7 +105,7 @@ namespace Disqord.Models
                 case ComponentType.Selection:
                 {
                     OptionalGuard.HasValue(Options);
-                    Guard.IsLessThanOrEqualTo(Options.Value.Length, Discord.Limits.Components.Selection.MaxOptionsAmount);
+                    Guard.IsLessThanOrEqualTo(Options.Value.Length, Discord.Limits.Components.Selection.MaxOptionAmount);
 
                     OptionalGuard.CheckValue(Placeholder, placeholder =>
                     {
@@ -115,12 +115,12 @@ namespace Disqord.Models
 
                     OptionalGuard.CheckValue(MinValues, minValues =>
                     {
-                        Guard.IsBetweenOrEqualTo(minValues, Discord.Limits.Components.Selection.MinMinimumValues, Discord.Limits.Components.Selection.MaxMinimumValues);
+                        Guard.IsBetweenOrEqualTo(minValues, Discord.Limits.Components.Selection.MinMinimumValueAmount, Discord.Limits.Components.Selection.MaxMinimumValueAmount);
                     });
 
                     OptionalGuard.CheckValue(MaxValues, maxValues =>
                     {
-                        Guard.IsBetweenOrEqualTo(maxValues, Discord.Limits.Components.Selection.MinMaximumValues, Discord.Limits.Components.Selection.MaxMaximumValues);
+                        Guard.IsBetweenOrEqualTo(maxValues, Discord.Limits.Components.Selection.MinMaximumValueAmount, Discord.Limits.Components.Selection.MaxMaximumValueAmount);
                     });
 
                     if (MinValues.HasValue && MaxValues.HasValue)

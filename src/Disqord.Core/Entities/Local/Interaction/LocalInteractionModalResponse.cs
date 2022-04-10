@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Disqord
 {
-    public class LocalInteractionModalResponse : ILocalInteractionResponse
+    public class LocalInteractionModalResponse : ILocalInteractionResponse, ILocalCustomIdentifiable
     {
         InteractionResponseType ILocalInteractionResponse.Type => InteractionResponseType.Modal;
 

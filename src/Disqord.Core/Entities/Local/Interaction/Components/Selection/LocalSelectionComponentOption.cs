@@ -4,8 +4,14 @@ namespace Disqord
 {
     public class LocalSelectionComponentOption : ILocalConstruct
     {
+        /// <summary>
+        ///     Gets or sets the label of this option.
+        /// </summary>
         public Optional<string> Label { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the label of this text input.
+        /// </summary>
         public Optional<string> Value { get; set; }
 
         public Optional<string> Description { get; set; }

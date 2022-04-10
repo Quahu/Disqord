@@ -3,22 +3,34 @@ using System.Linq;
 
 namespace Disqord
 {
-    public class LocalSelectionComponent : LocalComponent, ILocalInteractiveComponent
+    public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiable
     {
         /// <inheritdoc/>
         public Optional<string> CustomId { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the placeholder of this selection.
+        /// </summary>
         public Optional<string> Placeholder { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the minimum amount of options of this selection.
+        /// </summary>
         public Optional<int> MinimumSelectedOptions { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the maximum amount of options of this selection.
+        /// </summary>
         public Optional<int> MaximumSelectedOptions { get; set; }
 
         /// <summary>
-        ///     Gets or sets whether this interactive component is disabled.
+        ///     Gets or sets whether this selection is disabled.
         /// </summary>
         public Optional<bool> IsDisabled { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the options of this selection.
+        /// </summary>
         public IList<LocalSelectionComponentOption> Options
         {
             get => _options;

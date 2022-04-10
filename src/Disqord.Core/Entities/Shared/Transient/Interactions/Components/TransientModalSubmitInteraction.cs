@@ -1,11 +1,16 @@
 using System.Collections.Generic;
+using Disqord.Interaction;
 using Disqord.Models;
 using Qommon.Collections;
 
 namespace Disqord.Interactions
 {
-    public class TransientModalSubmitInteraction : TransientIdentifiableInteraction, IModalSubmitInteraction
+    public class TransientModalSubmitInteraction : TransientInteraction, IModalSubmitInteraction
     {
+        /// <inheritdoc/>
+        public string CustomId => Model.Data.Value.CustomId.Value;
+
+        /// <inheritdoc/>
         public IReadOnlyList<IComponent> Components
         {
             get

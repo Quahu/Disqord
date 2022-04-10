@@ -105,9 +105,6 @@ namespace Disqord
                 _embeds[i].Validate();
 
             AllowedMentions?.Validate();
-
-            for (var i = 0; i < _components.Count; i++)
-                _components[i].Validate();
         }
     }
 }

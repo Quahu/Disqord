@@ -12,8 +12,8 @@ namespace Disqord.Models
 
             var model = new ComponentJsonModel();
 
-            if (component is ILocalInteractiveComponent interactiveComponent)
-                model.CustomId = interactiveComponent.CustomId;
+            if (component is ILocalCustomIdentifiable customIdentifiable)
+                model.CustomId = customIdentifiable.CustomId;
 
             if (component is LocalRowComponent rowComponent)
             {
@@ -29,7 +29,7 @@ namespace Disqord.Models
 
                 if (buttonComponentBase is LocalButtonComponent buttonComponent)
                 {
-                    model.Style = (byte) buttonComponent.Style;
+                    model.Style = Optional.Convert(buttonComponent.Style, style => (byte) style);
                 }
                 else if (buttonComponentBase is LocalLinkButtonComponent linkButtonComponent)
                 {
@@ -53,7 +53,7 @@ namespace Disqord.Models
             else if (component is LocalTextInputComponent textInputComponent)
             {
                 model.Type = ComponentType.TextInput;
-                model.Style = (byte) textInputComponent.Style;
+                model.Style = Optional.Convert(textInputComponent.Style, style => (byte) style);
                 model.CustomId = textInputComponent.CustomId;
                 model.Label = textInputComponent.Label;
                 model.MinLength = textInputComponent.MinimumInputLength;

@@ -3,13 +3,8 @@ namespace Disqord
     /// <summary>
     ///     Represents a text input component.
     /// </summary>
-    public interface ITextInputComponent : IComponent
+    public interface ITextInputComponent : IComponent, ICustomIdentifiable
     {
-        /// <summary>
-        ///     Gets the custom ID of this text input component.
-        /// </summary>
-        string CustomId { get; }
-
         /// <summary>
         ///     Gets the style of this text input component.
         /// </summary>

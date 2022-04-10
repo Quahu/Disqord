@@ -3,12 +3,12 @@ namespace Disqord
     public enum TextInputComponentStyle : byte
     {
         /// <summary>
-        ///     A single-line input
+        ///     Single-line input.
         /// </summary>
         Short = 1,
 
         /// <summary>
-        ///     A multi-line input
+        ///     Multi-line input.
         /// </summary>
         Paragraph = 2
     }
