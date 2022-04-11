@@ -24,7 +24,7 @@ namespace Disqord.Models
             {
                 model.Type = ComponentType.Button;
                 model.Label = buttonComponentBase.Label;
-                model.Emoji = Optional.FromNullable(buttonComponentBase.Emoji.ToModel());
+                model.Emoji = Optional.Convert(buttonComponentBase.Emoji, emoji => emoji.ToModel());
                 model.Disabled = buttonComponentBase.IsDisabled;
 
                 if (buttonComponentBase is LocalButtonComponent buttonComponent)

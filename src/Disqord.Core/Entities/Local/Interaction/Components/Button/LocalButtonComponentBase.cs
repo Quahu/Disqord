@@ -4,7 +4,7 @@
     {
         public Optional<string> Label { get; set; }
 
-        public LocalEmoji Emoji { get; set; }
+        public Optional<LocalEmoji> Emoji { get; set; }
 
         /// <summary>
         ///     Gets or sets whether this button is disabled.

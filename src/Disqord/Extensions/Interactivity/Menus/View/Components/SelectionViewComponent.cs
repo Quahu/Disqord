@@ -133,10 +133,10 @@ namespace Disqord.Extensions.Interactivity.Menus
         protected internal override LocalComponent ToLocalComponent()
         {
             var selection = LocalComponent.Selection(CustomId)
-                .WithPlaceholder(_placeholder)
                 .WithOptions(_options)
                 .WithIsDisabled(_isDisabled);
 
+            selection.Placeholder = Optional.FromNullable(_placeholder);
             selection.MinimumSelectedOptions = Optional.FromNullable(_minimumSelectedOptions);
             selection.MaximumSelectedOptions = Optional.FromNullable(_maximumSelectedOptions);
 
