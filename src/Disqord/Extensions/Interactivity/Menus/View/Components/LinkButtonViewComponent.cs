@@ -69,9 +69,16 @@ namespace Disqord.Extensions.Interactivity.Menus
             _isDisabled = attribute.IsDisabled;
         }
 
-        protected internal override LocalNestedComponent ToLocalComponent()
-            => LocalComponent.LinkButton(_url, _label)
-                .WithEmoji(_emoji)
+        protected internal override LocalComponent ToLocalComponent()
+        {
+            var button = new LocalLinkButtonComponent()
+                .WithUrl(_url)
                 .WithIsDisabled(_isDisabled);
+
+            button.Label = Optional.FromNullable(_label);
+            button.Emoji = Optional.FromNullable(_emoji);
+
+            return button;
+        }
     }
 }

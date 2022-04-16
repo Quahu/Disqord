@@ -11,49 +11,56 @@ namespace Disqord.Models
                 return null;
 
             var model = new ComponentJsonModel();
+
+            if (component is ILocalCustomIdentifiableEntity customIdentifiableEntity)
+                model.CustomId = customIdentifiableEntity.CustomId;
+
             if (component is LocalRowComponent rowComponent)
             {
                 model.Type = ComponentType.Row;
                 model.Components = rowComponent.Components.Select(x => x.ToModel()).ToArray();
             }
-            else if (component is LocalNestedComponent nestedComponent)
+            else if (component is LocalButtonComponentBase buttonComponentBase)
             {
-                model.Disabled = Optional.Conditional(nestedComponent.IsDisabled, true);
-                if (component is ILocalInteractiveComponent interactiveComponent)
-                    model.CustomId = interactiveComponent.CustomId;
+                model.Type = ComponentType.Button;
+                model.Label = buttonComponentBase.Label;
+                model.Emoji = Optional.Convert(buttonComponentBase.Emoji, emoji => emoji.ToModel());
+                model.Disabled = buttonComponentBase.IsDisabled;
 
-                if (component is LocalButtonComponentBase buttonComponentBase)
+                if (buttonComponentBase is LocalButtonComponent buttonComponent)
                 {
-                    model.Type = ComponentType.Button;
-                    model.Label = Optional.FromNullable(buttonComponentBase.Label);
-                    model.Emoji = Optional.FromNullable(buttonComponentBase.Emoji.ToModel());
-
-                    if (buttonComponentBase is LocalButtonComponent buttonComponent)
-                    {
-                        model.Style = (ButtonComponentStyle) buttonComponent.Style;
-                    }
-                    else if (buttonComponentBase is LocalLinkButtonComponent linkButtonComponent)
-                    {
-                        model.Style = ButtonComponentStyle.Link;
-                        model.Url = linkButtonComponent.Url;
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("Unknown local button component type.");
-                    }
+                    model.Style = Optional.Convert(buttonComponent.Style, style => (byte) style);
                 }
-                else if (component is LocalSelectionComponent selectionComponent)
+                else if (buttonComponentBase is LocalLinkButtonComponent linkButtonComponent)
                 {
-                    model.Type = ComponentType.Selection;
-                    model.Placeholder = Optional.FromNullable(selectionComponent.Placeholder);
-                    model.MinValues = Optional.FromNullable(selectionComponent.MinimumSelectedOptions);
-                    model.MaxValues = Optional.FromNullable(selectionComponent.MaximumSelectedOptions);
-                    model.Options = selectionComponent.Options.Select(x => x.ToModel()).ToArray();
+                    model.Style = (byte) ButtonComponentStyle.Link;
+                    model.Url = linkButtonComponent.Url;
                 }
                 else
                 {
-                    throw new InvalidOperationException("Unknown local nested component type.");
+                    throw new InvalidOperationException("Unknown local button component type.");
                 }
+            }
+            else if (component is LocalSelectionComponent selectionComponent)
+            {
+                model.Type = ComponentType.Selection;
+                model.Placeholder = selectionComponent.Placeholder;
+                model.MinValues = selectionComponent.MinimumSelectedOptions;
+                model.MaxValues = selectionComponent.MaximumSelectedOptions;
+                model.Disabled = selectionComponent.IsDisabled;
+                model.Options = selectionComponent.Options.Select(x => x.ToModel()).ToArray();
+            }
+            else if (component is LocalTextInputComponent textInputComponent)
+            {
+                model.Type = ComponentType.TextInput;
+                model.Style = Optional.Convert(textInputComponent.Style, style => (byte) style);
+                model.CustomId = textInputComponent.CustomId;
+                model.Label = textInputComponent.Label;
+                model.MinLength = textInputComponent.MinimumInputLength;
+                model.MaxLength = textInputComponent.MaximumInputLength;
+                model.Required = textInputComponent.IsRequired;
+                model.Value = textInputComponent.PrefilledValue;
+                model.Placeholder = textInputComponent.Placeholder;
             }
             else
             {
@@ -68,9 +75,9 @@ namespace Disqord.Models
             {
                 Label = option.Label,
                 Value = option.Value,
-                Description = Optional.FromNullable(option.Description),
-                Emoji = Optional.FromNullable(option.Emoji.ToModel()),
-                Default = Optional.Conditional(option.IsDefault, true)
+                Description = option.Description,
+                Emoji = Optional.Convert(option.Emoji, emoji => emoji.ToModel()),
+                Default = option.IsDefault
             };
     }
 }

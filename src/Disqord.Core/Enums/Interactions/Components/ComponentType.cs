@@ -6,6 +6,8 @@
 
         Button = 2,
 
-        Selection = 3
+        Selection = 3,
+
+        TextInput = 4
     }
 }

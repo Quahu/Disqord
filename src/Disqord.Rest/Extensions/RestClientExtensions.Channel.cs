@@ -349,11 +349,7 @@ namespace Disqord.Rest
                 {
                     Id = x
                 }).ToArray()),
-                Components = Optional.Convert(properties.Components, models => models.Select(x =>
-                {
-                    x.Validate();
-                    return x.ToModel();
-                }).ToArray()),
+                Components = Optional.Convert(properties.Components, models => models.Select(x => x.ToModel()).ToArray()),
                 StickerIds = Optional.Convert(properties.StickerIds, x => x.ToArray())
             };
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Qommon;
 
 namespace Disqord
@@ -37,5 +38,39 @@ namespace Disqord
         public static TResponse WithChoices<TResponse>(this TResponse @this, params LocalSlashCommandOptionChoice[] choices)
             where TResponse : LocalInteractionAutoCompleteResponse
             => @this.WithChoices(choices as IEnumerable<LocalSlashCommandOptionChoice>);
+
+        public static TResponse WithTitle<TResponse>(this TResponse @this, string title)
+            where TResponse : LocalInteractionModalResponse
+        {
+            Guard.IsNotNull(title);
+            @this.Title = title;
+            return @this;
+        }
+
+        public static TResponse AddComponent<TResponse>(this TResponse @this, LocalComponent component)
+            where TResponse : LocalInteractionModalResponse
+        {
+            Guard.IsNotNull(component);
+
+            if (!@this.Components.Add(component, out var list))
+                @this.Components = new(list);
+
+            return @this;
+        }
+
+        public static TResponse WithComponents<TResponse>(this TResponse @this, IEnumerable<LocalComponent> components)
+            where TResponse : LocalInteractionModalResponse
+        {
+            Guard.IsNotNull(components);
+
+            if (!@this.Components.With(components, out var list))
+                @this.Components = new(list);
+
+            return @this;
+        }
+
+        public static TResponse WithComponents<TResponse>(this TResponse @this, params LocalComponent[] components)
+            where TResponse : LocalInteractionModalResponse
+            => @this.WithComponents(components as IEnumerable<LocalComponent>);
     }
 }

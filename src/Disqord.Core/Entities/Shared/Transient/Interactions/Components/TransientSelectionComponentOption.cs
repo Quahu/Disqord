@@ -6,10 +6,10 @@ namespace Disqord
     public class TransientSelectionComponentOption : TransientClientEntity<SelectOptionJsonModel>, ISelectionComponentOption
     {
         /// <inheritdoc/>
-        public string Label => Model.Label;
+        public string Label => Model.Label.GetValueOrDefault();
 
         /// <inheritdoc/>
-        public string Value => Model.Value;
+        public string Value => Model.Value.GetValueOrDefault();
 
         /// <inheritdoc/>
         public string Description => Model.Description.GetValueOrDefault();

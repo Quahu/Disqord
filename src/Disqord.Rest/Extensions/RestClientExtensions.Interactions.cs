@@ -128,11 +128,7 @@ namespace Disqord.Rest
                 {
                     Id = x
                 }).ToArray()),
-                Components = Optional.Convert(properties.Components, x => x.Select(x =>
-                {
-                    x.Validate();
-                    return x.ToModel();
-                }).ToArray())
+                Components = Optional.Convert(properties.Components, x => x.Select(x => x.ToModel()).ToArray())
             };
 
             Task<MessageJsonModel> task;

@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represents a button message component.
     /// </summary>
-    public interface IButtonComponent : IComponent
+    public interface IButtonComponent : IComponent, ICustomIdentifiableEntity
     {
         /// <summary>
         ///     Gets the style of this button component.
@@ -20,11 +20,6 @@
         ///     Returns <see langword="null"/> if the button has no emoji.
         /// </summary>
         IEmoji Emoji { get; }
-
-        /// <summary>
-        ///     Gets the custom ID of this button component.
-        /// </summary>
-        string CustomId { get; }
 
         /// <summary>
         ///     Gets the URL of this button component.

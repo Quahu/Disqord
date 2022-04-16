@@ -4,7 +4,7 @@ namespace Disqord
 {
     public abstract class LocalComponent : ILocalConstruct
     {
-        public static LocalRowComponent Row(params LocalNestedComponent[] components)
+        public static LocalRowComponent Row(params LocalComponent[] components)
             => new()
             {
                 Components = components
@@ -45,11 +45,16 @@ namespace Disqord
                 Options = options
             };
 
+        public static LocalTextInputComponent TextInput(string customId, string label)
+            => new()
+            {
+                CustomId = customId,
+                Label = label
+            };
+
         public abstract LocalComponent Clone();
 
         object ICloneable.Clone()
             => Clone();
-
-        public abstract void Validate();
     }
 }

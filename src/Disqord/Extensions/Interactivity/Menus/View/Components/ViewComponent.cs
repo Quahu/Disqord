@@ -85,6 +85,6 @@ namespace Disqord.Extensions.Interactivity.Menus
                 view.HasChanges = true;
         }
 
-        protected internal abstract LocalNestedComponent ToLocalComponent();
+        protected internal abstract LocalComponent ToLocalComponent();
     }
 }

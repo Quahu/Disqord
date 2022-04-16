@@ -89,10 +89,17 @@ namespace Disqord.Extensions.Interactivity.Menus
             return _callback(data);
         }
 
-        protected internal override LocalNestedComponent ToLocalComponent()
-            => LocalComponent.Button(CustomId, _label)
+        protected internal override LocalComponent ToLocalComponent()
+        {
+            var button = new LocalButtonComponent()
+                .WithCustomId(CustomId)
                 .WithStyle(_style)
-                .WithEmoji(_emoji)
                 .WithIsDisabled(_isDisabled);
+
+            button.Label = Optional.FromNullable(_label);
+            button.Emoji = Optional.FromNullable(_emoji);
+
+            return button;
+        }
     }
 }

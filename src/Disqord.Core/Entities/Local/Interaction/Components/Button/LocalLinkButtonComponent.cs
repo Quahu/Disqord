@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Disqord
+﻿namespace Disqord
 {
     public class LocalLinkButtonComponent : LocalButtonComponentBase
     {
@@ -20,11 +18,5 @@ namespace Disqord
 
         public override LocalLinkButtonComponent Clone()
             => new(this);
-
-        public override void Validate()
-        {
-            if (string.IsNullOrWhiteSpace(Url))
-                throw new InvalidOperationException("The link button's URL must be set.");
-        }
     }
 }

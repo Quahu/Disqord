@@ -33,5 +33,8 @@ namespace Disqord.Models
 
         [JsonProperty("target_id")]
         public Optional<Snowflake> TargetId;
+
+        [JsonProperty("components")]
+        public Optional<ComponentJsonModel[]> Components;
     }
 }

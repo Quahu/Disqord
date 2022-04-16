@@ -6,16 +6,16 @@ namespace Disqord
     public class TransientButtonComponent : TransientComponent, IButtonComponent
     {
         /// <inheritdoc/>
-        public ButtonComponentStyle Style => Model.Style.Value;
+        public string CustomId => Model.CustomId.Value;
+
+        /// <inheritdoc/>
+        public ButtonComponentStyle Style => (ButtonComponentStyle) Model.Style.Value;
 
         /// <inheritdoc/>
         public string Label => Model.Label.GetValueOrDefault();
 
         /// <inheritdoc/>
         public IEmoji Emoji => Optional.ConvertOrDefault(Model.Emoji, TransientEmoji.Create);
-
-        /// <inheritdoc/>
-        public string CustomId => Model.CustomId.Value;
 
         /// <inheritdoc/>
         public string Url => Model.Url.GetValueOrDefault();

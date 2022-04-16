@@ -5,13 +5,8 @@ namespace Disqord
     /// <summary>
     ///     Represents a component interaction
     /// </summary>
-    public interface IComponentInteraction : IInteraction
+    public interface IComponentInteraction : IInteraction, ICustomIdentifiableEntity
     {
-        /// <summary>
-        ///     Gets the custom ID of the component of this interaction.
-        /// </summary>
-        string CustomId { get; }
-
         /// <summary>
         ///     Gets the component type of this interaction.
         /// </summary>

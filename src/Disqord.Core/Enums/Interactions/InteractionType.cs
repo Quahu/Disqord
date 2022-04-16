@@ -11,6 +11,8 @@
 
         MessageComponent = 3,
 
-        ApplicationCommandAutoComplete = 4
+        ApplicationCommandAutoComplete = 4,
+
+        ModalSubmit = 5
     }
 }

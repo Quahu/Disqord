@@ -60,6 +60,15 @@ namespace Disqord.Rest.Api
                 }
                 attachments = messageResponse.Attachments;
             }
+            else if (response is LocalInteractionModalResponse modalResponse)
+            {
+                content.Data = new InteractionCallbackModalDataJsonModel
+                {
+                    CustomId = modalResponse.CustomId,
+                    Title = modalResponse.Title,
+                    Components = Optional.Convert(modalResponse.Components, components => components?.Select(component => component?.ToModel()).ToArray())
+                };
+            }
 
             return content;
         }
