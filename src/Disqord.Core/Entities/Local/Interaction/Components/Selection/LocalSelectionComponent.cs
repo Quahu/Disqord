@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Disqord
 {
-    public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiable
+    public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableEntity
     {
         /// <inheritdoc/>
         public Optional<string> CustomId { get; set; }

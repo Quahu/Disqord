@@ -12,8 +12,8 @@ namespace Disqord.Models
 
             var model = new ComponentJsonModel();
 
-            if (component is ILocalCustomIdentifiable customIdentifiable)
-                model.CustomId = customIdentifiable.CustomId;
+            if (component is ILocalCustomIdentifiableEntity customIdentifiableEntity)
+                model.CustomId = customIdentifiableEntity.CustomId;
 
             if (component is LocalRowComponent rowComponent)
             {
