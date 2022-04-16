@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represents a button message component.
     /// </summary>
-    public interface IButtonComponent : IComponent, ICustomIdentifiable
+    public interface IButtonComponent : IComponent, ICustomIdentifiableEntity
     {
         /// <summary>
         ///     Gets the style of this button component.

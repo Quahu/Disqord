@@ -3,7 +3,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a text input component.
     /// </summary>
-    public interface ITextInputComponent : IComponent, ICustomIdentifiable
+    public interface ITextInputComponent : IComponent, ICustomIdentifiableEntity
     {
         /// <summary>
         ///     Gets the style of this text input component.

@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a selection message component.
     /// </summary>
-    public interface ISelectionComponent : IComponent, ICustomIdentifiable
+    public interface ISelectionComponent : IComponent, ICustomIdentifiableEntity
     {
         /// <summary>
         ///     Gets the placeholder text of this selection component.
