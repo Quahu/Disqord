@@ -30,8 +30,8 @@ namespace Disqord.Bot.Hosting
                 configure?.Invoke(context, discordContext);
 
                 services.AddDiscordBot<TDiscordBot>();
-                services.ConfigureDiscordClient(context, discordContext);
                 services.ConfigureDiscordBot<TDiscordBotConfiguration>(context, discordContext);
+                services.ConfigureDiscordClient(context, discordContext);
             });
 
             return builder;
@@ -66,7 +66,8 @@ namespace Disqord.Bot.Hosting
                 x.Prefixes = prefixes;
             }));
 
-            services.AddHostedService<DiscordBotRunnerService>();
+            services.AddHostedService<DiscordBotSetupService>();
+
             services.TryAddSingleton<DiscordBotMasterService>();
         }
     }
