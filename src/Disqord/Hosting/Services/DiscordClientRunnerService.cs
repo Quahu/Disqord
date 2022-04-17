@@ -36,21 +36,6 @@ namespace Disqord.Hosting
             Client = client;
         }
 
-        protected DiscordClientRunnerService(
-            ILogger logger,
-            DiscordClientBase client)
-        {
-            Logger = logger;
-            Client = client;
-        }
-
-        /// <inheritdoc/>
-        public override async Task StartAsync(CancellationToken cancellationToken)
-        {
-            await Client.InitializeExtensionsAsync(cancellationToken).ConfigureAwait(false);
-            await base.StartAsync(cancellationToken).ConfigureAwait(false);
-        }
-
         /// <inheritdoc/>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {

@@ -6,20 +6,24 @@ using Microsoft.Extensions.Logging;
 
 namespace Disqord.Bot.Hosting
 {
+    /// <inheritdoc/>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class DiscordBotRunnerService : DiscordClientRunnerService
+    public class DiscordBotSetupService : DiscordClientSetupService
     {
-        public DiscordBotRunnerService(
-            ILogger<DiscordBotRunnerService> logger,
-            DiscordBotBase bot)
-            : base(logger, bot)
+        /// <inheritdoc/>
+        public DiscordBotSetupService(
+            ILogger<DiscordBotSetupService> logger,
+            DiscordClientBase client)
+            : base(logger, client)
         { }
 
+        /// <inheritdoc/>
         public override async Task StartAsync(CancellationToken cancellationToken)
         {
+            await base.StartAsync(cancellationToken).ConfigureAwait(false);
+
             var bot = Client as DiscordBotBase;
             await bot.SetupAsync(cancellationToken).ConfigureAwait(false);
-            await base.StartAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 }

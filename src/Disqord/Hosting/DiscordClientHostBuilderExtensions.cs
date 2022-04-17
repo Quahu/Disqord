@@ -23,7 +23,7 @@ namespace Disqord.Hosting
                 configure?.Invoke(context, discordContext);
 
                 services.AddDiscordClient();
-                services.AddHostedService<DiscordClientRunnerService>();
+                services.AddHostedService<DiscordClientSetupService>();
                 services.ConfigureDiscordClient(context, discordContext);
             });
 
@@ -106,6 +106,8 @@ namespace Disqord.Hosting
                     client.Proxy = gatewayProxy;
                 });
             }
+
+            services.AddHostedService<DiscordClientRunnerService>();
         }
     }
 }
