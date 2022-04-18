@@ -36,6 +36,11 @@ namespace Disqord.Models
                 Guard.IsLessThanOrEqualTo(description.Length, Discord.Limits.Components.Selection.Option.MaxDescriptionLength);
             });
 
+            OptionalGuard.CheckValue(Emoji, emoji =>
+            {
+                Guard.IsNotNull(emoji);
+                emoji.Validate();
+            });
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Models
 {
@@ -28,6 +29,12 @@ namespace Disqord.Models
 
         [JsonProperty("available")]
         public Optional<bool> Available;
+
+        protected override void OnValidate()
+        {
+            if (Id == null && Name == null)
+                Throw.InvalidOperationException($"One of {nameof(Id)} and {nameof(Name)} must be set.");
+        }
 
         public bool Equals(IEmoji other)
         {

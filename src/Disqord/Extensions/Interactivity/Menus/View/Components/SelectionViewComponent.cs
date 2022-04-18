@@ -113,12 +113,12 @@ namespace Disqord.Extensions.Interactivity.Menus
                 {
                     Label = optionAttribute.Label,
                     Value = optionAttribute.Value ?? optionAttribute.Label,
-                    Description = optionAttribute.Description,
+                    Description = Optional.FromNullable(optionAttribute.Description),
                     Emoji = optionAttribute.Emoji is string emojiString
                         ? LocalEmoji.FromString(emojiString)
                         : optionAttribute.Emoji != null
                             ? LocalEmoji.Custom(Convert.ToUInt64(optionAttribute.Emoji))
-                            : null,
+                            : Optional<LocalEmoji>.Empty,
                     IsDefault = optionAttribute.IsDefault
                 });
             }
