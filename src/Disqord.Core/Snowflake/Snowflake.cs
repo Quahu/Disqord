@@ -47,18 +47,23 @@ namespace Disqord
             RawValue = rawValue;
         }
 
+        /// <inheritdoc/>
         public bool Equals(ulong other)
             => RawValue == other;
 
+        /// <inheritdoc/>
         public bool Equals(Snowflake other)
             => RawValue == other.RawValue;
 
+        /// <inheritdoc/>
         public int CompareTo(ulong other)
             => RawValue.CompareTo(other);
 
+        /// <inheritdoc/>
         public int CompareTo(Snowflake other)
             => RawValue.CompareTo(other.RawValue);
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (obj is Snowflake otherSnowflake)
@@ -70,15 +75,31 @@ namespace Disqord
             return false;
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
             => RawValue.GetHashCode();
 
+        /// <inheritdoc/>
         public override string ToString()
             => RawValue.ToString();
 
+        /// <inheritdoc cref="TryParse(ReadOnlySpan{char},out Snowflake)"/>
         public static bool TryParse(string value, out Snowflake result)
-            => TryParse(value.AsSpan(), out result);
+        {
+            // TODO: change with NRT
+            // Guard.IsNotNull(value);
 
+            return TryParse(value.AsSpan(), out result);
+        }
+
+        /// <summary>
+        ///     Attempts to convert the input to a <see cref="Snowflake"/>.
+        /// </summary>
+        /// <param name="value"> The input to convert. </param>
+        /// <param name="result"> The <see cref="Snowflake"/> equivalent of the input. </param>
+        /// <exception cref="FormatException">
+        ///     The input was in an incorrect format.
+        /// </exception>
         public static bool TryParse(ReadOnlySpan<char> value, out Snowflake result)
         {
             if (value.Length >= 15 && value.Length < 21 && ulong.TryParse(value, out var ulongResult))
@@ -91,17 +112,59 @@ namespace Disqord
             return false;
         }
 
+        /// <inheritdoc cref="Parse(ReadOnlySpan{char})"/>
         public static Snowflake Parse(string value)
-            => Parse(value.AsSpan());
+        {
+            // TODO: change with NRT
+            // Guard.IsNotNull(value);
 
+            return Parse(value.AsSpan());
+        }
+
+        /// <summary>
+        ///     Converts the input to a <see cref="Snowflake"/>.
+        /// </summary>
+        /// <param name="value"> The input to convert. </param>
+        /// <returns>
+        ///     The <see cref="Snowflake"/> equivalent of the input.
+        /// </returns>
+        /// <exception cref="FormatException">
+        ///     The input was in an incorrect format.
+        /// </exception>
         public static Snowflake Parse(ReadOnlySpan<char> value)
-            => value.Length >= 15 && value.Length < 21
-                ? ulong.Parse(value)
-                : throw new FormatException();
+        {
+            const string exceptionMessage = "The input was in an incorrect format.";
 
+            if (value.Length >= 15 && value.Length < 21)
+                throw new FormatException(exceptionMessage);
+
+            try
+            {
+                return ulong.Parse(value);
+            }
+            catch (Exception ex)
+            {
+                throw new FormatException(exceptionMessage, ex);
+            }
+        }
+
+        /// <summary>
+        ///     Converts a <see cref="DateTimeOffset"/> to a <see cref="Snowflake"/>.
+        /// </summary>
+        /// <param name="dateTimeOffset"> The value to convert. </param>
+        /// <returns>
+        ///     The converted <see cref="Snowflake"/>.
+        /// </returns>
         public static Snowflake FromDateTimeOffset(DateTimeOffset dateTimeOffset)
             => ((ulong) dateTimeOffset.ToUniversalTime().ToUnixTimeMilliseconds() - Epoch) << 22;
 
+        /// <summary>
+        ///     Converts a <see cref="ulong"/> to a <see cref="DateTimeOffset"/>.
+        /// </summary>
+        /// <param name="id"> The value to convert. </param>
+        /// <returns>
+        ///     The converted <see cref="DateTimeOffset"/>.
+        /// </returns>
         public static DateTimeOffset ToDateTimeOffset(ulong id)
             => DateTimeOffset.FromUnixTimeMilliseconds((long) ((id >> 22) + Epoch));
     }
