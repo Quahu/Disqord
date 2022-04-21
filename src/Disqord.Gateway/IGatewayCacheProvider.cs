@@ -16,7 +16,7 @@ namespace Disqord.Gateway
         /// <returns>
         ///     <see langword="true"/>, if the provider supports caching the type.
         /// </returns>
-        public bool Supports<TEntity>();
+        bool Supports<TEntity>();
 
         /// <summary>
         ///     Attempts to retrieve a top-level cache for the <typeparamref name="TEntity"/> type.
