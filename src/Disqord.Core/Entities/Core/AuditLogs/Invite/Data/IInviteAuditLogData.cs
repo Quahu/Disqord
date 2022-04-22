@@ -1,4 +1,6 @@
-﻿namespace Disqord.AuditLogs
+﻿using Qommon;
+
+namespace Disqord.AuditLogs
 {
     public interface IInviteAuditLogData
     {

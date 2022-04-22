@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Qommon.Collections;
+using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway
 {

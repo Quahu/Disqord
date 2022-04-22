@@ -1,4 +1,6 @@
-﻿namespace Disqord.Rest
+﻿using Qommon;
+
+namespace Disqord.Rest
 {
     public class ModifyMemberVoiceStateActionProperties
     {

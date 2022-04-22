@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Models;
+using Qommon;
 
 namespace Disqord.Gateway
 {

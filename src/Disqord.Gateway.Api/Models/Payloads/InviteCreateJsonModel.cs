@@ -1,6 +1,7 @@
 ﻿using System;
 using Disqord.Models;
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Gateway.Api.Models
 {

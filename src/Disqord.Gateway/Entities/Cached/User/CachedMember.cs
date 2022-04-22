@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Qommon.Collections;
 using Disqord.Models;
+using Qommon;
 
 namespace Disqord.Gateway
 {

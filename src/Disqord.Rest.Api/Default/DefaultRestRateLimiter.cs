@@ -7,6 +7,7 @@ using Disqord.Http;
 using Disqord.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Qommon;
 using Qommon.Binding;
 
 namespace Disqord.Rest.Api.Default

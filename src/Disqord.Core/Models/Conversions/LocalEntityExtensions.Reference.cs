@@ -1,4 +1,6 @@
-﻿namespace Disqord.Models
+﻿using Qommon;
+
+namespace Disqord.Models
 {
     public static partial class LocalEntityExtensions
     {

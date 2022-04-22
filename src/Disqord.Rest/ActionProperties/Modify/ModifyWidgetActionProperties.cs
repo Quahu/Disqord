@@ -1,4 +1,6 @@
-﻿namespace Disqord
+﻿using Qommon;
+
+namespace Disqord
 {
     public sealed class ModifyWidgetActionProperties
     {

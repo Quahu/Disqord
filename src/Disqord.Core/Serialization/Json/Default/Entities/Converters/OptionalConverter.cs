@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Qommon.Serialization;
 
 namespace Disqord.Serialization.Json.Default
 {
