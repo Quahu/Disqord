@@ -7,6 +7,7 @@ using Qommon.Collections.Synchronized;
 using Disqord.Gateway.Api;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway.Default
 {

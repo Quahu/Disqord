@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Qommon.Collections;
 using Disqord.Gateway.Api.Models;
+using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway
 {

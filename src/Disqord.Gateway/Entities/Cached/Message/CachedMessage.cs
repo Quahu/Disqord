@@ -5,6 +5,7 @@ using Disqord.Gateway.Api.Models;
 using Disqord.Models;
 using Qommon;
 using Qommon.Collections;
+using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway
 {

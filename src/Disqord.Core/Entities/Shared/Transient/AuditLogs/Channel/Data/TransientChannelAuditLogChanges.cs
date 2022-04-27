@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Qommon.Collections;
 using Disqord.Models;
 using Microsoft.Extensions.Logging;
+using Qommon.Collections.ReadOnly;
 
 namespace Disqord.AuditLogs
 {

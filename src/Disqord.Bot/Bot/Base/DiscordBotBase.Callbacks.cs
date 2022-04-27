@@ -5,6 +5,7 @@ using Disqord.Rest;
 using Microsoft.Extensions.DependencyInjection;
 using Qmmands;
 using Qommon.Collections;
+using Qommon.Collections.ReadOnly;
 using Qommon.Disposal;
 
 namespace Disqord.Bot
