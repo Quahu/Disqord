@@ -3,6 +3,6 @@
   <Import Project="../Disqord.targets" />
   <ItemGroup>
     <ProjectReference Include="..\Disqord\Disqord.csproj" />
-    <PackageReference Include="Qmmands" Version="5.0.1" />
+    <PackageReference Include="Qmmands" Version="5.0.2" />
   </ItemGroup>
 </Project>

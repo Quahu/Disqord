@@ -14,8 +14,8 @@ namespace Disqord.Gateway.Default
 
         private readonly HashSet<Type> _supportedTypes;
         private readonly HashSet<Type> _supportedNestedTypes;
-        private Dictionary<Type, object> _caches;
-        private Dictionary<Type, ISynchronizedDictionary<Snowflake, object>> _nestedCaches;
+        private readonly Dictionary<Type, object> _caches;
+        private readonly Dictionary<Type, ISynchronizedDictionary<Snowflake, object>> _nestedCaches;
 
         public DefaultGatewayCacheProvider(
             IOptions<DefaultGatewayCacheProviderConfiguration> options)
@@ -129,7 +129,10 @@ namespace Disqord.Gateway.Default
                     foreach (var type in _supportedTypes)
                     {
                         var cacheType = typeof(SynchronizedDictionary<,>).MakeGenericType(typeof(Snowflake), type);
-                        var cache = Activator.CreateInstance(cacheType);
+                        var cache = Activator.CreateInstance(cacheType,
+                            0, // capacity
+                            null // comparer
+                            );
                         _caches.Add(type, cache);
                     }
 
@@ -229,7 +232,7 @@ namespace Disqord.Gateway.Default
             {
                 if ((Dictionary as Dictionary<Snowflake, CachedMember>).Remove(key, out var member))
                 {
-                    if (member.SharedUser.RemoveReference(member) == 0 && _provider.TryGetUsers(out var cache))
+                    if (member.SharedUser.RemoveReference(member) <= 0 && _provider.TryGetUsers(out var cache))
                         cache.Remove(key);
 
                     return true;
@@ -243,7 +246,7 @@ namespace Disqord.Gateway.Default
                 _provider.TryGetUsers(out var cache);
                 foreach (var member in Values)
                 {
-                    if (member.SharedUser.RemoveReference(member) == 0)
+                    if (member.SharedUser.RemoveReference(member) <= 0)
                         cache?.Remove(member.Id);
                 }
 
