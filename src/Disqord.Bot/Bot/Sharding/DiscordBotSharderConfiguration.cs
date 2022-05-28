@@ -1,5 +1,4 @@
-﻿namespace Disqord.Bot.Sharding
-{
-    public class DiscordBotSharderConfiguration : DiscordBotBaseConfiguration
-    { }
-}
+﻿namespace Disqord.Bot.Sharding;
+
+public class DiscordBotSharderConfiguration : DiscordBotBaseConfiguration
+{ }

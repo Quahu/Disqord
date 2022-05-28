@@ -17,6 +17,7 @@ namespace Disqord.Rest.Api
 
         public StickerFormatType FileType;
 
+        /// <inheritdoc/>
         public override HttpRequestContent CreateHttpContent(IJsonSerializer serializer, IRestRequestOptions options = null)
         {
             Add(Name, "name");
@@ -28,6 +29,7 @@ namespace Disqord.Rest.Api
                 StickerFormatType.Lottie => ("json", "application/json"),
                 _ => Throw.InvalidOperationException<(string, string)>("Invalid sticker format type.")
             };
+
             var content = Add(File, "file", $"file.{extension}");
             content.Headers["Content-Type"] = contentType;
             return base.CreateHttpContent(serializer, options);

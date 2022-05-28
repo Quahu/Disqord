@@ -1,4 +1,6 @@
-﻿using Disqord.Models;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using Disqord.Models;
 
 namespace Disqord
 {
@@ -18,6 +20,24 @@ namespace Disqord
         Snowflake ApplicationId { get; }
 
         /// <summary>
+        ///     Gets the name localizations of this command.
+        /// </summary>
+        /// <remarks>
+        ///     Might be empty if retrieved using bulk application command fetch endpoints.
+        /// </remarks>
+        IReadOnlyDictionary<CultureInfo, string> NameLocalizations { get; }
+
+        /// <summary>
+        ///     Gets the default required member permissions of this command.
+        /// </summary>
+        Permission? DefaultRequiredMemberPermissions { get; }
+
+        /// <summary>
+        ///     Gets whether this command is enabled in private channels.
+        /// </summary>
+        bool IsEnabledInPrivateChannels { get; }
+
+        /// <summary>
         ///     Gets whether this application command is enabled by default.
         /// </summary>
         bool IsEnabledByDefault { get; }
@@ -27,7 +47,6 @@ namespace Disqord
         /// </summary>
         /// <remarks>
         ///     The <see cref="Snowflake"/> is automatically incremented by Discord each time the command is updated.
-        ///     Note that this seems to happen in bulk updates even if the command remains unchanged.
         /// </remarks>
         Snowflake Version { get; }
     }

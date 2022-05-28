@@ -17,9 +17,14 @@ namespace Disqord.Rest.Api
             var content = new ModifyApplicationCommandJsonRestRequestContent
             {
                 Name = properties.Name,
+                NameLocalizations = Optional.Convert(properties.NameLocalizations, localizations => localizations.ToDictionary(x => x.Key.Name, x => x.Value)),
                 Description = properties.Description,
+                DescriptionLocalizations = Optional.Convert(properties.DescriptionLocalizations, localizations => localizations.ToDictionary(x => x.Key.Name, x => x.Value)),
+                Options = Optional.Convert(properties.Options, options => options?.Select(option => option.ToModel(serializer)).ToArray()),
+                DefaultMemberPermissions = Optional.Convert(properties.DefaultRequiredMemberPermissions, defaultMemberPermissions => defaultMemberPermissions != Permission.None
+                    ? (ulong?) defaultMemberPermissions
+                    : null),
                 DefaultPermission = properties.IsEnabledByDefault,
-                Options = Optional.Convert(properties.Options, options => options?.Select(option => option?.ToModel(serializer)).ToArray())
             };
 
             return content;

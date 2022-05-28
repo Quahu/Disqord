@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Disqord.Rest;
 
 namespace Disqord.Extensions.Interactivity.Menus.Prompt
@@ -20,8 +21,8 @@ namespace Disqord.Extensions.Interactivity.Menus.Prompt
         /// </summary>
         public ButtonViewComponent DenyButton { get; }
 
-        public PromptView(LocalMessage message)
-            : base(message)
+        public PromptView(Action<LocalMessageBase> messageTemplate)
+            : base(messageTemplate)
         {
             ConfirmButton = new ButtonViewComponent(OnConfirmButtonAsync)
             {

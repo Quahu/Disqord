@@ -17,16 +17,10 @@
         public LocalInteractionFollowup()
         { }
 
-        private LocalInteractionFollowup(LocalInteractionFollowup other)
+        protected LocalInteractionFollowup(LocalInteractionFollowup other)
             : base(other)
         {
             Flags = other.Flags;
-        }
-
-        public LocalInteractionFollowup WithIsEphemeral(bool isEphemeral = true)
-        {
-            IsEphemeral = isEphemeral;
-            return this;
         }
 
         public override LocalInteractionFollowup Clone()

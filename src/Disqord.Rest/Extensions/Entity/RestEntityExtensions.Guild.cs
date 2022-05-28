@@ -522,10 +522,11 @@ namespace Disqord.Rest
          */
         public static Task<IReadOnlyList<IApplicationCommand>> FetchApplicationCommandsAsync(this IGuild guild,
             Snowflake applicationId,
+            bool withLocalizations = false,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = guild.GetRestClient();
-            return client.FetchGuildApplicationCommandsAsync(applicationId, guild.Id, options, cancellationToken);
+            return client.FetchGuildApplicationCommandsAsync(applicationId, guild.Id, withLocalizations, options, cancellationToken);
         }
 
         public static Task<IApplicationCommand> CreateApplicationCommandAsync(this IGuild guild,
@@ -558,6 +559,14 @@ namespace Disqord.Rest
         {
             var client = guild.GetRestClient();
             return client.DeleteGuildApplicationCommandAsync(applicationId, guild.Id, commandId, options, cancellationToken);
+        }
+
+        public static Task<IReadOnlyList<IApplicationCommand>> SetApplicationCommandsAsync(this IGuild guild,
+            Snowflake applicationId, IEnumerable<LocalApplicationCommand> commands,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.SetGuildApplicationCommandsAsync(applicationId, guild.Id, commands, options, cancellationToken);
         }
 
         /*

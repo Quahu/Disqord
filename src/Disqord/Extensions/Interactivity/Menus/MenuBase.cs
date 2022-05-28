@@ -177,8 +177,10 @@ namespace Disqord.Extensions.Interactivity.Menus
 
         /// <summary>
         ///     Handles the given interaction.
-        ///     By default refreshes the timeout, executes the <see cref="View"/>, and calls <see cref="ApplyChangesAsync"/>.
         /// </summary>
+        /// <remarks>
+        ///     By default refreshes the timeout, executes the <see cref="View"/>, and calls <see cref="ApplyChangesAsync"/>.
+        /// </remarks>
         /// <param name="e"> The event data. </param>
         protected virtual async ValueTask HandleInteractionAsync(InteractionReceivedEventArgs e)
         {
@@ -227,6 +229,14 @@ namespace Disqord.Extensions.Interactivity.Menus
         }
 
         /// <summary>
+        ///     Creates the <see cref="LocalMessageBase"/> for the view to be formatted into.
+        /// </summary>
+        /// <returns>
+        ///     A new <see cref="LocalMessageBase"/>.
+        /// </returns>
+        protected abstract LocalMessageBase CreateLocalMessage();
+
+        /// <summary>
         ///     Updates the message the menu is bound according to view changes.
         /// </summary>
         /// <param name="e"> The event data. If not provided the message is modified normally, i.e. not by using interaction responses. </param>
@@ -242,20 +252,23 @@ namespace Disqord.Extensions.Interactivity.Menus
             {
                 await view.UpdateAsync().ConfigureAwait(false);
 
-                var localMessage = view.ToLocalMessage();
+                var localMessage = CreateLocalMessage();
+                view.FormatLocalMessage(localMessage);
                 try
                 {
                     if (response != null && !response.HasResponded)
                     {
                         // If the user hasn't responded, respond to the interaction with modifying the message.
-                        await response.ModifyMessageAsync(new LocalInteractionMessageResponse()
-                        {
-                            Content = localMessage.Content,
-                            IsTextToSpeech = localMessage.IsTextToSpeech,
-                            Embeds = localMessage.Embeds,
-                            AllowedMentions = localMessage.AllowedMentions,
-                            Components = localMessage.Components
-                        }).ConfigureAwait(false);
+                        await response.ModifyMessageAsync(localMessage is LocalInteractionMessageResponse interactionMessageResponse
+                            ? interactionMessageResponse
+                            : new LocalInteractionMessageResponse
+                            {
+                                Content = localMessage.Content,
+                                IsTextToSpeech = localMessage.IsTextToSpeech,
+                                Embeds = localMessage.Embeds,
+                                AllowedMentions = localMessage.AllowedMentions,
+                                Components = localMessage.Components
+                            }).ConfigureAwait(false);
                     }
                     else if (response != null && response.HasResponded && response.ResponseType is InteractionResponseType.DeferredMessageUpdate)
                     {

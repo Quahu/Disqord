@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using Disqord.Interactions;
 using Disqord.Models;
 
-namespace Disqord.Interaction
+namespace Disqord
 {
     public class TransientComponentInteraction : TransientInteraction, IComponentInteraction
     {
@@ -19,8 +18,8 @@ namespace Disqord.Interaction
         public IUserMessage Message => _message ??= new TransientUserMessage(Client, Model.Message.Value);
         private IUserMessage _message;
 
-        public TransientComponentInteraction(IClient client, InteractionJsonModel model)
-            : base(client, model)
+        public TransientComponentInteraction(IClient client, long receivedAt, InteractionJsonModel model)
+            : base(client, receivedAt, model)
         { }
     }
 }

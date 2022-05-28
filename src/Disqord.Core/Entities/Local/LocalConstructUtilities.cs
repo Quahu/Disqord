@@ -43,5 +43,48 @@ namespace Disqord
 
             return false;
         }
+
+        public static bool Add<TKey, TValue>(this Optional<IDictionary<TKey, TValue>> optional, TKey key, TValue value, out IDictionary<TKey, TValue> dictionary)
+            where TKey : notnull
+        {
+            if (optional.TryGetValue(out dictionary) && dictionary != null && !dictionary.IsReadOnly)
+            {
+                dictionary.Add(key, value);
+                return true;
+            }
+
+            dictionary = dictionary != null
+                ? new Dictionary<TKey, TValue>(dictionary)
+                : new Dictionary<TKey, TValue>();
+
+            dictionary.Add(key, value);
+            return false;
+        }
+
+        public static bool With<TKey, TValue>(this Optional<IDictionary<TKey, TValue>> optional, IEnumerable<KeyValuePair<TKey, TValue>> items, out IDictionary<TKey, TValue> dictionary)
+            where TKey : notnull
+        {
+            if (optional.TryGetValue(out dictionary) && dictionary != null && !dictionary.IsReadOnly)
+            {
+                dictionary.Clear();
+                foreach (var item in items)
+                    dictionary.Add(item);
+
+                return true;
+            }
+
+            if (dictionary != null)
+            {
+                dictionary = new Dictionary<TKey, TValue>(dictionary);
+                foreach (var item in items)
+                    dictionary.Add(item);
+            }
+            else
+            {
+                dictionary = new Dictionary<TKey, TValue>(items);
+            }
+
+            return false;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Models;
 
@@ -8,9 +9,14 @@ namespace Disqord.Rest.Api
     {
         public static Task<ApplicationCommandJsonModel[]> FetchGlobalApplicationCommandsAsync(this IRestApiClient client,
             Snowflake applicationId,
+            bool withLocalizations = false,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var route = Format(Route.Interactions.GetGlobalCommands, applicationId);
+            KeyValuePair<string, object>[] queryParameters = null;
+            if (withLocalizations)
+                queryParameters = new[] { new KeyValuePair<string, object>("with_localizations", true) };
+
+            var route = Format(Route.Interactions.GetGlobalCommands, queryParameters, applicationId);
             return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, null, options, cancellationToken);
         }
 
@@ -48,9 +54,14 @@ namespace Disqord.Rest.Api
 
         public static Task<ApplicationCommandJsonModel[]> FetchGuildApplicationCommandsAsync(this IRestApiClient client,
             Snowflake applicationId, Snowflake guildId,
+            bool withLocalizations = false,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var route = Format(Route.Interactions.GetGuildCommands, applicationId, guildId);
+            KeyValuePair<string, object>[] queryParameters = null;
+            if (withLocalizations)
+                queryParameters = new[] { new KeyValuePair<string, object>("with_localizations", true) };
+
+            var route = Format(Route.Interactions.GetGuildCommands, queryParameters, applicationId, guildId);
             return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, null, options, cancellationToken);
         }
 
@@ -59,7 +70,7 @@ namespace Disqord.Rest.Api
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.Interactions.SetGlobalCommands, applicationId);
-            return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, contents.ToContent(), options, cancellationToken);
+            return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, contents.ToObjectContent(), options, cancellationToken);
         }
 
         public static Task<ApplicationCommandJsonModel> CreateGuildApplicationCommandAsync(this IRestApiClient client,
@@ -99,7 +110,7 @@ namespace Disqord.Rest.Api
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.Interactions.SetGuildCommands, applicationId, guildId);
-            return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, contents.ToContent(), options, cancellationToken);
+            return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, contents.ToObjectContent(), options, cancellationToken);
         }
 
         public static Task<ApplicationCommandGuildPermissionsJsonModel[]> FetchApplicationCommandPermissionsAsync(this IRestApiClient client,
@@ -131,7 +142,7 @@ namespace Disqord.Rest.Api
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.Interactions.SetCommandsPermissions, applicationId, guildId);
-            return client.ExecuteAsync<ApplicationCommandGuildPermissionsJsonModel[]>(route, contents.ToContent(), options, cancellationToken);
+            return client.ExecuteAsync<ApplicationCommandGuildPermissionsJsonModel[]>(route, contents.ToObjectContent(), options, cancellationToken);
         }
     }
 }

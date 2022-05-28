@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using Disqord.Interaction;
 using Disqord.Models;
-using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
 
-namespace Disqord.Interactions
+namespace Disqord
 {
     public class TransientModalSubmitInteraction : TransientInteraction, IModalSubmitInteraction
     {
@@ -24,8 +22,8 @@ namespace Disqord.Interactions
         }
         private IReadOnlyList<IComponent> _components;
 
-        public TransientModalSubmitInteraction(IClient client, InteractionJsonModel model)
-            : base(client, model)
+        public TransientModalSubmitInteraction(IClient client, long receivedAt, InteractionJsonModel model)
+            : base(client, receivedAt, model)
         { }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Disqord.Serialization.Json;
+﻿using System.Collections.Generic;
+using Disqord.Serialization.Json;
 using Qommon;
 
 namespace Disqord.Models
@@ -11,8 +12,14 @@ namespace Disqord.Models
         [JsonProperty("name")]
         public string Name;
 
+        [JsonProperty("name_localizations")]
+        public Optional<Dictionary<string, string>> NameLocalizations;
+
         [JsonProperty("description")]
         public string Description;
+
+        [JsonProperty("description_localizations")]
+        public Optional<Dictionary<string, string>> DescriptionLocalizations;
 
         [JsonProperty("required")]
         public Optional<bool> Required;
@@ -20,14 +27,20 @@ namespace Disqord.Models
         [JsonProperty("choices")]
         public Optional<ApplicationCommandOptionChoiceJsonModel[]> Choices;
 
-        [JsonProperty("autocomplete")]
-        public Optional<bool> AutoComplete;
-
         [JsonProperty("options")]
         public Optional<ApplicationCommandOptionJsonModel[]> Options;
 
         [JsonProperty("channel_types")]
         public Optional<ChannelType[]> ChannelTypes;
+
+        [JsonProperty("min_value")]
+        public Optional<double> MinValue;
+
+        [JsonProperty("max_value")]
+        public Optional<double> MaxValue;
+
+        [JsonProperty("autocomplete")]
+        public Optional<bool> AutoComplete;
 
         protected override void OnValidate()
         {

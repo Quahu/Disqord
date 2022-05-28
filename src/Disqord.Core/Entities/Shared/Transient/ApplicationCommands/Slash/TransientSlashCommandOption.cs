@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using Disqord.Models;
 using Qommon;
-using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord
@@ -9,13 +9,37 @@ namespace Disqord
     public class TransientSlashCommandOption : TransientClientEntity<ApplicationCommandOptionJsonModel>, ISlashCommandOption
     {
         /// <inheritdoc/>
-        public string Name => Model.Name;
-
-        /// <inheritdoc/>
         public SlashCommandOptionType Type => Model.Type;
 
         /// <inheritdoc/>
+        public string Name => Model.Name;
+
+        /// <inheritdoc />
+        public IReadOnlyDictionary<CultureInfo, string> NameLocalizations
+        {
+            get
+            {
+                if (!Model.NameLocalizations.HasValue)
+                    return ReadOnlyDictionary<CultureInfo, string>.Empty;
+
+                return Model.NameLocalizations.Value.ToReadOnlyDictionary(x => CultureInfo.GetCultureInfo(x.Key), x => x.Value);
+            }
+        }
+
+        /// <inheritdoc/>
         public string Description => Model.Description;
+
+        /// <inheritdoc />
+        public IReadOnlyDictionary<CultureInfo, string> DescriptionLocalizations
+        {
+            get
+            {
+                if (!Model.DescriptionLocalizations.HasValue)
+                    return ReadOnlyDictionary<CultureInfo, string>.Empty;
+
+                return Model.DescriptionLocalizations.Value.ToReadOnlyDictionary(x => CultureInfo.GetCultureInfo(x.Key), x => x.Value);
+            }
+        }
 
         /// <inheritdoc/>
         public bool IsRequired => Model.Required.GetValueOrDefault();
@@ -32,9 +56,6 @@ namespace Disqord
             }
         }
         private IReadOnlyList<ISlashCommandOptionChoice> _choices;
-
-        /// <inheritdoc/>
-        public bool HasAutoComplete => Model.AutoComplete.GetValueOrDefault();
 
         /// <inheritdoc/>
         public IReadOnlyList<ISlashCommandOption> Options
@@ -60,6 +81,15 @@ namespace Disqord
                 return Model.ChannelTypes.Value.ReadOnly();
             }
         }
+
+        /// <inheritdoc/>
+        public double? MinimumValue => Model.MinValue.GetValueOrNullable();
+
+        /// <inheritdoc/>
+        public double? MaximumValue => Model.MaxValue.GetValueOrNullable();
+
+        /// <inheritdoc/>
+        public bool HasAutoComplete => Model.AutoComplete.GetValueOrDefault();
 
         public TransientSlashCommandOption(IClient client, ApplicationCommandOptionJsonModel model)
             : base(client, model)

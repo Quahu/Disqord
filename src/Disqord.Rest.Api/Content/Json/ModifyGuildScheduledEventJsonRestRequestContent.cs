@@ -57,7 +57,7 @@ namespace Disqord.Rest.Api
                         OptionalGuard.CheckValue(EntityMetadata, metadata =>
                         {
                             Guard.IsNotNull(metadata);
-                            ContentValidation.GuildEvents.Metadata.ValidateLocation(metadata.Location);
+                            RestContentValidation.GuildEvents.Metadata.ValidateLocation(metadata.Location);
                         });
                         OptionalGuard.HasValue(ScheduledEndTime, "External events must have an end time set.");
                         break;
@@ -65,8 +65,8 @@ namespace Disqord.Rest.Api
                 }
             });
 
-            OptionalGuard.CheckValue(Name, value => ContentValidation.GuildEvents.ValidateName(value));
-            ContentValidation.GuildEvents.ValidateDescription(Description);
+            OptionalGuard.CheckValue(Name, value => RestContentValidation.GuildEvents.ValidateName(value));
+            RestContentValidation.GuildEvents.ValidateDescription(Description);
         }
     }
 }

@@ -27,7 +27,6 @@ namespace Disqord
         public override async Task RunAsync(CancellationToken stoppingToken)
         {
             StoppingToken = stoppingToken;
-            // TODO: fallback on bot gateway data?
             var uri = new Uri("wss://gateway.discord.gg/");
             await GatewayClient.RunAsync(uri, stoppingToken).ConfigureAwait(false);
         }

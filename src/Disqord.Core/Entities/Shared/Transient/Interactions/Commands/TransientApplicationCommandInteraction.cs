@@ -1,5 +1,4 @@
-﻿using Disqord.Interaction;
-using Disqord.Models;
+﻿using Disqord.Models;
 using Qommon;
 
 namespace Disqord
@@ -23,8 +22,8 @@ namespace Disqord
             Model.Data.Value.Resolved.GetValueOrDefault(() => new ApplicationCommandInteractionDataResolvedJsonModel()));
         private IApplicationCommandInteractionEntities _entities;
 
-        public TransientApplicationCommandInteraction(IClient client, InteractionJsonModel model)
-            : base(client, model)
+        public TransientApplicationCommandInteraction(IClient client, long receivedAt, InteractionJsonModel model)
+            : base(client, receivedAt, model)
         { }
     }
 }

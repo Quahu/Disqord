@@ -2,18 +2,20 @@
 using System.Threading.Tasks;
 using Qmmands;
 
-namespace Disqord.Bot
+namespace Disqord.Bot.Commands;
+
+public abstract class DiscordParameterCheckAttribute : ParameterCheckAttribute
 {
-    public abstract class DiscordParameterCheckAttribute : ParameterCheckAttribute
+    protected DiscordParameterCheckAttribute()
+    { }
+
+    public abstract ValueTask<IResult> CheckAsync(IDiscordCommandContext context, IParameter parameter, object? argument);
+
+    public sealed override ValueTask<IResult> CheckAsync(ICommandContext context, IParameter parameter, object? argument)
     {
-        public abstract ValueTask<CheckResult> CheckAsync(object argument, DiscordCommandContext context);
+        if (context is not IDiscordCommandContext discordContext)
+            throw new InvalidOperationException($"The {GetType().Name} only accepts a {nameof(IDiscordCommandContext)}.");
 
-        public sealed override ValueTask<CheckResult> CheckAsync(object argument, CommandContext context)
-        {
-            if (context is not DiscordCommandContext discordContext)
-                throw new InvalidOperationException($"The {GetType().Name} only accepts a {nameof(DiscordCommandContext)}.");
-
-            return CheckAsync(argument, discordContext);
-        }
+        return CheckAsync(discordContext, parameter, argument);
     }
 }

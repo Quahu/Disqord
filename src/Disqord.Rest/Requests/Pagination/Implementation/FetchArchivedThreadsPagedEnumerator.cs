@@ -30,7 +30,7 @@ namespace Disqord.Rest
         {
             var startFromTime = _startFromTime;
             if (previousPage != null && previousPage.Count > 0)
-                startFromTime = previousPage[^1].ArchiveStateChangedAt;
+                startFromTime = previousPage[^1].Metadata.ArchiveStateChangedAt;
 
             var task = _enumeratePublicThreads
                 ? Client.InternalFetchPublicArchivedThreadsAsync(_channelId, NextPageSize, startFromTime, options, cancellationToken)

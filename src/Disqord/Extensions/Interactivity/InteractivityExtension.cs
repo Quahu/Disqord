@@ -90,6 +90,7 @@ namespace Disqord.Extensions.Interactivity
             timeout = timeout != default
                 ? timeout
                 : DefaultWaitTimeout;
+
             using (var cts = Cts.Linked(Client.StoppingToken, cancellationToken))
             using (var waiter = new Waiter<TEventArgs>(predicate, timeout, cts.Token))
             {
@@ -154,6 +155,7 @@ namespace Disqord.Extensions.Interactivity
             timeout = timeout != default
                 ? timeout
                 : DefaultMenuTimeout;
+
             menu.Interactivity = this;
             menu.ChannelId = channelId;
             try

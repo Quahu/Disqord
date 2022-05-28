@@ -174,8 +174,7 @@ namespace Disqord.Rest
                 Position = x.Value
             }).ToArray();
 
-            var content = new JsonObjectRestRequestContent<ReorderJsonRestRequestContent[]>(contents);
-            return client.ApiClient.ReorderGuildChannelsAsync(guildId, content, options, cancellationToken);
+            return client.ApiClient.ReorderGuildChannelsAsync(guildId, contents, options, cancellationToken);
         }
 
         public static async Task<IReadOnlyList<IThreadChannel>> FetchActiveThreadsAsync(this IRestClient client,
@@ -464,8 +463,7 @@ namespace Disqord.Rest
                 Position = x.Value
             }).ToArray();
 
-            var content = new JsonObjectRestRequestContent<ReorderJsonRestRequestContent[]>(contents);
-            var models = await client.ApiClient.ReorderRolesAsync(guildId, content, options, cancellationToken).ConfigureAwait(false);
+            var models = await client.ApiClient.ReorderRolesAsync(guildId, contents, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList((client, guildId), static (x, state) =>
             {
                 var (client, guildId) = state;

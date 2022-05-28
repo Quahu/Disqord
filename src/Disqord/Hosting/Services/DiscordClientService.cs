@@ -30,7 +30,7 @@ namespace Disqord.Hosting
         ///     Gets the client of this service.
         /// </summary>
         /// <remarks>
-        ///     <see langword="null"/> in the parameterless constructor.
+        ///     Returns <see langword="null"/> when accessed in the parameterless constructor.
         /// </remarks>
         public DiscordClientBase Client { get; protected internal set; }
 
@@ -88,7 +88,7 @@ namespace Disqord.Hosting
         /// <inheritdoc/>
         public virtual Task StartAsync(CancellationToken cancellationToken)
         {
-            var method = GetType().GetMethod("ExecuteAsync", BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { typeof(CancellationToken) }, null);
+            var method = GetType().GetMethod(nameof(ExecuteAsync), BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { typeof(CancellationToken) }, null);
             if (method.DeclaringType == method.GetBaseDefinition().DeclaringType)
                 return Task.CompletedTask;
 

@@ -23,8 +23,8 @@ namespace Disqord
         }
         private IReadOnlyDictionary<string, ISlashCommandInteractionOption> _options;
 
-        public TransientSlashCommandInteraction(IClient client, InteractionJsonModel model)
-            : base(client, model)
+        public TransientSlashCommandInteraction(IClient client, long receivedAt, InteractionJsonModel model)
+            : base(client, receivedAt, model)
         { }
     }
 }

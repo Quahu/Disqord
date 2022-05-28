@@ -135,8 +135,8 @@ namespace Disqord.Extensions.Interactivity.Menus
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException($"Failed to create a {nameof(SelectionViewComponentCallback)}. Methods marked with the {nameof(ButtonAttribute)} must match the {nameof(callback)} delegate's signature.",
-                    ex);
+                throw new InvalidOperationException($"Failed to create a {nameof(SelectionViewComponentCallback)}. "
+                    + $"Methods marked with the {nameof(ButtonAttribute)} must match the {nameof(callback)} delegate's signature.", ex);
             }
 
             return new SelectionViewComponent(attribute, methodInfo.GetCustomAttributes<SelectionOptionAttribute>() as SelectionOptionAttribute[], callback);

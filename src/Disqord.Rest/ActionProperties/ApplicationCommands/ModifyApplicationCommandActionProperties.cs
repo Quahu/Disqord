@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using Qommon;
 
 namespace Disqord.Rest
@@ -7,10 +8,16 @@ namespace Disqord.Rest
     {
         public Optional<string> Name { internal get; set; }
 
+        public Optional<IEnumerable<KeyValuePair<CultureInfo, string>>> NameLocalizations { internal get; set; }
+
         public Optional<string> Description { internal get; set; }
 
-        public Optional<bool> IsEnabledByDefault { internal get; set; }
+        public Optional<IEnumerable<KeyValuePair<CultureInfo, string>>> DescriptionLocalizations { internal get; set; }
 
         public Optional<IEnumerable<LocalSlashCommandOption>> Options { internal get; set; }
+
+        public Optional<Permission> DefaultRequiredMemberPermissions { internal get; set; }
+
+        public Optional<bool> IsEnabledByDefault { internal get; set; }
     }
 }

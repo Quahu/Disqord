@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Bot;
+using Disqord.Bot.Commands;
+using Disqord.Bot.Commands.Text;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
 using Disqord.Rest;
@@ -17,84 +18,6 @@ namespace Disqord.Test
         {
             Logger.LogInformation("Ready fired!");
             return default;
-        }
-
-        protected override async ValueTask OnInteractionReceived(InteractionReceivedEventArgs e)
-        {
-            if (e.Interaction is ISlashCommandInteraction textCommandInteraction)
-            {
-                switch (textCommandInteraction.CommandName)
-                {
-                    case "echo":
-                    {
-                        var textOption = textCommandInteraction.Options.GetValueOrDefault("text");
-                        var text = textOption?.Value as string;
-                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse().WithIsEphemeral().WithContent(text).WithAllowedMentions(LocalAllowedMentions.None).WithIsTextToSpeech());
-                        break;
-                    }
-                    case "coinflip":
-                    {
-                        var random = new Random();
-                        var rawAmount = textCommandInteraction.Options.GetValueOrDefault("amount")?.Value;
-                        var amount = 1;
-                        if (rawAmount != null)
-                            amount = (int) Math.Clamp(Convert.ToInt64(rawAmount), 1, 100);
-
-                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse()
-                            .WithContent(string.Join(", ", Enumerable.Range(0, amount).Select(x => random.Next(2) == 1 ? "heads" : "tails"))));
-
-                        break;
-                    }
-                }
-            }
-            else if (e.Interaction is IContextMenuInteraction contextMenuInteraction)
-            {
-                switch (contextMenuInteraction.CommandName)
-                {
-                    case "Rate Message" when contextMenuInteraction.CommandType == ApplicationCommandType.Message:
-                    {
-                        var message = contextMenuInteraction.Entities.Messages.GetValueOrDefault(contextMenuInteraction.TargetId);
-                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse()
-                            .WithContent("I rate it 2/10.")
-                            .AddEmbed(new LocalEmbed()
-                                .WithDescription(message.Content))
-                            .WithAllowedMentions(LocalAllowedMentions.None));
-
-                        break;
-                    }
-                    case "Give Cookie" when contextMenuInteraction.CommandType == ApplicationCommandType.User:
-                    {
-                        var user = contextMenuInteraction.Entities.Users.GetValueOrDefault(contextMenuInteraction.TargetId);
-                        await e.Interaction.Response().SendMessageAsync(new LocalInteractionMessageResponse().WithContent($"{user.Mention} 🍪."));
-                        break;
-                    }
-                }
-            }
-            else if (e.Interaction is IAutoCompleteInteraction autoCompleteInteraction)
-            {
-                switch (autoCompleteInteraction.CommandName)
-                {
-                    case "echo":
-                    {
-                        var textOption = autoCompleteInteraction.Options["text"];
-                        if (!textOption.IsFocused)
-                            return;
-
-                        var choices = new List<LocalSlashCommandOptionChoice>
-                        {
-                            new LocalSlashCommandOptionChoice().WithName("hi").WithValue("hi"),
-                            new LocalSlashCommandOptionChoice().WithName("hello").WithValue("hello")
-                        };
-
-                        var text = textOption.Value as string;
-                        if (!string.IsNullOrWhiteSpace(text))
-                            choices.Add(new LocalSlashCommandOptionChoice().WithName(text).WithValue(text));
-
-                        await e.Interaction.Response().AutoCompleteAsync(choices);
-                        break;
-                    }
-                }
-            }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -124,10 +47,12 @@ namespace Disqord.Test
             return default;
         }
 
-        protected override ValueTask OnCommandNotFound(DiscordCommandContext context)
+        protected override ValueTask OnCommandNotFound(IDiscordCommandContext context)
         {
             // Fired when an attempt is made to execute a command but it's not a valid one.
-            Logger.LogInformation("Command not found: {0}", context.Message.Content);
+            if (context is IDiscordTextCommandContext textContext)
+                Logger.LogInformation("Text command not found: {0}", textContext.Message.Content);
+
             return default;
         }
     }

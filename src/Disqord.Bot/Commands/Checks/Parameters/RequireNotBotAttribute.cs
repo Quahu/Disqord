@@ -1,23 +1,27 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Qmmands;
 
-namespace Disqord.Bot
+namespace Disqord.Bot.Commands;
+
+/// <summary>
+///     Specifies that the <see cref="IUser"/> parameter must not be a bot.
+/// </summary>
+public class RequireNotBotAttribute : DiscordParameterCheckAttribute
 {
-    /// <summary>
-    ///     Specifies that the <see cref="IUser"/> parameter must not be a bot.
-    /// </summary>
-    public class RequireNotBotAttribute : DiscordParameterCheckAttribute
+    public RequireNotBotAttribute()
+    { }
+
+    public override bool CanCheck(IParameter parameter, object? value)
     {
-        public override bool CheckType(Type type)
-            => typeof(IUser).IsAssignableFrom(type);
+        return value is IUser;
+    }
 
-        public override ValueTask<CheckResult> CheckAsync(object argument, DiscordCommandContext context)
-        {
-            if (argument is IUser user && !user.IsBot)
-                return Success();
+    public override ValueTask<IResult> CheckAsync(IDiscordCommandContext context, IParameter parameter, object? argument)
+    {
+        var user = (argument as IUser)!;
+        if (!user.IsBot)
+            return Results.Success;
 
-            return Failure("The provided argument must not be a bot user.");
-        }
+        return Results.Failure("The provided user argument must not be a bot user.");
     }
 }

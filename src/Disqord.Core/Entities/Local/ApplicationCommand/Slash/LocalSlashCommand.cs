@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Qommon;
 
@@ -13,6 +14,11 @@ namespace Disqord
         ///     This property is required.
         /// </remarks>
         public Optional<string> Description { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the localizations of the description of this command.
+        /// </summary>
+        public Optional<IDictionary<CultureInfo, string>> DescriptionLocalizations { get; set; }
 
         /// <summary>
         ///     Gets or sets the options of this command.

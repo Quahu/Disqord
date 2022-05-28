@@ -1,28 +1,29 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Disqord.Gateway;
 using Qmmands;
 
-namespace Disqord.Bot
+namespace Disqord.Bot.Commands;
+
+/// <summary>
+///     Specifies that the module or command can only be executed by authors with the given guild permissions.
+/// </summary>
+[Obsolete("Use RequireAuthorPermissionsAttribute instead.")]
+public class RequireAuthorGuildPermissionsAttribute : RequireAuthorPermissionsAttribute
 {
-    /// <summary>
-    ///     Specifies that the module or command can only be executed by authors with the given guild permissions.
-    /// </summary>
-    public class RequireAuthorGuildPermissionsAttribute : DiscordGuildCheckAttribute
+    public RequireAuthorGuildPermissionsAttribute(Permission permissions)
+        : base(permissions)
+    { }
+
+    public override ValueTask<IResult> CheckAsync(IDiscordCommandContext context)
     {
-        public GuildPermissions Permissions { get; }
+        if (context is not IDiscordGuildCommandContext guildContext)
+            return Results.Success;
 
-        public RequireAuthorGuildPermissionsAttribute(Permission permissions)
-        {
-            Permissions = permissions;
-        }
+        var permissions = guildContext.Author.GetPermissions();
+        if (permissions.Has(Permissions))
+            return Results.Success;
 
-        public override ValueTask<CheckResult> CheckAsync(DiscordGuildCommandContext context)
-        {
-            var permissions = context.Author.GetPermissions();
-            if (permissions.Has(Permissions))
-                return Success();
-
-            return Failure($"You lack the necessary guild permissions ({Permissions & ~permissions}) to execute this.");
-        }
+        return Results.Failure($"You lack the necessary guild permissions ({Permissions & ~permissions}) to execute this.");
     }
 }

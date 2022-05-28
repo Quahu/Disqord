@@ -1,4 +1,5 @@
-﻿using Disqord.Serialization.Json;
+﻿using System.Collections.Generic;
+using Disqord.Serialization.Json;
 using Qommon;
 
 namespace Disqord.Models
@@ -20,14 +21,26 @@ namespace Disqord.Models
         [JsonProperty("name")]
         public string Name;
 
+        [JsonProperty("name_localizations")]
+        public Optional<Dictionary<string, string>> NameLocalizations;
+
         [JsonProperty("description")]
         public string Description;
+
+        [JsonProperty("description_localizations")]
+        public Optional<Dictionary<string, string>> DescriptionLocalizations;
 
         [JsonProperty("options")]
         public Optional<ApplicationCommandOptionJsonModel[]> Options;
 
+        [JsonProperty("default_member_permissions")]
+        public ulong? DefaultMemberPermissions;
+
+        [JsonProperty("dm_permission")]
+        public Optional<bool> DmPermission;
+
         [JsonProperty("default_permission")]
-        public Optional<bool> DefaultPermission;
+        public Optional<bool?> DefaultPermission;
 
         [JsonProperty("version")]
         public Snowflake Version;

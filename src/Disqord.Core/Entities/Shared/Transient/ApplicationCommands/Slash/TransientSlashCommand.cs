@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using Disqord.Models;
 using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
@@ -9,6 +10,18 @@ namespace Disqord
     {
         /// <inheritdoc/>
         public string Description => Model.Description;
+
+        /// <inheritdoc />
+        public IReadOnlyDictionary<CultureInfo, string> DescriptionLocalizations
+        {
+            get
+            {
+                if (!Model.DescriptionLocalizations.HasValue)
+                    return ReadOnlyDictionary<CultureInfo, string>.Empty;
+
+                return Model.DescriptionLocalizations.Value.ToReadOnlyDictionary(x => CultureInfo.GetCultureInfo(x.Key), x => x.Value);
+            }
+        }
 
         /// <inheritdoc/>
         public IReadOnlyList<ISlashCommandOption> Options

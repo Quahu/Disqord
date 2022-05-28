@@ -46,8 +46,8 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
 
         public Page CurrentPage { get; protected set; }
 
-        protected PagedViewBase(PageProvider pageProvider, LocalMessage templateMessage = null)
-            : base(templateMessage)
+        protected PagedViewBase(PageProvider pageProvider, Action<LocalMessageBase> messageTemplate = null)
+            : base(messageTemplate)
         {
             _pageProvider = pageProvider;
         }
@@ -70,17 +70,16 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             }
         }
 
-        public override LocalMessage ToLocalMessage()
+        public override void FormatLocalMessage(LocalMessageBase message)
         {
-            var message = base.ToLocalMessage();
+            base.FormatLocalMessage(message);
+
             var currentPage = CurrentPage;
             if (currentPage != null)
             {
                 message.Content = currentPage.Content;
                 message.Embeds = currentPage.Embeds;
             }
-
-            return message;
         }
     }
 }

@@ -5,6 +5,7 @@ namespace Disqord
 {
     public abstract partial class DiscordClientBase
     {
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ReadyEventArgs> Ready
         {
             add => GatewayClient.Ready += value;

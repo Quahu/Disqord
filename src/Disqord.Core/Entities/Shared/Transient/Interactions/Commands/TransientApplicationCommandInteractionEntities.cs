@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Disqord.Models;
-using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord
@@ -61,19 +60,19 @@ namespace Disqord
         private IReadOnlyDictionary<Snowflake, IRole> _roles;
 
         /// <inheritdoc/>
-        public IReadOnlyDictionary<Snowflake, IChannel> Channels
+        public IReadOnlyDictionary<Snowflake, IInteractionChannel> Channels
         {
             get
             {
                 if (!Model.Channels.HasValue)
-                    return ReadOnlyDictionary<Snowflake, IChannel>.Empty;
+                    return ReadOnlyDictionary<Snowflake, IInteractionChannel>.Empty;
 
                 return _channels ??= Model.Channels.Value.ToReadOnlyDictionary(Client,
                     (kvp, _) => kvp.Key,
-                    (kvp, client) => TransientChannel.Create(client, kvp.Value));
+                    (kvp, client) => new TransientInteractionChannel(client, kvp.Value) as IInteractionChannel);
             }
         }
-        private IReadOnlyDictionary<Snowflake, IChannel> _channels;
+        private IReadOnlyDictionary<Snowflake, IInteractionChannel> _channels;
 
         /// <inheritdoc/>
         public IReadOnlyDictionary<Snowflake, IMessage> Messages
@@ -89,15 +88,15 @@ namespace Disqord
             }
         }
         private IReadOnlyDictionary<Snowflake, IMessage> _messages;
-        
-        /// <inheritdoc /> 
+
+        /// <inheritdoc />
         public IReadOnlyDictionary<Snowflake, IAttachment> Attachments
         {
             get
             {
                 if (!Model.Attachments.HasValue)
                     return ReadOnlyDictionary<Snowflake, IAttachment>.Empty;
-                
+
                 return _attachments ??= Model.Attachments.Value.ToReadOnlyDictionary(
                     kvp => kvp.Key,
                     kvp => new TransientAttachment(kvp.Value) as IAttachment);

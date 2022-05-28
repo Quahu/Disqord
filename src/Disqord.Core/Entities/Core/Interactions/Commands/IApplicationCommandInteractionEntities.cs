@@ -2,6 +2,7 @@
 
 namespace Disqord
 {
+    // TODO: expose member permissions depending on how select menus v2 handle things
     /// <summary>
     ///     Represents resolved entities for application command options.
     /// </summary>
@@ -20,7 +21,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the resolved channels for the interaction.
         /// </summary>
-        IReadOnlyDictionary<Snowflake, IChannel> Channels { get; }
+        IReadOnlyDictionary<Snowflake, IInteractionChannel> Channels { get; }
 
         /// <summary>
         ///     Gets the resolved messages for the interaction.

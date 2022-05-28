@@ -1,11 +1,12 @@
 ﻿using System;
+using Disqord.Models;
 
 namespace Disqord
 {
     /// <summary>
     ///     Represents a member of a thread channel.
     /// </summary>
-    public interface IThreadMember : IIdentifiableEntity
+    public interface IThreadMember : IIdentifiableEntity, IJsonUpdatable<ThreadMemberJsonModel>
     {
         /// <summary>
         ///     Gets the ID of the thread of this member.

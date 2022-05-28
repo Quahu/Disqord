@@ -57,7 +57,6 @@ namespace Disqord.Sharding
         public override async Task RunAsync(CancellationToken stoppingToken)
         {
             StoppingToken = stoppingToken;
-            // TODO: fallback on bot gateway data?
             var uri = new Uri("wss://gateway.discord.gg/");
             _scopes = new Dictionary<ShardId, IServiceScope>();
             var shardIds = new List<ShardId>();

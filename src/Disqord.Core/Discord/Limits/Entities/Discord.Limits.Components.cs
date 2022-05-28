@@ -55,7 +55,6 @@ namespace Disqord
 
                     public const int MaxPlaceholderLength = 100;
                 }
-
             }
         }
     }

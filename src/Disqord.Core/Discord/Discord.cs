@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using Qommon;
 
@@ -8,6 +10,61 @@ namespace Disqord
     /// </summary>
     public static partial class Discord
     {
+        /// <summary>
+        ///     Gets the names of the locales supported by Discord.
+        ///     See <a href="https://discord.com/developers/docs/reference#locales">Discord documentation.</a>
+        /// </summary>
+        public static IReadOnlyList<string> LocaleNames { get; } = new[]
+        {
+            "da",
+            "de",
+            "en-GB",
+            "en-US",
+            "es-ES",
+            "fr",
+            "hr",
+            "it",
+            "lt",
+            "hu",
+            "nl",
+            "no",
+            "pl",
+            "pt-BR",
+            "ro",
+            "fi",
+            "sv-SE",
+            "vi",
+            "tr",
+            "cs",
+            "el",
+            "bg",
+            "ru",
+            "uk",
+            "hi",
+            "th",
+            "zh-CN",
+            "ja",
+            "zh-TW",
+            "ko"
+        };
+
+        /// <summary>
+        ///     Gets the locales supported by Discord.
+        /// </summary>
+        public static IEnumerable<CultureInfo> Locales
+        {
+            get
+            {
+                var names = LocaleNames;
+                var nameCount = names.Count;
+                for (var i = 0; i < nameCount; i++)
+                {
+                    var name = names[i];
+                    yield return CultureInfo.GetCultureInfo(name);
+                }
+            }
+        }
+
         public static string GetReactionFormat(this IEmoji emoji)
         {
             Guard.IsNotNull(emoji);

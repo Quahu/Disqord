@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
-using Qommon;
 
 namespace Disqord.Gateway
 {
@@ -47,6 +46,10 @@ namespace Disqord.Gateway
         /// <inheritdoc/>
         public bool AllowsInvitation { get; private set; }
 
+        public IThreadMetadata Metadata => _metadata;
+
+        private readonly CachedThreadMetadata _metadata;
+
         /// <inheritdoc/>
         public DateTimeOffset? CreatedAt { get; }
 
@@ -56,10 +59,7 @@ namespace Disqord.Gateway
             ChannelId = model.ParentId.Value.Value;
             CreatorId = model.OwnerId.Value;
 
-            if (model.ThreadMetadata.HasValue)
-            {
-                CreatedAt = model.ThreadMetadata.Value.CreateTimestamp.GetValueOrDefault();
-            }
+            _metadata = new CachedThreadMetadata(client, model.ThreadMetadata.Value);
         }
 
         public override void Update(ChannelJsonModel model)
@@ -75,15 +75,8 @@ namespace Disqord.Gateway
             if (model.MemberCount.HasValue)
                 MemberCount = model.MemberCount.Value;
 
-            if (model.ThreadMetadata.HasValue)
-            {
-                var metadataModel = model.ThreadMetadata.Value;
-                IsArchived = metadataModel.Archived;
-                AutomaticArchiveDuration = TimeSpan.FromMinutes(metadataModel.AutoArchiveDuration);
-                ArchiveStateChangedAt = metadataModel.ArchiveTimestamp;
-                IsLocked = metadataModel.Locked.GetValueOrDefault();
-                AllowsInvitation = metadataModel.Invitable.GetValueOrDefault(true);
-            }
+            if (_metadata != null && model.ThreadMetadata.HasValue)
+                _metadata.Update(model.ThreadMetadata.Value);
         }
 
         public void Update(ThreadMembersUpdateJsonModel model)

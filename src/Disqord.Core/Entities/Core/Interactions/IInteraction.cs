@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel;
+using System.Globalization;
 using Disqord.Models;
 
 namespace Disqord
@@ -8,6 +9,15 @@ namespace Disqord
     /// </summary>
     public interface IInteraction : ISnowflakeEntity, IPossibleGuildEntity, IChannelEntity, IJsonUpdatable<InteractionJsonModel>
     {
+        /// <summary>
+        ///     Gets the time at which this interaction was received locally.
+        /// </summary>
+        /// <remarks>
+        ///     This is an internal Disqord API and should not be used.
+        /// </remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        long ReceivedAt { get; }
+
         /// <summary>
         ///     Gets the ID of the application of this interaction.
         /// </summary>
@@ -32,6 +42,11 @@ namespace Disqord
         ///     Gets the user/member who triggered this interaction.
         /// </summary>
         IUser Author { get; }
+
+        /// <summary>
+        ///     Gets the author's permissions in the channel of this interaction.
+        /// </summary>
+        Permission AuthorPermissions { get; }
 
         /// <summary>
         ///     Gets the locale of the user who triggered this interaction.

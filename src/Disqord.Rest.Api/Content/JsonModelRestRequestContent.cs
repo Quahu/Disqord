@@ -9,6 +9,7 @@ namespace Disqord.Rest.Api
         public JsonModelRestRequestContent()
         { }
 
+        /// <inheritdoc/>
         public HttpRequestContent CreateHttpContent(IJsonSerializer serializer, IRestRequestOptions options = null)
             => FromObject(this, serializer);
 

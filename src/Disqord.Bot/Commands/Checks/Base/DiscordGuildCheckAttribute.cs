@@ -2,21 +2,20 @@
 using System.Threading.Tasks;
 using Qmmands;
 
-namespace Disqord.Bot
+namespace Disqord.Bot.Commands;
+
+public abstract class DiscordGuildCheckAttribute : DiscordCheckAttribute
 {
-    public abstract class DiscordGuildCheckAttribute : DiscordCheckAttribute
+    public abstract ValueTask<IResult> CheckAsync(IDiscordGuildCommandContext context);
+
+    public sealed override ValueTask<IResult> CheckAsync(IDiscordCommandContext context)
     {
-        public abstract ValueTask<CheckResult> CheckAsync(DiscordGuildCommandContext context);
+        if (context.GuildId == null)
+            return Results.Failure("This can only be executed within a guild.");
 
-        public sealed override ValueTask<CheckResult> CheckAsync(DiscordCommandContext context)
-        {
-            if (context.GuildId == null)
-                return Failure("This can only be executed within a guild.");
+        if (context is not IDiscordGuildCommandContext discordContext)
+            throw new InvalidOperationException($"The {GetType().Name} only accepts a {nameof(IDiscordGuildCommandContext)}.");
 
-            if (context is not DiscordGuildCommandContext discordContext)
-                throw new InvalidOperationException($"The {GetType().Name} only accepts a {nameof(DiscordGuildCommandContext)}.");
-
-            return CheckAsync(discordContext);
-        }
+        return CheckAsync(discordContext);
     }
 }

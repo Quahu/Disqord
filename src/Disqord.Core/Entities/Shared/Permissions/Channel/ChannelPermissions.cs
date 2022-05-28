@@ -110,7 +110,7 @@ namespace Disqord
 
         public static ChannelPermissions Mask(Permission permissions, out Permission remainingPermissions)
         {
-            var allPermission = (Permission) AllPermissionsValue;
+            const Permission allPermission = (Permission) AllPermissionsValue;
             remainingPermissions = permissions & ~allPermission;
             return new ChannelPermissions(permissions & allPermission);
         }
