@@ -6,6 +6,7 @@ public class MessageCommandAttribute : ApplicationCommandAttribute
         : base(alias)
     { }
 
+    /// <inheritdoc/>
     protected override ApplicationCommandType GetCommandType()
     {
         return ApplicationCommandType.Message;

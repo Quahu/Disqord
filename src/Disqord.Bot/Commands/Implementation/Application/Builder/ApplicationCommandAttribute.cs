@@ -12,8 +12,13 @@ public abstract class ApplicationCommandAttribute : CommandAttribute
         Alias = alias;
     }
 
+    /// <summary>
+    ///     Gets the <see cref="ApplicationCommandType"/> of this attribute.
+    /// </summary>
+    /// <returns></returns>
     protected abstract ApplicationCommandType GetCommandType();
 
+    /// <inheritdoc/>
     public override void Apply(ICommandBuilder builder)
     {
         var slashBuilder = Guard.IsAssignableToType<ApplicationCommandBuilder>(builder);

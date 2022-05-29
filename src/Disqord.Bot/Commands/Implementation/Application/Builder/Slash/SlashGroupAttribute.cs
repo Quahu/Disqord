@@ -3,6 +3,7 @@ using Qmmands;
 
 namespace Disqord.Bot.Commands.Application;
 
+[AttributeUsage(AttributeTargets.Class)]
 public class SlashGroupAttribute : Attribute,
     IModuleBuilderAttribute<ApplicationModuleBuilder>
 {
@@ -13,6 +14,7 @@ public class SlashGroupAttribute : Attribute,
         Alias = alias;
     }
 
+    /// <inheritdoc/>
     public void Apply(ApplicationModuleBuilder builder)
     {
         builder.Alias = Alias;

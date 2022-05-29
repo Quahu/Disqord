@@ -6,6 +6,7 @@ public class SlashCommandAttribute : ApplicationCommandAttribute
         : base(alias)
     { }
 
+    /// <inheritdoc/>
     protected override ApplicationCommandType GetCommandType()
     {
         return ApplicationCommandType.Slash;
