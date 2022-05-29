@@ -133,12 +133,8 @@ public abstract partial class DiscordBotBase
         OnMutateParameter(parameter);
     }
 
-    protected virtual ValueTask InitializeTypeParsers(CancellationToken cancellationToken = default)
+    protected virtual ValueTask AddTypeParsers(DefaultTypeParserProvider typeParserProvider, CancellationToken cancellationToken = default)
     {
-        var typeParserProvider = Services.GetService<ITypeParserProvider>() as DefaultTypeParserProvider;
-        if (typeParserProvider == null)
-            return default;
-
         typeParserProvider.AddParser(new SnowflakeTypeParser());
         typeParserProvider.AddParser(new ColorTypeParser());
         typeParserProvider.AddParser(new CustomEmojiTypeParser());
@@ -156,6 +152,15 @@ public abstract partial class DiscordBotBase
         typeParserProvider.AddParser(new MemberTypeParser());
         typeParserProvider.AddParser(new RoleTypeParser());
         return default;
+    }
+
+    protected virtual ValueTask InitializeTypeParsers(CancellationToken cancellationToken = default)
+    {
+        var typeParserProvider = Services.GetService<ITypeParserProvider>() as DefaultTypeParserProvider;
+        if (typeParserProvider == null)
+            return default;
+
+        return AddTypeParsers(typeParserProvider, cancellationToken);
     }
 
     protected virtual ValueTask InitializeModules(CancellationToken cancellationToken)
