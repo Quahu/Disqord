@@ -97,7 +97,7 @@ public partial class DefaultApplicationCommandCacheProvider : IApplicationComman
             throw new InvalidOperationException("An exception occurred while getting the cache.", ex);
         }
 
-        return CreateCache(model != null && model.SchemaVersion == 0, memoryStream, model ?? new());
+        return CreateCache(model != null && model.SchemaVersion != 0, memoryStream, model ?? new());
     }
 
     protected virtual async ValueTask DisposeCacheAsync(Cache cache)
