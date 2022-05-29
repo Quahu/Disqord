@@ -15,7 +15,6 @@ using Microsoft.Extensions.Logging;
 using Qmmands;
 using Qommon;
 using Qommon.Collections;
-using Qommon.Pooling;
 
 namespace Disqord.Bot;
 
@@ -582,79 +581,77 @@ public abstract partial class DiscordBotBase
             }
 
             var index = 0;
-            using (var tasks = RentedArray<Task>.Rent(totalChangeCount))
+            var tasks = new Task[totalChangeCount];
+            var createdCommands = changes.CreatedCommands;
+            for (var i = 0; i < createdCount; i++)
             {
-                var createdCommands = changes.CreatedCommands;
-                for (var i = 0; i < createdCount; i++)
-                {
-                    var command = createdCommands[i];
-                    tasks[index++] = guildId == null
-                        ? bot.CreateGlobalApplicationCommandAsync(applicationId, command, options, cancellationToken)
-                        : bot.CreateGuildApplicationCommandAsync(applicationId, guildId.Value, command, options, cancellationToken);
-                }
-
-                var modifiedCommands = changes.ModifiedCommands;
-                foreach (var (commandId, command) in modifiedCommands)
-                {
-                    void Action(ModifyApplicationCommandActionProperties properties)
-                    {
-                        properties.Name = command.Name;
-                        properties.NameLocalizations = Optional.Convert(command.NameLocalizations, localizations => localizations as IEnumerable<KeyValuePair<CultureInfo, string>>);
-
-                        if (command is LocalSlashCommand slashCommand)
-                        {
-                            properties.Description = slashCommand.Description;
-                            properties.DescriptionLocalizations = Optional.Convert(slashCommand.DescriptionLocalizations, localizations => localizations as IEnumerable<KeyValuePair<CultureInfo, string>>);
-                            properties.Options = Optional.Convert(slashCommand.Options, options => options as IEnumerable<LocalSlashCommandOption>);
-                        }
-
-                        properties.DefaultRequiredMemberPermissions = command.DefaultRequiredMemberPermissions;
-                        properties.IsEnabledByDefault = command.IsEnabledByDefault;
-                    }
-
-                    tasks[index++] = guildId == null
-                        ? bot.ModifyGlobalApplicationCommandAsync(applicationId, commandId, Action, options, cancellationToken)
-                        : bot.ModifyGuildApplicationCommandAsync(applicationId, guildId.Value, commandId, Action, options, cancellationToken);
-                }
-
-                var deletedCommandsIds = changes.DeletedCommandIds;
-                for (var i = 0; i < deletedCount; i++)
-                {
-                    var commandId = deletedCommandsIds[i];
-                    tasks[index++] = guildId == null
-                        ? bot.DeleteGlobalApplicationCommandAsync(applicationId, commandId, options, cancellationToken)
-                        : bot.DeleteGuildApplicationCommandAsync(applicationId, guildId.Value, commandId, options, cancellationToken);
-                }
-
-                static async Task<IReadOnlyList<IApplicationCommand>> ExecuteTasks(Snowflake? guildId, int count, RentedArray<Task> tasks)
-                {
-                    var whenAllTask = Task.WhenAll(tasks);
-                    var continuation = whenAllTask.ContinueWith(_ => { }, default(CancellationToken));
-                    await continuation.ConfigureAwait(false);
-                    var exceptions = new List<Exception>(count);
-                    var commands = new List<IApplicationCommand>(count);
-                    foreach (var task in tasks)
-                    {
-                        if (task.Exception != null)
-                        {
-                            exceptions.Add(task.Exception);
-                            continue;
-                        }
-
-                        if (task is not Task<IApplicationCommand> resultTask)
-                            continue;
-
-                        commands.Add(resultTask.Result);
-                    }
-
-                    if (exceptions.Count > 0)
-                        throw new ApplicationCommandSyncException(guildId, commands, exceptions);
-
-                    return commands;
-                }
-
-                return ExecuteTasks(guildId, totalChangeCount - deletedCount, tasks);
+                var command = createdCommands[i];
+                tasks[index++] = guildId == null
+                    ? bot.CreateGlobalApplicationCommandAsync(applicationId, command, options, cancellationToken)
+                    : bot.CreateGuildApplicationCommandAsync(applicationId, guildId.Value, command, options, cancellationToken);
             }
+
+            var modifiedCommands = changes.ModifiedCommands;
+            foreach (var (commandId, command) in modifiedCommands)
+            {
+                void Action(ModifyApplicationCommandActionProperties properties)
+                {
+                    properties.Name = command.Name;
+                    properties.NameLocalizations = Optional.Convert(command.NameLocalizations, localizations => localizations as IEnumerable<KeyValuePair<CultureInfo, string>>);
+
+                    if (command is LocalSlashCommand slashCommand)
+                    {
+                        properties.Description = slashCommand.Description;
+                        properties.DescriptionLocalizations = Optional.Convert(slashCommand.DescriptionLocalizations, localizations => localizations as IEnumerable<KeyValuePair<CultureInfo, string>>);
+                        properties.Options = Optional.Convert(slashCommand.Options, options => options as IEnumerable<LocalSlashCommandOption>);
+                    }
+
+                    properties.DefaultRequiredMemberPermissions = command.DefaultRequiredMemberPermissions;
+                    properties.IsEnabledByDefault = command.IsEnabledByDefault;
+                }
+
+                tasks[index++] = guildId == null
+                    ? bot.ModifyGlobalApplicationCommandAsync(applicationId, commandId, Action, options, cancellationToken)
+                    : bot.ModifyGuildApplicationCommandAsync(applicationId, guildId.Value, commandId, Action, options, cancellationToken);
+            }
+
+            var deletedCommandsIds = changes.DeletedCommandIds;
+            for (var i = 0; i < deletedCount; i++)
+            {
+                var commandId = deletedCommandsIds[i];
+                tasks[index++] = guildId == null
+                    ? bot.DeleteGlobalApplicationCommandAsync(applicationId, commandId, options, cancellationToken)
+                    : bot.DeleteGuildApplicationCommandAsync(applicationId, guildId.Value, commandId, options, cancellationToken);
+            }
+
+            static async Task<IReadOnlyList<IApplicationCommand>> ExecuteTasks(Snowflake? guildId, int count, Task[] tasks)
+            {
+                var whenAllTask = Task.WhenAll(tasks);
+                var continuation = whenAllTask.ContinueWith(_ => { }, default(CancellationToken));
+                await continuation.ConfigureAwait(false);
+                var exceptions = new List<Exception>(count);
+                var commands = new List<IApplicationCommand>(count);
+                foreach (var task in tasks)
+                {
+                    if (task.Exception != null)
+                    {
+                        exceptions.Add(task.Exception);
+                        continue;
+                    }
+
+                    if (task is not Task<IApplicationCommand> resultTask)
+                        continue;
+
+                    commands.Add(resultTask.Result);
+                }
+
+                if (exceptions.Count > 0)
+                    throw new ApplicationCommandSyncException(guildId, commands, exceptions);
+
+                return commands;
+            }
+
+            return ExecuteTasks(guildId, totalChangeCount - deletedCount, tasks);
         }
 
         var cache = await cacheProvider.GetCacheAsync(cancellationToken).ConfigureAwait(false);
