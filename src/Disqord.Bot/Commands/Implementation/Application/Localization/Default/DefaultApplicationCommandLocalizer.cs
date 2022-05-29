@@ -161,7 +161,7 @@ public partial class DefaultApplicationCommandLocalizer : IApplicationCommandLoc
 
         foreach (var missingLocaleName in missingLocaleNames)
         {
-            stores.Add(CreateStoreInformation(CultureInfo.GetCultureInfo(missingLocaleName), Path.Join(directoryPath, missingLocaleName, fileWildcard), false, new(), new()));
+            stores.Add(CreateStoreInformation(CultureInfo.GetCultureInfo(missingLocaleName), Path.Join(directoryPath, string.Format(LocaleFileNameFormat, missingLocaleName)), false, new(), new()));
         }
 
         foreach (var storeInformation in stores)
