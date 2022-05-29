@@ -191,6 +191,7 @@ public partial class DefaultApplicationCommandCacheProvider
             {
                 var newModelCommand = new CommandJsonModel(createdCommand);
                 newModelCommand.Id = commandIds[createdCommand.Name.Value];
+                newModelCommands.Add(newModelCommand);
             }
 
             modelCommands = newModelCommands.ToArray();
