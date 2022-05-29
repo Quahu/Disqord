@@ -76,19 +76,20 @@ public partial class DefaultApplicationCommandLocalizer
         protected virtual void ReadNode(LocalizationNodeJsonModel localizationNode, IEnumerable<LocalApplicationCommand> commands)
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            static string GetLocaleDefault(bool isDefaultLocale, Optional<string?> value)
+            static string GetLocaleDefault(bool isDefaultLocale, string? value)
             {
-                if (!isDefaultLocale || !value.HasValue || string.IsNullOrWhiteSpace(value.Value))
+                if (!isDefaultLocale || string.IsNullOrWhiteSpace(value))
                     return "";
 
-                return value.Value;
+                return value;
             }
 
             var isDefaultLocale = IsDefaultLocale;
             foreach (var command in commands)
             {
                 OptionalGuard.HasValue(command.Name);
-                Guard.IsNotNullOrWhiteSpace(command.Name.Value);
+                var commandName = command.Name.Value;
+                Guard.IsNotNullOrWhiteSpace(commandName);
 
                 var isInitial = false;
                 CommandLocalizationJsonModel? commandLocalization;
@@ -123,9 +124,9 @@ public partial class DefaultApplicationCommandLocalizer
 
                 if (isInitial)
                 {
-                    commandLocalization.Name = GetLocaleDefault(isDefaultLocale, command.Name);
+                    commandLocalization.Name = GetLocaleDefault(isDefaultLocale, commandName);
                 }
-                else if (!string.IsNullOrWhiteSpace(commandLocalization.Name))
+                else if (!string.IsNullOrWhiteSpace(commandLocalization.Name) && commandName != commandLocalization.Name)
                 {
                     command.AddNameLocalization(Locale, commandLocalization.Name);
                 }
@@ -133,11 +134,15 @@ public partial class DefaultApplicationCommandLocalizer
                 if (command is not LocalSlashCommand slashCommand)
                     continue;
 
+                OptionalGuard.HasValue(slashCommand.Description);
+                var commandDescription = slashCommand.Description.Value;
+                Guard.IsNotNullOrWhiteSpace(commandDescription);
+
                 if (isInitial)
                 {
-                    commandLocalization.Description = GetLocaleDefault(isDefaultLocale, slashCommand.Description);
+                    commandLocalization.Description = GetLocaleDefault(isDefaultLocale, commandDescription);
                 }
-                else if (!string.IsNullOrWhiteSpace(commandLocalization.Description.GetValueOrDefault()))
+                else if (!string.IsNullOrWhiteSpace(commandLocalization.Description.GetValueOrDefault()) && commandDescription != commandLocalization.Description.GetValueOrDefault())
                 {
                     slashCommand.AddDescriptionLocalization(Locale, commandLocalization.Description.Value);
                 }
@@ -158,7 +163,12 @@ public partial class DefaultApplicationCommandLocalizer
                         foreach (var option in options)
                         {
                             OptionalGuard.HasValue(option.Name);
-                            Guard.IsNotNullOrWhiteSpace(option.Name.Value);
+                            var optionName = option.Name.Value;
+                            Guard.IsNotNullOrWhiteSpace(optionName);
+
+                            OptionalGuard.HasValue(option.Description);
+                            var optionDescription = option.Description.Value;
+                            Guard.IsNotNullOrWhiteSpace(optionDescription);
 
                             if (isInitial || !optionLocalizations.TryGetValue(option.Name.Value, out var optionLocalization) || optionLocalization == null)
                             {
@@ -168,17 +178,17 @@ public partial class DefaultApplicationCommandLocalizer
 
                             if (isInitial)
                             {
-                                optionLocalization.Name = GetLocaleDefault(isDefaultLocale, option.Name);
-                                optionLocalization.Description = GetLocaleDefault(isDefaultLocale, option.Description);
+                                optionLocalization.Name = GetLocaleDefault(isDefaultLocale, optionName);
+                                optionLocalization.Description = GetLocaleDefault(isDefaultLocale, optionDescription);
                             }
                             else
                             {
-                                if (!string.IsNullOrWhiteSpace(optionLocalization.Name))
+                                if (!string.IsNullOrWhiteSpace(optionLocalization.Name) && optionName != optionLocalization.Name)
                                 {
                                     option.AddNameLocalization(locale, optionLocalization.Name);
                                 }
 
-                                if (!string.IsNullOrWhiteSpace(optionLocalization.Description))
+                                if (!string.IsNullOrWhiteSpace(optionLocalization.Description) && optionDescription != optionLocalization.Description)
                                 {
                                     option.AddDescriptionLocalization(locale, optionLocalization.Description);
                                 }
@@ -207,18 +217,19 @@ public partial class DefaultApplicationCommandLocalizer
                             foreach (var choice in choices)
                             {
                                 OptionalGuard.HasValue(choice.Name);
+                                var choiceName = choice.Name.Value;
 
-                                if (isInitial || !choiceLocalizations.TryGetValue(choice.Name.Value, out var choiceLocalization) || choiceLocalization == null)
+                                if (isInitial || !choiceLocalizations.TryGetValue(choiceName, out var choiceLocalization) || choiceLocalization == null)
                                 {
-                                    choiceLocalizations[choice.Name.Value] = new ChoiceLocalizationJsonModel
+                                    choiceLocalizations[choiceName] = new ChoiceLocalizationJsonModel
                                     {
-                                        Name = GetLocaleDefault(isDefaultLocale, choice.Name)
+                                        Name = GetLocaleDefault(isDefaultLocale, choiceName)
                                     };
 
                                     continue;
                                 }
 
-                                if (!string.IsNullOrWhiteSpace(choiceLocalization.Name))
+                                if (!string.IsNullOrWhiteSpace(choiceLocalization.Name) && choiceName != choiceLocalization.Name)
                                 {
                                     choice.AddNameLocalization(locale, choiceLocalization.Name);
                                 }
