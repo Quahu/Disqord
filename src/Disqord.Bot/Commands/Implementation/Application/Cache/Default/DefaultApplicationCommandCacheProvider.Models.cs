@@ -55,6 +55,11 @@ public partial class DefaultApplicationCommandCacheProvider
 
         public CommandJsonModel(LocalApplicationCommand command)
         {
+            Populate(command);
+        }
+
+        public void Populate(LocalApplicationCommand command)
+        {
             OptionalGuard.HasValue(command.Name);
 
             Type = GetCommandType(command);

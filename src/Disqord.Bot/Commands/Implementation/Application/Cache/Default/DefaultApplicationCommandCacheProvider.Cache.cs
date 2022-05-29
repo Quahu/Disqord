@@ -118,8 +118,10 @@ public partial class DefaultApplicationCommandCacheProvider
                             changes.CreatedCommands.Add(command);
                             deletedCommandModels.Add(matchingModelCommand);
                         }
-
-                        changes.ModifiedCommands.Add(matchingModelCommand.Id, command);
+                        else
+                        {
+                            changes.ModifiedCommands.Add(matchingModelCommand.Id, command);
+                        }
                     }
                 }
             }
@@ -148,37 +150,48 @@ public partial class DefaultApplicationCommandCacheProvider
             var commandIds = commands.ToDictionary(x => x.Name, x => x.Id);
             var newModelCommands = new FastList<CommandJsonModel>(modelCommands?.Length ?? 0 + fastChanges.CreatedCommands.Count - fastChanges.DeletedCommandIds.Count);
 
-            static void AddCommands(CommandJsonModel[]? modelCommands, FastList<CommandJsonModel> newModelCommands,
-                IEnumerable<LocalApplicationCommand> commands, Dictionary<string, Snowflake> commandIds)
+            foreach (var unchangedCommand in fastChanges.UnchangedCommands)
             {
-                foreach (var command in commands)
+                CommandJsonModel existingModelCommand = null!;
+                if (modelCommands != null)
                 {
-                    CommandJsonModel? newModelCommand = null;
-                    if (modelCommands != null)
+                    foreach (var modelCommand in modelCommands)
                     {
-                        foreach (var modelCommand in modelCommands)
-                        {
-                            if (command.Name != modelCommand.Name)
-                                continue;
+                        if (unchangedCommand.Name != modelCommand.Name)
+                            continue;
 
-                            newModelCommand = modelCommand;
-                            break;
-                        }
+                        existingModelCommand = modelCommand;
+                        break;
                     }
-
-                    if (newModelCommand == null)
-                    {
-                        newModelCommand = new CommandJsonModel(command);
-                        newModelCommand.Id = commandIds[command.Name.Value];
-                    }
-
-                    newModelCommands.Add(newModelCommand);
                 }
+
+                newModelCommands.Add(existingModelCommand);
             }
 
-            AddCommands(modelCommands, newModelCommands, fastChanges.UnchangedCommands, commandIds);
-            AddCommands(modelCommands, newModelCommands, fastChanges.ModifiedCommands.Values, commandIds);
-            AddCommands(null, newModelCommands, fastChanges.CreatedCommands, commandIds);
+            foreach (var (modifiedCommandId, modifiedCommand) in fastChanges.ModifiedCommands)
+            {
+                CommandJsonModel existingModelCommand = null!;
+                if (modelCommands != null)
+                {
+                    foreach (var modelCommand in modelCommands)
+                    {
+                        if (modifiedCommandId != modelCommand.Id)
+                            continue;
+
+                        existingModelCommand = modelCommand;
+                        break;
+                    }
+                }
+
+                existingModelCommand.Populate(modifiedCommand);
+                newModelCommands.Add(existingModelCommand);
+            }
+
+            foreach (var createdCommand in fastChanges.CreatedCommands)
+            {
+                var newModelCommand = new CommandJsonModel(createdCommand);
+                newModelCommand.Id = commandIds[createdCommand.Name.Value];
+            }
 
             modelCommands = newModelCommands.ToArray();
             if (guildId == null)
