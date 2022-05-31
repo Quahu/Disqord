@@ -678,20 +678,20 @@ public abstract partial class DiscordBotBase
                     Logger.LogDebug("Global application commands are up-to-date.");
                 }
             }
-
-            if (_syncGuildApplicationCommands)
+            else
             {
                 foreach (var (guildId, commands) in guildCommands)
                 {
                     var changes = cache.GetChanges(guildId, commands);
-                    if (!changes.Any)
+                    if (changes.Any)
+                    {
+                        commandChanges.Add((guildId, changes));
+                        tasks.Add(GetSyncStrategyTask(this, applicationId, guildId, commands, changes, requestOptions, cancellationToken));
+                    }
+                    else
                     {
                         Logger.LogDebug("Guild ({0}) application commands are up-to-date.", guildId);
-                        continue;
                     }
-
-                    commandChanges.Add((guildId, changes));
-                    tasks.Add(GetSyncStrategyTask(this, applicationId, guildId, commands, changes, requestOptions, cancellationToken));
                 }
             }
 
