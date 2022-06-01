@@ -51,13 +51,18 @@ public static class DiscordBotServiceCollectionExtensions
             services.Replace(ServiceDescriptor.Singleton<DiscordClientBase>(GetBotService));
         }
 
+        services.AddDiscordBotDependencies();
+        return services;
+    }
+
+    internal static void AddDiscordBotDependencies(this IServiceCollection services)
+    {
         services.AddPrefixProvider();
         services.AddCommandQueue();
         services.AddCommands();
         services.AddCommandContextAccessor();
         services.AddApplicationCommandLocalizer();
         services.AddApplicationCommandCacheProvider();
-        return services;
     }
 
     public static IServiceCollection AddPrefixProvider<TPrefixProvider>(this IServiceCollection services)

@@ -31,10 +31,7 @@ public static class DiscordBotSharderHostBuilderExtensions
 
             if (services.TryAddSingleton<TDiscordBotSharder>())
             {
-                services.AddPrefixProvider();
-                services.AddCommandQueue();
-                services.AddCommands();
-                services.AddCommandContextAccessor();
+                services.AddDiscordBotDependencies();
 
                 if (typeof(TDiscordBotSharder) != typeof(DiscordBotSharder))
                     services.Replace(ServiceDescriptor.Singleton<DiscordBotSharder>(x => x.GetRequiredService<TDiscordBotSharder>()));
