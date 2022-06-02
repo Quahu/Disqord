@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Qommon.Collections;
 using Disqord.Enums.Extensions;
 using Disqord.Models;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway
 {
+    /// <inheritdoc cref="IGuildChannel"/>
     public abstract class CachedGuildChannel : CachedChannel, IGuildChannel
     {
         /// <inheritdoc/>
@@ -54,9 +54,6 @@ namespace Disqord.Gateway
                 case ChannelType.Category:
                     return new CachedCategoryChannel(client, model);
 
-                case ChannelType.Store:
-                    return new CachedStoreChannel(client, model);
-
                 case ChannelType.NewsThread:
                 case ChannelType.PublicThread:
                 case ChannelType.PrivateThread:
@@ -64,6 +61,9 @@ namespace Disqord.Gateway
 
                 case ChannelType.Stage:
                     return new CachedStageChannel(client, model);
+
+                case ChannelType.Forum:
+                    return new CachedForumChannel(client, model);
             }
 
             return new CachedUnknownGuildChannel(client, model);

@@ -86,6 +86,8 @@
 
         UnknownGuildEventUser = 10071,
 
+        UnknownTag = 10087,
+
         UserOnlyEndpoint = 20001,
 
         BotOnlyEndpoint = 20002,
@@ -193,6 +195,10 @@
         /// </summary>
         MaximumEditsToOldMessagesReached = 30046,
 
+        MaximumPinnedThreadAmountReached = 30047,
+
+        MaximumTagAmountReached = 30048,
+
         Unauthorized = 40001,
 
         VerifiedAccountRequiredToPerformAction = 40002,
@@ -214,6 +220,8 @@
         ApplicationCommandAlreadyExists = 40041,
 
         InteractionAlreadyAcknowledged = 40060,
+
+        TagNameMustBeUnique = 40061,
 
         MissingAccess = 50001,
 

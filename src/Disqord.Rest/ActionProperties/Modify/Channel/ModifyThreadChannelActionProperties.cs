@@ -15,6 +15,8 @@ namespace Disqord
 
         public Optional<bool> AllowsInvitation { internal get; set; }
 
+        public Optional<ChannelFlag> Flags { internal get; set; }
+
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override Optional<IEnumerable<LocalOverwrite>> Overwrites
         {

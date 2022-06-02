@@ -4,8 +4,10 @@ using Disqord.Models;
 
 namespace Disqord.Gateway
 {
+    /// <inheritdoc cref="ICategorizableGuildChannel"/>
     public abstract class CachedCategorizableGuildChannel : CachedGuildChannel, ICategorizableGuildChannel
     {
+        /// <inheritdoc/>
         public virtual Snowflake? CategoryId { get; private set; }
 
         protected CachedCategorizableGuildChannel(IGatewayClient client, ChannelJsonModel model)

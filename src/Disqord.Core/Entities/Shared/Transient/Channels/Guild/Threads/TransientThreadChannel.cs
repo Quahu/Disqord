@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Disqord.Models;
-using Qommon;
 
 namespace Disqord
 {
+    /// <inheritdoc cref="IThreadChannel"/>
     public class TransientThreadChannel : TransientMessageGuildChannel, IThreadChannel
     {
         /// <inheritdoc/>

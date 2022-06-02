@@ -51,6 +51,26 @@ namespace Disqord.Rest
             return new TransientVoiceChannel(client, model);
         }
 
+        public static async Task<IStageChannel> ModifyStageChannelAsync(this IRestClient client,
+            Snowflake channelId, Action<ModifyStageChannelActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            Guard.IsNotNull(action);
+
+            var model = await client.InternalModifyChannelAsync(channelId, action, options, cancellationToken).ConfigureAwait(false);
+            return new TransientStageChannel(client, model);
+        }
+
+        public static async Task<IForumChannel> ModifyForumChannelAsync(this IRestClient client,
+            Snowflake channelId, Action<ModifyForumChannelActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            Guard.IsNotNull(action);
+
+            var model = await client.InternalModifyChannelAsync(channelId, action, options, cancellationToken).ConfigureAwait(false);
+            return new TransientForumChannel(client, model);
+        }
+
         public static async Task<ICategoryChannel> ModifyCategoryChannelAsync(this IRestClient client,
             Snowflake channelId, Action<ModifyCategoryChannelActionProperties> action,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
@@ -110,24 +130,40 @@ namespace Disqord.Rest
                                     content.DefaultAutoArchiveDuration = Optional.Convert(textProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
                                     break;
                                 }
+                                case ModifyVoiceChannelActionProperties voiceProperties:
+                                {
+                                    content.Bitrate = voiceProperties.Bitrate;
+                                    content.UserLimit = voiceProperties.MemberLimit;
+                                    content.Nsfw = voiceProperties.IsNsfw;
+                                    content.RtcRegion = voiceProperties.Region;
+                                    content.VideoQualityMode = voiceProperties.VideoQualityMode;
+                                    break;
+                                }
                                 case ModifyThreadChannelActionProperties threadProperties:
                                 {
                                     content.Archived = threadProperties.IsArchived;
                                     content.AutoArchiveDuration = Optional.Convert(threadProperties.AutomaticArchiveDuration, x => (int) x.TotalMinutes);
                                     content.Locked = threadProperties.IsLocked;
                                     content.Invitable = threadProperties.AllowsInvitation;
+                                    content.Flags = threadProperties.Flags;
                                     break;
                                 }
                             }
 
                             break;
                         }
-                        case ModifyVoiceChannelActionProperties voiceProperties:
+                        case ModifyForumChannelActionProperties forumProperties:
                         {
-                            content.Bitrate = voiceProperties.Bitrate;
-                            content.UserLimit = voiceProperties.MemberLimit;
-                            content.RtcRegion = voiceProperties.Region;
-                            content.VideoQualityMode = voiceProperties.VideoQualityMode;
+                            content.Topic = forumProperties.Topic;
+                            content.RateLimitPerUser = Optional.Convert(forumProperties.Slowmode, x => (int) x.TotalSeconds);
+                            content.Nsfw = forumProperties.IsNsfw;
+                            content.DefaultAutoArchiveDuration = Optional.Convert(forumProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
+                            break;
+                        }
+                        case ModifyStageChannelActionProperties stageChannelProperties:
+                        {
+                            content.Bitrate = stageChannelProperties.Bitrate;
+                            content.RtcRegion = stageChannelProperties.Region;
                             break;
                         }
                     }
@@ -557,14 +593,18 @@ namespace Disqord.Rest
         }
 
         public static async Task<IThreadChannel> CreatePublicThreadAsync(this IRestClient client,
-            Snowflake channelId, string name, Snowflake? messageId = null, TimeSpan? automaticArchiveDuration = null,
+            Snowflake channelId, string name, Snowflake? messageId = null, Action<CreateThreadChannelActionProperties> action = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
+            var properties = new CreateThreadChannelActionProperties();
+            action?.Invoke(properties);
+
             var content = new CreateThreadJsonRestRequestContent
             {
                 Name = name,
-                AutoArchiveDuration = Optional.Conditional(automaticArchiveDuration != null, duration => (int) duration.Value.TotalMinutes, automaticArchiveDuration),
-                Type = Optional.Conditional(messageId == null, ChannelType.PublicThread)
+                AutoArchiveDuration = Optional.Convert(properties.AutomaticArchiveDuration, x => (int) x.TotalMinutes),
+                Type = Optional.Conditional(messageId == null, ChannelType.PublicThread),
+                RateLimitPerUser = Optional.Convert(properties.Slowmode, x => (int) x.TotalSeconds)
             };
 
             var model = await client.ApiClient.CreateThreadAsync(channelId, content, messageId, options, cancellationToken).ConfigureAwait(false);
@@ -572,18 +612,65 @@ namespace Disqord.Rest
         }
 
         public static async Task<IThreadChannel> CreatePrivateThreadAsync(this IRestClient client,
-            Snowflake channelId, string name, TimeSpan? automaticArchiveDuration = null, bool? allowInvitation = null,
+            Snowflake channelId, string name, Action<CreatePrivateThreadChannelActionProperties> action = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
+            var properties = new CreatePrivateThreadChannelActionProperties();
+            action?.Invoke(properties);
+
             var content = new CreateThreadJsonRestRequestContent
             {
                 Name = name,
-                AutoArchiveDuration = Optional.Conditional(automaticArchiveDuration != null, duration => (int) duration.Value.TotalMinutes, automaticArchiveDuration),
+                AutoArchiveDuration = Optional.Convert(properties.AutomaticArchiveDuration, x => (int) x.TotalMinutes),
                 Type = ChannelType.PrivateThread,
-                Invitable = Optional.FromNullable(allowInvitation)
+                Invitable = properties.Invitable,
+                RateLimitPerUser = Optional.Convert(properties.Slowmode, x => (int) x.TotalSeconds)
             };
 
             var model = await client.ApiClient.CreateThreadAsync(channelId, content, null, options, cancellationToken).ConfigureAwait(false);
+            return new TransientThreadChannel(client, model);
+        }
+
+        public static async Task<IThreadChannel> CreateForumPostAsync(this IRestClient client,
+            Snowflake channelId, string name, LocalMessage message, Action<CreateThreadChannelActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            Guard.IsNotNull(message);
+
+            message.Validate();
+            var properties = new CreateThreadChannelActionProperties();
+            action?.Invoke(properties);
+
+            var messageContent = new CreateMessageJsonRestRequestContent
+            {
+                Content = Optional.FromNullable(message.Content),
+                Embeds = Optional.Conditional(message.Embeds.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), message.Embeds),
+                Flags = Optional.Conditional(message.Flags != 0, message.Flags),
+                AllowedMentions = Optional.FromNullable(message.AllowedMentions.ToModel()),
+                Components = Optional.Conditional(message.Components.Count != 0, x => x.Select(x => x.ToModel()).ToArray(), message.Components),
+                StickerIds = Optional.Conditional(message.StickerIds.Count != 0, x => x.ToArray(), message.StickerIds)
+            };
+            var forumContent = new CreateForumThreadJsonRestRequestContent
+            {
+                Name = name,
+                AutoArchiveDuration = Optional.Convert(properties.AutomaticArchiveDuration, x => (int) x.TotalMinutes),
+                RateLimitPerUser = Optional.Convert(properties.Slowmode, x => (int) x.TotalSeconds),
+                Message = messageContent
+            };
+
+            Task<ChannelJsonModel> task;
+            if (message.Attachments.Count != 0)
+            {
+                // If there are attachments, we must send them via multipart HTTP content.
+                // Our `messageContent` will be serialized into a "payload_json" form data field.
+                var content = new MultipartJsonPayloadRestRequestContent<CreateForumThreadJsonRestRequestContent>(forumContent, message.Attachments);
+                task = client.ApiClient.CreateThreadInForumAsync(channelId, content, options, cancellationToken);
+            }
+            else
+            {
+                task = client.ApiClient.CreateThreadInForumAsync(channelId, forumContent, options, cancellationToken);
+            }
+            var model = await task.ConfigureAwait(false);
             return new TransientThreadChannel(client, model);
         }
 

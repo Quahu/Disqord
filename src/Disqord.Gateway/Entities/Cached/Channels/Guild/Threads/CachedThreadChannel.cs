@@ -5,6 +5,7 @@ using Disqord.Models;
 
 namespace Disqord.Gateway
 {
+    /// <inheritdoc cref="IThreadChannel"/>
     public class CachedThreadChannel : CachedMessageGuildChannel, IThreadChannel, IJsonUpdatable<ThreadMembersUpdateJsonModel>, IJsonUpdatable<ThreadMemberJsonModel>
     {
         /// <inheritdoc/>

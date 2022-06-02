@@ -56,5 +56,8 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("invitable")]
         public Optional<bool> Invitable;
+
+        [JsonProperty("flags")]
+        public Optional<ChannelFlag> Flags;
     }
 }

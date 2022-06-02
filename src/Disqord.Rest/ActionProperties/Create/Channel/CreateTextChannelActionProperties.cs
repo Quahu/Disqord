@@ -11,6 +11,8 @@ namespace Disqord
 
         public Optional<bool> IsNsfw { internal get; set; }
 
+        public Optional<bool> IsNews { internal get; set; }
+
         public Optional<TimeSpan> DefaultAutomaticArchiveDuration { internal get; set; }
 
         internal CreateTextChannelActionProperties()

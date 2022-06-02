@@ -4,6 +4,7 @@ using Qommon;
 
 namespace Disqord
 {
+    /// <inheritdoc cref="IThreadMetadata"/>
     public class TransientThreadMetadata : TransientEntity<ThreadMetadataJsonModel>, IThreadMetadata
     {
         /// <inheritdoc/>

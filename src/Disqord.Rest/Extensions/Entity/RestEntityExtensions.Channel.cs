@@ -24,6 +24,22 @@ namespace Disqord.Rest
             return client.ModifyVoiceChannelAsync(channel.Id, action, options, cancellationToken);
         }
 
+        public static Task<IStageChannel> ModifyAsync(this IStageChannel channel,
+            Action<ModifyStageChannelActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = channel.GetRestClient();
+            return client.ModifyStageChannelAsync(channel.Id, action, options, cancellationToken);
+        }
+
+        public static Task<IForumChannel> ModifyAsync(this IForumChannel channel,
+            Action<ModifyForumChannelActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = channel.GetRestClient();
+            return client.ModifyForumChannelAsync(channel.Id, action, options, cancellationToken);
+        }
+
         public static Task<ICategoryChannel> ModifyAsync(this ICategoryChannel channel,
             Action<ModifyCategoryChannelActionProperties> action,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
@@ -271,19 +287,27 @@ namespace Disqord.Rest
         * Threads
         */
         public static Task<IThreadChannel> CreatePublicThreadAsync(this ITextChannel channel,
-            string name, Snowflake? messageId = null, TimeSpan? automaticArchiveDuration = null,
+            string name, Snowflake? messageId = null, Action<CreateThreadChannelActionProperties> action = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = channel.GetRestClient();
-            return client.CreatePublicThreadAsync(channel.Id, name, messageId, automaticArchiveDuration, options, cancellationToken);
+            return client.CreatePublicThreadAsync(channel.Id, name, messageId, action, options, cancellationToken);
         }
 
         public static Task<IThreadChannel> CreatePrivateThreadAsync(this ITextChannel channel,
-            string name, TimeSpan? automaticArchiveDuration = null, bool? allowInvitation = null,
+            string name, Action<CreateThreadChannelActionProperties> action = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = channel.GetRestClient();
-            return client.CreatePrivateThreadAsync(channel.Id, name, automaticArchiveDuration, allowInvitation, options, cancellationToken);
+            return client.CreatePrivateThreadAsync(channel.Id, name, action, options, cancellationToken);
+        }
+
+        public static Task<IThreadChannel> CreatePostAsync(this IForumChannel channel,
+            string name, LocalMessage message, Action<CreateThreadChannelActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = channel.GetRestClient();
+            return client.CreateForumPostAsync(channel.Id, name, message, action, options, cancellationToken);
         }
 
         public static Task JoinAsync(this IThreadChannel thread,

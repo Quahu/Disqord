@@ -6,6 +6,7 @@ using Qommon;
 
 namespace Disqord.Gateway
 {
+    /// <inheritdoc cref="IMessageGuildChannel"/>
     public abstract class CachedMessageGuildChannel : CachedCategorizableGuildChannel, IMessageGuildChannel, IJsonUpdatable<ChannelPinsUpdateJsonModel>
     {
         /// <inheritdoc/>

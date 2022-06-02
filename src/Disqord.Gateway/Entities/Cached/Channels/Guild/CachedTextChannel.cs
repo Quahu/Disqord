@@ -4,14 +4,19 @@ using Disqord.Models;
 
 namespace Disqord.Gateway
 {
+    /// <inheritdoc cref="ITextChannel"/>
     public class CachedTextChannel : CachedMessageGuildChannel, ITextChannel
     {
+        /// <inheritdoc/>
         public string Topic { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsNsfw { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsNews => Type == ChannelType.News;
 
+        /// <inheritdoc/>
         public TimeSpan DefaultAutomaticArchiveDuration { get; private set; }
 
         public CachedTextChannel(IGatewayClient client, ChannelJsonModel model)

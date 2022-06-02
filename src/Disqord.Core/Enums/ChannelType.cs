@@ -14,8 +14,6 @@
 
         News = 5,
 
-        Store = 6,
-
         NewsThread = 10,
 
         PublicThread = 11,
@@ -24,6 +22,8 @@
 
         Stage = 13,
 
-        Directory = 14
+        Directory = 14,
+
+        Forum = 15
     }
 }
