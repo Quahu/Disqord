@@ -13,7 +13,7 @@ namespace Disqord
         string Topic { get; }
 
         /// <summary>
-        ///     Gets whether this forum channel is not safe for work.
+        ///     Gets whether this channel is not safe for work.
         /// </summary>
         bool IsNsfw { get; }
 
