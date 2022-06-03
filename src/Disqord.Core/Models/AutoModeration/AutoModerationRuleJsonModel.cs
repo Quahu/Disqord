@@ -17,16 +17,16 @@ namespace Disqord.Models
         public Snowflake CreatorId;
 
         [JsonProperty("event_type")]
-        public int EventType;
+        public AutoModerationEventType EventType;
 
         [JsonProperty("trigger_type")]
-        public int TriggerType;
+        public AutoModerationTriggerType TriggerType;
 
         [JsonProperty("trigger_metadata")]
-        public JsonModel TriggerMetadata;
+        public AutoModerationTriggerMetadataJsonModel TriggerMetadata;
 
         [JsonProperty("actions")]
-        public JsonModel[] Actions;
+        public AutoModerationActionJsonModel[] Actions;
 
         [JsonProperty("enabled")]
         public bool Enabled;
