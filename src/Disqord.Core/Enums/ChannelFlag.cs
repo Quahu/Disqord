@@ -9,7 +9,7 @@ namespace Disqord
     public enum ChannelFlag
     {
         /// <summary>
-        ///     The thread channel is pinned to the top of it's parent forum channel.
+        ///     The thread channel is pinned to the top of its parent forum channel.
         /// </summary>
         Pinned = 1 << 1
     }

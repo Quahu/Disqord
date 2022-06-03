@@ -4,6 +4,9 @@ namespace Disqord
 {
     public sealed class CreatePrivateThreadChannelActionProperties : CreateThreadChannelActionProperties
     {
-        public Optional<bool> Invitable { internal get; set; }
+        public Optional<bool> AllowsInvitation { internal get; set; }
+
+        internal CreatePrivateThreadChannelActionProperties()
+        { }
     }
 }

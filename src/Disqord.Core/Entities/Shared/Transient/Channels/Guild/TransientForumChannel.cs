@@ -14,7 +14,7 @@ namespace Disqord
         public bool IsNsfw => Model.Nsfw.Value;
 
         /// <inheritdoc/>
-        public TimeSpan DefaultAutomaticArchiveDuration => TimeSpan.FromMinutes(Model.DefaultAutoArchiveDuration.GetValueOrDefault(1400));
+        public TimeSpan DefaultAutomaticArchiveDuration => TimeSpan.FromMinutes(Model.DefaultAutoArchiveDuration.GetValueOrDefault(1440));
 
         /// <inheritdoc/>
         public TimeSpan Slowmode => TimeSpan.FromSeconds(Model.RateLimitPerUser.GetValueOrDefault());

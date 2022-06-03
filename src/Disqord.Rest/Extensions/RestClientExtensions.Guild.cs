@@ -130,9 +130,8 @@ namespace Disqord.Rest
             // Can't use the generic CreateInstance either *because*.
             var properties = (T) Activator.CreateInstance(typeof(T), true);
             action?.Invoke(properties);
-            var content = new CreateGuildChannelJsonRestRequestContent
+            var content = new CreateGuildChannelJsonRestRequestContent(name)
             {
-                Name = name,
                 Position = properties.Position,
                 PermissionOverwrites = Optional.Convert(properties.Overwrites, x => x.Select(x => x.ToModel()).ToArray())
             };

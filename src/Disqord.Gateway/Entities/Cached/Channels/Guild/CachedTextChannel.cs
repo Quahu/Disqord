@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Disqord.Models;
+using Qommon;
 
 namespace Disqord.Gateway
 {
@@ -34,8 +35,7 @@ namespace Disqord.Gateway
             if (model.Nsfw.HasValue)
                 IsNsfw = model.Nsfw.Value;
 
-            if (model.DefaultAutoArchiveDuration.HasValue)
-                DefaultAutomaticArchiveDuration = TimeSpan.FromMinutes(model.DefaultAutoArchiveDuration.Value);
+            DefaultAutomaticArchiveDuration = TimeSpan.FromMinutes(model.DefaultAutoArchiveDuration.GetValueOrDefault(1440));
         }
     }
 }

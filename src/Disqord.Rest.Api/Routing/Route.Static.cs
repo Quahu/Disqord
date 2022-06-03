@@ -69,7 +69,7 @@ namespace Disqord.Rest.Api
 
             public static readonly Route StartThread = Post("channels/{0:channel_id}/threads");
 
-            public static readonly Route StartThreadInForum = Post("channels/{0:channel_id}/threads");
+            public static readonly Route StartForumThread = Post("channels/{0:channel_id}/threads");
 
             public static readonly Route JoinThread = Put("channels/{0:channel_id}/thread-members/@me");
 

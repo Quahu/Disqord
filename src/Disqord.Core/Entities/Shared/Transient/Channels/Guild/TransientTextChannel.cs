@@ -17,7 +17,7 @@ namespace Disqord
         public bool IsNews => Model.Type == ChannelType.News;
 
         /// <inheritdoc/>
-        public TimeSpan DefaultAutomaticArchiveDuration => TimeSpan.FromMinutes(Model.DefaultAutoArchiveDuration.GetValueOrDefault(1400));
+        public TimeSpan DefaultAutomaticArchiveDuration => TimeSpan.FromMinutes(Model.DefaultAutoArchiveDuration.GetValueOrDefault(1440));
 
         public TransientTextChannel(IClient client, ChannelJsonModel model)
             : base(client, model)

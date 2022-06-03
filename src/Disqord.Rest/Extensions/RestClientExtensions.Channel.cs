@@ -623,7 +623,7 @@ namespace Disqord.Rest
                 Name = name,
                 AutoArchiveDuration = Optional.Convert(properties.AutomaticArchiveDuration, x => (int) x.TotalMinutes),
                 Type = ChannelType.PrivateThread,
-                Invitable = properties.Invitable,
+                Invitable = properties.AllowsInvitation,
                 RateLimitPerUser = Optional.Convert(properties.Slowmode, x => (int) x.TotalSeconds)
             };
 
@@ -631,7 +631,7 @@ namespace Disqord.Rest
             return new TransientThreadChannel(client, model);
         }
 
-        public static async Task<IThreadChannel> CreateForumPostAsync(this IRestClient client,
+        public static async Task<IThreadChannel> CreateForumThreadAsync(this IRestClient client,
             Snowflake channelId, string name, LocalMessage message, Action<CreateThreadChannelActionProperties> action = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {

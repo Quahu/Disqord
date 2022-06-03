@@ -28,7 +28,7 @@ namespace Disqord
         TimeSpan Slowmode { get; }
 
         /// <summary>
-        ///     Gets the ID of the last thread made in this channel.
+        ///     Gets the ID of the last thread created in this channel.
         /// </summary>
         Snowflake? LastThreadId { get; }
     }

@@ -302,12 +302,12 @@ namespace Disqord.Rest
             return client.CreatePrivateThreadAsync(channel.Id, name, action, options, cancellationToken);
         }
 
-        public static Task<IThreadChannel> CreatePostAsync(this IForumChannel channel,
+        public static Task<IThreadChannel> CreateThreadAsync(this IForumChannel channel,
             string name, LocalMessage message, Action<CreateThreadChannelActionProperties> action = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var client = channel.GetRestClient();
-            return client.CreateForumPostAsync(channel.Id, name, message, action, options, cancellationToken);
+            return client.CreateForumThreadAsync(channel.Id, name, message, action, options, cancellationToken);
         }
 
         public static Task JoinAsync(this IThreadChannel thread,

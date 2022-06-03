@@ -21,7 +21,7 @@ namespace Disqord.Gateway
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual void Update(ChannelJsonModel model)
         {
-            // Text channels can be changed to changed to News channels and vice-versa
+            // Text channels can be changed to news channels and vice-versa.
             Type = model.Type;
 
             if (model.Name.HasValue)
