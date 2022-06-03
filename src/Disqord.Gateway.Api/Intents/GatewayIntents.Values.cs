@@ -18,7 +18,9 @@
             | GatewayIntent.DirectMessages
             | GatewayIntent.DirectReactions
             | GatewayIntent.DirectTyping
-            | GatewayIntent.GuildEvents);
+            | GatewayIntent.GuildEvents
+            | GatewayIntent.AutoModerationConfiguration
+            | GatewayIntent.AutoModerationExecution);
 
         private const ulong UnprivilegedIntentsValue = (ulong) (
             GatewayIntent.Guilds
@@ -34,7 +36,9 @@
             | GatewayIntent.DirectMessages
             | GatewayIntent.DirectReactions
             | GatewayIntent.DirectTyping
-            | GatewayIntent.GuildEvents);
+            | GatewayIntent.GuildEvents
+            | GatewayIntent.AutoModerationConfiguration
+            | GatewayIntent.AutoModerationExecution);
 
         private const ulong RecommendedValue = (ulong) (
             GatewayIntent.Guilds
@@ -47,6 +51,8 @@
             | GatewayIntent.VoiceStates
             | GatewayIntent.GuildMessages
             | GatewayIntent.GuildReactions
-            | GatewayIntent.GuildEvents);
+            | GatewayIntent.GuildEvents
+            | GatewayIntent.AutoModerationConfiguration
+            | GatewayIntent.AutoModerationExecution);
     }
 }
