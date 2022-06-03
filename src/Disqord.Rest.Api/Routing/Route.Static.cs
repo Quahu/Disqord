@@ -13,6 +13,19 @@ namespace Disqord.Rest.Api
             public static readonly Route GetAuditLogs = Get("guilds/{0:guild_id}/audit-logs");
         }
 
+        public static class AutoModeration
+        {
+            public static readonly Route GetRules = Get("guilds/{0:guild_id}/auto-moderation/rules");
+
+            public static readonly Route GetRule = Get("guilds/{0:guild_id}/auto-moderation/rules/{1:rule_id}");
+
+            public static readonly Route CreateRule = Post("guilds/{0:guild_id}/auto-moderation/rules");
+
+            public static readonly Route ModifyRule = Patch("guilds/{0:guild_id}/auto-moderation/rules/{1:rule_id}");
+
+            public static readonly Route DeleteRule = Delete("guilds/{0:guild_id}/auto-moderation/rules/{1:rule_id}");
+        }
+
         public static class Channel
         {
             public static readonly Route GetChannel = Get("channels/{0:channel_id}");

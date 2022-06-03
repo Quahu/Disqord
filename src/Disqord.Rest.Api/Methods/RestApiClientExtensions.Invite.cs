@@ -35,7 +35,9 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<InviteJsonModel>(route, null, options, cancellationToken);
         }
 
-        public static Task DeleteInviteAsync(this IRestApiClient client, string code, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        public static Task DeleteInviteAsync(this IRestApiClient client,
+            string code,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.Invite.DeleteInvite, code);
             return client.ExecuteAsync(route, null, options, cancellationToken);
