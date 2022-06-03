@@ -678,7 +678,8 @@ public abstract partial class DiscordBotBase
                     Logger.LogDebug("Global application commands are up-to-date.");
                 }
             }
-            else
+
+            if (_syncGuildApplicationCommands)
             {
                 foreach (var (guildId, commands) in guildCommands)
                 {
