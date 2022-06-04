@@ -125,7 +125,13 @@ namespace Disqord.AuditLogs
                 AuditLogActionType.ThreadUpdate => new TransientThreadUpdatedAuditLog(client, guildId, log, entry),
                 AuditLogActionType.ThreadDelete => new TransientThreadDeletedAuditLog(client, guildId, log, entry),
 
-                _ => new TransientUnknownAuditLog(client, guildId, log, entry),
+                // AutoModeration
+                AuditLogActionType.AutoModerationRuleCreated => new TransientAutoModerationRuleCreatedAuditLog(client, guildId, log, entry),
+                AuditLogActionType.AutoModerationRuleUpdated => new TransientAutoModerationRuleUpdatedAuditLog(client, guildId, log, entry),
+                AuditLogActionType.AutoModerationRuleDeleted => new TransientAutoModerationRuleDeletedAuditLog(client, guildId, log, entry),
+                AuditLogActionType.AutoModerationMessageBlocked => new TransientAutoModerationMessageBlockedAuditLog(client, guildId, log, entry),
+
+                _ => new TransientUnknownAuditLog(client, guildId, log, entry)
             };
     }
 }
