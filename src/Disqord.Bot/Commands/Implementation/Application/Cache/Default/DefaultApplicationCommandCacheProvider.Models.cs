@@ -227,6 +227,23 @@ public partial class DefaultApplicationCommandCacheProvider
             Value = choice.Value.Value;
         }
 
+        private static bool AreValuesEqual(object x, object y)
+        {
+            var xConvertible = Guard.IsAssignableToType<IConvertible>(x);
+            var yConvertible = Guard.IsAssignableToType<IConvertible>(y);
+            var xTypeCode = xConvertible.GetTypeCode();
+            var yTypeCode = yConvertible.GetTypeCode();
+            if ((xTypeCode == TypeCode.String || yTypeCode == TypeCode.String) && xTypeCode != yTypeCode)
+                return false;
+
+            if (xTypeCode is TypeCode.String && yTypeCode is TypeCode.String)
+                return (x as string)!.Equals(y as string);
+
+            var xValue = xConvertible.ToDouble(null);
+            var yValue = yConvertible.ToDouble(null);
+            return xValue.Equals(yValue);
+        }
+
         /// <inheritdoc />
         public bool Equals(LocalSlashCommandOptionChoice? choice)
         {
@@ -235,7 +252,7 @@ public partial class DefaultApplicationCommandCacheProvider
 
             if (Name != choice.Name
                 || !AreLocalizationsEquivalent(NameLocalizations, choice.NameLocalizations)
-                || !Value.Equals(choice.Value))
+                || !AreValuesEqual(Value, choice.Value.Value))
                 return false;
 
             return true;

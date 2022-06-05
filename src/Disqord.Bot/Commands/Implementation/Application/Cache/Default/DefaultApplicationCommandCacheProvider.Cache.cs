@@ -32,8 +32,8 @@ public partial class DefaultApplicationCommandCacheProvider
             HasChanges = !cacheFileExists;
         }
 
-        protected virtual Changes CreateChanges()
-            => new();
+        protected virtual Changes CreateChanges(bool areInitial)
+            => new(areInitial);
 
         public virtual void Migrate()
         {
@@ -79,7 +79,7 @@ public partial class DefaultApplicationCommandCacheProvider
                 ? Model.GlobalCommands
                 : Model.GuildCommands?.GetValueOrDefault(guildId.Value);
 
-            var changes = CreateChanges();
+            var changes = CreateChanges(!CacheFileExists || modelCommands == null);
             if (modelCommands == null)
             {
                 changes.CreatedCommands.AddRange(commands);

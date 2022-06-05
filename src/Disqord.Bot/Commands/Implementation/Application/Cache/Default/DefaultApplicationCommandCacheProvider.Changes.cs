@@ -10,6 +10,9 @@ public partial class DefaultApplicationCommandCacheProvider
         /// <inheritdoc />
         public bool Any => CreatedCommands.Count != 0 || ModifiedCommands.Count != 0 || DeletedCommandIds.Count != 0;
 
+        /// <inheritdoc />
+        public bool AreInitial { get; }
+
         /// <inheritdoc cref="IApplicationCommandCacheChanges.UnchangedCommands"/>
         public FastList<LocalApplicationCommand> UnchangedCommands { get; }
 
@@ -30,8 +33,9 @@ public partial class DefaultApplicationCommandCacheProvider
 
         IReadOnlyList<Snowflake> IApplicationCommandCacheChanges.DeletedCommandIds => DeletedCommandIds;
 
-        public Changes()
+        public Changes(bool areInitial)
         {
+            AreInitial = areInitial;
             UnchangedCommands = new FastList<LocalApplicationCommand>();
             CreatedCommands = new FastList<LocalApplicationCommand>();
             ModifiedCommands = new Dictionary<Snowflake, LocalApplicationCommand>();

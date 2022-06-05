@@ -13,6 +13,12 @@ public interface IApplicationCommandCacheChanges
     bool Any { get; }
 
     /// <summary>
+    ///     Gets whether the changes are the initial changes,
+    ///     i.e. whether there was no cached data priorly.
+    /// </summary>
+    bool AreInitial { get; }
+
+    /// <summary>
     ///     Gets the commands that were unchanged.
     /// </summary>
     IReadOnlyList<LocalApplicationCommand> UnchangedCommands { get; }

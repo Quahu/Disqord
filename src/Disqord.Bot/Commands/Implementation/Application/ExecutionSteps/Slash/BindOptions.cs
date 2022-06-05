@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Disqord.Gateway;
 using Qmmands;
 using Qommon;
 
@@ -78,7 +77,8 @@ public static partial class DefaultApplicationExecutionSteps
                         continue;
                     }
 
-                    if (parameter.ReflectedType.IsInstanceOfType(option.Value))
+                    var actualType = parameter.GetTypeInformation().ActualType;
+                    if (actualType.IsInstanceOfType(option.Value))
                     {
                         arguments[parameter] = option.Value;
                         continue;
@@ -86,38 +86,33 @@ public static partial class DefaultApplicationExecutionSteps
 
                     if (option.Value is not string stringValue)
                     {
-                        arguments[parameter] = Convert.ChangeType(option.Value, parameter.ReflectedType, context.Locale);
+                        arguments[parameter] = actualType.IsEnum
+                            ? Enum.ToObject(actualType, option.Value)
+                            : Convert.ChangeType(option.Value, actualType, context.Locale);
+
                         continue;
                     }
 
                     if (!option.Type.IsEntity())
                     {
                         // If the option is just a string, pass it through to type parsing.
-                        (context.RawArguments ??= new Dictionary<IParameter, MultiString>())[parameter] = option.Value as string;
+                        var rawArguments = context.RawArguments ??= new Dictionary<IParameter, MultiString>();
+                        rawArguments[parameter] = option.Value as string;
                         continue;
                     }
 
                     // If the option is an entity, parse the string as a snowflake and resolve the entity.
-                    static ISnowflakeEntity? GetChannel(IApplicationCommandInteraction interaction, Snowflake channelId)
-                    {
-                        IChannel? channel = null;
-                        if (interaction.GuildId != null)
-                            channel = (interaction.Client as DiscordClientBase)!.GetChannel(interaction.GuildId.Value, channelId);
-
-                        return channel ?? interaction.Entities.Channels[channelId];
-                    }
-
                     var entityId = Snowflake.Parse(stringValue);
                     var entities = interaction.Entities;
                     var entity = option.Type switch
                     {
-                        // TODO: do something about partial channels
                         SlashCommandOptionType.User => entities.Users[entityId],
-                        SlashCommandOptionType.Channel => GetChannel(interaction, entityId),
+                        SlashCommandOptionType.Channel => interaction.Entities.Channels[entityId],
                         SlashCommandOptionType.Role => entities.Roles[entityId],
                         SlashCommandOptionType.Attachment => entities.Attachments[entityId],
                         SlashCommandOptionType.Mentionable => entities.Users.GetValueOrDefault(entityId)
-                            ?? entities.Roles.GetValueOrDefault(entityId) ?? GetChannel(interaction, entityId),
+                            ?? entities.Roles.GetValueOrDefault(entityId)
+                            ?? entities.Channels.GetValueOrDefault(entityId) as object,
                         _ => Throw.InvalidOperationException<object>("Unsupported entity slash command option type.")
                     };
 

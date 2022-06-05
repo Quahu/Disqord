@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.ExceptionServices;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -364,6 +366,13 @@ public abstract partial class DiscordBotBase
                             else
                             {
                                 var actualType = typeInformation.ActualType;
+                                if (actualType.IsEnum)
+                                {
+                                    actualType = actualType.GetCustomAttribute(typeof(FlagsAttribute)) != null
+                                        ? typeof(string)
+                                        : actualType.GetEnumUnderlyingType();
+                                }
+
                                 if (actualType == typeof(bool))
                                 {
                                     option.Type = SlashCommandOptionType.Boolean;
@@ -467,6 +476,91 @@ public abstract partial class DiscordBotBase
                                 else
                                 {
                                     option.Type = SlashCommandOptionType.String;
+                                }
+
+                                if (option.Type.Value is SlashCommandOptionType.String or SlashCommandOptionType.Integer or SlashCommandOptionType.Number)
+                                {
+                                    if (typeInformation.ActualType.IsEnum && option.Type.Value != SlashCommandOptionType.String)
+                                    {
+                                        var fields = typeInformation.ActualType.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                                        var names = new string[fields.Length];
+                                        var values = new object[fields.Length];
+                                        for (var i = 0; i < fields.Length; i++)
+                                        {
+                                            var field = fields[i];
+                                            names[i] = field.GetCustomAttribute<ChoiceNameAttribute>()?.Name ?? field.Name;
+                                            values[i] = field.GetRawConstantValue()!;
+                                        }
+
+                                        // Source: Type.GetEnumData()
+                                        var comparer = Comparer.Default;
+                                        for (var i = 1; i < values.Length; i++)
+                                        {
+                                            var j = i;
+                                            var tempName = names[i];
+                                            var tempValue = values[i];
+                                            var exchanged = false;
+
+                                            while (comparer.Compare(values[j - 1], tempValue) > 0)
+                                            {
+                                                names[j] = names[j - 1];
+                                                values[j] = values[j - 1];
+                                                j--;
+                                                exchanged = true;
+                                                if (j == 0)
+                                                    break;
+                                            }
+
+                                            if (exchanged)
+                                            {
+                                                names[j] = tempName;
+                                                values[j] = tempValue;
+                                            }
+                                        }
+
+                                        // ---
+
+                                        if (names.Length <= 25)
+                                        {
+                                            var choices = new LocalSlashCommandOptionChoice[names.Length];
+                                            for (var i = 0; i < names.Length; i++)
+                                            {
+                                                var name = names[i];
+                                                var value = values.GetValue(i);
+                                                choices[i] = new LocalSlashCommandOptionChoice
+                                                {
+                                                    Name = name,
+                                                    Value = value
+                                                };
+                                            }
+
+                                            option.Choices = choices;
+                                        }
+                                        else
+                                        {
+                                            option.Type = SlashCommandOptionType.String;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        var customAttributes = parameter.CustomAttributes;
+                                        var customAttributeCount = customAttributes.Count;
+                                        for (var i = 0; i < customAttributeCount; i++)
+                                        {
+                                            var customAttribute = customAttributes[i];
+                                            if (customAttribute is not ChoiceAttribute choiceAttribute)
+                                                continue;
+
+                                            option.AddChoice(new LocalSlashCommandOptionChoice
+                                            {
+                                                Name = choiceAttribute.Name,
+                                                Value = choiceAttribute.Value
+                                            });
+
+                                            if (option.Choices.Value.Count == 25)
+                                                break;
+                                        }
+                                    }
                                 }
                             }
 
@@ -573,7 +667,7 @@ public abstract partial class DiscordBotBase
                 bot.Logger.LogDebug("Guild ({0}) application command states: {1} unchanged, {2} created, {3} modified, {4} deleted.", guildId, unchangedCount, createdCount, modifiedCount, deletedCount);
 
             var totalChangeCount = createdCount + modifiedCount + deletedCount;
-            if (totalChangeCount > BulkChangeThreshold)
+            if (changes.AreInitial || totalChangeCount > BulkChangeThreshold)
             {
                 return guildId == null
                     ? bot.SetGlobalApplicationCommandsAsync(applicationId, commands, options, cancellationToken)
