@@ -23,7 +23,7 @@ namespace Disqord
         /// <summary>
         ///     Gets the trigger type to be checked for this rule to be triggered.
         /// </summary>
-        AutoModerationTriggerType TriggerType { get; }
+        AutoModerationRuleTriggerType TriggerType { get; }
 
         // TODO: Might return null, would need to be documented
         /// <summary>

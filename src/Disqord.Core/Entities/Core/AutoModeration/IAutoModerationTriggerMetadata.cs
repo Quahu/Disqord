@@ -12,7 +12,7 @@ namespace Disqord
         ///     Gets the list of keywords to match in message content.
         /// </summary>
         /// <remarks>
-        ///     Used by the <see cref="AutoModerationTriggerType.Keyword"/> trigger type.
+        ///     Used by the <see cref="AutoModerationRuleTriggerType.Keyword"/> trigger type.
         /// </remarks>
         IReadOnlyList<string> Keywords { get; }
 
@@ -21,7 +21,7 @@ namespace Disqord
         ///     Gets which pre-defined lists of keywords should matched in message content.
         /// </summary>
         /// <remarks>
-        ///     Used by the <see cref="AutoModerationTriggerType.KeywordPreset"/> trigger type.
+        ///     Used by the <see cref="AutoModerationRuleTriggerType.KeywordPreset"/> trigger type.
         /// </remarks>
         IReadOnlyList<string> Presets { get; }
     }

@@ -11,7 +11,7 @@ namespace Disqord.AuditLogs
 
         public AuditLogChange<AutoModerationEventType> EventType { get; }
 
-        public AuditLogChange<AutoModerationTriggerType> TriggerType { get; }
+        public AuditLogChange<AutoModerationRuleTriggerType> TriggerType { get; }
 
         public AuditLogChange<IAutoModerationTriggerMetadata> TriggerMetadata { get; }
 
@@ -42,7 +42,7 @@ namespace Disqord.AuditLogs
                     }
                     case "trigger_type":
                     {
-                        TriggerType = AuditLogChange<AutoModerationTriggerType>.Convert(change);
+                        TriggerType = AuditLogChange<AutoModerationRuleTriggerType>.Convert(change);
                         break;
                     }
                     case "trigger_metadata":

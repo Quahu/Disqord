@@ -23,7 +23,7 @@ namespace Disqord
         public AutoModerationEventType EventType => Model.EventType;
 
         /// <inheritdoc/>
-        public AutoModerationTriggerType TriggerType => Model.TriggerType;
+        public AutoModerationRuleTriggerType TriggerType => Model.TriggerType;
 
         /// <inheritdoc/>
         public IAutoModerationTriggerMetadata TriggerMetadata => _triggerMetadata ??= new TransientAutoModerationTriggerMetadata(Model.TriggerMetadata);

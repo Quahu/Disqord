@@ -9,6 +9,22 @@ namespace Disqord.Hosting
         protected internal virtual ValueTask OnReady(ReadyEventArgs e)
             => default;
 
+        /// <inheritdoc cref="IGatewayClient.AutoModerationRuleCreated"/>
+        protected internal virtual ValueTask OnAutoModerationRuleCreated(AutoModerationRuleCreatedEventArgs e)
+            => default;
+
+        /// <inheritdoc cref="IGatewayClient.AutoModerationRuleUpdated"/>
+        protected internal virtual ValueTask OnAutoModerationRuleUpdated(AutoModerationRuleUpdatedEventArgs e)
+            => default;
+
+        /// <inheritdoc cref="IGatewayClient.AutoModerationRuleDeleted"/>
+        protected internal virtual ValueTask OnAutoModerationRuleDeleted(AutoModerationRuleDeletedEventArgs e)
+            => default;
+
+        /// <inheritdoc cref="IGatewayClient.AutoModerationActionExecuted"/>
+        protected internal virtual ValueTask OnAutoModerationActionExecuted(AutoModerationActionExecutedEventArgs e)
+            => default;
+
         /// <inheritdoc cref="IGatewayClient.ChannelCreated"/>
         protected internal virtual ValueTask OnChannelCreated(ChannelCreatedEventArgs e)
             => default;

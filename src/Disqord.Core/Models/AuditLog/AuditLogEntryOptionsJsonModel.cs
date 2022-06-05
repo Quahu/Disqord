@@ -93,6 +93,6 @@ namespace Disqord.Models
         ///     <see cref="AuditLogActionType.AutoModerationMessageBlocked"/>
         /// </summary>
         [JsonProperty("auto_moderation_rule_trigger_type")]
-        public Optional<AutoModerationTriggerType> AutoModerationRuleTriggerType;
+        public Optional<AutoModerationRuleTriggerType> AutoModerationRuleTriggerType;
     }
 }

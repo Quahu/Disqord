@@ -9,7 +9,7 @@ namespace Disqord.AuditLogs
 
         Optional<AutoModerationEventType> EventType { get; }
 
-        Optional<AutoModerationTriggerType> TriggerType { get; }
+        Optional<AutoModerationRuleTriggerType> TriggerType { get; }
 
         Optional<IAutoModerationTriggerMetadata> TriggerMetadata { get; }
 

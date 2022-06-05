@@ -4,7 +4,7 @@ namespace Disqord.AuditLogs
     {
         string RuleName { get; }
 
-        AutoModerationTriggerType TriggerType { get; }
+        AutoModerationRuleTriggerType RuleTriggerType { get; }
 
         Snowflake ChannelId { get; }
     }

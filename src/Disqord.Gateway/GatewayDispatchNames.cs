@@ -16,6 +16,26 @@ namespace Disqord.Gateway
         public const string Resumed = "RESUMED";
 
         /// <summary>
+        /// 	The <c>AUTO_MODERATION_RULE_CREATE</c> dispatch.
+        /// </summary>
+        public const string AutoModerationRuleCreate = "AUTO_MODERATION_RULE_CREATE";
+
+        /// <summary>
+        /// 	The <c>AUTO_MODERATION_RULE_UPDATE</c> dispatch.
+        /// </summary>
+        public const string AutoModerationRuleUpdate = "AUTO_MODERATION_RULE_UPDATE";
+
+        /// <summary>
+        /// 	The <c>AUTO_MODERATION_RULE_DELETE</c> dispatch.
+        /// </summary>
+        public const string AutoModerationRuleDelete = "AUTO_MODERATION_RULE_DELETE";
+
+        /// <summary>
+        /// 	The <c>AUTO_MODERATION_ACTION_EXECUTION</c> dispatch.
+        /// </summary>
+        public const string AutoModerationActionExecution = "AUTO_MODERATION_ACTION_EXECUTION";
+
+        /// <summary>
         /// 	The <c>CHANNEL_CREATE</c> dispatch.
         /// </summary>
         public const string ChannelCreate = "CHANNEL_CREATE";
@@ -139,27 +159,27 @@ namespace Disqord.Gateway
         /// 	The <c>GUILD_SCHEDULED_EVENT_CREATE</c> dispatch.
         /// </summary>
         public const string GuildScheduledEventCreate = "GUILD_SCHEDULED_EVENT_CREATE";
-        
+
         /// <summary>
         /// 	The <c>GUILD_SCHEDULED_EVENT_UPDATE</c> dispatch.
         /// </summary>
         public const string GuildScheduledEventUpdate = "GUILD_SCHEDULED_EVENT_UPDATE";
-        
+
         /// <summary>
         /// 	The <c>GUILD_SCHEDULED_EVENT_DELETE</c> dispatch.
         /// </summary>
         public const string GuildScheduledEventDelete = "GUILD_SCHEDULED_EVENT_DELETE";
-        
+
         /// <summary>
         /// 	The <c>GUILD_SCHEDULED_EVENT_USER_ADD</c> dispatch.
         /// </summary>
         public const string GuildScheduledEventUserAdd = "GUILD_SCHEDULED_EVENT_USER_ADD";
-        
+
         /// <summary>
         /// 	The <c>GUILD_SCHEDULED_EVENT_USER_REMOVE</c> dispatch.
         /// </summary>
         public const string GuildScheduledEventUserRemove = "GUILD_SCHEDULED_EVENT_USER_REMOVE";
-        
+
         /// <summary>
         /// 	The <c>INTEGRATION_CREATE</c> dispatch.
         /// </summary>

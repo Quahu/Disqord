@@ -13,6 +13,34 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<AutoModerationRuleCreatedEventArgs> AutoModerationRuleCreated
+        {
+            add => GatewayClient.AutoModerationRuleCreated += value;
+            remove => GatewayClient.AutoModerationRuleCreated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<AutoModerationRuleUpdatedEventArgs> AutoModerationRuleUpdated
+        {
+            add => GatewayClient.AutoModerationRuleUpdated += value;
+            remove => GatewayClient.AutoModerationRuleUpdated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<AutoModerationRuleDeletedEventArgs> AutoModerationRuleDeleted
+        {
+            add => GatewayClient.AutoModerationRuleDeleted += value;
+            remove => GatewayClient.AutoModerationRuleDeleted -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<AutoModerationActionExecutedEventArgs> AutoModerationActionExecuted
+        {
+            add => GatewayClient.AutoModerationActionExecuted += value;
+            remove => GatewayClient.AutoModerationActionExecuted -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ChannelCreatedEventArgs> ChannelCreated
         {
             add => GatewayClient.ChannelCreated += value;

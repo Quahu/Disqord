@@ -6,7 +6,7 @@ namespace Disqord.AuditLogs
     {
         public string RuleName => Model.Options.Value.AutoModerationRuleName.Value;
 
-        public AutoModerationTriggerType TriggerType => Model.Options.Value.AutoModerationRuleTriggerType.Value;
+        public AutoModerationRuleTriggerType RuleTriggerType => Model.Options.Value.AutoModerationRuleTriggerType.Value;
 
         public Snowflake ChannelId => Model.Options.Value.ChannelId.Value;
 

@@ -3,7 +3,7 @@ namespace Disqord
     /// <summary>
     ///     Represents the types of information to be checked to trigger an auto-moderation rule.
     /// </summary>
-    public enum AutoModerationTriggerType
+    public enum AutoModerationRuleTriggerType
     {
         /// <summary>
         ///     The trigger checks for user-defined keywords.

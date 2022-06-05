@@ -8,7 +8,7 @@ namespace Disqord.AuditLogs
 
         AuditLogChange<AutoModerationEventType> EventType { get; }
 
-        AuditLogChange<AutoModerationTriggerType> TriggerType { get; }
+        AuditLogChange<AutoModerationRuleTriggerType> TriggerType { get; }
 
         AuditLogChange<IAutoModerationTriggerMetadata> TriggerMetadata { get; }
 
