@@ -21,6 +21,8 @@ public interface IAutoComplete
     /// <summary>
     ///     Gets the enumerator yielding the specified choices.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>
+    ///     An <see cref="IDictionaryEnumerator"/>.
+    /// </returns>
     IDictionaryEnumerator GetChoiceEnumerator();
 }

@@ -12,9 +12,10 @@ namespace Disqord.Bot.Commands.Application;
 /// </summary>
 /// <typeparam name="T"> The type of the parameter. </typeparam>
 public class AutoComplete<T> : IAutoComplete
+    where T : notnull
 {
     /// <summary>
-    ///     Gets the value the user provided for the parameter.
+    ///     Gets the user's current input for the parameter.
     /// </summary>
     /// <remarks>
     ///     Has no value if the user has not provided any values for the parameter yet.
@@ -53,7 +54,7 @@ public class AutoComplete<T> : IAutoComplete
     ///     If <see langword="true"/>, the <paramref name="currentValue"/> is set to the user's
     ///     current input.
     /// </summary>
-    /// <param name="currentValue"> The user's current input. </param>
+    /// <param name="currentValue"> The user's current input for the parameter. </param>
     /// <returns>
     ///     <see langword="true"/> if this parameter is currently focused on by the user.
     /// </returns>
@@ -84,7 +85,7 @@ public class AutoComplete<T> : IAutoComplete
         /// <param name="value"> The choice value. </param>
         public void Add(T value)
         {
-            Add(value?.ToString()!, value);
+            Add(value.ToString()!, value);
         }
 
         /// <summary>
@@ -107,7 +108,7 @@ public class AutoComplete<T> : IAutoComplete
         public void AddRange(params T[] values)
         {
             foreach (var value in values)
-                Add(value?.ToString()!, value);
+                Add(value.ToString()!, value);
         }
 
         /// <summary>
