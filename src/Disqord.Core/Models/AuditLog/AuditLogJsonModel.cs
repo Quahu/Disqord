@@ -4,6 +4,9 @@ namespace Disqord.Models
 {
     public class AuditLogJsonModel : JsonModel
     {
+        [JsonProperty("application_commands")]
+        public ApplicationCommandJsonModel[] ApplicationCommands;
+
         [JsonProperty("audit_log_entries")]
         public AuditLogEntryJsonModel[] AuditLogEntries;
 

@@ -63,7 +63,7 @@
         ThreadUpdate = 111,
         ThreadDelete = 112,
 
-        ApplicationCommandPermissionUpdate = 121,
+        ApplicationCommandPermissionsUpdate = 121,
 
         AutoModerationRuleCreated = 140,
         AutoModerationRuleUpdated = 141,
