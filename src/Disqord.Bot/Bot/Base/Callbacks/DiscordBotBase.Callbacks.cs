@@ -146,17 +146,14 @@ public abstract partial class DiscordBotBase
             {
                 format = "{0}[]";
             }
-            else
+            else if (parameter is IPositionalParameter positionalParameter && positionalParameter.IsRemainder)
             {
-                if (parameter is IPositionalParameter positionalParameter && positionalParameter.IsRemainder)
-                {
-                    format = "{0}…";
-                }
-
-                format = typeInformation.IsOptional
-                    ? $"[{format}]"
-                    : $"<{format}>";
+                format = "{0}…";
             }
+
+            format = typeInformation.IsOptional
+                ? $"[{format}]"
+                : $"<{format}>";
 
             return string.Format(format, parameter.Name);
         }
