@@ -25,6 +25,9 @@ namespace Disqord.Rest.Api
         [JsonProperty("default_member_permissions")]
         public Optional<ulong?> DefaultMemberPermissions;
 
+        [JsonProperty("dm_permission")]
+        public Optional<bool> DmPermission;
+
         [JsonProperty("default_permission")]
         public Optional<bool> DefaultPermission;
 

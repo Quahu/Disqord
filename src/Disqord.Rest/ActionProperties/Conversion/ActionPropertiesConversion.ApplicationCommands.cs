@@ -24,6 +24,7 @@ namespace Disqord.Rest.Api
                 DefaultMemberPermissions = Optional.Convert(properties.DefaultRequiredMemberPermissions, defaultMemberPermissions => defaultMemberPermissions != Permission.None
                     ? (ulong?) defaultMemberPermissions
                     : null),
+                DmPermission = properties.IsEnabledInPrivateChannels,
                 DefaultPermission = properties.IsEnabledByDefault,
             };
 

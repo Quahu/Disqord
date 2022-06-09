@@ -112,16 +112,7 @@ public partial class DefaultApplicationCommandCacheProvider
                     }
                     else
                     {
-                        if (matchingModelCommand.IsEnabledInPrivateChannels != command.IsEnabledInPrivateChannels)
-                        {
-                            // We treat this as a re-create because 'IsEnabledInPrivateChannels' cannot be changed.
-                            changes.CreatedCommands.Add(command);
-                            deletedCommandModels.Add(matchingModelCommand);
-                        }
-                        else
-                        {
-                            changes.ModifiedCommands.Add(matchingModelCommand.Id, command);
-                        }
+                        changes.ModifiedCommands.Add(matchingModelCommand.Id, command);
                     }
                 }
             }

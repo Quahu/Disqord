@@ -110,10 +110,7 @@ public abstract partial class DiscordBotBase
             static void AddCommand(Dictionary<ApplicationCommand, LocalApplicationCommand> commandCache,
                 FastList<LocalApplicationCommand> localCommands, ApplicationCommand command)
             {
-                var isEnabledInPrivateChannels = Optional<bool>.Empty;
-                var requiredMemberPermissions = Optional<Permission>.Empty;
-
-                static void GetPermissions(IReadOnlyList<ICheck> checks, ref Optional<bool> isEnabledInPrivateChannels, ref Optional<Permission> requiredMemberPermissions)
+                static void GetPermissions(IReadOnlyList<ICheck> checks, ref Optional<Permission> requiredMemberPermissions, ref Optional<bool> isEnabledInPrivateChannels)
                 {
                     if (checks.Count == 0)
                         return;
@@ -124,6 +121,12 @@ public abstract partial class DiscordBotBase
                         {
                             foreach (var check in group)
                             {
+                                if (check is RequireAuthorPermissionsAttribute requireAuthorPermissionsAttribute)
+                                {
+                                    requiredMemberPermissions = requiredMemberPermissions.GetValueOrDefault() | requireAuthorPermissionsAttribute.Permissions;
+                                    continue;
+                                }
+
                                 if (check is RequireGuildAttribute)
                                 {
                                     if (isEnabledInPrivateChannels.HasValue && isEnabledInPrivateChannels.Value)
@@ -140,11 +143,6 @@ public abstract partial class DiscordBotBase
 
                                     isEnabledInPrivateChannels = true;
                                     continue;
-                                }
-
-                                if (check is RequireAuthorPermissionsAttribute requireAuthorPermissionsAttribute)
-                                {
-                                    requiredMemberPermissions = requiredMemberPermissions.GetValueOrDefault() | requireAuthorPermissionsAttribute.Permissions;
                                 }
                             }
                         }
@@ -190,11 +188,13 @@ public abstract partial class DiscordBotBase
                 }
                 while (module != null);
 
+                var requiredMemberPermissions = Optional<Permission>.Empty;
+                var isEnabledInPrivateChannels = Optional<bool>.Empty;
                 var hasModuleAlias = false;
                 for (var i = 0; i < modules.Count; i++)
                 {
                     module = modules[i];
-                    GetPermissions(module.Checks, ref isEnabledInPrivateChannels, ref requiredMemberPermissions);
+                    GetPermissions(module.Checks, ref requiredMemberPermissions, ref isEnabledInPrivateChannels);
 
                     if (module.Alias != null)
                     {
@@ -204,7 +204,7 @@ public abstract partial class DiscordBotBase
                 }
 
                 if (!hasModuleAlias)
-                    GetPermissions(command.Checks, ref isEnabledInPrivateChannels, ref requiredMemberPermissions);
+                    GetPermissions(command.Checks, ref requiredMemberPermissions, ref isEnabledInPrivateChannels);
 
                 // TODO: use the cache for slash commands
                 if (command.Type is ApplicationCommandType.User or ApplicationCommandType.Message)
@@ -264,8 +264,8 @@ public abstract partial class DiscordBotBase
                 if (localSlashCommand == null)
                 {
                     localSlashCommand = new LocalSlashCommand();
-                    localSlashCommand.IsEnabledInPrivateChannels = isEnabledInPrivateChannels;
                     localSlashCommand.DefaultRequiredMemberPermissions = requiredMemberPermissions;
+                    localSlashCommand.IsEnabledInPrivateChannels = isEnabledInPrivateChannels;
                     localCommands.Add(localSlashCommand);
 
                     // commandCache.Add(command, localSlashCommand);
@@ -701,6 +701,7 @@ public abstract partial class DiscordBotBase
                     }
 
                     properties.DefaultRequiredMemberPermissions = command.DefaultRequiredMemberPermissions;
+                    properties.IsEnabledInPrivateChannels = command.IsEnabledInPrivateChannels.GetValueOrDefault(true);
                     properties.IsEnabledByDefault = command.IsEnabledByDefault;
                 }
 

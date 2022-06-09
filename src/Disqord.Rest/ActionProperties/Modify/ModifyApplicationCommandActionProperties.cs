@@ -18,6 +18,8 @@ namespace Disqord.Rest
 
         public Optional<Permission> DefaultRequiredMemberPermissions { internal get; set; }
 
+        public Optional<bool> IsEnabledInPrivateChannels { internal get; set; }
+
         public Optional<bool> IsEnabledByDefault { internal get; set; }
     }
 }
