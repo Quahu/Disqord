@@ -126,7 +126,7 @@ namespace Disqord.Rest
                                 case ModifyTextChannelActionProperties textProperties:
                                 {
                                     content.Topic = textProperties.Topic;
-                                    content.Nsfw = textProperties.IsNsfw;
+                                    content.Nsfw = textProperties.IsAgeRestricted;
                                     content.DefaultAutoArchiveDuration = Optional.Convert(textProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
                                     break;
                                 }
@@ -134,7 +134,7 @@ namespace Disqord.Rest
                                 {
                                     content.Bitrate = voiceProperties.Bitrate;
                                     content.UserLimit = voiceProperties.MemberLimit;
-                                    content.Nsfw = voiceProperties.IsNsfw;
+                                    content.Nsfw = voiceProperties.IsAgeRestricted;
                                     content.RtcRegion = voiceProperties.Region;
                                     content.VideoQualityMode = voiceProperties.VideoQualityMode;
                                     break;
@@ -156,7 +156,7 @@ namespace Disqord.Rest
                         {
                             content.Topic = forumProperties.Topic;
                             content.RateLimitPerUser = Optional.Convert(forumProperties.Slowmode, x => (int) x.TotalSeconds);
-                            content.Nsfw = forumProperties.IsNsfw;
+                            content.Nsfw = forumProperties.IsAgeRestricted;
                             content.DefaultAutoArchiveDuration = Optional.Convert(forumProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
                             break;
                         }

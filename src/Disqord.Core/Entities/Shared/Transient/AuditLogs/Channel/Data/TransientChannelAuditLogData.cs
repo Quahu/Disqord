@@ -15,7 +15,10 @@ namespace Disqord.AuditLogs
 
         public Optional<IReadOnlyList<IOverwrite>> Overwrites { get; }
 
-        public Optional<bool> IsNsfw { get; }
+        [Obsolete("Use IsAgeRestricted instead.")]
+        public Optional<bool> IsNsfw => IsAgeRestricted;
+
+        public Optional<bool> IsAgeRestricted { get; }
 
         public Optional<TimeSpan> Slowmode { get; }
 
@@ -32,7 +35,7 @@ namespace Disqord.AuditLogs
                 Topic = changes.Topic.NewValue;
                 Bitrate = changes.Bitrate.NewValue;
                 Overwrites = changes.Overwrites.NewValue;
-                IsNsfw = changes.IsNsfw.NewValue;
+                IsAgeRestricted = changes.IsAgeRestricted.NewValue;
                 Slowmode = changes.Slowmode.NewValue;
                 Type = changes.Type.NewValue;
                 Region = changes.Region.NewValue;
@@ -43,7 +46,7 @@ namespace Disqord.AuditLogs
                 Topic = changes.Topic.OldValue;
                 Bitrate = changes.Bitrate.OldValue;
                 Overwrites = changes.Overwrites.OldValue;
-                IsNsfw = changes.IsNsfw.OldValue;
+                IsAgeRestricted = changes.IsAgeRestricted.OldValue;
                 Slowmode = changes.Slowmode.OldValue;
                 Type = changes.Type.OldValue;
                 Region = changes.Region.OldValue;

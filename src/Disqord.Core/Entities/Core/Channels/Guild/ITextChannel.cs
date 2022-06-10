@@ -15,7 +15,13 @@ namespace Disqord
         /// <summary>
         ///     Gets whether this channel is not safe for work.
         /// </summary>
+        [Obsolete("Use IsAgeRestricted instead.")]
         bool IsNsfw { get; }
+
+        /// <summary>
+        ///     Gets whether this channel is age restricted.
+        /// </summary>
+        bool IsAgeRestricted { get; }
 
         /// <summary>
         ///     Gets whether this text channel is a news channel.

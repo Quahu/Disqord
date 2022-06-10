@@ -11,7 +11,7 @@ namespace Disqord
         public string Topic => Model.Topic.Value;
 
         /// <inheritdoc/>
-        public bool IsNsfw => Model.Nsfw.Value;
+        public bool IsAgeRestricted => Model.Nsfw.Value;
 
         /// <inheritdoc/>
         public TimeSpan DefaultAutomaticArchiveDuration => TimeSpan.FromMinutes(Model.DefaultAutoArchiveDuration.GetValueOrDefault(1440));

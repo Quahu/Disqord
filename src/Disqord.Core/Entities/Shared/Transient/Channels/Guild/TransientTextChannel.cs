@@ -11,7 +11,11 @@ namespace Disqord
         public string Topic => Model.Topic.Value;
 
         /// <inheritdoc/>
-        public bool IsNsfw => Model.Nsfw.Value;
+        [Obsolete("Use IsAgeRestricted instead.")]
+        public bool IsNsfw => IsAgeRestricted;
+
+        /// <inheritdoc/>
+        public bool IsAgeRestricted => Model.Nsfw.Value;
 
         /// <inheritdoc/>
         public bool IsNews => Model.Type == ChannelType.News;

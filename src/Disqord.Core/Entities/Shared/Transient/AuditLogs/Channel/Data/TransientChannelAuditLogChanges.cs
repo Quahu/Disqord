@@ -19,7 +19,10 @@ namespace Disqord.AuditLogs
 
         public AuditLogChange<IReadOnlyList<IOverwrite>> Overwrites { get; }
 
-        public AuditLogChange<bool> IsNsfw { get; }
+        [Obsolete("Use IsAgeRestricted instead.")]
+        public AuditLogChange<bool> IsNsfw => IsAgeRestricted;
+
+        public AuditLogChange<bool> IsAgeRestricted { get; }
 
         public AuditLogChange<TimeSpan> Slowmode { get; }
 
@@ -66,7 +69,7 @@ namespace Disqord.AuditLogs
                     }
                     case "nsfw":
                     {
-                        IsNsfw = AuditLogChange<bool>.Convert(change);
+                        IsAgeRestricted = AuditLogChange<bool>.Convert(change);
                         break;
                     }
                     case "rate_limit_per_user":

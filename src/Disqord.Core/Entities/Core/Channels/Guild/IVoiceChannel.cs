@@ -1,4 +1,6 @@
-﻿namespace Disqord
+﻿using System;
+
+namespace Disqord
 {
     /// <summary>
     ///     Represents a guild voice channel.
@@ -16,8 +18,8 @@
         VideoQualityMode VideoQualityMode { get; }
 
         /// <summary>
-        ///     Gets whether this channel is not safe for work.
+        ///     Gets whether this channel is age restricted.
         /// </summary>
-        bool IsNsfw { get; }
+        bool IsAgeRestricted { get; }
     }
 }

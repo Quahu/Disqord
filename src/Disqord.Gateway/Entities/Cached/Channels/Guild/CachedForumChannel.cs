@@ -12,7 +12,7 @@ namespace Disqord.Gateway
         public string Topic { get; private set; }
 
         /// <inheritdoc/>
-        public bool IsNsfw { get; private set; }
+        public bool IsAgeRestricted { get; private set; }
 
         /// <inheritdoc/>
         public TimeSpan DefaultAutomaticArchiveDuration { get; private set; }
@@ -36,7 +36,7 @@ namespace Disqord.Gateway
                 Topic = model.Topic.Value;
 
             if (model.Nsfw.HasValue)
-                IsNsfw = model.Nsfw.Value;
+                IsAgeRestricted = model.Nsfw.Value;
 
             DefaultAutomaticArchiveDuration = TimeSpan.FromMinutes(model.DefaultAutoArchiveDuration.GetValueOrDefault(1440));
 

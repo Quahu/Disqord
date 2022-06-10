@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 using Qommon;
 
 namespace Disqord
@@ -19,7 +20,7 @@ namespace Disqord
         public VideoQualityMode VideoQualityMode => Model.VideoQualityMode.GetValueOrDefault(VideoQualityMode.Automatic);
 
         /// <inheritdoc/>
-        public bool IsNsfw => Model.Nsfw.Value;
+        public bool IsAgeRestricted => Model.Nsfw.Value;
 
         public TransientVoiceChannel(IClient client, ChannelJsonModel model)
             : base(client, model)

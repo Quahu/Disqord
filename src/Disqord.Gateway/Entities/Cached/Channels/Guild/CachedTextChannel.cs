@@ -12,7 +12,10 @@ namespace Disqord.Gateway
         public string Topic { get; private set; }
 
         /// <inheritdoc/>
-        public bool IsNsfw { get; private set; }
+        public bool IsNsfw => IsAgeRestricted;
+
+        /// <inheritdoc/>
+        public bool IsAgeRestricted { get; private set; }
 
         /// <inheritdoc/>
         public bool IsNews => Type == ChannelType.News;
@@ -33,7 +36,7 @@ namespace Disqord.Gateway
                 Topic = model.Topic.Value;
 
             if (model.Nsfw.HasValue)
-                IsNsfw = model.Nsfw.Value;
+                IsAgeRestricted = model.Nsfw.Value;
 
             DefaultAutomaticArchiveDuration = TimeSpan.FromMinutes(model.DefaultAutoArchiveDuration.GetValueOrDefault(1440));
         }

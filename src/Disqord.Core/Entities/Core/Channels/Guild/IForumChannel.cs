@@ -13,9 +13,9 @@ namespace Disqord
         string Topic { get; }
 
         /// <summary>
-        ///     Gets whether this channel is not safe for work.
+        ///     Gets whether this channel is age restricted.
         /// </summary>
-        bool IsNsfw { get; }
+        bool IsAgeRestricted { get; }
 
         /// <summary>
         ///     Gets the default automatic archive duration for threads created in this channel.

@@ -15,7 +15,10 @@ namespace Disqord.AuditLogs
 
         AuditLogChange<IReadOnlyList<IOverwrite>> Overwrites { get; }
 
+        [Obsolete("Use IsAgeRestricted instead.")]
         AuditLogChange<bool> IsNsfw { get; }
+
+        AuditLogChange<bool> IsAgeRestricted { get; }
 
         AuditLogChange<TimeSpan> Slowmode { get; }
 

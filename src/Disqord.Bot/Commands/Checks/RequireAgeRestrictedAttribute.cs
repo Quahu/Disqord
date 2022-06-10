@@ -6,16 +6,16 @@ using Qmmands;
 namespace Disqord.Bot.Commands;
 
 /// <summary>
-///     Specifies that the module or command can only be executed in NSFW guild channels.
+///     Specifies that the module or command can only be executed in age restricted guild channels.
 /// </summary>
-public class RequireNsfwAttribute : DiscordGuildCheckAttribute
+public class RequireAgeRestrictedAttribute : DiscordGuildCheckAttribute
 {
     public override ValueTask<IResult> CheckAsync(IDiscordGuildCommandContext context)
     {
         if (context.Bot.GetChannel(context.GuildId, context.ChannelId) is not IGuildChannel channel)
-            throw new InvalidOperationException($"{nameof(RequireNsfwAttribute)} requires the context channel.");
+            throw new InvalidOperationException($"{nameof(RequireAgeRestrictedAttribute)} requires the context channel.");
 
-        var isNsfw = channel switch
+        var isAgeRestricted = channel switch
         {
             CachedTextChannel textChannel => textChannel.IsAgeRestricted,
             CachedVoiceChannel voiceChannel => voiceChannel.IsAgeRestricted,
@@ -24,9 +24,9 @@ public class RequireNsfwAttribute : DiscordGuildCheckAttribute
             _ => false
         };
 
-        if (isNsfw)
+        if (isAgeRestricted)
             return Results.Success;
 
-        return Results.Failure("This can only be executed in a NSFW channel.");
+        return Results.Failure("This can only be executed in an age restricted channel.");
     }
 }

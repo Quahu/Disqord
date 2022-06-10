@@ -9,7 +9,7 @@ namespace Disqord
 
         public Optional<TimeSpan> Slowmode { internal get; set; }
 
-        public Optional<bool> IsNsfw { internal get; set; }
+        public Optional<bool> IsAgeRestricted { internal get; set; }
 
         public Optional<TimeSpan> DefaultAutomaticArchiveDuration { internal get; set; }
 

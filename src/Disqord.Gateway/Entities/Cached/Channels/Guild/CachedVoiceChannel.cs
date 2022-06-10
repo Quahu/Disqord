@@ -20,7 +20,7 @@ namespace Disqord.Gateway
         public VideoQualityMode VideoQualityMode { get; private set; }
 
         /// <inheritdoc/>
-        public bool IsNsfw { get; private set; }
+        public bool IsAgeRestricted { get; private set; }
 
         public CachedVoiceChannel(IGatewayClient client, ChannelJsonModel model)
             : base(client, model)
@@ -44,6 +44,9 @@ namespace Disqord.Gateway
 
             if (model.VideoQualityMode.HasValue)
                 VideoQualityMode = model.VideoQualityMode.Value;
+
+            if (model.Nsfw.HasValue)
+                IsAgeRestricted = model.Nsfw.Value;
         }
     }
 }
