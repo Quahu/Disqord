@@ -8,7 +8,7 @@ namespace Disqord
     public interface IMessageGuildChannel : ICategorizableGuildChannel, IMessageChannel, ITaggableEntity
     {
         /// <summary>
-        ///     Gets the slowmode of this channel.
+        ///     Gets the duration slowmode of this channel.
         /// </summary>
         TimeSpan Slowmode { get; }
     }

@@ -23,7 +23,7 @@ namespace Disqord
         TimeSpan DefaultAutomaticArchiveDuration { get; }
 
         /// <summary>
-        ///     Gets the slowmode of this channel.
+        ///     Gets the slowmode duration of this channel.
         /// </summary>
         TimeSpan Slowmode { get; }
 
