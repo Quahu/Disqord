@@ -10,6 +10,11 @@ namespace Disqord.Gateway
         public Snowflake GuildId { get; }
 
         /// <summary>
+        ///     Gets the ID of the user who triggered the action.
+        /// </summary>
+        public Snowflake UserId { get; }
+
+        /// <summary>
         ///     Gets the ID of the channel in which the content was sent.
         /// </summary>
         public Snowflake? ChannelId { get; }
@@ -54,11 +59,12 @@ namespace Disqord.Gateway
         /// </summary>
         public string MatchedContent { get; }
 
-        public AutoModerationActionExecutedEventArgs(Snowflake guildId, Snowflake? channelId, Snowflake? messageId,
+        public AutoModerationActionExecutedEventArgs(Snowflake guildId, Snowflake userId, Snowflake? channelId, Snowflake? messageId,
             Snowflake ruleId, AutoModerationRuleTriggerType ruleTriggerType, Snowflake? alertSystemMessageId,
             IAutoModerationAction action, string content, string matchedKeyword, string matchedContent)
         {
             GuildId = guildId;
+            UserId = userId;
             ChannelId = channelId;
             MessageId = messageId;
             RuleId = ruleId;

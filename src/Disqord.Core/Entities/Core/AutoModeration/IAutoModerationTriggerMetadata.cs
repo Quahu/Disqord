@@ -16,13 +16,12 @@ namespace Disqord
         /// </remarks>
         IReadOnlyList<string> Keywords { get; }
 
-        // TODO: Change to AutoModerationWordsetType when migrated in the api
         /// <summary>
         ///     Gets which pre-defined lists of keywords should matched in message content.
         /// </summary>
         /// <remarks>
         ///     Used by the <see cref="AutoModerationRuleTriggerType.KeywordPreset"/> trigger type.
         /// </remarks>
-        IReadOnlyList<string> Presets { get; }
+        IReadOnlyList<AutoModerationKeywordPresetType> Presets { get; }
     }
 }

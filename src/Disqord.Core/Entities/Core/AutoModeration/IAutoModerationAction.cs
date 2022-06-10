@@ -12,10 +12,12 @@ namespace Disqord
         /// </summary>
         AutoModerationActionType Type { get; }
 
-        // TODO: Might return null, would need to be documented
         /// <summary>
         ///     Gets the metadata of this action.
         /// </summary>
+        /// <returns>
+        ///     The metadata of this action or <see langword="null"/> if this action does not have any metadata.
+        /// </returns>
         IAutoModerationActionMetadata Metadata { get; }
     }
 }

@@ -13,22 +13,23 @@ namespace Disqord
         /// </summary>
         Snowflake CreatorId { get; }
 
-        // TODO: Gets the event type for which this rule should be executed/checked?
         /// <summary>
-        ///     Gets the event type for which this rule should be executed.
+        ///     Gets the event type this rule applies to.
         /// </summary>
         AutoModerationEventType EventType { get; }
 
-        // TODO: Better docs wording
         /// <summary>
-        ///     Gets the trigger type to be checked for this rule to be triggered.
+        ///     Gets the trigger type to be checked for this rule.
         /// </summary>
         AutoModerationRuleTriggerType TriggerType { get; }
 
-        // TODO: Might return null, would need to be documented
         /// <summary>
         ///     Gets the trigger metadata of this rule.
         /// </summary>
+        /// <returns>
+        ///     Returns the trigger metadata of this rule or <see langword="null"/>
+        ///     if this rule's trigger does not have any metadata.
+        /// </returns>
         IAutoModerationTriggerMetadata TriggerMetadata { get; }
 
         /// <summary>

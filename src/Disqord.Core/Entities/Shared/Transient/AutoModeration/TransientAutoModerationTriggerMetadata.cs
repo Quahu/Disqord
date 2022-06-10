@@ -21,17 +21,17 @@ namespace Disqord
         private IReadOnlyList<string> _keywords;
 
         /// <inheritdoc/>
-        public IReadOnlyList<string> Presets
+        public IReadOnlyList<AutoModerationKeywordPresetType> Presets
         {
             get
             {
-                if (!Model.KeywordLists.HasValue)
-                    return ReadOnlyList<string>.Empty;
+                if (!Model.Presents.HasValue)
+                    return ReadOnlyList<AutoModerationKeywordPresetType>.Empty;
 
-                return _presets ??= Model.KeywordLists.Value.ToReadOnlyList();
+                return _presets ??= Model.Presents.Value.ToReadOnlyList();
             }
         }
-        private IReadOnlyList<string> _presets;
+        private IReadOnlyList<AutoModerationKeywordPresetType> _presets;
 
         public TransientAutoModerationTriggerMetadata(AutoModerationTriggerMetadataJsonModel model)
             : base(model)

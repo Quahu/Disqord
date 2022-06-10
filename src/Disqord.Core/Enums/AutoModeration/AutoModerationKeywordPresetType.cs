@@ -1,9 +1,9 @@
 namespace Disqord
 {
     /// <summary>
-    ///     Represents pre-defined lists of keywords to be checked.
+    ///     Represents presets of keywords to be checked.
     /// </summary>
-    public enum AutoModerationWordsetType
+    public enum AutoModerationKeywordPresetType
     {
         /// <summary>
         ///     Words that may be considered swearing or cursing.

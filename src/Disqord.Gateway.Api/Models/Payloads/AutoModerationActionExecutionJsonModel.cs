@@ -17,6 +17,9 @@ namespace Disqord.Gateway.Api.Models
         [JsonProperty("rule_trigger_type")]
         public AutoModerationRuleTriggerType RuleTriggerType;
 
+        [JsonProperty("user_id")]
+        public Snowflake UserId;
+
         [JsonProperty("channel_id")]
         public Snowflake? ChannelId;
 

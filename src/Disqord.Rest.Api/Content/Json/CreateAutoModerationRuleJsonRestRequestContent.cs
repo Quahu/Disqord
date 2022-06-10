@@ -16,7 +16,7 @@ namespace Disqord.Rest.Api
         public AutoModerationRuleTriggerType TriggerType;
 
         [JsonProperty("trigger_metadata")]
-        public AutoModerationTriggerMetadataJsonModel TriggerMetadata;
+        public Optional<AutoModerationTriggerMetadataJsonModel> TriggerMetadata;
 
         [JsonProperty("actions")]
         public AutoModerationActionJsonModel[] Actions;
