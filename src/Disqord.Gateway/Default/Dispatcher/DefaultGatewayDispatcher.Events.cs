@@ -6,6 +6,8 @@ namespace Disqord.Gateway.Default
     {
         public AsynchronousEvent<ReadyEventArgs> ReadyEvent { get; } = new();
 
+        public AsynchronousEvent<ApplicationCommandPermissionsUpdatedEventArgs> ApplicationCommandPermissionsUpdatedEvent { get; } = new();
+
         public AsynchronousEvent<AutoModerationRuleCreatedEventArgs> AutoModerationRuleCreatedEvent { get; } = new();
 
         public AsynchronousEvent<AutoModerationRuleUpdatedEventArgs> AutoModerationRuleUpdatedEvent { get; } = new();

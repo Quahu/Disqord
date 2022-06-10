@@ -13,6 +13,13 @@ namespace Disqord
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<ApplicationCommandPermissionsUpdatedEventArgs> ApplicationCommandPermissionsUpdated
+        {
+            add => GatewayClient.ApplicationCommandPermissionsUpdated += value;
+            remove => GatewayClient.ApplicationCommandPermissionsUpdated -= value;
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<AutoModerationRuleCreatedEventArgs> AutoModerationRuleCreated
         {
             add => GatewayClient.AutoModerationRuleCreated += value;

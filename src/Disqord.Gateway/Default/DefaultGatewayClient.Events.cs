@@ -12,6 +12,13 @@ namespace Disqord.Gateway.Default
         }
 
         /// <inheritdoc/>
+        public event AsynchronousEventHandler<ApplicationCommandPermissionsUpdatedEventArgs> ApplicationCommandPermissionsUpdated
+        {
+            add => Dispatcher.ApplicationCommandPermissionsUpdatedEvent.Hook(value);
+            remove => Dispatcher.ApplicationCommandPermissionsUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<AutoModerationRuleCreatedEventArgs> AutoModerationRuleCreated
         {
             add => Dispatcher.AutoModerationRuleCreatedEvent.Hook(value);
