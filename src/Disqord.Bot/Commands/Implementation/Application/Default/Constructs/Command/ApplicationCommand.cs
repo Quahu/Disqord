@@ -15,7 +15,7 @@ public class ApplicationCommand : ICommand
 
     public string Alias { get; }
 
-    public ApplicationCommandType Type { get; set; }
+    public ApplicationCommandType Type { get; }
 
     public string Name { get; }
 
