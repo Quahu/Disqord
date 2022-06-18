@@ -12,13 +12,25 @@ namespace Disqord.Extensions.Interactivity
         public static InteractivityExtension GetInteractivity(this DiscordClientBase client)
             => client.GetRequiredExtension<InteractivityExtension>();
 
-        public static Task<MessageReceivedEventArgs> WaitForMessageAsync(this DiscordClientBase client, Snowflake channelId, Predicate<MessageReceivedEventArgs> predicate = null, TimeSpan timeout = default, CancellationToken cancellationToken = default)
+        public static Task<InteractionReceivedEventArgs> WaitForInteractionAsync(this DiscordClientBase client,
+            Snowflake channelId, Predicate<InteractionReceivedEventArgs> predicate = null,
+            TimeSpan timeout = default, CancellationToken cancellationToken = default)
+        {
+            var extension = client.GetInteractivity();
+            return extension.WaitForInteractionAsync(channelId, predicate, timeout, cancellationToken);
+        }
+
+        public static Task<MessageReceivedEventArgs> WaitForMessageAsync(this DiscordClientBase client,
+            Snowflake channelId, Predicate<MessageReceivedEventArgs> predicate = null,
+            TimeSpan timeout = default, CancellationToken cancellationToken = default)
         {
             var extension = client.GetInteractivity();
             return extension.WaitForMessageAsync(channelId, predicate, timeout, cancellationToken);
         }
 
-        public static Task<ReactionAddedEventArgs> WaitForReactionAsync(this DiscordClientBase client, Snowflake messageId, Predicate<ReactionAddedEventArgs> predicate = null, TimeSpan timeout = default, CancellationToken cancellationToken = default)
+        public static Task<ReactionAddedEventArgs> WaitForReactionAsync(this DiscordClientBase client,
+            Snowflake messageId, Predicate<ReactionAddedEventArgs> predicate = null,
+            TimeSpan timeout = default, CancellationToken cancellationToken = default)
         {
             var extension = client.GetInteractivity();
             return extension.WaitForReactionAsync(messageId, predicate, timeout, cancellationToken);
