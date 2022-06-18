@@ -25,13 +25,6 @@ public abstract partial class DiscordBotBase
             return false;
         }
 
-        // We check the before execution callback, by default returns true.
-        if (!await InvokeBeforeExecutedAsync(context).ConfigureAwait(false))
-        {
-            await DisposeContextAsync(context).ConfigureAwait(false);
-            return false;
-        }
-
         await ExecuteAsync(context);
         return true;
     }

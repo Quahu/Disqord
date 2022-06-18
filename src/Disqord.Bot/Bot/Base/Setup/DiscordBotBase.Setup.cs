@@ -238,7 +238,7 @@ public abstract partial class DiscordBotBase
         _masterService?.Bind(this);
 
         DefaultTextSetup.Initialize(Commands);
-        DefaultApplicationSetup.Initialize(Commands);
+        DefaultBotCommandsSetup.Initialize(Commands);
 
         await OnInitialize(cancellationToken).ConfigureAwait(false);
 

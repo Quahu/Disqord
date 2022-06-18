@@ -9,22 +9,6 @@ namespace Disqord.Bot;
 
 public abstract partial class DiscordBotBase
 {
-    private async ValueTask<bool> InvokeBeforeExecutedAsync(IDiscordCommandContext context)
-    {
-        try
-        {
-            return await OnBeforeExecuted(context).ConfigureAwait(false);
-        }
-        catch (OperationCanceledException)
-        { }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, "An exception occurred while executing the {0} callback.", nameof(OnBeforeExecuted));
-        }
-
-        return false;
-    }
-
     private async ValueTask<bool> InvokeAfterExecutedAsync(IDiscordCommandContext context, IResult result)
     {
         try

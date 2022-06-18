@@ -77,13 +77,6 @@ public abstract partial class DiscordBotBase
             return false;
         }
 
-        // We check the before execution callback, by default returns true.
-        if (!await InvokeBeforeExecutedAsync(context).ConfigureAwait(false))
-        {
-            await DisposeContextAsync(context).ConfigureAwait(false);
-            return false;
-        }
-
         // We post the execution to the command queue.
         // See the Post() method in the default queue for more information.
         try

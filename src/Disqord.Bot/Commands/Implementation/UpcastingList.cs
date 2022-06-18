@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Qommon.Collections.Proxied;
 
-namespace Disqord.Bot.Commands.Application;
+namespace Disqord.Bot.Commands;
 
 internal class UpcastingList<T, TUp> : ProxiedList<T>, IList<TUp>, IReadOnlyList<TUp>
     where T : class, TUp

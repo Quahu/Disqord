@@ -1,5 +1,3 @@
-using Disqord.Bot.Commands.Interaction;
-
 namespace Disqord.Bot.Commands.Application;
 
 /// <summary>

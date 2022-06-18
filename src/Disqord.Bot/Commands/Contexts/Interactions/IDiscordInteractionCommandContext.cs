@@ -1,4 +1,4 @@
-﻿namespace Disqord.Bot.Commands.Interaction;
+﻿namespace Disqord.Bot.Commands;
 
 /// <summary>
 ///     Represents an interaction command execution context.

@@ -21,8 +21,8 @@ public abstract class ApplicationCommandAttribute : CommandAttribute
     /// <inheritdoc/>
     public override void Apply(ICommandBuilder builder)
     {
-        var slashBuilder = Guard.IsAssignableToType<ApplicationCommandBuilder>(builder);
-        slashBuilder.Alias = Alias;
-        slashBuilder.Type = GetCommandType();
+        var applicationBuilder = Guard.IsAssignableToType<ApplicationCommandBuilder>(builder);
+        applicationBuilder.Alias = Alias;
+        applicationBuilder.Type = GetCommandType();
     }
 }

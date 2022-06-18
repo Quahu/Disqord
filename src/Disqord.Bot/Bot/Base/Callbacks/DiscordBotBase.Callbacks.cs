@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -29,7 +29,7 @@ public abstract partial class DiscordBotBase
     }
 
     /// <summary>
-    ///     Invoked pre-execution.
+    ///     Invoked pre-execution, right before the command itself is executed.
     /// </summary>
     /// <remarks>
     ///     Returning <see langword="false"/> prevents further execution.
@@ -38,8 +38,8 @@ public abstract partial class DiscordBotBase
     /// <returns>
     ///     A <see cref="ValueTask{TResult}"/> representing the work where the result indicates whether execution should proceed.
     /// </returns>
-    protected virtual ValueTask<bool> OnBeforeExecuted(IDiscordCommandContext context)
-        => new(true);
+    protected internal virtual ValueTask<IResult> OnBeforeExecuted(IDiscordCommandContext context)
+        => new(Results.Success);
 
     /// <summary>
     ///     Invoked post-execution, before <see cref="OnCommandResult"/>

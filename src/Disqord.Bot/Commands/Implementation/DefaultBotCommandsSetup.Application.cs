@@ -1,28 +1,14 @@
 using Disqord.Bot.Commands.Application;
-using Microsoft.Extensions.DependencyInjection;
 using Qmmands;
 using Qmmands.Default;
 using static Qmmands.Default.DefaultExecutionSteps;
 using static Disqord.Bot.Commands.Application.DefaultApplicationExecutionSteps;
+using static Disqord.Bot.Commands.DefaultBotExecutionSteps;
 
 namespace Disqord.Bot.Commands;
 
-public static class DefaultApplicationSetup
+public static partial class DefaultBotCommandsSetup
 {
-    public static void Initialize(ICommandService commands)
-    {
-        var services = commands.Services;
-        var reflectorProvider = services.GetRequiredService<ICommandReflectorProvider>() as DefaultCommandReflectorProvider;
-        reflectorProvider?.AddReflector(ActivatorUtilities.CreateInstance<ApplicationCommandReflector>(services));
-
-        var pipelineProvider = services.GetRequiredService<ICommandPipelineProvider>() as DefaultCommandPipelineProvider;
-        pipelineProvider?.Add(new AutoCompleteCommandPipeline());
-        pipelineProvider?.Add(new ApplicationCommandPipeline());
-
-        var mapProvider = services.GetRequiredService<ICommandMapProvider>() as DefaultCommandMapProvider;
-        mapProvider?.Add(ActivatorUtilities.CreateInstance<ApplicationCommandMap>(services));
-    }
-
     public class ApplicationCommandPipeline : DefaultCommandPipeline<IDiscordApplicationCommandContext>
     {
         public ApplicationCommandPipeline()
@@ -34,6 +20,8 @@ public static class DefaultApplicationSetup
                 .Use<BindArguments>()
                 .Use<RunParameterChecks>()
                 .Use<RunRateLimits>()
+                .Use<CreateModuleBase>()
+                .Use<InvokeOnBeforeExecuted>()
                 .Use<ExecuteCommand>();
         }
 
@@ -56,6 +44,8 @@ public static class DefaultApplicationSetup
                 .Use<BindArguments>()
                 .Use<RunRateLimits>()
                 .Use<AutoCompleteResponse>()
+                .Use<CreateModuleBase>()
+                .Use<InvokeOnBeforeExecuted>()
                 .Use<ExecuteCommand>();
         }
 

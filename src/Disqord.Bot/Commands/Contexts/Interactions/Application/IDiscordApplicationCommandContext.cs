@@ -1,6 +1,4 @@
-﻿using Disqord.Bot.Commands.Interaction;
-
-namespace Disqord.Bot.Commands.Application;
+﻿namespace Disqord.Bot.Commands.Application;
 
 /// <summary>
 ///     Represents an application command execution context.
