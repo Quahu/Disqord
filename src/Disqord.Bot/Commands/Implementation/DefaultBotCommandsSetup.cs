@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Qmmands;
 using Qmmands.Default;
 using Qmmands.Text;
+using Qmmands.Text.Default;
 using static Disqord.Bot.Commands.DefaultBotExecutionSteps;
 using static Qmmands.Default.DefaultExecutionSteps;
 
@@ -13,6 +14,8 @@ public static partial class DefaultBotCommandsSetup
 {
     public static void Initialize(ICommandService commands)
     {
+        DefaultTextSetup.Initialize(commands);
+
         var services = commands.Services;
         var reflectorProvider = services.GetRequiredService<ICommandReflectorProvider>() as DefaultCommandReflectorProvider;
         reflectorProvider?.AddReflector(ActivatorUtilities.CreateInstance<ApplicationCommandReflector>(services));

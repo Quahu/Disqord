@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 using Qmmands;
 using Qmmands.Default;
 using Qmmands.Text;
-using Qmmands.Text.Default;
 
 namespace Disqord.Bot;
 
@@ -237,7 +236,6 @@ public abstract partial class DiscordBotBase
     {
         _masterService?.Bind(this);
 
-        DefaultTextSetup.Initialize(Commands);
         DefaultBotCommandsSetup.Initialize(Commands);
 
         await OnInitialize(cancellationToken).ConfigureAwait(false);
