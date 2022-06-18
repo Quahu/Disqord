@@ -102,12 +102,13 @@ public abstract partial class DiscordBotBase
     {
         var globalCommands = new FastList<LocalApplicationCommand>();
         var guildCommands = new Dictionary<Snowflake, IEnumerable<LocalApplicationCommand>>();
-        var commandCache = new Dictionary<ApplicationCommand, LocalApplicationCommand>();
 
-        static void GetCommands(Dictionary<ApplicationCommand, LocalApplicationCommand> commandCache,
+        // var commandCache = new Dictionary<ApplicationCommand, LocalApplicationCommand>();
+
+        static void GetCommands( /*Dictionary<ApplicationCommand, LocalApplicationCommand> commandCache,*/
             ApplicationCommandMap.TopLevelNode topLevelNode, FastList<LocalApplicationCommand> localCommands)
         {
-            static void AddCommand(Dictionary<ApplicationCommand, LocalApplicationCommand> commandCache,
+            static void AddCommand( /*Dictionary<ApplicationCommand, LocalApplicationCommand> commandCache,*/
                 FastList<LocalApplicationCommand> localCommands, ApplicationCommand command)
             {
                 static void GetPermissions(IReadOnlyList<ICheck> checks, ref Optional<Permission> requiredMemberPermissions, ref Optional<bool> isEnabledInPrivateChannels)
@@ -209,11 +210,12 @@ public abstract partial class DiscordBotBase
                 // TODO: use the cache for slash commands
                 if (command.Type is ApplicationCommandType.User or ApplicationCommandType.Message)
                 {
-                    if (commandCache.TryGetValue(command, out var cachedLocalContextMenuCommand))
+                    /*if (commandCache.TryGetValue(command, out var cachedLocalContextMenuCommand))
                     {
                         localCommands.Add(cachedLocalContextMenuCommand.Clone());
                         return;
                     }
+                    */
 
                     LocalApplicationCommand contextMenuCommand = command.Type is ApplicationCommandType.User
                         ? new LocalUserContextMenuCommand()
@@ -223,7 +225,8 @@ public abstract partial class DiscordBotBase
                     contextMenuCommand.IsEnabledInPrivateChannels = isEnabledInPrivateChannels;
                     contextMenuCommand.DefaultRequiredMemberPermissions = requiredMemberPermissions;
                     localCommands.Add(contextMenuCommand);
-                    commandCache.Add(command, contextMenuCommand);
+
+                    // commandCache.Add(command, contextMenuCommand);
                     return;
                 }
 
@@ -591,31 +594,31 @@ public abstract partial class DiscordBotBase
             }
 
             foreach (var contextMenuCommand in topLevelNode.ContextMenuCommands.Values)
-                AddCommand(commandCache, localCommands, contextMenuCommand);
+                AddCommand( /*commandCache,*/ localCommands, contextMenuCommand);
 
-            static void GetCommands(Dictionary<ApplicationCommand, LocalApplicationCommand> commandCache,
+            static void GetCommands( /*Dictionary<ApplicationCommand, LocalApplicationCommand> commandCache,*/
                 ApplicationCommandMap.Node node, FastList<LocalApplicationCommand> commands)
             {
                 foreach (var slashCommand in node.SlashCommands.Values)
-                    AddCommand(commandCache, commands, slashCommand);
+                    AddCommand( /*commandCache,*/ commands, slashCommand);
 
                 foreach (var subnode in node.Nodes.Values)
-                    GetCommands(commandCache, subnode, commands);
+                    GetCommands( /*commandCache,*/ subnode, commands);
             }
 
-            GetCommands(commandCache, topLevelNode, localCommands);
+            GetCommands( /*commandCache,*/ topLevelNode, localCommands);
         }
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        GetCommands(commandCache, map.GlobalNode, globalCommands);
+        GetCommands( /*commandCache,*/ map.GlobalNode, globalCommands);
         foreach (var (guildId, guildNode) in map.GuildNodes)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             var list = new FastList<LocalApplicationCommand>();
             guildCommands[guildId] = list;
-            GetCommands(commandCache, guildNode, list);
+            GetCommands( /*commandCache,*/ guildNode, list);
         }
 
         return (globalCommands, guildCommands);
