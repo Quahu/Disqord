@@ -563,6 +563,35 @@ public abstract partial class DiscordBotBase
                                             if (option.Choices.Value.Count == 25)
                                                 break;
                                         }
+
+                                        if (!option.Choices.HasValue)
+                                        {
+                                            var checks = parameter.Checks;
+                                            var checkCount = checks.Count;
+                                            for (var i = 0; i < checkCount; i++)
+                                            {
+                                                var check = checks[i];
+                                                switch (check)
+                                                {
+                                                    case MinimumAttribute minimumAttribute:
+                                                    {
+                                                        option.MinimumValue = minimumAttribute.Minimum.ToDouble(null);
+                                                        break;
+                                                    }
+                                                    case MaximumAttribute maximumAttribute:
+                                                    {
+                                                        option.MaximumValue = maximumAttribute.Maximum.ToDouble(null);
+                                                        break;
+                                                    }
+                                                    case RangeAttribute rangeAttribute:
+                                                    {
+                                                        option.MinimumValue = rangeAttribute.Minimum.ToDouble(null);
+                                                        option.MaximumValue = rangeAttribute.Maximum.ToDouble(null);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -577,9 +606,11 @@ public abstract partial class DiscordBotBase
                             var autoCompleteCommand = command.AutoCompleteCommand;
                             if (autoCompleteCommand != null)
                             {
-                                foreach (var autoCompleteParameter in autoCompleteCommand.Parameters)
+                                var autoCompleteParameters = autoCompleteCommand.Parameters;
+                                var autoCompleteParameterCount = autoCompleteParameters.Count;
+                                for (var j = 0; j < autoCompleteParameterCount; j++)
                                 {
-                                    if (autoCompleteParameter.Name == option.Name)
+                                    if (autoCompleteParameters[j].Name == option.Name)
                                     {
                                         option.HasAutoComplete = true;
                                         break;
