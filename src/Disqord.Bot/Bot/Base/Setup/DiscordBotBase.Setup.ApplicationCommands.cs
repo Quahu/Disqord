@@ -480,115 +480,125 @@ public abstract partial class DiscordBotBase
                                 {
                                     option.Type = SlashCommandOptionType.String;
                                 }
+                            }
 
-                                if (option.Type.Value is SlashCommandOptionType.String or SlashCommandOptionType.Integer or SlashCommandOptionType.Number)
+                            if (option.Type.Value is SlashCommandOptionType.String or SlashCommandOptionType.Integer or SlashCommandOptionType.Number)
+                            {
+                                if (typeInformation.ActualType.IsEnum && option.Type.Value != SlashCommandOptionType.String)
                                 {
-                                    if (typeInformation.ActualType.IsEnum && option.Type.Value != SlashCommandOptionType.String)
+                                    var fields = typeInformation.ActualType.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                                    var names = new string[fields.Length];
+                                    var values = new object[fields.Length];
+                                    for (var i = 0; i < fields.Length; i++)
                                     {
-                                        var fields = typeInformation.ActualType.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-                                        var names = new string[fields.Length];
-                                        var values = new object[fields.Length];
-                                        for (var i = 0; i < fields.Length; i++)
-                                        {
-                                            var field = fields[i];
-                                            names[i] = field.GetCustomAttribute<ChoiceNameAttribute>()?.Name ?? field.Name;
-                                            values[i] = field.GetRawConstantValue()!;
-                                        }
-
-                                        // Source: Type.GetEnumData()
-                                        var comparer = Comparer.Default;
-                                        for (var i = 1; i < values.Length; i++)
-                                        {
-                                            var j = i;
-                                            var tempName = names[i];
-                                            var tempValue = values[i];
-                                            var exchanged = false;
-
-                                            while (comparer.Compare(values[j - 1], tempValue) > 0)
-                                            {
-                                                names[j] = names[j - 1];
-                                                values[j] = values[j - 1];
-                                                j--;
-                                                exchanged = true;
-                                                if (j == 0)
-                                                    break;
-                                            }
-
-                                            if (exchanged)
-                                            {
-                                                names[j] = tempName;
-                                                values[j] = tempValue;
-                                            }
-                                        }
-
-                                        // ---
-
-                                        if (names.Length <= 25)
-                                        {
-                                            var choices = new LocalSlashCommandOptionChoice[names.Length];
-                                            for (var i = 0; i < names.Length; i++)
-                                            {
-                                                var name = names[i];
-                                                var value = values.GetValue(i);
-                                                choices[i] = new LocalSlashCommandOptionChoice
-                                                {
-                                                    Name = name,
-                                                    Value = value
-                                                };
-                                            }
-
-                                            option.Choices = choices;
-                                        }
-                                        else
-                                        {
-                                            option.Type = SlashCommandOptionType.String;
-                                        }
+                                        var field = fields[i];
+                                        names[i] = field.GetCustomAttribute<ChoiceNameAttribute>()?.Name ?? field.Name;
+                                        values[i] = field.GetRawConstantValue()!;
                                     }
-                                    else
+
+                                    // Source: Type.GetEnumData()
+                                    var comparer = Comparer.Default;
+                                    for (var i = 1; i < values.Length; i++)
                                     {
-                                        var customAttributes = parameter.CustomAttributes;
-                                        var customAttributeCount = customAttributes.Count;
-                                        for (var i = 0; i < customAttributeCount; i++)
+                                        var j = i;
+                                        var tempName = names[i];
+                                        var tempValue = values[i];
+                                        var exchanged = false;
+
+                                        while (comparer.Compare(values[j - 1], tempValue) > 0)
                                         {
-                                            var customAttribute = customAttributes[i];
-                                            if (customAttribute is not ChoiceAttribute choiceAttribute)
-                                                continue;
-
-                                            option.AddChoice(new LocalSlashCommandOptionChoice
-                                            {
-                                                Name = choiceAttribute.Name,
-                                                Value = choiceAttribute.Value
-                                            });
-
-                                            if (option.Choices.Value.Count == 25)
+                                            names[j] = names[j - 1];
+                                            values[j] = values[j - 1];
+                                            j--;
+                                            exchanged = true;
+                                            if (j == 0)
                                                 break;
                                         }
 
-                                        if (!option.Choices.HasValue)
+                                        if (exchanged)
                                         {
-                                            var checks = parameter.Checks;
-                                            var checkCount = checks.Count;
-                                            for (var i = 0; i < checkCount; i++)
+                                            names[j] = tempName;
+                                            values[j] = tempValue;
+                                        }
+                                    }
+
+                                    // ---
+
+                                    if (names.Length <= 25)
+                                    {
+                                        var choices = new LocalSlashCommandOptionChoice[names.Length];
+                                        for (var i = 0; i < names.Length; i++)
+                                        {
+                                            var name = names[i];
+                                            var value = values.GetValue(i);
+                                            choices[i] = new LocalSlashCommandOptionChoice
                                             {
-                                                var check = checks[i];
-                                                switch (check)
+                                                Name = name,
+                                                Value = value
+                                            };
+                                        }
+
+                                        option.Choices = choices;
+                                    }
+                                    else
+                                    {
+                                        option.Type = SlashCommandOptionType.String;
+                                    }
+                                }
+                                else
+                                {
+                                    var customAttributes = parameter.CustomAttributes;
+                                    var customAttributeCount = customAttributes.Count;
+                                    for (var i = 0; i < customAttributeCount; i++)
+                                    {
+                                        var customAttribute = customAttributes[i];
+                                        if (customAttribute is not ChoiceAttribute choiceAttribute)
+                                            continue;
+
+                                        option.AddChoice(new LocalSlashCommandOptionChoice
+                                        {
+                                            Name = choiceAttribute.Name,
+                                            Value = choiceAttribute.Value
+                                        });
+
+                                        if (option.Choices.Value.Count == 25)
+                                            break;
+                                    }
+
+                                    if (!option.Choices.HasValue)
+                                    {
+                                        var checks = parameter.Checks;
+                                        var checkCount = checks.Count;
+                                        for (var i = 0; i < checkCount; i++)
+                                        {
+                                            static void ThrowIfTooLarge(IConvertible convertible)
+                                            {
+                                                if (convertible.GetTypeCode() is TypeCode.Int64 or TypeCode.UInt64 or TypeCode.Decimal)
+                                                    Throw.InvalidOperationException($"The value {convertible} cannot be used for slash command parameter range checks as it is too large.");
+                                            }
+
+                                            var check = checks[i];
+                                            switch (check)
+                                            {
+                                                case MinimumAttribute minimumAttribute:
                                                 {
-                                                    case MinimumAttribute minimumAttribute:
-                                                    {
-                                                        option.MinimumValue = minimumAttribute.Minimum.ToDouble(null);
-                                                        break;
-                                                    }
-                                                    case MaximumAttribute maximumAttribute:
-                                                    {
-                                                        option.MaximumValue = maximumAttribute.Maximum.ToDouble(null);
-                                                        break;
-                                                    }
-                                                    case RangeAttribute rangeAttribute:
-                                                    {
-                                                        option.MinimumValue = rangeAttribute.Minimum.ToDouble(null);
-                                                        option.MaximumValue = rangeAttribute.Maximum.ToDouble(null);
-                                                        break;
-                                                    }
+                                                    ThrowIfTooLarge(minimumAttribute.Minimum);
+                                                    option.MinimumValue = minimumAttribute.Minimum.ToDouble(null);
+                                                    break;
+                                                }
+                                                case MaximumAttribute maximumAttribute:
+                                                {
+                                                    ThrowIfTooLarge(maximumAttribute.Maximum);
+                                                    option.MaximumValue = maximumAttribute.Maximum.ToDouble(null);
+                                                    break;
+                                                }
+                                                case RangeAttribute rangeAttribute:
+                                                {
+                                                    ThrowIfTooLarge(rangeAttribute.Minimum);
+                                                    ThrowIfTooLarge(rangeAttribute.Maximum);
+                                                    option.MinimumValue = rangeAttribute.Minimum.ToDouble(null);
+                                                    option.MaximumValue = rangeAttribute.Maximum.ToDouble(null);
+                                                    break;
                                                 }
                                             }
                                         }
