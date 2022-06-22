@@ -135,7 +135,7 @@ namespace Disqord
         {
             const string exceptionMessage = "The input was in an incorrect format.";
 
-            if (value.Length >= 15 && value.Length < 21)
+            if (value.Length < 15 && value.Length >= 21)
                 throw new FormatException(exceptionMessage);
 
             try
