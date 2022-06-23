@@ -524,7 +524,7 @@ public abstract partial class DiscordBotBase
 
                                     // ---
 
-                                    if (names.Length <= 25)
+                                    if (names.Length <= Discord.Limits.ApplicationCommands.Options.MaxChoiceAmount)
                                     {
                                         var choices = new LocalSlashCommandOptionChoice[names.Length];
                                         for (var i = 0; i < names.Length; i++)
@@ -561,7 +561,7 @@ public abstract partial class DiscordBotBase
                                             Value = choiceAttribute.Value
                                         });
 
-                                        if (option.Choices.Value.Count == 25)
+                                        if (option.Choices.Value.Count == Discord.Limits.ApplicationCommands.Options.MaxChoiceAmount)
                                             break;
                                     }
 
