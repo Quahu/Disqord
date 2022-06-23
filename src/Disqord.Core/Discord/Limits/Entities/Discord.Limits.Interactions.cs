@@ -6,6 +6,9 @@ namespace Disqord
     {
         public static partial class Limits
         {
+            /// <summary>
+            ///     Represents limits for interactions.
+            /// </summary>
             public static class Interactions
             {
                 /// <summary>
@@ -24,10 +27,19 @@ namespace Disqord
                 /// </remarks>
                 public static TimeSpan FollowupTimeout => TimeSpan.FromMinutes(15);
 
+                /// <summary>
+                ///     Represents limits for interaction modals.
+                /// </summary>
                 public static class Modals
                 {
+                    /// <summary>
+                    ///     The maximum length of custom IDs.
+                    /// </summary>
                     public const int MaxCustomIdLength = 100;
 
+                    /// <summary>
+                    ///     The maximum length of titles.
+                    /// </summary>
                     public const int MaxTitleLength = 45;
                 }
             }

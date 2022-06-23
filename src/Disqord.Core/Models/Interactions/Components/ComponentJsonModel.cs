@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Disqord.Serialization.Json;
 using Qommon;
 
@@ -74,6 +74,7 @@ namespace Disqord.Models
                         for (var i = 0; i < components.Length; i++)
                             components[i].Validate();
                     });
+
                     break;
                 }
                 case ComponentType.Button:
@@ -118,12 +119,12 @@ namespace Disqord.Models
 
                     OptionalGuard.CheckValue(MinValues, minValues =>
                     {
-                        Guard.IsBetweenOrEqualTo(minValues, Discord.Limits.Components.Selection.MinMinimumValueAmount, Discord.Limits.Components.Selection.MaxMinimumValueAmount);
+                        Guard.IsBetweenOrEqualTo(minValues, Discord.Limits.Components.Selection.MinMinimumSelectedOptions, Discord.Limits.Components.Selection.MaxMinimumSelectedOptions);
                     });
 
                     OptionalGuard.CheckValue(MaxValues, maxValues =>
                     {
-                        Guard.IsBetweenOrEqualTo(maxValues, Discord.Limits.Components.Selection.MinMaximumValueAmount, Discord.Limits.Components.Selection.MaxMaximumValueAmount);
+                        Guard.IsBetweenOrEqualTo(maxValues, Discord.Limits.Components.Selection.MinMaximumSelectedOptions, Discord.Limits.Components.Selection.MaxMaximumSelectedOptions);
                     });
 
                     if (MinValues.HasValue && MaxValues.HasValue)
@@ -173,6 +174,7 @@ namespace Disqord.Models
                         Guard.IsNotNull(placeholder);
                         Guard.IsLessThanOrEqualTo(placeholder.Length, Discord.Limits.Components.TextInput.MaxPlaceholderLength);
                     });
+
                     break;
                 }
             }
