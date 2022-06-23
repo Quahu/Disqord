@@ -3,10 +3,17 @@ using Qommon;
 
 namespace Disqord.Bot.Commands.Application;
 
+/// <summary>
+///     Marks the decorated method as an application command.
+/// </summary>
 public abstract class ApplicationCommandAttribute : CommandAttribute
 {
     public string Alias { get; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="ApplicationCommandAttribute"/> with the specified alias.
+    /// </summary>
+    /// <param name="alias"> The alias of the command. </param>
     protected ApplicationCommandAttribute(string alias)
     {
         Alias = alias;

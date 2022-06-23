@@ -35,12 +35,12 @@ public class AutoCompleteAttribute : ApplicationCommandAttribute
     /// <inheritdoc/>
     public override void Apply(ICommandBuilder builder)
     {
-        var slashBuilder = Guard.IsAssignableToType<ApplicationCommandBuilder>(builder);
-        slashBuilder.Alias = slashBuilder.Alias == null
+        var applicationBuilder = Guard.IsAssignableToType<ApplicationCommandBuilder>(builder);
+        applicationBuilder.Alias = applicationBuilder.Alias == null
             ? $"auto-complete:{Alias}"
-            : $"{slashBuilder.Alias};{Alias}";
+            : $"{applicationBuilder.Alias};{Alias}";
 
-        slashBuilder.Type = GetCommandType();
-        slashBuilder.CustomAttributes.Add(this);
+        applicationBuilder.Type = GetCommandType();
+        applicationBuilder.CustomAttributes.Add(this);
     }
 }
