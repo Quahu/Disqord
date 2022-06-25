@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Qommon.Collections.Synchronized;
 using Disqord.Gateway.Api.Models;
-using Qommon.Binding;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Qommon.Binding;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Api.Default
 {
@@ -50,6 +50,7 @@ namespace Disqord.Gateway.Api.Default
         public void Bind(IGatewayApiClient apiClient)
         {
             _binder.Bind(apiClient);
+
             // TODO: identify concurrency
             _buckets[GatewayPayloadOperation.Identify] = GetSharedBucket(_loggerFactory.CreateLogger("Identify Bucket"), ApiClient.Token as BotToken, GatewayPayloadOperation.Identify, 1, TimeSpan.FromSeconds(5.5));
             _buckets[GatewayPayloadOperation.UpdatePresence] = new Bucket(_loggerFactory.CreateLogger("Presence Bucket"), 5, TimeSpan.FromSeconds(60));
@@ -160,6 +161,7 @@ namespace Disqord.Gateway.Api.Default
                 var (logger, uses, resetDelay) = tuple;
                 return new Bucket(logger, uses, resetDelay);
             }, (logger, uses, resetDelay));
+
             return bucket;
         }
 
@@ -198,7 +200,9 @@ namespace Disqord.Gateway.Api.Default
 
             // TODO edge: release waiters on a session reset?
             public Task WaitAsync(CancellationToken cancellationToken)
-                => _semaphore.WaitAsync(cancellationToken);
+            {
+                return _semaphore.WaitAsync(cancellationToken);
+            }
 
             public void NotifyCompletion()
             {
@@ -254,6 +258,9 @@ namespace Disqord.Gateway.Api.Default
                 await Task.Delay(_resetDelay, cancellationToken).ConfigureAwait(false);
                 lock (this)
                 {
+                    if (!_isResetting)
+                        return;
+
                     var releaseCount = _limit - _semaphore.CurrentCount;
                     if (releaseCount == 0)
                         _logger.LogWarning("Releasing the semaphore by {0}.", 0);
