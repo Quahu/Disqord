@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Disqord.Rest;
@@ -49,7 +50,7 @@ public static partial class DefaultApplicationExecutionSteps
                 {
                     await response.AutoCompleteAsync(choices).ConfigureAwait(false);
                 }
-                catch (RestApiException ex) when (ex.IsError(RestApiErrorCode.UnknownInteraction))
+                catch (Exception ex) when (ex is InteractionExpiredException || ex is RestApiException restApiException && restApiException.IsError(RestApiErrorCode.UnknownInteraction))
                 {
                     applicationContext.Bot.Logger.LogWarning("Auto-complete handler '{0}' failed to respond to the interaction in time.", context.Command!.Name);
                 }

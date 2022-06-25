@@ -15,60 +15,51 @@ public class AutoComplete<T> : IAutoComplete
     where T : notnull
 {
     /// <summary>
-    ///     Gets the user's current input for the parameter.
+    ///     Gets the user's input argument for the parameter.
     /// </summary>
     /// <remarks>
     ///     Has no value if the user has not provided any values for the parameter yet.
+    ///     <para/>
+    ///     Has no value if <see cref="IsFocused"/> is <see langword="true"/>.
     /// </remarks>
-    public Optional<T> Current { get; }
+    public Optional<T> Argument { get; }
+
+    /// <inheritdoc/>
+    public string? RawArgument { get; }
 
     /// <inheritdoc/>
     [MemberNotNullWhen(true, nameof(Choices))]
+    [MemberNotNullWhen(true, nameof(RawArgument))]
     public bool IsFocused { get; }
 
     /// <summary>
     ///     Gets the choice collection.
     /// </summary>
     /// <remarks>
-    ///     Only valid when <see cref="IsFocused"/> is <see langword="true"/>.
+    ///     Is <see langword="null"/> when <see cref="IsFocused"/> is <see langword="false"/>.
     /// </remarks>
     public ChoiceCollection? Choices { get; }
 
     Type IAutoComplete.AutoCompletedType => typeof(T);
 
     /// <summary>
-    ///     Instantiates a new <see cref="AutoComplete{T}"/> with the user's current input
-    ///     and whether it is currently focused on.
+    ///     Instantiates a new <see cref="AutoComplete{T}"/> with the user's input argument.
     /// </summary>
-    /// <param name="current"> The user's current input. </param>
-    /// <param name="isFocused"> Whether this is currently focused on by the user. </param>
-    public AutoComplete(Optional<T> current, bool isFocused)
+    /// <param name="argument"> The user's input argument. </param>
+    public AutoComplete(Optional<T> argument)
     {
-        Current = current;
-        IsFocused = isFocused;
-        Choices = isFocused ? new ChoiceCollection() : null;
+        Argument = argument;
     }
 
     /// <summary>
-    ///     Gets whether this auto-complete parameter is currently focused on by the user.
-    ///     If <see langword="true"/>, the <paramref name="currentValue"/> is set to the user's
-    ///     current input.
+    ///     Instantiates a new <see cref="AutoComplete{T}"/> with the user's raw input argument.
     /// </summary>
-    /// <param name="currentValue"> The user's current input for the parameter. </param>
-    /// <returns>
-    ///     <see langword="true"/> if this parameter is currently focused on by the user.
-    /// </returns>
-    [MemberNotNullWhen(true, nameof(Choices))]
-    public bool IsCurrentlyFocused([MaybeNullWhen(false)] out T currentValue)
+    /// <param name="rawArgument"> The user's raw input argument. </param>
+    public AutoComplete(string rawArgument)
     {
-        if (IsFocused)
-        {
-            currentValue = Current.Value;
-            return true;
-        }
-
-        currentValue = default;
-        return false;
+        RawArgument = rawArgument;
+        IsFocused = true;
+        Choices = new ChoiceCollection();
     }
 
     /// <summary>
@@ -112,10 +103,33 @@ public class AutoComplete<T> : IAutoComplete
         }
 
         /// <summary>
+        ///     Adds the specified values as choices.
+        /// </summary>
+        /// <remarks>
+        ///     The names of the choices are set to the string representations of the values.
+        /// </remarks>
+        /// <param name="values"> The choice values. </param>
+        public void AddRange(IEnumerable<T> values)
+        {
+            foreach (var value in values)
+                Add(value.ToString()!, value);
+        }
+
+        /// <summary>
         ///     Adds the specified names and values as choices.
         /// </summary>
         /// <param name="values"> The choice name and value pairs. </param>
         public void AddRange(params KeyValuePair<string, T>[] values)
+        {
+            foreach (var (name, value) in values)
+                Add(name, value);
+        }
+
+        /// <summary>
+        ///     Adds the specified names and values as choices.
+        /// </summary>
+        /// <param name="values"> The choice name and value pairs. </param>
+        public void AddRange(IEnumerable<KeyValuePair<string, T>> values)
         {
             foreach (var (name, value) in values)
                 Add(name, value);

@@ -8,6 +8,9 @@ namespace Disqord.Bot.Commands.Application;
 /// </summary>
 public abstract class ApplicationCommandAttribute : CommandAttribute
 {
+    /// <summary>
+    ///     Gets the alias of the command.
+    /// </summary>
     public string Alias { get; }
 
     /// <summary>

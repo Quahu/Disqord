@@ -11,11 +11,6 @@ public static partial class DefaultApplicationExecutionSteps
 {
     public class BindAutoComplete : CommandExecutionStep
     {
-        protected override bool CanBeSkipped(ICommandContext context)
-        {
-            return context.Arguments == null || context.Arguments.Count == 0;
-        }
-
         protected override ValueTask<IResult> OnExecuted(ICommandContext context)
         {
             static IReadOnlyDictionary<string, ISlashCommandInteractionOption> GetArguments(IReadOnlyDictionary<string, ISlashCommandInteractionOption> options)
@@ -38,32 +33,35 @@ public static partial class DefaultApplicationExecutionSteps
             foreach (var parameter in context.Command!.Parameters)
             {
                 KeyValuePair<IParameter, object?>? originalKvp = null;
-                foreach (var kvp in context.Arguments!)
+                if (context.Arguments != null)
                 {
-                    if (parameter.Name != kvp.Key.Name)
-                        continue;
+                    foreach (var kvp in context.Arguments)
+                    {
+                        if (parameter.Name != kvp.Key.Name)
+                            continue;
 
-                    originalKvp = kvp;
-                    break;
+                        originalKvp = kvp;
+                        break;
+                    }
                 }
 
+                var isFocused = focusedOption == options.GetValueOrDefault(parameter.Name);
                 object? currentValue;
-                bool isFocused;
+                var parameterType = parameter.ReflectedType.GenericTypeArguments[0];
                 if (originalKvp == null)
                 {
-                    currentValue = Activator.CreateInstance(typeof(Optional<>).MakeGenericType(parameter.ReflectedType.GenericTypeArguments[0]));
-                    isFocused = false;
+                    currentValue = Activator.CreateInstance(typeof(Optional<>).MakeGenericType(parameterType));
                 }
                 else
                 {
-                    currentValue = originalKvp.Value.Value is IOptional optional
-                        ? optional
-                        : Activator.CreateInstance(typeof(Optional<>).MakeGenericType(parameter.ReflectedType.GenericTypeArguments[0]), originalKvp.Value.Value);
-
-                    isFocused = focusedOption == options[parameter.Name];
+                    currentValue = isFocused || originalKvp.Value.Value is IOptional
+                        ? originalKvp.Value.Value
+                        : Activator.CreateInstance(typeof(Optional<>).MakeGenericType(parameterType), originalKvp.Value.Value);
                 }
 
-                arguments[parameter] = Activator.CreateInstance(typeof(AutoComplete<>).MakeGenericType(parameter.ReflectedType.GenericTypeArguments[0]), currentValue, isFocused);
+                var autoCompleteType = typeof(AutoComplete<>).MakeGenericType(parameterType);
+                var autoComplete = Activator.CreateInstance(autoCompleteType, currentValue);
+                arguments[parameter] = autoComplete;
             }
 
             context.Arguments = arguments;

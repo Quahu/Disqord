@@ -23,8 +23,8 @@ namespace Disqord.Test.Modules
             return Response("Hello after a delay!");
         }
 
-        [SlashCommand("test")]
-        public IResult Test(string first, int second, int third = 42)
+        [SlashCommand("test1")]
+        public IResult Test1(string first, int second, int third = 42)
         {
             return Response($"Results: {first} {second} {third}");
         }
@@ -38,21 +38,27 @@ namespace Disqord.Test.Modules
         /// <summary>
         ///     This auto-complete method is used for both the commands defined above.
         /// </summary>
-        [AutoComplete("test")]
+        [AutoComplete("test1")]
         [AutoComplete("test2")]
         public void AutoCompleteTest(AutoComplete<string> first, /* 'second' isn't auto-completed */ AutoComplete<int> third)
         {
             if (first.IsFocused)
             {
-                if (first.Current.Value.StartsWith("Aurelio Voltaire"))
+                if (first.RawArgument.StartsWith("Aurelio Voltaire"))
                 {
                     first.Choices.AddRange("Captains All", "Dead", "The Headless Waltz");
                 }
             }
-            else if (third.IsCurrentlyFocused(out var currentValue))
+            else if (third.IsFocused)
             {
-                if (currentValue != 0)
-                    third.Choices.Add(currentValue + 1);
+                if (int.TryParse(third.RawArgument, out var intArgument))
+                {
+                    third.Choices.Add(intArgument + 1);
+                }
+                else
+                {
+                    third.Choices.Add(42);
+                }
             }
         }
 
@@ -80,58 +86,82 @@ namespace Disqord.Test.Modules
         [RateLimit(1, 1, RateLimitMeasure.Seconds, RateLimitBucketType.Member)]
         public void AutoCompletePlay(AutoComplete<string> artist, AutoComplete<string> album, AutoComplete<string> title)
         {
-            if (artist.IsCurrentlyFocused(out var currentArtist))
+            if (artist.IsFocused)
             {
-                // If `artist` is currently focused,
-                // find the matching artist in the hashset.
-                foreach (var existingArtist in _artists)
+                if (artist.RawArgument != string.Empty)
                 {
-                    if (!existingArtist.StartsWith(currentArtist, StringComparison.OrdinalIgnoreCase))
-                        continue;
+                    // Find artists matching the user input.
+                    foreach (var existingArtist in _artists)
+                    {
+                        if (!existingArtist.StartsWith(artist.RawArgument, StringComparison.OrdinalIgnoreCase))
+                            continue;
 
-                    // Add the matching artists as choices.
-                    artist.Choices.Add(existingArtist);
+                        // Add the matching artists as choices.
+                        artist.Choices.Add(existingArtist);
+                    }
+                }
+                else
+                {
+                    // Add all artists as choices.
+                    artist.Choices.AddRange(_artists);
                 }
             }
-            else if (album.IsCurrentlyFocused(out var currentAlbum))
+            else if (album.IsFocused)
             {
                 // If `album` is currently focused,
                 // check if the user's current `artist` value is a valid artist.
-                if (!_artists.TryGetValue(artist.Current.GetValueOrDefault(), out var existingArtist))
+                if (!_artists.TryGetValue(artist.Argument.GetValueOrDefault(), out var existingArtist))
                     return;
 
-                // Then find all matching albums on the disk in the artist folder.
                 var albumPath = Path.Join(_musicPath, existingArtist);
-                foreach (var existingAlbumPath in Directory.EnumerateDirectories(albumPath))
+                var existingAlbums = Directory.EnumerateDirectories(albumPath).Select(Path.GetFileName);
+                if (album.RawArgument != string.Empty)
                 {
-                    var existingAlbum = Path.GetFileName(existingAlbumPath);
-                    if (!existingAlbum.StartsWith(currentAlbum, StringComparison.OrdinalIgnoreCase))
-                        continue;
+                    // Find albums on the disk matching the user input.
+                    foreach (var existingAlbum in existingAlbums)
+                    {
+                        if (!existingAlbum.StartsWith(album.RawArgument, StringComparison.OrdinalIgnoreCase))
+                            continue;
 
-                    // Add the matching albums as choices.
-                    album.Choices.Add(existingAlbum);
+                        // Add the matching albums as choices.
+                        album.Choices.Add(existingAlbum);
+                    }
+                }
+                else
+                {
+                    // Add all albums on the disk as choices.
+                    album.Choices.AddRange(existingAlbums);
                 }
             }
-            else if (title.IsCurrentlyFocused(out var currentTitle))
+            else if (title.IsFocused)
             {
                 // If `album` is currently focused,
                 // check if the user's current `artist` value is a valid artist.
-                if (!_artists.TryGetValue(artist.Current.GetValueOrDefault(), out var existingArtist) || !album.Current.TryGetValue(out currentAlbum) || string.IsNullOrWhiteSpace(currentAlbum))
+                if (!_artists.TryGetValue(artist.Argument.GetValueOrDefault(), out var existingArtist)
+                    || !album.Argument.TryGetValue(out var currentAlbum))
                     return;
 
                 // Then check if the user's current `album` value is a valid album.
-                var albumDirectory = Path.Join(_musicPath, existingArtist, currentAlbum);
-                if (!Directory.Exists(albumDirectory))
+                var albumPath = Path.Join(_musicPath, existingArtist, currentAlbum);
+                if (!Directory.Exists(albumPath))
                     return;
 
-                // Then find all matching song titles on the disk in the album folder.
-                foreach (var existingTitle in Directory.EnumerateFiles(albumDirectory, "*.flac").Select(Path.GetFileName))
+                var existingTitles = Directory.EnumerateFiles(albumPath, "*.flac").Select(Path.GetFileName);
+                if (title.RawArgument != string.Empty)
                 {
-                    if (!existingTitle.StartsWith(currentTitle, StringComparison.OrdinalIgnoreCase))
-                        continue;
+                    // Then find all matching song titles on the disk in the album folder.
+                    foreach (var existingTitle in existingTitles)
+                    {
+                        if (!existingTitle.StartsWith(title.RawArgument, StringComparison.OrdinalIgnoreCase))
+                            continue;
 
-                    // Add the matching titles as choices.
-                    title.Choices.Add(existingTitle);
+                        // Add the matching titles as choices.
+                        title.Choices.Add(existingTitle);
+                    }
+                }
+                else
+                {
+                    title.Choices.AddRange(existingTitles);
                 }
             }
         }
