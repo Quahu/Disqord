@@ -339,7 +339,7 @@ namespace Disqord.Gateway.Api.Default
                     }
                     catch (Exception ex)
                     {
-                        Logger.LogError(ex, "An exception occurred when closing the gateway connection after cancellation.");
+                        Logger.LogError(ex, "An exception occurred while closing the gateway connection after cancellation.");
                     }
 
                     throw;
@@ -353,7 +353,7 @@ namespace Disqord.Gateway.Api.Default
                     }
                     catch (Exception exc)
                     {
-                        Logger.LogError(exc, "An exception occurred when closing the gateway connection after cancellation.");
+                        Logger.LogError(exc, "An exception occurred while closing the gateway connection after cancellation.");
                     }
 
                     throw;
@@ -369,7 +369,7 @@ namespace Disqord.Gateway.Api.Default
                         }
                         catch (Exception ex)
                         {
-                            Logger.LogWarning(ex, "An exception occurred when stopping the heartbeater.");
+                            Logger.LogWarning(ex, "An exception occurred while stopping the heartbeater.");
                         }
                     }
                 }

@@ -149,7 +149,7 @@ namespace Disqord.Sharding
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogCritical(ex, "An exception occurred when starting {0}.", shardId);
+                    Logger.LogCritical(ex, "An exception occurred while starting {0}.", shardId);
 
                     // Cancel the CTS so that if some shards are running already
                     // it's a coordinated close as they will probably break sooner or later.
