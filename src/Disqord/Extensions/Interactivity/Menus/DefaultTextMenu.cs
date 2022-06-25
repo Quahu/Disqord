@@ -18,7 +18,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         { }
 
         /// <inheritdoc/>
-        protected override LocalMessageBase CreateLocalMessage()
+        public override LocalMessageBase CreateLocalMessage()
         {
             return new LocalMessage();
         }

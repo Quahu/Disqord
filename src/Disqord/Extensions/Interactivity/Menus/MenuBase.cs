@@ -234,7 +234,7 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <returns>
         ///     A new <see cref="LocalMessageBase"/>.
         /// </returns>
-        protected abstract LocalMessageBase CreateLocalMessage();
+        public abstract LocalMessageBase CreateLocalMessage();
 
         /// <summary>
         ///     Updates the message the menu is bound according to view changes.

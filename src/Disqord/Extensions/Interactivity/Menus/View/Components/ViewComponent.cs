@@ -1,4 +1,5 @@
 ﻿using System;
+using Qommon;
 
 namespace Disqord.Extensions.Interactivity.Menus
 {
@@ -10,14 +11,14 @@ namespace Disqord.Extensions.Interactivity.Menus
         ///     Gets or sets the zero-indexed row the component should appear on.
         ///     If <see langword="null"/>, the component's row will be determined automatically.
         /// </summary>
-        /// <exception cref="ArgumentException"> Thrown when the value is negative or higher than 4. </exception>
+        /// <exception cref="ArgumentOutOfRangeException"> Thrown when the value is negative or higher than 4. </exception>
         public int? Row
         {
             get => _row;
             set
             {
-                if (value != null && (value < 0 || value > 4))
-                    throw new ArgumentException("A component's row must be a positive value not higher than 4.");
+                if (value != null)
+                    Guard.IsBetweenOrEqualTo(value.Value, 0, 4, nameof(value));
 
                 var view = View;
                 if (view != null)
@@ -38,14 +39,14 @@ namespace Disqord.Extensions.Interactivity.Menus
         ///     Gets or sets the zero-indexed position the component should appear in on the row.
         ///     If <see langword="null"/>, the component's position will be determined automatically.
         /// </summary>
-        /// <exception cref="ArgumentException"> Thrown when the value is negative or higher than 4. </exception>
+        /// <exception cref="ArgumentOutOfRangeException"> Thrown when the value is negative or higher than 4. </exception>
         public int? Position
         {
             get => _position;
             set
             {
-                if (value != null && (value < 0 || value > 4))
-                    throw new ArgumentException("A component's position must be a positive value not higher than 4.");
+                if (value != null)
+                    Guard.IsBetweenOrEqualTo(value.Value, 0, 4, nameof(value));
 
                 var view = View;
                 if (view != null)

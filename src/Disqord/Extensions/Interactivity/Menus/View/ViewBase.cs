@@ -78,7 +78,9 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// </summary>
         /// <returns></returns>
         public virtual ValueTask UpdateAsync()
-            => default;
+        {
+            return default;
+        }
 
         /// <summary>
         ///     Gets a unique custom ID for the given interactable component.
@@ -91,7 +93,9 @@ namespace Disqord.Extensions.Interactivity.Menus
         ///     A unique custom ID for the component.
         /// </returns>
         protected internal virtual string GetCustomId(InteractableViewComponent component)
-            => Guid.NewGuid().ToString();
+        {
+            return Guid.NewGuid().ToString();
+        }
 
         /// <summary>
         ///     Adds a component to this view.
@@ -276,6 +280,8 @@ namespace Disqord.Extensions.Interactivity.Menus
         ///     A <see cref="ValueTask"/> representing the work.
         /// </returns>
         public virtual ValueTask DisposeAsync()
-            => default;
+        {
+            return default;
+        }
     }
 }
