@@ -1,5 +1,6 @@
 using System.Linq;
 using Disqord.Bot.Commands.Application;
+using Disqord.Bot.Commands.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Qmmands;
 using Qmmands.Default;
@@ -19,6 +20,7 @@ public static partial class DefaultBotCommandsSetup
         var services = commands.Services;
         var reflectorProvider = services.GetRequiredService<ICommandReflectorProvider>() as DefaultCommandReflectorProvider;
         reflectorProvider?.AddReflector(ActivatorUtilities.CreateInstance<ApplicationCommandReflector>(services));
+        reflectorProvider?.AddReflector(ActivatorUtilities.CreateInstance<ComponentCommandReflector>(services));
 
         var pipelineProvider = services.GetRequiredService<ICommandPipelineProvider>() as DefaultCommandPipelineProvider;
         var textPipeline = pipelineProvider?.ElementAtOrDefault(0) as DefaultCommandPipeline<ITextCommandContext>;
@@ -39,8 +41,10 @@ public static partial class DefaultBotCommandsSetup
 
         pipelineProvider?.Add(new AutoCompleteCommandPipeline());
         pipelineProvider?.Add(new ApplicationCommandPipeline());
+        pipelineProvider?.Add(new ComponentCommandPipeline());
 
         var mapProvider = services.GetRequiredService<ICommandMapProvider>() as DefaultCommandMapProvider;
         mapProvider?.Add(ActivatorUtilities.CreateInstance<ApplicationCommandMap>(services));
+        mapProvider?.Add(ActivatorUtilities.CreateInstance<ComponentCommandMap>(services));
     }
 }

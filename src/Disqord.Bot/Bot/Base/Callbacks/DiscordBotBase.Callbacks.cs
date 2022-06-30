@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -245,10 +245,11 @@ public abstract partial class DiscordBotBase
     /// </returns>
     protected virtual ValueTask OnFailedResult(IDiscordCommandContext context, IResult result)
     {
-        if (context is IDiscordInteractionCommandContext interactionContext && interactionContext.Interaction is IAutoCompleteInteraction)
+        if (context is IDiscordInteractionCommandContext interactionContext
+            && interactionContext.Interaction is IAutoCompleteInteraction or IComponentInteraction or IModalSubmitInteraction)
         {
-            // Ignore auto-complete interaction failures as those cannot be responded to realistically.
-            // This is passed through so that the user can log and debug auto-complete failures.
+            // Ignore auto-complete and component interaction failures as those cannot be responded to realistically.
+            // This is passed through so that the user can log and debug failures.
             return default;
         }
 

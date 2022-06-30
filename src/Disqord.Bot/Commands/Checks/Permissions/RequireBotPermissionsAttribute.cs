@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Disqord.Bot.Commands.Application;
+using Disqord.Bot.Commands.Interaction;
 using Disqord.Gateway;
 using Qmmands;
 
 namespace Disqord.Bot.Commands;
 
 /// <summary>
-///     Specifies that the module or command can only be executed by authors with the given permissions.
+///     Specifies that the module or command can only be executed if the bot has given guild permissions.
 /// </summary>
 public class RequireBotPermissionsAttribute : DiscordCheckAttribute
 {
@@ -24,9 +24,9 @@ public class RequireBotPermissionsAttribute : DiscordCheckAttribute
             return Results.Success;
 
         Permission permissions;
-        if (context is IDiscordApplicationCommandContext applicationContext)
+        if (context is IDiscordInteractionCommandContext interactionContext)
         {
-            permissions = applicationContext.AuthorPermissions;
+            permissions = interactionContext.ApplicationPermissions;
         }
         else
         {
@@ -34,7 +34,8 @@ public class RequireBotPermissionsAttribute : DiscordCheckAttribute
                 throw new InvalidOperationException($"{nameof(RequireBotPermissionsAttribute)} requires the context channel.");
 
             // TODO: rework permissions
-            permissions = guildContext.Author.GetPermissions().Flags | guildContext.Author.GetPermissions(channel).Flags;
+            var currentMember = guildContext.Bot.GetMember(guildContext.GuildId, guildContext.Bot.CurrentUser.Id);
+            permissions = currentMember.GetPermissions().Flags | currentMember.GetPermissions(channel).Flags;
         }
 
         if (permissions.HasFlag(Permissions))

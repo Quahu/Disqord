@@ -9,7 +9,7 @@ namespace Disqord
     {
         /// <inheritdoc/>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public long ReceivedAt { get; }
+        public long __ReceivedAt { get; }
 
         /// <inheritdoc/>
         public Snowflake Id => Model.Id;
@@ -56,6 +56,18 @@ namespace Disqord
             }
         }
 
+        /// <inheritdoc />
+        public Permission ApplicationPermissions
+        {
+            get
+            {
+                if (!Model.AppPermissions.HasValue)
+                    return Permission.None;
+
+                return (Permission) Model.AppPermissions.Value;
+            }
+        }
+
         /// <inheritdoc/>
         public CultureInfo Locale => Model.Locale.HasValue
             ? Discord.Internal.GetLocale(Model.Locale.Value)
@@ -69,7 +81,7 @@ namespace Disqord
         public TransientInteraction(IClient client, long receivedAt, InteractionJsonModel model)
             : base(client, model)
         {
-            ReceivedAt = receivedAt;
+            __ReceivedAt = receivedAt;
         }
 
         public static IInteraction Create(IClient client, long receivedAt, InteractionJsonModel model)

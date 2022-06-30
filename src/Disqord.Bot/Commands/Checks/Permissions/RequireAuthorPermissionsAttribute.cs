@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Disqord.Bot.Commands.Application;
+using Disqord.Bot.Commands.Interaction;
 using Disqord.Gateway;
 using Qmmands;
 
@@ -24,9 +24,9 @@ public class RequireAuthorPermissionsAttribute : DiscordCheckAttribute
             return Results.Success;
 
         Permission permissions;
-        if (context is IDiscordApplicationCommandContext applicationContext)
+        if (context is IDiscordInteractionCommandContext interactionContext)
         {
-            permissions = applicationContext.AuthorPermissions;
+            permissions = interactionContext.AuthorPermissions;
         }
         else
         {

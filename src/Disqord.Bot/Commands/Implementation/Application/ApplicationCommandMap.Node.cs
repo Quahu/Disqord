@@ -82,6 +82,7 @@ public partial class ApplicationCommandMap
         public Node(ApplicationCommandMap map)
         {
             Map = map;
+
             SlashCommands = new SynchronizedDictionary<string, ApplicationCommand>();
             Nodes = new SynchronizedDictionary<string, Node>();
         }

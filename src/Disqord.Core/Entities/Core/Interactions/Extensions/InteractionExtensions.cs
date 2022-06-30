@@ -26,7 +26,7 @@ namespace Disqord
             Guard.IsNotNull(interaction);
 
             // TODO: update to Stopwatch.GetElapsedTime() with .NET 7
-            return GetElapsedTime(interaction.ReceivedAt);
+            return GetElapsedTime(interaction.__ReceivedAt);
         }
 
         /// <summary>

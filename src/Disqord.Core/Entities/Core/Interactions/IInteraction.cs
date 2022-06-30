@@ -16,7 +16,7 @@ namespace Disqord
         ///     This is an internal Disqord API and should not be used.
         /// </remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        long ReceivedAt { get; }
+        long __ReceivedAt { get; }
 
         /// <summary>
         ///     Gets the ID of the application of this interaction.
@@ -47,6 +47,14 @@ namespace Disqord
         ///     Gets the author's permissions in the channel of this interaction.
         /// </summary>
         Permission AuthorPermissions { get; }
+
+        /// <summary>
+        ///     Gets the application's permissions in the channel of this interaction.
+        /// </summary>
+        /// <remarks>
+        ///     This represents the bot's permissions for bot applications.
+        /// </remarks>
+        Permission ApplicationPermissions { get; }
 
         /// <summary>
         ///     Gets the locale of the user who triggered this interaction.

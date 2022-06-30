@@ -1,5 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Bot.Commands.Application;
+using Disqord.Bot.Commands.Components;
+using Disqord.Bot.Commands.Interaction;
+using Qommon;
 
 namespace Disqord.Bot;
 
@@ -25,11 +28,26 @@ public abstract partial class DiscordBotBase
     /// <returns>
     ///     An <see cref="IDiscordApplicationCommandContext"/> or an <see cref="IDiscordApplicationGuildCommandContext"/> for guild messages.
     /// </returns>
-    public virtual IDiscordApplicationCommandContext CreateApplicationCommandContext(IApplicationCommandInteraction interaction)
+    public virtual IDiscordInteractionCommandContext CreateInteractionCommandContext(IInteraction interaction)
     {
-        var context = interaction.GuildId != null
-            ? new DiscordApplicationGuildCommandContext(this, interaction)
-            : new DiscordApplicationCommandContext(this, interaction);
+        IDiscordInteractionCommandContext context;
+        if (interaction is IApplicationCommandInteraction applicationCommandInteraction)
+        {
+            context = interaction.GuildId != null
+                ? new DiscordApplicationGuildCommandContext(this, applicationCommandInteraction)
+                : new DiscordApplicationCommandContext(this, applicationCommandInteraction);
+        }
+        else if (interaction is IComponentInteraction or IModalSubmitInteraction)
+        {
+            context = interaction.GuildId != null
+                ? new DiscordComponentGuildCommandContext(this, interaction)
+                : new DiscordComponentCommandContext(this, interaction);
+        }
+        else
+        {
+            Throw.InvalidOperationException($"Cannot create a command context for interaction of type '{interaction.Type}'.");
+            return null!;
+        }
 
         SetAccessorContext(context);
         return context;
