@@ -39,7 +39,7 @@ namespace Disqord.Models
         public Optional<MessageJsonModel> Message;
 
         [JsonProperty("app_permissions")]
-        public Optional<ulong> AppPermissions { get; }
+        public Optional<ulong> AppPermissions;
 
         [JsonProperty("locale")]
         public Optional<string> Locale;
