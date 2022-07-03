@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -65,17 +66,26 @@ internal abstract class DiscordCommandContext<TCommand> : IDiscordCommandContext
     protected DiscordCommandContext(DiscordBotBase bot)
     {
         Bot = bot;
-        _serviceScope = bot.Services.CreateScope();
+
+        InitializeScope();
+    }
+
+    [MemberNotNull(nameof(_serviceScope))]
+    private void InitializeScope()
+    {
+        _serviceScope = Bot.Services.CreateScope();
+        Bot.SetAccessorContext(this);
     }
 
     protected abstract Snowflake? GetGuildId();
 
     protected virtual async ValueTask OnReset()
     {
-        await RuntimeDisposal.DisposeAsync(_serviceScope);
-        _serviceScope = Bot.Services.CreateScope();
-
         CommandUtilities.ResetContext(this);
+
+        await RuntimeDisposal.DisposeAsync(_serviceScope).ConfigureAwait(false);
+
+        InitializeScope();
     }
 
     protected virtual ValueTask OnDispose()

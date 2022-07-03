@@ -40,7 +40,6 @@ public abstract partial class DiscordBotBase
 
         context.InputString = input;
 
-        SetAccessorContext(context);
         return context;
     }
 }

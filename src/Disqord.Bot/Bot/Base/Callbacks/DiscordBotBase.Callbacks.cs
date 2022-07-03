@@ -21,7 +21,7 @@ public abstract partial class DiscordBotBase
     ///     Sets the context of the <see cref="ICommandContextAccessor"/>.
     /// </summary>
     /// <param name="context"> The execution context. </param>
-    protected virtual void SetAccessorContext(IDiscordCommandContext context)
+    protected internal virtual void SetAccessorContext(IDiscordCommandContext context)
     {
         var accessor = context.Services.GetService<ICommandContextAccessor>();
         if (accessor != null)

@@ -49,7 +49,6 @@ public abstract partial class DiscordBotBase
             return null!;
         }
 
-        SetAccessorContext(context);
         return context;
     }
 }
