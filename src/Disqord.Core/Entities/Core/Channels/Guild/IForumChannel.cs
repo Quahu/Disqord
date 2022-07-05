@@ -1,32 +1,10 @@
-using System;
-
 namespace Disqord
 {
     /// <summary>
     ///     Represents a guild forum channel.
     /// </summary>
-    public interface IForumChannel : ICategorizableGuildChannel
+    public interface IForumChannel : ITopicChannel, IThreadParentChannel, ISlowmodeChannel
     {
-        /// <summary>
-        ///     Gets the topic of this channel.
-        /// </summary>
-        string Topic { get; }
-
-        /// <summary>
-        ///     Gets whether this channel is age restricted.
-        /// </summary>
-        bool IsAgeRestricted { get; }
-
-        /// <summary>
-        ///     Gets the default automatic archive duration for threads created in this channel.
-        /// </summary>
-        TimeSpan DefaultAutomaticArchiveDuration { get; }
-
-        /// <summary>
-        ///     Gets the slowmode duration of this channel.
-        /// </summary>
-        TimeSpan Slowmode { get; }
-
         /// <summary>
         ///     Gets the ID of the last thread created in this channel.
         /// </summary>

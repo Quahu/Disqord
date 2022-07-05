@@ -12,9 +12,6 @@ namespace Disqord.Gateway
         public string Topic { get; private set; }
 
         /// <inheritdoc/>
-        public bool IsNsfw => IsAgeRestricted;
-
-        /// <inheritdoc/>
         public bool IsAgeRestricted { get; private set; }
 
         /// <inheritdoc/>

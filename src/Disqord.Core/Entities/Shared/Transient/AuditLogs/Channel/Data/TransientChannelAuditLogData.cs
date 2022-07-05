@@ -15,9 +15,6 @@ namespace Disqord.AuditLogs
 
         public Optional<IReadOnlyList<IOverwrite>> Overwrites { get; }
 
-        [Obsolete("Use IsAgeRestricted instead.")]
-        public Optional<bool> IsNsfw => IsAgeRestricted;
-
         public Optional<bool> IsAgeRestricted { get; }
 
         public Optional<TimeSpan> Slowmode { get; }

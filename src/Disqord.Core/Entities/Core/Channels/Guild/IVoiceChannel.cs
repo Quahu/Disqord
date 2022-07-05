@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace Disqord
+﻿namespace Disqord
 {
     /// <summary>
     ///     Represents a guild voice channel.
     /// </summary>
-    public interface IVoiceChannel : IVocalGuildChannel, IMessageGuildChannel
+    public interface IVoiceChannel : IAgeRestrictableChannel, IVocalGuildChannel, IMessageGuildChannel
     {
         /// <summary>
         ///     Gets the member limit of this channel.
@@ -16,10 +14,5 @@ namespace Disqord
         ///     Gets the camera video quality mode of this channel.
         /// </summary>
         VideoQualityMode VideoQualityMode { get; }
-
-        /// <summary>
-        ///     Gets whether this channel is age restricted.
-        /// </summary>
-        bool IsAgeRestricted { get; }
     }
 }

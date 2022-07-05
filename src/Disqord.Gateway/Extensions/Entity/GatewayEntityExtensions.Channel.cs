@@ -11,10 +11,10 @@ namespace Disqord.Gateway
         /// <returns>
         ///     The parent channel or <see langword="null"/> if it was not cached.
         /// </returns>
-        public static CachedTextChannel GetChannel(this IThreadChannel thread)
+        public static IThreadParentChannel GetChannel(this IThreadChannel thread)
         {
             var client = thread.GetGatewayClient();
-            return client.GetChannel(thread.GuildId, thread.ChannelId) as CachedTextChannel;
+            return client.GetChannel(thread.GuildId, thread.ChannelId) as IThreadParentChannel;
         }
 
         /// <summary>

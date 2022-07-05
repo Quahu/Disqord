@@ -1,36 +1,13 @@
-﻿using System;
-
-namespace Disqord
+﻿namespace Disqord
 {
     /// <summary>
     ///     Represents a guild text channel.
     /// </summary>
-    public interface ITextChannel : IMessageGuildChannel
+    public interface ITextChannel : ITopicChannel, IThreadParentChannel, IMessageGuildChannel
     {
-        /// <summary>
-        ///     Gets the topic of this channel.
-        /// </summary>
-        string Topic { get; }
-
-        /// <summary>
-        ///     Gets whether this channel is not safe for work.
-        /// </summary>
-        [Obsolete("Use IsAgeRestricted instead.")]
-        bool IsNsfw { get; }
-
-        /// <summary>
-        ///     Gets whether this channel is age restricted.
-        /// </summary>
-        bool IsAgeRestricted { get; }
-
         /// <summary>
         ///     Gets whether this text channel is a news channel.
         /// </summary>
         bool IsNews { get; }
-
-        /// <summary>
-        ///     Gets the default automatic archive duration for threads created in this channel.
-        /// </summary>
-        TimeSpan DefaultAutomaticArchiveDuration { get; }
     }
 }

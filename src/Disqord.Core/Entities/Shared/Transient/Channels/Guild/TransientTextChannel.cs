@@ -11,10 +11,6 @@ namespace Disqord
         public string Topic => Model.Topic.Value;
 
         /// <inheritdoc/>
-        [Obsolete("Use IsAgeRestricted instead.")]
-        public bool IsNsfw => IsAgeRestricted;
-
-        /// <inheritdoc/>
         public bool IsAgeRestricted => Model.Nsfw.Value;
 
         /// <inheritdoc/>

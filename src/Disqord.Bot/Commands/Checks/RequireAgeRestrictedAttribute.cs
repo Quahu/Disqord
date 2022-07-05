@@ -17,10 +17,8 @@ public class RequireAgeRestrictedAttribute : DiscordGuildCheckAttribute
 
         var isAgeRestricted = channel switch
         {
-            CachedTextChannel textChannel => textChannel.IsAgeRestricted,
-            CachedVoiceChannel voiceChannel => voiceChannel.IsAgeRestricted,
-            CachedForumChannel forumChannel => forumChannel.IsAgeRestricted,
-            CachedThreadChannel threadChannel => threadChannel.GetChannel()?.IsAgeRestricted ?? false,
+            IAgeRestrictableChannel ageRestrictableChannel => ageRestrictableChannel.IsAgeRestricted,
+            IThreadChannel threadChannel => threadChannel.GetChannel()?.IsAgeRestricted ?? false,
             _ => false
         };
 
