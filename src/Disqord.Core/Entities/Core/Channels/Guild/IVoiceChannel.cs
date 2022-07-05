@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represents a guild voice channel.
     /// </summary>
-    public interface IVoiceChannel : IAgeRestrictableChannel, IVocalGuildChannel, IMessageGuildChannel
+    public interface IVoiceChannel : IVocalGuildChannel, IMessageGuildChannel, IAgeRestrictableChannel
     {
         /// <summary>
         ///     Gets the member limit of this channel.

@@ -1,11 +1,15 @@
 using System;
 
-namespace Disqord;
-
-public interface ISlowmodeChannel : IGuildChannel
+namespace Disqord
 {
     /// <summary>
-    ///     Gets the slowmode duration of this channel.
+    ///     Represents a guild channel that might have a slowmode.
     /// </summary>
-    TimeSpan Slowmode { get; }
+    public interface ISlowmodeChannel : IGuildChannel
+    {
+        /// <summary>
+        ///     Gets the slowmode duration of this channel.
+        /// </summary>
+        TimeSpan Slowmode { get; }
+    }
 }

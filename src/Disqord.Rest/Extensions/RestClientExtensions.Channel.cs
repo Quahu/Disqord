@@ -664,11 +664,11 @@ namespace Disqord.Rest
                 // If there are attachments, we must send them via multipart HTTP content.
                 // Our `messageContent` will be serialized into a "payload_json" form data field.
                 var content = new MultipartJsonPayloadRestRequestContent<CreateForumThreadJsonRestRequestContent>(forumContent, message.Attachments);
-                task = client.ApiClient.CreateThreadInForumAsync(channelId, content, options, cancellationToken);
+                task = client.ApiClient.CreateForumThreadAsync(channelId, content, options, cancellationToken);
             }
             else
             {
-                task = client.ApiClient.CreateThreadInForumAsync(channelId, forumContent, options, cancellationToken);
+                task = client.ApiClient.CreateForumThreadAsync(channelId, forumContent, options, cancellationToken);
             }
             var model = await task.ConfigureAwait(false);
             return new TransientThreadChannel(client, model);

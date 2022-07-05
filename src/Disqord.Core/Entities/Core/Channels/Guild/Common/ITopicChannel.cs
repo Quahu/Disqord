@@ -1,9 +1,13 @@
-namespace Disqord;
-
-public interface ITopicChannel : IGuildChannel
+namespace Disqord
 {
     /// <summary>
-    ///     Gets the topic of this channel.
+    ///     Represents a channel with a topic.
     /// </summary>
-    string Topic { get; }
+    public interface ITopicChannel : IGuildChannel
+    {
+        /// <summary>
+        ///     Gets the topic of this channel.
+        /// </summary>
+        string Topic { get; }
+    }
 }

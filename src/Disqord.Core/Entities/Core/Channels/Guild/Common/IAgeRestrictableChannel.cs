@@ -1,9 +1,13 @@
-namespace Disqord;
-
-public interface IAgeRestrictableChannel : ICategorizableGuildChannel
+namespace Disqord
 {
     /// <summary>
-    ///     Gets whether this channel is age restricted.
+    ///     Represents a guild channel that might be age-restricted.
     /// </summary>
-    bool IsAgeRestricted { get; }
+    public interface IAgeRestrictableChannel : ICategorizableGuildChannel
+    {
+        /// <summary>
+        ///     Gets whether this channel is age-restricted.
+        /// </summary>
+        bool IsAgeRestricted { get; }
+    }
 }

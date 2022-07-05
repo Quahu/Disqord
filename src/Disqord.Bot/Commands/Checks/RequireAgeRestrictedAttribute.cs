@@ -25,6 +25,6 @@ public class RequireAgeRestrictedAttribute : DiscordGuildCheckAttribute
         if (isAgeRestricted)
             return Results.Success;
 
-        return Results.Failure("This can only be executed in an age restricted channel.");
+        return Results.Failure("This can only be executed in an age-restricted channel.");
     }
 }

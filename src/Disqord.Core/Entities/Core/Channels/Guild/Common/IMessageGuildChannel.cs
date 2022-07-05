@@ -3,6 +3,6 @@
     /// <summary>
     ///     Represents a message channel in a guild.
     /// </summary>
-    public interface IMessageGuildChannel : ISlowmodeChannel, IMessageChannel, ITaggableEntity
+    public interface IMessageGuildChannel : IMessageChannel, ISlowmodeChannel, ITaggableEntity
     { }
 }
