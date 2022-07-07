@@ -1,5 +1,6 @@
 using Disqord.Models;
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Gateway.Api.Models
 {
@@ -21,13 +22,13 @@ namespace Disqord.Gateway.Api.Models
         public Snowflake UserId;
 
         [JsonProperty("channel_id")]
-        public Snowflake? ChannelId;
+        public Optional<Snowflake> ChannelId;
 
         [JsonProperty("message_id")]
-        public Snowflake? MessageId;
+        public Optional<Snowflake> MessageId;
 
         [JsonProperty("alert_system_message_id")]
-        public Snowflake? AlertSystemMessageId;
+        public Optional<Snowflake> AlertSystemMessageId;
 
         [JsonProperty("content")]
         public string Content;
