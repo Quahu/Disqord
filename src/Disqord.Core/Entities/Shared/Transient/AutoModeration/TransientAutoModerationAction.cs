@@ -9,7 +9,16 @@ namespace Disqord
         public AutoModerationActionType Type => Model.Type;
 
         /// <inheritdoc/>
-        public IAutoModerationActionMetadata Metadata => _metadata ??= new TransientAutoModerationActionMetadata(Model.Metadata);
+        public IAutoModerationActionMetadata Metadata
+        {
+            get
+            {
+                if (!Model.Metadata.HasValue)
+                    return null;
+
+                return _metadata ??= new TransientAutoModerationActionMetadata(Model.Metadata.Value);
+            }
+        }
         private IAutoModerationActionMetadata _metadata;
 
         public TransientAutoModerationAction(AutoModerationActionJsonModel model)

@@ -6,7 +6,7 @@ namespace Disqord
     public enum AutoModerationEventType
     {
         /// <summary>
-        ///     Represents a message being sent.
+        ///     Represents when a message is sent or edited.
         /// </summary>
         MessageSent = 1
     }

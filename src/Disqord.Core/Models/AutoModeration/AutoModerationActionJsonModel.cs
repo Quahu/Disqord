@@ -1,4 +1,5 @@
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Models
 {
@@ -8,6 +9,6 @@ namespace Disqord.Models
         public AutoModerationActionType Type;
 
         [JsonProperty("metadata")]
-        public AutoModerationActionMetadataJsonModel Metadata;
+        public Optional<AutoModerationActionMetadataJsonModel> Metadata;
     }
 }

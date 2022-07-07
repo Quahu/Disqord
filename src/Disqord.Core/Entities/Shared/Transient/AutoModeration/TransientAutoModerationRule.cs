@@ -37,11 +37,11 @@ namespace Disqord
         public bool IsEnabled => Model.Enabled;
 
         /// <inheritdoc/>
-        public IReadOnlyList<Snowflake> ExemptRoles => _exemptRoles ??= Model.ExemptRoles.ToReadOnlyList();
+        public IReadOnlyList<Snowflake> ExemptRoleIds => _exemptRoles ??= Model.ExemptRoles.ToReadOnlyList();
         private IReadOnlyList<Snowflake> _exemptRoles;
 
         /// <inheritdoc/>
-        public IReadOnlyList<Snowflake> ExemptChannels => _exemptChannels ??= Model.ExemptChannels.ToReadOnlyList();
+        public IReadOnlyList<Snowflake> ExemptChannelIds => _exemptChannels ??= Model.ExemptChannels.ToReadOnlyList();
         private IReadOnlyList<Snowflake> _exemptChannels;
 
         public TransientAutoModerationRule(IClient client, AutoModerationRuleJsonModel model)

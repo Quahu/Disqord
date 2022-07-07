@@ -45,11 +45,11 @@ namespace Disqord
         /// <summary>
         ///     Gets the list of the IDs of roles which are exempt from this rule.
         /// </summary>
-        IReadOnlyList<Snowflake> ExemptRoles { get; }
+        IReadOnlyList<Snowflake> ExemptRoleIds { get; }
 
         /// <summary>
         ///     Gets the list of the IDs of channels which are exempt from this rule.
         /// </summary>
-        IReadOnlyList<Snowflake> ExemptChannels { get; }
+        IReadOnlyList<Snowflake> ExemptChannelIds { get; }
     }
 }

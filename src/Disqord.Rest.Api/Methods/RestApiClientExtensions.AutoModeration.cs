@@ -42,7 +42,7 @@ namespace Disqord.Rest.Api
             Snowflake guildId, Snowflake ruleId,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var route = Format(Route.AutoModeration.ModifyRule, guildId, ruleId);
+            var route = Format(Route.AutoModeration.DeleteRule, guildId, ruleId);
             return client.ExecuteAsync(route, null, options, cancellationToken);
         }
     }
