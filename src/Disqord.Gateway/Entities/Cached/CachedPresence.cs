@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using Qommon.Collections;
 using Disqord.Gateway.Api.Models;
 using Qommon.Collections.ReadOnly;
 
@@ -22,12 +21,9 @@ namespace Disqord.Gateway
                 var raw = _activities;
                 if (raw is ActivityJsonModel[] models)
                 {
-                    lock (this)
-                    {
-                        var activities = models.ToReadOnlyList(Client, (models, client) => TransientActivity.Create(client, models));
-                        _activities = activities;
-                        return activities;
-                    }
+                    var activities = models.ToReadOnlyList(Client, (models, client) => TransientActivity.Create(client, models));
+                    _activities = activities;
+                    return activities;
                 }
 
                 return raw as IReadOnlyList<IActivity>;
@@ -53,11 +49,7 @@ namespace Disqord.Gateway
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void Update(PresenceJsonModel model)
         {
-            lock (this)
-            {
-                _activities = model.Activities;
-            }
-
+            _activities = model.Activities;
             Status = model.Status;
             Statuses = model.ClientStatus;
         }

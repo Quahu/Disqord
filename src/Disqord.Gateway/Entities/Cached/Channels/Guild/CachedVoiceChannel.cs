@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Disqord.Models;
+using Qommon;
 
 namespace Disqord.Gateway
 {
@@ -11,7 +12,9 @@ namespace Disqord.Gateway
 
         public CachedVoiceChannel(IGatewayClient client, ChannelJsonModel model)
             : base(client, model)
-        { }
+        {
+            VideoQualityMode = model.VideoQualityMode.GetValueOrDefault(VideoQualityMode.Automatic);
+        }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void Update(ChannelJsonModel model)
@@ -20,6 +23,9 @@ namespace Disqord.Gateway
 
             if (model.UserLimit.HasValue)
                 MemberLimit = model.UserLimit.Value;
+
+            if (model.VideoQualityMode.HasValue)
+                VideoQualityMode = model.VideoQualityMode.Value;
         }
     }
 }

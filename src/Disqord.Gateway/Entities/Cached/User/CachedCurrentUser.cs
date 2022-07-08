@@ -4,20 +4,24 @@ using Disqord.Models;
 
 namespace Disqord.Gateway
 {
-    public class CachedCurrentUser : CachedUser, ICurrentUser
+    public class CachedCurrentUser : CachedShareeUser, ICurrentUser
     {
+        /// <inheritdoc/>
         public CultureInfo Locale { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsVerified { get; private set; }
 
+        /// <inheritdoc/>
         public string Email { get; private set; }
 
+        /// <inheritdoc/>
         public bool HasMfaEnabled { get; private set; }
 
+        /// <inheritdoc/>
         public UserFlag Flags { get; private set; }
 
-        public bool HasNitro => NitroType != null;
-
+        /// <inheritdoc/>
         public NitroType? NitroType { get; private set; }
 
         public CachedCurrentUser(CachedSharedUser sharedUser, UserJsonModel model)
@@ -29,6 +33,8 @@ namespace Disqord.Gateway
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void Update(UserJsonModel model)
         {
+            base.Update(model);
+
             if (model.Locale.HasValue)
                 Locale = CultureInfo.ReadOnly(new CultureInfo(model.Locale.Value ?? "en-US"));
 
@@ -46,8 +52,6 @@ namespace Disqord.Gateway
 
             if (model.PremiumType.HasValue)
                 NitroType = model.PremiumType.Value;
-
-            base.Update(model);
         }
     }
 }

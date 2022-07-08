@@ -1,34 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Qommon.Collections;
 using Disqord.Models;
 using Qommon;
-using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway
 {
-    public class CachedMember : CachedUser, IMember
+    public class CachedMember : CachedShareeUser, IMember
     {
+        /// <inheritdoc/>
         public Snowflake GuildId { get; }
 
+        /// <inheritdoc/>
         public string Nick { get; private set; }
 
-        public IReadOnlyList<Snowflake> RoleIds => _roleIds.ReadOnly();
-        private Snowflake[] _roleIds;
+        /// <inheritdoc/>
+        public IReadOnlyList<Snowflake> RoleIds { get; private set; }
 
+        /// <inheritdoc/>
         public Optional<DateTimeOffset> JoinedAt { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsMuted { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsDeafened { get; private set; }
 
+        /// <inheritdoc/>
         public DateTimeOffset? BoostedAt { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsPending { get; private set; }
 
+        /// <inheritdoc/>
         public string GuildAvatarHash { get; private set; }
 
+        /// <inheritdoc/>
         public DateTimeOffset? TimedOutUntil { get; private set; }
 
         public CachedMember(CachedSharedUser sharedUser, Snowflake guildId, MemberJsonModel model)
@@ -47,7 +54,7 @@ namespace Disqord.Gateway
                 Update(model.User.Value);
 
             Nick = model.Nick;
-            _roleIds = model.Roles;
+            RoleIds = model.Roles;
 
             if (model.JoinedAt.HasValue)
                 JoinedAt = model.JoinedAt.Value;

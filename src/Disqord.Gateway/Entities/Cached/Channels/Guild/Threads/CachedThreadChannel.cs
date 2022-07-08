@@ -32,26 +32,26 @@ namespace Disqord.Gateway
         public int MemberCount { get; private set; }
 
         /// <inheritdoc/>
-        public bool IsArchived { get; private set; }
+        public bool IsArchived => _metadata.IsArchived;
 
         /// <inheritdoc/>
-        public TimeSpan AutomaticArchiveDuration { get; private set; }
+        public TimeSpan AutomaticArchiveDuration => _metadata.AutomaticArchiveDuration;
 
         /// <inheritdoc/>
-        public DateTimeOffset ArchiveStateChangedAt { get; private set; }
+        public DateTimeOffset ArchiveStateChangedAt => _metadata.ArchiveStateChangedAt;
 
         /// <inheritdoc/>
-        public bool IsLocked { get; private set; }
+        public bool IsLocked => _metadata.IsLocked;
 
         /// <inheritdoc/>
-        public bool AllowsInvitation { get; private set; }
+        public bool AllowsInvitation => _metadata.AllowsInvitation;
+
+        /// <inheritdoc/>
+        public DateTimeOffset? CreatedAt => _metadata.CreatedAt;
 
         public IThreadMetadata Metadata => _metadata;
 
         private readonly CachedThreadMetadata _metadata;
-
-        /// <inheritdoc/>
-        public DateTimeOffset? CreatedAt { get; }
 
         public CachedThreadChannel(IGatewayClient client, ChannelJsonModel model)
             : base(client, model)

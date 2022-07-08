@@ -4,7 +4,6 @@ using System.ComponentModel;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
 using Qommon;
-using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway
@@ -96,16 +95,16 @@ namespace Disqord.Gateway
         {
             if (model.Author.HasValue)
             {
-                if (_transientAuthor != null)
+                if (_author is TransientUser)
                 {
                     if (model.Member.HasValue)
                     {
                         model.Member.Value.User = model.Author;
-                        _transientAuthor = new TransientMember(Client, GuildId.Value, model.Member.Value);
+                        _author = new TransientMember(Client, GuildId.Value, model.Member.Value);
                     }
                     else
                     {
-                        _transientAuthor = new TransientUser(Client, model.Author.Value);
+                        _author = new TransientUser(Client, model.Author.Value);
                     }
                 }
             }

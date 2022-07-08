@@ -13,31 +13,44 @@ namespace Disqord.Gateway
         IJsonUpdatable<UnavailableGuildJsonModel>, IJsonUpdatable<GuildEmojisUpdateJsonModel>, IJsonUpdatable<GuildMemberAddJsonModel>, IJsonUpdatable<GuildMemberRemoveJsonModel>
     {
         // Interface: INamable
+        /// <inheritdoc/>
         public string Name { get; private set; }
 
         // Interface: IGuild
+        /// <inheritdoc/>
         public string IconHash { get; private set; }
 
+        /// <inheritdoc/>
         public string SplashHash { get; private set; }
 
+        /// <inheritdoc/>
         public string DiscoverySplashHash { get; private set; }
 
+        /// <inheritdoc/>
         public Snowflake OwnerId { get; private set; }
 
+        /// <inheritdoc/>
         public Snowflake? AfkChannelId { get; private set; }
 
+        /// <inheritdoc/>
         public TimeSpan AfkTimeout { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsWidgetEnabled { get; private set; }
 
+        /// <inheritdoc/>
         public Snowflake? WidgetChannelId { get; private set; }
 
+        /// <inheritdoc/>
         public GuildVerificationLevel VerificationLevel { get; private set; }
 
+        /// <inheritdoc/>
         public GuildNotificationLevel NotificationLevel { get; private set; }
 
+        /// <inheritdoc/>
         public GuildContentFilterLevel ContentFilterLevel { get; private set; }
 
+        /// <inheritdoc/>
         public IReadOnlyDictionary<Snowflake, IRole> Roles
         {
             get
@@ -49,49 +62,71 @@ namespace Disqord.Gateway
             }
         }
 
+        /// <inheritdoc/>
         public IReadOnlyDictionary<Snowflake, IGuildEmoji> Emojis { get; private set; }
 
+        /// <inheritdoc/>
         public IReadOnlyList<string> Features { get; private set; }
 
+        /// <inheritdoc/>
         public GuildMfaLevel MfaLevel { get; private set; }
 
+        /// <inheritdoc/>
         public Snowflake? ApplicationId { get; }
 
+        /// <inheritdoc/>
         public Snowflake? SystemChannelId { get; private set; }
 
+        /// <inheritdoc/>
         public SystemChannelFlag SystemChannelFlags { get; private set; }
 
+        /// <inheritdoc/>
         public Snowflake? RulesChannelId { get; private set; }
 
+        /// <inheritdoc/>
         public int? MaxPresenceCount { get; private set; }
 
+        /// <inheritdoc/>
         public int? MaxMemberCount { get; private set; }
 
+        /// <inheritdoc/>
         public string VanityUrlCode { get; private set; }
 
+        /// <inheritdoc/>
         public string Description { get; private set; }
 
+        /// <inheritdoc/>
         public string BannerHash { get; private set; }
 
+        /// <inheritdoc/>
         public GuildBoostTier BoostTier { get; private set; }
 
+        /// <inheritdoc/>
         public int? BoostingMemberCount { get; private set; }
 
+        /// <inheritdoc/>
         public CultureInfo PreferredLocale { get; private set; }
 
+        /// <inheritdoc/>
         public Snowflake? PublicUpdatesChannelId { get; private set; }
 
+        /// <inheritdoc/>
         public int? MaxVideoMemberCount { get; private set; }
 
         // Interface: IGatewayGuild
+        /// <inheritdoc/>
         public DateTimeOffset JoinedAt { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsLarge { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsUnavailable { get; private set; }
 
+        /// <inheritdoc/>
         public int MemberCount { get; private set; }
 
+        /// <inheritdoc/>
         public IReadOnlyDictionary<Snowflake, IMember> Members
         {
             get
@@ -102,6 +137,15 @@ namespace Disqord.Gateway
                 return ReadOnlyDictionary<Snowflake, IMember>.Empty;
             }
         }
+
+        /// <inheritdoc/>
+        public GuildNsfwLevel NsfwLevel { get; private set; }
+
+        /// <inheritdoc/>
+        public IReadOnlyDictionary<Snowflake, IGuildSticker> Stickers { get; private set; }
+
+        /// <inheritdoc/>
+        public bool IsBoostProgressBarEnabled { get; private set; }
 
         IReadOnlyDictionary<Snowflake, IGuildChannel> IGatewayGuild.Channels
         {
@@ -157,12 +201,6 @@ namespace Disqord.Gateway
                 return ReadOnlyDictionary<Snowflake, IGuildEvent>.Empty;
             }
         }
-
-        public GuildNsfwLevel NsfwLevel { get; private set; }
-
-        public IReadOnlyDictionary<Snowflake, IGuildSticker> Stickers { get; private set; }
-
-        public bool IsBoostProgressBarEnabled { get; private set; }
 
         public CachedGuild(IGatewayClient client, GatewayGuildJsonModel model)
             : base(client, model.Id)

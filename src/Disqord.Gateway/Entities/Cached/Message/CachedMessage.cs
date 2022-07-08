@@ -4,7 +4,6 @@ using System.Linq;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
 using Qommon;
-using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway
@@ -20,18 +19,9 @@ namespace Disqord.Gateway
         public Snowflake? GuildId { get; }
 
         /// <inheritdoc/>
-        public IUser Author
-        {
-            get
-            {
-                if (_cachedAuthor != null)
-                    return _cachedAuthor;
+        public IUser Author => _author;
 
-                return _transientAuthor;
-            }
-        }
-        protected TransientUser _transientAuthor;
-        private CachedMember _cachedAuthor;
+        protected IUser _author;
 
         /// <inheritdoc/>
         public virtual string Content { get; protected set; }
@@ -52,18 +42,18 @@ namespace Disqord.Gateway
             GuildId = model.GuildId.GetValueOrNullable();
             if (author != null)
             {
-                _cachedAuthor = author;
+                _author = author;
             }
             else
             {
                 if (model.Member.HasValue)
                 {
                     model.Member.Value.User = model.Author;
-                    _transientAuthor = new TransientMember(Client, GuildId.Value, model.Member.Value);
+                    _author = new TransientMember(Client, GuildId.Value, model.Member.Value);
                 }
                 else
                 {
-                    _transientAuthor = new TransientUser(Client, model.Author);
+                    _author = new TransientUser(Client, model.Author);
                 }
             }
 
@@ -73,16 +63,16 @@ namespace Disqord.Gateway
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual void Update(MessageJsonModel model)
         {
-            if (_transientAuthor != null)
+            if (_author is TransientUser)
             {
                 if (model.Member.HasValue)
                 {
                     model.Member.Value.User = model.Author;
-                    _transientAuthor = new TransientMember(Client, GuildId.Value, model.Member.Value);
+                    _author = new TransientMember(Client, GuildId.Value, model.Member.Value);
                 }
                 else
                 {
-                    _transientAuthor = new TransientUser(Client, model.Author);
+                    _author = new TransientUser(Client, model.Author);
                 }
             }
 
@@ -161,11 +151,14 @@ namespace Disqord.Gateway
 
             var newReactions = new Dictionary<IEmoji, IMessageReaction>(reactions.Value);
             if (reaction.Count == 1)
+            {
                 newReactions.Remove(emoji);
+            }
             else
             {
                 var emojiModel = reaction.Model;
                 emojiModel.Count--;
+
                 if (reaction.HasOwnReaction && model.UserId != Client.CurrentUser.Id)
                     emojiModel.Me = false;
             }
