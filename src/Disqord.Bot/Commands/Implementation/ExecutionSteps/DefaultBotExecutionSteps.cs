@@ -1,4 +1,4 @@
-﻿namespace Qmmands.Default;
+﻿namespace Disqord.Bot.Commands;
 
 /// <summary>
 ///     Defines the default command execution steps.

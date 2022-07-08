@@ -6,7 +6,7 @@ using Qmmands;
 namespace Disqord.Bot.Commands.Application;
 
 /// <summary>
-///     Represents text extensions for <see cref="ICommandService"/>.
+///     Represents application command extensions for <see cref="ICommandService"/>.
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class ApplicationCommandServiceExtensions

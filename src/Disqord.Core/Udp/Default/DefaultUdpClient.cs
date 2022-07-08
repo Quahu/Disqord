@@ -19,7 +19,7 @@ namespace Disqord.Udp.Default
         public async ValueTask ConnectAsync(string hostName, int port, CancellationToken cancellationToken = default)
         {
             _cts = new Cts();
-            var hostAddresses = await Dns.GetHostAddressesAsync(hostName).ConfigureAwait(false);
+            var hostAddresses = await Dns.GetHostAddressesAsync(hostName, cancellationToken).ConfigureAwait(false);
             var hostAddress = Array.Find(hostAddresses, x => x.AddressFamily == AddressFamily.InterNetwork);
             if (hostAddress == null)
                 Throw.InvalidOperationException($"Could not resolve the UDP client's host '{hostName}'.");
@@ -37,13 +37,18 @@ namespace Disqord.Udp.Default
         }
 
         public ValueTask<int> SendAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
-            => _socket.SendAsync(buffer, SocketFlags.None, cancellationToken);
+        {
+            return _socket.SendAsync(buffer, SocketFlags.None, cancellationToken);
+        }
 
         public ValueTask<int> ReceiveAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
-            => _socket.ReceiveAsync(buffer, SocketFlags.None, cancellationToken);
+        {
+            return _socket.ReceiveAsync(buffer, SocketFlags.None, cancellationToken);
+        }
 
         public void Dispose()
         {
+            _cts?.Dispose();
             _socket?.Dispose();
         }
     }
