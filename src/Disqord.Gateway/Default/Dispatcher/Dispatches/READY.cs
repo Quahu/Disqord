@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Qommon.Collections.Synchronized;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 using Qommon;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Default.Dispatcher
 {
@@ -141,13 +142,13 @@ namespace Disqord.Gateway.Default.Dispatcher
             {
                 Tcs = new Tcs();
 
-                static void CancellationCallback(object tuple)
+                static void CancellationCallback(object state, CancellationToken cancellationToken)
                 {
-                    var (tcs, token) = (ValueTuple<Tcs, CancellationToken>) tuple;
-                    tcs.Cancel(token);
+                    var tcs = Unsafe.As<Tcs>(state);
+                    tcs.Cancel(cancellationToken);
                 }
 
-                _reg = stoppingToken.UnsafeRegister(CancellationCallback, (Tcs, stoppingToken));
+                _reg = stoppingToken.UnsafeRegister(CancellationCallback, Tcs);
             }
 
             public void Dispose()

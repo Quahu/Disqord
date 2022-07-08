@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway;
@@ -338,20 +339,24 @@ namespace Disqord.Extensions.Interactivity.Menus
 
             _tcs = new Tcs();
             _cts = Cts.Linked(Client.StoppingToken, cancellationToken);
-            _cts.Token.UnsafeRegister(state =>
+
+            static void CancellationCallback(object state, CancellationToken cancellationToken)
             {
-                var (tcs, token) = ((Tcs, CancellationToken)) state;
-                tcs.Cancel(token);
-            }, (_tcs, cancellationToken));
+                var tcs = Unsafe.As<Tcs>(state);
+                tcs.Cancel(cancellationToken);
+            }
+
+            _cts.Token.UnsafeRegister(CancellationCallback, _tcs);
 
             if (timeout == Timeout.InfiniteTimeSpan)
                 return;
 
             // We store the timeout so it can be refreshed when a button is triggered in HandleInteractionAsync.
             _timeout = timeout;
-            _timeoutTimer = new Timer(state =>
+
+            static void TimerCallback(object state)
             {
-                var menu = (MenuBase) state;
+                var menu = Unsafe.As<MenuBase>(state);
                 lock (menu._disposeLock)
                 {
                     if (!menu.IsRunning)
@@ -364,7 +369,9 @@ namespace Disqord.Extensions.Interactivity.Menus
                     cts.Cancel();
                     menu._tcs.Cancel(cts.Token);
                 }
-            }, this, timeout, Timeout.InfiniteTimeSpan);
+            }
+
+            _timeoutTimer = new Timer(TimerCallback, this, timeout, Timeout.InfiniteTimeSpan);
         }
 
         /// <summary>
@@ -414,7 +421,9 @@ namespace Disqord.Extensions.Interactivity.Menus
 
             var view = _view;
             if (view != null)
+            {
                 await view.DisposeAsync().ConfigureAwait(false);
+            }
         }
     }
 }
