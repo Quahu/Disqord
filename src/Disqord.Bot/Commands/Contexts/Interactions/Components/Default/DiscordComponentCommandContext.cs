@@ -8,7 +8,7 @@ internal class DiscordComponentCommandContext : DiscordCommandContext<ComponentC
 
     public override CultureInfo GuildLocale => Interaction.GuildLocale ?? CultureInfo.InvariantCulture;
 
-    public IInteraction Interaction { get; }
+    public IUserInteraction Interaction { get; }
 
     public override IUser Author => Interaction.Author;
 
@@ -16,7 +16,7 @@ internal class DiscordComponentCommandContext : DiscordCommandContext<ComponentC
 
     public DiscordComponentCommandContext(
         DiscordBotBase bot,
-        IInteraction interaction)
+        IUserInteraction interaction)
         : base(bot)
     {
         Interaction = interaction;

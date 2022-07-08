@@ -8,7 +8,7 @@ public interface IDiscordInteractionCommandContext : IDiscordCommandContext
     /// <summary>
     ///     Gets the interaction that triggered this command execution.
     /// </summary>
-    IInteraction Interaction { get; }
+    IUserInteraction Interaction { get; }
 
     /// <summary>
     ///     Gets the author's permissions in the context channel of this command execution.

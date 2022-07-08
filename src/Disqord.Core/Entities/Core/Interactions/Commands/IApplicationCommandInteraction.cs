@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represents an application command interaction.
     /// </summary>
-    public interface IApplicationCommandInteraction : IInteraction
+    public interface IApplicationCommandInteraction : IUserInteraction
     {
         /// <summary>
         ///     Gets the ID of the application command of this interaction.

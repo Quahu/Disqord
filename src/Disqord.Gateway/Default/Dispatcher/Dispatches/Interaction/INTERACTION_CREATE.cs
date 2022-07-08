@@ -14,7 +14,7 @@ namespace Disqord.Gateway.Default.Dispatcher
         {
             var now = Stopwatch.GetTimestamp();
             CachedMember member = null;
-            var interaction = TransientInteraction.Create(Client, now, model);
+            var interaction = TransientUserInteraction.Create(Client, now, model);
             if (model.GuildId.HasValue
                 && Client.CacheProvider.TryGetUsers(out var userCache)
                 && Client.CacheProvider.TryGetMembers(model.GuildId.Value, out var memberCache))

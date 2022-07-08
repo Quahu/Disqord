@@ -61,8 +61,8 @@ namespace Disqord
             }
         }
 
-        public TransientAutoCompleteInteraction(IClient client, long receivedAt, InteractionJsonModel model)
-            : base(client, receivedAt, model)
+        public TransientAutoCompleteInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
+            : base(client, __receivedAt, model)
         { }
     }
 }

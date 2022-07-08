@@ -8,7 +8,7 @@ internal sealed class DiscordComponentGuildCommandContext : DiscordComponentComm
 
     public DiscordComponentGuildCommandContext(
         DiscordBotBase bot,
-        IInteraction interaction)
+        IUserInteraction interaction)
         : base(bot, interaction)
     { }
 }

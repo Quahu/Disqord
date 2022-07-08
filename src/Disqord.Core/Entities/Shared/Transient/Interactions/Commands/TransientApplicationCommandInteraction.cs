@@ -3,7 +3,7 @@ using Qommon;
 
 namespace Disqord
 {
-    public class TransientApplicationCommandInteraction : TransientInteraction, IApplicationCommandInteraction
+    public class TransientApplicationCommandInteraction : TransientUserInteraction, IApplicationCommandInteraction
     {
         /// <inheritdoc/>
         public Snowflake CommandId => Model.Data.Value.Id.Value;
@@ -22,8 +22,8 @@ namespace Disqord
             Model.Data.Value.Resolved.GetValueOrDefault(() => new ApplicationCommandInteractionDataResolvedJsonModel()));
         private IApplicationCommandInteractionEntities _entities;
 
-        public TransientApplicationCommandInteraction(IClient client, long receivedAt, InteractionJsonModel model)
-            : base(client, receivedAt, model)
+        public TransientApplicationCommandInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
+            : base(client, __receivedAt, model)
         { }
     }
 }

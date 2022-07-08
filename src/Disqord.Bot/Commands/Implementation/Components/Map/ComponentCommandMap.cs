@@ -25,7 +25,7 @@ public partial class ComponentCommandMap : ICommandMap
         return typeof(ComponentModule).IsAssignableFrom(moduleType);
     }
 
-    public virtual ComponentCommand? FindCommand(IInteraction interaction, out IEnumerable<MultiString>? rawArguments)
+    public virtual ComponentCommand? FindCommand(IUserInteraction interaction, out IEnumerable<MultiString>? rawArguments)
     {
         var commandGuildId = interaction.GuildId;
         var node = commandGuildId == null

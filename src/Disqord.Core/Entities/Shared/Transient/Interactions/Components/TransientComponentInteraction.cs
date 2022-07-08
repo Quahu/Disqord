@@ -5,7 +5,7 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord
 {
-    public class TransientComponentInteraction : TransientInteraction, IComponentInteraction
+    public class TransientComponentInteraction : TransientUserInteraction, IComponentInteraction
     {
         /// <inheritdoc/>
         public string CustomId => Model.Data.Value.CustomId.Value;
@@ -30,8 +30,8 @@ namespace Disqord
 
         private IUserMessage _message;
 
-        public TransientComponentInteraction(IClient client, long receivedAt, InteractionJsonModel model)
-            : base(client, receivedAt, model)
+        public TransientComponentInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
+            : base(client, __receivedAt, model)
         { }
     }
 }

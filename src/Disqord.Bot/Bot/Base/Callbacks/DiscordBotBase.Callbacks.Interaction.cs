@@ -28,7 +28,7 @@ public abstract partial class DiscordBotBase
     /// <returns>
     ///     An <see cref="IDiscordApplicationCommandContext"/> or an <see cref="IDiscordApplicationGuildCommandContext"/> for guild messages.
     /// </returns>
-    public virtual IDiscordInteractionCommandContext CreateInteractionCommandContext(IInteraction interaction)
+    public virtual IDiscordInteractionCommandContext CreateInteractionCommandContext(IUserInteraction interaction)
     {
         IDiscordInteractionCommandContext context;
         if (interaction is IApplicationCommandInteraction applicationCommandInteraction)

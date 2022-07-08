@@ -12,5 +12,5 @@ public interface IDiscordApplicationCommandContext : IDiscordInteractionCommandC
     /// </summary>
     new IApplicationCommandInteraction Interaction { get; }
 
-    IInteraction IDiscordInteractionCommandContext.Interaction => Interaction;
+    IUserInteraction IDiscordInteractionCommandContext.Interaction => Interaction;
 }

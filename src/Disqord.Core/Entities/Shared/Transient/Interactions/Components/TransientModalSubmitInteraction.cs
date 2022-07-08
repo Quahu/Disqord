@@ -4,7 +4,7 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord
 {
-    public class TransientModalSubmitInteraction : TransientInteraction, IModalSubmitInteraction
+    public class TransientModalSubmitInteraction : TransientUserInteraction, IModalSubmitInteraction
     {
         /// <inheritdoc/>
         public string CustomId => Model.Data.Value.CustomId.Value;
@@ -22,8 +22,8 @@ namespace Disqord
         }
         private IReadOnlyList<IComponent> _components;
 
-        public TransientModalSubmitInteraction(IClient client, long receivedAt, InteractionJsonModel model)
-            : base(client, receivedAt, model)
+        public TransientModalSubmitInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
+            : base(client, __receivedAt, model)
         { }
     }
 }
