@@ -42,10 +42,10 @@ namespace Disqord.Extensions.Interactivity.Menus
             if (!response.HasResponded)
             {
                 await response.SendMessageAsync(interactionMessageResponse, cancellationToken: cancellationToken).ConfigureAwait(false);
-                return await Interaction.Followup().FetchResponseAsync(cancellationToken: cancellationToken);
+                return await Interaction.Followup().FetchResponseAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
             }
 
-            return await Interaction.Followup().SendAsync(interactionMessageResponse, cancellationToken: cancellationToken);
+            return await Interaction.Followup().SendAsync(interactionMessageResponse, cancellationToken: cancellationToken).ConfigureAwait(false);
         }
     }
 }

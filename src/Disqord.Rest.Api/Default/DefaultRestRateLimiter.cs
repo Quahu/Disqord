@@ -189,7 +189,7 @@ namespace Disqord.Rest.Api.Default
             private async Task RunAsync()
             {
                 var reader = _requests.Reader;
-                await foreach (var request in reader.ReadAllAsync())
+                await foreach (var request in reader.ReadAllAsync().ConfigureAwait(false))
                 {
                     bool retry;
                     do

@@ -71,7 +71,7 @@ namespace Disqord.Extensions.Interactivity.Menus
 
             var message = CreateLocalMessage();
             View.FormatLocalMessage(message);
-            Message = await SendLocalMessageAsync(message, cancellationToken);
+            Message = await SendLocalMessageAsync(message, cancellationToken).ConfigureAwait(false);
             return Message.Id;
         }
 

@@ -19,7 +19,7 @@ public static partial class DefaultBotExecutionSteps
 
             try
             {
-                var result = await discordContext.Bot.OnBeforeExecuted(discordContext);
+                var result = await discordContext.Bot.OnBeforeExecuted(discordContext).ConfigureAwait(false);
                 if (!result.IsSuccessful)
                     return result;
             }

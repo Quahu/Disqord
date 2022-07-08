@@ -269,7 +269,7 @@ namespace Disqord.Rest
                 content.Deaf = properties.IsDeafened;
             }
 
-            var model = await client.ApiClient.AddMemberAsync(guildId, userId, content, options, cancellationToken);
+            var model = await client.ApiClient.AddMemberAsync(guildId, userId, content, options, cancellationToken).ConfigureAwait(false);
             return new TransientMember(client, guildId, model);
         }
 

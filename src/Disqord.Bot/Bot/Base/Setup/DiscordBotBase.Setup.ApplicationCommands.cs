@@ -801,7 +801,7 @@ public abstract partial class DiscordBotBase
                 MaximumDelayDuration = TimeSpan.Zero
             };
 
-            var applicationId = _applicationId ?? (_currentApplication ??= await this.FetchCurrentApplicationAsync(requestOptions, cancellationToken)).Id;
+            var applicationId = _applicationId ?? (_currentApplication ??= await this.FetchCurrentApplicationAsync(requestOptions, cancellationToken).ConfigureAwait(false)).Id;
             var commandChanges = new FastList<(Snowflake?, IApplicationCommandCacheChanges)>();
             var tasks = new FastList<Task<IReadOnlyList<IApplicationCommand>>>();
             if (_syncGlobalApplicationCommands)

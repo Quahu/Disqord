@@ -57,7 +57,7 @@ namespace Disqord.Rest
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var contents = commands.Select(command => command.ToContent(client.ApiClient.Serializer)).ToArray();
-            var models = await client.ApiClient.SetGlobalApplicationCommandsAsync(applicationId, contents, options, cancellationToken);
+            var models = await client.ApiClient.SetGlobalApplicationCommandsAsync(applicationId, contents, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (model, client) => TransientApplicationCommand.Create(client, model));
         }
 
@@ -108,7 +108,7 @@ namespace Disqord.Rest
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var contents = commands.Select(command => command.ToContent(client.ApiClient.Serializer)).ToArray();
-            var models = await client.ApiClient.SetGuildApplicationCommandsAsync(applicationId, guildId, contents, options, cancellationToken);
+            var models = await client.ApiClient.SetGuildApplicationCommandsAsync(applicationId, guildId, contents, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (model, client) => TransientApplicationCommand.Create(client, model));
         }
     }

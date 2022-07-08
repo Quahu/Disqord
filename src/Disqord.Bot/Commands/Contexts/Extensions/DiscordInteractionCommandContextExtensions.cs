@@ -20,8 +20,8 @@ public static class DiscordInteractionCommandContextExtensions
             static async Task<IUserMessage> SendMessageWithResult(InteractionResponseHelper response, LocalInteractionMessageResponse message,
                 IRestRequestOptions? options, CancellationToken cancellationToken)
             {
-                await response.SendMessageAsync(message, options, cancellationToken);
-                return await response.Interaction.Followup().FetchResponseAsync(options, cancellationToken);
+                await response.SendMessageAsync(message, options, cancellationToken).ConfigureAwait(false);
+                return await response.Interaction.Followup().FetchResponseAsync(options, cancellationToken).ConfigureAwait(false);
             }
 
             return fetchMessage

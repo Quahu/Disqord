@@ -26,7 +26,7 @@ public abstract partial class DiscordBotBase
         }
 
         // We run the common execution logic.
-        await ExecuteAsync(context);
+        await ExecuteAsync(context).ConfigureAwait(false);
         return true;
     }
 }
