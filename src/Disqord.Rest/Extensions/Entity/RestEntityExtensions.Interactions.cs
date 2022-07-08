@@ -9,7 +9,9 @@ namespace Disqord.Rest
         public static readonly ConditionalWeakTable<IInteraction, InteractionFollowupHelper> FollowupInteractionResponseHelpers = new();
 
         public static InteractionResponseHelper Response(this IInteraction interaction)
-            => InitialInteractionResponseHelpers.GetValue(interaction, interaction => new InteractionResponseHelper(interaction));
+        {
+            return InitialInteractionResponseHelpers.GetValue(interaction, interaction => new InteractionResponseHelper(interaction));
+        }
 
         public static InteractionFollowupHelper Followup(this IInteraction interaction)
         {

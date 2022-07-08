@@ -19,7 +19,7 @@ public interface IDiscordInteractionCommandContext : IDiscordCommandContext
     ///     Gets the application's permissions in the context channel of this command execution.
     /// </summary>
     /// <remarks>
-    ///     <inheritdoc cref="IInteraction.ApplicationPermissions"/>
+    ///     <inheritdoc cref="IUserInteraction.ApplicationPermissions"/>
     /// </remarks>
     Permission ApplicationPermissions => Interaction.ApplicationPermissions;
 

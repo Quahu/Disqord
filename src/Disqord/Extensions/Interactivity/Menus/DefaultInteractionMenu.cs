@@ -10,14 +10,14 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// <summary>
         ///     Gets the interaction of this menu.
         /// </summary>
-        public IInteraction Interaction { get; }
+        public IUserInteraction Interaction { get; }
 
         /// <summary>
         ///     Instantiates a new <see cref="DefaultInteractionMenu"/>.
         /// </summary>
         /// <param name="view"> The initial view. </param>
         /// <param name="interaction"> The interaction to respond with this menu for. </param>
-        public DefaultInteractionMenu(ViewBase view, IInteraction interaction)
+        public DefaultInteractionMenu(ViewBase view, IUserInteraction interaction)
             : base(view)
         {
             Interaction = interaction;
