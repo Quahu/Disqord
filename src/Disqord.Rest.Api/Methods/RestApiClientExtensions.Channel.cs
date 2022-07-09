@@ -279,11 +279,10 @@ namespace Disqord.Rest.Api
         }
 
         public static Task<ChannelJsonModel> CreateForumThreadAsync(this IRestApiClient client,
-            Snowflake channelId, CreateForumThreadJsonRestRequestContent content, 
+            Snowflake channelId, CreateForumThreadJsonRestRequestContent content,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var route = Format(Route.Channel.StartForumThread, channelId);
-
             return client.ExecuteAsync<ChannelJsonModel>(route, content, options, cancellationToken);
         }
 

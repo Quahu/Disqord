@@ -11,6 +11,8 @@ namespace Disqord
 
         public virtual Optional<IEnumerable<LocalOverwrite>> Overwrites { internal get; set; }
 
+        public Optional<GuildChannelFlag> Flags { internal get; set; }
+
         internal ModifyGuildChannelActionProperties()
         { }
     }

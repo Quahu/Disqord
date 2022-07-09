@@ -45,6 +45,9 @@ namespace Disqord.Rest.Api
         [JsonProperty("video_quality_mode")]
         public Optional<VideoQualityMode> VideoQualityMode;
 
+        [JsonProperty("flags")]
+        public Optional<GuildChannelFlag> Flags;
+
         public CreateGuildChannelJsonRestRequestContent(string name)
         {
             Name = name;

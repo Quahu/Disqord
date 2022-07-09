@@ -106,7 +106,8 @@ namespace Disqord.Rest
             {
                 Name = properties.Name,
                 Position = properties.Position,
-                PermissionOverwrites = Optional.Convert(properties.Overwrites, x => x.Select(x => x.ToModel()).ToArray())
+                PermissionOverwrites = Optional.Convert(properties.Overwrites, x => x.Select(x => x.ToModel()).ToArray()),
+                Flags = properties.Flags
             };
 
             switch (properties)
@@ -145,7 +146,6 @@ namespace Disqord.Rest
                                     content.AutoArchiveDuration = Optional.Convert(threadProperties.AutomaticArchiveDuration, x => (int) x.TotalMinutes);
                                     content.Locked = threadProperties.IsLocked;
                                     content.Invitable = threadProperties.AllowsInvitation;
-                                    content.Flags = threadProperties.Flags;
                                     break;
                                 }
                             }

@@ -19,8 +19,5 @@ namespace Disqord.Rest.Api
 
         [JsonProperty("rate_limit_per_user")]
         public Optional<int> RateLimitPerUser;
-
-        [JsonProperty("flags")]
-        public Optional<ChannelFlag> Flags;
     }
 }

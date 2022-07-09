@@ -3,10 +3,10 @@ using System;
 namespace Disqord
 {
     /// <summary>
-    ///     Represents the flags of a channel.
+    ///     Represents the flags of a guild channel.
     /// </summary>
     [Flags]
-    public enum ChannelFlag
+    public enum GuildChannelFlag
     {
         /// <summary>
         ///     The thread channel is pinned to the top of its parent forum channel.

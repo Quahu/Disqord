@@ -28,6 +28,9 @@ namespace Disqord
         private IReadOnlyList<IOverwrite> _overwrites;
 
         /// <inheritdoc/>
+        public GuildChannelFlag Flags => Model.Flags.Value;
+
+        /// <inheritdoc/>
         public string Mention => Disqord.Mention.Channel(this);
 
         protected TransientGuildChannel(IClient client, ChannelJsonModel model)

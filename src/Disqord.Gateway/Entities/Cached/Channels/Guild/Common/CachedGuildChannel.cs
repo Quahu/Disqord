@@ -18,6 +18,9 @@ namespace Disqord.Gateway
         public virtual IReadOnlyList<IOverwrite> Overwrites { get; private set; }
 
         /// <inheritdoc/>
+        public GuildChannelFlag Flags { get; private set; }
+
+        /// <inheritdoc/>
         public string Mention => Disqord.Mention.Channel(this);
 
         protected CachedGuildChannel(IGatewayClient client, ChannelJsonModel model)
@@ -38,6 +41,9 @@ namespace Disqord.Gateway
                 if (model.PermissionOverwrites.HasValue)
                     Overwrites = model.PermissionOverwrites.Value.ToReadOnlyList(this, (x, @this) => new TransientOverwrite(@this.Client, @this.Id, x));
             }
+
+            if (model.Flags.HasValue)
+                Flags = model.Flags.Value;
         }
 
         public static CachedGuildChannel Create(IGatewayClient client, ChannelJsonModel model)

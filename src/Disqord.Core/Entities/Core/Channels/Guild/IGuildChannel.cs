@@ -16,5 +16,10 @@ namespace Disqord
         ///     Gets the permission overwrites of this channel.
         /// </summary>
         IReadOnlyList<IOverwrite> Overwrites { get; }
+
+        /// <summary>
+        ///     Gets the flags of this channel.
+        /// </summary>
+        GuildChannelFlag Flags { get; }
     }
 }
