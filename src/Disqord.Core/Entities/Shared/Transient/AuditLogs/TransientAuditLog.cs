@@ -125,6 +125,9 @@ namespace Disqord.AuditLogs
                 AuditLogActionType.ThreadUpdate => new TransientThreadUpdatedAuditLog(client, guildId, log, entry),
                 AuditLogActionType.ThreadDelete => new TransientThreadDeletedAuditLog(client, guildId, log, entry),
 
+                // Application Command Permission
+                AuditLogActionType.ApplicationCommandPermissionsUpdate => new TransientApplicationCommandPermissionsUpdatedAuditLog(client, guildId, log, entry),
+
                 // AutoModeration
                 AuditLogActionType.AutoModerationRuleCreated => new TransientAutoModerationRuleCreatedAuditLog(client, guildId, log, entry),
                 AuditLogActionType.AutoModerationRuleUpdated => new TransientAutoModerationRuleUpdatedAuditLog(client, guildId, log, entry),

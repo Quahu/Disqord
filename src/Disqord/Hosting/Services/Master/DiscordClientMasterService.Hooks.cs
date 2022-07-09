@@ -10,6 +10,7 @@ namespace Disqord.Hosting
     public partial class DiscordClientMasterService
     {
         public DiscordClientService[] ReadyServices { get; }
+        public DiscordClientService[] ApplicationCommandPermissionsUpdatedServices { get; }
         public DiscordClientService[] AutoModerationRuleCreatedServices { get; }
         public DiscordClientService[] AutoModerationRuleUpdatedServices { get; }
         public DiscordClientService[] AutoModerationRuleDeletedServices { get; }
@@ -82,6 +83,7 @@ namespace Disqord.Hosting
             }
 
             ReadyServices = GetServices<ReadyEventArgs>(servicesArray, nameof(DiscordClientService.OnReady));
+            ApplicationCommandPermissionsUpdatedServices = GetServices<ApplicationCommandPermissionsUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnApplicationCommandPermissionsUpdated));
             AutoModerationRuleCreatedServices = GetServices<AutoModerationRuleCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnAutoModerationRuleCreated));
             AutoModerationRuleUpdatedServices = GetServices<AutoModerationRuleUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnAutoModerationRuleUpdated));
             AutoModerationRuleDeletedServices = GetServices<AutoModerationRuleDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnAutoModerationRuleDeleted));
@@ -140,6 +142,7 @@ namespace Disqord.Hosting
             WebhooksUpdatedServices = GetServices<WebhooksUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnWebhooksUpdated));
 
             Client.Ready += HandleReady;
+            Client.ApplicationCommandPermissionsUpdated += HandleApplicationCommandPermissionsUpdated;
             Client.AutoModerationRuleCreated += HandleAutoModerationRuleCreated;
             Client.AutoModerationRuleUpdated += HandleAutoModerationRuleUpdated;
             Client.AutoModerationRuleDeleted += HandleAutoModerationRuleDeleted;
@@ -202,6 +205,13 @@ namespace Disqord.Hosting
         {
             foreach (var service in ReadyServices)
                 await ExecuteAsync((service, e) => service.OnReady(e), service, e).ConfigureAwait(false);
+        }
+
+        public async ValueTask HandleApplicationCommandPermissionsUpdated(object sender, ApplicationCommandPermissionsUpdatedEventArgs e)
+        {
+            foreach (var service in ApplicationCommandPermissionsUpdatedServices)
+                await ExecuteAsync((sender, e) => sender.OnApplicationCommandPermissionsUpdated(e), service, e).ConfigureAwait(false);
+
         }
 
         public async ValueTask HandleAutoModerationRuleCreated(object sender, AutoModerationRuleCreatedEventArgs e)

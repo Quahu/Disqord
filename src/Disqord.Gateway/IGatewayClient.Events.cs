@@ -12,6 +12,10 @@ namespace Disqord.Gateway
         /// </remarks>
         event AsynchronousEventHandler<ReadyEventArgs> Ready;
 
+        ///     Fires when an application command's guild permissions are updated.
+        /// </summary>
+        event AsynchronousEventHandler<ApplicationCommandPermissionsUpdatedEventArgs> ApplicationCommandPermissionsUpdated;
+
         /// <summary>
         ///     Fires when an auto-moderation rule is created.
         /// </summary>

@@ -190,16 +190,6 @@ namespace Disqord.Rest
             if (typeof(IIntegrationDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.IntegrationDeleted;
 
-            // Thread
-            if (typeof(IThreadCreatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.ThreadCreate;
-
-            if (typeof(IThreadUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.ThreadUpdate;
-
-            if (typeof(IThreadDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.ThreadDelete;
-
             // Stage
             if (typeof(IStageCreatedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.StageCreated;
@@ -219,6 +209,30 @@ namespace Disqord.Rest
 
             if (typeof(IStickerDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.StickerDeleted;
+
+            // Guild Event
+            if (typeof(IGuildEventCreatedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.GuildEventCreated;
+
+            if (typeof(IGuildEventUpdatedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.GuildEventUpdated;
+
+            if (typeof(IGuildEventDeletedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.GuildEventDeleted;
+
+            // Thread
+            if (typeof(IThreadCreatedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.ThreadCreate;
+
+            if (typeof(IThreadUpdatedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.ThreadUpdate;
+
+            if (typeof(IThreadDeletedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.ThreadDelete;
+
+            // Application Command Permission
+            if (typeof(IApplicationCommandPermissionsUpdatedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.ApplicationCommandPermissionsUpdate;
 
             // AutoModeration
             if (typeof(IAutoModerationRuleCreatedAuditLog).IsAssignableFrom(type))

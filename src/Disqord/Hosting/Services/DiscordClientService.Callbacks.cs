@@ -9,6 +9,10 @@ namespace Disqord.Hosting
         protected internal virtual ValueTask OnReady(ReadyEventArgs e)
             => default;
 
+        /// <inheritdoc cref="IGatewayClient.ApplicationCommandPermissionsUpdated"/>
+        protected internal virtual ValueTask OnApplicationCommandPermissionsUpdated(ApplicationCommandPermissionsUpdatedEventArgs e)
+            => default;
+
         /// <inheritdoc cref="IGatewayClient.AutoModerationRuleCreated"/>
         protected internal virtual ValueTask OnAutoModerationRuleCreated(AutoModerationRuleCreatedEventArgs e)
             => default;

@@ -84,6 +84,12 @@ namespace Disqord.Models
         public Optional<string> RoleName;
 
         /// <summary>
+        ///     <see cref="AuditLogActionType.ApplicationCommandPermissionsUpdate"/>
+        /// </summary>
+        [JsonProperty("application_id")]
+        public Optional<Snowflake> ApplicationId;
+
+        /// <summary>
         ///     <see cref="AuditLogActionType.AutoModerationMessageBlocked"/>
         /// </summary>
         [JsonProperty("auto_moderation_rule_name")]
