@@ -98,8 +98,8 @@ namespace Disqord
         {
             var mask = channel switch
             {
+                IVoiceChannel _ => VoicePermissionsValue, // Handle voice channel first since they are IMessageGuildChannels as well
                 IMessageGuildChannel _ => TextPermissionsValue,
-                IVoiceChannel _ => VoicePermissionsValue,
                 IStageChannel _ => StagePermissionsValue,
                 ICategoryChannel _ => CategoryPermissionsValue,
                 _ => AllPermissionsValue,

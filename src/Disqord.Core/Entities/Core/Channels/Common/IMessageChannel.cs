@@ -8,7 +8,7 @@ namespace Disqord
     public interface IMessageChannel : IChannel
     {
         /// <summary>
-        ///     Gets the last message ID of this channel.
+        ///     Gets the ID of the last message sent in this channel.
         /// </summary>
         Snowflake? LastMessageId { get; }
 

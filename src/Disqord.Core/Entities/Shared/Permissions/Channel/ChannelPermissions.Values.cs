@@ -59,9 +59,18 @@
         private const ulong VoicePermissionsValue = (ulong) (
             Permission.CreateInvites
             | Permission.ManageChannels
+            | Permission.AddReactions
             | Permission.PrioritySpeaker
             | Permission.Stream
             | Permission.ViewChannels
+            | Permission.SendMessages
+            | Permission.UseTextToSpeech
+            | Permission.ManageMessages
+            | Permission.SendEmbeds
+            | Permission.SendAttachments
+            | Permission.ReadMessageHistory
+            | Permission.MentionEveryone
+            | Permission.UseExternalEmojis
             | Permission.Connect
             | Permission.Speak
             | Permission.MuteMembers
@@ -69,6 +78,9 @@
             | Permission.MoveMembers
             | Permission.UseVoiceActivity
             | Permission.ManageRoles
+            | Permission.ManageWebhooks
+            | Permission.UseApplicationCommands
+            | Permission.UseExternalStickers
             | Permission.ManageEvents
             | Permission.StartActivities
         );

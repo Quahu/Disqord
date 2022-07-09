@@ -21,5 +21,11 @@ namespace Disqord
         ///     Gets the recipients of this channel.
         /// </summary>
         IReadOnlyDictionary<Snowflake, IUser> Recipients { get; }
+
+        /// <summary>
+        ///     Gets the ID of the application that created this channel.
+        ///     Returns <see langword="null"/> if the channel was not created by a bot.
+        /// </summary>
+        Snowflake? ApplicationId { get; }
     }
 }

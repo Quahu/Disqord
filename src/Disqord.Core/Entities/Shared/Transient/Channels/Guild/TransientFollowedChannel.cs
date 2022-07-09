@@ -2,6 +2,7 @@
 
 namespace Disqord
 {
+    /// <inheritdoc cref="IFollowedChannel"/>
     public class TransientFollowedChannel : TransientClientEntity<FollowedChannelJsonModel>, IFollowedChannel
     {
         /// <inheritdoc/>

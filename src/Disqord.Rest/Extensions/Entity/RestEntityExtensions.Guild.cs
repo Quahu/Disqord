@@ -87,6 +87,22 @@ namespace Disqord.Rest
             return client.CreateVoiceChannelAsync(guild.Id, name, action, options, cancellationToken);
         }
 
+        public static Task<IStageChannel> CreateStageChannelAsync(this IGuild guild,
+            string name, Action<CreateStageChannelActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.CreateStageChannelAsync(guild.Id, name, action, options, cancellationToken);
+        }
+
+        public static Task<IForumChannel> CreateForumChannelAsync(this IGuild guild,
+            string name, Action<CreateForumChannelActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.CreateForumChannelAsync(guild.Id, name, action, options, cancellationToken);
+        }
+
         public static Task<ICategoryChannel> CreateCategoryChannelAsync(this IGuild guild,
             string name, Action<CreateCategoryChannelActionProperties> action = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)

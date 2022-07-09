@@ -4,6 +4,7 @@ using Qommon;
 
 namespace Disqord.Gateway
 {
+    /// <inheritdoc cref="IThreadMetadata"/>
     public class CachedThreadMetadata : CachedEntity, IThreadMetadata
     {
         /// <inheritdoc/>

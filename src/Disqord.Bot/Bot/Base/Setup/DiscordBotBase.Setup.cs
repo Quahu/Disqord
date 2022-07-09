@@ -147,7 +147,7 @@ public abstract partial class DiscordBotBase
         typeParserProvider.AddParser(new GuildChannelTypeParser<ICategoryChannel>());
         typeParserProvider.AddParser(new GuildChannelTypeParser<IStageChannel>());
         typeParserProvider.AddParser(new GuildChannelTypeParser<IThreadChannel>());
-        typeParserProvider.AddParser(new GuildChannelTypeParser<IStoreChannel>());
+        typeParserProvider.AddParser(new GuildChannelTypeParser<IForumChannel>());
         typeParserProvider.AddParser(new MemberTypeParser());
         typeParserProvider.AddParser(new RoleTypeParser());
         return default;

@@ -14,7 +14,7 @@ namespace Disqord
         public Snowflake? LastMessageId => Model.LastMessageId.Value;
 
         /// <inheritdoc/>
-        public DateTimeOffset? LastPinTimestamp => Model.LastPinTimestamp.Value;
+        public DateTimeOffset? LastPinTimestamp => Model.LastPinTimestamp.GetValueOrDefault();
 
         /// <inheritdoc/>
         public string Tag => $"#{Name}";

@@ -1,17 +1,23 @@
 ﻿using System;
 using System.ComponentModel;
 using Disqord.Models;
+using Qommon;
 
 namespace Disqord.Gateway
 {
+    /// <inheritdoc cref="ITextChannel"/>
     public class CachedTextChannel : CachedMessageGuildChannel, ITextChannel
     {
+        /// <inheritdoc/>
         public string Topic { get; private set; }
 
-        public bool IsNsfw { get; private set; }
+        /// <inheritdoc/>
+        public bool IsAgeRestricted { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsNews => Type == ChannelType.News;
 
+        /// <inheritdoc/>
         public TimeSpan DefaultAutomaticArchiveDuration { get; private set; }
 
         public CachedTextChannel(IGatewayClient client, ChannelJsonModel model)
@@ -27,10 +33,9 @@ namespace Disqord.Gateway
                 Topic = model.Topic.Value;
 
             if (model.Nsfw.HasValue)
-                IsNsfw = model.Nsfw.Value;
+                IsAgeRestricted = model.Nsfw.Value;
 
-            if (model.DefaultAutoArchiveDuration.HasValue)
-                DefaultAutomaticArchiveDuration = TimeSpan.FromMinutes(model.DefaultAutoArchiveDuration.Value);
+            DefaultAutomaticArchiveDuration = TimeSpan.FromMinutes(model.DefaultAutoArchiveDuration.GetValueOrDefault(1440));
         }
     }
 }

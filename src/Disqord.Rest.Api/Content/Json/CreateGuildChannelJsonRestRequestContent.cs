@@ -42,6 +42,12 @@ namespace Disqord.Rest.Api
         [JsonProperty("rtc_region")]
         public Optional<string> RtcRegion;
 
+        [JsonProperty("video_quality_mode")]
+        public Optional<VideoQualityMode> VideoQualityMode;
+
+        [JsonProperty("flags")]
+        public Optional<GuildChannelFlag> Flags;
+
         public CreateGuildChannelJsonRestRequestContent(string name)
         {
             Name = name;

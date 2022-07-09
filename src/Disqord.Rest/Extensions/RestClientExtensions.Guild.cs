@@ -8,7 +8,6 @@ using Disqord.Models;
 using Disqord.Rest.Api;
 using Disqord.Rest.Pagination;
 using Qommon;
-using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Rest
@@ -98,6 +97,22 @@ namespace Disqord.Rest
             return new TransientVoiceChannel(client, model);
         }
 
+        public static async Task<IStageChannel> CreateStageChannelAsync(this IRestClient client,
+            Snowflake guildId, string name, Action<CreateStageChannelActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var model = await client.InternalCreateGuildChannelAsync(guildId, name, action, options, cancellationToken).ConfigureAwait(false);
+            return new TransientStageChannel(client, model);
+        }
+
+        public static async Task<IForumChannel> CreateForumChannelAsync(this IRestClient client,
+            Snowflake guildId, string name, Action<CreateForumChannelActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var model = await client.InternalCreateGuildChannelAsync(guildId, name, action, options, cancellationToken).ConfigureAwait(false);
+            return new TransientForumChannel(client, model);
+        }
+
         public static async Task<ICategoryChannel> CreateCategoryChannelAsync(this IRestClient client,
             Snowflake guildId, string name, Action<CreateCategoryChannelActionProperties> action = null,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
@@ -125,27 +140,54 @@ namespace Disqord.Rest
             {
                 content.ParentId = nestedProperties.CategoryId;
 
-                if (properties is CreateTextChannelActionProperties textProperties)
+                switch (properties)
                 {
-                    if (textProperties.Topic.HasValue && textProperties.Topic.Value != null && textProperties.Topic.Value.Length > 1024)
-                        throw new ArgumentOutOfRangeException(nameof(CreateTextChannelActionProperties.Topic));
+                    case CreateTextChannelActionProperties textProperties:
+                    {
+                        if (textProperties.Topic.HasValue && textProperties.Topic.Value != null && textProperties.Topic.Value.Length > 1024)
+                            throw new ArgumentOutOfRangeException(nameof(CreateTextChannelActionProperties.Topic));
 
-                    content.Type = ChannelType.Text;
-                    content.Topic = textProperties.Topic;
-                    content.RateLimitPerUser = Optional.Convert(textProperties.Slowmode, x => (int) x.TotalSeconds);
-                    content.Nsfw = textProperties.IsNsfw;
-                    content.DefaultAutoArchiveDuration = Optional.Convert(textProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
-                }
-                else if (properties is CreateVoiceChannelActionProperties voiceProperties)
-                {
-                    content.Type = ChannelType.Voice;
-                    content.Bitrate = voiceProperties.Bitrate;
-                    content.UserLimit = voiceProperties.MemberLimit;
-                    content.RtcRegion = voiceProperties.Region;
-                }
-                else
-                {
-                    throw new ArgumentException($"Unknown channel action properties provided ({properties.GetType()}).");
+                        content.Type = textProperties.IsNews.HasValue && textProperties.IsNews.Value ? ChannelType.News : ChannelType.Text;
+                        content.Topic = textProperties.Topic;
+                        content.RateLimitPerUser = Optional.Convert(textProperties.Slowmode, x => (int) x.TotalSeconds);
+                        content.Nsfw = textProperties.IsAgeRestricted;
+                        content.DefaultAutoArchiveDuration = Optional.Convert(textProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
+                        break;
+                    }
+                    case CreateVoiceChannelActionProperties voiceProperties:
+                    {
+                        content.Type = ChannelType.Voice;
+                        content.Bitrate = voiceProperties.Bitrate;
+                        content.UserLimit = voiceProperties.MemberLimit;
+                        content.RateLimitPerUser = Optional.Convert(voiceProperties.Slowmode, x => (int) x.TotalSeconds);
+                        content.Nsfw = voiceProperties.IsAgeRestricted;
+                        content.RtcRegion = voiceProperties.Region;
+                        content.VideoQualityMode = voiceProperties.VideoQualityMode;
+                        break;
+                    }
+                    case CreateStageChannelActionProperties stageChannelProperties:
+                    {
+                        content.Type = ChannelType.Stage;
+                        content.Bitrate = stageChannelProperties.Bitrate;
+                        content.RtcRegion = stageChannelProperties.Region;
+                        break;
+                    }
+                    case CreateForumChannelActionProperties forumProperties:
+                    {
+                        if (forumProperties.Topic.HasValue && forumProperties.Topic.Value != null && forumProperties.Topic.Value.Length > 1024)
+                            throw new ArgumentOutOfRangeException(nameof(CreateForumChannelActionProperties.Topic));
+
+                        content.Type = ChannelType.Forum;
+                        content.Topic = forumProperties.Topic;
+                        content.RateLimitPerUser = Optional.Convert(forumProperties.Slowmode, x => (int) x.TotalSeconds);
+                        content.Nsfw = forumProperties.IsAgeRestricted;
+                        content.DefaultAutoArchiveDuration = Optional.Convert(forumProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
+                        break;
+                    }
+                    default:
+                    {
+                        throw new ArgumentException($"Unknown channel action properties provided ({properties.GetType()}).");
+                    }
                 }
             }
             else if (properties is CreateCategoryChannelActionProperties categoryProperties)

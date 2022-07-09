@@ -65,9 +65,11 @@ namespace Disqord.Rest.Api
 
             public static readonly Route UnpinMessage = Delete("channels/{0:channel_id}/pins/{1:message_id}");
 
-            public static readonly Route StartThreadWithMessage = Post("channels/{0:channel_id}/messages/{1:message_id}/threads");
+            public static readonly Route StartThreadFromMessage = Post("channels/{0:channel_id}/messages/{1:message_id}/threads");
 
             public static readonly Route StartThread = Post("channels/{0:channel_id}/threads");
+
+            public static readonly Route StartForumThread = Post("channels/{0:channel_id}/threads");
 
             public static readonly Route JoinThread = Put("channels/{0:channel_id}/thread-members/@me");
 

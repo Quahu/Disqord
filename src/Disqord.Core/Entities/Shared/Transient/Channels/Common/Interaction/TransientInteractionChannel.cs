@@ -23,7 +23,6 @@ namespace Disqord
                 return _threadMetadata ??= new TransientThreadMetadata(Model.ThreadMetadata.Value);
             }
         }
-
         private IThreadMetadata _threadMetadata;
 
         public TransientInteractionChannel(IClient client, ChannelJsonModel model)
