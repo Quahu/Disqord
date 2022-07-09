@@ -396,8 +396,6 @@ namespace Disqord.Rest.Api
             public static readonly Route GetCommandPermissions = Get("applications/{0:application_id}/guilds/{1:guild_id}/commands/{2:command_id}/permissions");
 
             public static readonly Route SetCommandPermissions = Put("applications/{0:application_id}/guilds/{1:guild_id}/commands/{2:command_id}/permissions");
-
-            public static readonly Route SetCommandsPermissions = Put("applications/{0:application_id}/guilds/{1:guild_id}/commands/permissions");
         }
 
         public static Route Get(string path)

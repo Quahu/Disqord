@@ -111,5 +111,21 @@ namespace Disqord.Rest
             var models = await client.ApiClient.SetGuildApplicationCommandsAsync(applicationId, guildId, contents, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (model, client) => TransientApplicationCommand.Create(client, model));
         }
+
+        public static async Task<IReadOnlyList<IApplicationCommandGuildPermissions>> FetchApplicationCommandsPermissionsAsync(this IRestClient client,
+                Snowflake applicationId, Snowflake guildId,
+                IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var models = await client.ApiClient.FetchApplicationCommandsPermissionsAsync(applicationId, guildId, options, cancellationToken).ConfigureAwait(false);
+            return models.ToReadOnlyList(client, (model, client) => new TransientApplicationCommandGuildPermissions(client, model));
+        }
+
+        public static async Task<IApplicationCommandGuildPermissions> FetchApplicationCommandPermissionsAsync(this IRestClient client,
+                Snowflake applicationId, Snowflake guildId, Snowflake commandId,
+                IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var model = await client.ApiClient.FetchApplicationCommandPermissionsAsync(applicationId, guildId, commandId, options, cancellationToken).ConfigureAwait(false);
+            return new TransientApplicationCommandGuildPermissions(client, model);
+        }
     }
 }

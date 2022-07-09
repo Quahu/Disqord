@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Rest;
@@ -121,6 +122,20 @@ namespace Disqord.OAuth2
         {
             var models = await client.RestClient.ApiClient.FetchConnectionsAsync(options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (model, client) => new TransientUserConnection(client.RestClient, model));
+        }
+
+        public static async Task<IApplicationCommandGuildPermissions> SetApplicationCommandPermissionsAsync(this IBearerClient client,
+            Snowflake applicationId, Snowflake guildId, Snowflake commandId,
+            LocalApplicationCommandPermission[] permissions,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var content = new SetApplicationCommandPermissionsJsonRestRequestContent
+            {
+                Permissions = permissions.Select(x => x.ToModel()).ToArray()
+            };
+
+            var model = await client.RestClient.ApiClient.SetApplicationCommandPermissionsAsync(applicationId, guildId, commandId, content, options, cancellationToken).ConfigureAwait(false);
+            return new TransientApplicationCommandGuildPermissions(client.RestClient, model);
         }
     }
 }

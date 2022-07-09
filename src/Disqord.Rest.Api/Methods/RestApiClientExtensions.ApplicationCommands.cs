@@ -113,7 +113,7 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<ApplicationCommandJsonModel[]>(route, contents.ToObjectContent(), options, cancellationToken);
         }
 
-        public static Task<ApplicationCommandGuildPermissionsJsonModel[]> FetchApplicationCommandPermissionsAsync(this IRestApiClient client,
+        public static Task<ApplicationCommandGuildPermissionsJsonModel[]> FetchApplicationCommandsPermissionsAsync(this IRestApiClient client,
             Snowflake applicationId, Snowflake guildId,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
@@ -137,12 +137,5 @@ namespace Disqord.Rest.Api
             return client.ExecuteAsync<ApplicationCommandGuildPermissionsJsonModel>(route, content, options, cancellationToken);
         }
 
-        public static Task<ApplicationCommandGuildPermissionsJsonModel[]> SetApplicationCommandsPermissionsAsync(this IRestApiClient client,
-            Snowflake applicationId, Snowflake guildId, SetApplicationCommandPermissionsJsonRestRequestContent[] contents,
-            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-        {
-            var route = Format(Route.Interactions.SetCommandsPermissions, applicationId, guildId);
-            return client.ExecuteAsync<ApplicationCommandGuildPermissionsJsonModel[]>(route, contents.ToObjectContent(), options, cancellationToken);
-        }
     }
 }
