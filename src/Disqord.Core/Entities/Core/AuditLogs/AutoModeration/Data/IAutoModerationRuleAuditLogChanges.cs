@@ -16,8 +16,8 @@ namespace Disqord.AuditLogs
 
         AuditLogChange<bool> IsEnabled { get; }
 
-        AuditLogChange<IReadOnlyList<Snowflake>> ExemptRoles { get; }
+        AuditLogChange<IReadOnlyList<Snowflake>> ExemptRoleIds { get; }
 
-        AuditLogChange<IReadOnlyList<Snowflake>> ExemptChannels { get; }
+        AuditLogChange<IReadOnlyList<Snowflake>> ExemptChannelIds { get; }
     }
 }

@@ -18,9 +18,9 @@ namespace Disqord.AuditLogs
 
         public Optional<bool> IsEnabled { get; }
 
-        public Optional<IReadOnlyList<Snowflake>> ExemptRoles { get; }
+        public Optional<IReadOnlyList<Snowflake>> ExemptRoleIds { get; }
 
-        public Optional<IReadOnlyList<Snowflake>> ExemptChannels { get; }
+        public Optional<IReadOnlyList<Snowflake>> ExemptChannelIds { get; }
 
         public TransientAutoModerationRuleAuditLogData(IClient client, AuditLogEntryJsonModel model, bool isCreated)
         {
@@ -33,8 +33,8 @@ namespace Disqord.AuditLogs
                 TriggerMetadata = changes.TriggerMetadata.NewValue;
                 Actions = changes.Actions.NewValue;
                 IsEnabled = changes.IsEnabled.NewValue;
-                ExemptRoles = changes.ExemptRoles.NewValue;
-                ExemptChannels = changes.ExemptChannels.NewValue;
+                ExemptRoleIds = changes.ExemptRoleIds.NewValue;
+                ExemptChannelIds = changes.ExemptChannelIds.NewValue;
             }
             else
             {
@@ -44,8 +44,8 @@ namespace Disqord.AuditLogs
                 TriggerMetadata = changes.TriggerMetadata.OldValue;
                 Actions = changes.Actions.OldValue;
                 IsEnabled = changes.IsEnabled.OldValue;
-                ExemptRoles = changes.ExemptRoles.OldValue;
-                ExemptChannels = changes.ExemptChannels.OldValue;
+                ExemptRoleIds = changes.ExemptRoleIds.OldValue;
+                ExemptChannelIds = changes.ExemptChannelIds.OldValue;
             }
         }
     }

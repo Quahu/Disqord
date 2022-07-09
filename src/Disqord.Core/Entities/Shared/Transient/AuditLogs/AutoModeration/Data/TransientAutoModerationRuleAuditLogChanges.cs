@@ -19,9 +19,9 @@ namespace Disqord.AuditLogs
 
         public AuditLogChange<bool> IsEnabled { get; }
 
-        public AuditLogChange<IReadOnlyList<Snowflake>> ExemptRoles { get; }
+        public AuditLogChange<IReadOnlyList<Snowflake>> ExemptRoleIds { get; }
 
-        public AuditLogChange<IReadOnlyList<Snowflake>> ExemptChannels { get; }
+        public AuditLogChange<IReadOnlyList<Snowflake>> ExemptChannelIds { get; }
 
         public TransientAutoModerationRuleAuditLogChanges(IClient client, AuditLogEntryJsonModel model)
         {
@@ -62,12 +62,12 @@ namespace Disqord.AuditLogs
                     }
                     case "exempt_roles":
                     {
-                        ExemptRoles = AuditLogChange<IReadOnlyList<Snowflake>>.Convert<Snowflake[]>(change, x => x.ToReadOnlyList());
+                        ExemptRoleIds = AuditLogChange<IReadOnlyList<Snowflake>>.Convert<Snowflake[]>(change, x => x.ToReadOnlyList());
                         break;
                     }
                     case "exempt_channels":
                     {
-                        ExemptChannels = AuditLogChange<IReadOnlyList<Snowflake>>.Convert<Snowflake[]>(change, x => x.ToReadOnlyList());
+                        ExemptChannelIds = AuditLogChange<IReadOnlyList<Snowflake>>.Convert<Snowflake[]>(change, x => x.ToReadOnlyList());
                         break;
                     }
                     default:

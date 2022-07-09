@@ -27,7 +27,7 @@ namespace Disqord
         ///     Gets the trigger metadata of this rule.
         /// </summary>
         /// <returns>
-        ///     Returns the trigger metadata of this rule or <see langword="null"/>
+        ///     The trigger metadata of this rule or <see langword="null"/>
         ///     if this rule's trigger does not have any metadata.
         /// </returns>
         IAutoModerationTriggerMetadata TriggerMetadata { get; }

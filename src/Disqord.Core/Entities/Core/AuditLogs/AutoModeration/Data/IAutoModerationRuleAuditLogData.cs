@@ -17,8 +17,8 @@ namespace Disqord.AuditLogs
 
         Optional<bool> IsEnabled { get; }
 
-        Optional<IReadOnlyList<Snowflake>> ExemptRoles { get; }
+        Optional<IReadOnlyList<Snowflake>> ExemptRoleIds { get; }
 
-        Optional<IReadOnlyList<Snowflake>> ExemptChannels { get; }
+        Optional<IReadOnlyList<Snowflake>> ExemptChannelIds { get; }
     }
 }
