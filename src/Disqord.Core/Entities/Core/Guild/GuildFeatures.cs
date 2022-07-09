@@ -27,6 +27,11 @@ namespace Disqord
         public bool HasAnimatedIcon => Has(AnimatedIcon);
 
         /// <summary>
+        ///     Gets whether the guild has set up auto moderation rules.
+        /// </summary>
+        public bool HasAutoModeration => Has(AutoModeration);
+
+        /// <summary>
         ///     Gets whether the guild can set a banner.
         /// </summary>
         public bool HasBanner => Has(Banner);

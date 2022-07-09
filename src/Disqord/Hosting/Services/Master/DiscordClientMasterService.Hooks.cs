@@ -10,6 +10,10 @@ namespace Disqord.Hosting
     public partial class DiscordClientMasterService
     {
         public DiscordClientService[] ReadyServices { get; }
+        public DiscordClientService[] AutoModerationRuleCreatedServices { get; }
+        public DiscordClientService[] AutoModerationRuleUpdatedServices { get; }
+        public DiscordClientService[] AutoModerationRuleDeletedServices { get; }
+        public DiscordClientService[] AutoModerationActionExecutedServices { get; }
         public DiscordClientService[] ChannelCreatedServices { get; }
         public DiscordClientService[] ChannelUpdatedServices { get; }
         public DiscordClientService[] ChannelDeletedServices { get; }
@@ -78,6 +82,10 @@ namespace Disqord.Hosting
             }
 
             ReadyServices = GetServices<ReadyEventArgs>(servicesArray, nameof(DiscordClientService.OnReady));
+            AutoModerationRuleCreatedServices = GetServices<AutoModerationRuleCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnAutoModerationRuleCreated));
+            AutoModerationRuleUpdatedServices = GetServices<AutoModerationRuleUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnAutoModerationRuleUpdated));
+            AutoModerationRuleDeletedServices = GetServices<AutoModerationRuleDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnAutoModerationRuleDeleted));
+            AutoModerationActionExecutedServices = GetServices<AutoModerationActionExecutedEventArgs>(servicesArray, nameof(DiscordClientService.OnAutoModerationActionExecuted));
             ChannelCreatedServices = GetServices<ChannelCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelCreated));
             ChannelUpdatedServices = GetServices<ChannelUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelUpdated));
             ChannelDeletedServices = GetServices<ChannelDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelDeleted));
@@ -132,6 +140,10 @@ namespace Disqord.Hosting
             WebhooksUpdatedServices = GetServices<WebhooksUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnWebhooksUpdated));
 
             Client.Ready += HandleReady;
+            Client.AutoModerationRuleCreated += HandleAutoModerationRuleCreated;
+            Client.AutoModerationRuleUpdated += HandleAutoModerationRuleUpdated;
+            Client.AutoModerationRuleDeleted += HandleAutoModerationRuleDeleted;
+            Client.AutoModerationActionExecuted += HandleAutoModerationActionExecuted;
             Client.ChannelCreated += HandleChannelCreated;
             Client.ChannelUpdated += HandleChannelUpdated;
             Client.ChannelDeleted += HandleChannelDeleted;
@@ -190,6 +202,30 @@ namespace Disqord.Hosting
         {
             foreach (var service in ReadyServices)
                 await ExecuteAsync((service, e) => service.OnReady(e), service, e).ConfigureAwait(false);
+        }
+
+        public async ValueTask HandleAutoModerationRuleCreated(object sender, AutoModerationRuleCreatedEventArgs e)
+        {
+            foreach (var service in AutoModerationRuleCreatedServices)
+                await ExecuteAsync((service, e) => service.OnAutoModerationRuleCreated(e), service, e).ConfigureAwait(false);
+        }
+
+        public async ValueTask HandleAutoModerationRuleUpdated(object sender, AutoModerationRuleUpdatedEventArgs e)
+        {
+            foreach (var service in AutoModerationRuleUpdatedServices)
+                await ExecuteAsync((service, e) => service.OnAutoModerationRuleUpdated(e), service, e).ConfigureAwait(false);
+        }
+
+        public async ValueTask HandleAutoModerationRuleDeleted(object sender, AutoModerationRuleDeletedEventArgs e)
+        {
+            foreach (var service in AutoModerationRuleDeletedServices)
+                await ExecuteAsync((service, e) => service.OnAutoModerationRuleDeleted(e), service, e).ConfigureAwait(false);
+        }
+
+        public async ValueTask HandleAutoModerationActionExecuted(object sender, AutoModerationActionExecutedEventArgs e)
+        {
+            foreach (var service in AutoModerationActionExecutedServices)
+                await ExecuteAsync((service, e) => service.OnAutoModerationActionExecuted(e), service, e).ConfigureAwait(false);
         }
 
         public async ValueTask HandleChannelCreated(object sender, ChannelCreatedEventArgs e)

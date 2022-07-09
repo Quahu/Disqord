@@ -4,6 +4,7 @@ using Qommon;
 
 namespace Disqord
 {
+    /// <inheritdoc cref="IGuildEvent"/>
     public class TransientGuildEvent : TransientClientEntity<GuildScheduledEventJsonModel>, IGuildEvent
     {
         /// <inheritdoc/>

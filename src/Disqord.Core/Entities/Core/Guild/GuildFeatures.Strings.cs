@@ -13,6 +13,11 @@ namespace Disqord
         public const string AnimatedIcon = "ANIMATED_ICON";
 
         /// <summary>
+        ///     The guild has set up auto moderation rules.
+        /// </summary>
+        public const string AutoModeration = "AUTO_MODERATION";
+
+        /// <summary>
         ///     The guild can set a banner.
         /// </summary>
         public const string Banner = "BANNER";

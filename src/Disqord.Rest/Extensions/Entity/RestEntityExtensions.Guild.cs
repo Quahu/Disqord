@@ -647,5 +647,50 @@ namespace Disqord.Rest
             var client = guild.GetRestClient();
             return client.FetchGuildEventUsersAsync(guild.Id, eventId, limit, direction, startFromId, withMember, options, cancellationToken);
         }
+
+        /*
+         * Auto Moderation
+         */
+        public static Task<IReadOnlyList<IAutoModerationRule>> FetchAutoModerationRulesAsync(this IGuild guild,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchAutoModerationRulesAsync(guild.Id, options, cancellationToken);
+        }
+
+        public static Task<IAutoModerationRule> FetchAutoModerationRuleAsync(this IGuild guild,
+            Snowflake ruleId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.FetchAutoModerationRuleAsync(guild.Id, ruleId, options, cancellationToken);
+        }
+
+        public static Task<IAutoModerationRule> CreateAutoModerationRuleAsync(this IGuild guild,
+            string name, AutoModerationEventType eventType, AutoModerationRuleTriggerType triggerType,
+            IEnumerable<LocalAutoModerationAction> actions,
+            Action<CreateAutoModerationRuleActionProperties> action = null,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.CreateAutoModerationRuleAsync(guild.Id, name, eventType, triggerType, actions, action, options, cancellationToken);
+        }
+
+        public static Task<IAutoModerationRule> ModifyAutoModerationRuleAsync(this IGuild guild,
+            Snowflake ruleId,
+            Action<ModifyAutoModerationRuleActionProperties> action,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.ModifyAutoModerationRuleAsync(guild.Id, ruleId, action, options, cancellationToken);
+        }
+
+        public static Task DeleteAutoModerationRuleAsync(this IGuild guild,
+            Snowflake ruleId,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var client = guild.GetRestClient();
+            return client.DeleteAutoModerationRuleAsync(guild.Id, ruleId, options, cancellationToken);
+        }
     }
 }

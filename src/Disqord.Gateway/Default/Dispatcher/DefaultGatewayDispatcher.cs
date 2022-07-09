@@ -63,6 +63,11 @@ namespace Disqord.Gateway.Default
                 [GatewayDispatchNames.Ready] = new ReadyHandler(),
                 [GatewayDispatchNames.Resumed] = new ResumedHandler(),
 
+                [GatewayDispatchNames.AutoModerationRuleCreate] = new AutoModerationRuleCreateHandler(),
+                [GatewayDispatchNames.AutoModerationRuleUpdate] = new AutoModerationRuleUpdateHandler(),
+                [GatewayDispatchNames.AutoModerationRuleDelete] = new AutoModerationRuleDeleteHandler(),
+                [GatewayDispatchNames.AutoModerationActionExecution] = new AutoModerationActionExecutionHandler(),
+
                 [GatewayDispatchNames.ChannelCreate] = new ChannelCreateHandler(),
                 [GatewayDispatchNames.ChannelUpdate] = new ChannelUpdateHandler(),
                 [GatewayDispatchNames.ChannelDelete] = new ChannelDeleteHandler(),

@@ -220,6 +220,19 @@ namespace Disqord.Rest
             if (typeof(IStickerDeletedAuditLog).IsAssignableFrom(type))
                 return AuditLogActionType.StickerDeleted;
 
+            // AutoModeration
+            if (typeof(IAutoModerationRuleCreatedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.AutoModerationRuleCreated;
+
+            if (typeof(IAutoModerationRuleUpdatedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.AutoModerationRuleUpdated;
+
+            if (typeof(IAutoModerationRuleDeletedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.AutoModerationRuleDeleted;
+
+            if (typeof(IAutoModerationMessageBlockedAuditLog).IsAssignableFrom(type))
+                return AuditLogActionType.AutoModerationMessageBlocked;
+
             return Throw.ArgumentOutOfRangeException<AuditLogActionType?>(nameof(type));
         }
     }

@@ -27,6 +27,8 @@ namespace Disqord.Models
         ///     <see cref="AuditLogActionType.MessagePinned"/>
         ///     <para/>
         ///     <see cref="AuditLogActionType.MessageUnpinned"/>
+        ///     <para/>
+        ///     <see cref="AuditLogActionType.AutoModerationMessageBlocked"/>
         /// </summary>
         [JsonProperty("channel_id")]
         public Optional<Snowflake> ChannelId;
@@ -80,5 +82,17 @@ namespace Disqord.Models
         /// </summary>
         [JsonProperty("role_name")]
         public Optional<string> RoleName;
+
+        /// <summary>
+        ///     <see cref="AuditLogActionType.AutoModerationMessageBlocked"/>
+        /// </summary>
+        [JsonProperty("auto_moderation_rule_name")]
+        public Optional<string> AutoModerationRuleName;
+
+        /// <summary>
+        ///     <see cref="AuditLogActionType.AutoModerationMessageBlocked"/>
+        /// </summary>
+        [JsonProperty("auto_moderation_rule_trigger_type")]
+        public Optional<AutoModerationRuleTriggerType> AutoModerationRuleTriggerType;
     }
 }

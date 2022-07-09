@@ -51,6 +51,10 @@ namespace Disqord.Gateway
 
         public bool GuildEvents => Has(GatewayIntent.GuildEvents);
 
+        public bool AutoModerationConfiguration => Has(GatewayIntent.AutoModerationConfiguration);
+
+        public bool AutoModerationExecution => Has(GatewayIntent.AutoModerationExecution);
+
         public GatewayIntent Flags => (GatewayIntent) RawValue;
 
         public ulong RawValue { get; }

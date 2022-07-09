@@ -3,6 +3,7 @@ using Qommon;
 
 namespace Disqord
 {
+    /// <inheritdoc cref="IGuildEventMetadata"/>
     public class TransientGuildEventMetadata : TransientEntity<GuildScheduledEventEntityMetadataJsonModel>, IGuildEventMetadata
     {
         /// <inheritdoc/>
