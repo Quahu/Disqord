@@ -61,6 +61,13 @@
 
         ThreadCreate = 110,
         ThreadUpdate = 111,
-        ThreadDelete = 112
+        ThreadDelete = 112,
+
+        ApplicationCommandPermissionsUpdate = 121,
+
+        AutoModerationRuleCreated = 140,
+        AutoModerationRuleUpdated = 141,
+        AutoModerationRuleDeleted = 142,
+        AutoModerationMessageBlocked = 143
     }
 }

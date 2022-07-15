@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using Disqord.Interactions;
 using Disqord.Models;
+using Qommon;
+using Qommon.Collections.ReadOnly;
 
-namespace Disqord.Interaction
+namespace Disqord
 {
-    public class TransientComponentInteraction : TransientInteraction, IComponentInteraction
+    public class TransientComponentInteraction : TransientUserInteraction, IComponentInteraction
     {
         /// <inheritdoc/>
         public string CustomId => Model.Data.Value.CustomId.Value;
@@ -13,14 +14,24 @@ namespace Disqord.Interaction
         public ComponentType ComponentType => Model.Data.Value.ComponentType.Value;
 
         /// <inheritdoc/>
-        public IReadOnlyList<string> SelectedValues => Model.Data.Value.Values.Value;
+        public IReadOnlyList<string> SelectedValues
+        {
+            get
+            {
+                if (!Model.Data.Value.Values.TryGetValue(out var values))
+                    return ReadOnlyList<string>.Empty;
+
+                return values;
+            }
+        }
 
         /// <inheritdoc/>
         public IUserMessage Message => _message ??= new TransientUserMessage(Client, Model.Message.Value);
+
         private IUserMessage _message;
 
-        public TransientComponentInteraction(IClient client, InteractionJsonModel model)
-            : base(client, model)
+        public TransientComponentInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
+            : base(client, __receivedAt, model)
         { }
     }
 }

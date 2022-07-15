@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Models;
-using Qommon.Collections;
 using Disqord.Rest.Api;
 using Disqord.Rest.Pagination;
 using Qommon;

@@ -6,7 +6,7 @@
       <OutputType>Exe</OutputType>
     </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.2-dev-10284" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00839" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00909" />
@@ -19,6 +19,11 @@
     <ProjectReference Include="..\Disqord.Rest.Api\Disqord.Rest.Api.csproj" />
     <ProjectReference Include="..\Disqord.Rest\Disqord.Rest.csproj" />
     <ProjectReference Include="..\Disqord\Disqord.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Qmmands, Version=6.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\Qmmands\src\Qmmands\bin\Release\net6.0\Qmmands.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
 

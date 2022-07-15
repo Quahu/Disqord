@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Rest.Api;
-using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Rest
@@ -13,9 +12,10 @@ namespace Disqord.Rest
     {
         public static async Task<IReadOnlyList<IApplicationCommand>> FetchGlobalApplicationCommandsAsync(this IRestClient client,
             Snowflake applicationId,
+            bool withLocalizations = false,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
-            var models = await client.ApiClient.FetchGlobalApplicationCommandsAsync(applicationId, options, cancellationToken).ConfigureAwait(false);
+            var models = await client.ApiClient.FetchGlobalApplicationCommandsAsync(applicationId, withLocalizations, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (model, client) => TransientApplicationCommand.Create(client, model));
         }
 
@@ -52,20 +52,21 @@ namespace Disqord.Rest
             return client.ApiClient.DeleteGlobalApplicationCommandAsync(applicationId, commandId, options, cancellationToken);
         }
 
-        public static async Task<IReadOnlyList<IApplicationCommand>> FetchGuildApplicationCommandsAsync(this IRestClient client,
-            Snowflake applicationId, Snowflake guildId,
-            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-        {
-            var models = await client.ApiClient.FetchGuildApplicationCommandsAsync(applicationId, guildId, options, cancellationToken).ConfigureAwait(false);
-            return models.ToReadOnlyList(client, (model, client) => TransientApplicationCommand.Create(client, model));
-        }
-
         public static async Task<IReadOnlyList<IApplicationCommand>> SetGlobalApplicationCommandsAsync(this IRestClient client,
             Snowflake applicationId, IEnumerable<LocalApplicationCommand> commands,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var contents = commands.Select(command => command.ToContent(client.ApiClient.Serializer)).ToArray();
-            var models = await client.ApiClient.SetGlobalApplicationCommandsAsync(applicationId, contents, options, cancellationToken);
+            var models = await client.ApiClient.SetGlobalApplicationCommandsAsync(applicationId, contents, options, cancellationToken).ConfigureAwait(false);
+            return models.ToReadOnlyList(client, (model, client) => TransientApplicationCommand.Create(client, model));
+        }
+
+        public static async Task<IReadOnlyList<IApplicationCommand>> FetchGuildApplicationCommandsAsync(this IRestClient client,
+            Snowflake applicationId, Snowflake guildId,
+            bool withLocalizations = false,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var models = await client.ApiClient.FetchGuildApplicationCommandsAsync(applicationId, guildId, withLocalizations, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (model, client) => TransientApplicationCommand.Create(client, model));
         }
 
@@ -98,15 +99,33 @@ namespace Disqord.Rest
         public static Task DeleteGuildApplicationCommandAsync(this IRestClient client,
             Snowflake applicationId, Snowflake guildId, Snowflake commandId,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.ApiClient.DeleteGuildApplicationCommandAsync(applicationId, guildId, commandId, options, cancellationToken);
+        {
+            return client.ApiClient.DeleteGuildApplicationCommandAsync(applicationId, guildId, commandId, options, cancellationToken);
+        }
 
         public static async Task<IReadOnlyList<IApplicationCommand>> SetGuildApplicationCommandsAsync(this IRestClient client,
             Snowflake applicationId, Snowflake guildId, IEnumerable<LocalApplicationCommand> commands,
             IRestRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             var contents = commands.Select(command => command.ToContent(client.ApiClient.Serializer)).ToArray();
-            var models = await client.ApiClient.SetGuildApplicationCommandsAsync(applicationId, guildId, contents, options, cancellationToken);
+            var models = await client.ApiClient.SetGuildApplicationCommandsAsync(applicationId, guildId, contents, options, cancellationToken).ConfigureAwait(false);
             return models.ToReadOnlyList(client, (model, client) => TransientApplicationCommand.Create(client, model));
+        }
+
+        public static async Task<IReadOnlyList<IApplicationCommandGuildPermissions>> FetchApplicationCommandsPermissionsAsync(this IRestClient client,
+                Snowflake applicationId, Snowflake guildId,
+                IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var models = await client.ApiClient.FetchApplicationCommandsPermissionsAsync(applicationId, guildId, options, cancellationToken).ConfigureAwait(false);
+            return models.ToReadOnlyList(client, (model, client) => new TransientApplicationCommandGuildPermissions(client, model));
+        }
+
+        public static async Task<IApplicationCommandGuildPermissions> FetchApplicationCommandPermissionsAsync(this IRestClient client,
+                Snowflake applicationId, Snowflake guildId, Snowflake commandId,
+                IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var model = await client.ApiClient.FetchApplicationCommandPermissionsAsync(applicationId, guildId, commandId, options, cancellationToken).ConfigureAwait(false);
+            return new TransientApplicationCommandGuildPermissions(client, model);
         }
     }
 }

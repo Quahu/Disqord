@@ -23,7 +23,7 @@ namespace Disqord.Gateway
         /// <summary>
         ///     Gets the received interaction.
         /// </summary>
-        public virtual IInteraction Interaction { get; }
+        public virtual IUserInteraction Interaction { get; }
 
         /// <summary>
         ///     Gets the cached member that triggered this interaction.
@@ -40,7 +40,7 @@ namespace Disqord.Gateway
         public Snowflake AuthorId => Interaction.Author.Id;
 
         public InteractionReceivedEventArgs(
-            IInteraction interaction,
+            IUserInteraction interaction,
             CachedMember member)
         {
             Interaction = interaction;

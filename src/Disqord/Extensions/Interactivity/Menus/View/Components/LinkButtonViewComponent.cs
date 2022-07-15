@@ -72,12 +72,13 @@ namespace Disqord.Extensions.Interactivity.Menus
 
         protected internal override LocalComponent ToLocalComponent()
         {
-            var button = new LocalLinkButtonComponent()
-                .WithUrl(_url)
-                .WithIsDisabled(_isDisabled);
-
-            button.Label = Optional.FromNullable(_label);
-            button.Emoji = Optional.FromNullable(_emoji);
+            var button = new LocalLinkButtonComponent
+            {
+                Url = _url,
+                IsDisabled = _isDisabled,
+                Label = Optional.FromNullable(_label),
+                Emoji = Optional.FromNullable(_emoji)
+            };
 
             return button;
         }

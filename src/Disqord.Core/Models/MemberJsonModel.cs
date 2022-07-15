@@ -32,7 +32,7 @@ namespace Disqord.Models
         public Optional<bool> Pending;
 
         [JsonProperty("permissions")]
-        public Optional<ulong> Permissions; // "returned when in the interaction object"
+        public Optional<ulong> Permissions;
 
         [JsonProperty("avatar")]
         public Optional<string> Avatar;

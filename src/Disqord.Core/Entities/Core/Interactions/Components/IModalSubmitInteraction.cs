@@ -5,7 +5,7 @@ namespace Disqord
     /// <summary>
     ///     Represents a modal being submitted.
     /// </summary>
-    public interface IModalSubmitInteraction : IInteraction, ICustomIdentifiableEntity
+    public interface IModalSubmitInteraction : IUserInteraction, ICustomIdentifiableEntity
     {
         /// <summary>
         ///     Gets the components of this interaction.

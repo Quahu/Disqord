@@ -1,50 +1,23 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Disqord.Bot;
+using Disqord.Bot.Commands;
+using Disqord.Bot.Commands.Text;
 using Disqord.Extensions.Interactivity;
 using Disqord.Extensions.Interactivity.Menus;
 using Disqord.Extensions.Interactivity.Menus.Paged;
 using Disqord.Gateway;
-using Disqord.Models;
 using Disqord.Rest;
-using Disqord.Rest.Api;
 using Qmmands;
+using Qmmands.Text;
 
 namespace Disqord.Test
 {
-    public class TestModule : DiscordModuleBase
+    public class TestModule : DiscordTextModuleBase
     {
-        [Command("slash")]
-        [RequireBotOwner]
-        public async ValueTask Slash()
-        {
-            var api = (Bot as IRestClient).ApiClient;
-            var content = new CreateApplicationCommandJsonRestRequestContent
-            {
-                // slash command creation
-                Name = "echo",
-                Description = "Echoes user input.",
-                Options = new[]
-                {
-                    new ApplicationCommandOptionJsonModel
-                    {
-                        Name = "text",
-                        Description = "The text to echo.",
-                        Required = true,
-                        Type = SlashCommandOptionType.String
-                    }
-                }
-
-                // context menu command creation
-                // Name = "Rate Message",
-                // Type = ApplicationCommandType.Message
-            };
-            await api.CreateGuildApplicationCommandAsync(Bot.CurrentUser.Id, Context.GuildId.Value, content);
-        }
-
-        [Command("menudemo")]
-        public DiscordCommandResult MenuDemo()
+        [TextCommand("menudemo")]
+        public IResult MenuDemo()
             => View(new FirstView());
 
         public class FirstView : PagedViewBase
@@ -73,12 +46,16 @@ namespace Disqord.Test
         {
             private int _clicks;
             private readonly ButtonViewComponent _clicker;
+            private Color? _color;
 
             public SecondView()
-                : base(new LocalMessage()
-                    .WithEmbeds(new LocalEmbed()
-                        .WithDescription("This is the second view!")))
+                : base(null)
             {
+                MessageTemplate = message => message
+                    .WithEmbeds(new LocalEmbed()
+                        .WithDescription("This is the second view!")
+                        .WithColor(_color));
+
                 _clicker = new ButtonViewComponent(e =>
                 {
                     e.Button.Label = $"{++_clicks} {(_clicks == 1 ? "click" : "clicks")}";
@@ -95,7 +72,7 @@ namespace Disqord.Test
             [Button(Label = "Randomize Color", Emoji = "🎨")]
             public ValueTask RandomizeColor(ButtonEventArgs e)
             {
-                TemplateMessage.Embeds[0].Color = Color.Random;
+                _color = Color.Random;
                 ReportChanges(); // The template message's properties aren't tracked, so we have to report them.
                 return default;
             }
@@ -119,16 +96,16 @@ namespace Disqord.Test
             }
         }
 
-        [Command("responses")]
-        public async Task<DiscordCommandResult> Responses()
+        [TextCommand("responses")]
+        public async Task<IResult> Responses()
         {
             var message = await Response("1");
             await Response("2");
             return Response("3");
         }
 
-        [Command("waitmessage")]
-        public async Task<DiscordCommandResult> WaitMessage()
+        [TextCommand("waitmessage")]
+        public async Task<IResult> WaitMessage()
         {
             var random = new Random();
             var number = random.Next(0, 10).ToString();
@@ -139,45 +116,48 @@ namespace Disqord.Test
                 : "You didn't say anything...");
         }
 
-        [Command("pages")]
-        public DiscordCommandResult Pages()
+        [TextCommand("pages")]
+        public IResult Pages()
         {
             var page1 = new Page()
                 .WithContent("First page!");
+
             var page2 = new Page()
                 .WithEmbeds(new LocalEmbed().WithDescription("Second page!"));
+
             var page3 = new Page().WithContent("Third page!")
                 .WithEmbeds(new LocalEmbed().WithAuthor(Context.Author.Tag));
+
             return Pages(page1, page2, page3);
         }
 
-        [Command("pages2")]
-        public DiscordCommandResult Paged2()
+        [TextCommand("pages2")]
+        public IResult Paged2()
         {
             var strings = Enumerable.Range(0, 100).Select(x => new string('a', x)).ToArray();
             var pageProvider = new ArrayPageProvider<string>(strings);
             return Pages(pageProvider);
         }
 
-        [Command("shard")]
+        [TextCommand("shard")]
         [Description("Displays the shard for this context.")]
-        public DiscordCommandResult Shard()
+        public IResult Shard()
         {
             var shardId = Context.Bot.GetShardId(Context.GuildId);
             return Response($"This is {shardId} speaking.");
         }
 
-        [Command("ping")]
-        [Cooldown(1, 5, CooldownMeasure.Seconds, CooldownBucketType.Channel)]
-        public DiscordCommandResult Ping()
+        [TextCommand("ping")]
+        [RateLimit(1, 5, RateLimitMeasure.Seconds, RateLimitBucketType.Channel)]
+        public IResult Ping()
             => Response("pong");
 
-        [Command("react")]
-        public DiscordCommandResult React()
+        [TextCommand("react")]
+        public IResult React()
             => Reaction(new LocalEmoji("🚿"));
 
-        [Command("id")]
-        public DiscordCommandResult Id(Snowflake id)
+        [TextCommand("id")]
+        public IResult Id(Snowflake id)
             => Response($"{id}: {id.CreatedAt}");
     }
 }

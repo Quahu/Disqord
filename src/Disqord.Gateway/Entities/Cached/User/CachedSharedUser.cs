@@ -59,10 +59,14 @@ namespace Disqord.Gateway
 
         /// <inheritdoc/>
         public int AddReference(CachedUser user)
-            => Interlocked.Increment(ref _referenceCount);
+        {
+            return Interlocked.Increment(ref _referenceCount);
+        }
 
         /// <inheritdoc/>
         public int RemoveReference(CachedUser user)
-            => Interlocked.Decrement(ref _referenceCount);
+        {
+            return Interlocked.Decrement(ref _referenceCount);
+        }
     }
 }

@@ -31,13 +31,15 @@ namespace Disqord.Rest.Api
             return content;
         }
 
+        /// <inheritdoc/>
         public virtual HttpRequestContent CreateHttpContent(IJsonSerializer serializer, IRestRequestOptions options = null)
         {
-            var content = new MultipartFormDataHttpRequestContent($"---------{DateTime.Now}--");
+            var content = new MultipartFormDataHttpRequestContent(Guid.NewGuid().ToString());
             content.FormData.AddRange(FormData);
             return content;
         }
 
+        /// <inheritdoc/>
         public virtual void Validate()
         {
             foreach (var (content, name, _) in FormData)

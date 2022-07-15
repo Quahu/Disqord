@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System.Collections.Generic;
+using Disqord.Models;
 using Disqord.Serialization.Json;
 using Qommon;
 
@@ -9,11 +10,23 @@ namespace Disqord.Rest.Api
         [JsonProperty("name")]
         public string Name;
 
+        [JsonProperty("name_localizations")]
+        public Optional<Dictionary<string, string>> NameLocalizations;
+
         [JsonProperty("description")]
         public Optional<string> Description;
 
+        [JsonProperty("description_localizations")]
+        public Optional<Dictionary<string, string>> DescriptionLocalizations;
+
         [JsonProperty("options")]
         public Optional<ApplicationCommandOptionJsonModel[]> Options;
+
+        [JsonProperty("default_member_permissions")]
+        public Optional<ulong?> DefaultMemberPermissions;
+
+        [JsonProperty("dm_permission")]
+        public Optional<bool?> DmPermission;
 
         [JsonProperty("default_permission")]
         public Optional<bool> DefaultPermission;
@@ -30,11 +43,6 @@ namespace Disqord.Rest.Api
                 case ApplicationCommandType.Slash:
                 {
                     OptionalGuard.HasValue(Description, "Slash commands must have descriptions set.");
-
-                    // "CHAT_INPUT command names and command option names must match the following regex ^[\w-]{1,32}$ with the unicode flag set.
-                    // If there is a lowercase variant of any letters used, you must use those.
-                    // Characters with no lowercase variants and/or uncased letters are still allowed."
-                    // ☜(ﾟヮﾟ☜)
                     break;
                 }
                 case ApplicationCommandType.User:
@@ -45,9 +53,9 @@ namespace Disqord.Rest.Api
                 }
             }
 
-            ContentValidation.ApplicationCommands.ValidateName(Name);
-            ContentValidation.ApplicationCommands.ValidateDescription(Description);
-            ContentValidation.ApplicationCommands.ValidateOptions(Options);
+            RestContentValidation.ApplicationCommands.ValidateName(Name);
+            RestContentValidation.ApplicationCommands.ValidateDescription(Description);
+            RestContentValidation.ApplicationCommands.ValidateOptions(Options);
         }
     }
 }

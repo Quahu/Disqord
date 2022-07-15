@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using Disqord.Models;
+﻿using Disqord.Models;
 
 namespace Disqord
 {
+    /// <summary>
+    ///     Represents a guild event's metadata.
+    /// </summary>
     public interface IGuildEventMetadata : IEntity, IJsonUpdatable<GuildScheduledEventEntityMetadataJsonModel>
     {
         /// <summary>

@@ -91,6 +91,16 @@ namespace Disqord.Gateway
         /// <summary>
         ///     The guild events intent. Required to receive events related to guild events.
         /// </summary>
-        GuildEvents = 1 << 16
+        GuildEvents = 1 << 16,
+
+        /// <summary>
+        ///     The auto-moderation configuration intent. Required to receive events related to auto-moderation configuration.
+        /// </summary>
+        AutoModerationConfiguration = 1 << 20,
+
+        /// <summary>
+        ///     The auto-moderation execution intent. Required to receive events related to auto-moderation execution.
+        /// </summary>
+        AutoModerationExecution = 1 << 21
     }
 }

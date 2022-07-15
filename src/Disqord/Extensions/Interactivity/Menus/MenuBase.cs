@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway;
@@ -177,8 +178,10 @@ namespace Disqord.Extensions.Interactivity.Menus
 
         /// <summary>
         ///     Handles the given interaction.
-        ///     By default refreshes the timeout, executes the <see cref="View"/>, and calls <see cref="ApplyChangesAsync"/>.
         /// </summary>
+        /// <remarks>
+        ///     By default refreshes the timeout, executes the <see cref="View"/>, and calls <see cref="ApplyChangesAsync"/>.
+        /// </remarks>
         /// <param name="e"> The event data. </param>
         protected virtual async ValueTask HandleInteractionAsync(InteractionReceivedEventArgs e)
         {
@@ -227,6 +230,14 @@ namespace Disqord.Extensions.Interactivity.Menus
         }
 
         /// <summary>
+        ///     Creates the <see cref="LocalMessageBase"/> for the view to be formatted into.
+        /// </summary>
+        /// <returns>
+        ///     A new <see cref="LocalMessageBase"/>.
+        /// </returns>
+        public abstract LocalMessageBase CreateLocalMessage();
+
+        /// <summary>
         ///     Updates the message the menu is bound according to view changes.
         /// </summary>
         /// <param name="e"> The event data. If not provided the message is modified normally, i.e. not by using interaction responses. </param>
@@ -242,20 +253,23 @@ namespace Disqord.Extensions.Interactivity.Menus
             {
                 await view.UpdateAsync().ConfigureAwait(false);
 
-                var localMessage = view.ToLocalMessage();
+                var localMessage = CreateLocalMessage();
+                view.FormatLocalMessage(localMessage);
                 try
                 {
                     if (response != null && !response.HasResponded)
                     {
                         // If the user hasn't responded, respond to the interaction with modifying the message.
-                        await response.ModifyMessageAsync(new LocalInteractionMessageResponse()
-                        {
-                            Content = localMessage.Content,
-                            IsTextToSpeech = localMessage.IsTextToSpeech,
-                            Embeds = localMessage.Embeds,
-                            AllowedMentions = localMessage.AllowedMentions,
-                            Components = localMessage.Components
-                        }).ConfigureAwait(false);
+                        await response.ModifyMessageAsync(localMessage is LocalInteractionMessageResponse interactionMessageResponse
+                            ? interactionMessageResponse
+                            : new LocalInteractionMessageResponse
+                            {
+                                Content = localMessage.Content,
+                                IsTextToSpeech = localMessage.IsTextToSpeech,
+                                Embeds = localMessage.Embeds,
+                                AllowedMentions = localMessage.AllowedMentions,
+                                Components = localMessage.Components
+                            }).ConfigureAwait(false);
                     }
                     else if (response != null && response.HasResponded && response.ResponseType is InteractionResponseType.DeferredMessageUpdate)
                     {
@@ -325,20 +339,24 @@ namespace Disqord.Extensions.Interactivity.Menus
 
             _tcs = new Tcs();
             _cts = Cts.Linked(Client.StoppingToken, cancellationToken);
-            _cts.Token.UnsafeRegister(state =>
+
+            static void CancellationCallback(object state, CancellationToken cancellationToken)
             {
-                var (tcs, token) = ((Tcs, CancellationToken)) state;
-                tcs.Cancel(token);
-            }, (_tcs, cancellationToken));
+                var tcs = Unsafe.As<Tcs>(state);
+                tcs.Cancel(cancellationToken);
+            }
+
+            _cts.Token.UnsafeRegister(CancellationCallback, _tcs);
 
             if (timeout == Timeout.InfiniteTimeSpan)
                 return;
 
             // We store the timeout so it can be refreshed when a button is triggered in HandleInteractionAsync.
             _timeout = timeout;
-            _timeoutTimer = new Timer(state =>
+
+            static void TimerCallback(object state)
             {
-                var menu = (MenuBase) state;
+                var menu = Unsafe.As<MenuBase>(state);
                 lock (menu._disposeLock)
                 {
                     if (!menu.IsRunning)
@@ -351,7 +369,9 @@ namespace Disqord.Extensions.Interactivity.Menus
                     cts.Cancel();
                     menu._tcs.Cancel(cts.Token);
                 }
-            }, this, timeout, Timeout.InfiniteTimeSpan);
+            }
+
+            _timeoutTimer = new Timer(TimerCallback, this, timeout, Timeout.InfiniteTimeSpan);
         }
 
         /// <summary>
@@ -401,7 +421,9 @@ namespace Disqord.Extensions.Interactivity.Menus
 
             var view = _view;
             if (view != null)
+            {
                 await view.DisposeAsync().ConfigureAwait(false);
+            }
         }
     }
 }

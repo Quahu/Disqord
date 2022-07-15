@@ -7,7 +7,7 @@ namespace Disqord
     {
         public Optional<string> Topic { internal get; set; }
 
-        public Optional<bool> IsNsfw { internal get; set; }
+        public Optional<bool> IsAgeRestricted { internal get; set; }
 
         public Optional<TimeSpan> DefaultAutomaticArchiveDuration { internal get; set; }
 

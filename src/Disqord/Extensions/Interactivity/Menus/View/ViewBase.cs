@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Qommon.Collections.Synchronized;
 using Disqord.Gateway;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Extensions.Interactivity.Menus
 {
@@ -26,29 +26,33 @@ namespace Disqord.Extensions.Interactivity.Menus
         public bool HasChanges { get; internal set; }
 
         /// <summary>
-        ///     Gets or sets the template message of this view.
+        ///     Gets or sets the message template of this view.
         /// </summary>
-        public LocalMessage TemplateMessage
+        public Action<LocalMessageBase> MessageTemplate
         {
-            get => _templateMessage;
+            get => _messageTemplate;
             set
             {
-                ReportChanges();
-                _templateMessage = value;
+                lock (this)
+                {
+                    ReportChanges();
+
+                    _messageTemplate = value;
+                }
             }
         }
 
         private readonly List<ViewComponent>[] _rows;
         private readonly ISynchronizedDictionary<string, InteractableViewComponent> _interactables;
-        private LocalMessage _templateMessage;
+        private Action<LocalMessageBase> _messageTemplate;
 
         /// <summary>
-        ///     Instantiates a new <see cref="ViewBase"/> with the specified template message.
+        ///     Instantiates a new <see cref="ViewBase"/> with the specified message template.
         /// </summary>
-        /// <param name="templateMessage"> The template message for this view. </param>
-        protected ViewBase(LocalMessage templateMessage)
+        /// <param name="messageTemplate"> The message template for this view. </param>
+        protected ViewBase(Action<LocalMessageBase> messageTemplate)
         {
-            _templateMessage = templateMessage;
+            _messageTemplate = messageTemplate;
             _rows = new List<ViewComponent>[5];
             for (var i = 0; i < 5; i++)
                 _rows[i] = new List<ViewComponent>(5);
@@ -74,7 +78,9 @@ namespace Disqord.Extensions.Interactivity.Menus
         /// </summary>
         /// <returns></returns>
         public virtual ValueTask UpdateAsync()
-            => default;
+        {
+            return default;
+        }
 
         /// <summary>
         ///     Gets a unique custom ID for the given interactable component.
@@ -87,7 +93,9 @@ namespace Disqord.Extensions.Interactivity.Menus
         ///     A unique custom ID for the component.
         /// </returns>
         protected internal virtual string GetCustomId(InteractableViewComponent component)
-            => Guid.NewGuid().ToString();
+        {
+            return Guid.NewGuid().ToString();
+        }
 
         /// <summary>
         ///     Adds a component to this view.
@@ -236,17 +244,15 @@ namespace Disqord.Extensions.Interactivity.Menus
         }
 
         /// <summary>
-        ///     Converts this view to a <see cref="LocalMessage"/> representation of it.
+        ///     Converts this view into a <see cref="LocalMessageBase"/> representation of it.
         /// </summary>
-        /// <returns>
-        ///     The local message equivalent.
-        /// </returns>
-        public virtual LocalMessage ToLocalMessage()
+        public virtual void FormatLocalMessage(LocalMessageBase message)
         {
             lock (this)
             {
-                var localMessage = TemplateMessage?.Clone() ?? new LocalMessage();
-                localMessage.AllowedMentions ??= LocalAllowedMentions.None;
+                _messageTemplate?.Invoke(message);
+
+                message.AllowedMentions ??= LocalAllowedMentions.None;
                 foreach (var row in _rows)
                 {
                     if (row.Count == 0)
@@ -259,21 +265,23 @@ namespace Disqord.Extensions.Interactivity.Menus
                         localRowComponent.AddComponent(localComponent);
                     }
 
-                    localMessage.AddComponent(localRowComponent);
+                    message.AddComponent(localRowComponent);
                 }
-
-                return localMessage;
             }
         }
 
         /// <summary>
         ///     Disposes of this view.
-        ///     By default does nothing.
         /// </summary>
+        /// <remarks>
+        ///     By default does nothing.
+        /// </remarks>
         /// <returns>
         ///     A <see cref="ValueTask"/> representing the work.
         /// </returns>
         public virtual ValueTask DisposeAsync()
-            => default;
+        {
+            return default;
+        }
     }
 }

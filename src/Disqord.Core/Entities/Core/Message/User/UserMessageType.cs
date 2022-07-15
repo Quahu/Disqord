@@ -31,6 +31,11 @@
         /// <summary>
         ///     Represents a context menu command message.
         /// </summary>
-        ContextMenuCommand = 23
+        ContextMenuCommand = 23,
+
+        /// <summary>
+        ///     Represents an auto-moderation action alert message.
+        /// </summary>
+        AutoModerationAction = 24
     }
 }

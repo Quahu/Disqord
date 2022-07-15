@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using Qommon;
 
 namespace Disqord
@@ -9,6 +10,29 @@ namespace Disqord
             where TSlashCommand : LocalSlashCommand
         {
             @this.Description = description;
+            return @this;
+        }
+
+        public static TSlashCommand AddDescriptionLocalization<TSlashCommand>(this TSlashCommand @this, CultureInfo locale, string description)
+            where TSlashCommand : LocalSlashCommand
+        {
+            Guard.IsNotNull(locale);
+            Guard.IsNotNull(description);
+
+            if (!@this.DescriptionLocalizations.Add(locale, description, out var dictionary))
+                @this.DescriptionLocalizations = new(dictionary);
+
+            return @this;
+        }
+
+        public static TSlashCommand WithDescriptionLocalizations<TSlashCommand>(this TSlashCommand @this, IEnumerable<KeyValuePair<CultureInfo, string>> descriptions)
+            where TSlashCommand : LocalSlashCommand
+        {
+            Guard.IsNotNull(descriptions);
+
+            if (!@this.DescriptionLocalizations.With(descriptions, out var dictionary))
+                @this.DescriptionLocalizations = new(dictionary);
+
             return @this;
         }
 

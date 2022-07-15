@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Disqord.Models;
-using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord
 {
+    /// <inheritdoc cref="IGuildChannel"/>
     public abstract class TransientGuildChannel : TransientChannel, IGuildChannel
     {
         /// <inheritdoc/>
@@ -28,6 +28,9 @@ namespace Disqord
         private IReadOnlyList<IOverwrite> _overwrites;
 
         /// <inheritdoc/>
+        public GuildChannelFlag Flags => Model.Flags.Value;
+
+        /// <inheritdoc/>
         public string Mention => Disqord.Mention.Channel(this);
 
         protected TransientGuildChannel(IClient client, ChannelJsonModel model)
@@ -48,9 +51,6 @@ namespace Disqord
                 case ChannelType.Category:
                     return new TransientCategoryChannel(client, model);
 
-                case ChannelType.Store:
-                    return new TransientStoreChannel(client, model);
-
                 case ChannelType.NewsThread:
                 case ChannelType.PublicThread:
                 case ChannelType.PrivateThread:
@@ -58,6 +58,9 @@ namespace Disqord
 
                 case ChannelType.Stage:
                     return new TransientStageChannel(client, model);
+
+                case ChannelType.Forum:
+                    return new TransientForumChannel(client, model);
             }
 
             return new TransientUnknownGuildChannel(client, model);

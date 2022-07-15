@@ -1,23 +1,27 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Qmmands;
 
-namespace Disqord.Bot
+namespace Disqord.Bot.Commands;
+
+/// <summary>
+///     Specifies that the <see cref="IUser"/> parameter must not be the author.
+/// </summary>
+public class RequireNotAuthorAttribute : DiscordParameterCheckAttribute
 {
-    /// <summary>
-    ///     Specifies that the <see cref="IUser"/> parameter must not be the author.
-    /// </summary>
-    public class RequireNotAuthorAttribute : DiscordParameterCheckAttribute
+    public RequireNotAuthorAttribute()
+    { }
+
+    public override bool CanCheck(IParameter parameter, object? value)
     {
-        public override bool CheckType(Type type)
-            => typeof(IUser).IsAssignableFrom(type);
+        return value is IUser;
+    }
 
-        public override ValueTask<CheckResult> CheckAsync(object argument, DiscordCommandContext context)
-        {
-            if (argument is IUser user && user.Id != context.Author.Id)
-                return Success();
+    public override ValueTask<IResult> CheckAsync(IDiscordCommandContext context, IParameter parameter, object? argument)
+    {
+        var user = (argument as IUser)!;
+        if (user.Id != context.Author.Id)
+            return Results.Success;
 
-            return Failure("The provided argument must be another user.");
-        }
+        return Results.Failure("The provided user argument must be another user.");
     }
 }

@@ -12,6 +12,9 @@ namespace Disqord.Serialization.Json.Default
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+            if (reader.TokenType == JsonToken.Null)
+                return null;
+
             if (JToken.ReadFrom(reader) is not JObject jObject)
                 throw new InvalidOperationException("Not a JSON object.");
 

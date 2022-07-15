@@ -1,5 +1,4 @@
-﻿namespace Disqord.Bot
-{
-    public class DiscordBotConfiguration : DiscordBotBaseConfiguration
-    { }
-}
+﻿namespace Disqord.Bot;
+
+public class DiscordBotConfiguration : DiscordBotBaseConfiguration
+{ }

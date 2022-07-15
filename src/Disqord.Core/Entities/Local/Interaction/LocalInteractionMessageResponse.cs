@@ -1,20 +1,8 @@
 namespace Disqord
 {
-    public class LocalInteractionMessageResponse : LocalMessageBase, ILocalInteractionResponse
+    public class LocalInteractionMessageResponse : LocalInteractionFollowup, ILocalInteractionResponse
     {
         public InteractionResponseType Type { get; set; }
-
-        public bool IsEphemeral
-        {
-            get => Flags.HasFlag(MessageFlag.Ephemeral);
-            set
-            {
-                if (value)
-                    Flags |= MessageFlag.Ephemeral;
-                else
-                    Flags &= ~MessageFlag.Ephemeral;
-            }
-        }
 
         public LocalInteractionMessageResponse()
         { }
@@ -24,7 +12,7 @@ namespace Disqord
             Type = type;
         }
 
-        private LocalInteractionMessageResponse(LocalInteractionMessageResponse other)
+        protected LocalInteractionMessageResponse(LocalInteractionMessageResponse other)
             : base(other)
         {
             Type = other.Type;

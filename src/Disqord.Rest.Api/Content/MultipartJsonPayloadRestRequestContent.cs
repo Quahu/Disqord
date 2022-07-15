@@ -5,7 +5,6 @@ using Disqord.Http.Default;
 using Disqord.Models;
 using Disqord.Serialization.Json;
 using Disqord.Serialization.Json.Default;
-using Newtonsoft.Json.Linq;
 using Qommon;
 
 namespace Disqord.Rest.Api
@@ -26,6 +25,7 @@ namespace Disqord.Rest.Api
             Attachments = attachments.ToArray();
         }
 
+        /// <inheritdoc/>
         public override HttpRequestContent CreateHttpContent(IJsonSerializer serializer, IRestRequestOptions options = null)
         {
             _serializer = serializer as DefaultJsonSerializer;
@@ -65,6 +65,7 @@ namespace Disqord.Rest.Api
             return base.CreateHttpContent(serializer, options);
         }
 
+        /// <inheritdoc/>
         public override void Validate()
         {
             base.Validate();

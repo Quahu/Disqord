@@ -1,5 +1,8 @@
-﻿using Disqord.Models;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using Disqord.Models;
 using Qommon;
+using Qommon.Collections.ReadOnly;
 
 namespace Disqord
 {
@@ -12,16 +15,34 @@ namespace Disqord
         public Snowflake? GuildId => Model.GuildId.GetValueOrNullable();
 
         /// <inheritdoc/>
-        public string Name => Model.Name;
-
-        /// <inheritdoc/>
         public ApplicationCommandType Type => Model.Type.GetValueOrDefault(ApplicationCommandType.Slash);
 
         /// <inheritdoc/>
         public Snowflake ApplicationId => Model.ApplicationId;
 
         /// <inheritdoc/>
-        public bool IsEnabledByDefault => Model.DefaultPermission.GetValueOrDefault(true);
+        public string Name => Model.Name;
+
+        /// <inheritdoc />
+        public IReadOnlyDictionary<CultureInfo, string> NameLocalizations
+        {
+            get
+            {
+                if (!Model.NameLocalizations.HasValue)
+                    return ReadOnlyDictionary<CultureInfo, string>.Empty;
+
+                return Model.NameLocalizations.Value.ToReadOnlyDictionary(x => CultureInfo.GetCultureInfo(x.Key), x => x.Value);
+            }
+        }
+
+        /// <inheritdoc />
+        public Permission? DefaultRequiredMemberPermissions => (Permission?) Model.DefaultMemberPermissions;
+
+        /// <inheritdoc />
+        public bool IsEnabledInPrivateChannels => Model.DmPermission.GetValueOrDefault(true);
+
+        /// <inheritdoc/>
+        public bool IsEnabledByDefault => Model.DefaultPermission.GetValueOrDefault() ?? true;
 
         /// <inheritdoc/>
         public Snowflake Version => Model.Version;

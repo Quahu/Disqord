@@ -56,7 +56,7 @@ namespace Disqord.Rest.Repetition
             var cancellationToken = _cts.Token;
             while (!cancellationToken.IsCancellationRequested)
             {
-                await ExecuteAsync(cancellationToken);
+                await ExecuteAsync(cancellationToken).ConfigureAwait(false);
                 await Task.Delay(Interval, cancellationToken).ConfigureAwait(false);
             }
         }

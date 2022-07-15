@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../Disqord.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\Disqord\Disqord.csproj" />
-    <PackageReference Include="Qmmands" Version="5.0.2" />
-  </ItemGroup>
+    <Import Project="../Disqord.targets" />
+    <PropertyGroup>
+        <Nullable>enable</Nullable>
+        <WarningsAsErrors>Nullable</WarningsAsErrors>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Disqord\Disqord.csproj" />
+        <PackageReference Include="Qmmands" Version="6.0.0-alpha.15" />
+    </ItemGroup>
+    <ItemGroup>
+        <!--        <Reference Include="Qmmands, Version=6.0.0.0, Culture=neutral, PublicKeyToken=null">-->
+        <!--            <HintPath>..\..\..\Qmmands\src\Qmmands\bin\Release\net6.0\Qmmands.dll</HintPath>-->
+        <!--        </Reference>-->
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Commands\Implementation\Application\Constructs" />
+    </ItemGroup>
 </Project>

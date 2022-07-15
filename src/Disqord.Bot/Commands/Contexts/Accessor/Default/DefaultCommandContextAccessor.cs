@@ -1,9 +1,8 @@
-﻿namespace Disqord.Bot
+﻿namespace Disqord.Bot.Commands.Default;
+
+/// <inheritdoc/>
+public class DefaultCommandContextAccessor : ICommandContextAccessor
 {
     /// <inheritdoc/>
-    public class DefaultCommandContextAccessor : ICommandContextAccessor
-    {
-        /// <inheritdoc/>
-        public DiscordCommandContext Context { get; set; }
-    }
+    public IDiscordCommandContext Context { get; set; } = null!;
 }

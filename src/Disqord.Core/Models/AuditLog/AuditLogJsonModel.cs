@@ -4,8 +4,14 @@ namespace Disqord.Models
 {
     public class AuditLogJsonModel : JsonModel
     {
+        [JsonProperty("application_commands")]
+        public ApplicationCommandJsonModel[] ApplicationCommands;
+
         [JsonProperty("audit_log_entries")]
         public AuditLogEntryJsonModel[] AuditLogEntries;
+
+        [JsonProperty("auto_moderation_rules")]
+        public AutoModerationRuleJsonModel[] AutoModerationRules;
 
         [JsonProperty("guild_scheduled_events")]
         public GuildScheduledEventJsonModel[] GuildScheduledEvents;

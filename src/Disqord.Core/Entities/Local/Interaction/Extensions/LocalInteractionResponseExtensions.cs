@@ -1,18 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Qommon;
 
 namespace Disqord
 {
     public static class LocalInteractionResponseExtensions
     {
-        public static TResponse WithIsEphemeral<TResponse>(this TResponse response, bool isEphemeral = true)
-            where TResponse : LocalInteractionMessageResponse
-        {
-            response.IsEphemeral = isEphemeral;
-            return response;
-        }
-
         public static TResponse AddChoice<TResponse>(this TResponse @this, LocalSlashCommandOptionChoice choice)
             where TResponse : LocalInteractionAutoCompleteResponse
         {

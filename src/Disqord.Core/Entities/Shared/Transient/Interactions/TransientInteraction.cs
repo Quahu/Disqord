@@ -1,62 +1,41 @@
-﻿using System.Globalization;
-using Disqord.Interactions;
+﻿using System.ComponentModel;
 using Disqord.Models;
-using Qommon;
 
-namespace Disqord.Interaction
+namespace Disqord
 {
     public class TransientInteraction : TransientClientEntity<InteractionJsonModel>, IInteraction
     {
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public long __ReceivedAt { get; }
+
+        /// <inheritdoc/>
         public Snowflake Id => Model.Id;
 
-        public Snowflake? GuildId => Model.GuildId.GetValueOrNullable();
-
-        public Snowflake ChannelId => Model.ChannelId.Value;
-
+        /// <inheritdoc/>
         public Snowflake ApplicationId => Model.ApplicationId;
 
+        /// <inheritdoc/>
         public int Version => Model.Version;
 
+        /// <inheritdoc/>
         public InteractionType Type => Model.Type;
 
+        /// <inheritdoc/>
         public string Token => Model.Token;
 
-        public IUser Author
-        {
-            get
-            {
-                return _author ??= Model.Member.HasValue
-                    ? new TransientMember(Client, GuildId.Value, Model.Member.Value)
-                    : new TransientUser(Client, Model.User.Value);
-            }
-        }
-        private IUser _author;
-
-        public CultureInfo Locale => Model.Locale.HasValue
-            ? Discord.Internal.GetLocale(Model.Locale.Value)
-            : null;
-
-        public CultureInfo GuildLocale => Model.GuildLocale.HasValue
-            ? Discord.Internal.GetLocale(Model.GuildLocale.Value)
-            : null;
-
-        public TransientInteraction(IClient client, InteractionJsonModel model)
+        public TransientInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
             : base(client, model)
-        { }
+        {
+            __ReceivedAt = __receivedAt;
+        }
 
-        public static IInteraction Create(IClient client, InteractionJsonModel model)
-            => model.Type switch
-            {
-                InteractionType.ApplicationCommand => model.Data.Value.Type.Value switch
-                {
-                    ApplicationCommandType.Slash => new TransientSlashCommandInteraction(client, model),
-                    ApplicationCommandType.User or ApplicationCommandType.Message => new TransientContextMenuInteraction(client, model),
-                    _ => new TransientApplicationCommandInteraction(client, model)
-                },
-                InteractionType.MessageComponent => new TransientComponentInteraction(client, model),
-                InteractionType.ApplicationCommandAutoComplete => new TransientAutoCompleteInteraction(client, model),
-                InteractionType.ModalSubmit => new TransientModalSubmitInteraction(client, model),
-                _ => new TransientInteraction(client, model)
-            };
+        public static IInteraction Create(IClient client, long __receivedAt, InteractionJsonModel model)
+        {
+            if (model.User.HasValue || model.Member.HasValue)
+                return TransientUserInteraction.Create(client, __receivedAt, model);
+
+            return new TransientInteraction(client, __receivedAt, model);
+        }
     }
 }

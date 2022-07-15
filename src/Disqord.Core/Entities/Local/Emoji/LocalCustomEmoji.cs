@@ -1,4 +1,5 @@
 ﻿using System;
+using Qommon;
 
 namespace Disqord
 {
@@ -39,29 +40,35 @@ namespace Disqord
 
         public static bool TryParse(string value, out LocalCustomEmoji result)
         {
+            Guard.IsNotNull(value);
+
+            return TryParse(value.AsSpan(), out result);
+        }
+
+        public static bool TryParse(ReadOnlySpan<char> value, out LocalCustomEmoji result)
+        {
             result = null;
-            if (string.IsNullOrWhiteSpace(value) || value.Length < 21)
+            if (value.Length < 21)
                 return false;
 
-            var valueSpan = value.AsSpan();
-            if (valueSpan[0] != '<' || valueSpan[^1] != '>')
+            if (value[0] != '<' || value[^1] != '>')
                 return false;
 
-            valueSpan = valueSpan.Slice(1, valueSpan.Length - 2);
-            var isAnimated = valueSpan[0] == 'a';
-            if (valueSpan[isAnimated ? 1 : 0] != ':')
+            value = value.Slice(1, value.Length - 2);
+            var isAnimated = value[0] == 'a';
+            if (value[isAnimated ? 1 : 0] != ':')
                 return false;
 
-            valueSpan = valueSpan.Slice(isAnimated ? 2 : 1);
-            var colonIndex = valueSpan.IndexOf(':');
+            value = value.Slice(isAnimated ? 2 : 1);
+            var colonIndex = value.IndexOf(':');
             if (colonIndex == -1)
                 return false;
 
-            var nameSpan = valueSpan.Slice(0, colonIndex);
+            var nameSpan = value.Slice(0, colonIndex);
             if (nameSpan.IsEmpty || nameSpan.Length > 32 || nameSpan.IsWhiteSpace())
                 return false;
 
-            var idSpan = valueSpan.Slice(colonIndex + 1);
+            var idSpan = value.Slice(colonIndex + 1);
             if (!Snowflake.TryParse(idSpan, out var id))
                 return false;
 

@@ -38,10 +38,13 @@ namespace Disqord.Models
         [JsonProperty("message")]
         public Optional<MessageJsonModel> Message;
 
-        [JsonProperty("locale")] 
+        [JsonProperty("app_permissions")]
+        public Optional<ulong> AppPermissions;
+
+        [JsonProperty("locale")]
         public Optional<string> Locale;
 
-        [JsonProperty("guild_locale")] 
+        [JsonProperty("guild_locale")]
         public Optional<string> GuildLocale;
     }
 }

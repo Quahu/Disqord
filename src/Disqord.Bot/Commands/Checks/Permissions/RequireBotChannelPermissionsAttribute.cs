@@ -1,33 +1,37 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Disqord.Gateway;
 using Qmmands;
 using Qommon;
 
-namespace Disqord.Bot
+namespace Disqord.Bot.Commands;
+
+/// <summary>
+///     Specifies that the module or command can only be executed if the bot has given channel permissions.
+/// </summary>
+[Obsolete("Use RequireBotPermissionsAttribute instead.")]
+public class RequireBotChannelPermissionsAttribute : RequireBotPermissionsAttribute
 {
-    /// <summary>
-    ///     Specifies that the module or command can only be executed if the bot has given channel permissions.
-    /// </summary>
-    public class RequireBotChannelPermissionsAttribute : DiscordGuildCheckAttribute
+    public RequireBotChannelPermissionsAttribute(Permission permissions)
+        : base(permissions)
     {
-        public ChannelPermissions Permissions { get; }
+        ChannelPermissions.Mask(permissions, out var remainingPermissions);
+        if (remainingPermissions != Permission.None)
+            Throw.ArgumentOutOfRangeException(nameof(remainingPermissions), $"The permissions specified for {GetType()} contain non-channel permissions: {remainingPermissions}.");
+    }
 
-        public RequireBotChannelPermissionsAttribute(Permission permissions)
-        {
-            Permissions = ChannelPermissions.Mask(permissions, out var remainingPermissions);
-            if (remainingPermissions != Permission.None)
-                Throw.ArgumentOutOfRangeException(nameof(remainingPermissions), $"The permissions specified for {GetType()} contain non-channel permissions: {remainingPermissions}.");
+    public override ValueTask<IResult> CheckAsync(IDiscordCommandContext context)
+    {
+        if (context is not IDiscordGuildCommandContext guildContext)
+            return Results.Success;
 
-            Permissions = permissions;
-        }
+        if (guildContext.Bot.GetChannel(guildContext.GuildId, context.ChannelId) is not IGuildChannel channel)
+            throw new InvalidOperationException($"{nameof(RequireBotChannelPermissionsAttribute)} requires the context channel.");
 
-        public override ValueTask<CheckResult> CheckAsync(DiscordGuildCommandContext context)
-        {
-            var permissions = context.CurrentMember.GetPermissions(context.Channel);
-            if (permissions.Has(Permissions))
-                return Success();
+        var permissions = guildContext.Bot.GetMember(guildContext.GuildId, guildContext.Bot.CurrentUser.Id).GetPermissions(channel);
+        if (permissions.Has(Permissions))
+            return Results.Success;
 
-            return Failure($"The bot lacks the necessary channel permissions ({Permissions & ~permissions}) to execute this.");
-        }
+        return Results.Failure($"The bot lacks the necessary channel permissions ({Permissions & ~permissions}) to execute this.");
     }
 }

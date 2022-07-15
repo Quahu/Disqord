@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Rest;
 
@@ -31,8 +32,8 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// </summary>
         public ButtonViewComponent StopButton { get; }
 
-        public PagedView(PageProvider pageProvider, LocalMessage templateMessage = null)
-            : base(pageProvider, templateMessage)
+        public PagedView(PageProvider pageProvider, Action<LocalMessageBase> messageTemplate = null)
+            : base(pageProvider, messageTemplate)
         {
             FirstPageButton = new ButtonViewComponent(OnFirstPageButtonAsync)
             {
@@ -71,8 +72,10 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             AddComponent(StopButton);
         }
 
-        protected virtual LocalMessage GetPagelessMessage()
-            => new LocalMessage().WithContent("No pages to view.");
+        protected virtual Action<LocalMessageBase> GetPagelessMessageTemplate()
+        {
+            return message => message.WithContent("No pages to view.");
+        }
 
         protected virtual void ApplyPageIndex(Page page)
         {
@@ -83,9 +86,13 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
                 if (embed.Footer != null)
                 {
                     if (embed.Footer.Text == null)
+                    {
                         embed.Footer.Text = indexText;
+                    }
                     else if (embed.Footer.Text.Length + indexText.Length + 3 <= LocalEmbedFooter.MaxTextLength)
+                    {
                         embed.Footer.Text += $" | {indexText}";
+                    }
                 }
                 else
                 {
@@ -95,9 +102,13 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             else
             {
                 if (page.Content == null)
+                {
                     page.Content = indexText;
+                }
                 else if (page.Content.Length + indexText.Length + 1 <= LocalMessageBase.MaxContentLength)
+                {
                     page.Content += $"\n{indexText}";
+                }
             }
         }
 
@@ -125,7 +136,8 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
             }
             else
             {
-                TemplateMessage ??= GetPagelessMessage();
+                MessageTemplate ??= GetPagelessMessageTemplate();
+
                 FirstPageButton.IsDisabled = true;
                 PreviousPageButton.IsDisabled = true;
                 NextPageButton.IsDisabled = true;
@@ -194,7 +206,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged
         /// </returns>
         protected virtual ValueTask OnStopButtonAsync(ButtonEventArgs e)
         {
-            if (Menu is DefaultMenu defaultMenu)
+            if (Menu is DefaultMenuBase defaultMenu)
             {
                 var message = defaultMenu.Message;
                 if (message != null)

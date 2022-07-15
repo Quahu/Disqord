@@ -17,7 +17,7 @@ namespace Disqord.Gateway.Default.Dispatcher
                     newMember = member;
                     var oldUser = member.SharedUser.Clone() as CachedSharedUser;
                     oldMember = member.Clone() as CachedMember;
-                    oldMember.SharedUser = oldUser;
+                    oldMember.SetSharedUser(oldUser);
                     newMember.Update(model);
                 }
                 else if (CacheProvider.TryGetUsers(out var userCache))

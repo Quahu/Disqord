@@ -47,12 +47,14 @@ namespace Disqord
         /// <summary>
         ///     Gets whether this thread is archived.
         /// </summary>
-        bool IsArchived { get; }
+        [Obsolete("Use Metadata.IsArchived instead.")]
+        bool IsArchived => Metadata.IsArchived;
 
         /// <summary>
         ///     Gets the automatic archive duration of this thread.
         /// </summary>
-        TimeSpan AutomaticArchiveDuration { get; }
+        [Obsolete("Use Metadata.AutomaticArchiveDuration instead.")]
+        TimeSpan AutomaticArchiveDuration => Metadata.AutomaticArchiveDuration;
 
         /// <summary>
         ///     Gets the date of when this thread's archive state has last changed.
@@ -60,17 +62,20 @@ namespace Disqord
         /// <remarks>
         ///     This also gets updated when the archive duration changes.
         /// </remarks>
-        DateTimeOffset ArchiveStateChangedAt { get; }
+        [Obsolete("Use Metadata.ArchiveStateChangedAt instead.")]
+        DateTimeOffset ArchiveStateChangedAt => Metadata.ArchiveStateChangedAt;
 
         /// <summary>
         ///     Gets whether this thread is locked, i.e. whether it was manually archived by a moderator.
         /// </summary>
-        bool IsLocked { get; }
+        [Obsolete("Use Metadata.IsLocked instead.")]
+        bool IsLocked => Metadata.IsLocked;
 
         /// <summary>
         ///     Gets whether non-moderators can add other non-moderators to this thread.
         /// </summary>
-        bool AllowsInvitation { get; }
+        [Obsolete("Use Metadata.AllowsInvitation instead.")]
+        bool AllowsInvitation => Metadata.AllowsInvitation;
 
         /// <summary>
         ///     Gets the date of when this thread was created.
@@ -81,6 +86,12 @@ namespace Disqord
         /// <returns>
         ///     The creation date of the thread or <see langword="null"/> for older threads (see remarks).
         /// </returns>
-        DateTimeOffset? CreatedAt { get; }
+        [Obsolete("Use Metadata.CreatedAt instead.")]
+        DateTimeOffset? CreatedAt => Metadata.CreatedAt;
+
+        /// <summary>
+        ///     Gets the thread metadata of this thread.
+        /// </summary>
+        IThreadMetadata Metadata { get; }
     }
 }

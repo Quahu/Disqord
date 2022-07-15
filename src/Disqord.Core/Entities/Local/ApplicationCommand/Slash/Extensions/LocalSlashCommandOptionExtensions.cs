@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using Qommon;
 
 namespace Disqord
@@ -19,10 +20,56 @@ namespace Disqord
             return @this;
         }
 
+        public static TSlashCommandOption AddNameLocalization<TSlashCommandOption>(this TSlashCommandOption @this, CultureInfo locale, string name)
+            where TSlashCommandOption : LocalSlashCommandOption
+        {
+            Guard.IsNotNull(locale);
+            Guard.IsNotNull(name);
+
+            if (!@this.NameLocalizations.Add(locale, name, out var dictionary))
+                @this.NameLocalizations = new(dictionary);
+
+            return @this;
+        }
+
+        public static TSlashCommandOption WithNameLocalizations<TSlashCommandOption>(this TSlashCommandOption @this, IEnumerable<KeyValuePair<CultureInfo, string>> names)
+            where TSlashCommandOption : LocalSlashCommandOption
+        {
+            Guard.IsNotNull(names);
+
+            if (!@this.NameLocalizations.With(names, out var dictionary))
+                @this.NameLocalizations = new(dictionary);
+
+            return @this;
+        }
+
         public static TSlashCommandOption WithDescription<TSlashCommandOption>(this TSlashCommandOption @this, string description)
             where TSlashCommandOption : LocalSlashCommandOption
         {
             @this.Description = description;
+            return @this;
+        }
+
+        public static TSlashCommandOption AddDescriptionLocalization<TSlashCommandOption>(this TSlashCommandOption @this, CultureInfo locale, string description)
+            where TSlashCommandOption : LocalSlashCommandOption
+        {
+            Guard.IsNotNull(locale);
+            Guard.IsNotNull(description);
+
+            if (!@this.DescriptionLocalizations.Add(locale, description, out var dictionary))
+                @this.DescriptionLocalizations = new(dictionary);
+
+            return @this;
+        }
+
+        public static TSlashCommandOption WithDescriptionLocalizations<TSlashCommandOption>(this TSlashCommandOption @this, IEnumerable<KeyValuePair<CultureInfo, string>> descriptions)
+            where TSlashCommandOption : LocalSlashCommandOption
+        {
+            Guard.IsNotNull(descriptions);
+
+            if (!@this.DescriptionLocalizations.With(descriptions, out var dictionary))
+                @this.DescriptionLocalizations = new(dictionary);
+
             return @this;
         }
 

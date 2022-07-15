@@ -189,7 +189,7 @@ namespace Disqord.Rest.Api.Default
             private async Task RunAsync()
             {
                 var reader = _requests.Reader;
-                await foreach (var request in reader.ReadAllAsync())
+                await foreach (var request in reader.ReadAllAsync().ConfigureAwait(false))
                 {
                     bool retry;
                     do
@@ -223,7 +223,7 @@ namespace Disqord.Rest.Api.Default
                                     if (maximumDelayDuration != Timeout.InfiniteTimeSpan && delay > maximumDelayDuration)
                                     {
                                         Logger.LogDebug("Route {0} is rate-limited - throwing as the delay {1} exceeds the maximum delay duration.", request.Route, delay);
-                                        request.Complete(new MaximumRateLimitDelayExceededException(delay, isGloballyRateLimited));
+                                        request.Complete(new MaximumRateLimitDelayExceededException(request, delay, isGloballyRateLimited));
                                         break;
                                     }
 

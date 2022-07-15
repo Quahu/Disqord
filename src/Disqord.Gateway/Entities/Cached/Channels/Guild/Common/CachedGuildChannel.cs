@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Qommon.Collections;
 using Disqord.Enums.Extensions;
 using Disqord.Models;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway
 {
+    /// <inheritdoc cref="IGuildChannel"/>
     public abstract class CachedGuildChannel : CachedChannel, IGuildChannel
     {
         /// <inheritdoc/>
@@ -16,6 +16,9 @@ namespace Disqord.Gateway
 
         /// <inheritdoc/>
         public virtual IReadOnlyList<IOverwrite> Overwrites { get; private set; }
+
+        /// <inheritdoc/>
+        public GuildChannelFlag Flags { get; private set; }
 
         /// <inheritdoc/>
         public string Mention => Disqord.Mention.Channel(this);
@@ -38,6 +41,9 @@ namespace Disqord.Gateway
                 if (model.PermissionOverwrites.HasValue)
                     Overwrites = model.PermissionOverwrites.Value.ToReadOnlyList(this, (x, @this) => new TransientOverwrite(@this.Client, @this.Id, x));
             }
+
+            if (model.Flags.HasValue)
+                Flags = model.Flags.Value;
         }
 
         public static CachedGuildChannel Create(IGatewayClient client, ChannelJsonModel model)
@@ -54,9 +60,6 @@ namespace Disqord.Gateway
                 case ChannelType.Category:
                     return new CachedCategoryChannel(client, model);
 
-                case ChannelType.Store:
-                    return new CachedStoreChannel(client, model);
-
                 case ChannelType.NewsThread:
                 case ChannelType.PublicThread:
                 case ChannelType.PrivateThread:
@@ -64,6 +67,9 @@ namespace Disqord.Gateway
 
                 case ChannelType.Stage:
                     return new CachedStageChannel(client, model);
+
+                case ChannelType.Forum:
+                    return new CachedForumChannel(client, model);
             }
 
             return new CachedUnknownGuildChannel(client, model);

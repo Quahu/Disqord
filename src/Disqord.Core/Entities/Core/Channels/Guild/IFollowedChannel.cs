@@ -2,6 +2,9 @@
 
 namespace Disqord
 {
+    /// <summary>
+    ///     Represents a followed news channel. 
+    /// </summary>
     public interface IFollowedChannel : IChannelEntity, IJsonUpdatable<FollowedChannelJsonModel>
     {
         /// <summary>

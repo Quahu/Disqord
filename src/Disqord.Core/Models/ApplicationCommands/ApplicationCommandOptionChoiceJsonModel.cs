@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Disqord.Serialization.Json;
 using Qommon;
@@ -9,6 +10,9 @@ namespace Disqord.Models
     {
         [JsonProperty("name")]
         public string Name;
+
+        [JsonProperty("name_localizations")]
+        public Optional<Dictionary<string, string>> NameLocalizations;
 
         [JsonProperty("value")]
         public IJsonValue Value;

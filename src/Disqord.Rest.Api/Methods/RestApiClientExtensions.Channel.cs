@@ -273,8 +273,24 @@ namespace Disqord.Rest.Api
         {
             var route = messageId == null
                 ? Format(Route.Channel.StartThread, channelId)
-                : Format(Route.Channel.StartThreadWithMessage, channelId, messageId);
+                : Format(Route.Channel.StartThreadFromMessage, channelId, messageId);
 
+            return client.ExecuteAsync<ChannelJsonModel>(route, content, options, cancellationToken);
+        }
+
+        public static Task<ChannelJsonModel> CreateForumThreadAsync(this IRestApiClient client,
+            Snowflake channelId, CreateForumThreadJsonRestRequestContent content,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var route = Format(Route.Channel.StartForumThread, channelId);
+            return client.ExecuteAsync<ChannelJsonModel>(route, content, options, cancellationToken);
+        }
+
+        public static Task<ChannelJsonModel> CreateForumThreadAsync(this IRestApiClient client,
+            Snowflake channelId, MultipartJsonPayloadRestRequestContent<CreateForumThreadJsonRestRequestContent> content,
+            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
+        {
+            var route = Format(Route.Channel.StartForumThread, channelId);
             return client.ExecuteAsync<ChannelJsonModel>(route, content, options, cancellationToken);
         }
 

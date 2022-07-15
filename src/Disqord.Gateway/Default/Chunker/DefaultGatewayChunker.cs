@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api.Models;
@@ -172,17 +173,19 @@ namespace Disqord.Gateway.Default
 
                 _tcs = new Tcs<IReadOnlyDictionary<Snowflake, IMember>>();
 
-                static void CancellationCallback(object tuple)
+                static void CancellationCallback(object state, CancellationToken cancellationToken)
                 {
-                    var (tcs, token) = (ValueTuple<Tcs<IReadOnlyList<IMember>>, CancellationToken>) tuple;
-                    tcs.Cancel(token);
+                    var tcs = Unsafe.As<Tcs<IReadOnlyList<IMember>>>(state);
+                    tcs.Cancel(cancellationToken);
                 }
 
-                _reg = cancellationToken.UnsafeRegister(CancellationCallback, (_tcs, cancellationToken));
+                _reg = cancellationToken.UnsafeRegister(CancellationCallback, _tcs);
             }
 
             public Task<IReadOnlyDictionary<Snowflake, IMember>> WaitAsync()
-                => _tcs.Task;
+            {
+                return _tcs.Task;
+            }
 
             public void AddMembers(IReadOnlyList<IMember> members)
             {

@@ -13,6 +13,19 @@ namespace Disqord.Rest.Api
             public static readonly Route GetAuditLogs = Get("guilds/{0:guild_id}/audit-logs");
         }
 
+        public static class AutoModeration
+        {
+            public static readonly Route GetRules = Get("guilds/{0:guild_id}/auto-moderation/rules");
+
+            public static readonly Route GetRule = Get("guilds/{0:guild_id}/auto-moderation/rules/{1:rule_id}");
+
+            public static readonly Route CreateRule = Post("guilds/{0:guild_id}/auto-moderation/rules");
+
+            public static readonly Route ModifyRule = Patch("guilds/{0:guild_id}/auto-moderation/rules/{1:rule_id}");
+
+            public static readonly Route DeleteRule = Delete("guilds/{0:guild_id}/auto-moderation/rules/{1:rule_id}");
+        }
+
         public static class Channel
         {
             public static readonly Route GetChannel = Get("channels/{0:channel_id}");
@@ -65,9 +78,11 @@ namespace Disqord.Rest.Api
 
             public static readonly Route UnpinMessage = Delete("channels/{0:channel_id}/pins/{1:message_id}");
 
-            public static readonly Route StartThreadWithMessage = Post("channels/{0:channel_id}/messages/{1:message_id}/threads");
+            public static readonly Route StartThreadFromMessage = Post("channels/{0:channel_id}/messages/{1:message_id}/threads");
 
             public static readonly Route StartThread = Post("channels/{0:channel_id}/threads");
+
+            public static readonly Route StartForumThread = Post("channels/{0:channel_id}/threads");
 
             public static readonly Route JoinThread = Put("channels/{0:channel_id}/thread-members/@me");
 
@@ -381,8 +396,6 @@ namespace Disqord.Rest.Api
             public static readonly Route GetCommandPermissions = Get("applications/{0:application_id}/guilds/{1:guild_id}/commands/{2:command_id}/permissions");
 
             public static readonly Route SetCommandPermissions = Put("applications/{0:application_id}/guilds/{1:guild_id}/commands/{2:command_id}/permissions");
-
-            public static readonly Route SetCommandsPermissions = Put("applications/{0:application_id}/guilds/{1:guild_id}/commands/permissions");
         }
 
         public static Route Get(string path)

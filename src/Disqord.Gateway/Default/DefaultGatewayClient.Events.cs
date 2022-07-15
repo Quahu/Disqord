@@ -4,10 +4,46 @@ namespace Disqord.Gateway.Default
 {
     public partial class DefaultGatewayClient
     {
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ReadyEventArgs> Ready
         {
             add => Dispatcher.ReadyEvent.Hook(value);
             remove => Dispatcher.ReadyEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<ApplicationCommandPermissionsUpdatedEventArgs> ApplicationCommandPermissionsUpdated
+        {
+            add => Dispatcher.ApplicationCommandPermissionsUpdatedEvent.Hook(value);
+            remove => Dispatcher.ApplicationCommandPermissionsUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<AutoModerationRuleCreatedEventArgs> AutoModerationRuleCreated
+        {
+            add => Dispatcher.AutoModerationRuleCreatedEvent.Hook(value);
+            remove => Dispatcher.AutoModerationRuleCreatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<AutoModerationRuleUpdatedEventArgs> AutoModerationRuleUpdated
+        {
+            add => Dispatcher.AutoModerationRuleUpdatedEvent.Hook(value);
+            remove => Dispatcher.AutoModerationRuleUpdatedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<AutoModerationRuleDeletedEventArgs> AutoModerationRuleDeleted
+        {
+            add => Dispatcher.AutoModerationRuleDeletedEvent.Hook(value);
+            remove => Dispatcher.AutoModerationRuleDeletedEvent.Unhook(value);
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<AutoModerationActionExecutedEventArgs> AutoModerationActionExecuted
+        {
+            add => Dispatcher.AutoModerationActionExecutedEvent.Hook(value);
+            remove => Dispatcher.AutoModerationActionExecutedEvent.Unhook(value);
         }
 
         /// <inheritdoc/>

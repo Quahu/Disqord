@@ -92,8 +92,8 @@ namespace Disqord
 
         public virtual void Validate()
         {
-            if (Content == null && _embeds.Count == 0 && _attachments.Count == 0 && _stickerIds.Count == 0)
-                throw new InvalidOperationException("A message must contain at least one of content, embeds, attachments, or sticker IDs.");
+            if (Content == null && _embeds.Count == 0 && _attachments.Count == 0 && _components.Count == 0 && _stickerIds.Count == 0)
+                throw new InvalidOperationException("A message must contain at least one of content, embeds, attachments, components, or sticker IDs.");
 
             if (_embeds.Sum(x => x.Length) > MaxEmbeddedContentLength)
                 throw new InvalidOperationException($"The total length of embeds must not exceed {MaxEmbeddedContentLength} characters.");

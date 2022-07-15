@@ -45,9 +45,10 @@ namespace Disqord
                 Options = options
             };
 
-        public static LocalTextInputComponent TextInput(string customId, string label)
+        public static LocalTextInputComponent TextInput(string customId, string label, TextInputComponentStyle style)
             => new()
             {
+                Style = style,
                 CustomId = customId,
                 Label = label
             };

@@ -1,59 +1,49 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Disqord.Models;
 
 namespace Disqord.Gateway
 {
     public abstract class CachedUser : CachedSnowflakeEntity, IUser
     {
-        public virtual string Name => SharedUser.Name;
+        /// <inheritdoc/>
+        public abstract string Name { get; }
 
-        public virtual string Discriminator => SharedUser.Discriminator;
+        /// <inheritdoc/>
+        public abstract string Discriminator { get; }
 
-        public virtual string AvatarHash => SharedUser.AvatarHash;
+        /// <inheritdoc/>
+        public abstract string AvatarHash { get; }
 
-        public virtual bool IsBot => SharedUser.IsBot;
+        /// <inheritdoc/>
+        public abstract bool IsBot { get; }
 
-        public virtual UserFlag PublicFlags => SharedUser.PublicFlags;
+        /// <inheritdoc/>
+        public abstract UserFlag PublicFlags { get; }
 
+        /// <inheritdoc/>
         public string Mention => Disqord.Mention.User(this);
 
+        /// <inheritdoc/>
         public string Tag => $"{Name}#{Discriminator}";
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public CachedSharedUser SharedUser
-        {
-            get
-            {
-                if (_sharedUser == null)
-                {
-                    if (this is CachedSharedUser sharedUser)
-                        return sharedUser;
-
-                    throw new InvalidOperationException("This user has no shared user attached to it.");
-                }
-
-                return _sharedUser;
-            }
-            internal set => _sharedUser = value;
-        }
-        private CachedSharedUser _sharedUser;
-
-        /// <summary>
-        ///     Instantiates a new user from the provided <see cref="ICachedSharedUser"/>.
-        /// </summary>
-        /// <param name="sharedUser"></param>
-        protected CachedUser(CachedSharedUser sharedUser)
-            : base(sharedUser.Client, sharedUser.Id)
-        {
-            _sharedUser = sharedUser;
-            _sharedUser.AddReference(this);
-        }
 
         /// <summary>
         ///     Instantiates a new user from the provided client and model.
-        ///     This constructor should be used exclusively by <see cref="ICachedSharedUser"/> implementations.
         /// </summary>
+        /// <remarks>
+        ///     This constructor should be used exclusively by sharee user implementations.
+        /// </remarks>
+        /// <param name="client"> The client that created this user. </param>
+        /// <param name="id"> The ID of the user. </param>
+        protected CachedUser(IGatewayClient client, Snowflake id)
+            : base(client, id)
+        { }
+
+        /// <summary>
+        ///     Instantiates a new user from the provided client and model.
+        /// </summary>
+        /// <remarks>
+        ///     This constructor should be used exclusively by shared user implementations.
+        /// </remarks>
         /// <param name="client"> The client that created this user. </param>
         /// <param name="model"> The model to create the user from. </param>
         protected CachedUser(IGatewayClient client, UserJsonModel model)
@@ -62,10 +52,12 @@ namespace Disqord.Gateway
 
         /// <inheritdoc/>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual void Update(UserJsonModel model)
-            => SharedUser.Update(model);
+        public abstract void Update(UserJsonModel model);
 
+        /// <inheritdoc/>
         public override string ToString()
-            => Tag;
+        {
+            return Tag;
+        }
     }
 }

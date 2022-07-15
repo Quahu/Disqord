@@ -22,16 +22,24 @@ namespace Disqord.Extensions.Interactivity
             _predicates = Unsafe.As<Predicate<TEventArgs>[]>(predicate?.GetInvocationList());
             _tcs = new Tcs<TEventArgs>();
 
-            static void CancellationCallback(object tuple)
+            static void CancellationCallback(object state, CancellationToken cancellationToken)
             {
-                var (tcs, token) = (ValueTuple<Tcs<TEventArgs>, CancellationToken>) tuple;
-                tcs.Cancel(token);
+                var tcs = Unsafe.As<Tcs<TEventArgs>>(state);
+                tcs.Cancel(cancellationToken);
             }
 
-            _reg = cancellationToken.UnsafeRegister(CancellationCallback, (_tcs, cancellationToken));
+            _reg = cancellationToken.UnsafeRegister(CancellationCallback, _tcs);
 
             if (timeout != Timeout.InfiniteTimeSpan)
-                _timeoutTimer = new Timer(CancellationCallback, (_tcs, new CancellationToken(true)), timeout, Timeout.InfiniteTimeSpan);
+            {
+                static void TimerCallback(object state)
+                {
+                    var (tcs, cancellationToken) = (ValueTuple<Tcs<TEventArgs>, CancellationToken>) state;
+                    tcs.Cancel(cancellationToken);
+                }
+
+                _timeoutTimer = new Timer(TimerCallback, (_tcs, new CancellationToken(true)), timeout, Timeout.InfiniteTimeSpan);
+            }
         }
 
         public bool TryComplete(TEventArgs e)

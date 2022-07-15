@@ -5,10 +5,46 @@ namespace Disqord
 {
     public abstract partial class DiscordClientBase
     {
+        /// <inheritdoc/>
         public event AsynchronousEventHandler<ReadyEventArgs> Ready
         {
             add => GatewayClient.Ready += value;
             remove => GatewayClient.Ready -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<ApplicationCommandPermissionsUpdatedEventArgs> ApplicationCommandPermissionsUpdated
+        {
+            add => GatewayClient.ApplicationCommandPermissionsUpdated += value;
+            remove => GatewayClient.ApplicationCommandPermissionsUpdated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<AutoModerationRuleCreatedEventArgs> AutoModerationRuleCreated
+        {
+            add => GatewayClient.AutoModerationRuleCreated += value;
+            remove => GatewayClient.AutoModerationRuleCreated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<AutoModerationRuleUpdatedEventArgs> AutoModerationRuleUpdated
+        {
+            add => GatewayClient.AutoModerationRuleUpdated += value;
+            remove => GatewayClient.AutoModerationRuleUpdated -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<AutoModerationRuleDeletedEventArgs> AutoModerationRuleDeleted
+        {
+            add => GatewayClient.AutoModerationRuleDeleted += value;
+            remove => GatewayClient.AutoModerationRuleDeleted -= value;
+        }
+
+        /// <inheritdoc/>
+        public event AsynchronousEventHandler<AutoModerationActionExecutedEventArgs> AutoModerationActionExecuted
+        {
+            add => GatewayClient.AutoModerationActionExecuted += value;
+            remove => GatewayClient.AutoModerationActionExecuted -= value;
         }
 
         /// <inheritdoc/>

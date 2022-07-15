@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
-using Disqord.Interaction;
 using Disqord.Models;
 using Qommon;
-using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway.Default.Dispatcher
@@ -13,8 +12,9 @@ namespace Disqord.Gateway.Default.Dispatcher
     {
         public override ValueTask<InteractionReceivedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, InteractionJsonModel model)
         {
+            var now = Stopwatch.GetTimestamp();
             CachedMember member = null;
-            var interaction = TransientInteraction.Create(Client, model);
+            var interaction = TransientUserInteraction.Create(Client, now, model);
             if (model.GuildId.HasValue
                 && Client.CacheProvider.TryGetUsers(out var userCache)
                 && Client.CacheProvider.TryGetMembers(model.GuildId.Value, out var memberCache))

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Disqord.Gateway;
 
 namespace Disqord.Extensions.Interactivity.Menus
@@ -14,9 +13,25 @@ namespace Disqord.Extensions.Interactivity.Menus
             : base(e)
         {
             Selection = selection;
-            SelectedOptions = Interaction.SelectedValues.Select(x => Selection.Options.FirstOrDefault(y => x == y.Value))
-                .Where(x => x != null) // just in case Discord messes up
-                .ToArray();
+            var selectedOptions = new List<LocalSelectionComponentOption>();
+            var selectedValues = Interaction.SelectedValues;
+            var selectedValueCount = selectedValues.Count;
+            for (var i = 0; i < selectedValueCount; i++)
+            {
+                var selectedValue = selectedValues[i];
+                var options = selection.Options;
+                var optionCount = options.Count;
+                for (var j = 0; j < optionCount; j++)
+                {
+                    var option = options[j];
+                    if (selectedValue != option.Value)
+                        continue;
+
+                    selectedOptions.Add(option);
+                }
+            }
+
+            SelectedOptions = selectedOptions;
         }
     }
 }

@@ -7,26 +7,37 @@ namespace Disqord.Gateway
 {
     public class CachedVoiceState : CachedEntity, IVoiceState
     {
+        /// <inheritdoc/>
         public Snowflake GuildId { get; }
 
+        /// <inheritdoc/>
         public Snowflake MemberId { get; }
 
+        /// <inheritdoc/>
         public Snowflake? ChannelId { get; private set; }
 
+        /// <inheritdoc/>
         public string SessionId { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsDeafened { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsMuted { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsSelfDeafened { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsSelfMuted { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsStreaming { get; private set; }
 
+        /// <inheritdoc/>
         public bool IsTransmittingVideo { get; private set; }
 
+        /// <inheritdoc/>
         public DateTimeOffset? RequestedToSpeakAt { get; private set; }
 
         public CachedVoiceState(IGatewayClient client, Snowflake guildId, VoiceStateJsonModel model)

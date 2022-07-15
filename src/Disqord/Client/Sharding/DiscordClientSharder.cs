@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway;
@@ -57,7 +58,6 @@ namespace Disqord.Sharding
         public override async Task RunAsync(CancellationToken stoppingToken)
         {
             StoppingToken = stoppingToken;
-            // TODO: fallback on bot gateway data?
             var uri = new Uri("wss://gateway.discord.gg/");
             _scopes = new Dictionary<ShardId, IServiceScope>();
             var shardIds = new List<ShardId>();
@@ -80,7 +80,7 @@ namespace Disqord.Sharding
             }
             else
             {
-                var botGatewayData = await this.FetchBotGatewayDataAsync(cancellationToken: stoppingToken);
+                var botGatewayData = await this.FetchBotGatewayDataAsync(cancellationToken: stoppingToken).ConfigureAwait(false);
                 Logger.LogDebug("Using Discord's recommended shard count of {0}.", botGatewayData.RecommendedShardCount);
                 for (var i = 0; i < botGatewayData.RecommendedShardCount; i++)
                 {
@@ -150,7 +150,7 @@ namespace Disqord.Sharding
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogCritical(ex, "An exception occurred when starting {0}.", shardId);
+                    Logger.LogCritical(ex, "An exception occurred while starting {0}.", shardId);
 
                     // Cancel the CTS so that if some shards are running already
                     // it's a coordinated close as they will probably break sooner or later.
@@ -180,13 +180,14 @@ namespace Disqord.Sharding
         public override async Task WaitUntilReadyAsync(CancellationToken cancellationToken)
         {
             var tcs = new Tcs();
-            static void CancellationCallback(object tuple)
+
+            static void CancellationCallback(object state, CancellationToken cancellationToken)
             {
-                var (tcs, token) = (ValueTuple<Tcs, CancellationToken>) tuple;
-                tcs.Cancel(token);
+                var tcs = Unsafe.As<Tcs>(state);
+                tcs.Cancel(cancellationToken);
             }
 
-            await using (var reg = cancellationToken.UnsafeRegister(CancellationCallback, (tcs, cancellationToken)))
+            await using (var reg = cancellationToken.UnsafeRegister(CancellationCallback, tcs))
             {
                 // TODO: do something on ready closure
                 var task = await Task.WhenAny(InternalWaitUntilReadyAsync(), tcs.Task).ConfigureAwait(false);

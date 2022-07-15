@@ -86,5 +86,8 @@ namespace Disqord.Models
 
         [JsonProperty("permissions")]
         public Optional<ulong> Permissions;
+
+        [JsonProperty("flags")]
+        public Optional<GuildChannelFlag> Flags;
     }
 }
