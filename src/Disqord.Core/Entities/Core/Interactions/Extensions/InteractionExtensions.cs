@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using Qommon;
 
 namespace Disqord;
@@ -11,10 +10,6 @@ namespace Disqord;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class InteractionExtensions
 {
-    private const long TicksPerMillisecond = 10000;
-    private const long TicksPerSecond = TicksPerMillisecond * 1000;
-    private static readonly double TickFrequency = (double) TicksPerSecond / Stopwatch.Frequency;
-
     /// <summary>
     ///     Gets the time elapsed since this interaction was received.
     /// </summary>
@@ -25,8 +20,7 @@ public static class InteractionExtensions
     {
         Guard.IsNotNull(interaction);
 
-        // TODO: update to Stopwatch.GetElapsedTime() with .NET 7
-        return GetElapsedTime(interaction.__ReceivedAt);
+        return StopwatchUtilities.GetElapsedTime(interaction.__ReceivedAt);
     }
 
     /// <summary>
@@ -53,10 +47,5 @@ public static class InteractionExtensions
     public static bool IsExpired(this IInteraction interaction)
     {
         return interaction.GetElapsedTime() >= Discord.Limits.Interaction.FollowupTimeout;
-    }
-
-    private static TimeSpan GetElapsedTime(long timestamp)
-    {
-        return TimeSpan.FromTicks((long) ((Stopwatch.GetTimestamp() - timestamp) * TickFrequency));
     }
 }
