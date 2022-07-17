@@ -18,7 +18,7 @@ internal abstract class DiscordCommandContext<TCommand> : IDiscordCommandContext
     public IServiceProvider Services => _serviceScope.ServiceProvider;
 
     /// <inheritdoc/>
-    public CancellationToken CancellationToken { get; set; }
+    public CancellationToken CancellationToken => Bot.StoppingToken;
 
     /// <summary>
     ///     Gets the locale of the author.
