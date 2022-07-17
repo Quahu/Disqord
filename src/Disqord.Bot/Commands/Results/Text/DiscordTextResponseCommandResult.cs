@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Rest;
 
@@ -15,13 +16,13 @@ public class DiscordTextResponseCommandResult : DiscordResponseCommandResult
         return ExecuteWithResultAsync().GetAwaiter();
     }
 
-    public override Task ExecuteAsync()
+    public override Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
-        return ExecuteWithResultAsync();
+        return ExecuteWithResultAsync(cancellationToken);
     }
 
-    public override Task<IUserMessage> ExecuteWithResultAsync()
+    public override Task<IUserMessage> ExecuteWithResultAsync(CancellationToken cancellationToken = default)
     {
-        return Context.Bot.SendMessageAsync(Context.ChannelId, (Message as LocalMessage)!, cancellationToken: Context.CancellationToken);
+        return Context.Bot.SendMessageAsync(Context.ChannelId, (Message as LocalMessage)!, cancellationToken: cancellationToken);
     }
 }

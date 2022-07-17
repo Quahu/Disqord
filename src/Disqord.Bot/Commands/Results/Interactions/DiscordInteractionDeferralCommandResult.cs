@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Rest;
 
@@ -13,8 +14,8 @@ public class DiscordInteractionDeferralCommandResult : DiscordCommandResult<IDis
         IsEphemeral = isEphemeral;
     }
 
-    public override Task ExecuteAsync()
+    public override Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
-        return Context.Interaction.Response().DeferAsync(IsEphemeral);
+        return Context.Interaction.Response().DeferAsync(IsEphemeral, cancellationToken: cancellationToken);
     }
 }

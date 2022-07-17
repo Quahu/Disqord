@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Qmmands;
 
@@ -12,5 +13,5 @@ public interface IDiscordCommandResult : IResult
 
     TaskAwaiter GetAwaiter();
 
-    Task ExecuteAsync();
+    Task ExecuteAsync(CancellationToken cancellationToken = default);
 }

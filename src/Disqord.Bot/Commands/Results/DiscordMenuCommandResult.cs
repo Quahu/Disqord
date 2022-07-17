@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Extensions.Interactivity.Menus;
 
@@ -21,8 +22,12 @@ public class DiscordMenuCommandResult : DiscordCommandResult<IDiscordCommandCont
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     public override TaskAwaiter GetAwaiter()
-        => Context.Bot.RunMenuAsync(Context.ChannelId, Menu, Timeout).GetAwaiter();
+    {
+        return Context.Bot.RunMenuAsync(Context.ChannelId, Menu, Timeout).GetAwaiter();
+    }
 
-    public override Task ExecuteAsync()
-        => Context.Bot.StartMenuAsync(Context.ChannelId, Menu, Timeout);
+    public override Task ExecuteAsync(CancellationToken cancellationToken = default)
+    {
+        return Context.Bot.StartMenuAsync(Context.ChannelId, Menu, Timeout, cancellationToken: cancellationToken);
+    }
 }

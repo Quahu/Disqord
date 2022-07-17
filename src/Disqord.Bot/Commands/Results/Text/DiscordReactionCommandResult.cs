@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Disqord.Rest;
 
 namespace Disqord.Bot.Commands.Text;
@@ -13,8 +14,8 @@ public class DiscordReactionCommandResult : DiscordCommandResult<IDiscordTextCom
         Emoji = emoji;
     }
 
-    public override Task ExecuteAsync()
+    public override Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
-        return Context.Message.AddReactionAsync(Emoji);
+        return Context.Message.AddReactionAsync(Emoji, cancellationToken: cancellationToken);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace Disqord.Bot.Commands;
 
@@ -9,5 +10,5 @@ public abstract class DiscordCommandResult<TContext, TResult> : DiscordCommandRe
         : base(context)
     { }
 
-    public abstract Task<TResult> ExecuteWithResultAsync();
+    public abstract Task<TResult> ExecuteWithResultAsync(CancellationToken cancellationToken = default);
 }

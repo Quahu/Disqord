@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Disqord.Bot.Commands;
@@ -18,5 +19,5 @@ public abstract class DiscordCommandResult<TContext> : IDiscordCommandResult
         return ExecuteAsync().GetAwaiter();
     }
 
-    public abstract Task ExecuteAsync();
+    public abstract Task ExecuteAsync(CancellationToken cancellationToken = default);
 }

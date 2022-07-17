@@ -72,7 +72,7 @@ public abstract partial class DiscordBotBase
     {
         await using (RuntimeDisposal.WrapAsync(result).ConfigureAwait(false))
         {
-            await result.ExecuteAsync().ConfigureAwait(false);
+            await result.ExecuteAsync(StoppingToken).ConfigureAwait(false);
         }
     }
 

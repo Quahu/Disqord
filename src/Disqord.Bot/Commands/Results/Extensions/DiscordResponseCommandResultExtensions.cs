@@ -14,5 +14,7 @@ public static class DiscordResponseCommandResultExtensions
     ///     A <see cref="DiscordTemporaryResponseCommandResult"/>.
     /// </returns>
     public static DiscordTemporaryResponseCommandResult DeleteAfter(this DiscordResponseCommandResult result, TimeSpan delay)
-        => new(result, delay);
+    {
+        return new(result, delay);
+    }
 }

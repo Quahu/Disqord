@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Rest;
 
@@ -17,10 +18,10 @@ public class DiscordTemporaryResponseCommandResult : DiscordCommandResult<IDisco
         Delay = delay;
     }
 
-    public override async Task ExecuteAsync()
+    public override async Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
-        var message = await Result.ExecuteWithResultAsync().ConfigureAwait(false);
-        await Task.Delay(Delay).ConfigureAwait(false);
-        await message.DeleteAsync().ConfigureAwait(false);
+        var message = await Result.ExecuteWithResultAsync(cancellationToken).ConfigureAwait(false);
+        await Task.Delay(Delay, cancellationToken).ConfigureAwait(false);
+        await message.DeleteAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 }
