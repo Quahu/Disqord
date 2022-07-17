@@ -1,31 +1,29 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public class LocalInteractionAutoCompleteResponse : ILocalInteractionResponse, ILocalConstruct<LocalInteractionAutoCompleteResponse>
 {
-    public class LocalInteractionAutoCompleteResponse : ILocalInteractionResponse
+    InteractionResponseType ILocalInteractionResponse.Type => InteractionResponseType.ApplicationCommandAutoComplete;
+
+    /// <summary>
+    ///     Gets or sets the choices of this response.
+    /// </summary>
+    public Optional<IList<KeyValuePair<string, object>>> Choices { get; set; }
+
+    public LocalInteractionAutoCompleteResponse()
+    { }
+
+    protected LocalInteractionAutoCompleteResponse(LocalInteractionAutoCompleteResponse other)
     {
-        InteractionResponseType ILocalInteractionResponse.Type => InteractionResponseType.ApplicationCommandAutoComplete;
+        Choices = Optional.Convert(other.Choices, choices => choices.ToList() as IList<KeyValuePair<string, object>>);
+    }
 
-        /// <summary>
-        ///     Gets or sets the choices of this response.
-        /// </summary>
-        public Optional<IList<LocalSlashCommandOptionChoice>> Choices { get; set; }
-
-        public LocalInteractionAutoCompleteResponse()
-        { }
-
-        protected LocalInteractionAutoCompleteResponse(LocalInteractionAutoCompleteResponse other)
-        {
-            Choices = Optional.Convert(other.Choices, choices => choices?.Select(choice => choice?.Clone()).ToList() as IList<LocalSlashCommandOptionChoice>);
-        }
-
-        public virtual LocalInteractionAutoCompleteResponse Clone()
-            => new(this);
-
-        object ICloneable.Clone()
-            => Clone();
+    /// <inheritdoc/>
+    public virtual LocalInteractionAutoCompleteResponse Clone()
+    {
+        return new(this);
     }
 }

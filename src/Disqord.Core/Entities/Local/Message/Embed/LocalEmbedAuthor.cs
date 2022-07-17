@@ -1,53 +1,66 @@
-﻿using System;
+﻿using Disqord.Models;
+using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents a local embed author.
+/// </summary>
+public class LocalEmbedAuthor : ILocalConstruct<LocalEmbedAuthor>, IJsonConvertible<EmbedAuthorJsonModel>
 {
-    public class LocalEmbedAuthor : ILocalConstruct
+    /// <summary>
+    ///     Gets or sets the name of this author.
+    /// </summary>
+    public Optional<string> Name { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the URL of this author.
+    /// </summary>
+    public Optional<string> Url { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the URL of the icon of this author.
+    /// </summary>
+    public Optional<string> IconUrl { get; set; }
+
+    /// <summary>
+    ///     Gets the total text length of this author.
+    /// </summary>
+    public int Length => Name.GetValueOrDefault()?.Length ?? 0;
+
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalEmbedAuthor"/>.
+    /// </summary>
+    public LocalEmbedAuthor()
+    { }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalEmbedAuthor"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
+    protected LocalEmbedAuthor(LocalEmbedAuthor other)
     {
-        public const int MaxAuthorNameLength = 256;
+        Name = other.Name;
+        Url = other.Url;
+        IconUrl = other.IconUrl;
+    }
 
-        public string Name
+    /// <inheritdoc/>
+    public virtual LocalEmbedAuthor Clone()
+    {
+        return new(this);
+    }
+
+    /// <inheritdoc />
+    public virtual EmbedAuthorJsonModel ToModel()
+    {
+        OptionalGuard.HasValue(Name);
+
+        return new EmbedAuthorJsonModel
         {
-            get => _name;
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException(nameof(value), "The embed author's name must not be null or whitespace.");
-
-                if (value.Length > MaxAuthorNameLength)
-                    throw new ArgumentOutOfRangeException(nameof(value), $"The name of the embed author must not be longer than {MaxAuthorNameLength} characters.");
-
-                _name = value;
-            }
-        }
-        private string _name;
-
-        public string Url { get; set; }
-
-        public string IconUrl { get; set; }
-
-        public int Length => _name?.Length ?? 0;
-
-        public LocalEmbedAuthor()
-        { }
-
-        private LocalEmbedAuthor(LocalEmbedAuthor other)
-        {
-            _name = other.Name;
-            Url = other.Url;
-            IconUrl = other.IconUrl;
-        }
-
-        public virtual LocalEmbedAuthor Clone()
-            => new(this);
-
-        object ICloneable.Clone()
-            => Clone();
-
-        public void Validate()
-        {
-            if (_name == null)
-                throw new InvalidOperationException("The embed author's name must be set.");
-        }
+            Name = Name.Value,
+            Url = Url,
+            IconUrl = IconUrl
+        };
     }
 }

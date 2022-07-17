@@ -1,7 +1,6 @@
-﻿namespace Disqord.Http
+﻿namespace Disqord.Http;
+
+public interface IHttpClientFactory
 {
-    public interface IHttpClientFactory
-    {
-        IHttpClient CreateClient();
-    }
+    IHttpClient CreateClient();
 }

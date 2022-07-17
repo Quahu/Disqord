@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <VersionPrefix>1.0.0</VersionPrefix>
-    <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>preview</LangVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <Authors>Quahu</Authors>
-    <Description>An asynchronous .NET Discord API wrapper.</Description>
-    <PackageTags>discord bots discord-bots discord-api api csharp dotnet</PackageTags>
-    <RepositoryUrl>https://github.com/Quahu/Disqord</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Quahu/Disqord</PackageProjectUrl>
-    <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
-    <RepositoryType>Git</RepositoryType>
+    <PropertyGroup>
+        <VersionPrefix>1.0.0</VersionPrefix>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>preview</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <PropertyGroup>
+        <Nullable>enable</Nullable>
+        <WarningsAsErrors>Nullable</WarningsAsErrors>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <Authors>Quahu</Authors>
+        <Description>An asynchronous .NET Discord API wrapper.</Description>
+        <PackageTags>discord bots discord-bots discord-api api csharp dotnet</PackageTags>
+        <RepositoryUrl>https://github.com/Quahu/Disqord</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/Quahu/Disqord</PackageProjectUrl>
+        <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
+        <RepositoryType>Git</RepositoryType>
 
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
-  <PropertyGroup>
-    <NoWarn>
-        CA1816, <!-- Call GC.SuppressFinalize correctly -->
-        CA2255, <!-- The 'ModuleInitializer' attribute is only intended to be used in application code or advanced source generator scenarios -->
-        CS0078, <!-- The 'l' suffix is easily confused with the digit '1' - use 'L' for clarity -->
-        CA1401, <!-- P/Invokes should not be visible -->
-        CS8509, <!-- The 'switch' expression does not handle all possible inputs (it is not exhaustive) -->
-    </NoWarn>
-  </PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+    <PropertyGroup>
+        <NoWarn>
+            CA1816, <!-- Call GC.SuppressFinalize correctly -->
+            CA2255, <!-- The 'ModuleInitializer' attribute is only intended to be used in application code or advanced source generator scenarios -->
+            CS0078, <!-- The 'l' suffix is easily confused with the digit '1' - use 'L' for clarity -->
+            CA1401, <!-- P/Invokes should not be visible -->
+            CS8509, <!-- The 'switch' expression does not handle all possible inputs (it is not exhaustive) -->
+        </NoWarn>
+    </PropertyGroup>
 </Project>

@@ -2,28 +2,27 @@
 using Disqord.Gateway.Api;
 using Disqord.Models;
 
-namespace Disqord.Gateway.Default.Dispatcher
-{
-    public class GuildUpdateHandler : Handler<GuildJsonModel, GuildUpdatedEventArgs>
-    {
-        public override ValueTask<GuildUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, GuildJsonModel model)
-        {
-            CachedGuild oldGuild;
-            IGuild newGuild;
-            if (CacheProvider.TryGetGuilds(out var cache) && cache.TryGetValue(model.Id, out var guild))
-            {
-                newGuild = guild;
-                oldGuild = guild.Clone() as CachedGuild;
-                newGuild.Update(model);
-            }
-            else
-            {
-                oldGuild = null;
-                newGuild = new TransientGuild(Client, model);
-            }
+namespace Disqord.Gateway.Default.Dispatcher;
 
-            var e = new GuildUpdatedEventArgs(oldGuild, newGuild);
-            return new(e);
+public class GuildUpdateHandler : Handler<GuildJsonModel, GuildUpdatedEventArgs>
+{
+    public override ValueTask<GuildUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildJsonModel model)
+    {
+        CachedGuild? oldGuild;
+        IGuild newGuild;
+        if (CacheProvider.TryGetGuilds(out var cache) && cache.TryGetValue(model.Id, out var guild))
+        {
+            newGuild = guild;
+            oldGuild = guild.Clone() as CachedGuild;
+            newGuild.Update(model);
         }
+        else
+        {
+            oldGuild = null;
+            newGuild = new TransientGuild(Client, model);
+        }
+
+        var e = new GuildUpdatedEventArgs(oldGuild, newGuild);
+        return new(e);
     }
 }

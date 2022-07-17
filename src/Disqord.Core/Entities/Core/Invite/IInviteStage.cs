@@ -1,31 +1,30 @@
 using System.Collections.Generic;
 using Disqord.Models;
 
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents a stage targeted by an invite.
+/// </summary>
+public interface IInviteStage : IGuildEntity, IJsonUpdatable<InviteStageInstanceJsonModel>
 {
     /// <summary>
-    ///     Represents a stage targeted by an invite.
+    ///     Gets the speakers of the stage.
     /// </summary>
-    public interface IInviteStage : IGuildEntity, IJsonUpdatable<InviteStageInstanceJsonModel>
-    {
-        /// <summary>
-        ///     Gets the speakers of the stage.
-        /// </summary>
-        IReadOnlyDictionary<Snowflake, IMember> Speakers { get; }
+    IReadOnlyDictionary<Snowflake, IMember> Speakers { get; }
 
-        /// <summary>
-        ///     Gets the participant count of the stage.
-        /// </summary>
-        int ParticipantCount { get; }
+    /// <summary>
+    ///     Gets the participant count of the stage.
+    /// </summary>
+    int ParticipantCount { get; }
 
-        /// <summary>
-        ///     Gets the speaker count of the stage.
-        /// </summary>
-        int SpeakerCount { get; }
+    /// <summary>
+    ///     Gets the speaker count of the stage.
+    /// </summary>
+    int SpeakerCount { get; }
 
-        /// <summary>
-        ///     Gets the topic of the stage.
-        /// </summary>
-        string Topic { get; }
-    }
+    /// <summary>
+    ///     Gets the topic of the stage.
+    /// </summary>
+    string Topic { get; }
 }

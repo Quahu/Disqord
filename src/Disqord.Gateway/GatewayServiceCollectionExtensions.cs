@@ -4,65 +4,64 @@ using Disqord.Gateway.Api;
 using Disqord.Gateway.Default;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Disqord.Gateway
+namespace Disqord.Gateway;
+
+public static class GatewayServiceCollectionExtensions
 {
-    public static class GatewayServiceCollectionExtensions
+    public static IServiceCollection AddGatewayClient(this IServiceCollection services, ServiceLifetime apiLifetime = ServiceLifetime.Singleton, Action<DefaultGatewayClientConfiguration>? action = null)
     {
-        public static IServiceCollection AddGatewayClient(this IServiceCollection services, ServiceLifetime apiLifetime = ServiceLifetime.Singleton, Action<DefaultGatewayClientConfiguration> action = null)
+        if (services.TryAddSingleton<IGatewayClient, DefaultGatewayClient>())
         {
-            if (services.TryAddSingleton<IGatewayClient, DefaultGatewayClient>())
-            {
-                services.AddOptions<DefaultGatewayClientConfiguration>();
+            services.AddOptions<DefaultGatewayClientConfiguration>();
 
-                if (action != null)
-                    services.Configure(action);
-            }
-
-            services.AddGatewayApiClient(apiLifetime);
-            services.AddGatewayCacheProvider();
-            services.AddGatewayChunker();
-            services.AddGatewayDispatcher();
-
-            return services;
+            if (action != null)
+                services.Configure(action);
         }
 
-        public static IServiceCollection AddGatewayCacheProvider(this IServiceCollection services, Action<DefaultGatewayCacheProviderConfiguration> action = null)
+        services.AddGatewayApiClient(apiLifetime);
+        services.AddGatewayCacheProvider();
+        services.AddGatewayChunker();
+        services.AddGatewayDispatcher();
+
+        return services;
+    }
+
+    public static IServiceCollection AddGatewayCacheProvider(this IServiceCollection services, Action<DefaultGatewayCacheProviderConfiguration>? action = null)
+    {
+        if (services.TryAddSingleton<IGatewayCacheProvider, DefaultGatewayCacheProvider>())
         {
-            if (services.TryAddSingleton<IGatewayCacheProvider, DefaultGatewayCacheProvider>())
-            {
-                services.AddOptions<DefaultGatewayCacheProviderConfiguration>();
+            services.AddOptions<DefaultGatewayCacheProviderConfiguration>();
 
-                if (action != null)
-                    services.Configure(action);
-            }
-
-            return services;
+            if (action != null)
+                services.Configure(action);
         }
 
-        public static IServiceCollection AddGatewayDispatcher(this IServiceCollection services, Action<DefaultGatewayDispatcherConfiguration> action = null)
+        return services;
+    }
+
+    public static IServiceCollection AddGatewayDispatcher(this IServiceCollection services, Action<DefaultGatewayDispatcherConfiguration>? action = null)
+    {
+        if (services.TryAddSingleton<IGatewayDispatcher, DefaultGatewayDispatcher>())
         {
-            if (services.TryAddSingleton<IGatewayDispatcher, DefaultGatewayDispatcher>())
-            {
-                services.AddOptions<DefaultGatewayDispatcherConfiguration>();
+            services.AddOptions<DefaultGatewayDispatcherConfiguration>();
 
-                if (action != null)
-                    services.Configure(action);
-            }
-
-            return services;
+            if (action != null)
+                services.Configure(action);
         }
 
-        public static IServiceCollection AddGatewayChunker(this IServiceCollection services, Action<DefaultGatewayChunkerConfiguration> action = null)
+        return services;
+    }
+
+    public static IServiceCollection AddGatewayChunker(this IServiceCollection services, Action<DefaultGatewayChunkerConfiguration>? action = null)
+    {
+        if (services.TryAddSingleton<IGatewayChunker, DefaultGatewayChunker>())
         {
-            if (services.TryAddSingleton<IGatewayChunker, DefaultGatewayChunker>())
-            {
-                services.AddOptions<DefaultGatewayChunkerConfiguration>();
+            services.AddOptions<DefaultGatewayChunkerConfiguration>();
 
-                if (action != null)
-                    services.Configure(action);
-            }
-
-            return services;
+            if (action != null)
+                services.Configure(action);
         }
+
+        return services;
     }
 }

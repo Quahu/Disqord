@@ -1,14 +1,13 @@
 ﻿using System;
 
-namespace Disqord.Http
-{
-    public class ReadOnlyMemoryHttpRequestContent : HttpRequestContent
-    {
-        public ReadOnlyMemory<byte> Memory { get; }
+namespace Disqord.Http;
 
-        public ReadOnlyMemoryHttpRequestContent(ReadOnlyMemory<byte> memory)
-        {
-            Memory = memory;
-        }
+public class ReadOnlyMemoryHttpRequestContent : HttpRequestContent
+{
+    public ReadOnlyMemory<byte> Memory { get; }
+
+    public ReadOnlyMemoryHttpRequestContent(ReadOnlyMemory<byte> memory)
+    {
+        Memory = memory;
     }
 }

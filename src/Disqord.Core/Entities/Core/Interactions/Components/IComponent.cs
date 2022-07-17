@@ -1,15 +1,14 @@
 ﻿using Disqord.Models;
 
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents a message component.
+/// </summary>
+public interface IComponent : IJsonUpdatable<ComponentJsonModel>
 {
     /// <summary>
-    ///     Represents a message component.
+    ///     Gets the type of this component.
     /// </summary>
-    public interface IComponent : IJsonUpdatable<ComponentJsonModel>
-    {
-        /// <summary>
-        ///     Gets the type of this component.
-        /// </summary>
-        ComponentType Type { get; }
-    }
+    ComponentType Type { get; }
 }

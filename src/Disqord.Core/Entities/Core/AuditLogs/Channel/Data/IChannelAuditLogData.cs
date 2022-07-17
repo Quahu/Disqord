@@ -2,22 +2,25 @@
 using System.Collections.Generic;
 using Qommon;
 
-namespace Disqord.AuditLogs
+namespace Disqord.AuditLogs;
+
+public interface IChannelAuditLogData
 {
-    public interface IChannelAuditLogData
-    {
-        Optional<string> Name { get; }
+    Optional<string> Name { get; }
 
-        Optional<string> Topic { get; }
+    Optional<string?> Topic { get; }
 
-        Optional<int> Bitrate { get; }
+    Optional<int> Bitrate { get; }
 
-        Optional<IReadOnlyList<IOverwrite>> Overwrites { get; }
+    Optional<int> MemberLimit { get; }
 
-        Optional<bool> IsAgeRestricted { get; }
+    Optional<IReadOnlyList<IOverwrite>> Overwrites { get; }
 
-        Optional<TimeSpan> Slowmode { get; }
+    Optional<bool> IsAgeRestricted { get; }
 
-        Optional<ChannelType> Type { get; }
-    }
+    Optional<TimeSpan> Slowmode { get; }
+
+    Optional<ChannelType> Type { get; }
+
+    Optional<string?> Region { get; }
 }

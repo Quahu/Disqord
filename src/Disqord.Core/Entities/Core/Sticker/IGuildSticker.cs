@@ -1,21 +1,24 @@
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents a guild sticker.
+/// </summary>
+public interface IGuildSticker : ISticker, IGuildEntity
 {
     /// <summary>
-    ///     Represents a guild sticker.
+    ///     Gets whether this sticker is available.
     /// </summary>
-    public interface IGuildSticker : ISticker, IGuildEntity
-    {
-        /// <summary>
-        ///     Gets whether this sticker is available.
-        ///     Returns <see langword="false"/> when, for example, the sticker limit has been raised and then lowered.
-        /// </summary>
-        bool IsAvailable { get; }
+    /// <returns>
+    ///     <see langword="false"/> when, for example, the sticker limit has been raised and then lowered.
+    /// </returns>
+    bool IsAvailable { get; }
 
-        /// <summary>
-        ///     Gets the user that created this sticker.
-        ///     Returns <see langword="null"/> when the bot does not have <see cref="Permission.ManageEmojisAndStickers"/>
-        ///     in the guild this sticker belongs to.
-        /// </summary>
-        IUser Creator { get; }
-    }
+    /// <summary>
+    ///     Gets the user that created this sticker.
+    /// </summary>
+    /// <returns>
+    ///     <see langword="null"/> when the bot does not have <see cref="Permission.ManageEmojisAndStickers"/>
+    ///     in the guild this sticker belongs to.
+    /// </returns>
+    IUser Creator { get; }
 }

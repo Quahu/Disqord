@@ -1,29 +1,28 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+public enum ChannelType : byte
 {
-    public enum ChannelType : byte
-    {
-        Text = 0,
+    Text = 0,
 
-        Direct = 1,
+    Direct = 1,
 
-        Voice = 2,
+    Voice = 2,
 
-        Group = 3,
+    Group = 3,
 
-        Category = 4,
+    Category = 4,
 
-        News = 5,
+    News = 5,
 
-        NewsThread = 10,
+    NewsThread = 10,
 
-        PublicThread = 11,
+    PublicThread = 11,
 
-        PrivateThread = 12,
+    PrivateThread = 12,
 
-        Stage = 13,
+    Stage = 13,
 
-        Directory = 14,
+    Directory = 14,
 
-        Forum = 15
-    }
+    Forum = 15
 }

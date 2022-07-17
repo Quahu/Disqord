@@ -1,16 +1,15 @@
 using Disqord.Serialization.Json;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class ThreadListJsonModel : JsonModel
 {
-    public class ThreadListJsonModel : JsonModel
-    {
-        [JsonProperty("threads")]
-        public ChannelJsonModel[] Threads;
+    [JsonProperty("threads")]
+    public ChannelJsonModel[] Threads = null!;
 
-        [JsonProperty("members")]
-        public ThreadMemberJsonModel[] Members;
+    [JsonProperty("members")]
+    public ThreadMemberJsonModel[] Members = null!;
 
-        [JsonProperty("has_more")]
-        public bool HasMore;
-    }
+    [JsonProperty("has_more")]
+    public bool HasMore;
 }

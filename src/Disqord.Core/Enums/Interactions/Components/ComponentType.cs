@@ -1,13 +1,12 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+public enum ComponentType : byte
 {
-    public enum ComponentType : byte
-    {
-        Row = 1,
+    Row = 1,
 
-        Button = 2,
+    Button = 2,
 
-        Selection = 3,
+    Selection = 3,
 
-        TextInput = 4
-    }
+    TextInput = 4
 }

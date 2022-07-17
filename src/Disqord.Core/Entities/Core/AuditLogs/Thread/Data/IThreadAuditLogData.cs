@@ -1,20 +1,19 @@
 using System;
 using Qommon;
 
-namespace Disqord.AuditLogs
+namespace Disqord.AuditLogs;
+
+public interface IThreadAuditLogData
 {
-    public interface IThreadAuditLogData
-    {
-        Optional<string> Name { get; }
+    Optional<string> Name { get; }
 
-        Optional<bool> IsArchived { get; }
+    Optional<bool> IsArchived { get; }
 
-        Optional<bool> IsLocked { get; }
+    Optional<bool> IsLocked { get; }
 
-        Optional<TimeSpan> AutomaticArchiveDuration { get; }
+    Optional<TimeSpan> AutomaticArchiveDuration { get; }
 
-        Optional<TimeSpan> Slowmode { get; }
+    Optional<TimeSpan> Slowmode { get; }
 
-        Optional<ChannelType> Type { get; }
-    }
+    Optional<ChannelType> Type { get; }
 }

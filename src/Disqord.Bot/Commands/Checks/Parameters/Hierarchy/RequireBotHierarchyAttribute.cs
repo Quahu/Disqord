@@ -1,4 +1,5 @@
 ﻿using Disqord.Gateway;
+using Qommon;
 
 namespace Disqord.Bot.Commands;
 
@@ -8,5 +9,11 @@ namespace Disqord.Bot.Commands;
 public class RequireBotHierarchyAttribute : RequireHierarchyBaseAttribute
 {
     protected override (string Name, IMember Member) GetTarget(IDiscordGuildCommandContext context)
-        => ("bot", context.Bot.GetMember(context.GuildId, context.Bot.CurrentUser.Id));
+    {
+        var currentMember = context.Bot.GetCurrentMember(context.GuildId);
+        if (currentMember == null)
+            Throw.InvalidOperationException($"{nameof(RequireBotHierarchyAttribute)} requires the current member cached.");
+
+        return ("bot", currentMember);
+    }
 }

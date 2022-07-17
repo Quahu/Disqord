@@ -1,15 +1,14 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+public enum ButtonComponentStyle : byte
 {
-    public enum ButtonComponentStyle : byte
-    {
-        Primary = 1,
+    Primary = 1,
 
-        Secondary = 2,
+    Secondary = 2,
 
-        Success = 3,
+    Success = 3,
 
-        Danger = 4,
+    Danger = 4,
 
-        Link = 5
-    }
+    Link = 5
 }

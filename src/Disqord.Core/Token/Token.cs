@@ -1,53 +1,60 @@
 ﻿using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents a Discord authorization token.
+/// </summary>
+public abstract partial class Token
 {
     /// <summary>
-    ///     Represents a Discord authorization token.
+    ///     Gets the raw token string.
     /// </summary>
-    public abstract partial class Token
+    public string RawValue { get; }
+
+    private protected Token(string token)
     {
-        /// <summary>
-        ///     Gets the raw token string.
-        /// </summary>
-        public string RawValue { get; }
+        Guard.IsNotNullOrWhiteSpace(token);
 
-        private protected Token(string token)
-        {
-            Guard.IsNotNullOrWhiteSpace(token);
+        RawValue = token;
+    }
 
-            RawValue = token;
-        }
+    // No authorization ctor.
+    private Token()
+    {
+        RawValue = null!;
+    }
 
-        // No authorization ctor.
-        private Token()
-        { }
+    /// <inheritdoc/>
+    public override bool Equals(object? obj)
+    {
+        if (obj is Token token)
+            return RawValue == token.RawValue;
 
-        /// <inheritdoc/>
-        public override bool Equals(object obj)
-        {
-            if (obj is Token token)
-                return RawValue == token.RawValue;
+        if (obj is string rawValue)
+            return RawValue == rawValue;
 
-            if (obj is string rawValue)
-                return RawValue == rawValue;
+        return false;
+    }
 
-            return false;
-        }
+    /// <inheritdoc/>
+    public override int GetHashCode()
+    {
+        return RawValue?.GetHashCode() ?? 0;
+    }
 
-        /// <inheritdoc/>
-        public override int GetHashCode()
-            => RawValue?.GetHashCode() ?? 0;
+    /// <summary>
+    ///     Gets the appropriately prefixed format of the token used for authorization headers.
+    /// </summary>
+    public abstract string? GetAuthorization();
 
-        /// <summary>
-        ///     Gets the appropriately prefixed format of the token used for authorization headers.
-        /// </summary>
-        public abstract string GetAuthorization();
+    public static bool operator ==(Token? left, Token? right)
+    {
+        return left?.RawValue == right?.RawValue;
+    }
 
-        public static bool operator ==(Token left, Token right)
-            => left?.RawValue == right?.RawValue;
-
-        public static bool operator !=(Token left, Token right)
-            => left?.RawValue != right?.RawValue;
+    public static bool operator !=(Token? left, Token? right)
+    {
+        return left?.RawValue != right?.RawValue;
     }
 }

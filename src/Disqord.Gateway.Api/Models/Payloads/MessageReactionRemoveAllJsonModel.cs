@@ -1,17 +1,16 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Gateway.Api.Models
+namespace Disqord.Gateway.Api.Models;
+
+public class MessageReactionRemoveAllJsonModel : JsonModel
 {
-    public class MessageReactionRemoveAllJsonModel : JsonModel
-    {
-        [JsonProperty("channel_id")]
-        public Snowflake ChannelId;
+    [JsonProperty("channel_id")]
+    public Snowflake ChannelId;
 
-        [JsonProperty("message_id")]
-        public Snowflake MessageId;
+    [JsonProperty("message_id")]
+    public Snowflake MessageId;
 
-        [JsonProperty("guild_id")]
-        public Optional<Snowflake> GuildId;
-    }
+    [JsonProperty("guild_id")]
+    public Optional<Snowflake> GuildId;
 }

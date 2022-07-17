@@ -4,7 +4,7 @@ namespace Disqord.Bot.Commands.Application;
 
 internal class DiscordApplicationCommandContext : DiscordCommandContext<ApplicationCommand>, IDiscordApplicationCommandContext
 {
-    public override CultureInfo Locale => Interaction.Locale ?? CultureInfo.InvariantCulture;
+    public override CultureInfo Locale => Interaction.Locale;
 
     public override CultureInfo GuildLocale => Interaction.GuildLocale ?? CultureInfo.InvariantCulture;
 

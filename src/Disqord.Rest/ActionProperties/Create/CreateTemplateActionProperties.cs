@@ -1,9 +1,8 @@
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public sealed class CreateTemplateActionProperties
 {
-    public sealed class CreateTemplateActionProperties
-    {
-        public Optional<string> Description { internal get; set; }
-    }
+    public Optional<string> Description { internal get; set; }
 }

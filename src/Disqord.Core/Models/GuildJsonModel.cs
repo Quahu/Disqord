@@ -1,129 +1,128 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+[JsonSkippedProperties("nsfw")]
+public class GuildJsonModel : JsonModel
 {
-    [JsonSkippedProperties("nsfw")]
-    public class GuildJsonModel : JsonModel
-    {
-        [JsonProperty("id")]
-        public Snowflake Id;
+    [JsonProperty("id")]
+    public Snowflake Id;
 
-        [JsonProperty("name")]
-        public string Name;
+    [JsonProperty("name")]
+    public string Name = null!;
 
-        [JsonProperty("icon")]
-        public string Icon;
+    [JsonProperty("icon")]
+    public string? Icon;
 
-        [JsonProperty("icon_hash")]
-        public Optional<string> IconHash;
+    [JsonProperty("icon_hash")]
+    public Optional<string?> IconHash;
 
-        [JsonProperty("splash")]
-        public string Splash;
+    [JsonProperty("splash")]
+    public string? Splash;
 
-        [JsonProperty("discovery_splash")]
-        public Optional<string> DiscoverySplash;
+    [JsonProperty("discovery_splash")]
+    public Optional<string?> DiscoverySplash;
 
-        [JsonProperty("owner")]
-        public Optional<bool> Owner;
+    [JsonProperty("owner")]
+    public Optional<bool> Owner;
 
-        [JsonProperty("owner_id")]
-        public Snowflake OwnerId;
+    [JsonProperty("owner_id")]
+    public Snowflake OwnerId;
 
-        [JsonProperty("permissions")]
-        public Optional<ulong> Permissions;
+    [JsonProperty("permissions")]
+    public Optional<ulong> Permissions;
 
-        [JsonProperty("afk_channel_id")]
-        public Snowflake? AfkChannelId;
+    [JsonProperty("afk_channel_id")]
+    public Snowflake? AfkChannelId;
 
-        [JsonProperty("afk_timeout")]
-        public int AfkTimeout;
+    [JsonProperty("afk_timeout")]
+    public int AfkTimeout;
 
-        [JsonProperty("widget_enabled")]
-        public Optional<bool> WidgetEnabled;
+    [JsonProperty("widget_enabled")]
+    public Optional<bool> WidgetEnabled;
 
-        [JsonProperty("widget_channel_id")]
-        public Optional<Snowflake?> WidgetChannelId;
+    [JsonProperty("widget_channel_id")]
+    public Optional<Snowflake?> WidgetChannelId;
 
-        [JsonProperty("verification_level")]
-        public GuildVerificationLevel VerificationLevel;
+    [JsonProperty("verification_level")]
+    public GuildVerificationLevel VerificationLevel;
 
-        [JsonProperty("default_message_notifications")]
-        public GuildNotificationLevel DefaultMessageNotifications;
+    [JsonProperty("default_message_notifications")]
+    public GuildNotificationLevel DefaultMessageNotifications;
 
-        [JsonProperty("explicit_content_filter")]
-        public GuildContentFilterLevel ExplicitContentFilter;
+    [JsonProperty("explicit_content_filter")]
+    public GuildContentFilterLevel ExplicitContentFilter;
 
-        [JsonProperty("roles")]
-        public RoleJsonModel[] Roles;
+    [JsonProperty("roles")]
+    public RoleJsonModel[] Roles = null!;
 
-        [JsonProperty("emojis")]
-        public EmojiJsonModel[] Emojis;
+    [JsonProperty("emojis")]
+    public EmojiJsonModel[] Emojis = null!;
 
-        [JsonProperty("features")]
-        public string[] Features;
+    [JsonProperty("features")]
+    public string[] Features = null!;
 
-        [JsonProperty("mfa_level")]
-        public GuildMfaLevel MfaLevel;
+    [JsonProperty("mfa_level")]
+    public GuildMfaLevel MfaLevel;
 
-        [JsonProperty("application_id")]
-        public Snowflake? ApplicationId;
+    [JsonProperty("application_id")]
+    public Snowflake? ApplicationId;
 
-        [JsonProperty("system_channel_id")]
-        public Snowflake? SystemChannelId;
+    [JsonProperty("system_channel_id")]
+    public Snowflake? SystemChannelId;
 
-        [JsonProperty("system_channel_flags")]
-        public SystemChannelFlag SystemChannelFlags;
+    [JsonProperty("system_channel_flags")]
+    public SystemChannelFlags SystemChannelFlags;
 
-        [JsonProperty("rules_channel_id")]
-        public Snowflake? RulesChannelId;
+    [JsonProperty("rules_channel_id")]
+    public Snowflake? RulesChannelId;
 
-        [JsonProperty("max_presences")]
-        public Optional<int?> MaxPresences;
+    [JsonProperty("max_presences")]
+    public Optional<int?> MaxPresences;
 
-        [JsonProperty("max_members")]
-        public Optional<int> MaxMembers;
+    [JsonProperty("max_members")]
+    public Optional<int> MaxMembers;
 
-        [JsonProperty("vanity_url_code")]
-        public string VanityUrlCode;
+    [JsonProperty("vanity_url_code")]
+    public string? VanityUrlCode;
 
-        [JsonProperty("description")]
-        public string Description;
+    [JsonProperty("description")]
+    public string? Description;
 
-        [JsonProperty("banner")]
-        public string Banner;
+    [JsonProperty("banner")]
+    public string? Banner;
 
-        [JsonProperty("premium_tier")]
-        public GuildBoostTier PremiumTier;
+    [JsonProperty("premium_tier")]
+    public GuildBoostTier PremiumTier;
 
-        [JsonProperty("premium_subscription_count")]
-        public Optional<int> PremiumSubscriptionCount;
+    [JsonProperty("premium_subscription_count")]
+    public Optional<int> PremiumSubscriptionCount;
 
-        [JsonProperty("preferred_locale")]
-        public string PreferredLocale;
+    [JsonProperty("preferred_locale")]
+    public string PreferredLocale = null!;
 
-        [JsonProperty("public_updates_channel_id")]
-        public Snowflake? PublicUpdatesChannelId;
+    [JsonProperty("public_updates_channel_id")]
+    public Snowflake? PublicUpdatesChannelId;
 
-        [JsonProperty("max_video_channel_users")]
-        public Optional<int> MaxVideoChannelUsers;
+    [JsonProperty("max_video_channel_users")]
+    public Optional<int> MaxVideoChannelUsers;
 
-        [JsonProperty("approximate_member_count")]
-        public Optional<int> ApproximateMemberCount;
+    [JsonProperty("approximate_member_count")]
+    public Optional<int> ApproximateMemberCount;
 
-        [JsonProperty("approximate_presence_count")]
-        public Optional<int> ApproximatePresenceCount;
+    [JsonProperty("approximate_presence_count")]
+    public Optional<int> ApproximatePresenceCount;
 
-        [JsonProperty("nsfw_level")]
-        public GuildNsfwLevel NsfwLevel;
+    [JsonProperty("nsfw_level")]
+    public GuildNsfwLevel NsfwLevel;
 
-        [JsonProperty("stickers")]
-        public Optional<StickerJsonModel[]> Stickers;
+    [JsonProperty("stickers")]
+    public Optional<StickerJsonModel[]> Stickers;
 
-        [JsonProperty("welcome_screen")]
-        public Optional<WelcomeScreenJsonModel> WelcomeScreen;
+    [JsonProperty("welcome_screen")]
+    public Optional<WelcomeScreenJsonModel> WelcomeScreen;
 
-        [JsonProperty("premium_progress_bar_enabled")]
-        public bool PremiumProgressBarEnabled;
-    }
+    [JsonProperty("premium_progress_bar_enabled")]
+    public bool PremiumProgressBarEnabled;
 }

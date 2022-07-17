@@ -1,5 +1,4 @@
-﻿namespace Disqord.Gateway.Entities
-{
-    public interface IGatewayUser : IUser, IGatewayClientEntity
-    { }
-}
+﻿namespace Disqord.Gateway.Entities;
+
+public interface IGatewayUser : IUser, IGatewayClientEntity
+{ }

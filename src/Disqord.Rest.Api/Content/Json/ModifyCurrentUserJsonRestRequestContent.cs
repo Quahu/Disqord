@@ -2,14 +2,13 @@
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Rest.Api
-{
-    public class ModifyCurrentUserJsonRestRequestContent : JsonModelRestRequestContent
-    {
-        [JsonProperty("username")]
-        public Optional<string> Username;
+namespace Disqord.Rest.Api;
 
-        [JsonProperty("avatar")]
-        public Optional<Stream> Avatar;
-    }
+public class ModifyCurrentUserJsonRestRequestContent : JsonModelRestRequestContent
+{
+    [JsonProperty("username")]
+    public Optional<string> Username;
+
+    [JsonProperty("avatar")]
+    public Optional<Stream> Avatar;
 }

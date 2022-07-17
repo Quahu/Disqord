@@ -1,10 +1,7 @@
-﻿using System;
+﻿namespace Disqord;
 
-namespace Disqord
-{
-    /// <summary>
-    ///     Represents a local construct.
-    /// </summary>
-    public interface ILocalConstruct : ICloneable
-    { }
-}
+/// <summary>
+///     Represents a local construct.
+/// </summary>
+public interface ILocalConstruct
+{ }

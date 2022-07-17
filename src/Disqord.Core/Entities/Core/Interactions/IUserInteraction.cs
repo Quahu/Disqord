@@ -5,7 +5,7 @@ namespace Disqord;
 /// <summary>
 ///     Represents an interaction triggered by a user.
 /// </summary>
-public interface IUserInteraction : IInteraction, IPossibleGuildEntity, IChannelEntity
+public interface IUserInteraction : IInteraction, IPossiblyGuildEntity, IChannelEntity
 {
     /// <summary>
     ///     Gets the user who triggered this interaction.
@@ -44,5 +44,5 @@ public interface IUserInteraction : IInteraction, IPossibleGuildEntity, IChannel
     /// <returns>
     ///     The locale of the guild or <see langword="null"/> if this interaction was triggered in a private channel.
     /// </returns>
-    CultureInfo GuildLocale { get; }
+    CultureInfo? GuildLocale { get; }
 }

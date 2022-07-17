@@ -1,25 +1,24 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class VoiceRegionJsonModel : JsonModel
 {
-    public class VoiceRegionJsonModel : JsonModel
-    {
-        [JsonProperty("id")]
-        public string Id;
+    [JsonProperty("id")]
+    public string Id = null!;
 
-        [JsonProperty("name")]
-        public string Name;
+    [JsonProperty("name")]
+    public string Name = null!;
 
-        [JsonProperty("vip")]
-        public bool Vip;
+    [JsonProperty("vip")]
+    public bool Vip;
 
-        [JsonProperty("optimal")]
-        public bool Optimal;
+    [JsonProperty("optimal")]
+    public bool Optimal;
 
-        [JsonProperty("deprecated")]
-        public bool Deprecated;
+    [JsonProperty("deprecated")]
+    public bool Deprecated;
 
-        [JsonProperty("custom")]
-        public bool Custom;
-    }
+    [JsonProperty("custom")]
+    public bool Custom;
 }

@@ -1,14 +1,13 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Gateway.Api.Models
-{
-    public class UnavailableGuildJsonModel : JsonModel
-    {
-        [JsonProperty("id")]
-        public Snowflake Id;
+namespace Disqord.Gateway.Api.Models;
 
-        [JsonProperty("unavailable")]
-        public Optional<bool> Unavailable;
-    }
+public class UnavailableGuildJsonModel : JsonModel
+{
+    [JsonProperty("id")]
+    public Snowflake Id;
+
+    [JsonProperty("unavailable")]
+    public Optional<bool> Unavailable;
 }

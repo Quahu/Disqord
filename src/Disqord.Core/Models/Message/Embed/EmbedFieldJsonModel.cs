@@ -1,17 +1,23 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class EmbedFieldJsonModel : JsonModel
 {
-    public class EmbedFieldJsonModel : JsonModel
+    [JsonProperty("name")]
+    public string Name = null!;
+
+    [JsonProperty("value")]
+    public string Value = null!;
+
+    [JsonProperty("inline")]
+    public Optional<bool> Inline;
+
+    /// <inheritdoc />
+    protected override void OnValidate()
     {
-        [JsonProperty("name")]
-        public string Name;
-
-        [JsonProperty("value")]
-        public string Value;
-
-        [JsonProperty("inline")]
-        public Optional<bool> Inline;
+        Guard.IsNotNullOrWhiteSpace(Name);
+        Guard.IsNotNullOrWhiteSpace(Value);
     }
 }

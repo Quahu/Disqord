@@ -1,19 +1,18 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class OverwriteJsonModel : JsonModel
 {
-    public class OverwriteJsonModel : JsonModel
-    {
-        [JsonProperty("id")]
-        public Snowflake Id;
+    [JsonProperty("id")]
+    public Snowflake Id;
 
-        [JsonProperty("type")]
-        public OverwriteTargetType Type;
+    [JsonProperty("type")]
+    public OverwriteTargetType Type;
 
-        [JsonProperty("allow")]
-        public ulong Allow;
+    [JsonProperty("allow")]
+    public ulong Allow;
 
-        [JsonProperty("deny")]
-        public ulong Deny;
-    }
+    [JsonProperty("deny")]
+    public ulong Deny;
 }

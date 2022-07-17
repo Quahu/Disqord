@@ -1,26 +1,25 @@
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class InteractionCallbackAutoCompleteDataJsonModel : JsonModel
 {
-    public class InteractionCallbackAutoCompleteDataJsonModel : JsonModel
+    [JsonProperty("choices")]
+    public Optional<ApplicationCommandOptionChoiceJsonModel[]> Choices;
+
+    protected override void OnValidate()
     {
-        [JsonProperty("choices")]
-        public Optional<ApplicationCommandOptionChoiceJsonModel[]> Choices;
-
-        protected override void OnValidate()
+        OptionalGuard.CheckValue(Choices, value =>
         {
-            OptionalGuard.CheckValue(Choices, value =>
-            {
-                Guard.IsNotNull(value);
-                Guard.HasSizeLessThanOrEqualTo(value, Discord.Limits.ApplicationCommands.Options.MaxChoiceAmount);
+            Guard.IsNotNull(value);
+            Guard.HasSizeLessThanOrEqualTo(value, Discord.Limits.ApplicationCommand.Option.MaxChoiceAmount);
 
-                foreach (var choice in value)
-                {
-                    Guard.IsNotNull(choice);
-                    choice.Validate();
-                }
-            });
-        }
+            foreach (var choice in value)
+            {
+                Guard.IsNotNull(choice);
+                choice.Validate();
+            }
+        });
     }
 }

@@ -1,5 +1,4 @@
-﻿namespace Disqord.AuditLogs
-{
-    public interface IBotAddedAuditLog : ITargetedAuditLog<IUser>
-    { }
-}
+﻿namespace Disqord.AuditLogs;
+
+public interface IBotAddedAuditLog : ITargetedAuditLog<IUser>
+{ }

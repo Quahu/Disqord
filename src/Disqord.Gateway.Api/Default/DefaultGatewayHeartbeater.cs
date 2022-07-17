@@ -7,94 +7,93 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Qommon.Binding;
 
-namespace Disqord.Gateway.Api.Default
+namespace Disqord.Gateway.Api.Default;
+
+public class DefaultGatewayHeartbeater : IGatewayHeartbeater
 {
-    public class DefaultGatewayHeartbeater : IGatewayHeartbeater
+    public ILogger Logger => ApiClient.Logger;
+
+    public IGatewayApiClient ApiClient => _binder.Value;
+
+    public TimeSpan Interval { get; private set; }
+
+    public TimeSpan? Latency => _lastAcknowledge - _lastSend;
+
+    private DateTime? _lastSend;
+    private DateTime? _lastAcknowledge;
+
+    private Cts? _cts;
+    private Task? _task;
+    private readonly Binder<IGatewayApiClient> _binder;
+
+    public DefaultGatewayHeartbeater(
+        IOptions<DefaultGatewayHeartbeaterConfiguration> options)
     {
-        public ILogger Logger => ApiClient.Logger;
+        _binder = new Binder<IGatewayApiClient>(this);
+    }
 
-        public IGatewayApiClient ApiClient => _binder.Value;
+    public void Bind(IGatewayApiClient apiClient)
+    {
+        _binder.Bind(apiClient);
+    }
 
-        public TimeSpan Interval { get; private set; }
+    public ValueTask StartAsync(TimeSpan interval)
+    {
+        Interval = interval;
+        _lastSend = null;
+        _lastAcknowledge = null;
+        _cts = new Cts();
+        _task = Task.Run(InternalRunAsync, _cts.Token);
+        return default;
+    }
 
-        public TimeSpan? Latency => _lastAcknowledge - _lastSend;
-
-        private DateTime? _lastSend;
-        private DateTime? _lastAcknowledge;
-
-        private Cts _cts;
-        private Task _task;
-        private readonly Binder<IGatewayApiClient> _binder;
-
-        public DefaultGatewayHeartbeater(
-            IOptions<DefaultGatewayHeartbeaterConfiguration> options)
+    private async Task InternalRunAsync()
+    {
+        try
         {
-            _binder = new Binder<IGatewayApiClient>(this);
-        }
-
-        public void Bind(IGatewayApiClient apiClient)
-        {
-            _binder.Bind(apiClient);
-        }
-
-        public ValueTask StartAsync(TimeSpan interval)
-        {
-            Interval = interval;
-            _lastSend = null;
-            _lastAcknowledge = null;
-            _cts = new Cts();
-            _task = Task.Run(InternalRunAsync, _cts.Token);
-            return default;
-        }
-
-        private async Task InternalRunAsync()
-        {
-            try
+            var cancellationToken = _cts!.Token;
+            while (!cancellationToken.IsCancellationRequested)
             {
-                var cancellationToken = _cts.Token;
-                while (!cancellationToken.IsCancellationRequested)
-                {
-                    Logger.LogTrace("Delaying heartbeat for {0}ms.", Interval.TotalMilliseconds);
-                    await Task.Delay(Interval, cancellationToken).ConfigureAwait(false);
-                    Logger.LogDebug("Heartbeating...");
-                    await HeartbeatAsync(cancellationToken).ConfigureAwait(false);
-                }
-            }
-            catch (OperationCanceledException)
-            { }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "An exception occurred while heartbeating.");
+                Logger.LogTrace("Delaying heartbeat for {0}ms.", Interval.TotalMilliseconds);
+                await Task.Delay(Interval, cancellationToken).ConfigureAwait(false);
+                Logger.LogDebug("Heartbeating...");
+                await HeartbeatAsync(cancellationToken).ConfigureAwait(false);
             }
         }
-
-        public ValueTask StopAsync()
+        catch (OperationCanceledException)
+        { }
+        catch (Exception ex)
         {
-            _cts?.Cancel();
-            _cts?.Dispose();
-            return default;
+            Logger.LogError(ex, "An exception occurred while heartbeating.");
         }
+    }
 
-        protected virtual GatewayPayloadJsonModel GetPayload()
-            => new()
-            {
-                Op = GatewayPayloadOperation.Heartbeat,
-                D = ApiClient.Serializer.GetJsonNode(ApiClient.Sequence)
-            };
+    public ValueTask StopAsync()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        return default;
+    }
 
-        public Task HeartbeatAsync(CancellationToken cancellationToken = default)
+    protected virtual GatewayPayloadJsonModel GetPayload()
+        => new()
         {
-            _lastSend = DateTime.Now;
-            return ApiClient.SendAsync(GetPayload(), cancellationToken);
-        }
+            Op = GatewayPayloadOperation.Heartbeat,
+            D = ApiClient.Serializer.GetJsonNode(ApiClient.Sequence)
+        };
 
-        public ValueTask AcknowledgeAsync()
-        {
-            _lastAcknowledge = DateTime.Now;
-            if (Latency != null)
-                Logger.LogDebug("Heartbeat acknowledged. Latency: {0}ms.", (int) Latency.Value.TotalMilliseconds);
+    public Task HeartbeatAsync(CancellationToken cancellationToken = default)
+    {
+        _lastSend = DateTime.Now;
+        return ApiClient.SendAsync(GetPayload(), cancellationToken);
+    }
 
-            return default;
-        }
+    public ValueTask AcknowledgeAsync()
+    {
+        _lastAcknowledge = DateTime.Now;
+        if (Latency != null)
+            Logger.LogDebug("Heartbeat acknowledged. Latency: {0}ms.", (int) Latency.Value.TotalMilliseconds);
+
+        return default;
     }
 }

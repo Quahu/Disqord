@@ -1,19 +1,18 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class ApplicationCommandGuildPermissionsJsonModel : JsonModel
 {
-    public class ApplicationCommandGuildPermissionsJsonModel : JsonModel
-    {
-        [JsonProperty("id")]
-        public Snowflake Id;
+    [JsonProperty("id")]
+    public Snowflake Id;
 
-        [JsonProperty("application_id")]
-        public Snowflake ApplicationId;
+    [JsonProperty("application_id")]
+    public Snowflake ApplicationId;
 
-        [JsonProperty("guild_id")]
-        public Snowflake GuildId;
+    [JsonProperty("guild_id")]
+    public Snowflake GuildId;
 
-        [JsonProperty("permissions")]
-        public ApplicationCommandPermissionsJsonModel[] Permissions;
-    }
+    [JsonProperty("permissions")]
+    public ApplicationCommandPermissionsJsonModel[] Permissions = null!;
 }

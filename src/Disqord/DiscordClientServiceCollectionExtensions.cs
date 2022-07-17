@@ -7,28 +7,27 @@ using Disqord.Rest;
 using Disqord.Webhook;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Disqord
+namespace Disqord;
+
+[EditorBrowsable(EditorBrowsableState.Advanced)]
+public static class DiscordClientServiceCollectionExtensions
 {
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public static class DiscordClientServiceCollectionExtensions
+    public static IServiceCollection AddDiscordClient(this IServiceCollection services, Action<DiscordClientConfiguration>? configure = null)
     {
-        public static IServiceCollection AddDiscordClient(this IServiceCollection services, Action<DiscordClientConfiguration> configure = null)
+        if (services.TryAddSingleton<DiscordClient>())
         {
-            if (services.TryAddSingleton<DiscordClient>())
-            {
-                services.TryAddSingleton<DiscordClientBase>(services => services.GetRequiredService<DiscordClient>());
-                services.AddOptions<DiscordClientConfiguration>();
+            services.TryAddSingleton<DiscordClientBase>(services => services.GetRequiredService<DiscordClient>());
+            services.AddOptions<DiscordClientConfiguration>();
 
-                if (configure != null)
-                    services.Configure(configure);
-            }
-
-            services.AddInteractivityExtension();
-            services.AddGatewayClient();
-            services.AddRestClient();
-            services.AddWebhookClientFactory();
-
-            return services;
+            if (configure != null)
+                services.Configure(configure);
         }
+
+        services.AddInteractivityExtension();
+        services.AddGatewayClient();
+        services.AddRestClient();
+        services.AddWebhookClientFactory();
+
+        return services;
     }
 }

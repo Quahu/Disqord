@@ -1,9 +1,8 @@
 using Qommon;
 
-namespace Disqord.Rest
+namespace Disqord.Rest;
+
+public sealed class ModifyCurrentMemberActionProperties
 {
-    public sealed class ModifyCurrentMemberActionProperties
-    {
-        public Optional<string> Nick { internal get; set; }
-    }
+    public Optional<string> Nick { internal get; set; }
 }

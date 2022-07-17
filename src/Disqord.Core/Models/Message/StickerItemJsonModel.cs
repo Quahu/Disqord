@@ -1,16 +1,15 @@
 using Disqord.Serialization.Json;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class StickerItemJsonModel : JsonModel
 {
-    public class StickerItemJsonModel : JsonModel
-    {
-        [JsonProperty("id")]
-        public Snowflake Id;
+    [JsonProperty("id")]
+    public Snowflake Id;
 
-        [JsonProperty("name")]
-        public string Name;
+    [JsonProperty("name")]
+    public string Name = null!;
 
-        [JsonProperty("format_type")]
-        public StickerFormatType FormatType;
-    }
+    [JsonProperty("format_type")]
+    public StickerFormatType FormatType;
 }

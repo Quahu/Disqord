@@ -1,7 +1,6 @@
-﻿namespace Disqord.Serialization.Json.Default
+﻿namespace Disqord.Serialization.Json.Default;
+
+public class DefaultJsonSerializerConfiguration
 {
-    public class DefaultJsonSerializerConfiguration
-    {
-        public virtual bool ShowHttpStreamsWarning { get; set; } = true;
-    }
+    public virtual bool ShowHttpStreamsWarning { get; set; } = true;
 }

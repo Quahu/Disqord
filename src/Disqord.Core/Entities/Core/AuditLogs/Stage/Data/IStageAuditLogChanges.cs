@@ -1,9 +1,8 @@
-namespace Disqord.AuditLogs
-{
-    public interface IStageAuditLogChanges
-    {
-        AuditLogChange<string> Topic { get; }
+namespace Disqord.AuditLogs;
 
-        AuditLogChange<PrivacyLevel> PrivacyLevel { get; }
-    }
+public interface IStageAuditLogChanges
+{
+    AuditLogChange<string> Topic { get; }
+
+    AuditLogChange<PrivacyLevel> PrivacyLevel { get; }
 }

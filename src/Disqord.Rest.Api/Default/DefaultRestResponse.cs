@@ -1,22 +1,21 @@
 ﻿using Disqord.Http;
 using Qommon;
 
-namespace Disqord.Rest.Api.Default
+namespace Disqord.Rest.Api.Default;
+
+public class DefaultRestResponse : IRestResponse
 {
-    public class DefaultRestResponse : IRestResponse
+    public IHttpResponse HttpResponse { get; }
+
+    public DefaultRestResponse(IHttpResponse httpResponse)
     {
-        public IHttpResponse HttpResponse { get; }
+        Guard.IsNotNull(httpResponse);
 
-        public DefaultRestResponse(IHttpResponse httpResponse)
-        {
-            Guard.IsNotNull(httpResponse);
+        HttpResponse = httpResponse;
+    }
 
-            HttpResponse = httpResponse;
-        }
-
-        public void Dispose()
-        {
-            HttpResponse.Dispose();
-        }
+    public void Dispose()
+    {
+        HttpResponse.Dispose();
     }
 }

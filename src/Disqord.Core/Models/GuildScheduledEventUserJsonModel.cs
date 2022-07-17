@@ -1,17 +1,16 @@
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class GuildScheduledEventUserJsonModel : JsonModel
 {
-    public class GuildScheduledEventUserJsonModel : JsonModel
-    {
-        [JsonProperty("guild_scheduled_event_id")]
-        public Snowflake GuildScheduledEventId;
+    [JsonProperty("guild_scheduled_event_id")]
+    public Snowflake GuildScheduledEventId;
 
-        [JsonProperty("user")]
-        public UserJsonModel User;
+    [JsonProperty("user")]
+    public UserJsonModel User = null!;
 
-        [JsonProperty("member")]
-        public Optional<MemberJsonModel> Member;
-    }
+    [JsonProperty("member")]
+    public Optional<MemberJsonModel> Member;
 }

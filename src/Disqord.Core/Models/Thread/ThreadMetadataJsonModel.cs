@@ -2,26 +2,25 @@
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class ThreadMetadataJsonModel : JsonModel
 {
-    public class ThreadMetadataJsonModel : JsonModel
-    {
-        [JsonProperty("archived")]
-        public bool Archived;
+    [JsonProperty("archived")]
+    public bool Archived;
 
-        [JsonProperty("auto_archive_duration")]
-        public int AutoArchiveDuration;
+    [JsonProperty("auto_archive_duration")]
+    public int AutoArchiveDuration;
 
-        [JsonProperty("archive_timestamp")]
-        public DateTimeOffset ArchiveTimestamp;
+    [JsonProperty("archive_timestamp")]
+    public DateTimeOffset ArchiveTimestamp;
 
-        [JsonProperty("locked")]
-        public Optional<bool> Locked;
+    [JsonProperty("locked")]
+    public Optional<bool> Locked;
 
-        [JsonProperty("invitable")]
-        public Optional<bool> Invitable;
+    [JsonProperty("invitable")]
+    public Optional<bool> Invitable;
 
-        [JsonProperty("create_timestamp")]
-        public Optional<DateTimeOffset?> CreateTimestamp;
-    }
+    [JsonProperty("create_timestamp")]
+    public Optional<DateTimeOffset?> CreateTimestamp;
 }

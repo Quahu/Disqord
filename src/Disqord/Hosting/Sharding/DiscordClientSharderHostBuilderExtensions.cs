@@ -8,48 +8,47 @@ using Disqord.Rest;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Disqord.Sharding
+namespace Disqord.Sharding;
+
+public static class DiscordClientHostBuilderExtensions
 {
-    public static class DiscordClientHostBuilderExtensions
+    public static IHostBuilder ConfigureDiscordClientSharder(this IHostBuilder builder, Action<HostBuilderContext, DiscordClientSharderHostingContext>? configure = null)
     {
-        public static IHostBuilder ConfigureDiscordClientSharder(this IHostBuilder builder, Action<HostBuilderContext, DiscordClientSharderHostingContext> configure = null)
+        builder.ConfigureServices((context, services) =>
         {
-            builder.ConfigureServices((context, services) =>
-            {
-                var discordContext = new DiscordClientSharderHostingContext();
-                configure?.Invoke(context, discordContext);
+            var discordContext = new DiscordClientSharderHostingContext();
+            configure?.Invoke(context, discordContext);
 
-                services.ConfigureDiscordClientSharder(context, discordContext);
-                services.AddHostedService<DiscordClientRunnerService>();
-            });
+            services.ConfigureDiscordClientSharder(context, discordContext);
+            services.AddHostedService<DiscordClientRunnerService>();
+        });
 
-            return builder;
-        }
+        return builder;
+    }
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static void ConfigureDiscordClientSharder(this IServiceCollection services, HostBuilderContext context, DiscordClientHostingContext discordContext)
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void ConfigureDiscordClientSharder(this IServiceCollection services, HostBuilderContext context, DiscordClientHostingContext discordContext)
+    {
+        services.ConfigureDiscordClient(context, discordContext);
+
+        if (services.TryAddSingleton<DiscordClientSharder>())
         {
-            services.ConfigureDiscordClient(context, discordContext);
+            services.AddSingleton<DiscordClientBase>(x => x.GetRequiredService<DiscordClientSharder>());
 
-            if (services.TryAddSingleton<DiscordClientSharder>())
+            services.AddInteractivityExtension();
+            services.AddGatewayClient(ServiceLifetime.Scoped);
+            services.AddRestClient();
+
+            if (discordContext is IDiscordClientSharderConfiguration sharderConfiguration)
             {
-                services.AddSingleton<DiscordClientBase>(x => x.GetRequiredService<DiscordClientSharder>());
-
-                services.AddInteractivityExtension();
-                services.AddGatewayClient(ServiceLifetime.Scoped);
-                services.AddRestClient();
-
-                if (discordContext is IDiscordClientSharderConfiguration sharderConfiguration)
+                services.Configure<DiscordClientSharderConfiguration>(x =>
                 {
-                    services.Configure<DiscordClientSharderConfiguration>(x =>
-                    {
-                        x.ShardCount = sharderConfiguration.ShardCount;
-                        x.ShardIds = sharderConfiguration.ShardIds;
-                    });
-                }
+                    x.ShardCount = sharderConfiguration.ShardCount;
+                    x.ShardIds = sharderConfiguration.ShardIds;
+                });
             }
-
-            services.TryAddSingleton<IShardFactory, DefaultShardFactory>();
         }
+
+        services.TryAddSingleton<IShardFactory, DefaultShardFactory>();
     }
 }

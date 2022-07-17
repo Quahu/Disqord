@@ -110,11 +110,11 @@ namespace Disqord.Test.Modules
             {
                 // If `album` is currently focused,
                 // check if the user's current `artist` value is a valid artist.
-                if (!_artists.TryGetValue(artist.Argument.GetValueOrDefault(), out var existingArtist))
+                if (!_artists.TryGetValue(artist.Argument.GetValueOrDefault(""), out var existingArtist))
                     return;
 
                 var albumPath = Path.Join(_musicPath, existingArtist);
-                var existingAlbums = Directory.EnumerateDirectories(albumPath).Select(Path.GetFileName);
+                var existingAlbums = Directory.EnumerateDirectories(albumPath).Select(file => Path.GetFileName(file));
                 if (album.RawArgument != string.Empty)
                 {
                     // Find albums on the disk matching the user input.
@@ -137,7 +137,7 @@ namespace Disqord.Test.Modules
             {
                 // If `album` is currently focused,
                 // check if the user's current `artist` value is a valid artist.
-                if (!_artists.TryGetValue(artist.Argument.GetValueOrDefault(), out var existingArtist)
+                if (!_artists.TryGetValue(artist.Argument.GetValueOrDefault(""), out var existingArtist)
                     || !album.Argument.TryGetValue(out var currentAlbum))
                     return;
 
@@ -146,7 +146,7 @@ namespace Disqord.Test.Modules
                 if (!Directory.Exists(albumPath))
                     return;
 
-                var existingTitles = Directory.EnumerateFiles(albumPath, "*.flac").Select(Path.GetFileName);
+                var existingTitles = Directory.EnumerateFiles(albumPath, "*.flac").Select(file => Path.GetFileName(file));
                 if (title.RawArgument != string.Empty)
                 {
                     // Then find all matching song titles on the disk in the album folder.
@@ -178,8 +178,10 @@ namespace Disqord.Test.Modules
             var memberColor = member.GetRoles().Values.Where(x => x.Color != null).OrderByDescending(x => x.Position).FirstOrDefault()?.Color;
             var embed = new LocalEmbed()
                 .WithAuthor(member)
-                .WithDescription(memberColor?.ToString() ?? "Member has no color")
-                .WithColor(memberColor);
+                .WithDescription(memberColor?.ToString() ?? "Member has no color");
+
+            if (memberColor != null)
+                embed.WithColor(memberColor.Value);
 
             return Response(embed);
         }

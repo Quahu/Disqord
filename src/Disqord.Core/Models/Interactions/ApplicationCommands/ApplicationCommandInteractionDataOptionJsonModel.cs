@@ -1,23 +1,22 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class ApplicationCommandInteractionDataOptionJsonModel : JsonModel
 {
-    public class ApplicationCommandInteractionDataOptionJsonModel : JsonModel
-    {
-        [JsonProperty("name")]
-        public string Name;
+    [JsonProperty("name")]
+    public string Name = null!;
 
-        [JsonProperty("type")]
-        public SlashCommandOptionType Type;
+    [JsonProperty("type")]
+    public SlashCommandOptionType Type;
 
-        [JsonProperty("value")]
-        public Optional<IJsonValue> Value;
+    [JsonProperty("value")]
+    public Optional<IJsonValue> Value;
 
-        [JsonProperty("options")]
-        public Optional<ApplicationCommandInteractionDataOptionJsonModel[]> Options;
+    [JsonProperty("options")]
+    public Optional<ApplicationCommandInteractionDataOptionJsonModel[]> Options;
 
-        [JsonProperty("focused")]
-        public Optional<bool> Focused;
-    }
+    [JsonProperty("focused")]
+    public Optional<bool> Focused;
 }

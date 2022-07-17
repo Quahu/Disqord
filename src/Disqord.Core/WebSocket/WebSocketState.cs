@@ -1,19 +1,18 @@
-﻿namespace Disqord.WebSocket
+﻿namespace Disqord.WebSocket;
+
+public enum WebSocketState
 {
-    public enum WebSocketState
-    {
-        None = 0,
+    None = 0,
 
-        Connecting = 1,
+    Connecting = 1,
 
-        Open = 2,
+    Open = 2,
 
-        CloseSent = 3,
+    CloseSent = 3,
 
-        CloseReceived = 4,
+    CloseReceived = 4,
 
-        Closed = 5,
+    Closed = 5,
 
-        Aborted = 6,
-    }
+    Aborted = 6,
 }

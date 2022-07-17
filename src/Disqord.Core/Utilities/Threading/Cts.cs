@@ -2,65 +2,64 @@
 using System.ComponentModel;
 using System.Threading;
 
-namespace Disqord.Utilities.Threading
+namespace Disqord.Utilities.Threading;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+public sealed class Cts : IDisposable
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public sealed class Cts : IDisposable
+    public CancellationToken Token => _cts.Token;
+
+    public bool IsCancellationRequested => _isCanceled || _cts.IsCancellationRequested;
+
+    private readonly CancellationTokenSource _cts;
+    private bool _isCanceled;
+    private bool _isDisposed;
+
+    public Cts()
     {
-        public CancellationToken Token => _cts.Token;
+        _cts = new CancellationTokenSource();
+    }
 
-        public bool IsCancellationRequested => _isCanceled || _cts.IsCancellationRequested;
+    public Cts(TimeSpan delay)
+    {
+        _cts = new CancellationTokenSource(delay);
+    }
 
-        private readonly CancellationTokenSource _cts;
-        private bool _isCanceled;
-        private bool _isDisposed;
+    private Cts(CancellationTokenSource cts)
+    {
+        _cts = cts;
+    }
 
-        public Cts()
-        {
-            _cts = new CancellationTokenSource();
-        }
+    public void Cancel()
+    {
+        if (_isCanceled || _isDisposed)
+            return;
 
-        public Cts(TimeSpan delay)
-        {
-            _cts = new CancellationTokenSource(delay);
-        }
+        _isCanceled = true;
+        _cts.Cancel();
+    }
 
-        private Cts(CancellationTokenSource cts)
-        {
-            _cts = cts;
-        }
+    public void Dispose()
+    {
+        if (_isDisposed)
+            return;
 
-        public void Cancel()
-        {
-            if (_isCanceled || _isDisposed)
-                return;
+        _isDisposed = true;
+        _cts.Dispose();
+    }
 
-            _isCanceled = true;
-            _cts.Cancel();
-        }
+    public static Cts Linked(CancellationToken token)
+    {
+        var cts = CancellationTokenSource.CreateLinkedTokenSource(token);
+        return new Cts(cts);
+    }
 
-        public void Dispose()
-        {
-            if (_isDisposed)
-                return;
+    public static Cts Linked(CancellationToken token1, CancellationToken token2)
+    {
+        if (token1 == token2)
+            return Linked(token1);
 
-            _isDisposed = true;
-            _cts.Dispose();
-        }
-
-        public static Cts Linked(CancellationToken token)
-        {
-            var cts = CancellationTokenSource.CreateLinkedTokenSource(token);
-            return new Cts(cts);
-        }
-
-        public static Cts Linked(CancellationToken token1, CancellationToken token2)
-        {
-            if (token1 == token2)
-                return Linked(token1);
-
-            var cts = CancellationTokenSource.CreateLinkedTokenSource(token1, token2);
-            return new Cts(cts);
-        }
+        var cts = CancellationTokenSource.CreateLinkedTokenSource(token1, token2);
+        return new Cts(cts);
     }
 }

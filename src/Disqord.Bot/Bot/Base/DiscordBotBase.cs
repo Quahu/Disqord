@@ -95,7 +95,7 @@ public abstract partial class DiscordBotBase : DiscordClientBase
         {
             MessageReceived += async (_, e) =>
             {
-                if (e.Message is not IGatewayUserMessage message)
+                if (e.Message is not IGatewayUserMessage)
                     return;
 
                 await ProcessCommandsAsync(e).ConfigureAwait(false);

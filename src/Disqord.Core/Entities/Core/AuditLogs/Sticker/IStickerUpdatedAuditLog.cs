@@ -1,5 +1,4 @@
-namespace Disqord.AuditLogs
-{
-    public interface IStickerUpdatedAuditLog : IChangesAuditLog<IStickerAuditLogChanges>
-    { }
-}
+namespace Disqord.AuditLogs;
+
+public interface IStickerUpdatedAuditLog : IChangesAuditLog<IStickerAuditLogChanges>
+{ }

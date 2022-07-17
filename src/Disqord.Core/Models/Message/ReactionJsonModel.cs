@@ -1,16 +1,15 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class ReactionJsonModel : JsonModel
 {
-    public class ReactionJsonModel : JsonModel
-    {
-        [JsonProperty("count")]
-        public int Count;
+    [JsonProperty("count")]
+    public int Count;
 
-        [JsonProperty("me")]
-        public bool Me;
+    [JsonProperty("me")]
+    public bool Me;
 
-        [JsonProperty("emoji")]
-        public EmojiJsonModel Emoji;
-    }
+    [JsonProperty("emoji")]
+    public EmojiJsonModel Emoji = null!;
 }

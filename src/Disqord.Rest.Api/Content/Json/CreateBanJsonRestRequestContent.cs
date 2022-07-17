@@ -1,14 +1,13 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Rest.Api
-{
-    public class CreateBanJsonRestRequestContent : JsonModelRestRequestContent
-    {
-        [JsonProperty("delete_message_days")]
-        public Optional<int> DeleteMessageDays;
+namespace Disqord.Rest.Api;
 
-        [JsonProperty("reason")]
-        public Optional<string> Reason;
-    }
+public class CreateBanJsonRestRequestContent : JsonModelRestRequestContent
+{
+    [JsonProperty("delete_message_days")]
+    public Optional<int> DeleteMessageDays;
+
+    [JsonProperty("reason")]
+    public Optional<string> Reason;
 }

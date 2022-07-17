@@ -1,22 +1,21 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+/// <summary>
+///     Represents the response type to an interaction.
+/// </summary>
+public enum InteractionResponseType
 {
-    /// <summary>
-    ///     Represents the response type to an interaction.
-    /// </summary>
-    public enum InteractionResponseType
-    {
-        Pong = 1,
+    Pong = 1,
 
-        ChannelMessage = 4,
+    ChannelMessage = 4,
 
-        DeferredChannelMessage = 5,
+    DeferredChannelMessage = 5,
 
-        DeferredMessageUpdate = 6,
+    DeferredMessageUpdate = 6,
 
-        MessageUpdate = 7,
+    MessageUpdate = 7,
 
-        ApplicationCommandAutoComplete = 8,
+    ApplicationCommandAutoComplete = 8,
 
-        Modal = 9
-    }
+    Modal = 9
 }

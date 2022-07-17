@@ -2,67 +2,75 @@ using System;
 using System.Linq;
 using Qommon;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest.Api;
+
+internal static partial class ActionPropertiesConversion
 {
-    internal static partial class ActionPropertiesConversion
+    public static ModifyRoleJsonRestRequestContent ToContent(this Action<ModifyRoleActionProperties> action, out Optional<int> position)
     {
-        public static ModifyRoleJsonRestRequestContent ToContent(this Action<ModifyRoleActionProperties> action, out Optional<int> position)
+        Guard.IsNotNull(action);
+
+        var properties = new ModifyRoleActionProperties();
+        action(properties);
+
+        var content = new ModifyRoleJsonRestRequestContent
         {
-            Guard.IsNotNull(action);
+            Name = properties.Name,
+            Permissions = Optional.Convert(properties.Permissions, permissions => permissions.RawValue),
+            Color = Optional.Convert(properties.Color, color => color?.RawValue ?? 0),
+            Hoist = properties.IsHoisted,
+            Icon = properties.Icon,
+            Mentionable = properties.IsMentionable
+        };
 
-            var properties = new ModifyRoleActionProperties();
-            action(properties);
+        if (properties.UnicodeEmoji.TryGetValue(out var unicodeEmoji))
+        {
+            Guard.IsNotAssignableToType<LocalCustomEmoji>(unicodeEmoji);
+            OptionalGuard.HasValue(unicodeEmoji.Name);
+            Guard.IsNotNullOrWhiteSpace(unicodeEmoji.Name.Value);
 
-            var content = new ModifyRoleJsonRestRequestContent
-            {
-                Name = properties.Name,
-                Permissions = Optional.Convert(properties.Permissions, permissions => permissions.RawValue),
-                Color = Optional.Convert(properties.Color, color => color?.RawValue ?? 0),
-                Hoist = properties.IsHoisted,
-                Icon = properties.Icon,
-                Mentionable = properties.IsMentionable,
-                UnicodeEmoji = Optional.Convert(properties.UnicodeEmoji, emoji => emoji.Name)
-            };
-            position = properties.Position;
-
-            return content;
+            content.UnicodeEmoji = Optional.Convert(properties.UnicodeEmoji, emoji => emoji.Name.Value!);
         }
 
-        public static ModifyMemberJsonRestRequestContent ToContent(this Action<ModifyMemberActionProperties> action, out Optional<string> nick)
+        position = properties.Position;
+
+        return content;
+    }
+
+    public static ModifyMemberJsonRestRequestContent ToContent(this Action<ModifyMemberActionProperties> action, out Optional<string> nick)
+    {
+        Guard.IsNotNull(action);
+
+        var properties = new ModifyMemberActionProperties();
+        action(properties);
+
+        nick = properties.Nick;
+
+        var content = new ModifyMemberJsonRestRequestContent
         {
-            Guard.IsNotNull(action);
+            Nick = properties.Nick,
+            Roles = Optional.Convert(properties.RoleIds, x => x.ToArray()),
+            ChannelId = properties.VoiceChannelId,
+            Mute = properties.Mute,
+            Deaf = properties.Deaf,
+            CommunicationDisabledUntil = properties.TimedOutUntil
+        };
 
-            var properties = new ModifyMemberActionProperties();
-            action(properties);
+        return content;
+    }
 
-            nick = properties.Nick;
+    public static ModifyCurrentMemberJsonRestRequestContent ToContent(this Action<ModifyCurrentMemberActionProperties> action)
+    {
+        Guard.IsNotNull(action);
 
-            var content = new ModifyMemberJsonRestRequestContent
-            {
-                Nick = properties.Nick,
-                Roles = Optional.Convert(properties.RoleIds, x => x.ToArray()),
-                ChannelId = properties.VoiceChannelId,
-                Mute = properties.Mute,
-                Deaf = properties.Deaf,
-                CommunicationDisabledUntil = properties.TimedOutUntil
-            };
+        var properties = new ModifyCurrentMemberActionProperties();
+        action(properties);
 
-            return content;
-        }
-
-        public static ModifyCurrentMemberJsonRestRequestContent ToContent(this Action<ModifyCurrentMemberActionProperties> action)
+        var content = new ModifyCurrentMemberJsonRestRequestContent
         {
-            Guard.IsNotNull(action);
+            Nick = properties.Nick
+        };
 
-            var properties = new ModifyCurrentMemberActionProperties();
-            action(properties);
-
-            var content = new ModifyCurrentMemberJsonRestRequestContent
-            {
-                Nick = properties.Nick
-            };
-
-            return content;
-        }
+        return content;
     }
 }

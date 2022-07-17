@@ -1,18 +1,17 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+/// <summary>
+///     Represents a guild ban.
+/// </summary>
+public interface IBan : IClientEntity, IGuildEntity
 {
     /// <summary>
-    ///     Represents a guild ban.
+    ///     Gets the user of this ban.
     /// </summary>
-    public interface IBan : IClientEntity, IGuildEntity
-    {
-        /// <summary>
-        ///     Gets the user of this ban.
-        /// </summary>
-        IUser User { get; }
+    IUser User { get; }
 
-        /// <summary>
-        ///     Gets the reason of this ban.
-        /// </summary>
-        string Reason { get; }
-    }
+    /// <summary>
+    ///     Gets the reason of this ban.
+    /// </summary>
+    string? Reason { get; }
 }

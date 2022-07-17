@@ -6,7 +6,7 @@
 // {
 //     public class ThreadMemberUpdateHandler : Handler<ThreadMemberJsonModel, ThreadMemberUpdatedEventArgs>
 //     {
-//         public override ValueTask<ThreadMemberUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, ThreadMemberJsonModel model)
+//         public override ValueTask<ThreadMemberUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ThreadMemberJsonModel model)
 //         {
 //             var e = new ThreadMemberUpdatedEventArgs(thread);
 //             return new(e);

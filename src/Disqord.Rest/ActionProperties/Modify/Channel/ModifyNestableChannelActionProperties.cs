@@ -1,12 +1,11 @@
 ﻿using Qommon;
 
-namespace Disqord
-{
-    public abstract class ModifyNestableChannelActionProperties : ModifyGuildChannelActionProperties
-    {
-        public virtual Optional<Snowflake?> CategoryId { internal get; set; }
+namespace Disqord;
 
-        internal ModifyNestableChannelActionProperties()
-        { }
-    }
+public abstract class ModifyNestableChannelActionProperties : ModifyGuildChannelActionProperties
+{
+    public virtual Optional<Snowflake?> CategoryId { internal get; set; }
+
+    internal ModifyNestableChannelActionProperties()
+    { }
 }

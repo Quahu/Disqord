@@ -2,14 +2,13 @@
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 
-namespace Disqord.Gateway.Default.Dispatcher
+namespace Disqord.Gateway.Default.Dispatcher;
+
+public class VoiceServerUpdateHandler : Handler<VoiceServerUpdateJsonModel, VoiceServerUpdatedEventArgs>
 {
-    public class VoiceServerUpdateHandler : Handler<VoiceServerUpdateJsonModel, VoiceServerUpdatedEventArgs>
+    public override ValueTask<VoiceServerUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, VoiceServerUpdateJsonModel model)
     {
-        public override ValueTask<VoiceServerUpdatedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, VoiceServerUpdateJsonModel model)
-        {
-            var e = new VoiceServerUpdatedEventArgs(model.GuildId, model.Token, model.Endpoint);
-            return new(e);
-        }
+        var e = new VoiceServerUpdatedEventArgs(model.GuildId, model.Token, model.Endpoint);
+        return new(e);
     }
 }

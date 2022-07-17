@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents a row component which is a parent to multiple child components.
+/// </summary>
+public interface IRowComponent : IComponent, IEnumerable<IComponent>
 {
     /// <summary>
-    ///     Represents a row component which is a parent to multiple child components.
+    ///     Gets the child components of this row component.
     /// </summary>
-    public interface IRowComponent : IComponent, IEnumerable<IComponent>
-    {
-        /// <summary>
-        ///     Gets the child components of this row component.
-        /// </summary>
-        IReadOnlyList<IComponent> Components { get; }
-    }
+    IReadOnlyList<IComponent> Components { get; }
 }

@@ -1,5 +1,4 @@
-namespace Disqord.AuditLogs
-{
-    public interface IAutoModerationRuleUpdatedAuditLog : IChangesAuditLog<IAutoModerationRuleAuditLogChanges>, ITargetedAuditLog<IAutoModerationRule>
-    { }
-}
+namespace Disqord.AuditLogs;
+
+public interface IAutoModerationRuleUpdatedAuditLog : IChangesAuditLog<IAutoModerationRuleAuditLogChanges>, ITargetedAuditLog<IAutoModerationRule>
+{ }

@@ -1,13 +1,14 @@
-﻿namespace Disqord.AuditLogs
+﻿namespace Disqord.AuditLogs;
+
+public interface IWebhookAuditLogChanges
 {
-    public interface IWebhookAuditLogChanges
-    {
-        AuditLogChange<string> Name { get; }
+    AuditLogChange<string> Name { get; }
 
-        AuditLogChange<WebhookType> Type { get; }
+    AuditLogChange<WebhookType> Type { get; }
 
-        AuditLogChange<string> AvatarHash { get; }
+    AuditLogChange<string?> AvatarHash { get; }
 
-        AuditLogChange<Snowflake> ChannelId { get; }
-    }
+    AuditLogChange<Snowflake> ChannelId { get; }
+
+    AuditLogChange<Snowflake?> ApplicationId { get; }
 }

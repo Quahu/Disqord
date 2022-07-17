@@ -2,56 +2,55 @@
 using System.Globalization;
 using Disqord.Models;
 
-namespace Disqord.Gateway
+namespace Disqord.Gateway;
+
+public class CachedCurrentUser : CachedShareeUser, ICurrentUser
 {
-    public class CachedCurrentUser : CachedShareeUser, ICurrentUser
+    /// <inheritdoc/>
+    public CultureInfo Locale { get; private set; } = null!;
+
+    /// <inheritdoc/>
+    public bool IsVerified { get; private set; }
+
+    /// <inheritdoc/>
+    public string? Email { get; private set; }
+
+    /// <inheritdoc/>
+    public bool HasMfaEnabled { get; private set; }
+
+    /// <inheritdoc/>
+    public UserFlags Flags { get; private set; }
+
+    /// <inheritdoc/>
+    public NitroType? NitroType { get; private set; }
+
+    public CachedCurrentUser(CachedSharedUser sharedUser, UserJsonModel model)
+        : base(sharedUser)
     {
-        /// <inheritdoc/>
-        public CultureInfo Locale { get; private set; }
+        Update(model);
+    }
 
-        /// <inheritdoc/>
-        public bool IsVerified { get; private set; }
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public override void Update(UserJsonModel model)
+    {
+        base.Update(model);
 
-        /// <inheritdoc/>
-        public string Email { get; private set; }
+        if (model.Locale.HasValue)
+            Locale = Discord.Internal.GetLocale(model.Locale.Value);
 
-        /// <inheritdoc/>
-        public bool HasMfaEnabled { get; private set; }
+        if (model.Verified.HasValue)
+            IsVerified = model.Verified.Value;
 
-        /// <inheritdoc/>
-        public UserFlag Flags { get; private set; }
+        if (model.Email.HasValue)
+            Email = model.Email.Value;
 
-        /// <inheritdoc/>
-        public NitroType? NitroType { get; private set; }
+        if (model.MfaEnabled.HasValue)
+            HasMfaEnabled = model.MfaEnabled.Value;
 
-        public CachedCurrentUser(CachedSharedUser sharedUser, UserJsonModel model)
-            : base(sharedUser)
-        {
-            Update(model);
-        }
+        if (model.Flags.HasValue)
+            Flags = model.Flags.Value;
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override void Update(UserJsonModel model)
-        {
-            base.Update(model);
-
-            if (model.Locale.HasValue)
-                Locale = CultureInfo.ReadOnly(new CultureInfo(model.Locale.Value ?? "en-US"));
-
-            if (model.Verified.HasValue)
-                IsVerified = model.Verified.Value;
-
-            if (model.Email.HasValue)
-                Email = model.Email.Value;
-
-            if (model.MfaEnabled.HasValue)
-                HasMfaEnabled = model.MfaEnabled.Value;
-
-            if (model.Flags.HasValue)
-                Flags = model.Flags.Value;
-
-            if (model.PremiumType.HasValue)
-                NitroType = model.PremiumType.Value;
-        }
+        if (model.PremiumType.HasValue)
+            NitroType = model.PremiumType.Value;
     }
 }

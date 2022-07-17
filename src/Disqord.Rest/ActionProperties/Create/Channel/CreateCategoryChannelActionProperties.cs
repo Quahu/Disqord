@@ -1,8 +1,7 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+public sealed class CreateCategoryChannelActionProperties : CreateGuildChannelActionProperties
 {
-    public sealed class CreateCategoryChannelActionProperties : CreateGuildChannelActionProperties
-    {
-        internal CreateCategoryChannelActionProperties()
-        { }
-    }
+    internal CreateCategoryChannelActionProperties()
+    { }
 }

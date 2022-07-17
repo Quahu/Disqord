@@ -1,5 +1,4 @@
-﻿namespace Disqord.Gateway
-{
-    public interface IGatewayMessage : IMessage, IPossibleGuildEntity, IGatewayClientEntity
-    { }
-}
+﻿namespace Disqord.Gateway;
+
+public interface IGatewayMessage : IMessage, IPossiblyGuildEntity, IGatewayClientEntity
+{ }

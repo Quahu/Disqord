@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public sealed class CreateWebhookActionProperties
 {
-    public sealed class CreateWebhookActionProperties
-    {
-        public Optional<Stream> Avatar { internal get; set; }
-    }
+    public Optional<Stream> Avatar { internal get; set; }
 }

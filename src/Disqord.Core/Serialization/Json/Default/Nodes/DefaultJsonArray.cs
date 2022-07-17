@@ -3,69 +3,73 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Disqord.Serialization.Json.Default
+namespace Disqord.Serialization.Json.Default;
+
+/// <summary>
+///     Represents a default JSON array node.
+///     Wraps a <see cref="JArray"/>.
+/// </summary>
+public class DefaultJsonArray : DefaultJsonNode, IJsonArray
 {
-    /// <summary>
-    ///     Represents a default JSON array node.
-    ///     Wraps a <see cref="JArray"/>.
-    /// </summary>
-    public class DefaultJsonArray : DefaultJsonNode, IJsonArray
+    /// <inheritdoc cref="DefaultJsonNode.Token"/>
+    public new JArray Token => (base.Token as JArray)!;
+
+    /// <inheritdoc/>
+    public int Count => Token.Count;
+
+    /// <inheritdoc/>
+    public IJsonNode? this[int index] => Create(Token[index], Serializer);
+
+    public DefaultJsonArray(JArray token, JsonSerializer serializer)
+        : base(token, serializer)
+    { }
+
+    /// <inheritdoc/>
+    public IEnumerator<IJsonNode?> GetEnumerator()
     {
-        /// <inheritdoc cref="DefaultJsonNode.Token"/>
-        public new JArray Token => base.Token as JArray;
+        return new Enumerator(this);
+    }
 
-        /// <inheritdoc/>
-        public int Count => Token.Count;
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
-        /// <inheritdoc/>
-        public IJsonNode this[int index] => Create(Token[index], Serializer);
+    private sealed class Enumerator : IEnumerator<IJsonNode?>
+    {
+        public IJsonNode? Current => Create(_current?.Token, _array.Serializer);
 
-        public DefaultJsonArray(JArray token, JsonSerializer serializer)
-            : base(token, serializer)
-        { }
+        object? IEnumerator.Current => Current;
 
-        private sealed class Enumerator : IEnumerator<IJsonNode>
+        private readonly DefaultJsonArray _array;
+        private int _index;
+        private DefaultJsonNode? _current;
+
+        internal Enumerator(DefaultJsonArray array)
         {
-            public IJsonNode Current => Create(_current.Token, _array.Serializer);
-            object IEnumerator.Current => Current;
-
-            private readonly DefaultJsonArray _array;
-            private int _index;
-            private DefaultJsonNode _current;
-
-            internal Enumerator(DefaultJsonArray array)
-            {
-                _array = array;
-            }
-
-            public bool MoveNext()
-            {
-                var index = _index;
-                if (_index++ < _array.Count)
-                {
-                    _current = _array[index] as DefaultJsonNode;
-                    return true;
-                }
-
-                _current = null;
-                return false;
-            }
-
-            public void Reset()
-            {
-                _index = 0;
-                _current = null;
-            }
-
-            public void Dispose()
-            { }
+            _array = array;
         }
 
-        /// <inheritdoc/>
-        public IEnumerator<IJsonNode> GetEnumerator()
-            => new Enumerator(this);
+        public bool MoveNext()
+        {
+            var index = _index;
+            if (_index++ < _array.Count)
+            {
+                _current = (_array[index] as DefaultJsonNode)!;
+                return true;
+            }
 
-        IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
+            _current = null;
+            return false;
+        }
+
+        public void Reset()
+        {
+            _index = 0;
+            _current = null;
+        }
+
+        public void Dispose()
+        { }
     }
 }

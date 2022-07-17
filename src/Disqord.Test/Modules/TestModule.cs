@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Bot.Commands;
@@ -8,9 +7,9 @@ using Disqord.Extensions.Interactivity;
 using Disqord.Extensions.Interactivity.Menus;
 using Disqord.Extensions.Interactivity.Menus.Paged;
 using Disqord.Gateway;
-using Disqord.Rest;
 using Qmmands;
 using Qmmands.Text;
+using Qommon;
 
 namespace Disqord.Test
 {
@@ -46,15 +45,19 @@ namespace Disqord.Test
         {
             private int _clicks;
             private readonly ButtonViewComponent _clicker;
-            private Color? _color;
+            private Optional<Color> _color;
 
             public SecondView()
                 : base(null)
             {
-                MessageTemplate = message => message
-                    .WithEmbeds(new LocalEmbed()
-                        .WithDescription("This is the second view!")
-                        .WithColor(_color));
+                MessageTemplate = message =>
+                {
+                    message.WithEmbeds(new LocalEmbed
+                    {
+                        Description = "This is the second view!",
+                        Color = _color
+                    });
+                };
 
                 _clicker = new ButtonViewComponent(e =>
                 {

@@ -1,33 +1,36 @@
 ﻿using Disqord.Gateway.Api.Models;
 using Qommon;
 
-namespace Disqord.Gateway
+namespace Disqord.Gateway;
+
+public class TransientCustomActivity : TransientActivity, ICustomActivity
 {
-    public class TransientCustomActivity : TransientActivity, ICustomActivity
+    /// <inheritdoc/>
+    public string? Text => Model.State.GetValueOrDefault();
+
+    /// <inheritdoc/>
+    public IEmoji? Emoji
     {
-        /// <inheritdoc/>
-        public string Text => Model.State.GetValueOrDefault();
-
-        /// <inheritdoc/>
-        public IEmoji Emoji
+        get
         {
-            get
-            {
-                if (Model.Emoji.GetValueOrDefault() == null)
-                    return null;
+            if (Model.Emoji.GetValueOrDefault() == null)
+                return null;
 
-                return _emoji ??= TransientEmoji.Create(Model.Emoji.Value);
-            }
+            return _emoji ??= TransientEmoji.Create(Model.Emoji.Value);
         }
-        private IEmoji _emoji;
+    }
+    private IEmoji? _emoji;
 
-        public TransientCustomActivity(IClient client, ActivityJsonModel model)
-            : base(client, model)
-        { }
+    public TransientCustomActivity(IClient client, ActivityJsonModel model)
+        : base(client, model)
+    { }
 
-        public override string ToString()
-            => Emoji != null
-                ? $"{Emoji} {Text}"
-                : Text;
+    public override string ToString()
+    {
+        return Emoji != null && Text != null
+            ? $"{Emoji} {Text}"
+            : Emoji != null
+                ? Emoji.ToString()!
+                : Text!;
     }
 }

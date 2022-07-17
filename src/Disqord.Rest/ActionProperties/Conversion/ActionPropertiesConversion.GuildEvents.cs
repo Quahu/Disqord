@@ -2,39 +2,38 @@ using System;
 using Disqord.Models;
 using Qommon;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest.Api;
+
+internal static partial class ActionPropertiesConversion
 {
-    internal static partial class ActionPropertiesConversion
+    public static ModifyGuildScheduledEventJsonRestRequestContent ToContent(this Action<ModifyGuildEventActionProperties> action)
     {
-        public static ModifyGuildScheduledEventJsonRestRequestContent ToContent(this Action<ModifyGuildEventActionProperties> action)
+        Guard.IsNotNull(action);
+
+        var properties = new ModifyGuildEventActionProperties();
+        action(properties);
+
+        var content = new ModifyGuildScheduledEventJsonRestRequestContent
         {
-            Guard.IsNotNull(action);
+            ChannelId = properties.ChannelId,
+            Name = properties.Name,
+            PrivacyLevel = properties.PrivacyLevel,
+            ScheduledStartTime = properties.StartsAt,
+            ScheduledEndTime = properties.EndsAt,
+            Description = properties.Description,
+            EntityType = properties.TargetType,
+            Status = properties.Status,
+            Image = properties.CoverImage
+        };
 
-            var properties = new ModifyGuildEventActionProperties();
-            action(properties);
-
-            var content = new ModifyGuildScheduledEventJsonRestRequestContent
+        if (properties.Location.HasValue)
+        {
+            content.EntityMetadata = new GuildScheduledEventEntityMetadataJsonModel
             {
-                ChannelId = properties.ChannelId,
-                Name = properties.Name,
-                PrivacyLevel = properties.PrivacyLevel,
-                ScheduledStartTime = properties.StartsAt,
-                ScheduledEndTime = properties.EndsAt,
-                Description = properties.Description,
-                EntityType = properties.TargetType,
-                Status = properties.Status,
-                Image = properties.CoverImage
+                Location = properties.Location.Value
             };
-
-            if (properties.Location.HasValue)
-            {
-                content.EntityMetadata = new GuildScheduledEventEntityMetadataJsonModel
-                {
-                    Location = properties.Location.Value
-                };
-            }
-
-            return content;
         }
+
+        return content;
     }
 }

@@ -1,17 +1,16 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+public enum ActivityType : byte
 {
-    public enum ActivityType : byte
-    {
-        Playing = 0,
+    Playing = 0,
 
-        Streaming = 1,
+    Streaming = 1,
 
-        Listening = 2,
+    Listening = 2,
 
-        Watching = 3,
+    Watching = 3,
 
-        Custom = 4,
+    Custom = 4,
 
-        Competing = 5
-    }
+    Competing = 5
 }

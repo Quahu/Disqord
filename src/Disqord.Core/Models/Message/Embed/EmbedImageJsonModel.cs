@@ -1,20 +1,19 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class EmbedImageJsonModel : JsonModel
 {
-    public class EmbedImageJsonModel : JsonModel
-    {
-        [JsonProperty("url")]
-        public Optional<string> Url;
+    [JsonProperty("url")]
+    public Optional<string> Url;
 
-        [JsonProperty("proxy_url")]
-        public Optional<string> ProxyUrl;
+    [JsonProperty("proxy_url")]
+    public Optional<string> ProxyUrl;
 
-        [JsonProperty("height")]
-        public Optional<int> Height;
+    [JsonProperty("height")]
+    public Optional<int> Height;
 
-        [JsonProperty("width")]
-        public Optional<int> Width;
-    }
+    [JsonProperty("width")]
+    public Optional<int> Width;
 }

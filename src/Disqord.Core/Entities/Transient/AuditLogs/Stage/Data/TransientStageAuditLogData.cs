@@ -1,0 +1,28 @@
+using Disqord.Models;
+using Qommon;
+
+namespace Disqord.AuditLogs;
+
+public class TransientStageAuditLogData : IStageAuditLogData
+{
+    /// <inheritdoc/>
+    public Optional<string> Topic { get; }
+
+    /// <inheritdoc/>
+    public Optional<PrivacyLevel> PrivacyLevel { get; }
+
+    public TransientStageAuditLogData(IClient client, AuditLogEntryJsonModel model, bool isCreated)
+    {
+        var changes = new TransientStageAuditLogChanges(client, model);
+        if (isCreated)
+        {
+            Topic = changes.Topic.NewValue;
+            PrivacyLevel = changes.PrivacyLevel.NewValue;
+        }
+        else
+        {
+            Topic = changes.Topic.OldValue;
+            PrivacyLevel = changes.PrivacyLevel.OldValue;
+        }
+    }
+}

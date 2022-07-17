@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Disqord.Gateway;
 using Qmmands;
+using Qommon;
 
 namespace Disqord.Bot.Commands;
 
@@ -12,8 +12,9 @@ public class RequireAgeRestrictedAttribute : DiscordGuildCheckAttribute
 {
     public override ValueTask<IResult> CheckAsync(IDiscordGuildCommandContext context)
     {
-        if (context.Bot.GetChannel(context.GuildId, context.ChannelId) is not IGuildChannel channel)
-            throw new InvalidOperationException($"{nameof(RequireAgeRestrictedAttribute)} requires the context channel.");
+        var channel = context.Bot.GetChannel(context.GuildId, context.ChannelId) as IGuildChannel;
+        if (channel == null)
+            Throw.InvalidOperationException($"{nameof(RequireAgeRestrictedAttribute)} requires the context channel cached.");
 
         var isAgeRestricted = channel switch
         {

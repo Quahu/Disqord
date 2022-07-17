@@ -14,6 +14,7 @@ public static class InteractivityCommandContextExtensions
     ///     Waits for an interaction of type <typeparamref name="TInteraction"/>
     ///     in the context channel from the context author.
     /// </summary>
+    /// <param name="context"> The command context instance. </param>
     /// <param name="predicate"> The predicate to filter the messages with. </param>
     /// <param name="timeout"> The timeout of the wait. </param>
     /// <param name="cancellationToken"> The cancellation token to observe. </param>
@@ -29,13 +30,14 @@ public static class InteractivityCommandContextExtensions
     {
         predicate = (interaction => interaction.Author.Id == context.AuthorId) + predicate;
         var extension = context.Bot.GetInteractivity();
-        return extension.WaitForInteractionAsync(context.ChannelId, predicate, timeout, cancellationToken)!;
+        return extension.WaitForInteractionAsync(context.ChannelId, predicate, timeout, cancellationToken);
     }
 
     /// <summary>
     ///     Waits for an interaction of type <typeparamref name="TInteraction"/>
     ///     in the context channel from the context author with the specified custom ID.
     /// </summary>
+    /// <param name="context"> The command context instance. </param>
     /// <param name="customId"> The custom ID of the interaction to wait for. </param>
     /// <param name="predicate"> The predicate to filter the messages with. </param>
     /// <param name="timeout"> The timeout of the wait. </param>
@@ -52,12 +54,13 @@ public static class InteractivityCommandContextExtensions
     {
         predicate = (interaction => interaction.Author.Id == context.AuthorId) + predicate;
         var extension = context.Bot.GetInteractivity();
-        return extension.WaitForInteractionAsync(context.ChannelId, customId, predicate, timeout, cancellationToken)!;
+        return extension.WaitForInteractionAsync(context.ChannelId, customId, predicate, timeout, cancellationToken);
     }
 
     /// <summary>
     ///     Waits for an interaction in the context channel from the context author.
     /// </summary>
+    /// <param name="context"> The command context instance. </param>
     /// <param name="predicate"> The predicate to filter the messages with. </param>
     /// <param name="timeout"> The timeout of the wait. </param>
     /// <param name="cancellationToken"> The cancellation token to observe. </param>
@@ -77,6 +80,7 @@ public static class InteractivityCommandContextExtensions
     /// <summary>
     ///     Waits for a message in the context channel from the context author.
     /// </summary>
+    /// <param name="context"> The command context instance. </param>
     /// <param name="predicate"> The predicate to filter the messages with. </param>
     /// <param name="timeout"> The timeout of the wait. </param>
     /// <param name="cancellationToken"> The cancellation token to observe. </param>

@@ -1,21 +1,25 @@
 using System;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public class LocalAutoModerationActionMetadata : ILocalConstruct<LocalAutoModerationActionMetadata>
 {
-    public class LocalAutoModerationActionMetadata : ILocalConstruct
+    public Optional<Snowflake> ChannelId { get; set; }
+
+    public Optional<TimeSpan> TimeoutDuration { get; set; }
+
+    public LocalAutoModerationActionMetadata()
+    { }
+
+    protected LocalAutoModerationActionMetadata(LocalAutoModerationActionMetadata other)
     {
-        public Optional<Snowflake> ChannelId { get; set; }
+        ChannelId = other.ChannelId;
+        TimeoutDuration = other.TimeoutDuration;
+    }
 
-        public Optional<TimeSpan> TimeoutDuration { get; set; }
-
-        public LocalAutoModerationActionMetadata()
-        { }
-
-        public virtual LocalAutoModerationActionMetadata Clone()
-            => MemberwiseClone() as LocalAutoModerationActionMetadata;
-
-        object ICloneable.Clone()
-            => Clone();
+    public virtual LocalAutoModerationActionMetadata Clone()
+    {
+        return new(this);
     }
 }

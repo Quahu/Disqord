@@ -1,28 +1,22 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public class LocalRowComponent : LocalComponent, ILocalConstruct<LocalRowComponent>
 {
-    public class LocalRowComponent : LocalComponent
+    public Optional<IList<LocalComponent>> Components { get; set; }
+
+    public LocalRowComponent()
+    { }
+
+    protected LocalRowComponent(LocalRowComponent other)
     {
-        public IList<LocalComponent> Components
-        {
-            get => _components;
-            set => this.WithComponents(value);
-        }
-        internal readonly List<LocalComponent> _components;
+        Components = other.Components.DeepClone();
+    }
 
-        public LocalRowComponent()
-        {
-            _components = new List<LocalComponent>();
-        }
-
-        private LocalRowComponent(LocalRowComponent other)
-        {
-            _components = other._components.ToList();
-        }
-
-        public override LocalRowComponent Clone()
-            => new(this);
+    public override LocalRowComponent Clone()
+    {
+        return new(this);
     }
 }

@@ -1,15 +1,17 @@
 ﻿using System;
 
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents a custom emoji (e.g. <c>&lt;:professor:667582610431803437&gt;</c>) tied to a possibly unknown guild.
+/// </summary>
+public interface ICustomEmoji : IEmoji, IIdentifiableEntity, ITaggableEntity, IEquatable<ICustomEmoji>
 {
     /// <summary>
-    ///     Represents a custom emoji (e.g. <c>&lt;:professor:667582610431803437&gt;</c>) tied to a possibly unknown guild.
+    ///     Gets whether this emoji is animated.
     /// </summary>
-    public interface ICustomEmoji : IEmoji, IIdentifiableEntity, ITaggableEntity, IEquatable<ICustomEmoji>
-    {
-        /// <summary>
-        ///     Gets whether this emoji is animated. This property is not reliable unless this instance is an <see cref="IGuildEmoji"/>.
-        /// </summary>
-        bool IsAnimated { get; }
-    }
+    /// <remarks>
+    ///     This property is not reliable unless this instance is an <see cref="IGuildEmoji"/>.
+    /// </remarks>
+    bool IsAnimated { get; }
 }

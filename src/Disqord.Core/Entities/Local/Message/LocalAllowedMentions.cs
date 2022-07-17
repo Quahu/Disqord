@@ -1,130 +1,121 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using Disqord.Models;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents the allowed mentions in a Discord message.<br/>
+///     See <a href="https://discord.com/developers/docs/resources/channel#allowed-mentions-object">Discord documentation</a>.
+/// </summary>
+public class LocalAllowedMentions : ILocalConstruct<LocalAllowedMentions>, IJsonConvertible<AllowedMentionsJsonModel>
 {
     /// <summary>
-    ///     Represents the allowed mentions in a Discord message.
+    ///     Creates an instance in which all mentions are ignored.
     /// </summary>
-    public class LocalAllowedMentions : ILocalConstruct
+    public static LocalAllowedMentions None => new LocalAllowedMentions()
+        .WithParsedMentions(ParsedMention.None);
+
+    /// <summary>
+    ///     Creates an instance in which all <see cref="Mention.Here"/> and <see cref="Mention.Everyone"/> mentions are ignored.
+    /// </summary>
+    public static LocalAllowedMentions ExceptEveryone => new LocalAllowedMentions()
+        .WithParsedMentions(ParsedMention.Users | ParsedMention.Roles);
+
+    /// <summary>
+    ///     Gets or sets the mention types Discord will parse from the message's content.
+    /// </summary>
+    public Optional<ParsedMention> ParsedMentions { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the IDs of the users that can be mentioned.
+    /// </summary>
+    public Optional<IList<Snowflake>> UserIds { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the IDs of the roles that can be mentioned.
+    /// </summary>
+    public Optional<IList<Snowflake>> RoleIds { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether the author of the replied to message is going to be mentioned.
+    /// </summary>
+    public Optional<bool> MentionRepliedToUser { get; set; }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalAllowedMentions"/>.
+    /// </summary>
+    public LocalAllowedMentions()
+    { }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalAllowedMentions"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
+    protected LocalAllowedMentions(LocalAllowedMentions other)
     {
-        public const int MaxMentionAmount = 100;
+        ParsedMentions = other.ParsedMentions;
+        UserIds = other.UserIds.Clone();
+        RoleIds = other.RoleIds.Clone();
+        MentionRepliedToUser = other.MentionRepliedToUser;
+    }
 
-        /// <summary>
-        ///     Get an instance in which all mentions are ignored.
-        /// </summary>
-        public static LocalAllowedMentions None => new LocalAllowedMentions()
-            .WithParsedMentions(ParsedMention.None);
+    /// <inheritdoc/>
+    public virtual LocalAllowedMentions Clone()
+    {
+        return new(this);
+    }
 
-        /// <summary>
-        ///     Gets an instance in which all <c>@everyone</c> mentions are ignored.
-        /// </summary>
-        public static LocalAllowedMentions ExceptEveryone => new LocalAllowedMentions()
-            .WithParsedMentions(ParsedMention.Users | ParsedMention.Roles);
-
-        /// <summary>
-        ///     Gets an instance in which the author of the replied to message is not mentioned.
-        /// </summary>
-        public static LocalAllowedMentions ExceptRepliedUser => new LocalAllowedMentions()
-            .WithParsedMentions(ParsedMention.All)
-            .WithMentionRepliedUser(false);
-
-        /// <summary>
-        ///     Gets or sets the mention types Discord will parse from the message's content.
-        /// </summary>
-        public ParsedMention ParsedMentions { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the IDs of the users that can be mentioned.
-        /// </summary>
-        public IList<Snowflake> UserIds
+    /// <inheritdoc />
+    public AllowedMentionsJsonModel ToModel()
+    {
+        if (ParsedMentions.TryGetValue(out var parsedMentions) && parsedMentions != ParsedMention.None)
         {
-            get => _userIds;
-            set => WithUserIds(value);
-        }
-        private readonly List<Snowflake> _userIds;
+            if (parsedMentions.HasFlag(ParsedMention.Users) && UserIds.HasValue && UserIds.Value.Count != 0)
+                throw new InvalidOperationException("Parsed mentions and IDs are mutually exclusive, meaning you must not set both the parsed mentions for users and user IDs.");
 
-        /// <summary>
-        ///     Gets or sets the IDs of the roles that can be mentioned.
-        /// </summary>
-        public IList<Snowflake> RoleIds
-        {
-            get => _roleIds;
-            set => WithRoleIds(value);
-        }
-        private readonly List<Snowflake> _roleIds;
-
-        /// <summary>
-        ///     Gets or sets whether the author of the replied to message is going to be mentioned.
-        /// </summary>
-        public bool? MentionRepliedUser { get; set; }
-
-        public LocalAllowedMentions()
-        {
-            _userIds = new List<Snowflake>();
-            _roleIds = new List<Snowflake>();
+            if (parsedMentions.HasFlag(ParsedMention.Roles) && RoleIds.HasValue && RoleIds.Value.Count != 0)
+                throw new InvalidOperationException("Parsed mentions and IDs are mutually exclusive, meaning you must not set both the parsed mentions for roles and role IDs.");
         }
 
-        private LocalAllowedMentions(LocalAllowedMentions other)
+        const int MaxMentionAmount = Discord.Limits.Message.AllowedMentions.MaxMentionAmount;
+        if (UserIds.HasValue && UserIds.Value.Count > MaxMentionAmount)
+            throw new InvalidOperationException($"The amount of user mentions must not exceed {MaxMentionAmount} mentions.");
+
+        if (RoleIds.HasValue && RoleIds.Value.Count > MaxMentionAmount)
+            throw new InvalidOperationException($"The amount of role mentions must not exceed {MaxMentionAmount} mentions.");
+
+        var model = new AllowedMentionsJsonModel
         {
-            ParsedMentions = other.ParsedMentions;
-            _userIds = other._userIds.ToList();
-            _roleIds = other._roleIds.ToList();
-            MentionRepliedUser = other.MentionRepliedUser;
+            Users = UserIds.ToArray(),
+            Roles = RoleIds.ToArray()
+        };
+
+        if (ParsedMentions.TryGetValue(out parsedMentions))
+        {
+            if (parsedMentions == ParsedMention.None)
+            {
+                model.Parse = Array.Empty<string>();
+            }
+            else
+            {
+                var parse = new List<string>(3);
+                if (parsedMentions.HasFlag(ParsedMention.Everyone))
+                    parse.Add("everyone");
+
+                if (parsedMentions.HasFlag(ParsedMention.Users))
+                    parse.Add("users");
+
+                if (parsedMentions.HasFlag(ParsedMention.Roles))
+                    parse.Add("roles");
+
+                model.Parse = parse;
+            }
         }
 
-        public LocalAllowedMentions WithParsedMentions(ParsedMention parsedMentions)
-        {
-            ParsedMentions = parsedMentions;
-            return this;
-        }
+        model.RepliedUser = MentionRepliedToUser;
 
-        public LocalAllowedMentions WithUserIds(params Snowflake[] userIds)
-            => WithUserIds(userIds as IEnumerable<Snowflake>);
-
-        public LocalAllowedMentions WithUserIds(IEnumerable<Snowflake> userIds)
-        {
-            Guard.IsNotNull(userIds);
-
-            _userIds.Clear();
-            _userIds.AddRange(userIds);
-            return this;
-        }
-
-        public LocalAllowedMentions WithRoleIds(params Snowflake[] roleIds)
-            => WithRoleIds(roleIds as IEnumerable<Snowflake>);
-
-        public LocalAllowedMentions WithRoleIds(IEnumerable<Snowflake> roleIds)
-        {
-            Guard.IsNotNull(roleIds);
-
-            _roleIds.Clear();
-            _roleIds.AddRange(roleIds);
-            return this;
-        }
-
-        public LocalAllowedMentions WithMentionRepliedUser(bool? mentionRepliedUser = true)
-        {
-            MentionRepliedUser = mentionRepliedUser;
-            return this;
-        }
-
-        public LocalAllowedMentions Clone()
-            => new(this);
-
-        object ICloneable.Clone()
-            => Clone();
-
-        public void Validate()
-        {
-            if (ParsedMentions != ParsedMention.None && (ParsedMentions.HasFlag(ParsedMention.Users) && UserIds.Count != 0
-                || ParsedMentions.HasFlag(ParsedMention.Roles) && RoleIds.Count != 0))
-                throw new InvalidOperationException("Parsed mentions and IDs are mutually exclusive, meaning you must not set both the parsed mentions for users/roles and user/role IDs.");
-
-            if (UserIds.Count > MaxMentionAmount || RoleIds.Count > MaxMentionAmount)
-                throw new InvalidOperationException($"The amount of mentions must not exceed {MaxMentionAmount} mentions.");
-        }
+        return model;
     }
 }

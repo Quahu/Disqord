@@ -1,27 +1,26 @@
-﻿namespace Disqord.Gateway.Api.Models
+﻿namespace Disqord.Gateway.Api.Models;
+
+public enum GatewayPayloadOperation
 {
-    public enum GatewayPayloadOperation
-    {
-        Dispatch = 0,
+    Dispatch = 0,
 
-        Heartbeat = 1,
+    Heartbeat = 1,
 
-        Identify = 2,
+    Identify = 2,
 
-        UpdatePresence = 3,
+    UpdatePresence = 3,
 
-        UpdateVoiceState = 4,
+    UpdateVoiceState = 4,
 
-        Resume = 6,
+    Resume = 6,
 
-        Reconnect = 7,
+    Reconnect = 7,
 
-        RequestMembers = 8,
+    RequestMembers = 8,
 
-        InvalidSession = 9,
+    InvalidSession = 9,
 
-        Hello = 10,
+    Hello = 10,
 
-        HeartbeatAcknowledged = 11
-    }
+    HeartbeatAcknowledged = 11
 }

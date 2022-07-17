@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Disqord.Bot.Commands.Interaction;
 using Disqord.Gateway;
 using Qmmands;
+using Qommon;
 
 namespace Disqord.Bot.Commands;
 
@@ -30,11 +30,15 @@ public class RequireBotPermissionsAttribute : DiscordCheckAttribute
         }
         else
         {
-            if (guildContext.Bot.GetChannel(guildContext.GuildId, guildContext.ChannelId) is not IGuildChannel channel)
-                throw new InvalidOperationException($"{nameof(RequireBotPermissionsAttribute)} requires the context channel.");
+            var channel = guildContext.Bot.GetChannel(guildContext.GuildId, guildContext.ChannelId) as IGuildChannel;
+            if (channel == null)
+                Throw.InvalidOperationException($"{nameof(RequireBotPermissionsAttribute)} requires the context channel cached.");
+
+            var currentMember = guildContext.Bot.GetCurrentMember(guildContext.GuildId);
+            if (currentMember == null)
+                Throw.InvalidOperationException($"{nameof(RequireBotPermissionsAttribute)} requires the current member cached.");
 
             // TODO: rework permissions
-            var currentMember = guildContext.Bot.GetMember(guildContext.GuildId, guildContext.Bot.CurrentUser.Id);
             permissions = currentMember.GetPermissions().Flags | currentMember.GetPermissions(channel).Flags;
         }
 

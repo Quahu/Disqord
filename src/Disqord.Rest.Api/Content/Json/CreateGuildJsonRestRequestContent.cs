@@ -3,38 +3,37 @@ using Disqord.Models;
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest.Api;
+
+public class CreateGuildJsonRestRequestContent : JsonModelRestRequestContent
 {
-    public class CreateGuildJsonRestRequestContent : JsonModelRestRequestContent
-    {
-        [JsonProperty("name")]
-        public string Name;
+    [JsonProperty("name")]
+    public string Name = null!;
 
-        [JsonProperty("icon")]
-        public Optional<Stream> Icon;
+    [JsonProperty("icon")]
+    public Optional<Stream> Icon;
 
-        [JsonProperty("verification_level")]
-        public Optional<GuildVerificationLevel> VerificationLevel;
+    [JsonProperty("verification_level")]
+    public Optional<GuildVerificationLevel> VerificationLevel;
 
-        [JsonProperty("default_message_notifications")]
-        public Optional<GuildNotificationLevel> DefaultMessageNotifications;
+    [JsonProperty("default_message_notifications")]
+    public Optional<GuildNotificationLevel> DefaultMessageNotifications;
 
-        [JsonProperty("explicit_content_filter")]
-        public Optional<GuildContentFilterLevel> ExplicitContentFilter;
+    [JsonProperty("explicit_content_filter")]
+    public Optional<GuildContentFilterLevel> ExplicitContentFilter;
 
-        [JsonProperty("roles")]
-        public Optional<RoleJsonModel> Roles;
+    [JsonProperty("roles")]
+    public Optional<RoleJsonModel> Roles;
 
-        [JsonProperty("channels")]
-        public Optional<ChannelJsonModel> Channels;
+    [JsonProperty("channels")]
+    public Optional<ChannelJsonModel> Channels;
 
-        [JsonProperty("afk_channel_id")]
-        public Optional<Snowflake> AfkChannelId;
+    [JsonProperty("afk_channel_id")]
+    public Optional<Snowflake> AfkChannelId;
 
-        [JsonProperty("afk_timeout")]
-        public Optional<int> AfkTimeout;
+    [JsonProperty("afk_timeout")]
+    public Optional<int> AfkTimeout;
 
-        [JsonProperty("system_channel_id")]
-        public Optional<Snowflake> SystemChannelId;
-    }
+    [JsonProperty("system_channel_id")]
+    public Optional<Snowflake> SystemChannelId;
 }

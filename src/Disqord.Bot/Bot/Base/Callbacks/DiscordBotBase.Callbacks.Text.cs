@@ -35,8 +35,8 @@ public abstract partial class DiscordBotBase
     {
         // TODO: culture?
         var context = channel != null
-            ? new DiscordTextGuildCommandContext(this, prefix, message, channel, CultureInfo.InvariantCulture, CultureInfo.InvariantCulture)
-            : new DiscordTextCommandContext(this, prefix, message, CultureInfo.InvariantCulture, CultureInfo.InvariantCulture);
+            ? new DiscordTextGuildCommandContext(this, prefix, message, channel, CultureInfo.InvariantCulture, null)
+            : new DiscordTextCommandContext(this, prefix, message, CultureInfo.InvariantCulture, null);
 
         context.InputString = input;
 

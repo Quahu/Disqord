@@ -1,79 +1,144 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using Disqord.Models;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents a local custom emoji.
+/// </summary>
+public class LocalCustomEmoji : LocalEmoji, ICustomEmoji, ILocalConstruct<LocalCustomEmoji>
 {
-    public class LocalCustomEmoji : LocalEmoji, ICustomEmoji
+    /// <summary>
+    ///     Gets or sets the id of this emoji.
+    /// </summary>
+    public Optional<Snowflake> Id { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether this emoji is animated.
+    /// </summary>
+    public Optional<bool> IsAnimated { get; set; }
+
+    /// <inheritdoc/>
+    public string Tag => this.GetString();
+
+    Snowflake IIdentifiableEntity.Id => Id.Value;
+
+    bool ICustomEmoji.IsAnimated => IsAnimated.Value;
+
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalCustomEmoji"/>.
+    /// </summary>
+    public LocalCustomEmoji()
+    { }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalCustomEmoji"/> with the properties copied from another instance.
+    /// </summary>
+    protected LocalCustomEmoji(LocalCustomEmoji other)
+        : base(other)
     {
-        public Snowflake Id { get; init; }
+        Id = other.Id;
+        IsAnimated = other.IsAnimated;
+    }
 
-        public bool IsAnimated { get; init; }
+    /// <summary>
+    ///     Instantiates a new custom emoji with the specified custom emoji ID
+    ///     and optionally a name and whether the emoji is animated.
+    /// </summary>
+    /// <remarks>
+    ///     The optional parameters are purely for the developer's convenience and have
+    ///     no effect on any Discord API interactions.
+    /// </remarks>
+    /// <param name="id"> The ID of this emoji. </param>
+    /// <param name="name"> The name of this emoji. </param>
+    /// <param name="isAnimated"> Whether this emoji is animated. </param>
+    public LocalCustomEmoji(Snowflake id, string? name = null, bool isAnimated = false)
+        : base(name!)
+    {
+        Id = id;
+        IsAnimated = isAnimated;
+    }
 
-        public string Tag => this.GetString();
+    /// <inheritdoc/>
+    public override LocalCustomEmoji Clone()
+    {
+        return new(this);
+    }
 
-        public LocalCustomEmoji()
-        { }
+    /// <inheritdoc/>
+    public override EmojiJsonModel ToModel()
+    {
+        OptionalGuard.HasValue(Id);
 
-        /// <summary>
-        ///     Instantiates a new custom emoji with the specified custom emoji ID
-        ///     and optionally a name and whether the emoji is animated.
-        /// </summary>
-        /// <remarks>
-        ///     The optional parameters are purely for the developer's convenience and have
-        ///     no effect on any Discord API interactions.
-        /// </remarks>
-        /// <param name="id"> The ID of this emoji. </param>
-        /// <param name="name"> The name of this emoji. </param>
-        /// <param name="isAnimated"> Whether this emoji is animated. </param>
-        public LocalCustomEmoji(Snowflake id, string name = null, bool isAnimated = false)
-            : base(name)
+        return new EmojiJsonModel
         {
-            Id = id;
-            IsAnimated = isAnimated;
-        }
+            Id = Id.GetValueOrNullable(),
+            Name = Name.GetValueOrDefault(),
+            Animated = IsAnimated
+        };
+    }
 
-        public bool Equals(ICustomEmoji other)
-            => Comparers.Emoji.Equals(this, other);
+    /// <inheritdoc/>
+    public bool Equals(ICustomEmoji? other)
+    {
+        return Comparers.Emoji.Equals(this, other);
+    }
 
-        public override LocalCustomEmoji Clone()
-            => MemberwiseClone() as LocalCustomEmoji;
-
-        public static bool TryParse(string value, out LocalCustomEmoji result)
-        {
-            Guard.IsNotNull(value);
-
-            return TryParse(value.AsSpan(), out result);
-        }
-
-        public static bool TryParse(ReadOnlySpan<char> value, out LocalCustomEmoji result)
+    /// <inheritdoc cref="TryParse(ReadOnlySpan{char},out Disqord.LocalCustomEmoji)"/>
+    public static bool TryParse(string? value, [MaybeNullWhen(false)] out LocalCustomEmoji result)
+    {
+        if (value == null)
         {
             result = null;
-            if (value.Length < 21)
-                return false;
-
-            if (value[0] != '<' || value[^1] != '>')
-                return false;
-
-            value = value.Slice(1, value.Length - 2);
-            var isAnimated = value[0] == 'a';
-            if (value[isAnimated ? 1 : 0] != ':')
-                return false;
-
-            value = value.Slice(isAnimated ? 2 : 1);
-            var colonIndex = value.IndexOf(':');
-            if (colonIndex == -1)
-                return false;
-
-            var nameSpan = value.Slice(0, colonIndex);
-            if (nameSpan.IsEmpty || nameSpan.Length > 32 || nameSpan.IsWhiteSpace())
-                return false;
-
-            var idSpan = value.Slice(colonIndex + 1);
-            if (!Snowflake.TryParse(idSpan, out var id))
-                return false;
-
-            result = new LocalCustomEmoji(id, new string(nameSpan), isAnimated);
-            return true;
+            return false;
         }
+
+        return TryParse(value.AsSpan(), out result);
+    }
+
+    /// <summary>
+    ///     Attempts to parse the specified value into a <see cref="LocalCustomEmoji"/>.
+    /// </summary>
+    /// <remarks>
+    ///     If <see langword="true"/> is returned <paramref name="result"/>
+    ///     is guaranteed to have the <see cref="Id"/> and <see cref="LocalEmoji.Name"/> properties
+    ///     set to valid values.
+    /// </remarks>
+    /// <param name="value"> The input value. </param>
+    /// <param name="result"> The parsed emoji. </param>
+    /// <returns>
+    ///     <see langword="true"/> if the parse was successful.
+    /// </returns>
+    public static bool TryParse(ReadOnlySpan<char> value, [MaybeNullWhen(false)] out LocalCustomEmoji result)
+    {
+        result = null;
+        if (value.Length < 21)
+            return false;
+
+        if (value[0] != '<' || value[^1] != '>')
+            return false;
+
+        value = value.Slice(1, value.Length - 2);
+        var isAnimated = value[0] == 'a';
+        if (value[isAnimated ? 1 : 0] != ':')
+            return false;
+
+        value = value.Slice(isAnimated ? 2 : 1);
+        var colonIndex = value.IndexOf(':');
+        if (colonIndex == -1)
+            return false;
+
+        var nameSpan = value.Slice(0, colonIndex);
+        if (nameSpan.IsEmpty || nameSpan.Length > 32 || nameSpan.IsWhiteSpace())
+            return false;
+
+        var idSpan = value.Slice(colonIndex + 1);
+        if (!Snowflake.TryParse(idSpan, out var id))
+            return false;
+
+        result = new LocalCustomEmoji(id, new string(nameSpan), isAnimated);
+        return true;
     }
 }

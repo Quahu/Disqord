@@ -1,13 +1,12 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models
-{
-    public class InstallParamsJsonModel : JsonModel
-    {
-        [JsonProperty("scopes")]
-        public string[] Scopes;
+namespace Disqord.Models;
 
-        [JsonProperty("permissions")]
-        public ulong Permissions;
-    }
+public class InstallParamsJsonModel : JsonModel
+{
+    [JsonProperty("scopes")]
+    public string[] Scopes = null!;
+
+    [JsonProperty("permissions")]
+    public ulong Permissions;
 }

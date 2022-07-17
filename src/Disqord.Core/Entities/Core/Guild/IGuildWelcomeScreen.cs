@@ -1,20 +1,19 @@
 using System.Collections.Generic;
 
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents a guild's welcome screen.
+/// </summary>
+public interface IGuildWelcomeScreen : IGuildEntity
 {
     /// <summary>
-    ///     Represents a guild's welcome screen.
+    ///     Gets the description of this welcome screen.
     /// </summary>
-    public interface IGuildWelcomeScreen : IGuildEntity
-    {
-        /// <summary>
-        ///     Gets the description of this welcome screen.
-        /// </summary>
-        string Description { get; }
+    string? Description { get; }
 
-        /// <summary>
-        ///     Gets the channels of this welcome screen.
-        /// </summary>
-        IReadOnlyList<IGuildWelcomeScreenChannel> Channels { get; }
-    }
+    /// <summary>
+    ///     Gets the channels of this welcome screen.
+    /// </summary>
+    IReadOnlyList<IGuildWelcomeScreenChannel> Channels { get; }
 }

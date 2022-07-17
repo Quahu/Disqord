@@ -1,29 +1,30 @@
 using Disqord.Models;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public static class LocalAutoModerationExtensions
 {
-    public static class LocalAutoModerationExtensions
+    public static TAction WithType<TAction>(this TAction action, AutoModerationActionType type)
+        where TAction : LocalAutoModerationAction
     {
-        public static LocalAutoModerationAction WithType(this LocalAutoModerationAction action, AutoModerationActionType type)
-        {
-            action.Type = type;
-            return action;
-        }
+        action.Type = type;
+        return action;
+    }
 
-        public static LocalAutoModerationAction WithMetadata(this LocalAutoModerationAction action, LocalAutoModerationActionMetadata metadata)
-        {
-            action.Metadata = metadata;
-            return action;
-        }
+    public static TAction WithMetadata<TAction>(this TAction action, LocalAutoModerationActionMetadata metadata)
+        where TAction : LocalAutoModerationAction
+    {
+        action.Metadata = metadata;
+        return action;
+    }
 
-        public static AutoModerationActionJsonModel ToModel(this LocalAutoModerationAction action)
+    public static AutoModerationActionJsonModel ToModel(this LocalAutoModerationAction action)
+    {
+        return new AutoModerationActionJsonModel
         {
-            return new AutoModerationActionJsonModel
-            {
-                Type = action.Type.Value,
-                Metadata = Optional.Convert(action.Metadata, x => x.ToModel())
-            };
-        }
+            Type = action.Type.Value,
+            Metadata = Optional.Convert(action.Metadata, x => x.ToModel())
+        };
     }
 }

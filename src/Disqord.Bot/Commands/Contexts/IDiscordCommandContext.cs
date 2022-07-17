@@ -14,7 +14,7 @@ public interface IDiscordCommandContext : ICommandContext
     /// <summary>
     ///     Gets the locale of the guild.
     /// </summary>
-    CultureInfo GuildLocale { get; }
+    CultureInfo? GuildLocale { get; }
 
     /// <summary>
     ///     Gets the user who prompted this command execution.

@@ -1,25 +1,24 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Voice.Api.Models
+namespace Disqord.Voice.Api.Models;
+
+public class SelectProtocolJsonModel : JsonModel
 {
-    public class SelectProtocolJsonModel : JsonModel
+    [JsonProperty("protocol")]
+    public string Protocol = null!;
+
+    [JsonProperty("data")]
+    public SelectProtocolDataJsonModel Data = null!;
+
+    public class SelectProtocolDataJsonModel : JsonModel
     {
-        [JsonProperty("protocol")]
-        public string Protocol;
+        [JsonProperty("address")]
+        public string Address = null!;
 
-        [JsonProperty("data")]
-        public SelectProtocolDataJsonModel Data;
+        [JsonProperty("port")]
+        public int Port;
 
-        public class SelectProtocolDataJsonModel : JsonModel
-        {
-            [JsonProperty("address")]
-            public string Address;
-
-            [JsonProperty("port")]
-            public int Port;
-
-            [JsonProperty("mode")]
-            public string Mode;
-        }
+        [JsonProperty("mode")]
+        public string Mode = null!;
     }
 }

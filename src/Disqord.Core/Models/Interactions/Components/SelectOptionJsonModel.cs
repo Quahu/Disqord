@@ -1,46 +1,45 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class SelectOptionJsonModel : JsonModel
 {
-    public class SelectOptionJsonModel : JsonModel
+    [JsonProperty("label")]
+    public Optional<string> Label;
+
+    [JsonProperty("value")]
+    public Optional<string> Value;
+
+    [JsonProperty("description")]
+    public Optional<string> Description;
+
+    [JsonProperty("emoji")]
+    public Optional<EmojiJsonModel> Emoji;
+
+    [JsonProperty("default")]
+    public Optional<bool> Default;
+
+    protected override void OnValidate()
     {
-        [JsonProperty("label")]
-        public Optional<string> Label;
+        OptionalGuard.HasValue(Label);
+        Guard.IsNotNullOrWhiteSpace(Label.Value);
+        Guard.IsLessThanOrEqualTo(Label.Value.Length, Discord.Limits.Component.Selection.Option.MaxLabelLength);
 
-        [JsonProperty("value")]
-        public Optional<string> Value;
+        OptionalGuard.HasValue(Value);
+        Guard.IsNotNullOrWhiteSpace(Value.Value);
+        Guard.IsLessThanOrEqualTo(Value.Value.Length, Discord.Limits.Component.Selection.Option.MaxValueLength);
 
-        [JsonProperty("description")]
-        public Optional<string> Description;
-
-        [JsonProperty("emoji")]
-        public Optional<EmojiJsonModel> Emoji;
-
-        [JsonProperty("default")]
-        public Optional<bool> Default;
-
-        protected override void OnValidate()
+        OptionalGuard.CheckValue(Description, description =>
         {
-            OptionalGuard.HasValue(Label);
-            Guard.IsNotNullOrWhiteSpace(Label.Value);
-            Guard.IsLessThanOrEqualTo(Label.Value.Length, Discord.Limits.Components.Selection.Option.MaxLabelLength);
+            Guard.IsNotNullOrWhiteSpace(description);
+            Guard.IsLessThanOrEqualTo(description.Length, Discord.Limits.Component.Selection.Option.MaxDescriptionLength);
+        });
 
-            OptionalGuard.HasValue(Value);
-            Guard.IsNotNullOrWhiteSpace(Value.Value);
-            Guard.IsLessThanOrEqualTo(Value.Value.Length, Discord.Limits.Components.Selection.Option.MaxValueLength);
-
-            OptionalGuard.CheckValue(Description, description =>
-            {
-                Guard.IsNotNullOrWhiteSpace(description);
-                Guard.IsLessThanOrEqualTo(description.Length, Discord.Limits.Components.Selection.Option.MaxDescriptionLength);
-            });
-
-            OptionalGuard.CheckValue(Emoji, emoji =>
-            {
-                Guard.IsNotNull(emoji);
-                emoji.Validate();
-            });
-        }
+        OptionalGuard.CheckValue(Emoji, emoji =>
+        {
+            Guard.IsNotNull(emoji);
+            emoji.Validate();
+        });
     }
 }

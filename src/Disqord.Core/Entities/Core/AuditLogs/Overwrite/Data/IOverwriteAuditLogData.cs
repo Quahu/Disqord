@@ -1,15 +1,14 @@
 ﻿using Qommon;
 
-namespace Disqord.AuditLogs
+namespace Disqord.AuditLogs;
+
+public interface IOverwriteAuditLogData
 {
-    public interface IOverwriteAuditLogData
-    {
-        Optional<Snowflake> TargetId { get; }
+    Optional<Snowflake> TargetId { get; }
 
-        Optional<OverwriteTargetType> TargetType { get; }
+    Optional<OverwriteTargetType> TargetType { get; }
 
-        Optional<ChannelPermissions> Allowed { get; }
+    Optional<ChannelPermissions> Allowed { get; }
 
-        Optional<ChannelPermissions> Denied { get; }
-    }
+    Optional<ChannelPermissions> Denied { get; }
 }

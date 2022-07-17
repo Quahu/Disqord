@@ -1,5 +1,4 @@
-﻿namespace Disqord.AuditLogs
-{
-    public interface IEmojiCreatedAuditLog : IDataAuditLog<IEmojiAuditLogData>
-    { }
-}
+﻿namespace Disqord.AuditLogs;
+
+public interface IEmojiCreatedAuditLog : IDataAuditLog<IEmojiAuditLogData>
+{ }

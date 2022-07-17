@@ -44,7 +44,7 @@ internal abstract class DiscordCommandContext<TCommand> : IDiscordCommandContext
     public DiscordBotBase Bot { get; }
 
     /// <inheritdoc/>
-    public abstract CultureInfo GuildLocale { get; }
+    public abstract CultureInfo? GuildLocale { get; }
 
     /// <inheritdoc/>
     public abstract IUser Author { get; }

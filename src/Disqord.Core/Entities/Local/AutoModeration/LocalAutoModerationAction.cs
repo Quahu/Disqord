@@ -1,49 +1,53 @@
 using System;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public class LocalAutoModerationAction : ILocalConstruct<LocalAutoModerationAction>
 {
-    public class LocalAutoModerationAction : ILocalConstruct
+    public static LocalAutoModerationAction BlockMessage()
     {
-        public static LocalAutoModerationAction BlockMessage()
-        {
-            return new LocalAutoModerationAction(AutoModerationActionType.BlockMessage);
-        }
+        return new LocalAutoModerationAction(AutoModerationActionType.BlockMessage);
+    }
 
-        public static LocalAutoModerationAction SendAlertMessage(Snowflake channelId)
-        {
-            return new LocalAutoModerationAction(AutoModerationActionType.SendAlertMessage,
-                new LocalAutoModerationActionMetadata().WithChannelId(channelId));
-        }
+    public static LocalAutoModerationAction SendAlertMessage(Snowflake channelId)
+    {
+        return new LocalAutoModerationAction(AutoModerationActionType.SendAlertMessage,
+            new LocalAutoModerationActionMetadata().WithChannelId(channelId));
+    }
 
-        public static LocalAutoModerationAction Timeout(TimeSpan duration)
-        {
-            return new LocalAutoModerationAction(AutoModerationActionType.Timeout,
-                new LocalAutoModerationActionMetadata().WithTimeoutDuration(duration));
-        }
+    public static LocalAutoModerationAction Timeout(TimeSpan duration)
+    {
+        return new LocalAutoModerationAction(AutoModerationActionType.Timeout,
+            new LocalAutoModerationActionMetadata().WithTimeoutDuration(duration));
+    }
 
-        public Optional<AutoModerationActionType> Type { get; set; }
+    public Optional<AutoModerationActionType> Type { get; set; }
 
-        public Optional<LocalAutoModerationActionMetadata> Metadata { get; set; }
+    public Optional<LocalAutoModerationActionMetadata> Metadata { get; set; }
 
-        public LocalAutoModerationAction()
-        { }
+    public LocalAutoModerationAction()
+    { }
 
-        public LocalAutoModerationAction(AutoModerationActionType type)
-        {
-            Type = type;
-        }
+    protected LocalAutoModerationAction(LocalAutoModerationAction other)
+    {
+        Type = other.Type;
+        Metadata = other.Metadata.Clone();
+    }
 
-        public LocalAutoModerationAction(AutoModerationActionType type, LocalAutoModerationActionMetadata metadata)
-        {
-            Type = type;
-            Metadata = metadata;
-        }
+    public LocalAutoModerationAction(AutoModerationActionType type)
+    {
+        Type = type;
+    }
 
-        public virtual LocalAutoModerationAction Clone()
-            => MemberwiseClone() as LocalAutoModerationAction;
+    public LocalAutoModerationAction(AutoModerationActionType type, LocalAutoModerationActionMetadata metadata)
+    {
+        Type = type;
+        Metadata = metadata;
+    }
 
-        object ICloneable.Clone()
-            => Clone();
+    public virtual LocalAutoModerationAction Clone()
+    {
+        return new(this);
     }
 }

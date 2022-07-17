@@ -3,54 +3,53 @@ using System.ComponentModel;
 using System.IO;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public static partial class Library
 {
-    public static partial class Library
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static class Debug
     {
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static class Debug
+        public static bool DumpJson;
+
+        public static TextWriter DumpWriter
         {
-            public static bool DumpJson;
-
-            public static TextWriter DumpWriter
+            get => _dumpWriter;
+            set
             {
-                get => _dumpWriter;
-                set
-                {
-                    Guard.IsNotNull(value);
+                Guard.IsNotNull(value);
 
-                    _dumpWriter = value;
-                }
+                _dumpWriter = value;
             }
-            private static TextWriter _dumpWriter = Console.Out;
+        }
+        private static TextWriter _dumpWriter = Console.Out;
 
-            public static IDisposable DumpingJson(TextWriter customWriter = null)
-                => new DumpingBlock(() => DumpJson = !DumpJson, customWriter);
+        public static IDisposable DumpingJson(TextWriter? customWriter = null)
+            => new DumpingBlock(() => DumpJson = !DumpJson, customWriter);
 
-            private sealed class DumpingBlock : IDisposable
+        private sealed class DumpingBlock : IDisposable
+        {
+            private readonly Action _action;
+            private readonly TextWriter? _previousWriter;
+
+            public DumpingBlock(Action action, TextWriter? writer = null)
             {
-                private readonly Action _action;
-                private readonly TextWriter _previousWriter;
-
-                public DumpingBlock(Action action, TextWriter writer = null)
+                _action = action;
+                if (writer != null)
                 {
-                    _action = action;
-                    if (writer != null)
-                    {
-                        _previousWriter = DumpWriter;
-                        DumpWriter = writer;
-                    }
-
-                    action();
+                    _previousWriter = DumpWriter;
+                    DumpWriter = writer;
                 }
 
-                public void Dispose()
-                {
-                    if (_previousWriter != null)
-                        DumpWriter = _previousWriter;
+                action();
+            }
 
-                    _action();
-                }
+            public void Dispose()
+            {
+                if (_previousWriter != null)
+                    DumpWriter = _previousWriter;
+
+                _action();
             }
         }
     }

@@ -2,27 +2,26 @@
 using System.Net.WebSockets;
 using Microsoft.Extensions.Options;
 
-namespace Disqord.WebSocket.Default
+namespace Disqord.WebSocket.Default;
+
+public class DefaultWebSocketClientFactory : IWebSocketClientFactory
 {
-    public class DefaultWebSocketClientFactory : IWebSocketClientFactory
+    private readonly Action<ClientWebSocketOptions>? _clientConfiguration;
+
+    public DefaultWebSocketClientFactory(
+        IOptions<DefaultWebSocketClientFactoryConfiguration> options)
     {
-        private readonly Action<ClientWebSocketOptions> _clientConfiguration;
+        var configuration = options.Value;
+        _clientConfiguration = configuration.ClientConfiguration;
+    }
 
-        public DefaultWebSocketClientFactory(
-            IOptions<DefaultWebSocketClientFactoryConfiguration> options)
-        {
-            var configuration = options.Value;
-            _clientConfiguration = configuration.ClientConfiguration;
-        }
+    public virtual IWebSocketClient CreateClient()
+    {
+        var ws = new ClientWebSocket();
+        ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(10);
 
-        public virtual IWebSocketClient CreateClient()
-        {
-            var ws = new ClientWebSocket();
-            ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(10);
+        _clientConfiguration?.Invoke(ws.Options);
 
-            _clientConfiguration?.Invoke(ws.Options);
-
-            return new DefaultWebSocketClient(ws);
-        }
+        return new DefaultWebSocketClient(ws);
     }
 }

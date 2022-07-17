@@ -1,11 +1,10 @@
 ﻿using Disqord.Models;
 using Disqord.Serialization.Json;
 
-namespace Disqord.Gateway.Api.Models
+namespace Disqord.Gateway.Api.Models;
+
+public class IntegrationCreateJsonModel : IntegrationJsonModel
 {
-    public class IntegrationCreateJsonModel : IntegrationJsonModel
-    {
-        [JsonProperty("guild_id")]
-        public Snowflake GuildId;
-    }
+    [JsonProperty("guild_id")]
+    public Snowflake GuildId;
 }

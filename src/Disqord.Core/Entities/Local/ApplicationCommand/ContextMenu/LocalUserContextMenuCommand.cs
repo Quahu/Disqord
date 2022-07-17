@@ -1,15 +1,14 @@
-namespace Disqord
+namespace Disqord;
+
+public class LocalUserContextMenuCommand : LocalContextMenuCommand
 {
-    public class LocalUserContextMenuCommand : LocalContextMenuCommand
-    {
-        public LocalUserContextMenuCommand()
-        { }
+    public LocalUserContextMenuCommand()
+    { }
 
-        protected LocalUserContextMenuCommand(LocalUserContextMenuCommand other)
-            : base(other)
-        { }
+    protected LocalUserContextMenuCommand(LocalUserContextMenuCommand other)
+        : base(other)
+    { }
 
-        public override LocalUserContextMenuCommand Clone()
-            => new(this);
-    }
+    public override LocalUserContextMenuCommand Clone()
+        => new(this);
 }

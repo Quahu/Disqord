@@ -1,9 +1,8 @@
-﻿namespace Disqord
-{
-    public enum GuildMfaLevel : byte
-    {
-        None,
+﻿namespace Disqord;
 
-        Elevated
-    }
+public enum GuildMfaLevel : byte
+{
+    None,
+
+    Elevated
 }

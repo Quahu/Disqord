@@ -1,11 +1,10 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class GuildScheduledEventEntityMetadataJsonModel : JsonModel
 {
-    public class GuildScheduledEventEntityMetadataJsonModel : JsonModel
-    {
-        [JsonProperty("location")]
-        public Optional<string> Location;
-    }
+    [JsonProperty("location")]
+    public Optional<string> Location;
 }

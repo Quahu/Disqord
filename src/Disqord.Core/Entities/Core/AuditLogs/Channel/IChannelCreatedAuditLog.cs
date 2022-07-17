@@ -1,5 +1,4 @@
-﻿namespace Disqord.AuditLogs
-{
-    public interface IChannelCreatedAuditLog : IDataAuditLog<IChannelAuditLogData>
-    { }
-}
+﻿namespace Disqord.AuditLogs;
+
+public interface IChannelCreatedAuditLog : IDataAuditLog<IChannelAuditLogData>
+{ }

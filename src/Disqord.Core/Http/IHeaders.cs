@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 
-namespace Disqord.Http
+namespace Disqord.Http;
+
+/// <summary>
+///     Represents an HTTP construct with headers for sent or received HTTP data.
+/// </summary>
+public interface IHeaders
 {
     /// <summary>
-    ///     Represents an HTTP construct with headers for sent or received HTTP data.
+    ///     Gets the headers associated with this HTTP construct.
     /// </summary>
-    public interface IHeaders
-    {
-        /// <summary>
-        ///     Gets the headers associated with this HTTP construct.
-        /// </summary>
-        public IDictionary<string, string> Headers { get; }
-    }
+    public IDictionary<string, string> Headers { get; }
 }

@@ -2,20 +2,19 @@
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Gateway.Api.Models
+namespace Disqord.Gateway.Api.Models;
+
+public class ThreadListSyncJsonModel : JsonModel
 {
-    public class ThreadListSyncJsonModel : JsonModel
-    {
-        [JsonProperty("guild_id")]
-        public Snowflake GuildId;
+    [JsonProperty("guild_id")]
+    public Snowflake GuildId;
 
-        [JsonProperty("channel_ids")]
-        public Optional<Snowflake[]> ChannelIds;
+    [JsonProperty("channel_ids")]
+    public Optional<Snowflake[]> ChannelIds;
 
-        [JsonProperty("threads")]
-        public ChannelJsonModel[] Threads;
+    [JsonProperty("threads")]
+    public ChannelJsonModel[] Threads = null!;
 
-        [JsonProperty("members")]
-        public ThreadMemberJsonModel[] Members;
-    }
+    [JsonProperty("members")]
+    public ThreadMemberJsonModel[] Members = null!;
 }

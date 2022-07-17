@@ -1,22 +1,25 @@
-using System;
 using System.Collections.Generic;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public class LocalAutoModerationTriggerMetadata : ILocalConstruct<LocalAutoModerationTriggerMetadata>
 {
-    public class LocalAutoModerationTriggerMetadata : ILocalConstruct
+    public Optional<IList<string>> Keywords { get; set; }
+
+    public Optional<IList<AutoModerationKeywordPresetType>> Presets { get; set; }
+
+    public LocalAutoModerationTriggerMetadata()
+    { }
+
+    protected LocalAutoModerationTriggerMetadata(LocalAutoModerationTriggerMetadata other)
     {
-        public Optional<IList<string>> Keywords { get; set; }
+        Keywords = other.Keywords.Clone();
+        Presets = other.Presets.Clone();
+    }
 
-        public Optional<IList<AutoModerationKeywordPresetType>> Presets { get; set; }
-
-        public LocalAutoModerationTriggerMetadata()
-        { }
-
-        public virtual LocalAutoModerationTriggerMetadata Clone()
-            => MemberwiseClone() as LocalAutoModerationTriggerMetadata;
-
-        object ICloneable.Clone()
-            => Clone();
+    public virtual LocalAutoModerationTriggerMetadata Clone()
+    {
+        return new(this);
     }
 }

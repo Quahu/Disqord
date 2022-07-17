@@ -1,8 +1,7 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+public sealed class ModifyCategoryChannelActionProperties : ModifyGuildChannelActionProperties
 {
-    public sealed class ModifyCategoryChannelActionProperties : ModifyGuildChannelActionProperties
-    {
-        internal ModifyCategoryChannelActionProperties()
-        { }
-    }
+    internal ModifyCategoryChannelActionProperties()
+    { }
 }

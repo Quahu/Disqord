@@ -1,15 +1,14 @@
 ﻿using System;
 
-namespace Disqord.AuditLogs
+namespace Disqord.AuditLogs;
+
+public interface IMemberAuditLogChanges
 {
-    public interface IMemberAuditLogChanges
-    {
-        AuditLogChange<string> Nick { get; }
+    AuditLogChange<string?> Nick { get; }
 
-        AuditLogChange<bool> IsMuted { get; }
+    AuditLogChange<bool> IsMuted { get; }
 
-        AuditLogChange<bool> IsDeafened { get; }
+    AuditLogChange<bool> IsDeafened { get; }
 
-        AuditLogChange<DateTimeOffset> TimedOutUntil { get; }
-    }
+    AuditLogChange<DateTimeOffset> TimedOutUntil { get; }
 }

@@ -90,6 +90,18 @@ public partial class ComponentCommandMap : ICommandMap
         foreach (var command in CommandUtilities.EnumerateAllCommands(module))
         {
             var componentCommand = Guard.IsAssignableToType<ComponentCommand>(command);
+            if (TryGetGuildIds(componentCommand, out var guildIds))
+            {
+                foreach (var guildId in guildIds)
+                {
+                    var node = GuildNodes.GetValueOrDefault(guildId);
+                    node?.RemoveCommand(componentCommand);
+                }
+            }
+            else
+            {
+                GlobalNode.RemoveCommand(componentCommand);
+            }
         }
     }
 }

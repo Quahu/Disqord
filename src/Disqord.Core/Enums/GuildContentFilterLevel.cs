@@ -1,11 +1,10 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+public enum GuildContentFilterLevel : byte
 {
-    public enum GuildContentFilterLevel : byte
-    {
-        Disabled,
+    Disabled,
 
-        MembersWithoutRoles,
+    MembersWithoutRoles,
 
-        AllMembers
-    }
+    AllMembers
 }

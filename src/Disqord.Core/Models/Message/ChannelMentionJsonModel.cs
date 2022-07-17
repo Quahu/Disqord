@@ -1,19 +1,18 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class ChannelMentionJsonModel : JsonModel
 {
-    public class ChannelMentionJsonModel : JsonModel
-    {
-        [JsonProperty("id")]
-        public Snowflake Id;
+    [JsonProperty("id")]
+    public Snowflake Id;
 
-        [JsonProperty("guild_id")]
-        public Snowflake GuildId;
+    [JsonProperty("guild_id")]
+    public Snowflake GuildId;
 
-        [JsonProperty("type")]
-        public ChannelType Type;
+    [JsonProperty("type")]
+    public ChannelType Type;
 
-        [JsonProperty("name")]
-        public string Name;
-    }
+    [JsonProperty("name")]
+    public string Name = null!;
 }

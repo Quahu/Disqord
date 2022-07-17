@@ -1,18 +1,16 @@
 ﻿using System.ComponentModel;
 using Qommon;
 
-namespace Disqord.Rest
+namespace Disqord.Rest;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+public static partial class RestEntityExtensions
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static partial class RestEntityExtensions
+    public static IRestClient GetRestClient(this IClientEntity entity)
     {
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static IRestClient GetRestClient(this IClientEntity entity)
-        {
-            Guard.IsNotNull(entity);
-            Guard.IsAssignableToType<IRestClient>(entity.Client);
+        Guard.IsNotNull(entity);
 
-            return entity.Client as IRestClient;
-        }
+        return Guard.IsAssignableToType<IRestClient>(entity.Client);
     }
 }

@@ -216,7 +216,7 @@ public abstract partial class DiscordBotBase
                 return ThrowTypeException(message);
             }
         }
-        else if (context is IDiscordTextCommandContext textContext)
+        else if (context is IDiscordTextCommandContext)
         {
             if (message is LocalMessage localMessage)
             {
@@ -293,7 +293,7 @@ public abstract partial class DiscordBotBase
             return application.Team.Members.ContainsKey(userId);
         }
 
-        OwnerIds = new[] { application.Owner.Id }.ReadOnly();
+        OwnerIds = new[] { application.Owner!.Id }.ReadOnly();
         return application.Owner.Id == userId;
     }
 }

@@ -1,9 +1,8 @@
 ﻿using Qommon;
 
-namespace Disqord.AuditLogs
+namespace Disqord.AuditLogs;
+
+public interface IEmojiAuditLogData
 {
-    public interface IEmojiAuditLogData
-    {
-        Optional<string> Name { get; }
-    }
+    Optional<string> Name { get; }
 }

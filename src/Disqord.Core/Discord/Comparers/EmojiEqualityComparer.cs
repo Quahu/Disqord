@@ -1,58 +1,57 @@
 ﻿using System.Collections.Generic;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public sealed class EmojiEqualityComparer : IEqualityComparer<IEmoji>, IEqualityComparer<ICustomEmoji>
 {
-    public sealed class EmojiEqualityComparer : IEqualityComparer<IEmoji>, IEqualityComparer<ICustomEmoji>
+    public static readonly EmojiEqualityComparer Instance = new();
+
+    private EmojiEqualityComparer()
+    { }
+
+    public bool Equals(IEmoji? x, IEmoji? y)
     {
-        public static readonly EmojiEqualityComparer Instance = new();
+        if (x == null && y == null)
+            return true;
 
-        private EmojiEqualityComparer()
-        { }
+        if (x == null || y == null)
+            return false;
 
-        public bool Equals(IEmoji x, IEmoji y)
-        {
-            if (x == null && y == null)
-                return true;
+        if (x is ICustomEmoji customEmoji && y is ICustomEmoji otherCustomEmoji)
+            return customEmoji.Id == otherCustomEmoji.Id;
 
-            if (x == null || y == null)
-                return false;
+        if (x is ICustomEmoji || y is ICustomEmoji)
+            return false;
 
-            if (x is ICustomEmoji customEmoji && y is ICustomEmoji otherCustomEmoji)
-                return customEmoji.Id == otherCustomEmoji.Id;
+        return x.Name == y.Name;
+    }
 
-            if (x is ICustomEmoji || y is ICustomEmoji)
-                return false;
+    public bool Equals(ICustomEmoji? x, ICustomEmoji? y)
+    {
+        if (x == null && y == null)
+            return true;
 
-            return x.Name == y.Name;
-        }
+        if (x == null || y == null)
+            return false;
 
-        public bool Equals(ICustomEmoji x, ICustomEmoji y)
-        {
-            if (x == null && y == null)
-                return true;
+        return x.Id == y.Id;
+    }
 
-            if (x == null || y == null)
-                return false;
+    public int GetHashCode(IEmoji obj)
+    {
+        Guard.IsNotNull(obj);
 
-            return x.Id == y.Id;
-        }
+        if (obj is ICustomEmoji customEmoji)
+            return customEmoji.Id.GetHashCode();
 
-        public int GetHashCode(IEmoji obj)
-        {
-            Guard.IsNotNull(obj);
+        return obj.Name?.GetHashCode() ?? -1;
+    }
 
-            if (obj is ICustomEmoji customEmoji)
-                return customEmoji.Id.GetHashCode();
+    public int GetHashCode(ICustomEmoji obj)
+    {
+        Guard.IsNotNull(obj);
 
-            return obj.Name.GetHashCode();
-        }
-
-        public int GetHashCode(ICustomEmoji obj)
-        {
-            Guard.IsNotNull(obj);
-
-            return obj.Id.GetHashCode();
-        }
+        return obj.Id.GetHashCode();
     }
 }

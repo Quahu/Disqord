@@ -1,15 +1,14 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+public enum GuildVerificationLevel : byte
 {
-    public enum GuildVerificationLevel : byte
-    {
-        None,
+    None,
 
-        Low,
+    Low,
 
-        Medium,
+    Medium,
 
-        High,
+    High,
 
-        VeryHigh
-    }
+    VeryHigh
 }

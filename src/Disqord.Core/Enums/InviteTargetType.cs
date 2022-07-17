@@ -1,18 +1,17 @@
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents the target type of an invite.
+/// </summary>
+public enum InviteTargetType : byte
 {
     /// <summary>
-    ///     Represents the target type of an invite.
+    ///     The invite targets a voice channel stream.
     /// </summary>
-    public enum InviteTargetType : byte
-    {
-        /// <summary>
-        ///     The invite targets a voice channel stream.
-        /// </summary>
-        Stream = 1,
+    Stream = 1,
 
-        /// <summary>
-        ///     The invite targets a voice channel application, e.g. <c>YouTube Together</c>.
-        /// </summary>
-        EmbeddedApplication = 2
-    }
+    /// <summary>
+    ///     The invite targets a voice channel application, e.g. <c>YouTube Together</c>.
+    /// </summary>
+    EmbeddedApplication = 2
 }

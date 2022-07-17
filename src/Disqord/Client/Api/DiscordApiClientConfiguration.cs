@@ -1,6 +1,5 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+public class DiscordApiClientConfiguration
 {
-    public class DiscordApiClientConfiguration
-    {
-    }
 }

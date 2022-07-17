@@ -1,21 +1,20 @@
-﻿namespace Disqord.AuditLogs
+﻿namespace Disqord.AuditLogs;
+
+public interface IGuildEventAuditLogChanges
 {
-    public interface IGuildEventAuditLogChanges
-    {
-        AuditLogChange<Snowflake> ChannelId { get; }
+    AuditLogChange<Snowflake> ChannelId { get; }
 
-        AuditLogChange<string> Name { get; }
+    AuditLogChange<string> Name { get; }
 
-        AuditLogChange<string> Description { get; }
+    AuditLogChange<string?> Description { get; }
 
-        AuditLogChange<string> CoverImageHash { get; }
+    AuditLogChange<string?> CoverImageHash { get; }
 
-        AuditLogChange<GuildEventTargetType> TargetType { get; }
+    AuditLogChange<GuildEventTargetType> TargetType { get; }
 
-        AuditLogChange<string> Location { get; }
+    AuditLogChange<string?> Location { get; }
 
-        AuditLogChange<PrivacyLevel> PrivacyLevel { get; }
+    AuditLogChange<PrivacyLevel> PrivacyLevel { get; }
 
-        AuditLogChange<GuildEventStatus> Status { get; }
-    }
+    AuditLogChange<GuildEventStatus> Status { get; }
 }

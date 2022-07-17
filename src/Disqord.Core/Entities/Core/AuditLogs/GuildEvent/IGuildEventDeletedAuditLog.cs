@@ -1,5 +1,4 @@
-﻿namespace Disqord.AuditLogs
-{
-    public interface IGuildEventDeletedAuditLog : IDataAuditLog<IGuildEventAuditLogData>
-    { }
-}
+﻿namespace Disqord.AuditLogs;
+
+public interface IGuildEventDeletedAuditLog : IDataAuditLog<IGuildEventAuditLogData>
+{ }

@@ -2,23 +2,22 @@
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Gateway.Api.Models
+namespace Disqord.Gateway.Api.Models;
+
+public class ThreadMembersUpdateJsonModel : JsonModel
 {
-    public class ThreadMembersUpdateJsonModel : JsonModel
-    {
-        [JsonProperty("id")]
-        public Snowflake Id;
+    [JsonProperty("id")]
+    public Snowflake Id;
 
-        [JsonProperty("guild_id")]
-        public Snowflake GuildId;
+    [JsonProperty("guild_id")]
+    public Snowflake GuildId;
 
-        [JsonProperty("member_count")]
-        public int MemberCount;
+    [JsonProperty("member_count")]
+    public int MemberCount;
 
-        [JsonProperty("added_members")]
-        public Optional<ThreadMemberJsonModel[]> AddedMembers;
+    [JsonProperty("added_members")]
+    public Optional<ThreadMemberJsonModel[]> AddedMembers;
 
-        [JsonProperty("removed_member_ids")]
-        public Optional<Snowflake[]> RemovedMemberIds;
-    }
+    [JsonProperty("removed_member_ids")]
+    public Optional<Snowflake[]> RemovedMemberIds;
 }

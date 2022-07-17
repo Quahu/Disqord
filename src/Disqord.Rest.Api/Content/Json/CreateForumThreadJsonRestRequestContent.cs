@@ -1,10 +1,22 @@
+using System.Collections.Generic;
+using Disqord.Models;
 using Disqord.Serialization.Json;
+using Qommon;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest.Api;
+
+public class CreateForumThreadJsonRestRequestContent : CreateThreadJsonRestRequestContent, IAttachmentRestRequestContent
 {
-    public class CreateForumThreadJsonRestRequestContent : CreateThreadJsonRestRequestContent
+    [JsonProperty("message")]
+    public CreateMessageJsonRestRequestContent Message = null!;
+
+    IList<PartialAttachmentJsonModel> IAttachmentRestRequestContent.Attachments
     {
-        [JsonProperty("message")]
-        public CreateMessageJsonRestRequestContent Message;
+        set
+        {
+            Guard.IsNotNull(Message);
+
+            Message.Attachments = new(value);
+        }
     }
 }

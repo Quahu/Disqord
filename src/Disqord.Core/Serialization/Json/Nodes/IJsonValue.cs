@@ -1,13 +1,12 @@
-﻿namespace Disqord.Serialization.Json
+﻿namespace Disqord.Serialization.Json;
+
+/// <summary>
+///     Represents a JSON value node, i.e. a single JSON value.
+/// </summary>
+public interface IJsonValue : IJsonNode
 {
     /// <summary>
-    ///     Represents a JSON value node, i.e. a single JSON value.
+    ///     Gets the value of this JSON node.
     /// </summary>
-    public interface IJsonValue : IJsonNode
-    {
-        /// <summary>
-        ///     Gets the value of this JSON node.
-        /// </summary>
-        object Value { get; set; }
-    }
+    object? Value { get; set; }
 }

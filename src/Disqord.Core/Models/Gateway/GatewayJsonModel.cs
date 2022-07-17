@@ -1,10 +1,9 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class GatewayJsonModel : JsonModel
 {
-    public class GatewayJsonModel : JsonModel
-    {
-        [JsonProperty("url")]
-        public string Url;
-    }
+    [JsonProperty("url")]
+    public string Url = null!;
 }

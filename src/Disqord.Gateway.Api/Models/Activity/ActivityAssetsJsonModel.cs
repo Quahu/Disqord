@@ -1,20 +1,19 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Gateway.Api.Models
+namespace Disqord.Gateway.Api.Models;
+
+public class ActivityAssetsJsonModel : JsonModel
 {
-    public class ActivityAssetsJsonModel : JsonModel
-    {
-        [JsonProperty("large_image")]
-        public Optional<string> LargeImage;
+    [JsonProperty("large_image")]
+    public Optional<string> LargeImage;
 
-        [JsonProperty("large_text")]
-        public Optional<string> LargeText;
+    [JsonProperty("large_text")]
+    public Optional<string> LargeText;
 
-        [JsonProperty("small_image")]
-        public Optional<string> SmallImage;
+    [JsonProperty("small_image")]
+    public Optional<string> SmallImage;
 
-        [JsonProperty("small_text")]
-        public Optional<string> SmallText;
-    }
+    [JsonProperty("small_text")]
+    public Optional<string> SmallText;
 }

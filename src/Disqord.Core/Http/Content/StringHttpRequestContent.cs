@@ -1,13 +1,12 @@
 ﻿using System.Text;
 
-namespace Disqord.Http
+namespace Disqord.Http;
+
+public class StringHttpRequestContent : ReadOnlyMemoryHttpRequestContent
 {
-    public class StringHttpRequestContent : ReadOnlyMemoryHttpRequestContent
+    public StringHttpRequestContent(string content)
+        : base(Encoding.UTF8.GetBytes(content))
     {
-        public StringHttpRequestContent(string content)
-            : base(Encoding.UTF8.GetBytes(content))
-        {
-            Headers["Content-Type"] = "text/plain; charset=utf-8";
-        }
+        Headers["Content-Type"] = "text/plain; charset=utf-8";
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace Disqord
-{
-    public enum WebhookType
-    {
-        Incoming = 1,
+﻿namespace Disqord;
 
-        ChannelFollower = 2
-    }
+public enum WebhookType
+{
+    Incoming = 1,
+
+    ChannelFollower = 2
 }

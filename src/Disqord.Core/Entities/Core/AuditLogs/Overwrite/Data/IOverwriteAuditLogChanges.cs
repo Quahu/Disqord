@@ -1,13 +1,12 @@
-﻿namespace Disqord.AuditLogs
+﻿namespace Disqord.AuditLogs;
+
+public interface IOverwriteAuditLogChanges
 {
-    public interface IOverwriteAuditLogChanges
-    {
-        AuditLogChange<Snowflake> TargetId { get; }
+    AuditLogChange<Snowflake> TargetId { get; }
 
-        AuditLogChange<OverwriteTargetType> TargetType { get; }
+    AuditLogChange<OverwriteTargetType> TargetType { get; }
 
-        AuditLogChange<ChannelPermissions> Allowed { get; }
+    AuditLogChange<ChannelPermissions> Allowed { get; }
 
-        AuditLogChange<ChannelPermissions> Denied { get; }
-    }
+    AuditLogChange<ChannelPermissions> Denied { get; }
 }

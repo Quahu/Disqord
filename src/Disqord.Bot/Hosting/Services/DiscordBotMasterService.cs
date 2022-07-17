@@ -22,7 +22,7 @@ namespace Disqord.Bot.Hosting;
 ///             <term> <see cref="DiscordBotService.OnNonCommandReceived(BotMessageReceivedEventArgs)"/> </term>
 ///         </item>
 ///         <item>
-///             <term> <see cref="DiscordBotService.OnCommandNotFound(DiscordCommandContext{TCommand})"/> </term>
+///             <term> <see cref="DiscordBotService.OnCommandNotFound(IDiscordCommandContext)"/> </term>
 ///         </item>
 ///     </list>
 /// </summary>
@@ -100,7 +100,7 @@ public class DiscordBotMasterService : IBindable<DiscordBotBase>
             }
         }
 
-        if ((args == null || args.ProcessCommands) && e.Message is IGatewayUserMessage message)
+        if ((args == null || args.ProcessCommands) && e.Message is IGatewayUserMessage)
         {
             var isCommand = await Bot.ProcessCommandsAsync(e).ConfigureAwait(false);
             if (isCommand)

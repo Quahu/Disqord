@@ -1,23 +1,22 @@
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest.Api;
+
+public class CreateThreadJsonRestRequestContent : JsonModelRestRequestContent
 {
-    public class CreateThreadJsonRestRequestContent : JsonModelRestRequestContent
-    {
-        [JsonProperty("name")]
-        public string Name;
+    [JsonProperty("name")]
+    public string Name = null!;
 
-        [JsonProperty("auto_archive_duration")]
-        public Optional<int> AutoArchiveDuration;
+    [JsonProperty("auto_archive_duration")]
+    public Optional<int> AutoArchiveDuration;
 
-        [JsonProperty("type")]
-        public Optional<ChannelType> Type;
+    [JsonProperty("type")]
+    public Optional<ChannelType> Type;
 
-        [JsonProperty("invitable")]
-        public Optional<bool> Invitable;
+    [JsonProperty("invitable")]
+    public Optional<bool> Invitable;
 
-        [JsonProperty("rate_limit_per_user")]
-        public Optional<int> RateLimitPerUser;
-    }
+    [JsonProperty("rate_limit_per_user")]
+    public Optional<int?> RateLimitPerUser;
 }

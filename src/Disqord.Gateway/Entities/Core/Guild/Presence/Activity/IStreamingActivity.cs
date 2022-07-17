@@ -1,13 +1,12 @@
-﻿namespace Disqord.Gateway
+﻿namespace Disqord.Gateway;
+
+/// <summary>
+///     Represents a member's streaming activity, e.g. a Twitch or YouTube stream.
+/// </summary>
+public interface IStreamingActivity : IActivity
 {
     /// <summary>
-    ///     Represents a member's streaming activity, e.g. a Twitch or YouTube stream.
+    ///     Gets the URL of the stream of this activity.
     /// </summary>
-    public interface IStreamingActivity : IActivity
-    {
-        /// <summary>
-        ///     Gets the stream URL of this activity.
-        /// </summary>
-        string Url { get; }
-    }
+    string Url { get; }
 }

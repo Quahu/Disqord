@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway;
 using Qmmands;
+using Qommon;
 
 namespace Disqord.Bot.Commands;
 
@@ -12,6 +13,9 @@ public class RequireGuildOwnerAttribute : DiscordGuildCheckAttribute
     public override ValueTask<IResult> CheckAsync(IDiscordGuildCommandContext context)
     {
         var guild = context.Bot.GetGuild(context.GuildId);
+        if (guild == null)
+            Throw.InvalidOperationException($"{nameof(RequireGuildOwnerAttribute)} requires the context guild cached.");
+
         if (context.AuthorId == guild.OwnerId)
             return Results.Success;
 

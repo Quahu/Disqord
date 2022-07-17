@@ -10,33 +10,32 @@ using Disqord.Rest;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Disqord
+namespace Disqord;
+
+public class DiscordClient : DiscordClientBase
 {
-    public class DiscordClient : DiscordClientBase
+    public DiscordClient(
+        IOptions<DiscordClientConfiguration> options,
+        ILogger<DiscordClient> logger,
+        IRestClient restClient,
+        IGatewayClient gatewayClient,
+        IEnumerable<DiscordClientExtension> extensions)
+        : base(logger, restClient, gatewayClient, extensions)
+    { }
+
+    /// <inheritdoc/>
+    public override async Task RunAsync(CancellationToken stoppingToken)
     {
-        public DiscordClient(
-            IOptions<DiscordClientConfiguration> options,
-            ILogger<DiscordClient> logger,
-            IRestClient restClient,
-            IGatewayClient gatewayClient,
-            IEnumerable<DiscordClientExtension> extensions)
-            : base(logger, restClient, gatewayClient, extensions)
-        { }
+        StoppingToken = stoppingToken;
+        var uri = new Uri("wss://gateway.discord.gg/");
+        await GatewayClient.RunAsync(uri, stoppingToken).ConfigureAwait(false);
+    }
 
-        /// <inheritdoc/>
-        public override async Task RunAsync(CancellationToken stoppingToken)
-        {
-            StoppingToken = stoppingToken;
-            var uri = new Uri("wss://gateway.discord.gg/");
-            await GatewayClient.RunAsync(uri, stoppingToken).ConfigureAwait(false);
-        }
+    public override Task WaitUntilReadyAsync(CancellationToken cancellationToken)
+    {
+        if (GatewayClient.Dispatcher is DefaultGatewayDispatcher dispatcher && dispatcher["READY"] is ReadyHandler readyHandler)
+            return readyHandler.InitialReadys[ShardId.Default].Task;
 
-        public override Task WaitUntilReadyAsync(CancellationToken cancellationToken)
-        {
-            if (GatewayClient.Dispatcher is DefaultGatewayDispatcher dispatcher && dispatcher["READY"] is ReadyHandler readyHandler)
-                return readyHandler.InitialReadys[ShardId.Default].Task;
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

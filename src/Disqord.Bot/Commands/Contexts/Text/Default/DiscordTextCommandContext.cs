@@ -10,7 +10,7 @@ internal class DiscordTextCommandContext : DiscordCommandContext<ITextCommand>, 
 {
     public override CultureInfo Locale { get; }
 
-    public override CultureInfo GuildLocale { get; }
+    public override CultureInfo? GuildLocale { get; }
 
     public ReadOnlyMemory<char>? InputString { get; set; }
 
@@ -33,7 +33,7 @@ internal class DiscordTextCommandContext : DiscordCommandContext<ITextCommand>, 
         IPrefix prefix,
         IGatewayUserMessage message,
         CultureInfo locale,
-        CultureInfo guildLocale)
+        CultureInfo? guildLocale)
         : base(bot)
     {
         Prefix = prefix;
@@ -43,5 +43,7 @@ internal class DiscordTextCommandContext : DiscordCommandContext<ITextCommand>, 
     }
 
     protected override Snowflake? GetGuildId()
-        => Message.GuildId;
+    {
+        return Message.GuildId;
+    }
 }

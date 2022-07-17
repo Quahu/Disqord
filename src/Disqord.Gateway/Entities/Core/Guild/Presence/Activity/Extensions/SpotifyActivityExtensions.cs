@@ -1,26 +1,37 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Disqord.Gateway
+namespace Disqord.Gateway;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+public static class SpotifyActivityExtensions
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class SpotifyActivityExtensions
+    public static string? GetTrackUrl(this ISpotifyActivity activity)
     {
-        public static string GetTrackUrl(this ISpotifyActivity activity)
-            => $"https://open.spotify.com/track/{activity.TrackId}";
+        return activity.TrackId != null
+            ? $"https://open.spotify.com/track/{activity.TrackId}"
+            : null;
+    }
 
-        public static string GetAlbumCoverUrl(this ISpotifyActivity activity)
-            => activity.AlbumId != null
-                ? $"https://i.scdn.co/image/{activity.AlbumId}"
-                : null;
+    public static string? GetAlbumCoverUrl(this ISpotifyActivity activity)
+    {
+        return activity.AlbumId != null
+            ? $"https://i.scdn.co/image/{activity.AlbumId}"
+            : null;
+    }
 
-        public static TimeSpan GetDuration(this ISpotifyActivity activity)
-            => activity.EndsAt - activity.StartedAt;
+    public static TimeSpan GetDuration(this ISpotifyActivity activity)
+    {
+        return activity.EndsAt - activity.StartedAt;
+    }
 
-        public static TimeSpan GetElapsedDuration(this ISpotifyActivity activity)
-            => DateTimeOffset.UtcNow - activity.StartedAt;
+    public static TimeSpan GetElapsedDuration(this ISpotifyActivity activity)
+    {
+        return DateTimeOffset.UtcNow - activity.StartedAt;
+    }
 
-        public static TimeSpan GetRemainingDuration(this ISpotifyActivity activity)
-            => activity.EndsAt - DateTimeOffset.UtcNow;
+    public static TimeSpan GetRemainingDuration(this ISpotifyActivity activity)
+    {
+        return activity.EndsAt - DateTimeOffset.UtcNow;
     }
 }

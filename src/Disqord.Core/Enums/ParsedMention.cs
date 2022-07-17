@@ -1,36 +1,35 @@
 ﻿using System;
 
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents the mention types in a message's content that will be parsed by Discord.
+/// </summary>
+[Flags]
+public enum ParsedMention
 {
     /// <summary>
-    ///     Represents the mention types in a message's content that will be parsed by Discord.
+    ///     No mentions will be parsed.
     /// </summary>
-    [Flags]
-    public enum ParsedMention
-    {
-        /// <summary>
-        ///     No mentions will be parsed.
-        /// </summary>
-        None = 0,
+    None = 0,
 
-        /// <summary>
-        ///     <c>@everyone</c> mentions will be parsed.
-        /// </summary>
-        Everyone = 1,
+    /// <summary>
+    ///     <see cref="Mention.Here"/> and <see cref="Mention.Everyone"/> mentions will be parsed.
+    /// </summary>
+    Everyone = 1,
 
-        /// <summary>
-        ///     User mentions will be parsed.
-        /// </summary>
-        Users = 2,
+    /// <summary>
+    ///     User mentions will be parsed.
+    /// </summary>
+    Users = 2,
 
-        /// <summary>
-        ///     Role mentions will be parsed.
-        /// </summary>
-        Roles = 4,
+    /// <summary>
+    ///     Role mentions will be parsed.
+    /// </summary>
+    Roles = 4,
 
-        /// <summary>
-        ///     All mentions will be parsed.
-        /// </summary>
-        All = Everyone | Users | Roles
-    }
+    /// <summary>
+    ///     All mentions will be parsed.
+    /// </summary>
+    All = Everyone | Users | Roles
 }

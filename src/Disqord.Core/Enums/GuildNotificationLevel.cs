@@ -1,9 +1,8 @@
-﻿namespace Disqord
-{
-    public enum GuildNotificationLevel : byte
-    {
-        AllMessages,
+﻿namespace Disqord;
 
-        OnlyMentions
-    }
+public enum GuildNotificationLevel : byte
+{
+    AllMessages,
+
+    OnlyMentions
 }

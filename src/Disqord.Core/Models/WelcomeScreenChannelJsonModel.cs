@@ -1,19 +1,26 @@
 ﻿using Disqord.Serialization.Json;
+using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class WelcomeScreenChannelJsonModel : JsonModel
 {
-    public class WelcomeScreenChannelJsonModel : JsonModel
+    [JsonProperty("channel_id")]
+    public Snowflake ChannelId;
+
+    [JsonProperty("description")]
+    public string Description = null!;
+
+    [JsonProperty("emoji_id")]
+    public Snowflake? EmojiId;
+
+    [JsonProperty("emoji_name")]
+    public string? EmojiName;
+
+    /// <inheritdoc />
+    protected override void OnValidate()
     {
-        [JsonProperty("channel_id")]
-        public Snowflake ChannelId;
-
-        [JsonProperty("description")]
-        public string Description;
-
-        [JsonProperty("emoji_id")]
-        public Snowflake? EmojiId;
-
-        [JsonProperty("emoji_name")]
-        public string EmojiName;
+        Guard.IsNotNull(Description);
+        Guard.HasSizeBetweenOrEqualTo(Description, Discord.Limits.Guild.WelcomeScreen.Channel.MinDescriptionLength, Discord.Limits.Guild.WelcomeScreen.Channel.MaxDescriptionLength);
     }
 }

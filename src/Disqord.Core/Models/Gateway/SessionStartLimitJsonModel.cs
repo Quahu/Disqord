@@ -1,19 +1,18 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class SessionStartLimitJsonModel : JsonModel
 {
-    public class SessionStartLimitJsonModel : JsonModel
-    {
-        [JsonProperty("total")]
-        public int Total;
+    [JsonProperty("total")]
+    public int Total;
 
-        [JsonProperty("remaining")]
-        public int Remaining;
+    [JsonProperty("remaining")]
+    public int Remaining;
 
-        [JsonProperty("reset_after")]
-        public long ResetAfter;
+    [JsonProperty("reset_after")]
+    public long ResetAfter;
 
-        [JsonProperty("max_concurrency")]
-        public int MaxConcurrency;
-    }
+    [JsonProperty("max_concurrency")]
+    public int MaxConcurrency;
 }

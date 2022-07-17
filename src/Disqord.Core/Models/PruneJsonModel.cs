@@ -1,10 +1,9 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class PruneJsonModel : JsonModel
 {
-    public class PruneJsonModel : JsonModel
-    {
-        [JsonProperty("pruned")]
-        public int? Pruned;
-    }
+    [JsonProperty("pruned")]
+    public int? Pruned;
 }

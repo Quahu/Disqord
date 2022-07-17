@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway;
 using Qmmands;
+using Qommon;
 
 namespace Disqord.Bot.Commands;
 
@@ -18,7 +19,10 @@ public class RequireBotRoleAttribute : DiscordGuildCheckAttribute
 
     public override ValueTask<IResult> CheckAsync(IDiscordGuildCommandContext context)
     {
-        var currentMember = context.Bot.GetMember(context.GuildId, context.Bot.CurrentUser.Id);
+        var currentMember = context.Bot.GetCurrentMember(context.GuildId);
+        if (currentMember == null)
+            Throw.InvalidOperationException($"{nameof(RequireBotRoleAttribute)} requires the current member cached.");
+
         var roleIds = currentMember.RoleIds;
         var roleIdCount = roleIds.Count;
         for (var i = 0; i < roleIdCount; i++)

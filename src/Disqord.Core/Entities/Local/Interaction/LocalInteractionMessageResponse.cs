@@ -1,31 +1,30 @@
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents a local interaction message response.
+/// </summary>
+public class LocalInteractionMessageResponse : LocalInteractionFollowup, ILocalInteractionResponse, ILocalConstruct<LocalInteractionMessageResponse>
 {
-    public class LocalInteractionMessageResponse : LocalInteractionFollowup, ILocalInteractionResponse
+    public InteractionResponseType Type { get; set; }
+
+    public LocalInteractionMessageResponse()
+    { }
+
+    public LocalInteractionMessageResponse(InteractionResponseType type)
     {
-        public InteractionResponseType Type { get; set; }
+        Type = type;
+    }
 
-        public LocalInteractionMessageResponse()
-        { }
+    protected LocalInteractionMessageResponse(LocalInteractionMessageResponse other)
+        : base(other)
+    {
+        Type = other.Type;
+        Flags = other.Flags;
+    }
 
-        public LocalInteractionMessageResponse(InteractionResponseType type)
-        {
-            Type = type;
-        }
-
-        protected LocalInteractionMessageResponse(LocalInteractionMessageResponse other)
-            : base(other)
-        {
-            Type = other.Type;
-            Flags = other.Flags;
-        }
-
-        public override LocalInteractionMessageResponse Clone()
-            => new(this);
-
-        public override void Validate()
-        {
-            if (Type == InteractionResponseType.ChannelMessage)
-                base.Validate();
-        }
+    /// <inheritdoc/>
+    public override LocalInteractionMessageResponse Clone()
+    {
+        return new(this);
     }
 }

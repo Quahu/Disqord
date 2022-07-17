@@ -1,18 +1,17 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+/// <summary>
+///     Represents the Nitro type of a user.
+/// </summary>
+public enum NitroType
 {
     /// <summary>
-    ///     Represents the Nitro type of a user.
+    ///     The user has Nitro Classic.
     /// </summary>
-    public enum NitroType
-    {
-        /// <summary>
-        ///     The user has Nitro Classic.
-        /// </summary>
-        Classic,
+    Classic,
 
-        /// <summary>
-        ///     The user has normal Nitro.
-        /// </summary>
-        Normal
-    }
+    /// <summary>
+    ///     The user has normal Nitro.
+    /// </summary>
+    Normal
 }

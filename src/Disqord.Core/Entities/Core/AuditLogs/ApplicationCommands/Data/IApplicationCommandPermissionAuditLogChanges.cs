@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 
-namespace Disqord.AuditLogs
+namespace Disqord.AuditLogs;
+
+public interface IApplicationCommandPermissionAuditLogChanges
 {
-    public interface IApplicationCommandPermissionAuditLogChanges
-    {
-        IReadOnlyList<AuditLogChange<IApplicationCommandPermission>> Permissions { get; }
-    }
+    IReadOnlyList<AuditLogChange<IApplicationCommandPermission>> Permissions { get; }
 }

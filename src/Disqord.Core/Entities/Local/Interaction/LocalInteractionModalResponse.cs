@@ -1,43 +1,46 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public class LocalInteractionModalResponse : ILocalInteractionResponse, ILocalCustomIdentifiableEntity, ILocalConstruct<LocalInteractionModalResponse>
 {
-    public class LocalInteractionModalResponse : ILocalInteractionResponse, ILocalCustomIdentifiableEntity
+    InteractionResponseType ILocalInteractionResponse.Type => InteractionResponseType.Modal;
+
+    /// <summary>
+    ///     Gets or sets the custom ID of this modal.
+    /// </summary>
+    /// <remarks>
+    ///     This property is required.
+    /// </remarks>
+    public Optional<string> CustomId { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the title of this modal.
+    /// </summary>
+    /// <remarks>
+    ///     This property is required.
+    /// </remarks>
+    public Optional<string> Title { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the components of this modal.
+    /// </summary>
+    public Optional<IList<LocalComponent>> Components { get; set; }
+
+    public LocalInteractionModalResponse()
+    { }
+
+    protected LocalInteractionModalResponse(LocalInteractionModalResponse other)
     {
-        InteractionResponseType ILocalInteractionResponse.Type => InteractionResponseType.Modal;
+        CustomId = other.CustomId;
+        Title = other.Title;
+        Components = other.Components.DeepClone();
+    }
 
-        /// <summary>
-        ///     Gets or sets the custom ID of this modal.
-        /// </summary>
-        public Optional<string> CustomId { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the title of this modal.
-        /// </summary>
-        public Optional<string> Title { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the components of this modal.
-        /// </summary>
-        public Optional<IList<LocalComponent>> Components { get; set; }
-
-        public LocalInteractionModalResponse()
-        { }
-
-        protected LocalInteractionModalResponse(LocalInteractionModalResponse other)
-        {
-            CustomId = other.CustomId;
-            Title = other.Title;
-            Components = Optional.Convert(other.Components, components => components?.Select(component => component?.Clone()).ToList() as IList<LocalComponent>);
-        }
-
-        public virtual LocalInteractionModalResponse Clone()
-            => new(this);
-
-        object ICloneable.Clone()
-            => Clone();
+    /// <inheritdoc/>
+    public virtual LocalInteractionModalResponse Clone()
+    {
+        return new(this);
     }
 }

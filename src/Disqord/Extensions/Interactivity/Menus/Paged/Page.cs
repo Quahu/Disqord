@@ -1,74 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Qommon;
 
-namespace Disqord.Extensions.Interactivity.Menus.Paged
+namespace Disqord.Extensions.Interactivity.Menus.Paged;
+
+/// <summary>
+///     Represents what essentially is a tuple of <see cref="LocalMessage.Content"/> and <see cref="LocalMessage.Embeds"/> respectively.
+/// </summary>
+public class Page : ILocalConstruct<Page>
 {
     /// <summary>
-    ///     Represents what essentially is a tuple of <see cref="LocalMessage.Content"/> and <see cref="LocalMessage.Embeds"/> respectively.
+    ///     Gets or sets the message content of this page.
     /// </summary>
-    public class Page : ILocalConstruct
+    public Optional<string?> Content { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the embeds of this page.
+    /// </summary>
+    public Optional<IList<LocalEmbed>> Embeds { get; set; }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="Page"/>.
+    /// </summary>
+    public Page()
+    { }
+
+    protected Page(Page other)
     {
-        /// <summary>
-        ///     Gets or sets the content of this page.
-        /// </summary>
-        public string Content { get; set; }
+        Content = other.Content;
+        Embeds = other.Embeds.DeepClone();
+    }
 
-        public IList<LocalEmbed> Embeds
-        {
-            get => _embeds;
-            set => WithEmbeds(value);
-        }
-        private readonly List<LocalEmbed> _embeds;
-
-        /// <summary>
-        ///     Instantiates a new <see cref="Page"/> without any properties.
-        /// </summary>
-        public Page()
-        {
-            _embeds = new List<LocalEmbed>();
-        }
-
-        private Page(Page other)
-        {
-            Content = other.Content;
-            _embeds = other._embeds.Select(x => x.Clone()).ToList();
-        }
-
-        public Page WithContent(string content)
-        {
-            Content = content;
-            return this;
-        }
-
-        public Page WithEmbeds(params LocalEmbed[] embeds)
-            => WithEmbeds(embeds as IEnumerable<LocalEmbed>);
-
-        public Page WithEmbeds(IEnumerable<LocalEmbed> embeds)
-        {
-            Guard.IsNotNull(embeds);
-
-            _embeds.Clear();
-            _embeds.AddRange(embeds);
-            return this;
-        }
-
-        public Page AddEmbed(LocalEmbed embed)
-        {
-            Guard.IsNotNull(embed);
-
-            _embeds.Add(embed);
-            return this;
-        }
-
-        public Page Clone()
-            => new(this);
-
-        object ICloneable.Clone()
-            => Clone();
-
-        public void Validate()
-        { }
+    public virtual Page Clone()
+    {
+        return new(this);
     }
 }

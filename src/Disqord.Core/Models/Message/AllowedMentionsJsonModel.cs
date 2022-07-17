@@ -2,20 +2,19 @@
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class AllowedMentionsJsonModel : JsonModel
 {
-    public class AllowedMentionsJsonModel : JsonModel
-    {
-        [JsonProperty("parse")]
-        public IList<string> Parse;
+    [JsonProperty("parse")]
+    public Optional<IList<string>> Parse;
 
-        [JsonProperty("users", NullValueHandling.Ignore)]
-        public Snowflake[] Users;
+    [JsonProperty("users")]
+    public Optional<Snowflake[]> Users;
 
-        [JsonProperty("roles", NullValueHandling.Ignore)]
-        public Snowflake[] Roles;
+    [JsonProperty("roles")]
+    public Optional<Snowflake[]> Roles;
 
-        [JsonProperty("replied_user")]
-        public Optional<bool> RepliedUser;
-    }
+    [JsonProperty("replied_user")]
+    public Optional<bool> RepliedUser;
 }

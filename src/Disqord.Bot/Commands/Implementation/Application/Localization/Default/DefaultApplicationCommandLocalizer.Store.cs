@@ -144,7 +144,7 @@ public partial class DefaultApplicationCommandLocalizer
                 }
                 else if (!string.IsNullOrWhiteSpace(commandLocalization.Description.GetValueOrDefault()) && commandDescription != commandLocalization.Description.GetValueOrDefault())
                 {
-                    slashCommand.AddDescriptionLocalization(Locale, commandLocalization.Description.Value);
+                    slashCommand.AddDescriptionLocalization(Locale, commandLocalization.Description.Value!);
                 }
 
                 if (slashCommand.Options.TryGetValue(out var options))

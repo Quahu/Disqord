@@ -1,5 +1,4 @@
-﻿namespace Disqord.Gateway.Default
-{
-    public class DefaultGatewayChunkerConfiguration
-    { }
-}
+﻿namespace Disqord.Gateway.Default;
+
+public class DefaultGatewayChunkerConfiguration
+{ }

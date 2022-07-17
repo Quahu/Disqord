@@ -2,36 +2,39 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Disqord.Rest.Repetition
+namespace Disqord.Rest.Repetition;
+
+/// <summary>
+///     Represents a repeater that intervally triggers typing in a channel.
+/// </summary>
+public class TypingRepeater : Repeater
 {
+    /// <inheritdoc/>
+    public override TimeSpan Interval => TimeSpan.FromSeconds(7.5);
+
     /// <summary>
-    ///     Represents a repeater that intervally triggers typing in a channel.
+    ///     Gets the ID of the channel to trigger typing in.
     /// </summary>
-    public class TypingRepeater : Repeater
+    public Snowflake ChannelId { get; }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="TypingRepeater"/>.
+    /// </summary>
+    /// <param name="client"> The client to execute the requests with. </param>
+    /// <param name="channelId"> The ID of the channel to trigger typing in. </param>
+    /// <param name="options"> The request options. </param>
+    /// <param name="cancellationToken"> The cancellation token to observe. </param>
+    protected internal TypingRepeater(IRestClient client,
+        Snowflake channelId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+        : base(client, options, cancellationToken)
     {
-        /// <inheritdoc/>
-        public override TimeSpan Interval => TimeSpan.FromSeconds(7.5);
+        ChannelId = channelId;
+    }
 
-        /// <summary>
-        ///     Gets the ID of the channel to trigger typing in.
-        /// </summary>
-        public Snowflake ChannelId { get; }
-
-        /// <summary>
-        ///     Instantiates a new <see cref="TypingRepeater"/>.
-        /// </summary>
-        /// <param name="client"> The client to execute the requests with. </param>
-        /// <param name="channelId"> The ID of the channel to trigger typing in. </param>
-        /// <param name="options"> The request options. </param>
-        /// <param name="cancellationToken"> The cancellation token to observe. </param>
-        public TypingRepeater(IRestClient client, Snowflake channelId, IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            : base(client, options, cancellationToken)
-        {
-            ChannelId = channelId;
-        }
-
-        /// <inheritdoc/>
-        protected override Task ExecuteAsync(CancellationToken cancellationToken)
-            => Client.TriggerTypingAsync(ChannelId, Options, cancellationToken);
+    /// <inheritdoc/>
+    protected override Task ExecuteAsync(CancellationToken cancellationToken)
+    {
+        return Client.TriggerTypingAsync(ChannelId, Options, cancellationToken);
     }
 }

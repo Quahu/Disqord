@@ -6,45 +6,44 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Disqord.Sharding
+namespace Disqord.Sharding;
+
+public class DefaultShardFactory : IShardFactory
 {
-    public class DefaultShardFactory : IShardFactory
+    public ILogger Logger { get; }
+
+    public DiscordClientSharder Sharder => _binder.Value;
+
+    private readonly Binder<DiscordClientSharder> _binder;
+
+    public DefaultShardFactory(
+        ILogger<DefaultShardFactory> logger)
     {
-        public ILogger Logger { get; }
+        Logger = logger;
 
-        public DiscordClientSharder Sharder => _binder.Value;
+        _binder = new(this);
+    }
 
-        private readonly Binder<DiscordClientSharder> _binder;
+    public void Bind(DiscordClientSharder value)
+    {
+        _binder.Bind(value);
+    }
 
-        public DefaultShardFactory(
-            ILogger<DefaultShardFactory> logger)
-        {
-            Logger = logger;
+    public IGatewayApiClient Create(ShardId id, IServiceProvider services)
+    {
+        var options = services.GetRequiredService<IOptions<DefaultGatewayApiClientConfiguration>>();
+        var value = options.Value.Clone();
+        value.Id = id;
+        options = Options.Create(value);
+        var logger = services.GetRequiredService<ILoggerFactory>().CreateLogger($"Shard #{id.Id}");
+        var shard = _factory(services, new object[] { options, logger });
+        return (shard as IGatewayApiClient)!;
+    }
 
-            _binder = new(this);
-        }
+    private static readonly ObjectFactory _factory;
 
-        public void Bind(DiscordClientSharder value)
-        {
-            _binder.Bind(value);
-        }
-
-        public IGatewayApiClient Create(ShardId id, IServiceProvider services)
-        {
-            var options = services.GetRequiredService<IOptions<DefaultGatewayApiClientConfiguration>>();
-            var value = options.Value.Clone();
-            value.Id = id;
-            options = Options.Create(value);
-            var logger = services.GetRequiredService<ILoggerFactory>().CreateLogger($"Shard #{id.Id}");
-            var shard = _factory(services, new object[] { options, logger });
-            return shard as IGatewayApiClient;
-        }
-
-        private static readonly ObjectFactory _factory;
-
-        static DefaultShardFactory()
-        {
-            _factory = ActivatorUtilities.CreateFactory(typeof(DefaultGatewayApiClient), new[] { typeof(IOptions<DefaultGatewayApiClientConfiguration>), typeof(ILogger) });
-        }
+    static DefaultShardFactory()
+    {
+        _factory = ActivatorUtilities.CreateFactory(typeof(DefaultGatewayApiClient), new[] { typeof(IOptions<DefaultGatewayApiClientConfiguration>), typeof(ILogger) });
     }
 }

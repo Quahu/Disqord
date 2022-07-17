@@ -1,11 +1,10 @@
-﻿namespace Disqord.WebSocket
+﻿namespace Disqord.WebSocket;
+
+public enum WebSocketMessageType
 {
-    public enum WebSocketMessageType
-    {
-        Text = 0,
+    Text = 0,
 
-        Binary = 1,
+    Binary = 1,
 
-        Close = 2
-    }
+    Close = 2
 }

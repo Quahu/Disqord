@@ -1,11 +1,10 @@
 ﻿using Disqord.Models;
 using Disqord.Serialization.Json;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest.Api;
+
+public class SetApplicationCommandPermissionsJsonRestRequestContent : JsonModelRestRequestContent
 {
-    public class SetApplicationCommandPermissionsJsonRestRequestContent : JsonModelRestRequestContent
-    {
-        [JsonProperty("permissions")]
-        public ApplicationCommandPermissionsJsonModel[] Permissions;
-    }
+    [JsonProperty("permissions")]
+    public ApplicationCommandPermissionsJsonModel[] Permissions = null!;
 }

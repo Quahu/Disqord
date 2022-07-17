@@ -1,33 +1,57 @@
-﻿using Disqord.Models;
+﻿using System.Collections.Generic;
+using Disqord.Models;
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest.Api;
+
+public class ModifyWebhookMessageJsonRestRequestContent : JsonModelRestRequestContent, IAttachmentRestRequestContent
 {
-    public class ModifyWebhookMessageJsonRestRequestContent : JsonModelRestRequestContent
+    [JsonProperty("content")]
+    public Optional<string?> Content;
+
+    [JsonProperty("embeds")]
+    public Optional<EmbedJsonModel[]> Embeds;
+
+    [JsonProperty("allowed_mentions")]
+    public Optional<AllowedMentionsJsonModel> AllowedMentions;
+
+    [JsonProperty("components")]
+    public Optional<ComponentJsonModel[]> Components;
+
+    [JsonProperty("attachments")]
+    public Optional<IList<PartialAttachmentJsonModel>> Attachments;
+
+    IList<PartialAttachmentJsonModel> IAttachmentRestRequestContent.Attachments
     {
-        [JsonProperty("content")]
-        public Optional<string> Content;
+        set => Attachments = new(value);
+    }
 
-        [JsonProperty("embeds")]
-        public Optional<EmbedJsonModel[]> Embeds;
-
-        [JsonProperty("allowed_mentions")]
-        public Optional<AllowedMentionsJsonModel> AllowedMentions;
-
-        [JsonProperty("attachments")]
-        public Optional<AttachmentJsonModel[]> Attachments;
-
-        [JsonProperty("components")]
-        public Optional<ComponentJsonModel[]> Components;
-
-        protected override void OnValidate()
+    protected override void OnValidate()
+    {
+        OptionalGuard.CheckValue(Content, content =>
         {
-            OptionalGuard.CheckValue(Components, components =>
+            if (content != null)
             {
-                for (var i = 0; i < components.Length; i++)
-                    components[i].Validate();
-            });
-        }
+                Guard.HasSizeLessThanOrEqualTo(content, Discord.Limits.Message.MaxContentLength);
+            }
+        });
+
+        OptionalGuard.CheckValue(Embeds, embeds =>
+        {
+            for (var i = 0; i < embeds.Length; i++)
+                embeds[i].Validate();
+        });
+
+        OptionalGuard.CheckValue(AllowedMentions, allowedMentions =>
+        {
+            allowedMentions.Validate();
+        });
+
+        OptionalGuard.CheckValue(Components, components =>
+        {
+            for (var i = 0; i < components.Length; i++)
+                components[i].Validate();
+        });
     }
 }

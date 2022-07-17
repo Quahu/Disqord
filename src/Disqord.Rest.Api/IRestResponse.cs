@@ -1,10 +1,9 @@
 ﻿using System;
 using Disqord.Http;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest.Api;
+
+public interface IRestResponse : IDisposable
 {
-    public interface IRestResponse : IDisposable
-    {
-        IHttpResponse HttpResponse { get; }
-    }
+    IHttpResponse HttpResponse { get; }
 }

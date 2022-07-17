@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public abstract class ModifyGuildChannelActionProperties
 {
-    public abstract class ModifyGuildChannelActionProperties
-    {
-        public Optional<string> Name { internal get; set; }
+    public Optional<string> Name { internal get; set; }
 
-        public virtual Optional<int> Position { internal get; set; }
+    public virtual Optional<int> Position { internal get; set; }
 
-        public virtual Optional<IEnumerable<LocalOverwrite>> Overwrites { internal get; set; }
+    public virtual Optional<IEnumerable<LocalOverwrite>> Overwrites { internal get; set; }
 
-        public Optional<GuildChannelFlag> Flags { internal get; set; }
+    public Optional<GuildChannelFlags> Flags { internal get; set; }
 
-        internal ModifyGuildChannelActionProperties()
-        { }
-    }
+    internal ModifyGuildChannelActionProperties()
+    { }
 }

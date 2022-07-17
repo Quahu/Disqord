@@ -1,23 +1,22 @@
 ﻿using Qommon;
 
-namespace Disqord.AuditLogs
+namespace Disqord.AuditLogs;
+
+public interface IGuildEventAuditLogData
 {
-    public interface IGuildEventAuditLogData
-    {
-        Optional<Snowflake> ChannelId { get; }
+    Optional<Snowflake> ChannelId { get; }
 
-        Optional<string> Name { get; }
+    Optional<string> Name { get; }
 
-        Optional<string> Description { get; }
+    Optional<string?> Description { get; }
 
-        Optional<string> CoverImageHash { get; }
+    Optional<string?> CoverImageHash { get; }
 
-        Optional<GuildEventTargetType> TargetType { get; }
+    Optional<GuildEventTargetType> TargetType { get; }
 
-        Optional<string> Location { get; }
+    Optional<string?> Location { get; }
 
-        Optional<PrivacyLevel> PrivacyLevel { get; }
+    Optional<PrivacyLevel> PrivacyLevel { get; }
 
-        Optional<GuildEventStatus> Status { get; }
-    }
+    Optional<GuildEventStatus> Status { get; }
 }

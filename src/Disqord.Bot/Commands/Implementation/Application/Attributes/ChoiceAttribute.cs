@@ -5,7 +5,7 @@ namespace Disqord.Bot.Commands.Application;
 /// <summary>
 ///     Defines a choice for an application command parameter.
 /// </summary>
-/// <seealso cref="Discord.Limits.ApplicationCommands.Options.MaxChoiceAmount"/>
+/// <seealso cref="Discord.Limits.ApplicationCommand.Option.MaxChoiceAmount"/>
 [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
 public class ChoiceAttribute : Attribute
 {

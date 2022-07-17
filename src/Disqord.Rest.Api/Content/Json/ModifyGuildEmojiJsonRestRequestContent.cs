@@ -1,14 +1,13 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Rest.Api
-{
-    public class ModifyGuildEmojiJsonRestRequestContent : JsonModelRestRequestContent
-    {
-        [JsonProperty("name")]
-        public Optional<string> Name;
+namespace Disqord.Rest.Api;
 
-        [JsonProperty("roles")]
-        public Optional<Snowflake[]> Roles;
-    }
+public class ModifyGuildEmojiJsonRestRequestContent : JsonModelRestRequestContent
+{
+    [JsonProperty("name")]
+    public Optional<string> Name;
+
+    [JsonProperty("roles")]
+    public Optional<Snowflake[]> Roles;
 }

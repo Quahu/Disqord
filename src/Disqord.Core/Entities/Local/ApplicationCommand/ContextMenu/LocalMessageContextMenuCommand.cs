@@ -1,15 +1,14 @@
-namespace Disqord
+namespace Disqord;
+
+public class LocalMessageContextMenuCommand : LocalContextMenuCommand
 {
-    public class LocalMessageContextMenuCommand : LocalContextMenuCommand
-    {
-        public LocalMessageContextMenuCommand()
-        { }
+    public LocalMessageContextMenuCommand()
+    { }
 
-        protected LocalMessageContextMenuCommand(LocalMessageContextMenuCommand other)
-            : base(other)
-        { }
+    protected LocalMessageContextMenuCommand(LocalMessageContextMenuCommand other)
+        : base(other)
+    { }
 
-        public override LocalMessageContextMenuCommand Clone()
-            => new(this);
-    }
+    public override LocalMessageContextMenuCommand Clone()
+        => new(this);
 }

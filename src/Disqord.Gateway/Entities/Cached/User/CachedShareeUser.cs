@@ -15,13 +15,13 @@ public abstract class CachedShareeUser : CachedUser
     public override string Discriminator => SharedUser.Discriminator;
 
     /// <inheritdoc/>
-    public override string AvatarHash => SharedUser.AvatarHash;
+    public override string? AvatarHash => SharedUser.AvatarHash;
 
     /// <inheritdoc/>
     public override bool IsBot => SharedUser.IsBot;
 
     /// <inheritdoc/>
-    public override UserFlag PublicFlags => SharedUser.PublicFlags;
+    public override UserFlags PublicFlags => SharedUser.PublicFlags;
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     public CachedSharedUser SharedUser { get; private set; }

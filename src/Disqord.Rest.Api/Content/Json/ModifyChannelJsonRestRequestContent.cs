@@ -2,62 +2,61 @@
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest.Api;
+
+public class ModifyChannelJsonRestRequestContent : JsonModelRestRequestContent
 {
-    public class ModifyChannelJsonRestRequestContent : JsonModelRestRequestContent
-    {
-        [JsonProperty("name")]
-        public Optional<string> Name;
+    [JsonProperty("name")]
+    public Optional<string> Name;
 
-        [JsonProperty("type")]
-        public Optional<ChannelType> Type;
+    [JsonProperty("type")]
+    public Optional<ChannelType> Type;
 
-        [JsonProperty("position")]
-        public Optional<int> Position;
+    [JsonProperty("position")]
+    public Optional<int> Position;
 
-        [JsonProperty("topic")]
-        public Optional<string> Topic;
+    [JsonProperty("topic")]
+    public Optional<string> Topic;
 
-        [JsonProperty("nsfw")]
-        public Optional<bool> Nsfw;
+    [JsonProperty("nsfw")]
+    public Optional<bool> Nsfw;
 
-        [JsonProperty("rate_limit_per_user")]
-        public Optional<int> RateLimitPerUser;
+    [JsonProperty("rate_limit_per_user")]
+    public Optional<int> RateLimitPerUser;
 
-        [JsonProperty("bitrate")]
-        public Optional<int> Bitrate;
+    [JsonProperty("bitrate")]
+    public Optional<int> Bitrate;
 
-        [JsonProperty("user_limit")]
-        public Optional<int> UserLimit;
+    [JsonProperty("user_limit")]
+    public Optional<int> UserLimit;
 
-        [JsonProperty("permission_overwrites")]
-        public Optional<OverwriteJsonModel[]> PermissionOverwrites;
+    [JsonProperty("permission_overwrites")]
+    public Optional<OverwriteJsonModel[]> PermissionOverwrites;
 
-        [JsonProperty("parent_id")]
-        public Optional<Snowflake?> ParentId;
+    [JsonProperty("parent_id")]
+    public Optional<Snowflake?> ParentId;
 
-        [JsonProperty("video_quality_mode")]
-        public Optional<VideoQualityMode> VideoQualityMode;
+    [JsonProperty("video_quality_mode")]
+    public Optional<VideoQualityMode> VideoQualityMode;
 
-        [JsonProperty("default_auto_archive_duration")]
-        public Optional<int> DefaultAutoArchiveDuration;
+    [JsonProperty("default_auto_archive_duration")]
+    public Optional<int> DefaultAutoArchiveDuration;
 
-        [JsonProperty("rtc_region")]
-        public Optional<string> RtcRegion;
+    [JsonProperty("rtc_region")]
+    public Optional<string> RtcRegion;
 
-        [JsonProperty("archived")]
-        public Optional<bool> Archived;
+    [JsonProperty("archived")]
+    public Optional<bool> Archived;
 
-        [JsonProperty("auto_archive_duration")]
-        public Optional<int> AutoArchiveDuration;
+    [JsonProperty("auto_archive_duration")]
+    public Optional<int> AutoArchiveDuration;
 
-        [JsonProperty("locked")]
-        public Optional<bool> Locked;
+    [JsonProperty("locked")]
+    public Optional<bool> Locked;
 
-        [JsonProperty("invitable")]
-        public Optional<bool> Invitable;
+    [JsonProperty("invitable")]
+    public Optional<bool> Invitable;
 
-        [JsonProperty("flags")]
-        public Optional<GuildChannelFlag> Flags;
-    }
+    [JsonProperty("flags")]
+    public Optional<GuildChannelFlags> Flags;
 }

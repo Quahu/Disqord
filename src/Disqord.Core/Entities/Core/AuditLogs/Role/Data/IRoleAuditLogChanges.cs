@@ -1,19 +1,18 @@
-﻿namespace Disqord.AuditLogs
+﻿namespace Disqord.AuditLogs;
+
+public interface IRoleAuditLogChanges
 {
-    public interface IRoleAuditLogChanges
-    {
-        AuditLogChange<string> Name { get; }
+    AuditLogChange<string> Name { get; }
 
-        AuditLogChange<GuildPermissions> Permissions { get; }
+    AuditLogChange<GuildPermissions> Permissions { get; }
 
-        AuditLogChange<Color?> Color { get; }
+    AuditLogChange<Color?> Color { get; }
 
-        AuditLogChange<bool> IsHoisted { get; }
+    AuditLogChange<bool> IsHoisted { get; }
 
-        AuditLogChange<string> IconHash { get; }
+    AuditLogChange<string> IconHash { get; }
 
-        AuditLogChange<bool> IsMentionable { get; }
+    AuditLogChange<bool> IsMentionable { get; }
 
-        AuditLogChange<string> UnicodeEmoji { get; }
-    }
+    AuditLogChange<string> UnicodeEmoji { get; }
 }

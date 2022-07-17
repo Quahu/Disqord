@@ -1,9 +1,8 @@
-namespace Disqord.Serialization.Json.Default
+namespace Disqord.Serialization.Json.Default;
+
+/// <inheritdoc/>
+public class DefaultJsonSerializerOptions : IJsonSerializerOptions
 {
     /// <inheritdoc/>
-    public class DefaultJsonSerializerOptions : IJsonSerializerOptions
-    {
-        /// <inheritdoc/>
-        public JsonFormatting Formatting { get; set; }
-    }
+    public JsonFormatting Formatting { get; set; }
 }

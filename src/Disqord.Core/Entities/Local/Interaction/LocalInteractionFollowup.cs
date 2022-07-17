@@ -1,29 +1,51 @@
-﻿namespace Disqord
+﻿using Qommon;
+
+namespace Disqord;
+
+/// <summary>
+///     Represents a local interaction followup.
+/// </summary>
+public class LocalInteractionFollowup : LocalMessageBase, ILocalConstruct<LocalInteractionFollowup>
 {
-    public class LocalInteractionFollowup : LocalMessageBase
+    /// <summary>
+    ///     Gets or sets whether this followup is ephemeral,
+    ///     i.e. whether it is only visible to the author of the interaction.
+    /// </summary>
+    /// <remarks>
+    ///     This property is ignored if this followup is the first followup message to an interaction deferral response.
+    ///     In that case the ephemerality of this followup will be determined by the value in the original deferral response.
+    /// </remarks>
+    public bool IsEphemeral
     {
-        public bool IsEphemeral
+        get => Flags.HasValue && Flags.Value.HasFlag(MessageFlags.Ephemeral);
+        set
         {
-            get => Flags.HasFlag(MessageFlag.Ephemeral);
-            set
+            if (value)
             {
-                if (value)
-                    Flags |= MessageFlag.Ephemeral;
-                else
-                    Flags &= ~MessageFlag.Ephemeral;
+                Flags = Flags.GetValueOrDefault() | MessageFlags.Ephemeral;
+            }
+            else
+            {
+                if (!Flags.HasValue)
+                    return;
+
+                Flags = Flags.Value & ~MessageFlags.Ephemeral;
             }
         }
+    }
 
-        public LocalInteractionFollowup()
-        { }
+    public LocalInteractionFollowup()
+    { }
 
-        protected LocalInteractionFollowup(LocalInteractionFollowup other)
-            : base(other)
-        {
-            Flags = other.Flags;
-        }
+    protected LocalInteractionFollowup(LocalInteractionFollowup other)
+        : base(other)
+    {
+        Flags = other.Flags;
+    }
 
-        public override LocalInteractionFollowup Clone()
-            => new(this);
+    /// <inheritdoc/>
+    public override LocalInteractionFollowup Clone()
+    {
+        return new(this);
     }
 }

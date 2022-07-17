@@ -1,16 +1,21 @@
 using Disqord.Models;
+using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public static class LocalGuildWelcomeScreenChannelExtensions
 {
-    public static class LocalGuildWelcomeScreenChannelExtensions
+    public static WelcomeScreenChannelJsonModel ToModel(this LocalGuildWelcomeScreenChannel welcomeScreenChannel)
     {
-        public static WelcomeScreenChannelJsonModel ToModel(this LocalGuildWelcomeScreenChannel channel)
-            => new()
-            {
-                ChannelId = channel.ChannelId,
-                Description = channel.Description,
-                EmojiId = (channel.Emoji as LocalCustomEmoji)?.Id,
-                EmojiName = channel.Emoji.Name
-            };
+        OptionalGuard.HasValue(welcomeScreenChannel.ChannelId);
+        OptionalGuard.HasValue(welcomeScreenChannel.Description);
+
+        return new()
+        {
+            ChannelId = welcomeScreenChannel.ChannelId.Value,
+            Description = welcomeScreenChannel.Description.Value,
+            EmojiId = (welcomeScreenChannel.Emoji.GetValueOrDefault() as LocalCustomEmoji)?.Id.GetValueOrNullable(),
+            EmojiName = welcomeScreenChannel.Emoji.GetValueOrDefault()?.Name.GetValueOrDefault()
+        };
     }
 }

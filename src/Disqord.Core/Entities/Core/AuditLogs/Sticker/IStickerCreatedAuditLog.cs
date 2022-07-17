@@ -1,5 +1,4 @@
-namespace Disqord.AuditLogs
-{
-    public interface IStickerCreatedAuditLog : IDataAuditLog<IStickerAuditLogData>
-    { }
-}
+namespace Disqord.AuditLogs;
+
+public interface IStickerCreatedAuditLog : IDataAuditLog<IStickerAuditLogData>
+{ }

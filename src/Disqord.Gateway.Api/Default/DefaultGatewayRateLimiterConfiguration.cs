@@ -1,5 +1,4 @@
-﻿namespace Disqord.Gateway.Api.Default
-{
-    public class DefaultGatewayRateLimiterConfiguration
-    { }
-}
+﻿namespace Disqord.Gateway.Api.Default;
+
+public class DefaultGatewayRateLimiterConfiguration
+{ }

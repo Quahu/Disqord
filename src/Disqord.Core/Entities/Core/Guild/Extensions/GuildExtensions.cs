@@ -1,18 +1,19 @@
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents extension methods for <see cref="IGuild"/>.
+/// </summary>
+public static class GuildExtensions
 {
     /// <summary>
-    ///     Represents extension methods for <see cref="IGuild"/>.
+    ///     Gets a wrapper around the given guild's feature strings.
     /// </summary>
-    public static class GuildExtensions
+    /// <param name="guild"> The guild to get the features of. </param>
+    /// <returns>
+    ///     A <see cref="GuildFeatures"/> wrapping the guild's feature strings.
+    /// </returns>
+    public static GuildFeatures GetFeatures(this IGuild guild)
     {
-        /// <summary>
-        ///     Gets a wrapper around the given guild's feature strings.
-        /// </summary>
-        /// <param name="guild"> The guild to get the features of. </param>
-        /// <returns>
-        ///     A <see cref="GuildFeatures"/> wrapping the guild's feature strings.
-        /// </returns>
-        public static GuildFeatures GetFeatures(this IGuild guild)
-            => new(guild.Features);
+        return new(guild.Features);
     }
 }

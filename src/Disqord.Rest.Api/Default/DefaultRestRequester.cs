@@ -8,66 +8,65 @@ using Microsoft.Extensions.Options;
 using Qommon;
 using Qommon.Binding;
 
-namespace Disqord.Rest.Api.Default
+namespace Disqord.Rest.Api.Default;
+
+public class DefaultRestRequester : IRestRequester
 {
-    public class DefaultRestRequester : IRestRequester
+    /// <inheritdoc/>
+    public int Version { get; }
+
+    /// <inheritdoc/>
+    public ILogger Logger { get; }
+
+    /// <inheritdoc/>
+    public IHttpClient HttpClient { get; }
+
+    /// <inheritdoc/>
+    public IRestApiClient ApiClient => _binder.Value;
+
+    private readonly Binder<IRestApiClient> _binder;
+
+    public DefaultRestRequester(
+        IOptions<DefaultRestRequesterConfiguration> options,
+        ILogger<DefaultRestRequester> logger,
+        IHttpClientFactory httpClientFactory)
     {
-        /// <inheritdoc/>
-        public int Version { get; }
+        Version = options.Value.Version;
+        Logger = logger;
+        HttpClient = httpClientFactory.CreateClient();
+        HttpClient.BaseUri = new Uri($"https://discord.com/api/v{Version}/");
+        HttpClient.SetDefaultHeader("User-Agent", Library.UserAgent);
 
-        /// <inheritdoc/>
-        public ILogger Logger { get; }
+        _binder = new Binder<IRestApiClient>(this);
+    }
 
-        /// <inheritdoc/>
-        public IHttpClient HttpClient { get; }
+    /// <inheritdoc/>
+    public void Bind(IRestApiClient apiClient)
+    {
+        _binder.Bind(apiClient);
 
-        /// <inheritdoc/>
-        public IRestApiClient ApiClient => _binder.Value;
+        var authorization = ApiClient.Token.GetAuthorization();
+        if (authorization != null)
+            HttpClient.SetDefaultHeader("Authorization", authorization);
+    }
 
-        private readonly Binder<IRestApiClient> _binder;
+    /// <inheritdoc/>
+    public async Task<IRestResponse> ExecuteAsync(IRestRequest request, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(request);
 
-        public DefaultRestRequester(
-            IOptions<DefaultRestRequesterConfiguration> options,
-            ILogger<DefaultRestRequester> logger,
-            IHttpClientFactory httpClientFactory)
+        var method = request.Route.BaseRoute.Method;
+        var uri = new Uri(request.Route.Path, UriKind.Relative);
+        var content = request.GetOrCreateHttpContent(ApiClient.Serializer);
+        var httpRequest = new DefaultHttpRequest(method, uri, content);
+
+        if (request.Options?.Headers != null)
         {
-            Version = options.Value.Version;
-            Logger = logger;
-            HttpClient = httpClientFactory.CreateClient();
-            HttpClient.BaseUri = new Uri($"https://discord.com/api/v{Version}/");
-            HttpClient.SetDefaultHeader("User-Agent", Library.UserAgent);
-
-            _binder = new Binder<IRestApiClient>(this);
+            foreach (var header in request.Options.Headers)
+                httpRequest.Headers.Add(header.Key, header.Value);
         }
 
-        /// <inheritdoc/>
-        public void Bind(IRestApiClient apiClient)
-        {
-            _binder.Bind(apiClient);
-
-            var authorization = ApiClient.Token.GetAuthorization();
-            if (authorization != null)
-                HttpClient.SetDefaultHeader("Authorization", authorization);
-        }
-
-        /// <inheritdoc/>
-        public async Task<IRestResponse> ExecuteAsync(IRestRequest request, CancellationToken cancellationToken = default)
-        {
-            Guard.IsNotNull(request);
-
-            var method = request.Route.BaseRoute.Method;
-            var uri = new Uri(request.Route.Path, UriKind.Relative);
-            var content = request.GetOrCreateHttpContent(ApiClient.Serializer);
-            var httpRequest = new DefaultHttpRequest(method, uri, content);
-
-            if (request.Options?.Headers != null)
-            {
-                foreach (var header in request.Options.Headers)
-                    httpRequest.Headers.Add(header.Key, header.Value);
-            }
-
-            var response = await HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-            return new DefaultRestResponse(response);
-        }
+        var response = await HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+        return new DefaultRestResponse(response);
     }
 }

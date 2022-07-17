@@ -1,21 +1,20 @@
 using System.Collections.Generic;
 using Disqord.Models;
 
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents an application command's guild permissions.
+/// </summary>
+public interface IApplicationCommandGuildPermissions : ISnowflakeEntity, IGuildEntity, IJsonUpdatable<ApplicationCommandGuildPermissionsJsonModel>
 {
     /// <summary>
-    ///     Represents an application command's guild permissions.
+    ///     Gets the ID of the application that the command belongs to.
     /// </summary>
-    public interface IApplicationCommandGuildPermissions : ISnowflakeEntity, IGuildEntity, IJsonUpdatable<ApplicationCommandGuildPermissionsJsonModel>
-    {
-        /// <summary>
-        ///     Gets the ID of the application that the command belongs to.
-        /// </summary>
-        Snowflake ApplicationId { get; }
+    Snowflake ApplicationId { get; }
 
-        /// <summary>
-        ///     Gets the permissions for the command.
-        /// </summary>
-        IReadOnlyList<IApplicationCommandPermission> Permissions { get; }
-    }
+    /// <summary>
+    ///     Gets the permissions for the command.
+    /// </summary>
+    IReadOnlyList<IApplicationCommandPermission> Permissions { get; }
 }

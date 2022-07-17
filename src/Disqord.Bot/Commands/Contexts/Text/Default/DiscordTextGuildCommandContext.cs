@@ -17,7 +17,7 @@ internal sealed class DiscordTextGuildCommandContext : DiscordTextCommandContext
         IGatewayUserMessage message,
         IGuildChannel channel,
         CultureInfo locale,
-        CultureInfo guildLocale)
+        CultureInfo? guildLocale)
         : base(bot, prefix, message, locale, guildLocale)
     {
         Channel = channel;

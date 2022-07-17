@@ -1,39 +1,69 @@
-﻿using Disqord.Models;
+﻿using System.Collections.Generic;
+using Disqord.Models;
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest.Api;
+
+public class ExecuteWebhookJsonRestRequestContent : JsonModelRestRequestContent, IAttachmentRestRequestContent
 {
-    public class ExecuteWebhookJsonRestRequestContent : JsonModelRestRequestContent
+    [JsonProperty("content")]
+    public Optional<string?> Content;
+
+    [JsonProperty("username")]
+    public Optional<string> Username;
+
+    [JsonProperty("avatar_url")]
+    public Optional<string> AvatarUrl;
+
+    [JsonProperty("tts")]
+    public Optional<bool> Tts;
+
+    [JsonProperty("embeds")]
+    public Optional<EmbedJsonModel[]> Embeds;
+
+    [JsonProperty("allowed_mentions")]
+    public Optional<AllowedMentionsJsonModel> AllowedMentions;
+
+    [JsonProperty("components")]
+    public Optional<ComponentJsonModel[]> Components;
+
+    [JsonProperty("attachments")]
+    public Optional<IList<PartialAttachmentJsonModel>> Attachments;
+
+    [JsonProperty("flags")]
+    public Optional<MessageFlags> Flags;
+
+    IList<PartialAttachmentJsonModel> IAttachmentRestRequestContent.Attachments
     {
-        [JsonProperty("content")]
-        public Optional<string> Content;
+        set => Attachments = new(value);
+    }
 
-        [JsonProperty("username")]
-        public Optional<string> Username;
-
-        [JsonProperty("avatar_url")]
-        public Optional<string> AvatarUrl;
-
-        [JsonProperty("tts")]
-        public Optional<bool> Tts;
-
-        [JsonProperty("embeds")]
-        public Optional<EmbedJsonModel[]> Embeds;
-
-        [JsonProperty("allowed_mentions")]
-        public Optional<AllowedMentionsJsonModel> AllowedMentions;
-
-        [JsonProperty("components")]
-        public Optional<ComponentJsonModel[]> Components;
-
-        protected override void OnValidate()
+    protected override void OnValidate()
+    {
+        OptionalGuard.CheckValue(Content, content =>
         {
-            OptionalGuard.CheckValue(Components, components =>
+            if (content != null)
             {
-                for (var i = 0; i < components.Length; i++)
-                    components[i].Validate();
-            });
-        }
+                Guard.HasSizeLessThanOrEqualTo(content, Discord.Limits.Message.MaxContentLength);
+            }
+        });
+
+        OptionalGuard.CheckValue(Embeds, embeds =>
+        {
+            for (var i = 0; i < embeds.Length; i++)
+                embeds[i].Validate();
+        });
+
+        OptionalGuard.CheckValue(AllowedMentions, allowedMentions =>
+        {
+            allowedMentions.Validate();
+        });
+
+        OptionalGuard.CheckValue(Components, components =>
+        {
+            for (var i = 0; i < components.Length; i++)
+                components[i].Validate();
+        });
     }
 }

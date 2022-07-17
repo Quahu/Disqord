@@ -2,42 +2,41 @@
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+[JsonSkippedProperties("is_pending", "hoisted_role")]
+public class MemberJsonModel : JsonModel
 {
-    [JsonSkippedProperties("is_pending", "hoisted_role")]
-    public class MemberJsonModel : JsonModel
-    {
-        [JsonProperty("user")]
-        public Optional<UserJsonModel> User;
+    [JsonProperty("user")]
+    public Optional<UserJsonModel> User;
 
-        [JsonProperty("nick")]
-        public string Nick;
+    [JsonProperty("nick")]
+    public Optional<string?> Nick;
 
-        [JsonProperty("roles")]
-        public Snowflake[] Roles;
+    [JsonProperty("roles")]
+    public Snowflake[] Roles = null!;
 
-        [JsonProperty("joined_at")]
-        public Optional<DateTimeOffset> JoinedAt;
+    [JsonProperty("joined_at")]
+    public Optional<DateTimeOffset> JoinedAt;
 
-        [JsonProperty("premium_since")]
-        public Optional<DateTimeOffset?> PremiumSince;
+    [JsonProperty("premium_since")]
+    public Optional<DateTimeOffset?> PremiumSince;
 
-        [JsonProperty("deaf")]
-        public Optional<bool> Deaf;
+    [JsonProperty("deaf")]
+    public Optional<bool> Deaf;
 
-        [JsonProperty("mute")]
-        public Optional<bool> Mute;
+    [JsonProperty("mute")]
+    public Optional<bool> Mute;
 
-        [JsonProperty("pending")]
-        public Optional<bool> Pending;
+    [JsonProperty("pending")]
+    public Optional<bool> Pending;
 
-        [JsonProperty("permissions")]
-        public Optional<ulong> Permissions;
+    [JsonProperty("permissions")]
+    public Optional<ulong> Permissions;
 
-        [JsonProperty("avatar")]
-        public Optional<string> Avatar;
+    [JsonProperty("avatar")]
+    public Optional<string?> Avatar;
 
-        [JsonProperty("communication_disabled_until")]
-        public Optional<DateTimeOffset?> CommunicationDisabledUntil;
-    }
+    [JsonProperty("communication_disabled_until")]
+    public Optional<DateTimeOffset?> CommunicationDisabledUntil;
 }

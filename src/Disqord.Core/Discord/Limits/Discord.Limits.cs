@@ -1,11 +1,10 @@
-namespace Disqord
+namespace Disqord;
+
+public static partial class Discord
 {
-    public static partial class Discord
-    {
-        /// <summary>
-        ///     Represents various limit constants within Discord.
-        /// </summary>
-        public static partial class Limits
-        { }
-    }
+    /// <summary>
+    ///     Represents various limit constants within Discord.
+    /// </summary>
+    public static partial class Limits
+    { }
 }

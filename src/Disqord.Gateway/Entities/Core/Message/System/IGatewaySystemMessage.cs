@@ -1,5 +1,4 @@
-﻿namespace Disqord.Gateway
-{
-    public interface IGatewaySystemMessage : IGatewayMessage, ISystemMessage
-    { }
-}
+﻿namespace Disqord.Gateway;
+
+public interface IGatewaySystemMessage : IGatewayMessage, ISystemMessage
+{ }

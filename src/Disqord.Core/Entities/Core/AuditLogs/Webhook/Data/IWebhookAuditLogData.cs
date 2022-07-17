@@ -1,15 +1,16 @@
 ﻿using Qommon;
 
-namespace Disqord.AuditLogs
+namespace Disqord.AuditLogs;
+
+public interface IWebhookAuditLogData
 {
-    public interface IWebhookAuditLogData
-    {
-        Optional<string> Name { get; }
+    Optional<string> Name { get; }
 
-        Optional<WebhookType> Type { get; }
+    Optional<WebhookType> Type { get; }
 
-        Optional<string> AvatarHash { get; }
+    Optional<string?> AvatarHash { get; }
 
-        Optional<Snowflake> ChannelId { get; }
-    }
+    Optional<Snowflake> ChannelId { get; }
+
+    Optional<Snowflake?> ApplicationId { get; }
 }

@@ -1,17 +1,16 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Gateway.Api.Models
+namespace Disqord.Gateway.Api.Models;
+
+public class InviteDeleteJsonModel : JsonModel
 {
-    public class InviteDeleteJsonModel : JsonModel
-    {
-        [JsonProperty("channel_id")]
-        public Snowflake ChannelId;
+    [JsonProperty("channel_id")]
+    public Snowflake ChannelId;
 
-        [JsonProperty("code")]
-        public string Code;
+    [JsonProperty("code")]
+    public string Code = null!;
 
-        [JsonProperty("guild_id")]
-        public Optional<Snowflake> GuildId;
-    }
+    [JsonProperty("guild_id")]
+    public Optional<Snowflake> GuildId;
 }

@@ -1,7 +1,6 @@
-﻿namespace Disqord.AuditLogs
+﻿namespace Disqord.AuditLogs;
+
+public interface IEmojiAuditLogChanges
 {
-    public interface IEmojiAuditLogChanges
-    {
-        AuditLogChange<string> Name { get; }
-    }
+    AuditLogChange<string> Name { get; }
 }

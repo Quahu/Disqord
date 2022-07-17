@@ -7,51 +7,50 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Qommon;
 
-namespace Disqord.OAuth2.Default
+namespace Disqord.OAuth2.Default;
+
+/// <inheritdoc/>
+public class DefaultBearerClientFactory : IBearerClientFactory
 {
-    /// <inheritdoc/>
-    public class DefaultBearerClientFactory : IBearerClientFactory
+    private readonly IServiceProvider _services;
+
+    /// <summary>
+    ///     Instantiates a new <see cref="DefaultBearerClientFactory"/>.
+    /// </summary>
+    public DefaultBearerClientFactory(IServiceProvider services)
     {
-        private readonly IServiceProvider _services;
+        _services = services;
+    }
 
-        /// <summary>
-        ///     Instantiates a new <see cref="DefaultBearerClientFactory"/>.
-        /// </summary>
-        public DefaultBearerClientFactory(IServiceProvider services)
+    public IBearerClient CreateClient(BearerToken token)
+    {
+        Guard.IsNotNull(token);
+
+        var restApiClient = (_restApiClientFactory(_services, new object[]
         {
-            _services = services;
-        }
+            token,
+            ActivatorUtilities.CreateInstance<DefaultRestRateLimiter>(_services),
+            ActivatorUtilities.CreateInstance<DefaultRestRequester>(_services)
+        }) as IRestApiClient)!;
 
-        public IBearerClient CreateClient(BearerToken token)
+        var restClient = (_restClientFactory(_services, new object[]
         {
-            Guard.IsNotNull(token);
-
-            var restApiClient = _restApiClientFactory(_services, new object[]
+            Options.Create(new DefaultRestClientConfiguration
             {
-                token,
-                ActivatorUtilities.CreateInstance<DefaultRestRateLimiter>(_services),
-                ActivatorUtilities.CreateInstance<DefaultRestRequester>(_services)
-            }) as IRestApiClient;
+                CachesDirectChannels = false
+            }),
+            restApiClient
+        }) as IRestClient)!;
 
-            var restClient = _restClientFactory(_services, new object[]
-            {
-                Options.Create(new DefaultRestClientConfiguration
-                {
-                    CachesDirectChannels = false
-                }),
-                restApiClient
-            }) as IRestClient;
+        return new DefaultBearerClient(restClient);
+    }
 
-            return new DefaultBearerClient(restClient);
-        }
+    private static readonly ObjectFactory _restApiClientFactory;
+    private static readonly ObjectFactory _restClientFactory;
 
-        private static readonly ObjectFactory _restApiClientFactory;
-        private static readonly ObjectFactory _restClientFactory;
-
-        static DefaultBearerClientFactory()
-        {
-            _restApiClientFactory = ActivatorUtilities.CreateFactory(typeof(DefaultRestApiClient), new[] { typeof(Token), typeof(IRestRateLimiter), typeof(IRestRequester) });
-            _restClientFactory = ActivatorUtilities.CreateFactory(typeof(DefaultRestClient), new[] { typeof(IOptions<DefaultRestClientConfiguration>), typeof(IRestApiClient) });
-        }
+    static DefaultBearerClientFactory()
+    {
+        _restApiClientFactory = ActivatorUtilities.CreateFactory(typeof(DefaultRestApiClient), new[] { typeof(Token), typeof(IRestRateLimiter), typeof(IRestRequester) });
+        _restClientFactory = ActivatorUtilities.CreateFactory(typeof(DefaultRestClient), new[] { typeof(IOptions<DefaultRestClientConfiguration>), typeof(IRestApiClient) });
     }
 }

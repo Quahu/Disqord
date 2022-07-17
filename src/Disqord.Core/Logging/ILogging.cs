@@ -1,15 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Disqord.Logging
+namespace Disqord.Logging;
+
+/// <summary>
+///     Represents a logging construct.
+/// </summary>
+public interface ILogging
 {
     /// <summary>
-    ///     Represents a logging construct.
+    ///     Gets the logger of this construct.
     /// </summary>
-    public interface ILogging
-    {
-        /// <summary>
-        ///     Gets the logger of this construct.
-        /// </summary>
-        ILogger Logger { get; }
-    }
+    ILogger Logger { get; }
 }

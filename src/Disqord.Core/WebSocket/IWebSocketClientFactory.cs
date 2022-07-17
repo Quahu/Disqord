@@ -1,7 +1,6 @@
-﻿namespace Disqord.WebSocket
+﻿namespace Disqord.WebSocket;
+
+public interface IWebSocketClientFactory
 {
-    public interface IWebSocketClientFactory
-    {
-        IWebSocketClient CreateClient();
-    }
+    IWebSocketClient CreateClient();
 }

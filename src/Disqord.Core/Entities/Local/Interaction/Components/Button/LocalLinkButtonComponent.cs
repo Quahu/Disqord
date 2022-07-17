@@ -1,22 +1,28 @@
-﻿namespace Disqord
+﻿using Qommon;
+
+namespace Disqord;
+
+public class LocalLinkButtonComponent : LocalButtonComponentBase, ILocalConstruct<LocalLinkButtonComponent>
 {
-    public class LocalLinkButtonComponent : LocalButtonComponentBase
+    /// <summary>
+    ///     Gets or sets the URL of this link button component.
+    /// </summary>
+    /// <remarks>
+    ///     This property is required.
+    /// </remarks>
+    public Optional<string> Url { get; set; }
+
+    public LocalLinkButtonComponent()
+    { }
+
+    protected LocalLinkButtonComponent(LocalLinkButtonComponent other)
+        : base(other)
     {
-        /// <summary>
-        ///     Gets or sets the URL of this link button component.
-        /// </summary>
-        public string Url { get; set; }
+        Url = other.Url;
+    }
 
-        public LocalLinkButtonComponent()
-        { }
-
-        protected LocalLinkButtonComponent(LocalLinkButtonComponent other)
-            : base(other)
-        {
-            Url = other.Url;
-        }
-
-        public override LocalLinkButtonComponent Clone()
-            => new(this);
+    public override LocalLinkButtonComponent Clone()
+    {
+        return new(this);
     }
 }

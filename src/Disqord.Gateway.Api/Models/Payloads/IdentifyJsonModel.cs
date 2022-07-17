@@ -1,44 +1,44 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Gateway.Api.Models
+namespace Disqord.Gateway.Api.Models;
+
+public class IdentifyJsonModel : JsonModel
 {
-    public class IdentifyJsonModel : JsonModel
+    [JsonProperty("token")]
+    public string Token = null!;
+
+    [JsonProperty("properties")]
+    public PropertiesJsonModel Properties = null!;
+
+    [JsonProperty("compress")]
+    public Optional<bool> Compress;
+
+    [JsonProperty("large_threshold")]
+    public Optional<int> LargeThreshold;
+
+    [JsonProperty("shard")]
+    public Optional<int[]> Shard;
+
+    [JsonProperty("presence")]
+    public Optional<UpdatePresenceJsonModel> Presence;
+
+    [JsonProperty("guild_subscriptions")]
+    public Optional<bool> GuildSubscriptions;
+
+    [JsonProperty("intents")]
+    public ulong Intents;
+
+    public class PropertiesJsonModel : JsonModel
     {
-        [JsonProperty("token")]
-        public string Token;
+        // TODO: API v11: remove the prefix
+        [JsonProperty("$os")]
+        public string Os = null!;
 
-        [JsonProperty("properties")]
-        public PropertiesJsonModel Properties;
+        [JsonProperty("$browser")]
+        public string Browser = null!;
 
-        [JsonProperty("compress")]
-        public Optional<bool> Compress;
-
-        [JsonProperty("large_threshold")]
-        public Optional<int> LargeThreshold;
-
-        [JsonProperty("shard")]
-        public Optional<int[]> Shard;
-
-        [JsonProperty("presence")]
-        public Optional<UpdatePresenceJsonModel> Presence;
-
-        [JsonProperty("guild_subscriptions")]
-        public Optional<bool> GuildSubscriptions;
-
-        [JsonProperty("intents")]
-        public ulong Intents;
-
-        public class PropertiesJsonModel : JsonModel
-        {
-            [JsonProperty("$os")]
-            public string Os;
-
-            [JsonProperty("$browser")]
-            public string Browser;
-
-            [JsonProperty("$device")]
-            public string Device;
-        }
+        [JsonProperty("$device")]
+        public string Device = null!;
     }
 }

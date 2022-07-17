@@ -4,27 +4,26 @@ using System.Threading.Tasks;
 using Disqord.Gateway.Api.Models;
 using Disqord.Logging;
 using Disqord.Serialization.Json;
-using Qommon.Binding;
 using Disqord.WebSocket;
+using Qommon.Binding;
 
-namespace Disqord.Gateway.Api
+namespace Disqord.Gateway.Api;
+
+public interface IGateway : IBindable<IGatewayApiClient>, ILogging
 {
-    public interface IGateway : IBindable<IGatewayApiClient>, ILogging
-    {
-        int Version { get; }
+    int Version { get; }
 
-        IGatewayApiClient Client { get; }
+    IGatewayApiClient Client { get; }
 
-        IJsonSerializer Serializer { get; }
+    IJsonSerializer Serializer { get; }
 
-        IWebSocketClientFactory WebSocketClientFactory { get; }
+    IWebSocketClientFactory WebSocketClientFactory { get; }
 
-        ValueTask ConnectAsync(Uri uri, CancellationToken cancellationToken);
+    ValueTask ConnectAsync(Uri uri, CancellationToken cancellationToken);
 
-        ValueTask CloseAsync(int closeStatus, string closeMessage = null, CancellationToken cancellationToken = default);
+    ValueTask CloseAsync(int closeStatus, string? closeMessage, CancellationToken cancellationToken);
 
-        ValueTask SendAsync(GatewayPayloadJsonModel payload, CancellationToken cancellationToken);
+    ValueTask SendAsync(GatewayPayloadJsonModel payload, CancellationToken cancellationToken);
 
-        ValueTask<GatewayPayloadJsonModel> ReceiveAsync(CancellationToken cancellationToken);
-    }
+    ValueTask<GatewayPayloadJsonModel> ReceiveAsync(CancellationToken cancellationToken);
 }

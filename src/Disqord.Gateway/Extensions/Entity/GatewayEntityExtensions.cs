@@ -1,18 +1,16 @@
 ﻿using System.ComponentModel;
 using Qommon;
 
-namespace Disqord.Gateway
+namespace Disqord.Gateway;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+public static partial class GatewayEntityExtensions
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static partial class GatewayEntityExtensions
+    public static IGatewayClient GetGatewayClient(this IClientEntity entity)
     {
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static IGatewayClient GetGatewayClient(this IClientEntity entity)
-        {
-            Guard.IsNotNull(entity);
-            Guard.IsAssignableToType<IGatewayClient>(entity.Client);
+        Guard.IsNotNull(entity);
 
-            return entity.Client as IGatewayClient;
-        }
+        return Guard.IsAssignableToType<IGatewayClient>(entity.Client);
     }
 }

@@ -1,29 +1,33 @@
 ﻿using System.Collections.Generic;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public static class LocalRowComponentExtensions
 {
-    public static class LocalRowComponentExtensions
+    public static TComponent AddComponent<TComponent>(this TComponent row, LocalComponent component)
+        where TComponent : LocalRowComponent
     {
-        public static TComponent WithComponents<TComponent>(this TComponent rowComponent, params LocalComponent[] components)
-            where TComponent : LocalRowComponent
-            => rowComponent.WithComponents(components as IEnumerable<LocalComponent>);
+        if (row.Components.Add(component, out var list))
+            row.Components = new(list);
 
-        public static TComponent WithComponents<TComponent>(this TComponent rowComponent, IEnumerable<LocalComponent> components)
-            where TComponent : LocalRowComponent
-        {
-            Guard.IsNotNull(components);
+        return row;
+    }
 
-            rowComponent._components.Clear();
-            rowComponent._components.AddRange(components);
-            return rowComponent;
-        }
+    public static TComponent WithComponents<TComponent>(this TComponent row, IEnumerable<LocalComponent> components)
+        where TComponent : LocalRowComponent
+    {
+        Guard.IsNotNull(components);
 
-        public static TComponent AddComponent<TComponent>(this TComponent rowComponent, LocalComponent component)
-            where TComponent : LocalRowComponent
-        {
-            rowComponent._components.Add(component);
-            return rowComponent;
-        }
+        if (row.Components.With(components, out var list))
+            row.Components = new(list);
+
+        return row;
+    }
+
+    public static TComponent WithComponents<TComponent>(this TComponent row, params LocalComponent[] components)
+        where TComponent : LocalRowComponent
+    {
+        return row.WithComponents(components as IEnumerable<LocalComponent>);
     }
 }

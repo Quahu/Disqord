@@ -1,19 +1,18 @@
 using System;
 
-namespace Disqord.AuditLogs
+namespace Disqord.AuditLogs;
+
+public interface IThreadAuditLogChanges
 {
-    public interface IThreadAuditLogChanges
-    {
-        AuditLogChange<string> Name { get; }
+    AuditLogChange<string> Name { get; }
 
-        AuditLogChange<bool> IsArchived { get; }
+    AuditLogChange<bool> IsArchived { get; }
 
-        AuditLogChange<bool> IsLocked { get; }
+    AuditLogChange<bool> IsLocked { get; }
 
-        AuditLogChange<TimeSpan> AutomaticArchiveDuration { get; }
+    AuditLogChange<TimeSpan> AutomaticArchiveDuration { get; }
 
-        AuditLogChange<TimeSpan> Slowmode { get; }
+    AuditLogChange<TimeSpan> Slowmode { get; }
 
-        AuditLogChange<ChannelType> Type { get; }
-    }
+    AuditLogChange<ChannelType> Type { get; }
 }

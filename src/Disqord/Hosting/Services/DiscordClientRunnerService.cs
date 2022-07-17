@@ -7,60 +7,59 @@ using Disqord.WebSocket;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Disqord.Hosting
+namespace Disqord.Hosting;
+
+/// <summary>
+///     Represents a <see cref="BackgroundService"/> that runs the specified <see cref="DiscordClientBase"/>.
+/// </summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
+public class DiscordClientRunnerService : BackgroundService, ILogging
 {
+    /// <inheritdoc/>
+    public ILogger Logger { get; }
+
     /// <summary>
-    ///     Represents a <see cref="BackgroundService"/> that runs the specified <see cref="DiscordClientBase"/>.
+    ///     Gets the hosted client.
     /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public class DiscordClientRunnerService : BackgroundService, ILogging
+    public DiscordClientBase Client { get; }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="DiscordClientRunnerService"/>.
+    /// </summary>
+    /// <param name="logger"> The logger. </param>
+    /// <param name="client"> The client to host. </param>
+    public DiscordClientRunnerService(
+        ILogger<DiscordClientRunnerService> logger,
+        DiscordClientBase client)
     {
-        /// <inheritdoc/>
-        public ILogger Logger { get; }
+        Logger = logger;
+        Client = client;
+    }
 
-        /// <summary>
-        ///     Gets the hosted client.
-        /// </summary>
-        public DiscordClientBase Client { get; }
-
-        /// <summary>
-        ///     Instantiates a new <see cref="DiscordClientRunnerService"/>.
-        /// </summary>
-        /// <param name="logger"> The logger. </param>
-        /// <param name="client"> The client to host. </param>
-        public DiscordClientRunnerService(
-            ILogger<DiscordClientRunnerService> logger,
-            DiscordClientBase client)
+    /// <inheritdoc/>
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        try
         {
-            Logger = logger;
-            Client = client;
+            Logger.LogDebug("Hosting the Discord client of type {0}.", Client.GetType().Name);
+            await Client.RunAsync(stoppingToken).ConfigureAwait(false);
         }
-
-        /// <inheritdoc/>
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        catch (OperationCanceledException)
         {
-            try
-            {
-                Logger.LogDebug("Hosting the Discord client of type {0}.", Client.GetType().Name);
-                await Client.RunAsync(stoppingToken).ConfigureAwait(false);
-            }
-            catch (OperationCanceledException)
-            {
-                Logger.LogInformation("Hosting of the Discord client was canceled.");
-            }
-            catch (Exception ex)
-            {
-                LogException(ex, "Hosting of the Discord client was interrupted due to an unrecoverable error. "
-                    + "Take appropriate actions to resolve the issue.");
-            }
+            Logger.LogInformation("Hosting of the Discord client was canceled.");
         }
-
-        private void LogException(Exception ex, string message)
+        catch (Exception ex)
         {
-            if (ex is not WebSocketClosedException)
-                Logger.LogError(ex, message);
-            else
-                Logger.LogError(message);
+            LogException(ex, "Hosting of the Discord client was interrupted due to an unrecoverable error. "
+                + "Take appropriate actions to resolve the issue.");
         }
+    }
+
+    private void LogException(Exception ex, string message)
+    {
+        if (ex is not WebSocketClosedException)
+            Logger.LogError(ex, message);
+        else
+            Logger.LogError(message);
     }
 }

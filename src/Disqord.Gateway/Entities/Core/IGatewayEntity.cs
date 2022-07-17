@@ -1,6 +1,5 @@
-namespace Disqord.Gateway
-{
-    /// <inheritdoc/>
-    public interface IGatewayEntity : IEntity
-    { }
-}
+namespace Disqord.Gateway;
+
+/// <inheritdoc/>
+public interface IGatewayEntity : IEntity
+{ }

@@ -1,5 +1,6 @@
 using System;
 using Disqord.Extensions.Interactivity.Menus;
+using Qommon;
 
 namespace Disqord.Bot.Commands.Text;
 
@@ -94,7 +95,9 @@ public abstract class DiscordTextModuleBase<TContext> : DiscordModuleBase<TConte
     /// </returns>
     protected virtual DiscordTextResponseCommandResult Response(LocalMessage message)
     {
-        message.AllowedMentions ??= LocalAllowedMentions.None;
+        if (message.AllowedMentions.GetValueOrDefault() == null)
+            message.AllowedMentions = LocalAllowedMentions.None;
+
         return new(Context, message);
     }
 

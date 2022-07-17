@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Disqord.Bot.Commands.Interaction;
 using Disqord.Gateway;
 using Qmmands;
+using Qommon;
 
 namespace Disqord.Bot.Commands;
 
@@ -30,8 +30,9 @@ public class RequireAuthorPermissionsAttribute : DiscordCheckAttribute
         }
         else
         {
-            if (guildContext.Bot.GetChannel(guildContext.GuildId, guildContext.ChannelId) is not IGuildChannel channel)
-                throw new InvalidOperationException($"{nameof(RequireAuthorPermissionsAttribute)} requires the context channel.");
+            var channel = guildContext.Bot.GetChannel(guildContext.GuildId, guildContext.ChannelId) as IGuildChannel;
+            if (channel == null)
+                Throw.InvalidOperationException($"{nameof(RequireAuthorPermissionsAttribute)} requires the context channel.");
 
             // TODO: rework permissions
             permissions = guildContext.Author.GetPermissions().Flags | guildContext.Author.GetPermissions(channel).Flags;

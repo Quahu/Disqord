@@ -1,18 +1,17 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+/// <summary>
+///     Represents the type of an interaction.
+/// </summary>
+public enum InteractionType
 {
-    /// <summary>
-    ///     Represents the type of an interaction.
-    /// </summary>
-    public enum InteractionType
-    {
-        Ping = 1,
+    Ping = 1,
 
-        ApplicationCommand = 2,
+    ApplicationCommand = 2,
 
-        MessageComponent = 3,
+    MessageComponent = 3,
 
-        ApplicationCommandAutoComplete = 4,
+    ApplicationCommandAutoComplete = 4,
 
-        ModalSubmit = 5
-    }
+    ModalSubmit = 5
 }

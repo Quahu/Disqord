@@ -36,14 +36,13 @@ public static partial class DefaultApplicationExecutionSteps
                     continue;
 
                 var enumerator = autoComplete.GetChoiceEnumerator();
-                var choices = new List<LocalSlashCommandOptionChoice>();
+                var choices = new List<KeyValuePair<string, object>>();
                 while (enumerator.MoveNext())
                 {
-                    choices.Add(new LocalSlashCommandOptionChoice
-                    {
-                        Name = (enumerator.Key as string)!,
-                        Value = enumerator.Value
-                    });
+                    choices.Add(KeyValuePair.Create(
+                        (enumerator.Key as string)!,
+                        enumerator.Value!
+                    ));
                 }
 
                 try

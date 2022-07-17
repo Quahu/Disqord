@@ -1,53 +1,52 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class UserJsonModel : JsonModel
 {
-    public class UserJsonModel : JsonModel
-    {
-        [JsonProperty("id")]
-        public Snowflake Id;
+    [JsonProperty("id")]
+    public Snowflake Id;
 
-        [JsonProperty("username")]
-        public string Username;
+    [JsonProperty("username")]
+    public string Username = null!;
 
-        [JsonProperty("discriminator")]
-        public short Discriminator;
+    [JsonProperty("discriminator")]
+    public short Discriminator;
 
-        [JsonProperty("avatar")]
-        public string Avatar;
+    [JsonProperty("avatar")]
+    public string? Avatar;
 
-        [JsonProperty("bot")]
-        public Optional<bool> Bot;
+    [JsonProperty("bot")]
+    public Optional<bool> Bot;
 
-        [JsonProperty("system")]
-        public Optional<bool> System;
+    [JsonProperty("system")]
+    public Optional<bool> System;
 
-        [JsonProperty("mfa_enabled")]
-        public Optional<bool> MfaEnabled;
+    [JsonProperty("mfa_enabled")]
+    public Optional<bool> MfaEnabled;
 
-        [JsonProperty("banner")]
-        public Optional<string> Banner;
+    [JsonProperty("banner")]
+    public Optional<string?> Banner;
 
-        [JsonProperty("accent_color")]
-        public Optional<int?> AccentColor;
+    [JsonProperty("accent_color")]
+    public Optional<int?> AccentColor;
 
-        [JsonProperty("locale")]
-        public Optional<string> Locale;
+    [JsonProperty("locale")]
+    public Optional<string?> Locale;
 
-        [JsonProperty("verified")]
-        public Optional<bool> Verified;
+    [JsonProperty("verified")]
+    public Optional<bool> Verified;
 
-        [JsonProperty("email")]
-        public Optional<string> Email;
+    [JsonProperty("email")]
+    public Optional<string?> Email;
 
-        [JsonProperty("flags")]
-        public Optional<UserFlag> Flags;
+    [JsonProperty("flags")]
+    public Optional<UserFlags> Flags;
 
-        [JsonProperty("premium_type")]
-        public Optional<NitroType> PremiumType;
+    [JsonProperty("premium_type")]
+    public Optional<NitroType> PremiumType;
 
-        [JsonProperty("public_flags")]
-        public Optional<UserFlag> PublicFlags;
-    }
+    [JsonProperty("public_flags")]
+    public Optional<UserFlags> PublicFlags;
 }

@@ -4,32 +4,31 @@ using System.Net.Http;
 using System.Threading;
 using Microsoft.Extensions.Options;
 
-namespace Disqord.Http.Default
+namespace Disqord.Http.Default;
+
+public class DefaultHttpClientFactory : IHttpClientFactory
 {
-    public class DefaultHttpClientFactory : IHttpClientFactory
+    private readonly SocketsHttpHandler _handler;
+
+    public DefaultHttpClientFactory(
+        IOptions<DefaultHttpClientFactoryConfiguration> options)
     {
-        private readonly SocketsHttpHandler _handler;
-
-        public DefaultHttpClientFactory(
-            IOptions<DefaultHttpClientFactoryConfiguration> options)
+        _handler = new SocketsHttpHandler
         {
-            _handler = new SocketsHttpHandler
-            {
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
-                PooledConnectionLifetime = TimeSpan.FromMinutes(2)
-            };
+            AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
+            PooledConnectionLifetime = TimeSpan.FromMinutes(2)
+        };
 
-            options.Value.ClientConfiguration?.Invoke(_handler);
-        }
+        options.Value.ClientConfiguration?.Invoke(_handler);
+    }
 
-        public IHttpClient CreateClient()
+    public IHttpClient CreateClient()
+    {
+        var client = new HttpClient(_handler, false)
         {
-            var client = new HttpClient(_handler, false)
-            {
-                Timeout = Timeout.InfiniteTimeSpan
-            };
+            Timeout = Timeout.InfiniteTimeSpan
+        };
 
-            return new DefaultHttpClient(client);
-        }
+        return new DefaultHttpClient(client);
     }
 }

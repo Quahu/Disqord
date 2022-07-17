@@ -1,41 +1,40 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class RoleJsonModel : JsonModel
 {
-    public class RoleJsonModel : JsonModel
-    {
-        [JsonProperty("id")]
-        public Snowflake Id;
+    [JsonProperty("id")]
+    public Snowflake Id;
 
-        [JsonProperty("name")]
-        public string Name;
+    [JsonProperty("name")]
+    public string Name = null!;
 
-        [JsonProperty("color")]
-        public int Color;
+    [JsonProperty("color")]
+    public int Color;
 
-        [JsonProperty("hoist")]
-        public bool Hoist;
+    [JsonProperty("hoist")]
+    public bool Hoist;
 
-        [JsonProperty("icon")]
-        public Optional<string> Icon;
+    [JsonProperty("icon")]
+    public Optional<string?> Icon;
 
-        [JsonProperty("position")]
-        public int Position;
+    [JsonProperty("unicode_emoji")]
+    public Optional<string?> UnicodeEmoji;
 
-        [JsonProperty("permissions")]
-        public ulong Permissions;
+    [JsonProperty("position")]
+    public int Position;
 
-        [JsonProperty("managed")]
-        public bool Managed;
+    [JsonProperty("permissions")]
+    public ulong Permissions;
 
-        [JsonProperty("mentionable")]
-        public bool Mentionable;
+    [JsonProperty("managed")]
+    public bool Managed;
 
-        [JsonProperty("unicode_emoji")]
-        public Optional<string> UnicodeEmoji;
+    [JsonProperty("mentionable")]
+    public bool Mentionable;
 
-        [JsonProperty("tags")]
-        public Optional<RoleTagsJsonModel> Tags;
-    }
+    [JsonProperty("tags")]
+    public Optional<RoleTagsJsonModel> Tags;
 }

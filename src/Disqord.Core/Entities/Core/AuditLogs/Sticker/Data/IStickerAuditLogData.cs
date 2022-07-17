@@ -1,19 +1,18 @@
 using Qommon;
 
-namespace Disqord.AuditLogs
+namespace Disqord.AuditLogs;
+
+public interface IStickerAuditLogData
 {
-    public interface IStickerAuditLogData
-    {
-        Optional<string> Name { get; }
+    Optional<string> Name { get; }
 
-        Optional<string> Description { get; }
+    Optional<string> Description { get; }
 
-        Optional<string> Tags { get; }
+    Optional<string> Tags { get; }
 
-        Optional<StickerFormatType> FormatType { get; }
+    Optional<StickerFormatType> FormatType { get; }
 
-        Optional<bool> IsAvailable { get; }
+    Optional<bool> IsAvailable { get; }
 
-        Optional<Snowflake> GuildId { get; }
-    }
+    Optional<Snowflake> GuildId { get; }
 }

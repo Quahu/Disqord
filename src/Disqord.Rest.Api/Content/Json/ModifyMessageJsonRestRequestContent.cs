@@ -1,39 +1,44 @@
-﻿using Disqord.Models;
+﻿using System.Collections.Generic;
+using Disqord.Models;
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest.Api;
+
+public class ModifyMessageJsonRestRequestContent : JsonModelRestRequestContent, IAttachmentRestRequestContent
 {
-    public class ModifyMessageJsonRestRequestContent : JsonModelRestRequestContent
+    [JsonProperty("content")]
+    public Optional<string?> Content;
+
+    [JsonProperty("embeds")]
+    public Optional<EmbedJsonModel[]> Embeds;
+
+    [JsonProperty("flags")]
+    public Optional<MessageFlags> Flags;
+
+    [JsonProperty("allowed_mentions")]
+    public Optional<AllowedMentionsJsonModel> AllowedMentions;
+
+    [JsonProperty("components")]
+    public Optional<ComponentJsonModel[]> Components;
+
+    [JsonProperty("sticker_ids")]
+    public Optional<Snowflake[]> StickerIds;
+
+    [JsonProperty("attachments")]
+    public Optional<IList<PartialAttachmentJsonModel>> Attachments;
+
+    IList<PartialAttachmentJsonModel> IAttachmentRestRequestContent.Attachments
     {
-        [JsonProperty("content")]
-        public Optional<string> Content;
+        set => Attachments = new(value);
+    }
 
-        [JsonProperty("embeds")]
-        public Optional<EmbedJsonModel[]> Embeds;
-
-        [JsonProperty("flags")]
-        public Optional<MessageFlag> Flags;
-
-        [JsonProperty("allowed_mentions")]
-        public Optional<AllowedMentionsJsonModel> AllowedMentions;
-
-        [JsonProperty("attachments")]
-        public Optional<AttachmentJsonModel[]> Attachments;
-
-        [JsonProperty("components")]
-        public Optional<ComponentJsonModel[]> Components;
-
-        [JsonProperty("sticker_ids")]
-        public Optional<Snowflake[]> StickerIds;
-
-        protected override void OnValidate()
+    protected override void OnValidate()
+    {
+        OptionalGuard.CheckValue(Components, components =>
         {
-            OptionalGuard.CheckValue(Components, components =>
-            {
-                for (var i = 0; i < components.Length; i++)
-                    components[i].Validate();
-            });
-        }
+            for (var i = 0; i < components.Length; i++)
+                components[i].Validate();
+        });
     }
 }

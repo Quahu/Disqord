@@ -8,246 +8,245 @@ using Disqord.Rest.Pagination;
 using Qommon;
 using Qommon.Collections.ReadOnly;
 
-namespace Disqord.Rest
+namespace Disqord.Rest;
+
+public static partial class RestClientExtensions
 {
-    public static partial class RestClientExtensions
+    // TODO: AuditLogActionType overload?
+    public static IPagedEnumerable<IAuditLog> EnumerateAuditLogs(this IRestClient client,
+        Snowflake guildId, int limit, Snowflake? actorId = null, Snowflake? startFromId = null,
+        IRestRequestOptions? options = null)
+        => client.EnumerateAuditLogs<IAuditLog>(guildId, limit, actorId, startFromId, options);
+
+    public static IPagedEnumerable<TAuditLog> EnumerateAuditLogs<TAuditLog>(this IRestClient client,
+        Snowflake guildId, int limit, Snowflake? actorId = null, Snowflake? startFromId = null,
+        IRestRequestOptions? options = null)
+        where TAuditLog : class, IAuditLog
+        => PagedEnumerable.Create(static (state, cancellationToken) =>
+        {
+            var (client, guildId, limit, actorId, startFromId, options) = state;
+            return new FetchAuditLogsPagedEnumerator<TAuditLog>(client, guildId, limit, actorId, startFromId, options, cancellationToken);
+        }, (client, guildId, limit, actorId, startFromId, options));
+
+    public static Task<IReadOnlyList<IAuditLog>> FetchAuditLogsAsync(this IRestClient client,
+        Snowflake guildId, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? actorId = null, Snowflake? startFromId = null,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+        => client.FetchAuditLogsAsync<IAuditLog>(guildId, limit, actorId, startFromId, options, cancellationToken);
+
+    public static Task<IReadOnlyList<TAuditLog>> FetchAuditLogsAsync<TAuditLog>(this IRestClient client,
+        Snowflake guildId, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? actorId = null, Snowflake? startFromId = null,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+        where TAuditLog : class, IAuditLog
     {
-        // TODO: AuditLogActionType overload?
-        public static IPagedEnumerable<IAuditLog> EnumerateAuditLogs(this IRestClient client,
-            Snowflake guildId, int limit, Snowflake? actorId = null, Snowflake? startFromId = null,
-            IRestRequestOptions options = null)
-            => client.EnumerateAuditLogs<IAuditLog>(guildId, limit, actorId, startFromId, options);
+        if (limit == 0)
+            return Task.FromResult(ReadOnlyList<TAuditLog>.Empty);
 
-        public static IPagedEnumerable<TAuditLog> EnumerateAuditLogs<TAuditLog>(this IRestClient client,
-            Snowflake guildId, int limit, Snowflake? actorId = null, Snowflake? startFromId = null,
-            IRestRequestOptions options = null)
-            where TAuditLog : class, IAuditLog
-            => PagedEnumerable.Create(static (state, cancellationToken) =>
-            {
-                var (client, guildId, limit, actorId, startFromId, options) = state;
-                return new FetchAuditLogsPagedEnumerator<TAuditLog>(client, guildId, limit, actorId, startFromId, options, cancellationToken);
-            }, (client, guildId, limit, actorId, startFromId, options));
+        if (limit <= 100)
+            return client.InternalFetchAuditLogsAsync<TAuditLog>(guildId, limit, actorId, startFromId, options, cancellationToken);
 
-        public static Task<IReadOnlyList<IAuditLog>> FetchAuditLogsAsync(this IRestClient client,
-            Snowflake guildId, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? actorId = null, Snowflake? startFromId = null,
-            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            => client.FetchAuditLogsAsync<IAuditLog>(guildId, limit, actorId, startFromId, options, cancellationToken);
+        var enumerable = client.EnumerateAuditLogs<TAuditLog>(guildId, limit, actorId, startFromId, options);
+        return enumerable.FlattenAsync(cancellationToken);
+    }
 
-        public static Task<IReadOnlyList<TAuditLog>> FetchAuditLogsAsync<TAuditLog>(this IRestClient client,
-            Snowflake guildId, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? actorId = null, Snowflake? startFromId = null,
-            IRestRequestOptions options = null, CancellationToken cancellationToken = default)
-            where TAuditLog : class, IAuditLog
+    internal static async Task<IReadOnlyList<TAuditLog>> InternalFetchAuditLogsAsync<TAuditLog>(this IRestClient client,
+        Snowflake guildId, int limit, Snowflake? actorId, Snowflake? startFromId,
+        IRestRequestOptions? options, CancellationToken cancellationToken)
+        where TAuditLog : IAuditLog
+    {
+        var type = GetAuditLogActionType(typeof(TAuditLog));
+        var model = await client.ApiClient.FetchAuditLogsAsync(guildId, limit, actorId, type, startFromId, options, cancellationToken).ConfigureAwait(false);
+        var list = new List<TAuditLog>();
+        foreach (var entry in model.AuditLogEntries)
         {
-            if (limit == 0)
-                return Task.FromResult(ReadOnlyList<TAuditLog>.Empty);
+            if (type != null && entry.ActionType != type.Value)
+                continue;
 
-            if (limit <= 100)
-                return client.InternalFetchAuditLogsAsync<TAuditLog>(guildId, limit, actorId, startFromId, options, cancellationToken);
-
-            var enumerable = client.EnumerateAuditLogs<TAuditLog>(guildId, limit, actorId, startFromId, options);
-            return enumerable.FlattenAsync(cancellationToken);
+            if (TransientAuditLog.Create(client, guildId, model, entry) is TAuditLog auditLog)
+                list.Add(auditLog);
         }
 
-        internal static async Task<IReadOnlyList<TAuditLog>> InternalFetchAuditLogsAsync<TAuditLog>(this IRestClient client,
-            Snowflake guildId, int limit, Snowflake? actorId, Snowflake? startFromId,
-            IRestRequestOptions options, CancellationToken cancellationToken)
-            where TAuditLog : IAuditLog
-        {
-            var type = GetAuditLogActionType(typeof(TAuditLog));
-            var model = await client.ApiClient.FetchAuditLogsAsync(guildId, limit, actorId, type, startFromId, options, cancellationToken).ConfigureAwait(false);
-            var list = new List<TAuditLog>();
-            foreach (var entry in model.AuditLogEntries)
-            {
-                if (type != null && entry.ActionType != type.Value)
-                    continue;
+        return list.ReadOnly();
+    }
 
-                if (TransientAuditLog.Create(client, guildId, model, entry) is TAuditLog auditLog)
-                    list.Add(auditLog);
-            }
+    private static AuditLogActionType? GetAuditLogActionType(Type type)
+    {
+        // Any
+        if (type == typeof(IAuditLog) || type == typeof(IUnknownAuditLog)
+            || type == typeof(TransientAuditLog) || type == typeof(TransientUnknownAuditLog))
+            return null;
 
-            return list.ReadOnly();
-        }
+        // Guild
+        if (typeof(IGuildUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.GuildUpdated;
 
-        private static AuditLogActionType? GetAuditLogActionType(Type type)
-        {
-            // Any
-            if (type == typeof(IAuditLog) || type == typeof(IUnknownAuditLog)
-                || type == typeof(TransientAuditLog) || type == typeof(TransientUnknownAuditLog))
-                return null;
+        // Channel
+        if (typeof(IChannelCreatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.ChannelCreated;
 
-            // Guild
-            if (typeof(IGuildUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.GuildUpdated;
+        if (typeof(IChannelUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.ChannelUpdated;
 
-            // Channel
-            if (typeof(IChannelCreatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.ChannelCreated;
+        if (typeof(IChannelDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.ChannelDeleted;
 
-            if (typeof(IChannelUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.ChannelUpdated;
+        // Overwrite
+        if (typeof(IOverwriteCreatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.OverwriteCreated;
 
-            if (typeof(IChannelDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.ChannelDeleted;
+        if (typeof(IOverwriteUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.OverwriteUpdated;
 
-            // Overwrite
-            if (typeof(IOverwriteCreatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.OverwriteCreated;
+        if (typeof(IOverwriteDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.OverwriteDeleted;
 
-            if (typeof(IOverwriteUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.OverwriteUpdated;
+        // Member
+        if (typeof(IMemberKickedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.MemberKicked;
 
-            if (typeof(IOverwriteDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.OverwriteDeleted;
+        if (typeof(IMembersPrunedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.MembersPruned;
 
-            // Member
-            if (typeof(IMemberKickedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.MemberKicked;
+        if (typeof(IMemberBannedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.MemberBanned;
 
-            if (typeof(IMembersPrunedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.MembersPruned;
+        if (typeof(IMemberUnbannedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.MemberUnbanned;
 
-            if (typeof(IMemberBannedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.MemberBanned;
+        if (typeof(IMemberUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.MemberUpdated;
 
-            if (typeof(IMemberUnbannedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.MemberUnbanned;
+        if (typeof(IMemberRolesUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.MemberRolesUpdated;
 
-            if (typeof(IMemberUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.MemberUpdated;
+        if (typeof(IMembersMovedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.MembersMoved;
 
-            if (typeof(IMemberRolesUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.MemberRolesUpdated;
+        if (typeof(IMembersDisconnectedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.MembersDisconnected;
 
-            if (typeof(IMembersMovedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.MembersMoved;
+        if (typeof(IBotAddedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.BotAdded;
 
-            if (typeof(IMembersDisconnectedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.MembersDisconnected;
+        // Role
+        if (typeof(IRoleCreatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.RoleCreated;
 
-            if (typeof(IBotAddedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.BotAdded;
+        if (typeof(IRoleUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.RoleUpdated;
 
-            // Role
-            if (typeof(IRoleCreatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.RoleCreated;
+        if (typeof(IRoleDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.RoleDeleted;
 
-            if (typeof(IRoleUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.RoleUpdated;
+        // Invite
+        if (typeof(IInviteCreatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.InviteCreated;
 
-            if (typeof(IRoleDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.RoleDeleted;
+        if (typeof(IInviteUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.InviteUpdated;
 
-            // Invite
-            if (typeof(IInviteCreatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.InviteCreated;
+        if (typeof(IInviteDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.InviteDeleted;
 
-            if (typeof(IInviteUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.InviteUpdated;
+        // Webhook
+        if (typeof(IWebhookCreatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.WebhookCreated;
 
-            if (typeof(IInviteDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.InviteDeleted;
+        if (typeof(IWebhookUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.WebhookUpdated;
 
-            // Webhook
-            if (typeof(IWebhookCreatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.WebhookCreated;
+        if (typeof(IWebhookDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.WebhookDeleted;
 
-            if (typeof(IWebhookUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.WebhookUpdated;
+        // Emoji
+        if (typeof(IEmojiCreatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.EmojiCreated;
 
-            if (typeof(IWebhookDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.WebhookDeleted;
+        if (typeof(IEmojiUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.EmojiUpdated;
 
-            // Emoji
-            if (typeof(IEmojiCreatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.EmojiCreated;
+        if (typeof(IEmojiDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.EmojiDeleted;
 
-            if (typeof(IEmojiUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.EmojiUpdated;
+        // Message
+        if (typeof(IMessagesDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.MessagesDeleted;
 
-            if (typeof(IEmojiDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.EmojiDeleted;
+        if (typeof(IMessagesBulkDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.MessagesBulkDeleted;
 
-            // Message
-            if (typeof(IMessagesDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.MessagesDeleted;
+        if (typeof(IMessagePinnedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.MessagePinned;
 
-            if (typeof(IMessagesBulkDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.MessagesBulkDeleted;
+        if (typeof(IMessageUnpinnedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.MessageUnpinned;
 
-            if (typeof(IMessagePinnedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.MessagePinned;
+        // Integration
+        if (typeof(IIntegrationCreatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.IntegrationCreated;
 
-            if (typeof(IMessageUnpinnedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.MessageUnpinned;
+        if (typeof(IIntegrationUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.IntegrationUpdated;
 
-            // Integration
-            if (typeof(IIntegrationCreatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.IntegrationCreated;
+        if (typeof(IIntegrationDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.IntegrationDeleted;
 
-            if (typeof(IIntegrationUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.IntegrationUpdated;
+        // Stage
+        if (typeof(IStageCreatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.StageCreated;
 
-            if (typeof(IIntegrationDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.IntegrationDeleted;
+        if (typeof(IStageUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.StageUpdated;
 
-            // Stage
-            if (typeof(IStageCreatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.StageCreated;
+        if (typeof(IStageDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.StageDeleted;
 
-            if (typeof(IStageUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.StageUpdated;
+        // Sticker
+        if (typeof(IStickerCreatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.StickerCreated;
 
-            if (typeof(IStageDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.StageDeleted;
+        if (typeof(IStickerUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.StickerUpdated;
 
-            // Sticker
-            if (typeof(IStickerCreatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.StickerCreated;
+        if (typeof(IStickerDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.StickerDeleted;
 
-            if (typeof(IStickerUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.StickerUpdated;
+        // Guild Event
+        if (typeof(IGuildEventCreatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.GuildEventCreated;
 
-            if (typeof(IStickerDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.StickerDeleted;
+        if (typeof(IGuildEventUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.GuildEventUpdated;
 
-            // Guild Event
-            if (typeof(IGuildEventCreatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.GuildEventCreated;
+        if (typeof(IGuildEventDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.GuildEventDeleted;
 
-            if (typeof(IGuildEventUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.GuildEventUpdated;
+        // Thread
+        if (typeof(IThreadCreatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.ThreadCreate;
 
-            if (typeof(IGuildEventDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.GuildEventDeleted;
+        if (typeof(IThreadUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.ThreadUpdate;
 
-            // Thread
-            if (typeof(IThreadCreatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.ThreadCreate;
+        if (typeof(IThreadDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.ThreadDelete;
 
-            if (typeof(IThreadUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.ThreadUpdate;
+        // Application Command Permission
+        if (typeof(IApplicationCommandPermissionsUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.ApplicationCommandPermissionsUpdate;
 
-            if (typeof(IThreadDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.ThreadDelete;
+        // AutoModeration
+        if (typeof(IAutoModerationRuleCreatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.AutoModerationRuleCreated;
 
-            // Application Command Permission
-            if (typeof(IApplicationCommandPermissionsUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.ApplicationCommandPermissionsUpdate;
+        if (typeof(IAutoModerationRuleUpdatedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.AutoModerationRuleUpdated;
 
-            // AutoModeration
-            if (typeof(IAutoModerationRuleCreatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.AutoModerationRuleCreated;
+        if (typeof(IAutoModerationRuleDeletedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.AutoModerationRuleDeleted;
 
-            if (typeof(IAutoModerationRuleUpdatedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.AutoModerationRuleUpdated;
+        if (typeof(IAutoModerationMessageBlockedAuditLog).IsAssignableFrom(type))
+            return AuditLogActionType.AutoModerationMessageBlocked;
 
-            if (typeof(IAutoModerationRuleDeletedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.AutoModerationRuleDeleted;
-
-            if (typeof(IAutoModerationMessageBlockedAuditLog).IsAssignableFrom(type))
-                return AuditLogActionType.AutoModerationMessageBlocked;
-
-            return Throw.ArgumentOutOfRangeException<AuditLogActionType?>(nameof(type));
-        }
+        return Throw.ArgumentOutOfRangeException<AuditLogActionType?>(nameof(type));
     }
 }

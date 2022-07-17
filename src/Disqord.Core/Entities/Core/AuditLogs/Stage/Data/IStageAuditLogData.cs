@@ -1,11 +1,10 @@
 using Qommon;
 
-namespace Disqord.AuditLogs
-{
-    public interface IStageAuditLogData
-    {
-        Optional<string> Topic { get; }
+namespace Disqord.AuditLogs;
 
-        Optional<PrivacyLevel> PrivacyLevel { get; }
-    }
+public interface IStageAuditLogData
+{
+    Optional<string> Topic { get; }
+
+    Optional<PrivacyLevel> PrivacyLevel { get; }
 }

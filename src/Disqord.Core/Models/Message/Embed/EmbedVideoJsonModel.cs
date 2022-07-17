@@ -1,17 +1,16 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class EmbedVideoJsonModel : JsonModel
 {
-    public class EmbedVideoJsonModel : JsonModel
-    {
-        [JsonProperty("url")]
-        public Optional<string> Url;
+    [JsonProperty("url")]
+    public Optional<string> Url;
 
-        [JsonProperty("height")]
-        public Optional<int> Height;
+    [JsonProperty("height")]
+    public Optional<int> Height;
 
-        [JsonProperty("width")]
-        public Optional<int> Width;
-    }
+    [JsonProperty("width")]
+    public Optional<int> Width;
 }

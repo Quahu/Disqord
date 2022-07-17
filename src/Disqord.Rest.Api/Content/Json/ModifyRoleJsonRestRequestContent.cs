@@ -2,29 +2,28 @@
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest.Api;
+
+public class ModifyRoleJsonRestRequestContent : JsonModelRestRequestContent
 {
-    public class ModifyRoleJsonRestRequestContent : JsonModelRestRequestContent
-    {
-        [JsonProperty("name")]
-        public Optional<string> Name;
+    [JsonProperty("name")]
+    public Optional<string> Name;
 
-        [JsonProperty("permissions")]
-        public Optional<ulong> Permissions;
+    [JsonProperty("permissions")]
+    public Optional<ulong> Permissions;
 
-        [JsonProperty("color")]
-        public Optional<int> Color;
+    [JsonProperty("color")]
+    public Optional<int> Color;
 
-        [JsonProperty("hoist")]
-        public Optional<bool> Hoist;
+    [JsonProperty("hoist")]
+    public Optional<bool> Hoist;
 
-        [JsonProperty("icon")]
-        public Optional<Stream> Icon;
+    [JsonProperty("icon")]
+    public Optional<Stream> Icon;
 
-        [JsonProperty("mentionable")]
-        public Optional<bool> Mentionable;
+    [JsonProperty("mentionable")]
+    public Optional<bool> Mentionable;
 
-        [JsonProperty("unicode_emoji")]
-        public Optional<string> UnicodeEmoji;
-    }
+    [JsonProperty("unicode_emoji")]
+    public Optional<string> UnicodeEmoji;
 }

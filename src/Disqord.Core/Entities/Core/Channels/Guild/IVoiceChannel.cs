@@ -1,18 +1,17 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+/// <summary>
+///     Represents a guild voice channel.
+/// </summary>
+public interface IVoiceChannel : IVocalGuildChannel, IMessageGuildChannel, IAgeRestrictableChannel
 {
     /// <summary>
-    ///     Represents a guild voice channel.
+    ///     Gets the member limit of this channel.
     /// </summary>
-    public interface IVoiceChannel : IVocalGuildChannel, IMessageGuildChannel, IAgeRestrictableChannel
-    {
-        /// <summary>
-        ///     Gets the member limit of this channel.
-        /// </summary>
-        int MemberLimit { get; }
+    int MemberLimit { get; }
 
-        /// <summary>
-        ///     Gets the camera video quality mode of this channel.
-        /// </summary>
-        VideoQualityMode VideoQualityMode { get; }
-    }
+    /// <summary>
+    ///     Gets the camera video quality mode of this channel.
+    /// </summary>
+    VideoQualityMode VideoQualityMode { get; }
 }

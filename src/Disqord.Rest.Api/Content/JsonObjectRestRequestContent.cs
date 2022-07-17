@@ -1,42 +1,48 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Disqord.Http;
 using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Rest.Api
+namespace Disqord.Rest.Api;
+
+public class JsonObjectRestRequestContent<T> : IRestRequestContent
+    where T : notnull
 {
-    public class JsonObjectRestRequestContent<T> : IRestRequestContent
+    public T Object { get; }
+
+    public JsonObjectRestRequestContent(T obj)
     {
-        public T Object { get; }
+        Object = obj;
+    }
 
-        public JsonObjectRestRequestContent(T obj)
+    /// <inheritdoc/>
+    public HttpRequestContent CreateHttpContent(IJsonSerializer serializer, IRestRequestOptions? options = null)
+    {
+        return JsonModelRestRequestContent.FromObject(Object, serializer);
+    }
+
+    /// <inheritdoc/>
+    public virtual void Validate()
+    {
+        var obj = Object;
+        if (obj is JsonModel)
         {
-            Object = obj;
+            Unsafe.As<JsonModel>(obj).Validate();
         }
-
-        /// <inheritdoc/>
-        public HttpRequestContent CreateHttpContent(IJsonSerializer serializer, IRestRequestOptions options = null)
-            => JsonModelRestRequestContent.FromObject(Object, serializer);
-
-        /// <inheritdoc/>
-        public virtual void Validate()
+        else if (obj is IEnumerable<JsonModel>)
         {
-            if (Object is JsonModel)
+            foreach (var jsonModel in Unsafe.As<IEnumerable<JsonModel>>(obj))
             {
-                (Object as JsonModel).Validate();
-            }
-            else if (Object is IEnumerable<JsonModel> jsonModels)
-            {
-                foreach (var jsonModel in jsonModels)
-                {
-                    Guard.IsNotNull(jsonModel);
+                Guard.IsNotNull(jsonModel);
 
-                    jsonModel.Validate();
-                }
+                jsonModel.Validate();
             }
         }
+    }
 
-        public static implicit operator JsonObjectRestRequestContent<T>(T obj)
-            => new(obj);
+    public static implicit operator JsonObjectRestRequestContent<T>(T obj)
+    {
+        return new(obj);
     }
 }

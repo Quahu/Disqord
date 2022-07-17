@@ -1,10 +1,9 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Gateway.Api.Models
+namespace Disqord.Gateway.Api.Models;
+
+public class HelloJsonModel : JsonModel
 {
-    public class HelloJsonModel : JsonModel
-    {
-        [JsonProperty("heartbeat_interval")]
-        public int HeartbeatInterval;
-    }
+    [JsonProperty("heartbeat_interval")]
+    public int HeartbeatInterval;
 }

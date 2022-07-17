@@ -1,25 +1,24 @@
 ﻿using System;
 
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Describes what the activity includes.
+/// </summary>
+[Flags]
+public enum ActivityFlags
 {
-    /// <summary>
-    ///     Describes what the activity includes.
-    /// </summary>
-    [Flags]
-    public enum ActivityFlags
-    {
-        None = 0,
+    None = 0,
 
-        Instance = 1 << 0,
+    Instance = 1 << 0,
 
-        Join = 1 << 1,
+    Join = 1 << 1,
 
-        Spectate = 1 << 2,
+    Spectate = 1 << 2,
 
-        JoinRequest = 1 << 3,
+    JoinRequest = 1 << 3,
 
-        Sync = 1 << 4,
+    Sync = 1 << 4,
 
-        Play = 1 << 5
-    }
+    Play = 1 << 5
 }

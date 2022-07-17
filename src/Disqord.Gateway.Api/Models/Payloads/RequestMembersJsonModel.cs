@@ -1,26 +1,25 @@
 ﻿using Disqord.Serialization.Json;
 using Qommon;
 
-namespace Disqord.Gateway.Api.Models
+namespace Disqord.Gateway.Api.Models;
+
+public class RequestMembersJsonModel : JsonModel
 {
-    public class RequestMembersJsonModel : JsonModel
-    {
-        [JsonProperty("guild_id")]
-        public Snowflake GuildId;
+    [JsonProperty("guild_id")]
+    public Snowflake GuildId;
 
-        [JsonProperty("query")]
-        public Optional<string> Query;
+    [JsonProperty("query")]
+    public Optional<string> Query;
 
-        [JsonProperty("limit")]
-        public int Limit;
+    [JsonProperty("limit")]
+    public int Limit;
 
-        [JsonProperty("presences")]
-        public Optional<bool> Presences;
+    [JsonProperty("presences")]
+    public Optional<bool> Presences;
 
-        [JsonProperty("user_ids")]
-        public Optional<Snowflake[]> UserIds;
+    [JsonProperty("user_ids")]
+    public Optional<Snowflake[]> UserIds;
 
-        [JsonProperty("nonce")]
-        public Optional<string> Nonce;
-    }
+    [JsonProperty("nonce")]
+    public Optional<string> Nonce;
 }

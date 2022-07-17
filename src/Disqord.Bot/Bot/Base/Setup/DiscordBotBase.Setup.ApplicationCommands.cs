@@ -524,13 +524,13 @@ public abstract partial class DiscordBotBase
 
                                     // ---
 
-                                    if (names.Length <= Discord.Limits.ApplicationCommands.Options.MaxChoiceAmount)
+                                    if (names.Length <= Discord.Limits.ApplicationCommand.Option.MaxChoiceAmount)
                                     {
                                         var choices = new LocalSlashCommandOptionChoice[names.Length];
                                         for (var i = 0; i < names.Length; i++)
                                         {
                                             var name = names[i];
-                                            var value = values.GetValue(i);
+                                            var value = values.GetValue(i)!;
                                             choices[i] = new LocalSlashCommandOptionChoice
                                             {
                                                 Name = name,
@@ -561,7 +561,7 @@ public abstract partial class DiscordBotBase
                                             Value = choiceAttribute.Value
                                         });
 
-                                        if (option.Choices.Value.Count == Discord.Limits.ApplicationCommands.Options.MaxChoiceAmount)
+                                        if (option.Choices.Value.Count == Discord.Limits.ApplicationCommand.Option.MaxChoiceAmount)
                                             break;
                                     }
 

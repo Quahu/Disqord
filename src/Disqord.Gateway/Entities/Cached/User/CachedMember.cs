@@ -4,77 +4,76 @@ using System.ComponentModel;
 using Disqord.Models;
 using Qommon;
 
-namespace Disqord.Gateway
+namespace Disqord.Gateway;
+
+public class CachedMember : CachedShareeUser, IMember
 {
-    public class CachedMember : CachedShareeUser, IMember
+    /// <inheritdoc/>
+    public Snowflake GuildId { get; }
+
+    /// <inheritdoc/>
+    public string? Nick { get; private set; }
+
+    /// <inheritdoc/>
+    public IReadOnlyList<Snowflake> RoleIds { get; private set; } = null!;
+
+    /// <inheritdoc/>
+    public Optional<DateTimeOffset> JoinedAt { get; private set; }
+
+    /// <inheritdoc/>
+    public bool IsMuted { get; private set; }
+
+    /// <inheritdoc/>
+    public bool IsDeafened { get; private set; }
+
+    /// <inheritdoc/>
+    public DateTimeOffset? BoostedAt { get; private set; }
+
+    /// <inheritdoc/>
+    public bool IsPending { get; private set; }
+
+    /// <inheritdoc/>
+    public string? GuildAvatarHash { get; private set; }
+
+    /// <inheritdoc/>
+    public DateTimeOffset? TimedOutUntil { get; private set; }
+
+    public CachedMember(CachedSharedUser sharedUser, Snowflake guildId, MemberJsonModel model)
+        : base(sharedUser)
     {
-        /// <inheritdoc/>
-        public Snowflake GuildId { get; }
+        GuildId = guildId;
 
-        /// <inheritdoc/>
-        public string Nick { get; private set; }
+        Update(model);
+    }
 
-        /// <inheritdoc/>
-        public IReadOnlyList<Snowflake> RoleIds { get; private set; }
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public void Update(MemberJsonModel model)
+    {
+        if (model.User.HasValue)
+            Update(model.User.Value);
 
-        /// <inheritdoc/>
-        public Optional<DateTimeOffset> JoinedAt { get; private set; }
+        Nick = model.Nick.GetValueOrDefault();
+        RoleIds = model.Roles;
 
-        /// <inheritdoc/>
-        public bool IsMuted { get; private set; }
+        if (model.JoinedAt.HasValue)
+            JoinedAt = model.JoinedAt.Value;
 
-        /// <inheritdoc/>
-        public bool IsDeafened { get; private set; }
+        if (model.Mute.HasValue)
+            IsMuted = model.Mute.Value;
 
-        /// <inheritdoc/>
-        public DateTimeOffset? BoostedAt { get; private set; }
+        if (model.Deaf.HasValue)
+            IsDeafened = model.Deaf.Value;
 
-        /// <inheritdoc/>
-        public bool IsPending { get; private set; }
+        if (model.PremiumSince.HasValue)
+            BoostedAt = model.PremiumSince.Value;
 
-        /// <inheritdoc/>
-        public string GuildAvatarHash { get; private set; }
+        IsPending = model.Pending.GetValueOrDefault();
 
-        /// <inheritdoc/>
-        public DateTimeOffset? TimedOutUntil { get; private set; }
+        if (model.Avatar.HasValue)
+            GuildAvatarHash = model.Avatar.Value;
 
-        public CachedMember(CachedSharedUser sharedUser, Snowflake guildId, MemberJsonModel model)
-            : base(sharedUser)
-        {
-            GuildId = guildId;
-
-            Update(model);
-        }
-
-        /// <inheritdoc/>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public void Update(MemberJsonModel model)
-        {
-            if (model.User.HasValue)
-                Update(model.User.Value);
-
-            Nick = model.Nick;
-            RoleIds = model.Roles;
-
-            if (model.JoinedAt.HasValue)
-                JoinedAt = model.JoinedAt.Value;
-
-            if (model.Mute.HasValue)
-                IsMuted = model.Mute.Value;
-
-            if (model.Deaf.HasValue)
-                IsDeafened = model.Deaf.Value;
-
-            if (model.PremiumSince.HasValue)
-                BoostedAt = model.PremiumSince.Value;
-
-            IsPending = model.Pending.GetValueOrDefault();
-
-            if (model.Avatar.HasValue)
-                GuildAvatarHash = model.Avatar.Value;
-
-            if (model.CommunicationDisabledUntil.HasValue)
-                TimedOutUntil = model.CommunicationDisabledUntil.Value;
-        }
+        if (model.CommunicationDisabledUntil.HasValue)
+            TimedOutUntil = model.CommunicationDisabledUntil.Value;
     }
 }

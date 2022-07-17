@@ -1,4 +1,5 @@
 ﻿using System;
+using Qommon;
 
 namespace Disqord.Bot.Commands;
 
@@ -14,9 +15,13 @@ public abstract class DiscordResponseCommandResult : DiscordCommandResult<IDisco
 
     public void Dispose()
     {
-        foreach (var attachment in Message._attachments)
+        var attachments = Message.Attachments.GetValueOrDefault();
+        if (attachments != null)
         {
-            attachment?.Dispose();
+            foreach (var attachment in attachments)
+            {
+                attachment?.Dispose();
+            }
         }
     }
 }

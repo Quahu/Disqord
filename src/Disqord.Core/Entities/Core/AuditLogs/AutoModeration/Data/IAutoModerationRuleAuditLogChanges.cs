@@ -1,23 +1,22 @@
 using System.Collections.Generic;
 
-namespace Disqord.AuditLogs
+namespace Disqord.AuditLogs;
+
+public interface IAutoModerationRuleAuditLogChanges
 {
-    public interface IAutoModerationRuleAuditLogChanges
-    {
-        AuditLogChange<string> Name { get; }
+    AuditLogChange<string> Name { get; }
 
-        AuditLogChange<AutoModerationEventType> EventType { get; }
+    AuditLogChange<AutoModerationEventType> EventType { get; }
 
-        AuditLogChange<AutoModerationRuleTriggerType> TriggerType { get; }
+    AuditLogChange<AutoModerationRuleTrigger> Trigger { get; }
 
-        AuditLogChange<IAutoModerationTriggerMetadata> TriggerMetadata { get; }
+    AuditLogChange<IAutoModerationTriggerMetadata> TriggerMetadata { get; }
 
-        AuditLogChange<IReadOnlyList<IAutoModerationAction>> Actions { get; }
+    AuditLogChange<IReadOnlyList<IAutoModerationAction>> Actions { get; }
 
-        AuditLogChange<bool> IsEnabled { get; }
+    AuditLogChange<bool> IsEnabled { get; }
 
-        AuditLogChange<IReadOnlyList<Snowflake>> ExemptRoleIds { get; }
+    AuditLogChange<IReadOnlyList<Snowflake>> ExemptRoleIds { get; }
 
-        AuditLogChange<IReadOnlyList<Snowflake>> ExemptChannelIds { get; }
-    }
+    AuditLogChange<IReadOnlyList<Snowflake>> ExemptChannelIds { get; }
 }

@@ -1,5 +1,4 @@
-﻿namespace Disqord.Rest.Api.Default
-{
-    public class DefaultRestApiClientConfiguration
-    { }
-}
+﻿namespace Disqord.Rest.Api.Default;
+
+public class DefaultRestApiClientConfiguration
+{ }

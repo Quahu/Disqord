@@ -1,6 +1,5 @@
-﻿namespace Disqord.Gateway
+﻿namespace Disqord.Gateway;
+
+public class DefaultGatewayClientConfiguration
 {
-    public class DefaultGatewayClientConfiguration
-    {
-    }
 }

@@ -4,9 +4,9 @@ namespace Disqord.Bot.Commands.Components;
 
 internal class DiscordComponentCommandContext : DiscordCommandContext<ComponentCommand>, IDiscordComponentCommandContext
 {
-    public override CultureInfo Locale => Interaction.Locale ?? CultureInfo.InvariantCulture;
+    public override CultureInfo Locale => Interaction.Locale;
 
-    public override CultureInfo GuildLocale => Interaction.GuildLocale ?? CultureInfo.InvariantCulture;
+    public override CultureInfo? GuildLocale => Interaction.GuildLocale;
 
     public IUserInteraction Interaction { get; }
 
@@ -23,5 +23,7 @@ internal class DiscordComponentCommandContext : DiscordCommandContext<ComponentC
     }
 
     protected override Snowflake? GetGuildId()
-        => Interaction.GuildId;
+    {
+        return Interaction.GuildId;
+    }
 }

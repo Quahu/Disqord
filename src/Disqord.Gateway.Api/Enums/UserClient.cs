@@ -1,18 +1,17 @@
 ﻿using System.Runtime.Serialization;
 using Disqord.Serialization.Json;
 
-namespace Disqord
+namespace Disqord;
+
+[StringEnum]
+public enum UserClient
 {
-    [StringEnum]
-    public enum UserClient
-    {
-        [EnumMember(Value = "desktop")]
-        Desktop,
+    [EnumMember(Value = "desktop")]
+    Desktop,
 
-        [EnumMember(Value = "mobile")]
-        Mobile,
+    [EnumMember(Value = "mobile")]
+    Mobile,
 
-        [EnumMember(Value = "web")]
-        Web
-    }
+    [EnumMember(Value = "web")]
+    Web
 }

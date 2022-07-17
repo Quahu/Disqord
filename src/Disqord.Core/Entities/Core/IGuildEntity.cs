@@ -1,13 +1,14 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+/// <summary>
+///     Represents a Discord entity that exists within a guild.
+/// </summary>
+public interface IGuildEntity : IPossiblyGuildEntity
 {
     /// <summary>
-    ///     Represents a Discord entity that exists within a guild.
+    ///     Gets the ID of the guild this entity is tied to.
     /// </summary>
-    public interface IGuildEntity : IEntity
-    {
-        /// <summary>
-        ///     Gets the ID of the guild this entity is tied to.
-        /// </summary>
-        Snowflake GuildId { get; }
-    }
+    new Snowflake GuildId { get; }
+
+    Snowflake? IPossiblyGuildEntity.GuildId => GuildId;
 }

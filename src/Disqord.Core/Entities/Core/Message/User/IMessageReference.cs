@@ -1,13 +1,12 @@
-﻿namespace Disqord
+﻿namespace Disqord;
+
+/// <summary>
+///     Represents a reference to another message.
+/// </summary>
+public interface IMessageReference : IChannelEntity, IPossiblyGuildEntity
 {
     /// <summary>
-    ///     Represents a reference to another message.
+    ///     Gets the ID of the referenced message.
     /// </summary>
-    public interface IMessageReference : IChannelEntity, IPossibleGuildEntity
-    {
-        /// <summary>
-        ///     Gets the ID of the referenced message.
-        /// </summary>
-        Snowflake? MessageId { get; }
-    }
+    Snowflake? MessageId { get; }
 }

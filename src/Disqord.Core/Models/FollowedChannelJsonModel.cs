@@ -1,13 +1,12 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models
-{
-    public class FollowedChannelJsonModel : JsonModel
-    {
-        [JsonProperty("channel_id")]
-        public Snowflake ChannelId;
+namespace Disqord.Models;
 
-        [JsonProperty("webhook_id")]
-        public Snowflake WebhookId;
-    }
+public class FollowedChannelJsonModel : JsonModel
+{
+    [JsonProperty("channel_id")]
+    public Snowflake ChannelId;
+
+    [JsonProperty("webhook_id")]
+    public Snowflake WebhookId;
 }

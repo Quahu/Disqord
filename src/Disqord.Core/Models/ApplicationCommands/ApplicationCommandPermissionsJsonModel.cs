@@ -1,16 +1,15 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models
+namespace Disqord.Models;
+
+public class ApplicationCommandPermissionsJsonModel : JsonModel
 {
-    public class ApplicationCommandPermissionsJsonModel : JsonModel
-    {
-        [JsonProperty("id")]
-        public Snowflake Id;
+    [JsonProperty("id")]
+    public Snowflake Id;
 
-        [JsonProperty("type")]
-        public ApplicationCommandPermissionType Type;
+    [JsonProperty("type")]
+    public ApplicationCommandPermissionTargetType Type;
 
-        [JsonProperty("permission")]
-        public bool Permission;
-    }
+    [JsonProperty("permission")]
+    public bool Permission;
 }

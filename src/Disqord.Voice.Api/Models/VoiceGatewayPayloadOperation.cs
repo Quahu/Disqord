@@ -1,29 +1,28 @@
-﻿namespace Disqord.Voice.Api.Models
+﻿namespace Disqord.Voice.Api.Models;
+
+public enum VoiceGatewayPayloadOperation : byte
 {
-    public enum VoiceGatewayPayloadOperation : byte
-    {
-        Identify = 0,
+    Identify = 0,
 
-        SelectProtocol = 1,
+    SelectProtocol = 1,
 
-        Ready = 2,
+    Ready = 2,
 
-        Heartbeat = 3,
+    Heartbeat = 3,
 
-        SessionDescription = 4,
+    SessionDescription = 4,
 
-        Speaking = 5,
+    Speaking = 5,
 
-        HeartbeatAck = 6,
+    HeartbeatAck = 6,
 
-        Resume = 7,
+    Resume = 7,
 
-        Hello = 8,
+    Hello = 8,
 
-        Resumed = 9,
+    Resumed = 9,
 
-        ClientConnect = 12,
+    ClientConnect = 12,
 
-        ClientDisconnect = 13
-    }
+    ClientDisconnect = 13
 }

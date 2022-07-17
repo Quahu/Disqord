@@ -1,25 +1,39 @@
 ﻿using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public abstract class LocalButtonComponentBase : LocalComponent, ILocalConstruct<LocalButtonComponentBase>
 {
-    public abstract class LocalButtonComponentBase : LocalComponent
+    /// <summary>
+    ///     Gets or sets the label of this button.
+    /// </summary>
+    /// <remarks>
+    ///     This property is required if <see cref="Emoji"/> is not set.
+    /// </remarks>
+    public Optional<string> Label { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the emoji of this button.
+    /// </summary>
+    /// <remarks>
+    ///     This property is required if <see cref="Label"/> is not set.
+    /// </remarks>
+    public Optional<LocalEmoji> Emoji { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether this button is disabled.
+    /// </summary>
+    public Optional<bool> IsDisabled { get; set; }
+
+    protected LocalButtonComponentBase()
+    { }
+
+    protected LocalButtonComponentBase(LocalButtonComponentBase other)
     {
-        public Optional<string> Label { get; set; }
-
-        public Optional<LocalEmoji> Emoji { get; set; }
-
-        /// <summary>
-        ///     Gets or sets whether this button is disabled.
-        /// </summary>
-        public Optional<bool> IsDisabled { get; set; }
-
-        protected LocalButtonComponentBase()
-        { }
-
-        protected LocalButtonComponentBase(LocalButtonComponentBase other)
-        {
-            Label = other.Label;
-            Emoji = other.Emoji;
-        }
+        Label = other.Label;
+        Emoji = other.Emoji;
     }
+
+    /// <inheritdoc />
+    public abstract override LocalButtonComponentBase Clone();
 }

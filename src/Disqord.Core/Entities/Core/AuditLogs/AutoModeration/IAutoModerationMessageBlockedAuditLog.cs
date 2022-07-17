@@ -1,11 +1,10 @@
-namespace Disqord.AuditLogs
+namespace Disqord.AuditLogs;
+
+public interface IAutoModerationMessageBlockedAuditLog : IAuditLog
 {
-    public interface IAutoModerationMessageBlockedAuditLog : IAuditLog
-    {
-        string RuleName { get; }
+    string RuleName { get; }
 
-        AutoModerationRuleTriggerType RuleTriggerType { get; }
+    AutoModerationRuleTrigger RuleTrigger { get; }
 
-        Snowflake ChannelId { get; }
-    }
+    Snowflake ChannelId { get; }
 }

@@ -1,31 +1,32 @@
 ﻿using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public class LocalButtonComponent : LocalButtonComponentBase, ILocalCustomIdentifiableEntity, ILocalConstruct<LocalButtonComponent>
 {
-    public class LocalButtonComponent : LocalButtonComponentBase, ILocalCustomIdentifiableEntity
+    /// <summary>
+    ///     Gets or sets the style of this button.
+    /// </summary>
+    /// <remarks>
+    ///     This property is required.
+    /// </remarks>
+    public Optional<LocalButtonComponentStyle> Style { get; set; } = LocalButtonComponentStyle.Primary;
+
+    /// <inheritdoc/>
+    public Optional<string> CustomId { get; set; }
+
+    public LocalButtonComponent()
+    { }
+
+    private LocalButtonComponent(LocalButtonComponent other)
+        : base(other)
     {
-        /// <summary>
-        ///     Gets or sets the style of this button.
-        /// </summary>
-        /// <remarks>
-        ///     This property is required.
-        /// </remarks>
-        public Optional<LocalButtonComponentStyle> Style { get; set; } = LocalButtonComponentStyle.Primary;
+        Style = other.Style;
+        CustomId = other.CustomId;
+    }
 
-        /// <inheritdoc/>
-        public Optional<string> CustomId { get; set; }
-
-        public LocalButtonComponent()
-        { }
-
-        private LocalButtonComponent(LocalButtonComponent other)
-            : base(other)
-        {
-            Style = other.Style;
-            CustomId = other.CustomId;
-        }
-
-        public override LocalButtonComponent Clone()
-            => new(this);
+    public override LocalButtonComponent Clone()
+    {
+        return new(this);
     }
 }

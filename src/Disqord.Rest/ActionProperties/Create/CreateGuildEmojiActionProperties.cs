@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public sealed class CreateGuildEmojiActionProperties
 {
-    public sealed class CreateGuildEmojiActionProperties
-    {
-        public Optional<IEnumerable<Snowflake>> RoleIds { internal get; set; }
-    }
+    public Optional<IEnumerable<Snowflake>> RoleIds { internal get; set; }
 }

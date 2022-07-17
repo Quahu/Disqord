@@ -1,5 +1,4 @@
-namespace Disqord.AuditLogs
-{
-    public interface IStageDeletedAuditLog : IDataAuditLog<IStageAuditLogData>
-    { }
-}
+namespace Disqord.AuditLogs;
+
+public interface IStageDeletedAuditLog : IDataAuditLog<IStageAuditLogData>
+{ }

@@ -2,29 +2,30 @@ using System;
 using Disqord.Models;
 using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public static class LocalAutoModerationActionMetadataExtensions
 {
-    public static class LocalAutoModerationActionMetadataExtensions
+    public static TActionMetadata WithChannelId<TActionMetadata>(this TActionMetadata metadata, Snowflake channelId)
+        where TActionMetadata : LocalAutoModerationActionMetadata
     {
-        public static LocalAutoModerationActionMetadata WithChannelId(this LocalAutoModerationActionMetadata metadata, Snowflake channelId)
-        {
-            metadata.ChannelId = channelId;
-            return metadata;
-        }
+        metadata.ChannelId = channelId;
+        return metadata;
+    }
 
-        public static LocalAutoModerationActionMetadata WithTimeoutDuration(this LocalAutoModerationActionMetadata metadata, TimeSpan duration)
-        {
-            metadata.TimeoutDuration = duration;
-            return metadata;
-        }
+    public static TActionMetadata WithTimeoutDuration<TActionMetadata>(this TActionMetadata metadata, TimeSpan duration)
+        where TActionMetadata : LocalAutoModerationActionMetadata
+    {
+        metadata.TimeoutDuration = duration;
+        return metadata;
+    }
 
-        public static AutoModerationActionMetadataJsonModel ToModel(this LocalAutoModerationActionMetadata metadata)
+    public static AutoModerationActionMetadataJsonModel ToModel(this LocalAutoModerationActionMetadata metadata)
+    {
+        return new AutoModerationActionMetadataJsonModel
         {
-            return new AutoModerationActionMetadataJsonModel
-            {
-                ChannelId = metadata.ChannelId,
-                DurationSeconds = Optional.Convert(metadata.TimeoutDuration, x => (int) x.TotalSeconds)
-            };
-        }
+            ChannelId = metadata.ChannelId,
+            DurationSeconds = Optional.Convert(metadata.TimeoutDuration, x => (int) x.TotalSeconds)
+        };
     }
 }

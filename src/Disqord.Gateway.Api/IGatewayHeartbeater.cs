@@ -4,22 +4,21 @@ using System.Threading.Tasks;
 using Disqord.Logging;
 using Qommon.Binding;
 
-namespace Disqord.Gateway.Api
+namespace Disqord.Gateway.Api;
+
+public interface IGatewayHeartbeater : IBindable<IGatewayApiClient>, ILogging
 {
-    public interface IGatewayHeartbeater : IBindable<IGatewayApiClient>, ILogging
-    {
-        IGatewayApiClient ApiClient { get; }
+    IGatewayApiClient ApiClient { get; }
 
-        TimeSpan Interval { get; }
+    TimeSpan Interval { get; }
 
-        TimeSpan? Latency { get; }
+    TimeSpan? Latency { get; }
 
-        ValueTask StartAsync(TimeSpan interval);
+    ValueTask StartAsync(TimeSpan interval);
 
-        ValueTask StopAsync();
+    ValueTask StopAsync();
 
-        Task HeartbeatAsync(CancellationToken cancellationToken = default);
+    Task HeartbeatAsync(CancellationToken cancellationToken = default);
 
-        ValueTask AcknowledgeAsync();
-    }
+    ValueTask AcknowledgeAsync();
 }

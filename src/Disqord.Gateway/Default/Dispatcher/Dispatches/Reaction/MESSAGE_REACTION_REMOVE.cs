@@ -4,25 +4,24 @@ using Disqord.Gateway.Api.Models;
 using Qommon;
 using Qommon.Collections.Synchronized;
 
-namespace Disqord.Gateway.Default.Dispatcher
-{
-    public class MessageReactionRemoveHandler : Handler<MessageReactionRemoveJsonModel, ReactionRemovedEventArgs>
-    {
-        public override ValueTask<ReactionRemovedEventArgs> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionRemoveJsonModel model)
-        {
-            CachedUserMessage message;
-            if (CacheProvider.TryGetMessages(model.ChannelId, out var messageCache))
-            {
-                message = messageCache.GetValueOrDefault(model.MessageId);
-                message?.Update(model);
-            }
-            else
-            {
-                message = null;
-            }
+namespace Disqord.Gateway.Default.Dispatcher;
 
-            var e = new ReactionRemovedEventArgs(model.GuildId.GetValueOrNullable(), model.UserId, model.ChannelId, model.MessageId, message, TransientEmoji.Create(model.Emoji));
-            return new(e);
+public class MessageReactionRemoveHandler : Handler<MessageReactionRemoveJsonModel, ReactionRemovedEventArgs>
+{
+    public override ValueTask<ReactionRemovedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionRemoveJsonModel model)
+    {
+        CachedUserMessage? message;
+        if (CacheProvider.TryGetMessages(model.ChannelId, out var messageCache))
+        {
+            message = messageCache.GetValueOrDefault(model.MessageId);
+            message?.Update(model);
         }
+        else
+        {
+            message = null;
+        }
+
+        var e = new ReactionRemovedEventArgs(model.GuildId.GetValueOrNullable(), model.UserId, model.ChannelId, model.MessageId, message, TransientEmoji.Create(model.Emoji));
+        return new(e);
     }
 }

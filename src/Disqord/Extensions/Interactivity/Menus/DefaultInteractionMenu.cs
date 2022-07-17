@@ -2,50 +2,44 @@
 using System.Threading.Tasks;
 using Disqord.Rest;
 
-namespace Disqord.Extensions.Interactivity.Menus
+namespace Disqord.Extensions.Interactivity.Menus;
+
+/// <inheritdoc/>
+public class DefaultInteractionMenu : DefaultMenuBase
 {
-    /// <inheritdoc/>
-    public class DefaultInteractionMenu : DefaultMenuBase
+    /// <summary>
+    ///     Gets the interaction of this menu.
+    /// </summary>
+    public IUserInteraction Interaction { get; }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="DefaultInteractionMenu"/>.
+    /// </summary>
+    /// <param name="view"> The initial view. </param>
+    /// <param name="interaction"> The interaction to respond with this menu for. </param>
+    public DefaultInteractionMenu(ViewBase view, IUserInteraction interaction)
+        : base(view)
     {
-        /// <summary>
-        ///     Gets the interaction of this menu.
-        /// </summary>
-        public IUserInteraction Interaction { get; }
+        Interaction = interaction;
+    }
 
-        /// <summary>
-        ///     Instantiates a new <see cref="DefaultInteractionMenu"/>.
-        /// </summary>
-        /// <param name="view"> The initial view. </param>
-        /// <param name="interaction"> The interaction to respond with this menu for. </param>
-        public DefaultInteractionMenu(ViewBase view, IUserInteraction interaction)
-            : base(view)
+    /// <inheritdoc/>
+    public override LocalMessageBase CreateLocalMessage()
+    {
+        return new LocalInteractionMessageResponse();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task<IUserMessage> SendLocalMessageAsync(LocalMessageBase message, CancellationToken cancellationToken)
+    {
+        var response = Interaction.Response();
+        var interactionMessageResponse = (message as LocalInteractionMessageResponse)!;
+        if (!response.HasResponded)
         {
-            Interaction = interaction;
+            await response.SendMessageAsync(interactionMessageResponse, cancellationToken: cancellationToken).ConfigureAwait(false);
+            return await Interaction.Followup().FetchResponseAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
-        /// <inheritdoc/>
-        public DefaultInteractionMenu(ViewBase view, Snowflake messageId)
-            : base(view, messageId)
-        { }
-
-        /// <inheritdoc/>
-        public override LocalMessageBase CreateLocalMessage()
-        {
-            return new LocalInteractionMessageResponse();
-        }
-
-        /// <inheritdoc/>
-        protected override async Task<IUserMessage> SendLocalMessageAsync(LocalMessageBase message, CancellationToken cancellationToken)
-        {
-            var response = Interaction.Response();
-            var interactionMessageResponse = message as LocalInteractionMessageResponse;
-            if (!response.HasResponded)
-            {
-                await response.SendMessageAsync(interactionMessageResponse, cancellationToken: cancellationToken).ConfigureAwait(false);
-                return await Interaction.Followup().FetchResponseAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
-            }
-
-            return await Interaction.Followup().SendAsync(interactionMessageResponse, cancellationToken: cancellationToken).ConfigureAwait(false);
-        }
+        return await Interaction.Followup().SendAsync(interactionMessageResponse, cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 }

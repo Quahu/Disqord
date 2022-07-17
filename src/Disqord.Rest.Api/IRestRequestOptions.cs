@@ -1,31 +1,40 @@
 ﻿using System.Collections.Generic;
 
-namespace Disqord.Rest
+namespace Disqord.Rest;
+
+/// <summary>
+///     Represents a set of options for a REST request.
+/// </summary>
+public interface IRestRequestOptions
 {
     /// <summary>
-    ///     Represents a set of options for a REST request.
+    ///     Gets or sets the audit log reason for the request.
+    ///     This is a shortcut for setting the <c>X-Audit-Log-Reason</c> header in <see cref="Headers"/>.
     /// </summary>
-    public interface IRestRequestOptions
+    string? Reason
     {
-        /// <summary>
-        ///     Gets or sets the audit log reason for the request.
-        ///     This is a shortcut for setting the <c>X-Audit-Log-Reason</c> header in <see cref="Headers"/>.
-        /// </summary>
-        string Reason
+        get
         {
-            get
-            {
-                if (Headers != null && Headers.TryGetValue("X-Audit-Log-Reason", out var value))
-                    return value;
+            if (Headers.TryGetValue("X-Audit-Log-Reason", out var value))
+                return value;
 
-                return null;
-            }
-            set => Headers["X-Audit-Log-Reason"] = value;
+            return null;
         }
-
-        /// <summary>
-        ///     Gets or sets the headers for the request.
-        /// </summary>
-        IDictionary<string, string> Headers { get; set; }
+        set
+        {
+            if (value == null)
+            {
+                Headers.Remove("X-Audit-Log-Reason");
+            }
+            else
+            {
+                Headers["X-Audit-Log-Reason"] = value;
+            }
+        }
     }
+
+    /// <summary>
+    ///     Gets or sets the headers for the request.
+    /// </summary>
+    IDictionary<string, string> Headers { get; set; }
 }

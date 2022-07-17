@@ -1,13 +1,12 @@
 ﻿using Disqord.Serialization.Json;
 
-namespace Disqord.Models
-{
-    public class BanJsonModel : JsonModel
-    {
-        [JsonProperty("reason")]
-        public string Reason;
+namespace Disqord.Models;
 
-        [JsonProperty("user")]
-        public UserJsonModel User;
-    }
+public class BanJsonModel : JsonModel
+{
+    [JsonProperty("reason")]
+    public string? Reason;
+
+    [JsonProperty("user")]
+    public UserJsonModel User = null!;
 }

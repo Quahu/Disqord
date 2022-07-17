@@ -1,10 +1,9 @@
-﻿namespace Disqord.AuditLogs
+﻿namespace Disqord.AuditLogs;
+
+public interface IMembersDisconnectedAuditLog : IAuditLog
 {
-    public interface IMembersDisconnectedAuditLog : IAuditLog
-    {
-        /// <summary>
-        ///     Gets the amount of members which were disconnected.
-        /// </summary>
-        int Count { get; }
-    }
+    /// <summary>
+    ///     Gets the amount of members which were disconnected.
+    /// </summary>
+    int Count { get; }
 }

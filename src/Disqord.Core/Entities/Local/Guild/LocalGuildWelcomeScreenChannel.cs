@@ -1,37 +1,34 @@
-using System;
+using Qommon;
 
-namespace Disqord
+namespace Disqord;
+
+public class LocalGuildWelcomeScreenChannel : ILocalConstruct<LocalGuildWelcomeScreenChannel>
 {
-    public class LocalGuildWelcomeScreenChannel : ILocalConstruct
+    public Optional<Snowflake> ChannelId { get; set; }
+
+    public Optional<string> Description { get; set; }
+
+    public Optional<LocalEmoji> Emoji { get; set; }
+
+    public LocalGuildWelcomeScreenChannel()
+    { }
+
+    protected LocalGuildWelcomeScreenChannel(LocalGuildWelcomeScreenChannel other)
     {
-        public const int MaxDescriptionLength = 32;
+        ChannelId = other.ChannelId;
+        Description = other.Description;
+        Emoji = other.Emoji.Clone();
+    }
 
-        public Snowflake ChannelId { get; init; }
+    public LocalGuildWelcomeScreenChannel(Snowflake channelId, string description, LocalEmoji? emoji = null)
+    {
+        ChannelId = channelId;
+        Description = description;
+        Emoji = Optional.FromNullable(emoji);
+    }
 
-        public string Description { get; init; }
-
-        public LocalEmoji Emoji { get; init; }
-
-        public LocalGuildWelcomeScreenChannel()
-        { }
-
-        public LocalGuildWelcomeScreenChannel(Snowflake channelId, string description, LocalEmoji emoji = null)
-        {
-            ChannelId = channelId;
-            Description = description;
-            Emoji = emoji;
-        }
-
-        public virtual LocalGuildWelcomeScreenChannel Clone()
-            => MemberwiseClone() as LocalGuildWelcomeScreenChannel;
-
-        object ICloneable.Clone()
-            => Clone();
-
-        public void Validate()
-        {
-            if (Description.Length > MaxDescriptionLength)
-                throw new InvalidOperationException($"The length of the description must not exceed {MaxDescriptionLength} characters.");
-        }
+    public virtual LocalGuildWelcomeScreenChannel Clone()
+    {
+        return new(this);
     }
 }

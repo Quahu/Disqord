@@ -1,18 +1,17 @@
-namespace Disqord
+namespace Disqord;
+
+/// <summary>
+///     Represents a welcome screen's channel.
+/// </summary>
+public interface IGuildWelcomeScreenChannel : IChannelEntity
 {
     /// <summary>
-    ///     Represents a welcome screen's channel.
+    ///     Gets the description of this welcome screen channel.
     /// </summary>
-    public interface IGuildWelcomeScreenChannel : IChannelEntity
-    {
-        /// <summary>
-        ///     Gets the description of this welcome screen channel.
-        /// </summary>
-        string Description { get; }
+    string Description { get; }
 
-        /// <summary>
-        ///     Gets the emoji of this welcome screen channel.
-        /// </summary>
-        IEmoji Emoji { get; }
-    }
+    /// <summary>
+    ///     Gets the emoji of this welcome screen channel.
+    /// </summary>
+    IEmoji Emoji { get; }
 }
