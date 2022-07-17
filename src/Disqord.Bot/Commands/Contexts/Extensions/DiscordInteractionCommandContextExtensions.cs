@@ -5,6 +5,9 @@ using Disqord.Rest;
 
 namespace Disqord.Bot.Commands.Interaction;
 
+/// <summary>
+///     Represents <see cref="IDiscordInteractionCommandContext"/> extensions.
+/// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class DiscordInteractionCommandContextExtensions
 {

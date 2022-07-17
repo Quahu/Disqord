@@ -19,7 +19,9 @@ public abstract partial class DiscordBotBase
     ///     A <see cref="ValueTask{TResult}"/> representing the work where the result indicates whether the interaction should be processed.
     /// </returns>
     protected virtual ValueTask<bool> OnInteraction(IUserInteraction interaction)
-        => new(true);
+    {
+        return new(true);
+    }
 
     /// <summary>
     ///     Creates an <see cref="IDiscordApplicationCommandContext"/> from the provided parameters.

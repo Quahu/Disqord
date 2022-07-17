@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Disqord.Bot.Commands.Text;
 using Disqord.Gateway;
 using Disqord.Rest;
 using Qmmands;
@@ -54,20 +53,18 @@ public class MemberTypeParser : DiscordGuildTypeParser<IMember>
             {
                 // This means it's either an invalid ID or the member isn't cached.
                 // We don't know which one it is, so we have to query the guild.
-                await using ((context as IDiscordTextCommandContext)?.BeginYield())
+
+                // Check if the gateway is/will be rate-limited.
+                if (context.Bot.GetShard(context.GuildId)!.RateLimiter.GetRemainingRequests() < 3)
                 {
-                    // Check if the gateway is/will be rate-limited.
-                    if (context.Bot.GetShard(context.GuildId)!.RateLimiter.GetRemainingRequests() < 3)
-                    {
-                        // Use a REST call instead.
-                        member = await context.Bot.FetchMemberAsync(context.GuildId, id).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        // Otherwise use gateway member chunking.
-                        var members = await context.Bot.Chunker.QueryAsync(context.GuildId, new[] { id }).ConfigureAwait(false);
-                        member = members.GetValueOrDefault(id);
-                    }
+                    // Use a REST call instead.
+                    member = await context.Bot.FetchMemberAsync(context.GuildId, id).ConfigureAwait(false);
+                }
+                else
+                {
+                    // Otherwise use gateway member chunking.
+                    var members = await context.Bot.Chunker.QueryAsync(context.GuildId, new[] { id }).ConfigureAwait(false);
+                    member = members.GetValueOrDefault(id);
                 }
             }
             else
@@ -121,23 +118,21 @@ public class MemberTypeParser : DiscordGuildTypeParser<IMember>
             if (member == null)
             {
                 // This means it's either an invalid input or the member isn't cached.
-                await using ((context as IDiscordTextCommandContext)?.BeginYield())
-                {
-                    // We don't know which one it is, so we have to query the guild.
-                    // Check if the gateway is/will be rate-limited.
-                    // TODO: swap these two around?
-                    IEnumerable<IMember> members;
-                    if (context.Bot.GetShard(context.GuildId)!.RateLimiter.GetRemainingRequests() < 3)
-                    {
-                        members = await context.Bot.SearchMembersAsync(context.GuildId, name).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        members = (await context.Bot.Chunker.QueryAsync(context.GuildId, name).ConfigureAwait(false)).Values;
-                    }
 
-                    member = FindMember(members, name, discriminator);
+                // We don't know which one it is, so we have to query the guild.
+                // Check if the gateway is/will be rate-limited.
+                // TODO: swap these two around?
+                IEnumerable<IMember> members;
+                if (context.Bot.GetShard(context.GuildId)!.RateLimiter.GetRemainingRequests() < 3)
+                {
+                    members = await context.Bot.SearchMembersAsync(context.GuildId, name).ConfigureAwait(false);
                 }
+                else
+                {
+                    members = (await context.Bot.Chunker.QueryAsync(context.GuildId, name).ConfigureAwait(false)).Values;
+                }
+
+                member = FindMember(members, name, discriminator);
             }
         }
 

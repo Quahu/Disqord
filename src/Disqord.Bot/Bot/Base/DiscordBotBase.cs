@@ -24,11 +24,6 @@ public abstract partial class DiscordBotBase : DiscordClientBase
     public IPrefixProvider Prefixes { get; }
 
     /// <summary>
-    ///     Gets the command queue of this bot.
-    /// </summary>
-    public ICommandQueue Queue { get; }
-
-    /// <summary>
     ///     Gets the command service of this bot.
     /// </summary>
     public ICommandService Commands { get; }
@@ -85,7 +80,6 @@ public abstract partial class DiscordBotBase : DiscordClientBase
         _syncGlobalApplicationCommands = configuration.SyncGlobalApplicationCommands;
         _syncGuildApplicationCommands = configuration.SyncGuildApplicationCommands;
         Prefixes = services.GetRequiredService<IPrefixProvider>();
-        Queue = services.GetRequiredService<ICommandQueue>();
         Commands = services.GetRequiredService<ICommandService>();
         Services = services;
         _client = client;
@@ -110,9 +104,13 @@ public abstract partial class DiscordBotBase : DiscordClientBase
 
     /// <inheritdoc/>
     public override Task RunAsync(CancellationToken stoppingToken)
-        => _client.RunAsync(stoppingToken);
+    {
+        return _client.RunAsync(stoppingToken);
+    }
 
     /// <inheritdoc/>
     public override Task WaitUntilReadyAsync(CancellationToken cancellationToken)
-        => _client.WaitUntilReadyAsync(cancellationToken);
+    {
+        return _client.WaitUntilReadyAsync(cancellationToken);
+    }
 }

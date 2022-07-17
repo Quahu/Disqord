@@ -7,6 +7,9 @@ using Disqord.Gateway;
 
 namespace Disqord.Extensions.Interactivity;
 
+/// <summary>
+///     Represents <see cref="IDiscordCommandContext"/> interactivity extensions.
+/// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class InteractivityCommandContextExtensions
 {

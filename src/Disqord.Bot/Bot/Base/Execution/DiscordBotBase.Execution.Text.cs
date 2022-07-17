@@ -77,18 +77,8 @@ public abstract partial class DiscordBotBase
             return false;
         }
 
-        // We post the execution to the command queue.
-        // See the Post() method in the default queue for more information.
-        try
-        {
-            Queue.Post(context, context => context.Bot.ExecuteAsync(context));
-            return true;
-        }
-        catch (Exception ex)
-        {
-            await DisposeContextAsync(context).ConfigureAwait(false);
-            Logger.LogError(ex, "An exception occurred while posting the execution to the command queue.");
-            return false;
-        }
+        // We run the common execution logic.
+        await ExecuteAsync(context).ConfigureAwait(false);
+        return true;
     }
 }

@@ -39,7 +39,9 @@ public abstract partial class DiscordBotBase
     ///     A <see cref="ValueTask{TResult}"/> representing the work where the result indicates whether execution should proceed.
     /// </returns>
     protected internal virtual ValueTask<IResult> OnBeforeExecuted(IDiscordCommandContext context)
-        => new(Results.Success);
+    {
+        return new(Results.Success);
+    }
 
     /// <summary>
     ///     Invoked post-execution, before <see cref="OnCommandResult"/>
@@ -54,7 +56,9 @@ public abstract partial class DiscordBotBase
     ///     A <see cref="ValueTask"/> representing the work where the result indicates whether the appropriate handle method should be executed.
     /// </returns>
     protected virtual ValueTask<bool> OnAfterExecuted(IDiscordCommandContext context, IResult result)
-        => new(true);
+    {
+        return new(true);
+    }
 
     /// <summary>
     ///     Invoked post-execution, defines the logic for handling command results.
@@ -117,7 +121,8 @@ public abstract partial class DiscordBotBase
     ///     A <see cref="string"/> representing the failure reason.
     /// </returns>
     protected virtual string? FormatFailureReason(IDiscordCommandContext context, IResult result)
-        => result switch
+    {
+        return result switch
         {
             CommandNotFoundResult => null,
             TypeParseFailedResult typeParseFailedResult => $"Type parse failed for parameter '{typeParseFailedResult.Parameter.Name}':\n• {typeParseFailedResult.FailureReason}",
@@ -126,6 +131,7 @@ public abstract partial class DiscordBotBase
                 + string.Join('\n', parameterChecksFailedResult.FailedChecks.Select(x => $"• {x.Value.FailureReason}")),
             _ => result.FailureReason
         };
+    }
 
     /// <summary>
     ///     Formats a failed result into a <see cref="LocalMessageBase"/>.

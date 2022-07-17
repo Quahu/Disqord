@@ -19,7 +19,9 @@ public abstract partial class DiscordBotBase
     ///     A <see cref="ValueTask{TResult}"/> representing the work where the result indicates whether the message should be processed.
     /// </returns>
     protected virtual ValueTask<bool> OnMessage(IGatewayUserMessage message)
-        => new(!message.Author.IsBot);
+    {
+        return new(!message.Author.IsBot);
+    }
 
     /// <summary>
     ///     Creates an <see cref="IDiscordTextCommandContext"/> from the provided parameters.

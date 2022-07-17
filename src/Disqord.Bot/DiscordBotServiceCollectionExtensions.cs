@@ -58,7 +58,6 @@ public static class DiscordBotServiceCollectionExtensions
     internal static void AddDiscordBotDependencies(this IServiceCollection services)
     {
         services.AddPrefixProvider();
-        services.AddCommandQueue();
         services.AddCommands();
         services.AddCommandContextAccessor();
         services.AddApplicationCommandLocalizer();
@@ -77,18 +76,6 @@ public static class DiscordBotServiceCollectionExtensions
         if (services.TryAddSingleton<IPrefixProvider, DefaultPrefixProvider>())
         {
             var options = services.AddOptions<DefaultPrefixProviderConfiguration>();
-            if (configure != null)
-                options.Configure(configure);
-        }
-
-        return services;
-    }
-
-    public static IServiceCollection AddCommandQueue(this IServiceCollection services, Action<DefaultCommandQueueConfiguration>? configure = null)
-    {
-        if (services.TryAddSingleton<ICommandQueue, DefaultCommandQueue>())
-        {
-            var options = services.AddOptions<DefaultCommandQueueConfiguration>();
             if (configure != null)
                 options.Configure(configure);
         }
