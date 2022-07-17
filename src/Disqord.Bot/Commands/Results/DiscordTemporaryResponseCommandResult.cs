@@ -21,7 +21,10 @@ public class DiscordTemporaryResponseCommandResult : DiscordCommandResult<IDisco
     public override async Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
         var message = await Result.ExecuteWithResultAsync(cancellationToken).ConfigureAwait(false);
-        await Task.Delay(Delay, cancellationToken).ConfigureAwait(false);
-        await message.DeleteAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        _ = Task.Delay(Delay, cancellationToken).ContinueWith(static (_, state) =>
+        {
+            var (message, cancellationToken) = (ValueTuple<IMessage, CancellationToken>) state!;
+            return message.DeleteAsync(cancellationToken: cancellationToken);
+        }, (message, cancellationToken), TaskContinuationOptions.OnlyOnRanToCompletion);
     }
 }
