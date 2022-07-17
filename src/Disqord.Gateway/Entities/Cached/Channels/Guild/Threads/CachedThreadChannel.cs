@@ -33,34 +33,32 @@ public class CachedThreadChannel : CachedMessageGuildChannel, IThreadChannel, IJ
     public int MemberCount { get; private set; }
 
     /// <inheritdoc/>
-    public bool IsArchived => _metadata.IsArchived;
+    public bool IsArchived => Metadata.IsArchived;
 
     /// <inheritdoc/>
-    public TimeSpan AutomaticArchiveDuration => _metadata.AutomaticArchiveDuration;
+    public TimeSpan AutomaticArchiveDuration => Metadata.AutomaticArchiveDuration;
 
     /// <inheritdoc/>
-    public DateTimeOffset ArchiveStateChangedAt => _metadata.ArchiveStateChangedAt;
+    public DateTimeOffset ArchiveStateChangedAt => Metadata.ArchiveStateChangedAt;
 
     /// <inheritdoc/>
-    public bool IsLocked => _metadata.IsLocked;
+    public bool IsLocked => Metadata.IsLocked;
 
     /// <inheritdoc/>
-    public bool AllowsInvitation => _metadata.AllowsInvitation;
+    public bool AllowsInvitation => Metadata.AllowsInvitation;
 
     /// <inheritdoc/>
-    public DateTimeOffset? CreatedAt => _metadata.CreatedAt;
+    public DateTimeOffset? CreatedAt => Metadata.CreatedAt;
 
-    public IThreadMetadata Metadata => _metadata;
+    public IThreadMetadata Metadata => _metadata!;
 
-    private readonly CachedThreadMetadata _metadata;
+    private CachedThreadMetadata? _metadata;
 
     public CachedThreadChannel(IGatewayClient client, ChannelJsonModel model)
         : base(client, model)
     {
         ChannelId = model.ParentId.Value!.Value;
         CreatorId = model.OwnerId.Value;
-
-        _metadata = new CachedThreadMetadata(client, model.ThreadMetadata.Value);
     }
 
     public override void Update(ChannelJsonModel model)
@@ -77,7 +75,16 @@ public class CachedThreadChannel : CachedMessageGuildChannel, IThreadChannel, IJ
             MemberCount = model.MemberCount.Value;
 
         if (model.ThreadMetadata.HasValue)
-            _metadata.Update(model.ThreadMetadata.Value);
+        {
+            if (_metadata == null)
+            {
+                _metadata = new CachedThreadMetadata(Client, model.ThreadMetadata.Value);
+            }
+            else
+            {
+                _metadata.Update(model.ThreadMetadata.Value);
+            }
+        }
     }
 
     public void Update(ThreadMembersUpdateJsonModel model)
