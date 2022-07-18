@@ -6,13 +6,13 @@ using Qommon;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public sealed class DelegateHandler<TModel, TEventArgs> : Handler<TModel, TEventArgs>
+public sealed class DelegateDispatchHandler<TModel, TEventArgs> : DispatchHandler<TModel, TEventArgs>
     where TModel : JsonModel
     where TEventArgs : EventArgs
 {
     private readonly Func<IGatewayApiClient, TModel, ValueTask<TEventArgs?>> _func;
 
-    public DelegateHandler(Func<IGatewayApiClient, TModel, ValueTask<TEventArgs?>> func)
+    public DelegateDispatchHandler(Func<IGatewayApiClient, TModel, ValueTask<TEventArgs?>> func)
     {
         Guard.IsNotNull(func);
 

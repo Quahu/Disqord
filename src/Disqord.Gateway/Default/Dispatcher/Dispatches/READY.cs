@@ -13,7 +13,7 @@ using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class ReadyHandler : Handler<ReadyJsonModel, ReadyEventArgs>
+public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventArgs>
 {
     public CachedCurrentUser? CurrentUser { get; private set; }
 
@@ -23,7 +23,7 @@ public class ReadyHandler : Handler<ReadyJsonModel, ReadyEventArgs>
 
     private readonly ISynchronizedDictionary<ShardId, DelayToken> _delays;
 
-    public ReadyHandler()
+    public ReadyDispatchHandler()
     {
         PendingGuilds = new SynchronizedDictionary<ShardId, ISynchronizedDictionary<Snowflake, bool>>();
         InitialReadys = new SynchronizedDictionary<ShardId, Tcs>();

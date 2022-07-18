@@ -4,7 +4,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class WebhooksUpdateHandler : Handler<WebhooksUpdateJsonModel, WebhooksUpdatedEventArgs>
+public class WebhooksUpdateDispatchHandler : DispatchHandler<WebhooksUpdateJsonModel, WebhooksUpdatedEventArgs>
 {
     public override ValueTask<WebhooksUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, WebhooksUpdateJsonModel model)
     {

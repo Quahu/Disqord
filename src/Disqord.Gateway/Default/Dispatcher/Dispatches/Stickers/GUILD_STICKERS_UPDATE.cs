@@ -6,7 +6,7 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class GuildStickersUpdateHandler : Handler<GuildStickersUpdateJsonModel, StickersUpdatedEventArgs>
+public class GuildStickersUpdateDispatchHandler : DispatchHandler<GuildStickersUpdateJsonModel, StickersUpdatedEventArgs>
 {
     public override ValueTask<StickersUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildStickersUpdateJsonModel model)
     {

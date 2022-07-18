@@ -4,7 +4,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class IntegrationCreateHandler : Handler<IntegrationCreateJsonModel, IntegrationCreatedEventArgs>
+public class IntegrationCreateDispatchHandler : DispatchHandler<IntegrationCreateJsonModel, IntegrationCreatedEventArgs>
 {
     public override ValueTask<IntegrationCreatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, IntegrationCreateJsonModel model)
     {

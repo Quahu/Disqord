@@ -5,7 +5,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class ResumedHandler : Handler<GatewayPayloadJsonModel, EventArgs>
+public class ResumedDispatchHandler : DispatchHandler<GatewayPayloadJsonModel, EventArgs>
 {
     public override ValueTask<EventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GatewayPayloadJsonModel model)
     {

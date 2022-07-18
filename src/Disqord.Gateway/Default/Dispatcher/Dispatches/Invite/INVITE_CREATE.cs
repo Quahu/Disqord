@@ -5,7 +5,7 @@ using Qommon;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class InviteCreateHandler : Handler<InviteCreateJsonModel, InviteCreatedEventArgs>
+public class InviteCreateDispatchHandler : DispatchHandler<InviteCreateJsonModel, InviteCreatedEventArgs>
 {
     public override ValueTask<InviteCreatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, InviteCreateJsonModel model)
     {

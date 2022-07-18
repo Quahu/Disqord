@@ -4,7 +4,7 @@ using Disqord.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class ThreadDeleteHandler : Handler<ChannelJsonModel, ThreadDeletedEventArgs>
+public class ThreadDeleteDispatchHandler : DispatchHandler<ChannelJsonModel, ThreadDeletedEventArgs>
 {
     public override ValueTask<ThreadDeletedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ChannelJsonModel model)
     {

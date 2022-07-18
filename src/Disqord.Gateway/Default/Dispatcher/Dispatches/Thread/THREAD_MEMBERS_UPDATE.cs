@@ -7,7 +7,7 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class ThreadMembersUpdateHandler : Handler<ThreadMembersUpdateJsonModel, ThreadMembersUpdatedEventArgs>
+public class ThreadMembersUpdateDispatchHandler : DispatchHandler<ThreadMembersUpdateJsonModel, ThreadMembersUpdatedEventArgs>
 {
     public override ValueTask<ThreadMembersUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ThreadMembersUpdateJsonModel model)
     {

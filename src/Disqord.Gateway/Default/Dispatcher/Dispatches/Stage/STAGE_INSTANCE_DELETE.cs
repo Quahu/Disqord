@@ -4,7 +4,7 @@ using Disqord.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class StageDeleteHandler : Handler<StageInstanceJsonModel, StageDeletedEventArgs>
+public class StageDeleteDispatchHandler : DispatchHandler<StageInstanceJsonModel, StageDeletedEventArgs>
 {
     public override ValueTask<StageDeletedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, StageInstanceJsonModel model)
     {

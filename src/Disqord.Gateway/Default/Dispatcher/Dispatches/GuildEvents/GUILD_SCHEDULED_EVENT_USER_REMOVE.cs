@@ -4,7 +4,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class GuildScheduledEventUserRemoveHandler : Handler<GuildScheduledEventUserRemoveJsonModel, GuildEventMemberRemovedEventArgs>
+public class GuildScheduledEventUserRemoveDispatchHandler : DispatchHandler<GuildScheduledEventUserRemoveJsonModel, GuildEventMemberRemovedEventArgs>
 {
     public override ValueTask<GuildEventMemberRemovedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildScheduledEventUserRemoveJsonModel model)
     {

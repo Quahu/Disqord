@@ -4,7 +4,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class GuildRoleUpdateHandler : Handler<GuildRoleUpdateJsonModel, RoleUpdatedEventArgs>
+public class GuildRoleUpdateDispatchHandler : DispatchHandler<GuildRoleUpdateJsonModel, RoleUpdatedEventArgs>
 {
     public override ValueTask<RoleUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildRoleUpdateJsonModel model)
     {

@@ -43,7 +43,7 @@ public class DiscordClientSharder : DiscordClientBase
         if (GatewayClient.Shards is not ISynchronizedDictionary<ShardId, IGatewayApiClient>)
             throw new InvalidOperationException("The gateway client instance is expected to return a synchronized dictionary of shards.");
 
-        if (GatewayClient.Dispatcher is not DefaultGatewayDispatcher dispatcher || dispatcher["READY"] is not ReadyHandler)
+        if (GatewayClient.Dispatcher is not DefaultGatewayDispatcher dispatcher || dispatcher["READY"] is not ReadyDispatchHandler)
             throw new InvalidOperationException("The gateway dispatcher must be the default implementation.");
 
         var configuration = options.Value;
@@ -92,7 +92,7 @@ public class DiscordClientSharder : DiscordClientBase
         Logger.LogInformation("This sharder will manage {0} shards with IDs: {1}", shardIds.Count, shardIds.Select(x => x.Id));
         var shards = (GatewayClient.Shards as ISynchronizedDictionary<ShardId, IGatewayApiClient>)!;
         var dispatcher = (GatewayClient.Dispatcher as DefaultGatewayDispatcher)!;
-        var originalReadyHandler = (dispatcher["READY"] as ReadyHandler)!;
+        var originalReadyHandler = (dispatcher["READY"] as ReadyDispatchHandler)!;
         originalReadyHandler.InitialReadys.Clear();
 
         // We create a service scope and a shard for every
@@ -112,7 +112,7 @@ public class DiscordClientSharder : DiscordClientBase
         Tcs? readyTcs = null;
         ShardId shardId = default;
 
-        dispatcher["READY"] = Handler.Intercept(originalReadyHandler, (shard, _) =>
+        dispatcher["READY"] = originalReadyHandler.Intercept((shard, _) =>
         {
             if (shard.Id == shardId)
             {
@@ -202,9 +202,9 @@ public class DiscordClientSharder : DiscordClientBase
 
         var dispatcher = (GatewayClient.Dispatcher as DefaultGatewayDispatcher)!;
         var handler = dispatcher["READY"];
-        var readyHandler = (handler is InterceptingHandler<ReadyJsonModel, ReadyEventArgs> interceptingHandler
-            ? interceptingHandler.UnderlyingHandler as ReadyHandler
-            : handler as ReadyHandler)!;
+        var readyHandler = (handler is InterceptingDispatchHandler<ReadyJsonModel, ReadyEventArgs> interceptingHandler
+            ? interceptingHandler.UnderlyingDispatchHandler as ReadyDispatchHandler
+            : handler as ReadyDispatchHandler)!;
 
         await Task.WhenAll(readyHandler.InitialReadys.Values.Select(x => x.Task)).ConfigureAwait(false);
     }

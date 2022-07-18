@@ -4,7 +4,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class MessageUpdateHandler : Handler<MessageUpdateJsonModel, MessageUpdatedEventArgs>
+public class MessageUpdateDispatchHandler : DispatchHandler<MessageUpdateJsonModel, MessageUpdatedEventArgs>
 {
     public override ValueTask<MessageUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, MessageUpdateJsonModel model)
     {

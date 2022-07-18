@@ -6,11 +6,11 @@ using Qommon;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class DelegateRawHandler : Handler
+public class DelegateRawDispatchHandler : DispatchHandler
 {
     private readonly Func<IGatewayApiClient, IJsonNode, ValueTask> _func;
 
-    public DelegateRawHandler(Func<IGatewayApiClient, IJsonNode, ValueTask> func)
+    public DelegateRawDispatchHandler(Func<IGatewayApiClient, IJsonNode, ValueTask> func)
     {
         Guard.IsNotNull(func);
 

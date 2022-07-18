@@ -21,19 +21,19 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
         get
         {
             var handler = _handlers["READY"];
-            if (handler is InterceptingHandler<ReadyJsonModel, ReadyEventArgs> interceptingHandler)
+            if (handler is InterceptingDispatchHandler<ReadyJsonModel, ReadyEventArgs> interceptingHandler)
             {
                 // Accounts for the intercepted handler in the sharder.
-                handler = interceptingHandler.UnderlyingHandler;
+                handler = interceptingHandler.UnderlyingDispatchHandler;
             }
 
-            return (handler as ReadyHandler)?.CurrentUser;
+            return (handler as ReadyDispatchHandler)?.CurrentUser;
         }
     }
 
     public ReadyEventDelayMode ReadyEventDelayMode { get; }
 
-    public Handler this[string name]
+    public DispatchHandler this[string name]
     {
         get => _handlers[name];
         set
@@ -46,7 +46,7 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
     private bool _loggedUnknownWarning;
     private readonly SynchronizedHashSet<string> _unknownDispatches = new();
 
-    private readonly ISynchronizedDictionary<string, Handler> _handlers;
+    private readonly ISynchronizedDictionary<string, DispatchHandler> _handlers;
     private readonly Binder<IGatewayClient> _binder;
 
     public DefaultGatewayDispatcher(
@@ -58,93 +58,93 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
 
         Logger = logger;
 
-        _handlers = new SynchronizedDictionary<string, Handler>
+        _handlers = new SynchronizedDictionary<string, DispatchHandler>
         {
-            [GatewayDispatchNames.Ready] = new ReadyHandler(),
-            [GatewayDispatchNames.Resumed] = new ResumedHandler(),
+            [GatewayDispatchNames.Ready] = new ReadyDispatchHandler(),
+            [GatewayDispatchNames.Resumed] = new ResumedDispatchHandler(),
 
-            [GatewayDispatchNames.ApplicationCommandPermissionsUpdate] = new ApplicationCommandPermissionsUpdateHandler(),
+            [GatewayDispatchNames.ApplicationCommandPermissionsUpdate] = new ApplicationCommandPermissionsUpdateDispatchHandler(),
 
-            [GatewayDispatchNames.AutoModerationRuleCreate] = new AutoModerationRuleCreateHandler(),
-            [GatewayDispatchNames.AutoModerationRuleUpdate] = new AutoModerationRuleUpdateHandler(),
-            [GatewayDispatchNames.AutoModerationRuleDelete] = new AutoModerationRuleDeleteHandler(),
-            [GatewayDispatchNames.AutoModerationActionExecution] = new AutoModerationActionExecutionHandler(),
+            [GatewayDispatchNames.AutoModerationRuleCreate] = new AutoModerationRuleCreateDispatchHandler(),
+            [GatewayDispatchNames.AutoModerationRuleUpdate] = new AutoModerationRuleUpdateDispatchHandler(),
+            [GatewayDispatchNames.AutoModerationRuleDelete] = new AutoModerationRuleDeleteDispatchHandler(),
+            [GatewayDispatchNames.AutoModerationActionExecution] = new AutoModerationActionExecutionDispatchHandler(),
 
-            [GatewayDispatchNames.ChannelCreate] = new ChannelCreateHandler(),
-            [GatewayDispatchNames.ChannelUpdate] = new ChannelUpdateHandler(),
-            [GatewayDispatchNames.ChannelDelete] = new ChannelDeleteHandler(),
+            [GatewayDispatchNames.ChannelCreate] = new ChannelCreateDispatchHandler(),
+            [GatewayDispatchNames.ChannelUpdate] = new ChannelUpdateDispatchHandler(),
+            [GatewayDispatchNames.ChannelDelete] = new ChannelDeleteDispatchHandler(),
 
-            [GatewayDispatchNames.ThreadCreate] = new ThreadCreateHandler(),
-            [GatewayDispatchNames.ThreadUpdate] = new ThreadUpdateHandler(),
-            [GatewayDispatchNames.ThreadDelete] = new ThreadDeleteHandler(),
-            [GatewayDispatchNames.ThreadListSync] = new ThreadListSyncHandler(),
-            [GatewayDispatchNames.ThreadMembersUpdate] = new ThreadMembersUpdateHandler(),
+            [GatewayDispatchNames.ThreadCreate] = new ThreadCreateDispatchHandler(),
+            [GatewayDispatchNames.ThreadUpdate] = new ThreadUpdateDispatchHandler(),
+            [GatewayDispatchNames.ThreadDelete] = new ThreadDeleteDispatchHandler(),
+            [GatewayDispatchNames.ThreadListSync] = new ThreadListSyncDispatchHandler(),
+            [GatewayDispatchNames.ThreadMembersUpdate] = new ThreadMembersUpdateDispatchHandler(),
 
-            [GatewayDispatchNames.ChannelPinsUpdate] = new ChannelPinsUpdateHandler(),
+            [GatewayDispatchNames.ChannelPinsUpdate] = new ChannelPinsUpdateDispatchHandler(),
 
-            [GatewayDispatchNames.GuildCreate] = new GuildCreateHandler(),
-            [GatewayDispatchNames.GuildUpdate] = new GuildUpdateHandler(),
-            [GatewayDispatchNames.GuildDelete] = new GuildDeleteHandler(),
+            [GatewayDispatchNames.GuildCreate] = new GuildCreateDispatchHandler(),
+            [GatewayDispatchNames.GuildUpdate] = new GuildUpdateDispatchHandler(),
+            [GatewayDispatchNames.GuildDelete] = new GuildDeleteDispatchHandler(),
 
-            [GatewayDispatchNames.GuildBanAdd] = new GuildBanAddHandler(),
-            [GatewayDispatchNames.GuildBanRemove] = new GuildBanRemoveHandler(),
+            [GatewayDispatchNames.GuildBanAdd] = new GuildBanAddDispatchHandler(),
+            [GatewayDispatchNames.GuildBanRemove] = new GuildBanRemoveDispatchHandler(),
 
-            [GatewayDispatchNames.GuildEmojisUpdate] = new GuildEmojisUpdateHandler(),
+            [GatewayDispatchNames.GuildEmojisUpdate] = new GuildEmojisUpdateDispatchHandler(),
 
-            [GatewayDispatchNames.GuildStickersUpdate] = new GuildStickersUpdateHandler(),
+            [GatewayDispatchNames.GuildStickersUpdate] = new GuildStickersUpdateDispatchHandler(),
 
-            [GatewayDispatchNames.GuildIntegrationsUpdate] = new GuildIntegrationsUpdateHandler(),
+            [GatewayDispatchNames.GuildIntegrationsUpdate] = new GuildIntegrationsUpdateDispatchHandler(),
 
-            [GatewayDispatchNames.GuildMemberAdd] = new GuildMemberAddHandler(),
-            [GatewayDispatchNames.GuildMemberUpdate] = new GuildMemberUpdateHandler(),
-            [GatewayDispatchNames.GuildMemberRemove] = new GuildMemberRemoveHandler(),
+            [GatewayDispatchNames.GuildMemberAdd] = new GuildMemberAddDispatchHandler(),
+            [GatewayDispatchNames.GuildMemberUpdate] = new GuildMemberUpdateDispatchHandler(),
+            [GatewayDispatchNames.GuildMemberRemove] = new GuildMemberRemoveDispatchHandler(),
 
-            [GatewayDispatchNames.GuildMembersChunk] = new GuildMembersChunkHandler(),
+            [GatewayDispatchNames.GuildMembersChunk] = new GuildMembersChunkDispatchHandler(),
 
-            [GatewayDispatchNames.GuildRoleCreate] = new GuildRoleCreateHandler(),
-            [GatewayDispatchNames.GuildRoleUpdate] = new GuildRoleUpdateHandler(),
-            [GatewayDispatchNames.GuildRoleDelete] = new GuildRoleDeleteHandler(),
+            [GatewayDispatchNames.GuildRoleCreate] = new GuildRoleCreateDispatchHandler(),
+            [GatewayDispatchNames.GuildRoleUpdate] = new GuildRoleUpdateDispatchHandler(),
+            [GatewayDispatchNames.GuildRoleDelete] = new GuildRoleDeleteDispatchHandler(),
 
-            [GatewayDispatchNames.GuildScheduledEventCreate] = new GuildScheduledEventCreateHandler(),
-            [GatewayDispatchNames.GuildScheduledEventUpdate] = new GuildScheduledEventUpdateHandler(),
-            [GatewayDispatchNames.GuildScheduledEventDelete] = new GuildScheduledEventDeleteHandler(),
-            [GatewayDispatchNames.GuildScheduledEventUserAdd] = new GuildScheduledEventUserAddHandler(),
-            [GatewayDispatchNames.GuildScheduledEventUserRemove] = new GuildScheduledEventUserRemoveHandler(),
+            [GatewayDispatchNames.GuildScheduledEventCreate] = new GuildScheduledEventCreateDispatchHandler(),
+            [GatewayDispatchNames.GuildScheduledEventUpdate] = new GuildScheduledEventUpdateDispatchHandler(),
+            [GatewayDispatchNames.GuildScheduledEventDelete] = new GuildScheduledEventDeleteDispatchHandler(),
+            [GatewayDispatchNames.GuildScheduledEventUserAdd] = new GuildScheduledEventUserAddDispatchHandler(),
+            [GatewayDispatchNames.GuildScheduledEventUserRemove] = new GuildScheduledEventUserRemoveDispatchHandler(),
 
-            [GatewayDispatchNames.IntegrationCreate] = new IntegrationCreateHandler(),
-            [GatewayDispatchNames.IntegrationUpdate] = new IntegrationUpdateHandler(),
-            [GatewayDispatchNames.IntegrationDelete] = new IntegrationDeleteHandler(),
+            [GatewayDispatchNames.IntegrationCreate] = new IntegrationCreateDispatchHandler(),
+            [GatewayDispatchNames.IntegrationUpdate] = new IntegrationUpdateDispatchHandler(),
+            [GatewayDispatchNames.IntegrationDelete] = new IntegrationDeleteDispatchHandler(),
 
-            [GatewayDispatchNames.InteractionCreate] = new InteractionCreateHandler(),
+            [GatewayDispatchNames.InteractionCreate] = new InteractionCreateDispatchHandler(),
 
-            [GatewayDispatchNames.InviteCreate] = new InviteCreateHandler(),
-            [GatewayDispatchNames.InviteDelete] = new InviteDeleteHandler(),
+            [GatewayDispatchNames.InviteCreate] = new InviteCreateDispatchHandler(),
+            [GatewayDispatchNames.InviteDelete] = new InviteDeleteDispatchHandler(),
 
-            [GatewayDispatchNames.MessageCreate] = new MessageCreateHandler(),
-            [GatewayDispatchNames.MessageUpdate] = new MessageUpdateHandler(),
-            [GatewayDispatchNames.MessageDelete] = new MessageDeleteHandler(),
-            [GatewayDispatchNames.MessageDeleteBulk] = new MessageDeleteBulkHandler(),
+            [GatewayDispatchNames.MessageCreate] = new MessageCreateDispatchHandler(),
+            [GatewayDispatchNames.MessageUpdate] = new MessageUpdateDispatchHandler(),
+            [GatewayDispatchNames.MessageDelete] = new MessageDeleteDispatchHandler(),
+            [GatewayDispatchNames.MessageDeleteBulk] = new MessageDeleteBulkDispatchHandler(),
 
-            [GatewayDispatchNames.MessageReactionAdd] = new MessageReactionAddHandler(),
-            [GatewayDispatchNames.MessageReactionRemove] = new MessageReactionRemoveHandler(),
-            [GatewayDispatchNames.MessageReactionRemoveAll] = new MessageReactionRemoveAllHandler(),
-            [GatewayDispatchNames.MessageReactionRemoveEmoji] = new MessageReactionRemoveEmojiHandler(),
+            [GatewayDispatchNames.MessageReactionAdd] = new MessageReactionAddDispatchHandler(),
+            [GatewayDispatchNames.MessageReactionRemove] = new MessageReactionRemoveDispatchHandler(),
+            [GatewayDispatchNames.MessageReactionRemoveAll] = new MessageReactionRemoveAllDispatchHandler(),
+            [GatewayDispatchNames.MessageReactionRemoveEmoji] = new MessageReactionRemoveEmojiDispatchHandler(),
 
-            [GatewayDispatchNames.PresenceUpdate] = new PresenceUpdateHandler(),
+            [GatewayDispatchNames.PresenceUpdate] = new PresenceUpdateDispatchHandler(),
 
-            [GatewayDispatchNames.StageInstanceCreate] = new StageCreateHandler(),
-            [GatewayDispatchNames.StageInstanceUpdate] = new StageUpdateHandler(),
-            [GatewayDispatchNames.StageInstanceDelete] = new StageDeleteHandler(),
+            [GatewayDispatchNames.StageInstanceCreate] = new StageCreateDispatchHandler(),
+            [GatewayDispatchNames.StageInstanceUpdate] = new StageUpdateDispatchHandler(),
+            [GatewayDispatchNames.StageInstanceDelete] = new StageDeleteDispatchHandler(),
 
-            [GatewayDispatchNames.TypingStart] = new TypingStartHandler(),
+            [GatewayDispatchNames.TypingStart] = new TypingStartDispatchHandler(),
 
-            [GatewayDispatchNames.UserUpdate] = new UserUpdateHandler(),
+            [GatewayDispatchNames.UserUpdate] = new UserUpdateDispatchHandler(),
 
-            [GatewayDispatchNames.VoiceStateUpdate] = new VoiceStateUpdateHandler(),
+            [GatewayDispatchNames.VoiceStateUpdate] = new VoiceStateUpdateDispatchHandler(),
 
-            [GatewayDispatchNames.VoiceServerUpdate] = new VoiceServerUpdateHandler(),
+            [GatewayDispatchNames.VoiceServerUpdate] = new VoiceServerUpdateDispatchHandler(),
 
-            [GatewayDispatchNames.WebhooksUpdate] = new WebhooksUpdateHandler()
+            [GatewayDispatchNames.WebhooksUpdate] = new WebhooksUpdateDispatchHandler()
         };
 
         _binder = new Binder<IGatewayClient>(this, allowRebinding: true);

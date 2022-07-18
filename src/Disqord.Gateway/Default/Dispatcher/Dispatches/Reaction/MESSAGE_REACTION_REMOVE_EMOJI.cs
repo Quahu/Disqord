@@ -7,7 +7,7 @@ using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class MessageReactionRemoveEmojiHandler : Handler<MessageReactionRemoveEmojiJsonModel, ReactionsClearedEventArgs>
+public class MessageReactionRemoveEmojiDispatchHandler : DispatchHandler<MessageReactionRemoveEmojiJsonModel, ReactionsClearedEventArgs>
 {
     public override ValueTask<ReactionsClearedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionRemoveEmojiJsonModel model)
     {

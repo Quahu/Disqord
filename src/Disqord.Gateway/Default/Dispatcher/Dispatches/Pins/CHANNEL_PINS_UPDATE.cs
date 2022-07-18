@@ -6,7 +6,7 @@ using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class ChannelPinsUpdateHandler : Handler<ChannelPinsUpdateJsonModel, ChannelPinsUpdatedEventArgs>
+public class ChannelPinsUpdateDispatchHandler : DispatchHandler<ChannelPinsUpdateJsonModel, ChannelPinsUpdatedEventArgs>
 {
     public override ValueTask<ChannelPinsUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ChannelPinsUpdateJsonModel model)
     {

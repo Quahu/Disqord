@@ -4,7 +4,7 @@ using Disqord.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class StageUpdateHandler : Handler<StageInstanceJsonModel, StageUpdatedEventArgs>
+public class StageUpdateDispatchHandler : DispatchHandler<StageInstanceJsonModel, StageUpdatedEventArgs>
 {
     public override ValueTask<StageUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, StageInstanceJsonModel model)
     {

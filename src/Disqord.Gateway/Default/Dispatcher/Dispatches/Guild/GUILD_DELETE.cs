@@ -7,13 +7,13 @@ using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class GuildDeleteHandler : Handler<UnavailableGuildJsonModel, EventArgs>
+public class GuildDeleteDispatchHandler : DispatchHandler<UnavailableGuildJsonModel, EventArgs>
 {
-    private ReadyHandler _readyHandler = null!;
+    private ReadyDispatchHandler _readyDispatchHandler = null!;
 
     public override void Bind(DefaultGatewayDispatcher value)
     {
-        _readyHandler = (value[GatewayDispatchNames.Ready] as ReadyHandler)!;
+        _readyDispatchHandler = (value[GatewayDispatchNames.Ready] as ReadyDispatchHandler)!;
 
         base.Bind(value);
     }
@@ -21,7 +21,7 @@ public class GuildDeleteHandler : Handler<UnavailableGuildJsonModel, EventArgs>
     public override async ValueTask<EventArgs?> HandleDispatchAsync(IGatewayApiClient shard, UnavailableGuildJsonModel model)
     {
         CachedGuild? guild = null;
-        var isPending = _readyHandler.IsPendingGuild(shard.Id, model.Id);
+        var isPending = _readyDispatchHandler.IsPendingGuild(shard.Id, model.Id);
         if (model.Unavailable.HasValue || isPending) // Note: apparently `model.Unavailable` is provided for pending GUILD_CREATEs but not GUILD_DELETEs.
         {
             try
@@ -50,7 +50,7 @@ public class GuildDeleteHandler : Handler<UnavailableGuildJsonModel, EventArgs>
             finally
             {
                 if (isPending)
-                    _readyHandler.PopPendingGuild(shard.Id, model.Id);
+                    _readyDispatchHandler.PopPendingGuild(shard.Id, model.Id);
             }
 
             return null;

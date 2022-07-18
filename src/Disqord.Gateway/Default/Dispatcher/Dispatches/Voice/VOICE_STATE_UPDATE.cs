@@ -7,7 +7,7 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class VoiceStateUpdateHandler : Handler<VoiceStateJsonModel, VoiceStateUpdatedEventArgs>
+public class VoiceStateUpdateDispatchHandler : DispatchHandler<VoiceStateJsonModel, VoiceStateUpdatedEventArgs>
 {
     public override ValueTask<VoiceStateUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, VoiceStateJsonModel model)
     {

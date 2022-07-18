@@ -5,7 +5,7 @@ using Qommon;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class InviteDeleteHandler : Handler<InviteDeleteJsonModel, InviteDeletedEventArgs>
+public class InviteDeleteDispatchHandler : DispatchHandler<InviteDeleteJsonModel, InviteDeletedEventArgs>
 {
     public override ValueTask<InviteDeletedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, InviteDeleteJsonModel model)
     {

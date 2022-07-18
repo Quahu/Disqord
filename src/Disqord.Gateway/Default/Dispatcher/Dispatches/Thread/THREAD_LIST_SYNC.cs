@@ -9,7 +9,7 @@ using Disqord.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class ThreadListSyncHandler : Handler<ThreadListSyncJsonModel, ThreadsSynchronizedEventArgs>
+public class ThreadListSyncDispatchHandler : DispatchHandler<ThreadListSyncJsonModel, ThreadsSynchronizedEventArgs>
 {
     public override ValueTask<ThreadsSynchronizedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ThreadListSyncJsonModel model)
     {

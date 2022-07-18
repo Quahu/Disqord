@@ -5,7 +5,7 @@ using Qommon;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class PresenceUpdateHandler : Handler<PresenceJsonModel, PresenceUpdatedEventArgs>
+public class PresenceUpdateDispatchHandler : DispatchHandler<PresenceJsonModel, PresenceUpdatedEventArgs>
 {
     public override ValueTask<PresenceUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, PresenceJsonModel model)
     {

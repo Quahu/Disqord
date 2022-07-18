@@ -5,7 +5,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class MessageDeleteBulkHandler : Handler<MessageDeleteBulkJsonModel, MessagesDeletedEventArgs>
+public class MessageDeleteBulkDispatchHandler : DispatchHandler<MessageDeleteBulkJsonModel, MessagesDeletedEventArgs>
 {
     public override ValueTask<MessagesDeletedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, MessageDeleteBulkJsonModel model)
     {

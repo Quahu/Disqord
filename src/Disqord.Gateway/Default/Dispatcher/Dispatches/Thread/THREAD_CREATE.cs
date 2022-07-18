@@ -5,7 +5,7 @@ using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class ThreadCreateHandler : Handler<ChannelJsonModel, ThreadCreatedEventArgs>
+public class ThreadCreateDispatchHandler : DispatchHandler<ChannelJsonModel, ThreadCreatedEventArgs>
 {
     public override ValueTask<ThreadCreatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ChannelJsonModel model)
     {

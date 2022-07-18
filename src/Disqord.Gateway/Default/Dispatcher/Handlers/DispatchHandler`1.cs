@@ -5,7 +5,7 @@ using Qommon.Events;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public abstract class Handler<TEventArgs> : Handler
+public abstract class DispatchHandler<TEventArgs> : DispatchHandler
     where TEventArgs : EventArgs
 {
     // The pre-fetched event from the dictionary below.
@@ -14,7 +14,7 @@ public abstract class Handler<TEventArgs> : Handler
     // TEventArgs -> AsynchronousEvent<TEventArgs>.
     private protected Dictionary<Type, IAsynchronousEvent>? Events;
 
-    private protected Handler()
+    private protected DispatchHandler()
     { }
 
     public override void Bind(DefaultGatewayDispatcher value)

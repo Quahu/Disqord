@@ -5,16 +5,16 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class GuildMemberAddHandler : Handler<GuildMemberAddJsonModel, MemberJoinedEventArgs>
+public class GuildMemberAddDispatchHandler : DispatchHandler<GuildMemberAddJsonModel, MemberJoinedEventArgs>
 {
-    private GuildMemberRemoveHandler? _guildMemberRemoveHandler;
+    private GuildMemberRemoveDispatchHandler? _guildMemberRemoveHandler;
 
     // GuildId -> MemberId
     private Dictionary<Snowflake, Snowflake>? _lastMemberIds;
 
     public override void Bind(DefaultGatewayDispatcher value)
     {
-        var guildMemberRemoveHandler = value[GatewayDispatchNames.GuildMemberRemove] as GuildMemberRemoveHandler;
+        var guildMemberRemoveHandler = value[GatewayDispatchNames.GuildMemberRemove] as GuildMemberRemoveDispatchHandler;
         if (guildMemberRemoveHandler != null)
         {
             _guildMemberRemoveHandler = guildMemberRemoveHandler;

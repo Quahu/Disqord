@@ -12,7 +12,7 @@ using Qommon.Events;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public abstract class Handler : IBindable<DefaultGatewayDispatcher>
+public abstract class DispatchHandler : IBindable<DefaultGatewayDispatcher>
 {
     public DefaultGatewayDispatcher Dispatcher => _binder.Value;
 
@@ -24,7 +24,7 @@ public abstract class Handler : IBindable<DefaultGatewayDispatcher>
 
     private readonly Binder<DefaultGatewayDispatcher> _binder;
 
-    private protected Handler()
+    private protected DispatchHandler()
     {
         _binder = new Binder<DefaultGatewayDispatcher>(this);
     }
@@ -36,17 +36,10 @@ public abstract class Handler : IBindable<DefaultGatewayDispatcher>
 
     public abstract ValueTask HandleDispatchAsync(IGatewayApiClient shard, IJsonNode data);
 
-    public static Handler Intercept<TModel, TEventArgs>(Handler<TModel, TEventArgs> handler, Action<IGatewayApiClient, TModel> func)
-        where TModel : JsonModel
-        where TEventArgs : EventArgs
-    {
-        return new InterceptingHandler<TModel, TEventArgs>(handler, func);
-    }
-
     private protected static readonly ISynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>> EventsByDispatcher = new SynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>>(1);
     private protected static readonly PropertyInfo[] EventProperties;
 
-    static Handler()
+    static DispatchHandler()
     {
         EventProperties = typeof(DefaultGatewayDispatcher).GetProperties(BindingFlags.Instance | BindingFlags.Public)
             .Where(x => x.PropertyType.IsGenericType && x.PropertyType.GetGenericTypeDefinition() == typeof(AsynchronousEvent<>))

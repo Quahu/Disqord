@@ -5,7 +5,7 @@ using Qommon;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class AutoModerationActionExecutionHandler : Handler<AutoModerationActionExecutionJsonModel, AutoModerationActionExecutedEventArgs>
+public class AutoModerationActionExecutionDispatchHandler : DispatchHandler<AutoModerationActionExecutionJsonModel, AutoModerationActionExecutedEventArgs>
 {
     public override ValueTask<AutoModerationActionExecutedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, AutoModerationActionExecutionJsonModel model)
     {

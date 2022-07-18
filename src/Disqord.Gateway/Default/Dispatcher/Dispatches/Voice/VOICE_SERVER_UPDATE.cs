@@ -4,7 +4,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class VoiceServerUpdateHandler : Handler<VoiceServerUpdateJsonModel, VoiceServerUpdatedEventArgs>
+public class VoiceServerUpdateDispatchHandler : DispatchHandler<VoiceServerUpdateJsonModel, VoiceServerUpdatedEventArgs>
 {
     public override ValueTask<VoiceServerUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, VoiceServerUpdateJsonModel model)
     {

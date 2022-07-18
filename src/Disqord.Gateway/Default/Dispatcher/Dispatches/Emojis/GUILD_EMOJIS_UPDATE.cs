@@ -6,7 +6,7 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class GuildEmojisUpdateHandler : Handler<GuildEmojisUpdateJsonModel, EmojisUpdatedEventArgs>
+public class GuildEmojisUpdateDispatchHandler : DispatchHandler<GuildEmojisUpdateJsonModel, EmojisUpdatedEventArgs>
 {
     public override ValueTask<EmojisUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildEmojisUpdateJsonModel model)
     {

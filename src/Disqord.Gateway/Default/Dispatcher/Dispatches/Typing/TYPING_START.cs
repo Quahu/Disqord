@@ -6,7 +6,7 @@ using Qommon;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class TypingStartHandler : Handler<TypingStartJsonModel, TypingStartedEventArgs>
+public class TypingStartDispatchHandler : DispatchHandler<TypingStartJsonModel, TypingStartedEventArgs>
 {
     public override ValueTask<TypingStartedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, TypingStartJsonModel model)
     {

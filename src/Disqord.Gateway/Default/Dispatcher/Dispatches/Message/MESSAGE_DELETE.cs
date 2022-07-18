@@ -5,7 +5,7 @@ using Qommon;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class MessageDeleteHandler : Handler<MessageDeleteJsonModel, MessageDeletedEventArgs>
+public class MessageDeleteDispatchHandler : DispatchHandler<MessageDeleteJsonModel, MessageDeletedEventArgs>
 {
     public override ValueTask<MessageDeletedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, MessageDeleteJsonModel model)
     {

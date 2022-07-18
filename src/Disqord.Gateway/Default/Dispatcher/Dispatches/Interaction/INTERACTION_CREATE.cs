@@ -8,7 +8,7 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class InteractionCreateHandler : Handler<InteractionJsonModel, InteractionReceivedEventArgs>
+public class InteractionCreateDispatchHandler : DispatchHandler<InteractionJsonModel, InteractionReceivedEventArgs>
 {
     public override ValueTask<InteractionReceivedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, InteractionJsonModel model)
     {

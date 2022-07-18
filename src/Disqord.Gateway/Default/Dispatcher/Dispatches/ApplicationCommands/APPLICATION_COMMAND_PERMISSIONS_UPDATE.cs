@@ -4,7 +4,7 @@ using Disqord.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class ApplicationCommandPermissionsUpdateHandler : Handler<ApplicationCommandGuildPermissionsJsonModel, ApplicationCommandPermissionsUpdatedEventArgs>
+public class ApplicationCommandPermissionsUpdateDispatchHandler : DispatchHandler<ApplicationCommandGuildPermissionsJsonModel, ApplicationCommandPermissionsUpdatedEventArgs>
 {
     public override ValueTask<ApplicationCommandPermissionsUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ApplicationCommandGuildPermissionsJsonModel model)
     {

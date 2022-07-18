@@ -5,11 +5,11 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public abstract class Handler<TModel, TEventArgs> : Handler<TEventArgs>
+public abstract class DispatchHandler<TModel, TEventArgs> : DispatchHandler<TEventArgs>
     where TModel : JsonModel
     where TEventArgs : EventArgs
 {
-    protected Handler()
+    protected DispatchHandler()
     { }
 
     public override async ValueTask HandleDispatchAsync(IGatewayApiClient shard, IJsonNode data)

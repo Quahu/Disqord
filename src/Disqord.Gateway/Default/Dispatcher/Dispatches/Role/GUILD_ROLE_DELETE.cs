@@ -4,7 +4,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class GuildRoleDeleteHandler : Handler<GuildRoleDeleteJsonModel, RoleDeletedEventArgs>
+public class GuildRoleDeleteDispatchHandler : DispatchHandler<GuildRoleDeleteJsonModel, RoleDeletedEventArgs>
 {
     public override ValueTask<RoleDeletedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildRoleDeleteJsonModel model)
     {

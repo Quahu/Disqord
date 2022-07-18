@@ -33,7 +33,7 @@ public class DiscordClient : DiscordClientBase
 
     public override Task WaitUntilReadyAsync(CancellationToken cancellationToken)
     {
-        if (GatewayClient.Dispatcher is DefaultGatewayDispatcher dispatcher && dispatcher["READY"] is ReadyHandler readyHandler)
+        if (GatewayClient.Dispatcher is DefaultGatewayDispatcher dispatcher && dispatcher["READY"] is ReadyDispatchHandler readyHandler)
             return readyHandler.InitialReadys[ShardId.Default].Task;
 
         return Task.CompletedTask;

@@ -4,7 +4,7 @@ using Disqord.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class AutoModerationRuleCreateHandler : Handler<AutoModerationRuleJsonModel, AutoModerationRuleCreatedEventArgs>
+public class AutoModerationRuleCreateDispatchHandler : DispatchHandler<AutoModerationRuleJsonModel, AutoModerationRuleCreatedEventArgs>
 {
     public override ValueTask<AutoModerationRuleCreatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, AutoModerationRuleJsonModel model)
     {

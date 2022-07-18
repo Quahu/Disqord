@@ -4,7 +4,7 @@ using Disqord.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class ChannelCreateHandler : Handler<ChannelJsonModel, ChannelCreatedEventArgs>
+public class ChannelCreateDispatchHandler : DispatchHandler<ChannelJsonModel, ChannelCreatedEventArgs>
 {
     public override ValueTask<ChannelCreatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ChannelJsonModel model)
     {

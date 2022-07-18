@@ -4,7 +4,7 @@ using Disqord.Gateway.Api.Models;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
-public class GuildBanAddHandler : Handler<GuildBanAddJsonModel, BanCreatedEventArgs>
+public class GuildBanAddDispatchHandler : DispatchHandler<GuildBanAddJsonModel, BanCreatedEventArgs>
 {
     public override ValueTask<BanCreatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildBanAddJsonModel model)
     {
