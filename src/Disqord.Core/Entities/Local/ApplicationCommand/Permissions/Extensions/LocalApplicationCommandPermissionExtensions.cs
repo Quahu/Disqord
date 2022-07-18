@@ -1,8 +1,8 @@
-using Disqord.Models;
-using Qommon;
+using System.ComponentModel;
 
 namespace Disqord;
 
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalApplicationCommandPermissionExtensions
 {
     public static TPermission WithTargetId<TPermission>(this TPermission permission, Snowflake targetId)
@@ -24,15 +24,5 @@ public static class LocalApplicationCommandPermissionExtensions
     {
         permission.HasPermission = hasPermission;
         return permission;
-    }
-
-    public static ApplicationCommandPermissionsJsonModel ToModel(this LocalApplicationCommandPermission permission)
-    {
-        return new ApplicationCommandPermissionsJsonModel
-        {
-            Id = permission.TargetId.Value,
-            Type = permission.TargetType.Value,
-            Permission = permission.HasPermission.GetValueOrDefault()
-        };
     }
 }

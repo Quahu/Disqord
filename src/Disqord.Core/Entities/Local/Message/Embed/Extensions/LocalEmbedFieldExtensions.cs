@@ -1,7 +1,9 @@
-﻿using Qommon;
+﻿using System.ComponentModel;
+using Qommon;
 
 namespace Disqord;
 
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalEmbedFieldExtensions
 {
     public static TField WithName<TField>(this TField field, string name)

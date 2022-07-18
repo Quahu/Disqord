@@ -90,6 +90,7 @@ public class LocalEmoji : IEmoji, ILocalConstruct<LocalEmoji>, IJsonConvertible<
     /// <summary>
     ///     Instantiates a new <see cref="LocalEmoji"/> with the properties copied from another instance.
     /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalEmoji(LocalEmoji other)
     {
         Name = other.Name;

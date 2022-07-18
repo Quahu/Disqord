@@ -1,5 +1,8 @@
-﻿namespace Disqord;
+﻿using System.ComponentModel;
 
+namespace Disqord;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalSelectionComponentOptionOptionExtensions
 {
     public static TOption WithLabel<TOption>(this TOption component, string label)

@@ -21,6 +21,7 @@ public class LocalLinkButtonComponent : LocalButtonComponentBase, ILocalConstruc
         Url = other.Url;
     }
 
+    /// <inheritdoc/>
     public override LocalLinkButtonComponent Clone()
     {
         return new(this);

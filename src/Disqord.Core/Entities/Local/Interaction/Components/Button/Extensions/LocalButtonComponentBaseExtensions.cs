@@ -1,5 +1,8 @@
-﻿namespace Disqord;
+﻿using System.ComponentModel;
 
+namespace Disqord;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalButtonComponentBaseExtensions
 {
     public static TComponent WithLabel<TComponent>(this TComponent component, string label)

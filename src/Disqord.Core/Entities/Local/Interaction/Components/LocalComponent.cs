@@ -8,53 +8,67 @@ namespace Disqord;
 public abstract class LocalComponent : ILocalConstruct<LocalComponent>, IJsonConvertible<ComponentJsonModel>
 {
     public static LocalRowComponent Row(params LocalComponent[] components)
-        => new()
+    {
+        return new LocalRowComponent
         {
             Components = components
         };
+    }
 
     public static LocalButtonComponent Button(string customId, string label)
-        => new()
+    {
+        return new LocalButtonComponent
         {
             CustomId = customId,
             Label = label
         };
+    }
 
     public static LocalButtonComponent Button(string customId, LocalEmoji emoji)
-        => new()
+    {
+        return new LocalButtonComponent
         {
             CustomId = customId,
             Emoji = emoji
         };
+    }
 
     public static LocalLinkButtonComponent LinkButton(string url, string label)
-        => new()
+    {
+        return new LocalLinkButtonComponent
         {
             Url = url,
             Label = label
         };
+    }
 
     public static LocalLinkButtonComponent LinkButton(string url, LocalEmoji emoji)
-        => new()
+    {
+        return new LocalLinkButtonComponent
         {
             Url = url,
             Emoji = emoji
         };
+    }
 
     public static LocalSelectionComponent Selection(string customId, params LocalSelectionComponentOption[] options)
-        => new()
+    {
+        return new LocalSelectionComponent
         {
             CustomId = customId,
             Options = options
         };
+    }
 
     public static LocalTextInputComponent TextInput(string customId, string label, TextInputComponentStyle style)
-        => new()
+    {
+        return new LocalTextInputComponent
         {
             Style = style,
             CustomId = customId,
             Label = label
         };
+    }
 
     /// <inheritdoc/>
     public abstract LocalComponent Clone();

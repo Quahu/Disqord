@@ -1,5 +1,8 @@
+using System.ComponentModel;
+
 namespace Disqord;
 
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalTextInputComponentExtensions
 {
     public static TComponent WithStyle<TComponent>(this TComponent textInput, TextInputComponentStyle style)

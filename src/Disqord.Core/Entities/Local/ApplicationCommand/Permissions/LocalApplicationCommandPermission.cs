@@ -1,8 +1,9 @@
+using Disqord.Models;
 using Qommon;
 
 namespace Disqord;
 
-public class LocalApplicationCommandPermission : ILocalConstruct<LocalApplicationCommandPermission>
+public class LocalApplicationCommandPermission : ILocalConstruct<LocalApplicationCommandPermission>, IJsonConvertible<ApplicationCommandPermissionsJsonModel>
 {
     /// <summary>
     ///     Gets or sets the ID of the targeted entity.
@@ -26,8 +27,9 @@ public class LocalApplicationCommandPermission : ILocalConstruct<LocalApplicatio
     { }
 
     /// <summary>
-    ///     Instantiates a new <see cref="LocalApplicationCommandPermission"/>.
+    ///     Instantiates a new <see cref="LocalApplicationCommandPermission"/> with the properties copied from another instance.
     /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalApplicationCommandPermission(LocalApplicationCommandPermission other)
     {
         TargetId = other.TargetId;
@@ -48,8 +50,24 @@ public class LocalApplicationCommandPermission : ILocalConstruct<LocalApplicatio
         HasPermission = hasPermission;
     }
 
+    /// <inheritdoc/>
     public virtual LocalApplicationCommandPermission Clone()
     {
         return new(this);
+    }
+
+    /// <inheritdoc />
+    public ApplicationCommandPermissionsJsonModel ToModel()
+    {
+        OptionalGuard.HasValue(TargetId);
+        OptionalGuard.HasValue(TargetType);
+        OptionalGuard.HasValue(HasPermission);
+
+        return new ApplicationCommandPermissionsJsonModel
+        {
+            Id = TargetId.Value,
+            Type = TargetType.Value,
+            Permission = HasPermission.Value
+        };
     }
 }

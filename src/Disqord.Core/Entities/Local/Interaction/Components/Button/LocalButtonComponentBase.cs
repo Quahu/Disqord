@@ -25,9 +25,16 @@ public abstract class LocalButtonComponentBase : LocalComponent, ILocalConstruct
     /// </summary>
     public Optional<bool> IsDisabled { get; set; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalButtonComponentBase"/>.
+    /// </summary>
     protected LocalButtonComponentBase()
     { }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalButtonComponentBase"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalButtonComponentBase(LocalButtonComponentBase other)
     {
         Label = other.Label;

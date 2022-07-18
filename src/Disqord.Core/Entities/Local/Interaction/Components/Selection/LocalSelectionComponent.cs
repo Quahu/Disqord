@@ -3,7 +3,7 @@ using Qommon;
 
 namespace Disqord;
 
-public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableEntity
+public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableEntity, ILocalConstruct<LocalSelectionComponent>
 {
     /// <inheritdoc/>
     public Optional<string> CustomId { get; set; }
@@ -33,9 +33,16 @@ public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableE
     /// </summary>
     public Optional<IList<LocalSelectionComponentOption>> Options { get; set; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalSelectionComponent"/>.
+    /// </summary>
     public LocalSelectionComponent()
     { }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalSelectionComponent"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalSelectionComponent(LocalSelectionComponent other)
     {
         CustomId = other.CustomId;
@@ -45,6 +52,7 @@ public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableE
         Options = other.Options.DeepClone();
     }
 
+    /// <inheritdoc/>
     public override LocalSelectionComponent Clone()
     {
         return new(this);

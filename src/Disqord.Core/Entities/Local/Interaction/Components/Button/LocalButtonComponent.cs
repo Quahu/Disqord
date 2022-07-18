@@ -15,16 +15,24 @@ public class LocalButtonComponent : LocalButtonComponentBase, ILocalCustomIdenti
     /// <inheritdoc/>
     public Optional<string> CustomId { get; set; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalButtonComponent"/>.
+    /// </summary>
     public LocalButtonComponent()
     { }
 
-    private LocalButtonComponent(LocalButtonComponent other)
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalButtonComponent"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
+    protected LocalButtonComponent(LocalButtonComponent other)
         : base(other)
     {
         Style = other.Style;
         CustomId = other.CustomId;
     }
 
+    /// <inheritdoc/>
     public override LocalButtonComponent Clone()
     {
         return new(this);

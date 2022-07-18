@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using Qommon;
 
 namespace Disqord;
 
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalSlashCommandOptionChoiceExtensions
 {
     public static TSlashCommandOptionChoice WithName<TSlashCommandOptionChoice>(this TSlashCommandOptionChoice @this, string name)
@@ -13,24 +15,24 @@ public static class LocalSlashCommandOptionChoiceExtensions
         return @this;
     }
 
-    public static TSlashCommandOptionChoice AddNameLocalization<TSlashCommandOptionChoice>(this TSlashCommandOptionChoice @this, CultureInfo locale, string name)
+    public static TSlashCommandOptionChoice AddNameLocalization<TSlashCommandOptionChoice>(this TSlashCommandOptionChoice @this, CultureInfo locale, string nameLocalization)
         where TSlashCommandOptionChoice : LocalSlashCommandOptionChoice
     {
         Guard.IsNotNull(locale);
-        Guard.IsNotNull(name);
+        Guard.IsNotNull(nameLocalization);
 
-        if (@this.NameLocalizations.Add(locale, name, out var dictionary))
+        if (@this.NameLocalizations.Add(locale, nameLocalization, out var dictionary))
             @this.NameLocalizations = new(dictionary);
 
         return @this;
     }
 
-    public static TSlashCommandOptionChoice WithNameLocalizations<TSlashCommandOptionChoice>(this TSlashCommandOptionChoice @this, IEnumerable<KeyValuePair<CultureInfo, string>> names)
+    public static TSlashCommandOptionChoice WithNameLocalizations<TSlashCommandOptionChoice>(this TSlashCommandOptionChoice @this, IEnumerable<KeyValuePair<CultureInfo, string>> nameLocalizations)
         where TSlashCommandOptionChoice : LocalSlashCommandOptionChoice
     {
-        Guard.IsNotNull(names);
+        Guard.IsNotNull(nameLocalizations);
 
-        if (@this.NameLocalizations.With(names, out var dictionary))
+        if (@this.NameLocalizations.With(nameLocalizations, out var dictionary))
             @this.NameLocalizations = new(dictionary);
 
         return @this;

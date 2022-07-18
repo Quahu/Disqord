@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Qommon;
 
 namespace Disqord;
 
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalEmbedExtensions
 {
     public static TEmbed WithTitle<TEmbed>(this TEmbed embed, string title)

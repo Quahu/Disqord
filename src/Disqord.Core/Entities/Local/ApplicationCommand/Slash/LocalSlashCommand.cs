@@ -26,9 +26,16 @@ public class LocalSlashCommand : LocalApplicationCommand
     /// </summary>
     public Optional<IList<LocalSlashCommandOption>> Options { get; set; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalSlashCommand"/>.
+    /// </summary>
     public LocalSlashCommand()
     { }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalSlashCommand"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalSlashCommand(LocalSlashCommand other)
         : base(other)
     {
@@ -37,6 +44,7 @@ public class LocalSlashCommand : LocalApplicationCommand
         Options = Optional.Convert(other.Options, options => options.Select(option => option.Clone()).ToList() as IList<LocalSlashCommandOption>);
     }
 
+    /// <inheritdoc/>
     public override LocalSlashCommand Clone()
     {
         return new(this);

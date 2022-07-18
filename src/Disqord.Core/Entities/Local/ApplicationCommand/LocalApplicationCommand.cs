@@ -38,9 +38,16 @@ public abstract class LocalApplicationCommand : ILocalConstruct<LocalApplication
     /// </summary>
     public Optional<bool> IsEnabledInPrivateChannels { get; set; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalApplicationCommand"/>.
+    /// </summary>
     protected LocalApplicationCommand()
     { }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalApplicationCommand"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalApplicationCommand(LocalApplicationCommand other)
     {
         Guard.IsNotNull(other);
@@ -52,5 +59,6 @@ public abstract class LocalApplicationCommand : ILocalConstruct<LocalApplication
         IsEnabledInPrivateChannels = other.IsEnabledInPrivateChannels;
     }
 
+    /// <inheritdoc/>
     public abstract LocalApplicationCommand Clone();
 }

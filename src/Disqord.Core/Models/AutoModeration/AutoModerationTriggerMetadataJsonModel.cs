@@ -9,5 +9,5 @@ public class AutoModerationTriggerMetadataJsonModel : JsonModel
     public Optional<string[]> KeywordFilter;
 
     [JsonProperty("presets")]
-    public Optional<AutoModerationKeywordPresetType[]> Presents;
+    public Optional<AutoModerationKeywordPresetType[]> Presets;
 }

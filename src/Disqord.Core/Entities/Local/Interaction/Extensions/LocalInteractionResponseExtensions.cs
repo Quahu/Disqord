@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using Qommon;
 
 namespace Disqord;
 
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalInteractionResponseExtensions
 {
     public static TResponse AddChoice<TResponse>(this TResponse response, KeyValuePair<string, object> choice)

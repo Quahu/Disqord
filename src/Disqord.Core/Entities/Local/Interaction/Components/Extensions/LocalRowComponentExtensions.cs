@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using Qommon;
 
 namespace Disqord;
 
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalRowComponentExtensions
 {
     public static TComponent AddComponent<TComponent>(this TComponent row, LocalComponent component)

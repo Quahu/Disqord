@@ -78,9 +78,16 @@ public class LocalSlashCommandOption : ILocalConstruct<LocalSlashCommandOption>
     /// </summary>
     public Optional<bool> HasAutoComplete { get; set; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalSlashCommandOption"/>.
+    /// </summary>
     public LocalSlashCommandOption()
     { }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalSlashCommandOption"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalSlashCommandOption(LocalSlashCommandOption other)
     {
         Guard.IsNotNull(other);
@@ -97,6 +104,7 @@ public class LocalSlashCommandOption : ILocalConstruct<LocalSlashCommandOption>
         HasAutoComplete = other.HasAutoComplete;
     }
 
+    /// <inheritdoc/>
     public virtual LocalSlashCommandOption Clone()
     {
         return new(this);

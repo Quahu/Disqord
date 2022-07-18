@@ -28,9 +28,16 @@ public class LocalSlashCommandOptionChoice : ILocalConstruct<LocalSlashCommandOp
     /// </remarks>
     public Optional<object> Value { get; set; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalSlashCommandOptionChoice"/>.
+    /// </summary>
     public LocalSlashCommandOptionChoice()
     { }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalSlashCommandOptionChoice"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalSlashCommandOptionChoice(LocalSlashCommandOptionChoice other)
     {
         Name = other.Name;
@@ -38,6 +45,7 @@ public class LocalSlashCommandOptionChoice : ILocalConstruct<LocalSlashCommandOp
         Value = other.Name;
     }
 
+    /// <inheritdoc/>
     public virtual LocalSlashCommandOptionChoice Clone()
     {
         return new(this);

@@ -2,7 +2,7 @@ using Qommon;
 
 namespace Disqord;
 
-public class LocalTextInputComponent : LocalComponent, ILocalCustomIdentifiableEntity
+public class LocalTextInputComponent : LocalComponent, ILocalCustomIdentifiableEntity, ILocalConstruct<LocalTextInputComponent>
 {
     /// <summary>
     ///     Gets or sets the style of this text input.
@@ -48,9 +48,16 @@ public class LocalTextInputComponent : LocalComponent, ILocalCustomIdentifiableE
     /// </summary>
     public Optional<string> Placeholder { get; set; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalTextInputComponent"/>.
+    /// </summary>
     public LocalTextInputComponent()
     { }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalTextInputComponent"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalTextInputComponent(LocalTextInputComponent other)
     {
         Style = other.Style;
@@ -63,6 +70,9 @@ public class LocalTextInputComponent : LocalComponent, ILocalCustomIdentifiableE
         Placeholder = other.Placeholder;
     }
 
+    /// <inheritdoc/>
     public override LocalTextInputComponent Clone()
-        => new(this);
+    {
+        return new(this);
+    }
 }

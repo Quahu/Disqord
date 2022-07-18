@@ -1,5 +1,8 @@
-﻿namespace Disqord;
+﻿using System.ComponentModel;
 
+namespace Disqord;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalEmbedAuthorExtensions
 {
     public static TEmbedAuthor WithName<TEmbedAuthor>(this TEmbedAuthor author, string name)

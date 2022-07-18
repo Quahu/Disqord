@@ -36,6 +36,7 @@ public class LocalCustomEmoji : LocalEmoji, ICustomEmoji, ILocalConstruct<LocalC
     /// <summary>
     ///     Instantiates a new <see cref="LocalCustomEmoji"/> with the properties copied from another instance.
     /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalCustomEmoji(LocalCustomEmoji other)
         : base(other)
     {

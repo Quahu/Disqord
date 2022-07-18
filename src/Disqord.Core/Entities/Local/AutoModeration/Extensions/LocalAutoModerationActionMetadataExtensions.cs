@@ -1,9 +1,9 @@
 using System;
-using Disqord.Models;
-using Qommon;
+using System.ComponentModel;
 
 namespace Disqord;
 
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalAutoModerationActionMetadataExtensions
 {
     public static TActionMetadata WithChannelId<TActionMetadata>(this TActionMetadata metadata, Snowflake channelId)
@@ -18,14 +18,5 @@ public static class LocalAutoModerationActionMetadataExtensions
     {
         metadata.TimeoutDuration = duration;
         return metadata;
-    }
-
-    public static AutoModerationActionMetadataJsonModel ToModel(this LocalAutoModerationActionMetadata metadata)
-    {
-        return new AutoModerationActionMetadataJsonModel
-        {
-            ChannelId = metadata.ChannelId,
-            DurationSeconds = Optional.Convert(metadata.TimeoutDuration, x => (int) x.TotalSeconds)
-        };
     }
 }

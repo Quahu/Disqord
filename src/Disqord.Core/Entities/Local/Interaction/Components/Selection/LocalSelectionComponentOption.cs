@@ -30,15 +30,16 @@ public class LocalSelectionComponentOption : ILocalConstruct<LocalSelectionCompo
     /// </summary>
     public Optional<bool> IsDefault { get; set; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalSelectionComponentOption"/>.
+    /// </summary>
     public LocalSelectionComponentOption()
     { }
 
-    public LocalSelectionComponentOption(string label, string value)
-    {
-        Label = label;
-        Value = value;
-    }
-
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalSelectionComponentOption"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalSelectionComponentOption(LocalSelectionComponentOption other)
     {
         Label = other.Label;
@@ -48,13 +49,25 @@ public class LocalSelectionComponentOption : ILocalConstruct<LocalSelectionCompo
         IsDefault = other.IsDefault;
     }
 
-    public LocalSelectionComponentOption Clone()
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalSelectionComponentOption"/>.
+    /// </summary>
+    /// <param name="label"> The label of the option. </param>
+    /// <param name="value"> The value of the option. </param>
+    public LocalSelectionComponentOption(string label, string value)
+    {
+        Label = label;
+        Value = value;
+    }
+
+    /// <inheritdoc/>
+    public virtual LocalSelectionComponentOption Clone()
     {
         return new(this);
     }
 
     /// <inheritdoc />
-    public SelectOptionJsonModel ToModel()
+    public virtual SelectOptionJsonModel ToModel()
     {
         return new SelectOptionJsonModel
         {

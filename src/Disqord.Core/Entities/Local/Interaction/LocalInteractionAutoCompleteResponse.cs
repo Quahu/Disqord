@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Qommon;
 
 namespace Disqord;
@@ -13,12 +12,19 @@ public class LocalInteractionAutoCompleteResponse : ILocalInteractionResponse, I
     /// </summary>
     public Optional<IList<KeyValuePair<string, object>>> Choices { get; set; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalInteractionAutoCompleteResponse"/>.
+    /// </summary>
     public LocalInteractionAutoCompleteResponse()
     { }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalInteractionAutoCompleteResponse"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalInteractionAutoCompleteResponse(LocalInteractionAutoCompleteResponse other)
     {
-        Choices = Optional.Convert(other.Choices, choices => choices.ToList() as IList<KeyValuePair<string, object>>);
+        Choices = other.Choices.Clone();
     }
 
     /// <inheritdoc/>

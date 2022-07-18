@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using Qommon;
 
 namespace Disqord;
 
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalSlashCommandExtensions
 {
     public static TSlashCommand WithDescription<TSlashCommand>(this TSlashCommand @this, string description)
@@ -13,24 +15,24 @@ public static class LocalSlashCommandExtensions
         return @this;
     }
 
-    public static TSlashCommand AddDescriptionLocalization<TSlashCommand>(this TSlashCommand @this, CultureInfo locale, string description)
+    public static TSlashCommand AddDescriptionLocalization<TSlashCommand>(this TSlashCommand @this, CultureInfo locale, string descriptionLocalization)
         where TSlashCommand : LocalSlashCommand
     {
         Guard.IsNotNull(locale);
-        Guard.IsNotNull(description);
+        Guard.IsNotNull(descriptionLocalization);
 
-        if (@this.DescriptionLocalizations.Add(locale, description, out var dictionary))
+        if (@this.DescriptionLocalizations.Add(locale, descriptionLocalization, out var dictionary))
             @this.DescriptionLocalizations = new(dictionary);
 
         return @this;
     }
 
-    public static TSlashCommand WithDescriptionLocalizations<TSlashCommand>(this TSlashCommand @this, IEnumerable<KeyValuePair<CultureInfo, string>> descriptions)
+    public static TSlashCommand WithDescriptionLocalizations<TSlashCommand>(this TSlashCommand @this, IEnumerable<KeyValuePair<CultureInfo, string>> descriptionLocalizations)
         where TSlashCommand : LocalSlashCommand
     {
-        Guard.IsNotNull(descriptions);
+        Guard.IsNotNull(descriptionLocalizations);
 
-        if (@this.DescriptionLocalizations.With(descriptions, out var dictionary))
+        if (@this.DescriptionLocalizations.With(descriptionLocalizations, out var dictionary))
             @this.DescriptionLocalizations = new(dictionary);
 
         return @this;

@@ -1,8 +1,8 @@
-using Disqord.Models;
-using Qommon;
+using System.ComponentModel;
 
 namespace Disqord;
 
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalAutoModerationExtensions
 {
     public static TAction WithType<TAction>(this TAction action, AutoModerationActionType type)
@@ -17,14 +17,5 @@ public static class LocalAutoModerationExtensions
     {
         action.Metadata = metadata;
         return action;
-    }
-
-    public static AutoModerationActionJsonModel ToModel(this LocalAutoModerationAction action)
-    {
-        return new AutoModerationActionJsonModel
-        {
-            Type = action.Type.Value,
-            Metadata = Optional.Convert(action.Metadata, x => x.ToModel())
-        };
     }
 }

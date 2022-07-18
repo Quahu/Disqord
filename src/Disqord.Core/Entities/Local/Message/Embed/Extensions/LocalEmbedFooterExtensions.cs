@@ -1,5 +1,8 @@
-﻿namespace Disqord;
+﻿using System.ComponentModel;
 
+namespace Disqord;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalEmbedFooterExtensions
 {
     public static TFooter WithText<TFooter>(this TFooter footer, string text)

@@ -1,21 +1,28 @@
-using Disqord.Models;
-using Qommon;
+using System.ComponentModel;
 
 namespace Disqord;
 
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalGuildWelcomeScreenChannelExtensions
 {
-    public static WelcomeScreenChannelJsonModel ToModel(this LocalGuildWelcomeScreenChannel welcomeScreenChannel)
+    public static TWelcomeScreenChannel WithChannelId<TWelcomeScreenChannel>(this TWelcomeScreenChannel welcomeScreenChannel, Snowflake channelId)
+        where TWelcomeScreenChannel : LocalGuildWelcomeScreenChannel
     {
-        OptionalGuard.HasValue(welcomeScreenChannel.ChannelId);
-        OptionalGuard.HasValue(welcomeScreenChannel.Description);
+        welcomeScreenChannel.ChannelId = channelId;
+        return welcomeScreenChannel;
+    }
 
-        return new()
-        {
-            ChannelId = welcomeScreenChannel.ChannelId.Value,
-            Description = welcomeScreenChannel.Description.Value,
-            EmojiId = (welcomeScreenChannel.Emoji.GetValueOrDefault() as LocalCustomEmoji)?.Id.GetValueOrNullable(),
-            EmojiName = welcomeScreenChannel.Emoji.GetValueOrDefault()?.Name.GetValueOrDefault()
-        };
+    public static TWelcomeScreenChannel WithDescription<TWelcomeScreenChannel>(this TWelcomeScreenChannel welcomeScreenChannel, string description)
+        where TWelcomeScreenChannel : LocalGuildWelcomeScreenChannel
+    {
+        welcomeScreenChannel.Description = description;
+        return welcomeScreenChannel;
+    }
+
+    public static TWelcomeScreenChannel WithEmoji<TWelcomeScreenChannel>(this TWelcomeScreenChannel welcomeScreenChannel, LocalEmoji emoji)
+        where TWelcomeScreenChannel : LocalGuildWelcomeScreenChannel
+    {
+        welcomeScreenChannel.Emoji = emoji;
+        return welcomeScreenChannel;
     }
 }

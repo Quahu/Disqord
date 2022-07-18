@@ -25,10 +25,10 @@ public class TransientAutoModerationTriggerMetadata : TransientEntity<AutoModera
     {
         get
         {
-            if (!Model.Presents.HasValue)
+            if (!Model.Presets.HasValue)
                 return ReadOnlyList<AutoModerationKeywordPresetType>.Empty;
 
-            return _presets ??= Model.Presents.Value.ToReadOnlyList();
+            return _presets ??= Model.Presets.Value.ToReadOnlyList();
         }
     }
     private IReadOnlyList<AutoModerationKeywordPresetType>? _presets;

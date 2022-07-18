@@ -28,9 +28,16 @@ public class LocalInteractionModalResponse : ILocalInteractionResponse, ILocalCu
     /// </summary>
     public Optional<IList<LocalComponent>> Components { get; set; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalInteractionModalResponse"/>.
+    /// </summary>
     public LocalInteractionModalResponse()
     { }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalInteractionModalResponse"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalInteractionModalResponse(LocalInteractionModalResponse other)
     {
         CustomId = other.CustomId;

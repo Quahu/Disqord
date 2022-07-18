@@ -34,9 +34,16 @@ public class LocalInteractionFollowup : LocalMessageBase, ILocalConstruct<LocalI
         }
     }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalInteractionFollowup"/>.
+    /// </summary>
     public LocalInteractionFollowup()
     { }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="LocalInteractionFollowup"/> with the properties copied from another instance.
+    /// </summary>
+    /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalInteractionFollowup(LocalInteractionFollowup other)
         : base(other)
     {

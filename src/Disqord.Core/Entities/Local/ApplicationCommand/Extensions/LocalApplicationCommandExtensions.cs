@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using Qommon;
 
 namespace Disqord;
 
+[EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalApplicationCommandExtensions
 {
     public static TApplicationCommand WithName<TApplicationCommand>(this TApplicationCommand command, string name)
@@ -13,24 +15,24 @@ public static class LocalApplicationCommandExtensions
         return command;
     }
 
-    public static TApplicationCommand AddNameLocalization<TApplicationCommand>(this TApplicationCommand @this, CultureInfo locale, string name)
+    public static TApplicationCommand AddNameLocalization<TApplicationCommand>(this TApplicationCommand @this, CultureInfo locale, string nameLocalization)
         where TApplicationCommand : LocalApplicationCommand
     {
         Guard.IsNotNull(locale);
-        Guard.IsNotNull(name);
+        Guard.IsNotNull(nameLocalization);
 
-        if (@this.NameLocalizations.Add(locale, name, out var dictionary))
+        if (@this.NameLocalizations.Add(locale, nameLocalization, out var dictionary))
             @this.NameLocalizations = new(dictionary);
 
         return @this;
     }
 
-    public static TApplicationCommand WithNameLocalizations<TApplicationCommand>(this TApplicationCommand @this, IEnumerable<KeyValuePair<CultureInfo, string>> names)
+    public static TApplicationCommand WithNameLocalizations<TApplicationCommand>(this TApplicationCommand @this, IEnumerable<KeyValuePair<CultureInfo, string>> nameLocalizations)
         where TApplicationCommand : LocalApplicationCommand
     {
-        Guard.IsNotNull(names);
+        Guard.IsNotNull(nameLocalizations);
 
-        if (@this.NameLocalizations.With(names, out var dictionary))
+        if (@this.NameLocalizations.With(nameLocalizations, out var dictionary))
             @this.NameLocalizations = new(dictionary);
 
         return @this;
