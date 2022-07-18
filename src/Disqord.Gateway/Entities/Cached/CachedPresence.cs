@@ -5,13 +5,14 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway;
 
+/// <inheritdoc cref="IPresence"/>
 public class CachedPresence : CachedSnowflakeEntity, IPresence
 {
     /// <inheritdoc/>
     public Snowflake GuildId { get; }
 
     /// <inheritdoc/>
-    public Snowflake MemberId { get; }
+    public Snowflake MemberId => Id;
 
     /// <inheritdoc/>
     public IReadOnlyList<IActivity> Activities
@@ -41,7 +42,6 @@ public class CachedPresence : CachedSnowflakeEntity, IPresence
         : base(client, model.User.Id)
     {
         GuildId = model.GuildId;
-        MemberId = model.User.Id;
 
         Update(model);
     }
