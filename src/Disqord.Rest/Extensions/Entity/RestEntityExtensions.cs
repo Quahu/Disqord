@@ -6,8 +6,7 @@ namespace Disqord.Rest;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static partial class RestEntityExtensions
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static IRestClient GetRestClient(this IClientEntity entity)
+    internal static IRestClient GetRestClient(this IClientEntity entity)
     {
         Guard.IsNotNull(entity);
 
