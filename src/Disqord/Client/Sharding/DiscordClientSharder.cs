@@ -58,7 +58,7 @@ public class DiscordClientSharder : DiscordClientBase
     public override async Task RunAsync(CancellationToken stoppingToken)
     {
         StoppingToken = stoppingToken;
-        var uri = new Uri("wss://gateway.discord.gg/");
+        var uri = new Uri(Discord.Gateway.Url);
         _scopes = new Dictionary<ShardId, IServiceScope>();
         var shardIds = new List<ShardId>();
         if (_configuredShardCount != null)

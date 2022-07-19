@@ -27,7 +27,7 @@ public class DiscordClient : DiscordClientBase
     public override async Task RunAsync(CancellationToken stoppingToken)
     {
         StoppingToken = stoppingToken;
-        var uri = new Uri("wss://gateway.discord.gg/");
+        var uri = new Uri(Discord.Gateway.Url);
         await GatewayClient.RunAsync(uri, stoppingToken).ConfigureAwait(false);
     }
 
