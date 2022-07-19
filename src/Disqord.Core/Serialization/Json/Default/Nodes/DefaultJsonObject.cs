@@ -33,7 +33,9 @@ public class DefaultJsonObject : DefaultJsonNode, IJsonObject
 
     /// <inheritdoc/>
     public bool ContainsKey(string key)
-        => Token.ContainsKey(key);
+    {
+        return Token.ContainsKey(key);
+    }
 
     /// <inheritdoc/>
     public bool TryGetValue(string key, out IJsonNode? value)

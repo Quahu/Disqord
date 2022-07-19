@@ -3,7 +3,7 @@ namespace Disqord.Serialization.Json;
 /// <summary>
 ///     Represents the formatting of JSON.
 /// </summary>
-public enum JsonFormatting
+public enum JsonFormatting : byte
 {
     /// <summary>
     ///     Represents no formatting.

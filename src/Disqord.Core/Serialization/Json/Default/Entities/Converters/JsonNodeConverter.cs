@@ -22,6 +22,7 @@ internal sealed class JsonNodeConverter : JsonConverter
         var token = value is DefaultJsonNode defaultJsonNode
             ? defaultJsonNode.Token
             : JToken.FromObject(value!, serializer);
+
         serializer.Serialize(writer, token);
     }
 }

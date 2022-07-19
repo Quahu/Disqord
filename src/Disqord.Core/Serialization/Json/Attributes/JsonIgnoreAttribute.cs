@@ -2,7 +2,7 @@
 
 namespace Disqord.Serialization.Json;
 
-[AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Property)]
 public class JsonIgnoreAttribute : Attribute
 {
     public JsonIgnoreAttribute()

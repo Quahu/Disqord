@@ -2,7 +2,7 @@
 
 namespace Disqord.Serialization.Json;
 
-[AttributeUsage(AttributeTargets.Enum, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Enum)]
 public class StringEnumAttribute : Attribute
 {
     public StringEnumAttribute()
