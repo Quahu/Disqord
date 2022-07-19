@@ -1,10 +1,10 @@
 ﻿using System;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Default;
-using Qommon.Binding;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Qommon.Binding;
 
 namespace Disqord.Sharding;
 

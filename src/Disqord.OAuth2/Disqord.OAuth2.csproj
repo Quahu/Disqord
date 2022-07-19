@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="../Disqord.targets" />
+    <Import Project="../Disqord.targets"/>
     <ItemGroup>
-        <ProjectReference Include="..\Disqord.Rest\Disqord.Rest.csproj" />
+        <ProjectReference Include="..\Disqord.Rest\Disqord.Rest.csproj"/>
     </ItemGroup>
 </Project>

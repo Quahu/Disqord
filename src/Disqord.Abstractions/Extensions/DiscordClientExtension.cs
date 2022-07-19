@@ -38,7 +38,9 @@ public abstract class DiscordClientExtension : ILogging
     ///     A <see cref="ValueTask"/> representing the initialization work.
     /// </returns>
     protected virtual ValueTask InitializeAsync(CancellationToken cancellationToken)
-        => default;
+    {
+        return default;
+    }
 
     /// <summary>
     ///     Binds this extension to the provided client and initializes it.

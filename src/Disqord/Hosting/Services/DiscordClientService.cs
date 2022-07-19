@@ -86,7 +86,9 @@ public abstract partial class DiscordClientService : IHostedService, IDisposable
     ///     A <see cref="Task"/> that represents the long-running work.
     /// </returns>
     protected virtual Task ExecuteAsync(CancellationToken stoppingToken)
-        => Task.CompletedTask;
+    {
+        return Task.CompletedTask;
+    }
 
     /// <inheritdoc/>
     public virtual Task StartAsync(CancellationToken cancellationToken)

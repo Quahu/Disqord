@@ -29,6 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disqord.Webhook", "Disqord.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disqord.OAuth2", "Disqord.OAuth2\Disqord.OAuth2.csproj", "{695F86A5-A09B-4174-938E-CFE7D5A70406}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disqord.Extensions.Interactivity", "Disqord.Extensions.Interactivity\Disqord.Extensions.Interactivity.csproj", "{21215770-5689-4F8A-91CC-C0F4B10DEE28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disqord.Abstractions", "Disqord.Abstractions\Disqord.Abstractions.csproj", "{3F54C978-8191-47DD-A4A6-BB574B136106}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,11 +91,21 @@ Global
 		{695F86A5-A09B-4174-938E-CFE7D5A70406}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{695F86A5-A09B-4174-938E-CFE7D5A70406}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{695F86A5-A09B-4174-938E-CFE7D5A70406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21215770-5689-4F8A-91CC-C0F4B10DEE28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21215770-5689-4F8A-91CC-C0F4B10DEE28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21215770-5689-4F8A-91CC-C0F4B10DEE28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21215770-5689-4F8A-91CC-C0F4B10DEE28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F54C978-8191-47DD-A4A6-BB574B136106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F54C978-8191-47DD-A4A6-BB574B136106}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F54C978-8191-47DD-A4A6-BB574B136106}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F54C978-8191-47DD-A4A6-BB574B136106}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EFD09C91-3B86-4BB5-ABCD-4E8DD454F224}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal

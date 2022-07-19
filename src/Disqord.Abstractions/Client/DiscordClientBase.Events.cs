@@ -1,5 +1,5 @@
-﻿using Qommon.Events;
-using Disqord.Gateway;
+﻿using Disqord.Gateway;
+using Qommon.Events;
 
 namespace Disqord;
 

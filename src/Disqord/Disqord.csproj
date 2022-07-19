@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../Disqord.targets" />
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Disqord.Gateway\Disqord.Gateway.csproj" />
-    <ProjectReference Include="..\Disqord.Rest\Disqord.Rest.csproj" />
-    <ProjectReference Include="..\Disqord.Webhook\Disqord.Webhook.csproj" />
-  </ItemGroup>
+    <Import Project="../Disqord.targets"/>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Disqord.Extensions.Interactivity\Disqord.Extensions.Interactivity.csproj"/>
+        <ProjectReference Include="..\Disqord.Gateway\Disqord.Gateway.csproj"/>
+        <ProjectReference Include="..\Disqord.Rest\Disqord.Rest.csproj"/>
+        <ProjectReference Include="..\Disqord.Webhook\Disqord.Webhook.csproj"/>
+    </ItemGroup>
 </Project>

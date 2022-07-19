@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="../Disqord.targets" />
+    <Import Project="../Disqord.targets"/>
     <ItemGroup>
-        <ProjectReference Include="..\Disqord\Disqord.csproj" />
-        <PackageReference Include="Qmmands" Version="6.0.0-alpha2" />
+        <ProjectReference Include="..\Disqord\Disqord.csproj"/>
+        <PackageReference Include="Qmmands" Version="6.0.0-alpha2"/>
     </ItemGroup>
     <!--    <ItemGroup>-->
     <!--        <Reference Include="Qmmands, Version=6.0.0.0, Culture=neutral, PublicKeyToken=null">-->
@@ -11,6 +11,6 @@
     <!--        </Reference>-->
     <!--    </ItemGroup>-->
     <ItemGroup>
-        <Folder Include="Commands\Implementation\Application\Constructs" />
+        <Folder Include="Commands\Implementation\Application\Constructs"/>
     </ItemGroup>
 </Project>

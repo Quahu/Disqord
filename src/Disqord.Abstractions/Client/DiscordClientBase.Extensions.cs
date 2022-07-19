@@ -28,10 +28,10 @@ public abstract partial class DiscordClientBase
         }
     }
 
-    public TExtension GetExtension<TExtension>()
+    public TExtension? GetExtension<TExtension>()
         where TExtension : DiscordClientExtension
     {
-        return (_extensions.GetValueOrDefault(typeof(TExtension)) as TExtension)!;
+        return _extensions.GetValueOrDefault(typeof(TExtension)) as TExtension;
     }
 
     public TExtension GetRequiredExtension<TExtension>()

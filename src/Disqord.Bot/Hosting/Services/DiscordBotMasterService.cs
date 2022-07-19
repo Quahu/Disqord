@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Disqord.Bot.Commands;
 using Disqord.Gateway;
 using Disqord.Hosting;
-using Qommon.Binding;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Qommon.Binding;
 
 namespace Disqord.Bot.Hosting;
 
