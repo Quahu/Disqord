@@ -1,0 +1,34 @@
+name: .NET Action
+description: Executes the .NET pipeline.
+runs:
+  # env:
+  #   DOTNET_NOLOGO: true
+  #   DOTNET_CLI_TELEMETRY_OPTOUT: true
+  using: "composite"
+  steps:
+    - name: Set SOLUTION_PATH
+      run: echo "SOLUTION_PATH=./src/${{ github.event.repository.name }}.sln" >> $Env:GITHUB_ENV
+      shell: pwsh
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore
+      run: dotnet restore $Env:SOLUTION_PATH
+      shell: pwsh
+    - name: Build
+      run: dotnet build $Env:SOLUTION_PATH -c Release --no-restore -p:NoWarn=1591
+      shell: pwsh
+    - name: Test
+      run: dotnet test $Env:SOLUTION_PATH --no-restore --verbosity minimal
+      shell: pwsh
+    - name: Pack
+      run: | 
+        Invoke-Expression "dotnet pack $Env:SOLUTION_PATH -c Release -o ./artifacts --no-restore --no-build $($Env:VERSION_SUFFIX ? "--version-suffix=$Env:VERSION_SUFFIX" : $null)"
+        if ($LastExitCode -ne 0) { $Host.SetShouldExit($LastExitCode) }
+      shell: pwsh
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifacts
+        path: ./artifacts/

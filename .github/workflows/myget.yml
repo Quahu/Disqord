@@ -1,0 +1,24 @@
+name: MyGet
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set VERSION_SUFFIX
+      if: ${{ github.event_name == 'push' }}
+      run: echo "VERSION_SUFFIX=$Env:GITHUB_RUN_NUMBER" >> $Env:GITHUB_ENV
+    - name: .NET Action
+      uses: ./.github/actions/dotnet
+    - name: Push
+      env:
+        MYGET_API_KEY: ${{ secrets.MYGET_API_KEY }}
+      run: dotnet nuget push "./artifacts/*.nupkg" -k $Env:MYGET_API_KEY -s https://www.myget.org/F/disqord/api/v3/index.json --skip-duplicate

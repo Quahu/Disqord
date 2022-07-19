@@ -4,6 +4,8 @@
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>preview</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+        <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix).$(VersionSuffix)</Version>
     </PropertyGroup>
     <PropertyGroup>
         <Nullable>enable</Nullable>
