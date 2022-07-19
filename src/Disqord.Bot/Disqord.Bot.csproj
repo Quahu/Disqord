@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="../Disqord.targets"/>
+    <PropertyGroup>
+        <VersionPrefix>1.0.0-alpha</VersionPrefix>
+    </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Disqord\Disqord.csproj"/>
         <PackageReference Include="Qmmands" Version="6.0.0-alpha2"/>
     </ItemGroup>
-    <!--    <ItemGroup>-->
-    <!--        <Reference Include="Qmmands, Version=6.0.0.0, Culture=neutral, PublicKeyToken=null">-->
-    <!--            <HintPath>..\..\..\Qmmands\src\Qmmands\bin\Release\net6.0\Qmmands.dll</HintPath>-->
-    <!--        </Reference>-->
-    <!--    </ItemGroup>-->
     <ItemGroup>
         <Folder Include="Commands\Implementation\Application\Constructs"/>
     </ItemGroup>

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="../Disqord.targets" />
+    <Import Project="../Disqord.targets"/>
+    <PropertyGroup>
+        <VersionPrefix>1.0.0-alpha</VersionPrefix>
+    </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Disqord.Gateway\Disqord.Gateway.csproj" />
-        <ProjectReference Include="..\Disqord.Rest\Disqord.Rest.csproj" />
+        <ProjectReference Include="..\Disqord.Gateway\Disqord.Gateway.csproj"/>
+        <ProjectReference Include="..\Disqord.Rest\Disqord.Rest.csproj"/>
     </ItemGroup>
 </Project>
