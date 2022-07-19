@@ -13,7 +13,7 @@ using System.IO.Compression;
 
 namespace Disqord.WebSocket.Default.Discord
 {
-    internal sealed partial class DiscordWebSocket : IDisposable
+    internal sealed class DiscordWebSocket : IDisposable
     {
         public const int ReceiveBufferSize = 8192;
 
@@ -83,12 +83,7 @@ namespace Disqord.WebSocket.Default.Discord
                 {
                     _wasLastPayloadZLib = false;
                     _receiveZLibStream?.Dispose();
-                    _receiveZLibStream =
-#if NET5_0
-                    CreateZLibStream(_receiveStream);
-#else
-                        new ZLibStream(_receiveStream, CompressionMode.Decompress, true);
-#endif
+                    _receiveZLibStream = new ZLibStream(_receiveStream, CompressionMode.Decompress, true);
                 }
 
                 await _ws.ConnectAsync(url, cancellationToken).ConfigureAwait(false);

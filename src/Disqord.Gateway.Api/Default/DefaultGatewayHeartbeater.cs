@@ -76,11 +76,13 @@ public class DefaultGatewayHeartbeater : IGatewayHeartbeater
     }
 
     protected virtual GatewayPayloadJsonModel GetPayload()
-        => new()
+    {
+        return new GatewayPayloadJsonModel
         {
             Op = GatewayPayloadOperation.Heartbeat,
             D = ApiClient.Serializer.GetJsonNode(ApiClient.Sequence)
         };
+    }
 
     public Task HeartbeatAsync(CancellationToken cancellationToken = default)
     {
