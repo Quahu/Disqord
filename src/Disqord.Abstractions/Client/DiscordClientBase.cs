@@ -14,8 +14,10 @@ namespace Disqord;
 
 /// <summary>
 ///     Represents a high-level Discord client.
-///     Wraps <see cref="IRestClient"/> and <see cref="IGatewayClient"/>.
 /// </summary>
+/// <remarks>
+///     Wraps <see cref="IRestClient"/> and <see cref="IGatewayClient"/>.
+/// </remarks>
 public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
 {
     /// <inheritdoc/>
@@ -29,9 +31,13 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
 
     /// <summary>
     ///     Gets the <see cref="CancellationToken"/> passed to <see cref="RunAsync(CancellationToken)"/>.
-    ///     This is set by implementations of this type.
-    ///     Returns <see cref="CancellationToken.None"/> if the client has not been started.
     /// </summary>
+    /// <remarks>
+    ///     This is set by implementations of this type.
+    /// </remarks>
+    /// <returns>
+    ///     The cancellation token or <see cref="CancellationToken.None"/> if the client has not been started.
+    /// </returns>
     public virtual CancellationToken StoppingToken { get; private protected set; }
 
     /// <summary>
