@@ -23,7 +23,7 @@ public class CreateApplicationCommandJsonRestRequestContent : JsonModelRestReque
     public Optional<ApplicationCommandOptionJsonModel[]> Options;
 
     [JsonProperty("default_member_permissions")]
-    public Optional<ulong?> DefaultMemberPermissions;
+    public Optional<Permissions?> DefaultMemberPermissions;
 
     [JsonProperty("dm_permission")]
     public Optional<bool?> DmPermission;

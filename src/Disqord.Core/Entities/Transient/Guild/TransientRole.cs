@@ -32,7 +32,7 @@ public class TransientRole : TransientClientEntity<RoleJsonModel>, IRole
     public int Position => Model.Position;
 
     /// <inheritdoc/>
-    public GuildPermissions Permissions => Model.Permissions;
+    public Permissions Permissions => Model.Permissions;
 
     /// <inheritdoc/>
     public bool IsManaged => Model.Managed;

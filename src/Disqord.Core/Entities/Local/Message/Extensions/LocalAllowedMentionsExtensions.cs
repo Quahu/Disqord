@@ -19,7 +19,7 @@ public static class LocalAllowedMentionsExtensions
     /// <returns>
     ///     The input instance.
     /// </returns>
-    public static TAllowedMentions WithParsedMentions<TAllowedMentions>(this TAllowedMentions allowedMentions, ParsedMention parsedMentions)
+    public static TAllowedMentions WithParsedMentions<TAllowedMentions>(this TAllowedMentions allowedMentions, ParsedMentions parsedMentions)
         where TAllowedMentions : LocalAllowedMentions
     {
         allowedMentions.ParsedMentions = parsedMentions;

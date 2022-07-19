@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Disqord.Gateway;
+﻿namespace Disqord.Gateway;
 
 public static partial class GatewayEntityExtensions
 {
@@ -28,7 +26,13 @@ public static partial class GatewayEntityExtensions
     {
         var client = stageChannel.GetGatewayClient();
         if (client.CacheProvider.TryGetStages(stageChannel.GuildId, out var cache))
-            return Array.Find(cache.Values, x => x.ChannelId == stageChannel.Id);
+        {
+            foreach (var stage in cache.Values)
+            {
+                if (stage.ChannelId == stageChannel.Id)
+                    return stage;
+            }
+        }
 
         return null;
     }

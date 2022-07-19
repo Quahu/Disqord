@@ -34,7 +34,7 @@ public interface IRole : ISnowflakeEntity, IGuildEntity, INamableEntity, IMentio
     /// <summary>
     ///     Gets the permissions of this role.
     /// </summary>
-    GuildPermissions Permissions { get; }
+    Permissions Permissions { get; }
 
     /// <summary>
     ///     Gets whether this role is managed by an integration.

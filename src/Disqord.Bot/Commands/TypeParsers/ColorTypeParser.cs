@@ -173,7 +173,7 @@ public class ColorTypeParser : DiscordTypeParser<Color>
             // If spaces are allowed we look up the actual name with the space-separated name.
             // We also trim any extra spaces.
             var foundValue = _allowSpaces && valueSpan.IndexOf(' ') != -1
-                ? _spacedNames.GetValueOrDefault(string.Join(' ', valueSpan.ToString()!.Split(' ', StringSplitOptions.RemoveEmptyEntries)))
+                ? _spacedNames.GetValueOrDefault(string.Join(' ', valueSpan.ToString().Split(' ', StringSplitOptions.RemoveEmptyEntries)))
                 : value.ToString();
 
             if (foundValue != null && _colors.TryGetValue(foundValue, out var color))

@@ -85,7 +85,7 @@ public class ChannelJsonModel : JsonModel
     public Optional<int> DefaultAutoArchiveDuration;
 
     [JsonProperty("permissions")]
-    public Optional<ulong> Permissions;
+    public Optional<Permissions> Permissions;
 
     [JsonProperty("flags")]
     public Optional<GuildChannelFlags> Flags;

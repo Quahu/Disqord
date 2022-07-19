@@ -7,7 +7,7 @@ namespace Disqord;
 public class TransientInteractionChannel : TransientChannel, IInteractionChannel
 {
     /// <inheritdoc/>
-    public ChannelPermissions AuthorPermissions => Model.Permissions.GetValueOrDefault();
+    public Permissions AuthorPermissions => Model.Permissions.GetValueOrDefault();
 
     /// <inheritdoc/>
     public Snowflake? ParentId => Model.ParentId.GetValueOrDefault();

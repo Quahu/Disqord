@@ -11,8 +11,8 @@ public class OverwriteJsonModel : JsonModel
     public OverwriteTargetType Type;
 
     [JsonProperty("allow")]
-    public ulong Allow;
+    public Permissions Allow;
 
     [JsonProperty("deny")]
-    public ulong Deny;
+    public Permissions Deny;
 }

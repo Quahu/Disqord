@@ -15,5 +15,5 @@ public interface IApplicationDefaultAuthorizationParameters : IEntity
     /// <summary>
     ///     Gets the permissions requested by the application.
     /// </summary>
-    GuildPermissions Permissions { get; }
+    Permissions Permissions { get; }
 }

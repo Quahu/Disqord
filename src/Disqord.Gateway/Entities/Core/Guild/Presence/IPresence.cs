@@ -5,7 +5,7 @@ using Disqord.Models;
 namespace Disqord.Gateway;
 
 /// <summary>
-///     Represents the presence of a member, i.e. their status and activities..
+///     Represents the presence of a member, i.e. their status and activities.
 /// </summary>
 public interface IPresence : IGatewayEntity, IGuildEntity, IJsonUpdatable<PresenceJsonModel>
 {
@@ -31,8 +31,10 @@ public interface IPresence : IGatewayEntity, IGuildEntity, IJsonUpdatable<Presen
 
     /// <summary>
     ///     Gets the <see cref="UserStatus"/> of this presence.
-    ///     This will be the status shown in the desktop client.
     /// </summary>
+    /// <remarks>
+    ///     This will be the status shown in the desktop client.
+    /// </remarks>
     UserStatus Status { get; }
 
     /// <summary>
@@ -41,7 +43,7 @@ public interface IPresence : IGatewayEntity, IGuildEntity, IJsonUpdatable<Presen
     /// <example>
     ///     Checking if the member is on a mobile device.
     ///     <code>
-    ///     var hasMobile = presence.Statuses.ContainsKey(UserClient.Mobile);
+    ///     var isMobile = presence.Statuses.ContainsKey(UserClient.Mobile);
     ///     </code>
     /// </example>
     IReadOnlyDictionary<UserClient, UserStatus> Statuses { get; }

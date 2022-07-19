@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Disqord.Models;
 using Qommon;
+using ParsedMentionFlags = Disqord.ParsedMentions;
 
 namespace Disqord;
 
@@ -15,18 +16,18 @@ public class LocalAllowedMentions : ILocalConstruct<LocalAllowedMentions>, IJson
     ///     Creates an instance in which all mentions are ignored.
     /// </summary>
     public static LocalAllowedMentions None => new LocalAllowedMentions()
-        .WithParsedMentions(ParsedMention.None);
+        .WithParsedMentions(ParsedMentionFlags.None);
 
     /// <summary>
     ///     Creates an instance in which all <see cref="Mention.Here"/> and <see cref="Mention.Everyone"/> mentions are ignored.
     /// </summary>
     public static LocalAllowedMentions ExceptEveryone => new LocalAllowedMentions()
-        .WithParsedMentions(ParsedMention.Users | ParsedMention.Roles);
+        .WithParsedMentions(ParsedMentionFlags.Users | ParsedMentionFlags.Roles);
 
     /// <summary>
     ///     Gets or sets the mention types Discord will parse from the message's content.
     /// </summary>
-    public Optional<ParsedMention> ParsedMentions { get; set; }
+    public Optional<ParsedMentionFlags> ParsedMentions { get; set; }
 
     /// <summary>
     ///     Gets or sets the IDs of the users that can be mentioned.
@@ -70,12 +71,12 @@ public class LocalAllowedMentions : ILocalConstruct<LocalAllowedMentions>, IJson
     /// <inheritdoc />
     public AllowedMentionsJsonModel ToModel()
     {
-        if (ParsedMentions.TryGetValue(out var parsedMentions) && parsedMentions != ParsedMention.None)
+        if (ParsedMentions.TryGetValue(out var parsedMentions) && parsedMentions != ParsedMentionFlags.None)
         {
-            if (parsedMentions.HasFlag(ParsedMention.Users) && UserIds.HasValue && UserIds.Value.Count != 0)
+            if (parsedMentions.HasFlag(ParsedMentionFlags.Users) && UserIds.HasValue && UserIds.Value.Count != 0)
                 throw new InvalidOperationException("Parsed mentions and IDs are mutually exclusive, meaning you must not set both the parsed mentions for users and user IDs.");
 
-            if (parsedMentions.HasFlag(ParsedMention.Roles) && RoleIds.HasValue && RoleIds.Value.Count != 0)
+            if (parsedMentions.HasFlag(ParsedMentionFlags.Roles) && RoleIds.HasValue && RoleIds.Value.Count != 0)
                 throw new InvalidOperationException("Parsed mentions and IDs are mutually exclusive, meaning you must not set both the parsed mentions for roles and role IDs.");
         }
 
@@ -94,20 +95,20 @@ public class LocalAllowedMentions : ILocalConstruct<LocalAllowedMentions>, IJson
 
         if (ParsedMentions.TryGetValue(out parsedMentions))
         {
-            if (parsedMentions == ParsedMention.None)
+            if (parsedMentions == ParsedMentionFlags.None)
             {
                 model.Parse = Array.Empty<string>();
             }
             else
             {
                 var parse = new List<string>(3);
-                if (parsedMentions.HasFlag(ParsedMention.Everyone))
+                if (parsedMentions.HasFlag(ParsedMentionFlags.Everyone))
                     parse.Add("everyone");
 
-                if (parsedMentions.HasFlag(ParsedMention.Users))
+                if (parsedMentions.HasFlag(ParsedMentionFlags.Users))
                     parse.Add("users");
 
-                if (parsedMentions.HasFlag(ParsedMention.Roles))
+                if (parsedMentions.HasFlag(ParsedMentionFlags.Roles))
                     parse.Add("roles");
 
                 model.Parse = parse;

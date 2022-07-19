@@ -31,7 +31,7 @@ public class GuildJsonModel : JsonModel
     public Snowflake OwnerId;
 
     [JsonProperty("permissions")]
-    public Optional<ulong> Permissions;
+    public Optional<Permissions> Permissions;
 
     [JsonProperty("afk_channel_id")]
     public Snowflake? AfkChannelId;

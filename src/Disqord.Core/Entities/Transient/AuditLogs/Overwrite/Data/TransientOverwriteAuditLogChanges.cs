@@ -12,10 +12,10 @@ public class TransientOverwriteAuditLogChanges : IOverwriteAuditLogChanges
     public AuditLogChange<OverwriteTargetType> TargetType { get; }
 
     /// <inheritdoc/>
-    public AuditLogChange<ChannelPermissions> Allowed { get; }
+    public AuditLogChange<Permissions> Allowed { get; }
 
     /// <inheritdoc/>
-    public AuditLogChange<ChannelPermissions> Denied { get; }
+    public AuditLogChange<Permissions> Denied { get; }
 
     public TransientOverwriteAuditLogChanges(IClient client, AuditLogEntryJsonModel model)
     {
@@ -36,12 +36,12 @@ public class TransientOverwriteAuditLogChanges : IOverwriteAuditLogChanges
                 }
                 case "allow":
                 {
-                    Allowed = AuditLogChange<ChannelPermissions>.Convert<ulong>(change, x => x);
+                    Allowed = AuditLogChange<Permissions>.Convert(change);
                     break;
                 }
                 case "deny":
                 {
-                    Denied = AuditLogChange<ChannelPermissions>.Convert<ulong>(change, x => x);
+                    Denied = AuditLogChange<Permissions>.Convert(change);
                     break;
                 }
                 default:

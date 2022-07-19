@@ -30,7 +30,7 @@ public interface IApplicationCommand : ISnowflakeEntity, IPossiblyGuildEntity, I
     /// <summary>
     ///     Gets the default required member permissions of this command.
     /// </summary>
-    Permission? DefaultRequiredMemberPermissions { get; }
+    Permissions? DefaultRequiredMemberPermissions { get; }
 
     /// <summary>
     ///     Gets whether this command is enabled in private channels.

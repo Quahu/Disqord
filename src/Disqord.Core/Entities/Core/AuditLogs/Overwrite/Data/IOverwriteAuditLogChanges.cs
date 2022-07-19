@@ -6,7 +6,7 @@ public interface IOverwriteAuditLogChanges
 
     AuditLogChange<OverwriteTargetType> TargetType { get; }
 
-    AuditLogChange<ChannelPermissions> Allowed { get; }
+    AuditLogChange<Permissions> Allowed { get; }
 
-    AuditLogChange<ChannelPermissions> Denied { get; }
+    AuditLogChange<Permissions> Denied { get; }
 }

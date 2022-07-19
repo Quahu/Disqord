@@ -17,7 +17,7 @@ public interface IGuildSticker : ISticker, IGuildEntity
     ///     Gets the user that created this sticker.
     /// </summary>
     /// <returns>
-    ///     <see langword="null"/> when the bot does not have <see cref="Permission.ManageEmojisAndStickers"/>
+    ///     <see langword="null"/> when the bot does not have <see cref="Permissions.ManageEmojisAndStickers"/>
     ///     in the guild this sticker belongs to.
     /// </returns>
     IUser Creator { get; }

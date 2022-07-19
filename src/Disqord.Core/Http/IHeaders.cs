@@ -10,5 +10,5 @@ public interface IHeaders
     /// <summary>
     ///     Gets the headers associated with this HTTP construct.
     /// </summary>
-    public IDictionary<string, string> Headers { get; }
+    IDictionary<string, string> Headers { get; }
 }

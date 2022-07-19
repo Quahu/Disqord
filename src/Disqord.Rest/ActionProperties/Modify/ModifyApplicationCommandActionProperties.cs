@@ -16,7 +16,7 @@ public sealed class ModifyApplicationCommandActionProperties
 
     public Optional<IEnumerable<LocalSlashCommandOption>> Options { internal get; set; }
 
-    public Optional<Permission> DefaultRequiredMemberPermissions { internal get; set; }
+    public Optional<Permissions> DefaultRequiredMemberPermissions { internal get; set; }
 
     public Optional<bool> IsEnabledInPrivateChannels { internal get; set; }
 

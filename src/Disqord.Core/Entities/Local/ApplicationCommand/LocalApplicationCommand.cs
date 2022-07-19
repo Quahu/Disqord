@@ -31,7 +31,7 @@ public abstract class LocalApplicationCommand : ILocalConstruct<LocalApplication
     /// <summary>
     ///     Gets or sets the default required permissions of members of this command.
     /// </summary>
-    public Optional<Permission> DefaultRequiredMemberPermissions { get; set; }
+    public Optional<Permissions> DefaultRequiredMemberPermissions { get; set; }
 
     /// <summary>
     ///     Gets or sets whether this command is enabled in private channels.

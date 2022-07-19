@@ -25,26 +25,26 @@ public class TransientUserInteraction : TransientInteraction, IUserInteraction
     private IUser? _author;
 
     /// <inheritdoc/>
-    public Permission AuthorPermissions
+    public Permissions AuthorPermissions
     {
         get
         {
             if (!Model.Member.HasValue || !Model.Member.Value.Permissions.HasValue)
-                return Permission.None;
+                return Permissions.None;
 
-            return (Permission) Model.Member.Value.Permissions.Value;
+            return Model.Member.Value.Permissions.Value;
         }
     }
 
     /// <inheritdoc />
-    public Permission ApplicationPermissions
+    public Permissions ApplicationPermissions
     {
         get
         {
             if (!Model.AppPermissions.HasValue)
-                return Permission.None;
+                return Permissions.None;
 
-            return (Permission) Model.AppPermissions.Value;
+            return Model.AppPermissions.Value;
         }
     }
 

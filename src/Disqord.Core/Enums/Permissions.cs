@@ -3,10 +3,10 @@
 namespace Disqord;
 
 /// <summary>
-///     Represents a Discord permission.
+///     Represents Discord permissions.
 /// </summary>
 [Flags]
-public enum Permission : ulong
+public enum Permissions : ulong
 {
     /// <summary>
     ///     Represents no permission.
@@ -221,7 +221,25 @@ public enum Permission : ulong
     /// </summary>
     /// <remarks>
     ///     Note that this permission allows you to, for example, time a member out,
-    ///     but does not allow actions that have their own permission like, for example, <see cref="Permission.KickMembers"/>.
+    ///     but does not allow actions that have their own permission like, for example, <see cref="Permissions.KickMembers"/>.
     /// </remarks>
-    ModerateMembers = 1ul << 40
+    ModerateMembers = 1ul << 40,
+
+    /// <summary>
+    ///     Represents all permissions combined together.
+    /// </summary>
+    /// <remarks>
+    ///     This includes <see cref="Administrator"/>.
+    /// </remarks>
+    All = CreateInvites | KickMembers | BanMembers | Administrator
+        | ManageChannels | ManageGuild | AddReactions | ViewAuditLog
+        | UsePrioritySpeaker | Stream | ViewChannels | SendMessages
+        | UseTextToSpeech | ManageMessages | SendEmbeds | SendAttachments
+        | ReadMessageHistory | MentionEveryone | UseExternalEmojis | ViewGuildInsights
+        | Connect | Speak | MuteMembers | DeafenMembers
+        | MoveMembers | UseVoiceActivity | SetNick | ManageNicks
+        | ManageRoles | ManageWebhooks | ManageEmojisAndStickers | UseApplicationCommands
+        | RequestToSpeak | ManageEvents | ManageThreads | CreatePublicThreads
+        | CreatePrivateThreads | UseExternalStickers | SendMessagesInThreads | StartActivities
+        | ModerateMembers
 }

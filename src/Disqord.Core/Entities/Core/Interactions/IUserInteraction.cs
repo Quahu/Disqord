@@ -23,7 +23,7 @@ public interface IUserInteraction : IInteraction, IPossiblyGuildEntity, IChannel
     /// <summary>
     ///     Gets the author's permissions in the channel of this interaction.
     /// </summary>
-    Permission AuthorPermissions { get; }
+    Permissions AuthorPermissions { get; }
 
     /// <summary>
     ///     Gets the application's permissions in the channel of this interaction.
@@ -31,7 +31,7 @@ public interface IUserInteraction : IInteraction, IPossiblyGuildEntity, IChannel
     /// <remarks>
     ///     This represents the bot's permissions for bot applications.
     /// </remarks>
-    Permission ApplicationPermissions { get; }
+    Permissions ApplicationPermissions { get; }
 
     /// <summary>
     ///     Gets the locale of the user who triggered this interaction.

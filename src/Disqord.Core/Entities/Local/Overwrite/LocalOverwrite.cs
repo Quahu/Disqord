@@ -107,8 +107,8 @@ public class LocalOverwrite : ILocalConstruct<LocalOverwrite>, IJsonConvertible<
         {
             Id = TargetId.Value,
             Type = TargetType.Value,
-            Allow = overwritePermission.Allowed.RawValue,
-            Deny = overwritePermission.Denied.RawValue
+            Allow = overwritePermission.Allowed,
+            Deny = overwritePermission.Denied
         };
     }
 }

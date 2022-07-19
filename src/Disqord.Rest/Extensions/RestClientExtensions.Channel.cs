@@ -474,8 +474,8 @@ public static partial class RestClientExtensions
         var content = new SetOverwriteJsonRestRequestContent
         {
             Type = overwrite.TargetType.Value,
-            Allow = permissions.Allowed.RawValue,
-            Deny = permissions.Denied.RawValue
+            Allow = permissions.Allowed,
+            Deny = permissions.Denied
         };
 
         return client.ApiClient.SetOverwriteAsync(channelId, overwrite.TargetId.Value, content, options, cancellationToken);

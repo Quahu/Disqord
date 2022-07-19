@@ -37,7 +37,7 @@ public class TransientApplicationCommand : TransientClientEntity<ApplicationComm
     }
 
     /// <inheritdoc />
-    public Permission? DefaultRequiredMemberPermissions => (Permission?) Model.DefaultMemberPermissions;
+    public Permissions? DefaultRequiredMemberPermissions => Model.DefaultMemberPermissions;
 
     /// <inheritdoc />
     public bool IsEnabledInPrivateChannels => Model.DmPermission.GetValueOrDefault(true);

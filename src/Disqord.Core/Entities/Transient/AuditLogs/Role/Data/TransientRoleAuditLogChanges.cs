@@ -9,7 +9,7 @@ public class TransientRoleAuditLogChanges : IRoleAuditLogChanges
     public AuditLogChange<string> Name { get; }
 
     /// <inheritdoc/>
-    public AuditLogChange<GuildPermissions> Permissions { get; }
+    public AuditLogChange<Permissions> Permissions { get; }
 
     /// <inheritdoc/>
     public AuditLogChange<Color?> Color { get; }
@@ -40,7 +40,7 @@ public class TransientRoleAuditLogChanges : IRoleAuditLogChanges
                 }
                 case "permissions":
                 {
-                    Permissions = AuditLogChange<GuildPermissions>.Convert<ulong>(change, x => x);
+                    Permissions = AuditLogChange<Permissions>.Convert(change);
                     break;
                 }
                 case "color":

@@ -11,9 +11,9 @@ namespace Disqord.Bot.Commands;
 /// </summary>
 public class RequireBotPermissionsAttribute : DiscordCheckAttribute
 {
-    public Permission Permissions { get; }
+    public Permissions Permissions { get; }
 
-    public RequireBotPermissionsAttribute(Permission permissions)
+    public RequireBotPermissionsAttribute(Permissions permissions)
     {
         Permissions = permissions;
     }
@@ -23,7 +23,7 @@ public class RequireBotPermissionsAttribute : DiscordCheckAttribute
         if (context is not IDiscordGuildCommandContext guildContext)
             return Results.Success;
 
-        Permission permissions;
+        Permissions permissions;
         if (context is IDiscordInteractionCommandContext interactionContext)
         {
             permissions = interactionContext.ApplicationPermissions;
@@ -38,8 +38,7 @@ public class RequireBotPermissionsAttribute : DiscordCheckAttribute
             if (currentMember == null)
                 Throw.InvalidOperationException($"{nameof(RequireBotPermissionsAttribute)} requires the current member cached.");
 
-            // TODO: rework permissions
-            permissions = currentMember.GetPermissions().Flags | currentMember.GetPermissions(channel).Flags;
+            permissions = currentMember.CalculateChannelPermissions(channel);
         }
 
         if (permissions.HasFlag(Permissions))

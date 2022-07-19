@@ -34,7 +34,7 @@ public class ApplicationCommandJsonModel : JsonModel
     public Optional<ApplicationCommandOptionJsonModel[]> Options;
 
     [JsonProperty("default_member_permissions")]
-    public ulong? DefaultMemberPermissions;
+    public Permissions? DefaultMemberPermissions;
 
     [JsonProperty("dm_permission")]
     public Optional<bool> DmPermission;

@@ -24,7 +24,7 @@ public class CachedRole : CachedSnowflakeEntity, IRole
     public int Position { get; private set; }
 
     /// <inheritdoc/>
-    public GuildPermissions Permissions { get; private set; }
+    public Permissions Permissions { get; private set; }
 
     /// <inheritdoc/>
     public bool IsManaged { get; private set; }

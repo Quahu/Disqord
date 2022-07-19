@@ -28,7 +28,7 @@ public static partial class GatewayClientExtensions
     /// <param name="client"> The client to get the guild from. </param>
     /// <param name="guildId"> The ID of the guild to get. </param>
     /// <returns>
-    ///     The user or <see langword="null"/>, if it was not cached or the bot is not in the guild.
+    ///     The guild or <see langword="null"/>, if it was not cached or the bot is not in the guild.
     /// </returns>
     public static CachedGuild? GetGuild(this IGatewayClient client, Snowflake guildId)
     {

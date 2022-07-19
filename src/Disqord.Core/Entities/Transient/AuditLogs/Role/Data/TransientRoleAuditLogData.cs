@@ -9,7 +9,7 @@ public class TransientRoleAuditLogData : IRoleAuditLogData
     public Optional<string> Name { get; }
 
     /// <inheritdoc/>
-    public Optional<GuildPermissions> Permissions { get; }
+    public Optional<Permissions> Permissions { get; }
 
     /// <inheritdoc/>
     public Optional<Color?> Color { get; }

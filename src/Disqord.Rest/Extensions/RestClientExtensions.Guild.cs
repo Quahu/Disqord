@@ -478,7 +478,7 @@ public static partial class RestClientExtensions
         var content = new CreateRoleJsonRestRequestContent
         {
             Name = properties.Name,
-            Permissions = Optional.Convert(properties.Permissions, permissions => permissions.RawValue),
+            Permissions = properties.Permissions,
             Color = Optional.Convert(properties.Color, color => color?.RawValue ?? 0),
             Hoist = properties.IsHoisted,
             Icon = properties.Icon,

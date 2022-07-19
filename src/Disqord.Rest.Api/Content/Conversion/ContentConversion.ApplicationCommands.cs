@@ -38,9 +38,7 @@ internal static partial class ContentConversion
         {
             Name = command.Name.Value,
             NameLocalizations = ConvertLocalizations(command.NameLocalizations),
-            DefaultMemberPermissions = Optional.Convert(command.DefaultRequiredMemberPermissions, defaultMemberPermissions => defaultMemberPermissions != Permission.None
-                ? (ulong?) defaultMemberPermissions
-                : null),
+            DefaultMemberPermissions = Optional.Convert(command.DefaultRequiredMemberPermissions, defaultMemberPermissions => (Permissions?) defaultMemberPermissions),
             DmPermission = Optional.Convert(command.IsEnabledInPrivateChannels, isEnabledInPrivateChannels => (bool?) isEnabledInPrivateChannels),
             DefaultPermission = command.IsEnabledByDefault
         };

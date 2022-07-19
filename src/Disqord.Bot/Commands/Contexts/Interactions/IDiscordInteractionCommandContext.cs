@@ -13,7 +13,7 @@ public interface IDiscordInteractionCommandContext : IDiscordCommandContext
     /// <summary>
     ///     Gets the author's permissions in the context channel of this command execution.
     /// </summary>
-    Permission AuthorPermissions => Interaction.AuthorPermissions;
+    Permissions AuthorPermissions => Interaction.AuthorPermissions;
 
     /// <summary>
     ///     Gets the application's permissions in the context channel of this command execution.
@@ -21,7 +21,7 @@ public interface IDiscordInteractionCommandContext : IDiscordCommandContext
     /// <remarks>
     ///     <inheritdoc cref="IUserInteraction.ApplicationPermissions"/>
     /// </remarks>
-    Permission ApplicationPermissions => Interaction.ApplicationPermissions;
+    Permissions ApplicationPermissions => Interaction.ApplicationPermissions;
 
     IUser IDiscordCommandContext.Author => Interaction.Author;
 }

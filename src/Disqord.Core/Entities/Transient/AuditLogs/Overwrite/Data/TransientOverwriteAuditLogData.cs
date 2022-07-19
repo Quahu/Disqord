@@ -12,10 +12,10 @@ public class TransientOverwriteAuditLogData : IOverwriteAuditLogData
     public Optional<OverwriteTargetType> TargetType { get; }
 
     /// <inheritdoc/>
-    public Optional<ChannelPermissions> Allowed { get; }
+    public Optional<Permissions> Allowed { get; }
 
     /// <inheritdoc/>
-    public Optional<ChannelPermissions> Denied { get; }
+    public Optional<Permissions> Denied { get; }
 
     public TransientOverwriteAuditLogData(IClient client, AuditLogEntryJsonModel model, bool isCreated)
     {

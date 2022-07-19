@@ -9,6 +9,10 @@ public abstract class CachedEntity : ICachedEntity, ICloneable
     /// <inheritdoc/>
     public IGatewayClient Client { get; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="CachedEntity"/>.
+    /// </summary>
+    /// <param name="client"> The client that created this entity. </param>
     protected CachedEntity(IGatewayClient client)
     {
         Guard.IsNotNull(client);
@@ -16,11 +20,16 @@ public abstract class CachedEntity : ICachedEntity, ICloneable
         Client = client;
     }
 
+    /// <inheritdoc/>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public virtual object Clone()
-        => MemberwiseClone();
+    {
+        return MemberwiseClone();
+    }
 
     /// <inheritdoc/>
     public override string ToString()
-        => this.GetString();
+    {
+        return this.GetString();
+    }
 }

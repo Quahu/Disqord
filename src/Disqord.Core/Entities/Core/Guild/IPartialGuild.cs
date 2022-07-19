@@ -18,7 +18,7 @@ public interface IPartialGuild : ISnowflakeEntity, INamableEntity, IJsonUpdatabl
     /// <summary>
     ///     Gets the permissions of the current user in this guild.
     /// </summary>
-    Permission Permissions { get; }
+    Permissions Permissions { get; }
 
     /// <summary>
     ///     Gets the features of this guild.

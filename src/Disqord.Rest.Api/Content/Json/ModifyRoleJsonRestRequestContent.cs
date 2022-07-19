@@ -10,7 +10,7 @@ public class ModifyRoleJsonRestRequestContent : JsonModelRestRequestContent
     public Optional<string> Name;
 
     [JsonProperty("permissions")]
-    public Optional<ulong> Permissions;
+    public Optional<Permissions> Permissions;
 
     [JsonProperty("color")]
     public Optional<int> Color;

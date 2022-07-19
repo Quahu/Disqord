@@ -8,7 +8,7 @@ public interface IOverwriteAuditLogData
 
     Optional<OverwriteTargetType> TargetType { get; }
 
-    Optional<ChannelPermissions> Allowed { get; }
+    Optional<Permissions> Allowed { get; }
 
-    Optional<ChannelPermissions> Denied { get; }
+    Optional<Permissions> Denied { get; }
 }

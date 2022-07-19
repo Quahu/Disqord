@@ -4,7 +4,7 @@ public interface IRoleAuditLogChanges
 {
     AuditLogChange<string> Name { get; }
 
-    AuditLogChange<GuildPermissions> Permissions { get; }
+    AuditLogChange<Permissions> Permissions { get; }
 
     AuditLogChange<Color?> Color { get; }
 

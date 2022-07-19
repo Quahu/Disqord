@@ -5,10 +5,10 @@ namespace Disqord.Rest.Api;
 public class SetOverwriteJsonRestRequestContent : JsonModelRestRequestContent
 {
     [JsonProperty("allow")]
-    public ulong Allow;
+    public Permissions Allow;
 
     [JsonProperty("deny")]
-    public ulong Deny;
+    public Permissions Deny;
 
     [JsonProperty("type")]
     public OverwriteTargetType Type;

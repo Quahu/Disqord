@@ -21,9 +21,7 @@ internal static partial class ActionPropertiesConversion
             Description = properties.Description,
             DescriptionLocalizations = Optional.Convert(properties.DescriptionLocalizations, localizations => localizations.ToDictionary(x => x.Key.Name, x => x.Value)),
             Options = Optional.Convert(properties.Options, options => options?.Select(option => option.ToModel(serializer)).ToArray())!,
-            DefaultMemberPermissions = Optional.Convert(properties.DefaultRequiredMemberPermissions, defaultMemberPermissions => defaultMemberPermissions != Permission.None
-                ? (ulong?) defaultMemberPermissions
-                : null),
+            DefaultMemberPermissions = Optional.Convert(properties.DefaultRequiredMemberPermissions, defaultMemberPermissions => (Permissions?) defaultMemberPermissions),
             DmPermission = properties.IsEnabledInPrivateChannels,
             DefaultPermission = properties.IsEnabledByDefault,
         };

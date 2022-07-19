@@ -8,7 +8,7 @@ public interface IInteractionChannel : IChannel
     /// <summary>
     ///     Gets the permissions of the interaction's author in this channel.
     /// </summary>
-    ChannelPermissions AuthorPermissions { get; }
+    Permissions AuthorPermissions { get; }
 
     /// <summary>
     ///     Gets the ID of the parent channel of this channel.

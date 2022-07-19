@@ -39,7 +39,7 @@ public class InteractionJsonModel : JsonModel
     public Optional<MessageJsonModel> Message;
 
     [JsonProperty("app_permissions")]
-    public Optional<ulong> AppPermissions;
+    public Optional<Permissions> AppPermissions;
 
     [JsonProperty("locale")]
     public Optional<string> Locale;

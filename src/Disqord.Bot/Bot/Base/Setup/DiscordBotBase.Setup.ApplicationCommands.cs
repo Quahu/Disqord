@@ -111,7 +111,7 @@ public abstract partial class DiscordBotBase
             static void AddCommand( /*Dictionary<ApplicationCommand, LocalApplicationCommand> commandCache,*/
                 FastList<LocalApplicationCommand> localCommands, ApplicationCommand command)
             {
-                static void GetPermissions(IReadOnlyList<ICheck> checks, ref Optional<Permission> requiredMemberPermissions, ref Optional<bool> isEnabledInPrivateChannels)
+                static void GetPermissions(IReadOnlyList<ICheck> checks, ref Optional<Permissions> requiredMemberPermissions, ref Optional<bool> isEnabledInPrivateChannels)
                 {
                     if (checks.Count == 0)
                         return;
@@ -189,7 +189,7 @@ public abstract partial class DiscordBotBase
                 }
                 while (module != null);
 
-                var requiredMemberPermissions = Optional<Permission>.Empty;
+                var requiredMemberPermissions = Optional<Permissions>.Empty;
                 var isEnabledInPrivateChannels = Optional<bool>.Empty;
                 var hasModuleAlias = false;
                 for (var i = 0; i < modules.Count; i++)

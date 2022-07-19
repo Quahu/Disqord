@@ -27,7 +27,7 @@ public class RoleJsonModel : JsonModel
     public int Position;
 
     [JsonProperty("permissions")]
-    public ulong Permissions;
+    public Permissions Permissions;
 
     [JsonProperty("managed")]
     public bool Managed;

@@ -6,7 +6,7 @@ public interface IRoleAuditLogData
 {
     Optional<string> Name { get; }
 
-    Optional<GuildPermissions> Permissions { get; }
+    Optional<Permissions> Permissions { get; }
 
     Optional<Color?> Color { get; }
 

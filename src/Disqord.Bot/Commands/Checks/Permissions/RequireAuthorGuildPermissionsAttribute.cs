@@ -10,7 +10,7 @@ namespace Disqord.Bot.Commands;
 [Obsolete("Use RequireAuthorPermissionsAttribute instead.", true)]
 public class RequireAuthorGuildPermissionsAttribute : RequireAuthorPermissionsAttribute
 {
-    public RequireAuthorGuildPermissionsAttribute(Permission permissions)
+    public RequireAuthorGuildPermissionsAttribute(Permissions permissions)
         : base(permissions)
     { }
 

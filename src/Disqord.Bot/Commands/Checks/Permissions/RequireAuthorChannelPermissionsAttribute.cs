@@ -11,11 +11,11 @@ namespace Disqord.Bot.Commands;
 [Obsolete("Use RequireAuthorPermissionsAttribute instead.", true)]
 public class RequireAuthorChannelPermissionsAttribute : RequireAuthorPermissionsAttribute
 {
-    public RequireAuthorChannelPermissionsAttribute(Permission permissions)
+    public RequireAuthorChannelPermissionsAttribute(Permissions permissions)
         : base(permissions)
     {
         ChannelPermissions.Mask(permissions, out var remainingPermissions);
-        if (remainingPermissions != Permission.None)
+        if (remainingPermissions != Permissions.None)
             Throw.ArgumentOutOfRangeException(nameof(permissions), $"The permissions specified for {GetType()} contain non-channel permissions: {remainingPermissions}.");
     }
 

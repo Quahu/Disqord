@@ -10,7 +10,7 @@ public class TransientApplicationDefaultAuthorizationParameters : TransientEntit
     public IReadOnlyList<string> Scopes => Model.Scopes;
 
     /// <inheritdoc/>
-    public GuildPermissions Permissions => Model.Permissions;
+    public Permissions Permissions => Model.Permissions;
 
     public TransientApplicationDefaultAuthorizationParameters(InstallParamsJsonModel model)
         : base(model)

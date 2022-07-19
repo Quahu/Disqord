@@ -16,7 +16,7 @@ internal static partial class ActionPropertiesConversion
         var content = new ModifyRoleJsonRestRequestContent
         {
             Name = properties.Name,
-            Permissions = Optional.Convert(properties.Permissions, permissions => permissions.RawValue),
+            Permissions = properties.Permissions,
             Color = Optional.Convert(properties.Color, color => color?.RawValue ?? 0),
             Hoist = properties.IsHoisted,
             Icon = properties.Icon,

@@ -6,7 +6,7 @@ using Qmmands;
 namespace Disqord.Bot.Commands;
 
 [EditorBrowsable(EditorBrowsableState.Never)]
-public abstract class RequireHierarchyBaseAttribute : DiscordGuildParameterCheckAttribute
+public abstract class RequireRoleHierarchyBaseAttribute : DiscordGuildParameterCheckAttribute
 {
     protected abstract (string Name, IMember Member) GetTarget(IDiscordGuildCommandContext context);
 
@@ -18,13 +18,13 @@ public abstract class RequireHierarchyBaseAttribute : DiscordGuildParameterCheck
         var (targetName, target) = GetTarget(context);
         if (argument is IMember memberArgument)
         {
-            if (target.GetHierarchy() > memberArgument.GetHierarchy())
+            if (target.CalculateRoleHierarchy() > memberArgument.CalculateRoleHierarchy())
                 return Results.Success;
         }
         else
         {
             var roleArgument = argument as IRole;
-            if (target.GetHierarchy() > roleArgument!.Position)
+            if (target.CalculateRoleHierarchy() > roleArgument!.Position)
                 return Results.Success;
         }
 

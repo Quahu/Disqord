@@ -8,5 +8,5 @@ public class InstallParamsJsonModel : JsonModel
     public string[] Scopes = null!;
 
     [JsonProperty("permissions")]
-    public ulong Permissions;
+    public Permissions Permissions;
 }

@@ -11,9 +11,9 @@ namespace Disqord.Bot.Commands;
 /// </summary>
 public class RequireAuthorPermissionsAttribute : DiscordCheckAttribute
 {
-    public Permission Permissions { get; }
+    public Permissions Permissions { get; }
 
-    public RequireAuthorPermissionsAttribute(Permission permissions)
+    public RequireAuthorPermissionsAttribute(Permissions permissions)
     {
         Permissions = permissions;
     }
@@ -23,7 +23,7 @@ public class RequireAuthorPermissionsAttribute : DiscordCheckAttribute
         if (context is not IDiscordGuildCommandContext guildContext)
             return Results.Success;
 
-        Permission permissions;
+        Permissions permissions;
         if (context is IDiscordInteractionCommandContext interactionContext)
         {
             permissions = interactionContext.AuthorPermissions;
@@ -34,8 +34,7 @@ public class RequireAuthorPermissionsAttribute : DiscordCheckAttribute
             if (channel == null)
                 Throw.InvalidOperationException($"{nameof(RequireAuthorPermissionsAttribute)} requires the context channel.");
 
-            // TODO: rework permissions
-            permissions = guildContext.Author.GetPermissions().Flags | guildContext.Author.GetPermissions(channel).Flags;
+            permissions = guildContext.Author.CalculateChannelPermissions(channel);
         }
 
         if (permissions.HasFlag(Permissions))

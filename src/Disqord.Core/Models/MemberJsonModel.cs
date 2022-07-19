@@ -32,7 +32,7 @@ public class MemberJsonModel : JsonModel
     public Optional<bool> Pending;
 
     [JsonProperty("permissions")]
-    public Optional<ulong> Permissions;
+    public Optional<Permissions> Permissions;
 
     [JsonProperty("avatar")]
     public Optional<string?> Avatar;

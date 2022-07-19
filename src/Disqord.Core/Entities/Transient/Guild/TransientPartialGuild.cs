@@ -19,7 +19,7 @@ public class TransientPartialGuild : TransientClientEntity<GuildJsonModel>, IPar
     public bool IsOwner => Model.Owner.Value;
 
     /// <inheritdoc/>
-    public Permission Permissions => (Permission) Model.Permissions.Value;
+    public Permissions Permissions => Model.Permissions.Value;
 
     /// <inheritdoc/>
     public IReadOnlyList<string> Features => Model.Features.ReadOnly();

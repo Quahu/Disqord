@@ -21,6 +21,6 @@ public class ApplicationCommandInteractionDataResolvedJsonModel : JsonModel
     [JsonProperty("messages")]
     public Optional<Dictionary<Snowflake, MessageJsonModel>> Messages;
 
-    [JsonProperty("attachments")] 
+    [JsonProperty("attachments")]
     public Optional<Dictionary<Snowflake, AttachmentJsonModel>> Attachments;
 }
