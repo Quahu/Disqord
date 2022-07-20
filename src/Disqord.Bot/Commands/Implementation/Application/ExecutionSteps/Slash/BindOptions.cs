@@ -93,16 +93,16 @@ public static partial class DefaultApplicationExecutionSteps
                         continue;
                     }
 
+                    if (interaction is IAutoCompleteInteraction)
+                    {
+                        // Treat string values as arguments for auto-complete.
+                        // See: https://github.com/discord/discord-api-docs/issues/4956
+                        arguments[parameter] = stringValue;
+                        continue;
+                    }
+
                     if (!option.Type.IsEntity())
                     {
-                        if (interaction is IAutoCompleteInteraction)
-                        {
-                            // Treat string values as arguments for auto-complete.
-                            // See: https://github.com/discord/discord-api-docs/issues/4956
-                            arguments[parameter] = stringValue;
-                            continue;
-                        }
-
                         // If the option is just a string, pass it through to type parsing.
                         var rawArguments = context.RawArguments ??= new Dictionary<IParameter, MultiString>();
                         rawArguments[parameter] = option.Value as string;
