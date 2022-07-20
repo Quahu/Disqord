@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="../Disqord.targets"/>
     <PropertyGroup>
-        <VersionPrefix>1.0.0-alpha</VersionPrefix>
+        <VersionPrefix>1.0.0-alpha2</VersionPrefix>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Disqord.Rest\Disqord.Rest.csproj"/>
