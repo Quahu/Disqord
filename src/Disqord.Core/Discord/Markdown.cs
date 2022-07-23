@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Runtime.CompilerServices;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
@@ -35,7 +35,7 @@ public static class Markdown
 
     public static string Italics(ReadOnlySpan<char> text)
     {
-        return string.Concat("*", text, "*");
+        return $"*{text}*";
     }
 
     // **text**
@@ -51,7 +51,7 @@ public static class Markdown
 
     public static string Bold(ReadOnlySpan<char> text)
     {
-        return string.Concat("**", text, "**");
+        return $"**{text}**";
     }
 
     // ***text***
@@ -67,7 +67,7 @@ public static class Markdown
 
     public static string BoldItalics(ReadOnlySpan<char> text)
     {
-        return string.Concat("***", text, "***");
+        return $"***{text}***";
     }
 
     // __text__
@@ -83,7 +83,7 @@ public static class Markdown
 
     public static string Underline(ReadOnlySpan<char> text)
     {
-        return string.Concat("__", text, "__");
+        return $"__{text}__";
     }
 
     // ~~text~~
@@ -99,7 +99,7 @@ public static class Markdown
 
     public static string Strikethrough(ReadOnlySpan<char> text)
     {
-        return string.Concat("~~", text, "~~");
+        return $"~~{text}~~";
     }
 
     // [title](url)
@@ -110,7 +110,7 @@ public static class Markdown
 
     public static string Link(ReadOnlySpan<char> title, ReadOnlySpan<char> url)
     {
-        return new StringBuilder().Append('[').Append(title).Append("](").Append(url).Append(')').ToString();
+        return $"[{title}]({url})";
     }
 
     // `code`
@@ -126,7 +126,7 @@ public static class Markdown
 
     public static string Code(ReadOnlySpan<char> code)
     {
-        return string.Concat("`", code, "`");
+        return $"`{code}`";
     }
 
     // ```\ncode```
@@ -142,7 +142,7 @@ public static class Markdown
 
     public static string CodeBlock(ReadOnlySpan<char> code)
     {
-        return string.Concat("```\n", code, "```");
+        return $"```\n{code}```";
     }
 
     // ```language\ncode```
@@ -158,7 +158,7 @@ public static class Markdown
 
     public static string CodeBlock(ReadOnlySpan<char> language, ReadOnlySpan<char> code)
     {
-        return new StringBuilder().Append("```").Append(language).Append('\n').Append(code).Append("```").ToString();
+        return $"```{language}\n{code}```";
     }
 
     public static string Escape(string? text)
@@ -168,17 +168,20 @@ public static class Markdown
 
     public static string Escape(ReadOnlySpan<char> text)
     {
-        var builder = new StringBuilder(text.Length);
+        var stringHandler = text.Length <= 1024
+            ? new DefaultInterpolatedStringHandler(0, 0, null, stackalloc char[text.Length + 11])
+            : new DefaultInterpolatedStringHandler(text.Length, 1);
+
         for (var i = 0; i < text.Length; i++)
         {
             var character = text[i];
             if (EscapedCharacters.Contains(character))
-                builder.Append('\\');
+                stringHandler.AppendLiteral("\\");
 
-            builder.Append(character);
+            stringHandler.AppendFormatted(character);
         }
 
-        return builder.ToString();
+        return stringHandler.ToStringAndClear();
     }
 
     public static string Timestamp(DateTimeOffset dateTimeOffset)
@@ -188,7 +191,7 @@ public static class Markdown
 
     public static string Timestamp(long unixTimestamp)
     {
-        return string.Concat("<t:", unixTimestamp.ToString(), ">");
+        return $"<t:{unixTimestamp}>";
     }
 
     public static string Timestamp(DateTimeOffset dateTimeOffset, TimestampFormat format)
@@ -198,7 +201,7 @@ public static class Markdown
 
     public static string Timestamp(long unixTimestamp, TimestampFormat format)
     {
-        return new StringBuilder().Append("<t:").Append(unixTimestamp).Append(':').Append((char) format).Append('>').ToString();
+        return $"<t:{unixTimestamp}:{(char) format}>";
     }
 
     public enum TimestampFormat

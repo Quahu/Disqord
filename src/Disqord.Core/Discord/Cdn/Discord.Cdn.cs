@@ -1,4 +1,4 @@
-﻿using System.Text;
+﻿using System.Runtime.CompilerServices;
 using Qommon;
 
 namespace Disqord;
@@ -144,16 +144,27 @@ public static partial class Discord
                 format = CdnAssetFormat.Png;
             }
 
-            var stringBuilder = new StringBuilder(BaseAddress);
-            stringBuilder.Append(path);
             var formatString = GetFormatString(format);
+            var length = BaseAddress.Length + path.Length + (formatString != null ? formatString.Length + 1 : 0) + (size != null ? 10 : 0);
+            var stringHandler = length <= 1024
+                ? new DefaultInterpolatedStringHandler(0, 0, null, stackalloc char[length])
+                : new DefaultInterpolatedStringHandler(length, 0);
+
+            stringHandler.AppendLiteral(BaseAddress);
+            stringHandler.AppendLiteral(path);
             if (formatString != null)
-                stringBuilder.Append('.').Append(formatString);
+            {
+                stringHandler.AppendLiteral(".");
+                stringHandler.AppendLiteral(formatString);
+            }
 
             if (size != null)
-                stringBuilder.Append("?size=").Append(size);
+            {
+                stringHandler.AppendLiteral("?size=");
+                stringHandler.AppendFormatted(size);
+            }
 
-            return stringBuilder.ToString();
+            return stringHandler.ToStringAndClear();
         }
 
         private static CdnAssetFormat AutomaticGifFormat(CdnAssetFormat format, string hash)
@@ -165,7 +176,8 @@ public static partial class Discord
         }
 
         private static string? GetFormatString(CdnAssetFormat format)
-            => format switch
+        {
+            return format switch
             {
                 CdnAssetFormat.None => null,
                 CdnAssetFormat.Png => "png",
@@ -174,5 +186,6 @@ public static partial class Discord
                 CdnAssetFormat.Gif => "gif",
                 _ => Throw.ArgumentOutOfRangeException<string>(nameof(format), "Unknown CDN asset format."),
             };
+        }
     }
 }
