@@ -1,15 +1,20 @@
 ﻿using System;
+using Qommon;
 
 namespace Disqord;
 
 /// <summary>
 ///     Represents a Discord snowflake, i.e. a <see cref="ulong"/> offset by the constant <see cref="Epoch"/>.
-///     <see cref="Snowflake"/> can be implicitly casted to and from <see cref="ulong"/>.
 /// </summary>
-public readonly partial struct Snowflake : IConvertible, IEquatable<ulong>, IEquatable<Snowflake>, IComparable<ulong>, IComparable<Snowflake>
+/// <remarks>
+///     Implicitly casts to and from <see cref="ulong"/>.
+/// </remarks>
+public readonly partial struct Snowflake : IConvertible, ISpanFormattable, IComparable,
+    IEquatable<Snowflake>, IComparable<Snowflake>,
+    IEquatable<ulong>, IComparable<ulong>
 {
     /// <summary>
-    ///     Gets the constant epoch.
+    ///     Represents the constant epoch.
     /// </summary>
     public const ulong Epoch = 1420070400000;
 
@@ -21,7 +26,7 @@ public readonly partial struct Snowflake : IConvertible, IEquatable<ulong>, IEqu
     /// <summary>
     ///     Gets when this snowflake was created at.
     /// </summary>
-    public DateTimeOffset CreatedAt => ToDateTimeOffset(RawValue);
+    public DateTimeOffset CreatedAt => DateTimeOffset.FromUnixTimeMilliseconds((long) ((RawValue >> 22) + Epoch));
 
     /// <summary>
     ///     Gets the internal worker ID of this snowflake.
@@ -47,10 +52,13 @@ public readonly partial struct Snowflake : IConvertible, IEquatable<ulong>, IEqu
         RawValue = rawValue;
     }
 
-    /// <inheritdoc/>
-    public bool Equals(ulong other)
+    /// <summary>
+    ///     Instantiates a new <see cref="Snowflake"/> from the specified <see cref="DateTimeOffset"/>.
+    /// </summary>
+    /// <param name="createdAt">  </param>
+    public Snowflake(DateTimeOffset createdAt)
     {
-        return RawValue == other;
+        RawValue = ((ulong) createdAt.ToUniversalTime().ToUnixTimeMilliseconds() - Epoch) << 22;
     }
 
     /// <inheritdoc/>
@@ -60,15 +68,21 @@ public readonly partial struct Snowflake : IConvertible, IEquatable<ulong>, IEqu
     }
 
     /// <inheritdoc/>
-    public int CompareTo(ulong other)
-    {
-        return RawValue.CompareTo(other);
-    }
-
-    /// <inheritdoc/>
     public int CompareTo(Snowflake other)
     {
         return RawValue.CompareTo(other.RawValue);
+    }
+
+    /// <inheritdoc/>
+    public bool Equals(ulong other)
+    {
+        return RawValue == other;
+    }
+
+    /// <inheritdoc/>
+    public int CompareTo(ulong other)
+    {
+        return RawValue.CompareTo(other);
     }
 
     /// <inheritdoc/>
@@ -84,6 +98,21 @@ public readonly partial struct Snowflake : IConvertible, IEquatable<ulong>, IEqu
     }
 
     /// <inheritdoc/>
+    public int CompareTo(object? obj)
+    {
+        if (obj == null)
+            return 1;
+
+        if (obj is Snowflake otherSnowflake)
+            return RawValue.CompareTo(otherSnowflake.RawValue);
+
+        if (obj is ulong otherRawValue)
+            return RawValue.CompareTo(otherRawValue);
+
+        return Throw.ArgumentException<int>("Argument must be a Snowflake or ulong.", nameof(obj));
+    }
+
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         return RawValue.GetHashCode();
@@ -95,12 +124,21 @@ public readonly partial struct Snowflake : IConvertible, IEquatable<ulong>, IEqu
         return RawValue.ToString();
     }
 
-    /// <inheritdoc cref="TryParse(ReadOnlySpan{char},out Snowflake)"/>
-    public static bool TryParse(string value, out Snowflake result)
+    /// <inheritdoc/>
+    public string ToString(string? format, IFormatProvider? formatProvider = null)
     {
-        // TODO: change with NRT
-        // Guard.IsNotNull(value);
+        return RawValue.ToString(format, formatProvider);
+    }
 
+    /// <inheritdoc/>
+    public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = null)
+    {
+        return RawValue.TryFormat(destination, out charsWritten, format, provider);
+    }
+
+    /// <inheritdoc cref="TryParse(ReadOnlySpan{char},out Snowflake)"/>
+    public static bool TryParse(string? value, out Snowflake result)
+    {
         return TryParse(value.AsSpan(), out result);
     }
 
@@ -127,8 +165,7 @@ public readonly partial struct Snowflake : IConvertible, IEquatable<ulong>, IEqu
     /// <inheritdoc cref="Parse(ReadOnlySpan{char})"/>
     public static Snowflake Parse(string value)
     {
-        // TODO: change with NRT
-        // Guard.IsNotNull(value);
+        Guard.IsNotNull(value);
 
         return Parse(value.AsSpan());
     }
@@ -167,9 +204,10 @@ public readonly partial struct Snowflake : IConvertible, IEquatable<ulong>, IEqu
     /// <returns>
     ///     The converted <see cref="Snowflake"/>.
     /// </returns>
+    [Obsolete("Use new Snowflake(DateTimeOffset) instead.")]
     public static Snowflake FromDateTimeOffset(DateTimeOffset dateTimeOffset)
     {
-        return ((ulong) dateTimeOffset.ToUniversalTime().ToUnixTimeMilliseconds() - Epoch) << 22;
+        return new Snowflake(dateTimeOffset);
     }
 
     /// <summary>
@@ -179,8 +217,9 @@ public readonly partial struct Snowflake : IConvertible, IEquatable<ulong>, IEqu
     /// <returns>
     ///     The converted <see cref="DateTimeOffset"/>.
     /// </returns>
+    [Obsolete("Use new Snowflake(UInt64).CreatedAt instead.")]
     public static DateTimeOffset ToDateTimeOffset(ulong id)
     {
-        return DateTimeOffset.FromUnixTimeMilliseconds((long) ((id >> 22) + Epoch));
+        return new Snowflake(id).CreatedAt;
     }
 }

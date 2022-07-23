@@ -1,12 +1,15 @@
 using System;
 using System.ComponentModel;
+using Qommon;
 
 namespace Disqord;
 
 /// <summary>
 ///     Represents an RGB color used by Discord.
 /// </summary>
-public readonly partial struct Color : IEquatable<int>, IEquatable<Color>, IComparable<int>, IComparable<Color>
+public readonly partial struct Color : ISpanFormattable, IComparable,
+    IEquatable<Color>, IComparable<Color>,
+    IEquatable<int>, IComparable<int>
 {
     /// <summary>
     ///     Gets the raw value of this <see cref="Color"/>.
@@ -74,31 +77,49 @@ public readonly partial struct Color : IEquatable<int>, IEquatable<Color>, IComp
         RawValue = (byte) (r * 255) << 16 | (byte) (g * 255) << 8 | (byte) (b * 255);
     }
 
+    /// <inheritdoc/>
     public bool Equals(Color other)
     {
         return RawValue == other.RawValue;
     }
 
+    /// <inheritdoc/>
     public int CompareTo(Color other)
     {
         return RawValue.CompareTo(other.RawValue);
     }
 
+    /// <inheritdoc/>
     public bool Equals(int other)
     {
         return RawValue == other;
     }
 
+    /// <inheritdoc/>
     public int CompareTo(int other)
     {
         return RawValue.CompareTo(other);
     }
 
+    /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
-        return obj is Color color && Equals(color);
+        return obj is Color other && Equals(other);
     }
 
+    /// <inheritdoc />
+    public int CompareTo(object? obj)
+    {
+        if (obj == null)
+            return 1;
+
+        if (obj is Color other)
+            return CompareTo(other);
+
+        return Throw.ArgumentException<int>("Argument must be a Color.", nameof(obj));
+    }
+
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         return RawValue;
@@ -113,6 +134,32 @@ public readonly partial struct Color : IEquatable<int>, IEquatable<Color>, IComp
     public override string ToString()
     {
         return $"#{RawValue:X6}";
+    }
+
+    /// <inheritdoc />
+    public string ToString(string? format, IFormatProvider? formatProvider = null)
+    {
+        return $"#{RawValue.ToString(format ?? "X6", formatProvider)}";
+    }
+
+    /// <inheritdoc />
+    public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = null)
+    {
+        if (destination.Length <= 1)
+        {
+            charsWritten = 0;
+            return false;
+        }
+
+        if (format.IsEmpty)
+            format = "X6";
+
+        if (!RawValue.TryFormat(destination[1..], out charsWritten, format, provider))
+            return false;
+
+        destination[0] = '#';
+        charsWritten++;
+        return true;
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
