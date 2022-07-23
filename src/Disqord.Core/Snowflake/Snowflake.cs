@@ -55,10 +55,10 @@ public readonly partial struct Snowflake : IConvertible, ISpanFormattable, IComp
     /// <summary>
     ///     Instantiates a new <see cref="Snowflake"/> from the specified <see cref="DateTimeOffset"/>.
     /// </summary>
-    /// <param name="createdAt">  </param>
+    /// <param name="createdAt"> The creation date to create the snowflake from. </param>
     public Snowflake(DateTimeOffset createdAt)
     {
-        RawValue = ((ulong) createdAt.ToUniversalTime().ToUnixTimeMilliseconds() - Epoch) << 22;
+        RawValue = ((ulong) createdAt.ToUnixTimeMilliseconds() - Epoch) << 22;
     }
 
     /// <inheritdoc/>
