@@ -14,7 +14,7 @@ namespace Disqord.Extensions.Interactivity.Menus.Paged;
 /// <returns>
 ///     The formatted item as a page.
 /// </returns>
-public delegate Page? ArrayPageFormatter<T>(PagedViewBase view, ArraySegment<T> items);
+public delegate Page ArrayPageFormatter<T>(PagedViewBase view, ArraySegment<T> items);
 
 /// <summary>
 ///     Creates pages automatically from an array of items.
@@ -94,7 +94,7 @@ public class ArrayPageProvider<T> : PageProvider
             if (item.Length > maxItemLength)
                 item = $"{item[..maxItemLength]}…";
 
-            return string.Concat(itemPrefix, item);
+            return $"{itemPrefix}{item}";
         }));
 
         return new Page()
