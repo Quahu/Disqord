@@ -230,7 +230,9 @@ public abstract partial class DiscordBotBase
     }
 
     protected virtual ValueTask OnInitialize(CancellationToken cancellationToken)
-        => default;
+    {
+        return default;
+    }
 
     public virtual async ValueTask InitializeAsync(CancellationToken cancellationToken)
     {

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -83,20 +83,12 @@ public abstract partial class DiscordBotBase
     ///     By default this returns:
     ///     <list type="bullet">
     ///         <item>
-    ///             <term>
-    ///                 <see cref="LocalInteractionMessageResponse"/>
-    ///             </term>
-    ///             <description>
-    ///                 for <see cref="IDiscordInteractionCommandContext"/>
-    ///             </description>
+    ///             <term> <see cref="LocalInteractionMessageResponse"/> </term>
+    ///             <description> for <see cref="IDiscordInteractionCommandContext"/> </description>
     ///         </item>
     ///         <item>
-    ///             <term>
-    ///                 <see cref="LocalMessage"/>
-    ///             </term>
-    ///             <description>
-    ///                 for <see cref="IDiscordTextCommandContext"/>
-    ///             </description>
+    ///             <term> <see cref="LocalMessage"/> </term>
+    ///             <description> for <see cref="IDiscordTextCommandContext"/> </description>
     ///         </item>
     ///     </list>
     /// </remarks>
@@ -140,7 +132,7 @@ public abstract partial class DiscordBotBase
     /// <param name="message"> The message to format. </param>
     /// <param name="result"> The result to format. </param>
     /// <returns>
-    ///     A <see cref="bool"/> indicating whether the message
+    ///     A <see cref="bool"/> indicating whether the message should be sent.
     /// </returns>
     protected virtual bool FormatFailureMessage(IDiscordCommandContext context, LocalMessageBase message, IResult result)
     {
