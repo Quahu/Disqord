@@ -1,6 +1,6 @@
 <div align="center">
     <h1> Disqord </h1>
-    <p> An asynchronous Discord API wrapper for .NET 5 that aims to make Discord bot development simple and enjoyable without needless boilerplate. </p>
+    <p> An asynchronous Discord API wrapper for .NET 6 that aims to make Discord bot development simple and enjoyable without needless boilerplate. </p>
     <ul style="list-style-position: inside">
         <li>
             Designed around Microsoft's <a href="https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection">dependency injection</a> abstractions
