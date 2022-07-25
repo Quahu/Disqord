@@ -258,6 +258,7 @@ public abstract partial class ViewBase : IAsyncDisposable
             if (message.AllowedMentions.GetValueOrDefault() == null)
                 message.AllowedMentions = LocalAllowedMentions.None;
 
+            var components = new List<LocalRowComponent>();
             foreach (var row in _rows)
             {
                 if (row.Count == 0)
@@ -270,8 +271,10 @@ public abstract partial class ViewBase : IAsyncDisposable
                     localRowComponent.AddComponent(localComponent);
                 }
 
-                message.AddComponent(localRowComponent);
+                components.Add(localRowComponent);
             }
+
+            message.Components = components;
         }
     }
 

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Qommon;
 
 namespace Disqord.Extensions.Interactivity.Menus.Paged;
 
@@ -77,8 +80,8 @@ public abstract class PagedViewBase : ViewBase
         var currentPage = CurrentPage;
         if (currentPage != null)
         {
-            message.Content = currentPage.Content;
-            message.Embeds = currentPage.Embeds;
+            message.Content = currentPage.Content.GetValueOrDefault();
+            message.Embeds = currentPage.Embeds.GetValueOrDefault() is IList<LocalEmbed> embeds ? embeds.ToArray() : Array.Empty<LocalEmbed>();
         }
     }
 }
