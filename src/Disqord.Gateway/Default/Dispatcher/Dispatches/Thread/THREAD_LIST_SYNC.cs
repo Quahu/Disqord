@@ -11,7 +11,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class ThreadListSyncDispatchHandler : DispatchHandler<ThreadListSyncJsonModel, ThreadsSynchronizedEventArgs>
 {
-    public override ValueTask<ThreadsSynchronizedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ThreadListSyncJsonModel model)
+    public override ValueTask<ThreadsSynchronizedEventArgs?> HandleDispatchAsync(IShard shard, ThreadListSyncJsonModel model)
     {
         var threadModelDictionary = new Dictionary<Snowflake, List<ChannelJsonModel>>();
         if (model.ChannelIds.HasValue)

@@ -18,7 +18,7 @@ public class GuildDeleteDispatchHandler : DispatchHandler<UnavailableGuildJsonMo
         base.Bind(value);
     }
 
-    public override async ValueTask<EventArgs?> HandleDispatchAsync(IGatewayApiClient shard, UnavailableGuildJsonModel model)
+    public override async ValueTask<EventArgs?> HandleDispatchAsync(IShard shard, UnavailableGuildJsonModel model)
     {
         CachedGuild? guild = null;
         var isPending = _readyDispatchHandler.IsPendingGuild(shard.Id, model.Id);

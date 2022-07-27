@@ -7,7 +7,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class AutoModerationActionExecutionDispatchHandler : DispatchHandler<AutoModerationActionExecutionJsonModel, AutoModerationActionExecutedEventArgs>
 {
-    public override ValueTask<AutoModerationActionExecutedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, AutoModerationActionExecutionJsonModel model)
+    public override ValueTask<AutoModerationActionExecutedEventArgs?> HandleDispatchAsync(IShard shard, AutoModerationActionExecutionJsonModel model)
     {
         var action = new TransientAutoModerationAction(model.Action);
         var e = new AutoModerationActionExecutedEventArgs(model.GuildId, model.UserId, model.ChannelId.GetValueOrNullable(), model.MessageId.GetValueOrNullable(),

@@ -6,19 +6,22 @@ using Qommon.Binding;
 
 namespace Disqord.Gateway.Api;
 
-public interface IGatewayHeartbeater : IBindable<IGatewayApiClient>, ILogging
+public interface IGatewayHeartbeater : IBindable<IShard>, ILogging
 {
-    IGatewayApiClient ApiClient { get; }
+    /// <summary>
+    ///     Gets the shard of this heartbeater.
+    /// </summary>
+    IShard Shard { get; }
 
     TimeSpan Interval { get; }
 
     TimeSpan? Latency { get; }
 
-    ValueTask StartAsync(TimeSpan interval);
+    ValueTask StartAsync(TimeSpan interval, CancellationToken stoppingToken);
 
     ValueTask StopAsync();
 
-    Task HeartbeatAsync(CancellationToken cancellationToken = default);
+    Task HeartbeatAsync(CancellationToken cancellationToken);
 
     ValueTask AcknowledgeAsync();
 }

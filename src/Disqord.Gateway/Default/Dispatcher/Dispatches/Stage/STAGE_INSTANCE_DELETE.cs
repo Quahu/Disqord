@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class StageDeleteDispatchHandler : DispatchHandler<StageInstanceJsonModel, StageDeletedEventArgs>
 {
-    public override ValueTask<StageDeletedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, StageInstanceJsonModel model)
+    public override ValueTask<StageDeletedEventArgs?> HandleDispatchAsync(IShard shard, StageInstanceJsonModel model)
     {
         IStage stage;
         if (CacheProvider.TryGetStages(model.GuildId, out var cache) && cache.TryRemove(model.Id, out var cachedStage))

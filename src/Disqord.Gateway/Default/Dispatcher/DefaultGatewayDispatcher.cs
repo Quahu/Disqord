@@ -157,6 +157,8 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
 
         if (!isRebind)
         {
+            value.ApiClient.DispatchReceivedEvent.Hook(HandleDispatchAsync);
+
             // The binding here is used so handler code knows when the handlers collection is populated.
             // E.g. GUILD_CREATE and GUILD_DELETE will notify READY so that it can delay the actual event invocation.
             foreach (var handler in _handlers.Values)
@@ -166,8 +168,8 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
 
     public async ValueTask HandleDispatchAsync(object? sender, GatewayDispatchReceivedEventArgs e)
     {
-        if (sender is not IGatewayApiClient shard)
-            throw new ArgumentException("The sender is expected to be an IGatewayApiClient.", nameof(sender));
+        if (sender is not IShard shard)
+            throw new ArgumentException("The sender is expected to be an IGateway instance.", nameof(sender));
 
         if (!_handlers.TryGetValue(e.Name, out var handler))
         {
@@ -185,7 +187,7 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
         }
     }
 
-    private void HandleUnknownDispatch(IGatewayApiClient shard, GatewayDispatchReceivedEventArgs e)
+    private void HandleUnknownDispatch(IShard shard, GatewayDispatchReceivedEventArgs e)
     {
         if (!_unknownDispatches.Add(e.Name))
             return;

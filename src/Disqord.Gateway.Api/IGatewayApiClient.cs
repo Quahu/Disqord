@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Api;
-using Disqord.Gateway.Api.Models;
 using Disqord.Serialization.Json;
 using Qommon.Events;
 
@@ -10,29 +10,25 @@ namespace Disqord.Gateway.Api;
 
 public interface IGatewayApiClient : IApiClient
 {
+    /// <summary>
+    ///     Gets the serializer of this client.
+    /// </summary>
     IJsonSerializer Serializer { get; }
 
-    IGateway Gateway { get; }
-
-    IGatewayRateLimiter RateLimiter { get; }
-
-    IGatewayHeartbeater Heartbeater { get; }
-
-    GatewayIntents Intents { get; }
-
-    ShardId Id { get; }
-
-    UpdatePresenceJsonModel? Presence { get; set; }
+    /// <summary>
+    ///     Gets the shard coordinator of this client.
+    /// </summary>
+    IShardCoordinator ShardCoordinator { get; }
 
     /// <summary>
-    ///     Gets the session ID of the current gateway session.
+    ///     Gets the shard factory of this client.
     /// </summary>
-    string? SessionId { get; }
+    IShardFactory ShardFactory { get; }
 
     /// <summary>
-    ///     Gets the last sequence number (<see cref="GatewayPayloadJsonModel.S"/>) received from the gateway.
+    ///     Gets the shards managed by this <see cref="IGatewayApiClient"/>.
     /// </summary>
-    int? Sequence { get; }
+    IReadOnlyDictionary<ShardId, IShard> Shards { get; }
 
     /// <summary>
     ///     Gets the stopping token passed to <see cref="RunAsync(Uri, CancellationToken)"/>.
@@ -40,11 +36,9 @@ public interface IGatewayApiClient : IApiClient
     CancellationToken StoppingToken { get; }
 
     /// <summary>
-    ///     Fires when a gateway dispatch is received.
+    ///     Gets the event that fires when a gateway dispatch is received.
     /// </summary>
-    event AsynchronousEventHandler<GatewayDispatchReceivedEventArgs> DispatchReceived;
-
-    Task SendAsync(GatewayPayloadJsonModel payload, CancellationToken cancellationToken = default);
+    AsynchronousEvent<GatewayDispatchReceivedEventArgs> DispatchReceivedEvent { get; }
 
     /// <summary>
     ///     Runs this <see cref="IGatewayApiClient"/>.

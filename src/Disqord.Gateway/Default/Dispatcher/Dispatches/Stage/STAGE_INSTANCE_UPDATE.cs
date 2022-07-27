@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class StageUpdateDispatchHandler : DispatchHandler<StageInstanceJsonModel, StageUpdatedEventArgs>
 {
-    public override ValueTask<StageUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, StageInstanceJsonModel model)
+    public override ValueTask<StageUpdatedEventArgs?> HandleDispatchAsync(IShard shard, StageInstanceJsonModel model)
     {
         CachedStage? oldStage;
         IStage newStage;

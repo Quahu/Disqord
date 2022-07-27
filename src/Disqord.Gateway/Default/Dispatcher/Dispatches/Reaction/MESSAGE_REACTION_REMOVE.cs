@@ -8,7 +8,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class MessageReactionRemoveDispatchHandler : DispatchHandler<MessageReactionRemoveJsonModel, ReactionRemovedEventArgs>
 {
-    public override ValueTask<ReactionRemovedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionRemoveJsonModel model)
+    public override ValueTask<ReactionRemovedEventArgs?> HandleDispatchAsync(IShard shard, MessageReactionRemoveJsonModel model)
     {
         CachedUserMessage? message;
         if (CacheProvider.TryGetMessages(model.ChannelId, out var messageCache))

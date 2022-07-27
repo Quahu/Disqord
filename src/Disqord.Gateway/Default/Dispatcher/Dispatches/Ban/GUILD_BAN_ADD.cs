@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class GuildBanAddDispatchHandler : DispatchHandler<GuildBanAddJsonModel, BanCreatedEventArgs>
 {
-    public override ValueTask<BanCreatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildBanAddJsonModel model)
+    public override ValueTask<BanCreatedEventArgs?> HandleDispatchAsync(IShard shard, GuildBanAddJsonModel model)
     {
         var user = Dispatcher.GetSharedUserTransient(model.User);
         var e = new BanCreatedEventArgs(model.GuildId, user);

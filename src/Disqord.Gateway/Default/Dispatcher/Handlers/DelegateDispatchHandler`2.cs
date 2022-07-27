@@ -10,16 +10,16 @@ public sealed class DelegateDispatchHandler<TModel, TEventArgs> : DispatchHandle
     where TModel : JsonModel
     where TEventArgs : EventArgs
 {
-    private readonly Func<IGatewayApiClient, TModel, ValueTask<TEventArgs?>> _func;
+    private readonly Func<IShard, TModel, ValueTask<TEventArgs?>> _func;
 
-    public DelegateDispatchHandler(Func<IGatewayApiClient, TModel, ValueTask<TEventArgs?>> func)
+    public DelegateDispatchHandler(Func<IShard, TModel, ValueTask<TEventArgs?>> func)
     {
         Guard.IsNotNull(func);
 
         _func = func;
     }
 
-    public override ValueTask<TEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, TModel model)
+    public override ValueTask<TEventArgs?> HandleDispatchAsync(IShard shard, TModel model)
     {
         return _func(shard, model);
     }

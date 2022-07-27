@@ -27,18 +27,17 @@ public class IdentifyJsonModel : JsonModel
     public Optional<bool> GuildSubscriptions;
 
     [JsonProperty("intents")]
-    public ulong Intents;
+    public GatewayIntents Intents;
 
     public class PropertiesJsonModel : JsonModel
     {
-        // TODO: API v11: remove the prefix
-        [JsonProperty("$os")]
+        [JsonProperty("os")]
         public string Os = null!;
 
-        [JsonProperty("$browser")]
+        [JsonProperty("browser")]
         public string Browser = null!;
 
-        [JsonProperty("$device")]
+        [JsonProperty("device")]
         public string Device = null!;
     }
 }

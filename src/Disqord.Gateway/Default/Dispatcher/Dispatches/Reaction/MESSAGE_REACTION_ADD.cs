@@ -8,7 +8,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class MessageReactionAddDispatchHandler : DispatchHandler<MessageReactionAddJsonModel, ReactionAddedEventArgs>
 {
-    public override ValueTask<ReactionAddedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionAddJsonModel model)
+    public override ValueTask<ReactionAddedEventArgs?> HandleDispatchAsync(IShard shard, MessageReactionAddJsonModel model)
     {
         CachedUserMessage? message;
         IMember? member = null;

@@ -16,7 +16,7 @@ namespace Disqord.Test
     {
         protected override ValueTask OnReady(ReadyEventArgs e)
         {
-            Logger.LogInformation("Ready fired!");
+            Logger.LogInformation("Ready fired for {ShardId}!", e.ShardId);
             return default;
         }
 

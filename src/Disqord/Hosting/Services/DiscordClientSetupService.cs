@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
+using Disqord.Gateway;
 using Disqord.Logging;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -35,9 +36,15 @@ public class DiscordClientSetupService : IHostedService, ILogging
     }
 
     /// <inheritdoc/>
-    public virtual Task StartAsync(CancellationToken cancellationToken)
+    public virtual async Task StartAsync(CancellationToken cancellationToken)
     {
-        return Client.InitializeExtensionsAsync(cancellationToken);
+        // TODO: solve this ready mess?
+        if ((Client as IGatewayClient).ApiClient.ShardCoordinator is DiscordShardCoordinator shardCoordinator)
+        {
+            await shardCoordinator.InitializeAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        await Client.InitializeExtensionsAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public virtual Task StopAsync(CancellationToken cancellationToken)

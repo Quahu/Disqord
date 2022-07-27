@@ -21,16 +21,16 @@ public class DefaultGateway : IGateway
 
     public bool UsesZLib { get; }
 
-    public IGatewayApiClient Client => _binder.Value;
+    public ILogger Logger => Shard.Logger;
 
-    public ILogger Logger => Client.Logger;
+    public IShard Shard => _binder.Value;
 
     public IJsonSerializer Serializer { get; }
 
     public IWebSocketClientFactory WebSocketClientFactory { get; }
 
     private DiscordWebSocket _ws = null!;
-    private readonly Binder<IGatewayApiClient> _binder;
+    private readonly Binder<IShard> _binder;
 
     public DefaultGateway(
         IOptions<DefaultGatewayConfiguration> options,
@@ -47,7 +47,7 @@ public class DefaultGateway : IGateway
         _binder = new(this);
     }
 
-    public void Bind(IGatewayApiClient value)
+    public void Bind(IShard value)
     {
         _binder.Bind(value);
 
@@ -102,8 +102,8 @@ public class DefaultGateway : IGateway
         return Serializer.Deserialize<GatewayPayloadJsonModel>(jsonStream)!;
     }
 
-    public void Dispose()
+    public ValueTask DisposeAsync()
     {
-        _ws.Dispose();
+        return _ws.DisposeAsync();
     }
 }

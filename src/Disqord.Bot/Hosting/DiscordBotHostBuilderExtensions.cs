@@ -14,11 +14,15 @@ namespace Disqord.Bot.Hosting;
 public static class DiscordBotHostBuilderExtensions
 {
     public static IHostBuilder ConfigureDiscordBot(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext>? configure = null)
-        => builder.ConfigureDiscordBot<DiscordBot>(configure);
+    {
+        return builder.ConfigureDiscordBot<DiscordBot>(configure);
+    }
 
     public static IHostBuilder ConfigureDiscordBot<TDiscordBot>(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext>? configure = null)
         where TDiscordBot : DiscordBot
-        => builder.ConfigureDiscordBot<TDiscordBot, DiscordBotConfiguration>(configure);
+    {
+        return builder.ConfigureDiscordBot<TDiscordBot, DiscordBotConfiguration>(configure);
+    }
 
     public static IHostBuilder ConfigureDiscordBot<TDiscordBot, TDiscordBotConfiguration>(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext>? configure = null)
         where TDiscordBot : DiscordBot

@@ -8,7 +8,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class ChannelPinsUpdateDispatchHandler : DispatchHandler<ChannelPinsUpdateJsonModel, ChannelPinsUpdatedEventArgs>
 {
-    public override ValueTask<ChannelPinsUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ChannelPinsUpdateJsonModel model)
+    public override ValueTask<ChannelPinsUpdatedEventArgs?> HandleDispatchAsync(IShard shard, ChannelPinsUpdateJsonModel model)
     {
         CachedMessageGuildChannel? channel = null;
         if (model.GuildId.HasValue)

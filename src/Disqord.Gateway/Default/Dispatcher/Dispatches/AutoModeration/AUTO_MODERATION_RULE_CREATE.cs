@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class AutoModerationRuleCreateDispatchHandler : DispatchHandler<AutoModerationRuleJsonModel, AutoModerationRuleCreatedEventArgs>
 {
-    public override ValueTask<AutoModerationRuleCreatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, AutoModerationRuleJsonModel model)
+    public override ValueTask<AutoModerationRuleCreatedEventArgs?> HandleDispatchAsync(IShard shard, AutoModerationRuleJsonModel model)
     {
         var rule = new TransientAutoModerationRule(Client, model);
         var e = new AutoModerationRuleCreatedEventArgs(rule);

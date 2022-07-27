@@ -54,15 +54,13 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
 
     IApiClient IClient.ApiClient => RestClient.ApiClient;
 
-    IGatewayApiClient? IGatewayClient.ApiClient => GatewayClient.ApiClient;
+    IGatewayApiClient IGatewayClient.ApiClient => GatewayClient.ApiClient;
 
     IRestApiClient IRestClient.ApiClient => RestClient.ApiClient;
 
     IGatewayDispatcher IGatewayClient.Dispatcher => GatewayClient.Dispatcher;
 
     IDictionary<Snowflake, IDirectChannel>? IRestClient.DirectChannels => RestClient.DirectChannels;
-
-    IReadOnlyDictionary<ShardId, IGatewayApiClient> IGatewayClient.Shards => GatewayClient.Shards;
 
     /// <summary>
     ///     Instantiates a new <see cref="DiscordClientBase"/>, wrapping REST and gateway clients.
@@ -82,8 +80,13 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
         GatewayClient = gatewayClient;
         _extensions = extensions.ToDictionary(x => x.GetType(), x => x);
 
-        // Binds `this` to the dispatcher, where `this` is the DiscordClientBase.
+        // Binds `this` to the dispatcher and coordinator, where `this` is the DiscordClientBase.
         GatewayClient.Dispatcher.Bind(this);
+
+        if (GatewayClient.ApiClient.ShardCoordinator is DiscordShardCoordinator discordShardCoordinator)
+        {
+            discordShardCoordinator.Bind(this);
+        }
     }
 
     /// <summary>
@@ -101,9 +104,14 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
         GatewayClient = client.GatewayClient;
         _extensions = client._extensions;
 
-        // Binds `this` to the dispatcher, where `this` is the client implementing DiscordBotBase,
+        // Binds `this` to the dispatcher and coordinator, where `this` is the client implementing DiscordBotBase,
         // wrapping an existing DiscordClientBase.
         client.GatewayClient.Dispatcher.Bind(this);
+
+        if (GatewayClient.ApiClient.ShardCoordinator is DiscordShardCoordinator discordShardCoordinator)
+        {
+            discordShardCoordinator.Bind(this);
+        }
     }
 
     /// <summary>

@@ -8,7 +8,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class GuildEmojisUpdateDispatchHandler : DispatchHandler<GuildEmojisUpdateJsonModel, EmojisUpdatedEventArgs>
 {
-    public override ValueTask<EmojisUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildEmojisUpdateJsonModel model)
+    public override ValueTask<EmojisUpdatedEventArgs?> HandleDispatchAsync(IShard shard, GuildEmojisUpdateJsonModel model)
     {
         IReadOnlyDictionary<Snowflake, IGuildEmoji>? oldEmojis;
         IReadOnlyDictionary<Snowflake, IGuildEmoji> newEmojis;

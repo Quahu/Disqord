@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Api;
@@ -9,27 +8,18 @@ namespace Disqord.Gateway;
 
 public partial interface IGatewayClient : IClient
 {
+    /// <summary>
+    ///     Gets the low-level version of this client.
+    /// </summary>
+    new IGatewayApiClient ApiClient { get; }
+
     IGatewayCacheProvider CacheProvider { get; }
 
     IGatewayChunker Chunker { get; }
 
     IGatewayDispatcher Dispatcher { get; }
 
-    /// <summary>
-    ///     Gets the shards managed by this <see cref="IGatewayApiClient"/>.
-    /// </summary>
-    IReadOnlyDictionary<ShardId, IGatewayApiClient> Shards { get; }
-
-    /// <summary>
-    ///     Gets the low-level version of this client.
-    ///     If this client manages multiple shards this will return the shard for <see cref="ShardId.Default"/>.
-    /// </summary>
-    /// <remarks>
-    ///     Do not use this unless you are well aware of how it works.
-    /// </remarks>
-    new IGatewayApiClient? ApiClient => Shards.GetValueOrDefault(ShardId.Default);
-
-    IApiClient IClient.ApiClient => ApiClient!;
+    IApiClient IClient.ApiClient => ApiClient;
 
     ICurrentUser? CurrentUser => Dispatcher.CurrentUser;
 

@@ -9,7 +9,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class VoiceStateUpdateDispatchHandler : DispatchHandler<VoiceStateJsonModel, VoiceStateUpdatedEventArgs>
 {
-    public override ValueTask<VoiceStateUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, VoiceStateJsonModel model)
+    public override ValueTask<VoiceStateUpdatedEventArgs?> HandleDispatchAsync(IShard shard, VoiceStateJsonModel model)
     {
         if (!model.GuildId.HasValue)
             return new(result: null);

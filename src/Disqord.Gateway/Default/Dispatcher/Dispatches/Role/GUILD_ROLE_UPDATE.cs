@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class GuildRoleUpdateDispatchHandler : DispatchHandler<GuildRoleUpdateJsonModel, RoleUpdatedEventArgs>
 {
-    public override ValueTask<RoleUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildRoleUpdateJsonModel model)
+    public override ValueTask<RoleUpdatedEventArgs?> HandleDispatchAsync(IShard shard, GuildRoleUpdateJsonModel model)
     {
         CachedRole? oldRole;
         IRole newRole;

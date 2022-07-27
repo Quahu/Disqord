@@ -11,9 +11,9 @@ namespace Disqord.Gateway.Api.Default;
 
 public class DefaultGatewayHeartbeater : IGatewayHeartbeater
 {
-    public ILogger Logger => ApiClient.Logger;
+    public ILogger Logger => Shard.Logger;
 
-    public IGatewayApiClient ApiClient => _binder.Value;
+    public IShard Shard => _binder.Value;
 
     public TimeSpan Interval { get; private set; }
 
@@ -24,25 +24,25 @@ public class DefaultGatewayHeartbeater : IGatewayHeartbeater
 
     private Cts? _cts;
     private Task? _task;
-    private readonly Binder<IGatewayApiClient> _binder;
+    private readonly Binder<IShard> _binder;
 
     public DefaultGatewayHeartbeater(
         IOptions<DefaultGatewayHeartbeaterConfiguration> options)
     {
-        _binder = new Binder<IGatewayApiClient>(this);
+        _binder = new Binder<IShard>(this);
     }
 
-    public void Bind(IGatewayApiClient apiClient)
+    public void Bind(IShard apiClient)
     {
         _binder.Bind(apiClient);
     }
 
-    public ValueTask StartAsync(TimeSpan interval)
+    public ValueTask StartAsync(TimeSpan interval, CancellationToken stoppingToken)
     {
         Interval = interval;
         _lastSend = null;
         _lastAcknowledge = null;
-        _cts = new Cts();
+        _cts = Cts.Linked(stoppingToken);
         _task = Task.Run(InternalRunAsync, _cts.Token);
         return default;
     }
@@ -80,14 +80,14 @@ public class DefaultGatewayHeartbeater : IGatewayHeartbeater
         return new GatewayPayloadJsonModel
         {
             Op = GatewayPayloadOperation.Heartbeat,
-            D = ApiClient.Serializer.GetJsonNode(ApiClient.Sequence)
+            D = Shard.Serializer.GetJsonNode(Shard.Sequence)
         };
     }
 
     public Task HeartbeatAsync(CancellationToken cancellationToken = default)
     {
         _lastSend = DateTime.Now;
-        return ApiClient.SendAsync(GetPayload(), cancellationToken);
+        return Shard.SendAsync(GetPayload(), cancellationToken);
     }
 
     public ValueTask AcknowledgeAsync()

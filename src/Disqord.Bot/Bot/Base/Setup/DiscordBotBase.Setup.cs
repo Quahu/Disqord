@@ -234,7 +234,7 @@ public abstract partial class DiscordBotBase
         return default;
     }
 
-    public virtual async ValueTask InitializeAsync(CancellationToken cancellationToken)
+    public async ValueTask InitializeAsync(CancellationToken cancellationToken)
     {
         _masterService?.Bind(this);
 
@@ -246,6 +246,13 @@ public abstract partial class DiscordBotBase
         await InitializeModules(cancellationToken).ConfigureAwait(false);
         await InitializeRateLimiter(cancellationToken).ConfigureAwait(false);
 
-        await InitializeApplicationCommandsAsync(cancellationToken).ConfigureAwait(false);
+        if (await ShouldInitializeApplicationCommands(cancellationToken))
+        {
+            await InitializeApplicationCommands(cancellationToken).ConfigureAwait(false);
+        }
+        else
+        {
+            Logger.LogDebug("Skipping application command sync.");
+        }
     }
 }

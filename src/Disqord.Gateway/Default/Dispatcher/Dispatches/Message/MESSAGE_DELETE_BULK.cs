@@ -7,7 +7,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class MessageDeleteBulkDispatchHandler : DispatchHandler<MessageDeleteBulkJsonModel, MessagesDeletedEventArgs>
 {
-    public override ValueTask<MessagesDeletedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, MessageDeleteBulkJsonModel model)
+    public override ValueTask<MessagesDeletedEventArgs?> HandleDispatchAsync(IShard shard, MessageDeleteBulkJsonModel model)
     {
         if (!model.GuildId.HasValue)
             return new(result: null);

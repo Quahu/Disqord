@@ -16,11 +16,11 @@ public abstract class DispatchHandler : IBindable<DefaultGatewayDispatcher>
 {
     public DefaultGatewayDispatcher Dispatcher => _binder.Value;
 
+    protected ILogger Logger => Dispatcher.Logger;
+
     protected IGatewayClient Client => Dispatcher.Client;
 
     protected IGatewayCacheProvider CacheProvider => Client.CacheProvider;
-
-    protected ILogger Logger => Dispatcher.Logger;
 
     private readonly Binder<DefaultGatewayDispatcher> _binder;
 
@@ -34,7 +34,7 @@ public abstract class DispatchHandler : IBindable<DefaultGatewayDispatcher>
         _binder.Bind(value);
     }
 
-    public abstract ValueTask HandleDispatchAsync(IGatewayApiClient shard, IJsonNode data);
+    public abstract ValueTask HandleDispatchAsync(IShard shard, IJsonNode data);
 
     private protected static readonly ISynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>> EventsByDispatcher = new SynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>>(1);
     private protected static readonly PropertyInfo[] EventProperties;

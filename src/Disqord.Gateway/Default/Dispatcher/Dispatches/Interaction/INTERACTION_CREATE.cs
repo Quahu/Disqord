@@ -10,7 +10,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class InteractionCreateDispatchHandler : DispatchHandler<InteractionJsonModel, InteractionReceivedEventArgs>
 {
-    public override ValueTask<InteractionReceivedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, InteractionJsonModel model)
+    public override ValueTask<InteractionReceivedEventArgs?> HandleDispatchAsync(IShard shard, InteractionJsonModel model)
     {
         var now = Stopwatch.GetTimestamp();
         CachedMember? member = null;

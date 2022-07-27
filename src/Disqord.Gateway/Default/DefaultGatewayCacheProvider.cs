@@ -155,7 +155,7 @@ public class DefaultGatewayCacheProvider : IGatewayCacheProvider
                     {
                         foreach (var guildId in guildsCache.Keys)
                         {
-                            if (ShardId.ForGuildId(guildId, shardId.Count) != shardId)
+                            if (ShardId.FromGuildId(guildId, shardId.Count) != shardId)
                                 continue;
 
                             guildsCache.Remove(guildId);

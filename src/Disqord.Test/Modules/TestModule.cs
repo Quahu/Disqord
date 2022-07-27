@@ -146,7 +146,7 @@ namespace Disqord.Test
         [Description("Displays the shard for this context.")]
         public IResult Shard()
         {
-            var shardId = Context.Bot.GetShardId(Context.GuildId);
+            var shardId = (Context.Bot as IGatewayClient).ApiClient.GetShardId(Context.GuildId);
             return Response($"This is {shardId} speaking.");
         }
 

@@ -12,9 +12,9 @@ public class InterceptingDispatchHandler<TModel, TEventArgs> : DispatchHandler<T
 {
     public DispatchHandler<TModel, TEventArgs> UnderlyingDispatchHandler { get; }
 
-    private readonly Action<IGatewayApiClient, TModel> _func;
+    private readonly Action<IShard, TModel> _func;
 
-    public InterceptingDispatchHandler(DispatchHandler<TModel, TEventArgs> underlyingDispatchHandler, Action<IGatewayApiClient, TModel> func)
+    public InterceptingDispatchHandler(DispatchHandler<TModel, TEventArgs> underlyingDispatchHandler, Action<IShard, TModel> func)
     {
         Guard.IsNotNull(underlyingDispatchHandler);
         Guard.IsNotNull(func);
@@ -23,7 +23,7 @@ public class InterceptingDispatchHandler<TModel, TEventArgs> : DispatchHandler<T
         _func = func;
     }
 
-    public override ValueTask<TEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, TModel model)
+    public override ValueTask<TEventArgs?> HandleDispatchAsync(IShard shard, TModel model)
     {
         _func(shard, model);
         return UnderlyingDispatchHandler.HandleDispatchAsync(shard, model);

@@ -7,7 +7,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class PresenceUpdateDispatchHandler : DispatchHandler<PresenceJsonModel, PresenceUpdatedEventArgs>
 {
-    public override ValueTask<PresenceUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, PresenceJsonModel model)
+    public override ValueTask<PresenceUpdatedEventArgs?> HandleDispatchAsync(IShard shard, PresenceJsonModel model)
     {
         if (model.GuildId == default) // just in case?
             return new(result: null);

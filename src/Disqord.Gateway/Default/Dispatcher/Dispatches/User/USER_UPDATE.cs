@@ -16,7 +16,7 @@ public class UserUpdateDispatchHandler : DispatchHandler<UserJsonModel, CurrentU
         base.Bind(value);
     }
 
-    public override ValueTask<CurrentUserUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, UserJsonModel model)
+    public override ValueTask<CurrentUserUpdatedEventArgs?> HandleDispatchAsync(IShard shard, UserJsonModel model)
     {
         var newCurrentUser = _readyDispatchHandler.CurrentUser!;
         var oldCurrentUser = newCurrentUser.Clone() as CachedCurrentUser;

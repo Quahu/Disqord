@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class ChannelDeleteDispatchHandler : DispatchHandler<ChannelJsonModel, ChannelDeletedEventArgs>
 {
-    public override ValueTask<ChannelDeletedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ChannelJsonModel model)
+    public override ValueTask<ChannelDeletedEventArgs?> HandleDispatchAsync(IShard shard, ChannelJsonModel model)
     {
         if (!model.GuildId.HasValue)
             return new(result: null);
