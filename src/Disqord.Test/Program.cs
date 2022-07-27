@@ -49,7 +49,7 @@ namespace Disqord.Test
                         bot.Token = context.Configuration["TOKEN"];
                         bot.UseMentionPrefix = false;
                         bot.Prefixes = new[] { "??" };
-                        bot.Intents |= GatewayIntent.DirectMessages | GatewayIntent.DirectReactions;
+                        bot.Intents |= GatewayIntents.DirectMessages | GatewayIntents.DirectReactions;
                     })
                     .UseDefaultServiceProvider(x =>
                     {
