@@ -13,5 +13,8 @@ public enum UserClient
     Mobile,
 
     [EnumMember(Value = "web")]
-    Web
+    Web,
+
+    [EnumMember(Value = "embedded")]
+    Embedded
 }

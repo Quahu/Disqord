@@ -15,7 +15,8 @@ namespace Disqord.Serialization.Json.Default;
 internal sealed class ContractResolver : DefaultContractResolver
 {
     private readonly DefaultJsonSerializer _serializer;
-    internal readonly StringEnumConverter _stringEnumConverter;
+    // TODO: custom StringEnumConverter
+    private readonly StringEnumConverter _stringEnumConverter;
     internal readonly StreamConverter _streamConverter;
     private readonly JsonNodeConverter _jsonNodeConverter;
     private readonly SnowflakeConverter _snowflakeConverter;
