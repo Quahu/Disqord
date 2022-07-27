@@ -13,7 +13,7 @@ using System.IO.Compression;
 
 namespace Disqord.WebSocket.Default.Discord
 {
-    internal sealed class DiscordWebSocket : IDisposable
+    internal sealed class DiscordWebSocket : IAsyncDisposable
     {
         public const int ReceiveBufferSize = 8192;
 
@@ -69,11 +69,11 @@ namespace Disqord.WebSocket.Default.Discord
 
         public async ValueTask ConnectAsync(Uri url, CancellationToken cancellationToken)
         {
-            ThrowIfDisposed();
-
             using (await _sendSemaphore.EnterAsync(cancellationToken))
             using (await _receiveSemaphore.EnterAsync(cancellationToken))
             {
+                ThrowIfDisposed();
+
                 _limboCts?.Cancel();
                 _limboCts?.Dispose();
                 _limboCts = new Cts();
@@ -92,10 +92,10 @@ namespace Disqord.WebSocket.Default.Discord
 
         public async ValueTask SendAsync(Memory<byte> memory, CancellationToken cancellationToken)
         {
-            ThrowIfDisposed();
-
             using (await _sendSemaphore.EnterAsync(cancellationToken).ConfigureAwait(false))
             {
+                ThrowIfDisposed();
+
                 // See _limboCts for more info on cancellation.
                 var sendTask = _ws!.SendAsync(memory, WebSocketMessageType.Text, true, _limboCts!.Token).AsTask();
                 using (var infiniteCts = Cts.Linked(cancellationToken))
@@ -111,13 +111,13 @@ namespace Disqord.WebSocket.Default.Discord
 
         public async ValueTask<Stream> ReceiveAsync(CancellationToken cancellationToken)
         {
-            ThrowIfDisposed();
-
-            Guard.IsNotNull(_ws);
-            Guard.IsNotNull(_limboCts);
-
             using (await _receiveSemaphore.EnterAsync(cancellationToken).ConfigureAwait(false))
             {
+                ThrowIfDisposed();
+
+                Guard.IsNotNull(_ws);
+                Guard.IsNotNull(_limboCts);
+
                 // Ensures that the receive stream is fully read and the underlying DeflateStream acknowledges the ZLib suffix.
                 if (_supportsZLib && _wasLastPayloadZLib && _receiveStream.Position != _receiveStream.Length)
                 {
@@ -203,15 +203,22 @@ namespace Disqord.WebSocket.Default.Discord
             }
         }
 
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
             if (_isDisposed)
                 return;
 
-            _isDisposed = true;
-            _receiveZLibStream?.Dispose();
-            _receiveStream.Dispose();
-            _ws?.Dispose();
+            using (await _sendSemaphore.EnterAsync())
+            using (await _receiveSemaphore.EnterAsync())
+            {
+                if (_isDisposed)
+                    return;
+
+                _isDisposed = true;
+                _receiveZLibStream?.Dispose();
+                _receiveStream.Dispose();
+                _ws?.Dispose();
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ public class ReadyEventArgs : EventArgs
     public ICurrentUser CurrentUser { get; }
 
     /// <summary>
-    ///     Gets the IDs of the guilds this shard will receive.
+    ///     Gets the IDs of the guilds of the ready shard.
     /// </summary>
     public IReadOnlyList<Snowflake> GuildIds { get; }
 

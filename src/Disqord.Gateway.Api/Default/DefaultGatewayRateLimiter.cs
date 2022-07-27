@@ -2,31 +2,26 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Gateway.Api.Models;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Qommon.Binding;
-using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Api.Default;
 
 public class DefaultGatewayRateLimiter : IGatewayRateLimiter
 {
-    // The buckets that are shared between all gateway connections.
-    private static readonly ISynchronizedDictionary<Snowflake, ISynchronizedDictionary<GatewayPayloadOperation, Bucket>> _sharedBuckets;
-
     private const int HeartbeatCount = 2;
 
     /// <inheritdoc/>
-    public ILogger Logger => ApiClient.Logger;
+    public ILogger Logger => Shard.Logger;
 
     /// <inheritdoc/>
-    public IGatewayApiClient ApiClient => _binder.Value;
+    public IShard Shard => _binder.Value;
 
     private readonly ILoggerFactory _loggerFactory;
 
-    private readonly Binder<IGatewayApiClient> _binder;
+    private readonly Binder<IShard> _binder;
 
     private readonly Bucket _masterBucket;
     private readonly Dictionary<GatewayPayloadOperation, Bucket> _buckets;
@@ -37,22 +32,16 @@ public class DefaultGatewayRateLimiter : IGatewayRateLimiter
     {
         _loggerFactory = loggerFactory;
 
-        _binder = new Binder<IGatewayApiClient>(this, @this =>
-        {
-            if (@this.Token is not BotToken)
-                throw new ArgumentException("The default gateway rate-limiter supports only bot tokens.");
-        });
+        _binder = new Binder<IShard>(this);
 
         _masterBucket = new Bucket(_loggerFactory.CreateLogger("Master Bucket"), 120 - HeartbeatCount, TimeSpan.FromSeconds(60));
         _buckets = new Dictionary<GatewayPayloadOperation, Bucket>(2);
     }
 
-    public void Bind(IGatewayApiClient apiClient)
+    public void Bind(IShard apiClient)
     {
         _binder.Bind(apiClient);
 
-        // TODO: identify concurrency
-        _buckets[GatewayPayloadOperation.Identify] = GetSharedBucket(_loggerFactory.CreateLogger("Identify Bucket"), (ApiClient.Token as BotToken)!, GatewayPayloadOperation.Identify, 1, TimeSpan.FromSeconds(5.5));
         _buckets[GatewayPayloadOperation.UpdatePresence] = new Bucket(_loggerFactory.CreateLogger("Presence Bucket"), 5, TimeSpan.FromSeconds(60));
     }
 
@@ -151,23 +140,6 @@ public class DefaultGatewayRateLimiter : IGatewayRateLimiter
         }
 
         _masterBucket.Reset();
-    }
-
-    private static Bucket GetSharedBucket(ILogger logger, BotToken token, GatewayPayloadOperation operation, int uses, TimeSpan resetDelay)
-    {
-        var dictionary = _sharedBuckets.GetOrAdd(token.Id, _ => new SynchronizedDictionary<GatewayPayloadOperation, Bucket>(1));
-        var bucket = dictionary.GetOrAdd(operation, (_, state) =>
-        {
-            var (logger, uses, resetDelay) = state;
-            return new Bucket(logger, uses, resetDelay);
-        }, (logger, uses, resetDelay));
-
-        return bucket;
-    }
-
-    static DefaultGatewayRateLimiter()
-    {
-        _sharedBuckets = new SynchronizedDictionary<Snowflake, ISynchronizedDictionary<GatewayPayloadOperation, Bucket>>(1);
     }
 
     private class Bucket

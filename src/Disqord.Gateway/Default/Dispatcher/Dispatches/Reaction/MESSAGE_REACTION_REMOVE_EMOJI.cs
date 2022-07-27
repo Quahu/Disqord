@@ -9,7 +9,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class MessageReactionRemoveEmojiDispatchHandler : DispatchHandler<MessageReactionRemoveEmojiJsonModel, ReactionsClearedEventArgs>
 {
-    public override ValueTask<ReactionsClearedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, MessageReactionRemoveEmojiJsonModel model)
+    public override ValueTask<ReactionsClearedEventArgs?> HandleDispatchAsync(IShard shard, MessageReactionRemoveEmojiJsonModel model)
     {
         CachedUserMessage? message;
         Optional<IReadOnlyDictionary<IEmoji, IMessageReaction>> oldReactions;

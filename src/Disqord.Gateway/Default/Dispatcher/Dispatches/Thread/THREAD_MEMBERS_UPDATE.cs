@@ -9,7 +9,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class ThreadMembersUpdateDispatchHandler : DispatchHandler<ThreadMembersUpdateJsonModel, ThreadMembersUpdatedEventArgs>
 {
-    public override ValueTask<ThreadMembersUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ThreadMembersUpdateJsonModel model)
+    public override ValueTask<ThreadMembersUpdatedEventArgs?> HandleDispatchAsync(IShard shard, ThreadMembersUpdateJsonModel model)
     {
         var thread = Client.GetChannel(model.GuildId, model.Id) as CachedThreadChannel;
         thread?.Update(model);

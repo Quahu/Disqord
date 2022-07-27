@@ -12,7 +12,7 @@ public abstract class DispatchHandler<TModel, TEventArgs> : DispatchHandler<TEve
     protected DispatchHandler()
     { }
 
-    public override async ValueTask HandleDispatchAsync(IGatewayApiClient shard, IJsonNode data)
+    public override async ValueTask HandleDispatchAsync(IShard shard, IJsonNode data)
     {
         var model = data.ToType<TModel>();
         var eventArgs = await HandleDispatchAsync(shard, model!).ConfigureAwait(false);
@@ -45,5 +45,5 @@ public abstract class DispatchHandler<TModel, TEventArgs> : DispatchHandler<TEve
         return default;
     }
 
-    public abstract ValueTask<TEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, TModel model);
+    public abstract ValueTask<TEventArgs?> HandleDispatchAsync(IShard shard, TModel model);
 }

@@ -30,7 +30,7 @@ public class GuildMemberAddDispatchHandler : DispatchHandler<GuildMemberAddJsonM
             _lastMemberIds.Remove(guildId);
     }
 
-    public override ValueTask<MemberJoinedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildMemberAddJsonModel model)
+    public override ValueTask<MemberJoinedEventArgs?> HandleDispatchAsync(IShard shard, GuildMemberAddJsonModel model)
     {
         var guild = Client.GetGuild(model.GuildId);
         if (_lastMemberIds != null)

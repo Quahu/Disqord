@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class GuildIntegrationsUpdateDispatchHandler : DispatchHandler<GuildIntegrationsUpdateJsonModel, IntegrationsUpdatedEventArgs>
 {
-    public override ValueTask<IntegrationsUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildIntegrationsUpdateJsonModel model)
+    public override ValueTask<IntegrationsUpdatedEventArgs?> HandleDispatchAsync(IShard shard, GuildIntegrationsUpdateJsonModel model)
     {
         var e = new IntegrationsUpdatedEventArgs(model.GuildId);
         return new(e);

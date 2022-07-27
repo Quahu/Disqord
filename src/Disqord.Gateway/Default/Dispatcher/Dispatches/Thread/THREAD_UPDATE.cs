@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class ThreadUpdateDispatchHandler : DispatchHandler<ChannelJsonModel, ThreadUpdatedEventArgs>
 {
-    public override ValueTask<ThreadUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ChannelJsonModel model)
+    public override ValueTask<ThreadUpdatedEventArgs?> HandleDispatchAsync(IShard shard, ChannelJsonModel model)
     {
         CachedThreadChannel? oldThread;
         IThreadChannel newThread;

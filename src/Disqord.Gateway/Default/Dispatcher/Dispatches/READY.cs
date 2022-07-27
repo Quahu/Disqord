@@ -31,15 +31,7 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
         _delays = new SynchronizedDictionary<ShardId, DelayToken>();
     }
 
-    public override void Bind(DefaultGatewayDispatcher value)
-    {
-        base.Bind(value);
-
-        foreach (var id in Client.Shards.Keys)
-            InitialReadys.Add(id, new Tcs());
-    }
-
-    public override ValueTask<ReadyEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ReadyJsonModel model)
+    public override ValueTask<ReadyEventArgs?> HandleDispatchAsync(IShard shard, ReadyJsonModel model)
     {
         CacheProvider.Reset(shard.Id);
         var pendingGuilds = model.Guilds.ToDictionary(x => x.Id, x => !x.Unavailable.GetValueOrDefault()).Synchronized();
@@ -77,7 +69,9 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
     }
 
     public bool IsPendingGuild(ShardId shardId, Snowflake guildId)
-        => PendingGuilds.TryGetValue(shardId, out var guilds) && guilds.ContainsKey(guildId);
+    {
+        return PendingGuilds.TryGetValue(shardId, out var guilds) && guilds.ContainsKey(guildId);
+    }
 
     public void PopPendingGuild(ShardId shardId, Snowflake guildId)
     {
@@ -92,7 +86,7 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
         }
     }
 
-    private async Task DelayReadyAsync(IGatewayApiClient shard, ReadyEventArgs e)
+    private async Task DelayReadyAsync(IShard shard, ReadyEventArgs e)
     {
         if (_delays.TryGetValue(shard.Id, out var delay))
         {
@@ -132,7 +126,7 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
         }
     }
 
-    private sealed class DelayToken : IDisposable
+    private readonly struct DelayToken : IDisposable
     {
         public Tcs Tcs { get; }
 

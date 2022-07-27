@@ -58,7 +58,7 @@ public enum GatewayCloseCode
     InvalidShard = 4010,
 
     /// <summary>
-    ///     The bot has reached 2500 guilds and sharding of the connection is required.
+    ///     The bot has reached <c>2500</c> guilds and sharding of the connection is required.
     /// </summary>
     ShardingRequired = 4011,
 

@@ -8,7 +8,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class GuildStickersUpdateDispatchHandler : DispatchHandler<GuildStickersUpdateJsonModel, StickersUpdatedEventArgs>
 {
-    public override ValueTask<StickersUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildStickersUpdateJsonModel model)
+    public override ValueTask<StickersUpdatedEventArgs?> HandleDispatchAsync(IShard shard, GuildStickersUpdateJsonModel model)
     {
         IReadOnlyDictionary<Snowflake, IGuildSticker>? oldStickers;
         IReadOnlyDictionary<Snowflake, IGuildSticker> newStickers;

@@ -9,11 +9,14 @@ using Qommon.Binding;
 
 namespace Disqord.Gateway.Api;
 
-public interface IGateway : IBindable<IGatewayApiClient>, ILogging
+public interface IGateway : ILogging, IAsyncDisposable, IBindable<IShard>
 {
     int Version { get; }
 
-    IGatewayApiClient Client { get; }
+    /// <summary>
+    ///     Gets the shard of this gateway.
+    /// </summary>
+    IShard Shard { get; }
 
     IJsonSerializer Serializer { get; }
 

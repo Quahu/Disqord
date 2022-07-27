@@ -8,7 +8,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class TypingStartDispatchHandler : DispatchHandler<TypingStartJsonModel, TypingStartedEventArgs>
 {
-    public override ValueTask<TypingStartedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, TypingStartJsonModel model)
+    public override ValueTask<TypingStartedEventArgs?> HandleDispatchAsync(IShard shard, TypingStartJsonModel model)
     {
         IMember? member = null;
         if (model.GuildId.HasValue)

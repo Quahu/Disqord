@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway;
-using Disqord.Gateway.Api;
 using Disqord.Gateway.Default;
 using Disqord.Gateway.Default.Dispatcher;
 using Disqord.Rest;
@@ -31,10 +31,11 @@ public class DiscordClient : DiscordClientBase
         await GatewayClient.RunAsync(uri, stoppingToken).ConfigureAwait(false);
     }
 
+    /// <inheritdoc/>
     public override Task WaitUntilReadyAsync(CancellationToken cancellationToken)
     {
         if (GatewayClient.Dispatcher is DefaultGatewayDispatcher dispatcher && dispatcher["READY"] is ReadyDispatchHandler readyHandler)
-            return readyHandler.InitialReadys[ShardId.Default].Task;
+            return Task.WhenAll(readyHandler.InitialReadys.Values.Select(tcs => tcs.Task));
 
         return Task.CompletedTask;
     }

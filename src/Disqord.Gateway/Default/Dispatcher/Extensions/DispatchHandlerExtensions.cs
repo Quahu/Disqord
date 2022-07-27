@@ -11,7 +11,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class DispatchHandlerExtensions
 {
-    public static DispatchHandler<TModel, TEventArgs> Intercept<TModel, TEventArgs>(this DispatchHandler<TModel, TEventArgs> dispatchHandler, Action<IGatewayApiClient, TModel> func)
+    public static DispatchHandler<TModel, TEventArgs> Intercept<TModel, TEventArgs>(this DispatchHandler<TModel, TEventArgs> dispatchHandler, Action<IShard, TModel> func)
         where TModel : JsonModel
         where TEventArgs : EventArgs
     {

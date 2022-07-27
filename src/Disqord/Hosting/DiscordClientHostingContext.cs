@@ -2,6 +2,7 @@
 using System.Net;
 using System.Reflection;
 using Disqord.Gateway;
+using Disqord.Gateway.Api;
 
 namespace Disqord.Hosting;
 
@@ -16,10 +17,17 @@ public class DiscordClientHostingContext
     ///     Gets or sets the gateway intents.
     /// </summary>
     /// <remarks>
-    ///     Defaults to <see cref="GatewayIntents.Recommended"/> which are the intents the library recommends.
-    ///     These include <see cref="GatewayIntent.Members"/> which is a privileged intent.
+    ///     Defaults to <see cref="GatewayIntents.LibraryRecommended"/> which are the intents the library recommends.
+    ///     <inheritdoc cref="GatewayIntents.LibraryRecommended"/>
     /// </remarks>
-    public virtual GatewayIntents Intents { get; set; } = GatewayIntents.Recommended;
+    /// <example>
+    ///     Because this set does not include <see cref="GatewayIntents.DirectMessages"/> the bot will not
+    ///     receive messages nor reactions in private (direct message) channels. You can enable them with the following code:
+    ///     <code language="csharp">
+    ///         Intents |= GatewayIntents.DirectMessages | GatewayIntents.DirectReactions;
+    ///     </code>
+    /// </example>
+    public virtual GatewayIntents Intents { get; set; } = GatewayIntents.LibraryRecommended;
 
     /// <summary>
     ///     Gets or sets the mode of delaying and firing the <see cref="DiscordClientBase.Ready"/> event.
@@ -69,4 +77,16 @@ public class DiscordClientHostingContext
     ///     Defaults to <see langword="null"/>, i.e. no proxy.
     /// </remarks>
     public virtual IWebProxy? GatewayProxy { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the custom shard set that should
+    ///     be used instead of Discord's recommended shards.
+    /// </summary>
+    /// <remarks>
+    ///     <b>Do not use this if you are unfamiliar with sharding
+    ///     or wish to shard on multiple machines.</b><para/>
+    ///
+    ///     This basically exists just for testing.
+    /// </remarks>
+    public ShardSet? CustomShardSet { get; set; }
 }

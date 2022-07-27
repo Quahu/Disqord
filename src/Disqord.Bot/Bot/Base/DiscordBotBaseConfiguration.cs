@@ -28,11 +28,17 @@ public class DiscordBotBaseConfiguration
     ///     Gets or sets whether the bot should automatically
     ///     sync global application commands.
     /// </summary>
+    /// <remarks>
+    ///     This is checked after <see cref="DiscordBotBase.ShouldInitializeApplicationCommands"/>.
+    /// </remarks>
     public bool SyncGlobalApplicationCommands { get; set; } = true;
 
     /// <summary>
     ///     Gets or sets whether the bot should automatically
     ///     sync guild application commands.
     /// </summary>
+    /// <remarks>
+    ///     <inheritdoc cref="SyncGlobalApplicationCommands"/>
+    /// </remarks>
     public bool SyncGuildApplicationCommands { get; set; } = true;
 }

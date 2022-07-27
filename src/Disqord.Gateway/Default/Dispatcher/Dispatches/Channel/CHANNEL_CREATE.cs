@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class ChannelCreateDispatchHandler : DispatchHandler<ChannelJsonModel, ChannelCreatedEventArgs>
 {
-    public override ValueTask<ChannelCreatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ChannelJsonModel model)
+    public override ValueTask<ChannelCreatedEventArgs?> HandleDispatchAsync(IShard shard, ChannelJsonModel model)
     {
         if (!model.GuildId.HasValue)
             return new(result: null);

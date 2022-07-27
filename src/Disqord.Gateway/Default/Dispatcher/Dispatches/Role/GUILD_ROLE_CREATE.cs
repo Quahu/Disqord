@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class GuildRoleCreateDispatchHandler : DispatchHandler<GuildRoleCreateJsonModel, RoleCreatedEventArgs>
 {
-    public override ValueTask<RoleCreatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildRoleCreateJsonModel model)
+    public override ValueTask<RoleCreatedEventArgs?> HandleDispatchAsync(IShard shard, GuildRoleCreateJsonModel model)
     {
         IRole role;
         if (CacheProvider.TryGetRoles(model.GuildId, out var cache))

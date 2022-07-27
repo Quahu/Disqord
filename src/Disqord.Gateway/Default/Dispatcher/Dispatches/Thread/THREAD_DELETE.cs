@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class ThreadDeleteDispatchHandler : DispatchHandler<ChannelJsonModel, ThreadDeletedEventArgs>
 {
-    public override ValueTask<ThreadDeletedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, ChannelJsonModel model)
+    public override ValueTask<ThreadDeletedEventArgs?> HandleDispatchAsync(IShard shard, ChannelJsonModel model)
     {
         IThreadChannel thread;
         if (CacheProvider.TryGetChannels(model.GuildId.Value, out var channelCache) && channelCache.TryRemove(model.Id, out var cachedThread))

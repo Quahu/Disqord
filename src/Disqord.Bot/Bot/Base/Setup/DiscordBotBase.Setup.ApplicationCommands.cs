@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Bot.Commands;
 using Disqord.Bot.Commands.Application;
+using Disqord.Gateway;
 using Disqord.Rest;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -856,10 +857,28 @@ public abstract partial class DiscordBotBase
     }
 
     /// <summary>
-    ///     Initializes application commands.
+    ///     Checks whether application commands should be initialized and synced.
+    /// </summary>
+    /// <remarks>
+    ///     By default, this method ensures the sync is only performed if the bot
+    ///     is managing the shard with index <c>0</c>, i.e. the default shard.
+    /// </remarks>
+    /// <param name="cancellationToken"> The cancellation token to observe. </param>
+    /// <returns>
+    ///     A <see cref="ValueTask{TResult}"/> representing the work with the result being a <see cref="bool"/>.
+    /// </returns>
+    public virtual async ValueTask<bool> ShouldInitializeApplicationCommands(CancellationToken cancellationToken)
+    {
+        var shardCoordinator = (this as IGatewayClient).ApiClient.ShardCoordinator;
+        var shardSet = await shardCoordinator.GetShardSetAsync(cancellationToken).ConfigureAwait(false);
+        return shardSet.ShardIds.Any(shardId => shardId.Index == 0);
+    }
+
+    /// <summary>
+    ///     Initializes and syncs application commands.
     /// </summary>
     /// <param name="cancellationToken"> The cancellation token to observe. </param>
-    public virtual async ValueTask InitializeApplicationCommandsAsync(CancellationToken cancellationToken = default)
+    public virtual async ValueTask InitializeApplicationCommands(CancellationToken cancellationToken)
     {
         var stopwatch = new Stopwatch();
         var map = Commands.GetCommandMapProvider().GetRequiredMap<ApplicationCommandMap>();

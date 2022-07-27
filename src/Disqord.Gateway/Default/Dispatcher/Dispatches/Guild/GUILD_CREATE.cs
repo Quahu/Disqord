@@ -18,7 +18,7 @@ public class GuildCreateDispatchHandler : DispatchHandler<GatewayGuildJsonModel,
         base.Bind(value);
     }
 
-    public override async ValueTask<EventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GatewayGuildJsonModel model)
+    public override async ValueTask<EventArgs?> HandleDispatchAsync(IShard shard, GatewayGuildJsonModel model)
     {
         IGatewayGuild guild;
         var isPending = _readyDispatchHandler.IsPendingGuild(shard.Id, model.Id);

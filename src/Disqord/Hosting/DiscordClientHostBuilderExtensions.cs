@@ -34,7 +34,7 @@ public static class DiscordClientHostBuilderExtensions
     {
         services.Replace(ServiceDescriptor.Singleton<Token>(Token.Bot(discordContext.Token!)));
 
-        services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Intents = discordContext.Intents);
+        services.Configure<DefaultShardConfiguration>(x => x.Intents = discordContext.Intents);
 
         services.Configure<DefaultGatewayDispatcherConfiguration>(x => x.ReadyEventDelayMode = discordContext.ReadyEventDelayMode);
 
@@ -84,7 +84,7 @@ public static class DiscordClientHostBuilderExtensions
                 Activities = activities?.Select(activity => activity.ToModel()).ToArray() ?? Array.Empty<ActivityJsonModel>()
             };
 
-            services.Configure<DefaultGatewayApiClientConfiguration>(x => x.Presence = presence);
+            services.Configure<DefaultShardConfiguration>(x => x.Presence = presence);
         }
 
         var restProxy = discordContext.RestProxy;
@@ -104,6 +104,12 @@ public static class DiscordClientHostBuilderExtensions
             {
                 client.Proxy = gatewayProxy;
             });
+        }
+
+        var customShardSet = discordContext.CustomShardSet;
+        if (customShardSet != null)
+        {
+            services.Configure<LocalDiscordShardCoordinatorConfiguration>(x => x.CustomShardSet = customShardSet);
         }
 
         services.AddHostedService<DiscordClientRunnerService>();

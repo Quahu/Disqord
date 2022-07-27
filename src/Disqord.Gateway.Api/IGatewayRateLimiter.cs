@@ -1,14 +1,16 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Gateway.Api.Models;
 using Disqord.Logging;
 using Qommon.Binding;
 
 namespace Disqord.Gateway.Api;
 
-public interface IGatewayRateLimiter : IBindable<IGatewayApiClient>, ILogging
+public interface IGatewayRateLimiter : IBindable<IShard>, ILogging
 {
-    IGatewayApiClient ApiClient { get; }
+    /// <summary>
+    ///     Gets the shard of this rate-limiter.
+    /// </summary>
+    IShard Shard { get; }
 
     /// <summary>
     ///     Gets whether the given operation is currently rate-limited.

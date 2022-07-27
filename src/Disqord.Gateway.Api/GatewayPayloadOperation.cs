@@ -1,4 +1,4 @@
-﻿namespace Disqord.Gateway.Api.Models;
+﻿namespace Disqord.Gateway.Api;
 
 public enum GatewayPayloadOperation
 {

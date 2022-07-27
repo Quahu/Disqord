@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class GuildUpdateDispatchHandler : DispatchHandler<GuildJsonModel, GuildUpdatedEventArgs>
 {
-    public override ValueTask<GuildUpdatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, GuildJsonModel model)
+    public override ValueTask<GuildUpdatedEventArgs?> HandleDispatchAsync(IShard shard, GuildJsonModel model)
     {
         CachedGuild? oldGuild;
         IGuild newGuild;

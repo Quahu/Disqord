@@ -24,21 +24,21 @@ public static partial class GatewayClientExtensions
         => client.InternalSetPresenceAsync(status, activity != null ? new[] { activity } : null, cancellationToken);
 
     private static Task InternalSetPresenceAsync(this IGatewayClient client, Optional<UserStatus> status, Optional<IEnumerable<LocalActivity>?> activities, CancellationToken cancellationToken)
-        => Task.WhenAll(client.Shards.Values.Select(x => x.InternalSetPresenceAsync(status, activities, cancellationToken)));
+        => Task.WhenAll(client.ApiClient.Shards.Values.Select(x => x.InternalSetPresenceAsync(status, activities, cancellationToken)));
 
-    public static Task SetPresenceAsync(this IGatewayApiClient shard, UserStatus status, CancellationToken cancellationToken = default)
+    public static Task SetPresenceAsync(this IShard shard, UserStatus status, CancellationToken cancellationToken = default)
         => shard.InternalSetPresenceAsync(status, default, cancellationToken);
 
-    public static Task SetPresenceAsync(this IGatewayApiClient shard, LocalActivity? activity, CancellationToken cancellationToken = default)
+    public static Task SetPresenceAsync(this IShard shard, LocalActivity? activity, CancellationToken cancellationToken = default)
         => shard.InternalSetPresenceAsync(default, activity != null ? new[] { activity } : null, cancellationToken);
 
-    public static Task SetPresenceAsync(this IGatewayApiClient shard, UserStatus status, IEnumerable<LocalActivity> activities, CancellationToken cancellationToken = default)
+    public static Task SetPresenceAsync(this IShard shard, UserStatus status, IEnumerable<LocalActivity> activities, CancellationToken cancellationToken = default)
         => shard.InternalSetPresenceAsync(status, Optional.Create(activities)!, cancellationToken);
 
-    public static Task SetPresenceAsync(this IGatewayApiClient shard, UserStatus status, LocalActivity? activity, CancellationToken cancellationToken = default)
+    public static Task SetPresenceAsync(this IShard shard, UserStatus status, LocalActivity? activity, CancellationToken cancellationToken = default)
         => shard.InternalSetPresenceAsync(status, activity != null ? new[] { activity } : null, cancellationToken);
 
-    private static Task InternalSetPresenceAsync(this IGatewayApiClient shard, Optional<UserStatus> status, Optional<IEnumerable<LocalActivity>?> activities, CancellationToken cancellationToken)
+    private static Task InternalSetPresenceAsync(this IShard shard, Optional<UserStatus> status, Optional<IEnumerable<LocalActivity>?> activities, CancellationToken cancellationToken)
     {
         var presence = shard.Presence;
         if (presence == null)

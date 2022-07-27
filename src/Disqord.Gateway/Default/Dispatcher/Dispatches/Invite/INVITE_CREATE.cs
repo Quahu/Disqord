@@ -7,7 +7,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class InviteCreateDispatchHandler : DispatchHandler<InviteCreateJsonModel, InviteCreatedEventArgs>
 {
-    public override ValueTask<InviteCreatedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, InviteCreateJsonModel model)
+    public override ValueTask<InviteCreatedEventArgs?> HandleDispatchAsync(IShard shard, InviteCreateJsonModel model)
     {
         var inviter = Optional.ConvertOrDefault(model.Inviter, x => new TransientUser(Client, x)) as IUser;
         var targetUser = Optional.ConvertOrDefault(model.TargetUser, x => new TransientUser(Client, x)) as IUser;

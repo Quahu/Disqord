@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
@@ -145,7 +146,7 @@ public class DefaultGatewayChunker : IGatewayChunker
         _operations.Add(operation.Nonce, operation);
         model.Nonce = operation.Nonce;
         model.Presences = true; // According to the docs should default to false without the presences intent.
-        var shard = Client.GetShard(model.GuildId)!;
+        var shard = (Client as IGatewayClient).ApiClient.GetShard(model.GuildId)!;
         await shard.SendAsync(new GatewayPayloadJsonModel
         {
             Op = GatewayPayloadOperation.RequestMembers,

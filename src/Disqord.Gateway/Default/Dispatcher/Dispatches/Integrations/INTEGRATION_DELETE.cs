@@ -7,7 +7,7 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class IntegrationDeleteDispatchHandler : DispatchHandler<IntegrationDeleteJsonModel, IntegrationDeletedEventArgs>
 {
-    public override ValueTask<IntegrationDeletedEventArgs?> HandleDispatchAsync(IGatewayApiClient shard, IntegrationDeleteJsonModel model)
+    public override ValueTask<IntegrationDeletedEventArgs?> HandleDispatchAsync(IShard shard, IntegrationDeleteJsonModel model)
     {
         var e = new IntegrationDeletedEventArgs(model.GuildId, model.Id, model.ApplicationId.GetValueOrNullable());
         return new(e);
