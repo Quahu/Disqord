@@ -5,6 +5,7 @@ using Disqord.Serialization.Json.STJ.Converters;
 using Disqord.Serialization.Json.STJ.Entities;
 using Disqord.Serialization.Json.STJ.Nodes;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Disqord.Serialization.Json.STJ;
 
@@ -15,12 +16,12 @@ public class SystemTextJsonSerializer : IJsonSerializer
 
     private readonly JsonSerializerOptions _options;
 
-    public SystemTextJsonSerializer(ILogger<SystemTextJsonSerializer> logger, SystemTextJsonSerializerOptions configuration)
+    public SystemTextJsonSerializer(ILogger<SystemTextJsonSerializer> logger, IOptions<SystemTextJsonSerializerOptions> configuration)
     {
         Logger = logger;
         _options = new JsonSerializerOptions(JsonSerializerDefaults.Web)
         {
-            WriteIndented = configuration.Formatting == JsonFormatting.Indented,
+            WriteIndented = configuration.Value.Formatting == JsonFormatting.Indented,
             TypeInfoResolver = new CustomResolver(),
             Converters = { new JsonNodeConverter(), new OptionalConverter(), new SnowflakeConverter(), new StreamConverter(this) }
         };
