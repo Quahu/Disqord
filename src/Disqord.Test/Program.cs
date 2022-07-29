@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reflection;
 using Disqord.Bot;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
@@ -28,6 +29,7 @@ namespace Disqord.Test
                     .ConfigureAppConfiguration(x =>
                     {
                         x.AddCommandLine(args);
+                        x.AddUserSecrets(Assembly.GetEntryAssembly());
                         x.AddEnvironmentVariables("DISQORD_");
                     })
                     .ConfigureLogging(x =>
@@ -49,7 +51,7 @@ namespace Disqord.Test
                         bot.Token = context.Configuration["TOKEN"];
                         bot.UseMentionPrefix = false;
                         bot.Prefixes = new[] { "??" };
-                        bot.Intents |= GatewayIntents.DirectMessages | GatewayIntents.DirectReactions;
+                        bot.Intents = GatewayIntents.Unprivileged;
                     })
                     .UseDefaultServiceProvider(x =>
                     {
