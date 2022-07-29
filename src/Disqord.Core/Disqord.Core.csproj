@@ -4,7 +4,7 @@
     <PropertyGroup>
         <VersionPrefix>1.0.0-alpha5</VersionPrefix>
     </PropertyGroup>
-    <Import Project="../Disqord.targets"/>
+    <Import Project="../Disqord.targets" />
     <PropertyGroup>
         <RootNamespace>Disqord</RootNamespace>
     </PropertyGroup>
@@ -13,5 +13,6 @@
         <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0"/>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
         <PackageReference Include="Qommon" Version="4.0.1"/>
+        <PackageReference Include="System.Text.Json" Version="7.0.0-preview.6.22324.4" />
     </ItemGroup>
 </Project>
