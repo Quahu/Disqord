@@ -34,7 +34,7 @@ public class STJJsonNode : IJsonNode
             null => null,
             JsonArray jsonArray => new STJJsonArray(jsonArray, options),
             JsonObject jsonObject => new STJJsonObject(jsonObject, options),
-            JsonValue jsonValue => new STJJsonValue(jsonValue),
+            JsonValue jsonValue => new STJJsonValue(jsonValue, options),
             _ => throw new InvalidOperationException("Unknown JSON token type.")
         };
     }
