@@ -3,6 +3,7 @@ using Qommon;
 
 namespace Disqord.Models;
 
+[JsonSkippedProperties("flags")]
 public class RoleJsonModel : JsonModel
 {
     [JsonProperty("id")]
