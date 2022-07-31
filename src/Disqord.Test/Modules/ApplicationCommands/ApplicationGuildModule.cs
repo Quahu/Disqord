@@ -9,7 +9,7 @@ using Disqord.Gateway;
 using Qmmands;
 using Qommon;
 
-namespace Disqord.Test.Modules
+namespace Disqord.Test.Modules.ApplicationCommands
 {
     // [RequireGuild(416256456505950215, Group = 0)]
     // [RequireGuild(342514280848949249, Group = 0)] // Grouped guild checks sync the commands to all the guild IDs

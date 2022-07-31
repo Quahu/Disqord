@@ -1,5 +1,4 @@
-﻿using Disqord.Bot;
-using Disqord.Bot.Commands.Text;
+﻿using Disqord.Bot.Commands.Text;
 using Qmmands;
 using Qmmands.Text;
 
@@ -10,6 +9,8 @@ namespace Disqord.Test.Modules
     {
         [TextCommand("test")]
         public IResult Test()
-            => Reply("guild only test");
+        {
+            return Reply("guild only test");
+        }
     }
 }

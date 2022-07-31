@@ -11,7 +11,7 @@ using Qmmands;
 using Qmmands.Text;
 using Qommon;
 
-namespace Disqord.Test
+namespace Disqord.Test.Modules
 {
     public class TestModule : DiscordTextModuleBase
     {

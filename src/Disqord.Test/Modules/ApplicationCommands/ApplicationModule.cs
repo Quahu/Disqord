@@ -2,7 +2,7 @@ using Disqord.Bot.Commands;
 using Disqord.Bot.Commands.Application;
 using Qmmands;
 
-namespace Disqord.Test.Modules
+namespace Disqord.Test.Modules.ApplicationCommands
 {
     public class ApplicationModule : DiscordApplicationModuleBase
     {
