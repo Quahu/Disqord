@@ -8,6 +8,12 @@ using Qommon.Events;
 
 namespace Disqord.Gateway.Api;
 
+/// <summary>
+///     Represents a low-level client for the Discord gateway API.
+/// </summary>
+/// <remarks>
+///     <inheritdoc/>
+/// </remarks>
 public interface IGatewayApiClient : IApiClient
 {
     /// <summary>
@@ -28,6 +34,10 @@ public interface IGatewayApiClient : IApiClient
     /// <summary>
     ///     Gets the shards managed by this <see cref="IGatewayApiClient"/>.
     /// </summary>
+    /// <remarks>
+    ///     This is only populated after the client is running,
+    ///     i.e. after the shard set is retrieved from the shard coordinator.
+    /// </remarks>
     IReadOnlyDictionary<ShardId, IShard> Shards { get; }
 
     /// <summary>

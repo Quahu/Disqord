@@ -17,7 +17,9 @@ namespace Disqord.Test
     {
         [TextCommand("menudemo")]
         public IResult MenuDemo()
-            => View(new FirstView());
+        {
+            return View(new FirstView());
+        }
 
         public class FirstView : PagedViewBase
         {
@@ -107,8 +109,8 @@ namespace Disqord.Test
             return Response("3");
         }
 
-        [TextCommand("waitmessage")]
-        public async Task<IResult> WaitMessage()
+        [TextCommand("waitformessage")]
+        public async Task<IResult> WaitForMessage()
         {
             var random = new Random();
             var number = random.Next(0, 10).ToString();
@@ -134,8 +136,8 @@ namespace Disqord.Test
             return Pages(page1, page2, page3);
         }
 
-        [TextCommand("pages2")]
-        public IResult Paged2()
+        [TextCommand("arraypages")]
+        public IResult ArrayPages()
         {
             var strings = Enumerable.Range(0, 100).Select(x => new string('a', x)).ToArray();
             var pageProvider = new ArrayPageProvider<string>(strings);
@@ -146,21 +148,27 @@ namespace Disqord.Test
         [Description("Displays the shard for this context.")]
         public IResult Shard()
         {
-            var shardId = (Context.Bot as IGatewayClient).ApiClient.GetShardId(Context.GuildId);
+            var shardId = Bot.ApiClient.GetShardId(Context.GuildId);
             return Response($"This is {shardId} speaking.");
         }
 
         [TextCommand("ping")]
         [RateLimit(1, 5, RateLimitMeasure.Seconds, RateLimitBucketType.Channel)]
         public IResult Ping()
-            => Response("pong");
+        {
+            return Response("Pong!");
+        }
 
         [TextCommand("react")]
         public IResult React()
-            => Reaction(new LocalEmoji("🚿"));
+        {
+            return Reaction(new LocalEmoji("👍"));
+        }
 
-        [TextCommand("id")]
+        [TextCommand("id", "snowflake")]
         public IResult Id(Snowflake id)
-            => Response($"{id}: {id.CreatedAt}");
+        {
+            return Response($"{id}: {id.CreatedAt}");
+        }
     }
 }

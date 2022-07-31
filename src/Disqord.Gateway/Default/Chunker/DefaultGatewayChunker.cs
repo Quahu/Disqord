@@ -146,7 +146,7 @@ public class DefaultGatewayChunker : IGatewayChunker
         _operations.Add(operation.Nonce, operation);
         model.Nonce = operation.Nonce;
         model.Presences = true; // According to the docs should default to false without the presences intent.
-        var shard = (Client as IGatewayClient).ApiClient.GetShard(model.GuildId)!;
+        var shard = Client.ApiClient.GetShard(model.GuildId)!;
         await shard.SendAsync(new GatewayPayloadJsonModel
         {
             Op = GatewayPayloadOperation.RequestMembers,

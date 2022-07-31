@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace Disqord;
 
 /// <summary>
-///     Represents a high-level Discord client.
+///     Represents a high-level client for the Discord API.
 /// </summary>
 /// <remarks>
 ///     Wraps <see cref="IRestClient"/> and <see cref="IGatewayClient"/>.
@@ -23,10 +23,16 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
     /// <inheritdoc/>
     public ILogger Logger { get; }
 
+    /// <inheritdoc cref="IClient.ApiClient"/>
+    public DiscordApiClient ApiClient { get; }
+
+    /// <inheritdoc/>
     public IGatewayCacheProvider CacheProvider => GatewayClient.CacheProvider;
 
+    /// <inheritdoc/>
     public IGatewayChunker Chunker => GatewayClient.Chunker;
 
+    /// <inheritdoc/>
     public ICurrentUser? CurrentUser => GatewayClient.CurrentUser;
 
     /// <summary>
@@ -43,20 +49,20 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
     /// <summary>
     ///     Gets the REST client this client wraps.
     /// </summary>
-    protected IRestClient RestClient { get; }
+    internal IRestClient RestClient { get; }
 
     /// <summary>
     ///     Gets the gateway client this client wraps.
     /// </summary>
-    protected IGatewayClient GatewayClient { get; }
+    internal IGatewayClient GatewayClient { get; }
 
     private readonly Dictionary<Type, DiscordClientExtension> _extensions;
 
-    IApiClient IClient.ApiClient => RestClient.ApiClient;
+    IApiClient IClient.ApiClient => ApiClient;
 
-    IGatewayApiClient IGatewayClient.ApiClient => GatewayClient.ApiClient;
+    IGatewayApiClient IGatewayClient.ApiClient => ApiClient;
 
-    IRestApiClient IRestClient.ApiClient => RestClient.ApiClient;
+    IRestApiClient IRestClient.ApiClient => ApiClient;
 
     IGatewayDispatcher IGatewayClient.Dispatcher => GatewayClient.Dispatcher;
 
@@ -76,6 +82,7 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
         IEnumerable<DiscordClientExtension> extensions)
     {
         Logger = logger;
+        ApiClient = new(this);
         RestClient = restClient;
         GatewayClient = gatewayClient;
         _extensions = extensions.ToDictionary(x => x.GetType(), x => x);
@@ -91,8 +98,10 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
 
     /// <summary>
     ///     Instantiates a new <see cref="DiscordClientBase"/>, wrapping a pre-existing client.
-    ///     Rebinds the specified client's dispatcher to <see langword="this"/>.
     /// </summary>
+    /// <remarks>
+    ///     Rebinds the specified client's dispatcher to <see langword="this"/>.
+    /// </remarks>
     /// <param name="logger"> The logger of this client. </param>
     /// <param name="client"> The client to wrap. </param>
     private protected DiscordClientBase(
@@ -100,6 +109,7 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
         DiscordClientBase client)
     {
         Logger = logger;
+        ApiClient = client.ApiClient;
         RestClient = client.RestClient;
         GatewayClient = client.GatewayClient;
         _extensions = client._extensions;
@@ -108,7 +118,7 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
         // wrapping an existing DiscordClientBase.
         client.GatewayClient.Dispatcher.Bind(this);
 
-        if (GatewayClient.ApiClient.ShardCoordinator is DiscordShardCoordinator discordShardCoordinator)
+        if (client.GatewayClient.ApiClient.ShardCoordinator is DiscordShardCoordinator discordShardCoordinator)
         {
             discordShardCoordinator.Bind(this);
         }

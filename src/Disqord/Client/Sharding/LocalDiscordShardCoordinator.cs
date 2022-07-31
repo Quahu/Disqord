@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Qommon;
 
-namespace Disqord;
+namespace Disqord.Api;
 
 /// <summary>
 ///     Represents the default, local shard coordinator implementation.

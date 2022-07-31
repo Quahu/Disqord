@@ -55,7 +55,7 @@ public class MemberTypeParser : DiscordGuildTypeParser<IMember>
                 // We don't know which one it is, so we have to query the guild.
 
                 // Check if the gateway is/will be rate-limited.
-                if ((context.Bot as IGatewayClient).ApiClient.GetShard(context.GuildId)!.RateLimiter.GetRemainingRequests() < 3)
+                if (context.Bot.ApiClient.GetShard(context.GuildId)!.RateLimiter.GetRemainingRequests() < 3)
                 {
                     // Use a REST call instead.
                     member = await context.Bot.FetchMemberAsync(context.GuildId, id).ConfigureAwait(false);
@@ -123,7 +123,7 @@ public class MemberTypeParser : DiscordGuildTypeParser<IMember>
                 // Check if the gateway is/will be rate-limited.
                 // TODO: swap these two around?
                 IEnumerable<IMember> members;
-                if ((context.Bot as IGatewayClient).ApiClient.GetShard(context.GuildId)!.RateLimiter.GetRemainingRequests() < 3)
+                if (context.Bot.ApiClient.GetShard(context.GuildId)!.RateLimiter.GetRemainingRequests() < 3)
                 {
                     members = await context.Bot.SearchMembersAsync(context.GuildId, name).ConfigureAwait(false);
                 }

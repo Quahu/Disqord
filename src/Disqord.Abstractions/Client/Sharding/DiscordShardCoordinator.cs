@@ -8,7 +8,7 @@ using Disqord.Gateway.Default.Dispatcher;
 using Microsoft.Extensions.Logging;
 using Qommon.Binding;
 
-namespace Disqord;
+namespace Disqord.Api;
 
 /// <summary>
 ///     Represents an <see cref="IShardCoordinator"/> which is bound to a <see cref="DiscordClientBase"/>.

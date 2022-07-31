@@ -5,6 +5,12 @@ using Disqord.Serialization.Json;
 
 namespace Disqord.Rest.Api;
 
+/// <summary>
+///     Represents a low-level client for the Discord REST API.
+/// </summary>
+/// <remarks>
+///     <inheritdoc/>
+/// </remarks>
 public interface IRestApiClient : IApiClient
 {
     IRestRateLimiter RateLimiter { get; }
