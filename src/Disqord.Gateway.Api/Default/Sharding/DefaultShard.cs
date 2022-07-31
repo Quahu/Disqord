@@ -254,11 +254,12 @@ public class DefaultShard : IShard
                             Logger.LogWarning("The gateway invalidated the session.");
                             if (resuming)
                             {
+                                await SetStateAsync(GatewayState.Identifying, stoppingToken).ConfigureAwait(false);
+
                                 resuming = false;
                                 var delay = Random.Shared.Next(1000, 5001);
                                 Logger.LogInformation("Currently resuming, will start a new session in {0}ms.", delay);
                                 await Task.Delay(delay, stoppingToken).ConfigureAwait(false);
-                                await SetStateAsync(GatewayState.Identifying, stoppingToken).ConfigureAwait(false);
                                 await IdentifyAsync(stoppingToken).ConfigureAwait(false);
                             }
                             else
@@ -285,8 +286,6 @@ public class DefaultShard : IShard
                         }
                         case GatewayPayloadOperation.Hello:
                         {
-                            await SetStateAsync(GatewayState.Identifying, stoppingToken).ConfigureAwait(false);
-
                             Logger.LogInformation("The gateway said hello.");
                             try
                             {
@@ -301,11 +300,15 @@ public class DefaultShard : IShard
 
                             if (SessionId == null)
                             {
+                                await SetStateAsync(GatewayState.Identifying, stoppingToken).ConfigureAwait(false);
+
                                 Logger.LogInformation("Identifying...");
                                 await IdentifyAsync(stoppingToken).ConfigureAwait(false);
                             }
                             else
                             {
+                                await SetStateAsync(GatewayState.Resuming, stoppingToken).ConfigureAwait(false);
+
                                 resuming = true;
                                 Logger.LogInformation("Resuming...");
                                 await ResumeAsync(stoppingToken).ConfigureAwait(false);
