@@ -20,9 +20,9 @@ internal class DiscordTextCommandContext : DiscordCommandContext<ITextCommand>, 
 
     public bool IsOverloadDeterminant { get; set; }
 
-    public override IUser Author => Message.Author;
-
     public override Snowflake ChannelId => Message.ChannelId;
+
+    public override IUser Author => Message.Author;
 
     public IPrefix Prefix { get; }
 

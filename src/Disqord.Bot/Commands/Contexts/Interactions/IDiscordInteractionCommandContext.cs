@@ -22,6 +22,4 @@ public interface IDiscordInteractionCommandContext : IDiscordCommandContext
     ///     <inheritdoc cref="IUserInteraction.ApplicationPermissions"/>
     /// </remarks>
     Permissions ApplicationPermissions => Interaction.ApplicationPermissions;
-
-    IUser IDiscordCommandContext.Author => Interaction.Author;
 }

@@ -9,7 +9,7 @@ public interface ICommandContextAccessor
     ///     Gets or sets the command context for this execution scope.
     /// </summary>
     /// <remarks>
-    ///     Can be <see langword="null"/>
+    ///     <b>Can be <see langword="null"/> if accessed prior to execution.</b>
     /// </remarks>
     public IDiscordCommandContext Context { get; set; }
 }

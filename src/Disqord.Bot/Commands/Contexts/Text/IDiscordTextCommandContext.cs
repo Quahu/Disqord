@@ -11,9 +11,7 @@ public interface IDiscordTextCommandContext : IDiscordCommandContext, ITextComma
     IPrefix Prefix { get; }
 
     /// <summary>
-    ///     Gets the message that triggered the command execution.
+    ///     Gets the message received that triggered the command execution.
     /// </summary>
     IGatewayUserMessage Message { get; }
-
-    IUser IDiscordCommandContext.Author => Message.Author;
 }

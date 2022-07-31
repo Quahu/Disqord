@@ -29,14 +29,14 @@ public abstract partial class DiscordBotBase
     /// <param name="prefix"> The prefix found in the message. </param>
     /// <param name="input"> The input possibly containing the command. </param>
     /// <param name="message"> The message possibly containing the command. </param>
-    /// <param name="channel"> The optional cached text channel the message was sent in. </param>
+    /// <param name="channel"> The optional cached channel the message was sent in. </param>
     /// <returns>
     ///     An <see cref="IDiscordTextCommandContext"/> or an <see cref="IDiscordTextGuildCommandContext"/> for guild messages.
     /// </returns>
-    public virtual IDiscordTextCommandContext CreateTextCommandContext(IPrefix prefix, ReadOnlyMemory<char> input, IGatewayUserMessage message, IGuildChannel? channel)
+    public virtual IDiscordTextCommandContext CreateTextCommandContext(IPrefix prefix, ReadOnlyMemory<char> input, IGatewayUserMessage message, IMessageGuildChannel? channel)
     {
         // TODO: culture?
-        var context = channel != null
+        var context = message.GuildId != null
             ? new DiscordTextGuildCommandContext(this, prefix, message, channel, CultureInfo.InvariantCulture, null)
             : new DiscordTextCommandContext(this, prefix, message, CultureInfo.InvariantCulture, null);
 

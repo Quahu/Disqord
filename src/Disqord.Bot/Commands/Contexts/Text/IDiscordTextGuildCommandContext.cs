@@ -2,5 +2,11 @@
 
 public interface IDiscordTextGuildCommandContext : IDiscordTextCommandContext, IDiscordGuildCommandContext
 {
-    IGuildChannel Channel { get; }
+    /// <summary>
+    ///     Gets the channel in which the context message was received.
+    /// </summary>
+    /// <returns>
+    ///     The channel or <see langword="null"/> if the channel was not cached.
+    /// </returns>
+    IMessageGuildChannel? Channel { get; }
 }

@@ -47,13 +47,13 @@ internal abstract class DiscordCommandContext<TCommand> : IDiscordCommandContext
     public abstract CultureInfo? GuildLocale { get; }
 
     /// <inheritdoc/>
-    public abstract IUser Author { get; }
-
-    /// <inheritdoc/>
     public Snowflake? GuildId => GetGuildId();
 
     /// <inheritdoc/>
     public abstract Snowflake ChannelId { get; }
+
+    /// <inheritdoc/>
+    public abstract IUser Author { get; }
 
     ICommand? ICommandContext.Command
     {
