@@ -17,6 +17,8 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
     public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
     {
         var jsonTypeInfo = base.GetTypeInfo(type, options);
+
+        // TODO: AttributeProvider
         var jsonProperties = jsonTypeInfo.Properties;
         var jsonPropertyCount = jsonProperties.Count;
         var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
@@ -70,6 +72,9 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
             }
 
             jsonProperty.Name = jsonPropertyAttribute.Name;
+
+            // TODO: set options individually, if possible in the future?
+            // TODO: set the currently internal IgnoreCondition instead of duping options?
             typeof(JsonPropertyInfo).GetProperty("Options")!.SetValue(jsonProperty, new JsonSerializerOptions(jsonProperty.Options));
             if (typeof(IOptional).IsAssignableFrom(jsonProperty.PropertyType))
             {
