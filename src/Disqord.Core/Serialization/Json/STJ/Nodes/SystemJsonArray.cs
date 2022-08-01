@@ -1,23 +1,17 @@
-﻿using Disqord.Serialization.Json.Default;
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
-namespace Disqord.Serialization.Json.STJ.Nodes
+namespace Disqord.Serialization.Json.System
 {
-    internal class STJJsonArray : STJJsonNode, IJsonArray
+    internal class SystemJsonArray : SystemJsonNode, IJsonArray
     {
-        private readonly JsonSerializerOptions _options;
         public new JsonArray Token => base.Token.AsArray();
-        public STJJsonArray(JsonNode node, JsonSerializerOptions options) : base(node)
-        {
-            _options = options;
-        }
+
+        public SystemJsonArray(JsonNode node, JsonSerializerOptions options)
+            : base(node, options)
+        { }
 
         public IEnumerator<IJsonNode?> GetEnumerator()
         {
@@ -31,19 +25,19 @@ namespace Disqord.Serialization.Json.STJ.Nodes
 
         public int Count => Token.Count;
 
-        public IJsonNode? this[int index] => Create(Token[index], _options);
+        public IJsonNode? this[int index] => Create(Token[index], Options);
 
         private sealed class Enumerator : IEnumerator<IJsonNode?>
         {
-            public IJsonNode? Current => Create(_current?.Token, _array._options);
+            public IJsonNode? Current => Create(_current?.Token, _array.Options);
 
             object? IEnumerator.Current => Current;
 
-            private readonly STJJsonArray _array;
+            private readonly SystemJsonArray _array;
             private int _index;
-            private STJJsonNode? _current;
+            private SystemJsonNode? _current;
 
-            internal Enumerator(STJJsonArray array)
+            internal Enumerator(SystemJsonArray array)
             {
                 _array = array;
             }
@@ -53,7 +47,7 @@ namespace Disqord.Serialization.Json.STJ.Nodes
                 var index = _index;
                 if (_index++ < _array.Count)
                 {
-                    _current = (_array[index] as STJJsonArray)!;
+                    _current = (_array[index] as SystemJsonArray)!;
                     return true;
                 }
 

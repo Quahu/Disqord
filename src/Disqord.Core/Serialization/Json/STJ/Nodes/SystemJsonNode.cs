@@ -1,23 +1,25 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace Disqord.Serialization.Json.STJ.Nodes;
+namespace Disqord.Serialization.Json.System;
 
-public class STJJsonNode : IJsonNode
+public class SystemJsonNode : IJsonNode
 {
-    public STJJsonNode(JsonNode node)
+    protected readonly JsonSerializerOptions Options;
+
+    public SystemJsonNode(JsonNode node, JsonSerializerOptions options)
     {
         Token = node;
+        Options = options;
     }
 
     public JsonNode Token { get; set; }
 
     public T? ToType<T>()
     {
-        return Token.GetValue<T>();
+        return Token.Deserialize<T>(Options);
     }
 
     public static IJsonNode? Create(object? obj, JsonSerializerOptions options)
@@ -32,9 +34,9 @@ public class STJJsonNode : IJsonNode
         return token switch
         {
             null => null,
-            JsonArray jsonArray => new STJJsonArray(jsonArray, options),
-            JsonObject jsonObject => new STJJsonObject(jsonObject, options),
-            JsonValue jsonValue => new STJJsonValue(jsonValue, options),
+            JsonArray jsonArray => new SystemJsonArray(jsonArray, options),
+            JsonObject jsonObject => new SystemJsonObject(jsonObject, options),
+            JsonValue jsonValue => new SystemJsonValue(jsonValue, options),
             _ => throw new InvalidOperationException("Unknown JSON token type.")
         };
     }

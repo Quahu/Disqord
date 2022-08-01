@@ -1,28 +1,25 @@
-﻿using Disqord.Serialization.Json.Default;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace Disqord.Serialization.Json.STJ.Converters;
+namespace Disqord.Serialization.Json.System;
 
 internal class StreamConverter : JsonConverter<Stream>
 {
-    private readonly SystemTextJsonSerializer _serializer;
+    private readonly SystemJsonSerializer _serializer;
     public const string Header = "data:image/jpeg;base64,";
 
     private bool _shownHttpWarning;
     private Type? _httpBaseContentType;
 
-    public StreamConverter(SystemTextJsonSerializer serializer)
+    public StreamConverter(SystemJsonSerializer serializer)
     {
         _serializer = serializer;
     }
+
     public override Stream? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         throw new NotSupportedException();
@@ -33,7 +30,6 @@ internal class StreamConverter : JsonConverter<Stream>
         // Shows a warning for System.Net.Http content streams.
         // See CheckStreamType for more information.
         CheckStreamType(stream);
-
 
         StringBuilder base64Builder;
         if (stream.CanSeek)
@@ -59,7 +55,7 @@ internal class StreamConverter : JsonConverter<Stream>
             }
 
             // Because the stream is seekable we can use its length and position to roughly calculate its base64 length.
-            base64Builder = new StringBuilder(Header, (int)((stream.Length - stream.Position) * 1.37f) + Header.Length);
+            base64Builder = new StringBuilder(Header, (int) ((stream.Length - stream.Position) * 1.37f) + Header.Length);
         }
         else
         {
@@ -81,7 +77,6 @@ internal class StreamConverter : JsonConverter<Stream>
         }
 
         writer.WriteStringValue(base64Builder.ToString());
-
     }
 
     // This method just checks if the user passed a System.Net.Http content stream and warns them, if they did.

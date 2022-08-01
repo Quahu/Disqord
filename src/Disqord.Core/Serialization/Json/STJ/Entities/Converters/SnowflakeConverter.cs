@@ -1,32 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
-namespace Disqord.Serialization.Json.STJ.Converters;
+namespace Disqord.Serialization.Json.System;
 
-internal class SnowflakeConverter : JsonConverter<Snowflake?>
+internal class SnowflakeConverter : JsonConverter<Snowflake>
 {
-    public override bool HandleNull => true;
-    public override Snowflake? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        if (reader.TryGetUInt64(out var value))
-        {
-            return new Snowflake(value);
-        }
+    /// <inheritdoc />
+    public override bool HandleNull => false;
 
-        return null;
+    public override Snowflake Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var value = reader.GetString()!;
+        return new Snowflake(Snowflake.Parse(value));
     }
 
-    public override void Write(Utf8JsonWriter writer, Snowflake? value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, Snowflake value, JsonSerializerOptions options)
     {
-        if (value.HasValue)
-        {
-            writer.WriteNumberValue(value.Value.RawValue);
-        }
-        writer.WriteNullValue();
+        var stringValue = (stackalloc char[20]);
+        value.TryFormat(stringValue, out var charsWritten);
+        writer.WriteStringValue(stringValue[..charsWritten]);
     }
 }

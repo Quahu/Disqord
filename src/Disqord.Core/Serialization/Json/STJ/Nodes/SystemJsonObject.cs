@@ -1,26 +1,25 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
-namespace Disqord.Serialization.Json.STJ.Nodes;
+namespace Disqord.Serialization.Json.System;
 
-public class STJJsonObject : STJJsonNode, IJsonObject
+public class SystemJsonObject : SystemJsonNode, IJsonObject
 {
     private readonly JsonSerializerOptions _options;
+
     public new JsonObject Token => base.Token.AsObject();
 
-    public STJJsonObject(JsonObject node, JsonSerializerOptions options) : base(node)
+    public SystemJsonObject(JsonObject node, JsonSerializerOptions options)
+        : base(node, options)
     {
         _options = options;
     }
 
     public int Count => Token.Count;
+
     public bool ContainsKey(string key)
     {
         return Token.ContainsKey(key);
@@ -32,7 +31,6 @@ public class STJJsonObject : STJJsonNode, IJsonObject
         {
             value = Create(propertyValue, _options);
             return true;
-
         }
 
         value = null;
@@ -44,7 +42,6 @@ public class STJJsonObject : STJJsonNode, IJsonObject
     public IEnumerable<string> Keys => (Token as IDictionary<string, JsonNode?>).Keys;
 
     public IEnumerable<IJsonNode?> Values => (Token as IDictionary<string, JsonNode?>).Values.Select(x => Create(x, _options));
-
 
     private sealed class Enumerator : IEnumerator<KeyValuePair<string, IJsonNode?>>
     {
@@ -80,5 +77,4 @@ public class STJJsonObject : STJJsonNode, IJsonObject
     {
         return GetEnumerator();
     }
-
 }
