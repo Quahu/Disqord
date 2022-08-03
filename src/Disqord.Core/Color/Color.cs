@@ -1,35 +1,51 @@
 using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Qommon;
 
 namespace Disqord;
 
 /// <summary>
-///     Represents an RGB color used by Discord.
+///     Represents a Discord color, i.e. a packed (<c>24</c>-bit) RGB color value.
 /// </summary>
+/// <remarks>
+///     Does not support transparency.
+/// </remarks>
 public readonly partial struct Color : ISpanFormattable, IComparable,
     IEquatable<Color>, IComparable<Color>,
     IEquatable<int>, IComparable<int>
 {
     /// <summary>
-    ///     Gets the raw value of this <see cref="Color"/>.
+    ///     Gets the raw value of this color, i.e. the packed RGB value.
     /// </summary>
     public int RawValue { get; }
 
     /// <summary>
-    ///     Gets the red component of this <see cref="Color"/>.
+    ///     Gets the red component of this color.
     /// </summary>
-    public byte R => (byte) (RawValue >> 16);
+    public byte R
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => (byte) (RawValue >> 16);
+    }
 
     /// <summary>
-    ///     Gets the green component of this <see cref="Color"/>.
+    ///     Gets the green component of this color.
     /// </summary>
-    public byte G => (byte) (RawValue >> 8);
+    public byte G
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => (byte) (RawValue >> 8);
+    }
 
     /// <summary>
-    ///     Gets the blue component of this <see cref="Color"/>.
+    ///     Gets the blue component of this color.
     /// </summary>
-    public byte B => (byte) RawValue;
+    public byte B
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => (byte) RawValue;
+    }
 
     /// <summary>
     ///     Instantiates a new <see cref="Color"/> using the given raw value.
@@ -40,8 +56,7 @@ public readonly partial struct Color : ISpanFormattable, IComparable,
     /// </exception>
     public Color(int rawValue)
     {
-        if (rawValue < 0 || rawValue > 0xFFFFFF)
-            throw new ArgumentOutOfRangeException(nameof(rawValue), "Raw value must be a non-negative value less than or equal to 16777215.");
+        Guard.IsBetweenOrEqualTo(rawValue, 0, 0xFFFFFF);
 
         RawValue = rawValue;
     }
@@ -49,9 +64,9 @@ public readonly partial struct Color : ISpanFormattable, IComparable,
     /// <summary>
     ///     Instantiates a new <see cref="Color"/> using the given RGB values.
     /// </summary>
-    /// <param name="r"> The red (0-255) component value. </param>
-    /// <param name="g"> The green (0-255) component value. </param>
-    /// <param name="b"> The blue (0-255) component value. </param>
+    /// <param name="r"> The red component. </param>
+    /// <param name="g"> The green component. </param>
+    /// <param name="b"> The blue component. </param>
     public Color(byte r, byte g, byte b)
     {
         RawValue = r << 16 | g << 8 | b;
@@ -60,19 +75,17 @@ public readonly partial struct Color : ISpanFormattable, IComparable,
     /// <summary>
     ///     Instantiates a new <see cref="Color"/> using the given RGB values.
     /// </summary>
-    /// <param name="r"> The red (0-1) component value. </param>
-    /// <param name="g"> The green (0-1) component value. </param>
-    /// <param name="b"> The blue (0-1) component value. </param>
+    /// <remarks>
+    ///     The values must be in the range
+    /// </remarks>
+    /// <param name="r"> The red component. </param>
+    /// <param name="g"> The green component. </param>
+    /// <param name="b"> The blue component. </param>
     public Color(float r, float g, float b)
     {
-        if (r < 0 || r > 1)
-            throw new ArgumentOutOfRangeException(nameof(r));
-
-        if (g < 0 || g > 1)
-            throw new ArgumentOutOfRangeException(nameof(g));
-
-        if (b < 0 || b > 1)
-            throw new ArgumentOutOfRangeException(nameof(b));
+        Guard.IsBetweenOrEqualTo(r, 0, 1);
+        Guard.IsBetweenOrEqualTo(g, 0, 1);
+        Guard.IsBetweenOrEqualTo(b, 0, 1);
 
         RawValue = (byte) (r * 255) << 16 | (byte) (g * 255) << 8 | (byte) (b * 255);
     }
@@ -107,7 +120,7 @@ public readonly partial struct Color : ISpanFormattable, IComparable,
         return obj is Color other && Equals(other);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public int CompareTo(object? obj)
     {
         if (obj == null)
@@ -136,32 +149,43 @@ public readonly partial struct Color : ISpanFormattable, IComparable,
         return $"#{RawValue:X6}";
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public string ToString(string? format, IFormatProvider? formatProvider = null)
     {
-        return $"#{RawValue.ToString(format ?? "X6", formatProvider)}";
+        if (format == null)
+            return $"#{RawValue.ToString("X6", formatProvider)}";
+
+        return RawValue.ToString(format, formatProvider);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = null)
     {
-        if (destination.Length <= 1)
+        if (destination.Length == 0)
         {
             charsWritten = 0;
             return false;
         }
 
-        if (format.IsEmpty)
-            format = "X6";
+        if (!format.IsEmpty)
+            return RawValue.TryFormat(destination, out charsWritten, format, provider);
 
-        if (!RawValue.TryFormat(destination[1..], out charsWritten, format, provider))
-            return false;
+        var result = RawValue.TryFormat(destination[1..], out charsWritten, "X6", provider);
+        if (result)
+        {
+            destination[0] = '#';
+            charsWritten++;
+        }
 
-        destination[0] = '#';
-        charsWritten++;
-        return true;
+        return result;
     }
 
+    /// <summary>
+    ///     Deconstructs this color into RGB.
+    /// </summary>
+    /// <param name="r"> The red component. </param>
+    /// <param name="g"> The green component. </param>
+    /// <param name="b"> The blue component. </param>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public void Deconstruct(out byte r, out byte g, out byte b)
     {
@@ -170,14 +194,14 @@ public readonly partial struct Color : ISpanFormattable, IComparable,
         b = B;
     }
 
+    public static bool operator <(Color left, Color right)
+    {
+        return left.RawValue < right.RawValue;
+    }
+
     public static bool operator <=(Color left, Color right)
     {
         return left.RawValue <= right.RawValue;
-    }
-
-    public static bool operator >=(Color left, Color right)
-    {
-        return left.RawValue >= right.RawValue;
     }
 
     public static bool operator >(Color left, Color right)
@@ -185,9 +209,9 @@ public readonly partial struct Color : ISpanFormattable, IComparable,
         return left.RawValue > right.RawValue;
     }
 
-    public static bool operator <(Color left, Color right)
+    public static bool operator >=(Color left, Color right)
     {
-        return left.RawValue < right.RawValue;
+        return left.RawValue >= right.RawValue;
     }
 
     public static bool operator ==(Color left, Color right)
@@ -212,44 +236,86 @@ public readonly partial struct Color : ISpanFormattable, IComparable,
     /// <summary>
     ///     Implicitly gets <see cref="RawValue"/> from the given <see cref="Color"/>.
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="value"> The color value. </param>
     public static implicit operator int(Color value)
     {
         return value.RawValue;
     }
 
+    /// <summary>
+    ///     Implicitly converts the RGB tuple to a <see cref="Color"/>.
+    /// </summary>
+    /// <param name="value"> The value to convert. </param>
+    /// <returns>
+    ///     The converted <see cref="Color"/>.
+    /// </returns>
     public static implicit operator Color((byte R, byte G, byte B) value)
     {
         return new(value.R, value.G, value.B);
     }
 
+    /// <summary>
+    ///     Implicitly converts the <see cref="Color"/> to an RGB tuple.
+    /// </summary>
+    /// <param name="value"> The value to convert. </param>
+    /// <returns>
+    ///     The converted tuple.
+    /// </returns>
     public static implicit operator (byte R, byte G, byte B)(Color value)
     {
         return (value.R, value.G, value.B);
     }
 
+    /// <summary>
+    ///     Implicitly converts the RGB tuple to a <see cref="Color"/>.
+    /// </summary>
+    /// <param name="value"> The value to convert. </param>
+    /// <returns>
+    ///     The converted <see cref="Color"/>.
+    /// </returns>
     public static implicit operator Color((float R, float G, float B) value)
     {
         return new(value.R, value.G, value.B);
     }
 
+    /// <summary>
+    ///     Implicitly converts the <see cref="Color"/> to a <see cref="System.Drawing.Color"/>.
+    /// </summary>
+    /// <param name="value"> The value to convert. </param>
+    /// <returns>
+    ///     The converted <see cref="System.Drawing.Color"/>.
+    /// </returns>
     public static implicit operator System.Drawing.Color(Color value)
     {
         return System.Drawing.Color.FromArgb(value.R, value.G, value.B);
     }
 
+    /// <summary>
+    ///     Implicitly converts the  <see cref="System.Drawing.Color"/> to a <see cref="Color"/>.
+    /// </summary>
+    /// <param name="value"> The value to convert. </param>
+    /// <returns>
+    ///     The converted <see cref="Color"/>.
+    /// </returns>
     public static implicit operator Color(System.Drawing.Color value)
     {
         return new(value.R, value.G, value.B);
     }
 
+    /// <summary>
+    ///     Converts the specified HSV values to a <see cref="Color"/>.
+    /// </summary>
+    /// <param name="h"> The hue component. </param>
+    /// <param name="s"> The saturation component. </param>
+    /// <param name="v"> The value component. </param>
+    /// <returns>
+    ///     The converted <see cref="Color"/>.
+    /// </returns>
     public static Color FromHsv(float h, float s, float v)
     {
-        if (s < 0 || s > 1)
-            throw new ArgumentOutOfRangeException(nameof(s));
-
-        if (v < 0 || v > 1)
-            throw new ArgumentOutOfRangeException(nameof(s));
+        Guard.IsBetweenOrEqualTo(h, 0, 360);
+        Guard.IsBetweenOrEqualTo(s, 0, 1);
+        Guard.IsBetweenOrEqualTo(v, 0, 1);
 
         if (s == 0)
             return (v, v, v);
