@@ -21,7 +21,7 @@ public class DefaultShard : IShard
     public GatewayIntents Intents { get; }
 
     /// <inheritdoc/>
-    public int LargeThreshold { get; }
+    public int LargeGuildThreshold { get; }
 
     /// <inheritdoc/>
     public UpdatePresenceJsonModel? Presence { get; set; }
@@ -71,7 +71,7 @@ public class DefaultShard : IShard
         Id = id;
         var configuration = options.Value;
         Intents = configuration.Intents;
-        LargeThreshold = configuration.LargeThreshold;
+        LargeGuildThreshold = configuration.LargeGuildThreshold;
         Presence = configuration.Presence;
         Logger = loggerFactory.CreateLogger($"Shard #{id.Index}");
         ApiClient = apiClient;
@@ -495,7 +495,7 @@ public class DefaultShard : IShard
                     Browser = "Disqord"
                 },
                 Intents = Intents,
-                LargeThreshold = LargeThreshold,
+                LargeThreshold = LargeGuildThreshold,
                 Shard = Id.Count > 1
                     ? new[] { Id.Index, Id.Count }
                     : Optional<int[]>.Empty,
