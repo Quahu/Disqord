@@ -36,7 +36,7 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
     /// <summary>
     ///     Gets or sets the semaphore reset timer.
     /// </summary>
-    protected Timer? IdentifySemaphoreResetTimer;
+    protected Timer? IdentifySemaphoreResetTimer { get; set; }
 
     public LocalDiscordShardCoordinator(
         IOptions<LocalDiscordShardCoordinatorConfiguration> options,
