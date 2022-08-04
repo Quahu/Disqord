@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Qmmands;
@@ -83,7 +83,7 @@ public class ApplicationModule : IModule
                     }
 
                     if (foundCommandBuilder == null)
-                        throw new InvalidOperationException($"No matching command '{autoCompleteAttribute.Alias}' found for the auto-complete command in module {this}.");
+                        throw new InvalidOperationException($"No matching command '{autoCompleteAttribute.Alias}' found for the auto-complete command in module {builder.TypeInfo?.Name ?? builder.Name ?? GetType().Name}.");
 
                     foundCommandBuilder.AutoCompleteCommand = commandBuilder;
 
