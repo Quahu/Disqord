@@ -12,6 +12,7 @@ public readonly struct ShardSet : IEquatable<ShardSet>
     /// <summary>
     ///     Gets the maximum concurrency of this set.
     /// </summary>
+    /// <seealso href="https://discord.com/developers/docs/topics/gateway#sharding-for-large-bots">Discord documentation</seealso>
     public int MaxConcurrency { get; }
 
     /// <summary>
@@ -66,7 +67,7 @@ public readonly struct ShardSet : IEquatable<ShardSet>
         MaxConcurrency = maxConcurrency;
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public bool Equals(ShardSet other)
     {
         if (ShardIds == null && other.ShardIds == null)
@@ -78,21 +79,31 @@ public readonly struct ShardSet : IEquatable<ShardSet>
         return MaxConcurrency == other.MaxConcurrency && ShardIds.SequenceEqual(other.ShardIds);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
         return obj is ShardSet other && Equals(other);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         return HashCode.Combine(MaxConcurrency, ShardIds);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public override string ToString()
     {
         return $"Concurrency: {MaxConcurrency} | ShardIds: [{string.Join(", ", ShardIds)}]";
+    }
+
+    public static bool operator ==(ShardSet left, ShardSet right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(ShardSet left, ShardSet right)
+    {
+        return !(left == right);
     }
 }

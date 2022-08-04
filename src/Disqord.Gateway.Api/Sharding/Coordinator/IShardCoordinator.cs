@@ -45,10 +45,6 @@ public interface IShardCoordinator : ILogging
     /// <summary>
     ///     Invoked when the shard set is or has become invalid.
     /// </summary>
-    /// <remarks>
-    ///     Ensure this method does not take a long time to complete
-    ///     as it is invoked directly by the shard during its gateway flow.
-    /// </remarks>
     /// <param name="stoppingToken"> The cancellation token to observe. </param>
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the callback work.
