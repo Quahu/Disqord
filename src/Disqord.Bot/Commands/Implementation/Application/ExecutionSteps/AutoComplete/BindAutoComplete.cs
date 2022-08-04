@@ -59,8 +59,9 @@ public static partial class DefaultApplicationExecutionSteps
                         : Activator.CreateInstance(typeof(Optional<>).MakeGenericType(parameterType), originalKvp.Value.Value);
                 }
 
-                var autoCompleteType = typeof(AutoComplete<>).MakeGenericType(parameterType);
-                var autoComplete = Activator.CreateInstance(autoCompleteType, currentValue);
+                var autoCompleteType = isFocused ? typeof(FocusedAutoComplete<>) : typeof(UnfocusedAutoComplete<>);
+                var autoCompleteGenericType = autoCompleteType.MakeGenericType(parameterType);
+                var autoComplete = Activator.CreateInstance(autoCompleteGenericType, currentValue);
                 arguments[parameter] = autoComplete;
             }
 

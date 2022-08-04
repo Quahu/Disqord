@@ -35,7 +35,7 @@ public static partial class DefaultApplicationExecutionSteps
                 if (!autoComplete.IsFocused)
                     continue;
 
-                var enumerator = autoComplete.GetChoiceEnumerator();
+                var enumerator = autoComplete.EnumerateChoices();
                 var choices = new List<KeyValuePair<string, object>>();
                 while (enumerator.MoveNext())
                 {

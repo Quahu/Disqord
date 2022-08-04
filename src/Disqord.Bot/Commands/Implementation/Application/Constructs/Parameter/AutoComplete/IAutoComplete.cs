@@ -4,7 +4,7 @@ using System.Collections;
 namespace Disqord.Bot.Commands.Application;
 
 /// <summary>
-///     Represents auto-completion capabilities for a parameter.
+///     Represents auto-completion capabilities for a slash command parameter.
 /// </summary>
 public interface IAutoComplete
 {
@@ -14,7 +14,13 @@ public interface IAutoComplete
     Type AutoCompletedType { get; }
 
     /// <summary>
-    ///     Gets the user's raw input argument for the parameter,
+    ///     Gets whether the user is currently focused on this parameter,
+    ///     i.e. whether the user is currently typing it out.
+    /// </summary>
+    bool IsFocused { get; }
+
+    /// <summary>
+    ///     Gets the user's raw input argument for this parameter,
     ///     i.e. the value the user is currently typing out.
     /// </summary>
     /// <remarks>
@@ -25,15 +31,10 @@ public interface IAutoComplete
     string? RawArgument { get; }
 
     /// <summary>
-    ///     Gets whether this parameter is currently focused on by the user.
-    /// </summary>
-    bool IsFocused { get; }
-
-    /// <summary>
     ///     Gets the enumerator yielding the specified choices.
     /// </summary>
     /// <returns>
     ///     An <see cref="IDictionaryEnumerator"/>.
     /// </returns>
-    IDictionaryEnumerator GetChoiceEnumerator();
+    IDictionaryEnumerator EnumerateChoices();
 }
