@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Qmmands;
@@ -80,6 +80,7 @@ public class ApplicationModule : IModule
                             continue;
 
                         foundCommandBuilder = autoCompletedCommandBuilder;
+                        break;
                     }
 
                     if (foundCommandBuilder == null)
@@ -87,9 +88,9 @@ public class ApplicationModule : IModule
 
                     foundCommandBuilder.AutoCompleteCommand = commandBuilder;
 
-                    // commandCustomAttributes.RemoveAt(j);
-                    // j--;
-                    // commandCustomAttributeCount--;
+                    commandCustomAttributes.RemoveAt(j);
+                    j--;
+                    commandCustomAttributeCount--;
                 }
             }
             else
