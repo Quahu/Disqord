@@ -9,14 +9,24 @@ namespace Disqord.Gateway.Api;
 public readonly struct ShardId : IEquatable<ShardId>
 {
     /// <summary>
-    ///     Gets the zero-based index of the shard.
+    ///     Gets the index of the shard.
     /// </summary>
     public int Index { get; }
 
     /// <summary>
     ///     Gets the total amount of shards.
     /// </summary>
+    /// <returns>
+    ///     Returns the total amount of shards or
+    ///     <c>0</c> if this instance is <see langword="default"/> or
+    ///     <c>-1</c> if this instance represents just the index alone for lookup purposes.
+    /// </returns>
     public int Count { get; }
+
+    /// <summary>
+    ///     Gets whether this instance returns a valid value from <see cref="Count"/>.
+    /// </summary>
+    public bool HasCount => Count > 0;
 
     /// <summary>
     ///     Instantiates a new <see cref="ShardId"/>.
@@ -30,6 +40,12 @@ public readonly struct ShardId : IEquatable<ShardId>
 
         Index = index;
         Count = count;
+    }
+
+    private ShardId(int index)
+    {
+        Index = index;
+        Count = -1;
     }
 
     /// <inheritdoc/>
@@ -62,9 +78,11 @@ public readonly struct ShardId : IEquatable<ShardId>
     /// <inheritdoc/>
     public override string ToString()
     {
-        return Count != 0
-            ? $"Shard {Index + 1} (#{Index}) of {Count}"
-            : "<invalid shard ID>";
+        return Count > 0
+            ? $"Shard #{Index} of {Count}"
+            : Count == -1
+                ? $"Shard #{Index}"
+                : "<invalid shard ID>";
     }
 
     public static bool operator ==(ShardId left, ShardId right)
@@ -78,19 +96,39 @@ public readonly struct ShardId : IEquatable<ShardId>
     }
 
     /// <summary>
+    ///     Gets a <see cref="ShardId"/> from just the index alone.
+    /// </summary>
+    /// <remarks>
+    ///     A shard ID without the total amount of shards can be used for lookup.
+    /// </remarks>
+    /// <param name="index"> The index of the shard. </param>
+    /// <returns>
+    ///     The <see cref="ShardId"/>.
+    /// </returns>
+    public static ShardId FromIndex(int index)
+    {
+        Guard.IsNotNegative(index);
+
+        return new(index);
+    }
+
+    /// <summary>
     ///     Gets a <see cref="ShardId"/> that would manage the guild of the given ID.
     /// </summary>
     /// <remarks>
-    ///     The formula is: (<paramref name="guildId"/> >> <c>22</c>) % <paramref name="count"/>.
+    ///     The formula for calculating the index is:
+    ///     (<paramref name="guildId"/> >> <c>22</c>) % <paramref name="count"/>.
     /// </remarks>
     /// <param name="guildId"> The ID of the guild. </param>
     /// <param name="count"> The total amount of shards. </param>
-    /// <returns></returns>
+    /// <returns>
+    ///     The <see cref="ShardId"/>.
+    /// </returns>
     public static ShardId FromGuildId(Snowflake guildId, int count)
     {
         Guard.IsPositive(count);
 
-        var id = (int) ((guildId >> 22) % (ulong) count);
-        return new(id, count);
+        var index = (int) ((guildId >> 22) % (ulong) count);
+        return new(index, count);
     }
 }

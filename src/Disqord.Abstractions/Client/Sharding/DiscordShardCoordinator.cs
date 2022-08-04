@@ -5,6 +5,7 @@ using Disqord.Gateway;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Default;
 using Disqord.Gateway.Default.Dispatcher;
+using Disqord.Rest;
 using Microsoft.Extensions.Logging;
 using Qommon.Binding;
 
@@ -31,6 +32,14 @@ public abstract class DiscordShardCoordinator : IShardCoordinator, IBindable<Dis
 
     /// <inheritdoc/>
     public abstract bool HasDynamicShardSets { get; }
+
+    /// <summary>
+    ///     Gets or sets the current shard set.
+    /// </summary>
+    /// <remarks>
+    ///     Defaults to an empty instance.
+    /// </remarks>
+    protected ShardSet CurrentShardSet { get; set; }
 
     private readonly Binder<DiscordClientBase> _binder;
 
@@ -60,6 +69,10 @@ public abstract class DiscordShardCoordinator : IShardCoordinator, IBindable<Dis
         return default;
     }
 
+    /// <summary>
+    ///     Initializes this coordinator.
+    /// </summary>
+    /// <param name="stoppingToken"></param>
     public async ValueTask InitializeAsync(CancellationToken stoppingToken)
     {
         await OnInitialize(stoppingToken);
@@ -75,21 +88,59 @@ public abstract class DiscordShardCoordinator : IShardCoordinator, IBindable<Dis
         }
     }
 
+    /// <summary>
+    ///     Invoked when a new <see cref="ShardSet"/> is requested.
+    /// </summary>
+    /// <param name="stoppingToken"> The cancellation token to observe. </param>
+    /// <returns>
+    ///     A <see cref="ValueTask{TResult}"/> representing the callback work
+    ///     with the result being the <see cref="ShardSet"/>.
+    /// </returns>
+    protected virtual async ValueTask<ShardSet> OnGetShardSet(CancellationToken stoppingToken)
+    {
+        var gatewayData = await Client.FetchBotGatewayDataAsync(cancellationToken: stoppingToken).ConfigureAwait(false);
+        var shardCount = gatewayData.RecommendedShardCount;
+        var maxConcurrency = gatewayData.Sessions.MaxConcurrency;
+        return ShardSet.FromRange(shardCount, maxConcurrency);
+    }
+
     /// <inheritdoc/>
-    public abstract ValueTask<ShardSet> GetShardSetAsync(CancellationToken stoppingToken);
+    public async ValueTask<ShardSet> GetShardSetAsync(CancellationToken stoppingToken)
+    {
+        var currentShardSet = CurrentShardSet;
+        if (!currentShardSet.Equals(default))
+            return currentShardSet;
+
+        currentShardSet = await OnGetShardSet(stoppingToken).ConfigureAwait(false);
+        CurrentShardSet = currentShardSet;
+        return currentShardSet;
+    }
 
     /// <inheritdoc/>
     public abstract ValueTask WaitToIdentifyShardAsync(ShardId shardId, CancellationToken stoppingToken);
 
     /// <inheritdoc/>
-    public abstract ValueTask OnShardSetInvalidated(CancellationToken stoppingToken);
+    public virtual ValueTask OnShardSetInvalidated(CancellationToken stoppingToken)
+    {
+        CurrentShardSet = default;
+        return default;
+    }
 
     /// <inheritdoc/>
-    public abstract ValueTask OnShardReady(ShardId shardId, string sessionId, CancellationToken stoppingToken);
+    public virtual ValueTask OnShardReady(ShardId shardId, string sessionId, CancellationToken stoppingToken)
+    {
+        return default;
+    }
 
     /// <inheritdoc/>
-    public abstract ValueTask OnShardDisconnected(ShardId shardId, Exception? exception, string? sessionId, CancellationToken stoppingToken);
+    public virtual ValueTask OnShardDisconnected(ShardId shardId, Exception? exception, string? sessionId, CancellationToken stoppingToken)
+    {
+        return default;
+    }
 
     /// <inheritdoc/>
-    public abstract ValueTask OnShardStateUpdated(ShardId shardId, GatewayState oldState, GatewayState newState, CancellationToken stoppingToken);
+    public virtual ValueTask OnShardStateUpdated(ShardId shardId, GatewayState oldState, GatewayState newState, CancellationToken stoppingToken)
+    {
+        return default;
+    }
 }

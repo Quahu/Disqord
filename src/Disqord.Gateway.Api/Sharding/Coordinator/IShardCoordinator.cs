@@ -53,7 +53,7 @@ public interface IShardCoordinator : ILogging
 
     /// <summary>
     ///     Invoked when a shard becomes ready,
-    ///     i.e. has successfully identified with the gateway..
+    ///     i.e. has successfully identified with the gateway.
     /// </summary>
     /// <remarks>
     ///     Ensure this method does not take a long time to complete

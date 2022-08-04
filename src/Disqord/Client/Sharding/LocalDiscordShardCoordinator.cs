@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
-using Disqord.Rest;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Qommon;
@@ -17,15 +16,27 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
 {
     /// <inheritdoc/>
     /// <returns>
-    ///     <see langword="true"/>
+    ///     <see langword="true"/> if <see cref="CustomShardSet"/> is not set.
     /// </returns>
-    public override bool HasDynamicShardSets => CustomShardset.Equals(default);
+    public override bool HasDynamicShardSets => CustomShardSet.Equals(default);
 
-    protected ShardSet CurrentShardSet;
-    protected ShardSet CustomShardset;
+    /// <summary>
+    ///     Gets the custom shard set.
+    /// </summary>
+    /// <remarks>
+    ///     Defaults to an empty instance.
+    /// </remarks>
+    protected ShardSet CustomShardSet { get; }
 
-    protected SemaphoreSlim? _semaphore;
-    protected Timer? _semaphoreTimer;
+    /// <summary>
+    ///     Gets or sets the semaphore.
+    /// </summary>
+    protected SemaphoreSlim? IdentifySemaphore { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the semaphore reset timer.
+    /// </summary>
+    protected Timer? IdentifySemaphoreResetTimer;
 
     public LocalDiscordShardCoordinator(
         IOptions<LocalDiscordShardCoordinatorConfiguration> options,
@@ -34,34 +45,28 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
     {
         var configuration = options.Value;
         var customShardSet = configuration.CustomShardSet;
-        CustomShardset = customShardSet.GetValueOrDefault();
+        CustomShardSet = customShardSet.GetValueOrDefault();
     }
 
     /// <inheritdoc/>
-    public override async ValueTask<ShardSet> GetShardSetAsync(CancellationToken stoppingToken)
+    protected override async ValueTask<ShardSet> OnGetShardSet(CancellationToken stoppingToken)
     {
-        var currentShardSet = CurrentShardSet;
-        if (!currentShardSet.Equals(default))
-            return currentShardSet;
-
-        if (CustomShardset.Equals(default))
+        ShardSet currentShardSet;
+        if (CustomShardSet.Equals(default))
         {
-            var gatewayData = await Client.FetchBotGatewayDataAsync(cancellationToken: stoppingToken).ConfigureAwait(false);
-            var shardCount = gatewayData.RecommendedShardCount;
-            var maxConcurrency = gatewayData.Sessions.MaxConcurrency;
-            Logger.LogInformation("Using Discord's recommended shard count of {ShardCount}.", shardCount);
-            currentShardSet = new ShardSet(shardCount, maxConcurrency);
+            currentShardSet = await base.OnGetShardSet(stoppingToken).ConfigureAwait(false);
+            Logger.LogInformation("Using Discord's recommended total shard amount of {ShardCount}.", currentShardSet.ShardIds.Count);
         }
         else
         {
-            currentShardSet = CustomShardset;
-            Logger.LogInformation("Using a custom shard count of {ShardCount}.", currentShardSet.ShardIds.Count);
+            currentShardSet = CustomShardSet;
+            Logger.LogInformation("Using a custom total shard amount of {ShardCount}.", currentShardSet.ShardIds.Count);
         }
 
         lock (this)
         {
             CurrentShardSet = currentShardSet;
-            _semaphore = new SemaphoreSlim(currentShardSet.MaxConcurrency, currentShardSet.MaxConcurrency);
+            IdentifySemaphore = new SemaphoreSlim(currentShardSet.MaxConcurrency, currentShardSet.MaxConcurrency);
         }
 
         return currentShardSet;
@@ -73,7 +78,7 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
         lock (this)
         {
             var currentShardSet = CurrentShardSet;
-            var semaphore = _semaphore;
+            var semaphore = IdentifySemaphore;
             Guard.IsNotDefault(currentShardSet);
             Guard.IsNotNull(semaphore);
 
@@ -84,8 +89,13 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
     /// <inheritdoc/>
     public override ValueTask OnShardSetInvalidated(CancellationToken stoppingToken)
     {
-        CurrentShardSet = default;
-        return default;
+        lock (this)
+        {
+            IdentifySemaphore = null;
+            IdentifySemaphoreResetTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+
+        return base.OnShardSetInvalidated(stoppingToken);
     }
 
     /// <inheritdoc/>
@@ -93,37 +103,42 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
     {
         lock (this)
         {
-            _semaphoreTimer ??= new Timer(state =>
+            if (IdentifySemaphoreResetTimer == null)
             {
-                var @this = Unsafe.As<LocalDiscordShardCoordinator>(state!);
-                try
+                IdentifySemaphoreResetTimer = new Timer(state =>
                 {
-                    lock (@this)
+                    var @this = Unsafe.As<LocalDiscordShardCoordinator>(state!);
+                    try
                     {
-                        var releaseCount = @this.CurrentShardSet.MaxConcurrency - @this._semaphore!.CurrentCount;
-                        @this._semaphore.Release(releaseCount);
-                        @this._semaphoreTimer = null;
+                        lock (@this)
+                        {
+                            if (@this.IdentifySemaphore != null)
+                            {
+                                var releaseCount = @this.CurrentShardSet.MaxConcurrency - @this.IdentifySemaphore.CurrentCount;
+                                if (releaseCount >= 1)
+                                {
+                                    @this.IdentifySemaphore.Release(releaseCount);
+                                }
+                            }
+
+                            if (@this.IdentifySemaphoreResetTimer != null)
+                            {
+                                @this.IdentifySemaphoreResetTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                            }
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    @this.Logger.LogError(ex, "An exception occurred in the coordinator semaphore timer.");
-                }
-            }, this, TimeSpan.FromSeconds(5), TimeSpan.Zero);
+                    catch (Exception ex)
+                    {
+                        @this.Logger.LogError(ex, "An exception occurred in the coordinator semaphore timer.");
+                    }
+                }, this, TimeSpan.FromSeconds(5), Timeout.InfiniteTimeSpan);
+            }
+            else
+            {
+                IdentifySemaphoreResetTimer.Change(TimeSpan.FromSeconds(5), Timeout.InfiniteTimeSpan);
+            }
         }
 
-        return default;
-    }
-
-    /// <inheritdoc/>
-    public override ValueTask OnShardDisconnected(ShardId shardId, Exception? exception, string? sessionId, CancellationToken stoppingToken)
-    {
-        return default;
-    }
-
-    /// <inheritdoc/>
-    public override ValueTask OnShardStateUpdated(ShardId shardId, GatewayState oldState, GatewayState newState, CancellationToken stoppingToken)
-    {
         return default;
     }
 }

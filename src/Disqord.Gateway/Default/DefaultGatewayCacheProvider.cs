@@ -126,7 +126,7 @@ public class DefaultGatewayCacheProvider : IGatewayCacheProvider
     {
         lock (this)
         {
-            if (shardId.Count <= 1)
+            if (!shardId.HasCount)
             {
                 _caches.Clear();
                 foreach (var type in _supportedTypes)
