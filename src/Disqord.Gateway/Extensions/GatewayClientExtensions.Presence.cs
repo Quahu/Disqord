@@ -56,6 +56,9 @@ public static partial class GatewayClientExtensions
         if (activities.HasValue)
             presence.Activities = activities.Value?.Select(x => x.ToModel()).ToArray() ?? Array.Empty<ActivityJsonModel>();
 
+        if (shard.State == GatewayState.Disconnected)
+            return Task.CompletedTask;
+
         var payload = new GatewayPayloadJsonModel
         {
             Op = GatewayPayloadOperation.UpdatePresence,
