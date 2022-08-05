@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,8 +26,7 @@ public class DiscordClient : DiscordClientBase
     public override async Task RunAsync(CancellationToken stoppingToken)
     {
         StoppingToken = stoppingToken;
-        var uri = new Uri(Discord.Gateway.Url);
-        await GatewayClient.RunAsync(uri, stoppingToken).ConfigureAwait(false);
+        await GatewayClient.RunAsync(null, stoppingToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>

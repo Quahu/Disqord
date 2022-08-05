@@ -246,7 +246,7 @@ public abstract partial class DiscordBotBase
         await InitializeModules(cancellationToken).ConfigureAwait(false);
         await InitializeRateLimiter(cancellationToken).ConfigureAwait(false);
 
-        if (await ShouldInitializeApplicationCommands(cancellationToken))
+        if (await ShouldInitializeApplicationCommands(cancellationToken).ConfigureAwait(false))
         {
             await InitializeApplicationCommands(cancellationToken).ConfigureAwait(false);
         }

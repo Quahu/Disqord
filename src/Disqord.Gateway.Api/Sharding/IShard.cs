@@ -68,12 +68,17 @@ public interface IShard : ILogging, IAsyncDisposable
     int? Sequence { get; }
 
     /// <summary>
+    ///     Gets the URI via which the current gateway session should be resumed.
+    /// </summary>
+    Uri? ResumeUri { get; }
+
+    /// <summary>
     ///     Gets the current connection state of the gateway.
     /// </summary>
     GatewayState State { get; }
 
     /// <summary>
-    ///     Gets the stopping token passed to <see cref="RunAsync(Uri, CancellationToken)"/>.
+    ///     Gets the stopping token passed to <see cref="RunAsync(CancellationToken, Uri)"/>.
     /// </summary>
     CancellationToken StoppingToken { get; }
 
@@ -93,10 +98,10 @@ public interface IShard : ILogging, IAsyncDisposable
     Task WaitForReadyAsync();
 
     /// <summary>
-    ///     Runs this <see cref="IGatewayApiClient"/>.
+    ///     Runs this shard.
     /// </summary>
-    /// <param name="uri"> The Discord gateway URI to connect to. </param>
+    /// <param name="initialUri"> The initial URI of the Discord gateway to connect to. </param>
     /// <param name="stoppingToken"> The token used to signal connection stopping. </param>
     /// <returns> The <see cref="Task"/> representing the connection. </returns>
-    Task RunAsync(Uri uri, CancellationToken stoppingToken);
+    Task RunAsync(Uri? initialUri, CancellationToken stoppingToken);
 }

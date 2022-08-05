@@ -72,10 +72,10 @@ public abstract class DiscordShardCoordinator : IShardCoordinator, IBindable<Dis
     /// <summary>
     ///     Initializes this coordinator.
     /// </summary>
-    /// <param name="stoppingToken"></param>
+    /// <param name="stoppingToken"> The cancellation token to observe. </param>
     public async ValueTask InitializeAsync(CancellationToken stoppingToken)
     {
-        await OnInitialize(stoppingToken);
+        await OnInitialize(stoppingToken).ConfigureAwait(false);
 
         // TODO: solve this ready mess?
         if ((Client as IGatewayClient).Dispatcher is DefaultGatewayDispatcher dispatcher && dispatcher["READY"] is ReadyDispatchHandler readyDispatchHandler)

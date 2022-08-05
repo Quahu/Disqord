@@ -43,8 +43,8 @@ public partial class DefaultGatewayClient : IGatewayClient
     }
 
     /// <inheritdoc/>
-    public Task RunAsync(Uri uri, CancellationToken cancellationToken)
+    public Task RunAsync(Uri? initialUri, CancellationToken stoppingToken)
     {
-        return ApiClient.RunAsync(uri, cancellationToken);
+        return ApiClient.RunAsync(initialUri, stoppingToken);
     }
 }

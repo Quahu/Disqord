@@ -47,9 +47,9 @@ public class DiscordApiClient : IRestApiClient, IGatewayApiClient
         _client = client;
     }
 
-    Task IGatewayApiClient.RunAsync(Uri uri, CancellationToken stoppingToken)
+    Task IGatewayApiClient.RunAsync(Uri? initialUri, CancellationToken stoppingToken)
     {
-        return _client.GatewayClient.ApiClient.RunAsync(uri, stoppingToken);
+        return _client.GatewayClient.ApiClient.RunAsync(initialUri, stoppingToken);
     }
 
     Task IRestApiClient.ExecuteAsync(IFormattedRoute route, IRestRequestContent? content,

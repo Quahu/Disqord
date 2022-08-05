@@ -142,8 +142,8 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
     /// </returns>
     public abstract Task WaitUntilReadyAsync(CancellationToken cancellationToken);
 
-    Task IGatewayClient.RunAsync(Uri uri, CancellationToken stoppingToken)
+    Task IGatewayClient.RunAsync(Uri? initialUri, CancellationToken stoppingToken)
     {
-        return GatewayClient.RunAsync(uri, stoppingToken);
+        return GatewayClient.RunAsync(initialUri, stoppingToken);
     }
 }

@@ -13,6 +13,6 @@ public static partial class Discord
         /// <summary>
         ///     Represents the default URL of the gateway.
         /// </summary>
-        public const string Url = "wss://gateway.discord.gg/";
+        public const string DefaultUrl = "wss://gateway.discord.gg/";
     }
 }

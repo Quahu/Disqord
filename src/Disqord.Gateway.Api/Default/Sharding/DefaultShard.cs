@@ -52,6 +52,9 @@ public class DefaultShard : IShard
     public int? Sequence { get; private set; }
 
     /// <inheritdoc/>
+    public Uri? ResumeUri { get; private set; }
+
+    /// <inheritdoc/>
     public GatewayState State { get; private set; }
 
     /// <inheritdoc/>
@@ -113,13 +116,13 @@ public class DefaultShard : IShard
     }
 
     /// <inheritdoc/>
-    public Task RunAsync(Uri uri, CancellationToken stoppingToken)
+    public Task RunAsync(Uri? initialUri, CancellationToken stoppingToken)
     {
         StoppingToken = stoppingToken;
-        return InternalRunAsync(uri, stoppingToken);
+        return InternalRunAsync(initialUri, stoppingToken);
     }
 
-    private async Task InternalConnectAsync(Uri uri, CancellationToken stoppingToken)
+    private async Task InternalConnectAsync(Uri? uri, CancellationToken stoppingToken)
     {
         await SetStateAsync(GatewayState.Connecting, stoppingToken).ConfigureAwait(false);
 
@@ -129,11 +132,16 @@ public class DefaultShard : IShard
         {
             try
             {
-                Logger.LogDebug(attempt == 0
-                    ? "Connecting to the gateway..."
-                    : $"Retrying (attempt #{attempt + 1}) to connect to the gateway...");
+                if (attempt == 0)
+                {
+                    Logger.LogDebug("Connecting to the gateway...");
+                }
+                else
+                {
+                    Logger.LogDebug("Retrying (attempt {Attempt}) connecting to the gateway...", attempt + 1);
+                }
 
-                await Gateway.ConnectAsync(uri, stoppingToken).ConfigureAwait(false);
+                await Gateway.ConnectAsync(uri ?? new Uri(Discord.Gateway.DefaultUrl), stoppingToken).ConfigureAwait(false);
                 return;
             }
             catch (OperationCanceledException)
@@ -153,15 +161,15 @@ public class DefaultShard : IShard
 
         stoppingToken.ThrowIfCancellationRequested();
         Logger.LogInformation("Successfully connected.");
-        await SetStateAsync(GatewayState.Connected, stoppingToken);
+        await SetStateAsync(GatewayState.Connected, stoppingToken).ConfigureAwait(false);
     }
 
-    private async Task InternalRunAsync(Uri uri, CancellationToken stoppingToken)
+    private async Task InternalRunAsync(Uri? uri, CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {
             var stopHeartbeater = true;
-            await InternalConnectAsync(uri, stoppingToken).ConfigureAwait(false);
+            await InternalConnectAsync(ResumeUri ?? uri, stoppingToken).ConfigureAwait(false);
             try
             {
                 var breakReceive = false;
@@ -187,8 +195,15 @@ public class DefaultShard : IShard
                                     RateLimiter.Reset();
 
                                     // LINQ is faster here as we avoid double ToType()ing (later in the dispatch handler).
-                                    SessionId = ((payload.D as IJsonObject)!["session_id"]! as IJsonValue)!.Value as string;
-                                    Logger.LogTrace("Session ID: {0}.", SessionId);
+                                    var d = (payload.D as IJsonObject)!;
+                                    SessionId = (d["session_id"] as IJsonValue)!.Value as string;
+                                    var resumeGatewayUrl = (d["resume_gateway_url"] as IJsonValue)!.Value as string;
+                                    if (resumeGatewayUrl != null)
+                                    {
+                                        ResumeUri = new Uri(resumeGatewayUrl);
+                                    }
+
+                                    Logger.LogTrace("Session ID: {SessionId}, Resume URI: {ResumeUri}.", SessionId, ResumeUri);
                                     try
                                     {
                                         await ApiClient.ShardCoordinator.OnShardReady(Id, SessionId!, stoppingToken).ConfigureAwait(false);
@@ -277,6 +292,7 @@ public class DefaultShard : IShard
                                     await SetStateAsync(GatewayState.Identifying, stoppingToken).ConfigureAwait(false);
 
                                     SessionId = null;
+                                    ResumeUri = null;
                                     Logger.LogInformation("The session is not resumable, identifying...");
                                     await IdentifyAsync(stoppingToken).ConfigureAwait(false);
                                 }
@@ -441,6 +457,7 @@ public class DefaultShard : IShard
         }
 
         SessionId = null;
+        ResumeUri = null;
     }
 
     private async ValueTask SetStateAsync(GatewayState newState, CancellationToken stoppingToken)

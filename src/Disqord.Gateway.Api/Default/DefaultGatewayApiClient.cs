@@ -61,27 +61,27 @@ public class DefaultGatewayApiClient : IGatewayApiClient
         DispatchReceivedEvent = new();
     }
 
-    public async Task RunAsync(Uri uri, CancellationToken stoppingToken)
+    public async Task RunAsync(Uri? initialUri, CancellationToken stoppingToken)
     {
         StoppingToken = stoppingToken;
 
-        var shardSetCount = 0;
+        var shardSetAttempt = 0;
         while (!stoppingToken.IsCancellationRequested)
         {
-            if (shardSetCount != 0)
+            if (shardSetAttempt != 0)
             {
-                if (shardSetCount > 1)
+                if (shardSetAttempt > 1)
                 {
-                    Throw.InvalidOperationException($"The shard set was invalid {shardSetCount + 1} times in a row. "
-                        + $"Validate the shard set provider logic.");
+                    Throw.InvalidOperationException($"The shard set was invalid {shardSetAttempt + 1} times in a row. "
+                        + "Validate the shard set provider logic.");
                 }
 
-                Logger.LogInformation("Reinitializing the shard set...");
+                Logger.LogInformation("Reinitializing the shards...");
             }
 
             var shardQueues = await InitializeShards(stoppingToken).ConfigureAwait(false);
             var shards = _shards!.Values;
-            Logger.LogInformation("Attempting to run {ShardCount} shards with indices: {ShardIndices}...", shards.Length, shards.Select(shard => shard.Id.Index));
+            Logger.LogInformation("Running {ShardCount} shards with (indices {ShardIndices})...", shards.Length, shards.Select(shard => shard.Id.Index));
             var linkedCts = Cts.Linked(stoppingToken);
             var runTasks = new Task[shards.Length];
             var runTaskIndex = 0;
@@ -111,7 +111,7 @@ public class DefaultGatewayApiClient : IGatewayApiClient
                         bucketTasks[i] = Task.Run(async () =>
                         {
                             var readyTask = shard.WaitForReadyAsync();
-                            var runTask = shard.RunAsync(uri, linkedCancellationToken);
+                            var runTask = shard.RunAsync(initialUri, linkedCancellationToken);
                             var completedTask = await Task.WhenAny(readyTask, runTask).ConfigureAwait(false);
                             if (completedTask == runTask)
                             {
@@ -169,11 +169,11 @@ public class DefaultGatewayApiClient : IGatewayApiClient
                 if (reset)
                 {
                     linkedCts.Cancel();
-                    shardSetCount++;
+                    shardSetAttempt++;
                     continue;
                 }
 
-                shardSetCount = 0;
+                shardSetAttempt = 0;
                 await Task.WhenAll(runTasks).ConfigureAwait(false);
             }
             finally
@@ -184,7 +184,7 @@ public class DefaultGatewayApiClient : IGatewayApiClient
                 {
                     try
                     {
-                        await shard.DisposeAsync();
+                        await shard.DisposeAsync().ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {

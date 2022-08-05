@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,10 +51,13 @@ public interface IGatewayApiClient : IApiClient
     AsynchronousEvent<GatewayDispatchReceivedEventArgs> DispatchReceivedEvent { get; }
 
     /// <summary>
-    ///     Runs this <see cref="IGatewayApiClient"/>.
+    ///     Runs this API client which creates and runs the shards
+    ///     returned from the coordinator.
     /// </summary>
-    /// <param name="uri"> The Discord gateway URI to connect to. </param>
+    /// <param name="initialUri"> The initial URI of the Discord gateway to connect the shards to. </param>
     /// <param name="stoppingToken"> The token used to signal connection stopping. </param>
-    /// <returns> The <see cref="Task"/> representing the connection. </returns>
-    Task RunAsync(Uri uri, CancellationToken stoppingToken);
+    /// <returns>
+    ///     The <see cref="Task"/> representing the run.
+    /// </returns>
+    Task RunAsync(Uri? initialUri, CancellationToken stoppingToken);
 }

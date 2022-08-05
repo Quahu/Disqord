@@ -69,8 +69,8 @@ namespace Disqord.WebSocket.Default.Discord
 
         public async ValueTask ConnectAsync(Uri url, CancellationToken cancellationToken)
         {
-            using (await _sendSemaphore.EnterAsync(cancellationToken))
-            using (await _receiveSemaphore.EnterAsync(cancellationToken))
+            using (await _sendSemaphore.EnterAsync(cancellationToken).ConfigureAwait(false))
+            using (await _receiveSemaphore.EnterAsync(cancellationToken).ConfigureAwait(false))
             {
                 ThrowIfDisposed();
 
@@ -186,8 +186,8 @@ namespace Disqord.WebSocket.Default.Discord
         {
             ThrowIfDisposed();
 
-            using (await _sendSemaphore.EnterAsync(cancellationToken))
-            using (await _receiveSemaphore.EnterAsync(cancellationToken))
+            using (await _sendSemaphore.EnterAsync(cancellationToken).ConfigureAwait(false))
+            using (await _receiveSemaphore.EnterAsync(cancellationToken).ConfigureAwait(false))
             {
                 if (_ws!.State != WebSocketState.Aborted)
                 {
@@ -208,8 +208,8 @@ namespace Disqord.WebSocket.Default.Discord
             if (_isDisposed)
                 return;
 
-            using (await _sendSemaphore.EnterAsync())
-            using (await _receiveSemaphore.EnterAsync())
+            using (await _sendSemaphore.EnterAsync().ConfigureAwait(false))
+            using (await _receiveSemaphore.EnterAsync().ConfigureAwait(false))
             {
                 if (_isDisposed)
                     return;

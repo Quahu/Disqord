@@ -19,6 +19,12 @@ public class ReadyJsonModel : JsonModel
     [JsonProperty("session_id")]
     public string SessionId = null!;
 
+    [JsonProperty("resume_gateway_url")]
+    public string ResumeGatewayUrl = null!;
+
     [JsonProperty("shard")]
     public Optional<int[]> Shard = null!;
+
+    [JsonProperty("application")]
+    public JsonModel Application = null!;
 }
