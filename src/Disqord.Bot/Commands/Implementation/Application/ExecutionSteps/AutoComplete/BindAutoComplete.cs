@@ -46,8 +46,8 @@ public static partial class DefaultApplicationExecutionSteps
                 }
 
                 var isFocused = focusedOption == options.GetValueOrDefault(parameter.Name);
-                object? currentValue;
                 var parameterType = parameter.ReflectedType.GenericTypeArguments[0];
+                object? currentValue;
                 if (originalKvp == null)
                 {
                     currentValue = Activator.CreateInstance(typeof(Optional<>).MakeGenericType(parameterType));

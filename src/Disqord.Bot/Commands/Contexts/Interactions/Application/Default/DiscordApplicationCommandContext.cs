@@ -23,5 +23,7 @@ internal class DiscordApplicationCommandContext : DiscordCommandContext<Applicat
     }
 
     protected override Snowflake? GetGuildId()
-        => Interaction.GuildId;
+    {
+        return Interaction.GuildId;
+    }
 }

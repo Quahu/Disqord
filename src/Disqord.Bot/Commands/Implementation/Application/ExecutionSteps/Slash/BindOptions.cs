@@ -101,7 +101,7 @@ public static partial class DefaultApplicationExecutionSteps
                         continue;
                     }
 
-                    if (!option.Type.IsEntity())
+                    if (option.Type == SlashCommandOptionType.String)
                     {
                         // If the option is just a string, pass it through to type parsing.
                         var rawArguments = context.RawArguments ??= new Dictionary<IParameter, MultiString>();
