@@ -46,7 +46,6 @@ public class ApplicationCommandBuilder : ICommandBuilder
         : this(module, callback)
     {
         MethodInfo = methodInfo;
-        Name = methodInfo.Name;
     }
 
     public virtual ApplicationCommand Build(ApplicationModule module)

@@ -48,7 +48,6 @@ public class ComponentCommandBuilder : ICommandBuilder
         : this(module, callback)
     {
         MethodInfo = methodInfo;
-        Name = methodInfo.Name;
     }
 
     public virtual ComponentCommand Build(ComponentModule module)
