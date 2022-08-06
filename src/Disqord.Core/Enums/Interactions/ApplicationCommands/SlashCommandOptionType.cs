@@ -47,7 +47,8 @@ public enum SlashCommandOptionType
 
     /// <summary>
     ///     The option is a mentionable parameter,
-    ///     i.e. any entity that is mentionable within the Discord client.
+    ///     i.e. any entity that is mentionable within the Discord client
+    ///     such as users, channels, roles, etc.
     /// </summary>
     Mentionable = 9,
 

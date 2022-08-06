@@ -32,6 +32,14 @@ public class ApplicationParameterBuilder : IParameterBuilder
     {
         Command = command;
         ReflectedType = reflectedType;
+
+        if (typeof(IMember).IsAssignableFrom(reflectedType))
+        {
+            Command.Checks.Add(new RequireGuildAttribute());
+
+            // Ensures the user instances are members.
+            Checks.Add(MemberParameterCheck.Instance);
+        }
     }
 
     public ApplicationParameterBuilder(ApplicationCommandBuilder command, ParameterInfo parameterInfo)
@@ -40,6 +48,7 @@ public class ApplicationParameterBuilder : IParameterBuilder
         ParameterInfo = parameterInfo;
 
         Name = CommandUtilities.ToKebabCase(parameterInfo.Name);
+
         if (parameterInfo.HasDefaultValue)
             DefaultValue = parameterInfo.DefaultValue;
     }

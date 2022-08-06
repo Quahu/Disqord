@@ -18,6 +18,8 @@ public static partial class DefaultBotCommandsSetup
                 .Use<BindValues>()
                 .Use<TypeParse>()
                 .Use<BindArguments>()
+                .Use<RunParameterChecks>()
+                .Use<ValidateArguments>()
                 .Use<RunRateLimits>()
                 .Use<CreateModuleBase>()
                 .Use<InvokeOnBeforeExecuted>()
