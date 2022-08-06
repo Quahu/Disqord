@@ -440,18 +440,6 @@ public abstract partial class DiscordBotBase
                                 else if (typeof(IChannel).IsAssignableFrom(actualType))
                                 {
                                     option.Type = SlashCommandOptionType.Channel;
-
-                                    var customAttributes = parameter.CustomAttributes;
-                                    var customAttributeCount = customAttributes.Count;
-                                    for (var i = 0; i < customAttributeCount; i++)
-                                    {
-                                        var customAttribute = customAttributes[i];
-                                        if (customAttribute is not ChannelTypesAttribute requireChannelTypesAttribute)
-                                            continue;
-
-                                        option.ChannelTypes = requireChannelTypesAttribute.ChannelTypes;
-                                        break;
-                                    }
                                 }
                                 else if (typeof(IRole).IsAssignableFrom(actualType))
                                 {
@@ -460,6 +448,23 @@ public abstract partial class DiscordBotBase
                                 else if (typeof(ISnowflakeEntity).IsAssignableFrom(actualType))
                                 {
                                     option.Type = SlashCommandOptionType.Mentionable;
+                                }
+                                else if (actualType == typeof(IAttachment))
+                                {
+                                    option.Type = SlashCommandOptionType.Attachment;
+                                }
+                                else
+                                {
+                                    option.Type = SlashCommandOptionType.String;
+                                }
+
+                                if (option.Type.Value is SlashCommandOptionType.Channel or SlashCommandOptionType.Mentionable)
+                                {
+                                    if (option.Type.Value is SlashCommandOptionType.Channel)
+                                    {
+                                        if (!typeof(IInteractionChannel).IsAssignableFrom(actualType))
+                                            throw new InvalidOperationException($"Slash command channel parameters must be of type {typeof(IInteractionChannel)}.");
+                                    }
 
                                     var customAttributes = parameter.CustomAttributes;
                                     var customAttributeCount = customAttributes.Count;
@@ -472,14 +477,6 @@ public abstract partial class DiscordBotBase
                                         option.ChannelTypes = requireChannelTypesAttribute.ChannelTypes;
                                         break;
                                     }
-                                }
-                                else if (actualType == typeof(IAttachment))
-                                {
-                                    option.Type = SlashCommandOptionType.Attachment;
-                                }
-                                else
-                                {
-                                    option.Type = SlashCommandOptionType.String;
                                 }
                             }
 
