@@ -9,7 +9,7 @@ namespace Disqord.Serialization.Json;
 /// <summary>
 ///     Represents a JSON model.
 /// </summary>
-public class JsonModel : IJsonObject
+public class JsonModel : IJsonNode
 {
     /// <summary>
     ///     The runtime cache for extension data dictionaries.
@@ -108,22 +108,22 @@ public class JsonModel : IJsonObject
     // public void Add(string key, IJsonNode value)
     //     => ExtensionData.Add(key, value);
 
-    bool IReadOnlyDictionary<string, IJsonNode?>.ContainsKey(string key)
-    {
-        return ExtensionDataCache.TryGetValue(this, out var extensionData) && extensionData.ContainsKey(key);
-    }
+    // bool IReadOnlyDictionary<string, IJsonNode?>.ContainsKey(string key)
+    // {
+    //     return ExtensionDataCache.TryGetValue(this, out var extensionData) && extensionData.ContainsKey(key);
+    // }
 
     // bool IDictionary<string, IJsonNode>.Remove(string key)
     //     => _extensionData.Remove(key);
 
-    bool IReadOnlyDictionary<string, IJsonNode?>.TryGetValue(string key, out IJsonNode? value)
-    {
-        if (ExtensionDataCache.TryGetValue(this, out var extensionData) && extensionData.TryGetValue(key, out value))
-            return true;
-
-        value = default;
-        return false;
-    }
+    // bool IReadOnlyDictionary<string, IJsonNode?>.TryGetValue(string key, out IJsonNode? value)
+    // {
+    //     if (ExtensionDataCache.TryGetValue(this, out var extensionData) && extensionData.TryGetValue(key, out value))
+    //         return true;
+    //
+    //     value = default;
+    //     return false;
+    // }
 
     // void ICollection<KeyValuePair<string, IJsonNode>>.Add(KeyValuePair<string, IJsonNode> item)
     //     => Add(item.Key, item.Value);
@@ -141,26 +141,27 @@ public class JsonModel : IJsonObject
     //     => _extensionData.Remove(item);
     //
     // bool ICollection<KeyValuePair<string, IJsonNode>>.IsReadOnly => _extensionData.IsReadOnly;
-    int IReadOnlyCollection<KeyValuePair<string, IJsonNode?>>.Count => ExtensionDataCache.TryGetValue(this, out var extensionData) ? extensionData.Count : 0;
+    // int IReadOnlyCollection<KeyValuePair<string, IJsonNode?>>.Count => ExtensionDataCache.TryGetValue(this, out var extensionData) ? extensionData.Count : 0;
 
     // ICollection<string> IDictionary<string, IJsonNode>.Keys => _extensionData.Keys;
     // ICollection<IJsonNode> IDictionary<string, IJsonNode>.Values => _extensionData.Values;
-    IEnumerable<string> IReadOnlyDictionary<string, IJsonNode?>.Keys => ExtensionData.Keys;
-
-    IEnumerable<IJsonNode?> IReadOnlyDictionary<string, IJsonNode?>.Values => ExtensionData.Values;
-
+    // IEnumerable<string> IReadOnlyDictionary<string, IJsonNode?>.Keys => ExtensionData.Keys;
+    //
+    // IEnumerable<IJsonNode?> IReadOnlyDictionary<string, IJsonNode?>.Values => ExtensionData.Values;
+    //
     T IJsonNode.ToType<T>()
     {
         throw new NotSupportedException();
     }
 
-    IEnumerator<KeyValuePair<string, IJsonNode?>> IEnumerable<KeyValuePair<string, IJsonNode?>>.GetEnumerator()
-    {
-        return ExtensionData.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return ExtensionData.GetEnumerator();
-    }
+    //
+    // IEnumerator<KeyValuePair<string, IJsonNode?>> IEnumerable<KeyValuePair<string, IJsonNode?>>.GetEnumerator()
+    // {
+    //     return ExtensionData.GetEnumerator();
+    // }
+    //
+    // IEnumerator IEnumerable.GetEnumerator()
+    // {
+    //     return ExtensionData.GetEnumerator();
+    // }
 }

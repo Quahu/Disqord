@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reflection;
 using Disqord.Bot;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
@@ -49,7 +50,6 @@ namespace Disqord.Test
                         bot.Token = context.Configuration["TOKEN"];
                         bot.UseMentionPrefix = false;
                         bot.Prefixes = new[] { "??" };
-                        bot.Intents |= GatewayIntents.DirectMessages | GatewayIntents.DirectReactions;
                     })
                     .UseDefaultServiceProvider(x =>
                     {
