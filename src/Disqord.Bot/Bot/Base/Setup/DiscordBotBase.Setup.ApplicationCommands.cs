@@ -462,8 +462,8 @@ public abstract partial class DiscordBotBase
                                 {
                                     if (option.Type.Value is SlashCommandOptionType.Channel)
                                     {
-                                        if (!typeof(IInteractionChannel).IsAssignableFrom(actualType))
-                                            throw new InvalidOperationException($"Slash command channel parameters must be of type {typeof(IInteractionChannel)}.");
+                                        if (actualType != typeof(IChannel) && !typeof(IInteractionChannel).IsAssignableFrom(actualType))
+                                            throw new InvalidOperationException($"Slash command channel parameters must be of type {typeof(IChannel)} or {typeof(IInteractionChannel)}.");
                                     }
 
                                     var customAttributes = parameter.CustomAttributes;
