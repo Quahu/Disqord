@@ -1,9 +1,7 @@
 using System;
 using System.Linq;
-using Disqord.Bot;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
-using Disqord.Gateway.Api.Default;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

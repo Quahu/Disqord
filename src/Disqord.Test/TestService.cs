@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Bot.Commands;
 using Disqord.Bot.Commands.Text;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
-using Disqord.Rest;
 using Microsoft.Extensions.Logging;
 
 namespace Disqord.Test

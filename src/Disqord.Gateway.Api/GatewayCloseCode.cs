@@ -1,6 +1,4 @@
-﻿using Disqord.Gateway.Api.Models;
-
-namespace Disqord.Gateway.Api;
+﻿namespace Disqord.Gateway.Api;
 
 /// <summary>
 ///     Represents the close status for a Discord gateway connection.

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Qommon.Collections.Synchronized;
 using Disqord.Rest.Api;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Qommon.Collections.Synchronized;
 
 namespace Disqord.Rest.Default;
 
