@@ -59,6 +59,11 @@ public class LocalSlashCommandOption : ILocalConstruct<LocalSlashCommandOption>
     public Optional<IList<LocalSlashCommandOption>> Options { get; set; }
 
     /// <summary>
+    ///     Gets or sets the channel types of this option.
+    /// </summary>
+    public Optional<IList<ChannelType>> ChannelTypes { get; set; }
+
+    /// <summary>
     ///     Gets or sets the minimum integer/number value this option allows.
     /// </summary>
     public Optional<double> MinimumValue { get; set; }
@@ -69,9 +74,14 @@ public class LocalSlashCommandOption : ILocalConstruct<LocalSlashCommandOption>
     public Optional<double> MaximumValue { get; set; }
 
     /// <summary>
-    ///     Gets or sets the channel types of this option.
+    ///     Gets or sets the minimum length of the value this option allows.
     /// </summary>
-    public Optional<IList<ChannelType>> ChannelTypes { get; set; }
+    public Optional<int> MinimumLength { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the maximum length of the value this option allows.
+    /// </summary>
+    public Optional<int> MaximumLength { get; set; }
 
     /// <summary>
     ///     Gets or sets whether this option supports auto-complete.
@@ -98,9 +108,11 @@ public class LocalSlashCommandOption : ILocalConstruct<LocalSlashCommandOption>
         IsRequired = other.IsRequired;
         Choices = other.Choices.DeepClone();
         Options = other.Options.DeepClone();
+        ChannelTypes = other.ChannelTypes.Clone();
         MinimumValue = other.MinimumValue;
         MaximumValue = other.MaximumValue;
-        ChannelTypes = other.ChannelTypes.Clone();
+        MinimumLength = other.MinimumLength;
+        MaximumLength = other.MaximumLength;
         HasAutoComplete = other.HasAutoComplete;
     }
 

@@ -91,6 +91,12 @@ public class TransientSlashCommandOption : TransientClientEntity<ApplicationComm
     public double? MaximumValue => Model.MaxValue.GetValueOrNullable();
 
     /// <inheritdoc/>
+    public int? MinimumLength => Model.MinLength.GetValueOrNullable();
+
+    /// <inheritdoc/>
+    public int? MaximumLength => Model.MaxLength.GetValueOrNullable();
+
+    /// <inheritdoc/>
     public bool HasAutoComplete => Model.AutoComplete.GetValueOrDefault();
 
     public TransientSlashCommandOption(IClient client, ApplicationCommandOptionJsonModel model)

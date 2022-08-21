@@ -81,9 +81,11 @@ internal static partial class ContentConversion
             Required = option.IsRequired,
             Choices = Optional.Convert(option.Choices, choices => choices?.Select(choice => choice?.ToModel(serializer)).ToArray())!,
             Options = Optional.Convert(option.Options, options => options?.Select(option => option?.ToModel(serializer)).ToArray())!,
+            ChannelTypes = Optional.Convert(option.ChannelTypes, channelTypes => channelTypes?.ToArray())!,
             MinValue = option.MinimumValue,
             MaxValue = option.MaximumValue,
-            ChannelTypes = Optional.Convert(option.ChannelTypes, channelTypes => channelTypes?.ToArray())!,
+            MinLength = option.MinimumLength,
+            MaxLength = option.MaximumLength,
             AutoComplete = option.HasAutoComplete,
         };
     }

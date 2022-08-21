@@ -56,14 +56,24 @@ public interface ISlashCommandOption : INamableEntity, IJsonUpdatable<Applicatio
     IReadOnlyList<ChannelType> ChannelTypes { get; }
 
     /// <summary>
-    ///     Gets the minimum allowed integer/number value of this option.
+    ///     Gets the minimum integer/number value this option allows.
     /// </summary>
-    public double? MinimumValue { get; }
+    double? MinimumValue { get; }
 
     /// <summary>
-    ///     Gets the maximum allowed integer/number value of this option.
+    ///     Gets the maximum integer/number value this option allows.
     /// </summary>
-    public double? MaximumValue { get; }
+    double? MaximumValue { get; }
+
+    /// <summary>
+    ///     Gets the minimum length of the value this option allows.
+    /// </summary>
+    int? MinimumLength { get; }
+
+    /// <summary>
+    ///     Gets the maximum length of the value this option allows.
+    /// </summary>
+    int? MaximumLength { get; }
 
     /// <summary>
     ///     Gets whether this option supports auto-complete.

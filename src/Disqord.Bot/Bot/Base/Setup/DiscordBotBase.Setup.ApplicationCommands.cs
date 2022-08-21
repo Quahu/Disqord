@@ -575,27 +575,51 @@ public abstract partial class DiscordBotBase
                                                     Throw.InvalidOperationException($"The value {convertible} cannot be used for slash command parameter range checks as it is too large.");
                                             }
 
+                                            static void SetMinimum(LocalSlashCommandOption option, IConvertible value)
+                                            {
+                                                ThrowIfTooLarge(value);
+
+                                                if (option.Type.Value == SlashCommandOptionType.String)
+                                                {
+                                                    option.MinimumLength = value.ToInt32(null);
+                                                }
+                                                else
+                                                {
+                                                    option.MinimumValue = value.ToDouble(null);
+                                                }
+                                            }
+
+                                            static void SetMaximum(LocalSlashCommandOption option, IConvertible value)
+                                            {
+                                                ThrowIfTooLarge(value);
+
+                                                if (option.Type.Value == SlashCommandOptionType.String)
+                                                {
+                                                    option.MaximumLength = value.ToInt32(null);
+                                                }
+                                                else
+                                                {
+                                                    option.MaximumValue = value.ToDouble(null);
+                                                }
+                                            }
+
                                             var check = checks[i];
                                             switch (check)
                                             {
                                                 case MinimumAttribute minimumAttribute:
                                                 {
-                                                    ThrowIfTooLarge(minimumAttribute.Minimum);
-                                                    option.MinimumValue = minimumAttribute.Minimum.ToDouble(null);
+                                                    SetMinimum(option, minimumAttribute.Minimum);
                                                     break;
                                                 }
                                                 case MaximumAttribute maximumAttribute:
                                                 {
-                                                    ThrowIfTooLarge(maximumAttribute.Maximum);
-                                                    option.MaximumValue = maximumAttribute.Maximum.ToDouble(null);
+                                                    SetMaximum(option, maximumAttribute.Maximum);
                                                     break;
                                                 }
                                                 case RangeAttribute rangeAttribute:
                                                 {
-                                                    ThrowIfTooLarge(rangeAttribute.Minimum);
-                                                    ThrowIfTooLarge(rangeAttribute.Maximum);
-                                                    option.MinimumValue = rangeAttribute.Minimum.ToDouble(null);
-                                                    option.MaximumValue = rangeAttribute.Maximum.ToDouble(null);
+                                                    SetMinimum(option, rangeAttribute.Minimum);
+                                                    SetMaximum(option, rangeAttribute.Maximum);
                                                     break;
                                                 }
                                             }

@@ -39,6 +39,12 @@ public class ApplicationCommandOptionJsonModel : JsonModel
     [JsonProperty("max_value")]
     public Optional<double> MaxValue;
 
+    [JsonProperty("min_length")]
+    public Optional<int> MinLength;
+
+    [JsonProperty("max_length")]
+    public Optional<int> MaxLength;
+
     [JsonProperty("autocomplete")]
     public Optional<bool> AutoComplete;
 
@@ -57,7 +63,7 @@ public class ApplicationCommandOptionJsonModel : JsonModel
             OptionalGuard.HasNoValue(Choices, "Choices can only be specified for string, integer, and number options.");
 
             if (AutoComplete.HasValue)
-                Guard.IsNotEqualTo(true, AutoComplete.Value);
+                Guard.IsFalse(AutoComplete.Value, message: "Auto-complete can only be enabled for string, integer, and number options.");
         }
 
         if (Type is not SlashCommandOptionType.Subcommand and not SlashCommandOptionType.SubcommandGroup)
