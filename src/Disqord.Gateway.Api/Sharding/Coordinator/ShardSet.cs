@@ -66,7 +66,7 @@ public readonly struct ShardSet : IEquatable<ShardSet>
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"Concurrency: {MaxConcurrency}, ShardIds: [{string.Join(", ", ShardIds)}]";
+        return $"{nameof(MaxConcurrency)}: {MaxConcurrency}, {nameof(ShardIds)}: [{string.Join(", ", ShardIds)}]";
     }
 
     public static bool operator ==(ShardSet left, ShardSet right)
@@ -84,7 +84,7 @@ public readonly struct ShardSet : IEquatable<ShardSet>
     ///     with indices ranging from <c>0</c> to <paramref name="count"/>.
     /// </summary>
     /// <remarks>
-    ///     <b>Do not use this constructor for multi-machine sharding.</b>
+    ///     <b>Do not use this method for multi-process sharding.</b>
     ///     <para/>
     ///     You must instead use the constructor or other factory methods
     ///     that allow the indices to be set separately from the total shard count.
@@ -97,6 +97,42 @@ public readonly struct ShardSet : IEquatable<ShardSet>
         for (var i = 0; i < count; i++)
         {
             shardIds[i] = new ShardId(i, count);
+        }
+
+        return new(shardIds, maxConcurrency);
+    }
+
+    /// <summary>
+    ///     Creates a new <see cref="ShardSet"/> which represents shards
+    ///     with indices ranging from <c>0</c> to <paramref name="count"/>,
+    ///     filtered using the specified predicate.
+    /// </summary>
+    /// <remarks>
+    ///     For multi-process sharding the predicate must yield
+    ///     different results for different processes.
+    /// </remarks>
+    /// <example>
+    ///     Running <c>16</c> shards on <c>2</c> different processes.
+    ///     <code language="csharp">
+    ///     // On machine 1: even indices
+    ///     var shardSet = ShardSet.FromCount(16, index => index % 2 == 0);
+    ///     
+    ///     // On machine 2: odd indices
+    ///     var shardSet = ShardSet.FromCount(16, index => index % 2 != 0);
+    ///     </code>
+    /// </example>
+    /// <param name="count"> The total amount of shards. </param>
+    /// <param name="predicate"> The predicate that filters out the shard indices. </param>
+    /// <param name="maxConcurrency"> The maximum concurrency. See the property for details. </param>
+    public static ShardSet FromCount(int count, Predicate<int> predicate, int maxConcurrency = 1)
+    {
+        var shardIds = new List<ShardId>();
+        for (var i = 0; i < count; i++)
+        {
+            if (!predicate(i))
+                continue;
+
+            shardIds.Add(new ShardId(i, count));
         }
 
         return new(shardIds, maxConcurrency);

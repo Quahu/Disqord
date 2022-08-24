@@ -1,5 +1,8 @@
 namespace Disqord.Gateway.Api;
 
+/// <summary>
+///     Represents the state of a shard.
+/// </summary>
 public enum ShardState
 {
     /// <summary>

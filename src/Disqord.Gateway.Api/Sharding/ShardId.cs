@@ -4,7 +4,7 @@ using Qommon;
 namespace Disqord.Gateway.Api;
 
 /// <summary>
-///     Represents an ID of a shard.
+///     Represents the ID of a shard.
 /// </summary>
 public readonly struct ShardId : IEquatable<ShardId>
 {
