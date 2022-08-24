@@ -139,7 +139,7 @@ public abstract class DiscordShardCoordinator : IShardCoordinator, IBindable<Dis
     }
 
     /// <inheritdoc/>
-    public virtual ValueTask OnShardStateUpdated(ShardId shardId, GatewayState oldState, GatewayState newState, CancellationToken stoppingToken)
+    public virtual ValueTask OnShardStateUpdated(ShardId shardId, ShardState oldState, ShardState newState, CancellationToken stoppingToken)
     {
         return default;
     }

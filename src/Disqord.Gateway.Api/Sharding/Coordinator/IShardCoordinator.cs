@@ -100,5 +100,5 @@ public interface IShardCoordinator : ILogging
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the callback work.
     /// </returns>
-    ValueTask OnShardStateUpdated(ShardId shardId, GatewayState oldState, GatewayState newState, CancellationToken stoppingToken);
+    ValueTask OnShardStateUpdated(ShardId shardId, ShardState oldState, ShardState newState, CancellationToken stoppingToken);
 }

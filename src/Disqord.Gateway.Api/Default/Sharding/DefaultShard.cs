@@ -55,7 +55,7 @@ public class DefaultShard : IShard
     public Uri? ResumeUri { get; private set; }
 
     /// <inheritdoc/>
-    public GatewayState State { get; private set; }
+    public ShardState State { get; private set; }
 
     /// <inheritdoc/>
     public CancellationToken StoppingToken { get; private set; }
@@ -124,7 +124,7 @@ public class DefaultShard : IShard
 
     private async Task InternalConnectAsync(Uri? uri, CancellationToken stoppingToken)
     {
-        await SetStateAsync(GatewayState.Connecting, stoppingToken).ConfigureAwait(false);
+        await SetStateAsync(ShardState.Connecting, stoppingToken).ConfigureAwait(false);
 
         var attempt = 0;
         var delay = 2500;
@@ -161,7 +161,7 @@ public class DefaultShard : IShard
 
         stoppingToken.ThrowIfCancellationRequested();
         Logger.LogInformation("Successfully connected.");
-        await SetStateAsync(GatewayState.Connected, stoppingToken).ConfigureAwait(false);
+        await SetStateAsync(ShardState.Connected, stoppingToken).ConfigureAwait(false);
     }
 
     private async Task InternalRunAsync(Uri? uri, CancellationToken stoppingToken)
@@ -187,7 +187,7 @@ public class DefaultShard : IShard
                             {
                                 case "READY":
                                 {
-                                    await SetStateAsync(GatewayState.Ready, stoppingToken).ConfigureAwait(false);
+                                    await SetStateAsync(ShardState.Ready, stoppingToken).ConfigureAwait(false);
 
                                     _readyTcs.Complete();
                                     _readyTcs = new Tcs();
@@ -217,7 +217,7 @@ public class DefaultShard : IShard
                                 }
                                 case "RESUMED":
                                 {
-                                    await SetStateAsync(GatewayState.Ready, stoppingToken).ConfigureAwait(false);
+                                    await SetStateAsync(ShardState.Ready, stoppingToken).ConfigureAwait(false);
 
                                     resuming = false;
                                     Logger.LogInformation("The gateway resumed the session.");
@@ -237,7 +237,7 @@ public class DefaultShard : IShard
                         }
                         case GatewayPayloadOperation.Reconnect:
                         {
-                            await SetStateAsync(GatewayState.Reconnecting, stoppingToken).ConfigureAwait(false);
+                            await SetStateAsync(ShardState.Reconnecting, stoppingToken).ConfigureAwait(false);
 
                             Logger.LogInformation("The gateway requested a reconnect.");
                             stopHeartbeater = false;
@@ -269,7 +269,7 @@ public class DefaultShard : IShard
                             Logger.LogWarning("The gateway invalidated the session.");
                             if (resuming)
                             {
-                                await SetStateAsync(GatewayState.Identifying, stoppingToken).ConfigureAwait(false);
+                                await SetStateAsync(ShardState.Identifying, stoppingToken).ConfigureAwait(false);
 
                                 resuming = false;
                                 var delay = Random.Shared.Next(1000, 5001);
@@ -281,7 +281,7 @@ public class DefaultShard : IShard
                             {
                                 if (payload.D!.ToType<bool>())
                                 {
-                                    await SetStateAsync(GatewayState.Resuming, stoppingToken).ConfigureAwait(false);
+                                    await SetStateAsync(ShardState.Resuming, stoppingToken).ConfigureAwait(false);
 
                                     resuming = true;
                                     Logger.LogInformation("The session is resumable, resuming...");
@@ -289,7 +289,7 @@ public class DefaultShard : IShard
                                 }
                                 else
                                 {
-                                    await SetStateAsync(GatewayState.Identifying, stoppingToken).ConfigureAwait(false);
+                                    await SetStateAsync(ShardState.Identifying, stoppingToken).ConfigureAwait(false);
 
                                     SessionId = null;
                                     ResumeUri = null;
@@ -316,14 +316,14 @@ public class DefaultShard : IShard
 
                             if (SessionId == null)
                             {
-                                await SetStateAsync(GatewayState.Identifying, stoppingToken).ConfigureAwait(false);
+                                await SetStateAsync(ShardState.Identifying, stoppingToken).ConfigureAwait(false);
 
                                 Logger.LogInformation("Identifying...");
                                 await IdentifyAsync(stoppingToken).ConfigureAwait(false);
                             }
                             else
                             {
-                                await SetStateAsync(GatewayState.Resuming, stoppingToken).ConfigureAwait(false);
+                                await SetStateAsync(ShardState.Resuming, stoppingToken).ConfigureAwait(false);
 
                                 resuming = true;
                                 Logger.LogInformation("Resuming...");
@@ -439,7 +439,7 @@ public class DefaultShard : IShard
             }
             finally
             {
-                await SetStateAsync(GatewayState.Disconnected, stoppingToken).ConfigureAwait(false);
+                await SetStateAsync(ShardState.Disconnected, stoppingToken).ConfigureAwait(false);
 
                 if (stopHeartbeater)
                 {
@@ -460,7 +460,7 @@ public class DefaultShard : IShard
         ResumeUri = null;
     }
 
-    private async ValueTask SetStateAsync(GatewayState newState, CancellationToken stoppingToken)
+    private async ValueTask SetStateAsync(ShardState newState, CancellationToken stoppingToken)
     {
         var oldState = State;
         if (oldState == newState)

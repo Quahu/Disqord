@@ -75,7 +75,7 @@ public interface IShard : ILogging, IAsyncDisposable
     /// <summary>
     ///     Gets the current connection state of the gateway.
     /// </summary>
-    GatewayState State { get; }
+    ShardState State { get; }
 
     /// <summary>
     ///     Gets the stopping token passed to <see cref="RunAsync(CancellationToken, Uri)"/>.
