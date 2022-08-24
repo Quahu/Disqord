@@ -32,7 +32,7 @@ public readonly struct ShardSet : IEquatable<ShardSet>
     ///     Instantiates a new <see cref="ShardSet"/> which represents the specified shards.
     /// </summary>
     /// <param name="shardIds"> The IDs of the shards. </param>
-    /// <param name="maxConcurrency"> The maximum concurrency. </param>
+    /// <param name="maxConcurrency"> The maximum concurrency. See the property for details. </param>
     public ShardSet(IEnumerable<ShardId> shardIds, int maxConcurrency = 1)
     {
         ShardIds = shardIds.ToArray();
@@ -90,7 +90,7 @@ public readonly struct ShardSet : IEquatable<ShardSet>
     ///     that allow the indices to be set separately from the total shard count.
     /// </remarks>
     /// <param name="count"> The total amount of shards. </param>
-    /// <param name="maxConcurrency"> The maximum concurrency. </param>
+    /// <param name="maxConcurrency"> The maximum concurrency. See the property for details. </param>
     public static ShardSet FromCount(int count, int maxConcurrency = 1)
     {
         var shardIds = new ShardId[count];
@@ -108,7 +108,24 @@ public readonly struct ShardSet : IEquatable<ShardSet>
     /// </summary>
     /// <param name="indices"> The indices of the shards. </param>
     /// <param name="count"> The total amount of shards. </param>
-    /// <param name="maxConcurrency"> The maximum concurrency. </param>
+    /// <param name="maxConcurrency"> The maximum concurrency. See the property for details. </param>
+    public static ShardSet FromIndices(Range indices, int count, int maxConcurrency = 1)
+    {
+        var (offset, length) = indices.GetOffsetAndLength(count);
+        var shardIds = new ShardId[length];
+        for (var i = 0; i < length; i++)
+            shardIds[i] = new ShardId(i + offset, count);
+
+        return new(shardIds, maxConcurrency);
+    }
+
+    /// <summary>
+    ///     Creates a new <see cref="ShardSet"/> which represents shards
+    ///     from <paramref name="indices"/> with <paramref name="count"/>.
+    /// </summary>
+    /// <param name="indices"> The indices of the shards. </param>
+    /// <param name="count"> The total amount of shards. </param>
+    /// <param name="maxConcurrency"> The maximum concurrency. See the property for details. </param>
     public static ShardSet FromIndices(IEnumerable<int> indices, int count, int maxConcurrency = 1)
     {
         var shardIds = indices.Select(index => new ShardId(index, count));
