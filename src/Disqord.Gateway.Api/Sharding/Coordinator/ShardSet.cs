@@ -91,7 +91,7 @@ public readonly struct ShardSet : IEquatable<ShardSet>
     /// </remarks>
     /// <param name="count"> The total amount of shards. </param>
     /// <param name="maxConcurrency"> The maximum concurrency. </param>
-    public static ShardSet FromRange(int count, int maxConcurrency = 1)
+    public static ShardSet FromCount(int count, int maxConcurrency = 1)
     {
         var shardIds = new ShardId[count];
         for (var i = 0; i < count; i++)

@@ -101,7 +101,7 @@ public abstract class DiscordShardCoordinator : IShardCoordinator, IBindable<Dis
         var gatewayData = await Client.FetchBotGatewayDataAsync(cancellationToken: stoppingToken).ConfigureAwait(false);
         var shardCount = gatewayData.RecommendedShardCount;
         var maxConcurrency = gatewayData.Sessions.MaxConcurrency;
-        return ShardSet.FromRange(shardCount, maxConcurrency);
+        return ShardSet.FromCount(shardCount, maxConcurrency);
     }
 
     /// <inheritdoc/>
