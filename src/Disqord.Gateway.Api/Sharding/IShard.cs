@@ -78,7 +78,7 @@ public interface IShard : ILogging, IAsyncDisposable
     ShardState State { get; }
 
     /// <summary>
-    ///     Gets the stopping token passed to <see cref="RunAsync(CancellationToken, Uri)"/>.
+    ///     Gets the stopping token passed to <see cref="RunAsync(Uri,CancellationToken)"/>.
     /// </summary>
     CancellationToken StoppingToken { get; }
 
