@@ -51,7 +51,7 @@ public class DiscordClientHostingContext
     ///     This basically exists just for testing,
     ///     but if you <i>know</i> your bot won't grow beyond
     ///     the single shard guild limit you can set this to
-    ///     prevent the startup REST request to fetch
+    ///     prevent the library from fetching
     ///     Discord's recommended amount of shards.
     /// </remarks>
     public ShardSet? CustomShardSet { get; set; }

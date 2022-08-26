@@ -22,7 +22,7 @@ public class DefaultGatewayApiClient : IGatewayApiClient
     /// <inheritdoc/>
     public ILogger Logger { get; }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public Token Token { get; }
 
     /// <inheritdoc/>
@@ -34,7 +34,7 @@ public class DefaultGatewayApiClient : IGatewayApiClient
     /// <inheritdoc/>
     public IShardFactory ShardFactory { get; }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public IReadOnlyDictionary<ShardId, IShard> Shards => _shards as IReadOnlyDictionary<ShardId, IShard> ?? ReadOnlyDictionary<ShardId, IShard>.Empty;
 
     /// <inheritdoc/>
@@ -81,7 +81,7 @@ public class DefaultGatewayApiClient : IGatewayApiClient
 
             var shardQueues = await InitializeShards(stoppingToken).ConfigureAwait(false);
             var shards = _shards!.Values;
-            Logger.LogInformation("Running {ShardCount} shards with (indices {ShardIndices})...", shards.Length, shards.Select(shard => shard.Id.Index));
+            Logger.LogInformation("Running {ShardCount} shards with indices: {ShardIndices}...", shards.Length, shards.Select(shard => shard.Id.Index));
             var linkedCts = Cts.Linked(stoppingToken);
             var runTasks = new Task[shards.Length];
             var runTaskIndex = 0;

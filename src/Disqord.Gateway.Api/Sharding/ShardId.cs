@@ -6,7 +6,7 @@ namespace Disqord.Gateway.Api;
 /// <summary>
 ///     Represents the ID of a shard.
 /// </summary>
-public readonly struct ShardId : IEquatable<ShardId>
+public readonly struct ShardId : IEquatable<ShardId>, IComparable<ShardId>
 {
     /// <summary>
     ///     Gets the index of the shard.
@@ -16,6 +16,9 @@ public readonly struct ShardId : IEquatable<ShardId>
     /// <summary>
     ///     Gets the total amount of shards.
     /// </summary>
+    /// <remarks>
+    ///     <see cref="HasCount"/> can be used to check whether this returns a valid value.
+    /// </remarks>
     /// <returns>
     ///     Returns the total amount of shards or
     ///     <c>0</c> if this instance is <see langword="default"/> or
@@ -61,6 +64,18 @@ public readonly struct ShardId : IEquatable<ShardId>
     }
 
     /// <inheritdoc/>
+    public int CompareTo(ShardId other)
+    {
+        if (Count == 0 && other.Count == 0)
+            return 0;
+
+        if (Count == 0 || other.Count == 0)
+            return Count.CompareTo(other.Count);
+
+        return Index.CompareTo(other.Index);
+    }
+
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         if (Count == 0)
@@ -78,11 +93,9 @@ public readonly struct ShardId : IEquatable<ShardId>
     /// <inheritdoc/>
     public override string ToString()
     {
-        return Count > 0
-            ? $"Shard #{Index} of {Count}"
-            : Count == -1
-                ? $"Shard #{Index}"
-                : "<invalid shard ID>";
+        return Count != 0
+            ? $"Shard #{Index}"
+            : "<invalid shard ID>";
     }
 
     public static bool operator ==(ShardId left, ShardId right)
@@ -99,7 +112,8 @@ public readonly struct ShardId : IEquatable<ShardId>
     ///     Gets a <see cref="ShardId"/> from just the index alone.
     /// </summary>
     /// <remarks>
-    ///     A shard ID without the total amount of shards can be used for lookup.
+    ///     A shard ID without the total amount of shards can be used for shard lookup,
+    ///     but cannot be used within a <see cref="ShardSet"/>.
     /// </remarks>
     /// <param name="index"> The index of the shard. </param>
     /// <returns>

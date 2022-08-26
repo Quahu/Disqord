@@ -3,8 +3,8 @@
     <PropertyGroup>
         <VersionPrefix>1.0.0-alpha2</VersionPrefix>
     </PropertyGroup>
-    <Import Project="../Disqord.targets" />
+    <Import Project="../Disqord.targets"/>
     <ItemGroup>
-        <ProjectReference Include="..\Disqord.Gateway.Api\Disqord.Gateway.Api.csproj" />
+        <ProjectReference Include="..\Disqord.Gateway.Api\Disqord.Gateway.Api.csproj"/>
     </ItemGroup>
 </Project>

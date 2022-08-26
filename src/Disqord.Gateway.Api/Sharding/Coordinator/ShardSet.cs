@@ -1,14 +1,32 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Qommon;
 
 namespace Disqord.Gateway.Api;
 
 /// <summary>
-///     Represents a tuple of the maximum concurrency and IDs of the shards.
+///     Represents a tuple of IDs of the shards the gateway client should run
+///     and the maximum identify concurrency.
 /// </summary>
 public readonly struct ShardSet : IEquatable<ShardSet>
 {
+    /// <summary>
+    ///     Gets the IDs of the shards the gateway client should run.
+    /// </summary>
+    /// <exception cref="InvalidOperationException"> This shard set is not initialized. </exception>
+    public IReadOnlyList<ShardId> ShardIds
+    {
+        get
+        {
+            if (_shardIds == null)
+                Throw.InvalidOperationException("This shard set is not initialized.");
+
+            return _shardIds;
+        }
+    }
+    private readonly IReadOnlyList<ShardId>? _shardIds;
+
     /// <summary>
     ///     Gets how many shards can identify with the gateway in parallel.
     /// </summary>
@@ -24,28 +42,42 @@ public readonly struct ShardSet : IEquatable<ShardSet>
     public int MaxConcurrency { get; }
 
     /// <summary>
-    ///     Gets the IDs of the shards the gateway client should run.
-    /// </summary>
-    public IReadOnlyList<ShardId> ShardIds { get; }
-
-    /// <summary>
     ///     Instantiates a new <see cref="ShardSet"/> which represents the specified shards.
     /// </summary>
     /// <param name="shardIds"> The IDs of the shards. </param>
     /// <param name="maxConcurrency"> The maximum concurrency. See the property for details. </param>
     public ShardSet(IEnumerable<ShardId> shardIds, int maxConcurrency = 1)
     {
-        ShardIds = shardIds.ToArray();
+        Guard.IsGreaterThanOrEqualTo(maxConcurrency, 1);
+
+        var list = new List<ShardId>(shardIds.TryGetNonEnumeratedCount(out var count) ? count : 8);
+        using (var enumerator = shardIds.GetEnumerator())
+        {
+            if (!enumerator.MoveNext())
+                Throw.ArgumentException("The shard set must contain at least one shard ID.", nameof(shardIds));
+
+            do
+            {
+                if (!enumerator.Current.HasCount)
+                    Throw.ArgumentException("The IDs of the shards must have the total shard count set.", nameof(shardIds));
+
+                list.Add(enumerator.Current);
+            }
+            while (enumerator.MoveNext());
+        }
+
+        _shardIds = list.ToArray();
+
         MaxConcurrency = maxConcurrency;
     }
 
     /// <inheritdoc/>
     public bool Equals(ShardSet other)
     {
-        if (ShardIds == null && other.ShardIds == null)
+        if (_shardIds == null && other._shardIds == null)
             return true;
 
-        if (ShardIds == null || other.ShardIds == null)
+        if (_shardIds == null || other._shardIds == null)
             return false;
 
         return MaxConcurrency == other.MaxConcurrency && ShardIds.SequenceEqual(other.ShardIds);
@@ -66,7 +98,9 @@ public readonly struct ShardSet : IEquatable<ShardSet>
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"{nameof(MaxConcurrency)}: {MaxConcurrency}, {nameof(ShardIds)}: [{string.Join(", ", ShardIds)}]";
+        return _shardIds != null
+            ? $"{nameof(ShardIds)}: [{string.Join(", ", _shardIds)}], {nameof(MaxConcurrency)}: {MaxConcurrency}"
+            : "<invalid shard set>";
     }
 
     public static bool operator ==(ShardSet left, ShardSet right)

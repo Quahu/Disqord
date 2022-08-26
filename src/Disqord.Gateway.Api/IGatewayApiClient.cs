@@ -37,6 +37,8 @@ public interface IGatewayApiClient : IApiClient
     /// <remarks>
     ///     This is only populated after the client is running,
     ///     i.e. after the shard set is retrieved from the shard coordinator.
+    ///     <br/>
+    ///     In a multi-process sharding setup this represents only the shards handled by this client.
     /// </remarks>
     IReadOnlyDictionary<ShardId, IShard> Shards { get; }
 
