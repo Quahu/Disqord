@@ -8,7 +8,7 @@ public interface ITextInputComponent : IComponent, ICustomIdentifiableEntity
     /// <summary>
     ///     Gets the style of this text input component.
     /// </summary>
-    TextInputComponentStyle ComponentStyle { get; }
+    TextInputComponentStyle Style { get; }
 
     /// <summary>
     ///     Gets the label of this text input component.
@@ -18,12 +18,12 @@ public interface ITextInputComponent : IComponent, ICustomIdentifiableEntity
     /// <summary>
     ///     Gets the minimum length of text that must be entered in this text input component.
     /// </summary>
-    int? MinimumLength { get; }
+    int? MinimumInputLength { get; }
 
     /// <summary>
     ///     Gets the maximum length of text that must be entered in this text input component.
     /// </summary>
-    int? MaximumLength { get; }
+    int? MaximumInputLength { get; }
 
     /// <summary>
     ///     Gets whether it is required to fill this text input component.
@@ -32,14 +32,12 @@ public interface ITextInputComponent : IComponent, ICustomIdentifiableEntity
 
     /// <summary>
     ///     Gets the pre-filled text of this text input component
-    ///     or the submitted value for a text input component when received in a modal submit interaction.
-    ///     Returns <see langword="null"/> if not set.
+    ///     or the submitted value when received in a modal submit interaction.
     /// </summary>
     string? Value { get; }
 
     /// <summary>
     ///     Gets the placeholder text of this text input component.
-    ///     Returns <see langword="null"/> if not set.
     /// </summary>
     string? Placeholder { get; }
 }

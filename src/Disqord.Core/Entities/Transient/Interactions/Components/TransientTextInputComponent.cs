@@ -10,16 +10,16 @@ public class TransientTextInputComponent : TransientComponent, ITextInputCompone
     public string CustomId => Model.CustomId.Value;
 
     /// <inheritdoc/>
-    public TextInputComponentStyle ComponentStyle => (TextInputComponentStyle) Model.Style.Value;
+    public TextInputComponentStyle Style => (TextInputComponentStyle) Model.Style.Value;
 
     /// <inheritdoc/>
     public string Label => Model.Label.Value;
 
     /// <inheritdoc/>
-    public int? MinimumLength => Model.MinLength.GetValueOrNullable();
+    public int? MinimumInputLength => Model.MinLength.GetValueOrNullable();
 
     /// <inheritdoc/>
-    public int? MaximumLength => Model.MaxLength.GetValueOrNullable();
+    public int? MaximumInputLength => Model.MaxLength.GetValueOrNullable();
 
     /// <inheritdoc/>
     public bool IsRequired => Model.Required.GetValueOrDefault(true);
