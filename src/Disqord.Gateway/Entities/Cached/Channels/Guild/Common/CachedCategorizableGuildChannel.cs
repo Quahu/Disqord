@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Disqord.Enums.Extensions;
 using Disqord.Models;
 
 namespace Disqord.Gateway;

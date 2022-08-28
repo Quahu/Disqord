@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Disqord.Enums.Extensions;
+namespace Disqord;
 
 /// <summary>
 ///     Represents <see cref="ChannelType"/> extensions.
