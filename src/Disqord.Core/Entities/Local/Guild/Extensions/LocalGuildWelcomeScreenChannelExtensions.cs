@@ -19,7 +19,7 @@ public static class LocalGuildWelcomeScreenChannelExtensions
         return welcomeScreenChannel;
     }
 
-    public static TWelcomeScreenChannel WithEmoji<TWelcomeScreenChannel>(this TWelcomeScreenChannel welcomeScreenChannel, LocalEmoji emoji)
+    public static TWelcomeScreenChannel WithEmoji<TWelcomeScreenChannel>(this TWelcomeScreenChannel welcomeScreenChannel, LocalEmoji? emoji)
         where TWelcomeScreenChannel : LocalGuildWelcomeScreenChannel
     {
         welcomeScreenChannel.Emoji = emoji;

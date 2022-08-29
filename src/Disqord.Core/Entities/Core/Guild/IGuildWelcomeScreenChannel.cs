@@ -13,5 +13,5 @@ public interface IGuildWelcomeScreenChannel : IChannelEntity
     /// <summary>
     ///     Gets the emoji of this welcome screen channel.
     /// </summary>
-    IEmoji Emoji { get; }
+    IEmoji? Emoji { get; }
 }

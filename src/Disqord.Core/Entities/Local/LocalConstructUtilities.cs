@@ -88,15 +88,35 @@ internal static class LocalConstructUtilities
         return true;
     }
 
+#nullable disable // Makes the clone methods compatible with both Optional<T> and Optional<T?>.
     public static Optional<TConstruct> Clone<TConstruct>(this Optional<TConstruct> optional)
-        where TConstruct : ILocalConstruct<TConstruct>
+        where TConstruct : class, ILocalConstruct<TConstruct>
     {
         if (!optional.HasValue)
             return default;
 
         var construct = optional.Value;
-        return construct.Clone();
+        return construct?.Clone();
     }
+
+    public static Optional<IList<TConstruct>> DeepClone<TConstruct>(this Optional<IList<TConstruct>> optional)
+        where TConstruct : class, ILocalConstruct<TConstruct>
+    {
+        if (!optional.HasValue)
+            return default;
+
+        var list = optional.Value;
+        var listCount = list.Count;
+        var copyList = new List<TConstruct>(listCount);
+        for (var i = 0; i < listCount; i++)
+        {
+            var construct = list[i];
+            copyList.Add(construct.Clone());
+        }
+
+        return copyList;
+    }
+#nullable enable
 
     public static Optional<IList<T>> Clone<T>(this Optional<IList<T>> optional)
     {
@@ -110,24 +130,6 @@ internal static class LocalConstructUtilities
         {
             var value = list[i];
             copyList.Add(value);
-        }
-
-        return copyList;
-    }
-
-    public static Optional<IList<TConstruct>> DeepClone<TConstruct>(this Optional<IList<TConstruct>> optional)
-        where TConstruct : ILocalConstruct<TConstruct>
-    {
-        if (!optional.HasValue)
-            return default;
-
-        var list = optional.Value;
-        var listCount = list.Count;
-        var copyList = new List<TConstruct>(listCount);
-        for (var i = 0; i < listCount; i++)
-        {
-            var construct = list[i];
-            copyList.Add(construct.Clone());
         }
 
         return copyList;

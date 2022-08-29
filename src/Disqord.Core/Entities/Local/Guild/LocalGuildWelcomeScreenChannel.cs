@@ -5,11 +5,26 @@ namespace Disqord;
 
 public class LocalGuildWelcomeScreenChannel : ILocalConstruct<LocalGuildWelcomeScreenChannel>, IJsonConvertible<WelcomeScreenChannelJsonModel>
 {
+    /// <summary>
+    ///     Gets or sets the ID of the channel of this welcome screen channel.
+    /// </summary>
+    /// <remarks>
+    ///     This property is required.
+    /// </remarks>
     public Optional<Snowflake> ChannelId { get; set; }
 
+    /// <summary>
+    ///     Gets or sets the description of this welcome screen channel.
+    /// </summary>
+    /// <remarks>
+    ///     This property is required.
+    /// </remarks>
     public Optional<string> Description { get; set; }
 
-    public Optional<LocalEmoji> Emoji { get; set; }
+    /// <summary>
+    ///     Gets or sets the emoji of this welcome screen channel.
+    /// </summary>
+    public Optional<LocalEmoji?> Emoji { get; set; }
 
     /// <summary>
     ///     Instantiates a new <see cref="LocalGuildWelcomeScreenChannel"/>.
@@ -34,7 +49,7 @@ public class LocalGuildWelcomeScreenChannel : ILocalConstruct<LocalGuildWelcomeS
         return new(this);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public WelcomeScreenChannelJsonModel ToModel()
     {
         OptionalGuard.HasValue(ChannelId);
@@ -46,6 +61,23 @@ public class LocalGuildWelcomeScreenChannel : ILocalConstruct<LocalGuildWelcomeS
             Description = Description.Value,
             EmojiId = (Emoji.GetValueOrDefault() as LocalCustomEmoji)?.Id.GetValueOrNullable(),
             EmojiName = Emoji.GetValueOrDefault()?.Name.GetValueOrDefault()
+        };
+    }
+
+    /// <summary>
+    ///     Converts the specified welcome screen channel to a <see cref="LocalGuildWelcomeScreenChannel"/>.
+    /// </summary>
+    /// <param name="channel"> The welcome screen channel to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalGuildWelcomeScreenChannel"/>.
+    /// </returns>
+    public static LocalGuildWelcomeScreenChannel CreateFrom(IGuildWelcomeScreenChannel channel)
+    {
+        return new LocalGuildWelcomeScreenChannel
+        {
+            ChannelId = channel.ChannelId,
+            Description = channel.Description,
+            Emoji = LocalEmoji.FromEmoji(channel.Emoji)
         };
     }
 }

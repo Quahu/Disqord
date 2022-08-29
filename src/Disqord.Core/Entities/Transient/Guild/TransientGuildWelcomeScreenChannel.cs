@@ -11,12 +11,20 @@ public class TransientGuildWelcomeScreenChannel : TransientClientEntity<WelcomeS
     public string Description => Model.Description;
 
     /// <inheritdoc/>
-    public IEmoji Emoji => _emoji ??= TransientEmoji.Create(new EmojiJsonModel
+    public IEmoji? Emoji
     {
-        Id = Model.EmojiId,
-        Name = Model.EmojiName
-    });
+        get
+        {
+            if (Model.EmojiName == null)
+                return null;
 
+            return _emoji ??= TransientEmoji.Create(new EmojiJsonModel
+            {
+                Id = Model.EmojiId,
+                Name = Model.EmojiName
+            });
+        }
+    }
     private IEmoji? _emoji;
 
     public TransientGuildWelcomeScreenChannel(IClient client, WelcomeScreenChannelJsonModel model)
