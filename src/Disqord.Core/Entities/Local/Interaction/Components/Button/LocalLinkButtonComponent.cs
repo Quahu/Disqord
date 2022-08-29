@@ -26,4 +26,27 @@ public class LocalLinkButtonComponent : LocalButtonComponentBase, ILocalConstruc
     {
         return new(this);
     }
+
+    /// <summary>
+    ///     Converts the specified button component to a <see cref="LocalLinkButtonComponent"/>.
+    /// </summary>
+    /// <remarks>
+    ///     The button component must be a link button.
+    /// </remarks>
+    /// <param name="buttonComponent"> The button component to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalLinkButtonComponent"/>.
+    /// </returns>
+    public new static LocalLinkButtonComponent CreateFrom(IButtonComponent buttonComponent)
+    {
+        Guard.IsTrue(buttonComponent.Style == ButtonComponentStyle.Link);
+
+        var localButtonComponent = new LocalLinkButtonComponent
+        {
+            Url = buttonComponent.Url!
+        };
+
+        PopulateFrom(localButtonComponent, buttonComponent);
+        return localButtonComponent;
+    }
 }

@@ -75,4 +75,26 @@ public class LocalTextInputComponent : LocalComponent, ILocalCustomIdentifiableE
     {
         return new(this);
     }
+
+    /// <summary>
+    ///     Converts the specified text input component to a <see cref="LocalTextInputComponent"/>.
+    /// </summary>
+    /// <param name="textInputComponent"> The text input component to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalTextInputComponent"/>.
+    /// </returns>
+    public static LocalTextInputComponent CreateFrom(ITextInputComponent textInputComponent)
+    {
+        return new LocalTextInputComponent
+        {
+            Style = textInputComponent.Style,
+            CustomId = textInputComponent.CustomId,
+            Label = textInputComponent.Label,
+            MinimumInputLength = Optional.FromNullable(textInputComponent.MinimumInputLength),
+            MaximumInputLength = Optional.FromNullable(textInputComponent.MaximumInputLength),
+            IsRequired = textInputComponent.IsRequired,
+            PrefilledValue = Optional.FromNullable(textInputComponent.Value),
+            Placeholder = Optional.FromNullable(textInputComponent.Placeholder)
+        };
+    }
 }

@@ -66,7 +66,7 @@ public class LocalSelectionComponentOption : ILocalConstruct<LocalSelectionCompo
         return new(this);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public virtual SelectOptionJsonModel ToModel()
     {
         return new SelectOptionJsonModel
@@ -76,6 +76,25 @@ public class LocalSelectionComponentOption : ILocalConstruct<LocalSelectionCompo
             Description = Description,
             Emoji = Optional.Convert(Emoji, emoji => emoji.ToModel()),
             Default = IsDefault
+        };
+    }
+
+    /// <summary>
+    ///     Converts the specified selection component option to a <see cref="LocalSelectionComponentOption"/>.
+    /// </summary>
+    /// <param name="selectionComponentOption"> The selection component option to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalSelectionComponentOption"/>.
+    /// </returns>
+    public static LocalSelectionComponentOption CreateFrom(ISelectionComponentOption selectionComponentOption)
+    {
+        return new LocalSelectionComponentOption
+        {
+            Label = selectionComponentOption.Label,
+            Value = selectionComponentOption.Value,
+            Description = Optional.FromNullable(selectionComponentOption.Description),
+            Emoji = Optional.Conditional(selectionComponentOption.Emoji != null, LocalEmoji.FromEmoji, selectionComponentOption.Emoji)!,
+            IsDefault = selectionComponentOption.IsDefault
         };
     }
 }

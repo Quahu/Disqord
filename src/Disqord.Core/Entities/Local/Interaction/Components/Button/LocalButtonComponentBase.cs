@@ -41,6 +41,27 @@ public abstract class LocalButtonComponentBase : LocalComponent, ILocalConstruct
         Emoji = other.Emoji;
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public abstract override LocalButtonComponentBase Clone();
+
+    /// <summary>
+    ///     Converts the specified button component to a <see cref="LocalButtonComponentBase"/>.
+    /// </summary>
+    /// <param name="buttonComponent"> The button component to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalButtonComponentBase"/>.
+    /// </returns>
+    public static LocalButtonComponentBase CreateFrom(IButtonComponent buttonComponent)
+    {
+        return buttonComponent.Style == ButtonComponentStyle.Link
+            ? LocalLinkButtonComponent.CreateFrom(buttonComponent)
+            : LocalButtonComponent.CreateFrom(buttonComponent);
+    }
+
+    protected static void PopulateFrom(LocalButtonComponentBase localButtonComponent, IButtonComponent buttonComponent)
+    {
+        localButtonComponent.Label = Optional.FromNullable(buttonComponent.Label);
+        localButtonComponent.Emoji = Optional.Conditional(buttonComponent.Emoji != null, LocalEmoji.FromEmoji, buttonComponent.Emoji)!;
+        localButtonComponent.IsDisabled = buttonComponent.IsDisabled;
+    }
 }

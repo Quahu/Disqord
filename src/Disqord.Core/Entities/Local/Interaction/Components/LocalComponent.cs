@@ -73,7 +73,7 @@ public abstract class LocalComponent : ILocalConstruct<LocalComponent>, IJsonCon
     /// <inheritdoc/>
     public abstract LocalComponent Clone();
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public virtual ComponentJsonModel ToModel()
     {
         // TODO: maybe split this via inheritance
@@ -135,5 +135,24 @@ public abstract class LocalComponent : ILocalConstruct<LocalComponent>, IJsonCon
         }
 
         return model;
+    }
+
+    /// <summary>
+    ///     Converts the specified component to a <see cref="LocalComponent"/>.
+    /// </summary>
+    /// <param name="component"> The component to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalComponent"/>.
+    /// </returns>
+    public static LocalComponent CreateFrom(IComponent component)
+    {
+        return component switch
+        {
+            IRowComponent rowComponent => LocalRowComponent.CreateFrom(rowComponent),
+            IButtonComponent buttonComponent => LocalButtonComponentBase.CreateFrom(buttonComponent),
+            ISelectionComponent selectionComponent => LocalSelectionComponent.CreateFrom(selectionComponent),
+            ITextInputComponent textInputComponent => LocalTextInputComponent.CreateFrom(textInputComponent),
+            _ => throw new ArgumentException("Unsupported component type.", nameof(component))
+        };
     }
 }

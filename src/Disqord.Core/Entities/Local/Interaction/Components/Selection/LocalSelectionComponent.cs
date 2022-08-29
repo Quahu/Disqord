@@ -57,4 +57,32 @@ public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableE
     {
         return new(this);
     }
+
+    /// <summary>
+    ///     Converts the specified selection component to a <see cref="LocalSelectionComponent"/>.
+    /// </summary>
+    /// <param name="selectionComponent"> The selection component to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalSelectionComponent"/>.
+    /// </returns>
+    public static LocalSelectionComponent CreateFrom(ISelectionComponent selectionComponent)
+    {
+        var options = selectionComponent.Options;
+        var optionCount = options.Count;
+        var localOptions = new List<LocalSelectionComponentOption>(optionCount);
+        for (var i = 0; i < optionCount; i++)
+        {
+            var option = options[i];
+            localOptions.Add(LocalSelectionComponentOption.CreateFrom(option));
+        }
+
+        return new LocalSelectionComponent
+        {
+            CustomId = selectionComponent.CustomId,
+            MinimumSelectedOptions = selectionComponent.MinimumSelectedOptions,
+            MaximumSelectedOptions = selectionComponent.MaximumSelectedOptions,
+            IsDisabled = selectionComponent.IsDisabled,
+            Options = localOptions
+        };
+    }
 }

@@ -30,4 +30,28 @@ public class LocalRowComponent : LocalComponent, ILocalConstruct<LocalRowCompone
     {
         return new(this);
     }
+
+    /// <summary>
+    ///     Converts the specified row component to a <see cref="LocalRowComponent"/>.
+    /// </summary>
+    /// <param name="rowComponent"> The row component to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalRowComponent"/>.
+    /// </returns>
+    public static LocalRowComponent CreateFrom(IRowComponent rowComponent)
+    {
+        var components = rowComponent.Components;
+        var componentCount = components.Count;
+        var localComponents = new List<LocalComponent>(componentCount);
+        for (var i = 0; i < componentCount; i++)
+        {
+            var component = components[i];
+            localComponents.Add(CreateFrom(component));
+        }
+
+        return new LocalRowComponent
+        {
+            Components = localComponents
+        };
+    }
 }
