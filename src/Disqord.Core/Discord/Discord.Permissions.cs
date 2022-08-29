@@ -32,7 +32,8 @@ public static partial class Discord
             if (permissions.HasFlag(Permissions.Administrator))
                 return Permissions.All;
 
-            var overwrittenPermissions = OverwritePermissions.None;
+            var overwrittenPermissionsAllowed = Permissions.None;
+            var overwrittenPermissionsDenied = Permissions.None;
             var overwrittenMemberPermissions = OverwritePermissions.None;
             var overwrites = channel.Overwrites;
             var overwriteCount = overwrites.Count;
@@ -66,15 +67,15 @@ public static partial class Discord
                     else
                     {
                         // Sum the overwrite permissions.
-                        overwrittenPermissions.Denied |= overwritePermissions.Denied;
-                        overwrittenPermissions.Allowed |= overwritePermissions.Allowed;
+                        overwrittenPermissionsDenied |= overwritePermissions.Denied;
+                        overwrittenPermissionsAllowed |= overwritePermissions.Allowed;
                     }
                 }
             }
 
             // Apply the total overwrite permissions.
-            permissions &= ~overwrittenPermissions.Denied;
-            permissions |= overwrittenPermissions.Allowed;
+            permissions &= ~overwrittenPermissionsDenied;
+            permissions |= overwrittenPermissionsAllowed;
 
             // Apply the member overwrite permissions.
             permissions &= ~overwrittenMemberPermissions.Denied;

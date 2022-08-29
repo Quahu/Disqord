@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Qommon;
 
 namespace Disqord;
@@ -6,7 +7,7 @@ namespace Disqord;
 /// <summary>
 ///     Represents the allowed and denied permission set of a channel permission overwrite.
 /// </summary>
-public struct OverwritePermissions : IEquatable<OverwritePermissions>
+public readonly struct OverwritePermissions : IEquatable<OverwritePermissions>
 {
     /// <summary>
     ///     Gets an <see cref="OverwritePermissions"/> with no permissions set.
@@ -16,12 +17,12 @@ public struct OverwritePermissions : IEquatable<OverwritePermissions>
     /// <summary>
     ///     Gets or sets the allowed permissions of this set.
     /// </summary>
-    public Permissions Allowed { get; set; }
+    public Permissions Allowed { get; }
 
     /// <summary>
     ///     Gets or sets the denied permissions of this set.
     /// </summary>
-    public Permissions Denied { get; set; }
+    public Permissions Denied { get; }
 
     /// <summary>
     ///     Instantiates a new <see cref="OverwritePermissions"/> with the specified allowed and denied permissions.
@@ -34,16 +35,37 @@ public struct OverwritePermissions : IEquatable<OverwritePermissions>
         Denied = denied;
     }
 
+    /// <summary>
+    ///     Allows the specified permissions.
+    /// </summary>
+    /// <param name="permissions"> The permissions to allow. </param>
+    /// <returns>
+    ///     A new instance of <see cref="OverwritePermissions"/> with the permissions allowed.
+    /// </returns>
     public OverwritePermissions Allow(Permissions permissions)
     {
         return new(Allowed | permissions, Denied & ~permissions);
     }
 
+    /// <summary>
+    ///     Denies the specified permissions.
+    /// </summary>
+    /// <param name="permissions"> The permissions to deny. </param>
+    /// <returns>
+    ///     A new instance of <see cref="OverwritePermissions"/> with the permissions denied.
+    /// </returns>
     public OverwritePermissions Deny(Permissions permissions)
     {
         return new(Allowed & ~permissions, Denied | permissions);
     }
 
+    /// <summary>
+    ///     Unsets the specified permissions.
+    /// </summary>
+    /// <param name="permissions"> The permissions to unset. </param>
+    /// <returns>
+    ///     A new instance of <see cref="OverwritePermissions"/> with the permissions unset.
+    /// </returns>
     public OverwritePermissions Unset(Permissions permissions)
     {
         return new(Allowed & ~permissions, Denied & ~permissions);
@@ -74,6 +96,18 @@ public struct OverwritePermissions : IEquatable<OverwritePermissions>
     public override string ToString()
     {
         return $"{Allowed} | {Denied}";
+    }
+
+    /// <summary>
+    ///     Deconstructs this set.
+    /// </summary>
+    /// <param name="allowed"> The allowed permissions. </param>
+    /// <param name="denied"> The denied permissions. </param>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public void Deconstruct(out Permissions allowed, out Permissions denied)
+    {
+        allowed = Allowed;
+        denied = Denied;
     }
 
     public static implicit operator OverwritePermissions((Permissions Allowed, Permissions Denied) value)
