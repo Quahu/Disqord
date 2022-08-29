@@ -60,7 +60,7 @@ public class LocalMessageReference : ILocalConstruct<LocalMessageReference>, IJs
         return new(this);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public virtual MessageReferenceJsonModel ToModel()
     {
         return new MessageReferenceJsonModel
@@ -69,6 +69,27 @@ public class LocalMessageReference : ILocalConstruct<LocalMessageReference>, IJs
             ChannelId = ChannelId,
             GuildId = GuildId,
             FailIfNotExists = FailOnUnknownMessage
+        };
+    }
+
+    /// <summary>
+    ///     Converts the specified message reference to a <see cref="LocalMessageReference"/>.
+    /// </summary>
+    /// <remarks>
+    ///     The converted <see cref="LocalMessageReference"/> might not have <see cref="MessageId"/> set
+    ///     depending on the input message reference.
+    /// </remarks>
+    /// <param name="reference"> The message reference to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalMessageReference"/>.
+    /// </returns>
+    public static LocalMessageReference CreateFrom(IMessageReference reference)
+    {
+        return new LocalMessageReference
+        {
+            MessageId = Optional.FromNullable(reference.MessageId),
+            ChannelId = reference.ChannelId,
+            GuildId = Optional.FromNullable(reference.GuildId)
         };
     }
 }

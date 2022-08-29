@@ -26,7 +26,7 @@ public static class LocalMessageExtensions
     }
 
     /// <summary>
-    ///     Sets the message reference of this message indicating it is a reply to a message with the specified <paramref name="messageId"/>.
+    ///     Sets the message reference of this message indicating it is a reply to the message with the specified <paramref name="messageId"/>.
     /// </summary>
     /// <param name="message"> The <see cref="LocalMessage"/> instance. </param>
     /// <param name="messageId"> The ID of the message this message is a reply to. </param>

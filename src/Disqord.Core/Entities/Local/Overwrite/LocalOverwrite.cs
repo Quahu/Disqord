@@ -96,7 +96,7 @@ public class LocalOverwrite : ILocalConstruct<LocalOverwrite>, IJsonConvertible<
         return new(this);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public virtual OverwriteJsonModel ToModel()
     {
         OptionalGuard.HasValue(TargetId);
@@ -109,6 +109,23 @@ public class LocalOverwrite : ILocalConstruct<LocalOverwrite>, IJsonConvertible<
             Type = TargetType.Value,
             Allow = overwritePermission.Allowed,
             Deny = overwritePermission.Denied
+        };
+    }
+
+    /// <summary>
+    ///     Converts the specified overwrite to a <see cref="LocalOverwrite"/>.
+    /// </summary>
+    /// <param name="overwrite"> The overwrite to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalOverwrite"/>.
+    /// </returns>
+    public static LocalOverwrite CreateFrom(IOverwrite overwrite)
+    {
+        return new LocalOverwrite
+        {
+            TargetId = overwrite.TargetId,
+            TargetType = overwrite.TargetType,
+            Permissions = overwrite.Permissions
         };
     }
 }
