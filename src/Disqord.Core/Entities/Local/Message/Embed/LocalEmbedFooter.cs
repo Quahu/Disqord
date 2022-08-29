@@ -45,7 +45,7 @@ public class LocalEmbedFooter : ILocalConstruct<LocalEmbedFooter>, IJsonConverti
         return new(this);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public virtual EmbedFooterJsonModel ToModel()
     {
         OptionalGuard.HasValue(Text);
@@ -54,6 +54,22 @@ public class LocalEmbedFooter : ILocalConstruct<LocalEmbedFooter>, IJsonConverti
         {
             Text = Text.Value,
             IconUrl = IconUrl
+        };
+    }
+
+    /// <summary>
+    ///     Converts the specified embed footer to a <see cref="LocalEmbedFooter"/>.
+    /// </summary>
+    /// <param name="footer"> The embed footer to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalEmbedFooter"/>.
+    /// </returns>
+    public static LocalEmbedFooter CreateFrom(IEmbedFooter footer)
+    {
+        return new LocalEmbedFooter
+        {
+            Text = footer.Text,
+            IconUrl = Optional.FromNullable(footer.IconUrl)
         };
     }
 }

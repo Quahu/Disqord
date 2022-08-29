@@ -11,11 +11,17 @@ public class LocalEmbedField : ILocalConstruct<LocalEmbedField>, IJsonConvertibl
     /// <summary>
     ///     Gets or sets the name of this field.
     /// </summary>
+    /// <remarks>
+    ///     This property is required.
+    /// </remarks>
     public Optional<string> Name { get; set; }
 
     /// <summary>
     ///     Gets or sets the value of this field.
     /// </summary>
+    /// <remarks>
+    ///     This property is required.
+    /// </remarks>
     public Optional<string> Value { get; set; }
 
     /// <summary>
@@ -59,7 +65,7 @@ public class LocalEmbedField : ILocalConstruct<LocalEmbedField>, IJsonConvertibl
         return new(this);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public virtual EmbedFieldJsonModel ToModel()
     {
         OptionalGuard.HasValue(Name);
@@ -70,6 +76,23 @@ public class LocalEmbedField : ILocalConstruct<LocalEmbedField>, IJsonConvertibl
             Name = Name.Value,
             Value = Value.Value,
             Inline = IsInline
+        };
+    }
+
+    /// <summary>
+    ///     Converts the specified embed field to a <see cref="LocalEmbedField"/>.
+    /// </summary>
+    /// <param name="field"> The embed field to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalEmbedField"/>.
+    /// </returns>
+    public static LocalEmbedField CreateFrom(IEmbedField field)
+    {
+        return new LocalEmbedField
+        {
+            Name = field.Name,
+            Value = field.Value,
+            IsInline = field.IsInline
         };
     }
 }

@@ -51,7 +51,7 @@ public class LocalEmbedAuthor : ILocalConstruct<LocalEmbedAuthor>, IJsonConverti
         return new(this);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public virtual EmbedAuthorJsonModel ToModel()
     {
         OptionalGuard.HasValue(Name);
@@ -61,6 +61,23 @@ public class LocalEmbedAuthor : ILocalConstruct<LocalEmbedAuthor>, IJsonConverti
             Name = Name.Value,
             Url = Url,
             IconUrl = IconUrl
+        };
+    }
+
+    /// <summary>
+    ///     Converts the specified embed author to a <see cref="LocalEmbedAuthor"/>.
+    /// </summary>
+    /// <param name="author"> The embed author to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalEmbedAuthor"/>.
+    /// </returns>
+    public static LocalEmbedAuthor CreateFrom(IEmbedAuthor author)
+    {
+        return new LocalEmbedAuthor
+        {
+            Name = author.Name,
+            Url = Optional.FromNullable(author.Url),
+            IconUrl = Optional.FromNullable(author.IconUrl)
         };
     }
 }

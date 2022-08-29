@@ -69,7 +69,7 @@ public class LocalEmbed : ILocalConstruct<LocalEmbed>, IJsonConvertible<EmbedJso
             var descriptionLength = Description.GetValueOrDefault()?.Length ?? 0;
             var footerLength = Footer.GetValueOrDefault()?.Length ?? 0;
             var authorLength = Author.GetValueOrDefault()?.Length ?? 0;
-            var fieldsLength = Fields.GetValueOrDefault()?.Sum(x => x.Length) ?? 0;
+            var fieldsLength = Fields.GetValueOrDefault()?.Sum(field => field.Length) ?? 0;
             return titleLength + descriptionLength + footerLength + authorLength + fieldsLength;
         }
     }
@@ -104,7 +104,7 @@ public class LocalEmbed : ILocalConstruct<LocalEmbed>, IJsonConvertible<EmbedJso
         return new(this);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public virtual EmbedJsonModel ToModel()
     {
         return new EmbedJsonModel
@@ -129,7 +129,21 @@ public class LocalEmbed : ILocalConstruct<LocalEmbed>, IJsonConvertible<EmbedJso
         };
     }
 
+    /// <inheritdoc cref="CreateFrom"/>
+    [Obsolete("Use CreateFrom() instead.")]
     public static LocalEmbed FromEmbed(IEmbed embed)
+    {
+        return CreateFrom(embed);
+    }
+
+    /// <summary>
+    ///     Converts the specified embed to a <see cref="LocalEmbed"/>.
+    /// </summary>
+    /// <param name="embed"> The embed to convert. </param>
+    /// <returns>
+    ///     The output <see cref="LocalEmbed"/>.
+    /// </returns>
+    public static LocalEmbed CreateFrom(IEmbed embed)
     {
         var builder = new LocalEmbed
         {
@@ -143,17 +157,17 @@ public class LocalEmbed : ILocalConstruct<LocalEmbed>, IJsonConvertible<EmbedJso
         };
 
         if (embed.Footer != null)
-            builder.WithFooter(embed.Footer.Text, embed.Footer.IconUrl);
+            builder.Footer = LocalEmbedFooter.CreateFrom(embed.Footer);
 
         if (embed.Author != null)
-            builder.WithAuthor(embed.Author.Name, embed.Author.IconUrl, embed.Author.Url);
+            builder.Author = LocalEmbedAuthor.CreateFrom(embed.Author);
 
         var fields = embed.Fields;
         var fieldCount = fields.Count;
         for (var i = 0; i < fieldCount; i++)
         {
             var field = fields[i];
-            builder.AddField(field.Name, field.Value, field.IsInline);
+            builder.AddField(LocalEmbedField.CreateFrom(field));
         }
 
         return builder;
