@@ -60,12 +60,14 @@ public static class LocalEmbedExtensions
     public static TEmbed WithFooter<TEmbed>(this TEmbed embed, string text, string? iconUrl = null)
         where TEmbed : LocalEmbed
     {
-        embed.Footer = new LocalEmbedFooter
+        var footer = embed.Footer.GetValueOrDefault();
+        if (footer == null)
         {
-            Text = text,
-            IconUrl = Optional.FromNullable(iconUrl)
-        };
+            embed.Footer = footer = new LocalEmbedFooter();
+        }
 
+        footer.Text = text;
+        footer.IconUrl = Optional.FromNullable(iconUrl);
         return embed;
     }
 
@@ -81,26 +83,23 @@ public static class LocalEmbedExtensions
     {
         Guard.IsNotNull(user);
 
-        var author = new LocalEmbedAuthor
-        {
-            Name = user.Tag,
-            IconUrl = user.GetAvatarUrl(size: 128)
-        };
-
-        return embed.WithAuthor(author);
+        return embed.WithAuthor(user.Tag, user.GetAvatarUrl(size: 128));
     }
 
     public static TEmbed WithAuthor<TEmbed>(this TEmbed embed, string name, string? iconUrl = null, string? url = null)
         where TEmbed : LocalEmbed
     {
-        var author = new LocalEmbedAuthor
+        var author = embed.Author.GetValueOrDefault();
+        if (author == null)
         {
-            Name = name,
-            IconUrl = Optional.FromNullable(iconUrl),
-            Url = Optional.FromNullable(url)
-        };
+            embed.Author = author = new LocalEmbedAuthor();
+        }
 
-        return embed.WithAuthor(author);
+        author.Name = name;
+        author.IconUrl = Optional.FromNullable(iconUrl);
+        author.Url = Optional.FromNullable(url);
+        embed.Author = author;
+        return embed;
     }
 
     public static TEmbed WithAuthor<TEmbed>(this TEmbed embed, LocalEmbedAuthor author)

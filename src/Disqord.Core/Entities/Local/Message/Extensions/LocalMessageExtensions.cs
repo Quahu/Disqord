@@ -43,8 +43,7 @@ public static class LocalMessageExtensions
         var reference = message.Reference.GetValueOrDefault();
         if (reference == null)
         {
-            reference ??= new LocalMessageReference();
-            message.Reference = reference;
+            message.Reference = reference = new LocalMessageReference();
         }
 
         reference.MessageId = messageId;
