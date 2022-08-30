@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Disqord.Models;
 using Qommon;
 
 namespace Disqord;
@@ -11,7 +10,7 @@ namespace Disqord;
 /// <remarks>
 ///     Disposing of this type disposes of the <see cref="Stream"/> unless <see cref="LeaveOpen"/> is set to <see langword="true"/>.
 /// </remarks>
-public class LocalAttachment : ILocalConstruct<LocalAttachment>, IJsonConvertible<PartialAttachmentJsonModel>, IDisposable
+public class LocalAttachment : LocalPartialAttachment, ILocalConstruct<LocalAttachment>, IDisposable
 {
     /// <summary>
     ///     The prefix for spoiler attachments.
@@ -70,14 +69,6 @@ public class LocalAttachment : ILocalConstruct<LocalAttachment>, IJsonConvertibl
     }
 
     /// <summary>
-    ///     Gets or sets the ID of this attachment.
-    /// </summary>
-    /// <remarks>
-    ///     This is required for modifying attachments on an existing message.
-    /// </remarks>
-    public Optional<Snowflake> Id { get; set; }
-
-    /// <summary>
     ///     Gets or sets the <see cref="System.IO.Stream"/> of this attachment.
     /// </summary>
     public Optional<Stream> Stream { get; set; }
@@ -86,11 +77,6 @@ public class LocalAttachment : ILocalConstruct<LocalAttachment>, IJsonConvertibl
     ///     Gets or sets the file name of this attachment.
     /// </summary>
     public Optional<string> FileName { get; set; }
-
-    /// <summary>
-    ///     Gets or sets the description of this attachment.
-    /// </summary>
-    public Optional<string> Description { get; set; }
 
     /// <summary>
     ///     Gets or sets whether this attachment should be sent as a spoiler.
@@ -113,11 +99,10 @@ public class LocalAttachment : ILocalConstruct<LocalAttachment>, IJsonConvertibl
     /// </summary>
     /// <param name="other"> The other instance to copy properties from. </param>
     protected LocalAttachment(LocalAttachment other)
+        : base(other)
     {
-        Id = other.Id;
         Stream = other.Stream;
         FileName = other.FileName;
-        Description = other.Description;
         IsSpoiler = other.IsSpoiler;
         LeaveOpen = other.LeaveOpen;
     }
@@ -142,19 +127,9 @@ public class LocalAttachment : ILocalConstruct<LocalAttachment>, IJsonConvertibl
     /// <returns>
     ///     A shallow copy of this instance.
     /// </returns>
-    public virtual LocalAttachment Clone()
+    public override LocalAttachment Clone()
     {
         return new(this);
-    }
-
-    /// <inheritdoc />
-    public virtual PartialAttachmentJsonModel ToModel()
-    {
-        return new AttachmentJsonModel
-        {
-            Id = Id.Value,
-            Description = Description
-        };
     }
 
     /// <summary>

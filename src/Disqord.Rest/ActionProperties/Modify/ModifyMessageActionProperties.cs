@@ -13,7 +13,7 @@ public sealed class ModifyMessageActionProperties
 
     public Optional<LocalAllowedMentions> AllowedMentions { internal get; set; }
 
-    public Optional<IEnumerable<LocalAttachment>> Attachments { internal get; set; }
+    public Optional<IEnumerable<LocalPartialAttachment>> Attachments { internal get; set; }
 
     public Optional<IEnumerable<LocalRowComponent>> Components { internal get; set; }
 

@@ -125,9 +125,9 @@ public static partial class RestClientExtensions
         };
 
         Task<MessageJsonModel> task;
-        if (properties.Attachments.TryGetValue(out var attachments))
+        if (properties.Attachments.TryGetFullAttachments(out var attachments))
         {
-            // If there is an attachment, we must send it via multipart HTTP content.
+            // If there are attachments, we must send it via multipart HTTP content.
             // Our `messageContent` will be serialized into a "payload_json" form data field.
             var content = new AttachmentJsonPayloadRestRequestContent<ModifyWebhookMessageJsonRestRequestContent>(messageContent, attachments);
             task = messageId == null

@@ -383,8 +383,7 @@ public static partial class RestClientExtensions
         };
 
         Task<MessageJsonModel> task;
-        LocalAttachment[] attachments;
-        if (properties.Attachments.TryGetValue(out var attachmentsEnumerable) && (attachments = attachmentsEnumerable.GetArray()).Length != 0)
+        if (properties.Attachments.TryGetFullAttachments(out var attachments))
         {
             // If there are attachments, we must send them via multipart HTTP content.
             // Our `messageContent` will be serialized into a "payload_json" form data field.

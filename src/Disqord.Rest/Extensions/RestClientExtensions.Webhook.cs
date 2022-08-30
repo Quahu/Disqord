@@ -119,7 +119,7 @@ public static partial class RestClientExtensions
         Task<MessageJsonModel?> task;
         if (message.Attachments.TryGetValue(out var attachments) && attachments.Count != 0)
         {
-            // If there is an attachment, we must send it via multipart HTTP content.
+            // If there are attachments, we must send it via multipart HTTP content.
             // Our `messageContent` will be serialized into a "payload_json" form data field.
             var content = new AttachmentJsonPayloadRestRequestContent<ExecuteWebhookJsonRestRequestContent>(messageContent, attachments);
             task = client.ApiClient.ExecuteWebhookAsync(webhookId, token, content, threadId, wait, options, cancellationToken);
@@ -169,11 +169,11 @@ public static partial class RestClientExtensions
         };
 
         Task<MessageJsonModel> task;
-        if (properties.Attachments.HasValue)
+        if (properties.Attachments.TryGetFullAttachments(out var attachments))
         {
-            // If there is an attachment, we must send it via multipart HTTP content.
+            // If there are attachments, we must send it via multipart HTTP content.
             // Our `messageContent` will be serialized into a "payload_json" form data field.
-            var content = new AttachmentJsonPayloadRestRequestContent<ModifyWebhookMessageJsonRestRequestContent>(messageContent, properties.Attachments.Value);
+            var content = new AttachmentJsonPayloadRestRequestContent<ModifyWebhookMessageJsonRestRequestContent>(messageContent, attachments);
             task = client.ApiClient.ModifyWebhookMessageAsync(webhookId, token, messageId, content, threadId, options, cancellationToken);
         }
         else
