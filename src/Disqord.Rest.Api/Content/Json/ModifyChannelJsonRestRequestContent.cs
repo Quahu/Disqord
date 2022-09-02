@@ -59,4 +59,15 @@ public class ModifyChannelJsonRestRequestContent : JsonModelRestRequestContent
 
     [JsonProperty("flags")]
     public Optional<GuildChannelFlags> Flags;
+
+    [JsonProperty("available_tags")]
+    public Optional<ForumTagJsonModel[]> AvailableTags;
+
+    // TODO: default reaction emoji
+
+    [JsonProperty("default_thread_rate_limit_per_user")]
+    public Optional<int> DefaultThreadRateLimitPerUser;
+
+    [JsonProperty("applied_tags")]
+    public Optional<Snowflake[]> AppliedTags;
 }

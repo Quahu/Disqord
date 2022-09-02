@@ -54,6 +54,9 @@ public class CachedThreadChannel : CachedMessageGuildChannel, IThreadChannel, IJ
 
     private CachedThreadMetadata? _metadata;
 
+    /// <inheritdoc/>
+    public IReadOnlyList<Snowflake> TagIds { get; private set; } = Array.Empty<Snowflake>();
+
     public CachedThreadChannel(IGatewayClient client, ChannelJsonModel model)
         : base(client, model)
     {
@@ -85,6 +88,9 @@ public class CachedThreadChannel : CachedMessageGuildChannel, IThreadChannel, IJ
                 _metadata.Update(model.ThreadMetadata.Value);
             }
         }
+
+        if (model.AppliedTags.HasValue)
+            TagIds = model.AppliedTags.Value;
     }
 
     public void Update(ThreadMembersUpdateJsonModel model)

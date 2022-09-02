@@ -133,7 +133,8 @@ public static partial class RestClientExtensions
         var content = new CreateGuildChannelJsonRestRequestContent(name)
         {
             Position = properties.Position,
-            PermissionOverwrites = Optional.Convert(properties.Overwrites, x => x.Select(x => x.ToModel()).ToArray())
+            PermissionOverwrites = Optional.Convert(properties.Overwrites, x => x.Select(x => x.ToModel()).ToArray()),
+            Flags = properties.Flags
         };
 
         if (properties is CreateNestedChannelActionProperties nestedProperties)
@@ -182,6 +183,8 @@ public static partial class RestClientExtensions
                     content.RateLimitPerUser = Optional.Convert(forumProperties.Slowmode, x => (int) x.TotalSeconds);
                     content.Nsfw = forumProperties.IsAgeRestricted;
                     content.DefaultAutoArchiveDuration = Optional.Convert(forumProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
+                    content.AvailableTags = Optional.Convert(forumProperties.Tags, tags => tags.Select(tag => tag.ToModel()).ToArray());
+                    content.DefaultThreadRateLimitPerUser = Optional.Convert(forumProperties.DefaultThreadSlowmode, slowmode => (int) slowmode.TotalSeconds);
                     break;
                 }
                 default:

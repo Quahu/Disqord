@@ -15,6 +15,14 @@ public class TransientCustomEmoji : TransientEmoji, ICustomEmoji
         : base(model)
     { }
 
+    public TransientCustomEmoji(Snowflake id, string? name = null)
+        : base(new EmojiJsonModel
+        {
+            Id = id,
+            Name = name
+        })
+    { }
+
     public bool Equals(ICustomEmoji? other)
     {
         return Comparers.Emoji.Equals(this, other);

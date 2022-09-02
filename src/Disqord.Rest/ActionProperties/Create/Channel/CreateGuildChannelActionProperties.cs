@@ -9,6 +9,8 @@ public abstract class CreateGuildChannelActionProperties
 
     public Optional<IReadOnlyList<LocalOverwrite>> Overwrites { internal get; set; }
 
+    public Optional<GuildChannelFlags> Flags { internal get; set; }
+
     internal CreateGuildChannelActionProperties()
     { }
 }
