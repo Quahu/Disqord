@@ -63,6 +63,21 @@ public static class Mention
         return $"<@&{id}>";
     }
 
+    public static string SlashCommand(Snowflake commandId, string name)
+    {
+        return $"</{name}:{commandId}>";
+    }
+
+    public static string SlashCommand(Snowflake commandId, string name, string subcommandName)
+    {
+        return $"</{name} {subcommandName}:{commandId}>";
+    }
+
+    public static string SlashCommand(Snowflake commandId, string name, string subcommandName, string subcommandGroupName)
+    {
+        return $"</{name} {subcommandName} {subcommandGroupName}:{commandId}>";
+    }
+
     public static bool TryParseUser(string value, out Snowflake result)
     {
         Guard.IsNotNull(value);
