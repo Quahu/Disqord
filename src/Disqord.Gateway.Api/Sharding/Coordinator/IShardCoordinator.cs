@@ -56,6 +56,8 @@ public interface IShardCoordinator : ILogging
     ///     i.e. has successfully identified with the gateway.
     /// </summary>
     /// <remarks>
+    ///     This is called before the shard's guilds are available.
+    ///     <para/>
     ///     Ensure this method does not take a long time to complete
     ///     as it is invoked directly by the shard during its gateway flow.
     /// </remarks>
