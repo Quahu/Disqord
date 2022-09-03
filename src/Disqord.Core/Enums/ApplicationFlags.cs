@@ -46,5 +46,10 @@ public enum ApplicationFlags
     /// <summary>
     ///     The application can receive messages over the gateway excluding their content.
     /// </summary>
-    MessageContentLimited = 1 << 19
+    MessageContentLimited = 1 << 19,
+
+    /// <summary>
+    ///     The application has registered global application commands.
+    /// </summary>
+    ApplicationCommandBadge = 1 << 23
 }
