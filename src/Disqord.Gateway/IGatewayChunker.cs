@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Disqord.Logging;
 using Qommon.Binding;

@@ -7,7 +7,7 @@ using Qommon;
 namespace Disqord.Gateway;
 
 [EditorBrowsable(EditorBrowsableState.Never)]
-public static partial class GatewayClientExtensions
+public static class GatewayApiClientExtensions
 {
     public static ShardId GetShardId(this IGatewayApiClient apiClient, Snowflake? guildId)
     {

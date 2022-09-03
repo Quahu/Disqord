@@ -47,11 +47,6 @@ public class DiscordApiClient : IRestApiClient, IGatewayApiClient
         _client = client;
     }
 
-    Task IGatewayApiClient.RunAsync(Uri? initialUri, CancellationToken stoppingToken)
-    {
-        return _client.GatewayClient.ApiClient.RunAsync(initialUri, stoppingToken);
-    }
-
     Task IRestApiClient.ExecuteAsync(IFormattedRoute route, IRestRequestContent? content,
         IRestRequestOptions? options, CancellationToken cancellationToken)
     {
@@ -63,5 +58,10 @@ public class DiscordApiClient : IRestApiClient, IGatewayApiClient
         where TModel : class
     {
         return _client.RestClient.ApiClient.ExecuteAsync<TModel>(route, content, options, cancellationToken);
+    }
+
+    Task IGatewayApiClient.RunAsync(Uri? initialUri, CancellationToken stoppingToken)
+    {
+        return _client.GatewayClient.ApiClient.RunAsync(initialUri, stoppingToken);
     }
 }

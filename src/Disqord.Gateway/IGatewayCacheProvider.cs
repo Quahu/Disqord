@@ -59,7 +59,7 @@ public interface IGatewayCacheProvider : IBindable<IGatewayClient>
 
     /// <summary>
     ///     Resets the current cache for the given shard ID.
-    ///     If the <paramref name="shardId"/> is set as <see cref="ShardId.None"/> the entire cache is reset instead.
+    ///     If the <paramref name="shardId"/> is not provided the entire cache is reset instead.
     /// </summary>
     /// <param name="shardId"> The <see cref="ShardId"/> to reset the cache for. </param>
     void Reset(ShardId shardId = default);

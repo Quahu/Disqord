@@ -44,8 +44,7 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
         : base(logger)
     {
         var configuration = options.Value;
-        var customShardSet = configuration.CustomShardSet;
-        CustomShardSet = customShardSet.GetValueOrDefault();
+        CustomShardSet = configuration.CustomShardSet.GetValueOrDefault();
     }
 
     /// <inheritdoc/>
