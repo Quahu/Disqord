@@ -6,30 +6,32 @@ namespace Disqord;
 ///     Represents flags of a Discord application.
 /// </summary>
 [Flags]
-public enum ApplicationFlags
+public enum ApplicationFlags : ulong
 {
     /// <summary>
-    ///     The application can connect to the gateway with the presences intent.
+    ///     The bot application is verified and can receive presence information.
     /// </summary>
     Presences = 1 << 12,
 
     /// <summary>
-    ///     The application cannot connect to the gateway with the presences intent.
+    ///     The bot application is under the verification guild threshold
+    ///     and can receive presence information.
     /// </summary>
     PresencesLimited = 1 << 13,
 
     /// <summary>
-    ///     The application can connect to the gateway with the members intent.
+    ///     The bot application is verified to receive member information.
     /// </summary>
     Members = 1 << 14,
 
     /// <summary>
-    ///     The application cannot connect to the gateway with the members intent.
+    ///     The bot application is under the verification guild threshold
+    ///     and can receive member information.
     /// </summary>
     MembersLimited = 1 << 15,
 
     /// <summary>
-    ///     The application has reached the guild limit and is pending verification.
+    ///     The bot application has reached the verification guild threshold and is pending verification.
     /// </summary>
     GuildLimitVerificationPending = 1 << 16,
 
@@ -39,12 +41,13 @@ public enum ApplicationFlags
     Embedded = 1 << 17,
 
     /// <summary>
-    ///     The application can receive messages over the gateway including their content.
+    ///     The bot application is verified to receive message content information.
     /// </summary>
     MessageContent = 1 << 18,
 
     /// <summary>
-    ///     The application can receive messages over the gateway excluding their content.
+    ///     The bot application is under the verification guild threshold
+    ///     and can receive message content information.
     /// </summary>
     MessageContentLimited = 1 << 19,
 
