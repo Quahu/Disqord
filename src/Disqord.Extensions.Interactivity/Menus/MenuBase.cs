@@ -259,22 +259,33 @@ public abstract class MenuBase : IAsyncDisposable
         if (view == null)
             return;
 
-        // If we have changes, we update the message accordingly.
-        var response = e?.Interaction.Response();
+        var responseHelper = e?.Interaction.Response();
         if (HasChanges || view.HasChanges)
         {
+            // If we have changes, we update the message accordingly.
             await view.UpdateAsync().ConfigureAwait(false);
 
             var localMessage = CreateLocalMessage();
             view.FormatLocalMessage(localMessage);
             try
             {
-                if (response != null)
+                if (responseHelper == null || (responseHelper.HasResponded && responseHelper.ResponseType is not InteractionResponseType.DeferredMessageUpdate))
                 {
-                    if (!response.HasResponded)
+                    // If there's no interaction provided or the user has already responded (not with DeferredMessageUpdate), modify the message normally.
+                    await Client.ModifyMessageAsync(ChannelId, MessageId, x =>
+                    {
+                        x.Content = localMessage.Content;
+                        x.Embeds = Optional.Convert(localMessage.Embeds, embeds => embeds as IEnumerable<LocalEmbed>);
+                        x.Components = Optional.Convert(localMessage.Components, components => components as IEnumerable<LocalRowComponent>);
+                        x.AllowedMentions = localMessage.AllowedMentions;
+                    }).ConfigureAwait(false);
+                }
+                else
+                {
+                    if (!responseHelper.HasResponded)
                     {
                         // If the user hasn't responded, respond to the interaction with modifying the message.
-                        await response.ModifyMessageAsync(localMessage is LocalInteractionMessageResponse interactionMessageResponse
+                        await responseHelper.ModifyMessageAsync(localMessage is LocalInteractionMessageResponse interactionMessageResponse
                             ? interactionMessageResponse
                             : new LocalInteractionMessageResponse
                             {
@@ -285,7 +296,7 @@ public abstract class MenuBase : IAsyncDisposable
                                 Components = localMessage.Components
                             }).ConfigureAwait(false);
                     }
-                    else if (response.HasResponded && response.ResponseType is InteractionResponseType.DeferredMessageUpdate)
+                    else
                     {
                         // If the user deferred the response (a button is taking too long, for example), modify the message via a followup.
                         await e!.Interaction.Followup().ModifyResponseAsync(x =>
@@ -297,17 +308,6 @@ public abstract class MenuBase : IAsyncDisposable
                         }).ConfigureAwait(false);
                     }
                 }
-                else
-                {
-                    // If the user has responded, modify the message normally.
-                    await Client.ModifyMessageAsync(ChannelId, MessageId, x =>
-                    {
-                        x.Content = localMessage.Content;
-                        x.Embeds = Optional.Convert(localMessage.Embeds, embeds => embeds as IEnumerable<LocalEmbed>);
-                        x.Components = Optional.Convert(localMessage.Components, components => components as IEnumerable<LocalRowComponent>);
-                        x.AllowedMentions = localMessage.AllowedMentions;
-                    }).ConfigureAwait(false);
-                }
             }
             finally
             {
@@ -315,10 +315,10 @@ public abstract class MenuBase : IAsyncDisposable
                 view.HasChanges = false;
             }
         }
-        else if (response != null && !response.HasResponded)
+        else if (responseHelper != null && !responseHelper.HasResponded)
         {
             // Acknowledge the interaction to prevent it from failing.
-            await response.DeferAsync().ConfigureAwait(false);
+            await responseHelper.DeferAsync().ConfigureAwait(false);
         }
     }
 
