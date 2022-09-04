@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Logging;
 using Qommon.Binding;
@@ -15,7 +16,26 @@ public partial interface IGatewayDispatcher : IBindable<IGatewayClient>, ILoggin
     /// <summary>
     ///     Gets the current user.
     /// </summary>
-    ICurrentUser? CurrentUser { get; }
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if accessed before <see cref="GatewayDispatchNames.Ready"/> is processed.
+    /// </exception>
+    ICurrentUser CurrentUser { get; }
+
+    /// <summary>
+    ///     Gets the ID of the current bot application.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if accessed before <see cref="GatewayDispatchNames.Ready"/> is processed.
+    /// </exception>
+    Snowflake CurrentApplicationId { get; }
+
+    /// <summary>
+    ///     Gets the flags of the current bot application.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if accessed before <see cref="GatewayDispatchNames.Ready"/> is processed.
+    /// </exception>
+    ApplicationFlags CurrentApplicationFlags { get; }
 
     /// <summary>
     ///     Handles the received dispatch and fires the matching event on the <see cref="Client"/>.

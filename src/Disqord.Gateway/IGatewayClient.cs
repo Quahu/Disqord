@@ -21,13 +21,20 @@ public partial interface IGatewayClient : IClient
 
     IApiClient IClient.ApiClient => ApiClient;
 
-    ICurrentUser? CurrentUser => Dispatcher.CurrentUser;
+    /// <inheritdoc cref="IGatewayDispatcher.CurrentUser"/>
+    ICurrentUser CurrentUser => Dispatcher.CurrentUser;
+
+    /// <inheritdoc cref="IGatewayDispatcher.CurrentApplicationId"/>
+    Snowflake CurrentApplicationId => Dispatcher.CurrentApplicationId;
+
+    /// <inheritdoc cref="IGatewayDispatcher.CurrentApplicationFlags"/>
+    ApplicationFlags CurrentApplicationFlags => Dispatcher.CurrentApplicationFlags;
 
     /// <summary>
     ///     Runs this <see cref="IGatewayClient"/>.
     /// </summary>
     /// <param name="stoppingToken"> The token used to signal connection stopping. </param>
-    /// <param name="uri"> The Discord gateway URI to connect to. </param>
+    /// <param name="initialUri"> The Discord gateway URI to connect to. </param>
     /// <returns> The <see cref="Task"/> representing the connection. </returns>
     Task RunAsync(Uri? initialUri, CancellationToken stoppingToken);
 }

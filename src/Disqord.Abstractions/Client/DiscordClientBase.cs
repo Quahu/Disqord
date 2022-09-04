@@ -33,7 +33,13 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
     public IGatewayChunker Chunker => GatewayClient.Chunker;
 
     /// <inheritdoc/>
-    public ICurrentUser? CurrentUser => GatewayClient.CurrentUser;
+    public ICurrentUser CurrentUser => GatewayClient.CurrentUser;
+
+    /// <inheritdoc/>
+    public Snowflake CurrentApplicationId => GatewayClient.CurrentApplicationId;
+
+    /// <inheritdoc/>
+    public ApplicationFlags CurrentApplicationFlags => GatewayClient.CurrentApplicationFlags;
 
     /// <summary>
     ///     Gets the <see cref="CancellationToken"/> passed to <see cref="RunAsync(CancellationToken)"/>.
@@ -88,12 +94,7 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
         _extensions = extensions.ToDictionary(x => x.GetType(), x => x);
 
         // Binds `this` to the dispatcher and coordinator, where `this` is the DiscordClientBase.
-        GatewayClient.Dispatcher.Bind(this);
-
-        if (GatewayClient.ApiClient.ShardCoordinator is DiscordShardCoordinator discordShardCoordinator)
-        {
-            discordShardCoordinator.Bind(this);
-        }
+        Bind(this, this);
     }
 
     /// <summary>
@@ -114,13 +115,17 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
         GatewayClient = client.GatewayClient;
         _extensions = client._extensions;
 
-        // Binds `this` to the dispatcher and coordinator, where `this` is the client implementing DiscordBotBase,
-        // wrapping an existing DiscordClientBase.
-        client.GatewayClient.Dispatcher.Bind(this);
+        // Binds `this` to the wrapped client's dispatcher and coordinator, where `this` is the client implementing DiscordBotBase.
+        Bind(client, this);
+    }
+
+    private static void Bind(DiscordClientBase client, DiscordClientBase @this)
+    {
+        client.GatewayClient.Dispatcher.Bind(@this);
 
         if (client.GatewayClient.ApiClient.ShardCoordinator is DiscordShardCoordinator discordShardCoordinator)
         {
-            discordShardCoordinator.Bind(this);
+            discordShardCoordinator.Bind(@this);
         }
     }
 

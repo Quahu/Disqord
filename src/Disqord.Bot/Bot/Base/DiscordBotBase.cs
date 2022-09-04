@@ -49,15 +49,6 @@ public abstract partial class DiscordBotBase : DiscordClientBase
     /// </remarks>
     public IReadOnlyList<Snowflake> OwnerIds { get; protected set; }
 
-    /// <summary>
-    ///     Gets the ID of the bot's Discord application.
-    /// </summary>
-    public Snowflake? ApplicationId
-    {
-        get => _applicationId;
-        protected set => _applicationId = value;
-    }
-
     private Snowflake? _applicationId;
     private IApplication? _currentApplication;
 
@@ -76,7 +67,7 @@ public abstract partial class DiscordBotBase : DiscordClientBase
     {
         var configuration = options.Value;
         OwnerIds = configuration.OwnerIds?.ToReadOnlyList() ?? ReadOnlyList<Snowflake>.Empty;
-        ApplicationId = configuration.ApplicationId;
+        _applicationId = configuration.ApplicationId;
         _syncGlobalApplicationCommands = configuration.SyncGlobalApplicationCommands;
         _syncGuildApplicationCommands = configuration.SyncGuildApplicationCommands;
         Prefixes = services.GetRequiredService<IPrefixProvider>();

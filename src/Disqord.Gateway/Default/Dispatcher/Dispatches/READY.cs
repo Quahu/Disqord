@@ -15,8 +15,6 @@ namespace Disqord.Gateway.Default.Dispatcher;
 
 public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventArgs>
 {
-    public CachedCurrentUser? CurrentUser { get; private set; }
-
     public ISynchronizedDictionary<ShardId, ISynchronizedDictionary<Snowflake, bool>> PendingGuilds { get; }
 
     public ISynchronizedDictionary<ShardId, Tcs> InitialReadys { get; }
@@ -37,7 +35,7 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
         var pendingGuilds = model.Guilds.ToDictionary(x => x.Id, x => !x.Unavailable.GetValueOrDefault()).Synchronized();
         PendingGuilds[shard.Id] = pendingGuilds;
 
-        if (CurrentUser == null)
+        if (Dispatcher.CurrentUser == null)
         {
             // The shared user for the bot is always going to be referenced.
             var sharedUser = new CachedSharedUser(Client, model.User);
@@ -46,25 +44,28 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
                 sharedUserCache.Add(sharedUser.Id, sharedUser);
             }
 
-            CurrentUser = new CachedCurrentUser(sharedUser, model.User);
+            Dispatcher.CurrentUser = new CachedCurrentUser(sharedUser, model.User);
         }
         else
         {
-            CurrentUser.Update(model.User);
+            Dispatcher.CurrentUser.Update(model.User);
         }
 
+        Dispatcher.CurrentApplicationId = model.Application.Id;
+        Dispatcher.CurrentApplicationFlags = model.Application.Flags;
+
         var guildIds = pendingGuilds.Keys;
-        var e = new ReadyEventArgs(shard.Id, CurrentUser, guildIds);
+        var e = new ReadyEventArgs(shard.Id, guildIds, Dispatcher.CurrentUser, Dispatcher.CurrentApplicationId.Value, Dispatcher.CurrentApplicationFlags.Value);
         var delayMode = Dispatcher.ReadyEventDelayMode;
         if (delayMode == ReadyEventDelayMode.None || guildIds.Length == 0)
         {
             InitialReadys[shard.Id].Complete();
-            shard.Logger.LogInformation("Ready as {0} with {1} pending guilds.", CurrentUser.Tag, guildIds.Length);
+            shard.Logger.LogInformation("Ready as {0} with {1} pending guilds.", Dispatcher.CurrentUser.Tag, guildIds.Length);
             return new(e);
         }
 
         _ = DelayReadyAsync(shard, e);
-        shard.Logger.LogInformation("Identified as {0} with {1} pending guilds. Ready delay mode: {2}.", CurrentUser.Tag, guildIds.Length, Dispatcher.ReadyEventDelayMode);
+        shard.Logger.LogInformation("Identified as {0} with {1} pending guilds. Ready delay mode: {2}.", Dispatcher.CurrentUser.Tag, guildIds.Length, Dispatcher.ReadyEventDelayMode);
         return new(result: null);
     }
 

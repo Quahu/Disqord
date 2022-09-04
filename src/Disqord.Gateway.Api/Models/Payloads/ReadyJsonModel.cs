@@ -26,5 +26,5 @@ public class ReadyJsonModel : JsonModel
     public Optional<int[]> Shard = null!;
 
     [JsonProperty("application")]
-    public JsonModel Application = null!;
+    public GatewayApplicationJsonModel Application = null!;
 }

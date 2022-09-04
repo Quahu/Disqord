@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
-using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Default.Dispatcher;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Qommon;
 using Qommon.Binding;
 using Qommon.Collections.Synchronized;
 
@@ -12,24 +12,85 @@ namespace Disqord.Gateway.Default;
 
 public partial class DefaultGatewayDispatcher : IGatewayDispatcher
 {
+    /// <inheritdoc/>
     public ILogger Logger { get; }
 
+    /// <inheritdoc/>
     public IGatewayClient Client => _binder.Value;
 
-    public ICurrentUser? CurrentUser
+    /// <summary>
+    ///     Gets or sets the current user.
+    /// </summary>
+    public CachedCurrentUser? CurrentUser { get; set; }
+
+    ICurrentUser IGatewayDispatcher.CurrentUser
     {
         get
         {
-            var handler = _handlers["READY"];
-            if (handler is InterceptingDispatchHandler<ReadyJsonModel, ReadyEventArgs> interceptingHandler)
-            {
-                // Accounts for the intercepted handler in the sharder.
-                handler = interceptingHandler.UnderlyingDispatchHandler;
-            }
+            var currentUser = CurrentUser;
+            if (currentUser == null)
+                Throw.InvalidOperationException($"The current user is not available before the {GatewayDispatchNames.Ready} dispatch is processed.");
 
-            return (handler as ReadyDispatchHandler)?.CurrentUser;
+            return currentUser;
         }
     }
+
+    /// <summary>
+    ///     Gets or sets the ID of the current application.
+    /// </summary>
+    public Snowflake? CurrentApplicationId { get; set; }
+
+    Snowflake IGatewayDispatcher.CurrentApplicationId
+    {
+        get
+        {
+            var currentApplicationId = CurrentApplicationId;
+            if (currentApplicationId == null)
+                Throw.InvalidOperationException($"The ID of the current application is not available before the {GatewayDispatchNames.Ready} dispatch is processed.");
+
+            return currentApplicationId.Value;
+        }
+    }
+
+    /// <summary>
+    ///     Gets or sets the flags of the current application.
+    /// </summary>
+    public ApplicationFlags? CurrentApplicationFlags { get; set; }
+
+    ApplicationFlags IGatewayDispatcher.CurrentApplicationFlags
+    {
+        get
+        {
+            var currentApplicationFlags = CurrentApplicationFlags;
+            if (currentApplicationFlags == null)
+                Throw.InvalidOperationException($"The flags of the current application are not available before the {GatewayDispatchNames.Ready} dispatch is processed.");
+
+            return currentApplicationFlags.Value;
+        }
+    }
+
+    // private ReadyDispatchHandler GetReadyHandler()
+    // {
+    //     static DispatchHandler<ReadyJsonModel, ReadyEventArgs> GetInnerHandler(DispatchHandler<ReadyJsonModel, ReadyEventArgs> handler)
+    //     {
+    //         while (handler is InterceptingDispatchHandler<ReadyJsonModel, ReadyEventArgs> interceptingHandler)
+    //         {
+    //             // Accounts for the intercepted handler in the sharder.
+    //             handler = interceptingHandler.UnderlyingDispatchHandler;
+    //         }
+    //
+    //         return handler;
+    //     }
+    //
+    //     if (_handlers["READY"] is not DispatchHandler<ReadyJsonModel, ReadyEventArgs> handler
+    //         || (handler = GetInnerHandler(handler)) is not ReadyDispatchHandler readyHandler)
+    //     {
+    //         Throw.InvalidOperationException($"The {GatewayDispatchNames.Ready} dispatch handler must be an instance of {typeof(ReadyDispatchHandler)}.");
+    //         return null!;
+    //     }
+    //
+    //     return readyHandler;
+    // }
 
     public ReadyEventDelayMode ReadyEventDelayMode { get; }
 
