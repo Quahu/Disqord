@@ -40,6 +40,7 @@ public static class DiscordClientHostBuilderExtensions
 
         services.TryAddSingleton<DiscordClientMasterService>();
         services.AddHostedService(x => x.GetRequiredService<DiscordClientMasterService>());
+        services.AddHostedService<DiscordClientRunnerService>();
 
         var serviceAssemblies = discordContext.ServiceAssemblies;
         if (serviceAssemblies != null)
@@ -111,7 +112,5 @@ public static class DiscordClientHostBuilderExtensions
         {
             services.Configure<LocalDiscordShardCoordinatorConfiguration>(x => x.CustomShardSet = customShardSet);
         }
-
-        services.AddHostedService<DiscordClientRunnerService>();
     }
 }

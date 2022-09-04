@@ -9,7 +9,9 @@ namespace Disqord.Hosting;
 public static class DiscordClientHostingServiceCollectionExtensions
 {
     public static IServiceCollection AddDiscordClientService<TService>(this IServiceCollection services)
-        => services.AddDiscordClientService(typeof(TService));
+    {
+        return services.AddDiscordClientService(typeof(TService));
+    }
 
     public static IServiceCollection AddDiscordClientService(this IServiceCollection services, Type type)
     {
