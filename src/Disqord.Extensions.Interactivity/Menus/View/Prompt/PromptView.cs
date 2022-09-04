@@ -4,6 +4,9 @@ using Disqord.Rest;
 
 namespace Disqord.Extensions.Interactivity.Menus.Prompt;
 
+/// <summary>
+///     Represents a view displaying "confirm" and "deny" buttons.
+/// </summary>
 public class PromptView : ViewBase
 {
     /// <summary>
@@ -21,16 +24,25 @@ public class PromptView : ViewBase
     /// </summary>
     public ButtonViewComponent DenyButton { get; }
 
+    /// <summary>
+    ///     Gets or sets the message sent when the "deny" button is clicked.
+    /// </summary>
+    public string? AbortMessage { get; set; } = "Action aborted.";
+
+    /// <summary>
+    ///     Instantiates a new <see cref="PromptView"/> with the specified message template.
+    /// </summary>
+    /// <param name="messageTemplate"> The message template for this view. </param>
     public PromptView(Action<LocalMessageBase> messageTemplate)
         : base(messageTemplate)
     {
-        ConfirmButton = new ButtonViewComponent(OnConfirmButtonAsync)
+        ConfirmButton = new ButtonViewComponent(OnConfirmButton)
         {
             Label = "Confirm",
             Style = LocalButtonComponentStyle.Success
         };
 
-        DenyButton = new ButtonViewComponent(OnDenyButtonAsync)
+        DenyButton = new ButtonViewComponent(OnDenyButton)
         {
             Label = "Deny",
             Style = LocalButtonComponentStyle.Danger
@@ -47,8 +59,10 @@ public class PromptView : ViewBase
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the callback work.
     /// </returns>
-    protected virtual ValueTask OnConfirmButtonAsync(ButtonEventArgs e)
-        => CompleteAsync(true, e);
+    protected virtual ValueTask OnConfirmButton(ButtonEventArgs e)
+    {
+        return CompleteAsync(true, e);
+    }
 
     /// <summary>
     ///     Called when the <see cref="DenyButton"/> is triggered.
@@ -57,17 +71,24 @@ public class PromptView : ViewBase
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the callback work.
     /// </returns>
-    protected virtual ValueTask OnDenyButtonAsync(ButtonEventArgs e)
-        => CompleteAsync(false, e);
+    protected virtual ValueTask OnDenyButton(ButtonEventArgs e)
+    {
+        return CompleteAsync(false, e);
+    }
 
+    /// <summary>
+    ///     Called by <see cref="OnConfirmButton"/> and <see cref="OnDenyButton"/>.
+    /// </summary>
+    /// <param name="result"> <see langword="true"/> for <see cref="OnConfirmButton"/> and <see langword="false"/> for <see cref="OnDenyButton"/>. </param>
+    /// <param name="e"> The event data. </param>
     protected virtual async ValueTask CompleteAsync(bool result, ButtonEventArgs e)
     {
         Result = result;
         try
         {
-            var task = result
+            var task = result || AbortMessage == null
                 ? Menu.Client.DeleteMessageAsync(Menu.ChannelId, Menu.MessageId)
-                : e.Interaction.Response().ModifyMessageAsync(new LocalInteractionMessageResponse().WithContent("Action aborted."));
+                : e.Interaction.Response().ModifyMessageAsync(new LocalInteractionMessageResponse().WithContent(AbortMessage));
 
             await task.ConfigureAwait(false);
         }
