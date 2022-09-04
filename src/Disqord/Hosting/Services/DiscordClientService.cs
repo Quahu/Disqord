@@ -6,6 +6,7 @@ using Disqord.Logging;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Qommon;
 
 namespace Disqord.Hosting;
 
@@ -21,18 +22,40 @@ public abstract partial class DiscordClientService : IHostedService, IDisposable
     /// <summary>
     ///     Gets the logger of this service.
     /// </summary>
-    /// <remarks>
-    ///     <see langword="null"/> in the parameterless constructor.
-    /// </remarks>
-    public ILogger Logger { get; protected internal set; }
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown when accessed in the parameterless constructor.
+    /// </exception>
+    public ILogger Logger
+    {
+        get
+        {
+            if (_logger == null)
+                Throw.InvalidOperationException("This property must not be accessed from the parameterless constructor.");
+
+            return _logger;
+        }
+        protected set => _logger = value;
+    }
+    internal ILogger? _logger;
 
     /// <summary>
     ///     Gets the client of this service.
     /// </summary>
-    /// <remarks>
-    ///     Returns <see langword="null"/> when accessed in the parameterless constructor.
-    /// </remarks>
-    public DiscordClientBase Client { get; protected internal set; }
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown when accessed in the parameterless constructor.
+    /// </exception>
+    public DiscordClientBase Client
+    {
+        get
+        {
+            if (_client == null)
+                Throw.InvalidOperationException("This property must not be accessed from the parameterless constructor.");
+
+            return _client;
+        }
+        protected set => _client = value;
+    }
+    internal DiscordClientBase? _client;
 
     /// <summary>
     ///     Gets the priority of this service.
@@ -59,10 +82,7 @@ public abstract partial class DiscordClientService : IHostedService, IDisposable
     ///     Instantiates a new <see cref="DiscordClientService"/>.
     /// </summary>
     protected DiscordClientService()
-    {
-        Logger = null!;
-        Client = null!;
-    }
+    { }
 
     /// <summary>
     ///     Instantiates a new <see cref="DiscordClientService"/> with the provided logger and client.

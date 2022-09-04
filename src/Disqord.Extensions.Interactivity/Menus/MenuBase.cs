@@ -24,7 +24,21 @@ public abstract class MenuBase : IAsyncDisposable
     ///     This property is lazily set by <see cref="InteractivityExtension.StartMenuAsync(Snowflake, MenuBase, TimeSpan, CancellationToken)"/>,
     ///     thus must not be used prior to it.
     /// </remarks>
-    public InteractivityExtension Interactivity { get; internal set; } = null!;
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if accessed before the menu is started.
+    /// </exception>
+    public InteractivityExtension Interactivity
+    {
+        get
+        {
+            if (_interactivity == null)
+                Throw.InvalidOperationException("This property must not be accessed before the menu is started.");
+
+            return _interactivity;
+        }
+        internal set => _interactivity = value;
+    }
+    private InteractivityExtension? _interactivity;
 
     /// <summary>
     ///     Gets the Discord client from the extension.
@@ -32,6 +46,9 @@ public abstract class MenuBase : IAsyncDisposable
     /// <remarks>
     ///     <inheritdoc cref="Interactivity"/>
     /// </remarks>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if accessed before the menu is started.
+    /// </exception>
     public DiscordClientBase Client => Interactivity.Client;
 
     /// <summary>
@@ -228,17 +245,13 @@ public abstract class MenuBase : IAsyncDisposable
     /// <param name="view"> The view to set. </param>
     public virtual async ValueTask SetViewAsync(ViewBase view)
     {
-        if (_view != null)
+        var oldView = _view;
+        if (oldView != null)
         {
-            await using (_view.ConfigureAwait(false))
-            {
-                View = view;
-            }
+            await oldView.DisposeAsync().ConfigureAwait(false);
         }
-        else
-        {
-            View = view;
-        }
+
+        View = view;
     }
 
     /// <summary>
@@ -417,15 +430,15 @@ public abstract class MenuBase : IAsyncDisposable
     ///     This method is called by <see cref="InteractivityExtension"/>.
     ///     If overridden by different logic, ensure that the base method is called.
     /// </remarks>
-    public virtual async ValueTask DisposeAsync()
+    public virtual ValueTask DisposeAsync()
     {
         if (_isDisposed)
-            return;
+            return default;
 
         lock (_disposeLock)
         {
             if (_isDisposed)
-                return;
+                return default;
 
             _isDisposed = true;
             _cts?.Dispose();
@@ -437,7 +450,9 @@ public abstract class MenuBase : IAsyncDisposable
         var view = _view;
         if (view != null)
         {
-            await view.DisposeAsync().ConfigureAwait(false);
+            return view.DisposeAsync();
         }
+
+        return default;
     }
 }

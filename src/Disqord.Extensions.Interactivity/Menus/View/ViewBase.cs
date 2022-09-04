@@ -18,10 +18,21 @@ public abstract partial class ViewBase : IAsyncDisposable
     /// <summary>
     ///     Gets the menu of this view.
     /// </summary>
-    /// <remarks>
-    ///     Returns <see langword="null"/> if this view is not currently attached to a menu.
-    /// </remarks>
-    public MenuBase Menu { get; internal set; } = null!;
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if this view is not currently attached to a menu.
+    /// </exception>
+    public MenuBase Menu
+    {
+        get
+        {
+            if (_menu == null)
+                Throw.InvalidOperationException("This property must not be accessed before the view is attached to a menu.");
+
+            return _menu;
+        }
+        internal set => _menu = value;
+    }
+    private MenuBase? _menu;
 
     /// <summary>
     ///     Gets whether this view has changes.
@@ -72,7 +83,7 @@ public abstract partial class ViewBase : IAsyncDisposable
     /// </summary>
     protected void ReportChanges()
     {
-        if (Menu != null)
+        if (_menu != null)
             HasChanges = true;
     }
 

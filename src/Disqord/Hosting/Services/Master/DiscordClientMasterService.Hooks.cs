@@ -135,8 +135,8 @@ public partial class DiscordClientMasterService
         var servicesArray = services.GetArray();
         foreach (var service in servicesArray)
         {
-            service.Logger ??= (serviceProvider.GetService(typeof(ILogger<>).MakeGenericType(service.GetType())) as ILogger)!;
-            service.Client ??= client;
+            service._logger ??= (serviceProvider.GetService(typeof(ILogger<>).MakeGenericType(service.GetType())) as ILogger)!;
+            service._client ??= client;
         }
 
         ReadyServices = GetServices<ReadyEventArgs>(servicesArray, nameof(DiscordClientService.OnReady));
