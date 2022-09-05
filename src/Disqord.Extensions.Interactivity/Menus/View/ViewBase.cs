@@ -32,7 +32,7 @@ public abstract partial class ViewBase : IAsyncDisposable
         }
         internal set => _menu = value;
     }
-    private MenuBase? _menu;
+    internal MenuBase? _menu;
 
     /// <summary>
     ///     Gets whether this view has changes.

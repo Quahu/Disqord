@@ -113,7 +113,7 @@ public abstract class MenuBase : IAsyncDisposable
         {
             Guard.IsNotNull(value);
 
-            if (value.Menu != null && value.Menu != this)
+            if (value._menu != null && value._menu != this)
                 throw new ArgumentException("The view belongs to another menu.");
 
             if (value == _view)
@@ -122,7 +122,7 @@ public abstract class MenuBase : IAsyncDisposable
             if (_view != null && IsRunning)
                 HasChanges = true;
 
-            value.Menu = this;
+            value._menu = this;
             _view = value;
         }
     }
