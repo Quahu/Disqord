@@ -39,7 +39,7 @@ public class ApplicationParameterBuilder : IParameterBuilder
             var commandChecks = command.Checks;
             var commandCheckCount = commandChecks.Count;
             var needsGuildCheck = true;
-            for (var i = 0; i < commandChecks.Count; i++)
+            for (var i = 0; i < commandCheckCount; i++)
             {
                 var commandCheck = commandChecks[i];
                 if (commandCheck is RequireGuildAttribute)
