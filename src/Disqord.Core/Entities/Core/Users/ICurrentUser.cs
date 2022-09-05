@@ -3,7 +3,7 @@
 namespace Disqord;
 
 /// <summary>
-///     Represents the current user, i.e. the bot.
+///     Represents the current user.
 /// </summary>
 public interface ICurrentUser : IUser
 {
