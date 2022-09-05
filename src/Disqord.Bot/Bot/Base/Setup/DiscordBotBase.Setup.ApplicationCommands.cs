@@ -888,7 +888,7 @@ public abstract partial class DiscordBotBase
     /// <returns>
     ///     A <see cref="ValueTask{TResult}"/> representing the work with the result being a <see cref="bool"/>.
     /// </returns>
-    public virtual async ValueTask<bool> ShouldInitializeApplicationCommands(CancellationToken cancellationToken)
+    protected virtual async ValueTask<bool> ShouldInitializeApplicationCommands(CancellationToken cancellationToken)
     {
         var shardCoordinator = (this as IGatewayClient).ApiClient.ShardCoordinator;
         var shardSet = await shardCoordinator.GetShardSetAsync(cancellationToken).ConfigureAwait(false);
