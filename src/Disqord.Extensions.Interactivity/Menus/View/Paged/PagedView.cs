@@ -36,31 +36,31 @@ public class PagedView : PagedViewBase
     public PagedView(PageProvider pageProvider, Action<LocalMessageBase>? messageTemplate = null)
         : base(pageProvider, messageTemplate)
     {
-        FirstPageButton = new ButtonViewComponent(OnFirstPageButtonAsync)
+        FirstPageButton = new ButtonViewComponent(OnFirstPageButton)
         {
             Emoji = new LocalEmoji("⏮️"),
             Style = LocalButtonComponentStyle.Secondary
         };
 
-        PreviousPageButton = new ButtonViewComponent(OnPreviousPageButtonAsync)
+        PreviousPageButton = new ButtonViewComponent(OnPreviousPageButton)
         {
             Emoji = new LocalEmoji("◀️"),
             Style = LocalButtonComponentStyle.Secondary
         };
 
-        NextPageButton = new ButtonViewComponent(OnNextPageButtonAsync)
+        NextPageButton = new ButtonViewComponent(OnNextPageButton)
         {
             Emoji = new LocalEmoji("▶️"),
             Style = LocalButtonComponentStyle.Secondary
         };
 
-        LastPageButton = new ButtonViewComponent(OnLastPageButtonAsync)
+        LastPageButton = new ButtonViewComponent(OnLastPageButton)
         {
             Emoji = new LocalEmoji("⏭️"),
             Style = LocalButtonComponentStyle.Secondary
         };
 
-        StopButton = new ButtonViewComponent(OnStopButtonAsync)
+        StopButton = new ButtonViewComponent(OnStopButton)
         {
             Emoji = new LocalEmoji("⏹️"),
             Style = LocalButtonComponentStyle.Secondary
@@ -154,7 +154,7 @@ public class PagedView : PagedViewBase
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the callback work.
     /// </returns>
-    protected virtual ValueTask OnFirstPageButtonAsync(ButtonEventArgs e)
+    protected virtual ValueTask OnFirstPageButton(ButtonEventArgs e)
     {
         CurrentPageIndex = 0;
         return default;
@@ -167,7 +167,7 @@ public class PagedView : PagedViewBase
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the callback work.
     /// </returns>
-    protected virtual ValueTask OnPreviousPageButtonAsync(ButtonEventArgs e)
+    protected virtual ValueTask OnPreviousPageButton(ButtonEventArgs e)
     {
         CurrentPageIndex--;
         return default;
@@ -180,7 +180,7 @@ public class PagedView : PagedViewBase
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the callback work.
     /// </returns>
-    protected virtual ValueTask OnNextPageButtonAsync(ButtonEventArgs e)
+    protected virtual ValueTask OnNextPageButton(ButtonEventArgs e)
     {
         CurrentPageIndex++;
         return default;
@@ -193,7 +193,7 @@ public class PagedView : PagedViewBase
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the callback work.
     /// </returns>
-    protected virtual ValueTask OnLastPageButtonAsync(ButtonEventArgs e)
+    protected virtual ValueTask OnLastPageButton(ButtonEventArgs e)
     {
         CurrentPageIndex = PageProvider.PageCount - 1;
         return default;
@@ -206,7 +206,7 @@ public class PagedView : PagedViewBase
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the callback work.
     /// </returns>
-    protected virtual ValueTask OnStopButtonAsync(ButtonEventArgs e)
+    protected virtual ValueTask OnStopButton(ButtonEventArgs e)
     {
         if (Menu is DefaultMenuBase defaultMenu)
         {
