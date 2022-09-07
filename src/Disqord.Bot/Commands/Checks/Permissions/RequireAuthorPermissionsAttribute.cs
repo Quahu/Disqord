@@ -11,13 +11,21 @@ namespace Disqord.Bot.Commands;
 /// </summary>
 public class RequireAuthorPermissionsAttribute : DiscordCheckAttribute
 {
+    /// <summary>
+    ///     Gets the required permissions.
+    /// </summary>
     public Permissions Permissions { get; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="RequireAuthorPermissionsAttribute"/>.
+    /// </summary>
+    /// <param name="permissions"> The required permissions. </param>
     public RequireAuthorPermissionsAttribute(Permissions permissions)
     {
         Permissions = permissions;
     }
 
+    /// <inheritdoc/>
     public override ValueTask<IResult> CheckAsync(IDiscordCommandContext context)
     {
         if (context is not IDiscordGuildCommandContext guildContext)

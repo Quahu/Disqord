@@ -4,10 +4,18 @@ using Qommon;
 namespace Disqord.Bot.Commands;
 
 /// <summary>
-///     Specifies that the <see cref="IMember"/> parameter must be of lower guild hierarchy than the bot.
+///     Specifies that the <see cref="IMember"/> or <see cref="IRole"/> parameter
+///     must be of lower guild hierarchy than the bot's role hierarchy.
 /// </summary>
 public class RequireBotRoleHierarchyAttribute : RequireRoleHierarchyBaseAttribute
 {
+    /// <summary>
+    ///     Instantiates a new <see cref="RequireBotRoleHierarchyAttribute"/>.
+    /// </summary>
+    public RequireBotRoleHierarchyAttribute()
+    { }
+
+    /// <inheritdoc/>
     protected override (string Name, IMember Member) GetTarget(IDiscordGuildCommandContext context)
     {
         var currentMember = context.Bot.GetCurrentMember(context.GuildId);

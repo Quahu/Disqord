@@ -8,9 +8,13 @@ namespace Disqord.Bot.Commands;
 /// </summary>
 public class RequirePrivateAttribute : DiscordCheckAttribute
 {
+    /// <summary>
+    ///     Instantiates a new <see cref="RequirePrivateAttribute"/>.
+    /// </summary>
     public RequirePrivateAttribute()
     { }
 
+    /// <inheritdoc/>
     public override ValueTask<IResult> CheckAsync(IDiscordCommandContext context)
     {
         if (context.GuildId == null)

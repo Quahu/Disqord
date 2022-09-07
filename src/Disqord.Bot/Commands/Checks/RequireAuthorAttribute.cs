@@ -8,13 +8,21 @@ namespace Disqord.Bot.Commands;
 /// </summary>
 public class RequireAuthorAttribute : DiscordCheckAttribute
 {
+    /// <summary>
+    ///     Gets the required ID of the author.
+    /// </summary>
     public Snowflake Id { get; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="RequireAuthorAttribute"/>.
+    /// </summary>
+    /// <param name="id"> The required ID of the author. </param>
     public RequireAuthorAttribute(ulong id)
     {
         Id = id;
     }
 
+    /// <inheritdoc/>
     public override ValueTask<IResult> CheckAsync(IDiscordCommandContext context)
     {
         if (context.Author.Id == Id)

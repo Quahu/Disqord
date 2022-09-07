@@ -10,6 +10,13 @@ namespace Disqord.Bot.Commands;
 /// </summary>
 public class RequireAgeRestrictedAttribute : DiscordGuildCheckAttribute
 {
+    /// <summary>
+    ///     Instantiates a new <see cref="RequireAgeRestrictedAttribute"/>.
+    /// </summary>
+    public RequireAgeRestrictedAttribute()
+    { }
+
+    /// <inheritdoc/>
     public override ValueTask<IResult> CheckAsync(IDiscordGuildCommandContext context)
     {
         var channel = context.Bot.GetChannel(context.GuildId, context.ChannelId) as IGuildChannel;

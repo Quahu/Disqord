@@ -8,8 +8,15 @@ namespace Disqord.Bot.Commands;
 /// </summary>
 public class RequireAuthorRoleAttribute : DiscordGuildCheckAttribute
 {
+    /// <summary>
+    ///     Gets the ID of the required role.
+    /// </summary>
     public Snowflake Id { get; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="RequireAuthorRoleAttribute"/>.
+    /// </summary>
+    /// <param name="id"> The ID of the required role. </param>
     public RequireAuthorRoleAttribute(ulong id)
     {
         Id = id;

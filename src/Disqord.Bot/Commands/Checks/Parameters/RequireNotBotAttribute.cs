@@ -8,14 +8,19 @@ namespace Disqord.Bot.Commands;
 /// </summary>
 public class RequireNotBotAttribute : DiscordParameterCheckAttribute
 {
+    /// <summary>
+    ///     Instantiates a new <see cref="RequireNotBotAttribute"/>.
+    /// </summary>
     public RequireNotBotAttribute()
     { }
 
+    /// <inheritdoc/>
     public override bool CanCheck(IParameter parameter, object? value)
     {
         return value is IUser;
     }
 
+    /// <inheritdoc/>
     public override ValueTask<IResult> CheckAsync(IDiscordCommandContext context, IParameter parameter, object? argument)
     {
         var user = (argument as IUser)!;

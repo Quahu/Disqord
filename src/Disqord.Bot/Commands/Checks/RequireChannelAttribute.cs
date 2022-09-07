@@ -8,13 +8,21 @@ namespace Disqord.Bot.Commands;
 /// </summary>
 public class RequireChannelAttribute : DiscordCheckAttribute
 {
+    /// <summary>
+    ///     Gets the ID of the required channel.
+    /// </summary>
     public Snowflake Id { get; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="RequireChannelAttribute"/>.
+    /// </summary>
+    /// <param name="id"> The ID of the required channel. </param>
     public RequireChannelAttribute(ulong id)
     {
         Id = id;
     }
 
+    /// <inheritdoc/>
     public override ValueTask<IResult> CheckAsync(IDiscordCommandContext context)
     {
         if (context.ChannelId == Id)

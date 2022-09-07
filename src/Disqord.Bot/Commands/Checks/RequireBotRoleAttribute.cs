@@ -10,13 +10,21 @@ namespace Disqord.Bot.Commands;
 /// </summary>
 public class RequireBotRoleAttribute : DiscordGuildCheckAttribute
 {
+    /// <summary>
+    ///     Gets the ID of the required role.
+    /// </summary>
     public Snowflake Id { get; }
 
+    /// <summary>
+    ///     Instantiates a new <see cref="RequireBotRoleAttribute"/>.
+    /// </summary>
+    /// <param name="id"> The ID of the required role. </param>
     public RequireBotRoleAttribute(ulong id)
     {
         Id = id;
     }
 
+    /// <inheritdoc/>
     public override ValueTask<IResult> CheckAsync(IDiscordGuildCommandContext context)
     {
         var currentMember = context.Bot.GetCurrentMember(context.GuildId);

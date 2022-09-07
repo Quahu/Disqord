@@ -8,6 +8,13 @@ namespace Disqord.Bot.Commands;
 /// </summary>
 public class RequireBotOwnerAttribute : DiscordCheckAttribute
 {
+    /// <summary>
+    ///     Instantiates a new <see cref="RequireBotOwnerAttribute"/>.
+    /// </summary>
+    public RequireBotOwnerAttribute()
+    { }
+
+    /// <inheritdoc/>
     public override async ValueTask<IResult> CheckAsync(IDiscordCommandContext context)
     {
         if (await context.Bot.IsOwnerAsync(context.Author.Id).ConfigureAwait(false))
