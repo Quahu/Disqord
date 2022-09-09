@@ -117,9 +117,6 @@ public abstract class DiscordShardCoordinator : IShardCoordinator, IBindable<Dis
     }
 
     /// <inheritdoc/>
-    public abstract ValueTask WaitToIdentifyShardAsync(ShardId shardId, CancellationToken stoppingToken);
-
-    /// <inheritdoc/>
     public virtual ValueTask OnShardSetInvalidated(CancellationToken stoppingToken)
     {
         CurrentShardSet = default;
@@ -127,7 +124,22 @@ public abstract class DiscordShardCoordinator : IShardCoordinator, IBindable<Dis
     }
 
     /// <inheritdoc/>
+    public abstract ValueTask WaitToIdentifyShardAsync(ShardId shardId, CancellationToken stoppingToken);
+
+    /// <inheritdoc/>
+    public virtual ValueTask OnShardIdentifySent(ShardId shardId, CancellationToken stoppingToken)
+    {
+        return default;
+    }
+
+    /// <inheritdoc/>
     public virtual ValueTask OnShardReady(ShardId shardId, string sessionId, CancellationToken stoppingToken)
+    {
+        return default;
+    }
+
+    /// <inheritdoc/>
+    public virtual ValueTask OnShardSessionInvalidated(ShardId shardId, string? sessionId, CancellationToken stoppingToken)
     {
         return default;
     }

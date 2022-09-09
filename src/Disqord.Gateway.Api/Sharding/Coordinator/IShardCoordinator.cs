@@ -33,6 +33,15 @@ public interface IShardCoordinator : ILogging
     ValueTask<ShardSet> GetShardSetAsync(CancellationToken stoppingToken);
 
     /// <summary>
+    ///     Invoked when the shard set is or has become invalid.
+    /// </summary>
+    /// <param name="stoppingToken"> The cancellation token to observe. </param>
+    /// <returns>
+    ///     A <see cref="ValueTask"/> representing the callback work.
+    /// </returns>
+    ValueTask OnShardSetInvalidated(CancellationToken stoppingToken);
+
+    /// <summary>
     ///     Waits to identify shard with the given ID.
     /// </summary>
     /// <param name="shardId"> The ID of the shard. </param>
@@ -43,16 +52,21 @@ public interface IShardCoordinator : ILogging
     ValueTask WaitToIdentifyShardAsync(ShardId shardId, CancellationToken stoppingToken);
 
     /// <summary>
-    ///     Invoked when the shard set is or has become invalid.
+    ///     Invoked after the shard with the given ID sends an identify payload.
     /// </summary>
+    /// <remarks>
+    ///     Ensure this method does not take a long time to complete
+    ///     as it is invoked directly by the shard during its gateway flow.
+    /// </remarks>
+    /// <param name="shardId"> The ID of the shard. </param>
     /// <param name="stoppingToken"> The cancellation token to observe. </param>
     /// <returns>
-    ///     A <see cref="ValueTask"/> representing the callback work.
+    ///     A <see cref="ValueTask"/> representing the wait.
     /// </returns>
-    ValueTask OnShardSetInvalidated(CancellationToken stoppingToken);
+    ValueTask OnShardIdentifySent(ShardId shardId, CancellationToken stoppingToken);
 
     /// <summary>
-    ///     Invoked when a shard becomes ready,
+    ///     Invoked when the shard with the given ID becomes ready,
     ///     i.e. has successfully identified with the gateway.
     /// </summary>
     /// <remarks>
@@ -70,7 +84,22 @@ public interface IShardCoordinator : ILogging
     ValueTask OnShardReady(ShardId shardId, string sessionId, CancellationToken stoppingToken);
 
     /// <summary>
-    ///     Invoked when the shard set is or has become invalid.
+    ///     Invoked when the shard with the given ID has its session invalidated.
+    /// </summary>
+    /// <remarks>
+    ///     Ensure this method does not take a long time to complete
+    ///     as it is invoked directly by the shard during its gateway flow.
+    /// </remarks>
+    /// <param name="shardId"> The ID of the shard. </param>
+    /// <param name="sessionId"> The ID of the gateway session. </param>
+    /// <param name="stoppingToken"> The cancellation token to observe. </param>
+    /// <returns>
+    ///     A <see cref="ValueTask"/> representing the wait.
+    /// </returns>
+    ValueTask OnShardSessionInvalidated(ShardId shardId, string? sessionId, CancellationToken stoppingToken);
+
+    /// <summary>
+    ///     Invoked when the shard with the given ID disconnects.
     /// </summary>
     /// <remarks>
     ///     Ensure this method does not take a long time to complete
@@ -89,7 +118,7 @@ public interface IShardCoordinator : ILogging
     ValueTask OnShardDisconnected(ShardId shardId, Exception? exception, string? sessionId, CancellationToken stoppingToken);
 
     /// <summary>
-    ///     Invoked when the shard set is or has become invalid.
+    ///     Invoked when the state of the shard with the given ID changes.
     /// </summary>
     /// <remarks>
     ///     Ensure this method does not take a long time to complete

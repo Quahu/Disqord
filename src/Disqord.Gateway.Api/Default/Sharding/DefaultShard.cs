@@ -237,9 +237,9 @@ public class DefaultShard : IShard
                         }
                         case GatewayPayloadOperation.Reconnect:
                         {
+                            Logger.LogInformation("The gateway requested a reconnect.");
                             await SetStateAsync(ShardState.Reconnecting, stoppingToken).ConfigureAwait(false);
 
-                            Logger.LogInformation("The gateway requested a reconnect.");
                             stopHeartbeater = false;
                             try
                             {
@@ -266,34 +266,43 @@ public class DefaultShard : IShard
                         }
                         case GatewayPayloadOperation.InvalidSession:
                         {
-                            Logger.LogWarning("The gateway invalidated the session.");
+                            await ApiClient.ShardCoordinator.OnShardSessionInvalidated(Id, SessionId, stoppingToken).ConfigureAwait(false);
+
                             if (resuming)
                             {
-                                await SetStateAsync(ShardState.Identifying, stoppingToken).ConfigureAwait(false);
-
                                 resuming = false;
                                 var delay = Random.Shared.Next(1000, 5001);
-                                Logger.LogInformation("Currently resuming, will start a new session in {0}ms.", delay);
+                                Logger.LogInformation("The gateway did not resume the session, identifying in {0}ms...", delay);
+                                await SetStateAsync(ShardState.Identifying, stoppingToken).ConfigureAwait(false);
+
                                 await Task.Delay(delay, stoppingToken).ConfigureAwait(false);
                                 await IdentifyAsync(stoppingToken).ConfigureAwait(false);
                             }
                             else
                             {
-                                if (payload.D!.ToType<bool>())
+                                var isResumable = payload.D!.ToType<bool>();
+                                if (isResumable)
                                 {
                                     await SetStateAsync(ShardState.Resuming, stoppingToken).ConfigureAwait(false);
 
                                     resuming = true;
-                                    Logger.LogInformation("The session is resumable, resuming...");
+                                    Logger.LogInformation("The gateway invalidated the session (resumable), resuming...");
                                     await ResumeAsync(stoppingToken).ConfigureAwait(false);
                                 }
                                 else
                                 {
-                                    await SetStateAsync(ShardState.Identifying, stoppingToken).ConfigureAwait(false);
+                                    if (State == ShardState.Identifying)
+                                    {
+                                        Logger.LogWarning("Hit the identify rate-limit, retrying...");
+                                    }
+                                    else
+                                    {
+                                        SessionId = null;
+                                        ResumeUri = null;
+                                        Logger.LogInformation("The gateway invalidated the session (not resumable), identifying...");
+                                        await SetStateAsync(ShardState.Identifying, stoppingToken).ConfigureAwait(false);
+                                    }
 
-                                    SessionId = null;
-                                    ResumeUri = null;
-                                    Logger.LogInformation("The session is not resumable, identifying...");
                                     await IdentifyAsync(stoppingToken).ConfigureAwait(false);
                                 }
                             }
@@ -519,6 +528,8 @@ public class DefaultShard : IShard
                 Presence = Optional.FromNullable(Presence)
             }
         }, stoppingToken).ConfigureAwait(false);
+
+        await ApiClient.ShardCoordinator.OnShardIdentifySent(Id, stoppingToken);
     }
 
     private Task ResumeAsync(CancellationToken stoppingToken)

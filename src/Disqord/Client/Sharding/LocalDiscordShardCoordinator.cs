@@ -38,6 +38,11 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
     /// </summary>
     protected Timer? IdentifySemaphoreResetTimer { get; set; }
 
+    /// <summary>
+    ///     Gets or sets whether <see cref="IdentifySemaphoreResetTimer"/> is currently running.
+    /// </summary>
+    protected bool IsResetting { get; set; }
+
     public LocalDiscordShardCoordinator(
         IOptions<LocalDiscordShardCoordinatorConfiguration> options,
         ILogger<LocalDiscordShardCoordinator> logger)
@@ -72,6 +77,18 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
     }
 
     /// <inheritdoc/>
+    public override ValueTask OnShardSetInvalidated(CancellationToken stoppingToken)
+    {
+        lock (this)
+        {
+            IdentifySemaphore = null;
+            IdentifySemaphoreResetTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+
+        return base.OnShardSetInvalidated(stoppingToken);
+    }
+
+    /// <inheritdoc/>
     public override ValueTask WaitToIdentifyShardAsync(ShardId shardId, CancellationToken stoppingToken)
     {
         lock (this)
@@ -86,25 +103,20 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
     }
 
     /// <inheritdoc/>
-    public override ValueTask OnShardSetInvalidated(CancellationToken stoppingToken)
+    public override ValueTask OnShardIdentifySent(ShardId shardId, CancellationToken stoppingToken)
     {
+        if (IsResetting)
+            return default;
+
         lock (this)
         {
-            IdentifySemaphore = null;
-            IdentifySemaphoreResetTimer?.Change(Timeout.Infinite, Timeout.Infinite);
-        }
+            if (IsResetting)
+                return default;
 
-        return base.OnShardSetInvalidated(stoppingToken);
-    }
-
-    /// <inheritdoc/>
-    public override ValueTask OnShardReady(ShardId shardId, string sessionId, CancellationToken stoppingToken)
-    {
-        lock (this)
-        {
+            IsResetting = true;
             if (IdentifySemaphoreResetTimer == null)
             {
-                IdentifySemaphoreResetTimer = new Timer(state =>
+                IdentifySemaphoreResetTimer = new Timer(static state =>
                 {
                     var @this = Unsafe.As<LocalDiscordShardCoordinator>(state!);
                     try
@@ -124,6 +136,8 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
                             {
                                 @this.IdentifySemaphoreResetTimer.Change(Timeout.Infinite, Timeout.Infinite);
                             }
+
+                            @this.IsResetting = false;
                         }
                     }
                     catch (Exception ex)
