@@ -96,7 +96,8 @@ public class ChannelJsonModel : JsonModel
     [JsonProperty("applied_tags")]
     public Optional<Snowflake[]> AppliedTags;
 
-    // TODO: default reaction emoji
+    [JsonProperty("default_reaction_emoji")]
+    public Optional<ForumDefaultReactionJsonModel> DefaultReactionEmoji;
 
     /// <summary>
     ///     Default slowmode for newly created threads, in seconds

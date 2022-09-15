@@ -12,9 +12,11 @@ public class ModifyForumChannelActionProperties : ModifyMessageGuildChannelActio
 
     public Optional<TimeSpan> DefaultAutomaticArchiveDuration { internal get; set; }
 
-    public Optional<TimeSpan> DefaultThreadSlowmode { internal get; set; }
-
     public Optional<IEnumerable<LocalForumTag>> Tags { internal get; set; }
+
+    public Optional<LocalEmoji?> DefaultReactionEmoji { internal get; set; }
+
+    public Optional<TimeSpan> DefaultThreadSlowmode { internal get; set; }
 
     internal ModifyForumChannelActionProperties()
     { }

@@ -184,6 +184,7 @@ public static partial class RestClientExtensions
                     content.Nsfw = forumProperties.IsAgeRestricted;
                     content.DefaultAutoArchiveDuration = Optional.Convert(forumProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
                     content.AvailableTags = Optional.Convert(forumProperties.Tags, tags => tags.Select(tag => tag.ToModel()).ToArray());
+                    content.DefaultReactionEmoji = Optional.Convert(forumProperties.DefaultReactionEmoji, emoji => ForumDefaultReactionJsonModel.FromEmoji(emoji!));
                     content.DefaultThreadRateLimitPerUser = Optional.Convert(forumProperties.DefaultThreadSlowmode, slowmode => (int) slowmode.TotalSeconds);
                     break;
                 }

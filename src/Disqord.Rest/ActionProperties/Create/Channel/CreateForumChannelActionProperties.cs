@@ -14,9 +14,11 @@ public sealed class CreateForumChannelActionProperties : CreateNestedChannelActi
 
     public Optional<TimeSpan> DefaultAutomaticArchiveDuration { internal get; set; }
 
-    public Optional<TimeSpan> DefaultThreadSlowmode { internal get; set; }
-
     public Optional<IEnumerable<LocalForumTag>> Tags { internal get; set; }
+
+    public Optional<LocalEmoji> DefaultReactionEmoji { internal get; set; }
+
+    public Optional<TimeSpan> DefaultThreadSlowmode { internal get; set; }
 
     /// <summary>
     ///     Sets whether the forum channel requires a tag to be specified for threads created in it.

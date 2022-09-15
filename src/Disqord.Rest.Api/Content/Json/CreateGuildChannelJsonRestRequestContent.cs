@@ -51,7 +51,8 @@ public class CreateGuildChannelJsonRestRequestContent : JsonModelRestRequestCont
     [JsonProperty("available_tags")]
     public Optional<ForumTagJsonModel[]> AvailableTags;
 
-    // TODO: default reaction emoji
+    [JsonProperty("default_reaction_emoji")]
+    public Optional<ForumDefaultReactionJsonModel> DefaultReactionEmoji;
 
     [JsonProperty("default_thread_rate_limit_per_user")]
     public Optional<int> DefaultThreadRateLimitPerUser;

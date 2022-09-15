@@ -16,13 +16,10 @@ public class TransientForumChannel : TransientCategorizableGuildChannel, IForumC
     public bool IsAgeRestricted => Model.Nsfw.Value;
 
     /// <inheritdoc/>
-    public TimeSpan DefaultAutomaticArchiveDuration => TimeSpan.FromMinutes(Model.DefaultAutoArchiveDuration.GetValueOrDefault(1440));
-
-    /// <inheritdoc/>
-    public TimeSpan DefaultThreadSlowmode => TimeSpan.FromSeconds(Model.DefaultThreadRateLimitPerUser.GetValueOrDefault(0));
-
-    /// <inheritdoc/>
     public TimeSpan Slowmode => TimeSpan.FromSeconds(Model.RateLimitPerUser.GetValueOrDefault());
+
+    /// <inheritdoc/>
+    public TimeSpan DefaultAutomaticArchiveDuration => TimeSpan.FromMinutes(Model.DefaultAutoArchiveDuration.GetValueOrDefault(1440));
 
     /// <inheritdoc/>
     public Snowflake? LastThreadId => Model.LastMessageId.GetValueOrDefault();
@@ -42,6 +39,35 @@ public class TransientForumChannel : TransientCategorizableGuildChannel, IForumC
         }
     }
     private IReadOnlyList<IForumTag>? _availableTags;
+
+    /// <inheritdoc/>
+    public IEmoji? DefaultReactionEmoji
+    {
+        get
+        {
+            if (Model.DefaultReactionEmoji.GetValueOrDefault() == null)
+                return null;
+
+            if (_emoji != null)
+                return _emoji;
+
+            var model = Model.DefaultReactionEmoji.Value;
+            if (model.EmojiId != null)
+            {
+                _emoji = new TransientCustomEmoji(model.EmojiId.Value);
+            }
+            else
+            {
+                _emoji = new TransientEmoji(model.EmojiName!);
+            }
+
+            return _emoji;
+        }
+    }
+    private IEmoji? _emoji;
+
+    /// <inheritdoc/>
+    public TimeSpan DefaultThreadSlowmode => TimeSpan.FromSeconds(Model.DefaultThreadRateLimitPerUser.GetValueOrDefault(0));
 
     public TransientForumChannel(IClient client, ChannelJsonModel model)
         : base(client, model)
