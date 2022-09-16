@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Disqord.Models;
-using Newtonsoft.Json;
+using Disqord.Serialization.Json;
 using Qommon;
 
 namespace Disqord.Rest.Api;
