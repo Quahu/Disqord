@@ -11,10 +11,9 @@ public class TransientEmoji : TransientEntity<EmojiJsonModel>, IEmoji
         : base(model)
     { }
 
-    public TransientEmoji(Snowflake? id, string? name)
+    public TransientEmoji(string name)
         : base(new EmojiJsonModel
         {
-            Id = id,
             Name = name
         })
     { }

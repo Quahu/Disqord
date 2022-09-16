@@ -89,4 +89,19 @@ public class ChannelJsonModel : JsonModel
 
     [JsonProperty("flags")]
     public Optional<GuildChannelFlags> Flags;
+
+    [JsonProperty("available_tags")]
+    public Optional<ForumTagJsonModel[]> AvailableTags;
+
+    [JsonProperty("applied_tags")]
+    public Optional<Snowflake[]> AppliedTags;
+
+    [JsonProperty("default_reaction_emoji")]
+    public Optional<ForumDefaultReactionJsonModel> DefaultReactionEmoji;
+
+    /// <summary>
+    ///     Default slowmode for newly created threads, in seconds
+    /// </summary>
+    [JsonProperty("default_thread_rate_limit_per_user")]
+    public Optional<int> DefaultThreadRateLimitPerUser;
 }

@@ -58,7 +58,7 @@ public class CachedRole : CachedSnowflakeEntity, IRole
         Permissions = model.Permissions;
         IsManaged = model.Managed;
         IsMentionable = model.Mentionable;
-        UnicodeEmoji = Optional.ConvertOrDefault(model.UnicodeEmoji, emojiName => emojiName != null ? new TransientEmoji(null, emojiName) : null);
+        UnicodeEmoji = Optional.ConvertOrDefault(model.UnicodeEmoji, emojiName => emojiName != null ? new TransientEmoji(emojiName) : null);
         Tags = Optional.ConvertOrDefault(model.Tags, model => new TransientRoleTags(model), IRoleTags.Empty);
     }
 }

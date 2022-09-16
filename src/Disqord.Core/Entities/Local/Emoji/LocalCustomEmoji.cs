@@ -23,9 +23,17 @@ public class LocalCustomEmoji : LocalEmoji, ICustomEmoji, ILocalConstruct<LocalC
     /// <inheritdoc/>
     public string Tag => this.GetString();
 
-    Snowflake IIdentifiableEntity.Id => Id.Value;
+    Snowflake IIdentifiableEntity.Id
+    {
+        get
+        {
+            OptionalGuard.HasValue(Id);
 
-    bool ICustomEmoji.IsAnimated => IsAnimated.Value;
+            return Id.Value;
+        }
+    }
+
+    bool ICustomEmoji.IsAnimated => IsAnimated.GetValueOrDefault();
 
     /// <summary>
     ///     Instantiates a new <see cref="LocalCustomEmoji"/>.

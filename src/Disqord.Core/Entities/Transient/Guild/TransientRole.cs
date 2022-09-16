@@ -48,7 +48,7 @@ public class TransientRole : TransientClientEntity<RoleJsonModel>, IRole
             if (Model.UnicodeEmoji.GetValueOrDefault() == null)
                 return null;
 
-            return _unicodeEmoji ??= new TransientEmoji(null, Model.UnicodeEmoji.Value);
+            return _unicodeEmoji ??= new TransientEmoji(Model.UnicodeEmoji.Value!);
         }
     }
     private IEmoji? _unicodeEmoji;

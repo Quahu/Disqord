@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Disqord;
 
@@ -93,4 +94,12 @@ public interface IThreadChannel : IMessageGuildChannel, IChannelEntity
     ///     Gets the thread metadata of this thread.
     /// </summary>
     IThreadMetadata Metadata { get; }
+
+    /// <summary>
+    ///     Gets the IDs of the forum tags applied to this thread.
+    /// </summary>
+    /// <remarks>
+    ///     This is always empty for threads outside of forum channels.
+    /// </remarks>
+    IReadOnlyList<Snowflake> TagIds { get; }
 }

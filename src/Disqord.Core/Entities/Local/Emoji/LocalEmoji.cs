@@ -111,7 +111,7 @@ public class LocalEmoji : IEmoji, ILocalConstruct<LocalEmoji>, IJsonConvertible<
         return new(this);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public virtual EmojiJsonModel ToModel()
     {
         OptionalGuard.HasValue(Name);

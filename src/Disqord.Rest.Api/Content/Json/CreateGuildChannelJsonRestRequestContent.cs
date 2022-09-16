@@ -48,6 +48,18 @@ public class CreateGuildChannelJsonRestRequestContent : JsonModelRestRequestCont
     [JsonProperty("flags")]
     public Optional<GuildChannelFlags> Flags;
 
+    [JsonProperty("available_tags")]
+    public Optional<ForumTagJsonModel[]> AvailableTags;
+
+    [JsonProperty("default_reaction_emoji")]
+    public Optional<ForumDefaultReactionJsonModel> DefaultReactionEmoji;
+
+    [JsonProperty("default_thread_rate_limit_per_user")]
+    public Optional<int> DefaultThreadRateLimitPerUser;
+
+    [JsonProperty("applied_tags")]
+    public Optional<Snowflake[]> AppliedTags;
+
     public CreateGuildChannelJsonRestRequestContent(string name)
     {
         Name = name;

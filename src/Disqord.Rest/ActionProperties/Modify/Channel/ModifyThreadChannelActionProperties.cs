@@ -36,6 +36,8 @@ public class ModifyThreadChannelActionProperties : ModifyMessageGuildChannelActi
         set => throw new InvalidOperationException("Thread channels do not support modifying the category ID. Modify the parent channel's category ID instead.");
     }
 
+    public Optional<IEnumerable<Snowflake>> TagIds { internal get; set; }
+
     internal ModifyThreadChannelActionProperties()
     { }
 }

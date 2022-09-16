@@ -10,6 +10,9 @@ public class CreateForumThreadJsonRestRequestContent : CreateThreadJsonRestReque
     [JsonProperty("message")]
     public CreateMessageJsonRestRequestContent Message = null!;
 
+    [JsonProperty("applied_tags")]
+    public Optional<Snowflake[]> AppliedTags;
+
     IList<PartialAttachmentJsonModel> IAttachmentRestRequestContent.Attachments
     {
         set

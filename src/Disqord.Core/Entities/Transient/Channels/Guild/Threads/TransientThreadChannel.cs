@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Disqord.Models;
+using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
@@ -44,6 +45,18 @@ public class TransientThreadChannel : TransientMessageGuildChannel, IThreadChann
     public IThreadMetadata Metadata => _metadata ??= new TransientThreadMetadata(Model.ThreadMetadata.Value);
 
     private TransientThreadMetadata? _metadata;
+
+    /// <inheritdoc/>
+    public IReadOnlyList<Snowflake> TagIds
+    {
+        get
+        {
+            if (!Model.AvailableTags.HasValue)
+                return Array.Empty<Snowflake>();
+
+            return Model.AppliedTags.Value;
+        }
+    }
 
     public TransientThreadChannel(IClient client, ChannelJsonModel model)
         : base(client, model)

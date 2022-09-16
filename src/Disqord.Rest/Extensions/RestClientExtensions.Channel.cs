@@ -145,18 +145,21 @@ public static partial class RestClientExtensions
                                 content.AutoArchiveDuration = Optional.Convert(threadProperties.AutomaticArchiveDuration, x => (int) x.TotalMinutes);
                                 content.Locked = threadProperties.IsLocked;
                                 content.Invitable = threadProperties.AllowsInvitation;
+                                content.AppliedTags = Optional.Convert(threadProperties.TagIds, tagIds => tagIds.ToArray());
+                                break;
+                            }
+                            case ModifyForumChannelActionProperties forumProperties:
+                            {
+                                content.Topic = forumProperties.Topic;
+                                content.Nsfw = forumProperties.IsAgeRestricted;
+                                content.DefaultAutoArchiveDuration = Optional.Convert(forumProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
+                                content.AvailableTags = Optional.Convert(forumProperties.Tags, tags => tags.Select(tag => tag.ToModel()).ToArray());
+                                content.DefaultReactionEmoji = Optional.Convert(forumProperties.DefaultReactionEmoji, emoji => ForumDefaultReactionJsonModel.FromEmoji(emoji!));
+                                content.DefaultThreadRateLimitPerUser = Optional.Convert(forumProperties.DefaultThreadSlowmode, x => (int) x.TotalSeconds);
                                 break;
                             }
                         }
 
-                        break;
-                    }
-                    case ModifyForumChannelActionProperties forumProperties:
-                    {
-                        content.Topic = forumProperties.Topic;
-                        content.RateLimitPerUser = Optional.Convert(forumProperties.Slowmode, x => (int) x.TotalSeconds);
-                        content.Nsfw = forumProperties.IsAgeRestricted;
-                        content.DefaultAutoArchiveDuration = Optional.Convert(forumProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
                         break;
                     }
                     case ModifyStageChannelActionProperties stageChannelProperties:
@@ -652,7 +655,8 @@ public static partial class RestClientExtensions
             Name = name,
             AutoArchiveDuration = Optional.Convert(properties.AutomaticArchiveDuration, x => (int) x.TotalMinutes),
             RateLimitPerUser = Optional.Convert(properties.Slowmode, x => (int?) x.TotalSeconds),
-            Message = messageContent
+            Message = messageContent,
+            AppliedTags = Optional.Convert(properties.TagIds, tagIds => tagIds.ToArray())
         };
 
         Task<ChannelJsonModel> task;
