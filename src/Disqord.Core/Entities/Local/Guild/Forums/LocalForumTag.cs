@@ -17,7 +17,7 @@ public class LocalForumTag : ILocalConstruct<LocalForumTag>, IJsonConvertible<Fo
     ///     Gets or sets the ID of this tag.
     /// </summary>
     /// <remarks>
-    ///     This property is required.
+    ///     This property is required when modifying an existing tag.
     /// </remarks>
     public Optional<Snowflake> Id { get; set; }
 

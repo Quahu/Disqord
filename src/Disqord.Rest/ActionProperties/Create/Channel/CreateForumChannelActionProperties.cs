@@ -23,6 +23,9 @@ public sealed class CreateForumChannelActionProperties : CreateNestedChannelActi
     /// <summary>
     ///     Sets whether the forum channel requires a tag to be specified for threads created in it.
     /// </summary>
+    /// <remarks>
+    ///     This is a shorthand for applying <see cref="GuildChannelFlags.RequiresTag"/> to <see cref="CreateGuildChannelActionProperties.Flags"/>.
+    /// </remarks>
     public bool RequiresTag
     {
         set
