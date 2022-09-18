@@ -16,7 +16,7 @@ public class DefaultRestRequestOptions : IRestRequestOptions
         get
         {
             var headers = _headers;
-            if (headers != null && headers.TryGetValue("X-Audit-Log-Reason", out var value))
+            if (headers != null && headers.TryGetValue(RestApiHeaderNames.AuditLogReason, out var value))
                 return value;
 
             return null;
@@ -25,11 +25,11 @@ public class DefaultRestRequestOptions : IRestRequestOptions
         {
             if (value == null)
             {
-                _headers?.Remove("X-Audit-Log-Reason");
+                _headers?.Remove(RestApiHeaderNames.AuditLogReason);
             }
             else
             {
-                Headers["X-Audit-Log-Reason"] = value;
+                Headers[RestApiHeaderNames.AuditLogReason] = value;
             }
         }
     }

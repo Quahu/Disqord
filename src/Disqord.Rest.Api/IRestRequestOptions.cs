@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Disqord.Rest.Api;
 
 namespace Disqord.Rest;
 
@@ -9,13 +10,15 @@ public interface IRestRequestOptions
 {
     /// <summary>
     ///     Gets or sets the audit log reason for the request.
-    ///     This is a shortcut for setting the <c>X-Audit-Log-Reason</c> header in <see cref="Headers"/>.
     /// </summary>
+    /// <remarks>
+    ///     This is a shorthand for setting the <see cref="RestApiHeaderNames.AuditLogReason"/> header in <see cref="Headers"/>.
+    /// </remarks>
     string? Reason
     {
         get
         {
-            if (Headers.TryGetValue("X-Audit-Log-Reason", out var value))
+            if (Headers.TryGetValue(RestApiHeaderNames.AuditLogReason, out var value))
                 return value;
 
             return null;
@@ -24,11 +27,11 @@ public interface IRestRequestOptions
         {
             if (value == null)
             {
-                Headers.Remove("X-Audit-Log-Reason");
+                Headers.Remove(RestApiHeaderNames.AuditLogReason);
             }
             else
             {
-                Headers["X-Audit-Log-Reason"] = value;
+                Headers[RestApiHeaderNames.AuditLogReason] = value;
             }
         }
     }
