@@ -66,6 +66,12 @@ public class DefaultRestRequester : IRestRequester
                 httpRequest.Headers.Add(header.Key, header.Value);
         }
 
+        if (httpRequest.Headers.TryGetValue(RestApiHeaderNames.AuditLogReason, out var auditLogReason))
+        {
+            // URI-encodes the audit log reason to allow for non-ASCII characters.
+            httpRequest.Headers[RestApiHeaderNames.AuditLogReason] = Uri.EscapeDataString(auditLogReason);
+        }
+
         var response = await HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
         return new DefaultRestResponse(response);
     }
