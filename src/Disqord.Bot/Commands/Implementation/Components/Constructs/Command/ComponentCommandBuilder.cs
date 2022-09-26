@@ -30,8 +30,6 @@ public class ComponentCommandBuilder : ICommandBuilder
 
     public ICommandCallback Callback { get; }
 
-    public ComponentCommandBuilder? AutoCompleteCommand { get; set; }
-
     IModuleBuilder ICommandBuilder.Module => Module;
 
     IList<IParameterBuilder> ICommandBuilder.Parameters => _parameters;

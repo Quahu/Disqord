@@ -31,8 +31,6 @@ public class ComponentCommand : ICommand
 
     public ICommandCallback Callback { get; }
 
-    public ComponentCommand? AutoCompleteCommand { get; }
-
     IModule ICommand.Module => Module;
 
     IReadOnlyList<IParameter> ICommand.Parameters => Parameters;
@@ -86,6 +84,5 @@ public class ComponentCommand : ICommand
 
         MethodInfo = builder.MethodInfo;
         Callback = builder.Callback;
-        AutoCompleteCommand = builder.AutoCompleteCommand?.Build(Module);
     }
 }
