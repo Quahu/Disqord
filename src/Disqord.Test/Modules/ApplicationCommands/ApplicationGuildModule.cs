@@ -40,7 +40,9 @@ namespace Disqord.Test.Modules.ApplicationCommands
         /// </summary>
         [AutoComplete("test1")]
         [AutoComplete("test2")]
-        public void AutoCompleteTest(AutoComplete<string> first, /* 'second' isn't auto-completed */ AutoComplete<int> third)
+        public void AutoCompleteTest(AutoComplete<string> first,
+            Optional<int> second, /* 'second' isn't auto-completed, but we can still view its value */
+            AutoComplete<int> third)
         {
             if (first.IsFocused)
             {

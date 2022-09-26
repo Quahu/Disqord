@@ -642,7 +642,7 @@ public abstract partial class DiscordBotBase
                                 var autoCompleteParameterCount = autoCompleteParameters.Count;
                                 for (var j = 0; j < autoCompleteParameterCount; j++)
                                 {
-                                    if (autoCompleteParameters[j].Name == option.Name)
+                                    if (autoCompleteParameters[j].Name == option.Name && typeof(IAutoComplete).IsAssignableFrom(autoCompleteParameters[j].ReflectedType))
                                     {
                                         option.HasAutoComplete = true;
                                         break;

@@ -31,8 +31,7 @@ public static partial class DefaultApplicationExecutionSteps
             foreach (var argument in applicationContext.Arguments!.Values)
             {
                 Guard.IsNotNull(argument);
-                var autoComplete = Guard.IsAssignableToType<IAutoComplete>(argument);
-                if (!autoComplete.IsFocused)
+                if (argument is not IAutoComplete autoComplete || !autoComplete.IsFocused)
                     continue;
 
                 var enumerator = autoComplete.EnumerateChoices();

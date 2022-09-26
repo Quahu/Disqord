@@ -47,22 +47,26 @@ public static partial class DefaultApplicationExecutionSteps
 
                 var isFocused = focusedOption == options.GetValueOrDefault(parameter.Name);
                 var parameterType = parameter.ReflectedType.GenericTypeArguments[0];
-                object? currentValue;
+                object currentValue;
                 if (originalKvp == null)
                 {
-                    currentValue = Activator.CreateInstance(typeof(Optional<>).MakeGenericType(parameterType));
+                    currentValue = Activator.CreateInstance(typeof(Optional<>).MakeGenericType(parameterType))!;
                 }
                 else
                 {
                     currentValue = isFocused || originalKvp.Value.Value is IOptional
-                        ? originalKvp.Value.Value
-                        : Activator.CreateInstance(typeof(Optional<>).MakeGenericType(parameterType), originalKvp.Value.Value);
+                        ? originalKvp.Value.Value!
+                        : Activator.CreateInstance(typeof(Optional<>).MakeGenericType(parameterType), originalKvp.Value.Value)!;
                 }
 
-                var autoCompleteType = isFocused ? typeof(FocusedAutoComplete<>) : typeof(UnfocusedAutoComplete<>);
-                var autoCompleteGenericType = autoCompleteType.MakeGenericType(parameterType);
-                var autoComplete = Activator.CreateInstance(autoCompleteGenericType, currentValue);
-                arguments[parameter] = autoComplete;
+                if (typeof(IAutoComplete).IsAssignableFrom(parameter.ReflectedType))
+                {
+                    var autoCompleteType = isFocused ? typeof(FocusedAutoComplete<>) : typeof(UnfocusedAutoComplete<>);
+                    var autoCompleteGenericType = autoCompleteType.MakeGenericType(parameterType);
+                    currentValue = Activator.CreateInstance(autoCompleteGenericType, currentValue)!;
+                }
+
+                arguments[parameter] = currentValue;
             }
 
             context.Arguments = arguments;
