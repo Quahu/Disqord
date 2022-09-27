@@ -54,9 +54,6 @@ public static class DiscordBotHostBuilderExtensions
             });
         }
 
-        if (!discordContext.UseMentionPrefix && (discordContext.Prefixes == null || !discordContext.Prefixes.Any()))
-            throw new InvalidOperationException($"No prefixes were specified for the {nameof(DefaultPrefixProvider)}.");
-
         services.AddSingleton<IConfigureOptions<DefaultPrefixProviderConfiguration>>(services => new ConfigureOptions<DefaultPrefixProviderConfiguration>(x =>
         {
             var prefixes = new List<IPrefix>();
