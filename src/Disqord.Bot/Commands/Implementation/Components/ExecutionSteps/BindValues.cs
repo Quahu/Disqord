@@ -64,7 +64,7 @@ public static partial class DefaultComponentExecutionSteps
                             if (parameter.Name != textInputComponent.CustomId)
                                 continue;
 
-                            if (textInputComponent.Value != null)
+                            if (!string.IsNullOrEmpty(textInputComponent.Value))
                                 (context.RawArguments ??= new Dictionary<IParameter, MultiString>())[parameter] = textInputComponent.Value;
 
                             break;
