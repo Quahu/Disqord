@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Models;
+using Disqord.Serialization.Json;
 using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Default.Dispatcher;
@@ -30,7 +31,8 @@ public class ThreadCreateDispatchHandler : DispatchHandler<ChannelJsonModel, Thr
             thread = new TransientThreadChannel(Client, model);
         }
 
-        var e = new ThreadCreatedEventArgs(thread);
+        JsonModel.TryGetExtensionDatum<bool>(model, "newly_created", out var isThreadCreation);
+        var e = new ThreadCreatedEventArgs(thread, isThreadCreation);
         return new(e);
     }
 }

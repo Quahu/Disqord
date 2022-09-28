@@ -20,11 +20,21 @@ public class ThreadCreatedEventArgs : EventArgs
     /// </summary>
     public IThreadChannel Thread { get; }
 
+    /// <summary>
+    ///     Gets whether the thread was created or the bot joined the existing thread.
+    /// </summary>
+    /// <returns>
+    ///     <see langword="true"/> if the thread was created; <see langword="false"/> if the bot joined the thread.
+    /// </returns>
+    public bool IsThreadCreation { get; }
+
     public ThreadCreatedEventArgs(
-        IThreadChannel thread)
+        IThreadChannel thread,
+        bool isThreadCreation)
     {
         Guard.IsNotNull(thread);
 
         Thread = thread;
+        IsThreadCreation = isThreadCreation;
     }
 }
