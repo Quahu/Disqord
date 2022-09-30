@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Disqord.Models;
-using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
@@ -51,7 +50,7 @@ public class TransientThreadChannel : TransientMessageGuildChannel, IThreadChann
     {
         get
         {
-            if (!Model.AvailableTags.HasValue)
+            if (!Model.AppliedTags.HasValue)
                 return Array.Empty<Snowflake>();
 
             return Model.AppliedTags.Value;
