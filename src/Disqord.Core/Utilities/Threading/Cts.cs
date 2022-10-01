@@ -39,6 +39,14 @@ public sealed class Cts : IDisposable
         _cts.Cancel();
     }
 
+    public void CancelAfter(TimeSpan delay)
+    {
+        if (_isCanceled || _isDisposed)
+            return;
+
+        _cts.CancelAfter(delay);
+    }
+
     public void Dispose()
     {
         if (_isDisposed)

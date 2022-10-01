@@ -9,7 +9,7 @@ public class GuildMembersChunkDispatchHandler : DispatchHandler<GuildMembersChun
 {
     public override async ValueTask<EventArgs?> HandleDispatchAsync(IShard shard, GuildMembersChunkJsonModel model)
     {
-        await Dispatcher.Client.Chunker.HandleChunkAsync(model).ConfigureAwait(false);
+        await Dispatcher.Client.Chunker.OnChunk(model).ConfigureAwait(false);
         return null;
     }
 }

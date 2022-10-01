@@ -15,11 +15,20 @@ using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Default;
 
+/// <inheritdoc cref="IGatewayChunker"/>
 public class DefaultGatewayChunker : IGatewayChunker
 {
+    /// <inheritdoc/>
     public ILogger Logger { get; }
 
+    /// <inheritdoc/>
     public IGatewayClient Client => _binder.Value;
+
+    /// <summary>
+    ///     Gets the time after which, if no chunk was received,
+    ///     the chunk operations will time out and be retried.
+    /// </summary>
+    public TimeSpan OperationTimeout { get; }
 
     private readonly ISynchronizedDictionary<string, ChunkOperation> _operations;
 
@@ -29,6 +38,9 @@ public class DefaultGatewayChunker : IGatewayChunker
         IOptions<DefaultGatewayChunkerConfiguration> options,
         ILogger<DefaultGatewayChunker> logger)
     {
+        var configuration = options.Value;
+        Guard.IsGreaterThan(configuration.OperationTimeout, TimeSpan.Zero);
+        OperationTimeout = configuration.OperationTimeout;
         Logger = logger;
 
         _operations = new SynchronizedDictionary<string, ChunkOperation>();
@@ -36,12 +48,14 @@ public class DefaultGatewayChunker : IGatewayChunker
         _binder = new Binder<IGatewayClient>(this);
     }
 
+    /// <inheritdoc/>
     public void Bind(IGatewayClient value)
     {
         _binder.Bind(value);
     }
 
-    public ValueTask HandleChunkAsync(GuildMembersChunkJsonModel model)
+    /// <inheritdoc/>
+    public ValueTask OnChunk(GuildMembersChunkJsonModel model)
     {
         var members = new List<IMember>();
         if (model.Members.Length != 0)
@@ -75,7 +89,14 @@ public class DefaultGatewayChunker : IGatewayChunker
         if (!hasOperation)
             return default;
 
-        operation!.AddMembers(members);
+        operation!.OnChunk();
+        if (operation.IsTimedOut)
+        {
+            operation.Dispose();
+            return default;
+        }
+
+        operation.AddMembers(members);
         if (isLastChunk)
         {
             operation.Complete();
@@ -85,6 +106,7 @@ public class DefaultGatewayChunker : IGatewayChunker
         return default;
     }
 
+    /// <inheritdoc/>
     public async ValueTask<bool> ChunkAsync(IGatewayGuild guild, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(guild);
@@ -106,6 +128,7 @@ public class DefaultGatewayChunker : IGatewayChunker
         return true;
     }
 
+    /// <inheritdoc/>
     public ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, string query, int limit = Discord.Limits.Gateway.QueryMembersLimit, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(query);
@@ -121,6 +144,7 @@ public class DefaultGatewayChunker : IGatewayChunker
         return InternalOperationAsync(model, true, cancellationToken)!;
     }
 
+    /// <inheritdoc/>
     public ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, IEnumerable<Snowflake> memberIds, CancellationToken cancellationToken = default)
     {
         var ids = memberIds.ToArray();
@@ -142,31 +166,60 @@ public class DefaultGatewayChunker : IGatewayChunker
 
     private async ValueTask<IReadOnlyDictionary<Snowflake, IMember>?> InternalOperationAsync(RequestMembersJsonModel model, bool isQuery, CancellationToken cancellationToken)
     {
-        var operation = new ChunkOperation(isQuery, cancellationToken);
-        _operations.Add(operation.Nonce, operation);
-        model.Nonce = operation.Nonce;
-        model.Presences = true; // According to the docs should default to false without the presences intent.
-        var shard = Client.ApiClient.GetShard(model.GuildId)!;
-        await shard.SendAsync(new GatewayPayloadJsonModel
+        while (true)
         {
-            Op = GatewayPayloadOperation.RequestMembers,
-            D = model
-        }, cancellationToken).ConfigureAwait(false);
+            var operation = new ChunkOperation(OperationTimeout, isQuery, cancellationToken);
+            model.Nonce = operation.Nonce;
+            model.Presences = true; // According to the docs should default to false without the presences intent.
+            var shard = Client.ApiClient.GetShard(model.GuildId);
+            if (shard == null)
+                throw new InvalidOperationException("Failed to get the shard of the guild.");
 
-        return await operation.WaitAsync().ConfigureAwait(false);
+            _operations.Add(operation.Nonce, operation);
+            try
+            {
+                await shard.SendAsync(new GatewayPayloadJsonModel
+                {
+                    Op = GatewayPayloadOperation.RequestMembers,
+                    D = model
+                }, cancellationToken).ConfigureAwait(false);
+            }
+            catch
+            {
+                _operations.Remove(operation.Nonce);
+                throw;
+            }
+
+            try
+            {
+                return await operation.WaitAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                if (ex is TimeoutException)
+                    continue;
+
+                throw;
+            }
+        }
     }
 
     private sealed class ChunkOperation : IDisposable
     {
         public string Nonce { get; }
 
+        public bool IsTimedOut => _timeoutCts.IsCancellationRequested;
+
+        private readonly TimeSpan _timeout;
+        private Cts _timeoutCts = null!;
         private readonly SynchronizedDictionary<Snowflake, IMember>? _members;
         private readonly Tcs<IReadOnlyDictionary<Snowflake, IMember>?> _tcs;
         private readonly CancellationTokenRegistration _reg;
 
-        public ChunkOperation(bool isQuery, CancellationToken cancellationToken)
+        public ChunkOperation(TimeSpan timeout, bool isQuery, CancellationToken cancellationToken)
         {
             Nonce = Guid.NewGuid().ToString("N");
+            _timeout = timeout;
 
             _members = isQuery
                 ? new SynchronizedDictionary<Snowflake, IMember>()
@@ -185,7 +238,21 @@ public class DefaultGatewayChunker : IGatewayChunker
 
         public Task<IReadOnlyDictionary<Snowflake, IMember>?> WaitAsync()
         {
+            _timeoutCts = new Cts(_timeout);
+
+            static void CancellationCallback(object? state, CancellationToken cancellationToken)
+            {
+                var tcs = Unsafe.As<Tcs<IReadOnlyList<IMember>>>(state)!;
+                tcs.Throw(new TimeoutException());
+            }
+
+            _timeoutCts.Token.UnsafeRegister(CancellationCallback, _tcs);
             return _tcs.Task;
+        }
+
+        public void OnChunk()
+        {
+            _timeoutCts.CancelAfter(_timeout);
         }
 
         public void AddMembers(IReadOnlyList<IMember> members)
@@ -208,6 +275,7 @@ public class DefaultGatewayChunker : IGatewayChunker
         public void Dispose()
         {
             _reg.Dispose();
+            _timeoutCts.Dispose();
         }
     }
 }
