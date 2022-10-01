@@ -57,7 +57,7 @@ public abstract class PagedViewBase : ViewBase
 
     protected void ReportPageChanges()
     {
-        if (Menu != null)
+        if (_menu != null)
         {
             HasPageChanges = true;
             ReportChanges();
