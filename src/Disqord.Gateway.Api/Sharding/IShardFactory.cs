@@ -1,12 +1,11 @@
-﻿using Disqord.Logging;
-using Qommon.Binding;
+﻿using Qommon.Binding;
 
 namespace Disqord.Gateway.Api;
 
 /// <summary>
 ///     Represents an <see cref="IShard"/> factory.
 /// </summary>
-public interface IShardFactory : IBindable<IGatewayApiClient>, ILogging
+public interface IShardFactory : IBindable<IGatewayApiClient>
 {
     /// <summary>
     ///     Gets the API client of this factory.

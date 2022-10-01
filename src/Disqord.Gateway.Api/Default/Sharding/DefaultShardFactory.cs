@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Qommon.Binding;
 
@@ -8,8 +7,6 @@ namespace Disqord.Gateway.Api.Default;
 
 public class DefaultShardFactory : IShardFactory
 {
-    public ILogger Logger { get; }
-
     public IGatewayApiClient ApiClient => _binder.Value;
 
     private readonly IServiceProvider _services;
@@ -17,10 +14,8 @@ public class DefaultShardFactory : IShardFactory
 
     public DefaultShardFactory(
         IOptions<DefaultShardFactoryConfiguration> options,
-        ILogger<DefaultShardFactory> logger,
         IServiceProvider services)
     {
-        Logger = logger;
         _services = services;
 
         _binder = new(this);
@@ -31,12 +26,32 @@ public class DefaultShardFactory : IShardFactory
         _binder.Bind(value);
     }
 
-    public IShard Create(ShardId id)
+    protected virtual IGatewayRateLimiter CreateRateLimiter()
     {
-        var rateLimiter = (RateLimiterFactory(_services, null) as IGatewayRateLimiter)!;
-        var heartbeater = (HeartbeaterFactory(_services, null) as IGatewayHeartbeater)!;
-        var gateway = (GatewayFactory(_services, null) as IGateway)!;
-        var shard = (ShardFactory(_services, new object[] { id, rateLimiter, heartbeater, gateway }) as IShard)!;
+        return (RateLimiterFactory(_services, null) as IGatewayRateLimiter)!;
+    }
+
+    protected virtual IGatewayHeartbeater CreateHeartbeater()
+    {
+        return (HeartbeaterFactory(_services, null) as IGatewayHeartbeater)!;
+    }
+
+    protected virtual IGateway CreateGateway()
+    {
+        return (GatewayFactory(_services, null) as IGateway)!;
+    }
+
+    protected virtual IShard CreateShard(ShardId id, IGatewayRateLimiter rateLimiter, IGatewayHeartbeater heartbeater, IGateway gateway)
+    {
+        return (ShardFactory(_services, new object[] { id, rateLimiter, heartbeater, gateway }) as IShard)!;
+    }
+
+    public virtual IShard Create(ShardId id)
+    {
+        var rateLimiter = CreateRateLimiter();
+        var heartbeater = CreateHeartbeater();
+        var gateway = CreateGateway();
+        var shard = CreateShard(id, rateLimiter, heartbeater, gateway);
         return shard;
     }
 
