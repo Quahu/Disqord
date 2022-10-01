@@ -25,6 +25,6 @@ public class DiscordTemporaryResponseCommandResult : DiscordCommandResult<IDisco
         {
             var (message, cancellationToken) = (ValueTuple<IMessage, CancellationToken>) state!;
             return message.DeleteAsync(cancellationToken: cancellationToken);
-        }, (message, cancellationToken), TaskContinuationOptions.OnlyOnRanToCompletion);
+        }, (message as IMessage, cancellationToken), TaskContinuationOptions.OnlyOnRanToCompletion);
     }
 }
