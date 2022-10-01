@@ -82,26 +82,32 @@ public interface IShard : ILogging, IAsyncDisposable
     /// </summary>
     CancellationToken StoppingToken { get; }
 
+    /// <summary>
+    ///     Sends a payload via the gateway.
+    /// </summary>
+    /// <param name="payload"> The payload to send. </param>
+    /// <param name="cancellationToken"> The cancellation token to observe. </param>
+    /// <returns>
+    ///     A <see cref="Task"/> representing the send.
+    /// </returns>
     Task SendAsync(GatewayPayloadJsonModel payload, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Waits for this shard to be ready.
     /// </summary>
-    /// <remarks>
-    ///     This should only be called prior to startup.
-    ///     If the client is already ready this will hang until the shard identifies again.
-    ///     This does not throw if the shard run fails.
-    /// </remarks>
+    /// <param name="cancellationToken"> The cancellation token to observe. </param>
     /// <returns>
     ///     A <see cref="Task"/> representing the wait.
     /// </returns>
-    Task WaitForReadyAsync();
+    Task WaitForReadyAsync(CancellationToken cancellationToken);
 
     /// <summary>
     ///     Runs this shard.
     /// </summary>
     /// <param name="initialUri"> The initial URI of the Discord gateway to connect to. </param>
-    /// <param name="stoppingToken"> The token used to signal connection stopping. </param>
-    /// <returns> The <see cref="Task"/> representing the connection. </returns>
+    /// <param name="stoppingToken"> The cancellation token used to signal connection stopping. </param>
+    /// <returns>
+    ///     A <see cref="Task"/> representing the connection.
+    /// </returns>
     Task RunAsync(Uri? initialUri, CancellationToken stoppingToken);
 }

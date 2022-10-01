@@ -110,7 +110,7 @@ public class DefaultGatewayApiClient : IGatewayApiClient
                         var linkedCancellationToken = linkedCts.Token;
                         bucketTasks[i] = Task.Run(async () =>
                         {
-                            var readyTask = shard.WaitForReadyAsync();
+                            var readyTask = shard.WaitForReadyAsync(linkedCancellationToken);
                             var runTask = shard.RunAsync(initialUri, linkedCancellationToken);
                             var completedTask = await Task.WhenAny(readyTask, runTask).ConfigureAwait(false);
                             if (completedTask == runTask)

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api.Models;
@@ -60,7 +62,8 @@ public class DefaultShard : IShard
     /// <inheritdoc/>
     public CancellationToken StoppingToken { get; private set; }
 
-    private Tcs _readyTcs;
+    private readonly object _stateLock = new();
+    private readonly List<(Tcs, CancellationTokenRegistration)> _readyWaiters = new();
 
     public DefaultShard(
         ShardId id,
@@ -85,8 +88,6 @@ public class DefaultShard : IShard
         heartbeater.Bind(this);
         Gateway = gateway;
         gateway.Bind(this);
-
-        _readyTcs = new Tcs();
     }
 
     /// <inheritdoc/>
@@ -94,25 +95,50 @@ public class DefaultShard : IShard
     {
         Guard.IsNotNull(payload);
 
-        await RateLimiter.WaitAsync(payload.Op, cancellationToken).ConfigureAwait(false);
-        try
+        var sent = false;
+        do
         {
-            Logger.LogTrace("Sending payload: {0}.", payload.Op);
-            await Gateway.SendAsync(payload, cancellationToken).ConfigureAwait(false);
-            RateLimiter.NotifyCompletion(payload.Op);
+            await RateLimiter.WaitAsync(payload.Op, cancellationToken).ConfigureAwait(false);
+            try
+            {
+                Logger.LogTrace("Sending payload: {0}.", payload.Op);
+                await Gateway.SendAsync(payload, cancellationToken).ConfigureAwait(false);
+                sent = true;
+                RateLimiter.NotifyCompletion(payload.Op);
+            }
+            catch (WebSocketClosedException ex) when (ex.CloseStatus != null && ((GatewayCloseCode) ex.CloseStatus).IsRecoverable())
+            {
+                await WaitForReadyAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An exception occurred while sending payload: {0}.", payload.Op);
+                RateLimiter.Release(payload.Op);
+                throw;
+            }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, "An exception occurred while sending payload: {0}.", payload.Op);
-            RateLimiter.Release(payload.Op);
-            throw;
-        }
+        while (!sent);
     }
 
     /// <inheritdoc/>
-    public Task WaitForReadyAsync()
+    public Task WaitForReadyAsync(CancellationToken cancellationToken)
     {
-        return _readyTcs.Task;
+        lock (_stateLock)
+        {
+            if (State == ShardState.Ready)
+                return Task.CompletedTask;
+
+            var tcs = new Tcs();
+            var reg = cancellationToken.UnsafeRegister(static (state, cancellationToken) =>
+            {
+                // On cancellation the tuple leaks via `_readyWaiters`, but it's OK as it'll get cleared on the next ready.
+                var tcs = Unsafe.As<Tcs>(state!);
+                tcs.Cancel(cancellationToken);
+            }, tcs);
+
+            _readyWaiters.Add((tcs, reg));
+            return tcs.Task;
+        }
     }
 
     /// <inheritdoc/>
@@ -189,8 +215,6 @@ public class DefaultShard : IShard
                                 {
                                     await SetStateAsync(ShardState.Ready, stoppingToken).ConfigureAwait(false);
 
-                                    _readyTcs.Complete();
-                                    _readyTcs = new Tcs();
                                     Logger.LogInformation("Successfully identified. The gateway is ready.");
                                     RateLimiter.Reset();
 
@@ -204,6 +228,20 @@ public class DefaultShard : IShard
                                     }
 
                                     Logger.LogTrace("Session ID: {SessionId}, Resume URI: {ResumeUri}.", SessionId, ResumeUri);
+
+                                    lock (_stateLock)
+                                    {
+                                        var readyWaiterCount = _readyWaiters.Count;
+                                        for (var i = 0; i < readyWaiterCount; i++)
+                                        {
+                                            var (tcs, reg) = _readyWaiters[i];
+                                            tcs.Complete();
+                                            reg.Dispose();
+                                        }
+
+                                        _readyWaiters.Clear();
+                                    }
+
                                     try
                                     {
                                         await ApiClient.ShardCoordinator.OnShardReady(Id, SessionId!, stoppingToken).ConfigureAwait(false);
@@ -283,10 +321,9 @@ public class DefaultShard : IShard
                                 var isResumable = payload.D!.ToType<bool>();
                                 if (isResumable)
                                 {
-                                    await SetStateAsync(ShardState.Resuming, stoppingToken).ConfigureAwait(false);
-
                                     resuming = true;
                                     Logger.LogInformation("The gateway invalidated the session (resumable), resuming...");
+                                    await SetStateAsync(ShardState.Resuming, stoppingToken).ConfigureAwait(false);
                                     await ResumeAsync(stoppingToken).ConfigureAwait(false);
                                 }
                                 else
@@ -367,45 +404,38 @@ public class DefaultShard : IShard
                 if (ex.CloseStatus != null)
                 {
                     var closeCode = (GatewayCloseCode) ex.CloseStatus.Value;
-                    if (closeCode == GatewayCloseCode.ShardingRequired)
+                    if (closeCode.IsRecoverable())
                     {
-                        try
+                        if (closeCode == GatewayCloseCode.InvalidSequence)
                         {
-                            await ApiClient.ShardCoordinator.OnShardSetInvalidated(stoppingToken).ConfigureAwait(false);
-                        }
-                        catch (Exception exc)
-                        {
-                            Logger.LogError(exc, "An exception occurred while invoking {CoordinatorMethodName} on the coordinator.", nameof(IShardCoordinator.OnShardSetInvalidated));
-                        }
-                    }
-
-                    switch (closeCode)
-                    {
-                        case GatewayCloseCode.InvalidSequence:
-                        {
+                            // Can't happen with default Disqord components.
                             SessionId = null;
-                            break;
                         }
-                        case GatewayCloseCode.ShardingRequired when ApiClient.ShardCoordinator.HasDynamicShardSets:
+
+                        Logger.LogWarning("The gateway was closed with code {0} and reason '{1}'.", closeCode, ex.CloseMessage);
+                    }
+                    else
+                    {
+                        if (closeCode == GatewayCloseCode.ShardingRequired)
                         {
-                            Logger.LogWarning("The gateway was closed with code {0} indicating a new set of shards should be used.", closeCode);
-                            throw;
+                            try
+                            {
+                                await ApiClient.ShardCoordinator.OnShardSetInvalidated(stoppingToken).ConfigureAwait(false);
+                            }
+                            catch (Exception exc)
+                            {
+                                Logger.LogError(exc, "An exception occurred while invoking {CoordinatorMethodName} on the coordinator.", nameof(IShardCoordinator.OnShardSetInvalidated));
+                            }
+
+                            if (ApiClient.ShardCoordinator.HasDynamicShardSets)
+                            {
+                                Logger.LogWarning("The gateway was closed with code {0} indicating a new set of shards should be used.", closeCode);
+                                throw;
+                            }
                         }
-                        case GatewayCloseCode.AuthenticationFailed:
-                        case GatewayCloseCode.InvalidShard:
-                        case GatewayCloseCode.ShardingRequired:
-                        case GatewayCloseCode.InvalidApiVersion:
-                        case GatewayCloseCode.InvalidIntents:
-                        case GatewayCloseCode.DisallowedIntents:
-                        {
-                            Logger.LogCritical("The gateway was closed with code {0} indicating a non-recoverable connection - stopping.", closeCode);
-                            throw;
-                        }
-                        default:
-                        {
-                            Logger.LogWarning("The gateway was closed with code {0} and reason '{1}'.", closeCode, ex.CloseMessage);
-                            break;
-                        }
+
+                        Logger.LogCritical("The gateway was closed with code {0} indicating a non-recoverable connection - stopping.", closeCode);
+                        throw;
                     }
                 }
                 else
@@ -471,14 +501,19 @@ public class DefaultShard : IShard
 
     private async ValueTask SetStateAsync(ShardState newState, CancellationToken stoppingToken)
     {
-        var oldState = State;
-        if (oldState == newState)
+        ShardState oldState;
+        lock (_stateLock)
         {
-            Debug.Fail("redundant state change");
-            return;
+            oldState = State;
+            if (oldState == newState)
+            {
+                Debug.Fail("redundant state change");
+                return;
+            }
+
+            State = newState;
         }
 
-        State = newState;
         try
         {
             await ApiClient.ShardCoordinator.OnShardStateUpdated(Id, oldState, newState, stoppingToken).ConfigureAwait(false);
