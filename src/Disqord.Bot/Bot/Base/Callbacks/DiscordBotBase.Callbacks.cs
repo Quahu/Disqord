@@ -98,10 +98,27 @@ public abstract partial class DiscordBotBase
     /// </returns>
     protected virtual LocalMessageBase? CreateFailureMessage(IDiscordCommandContext context)
     {
-        if (context is IDiscordInteractionCommandContext)
-            return new LocalInteractionMessageResponse();
+        LocalMessageBase message;
+        if (context is IDiscordInteractionCommandContext interactionContext)
+        {
+            var response = interactionContext.Interaction.Response();
+            if (response.HasResponded && response.ResponseType is InteractionResponseType.DeferredChannelMessage or InteractionResponseType.DeferredMessageUpdate
+                or InteractionResponseType.MessageUpdate)
+            {
+                // Ignore interactions that have been deferred or would modify an existing message.
+                return null;
+            }
 
-        return new LocalMessage();
+            message = new LocalInteractionMessageResponse()
+                .WithIsEphemeral();
+        }
+        else
+        {
+            message = new LocalMessage();
+        }
+
+        message.WithAllowedMentions(LocalAllowedMentions.None);
+        return message;
     }
 
     /// <summary>
@@ -181,7 +198,6 @@ public abstract partial class DiscordBotBase
         }
 
         message.AddEmbed(embed);
-        message.WithAllowedMentions(LocalAllowedMentions.None);
         return true;
     }
 
@@ -243,12 +259,14 @@ public abstract partial class DiscordBotBase
     /// </returns>
     protected virtual ValueTask OnFailedResult(IDiscordCommandContext context, IResult result)
     {
-        if (context is IDiscordInteractionCommandContext interactionContext
-            && interactionContext.Interaction is IAutoCompleteInteraction or IComponentInteraction or IModalSubmitInteraction)
+        if (context is IDiscordInteractionCommandContext interactionContext)
         {
-            // Ignore auto-complete and component interaction failures as those cannot be responded to realistically.
-            // This is passed through so that the user can log and debug failures.
-            return default;
+            if (interactionContext.Interaction is IAutoCompleteInteraction)
+            {
+                // Ignore auto-complete interaction failures as those cannot be responded to.
+                // This is passed through so that the user can log and debug failures.
+                return default;
+            }
         }
 
         var message = CreateFailureMessage(context);
