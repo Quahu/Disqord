@@ -21,6 +21,11 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
     public override bool HasDynamicShardSets => CustomShardSet.Equals(default);
 
     /// <summary>
+    ///     Gets the identify delay used between separate identify calls.
+    /// </summary>
+    public TimeSpan IdentifyDelay { get; }
+
+    /// <summary>
     ///     Gets the custom shard set.
     /// </summary>
     /// <remarks>
@@ -49,6 +54,8 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
         : base(logger)
     {
         var configuration = options.Value;
+        Guard.IsGreaterThanOrEqualTo(configuration.IdentifyDelay, TimeSpan.FromSeconds(5));
+        IdentifyDelay = configuration.IdentifyDelay;
         CustomShardSet = configuration.CustomShardSet.GetValueOrDefault();
     }
 
@@ -144,11 +151,11 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
                     {
                         @this.Logger.LogError(ex, "An exception occurred in the coordinator semaphore timer.");
                     }
-                }, this, TimeSpan.FromSeconds(5), Timeout.InfiniteTimeSpan);
+                }, this, IdentifyDelay, Timeout.InfiniteTimeSpan);
             }
             else
             {
-                IdentifySemaphoreResetTimer.Change(TimeSpan.FromSeconds(5), Timeout.InfiniteTimeSpan);
+                IdentifySemaphoreResetTimer.Change(IdentifyDelay, Timeout.InfiniteTimeSpan);
             }
         }
 
