@@ -87,13 +87,7 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
         return null;
     }
 
-    /// <summary>
-    ///     Waits until all the shards are initially ready, respecting the configured <see cref="ReadyEventDelayMode"/>.
-    /// </summary>
-    /// <param name="cancellationToken"> The token to observe for cancellation. </param>
-    /// <returns>
-    ///     A <see cref="Task"/> that completes when the shards are ready.
-    /// </returns>
+    /// <inheritdoc cref="DefaultGatewayDispatcher.WaitUntilReadyAsync"/>
     public Task WaitUntilReadyAsync(CancellationToken cancellationToken)
     {
         return _readyTcs.Task.WaitAsync(cancellationToken);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Logging;
@@ -36,6 +37,15 @@ public partial interface IGatewayDispatcher : IBindable<IGatewayClient>, ILoggin
     ///     Thrown if accessed before <see cref="GatewayDispatchNames.Ready"/> is processed.
     /// </exception>
     ApplicationFlags CurrentApplicationFlags { get; }
+
+    /// <summary>
+    ///     Waits until all the shards are initially ready, respecting the configured <see cref="ReadyEventDelayMode"/>.
+    /// </summary>
+    /// <param name="cancellationToken"> The token to observe for cancellation. </param>
+    /// <returns>
+    ///     A <see cref="Task"/> that completes when the shards are ready.
+    /// </returns>
+    Task WaitUntilReadyAsync(CancellationToken cancellationToken);
 
     /// <summary>
     ///     Handles the received dispatch and fires the matching event on the <see cref="Client"/>.

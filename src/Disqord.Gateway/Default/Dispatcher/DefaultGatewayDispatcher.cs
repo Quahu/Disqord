@@ -1,6 +1,8 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
+using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Default.Dispatcher;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -68,29 +70,6 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
             return currentApplicationFlags.Value;
         }
     }
-
-    // private ReadyDispatchHandler GetReadyHandler()
-    // {
-    //     static DispatchHandler<ReadyJsonModel, ReadyEventArgs> GetInnerHandler(DispatchHandler<ReadyJsonModel, ReadyEventArgs> handler)
-    //     {
-    //         while (handler is InterceptingDispatchHandler<ReadyJsonModel, ReadyEventArgs> interceptingHandler)
-    //         {
-    //             // Accounts for the intercepted handler in the sharder.
-    //             handler = interceptingHandler.UnderlyingDispatchHandler;
-    //         }
-    //
-    //         return handler;
-    //     }
-    //
-    //     if (_handlers["READY"] is not DispatchHandler<ReadyJsonModel, ReadyEventArgs> handler
-    //         || (handler = GetInnerHandler(handler)) is not ReadyDispatchHandler readyHandler)
-    //     {
-    //         Throw.InvalidOperationException($"The {GatewayDispatchNames.Ready} dispatch handler must be an instance of {typeof(ReadyDispatchHandler)}.");
-    //         return null!;
-    //     }
-    //
-    //     return readyHandler;
-    // }
 
     public ReadyEventDelayMode ReadyEventDelayMode { get; }
 
@@ -211,6 +190,7 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
         _binder = new Binder<IGatewayClient>(this, allowRebinding: true);
     }
 
+    /// <inheritdoc/>
     public void Bind(IGatewayClient value)
     {
         var isRebind = _binder.IsBound;
@@ -227,6 +207,13 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
         }
     }
 
+    /// <inheritdoc/>
+    public Task WaitUntilReadyAsync(CancellationToken cancellationToken)
+    {
+        return GetReadyDispatchHandler().WaitUntilReadyAsync(cancellationToken);
+    }
+
+    /// <inheritdoc/>
     public async ValueTask HandleDispatchAsync(object? sender, GatewayDispatchReceivedEventArgs e)
     {
         if (sender is not IShard shard)
@@ -260,5 +247,35 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
 
         if (!_loggedUnknownWarning)
             _loggedUnknownWarning = true;
+    }
+
+    /// <summary>
+    ///     Gets the <see cref="ReadyDispatchHandler"/> from this dispatcher.
+    /// </summary>
+    /// <returns>
+    ///     The instance of <see cref="ReadyDispatchHandler"/>.
+    /// </returns>
+    /// <exception cref="InvalidOperationException"> Thrown if <see cref="ReadyDispatchHandler"/> does not exist within this dispatcher. </exception>
+    public ReadyDispatchHandler GetReadyDispatchHandler()
+    {
+        static DispatchHandler<ReadyJsonModel, ReadyEventArgs> GetInnerHandler(DispatchHandler<ReadyJsonModel, ReadyEventArgs> handler)
+        {
+            while (handler is InterceptingDispatchHandler<ReadyJsonModel, ReadyEventArgs> interceptingHandler)
+            {
+                // Accounts for the intercepted handler in the sharder.
+                handler = interceptingHandler.UnderlyingDispatchHandler;
+            }
+
+            return handler;
+        }
+
+        if (_handlers["READY"] is not DispatchHandler<ReadyJsonModel, ReadyEventArgs> handler
+            || (handler = GetInnerHandler(handler)) is not ReadyDispatchHandler readyHandler)
+        {
+            Throw.InvalidOperationException($"The {GatewayDispatchNames.Ready} dispatch handler must be an instance of {typeof(ReadyDispatchHandler)}.");
+            return null!;
+        }
+
+        return readyHandler;
     }
 }
