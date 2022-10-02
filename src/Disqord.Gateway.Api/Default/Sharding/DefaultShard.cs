@@ -112,7 +112,9 @@ public class DefaultShard : IShard
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "An exception occurred while sending payload: {0}.", payload.Op);
+                if (ex is not OperationCanceledException)
+                    Logger.LogError(ex, "An exception occurred while sending payload: {0}.", payload.Op);
+
                 RateLimiter.Release(payload.Op);
                 throw;
             }
