@@ -39,12 +39,6 @@ public class DiscordClientSetupService : IHostedService, ILogging
     /// <inheritdoc/>
     public virtual async Task StartAsync(CancellationToken cancellationToken)
     {
-        // TODO: solve this ready mess?
-        if ((Client as IGatewayClient).ApiClient.ShardCoordinator is DiscordShardCoordinator shardCoordinator)
-        {
-            await shardCoordinator.InitializeAsync(cancellationToken).ConfigureAwait(false);
-        }
-
         await Client.InitializeExtensionsAsync(cancellationToken).ConfigureAwait(false);
     }
 

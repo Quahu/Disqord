@@ -17,20 +17,37 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
 {
     public ISynchronizedDictionary<ShardId, ISynchronizedDictionary<Snowflake, bool>> PendingGuilds { get; }
 
-    public ISynchronizedDictionary<ShardId, Tcs> InitialReadys { get; }
-
     private readonly ISynchronizedDictionary<ShardId, DelayToken> _delays;
+
+    private readonly Tcs _readyTcs;
+    private int? _pendingReadyShards;
+    private int _readyShards;
 
     public ReadyDispatchHandler()
     {
         PendingGuilds = new SynchronizedDictionary<ShardId, ISynchronizedDictionary<Snowflake, bool>>();
-        InitialReadys = new SynchronizedDictionary<ShardId, Tcs>();
 
         _delays = new SynchronizedDictionary<ShardId, DelayToken>();
+        _readyTcs = new();
     }
 
-    public override ValueTask<ReadyEventArgs?> HandleDispatchAsync(IShard shard, ReadyJsonModel model)
+    private void NotifyShardReady()
     {
+        var pendingReadyShards = _pendingReadyShards;
+        if (pendingReadyShards == null)
+            return;
+
+        if (Interlocked.Increment(ref _readyShards) == pendingReadyShards)
+        {
+            _readyTcs.Complete();
+            _pendingReadyShards = null;
+        }
+    }
+
+    public override async ValueTask<ReadyEventArgs?> HandleDispatchAsync(IShard shard, ReadyJsonModel model)
+    {
+        _pendingReadyShards ??= shard.ApiClient.Shards.Count;
+
         CacheProvider.Reset(shard.Id);
         var pendingGuilds = model.Guilds.ToDictionary(x => x.Id, x => !x.Unavailable.GetValueOrDefault()).Synchronized();
         PendingGuilds[shard.Id] = pendingGuilds;
@@ -59,14 +76,27 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
         var delayMode = Dispatcher.ReadyEventDelayMode;
         if (delayMode == ReadyEventDelayMode.None || guildIds.Length == 0)
         {
-            InitialReadys[shard.Id].Complete();
             shard.Logger.LogInformation("Ready as {0} with {1} pending guilds.", Dispatcher.CurrentUser.Tag, guildIds.Length);
-            return new(e);
+            await InvokeEventAsync(e).ConfigureAwait(false);
+            NotifyShardReady();
+            return null;
         }
 
-        _ = DelayReadyAsync(shard, e);
         shard.Logger.LogInformation("Identified as {0} with {1} pending guilds. Ready delay mode: {2}.", Dispatcher.CurrentUser.Tag, guildIds.Length, Dispatcher.ReadyEventDelayMode);
-        return new(result: null);
+        _ = DelayReadyAsync(shard, e);
+        return null;
+    }
+
+    /// <summary>
+    ///     Waits until all the shards are initially ready, respecting the configured <see cref="ReadyEventDelayMode"/>.
+    /// </summary>
+    /// <param name="cancellationToken"> The token to observe for cancellation. </param>
+    /// <returns>
+    ///     A <see cref="Task"/> that completes when the shards are ready.
+    /// </returns>
+    public Task WaitUntilReadyAsync(CancellationToken cancellationToken)
+    {
+        return _readyTcs.Task.WaitAsync(cancellationToken);
     }
 
     public bool IsPendingGuild(ShardId shardId, Snowflake guildId)
@@ -119,8 +149,7 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
                     // TODO: some chunking design...?
                 }
 
-                if (InitialReadys.TryGetValue(shard.Id, out var readyTcs))
-                    readyTcs.Complete();
+                NotifyShardReady();
             }
             catch (OperationCanceledException)
             { }

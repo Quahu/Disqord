@@ -58,37 +58,6 @@ public abstract class DiscordShardCoordinator : IShardCoordinator, IBindable<Dis
     }
 
     /// <summary>
-    ///     Invoked on client initialization.
-    /// </summary>
-    /// <param name="stoppingToken"> The cancellation token to observe. </param>
-    /// <returns>
-    ///     A <see cref="ValueTask"/> representing the callback work.
-    /// </returns>
-    protected virtual ValueTask OnInitialize(CancellationToken stoppingToken)
-    {
-        return default;
-    }
-
-    /// <summary>
-    ///     Initializes this coordinator.
-    /// </summary>
-    /// <param name="stoppingToken"> The cancellation token to observe. </param>
-    public async ValueTask InitializeAsync(CancellationToken stoppingToken)
-    {
-        await OnInitialize(stoppingToken).ConfigureAwait(false);
-
-        // TODO: solve this ready mess?
-        if ((Client as IGatewayClient).Dispatcher is DefaultGatewayDispatcher dispatcher && dispatcher["READY"] is ReadyDispatchHandler readyDispatchHandler)
-        {
-            var shardSet = await GetShardSetAsync(stoppingToken).ConfigureAwait(false);
-            foreach (var shardId in shardSet.ShardIds)
-            {
-                readyDispatchHandler.InitialReadys[shardId] = new();
-            }
-        }
-    }
-
-    /// <summary>
     ///     Invoked when a new <see cref="ShardSet"/> is requested.
     /// </summary>
     /// <param name="stoppingToken"> The cancellation token to observe. </param>

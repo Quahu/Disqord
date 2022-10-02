@@ -139,7 +139,8 @@ public abstract partial class DiscordClientBase : IRestClient, IGatewayClient
     public abstract Task RunAsync(CancellationToken stoppingToken);
 
     /// <summary>
-    ///     Waits until this client is ready, respecting the configured <see cref="ReadyEventDelayMode"/>.
+    ///     Waits until this client is initially ready,
+    ///     i.e. waits for all of its shards to be ready respecting the configured <see cref="ReadyEventDelayMode"/>.
     /// </summary>
     /// <param name="cancellationToken"> The token to observe for cancellation. </param>
     /// <returns>

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway;
@@ -33,7 +32,7 @@ public class DiscordClient : DiscordClientBase
     public override Task WaitUntilReadyAsync(CancellationToken cancellationToken)
     {
         if (GatewayClient.Dispatcher is DefaultGatewayDispatcher dispatcher && dispatcher["READY"] is ReadyDispatchHandler readyHandler)
-            return Task.WhenAll(readyHandler.InitialReadys.Values.Select(tcs => tcs.Task));
+            return readyHandler.WaitUntilReadyAsync(cancellationToken);
 
         return Task.CompletedTask;
     }

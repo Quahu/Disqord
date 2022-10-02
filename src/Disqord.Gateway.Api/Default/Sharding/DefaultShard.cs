@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api.Models;
@@ -63,7 +61,7 @@ public class DefaultShard : IShard
     public CancellationToken StoppingToken { get; private set; }
 
     private readonly object _stateLock = new();
-    private readonly List<(Tcs, CancellationTokenRegistration)> _readyWaiters = new();
+    private Tcs? _readyTcs;
 
     public DefaultShard(
         ShardId id,
@@ -130,16 +128,7 @@ public class DefaultShard : IShard
             if (State == ShardState.Ready)
                 return Task.CompletedTask;
 
-            var tcs = new Tcs();
-            var reg = cancellationToken.UnsafeRegister(static (state, cancellationToken) =>
-            {
-                // On cancellation the tuple leaks via `_readyWaiters`, but it's OK as it'll get cleared on the next ready.
-                var tcs = Unsafe.As<Tcs>(state!);
-                tcs.Cancel(cancellationToken);
-            }, tcs);
-
-            _readyWaiters.Add((tcs, reg));
-            return tcs.Task;
+            return (_readyTcs ??= new()).Task.WaitAsync(cancellationToken);
         }
     }
 
@@ -233,15 +222,8 @@ public class DefaultShard : IShard
 
                                     lock (_stateLock)
                                     {
-                                        var readyWaiterCount = _readyWaiters.Count;
-                                        for (var i = 0; i < readyWaiterCount; i++)
-                                        {
-                                            var (tcs, reg) = _readyWaiters[i];
-                                            tcs.Complete();
-                                            reg.Dispose();
-                                        }
-
-                                        _readyWaiters.Clear();
+                                        _readyTcs?.Complete();
+                                        _readyTcs = null;
                                     }
 
                                     try
@@ -583,7 +565,7 @@ public class DefaultShard : IShard
         }, stoppingToken);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public ValueTask DisposeAsync()
     {
         return Gateway.DisposeAsync();
