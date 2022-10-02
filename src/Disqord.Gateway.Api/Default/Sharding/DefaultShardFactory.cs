@@ -55,10 +55,10 @@ public class DefaultShardFactory : IShardFactory
         return shard;
     }
 
-    private static readonly ObjectFactory RateLimiterFactory;
-    private static readonly ObjectFactory HeartbeaterFactory;
-    private static readonly ObjectFactory GatewayFactory;
-    private static readonly ObjectFactory ShardFactory;
+    protected static readonly ObjectFactory RateLimiterFactory;
+    protected static readonly ObjectFactory HeartbeaterFactory;
+    protected static readonly ObjectFactory GatewayFactory;
+    protected static readonly ObjectFactory ShardFactory;
 
     static DefaultShardFactory()
     {
