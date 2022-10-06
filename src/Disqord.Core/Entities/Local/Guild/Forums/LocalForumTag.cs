@@ -41,9 +41,6 @@ public class LocalForumTag : ILocalConstruct<LocalForumTag>, IJsonConvertible<Fo
     /// <summary>
     ///     Gets or sets the emoji of this tag.
     /// </summary>
-    /// <remarks>
-    ///     This property is required.
-    /// </remarks>
     public Optional<LocalEmoji> Emoji { get; set; }
 
     /// <summary>
@@ -74,7 +71,6 @@ public class LocalForumTag : ILocalConstruct<LocalForumTag>, IJsonConvertible<Fo
     public ForumTagJsonModel ToModel()
     {
         OptionalGuard.HasValue(Name);
-        OptionalGuard.HasValue(Emoji);
 
         var model = new ForumTagJsonModel
         {
