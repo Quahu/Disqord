@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Qommon;
 
 namespace Disqord;
@@ -7,6 +8,22 @@ public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableE
 {
     /// <inheritdoc/>
     public Optional<string> CustomId { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the type of this selection.
+    /// </summary>
+    /// <remarks>
+    ///     Defaults to <see cref="SelectionComponentType.String"/>.
+    /// </remarks>
+    public SelectionComponentType Type { get; set; } = SelectionComponentType.String;
+
+    /// <summary>
+    ///     Gets or sets the channel types available in this selection.
+    /// </summary>
+    /// <remarks>
+    ///     This is only valid for channel entity selection components.
+    /// </remarks>
+    public Optional<IList<ChannelType>> ChannelTypes { get; set; }
 
     /// <summary>
     ///     Gets or sets the placeholder of this selection.
@@ -29,8 +46,11 @@ public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableE
     public Optional<bool> IsDisabled { get; set; }
 
     /// <summary>
-    ///     Gets or sets the options of this selection.
+    ///     Gets or sets the pre-defined options of this selection.
     /// </summary>
+    /// <remarks>
+    ///     This is only valid for <see cref="SelectionComponentType.String"/> selections.
+    /// </remarks>
     public Optional<IList<LocalSelectionComponentOption>> Options { get; set; }
 
     /// <summary>
@@ -46,6 +66,8 @@ public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableE
     protected LocalSelectionComponent(LocalSelectionComponent other)
     {
         CustomId = other.CustomId;
+        Type = other.Type;
+        ChannelTypes = other.ChannelTypes.Clone();
         Placeholder = other.Placeholder;
         MinimumSelectedOptions = other.MinimumSelectedOptions;
         MaximumSelectedOptions = other.MaximumSelectedOptions;
@@ -67,22 +89,30 @@ public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableE
     /// </returns>
     public static LocalSelectionComponent CreateFrom(ISelectionComponent selectionComponent)
     {
-        var options = selectionComponent.Options;
-        var optionCount = options.Count;
-        var localOptions = new List<LocalSelectionComponentOption>(optionCount);
-        for (var i = 0; i < optionCount; i++)
-        {
-            var option = options[i];
-            localOptions.Add(LocalSelectionComponentOption.CreateFrom(option));
-        }
-
-        return new LocalSelectionComponent
+        var selection = new LocalSelectionComponent
         {
             CustomId = selectionComponent.CustomId,
+            Type = selectionComponent.Type,
+            ChannelTypes = selectionComponent.ChannelTypes.ToArray(),
             MinimumSelectedOptions = selectionComponent.MinimumSelectedOptions,
             MaximumSelectedOptions = selectionComponent.MaximumSelectedOptions,
-            IsDisabled = selectionComponent.IsDisabled,
-            Options = localOptions
+            IsDisabled = selectionComponent.IsDisabled
         };
+
+        if (selectionComponent.Type == SelectionComponentType.String)
+        {
+            var options = selectionComponent.Options;
+            var optionCount = options.Count;
+            var localOptions = new List<LocalSelectionComponentOption>(optionCount);
+            for (var i = 0; i < optionCount; i++)
+            {
+                var option = options[i];
+                localOptions.Add(LocalSelectionComponentOption.CreateFrom(option));
+            }
+
+            selection.Options = localOptions;
+        }
+
+        return selection;
     }
 }

@@ -34,6 +34,11 @@ public class DefaultGatewayChunker : IGatewayChunker
 
     private readonly Binder<IGatewayClient> _binder;
 
+    /// <summary>
+    ///     Instantiates a new <see cref="DefaultGatewayChunker"/>.
+    /// </summary>
+    /// <param name="options"> The chunker options. </param>
+    /// <param name="logger"> The logger. </param>
     public DefaultGatewayChunker(
         IOptions<DefaultGatewayChunkerConfiguration> options,
         ILogger<DefaultGatewayChunker> logger)

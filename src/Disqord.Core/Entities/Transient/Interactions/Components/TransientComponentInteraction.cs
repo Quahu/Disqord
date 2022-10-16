@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Disqord.Models;
-using Qommon;
-using Qommon.Collections.ReadOnly;
+﻿using Disqord.Models;
 
 namespace Disqord;
 
@@ -14,18 +11,6 @@ public class TransientComponentInteraction : TransientUserInteraction, IComponen
     public ComponentType ComponentType => Model.Data.Value.ComponentType.Value;
 
     /// <inheritdoc/>
-    public IReadOnlyList<string> SelectedValues
-    {
-        get
-        {
-            if (!Model.Data.Value.Values.TryGetValue(out var values))
-                return ReadOnlyList<string>.Empty;
-
-            return values;
-        }
-    }
-
-    /// <inheritdoc/>
     public IUserMessage Message => _message ??= new TransientUserMessage(Client, Model.Message.Value);
 
     private IUserMessage? _message;
@@ -33,4 +18,14 @@ public class TransientComponentInteraction : TransientUserInteraction, IComponen
     public TransientComponentInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
         : base(client, __receivedAt, model)
     { }
+
+    public new static IUserInteraction Create(IClient client, long __receivedAt, InteractionJsonModel model)
+    {
+        return model.Data.Value.ComponentType.Value switch
+        {
+            ComponentType.StringSelection or >= ComponentType.UserSelection and <= ComponentType.ChannelSelection
+                => TransientSelectionComponentInteraction.Create(client, __receivedAt, model),
+            _ => new TransientComponentInteraction(client, __receivedAt, model)
+        };
+    }
 }

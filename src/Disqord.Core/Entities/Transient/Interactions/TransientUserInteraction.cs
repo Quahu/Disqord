@@ -68,7 +68,7 @@ public class TransientUserInteraction : TransientInteraction, IUserInteraction
                 ApplicationCommandType.User or ApplicationCommandType.Message => new TransientContextMenuInteraction(client, __receivedAt, model),
                 _ => new TransientApplicationCommandInteraction(client, __receivedAt, model)
             },
-            InteractionType.MessageComponent => new TransientComponentInteraction(client, __receivedAt, model),
+            InteractionType.MessageComponent => TransientComponentInteraction.Create(client, __receivedAt, model),
             InteractionType.ApplicationCommandAutoComplete => new TransientAutoCompleteInteraction(client, __receivedAt, model),
             InteractionType.ModalSubmit => new TransientModalSubmitInteraction(client, __receivedAt, model),
             _ => new TransientUserInteraction(client, __receivedAt, model)

@@ -8,6 +8,19 @@ namespace Disqord;
 public interface ISelectionComponent : IComponent, ICustomIdentifiableEntity
 {
     /// <summary>
+    ///     Gets the type of this selection component.
+    /// </summary>
+    new SelectionComponentType Type { get; }
+
+    /// <summary>
+    ///     Gets the channel types of this selection component.
+    /// </summary>
+    /// <remarks>
+    ///     This is only valid for channel entity selection components.
+    /// </remarks>
+    IReadOnlyList<ChannelType> ChannelTypes { get; }
+
+    /// <summary>
     ///     Gets the placeholder text of this selection component.
     ///     Returns <see langword="null"/> if not set.
     /// </summary>
@@ -26,6 +39,9 @@ public interface ISelectionComponent : IComponent, ICustomIdentifiableEntity
     /// <summary>
     ///     Gets the selectable options of this selection component.
     /// </summary>
+    /// <remarks>
+    ///     This is only valid for <see cref="SelectionComponentType.String"/> selection components.
+    /// </remarks>
     IReadOnlyList<ISelectionComponentOption> Options { get; }
 
     /// <summary>

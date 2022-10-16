@@ -12,6 +12,21 @@ public class TransientSelectionComponent : TransientComponent, ISelectionCompone
     public string CustomId => Model.CustomId.Value;
 
     /// <inheritdoc/>
+    public new SelectionComponentType Type => (SelectionComponentType) Model.Type;
+
+    /// <inheritdoc/>
+    public IReadOnlyList<ChannelType> ChannelTypes
+    {
+        get
+        {
+            if (!Model.ChannelTypes.HasValue)
+                return ReadOnlyList<ChannelType>.Empty;
+
+            return Model.ChannelTypes.Value;
+        }
+    }
+
+    /// <inheritdoc/>
     public string? Placeholder => Model.Placeholder.GetValueOrDefault();
 
     /// <inheritdoc/>

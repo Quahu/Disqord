@@ -18,10 +18,10 @@ public class TransientApplicationCommandInteraction : TransientUserInteraction, 
     public Snowflake? CommandGuildId => Model.Data.Value.GuildId.GetValueOrNullable();
 
     /// <inheritdoc/>
-    public IApplicationCommandInteractionEntities Entities => _entities ??= new TransientApplicationCommandInteractionEntities(Client, GuildId,
+    public IInteractionEntities Entities => _entities ??= new TransientInteractionEntities(Client, GuildId,
         Model.Data.Value.Resolved.GetValueOrDefault(() => new ApplicationCommandInteractionDataResolvedJsonModel()));
 
-    private IApplicationCommandInteractionEntities? _entities;
+    private IInteractionEntities? _entities;
 
     public TransientApplicationCommandInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
         : base(client, __receivedAt, model)

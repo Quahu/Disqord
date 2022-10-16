@@ -2,6 +2,9 @@
 
 namespace Disqord.Gateway.Default;
 
+/// <summary>
+///     Represents the configuration of <see cref="DefaultGatewayChunker"/>.
+/// </summary>
 public class DefaultGatewayChunkerConfiguration
 {
     /// <summary>

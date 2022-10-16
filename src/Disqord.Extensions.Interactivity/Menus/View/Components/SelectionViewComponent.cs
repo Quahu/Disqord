@@ -17,6 +17,44 @@ public delegate ValueTask SelectionViewComponentCallback(SelectionEventArgs e);
 
 public class SelectionViewComponent : InteractableViewComponent
 {
+    /// <summary>
+    ///     Gets or sets the type of this selection.
+    /// </summary>
+    /// <remarks>
+    ///     Defaults to <see cref="SelectionComponentType.String"/>.
+    /// </remarks>
+    public SelectionComponentType Type
+    {
+        get => _type;
+        set
+        {
+            _type = value;
+            ReportChanges();
+        }
+    }
+    private SelectionComponentType _type;
+
+    /// <summary>
+    ///     Gets or sets the channel types.
+    /// </summary>
+    /// <remarks>
+    ///     If the collection is updated directly, ensure <see cref="ViewBase.ReportChanges"/> is called if an update is expected.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException"> Thrown when setting a null value. </exception>
+    public IList<ChannelType> ChannelTypes
+    {
+        get => _channelTypes;
+        set
+        {
+            Guard.IsNotNull(value);
+
+            _channelTypes.Clear();
+            _channelTypes.AddRange(value);
+            ReportChanges();
+        }
+    }
+    private readonly List<ChannelType> _channelTypes;
+
     public string? Placeholder
     {
         get => _placeholder;
@@ -89,6 +127,8 @@ public class SelectionViewComponent : InteractableViewComponent
     public SelectionViewComponent(SelectionViewComponentCallback callback)
     {
         _callback = callback;
+        _type = SelectionComponentType.String;
+        _channelTypes = new List<ChannelType>();
         _options = new List<LocalSelectionComponentOption>();
     }
 
@@ -96,6 +136,14 @@ public class SelectionViewComponent : InteractableViewComponent
         : base(attribute)
     {
         _callback = callback;
+        _type = attribute.Type != default
+            ? attribute.Type
+            : SelectionComponentType.String;
+
+        _channelTypes = attribute.ChannelTypes != null
+            ? new List<ChannelType>(attribute.ChannelTypes)
+            : new List<ChannelType>();
+
         _placeholder = attribute.Placeholder;
         _minimumSelectedOptions = attribute.MinimumSelectedOptions != -1
             ? attribute.MinimumSelectedOptions
@@ -134,6 +182,7 @@ public class SelectionViewComponent : InteractableViewComponent
     {
         var selection = new LocalSelectionComponent
         {
+            Type = _type,
             CustomId = CustomId,
             Placeholder = Optional.FromNullable(_placeholder),
             MinimumSelectedOptions = Optional.FromNullable(_minimumSelectedOptions),
@@ -141,6 +190,12 @@ public class SelectionViewComponent : InteractableViewComponent
             IsDisabled = _isDisabled,
             Options = _options.ToArray()
         };
+
+        if (_type is SelectionComponentType.Channel or SelectionComponentType.Mentionable
+            && _channelTypes.Count > 0)
+        {
+            selection.WithChannelTypes(_channelTypes);
+        }
 
         return selection;
     }

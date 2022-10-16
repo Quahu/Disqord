@@ -18,8 +18,9 @@ public class TransientComponent : TransientClientEntity<ComponentJsonModel>, ICo
         {
             ComponentType.Row => new TransientRowComponent(client, model),
             ComponentType.Button => new TransientButtonComponent(client, model),
-            ComponentType.Selection => new TransientSelectionComponent(client, model),
+            ComponentType.StringSelection => new TransientSelectionComponent(client, model),
             ComponentType.TextInput => new TransientTextInputComponent(client, model),
+            >= ComponentType.UserSelection and <= ComponentType.ChannelSelection => new TransientSelectionComponent(client, model),
             _ => new TransientComponent(client, model)
         };
     }

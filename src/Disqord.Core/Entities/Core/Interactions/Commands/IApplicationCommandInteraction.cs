@@ -3,7 +3,7 @@
 /// <summary>
 ///     Represents an application command interaction.
 /// </summary>
-public interface IApplicationCommandInteraction : IUserInteraction
+public interface IApplicationCommandInteraction : IEntityInteraction
 {
     /// <summary>
     ///     Gets the ID of the application command of this interaction.
@@ -24,9 +24,4 @@ public interface IApplicationCommandInteraction : IUserInteraction
     ///     Gets the ID of the guild in which the application command of this interaction is registered in.
     /// </summary>
     Snowflake? CommandGuildId { get; }
-
-    /// <summary>
-    ///     Gets the resolved entities of this interaction.
-    /// </summary>
-    IApplicationCommandInteractionEntities Entities { get; }
 }

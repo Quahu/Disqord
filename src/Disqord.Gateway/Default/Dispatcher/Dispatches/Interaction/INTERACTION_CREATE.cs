@@ -21,8 +21,8 @@ public class InteractionCreateDispatchHandler : DispatchHandler<InteractionJsonM
         {
             member = Dispatcher.GetOrAddMember(userCache, memberCache, model.GuildId.Value, model.Member.Value);
 
-            if (interaction is IApplicationCommandInteraction applicationCommandInteraction
-                && applicationCommandInteraction.Entities is TransientApplicationCommandInteractionEntities transientApplicationCommandInteractionEntities
+            if (interaction is IEntityInteraction entityInteraction
+                && entityInteraction.Entities is TransientInteractionEntities interactionEntities
                 && model.Data.TryGetValue(out var dataModel) && dataModel.Resolved.TryGetValue(out var dataResolvedModel)
                 && dataResolvedModel.Users.TryGetValue(out var userModels) && dataResolvedModel.Members.TryGetValue(out var memberModels))
             {
@@ -36,7 +36,7 @@ public class InteractionCreateDispatchHandler : DispatchHandler<InteractionJsonM
                     users.Add(id, Dispatcher.GetOrAddMemberTransient(model.GuildId.Value, memberModel));
                 }
 
-                transientApplicationCommandInteractionEntities._users = users.ReadOnly();
+                interactionEntities._users = users.ReadOnly();
             }
         }
 

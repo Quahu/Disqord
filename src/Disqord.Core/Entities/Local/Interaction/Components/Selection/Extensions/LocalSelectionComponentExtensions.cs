@@ -7,6 +7,41 @@ namespace Disqord;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalSelectionComponentExtensions
 {
+    public static TComponent WithType<TComponent>(this TComponent selection, SelectionComponentType type)
+        where TComponent : LocalSelectionComponent
+    {
+        selection.Type = type;
+        return selection;
+    }
+
+    public static TComponent AddChannelType<TComponent>(this TComponent @this, ChannelType channelType)
+        where TComponent : LocalSelectionComponent
+    {
+        Guard.IsDefined(channelType);
+
+        if (@this.ChannelTypes.Add(channelType, out var list))
+            @this.ChannelTypes = new(list);
+
+        return @this;
+    }
+
+    public static TComponent WithChannelTypes<TComponent>(this TComponent @this, IEnumerable<ChannelType> channelTypes)
+        where TComponent : LocalSelectionComponent
+    {
+        Guard.IsNotNull(channelTypes);
+
+        if (@this.ChannelTypes.With(channelTypes, out var list))
+            @this.ChannelTypes = new(list);
+
+        return @this;
+    }
+
+    public static TComponent WithChannelTypes<TComponent>(this TComponent @this, params ChannelType[] channelTypes)
+        where TComponent : LocalSelectionComponent
+    {
+        return @this.WithChannelTypes(channelTypes as IEnumerable<ChannelType>);
+    }
+
     public static TComponent WithPlaceholder<TComponent>(this TComponent selection, string placeholder)
         where TComponent : LocalSelectionComponent
     {

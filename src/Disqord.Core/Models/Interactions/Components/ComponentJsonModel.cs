@@ -33,6 +33,9 @@ public class ComponentJsonModel : JsonModel
     [JsonProperty("options")]
     public Optional<SelectOptionJsonModel[]> Options;
 
+    [JsonProperty("channel_types")]
+    public Optional<ChannelType[]> ChannelTypes;
+
     [JsonProperty("placeholder")]
     public Optional<string> Placeholder;
 
@@ -61,7 +64,8 @@ public class ComponentJsonModel : JsonModel
     {
         Guard.IsDefined(Type);
 
-        if (Type == ComponentType.Selection || Type == ComponentType.TextInput || Type == ComponentType.Button && Style != (byte) ButtonComponentStyle.Link)
+        if (Type == ComponentType.StringSelection || Type is >= ComponentType.UserSelection and <= ComponentType.ChannelSelection
+            || Type == ComponentType.TextInput || Type == ComponentType.Button && Style != (byte) ButtonComponentStyle.Link)
         {
             OptionalGuard.HasValue(CustomId);
             Guard.IsNotNullOrWhiteSpace(CustomId.Value);
@@ -106,7 +110,7 @@ public class ComponentJsonModel : JsonModel
 
                 break;
             }
-            case ComponentType.Selection:
+            case ComponentType.StringSelection or >= ComponentType.UserSelection and <= ComponentType.ChannelSelection:
             {
                 OptionalGuard.HasValue(Options);
                 Guard.IsLessThanOrEqualTo(Options.Value.Length, Discord.Limits.Component.Selection.MaxOptionAmount);

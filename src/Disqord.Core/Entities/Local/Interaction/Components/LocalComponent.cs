@@ -110,7 +110,8 @@ public abstract class LocalComponent : ILocalConstruct<LocalComponent>, IJsonCon
         }
         else if (this is LocalSelectionComponent selectionComponent)
         {
-            model.Type = ComponentType.Selection;
+            model.Type = (ComponentType) selectionComponent.Type;
+            model.ChannelTypes = Optional.Convert(selectionComponent.ChannelTypes, channelTypes => channelTypes?.ToArray())!;
             model.Placeholder = selectionComponent.Placeholder;
             model.MinValues = selectionComponent.MinimumSelectedOptions;
             model.MaxValues = selectionComponent.MaximumSelectedOptions;

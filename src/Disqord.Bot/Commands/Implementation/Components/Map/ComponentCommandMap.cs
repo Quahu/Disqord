@@ -34,10 +34,11 @@ public partial class ComponentCommandMap : ICommandMap
 
         var (componentType, customId) = interaction switch
         {
+            ISelectionComponentInteraction selectionComponentInteraction => (ComponentCommandType.Selection, selectionComponentInteraction.CustomId),
             IComponentInteraction componentInteraction => (componentInteraction.ComponentType switch
             {
                 ComponentType.Button => ComponentCommandType.Button,
-                ComponentType.Selection => ComponentCommandType.Selection
+                _ => throw new ArgumentOutOfRangeException(nameof(componentInteraction.ComponentType), componentInteraction.ComponentType, "Unsupported component type.")
             }, componentInteraction.CustomId),
             IModalSubmitInteraction modalInteraction => (ComponentCommandType.Modal, modalInteraction.CustomId)
         };

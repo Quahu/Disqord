@@ -6,7 +6,15 @@ public enum ComponentType : byte
 
     Button = 2,
 
-    Selection = 3,
+    StringSelection = 3,
 
-    TextInput = 4
+    TextInput = 4,
+
+    UserSelection = 5,
+
+    RoleSelection = 6,
+
+    MentionableSelection = 7,
+
+    ChannelSelection = 8
 }
