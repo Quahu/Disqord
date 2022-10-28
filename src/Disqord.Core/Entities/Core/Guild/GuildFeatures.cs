@@ -48,6 +48,11 @@ public readonly partial struct GuildFeatures : IReadOnlyList<string>
     public bool HasCommunity => Has(Community);
 
     /// <summary>
+    ///     Gets whether the guild is a developer support server on the Discord App Directory.
+    /// </summary>
+    public bool IsDeveloperSupportServer => Has(DeveloperSupportServer);
+
+    /// <summary>
     ///     Gets whether the guild appears in guild discovery.
     /// </summary>
     public bool IsDiscoverable => Has(Discoverable);
@@ -137,7 +142,7 @@ public readonly partial struct GuildFeatures : IReadOnlyList<string>
     /// </summary>
     public bool HasRoleIcons => Has(RoleIcons);
 
-    private readonly IReadOnlyList<string> _features;
+    private readonly IReadOnlyList<string>? _features;
 
     public GuildFeatures(IReadOnlyList<string> features)
     {
@@ -145,7 +150,9 @@ public readonly partial struct GuildFeatures : IReadOnlyList<string>
     }
 
     public bool Has(string feature)
-        => _features != null && _features.Contains(feature);
+    {
+        return _features != null && _features.Contains(feature);
+    }
 
     public int Count => _features?.Count ?? 0;
 

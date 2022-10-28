@@ -34,6 +34,11 @@ public readonly partial struct GuildFeatures
     public const string Community = "COMMUNITY";
 
     /// <summary>
+    ///     The guild is a developer support server on the Discord App Directory.
+    /// </summary>
+    public const string DeveloperSupportServer = "DEVELOPER_SUPPORT_SERVER";
+
+    /// <summary>
     ///     The guild appears in guild discovery.
     /// </summary>
     public const string Discoverable = "DISCOVERABLE";
