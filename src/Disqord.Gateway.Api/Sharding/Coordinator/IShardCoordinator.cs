@@ -96,7 +96,7 @@ public interface IShardCoordinator : ILogging
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the wait.
     /// </returns>
-    ValueTask OnShardSessionInvalidated(ShardId shardId, string? sessionId, CancellationToken stoppingToken);
+    ValueTask OnShardSessionInvalidated(ShardId shardId, string sessionId, CancellationToken stoppingToken);
 
     /// <summary>
     ///     Invoked when the shard with the given ID disconnects.

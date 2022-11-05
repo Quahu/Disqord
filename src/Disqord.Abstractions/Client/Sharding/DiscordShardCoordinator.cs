@@ -108,7 +108,7 @@ public abstract class DiscordShardCoordinator : IShardCoordinator, IBindable<Dis
     }
 
     /// <inheritdoc/>
-    public virtual ValueTask OnShardSessionInvalidated(ShardId shardId, string? sessionId, CancellationToken stoppingToken)
+    public virtual ValueTask OnShardSessionInvalidated(ShardId shardId, string sessionId, CancellationToken stoppingToken)
     {
         return default;
     }

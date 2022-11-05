@@ -112,23 +112,21 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
     /// <inheritdoc/>
     public override ValueTask OnShardIdentifySent(ShardId shardId, CancellationToken stoppingToken)
     {
-        if (IsResetting)
-            return default;
-
         lock (this)
         {
             if (IsResetting)
                 return default;
 
             IsResetting = true;
+
             if (IdentifySemaphoreResetTimer == null)
             {
                 IdentifySemaphoreResetTimer = new Timer(static state =>
                 {
                     var @this = Unsafe.As<LocalDiscordShardCoordinator>(state!);
-                    try
+                    lock (@this)
                     {
-                        lock (@this)
+                        try
                         {
                             if (@this.IdentifySemaphore != null)
                             {
@@ -143,13 +141,15 @@ public class LocalDiscordShardCoordinator : DiscordShardCoordinator
                             {
                                 @this.IdentifySemaphoreResetTimer.Change(Timeout.Infinite, Timeout.Infinite);
                             }
-
+                        }
+                        catch (Exception ex)
+                        {
+                            @this.Logger.LogError(ex, "An exception occurred in the coordinator semaphore timer.");
+                        }
+                        finally
+                        {
                             @this.IsResetting = false;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        @this.Logger.LogError(ex, "An exception occurred in the coordinator semaphore timer.");
                     }
                 }, this, IdentifyDelay, Timeout.InfiniteTimeSpan);
             }

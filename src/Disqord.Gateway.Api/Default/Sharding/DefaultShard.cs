@@ -288,8 +288,6 @@ public class DefaultShard : IShard
                         }
                         case GatewayPayloadOperation.InvalidSession:
                         {
-                            await ApiClient.ShardCoordinator.OnShardSessionInvalidated(Id, SessionId, stoppingToken).ConfigureAwait(false);
-
                             if (resuming)
                             {
                                 resuming = false;
@@ -302,6 +300,11 @@ public class DefaultShard : IShard
                             }
                             else
                             {
+                                if (SessionId != null)
+                                {
+                                    await ApiClient.ShardCoordinator.OnShardSessionInvalidated(Id, SessionId, stoppingToken).ConfigureAwait(false);
+                                }
+
                                 var isResumable = payload.D!.ToType<bool>();
                                 if (isResumable)
                                 {
@@ -525,30 +528,35 @@ public class DefaultShard : IShard
     private async ValueTask IdentifyAsync(CancellationToken stoppingToken)
     {
         await ApiClient.ShardCoordinator.WaitToIdentifyShardAsync(Id, stoppingToken).ConfigureAwait(false);
-        await SendAsync(new GatewayPayloadJsonModel
+        try
         {
-            Op = GatewayPayloadOperation.Identify,
-            D = new IdentifyJsonModel
+            await SendAsync(new GatewayPayloadJsonModel
             {
-                Token = ApiClient.Token.RawValue,
-                Properties = new IdentifyJsonModel.PropertiesJsonModel
+                Op = GatewayPayloadOperation.Identify,
+                D = new IdentifyJsonModel
                 {
-                    Os = OperatingSystem.IsWindows()
-                        ? "windows"
-                        : "unix",
-                    Device = "Disqord",
-                    Browser = "Disqord"
-                },
-                Intents = Intents,
-                LargeThreshold = LargeGuildThreshold,
-                Shard = Id.Count > 1
-                    ? new[] { Id.Index, Id.Count }
-                    : Optional<int[]>.Empty,
-                Presence = Optional.FromNullable(Presence)
-            }
-        }, stoppingToken).ConfigureAwait(false);
-
-        await ApiClient.ShardCoordinator.OnShardIdentifySent(Id, stoppingToken);
+                    Token = ApiClient.Token.RawValue,
+                    Properties = new IdentifyJsonModel.PropertiesJsonModel
+                    {
+                        Os = OperatingSystem.IsWindows()
+                            ? "windows"
+                            : "unix",
+                        Device = "Disqord",
+                        Browser = "Disqord"
+                    },
+                    Intents = Intents,
+                    LargeThreshold = LargeGuildThreshold,
+                    Shard = Id.Count > 1
+                        ? new[] { Id.Index, Id.Count }
+                        : Optional<int[]>.Empty,
+                    Presence = Optional.FromNullable(Presence)
+                }
+            }, stoppingToken).ConfigureAwait(false);
+        }
+        finally
+        {
+            await ApiClient.ShardCoordinator.OnShardIdentifySent(Id, stoppingToken);
+        }
     }
 
     private Task ResumeAsync(CancellationToken stoppingToken)
