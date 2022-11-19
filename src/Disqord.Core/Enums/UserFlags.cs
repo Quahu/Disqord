@@ -81,5 +81,10 @@ public enum UserFlags : uint
     /// <summary>
     ///     The user is a bot using HTTP interactions and is shown online in member lists.
     /// </summary>
-    HttpInteractionsBot = 1 << 19
+    HttpInteractionsBot = 1 << 19,
+
+    /// <summary>
+    ///     The user is an active developer.
+    /// </summary>
+    ActiveDeveloper = 1 << 22
 }
