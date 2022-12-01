@@ -282,9 +282,9 @@ public abstract class MenuBase : IAsyncDisposable
             view.FormatLocalMessage(localMessage);
             try
             {
-                if (responseHelper == null || (responseHelper.HasResponded && responseHelper.ResponseType is not InteractionResponseType.DeferredMessageUpdate))
+                if (responseHelper == null)
                 {
-                    // If there's no interaction provided or the user has already responded (not with DeferredMessageUpdate), modify the message normally.
+                    // If there's no interaction provided, modify the message normally.
                     await Client.ModifyMessageAsync(ChannelId, MessageId, x =>
                     {
                         x.Content = localMessage.Content;
@@ -297,7 +297,7 @@ public abstract class MenuBase : IAsyncDisposable
                 {
                     if (!responseHelper.HasResponded)
                     {
-                        // If the user hasn't responded, respond to the interaction with modifying the message.
+                        // If the user code hasn't responded, respond to the interaction with modifying the message.
                         await responseHelper.ModifyMessageAsync(localMessage is LocalInteractionMessageResponse interactionMessageResponse
                             ? interactionMessageResponse
                             : new LocalInteractionMessageResponse
@@ -311,7 +311,7 @@ public abstract class MenuBase : IAsyncDisposable
                     }
                     else
                     {
-                        // If the user deferred the response (a button is taking too long, for example), modify the message via a followup.
+                        // If the user code has responded, modify the message via a followup.
                         await e!.Interaction.Followup().ModifyResponseAsync(x =>
                         {
                             x.Content = localMessage.Content;

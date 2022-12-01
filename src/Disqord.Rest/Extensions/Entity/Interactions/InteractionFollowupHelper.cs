@@ -40,7 +40,7 @@ public class InteractionFollowupHelper
     /// <param name="cancellationToken"> The cancellation token to observe. </param>
     /// <returns>
     ///     A <see cref="Task{TResult}"/> representing the request
-    /// with the result being the fetched message.
+    ///     with the result being the fetched message.
     /// </returns>
     public Task<IUserMessage> FetchResponseAsync(
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -54,12 +54,18 @@ public class InteractionFollowupHelper
     /// <summary>
     ///     Modifies the response message that was sent using <see cref="InteractionResponseHelper.SendMessageAsync"/>.
     /// </summary>
+    /// <remarks>
+    ///     This is also used for <see cref="DeferralType.MessageUpdate"/> deferrals.
+    ///     <para/>
+    ///     For component interactions, if a response has not been sent,
+    ///     this method will affect the original message the components were triggered on.
+    /// </remarks>
     /// <param name="action"> The action representing the properties to be modified. </param>
     /// <param name="options"> The request options. </param>
     /// <param name="cancellationToken"> The cancellation token to observe. </param>
     /// <returns>
     ///     A <see cref="Task{TResult}"/> representing the request
-    /// with the result being the modified message.
+    ///     with the result being the modified message.
     /// </returns>
     public Task<IUserMessage> ModifyResponseAsync(
         Action<ModifyWebhookMessageActionProperties> action,
@@ -74,6 +80,10 @@ public class InteractionFollowupHelper
     /// <summary>
     ///     Deletes the response message that was sent using <see cref="InteractionResponseHelper.SendMessageAsync"/>.
     /// </summary>
+    /// <remarks>
+    ///     For component interactions, if a response has not been sent,
+    ///     this method will affect the original message the components were triggered on.
+    /// </remarks>
     /// <param name="options"> The request options. </param>
     /// <param name="cancellationToken"> The cancellation token to observe. </param>
     /// <returns>
@@ -96,7 +106,7 @@ public class InteractionFollowupHelper
     /// <param name="cancellationToken"> The cancellation token to observe. </param>
     /// <returns>
     ///     A <see cref="Task{TResult}"/> representing the request
-    /// with the result being the sent message.
+    ///     with the result being the sent message.
     /// </returns>
     public Task<IUserMessage> SendAsync(
         LocalInteractionFollowup followup,
@@ -116,7 +126,7 @@ public class InteractionFollowupHelper
     /// <param name="cancellationToken"> The cancellation token to observe. </param>
     /// <returns>
     ///     A <see cref="Task{TResult}"/> representing the request
-    /// with the result being the fetched message.
+    ///     with the result being the fetched message.
     /// </returns>
     public Task<IUserMessage?> FetchAsync(
         Snowflake followupId,
@@ -137,7 +147,7 @@ public class InteractionFollowupHelper
     /// <param name="cancellationToken"> The cancellation token to observe. </param>
     /// <returns>
     ///     A <see cref="Task{TResult}"/> representing the request
-    /// with the result being the modified message.
+    ///     with the result being the modified message.
     /// </returns>
     public Task<IUserMessage> ModifyAsync(
         Snowflake followupId, Action<ModifyWebhookMessageActionProperties> action,
