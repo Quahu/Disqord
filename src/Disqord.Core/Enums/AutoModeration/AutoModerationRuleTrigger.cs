@@ -23,5 +23,10 @@ public enum AutoModerationRuleTrigger
     /// <summary>
     ///     The trigger checks for keywords from pre-defined presets.
     /// </summary>
-    KeywordPreset = 4
+    KeywordPreset = 4,
+
+    /// <summary>
+    ///     The trigger checks for mention spam.
+    /// </summary>
+    MentionSpam = 5
 }

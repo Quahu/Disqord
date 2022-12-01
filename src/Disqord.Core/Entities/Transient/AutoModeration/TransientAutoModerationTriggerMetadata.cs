@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Disqord.Models;
+using Qommon;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
@@ -21,6 +22,19 @@ public class TransientAutoModerationTriggerMetadata : TransientEntity<AutoModera
     private IReadOnlyList<string>? _keywords;
 
     /// <inheritdoc/>
+    public IReadOnlyList<string> RegexPatterns
+    {
+        get
+        {
+            if (!Model.RegexPatterns.HasValue)
+                return ReadOnlyList<string>.Empty;
+
+            return _regexPatterns ??= Model.RegexPatterns.Value.ToReadOnlyList();
+        }
+    }
+    private IReadOnlyList<string>? _regexPatterns;
+
+    /// <inheritdoc/>
     public IReadOnlyList<AutoModerationKeywordPresetType> Presets
     {
         get
@@ -32,6 +46,22 @@ public class TransientAutoModerationTriggerMetadata : TransientEntity<AutoModera
         }
     }
     private IReadOnlyList<AutoModerationKeywordPresetType>? _presets;
+
+    /// <inheritdoc/>
+    public IReadOnlyList<string> AllowedSubstrings
+    {
+        get
+        {
+            if (!Model.AllowList.HasValue)
+                return ReadOnlyList<string>.Empty;
+
+            return _allowedSubstrings ??= Model.AllowList.Value.ToReadOnlyList();
+        }
+    }
+    private IReadOnlyList<string>? _allowedSubstrings;
+
+    /// <inheritdoc/>
+    public int? MentionLimit => Model.MentionTotalLimit.GetValueOrNullable();
 
     public TransientAutoModerationTriggerMetadata(AutoModerationTriggerMetadataJsonModel model)
         : base(model)

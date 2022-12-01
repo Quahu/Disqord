@@ -32,6 +32,31 @@ public static class LocalAutoModerationTriggerMetadataExtensions
         return metadata.WithKeywords(keywords as IEnumerable<string>);
     }
 
+    public static LocalAutoModerationTriggerMetadata AddRegexPattern(this LocalAutoModerationTriggerMetadata metadata, string regexPattern)
+    {
+        Guard.IsNotNull(regexPattern);
+
+        if (metadata.RegexPatterns.Add(regexPattern, out var list))
+            metadata.RegexPatterns = new(list);
+
+        return metadata;
+    }
+
+    public static LocalAutoModerationTriggerMetadata WithRegexPatterns(this LocalAutoModerationTriggerMetadata metadata, IEnumerable<string> regexPatterns)
+    {
+        Guard.IsNotNull(regexPatterns);
+
+        if (metadata.RegexPatterns.With(regexPatterns, out var list))
+            metadata.RegexPatterns = new(list);
+
+        return metadata;
+    }
+
+    public static LocalAutoModerationTriggerMetadata WithRegexPatterns(this LocalAutoModerationTriggerMetadata metadata, params string[] regexPatterns)
+    {
+        return metadata.WithRegexPatterns(regexPatterns as IEnumerable<string>);
+    }
+
     public static LocalAutoModerationTriggerMetadata AddPreset(this LocalAutoModerationTriggerMetadata metadata, AutoModerationKeywordPresetType preset)
     {
         if (metadata.Presets.Add(preset, out var list))
@@ -53,5 +78,36 @@ public static class LocalAutoModerationTriggerMetadataExtensions
     public static LocalAutoModerationTriggerMetadata WithPresets(this LocalAutoModerationTriggerMetadata metadata, params AutoModerationKeywordPresetType[] presets)
     {
         return metadata.WithPresets(presets as IEnumerable<AutoModerationKeywordPresetType>);
+    }
+
+    public static LocalAutoModerationTriggerMetadata AddAllowedSubstring(this LocalAutoModerationTriggerMetadata metadata, string allowedSubstring)
+    {
+        Guard.IsNotNull(allowedSubstring);
+
+        if (metadata.AllowedSubstrings.Add(allowedSubstring, out var list))
+            metadata.AllowedSubstrings = new(list);
+
+        return metadata;
+    }
+
+    public static LocalAutoModerationTriggerMetadata WithAllowedSubstrings(this LocalAutoModerationTriggerMetadata metadata, IEnumerable<string> allowedSubstrings)
+    {
+        Guard.IsNotNull(allowedSubstrings);
+
+        if (metadata.AllowedSubstrings.With(allowedSubstrings, out var list))
+            metadata.AllowedSubstrings = new(list);
+
+        return metadata;
+    }
+
+    public static LocalAutoModerationTriggerMetadata WithAllowedSubstrings(this LocalAutoModerationTriggerMetadata metadata, params string[] allowedSubstrings)
+    {
+        return metadata.WithAllowedSubstrings(allowedSubstrings as IEnumerable<string>);
+    }
+
+    public static LocalAutoModerationTriggerMetadata WithMentionLimit(this LocalAutoModerationTriggerMetadata metadata, int mentionLimit)
+    {
+        metadata.MentionLimit = mentionLimit;
+        return metadata;
     }
 }

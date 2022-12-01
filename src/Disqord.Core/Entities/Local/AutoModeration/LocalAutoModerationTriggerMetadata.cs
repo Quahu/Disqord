@@ -8,7 +8,13 @@ public class LocalAutoModerationTriggerMetadata : ILocalConstruct<LocalAutoModer
 {
     public Optional<IList<string>> Keywords { get; set; }
 
+    public Optional<IList<string>> RegexPatterns { get; set; }
+
     public Optional<IList<AutoModerationKeywordPresetType>> Presets { get; set; }
+
+    public Optional<IList<string>> AllowedSubstrings { get; set; }
+
+    public Optional<int> MentionLimit { get; set; }
 
     /// <summary>
     ///     Instantiates a new <see cref="LocalAutoModerationTriggerMetadata"/>.
@@ -23,7 +29,10 @@ public class LocalAutoModerationTriggerMetadata : ILocalConstruct<LocalAutoModer
     protected LocalAutoModerationTriggerMetadata(LocalAutoModerationTriggerMetadata other)
     {
         Keywords = other.Keywords.Clone();
+        RegexPatterns = other.RegexPatterns.Clone();
         Presets = other.Presets.Clone();
+        AllowedSubstrings = other.AllowedSubstrings.Clone();
+        MentionLimit = other.MentionLimit;
     }
 
     /// <inheritdoc/>
@@ -38,7 +47,10 @@ public class LocalAutoModerationTriggerMetadata : ILocalConstruct<LocalAutoModer
         return new AutoModerationTriggerMetadataJsonModel
         {
             KeywordFilter = Keywords.ToArray(),
-            Presets = Presets.ToArray()
+            RegexPatterns = RegexPatterns.ToArray(),
+            Presets = Presets.ToArray(),
+            AllowList = AllowedSubstrings.ToArray(),
+            MentionTotalLimit = MentionLimit
         };
     }
 }
