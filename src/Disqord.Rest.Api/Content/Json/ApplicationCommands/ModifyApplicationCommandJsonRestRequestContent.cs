@@ -31,6 +31,9 @@ public class ModifyApplicationCommandJsonRestRequestContent : JsonModelRestReque
     [JsonProperty("default_permission")]
     public Optional<bool> DefaultPermission;
 
+    [JsonProperty("nsfw")]
+    public Optional<bool> Nsfw;
+
     protected override void OnValidate()
     {
         OptionalGuard.CheckValue(Name, value => RestContentValidation.ApplicationCommands.ValidateName(value));

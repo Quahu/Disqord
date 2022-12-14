@@ -24,6 +24,7 @@ internal static partial class ActionPropertiesConversion
             DefaultMemberPermissions = Optional.Convert(properties.DefaultRequiredMemberPermissions, defaultMemberPermissions => (Permissions?) defaultMemberPermissions),
             DmPermission = properties.IsEnabledInPrivateChannels,
             DefaultPermission = properties.IsEnabledByDefault,
+            Nsfw = properties.IsAgeRestricted
         };
 
         return content;

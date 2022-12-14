@@ -181,6 +181,19 @@ public abstract partial class DiscordBotBase
                     }
                 }
 
+                static bool IsAgeRestricted(IReadOnlyList<ICheck> checks)
+                {
+                    var checkCount = checks.Count;
+                    for (var i = 0; i < checkCount; i++)
+                    {
+                        var check = checks[i];
+                        if (check is RequireAgeRestrictedAttribute)
+                            return true;
+                    }
+
+                    return false;
+                }
+
                 var modules = new FastList<ApplicationModule>();
                 var module = command.Module;
                 do
@@ -192,11 +205,15 @@ public abstract partial class DiscordBotBase
 
                 var requiredMemberPermissions = Optional<Permissions>.Empty;
                 var isEnabledInPrivateChannels = Optional<bool>.Empty;
+                var isAgeRestricted = false;
                 var hasModuleAlias = false;
                 for (var i = 0; i < modules.Count; i++)
                 {
                     module = modules[i];
                     GetPermissions(module.Checks, ref requiredMemberPermissions, ref isEnabledInPrivateChannels);
+
+                    if (!isAgeRestricted)
+                        isAgeRestricted = IsAgeRestricted(module.Checks);
 
                     if (module.Alias != null)
                     {
@@ -207,6 +224,9 @@ public abstract partial class DiscordBotBase
 
                 if (!hasModuleAlias)
                     GetPermissions(command.Checks, ref requiredMemberPermissions, ref isEnabledInPrivateChannels);
+
+                if (!isAgeRestricted)
+                    isAgeRestricted = IsAgeRestricted(command.Checks);
 
                 // TODO: use the cache for slash commands
                 if (command.Type is ApplicationCommandType.User or ApplicationCommandType.Message)
@@ -225,6 +245,8 @@ public abstract partial class DiscordBotBase
                     contextMenuCommand.Name = command.Alias;
                     contextMenuCommand.IsEnabledInPrivateChannels = isEnabledInPrivateChannels;
                     contextMenuCommand.DefaultRequiredMemberPermissions = requiredMemberPermissions;
+                    contextMenuCommand.IsAgeRestricted = isAgeRestricted;
+
                     localCommands.Add(contextMenuCommand);
 
                     // commandCache.Add(command, contextMenuCommand);
@@ -270,9 +292,14 @@ public abstract partial class DiscordBotBase
                     localSlashCommand = new LocalSlashCommand();
                     localSlashCommand.DefaultRequiredMemberPermissions = requiredMemberPermissions;
                     localSlashCommand.IsEnabledInPrivateChannels = isEnabledInPrivateChannels;
+                    localSlashCommand.IsAgeRestricted = isAgeRestricted;
                     localCommands.Add(localSlashCommand);
 
                     // commandCache.Add(command, localSlashCommand);
+                }
+                else if (isAgeRestricted)
+                {
+                    localSlashCommand.IsAgeRestricted = isAgeRestricted;
                 }
 
                 LocalSlashCommandOption? lastAliasOption = null;
@@ -769,6 +796,7 @@ public abstract partial class DiscordBotBase
                     properties.DefaultRequiredMemberPermissions = command.DefaultRequiredMemberPermissions;
                     properties.IsEnabledInPrivateChannels = command.IsEnabledInPrivateChannels.GetValueOrDefault(true);
                     properties.IsEnabledByDefault = command.IsEnabledByDefault;
+                    properties.IsAgeRestricted = command.IsAgeRestricted;
                 }
 
                 tasks[index++] = guildId == null

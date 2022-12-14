@@ -39,6 +39,11 @@ public abstract class LocalApplicationCommand : ILocalConstruct<LocalApplication
     public Optional<bool> IsEnabledInPrivateChannels { get; set; }
 
     /// <summary>
+    ///     Gets or sets whether this command is age-restricted.
+    /// </summary>
+    public Optional<bool> IsAgeRestricted { get; set; }
+
+    /// <summary>
     ///     Instantiates a new <see cref="LocalApplicationCommand"/>.
     /// </summary>
     protected LocalApplicationCommand()
@@ -57,6 +62,7 @@ public abstract class LocalApplicationCommand : ILocalConstruct<LocalApplication
         IsEnabledByDefault = other.IsEnabledByDefault;
         DefaultRequiredMemberPermissions = other.DefaultRequiredMemberPermissions;
         IsEnabledInPrivateChannels = other.IsEnabledInPrivateChannels;
+        IsAgeRestricted = other.IsAgeRestricted;
     }
 
     /// <inheritdoc/>

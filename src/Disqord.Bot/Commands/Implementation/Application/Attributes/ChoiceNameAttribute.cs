@@ -3,7 +3,7 @@ using System;
 namespace Disqord.Bot.Commands.Application;
 
 /// <summary>
-///     Overrides the choice name of the decorated enum field.
+///     Overrides the application command parameter choice name of the decorated enum field.
 /// </summary>
 [AttributeUsage(AttributeTargets.Field)]
 public class ChoiceNameAttribute : Attribute

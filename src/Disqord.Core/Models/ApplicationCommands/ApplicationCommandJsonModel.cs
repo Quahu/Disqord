@@ -42,6 +42,9 @@ public class ApplicationCommandJsonModel : JsonModel
     [JsonProperty("default_permission")]
     public Optional<bool?> DefaultPermission;
 
+    [JsonProperty("nsfw")]
+    public Optional<bool> Nsfw;
+
     [JsonProperty("version")]
     public Snowflake Version;
 }
