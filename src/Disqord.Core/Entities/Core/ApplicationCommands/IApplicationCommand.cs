@@ -43,6 +43,11 @@ public interface IApplicationCommand : ISnowflakeEntity, IPossiblyGuildEntity, I
     bool IsEnabledByDefault { get; }
 
     /// <summary>
+    ///     Gets whether this application command is age-restricted.
+    /// </summary>
+    bool IsAgeRestricted { get; }
+
+    /// <summary>
     ///     Gets the auto-incrementing version of this command.
     /// </summary>
     /// <remarks>

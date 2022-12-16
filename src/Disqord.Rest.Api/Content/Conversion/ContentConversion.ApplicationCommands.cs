@@ -40,7 +40,8 @@ internal static partial class ContentConversion
             NameLocalizations = ConvertLocalizations(command.NameLocalizations),
             DefaultMemberPermissions = Optional.Convert(command.DefaultRequiredMemberPermissions, defaultMemberPermissions => (Permissions?) defaultMemberPermissions),
             DmPermission = Optional.Convert(command.IsEnabledInPrivateChannels, isEnabledInPrivateChannels => (bool?) isEnabledInPrivateChannels),
-            DefaultPermission = command.IsEnabledByDefault
+            DefaultPermission = command.IsEnabledByDefault,
+            Nsfw = command.IsAgeRestricted
         };
 
         if (command is LocalSlashCommand slashCommand)

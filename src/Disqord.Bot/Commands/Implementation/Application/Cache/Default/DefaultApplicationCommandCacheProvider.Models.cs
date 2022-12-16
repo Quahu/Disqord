@@ -50,6 +50,9 @@ public partial class DefaultApplicationCommandCacheProvider
         [JsonProperty("dm")]
         public Optional<bool> IsEnabledInPrivateChannels;
 
+        [JsonProperty("ar")]
+        public Optional<bool> IsAgeRestricted;
+
         public CommandJsonModel()
         { }
 
@@ -77,6 +80,7 @@ public partial class DefaultApplicationCommandCacheProvider
 
             RequiredMemberPermissions = Optional.Convert(command.DefaultRequiredMemberPermissions, permissions => (ulong) permissions);
             IsEnabledInPrivateChannels = command.IsEnabledInPrivateChannels;
+            IsAgeRestricted = command.IsAgeRestricted;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -111,7 +115,8 @@ public partial class DefaultApplicationCommandCacheProvider
             }
 
             if (RequiredMemberPermissions != Optional.Convert(command.DefaultRequiredMemberPermissions, permissions => (ulong) permissions)
-                || IsEnabledInPrivateChannels != command.IsEnabledInPrivateChannels)
+                || IsEnabledInPrivateChannels != command.IsEnabledInPrivateChannels
+                || IsAgeRestricted != command.IsAgeRestricted)
                 return false;
 
             return true;

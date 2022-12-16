@@ -44,4 +44,11 @@ public static class LocalApplicationCommandExtensions
         command.IsEnabledByDefault = isEnabledByDefault;
         return command;
     }
+
+    public static TApplicationCommand WithIsAgeRestricted<TApplicationCommand>(this TApplicationCommand command, bool isAgeRestricted = true)
+        where TApplicationCommand : LocalApplicationCommand
+    {
+        command.IsAgeRestricted = isAgeRestricted;
+        return command;
+    }
 }

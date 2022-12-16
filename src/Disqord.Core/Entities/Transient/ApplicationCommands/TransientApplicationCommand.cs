@@ -46,6 +46,9 @@ public class TransientApplicationCommand : TransientClientEntity<ApplicationComm
     public bool IsEnabledByDefault => Model.DefaultPermission.GetValueOrDefault() ?? true;
 
     /// <inheritdoc/>
+    public bool IsAgeRestricted => Model.Nsfw.GetValueOrDefault();
+
+    /// <inheritdoc/>
     public Snowflake Version => Model.Version;
 
     public TransientApplicationCommand(IClient client, ApplicationCommandJsonModel model)

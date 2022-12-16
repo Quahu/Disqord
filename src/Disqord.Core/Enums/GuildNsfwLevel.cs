@@ -21,7 +21,7 @@ public enum GuildNsfwLevel : byte
     Safe = 2,
 
     /// <summary>
-    ///     The guild contains age restricted content.
+    ///     The guild contains age-restricted content.
     /// </summary>
     AgeRestricted = 3
 }

@@ -31,6 +31,9 @@ public class CreateApplicationCommandJsonRestRequestContent : JsonModelRestReque
     [JsonProperty("default_permission")]
     public Optional<bool> DefaultPermission;
 
+    [JsonProperty("nsfw")]
+    public Optional<bool> Nsfw;
+
     [JsonProperty("type")]
     public Optional<ApplicationCommandType> Type;
 

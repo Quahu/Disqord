@@ -21,4 +21,6 @@ public sealed class ModifyApplicationCommandActionProperties
     public Optional<bool> IsEnabledInPrivateChannels { internal get; set; }
 
     public Optional<bool> IsEnabledByDefault { internal get; set; }
+
+    public Optional<bool> IsAgeRestricted { internal get; set; }
 }
