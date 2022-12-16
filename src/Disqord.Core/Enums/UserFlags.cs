@@ -74,7 +74,7 @@ public enum UserFlags : uint
     EarlyVerifiedBotDeveloper = 1 << 17,
 
     /// <summary>
-    ///     The user is a Discord certified moderator.
+    ///     The user is a Moderator Programs Alumni (previously Discord certified moderator).
     /// </summary>
     CertifiedModerator = 1 << 18,
 
