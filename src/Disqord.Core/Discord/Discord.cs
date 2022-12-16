@@ -16,6 +16,7 @@ public static partial class Discord
     /// </summary>
     public static IReadOnlyList<string> LocaleNames { get; } = new[]
     {
+        "id",
         "da",
         "de",
         "en-GB",
