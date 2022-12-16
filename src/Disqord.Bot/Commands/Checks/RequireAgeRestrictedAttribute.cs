@@ -13,7 +13,7 @@ namespace Disqord.Bot.Commands;
 ///     For application commands this also allows the command to be used
 ///     in direct channels with the application.
 ///     <br/>
-///     If a nested (i.e. <see cref="SlashGroupAttribute"/>) application command is a decorated with this attribute
+///     If a nested (i.e. <see cref="SlashGroupAttribute"/>) application command is decorated with this attribute
 ///     the entire module will be age-restricted.
 /// </remarks>
 public class RequireAgeRestrictedAttribute : DiscordCheckAttribute
