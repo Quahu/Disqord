@@ -207,7 +207,8 @@ public abstract partial class DiscordBotBase
                 var isEnabledInPrivateChannels = Optional<bool>.Empty;
                 var isAgeRestricted = false;
                 var hasModuleAlias = false;
-                for (var i = 0; i < modules.Count; i++)
+                var moduleCount = modules.Count;
+                for (var i = moduleCount - 1; i >= 0; i--)
                 {
                     module = modules[i];
                     GetPermissions(module.Checks, ref requiredMemberPermissions, ref isEnabledInPrivateChannels);
