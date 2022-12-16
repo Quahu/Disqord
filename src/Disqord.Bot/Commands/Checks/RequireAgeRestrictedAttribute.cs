@@ -24,29 +24,41 @@ public class RequireAgeRestrictedAttribute : DiscordCheckAttribute
     public RequireAgeRestrictedAttribute()
     { }
 
-    /// <inheritdoc/>
-    public override ValueTask<IResult> CheckAsync(IDiscordCommandContext context)
+    private static bool IsAgeRestricted(IGuildChannel channel)
     {
-        if (context is IDiscordApplicationCommandContext)
-        {
-            // Handled by Discord.
-            return Results.Success;
-        }
-
-        if (context.GuildId == null)
-            return Results.Failure("This can only be executed within a guild.");
-
-        var channel = context.Bot.GetChannel(context.GuildId.Value, context.ChannelId) as IGuildChannel;
-        if (channel == null)
-            Throw.InvalidOperationException($"{nameof(RequireAgeRestrictedAttribute)} requires the context channel cached.");
-
-        var isAgeRestricted = channel switch
+        return channel switch
         {
             IAgeRestrictableChannel ageRestrictableChannel => ageRestrictableChannel.IsAgeRestricted,
             IThreadChannel threadChannel => threadChannel.GetChannel()?.IsAgeRestricted ?? false,
             _ => false
         };
+    }
 
+    /// <inheritdoc/>
+    public override ValueTask<IResult> CheckAsync(IDiscordCommandContext context)
+    {
+        IGuildChannel? channel;
+        if (context is IDiscordApplicationCommandContext)
+        {
+            // Handled by Discord, but we'll do some checking.
+            if (context.GuildId == null)
+                return Results.Success;
+
+            channel = context.Bot.GetChannel(context.GuildId.Value, context.ChannelId);
+            if (channel == null)
+                return Results.Success;
+        }
+        else
+        {
+            if (context.GuildId == null)
+                return Results.Failure("This can only be executed within a guild.");
+
+            channel = context.Bot.GetChannel(context.GuildId.Value, context.ChannelId);
+            if (channel == null)
+                Throw.InvalidOperationException($"{nameof(RequireAgeRestrictedAttribute)} requires the context channel cached.");
+        }
+
+        var isAgeRestricted = IsAgeRestricted(channel);
         if (isAgeRestricted)
             return Results.Success;
 
