@@ -294,6 +294,7 @@ public abstract partial class DiscordBotBase
                     localSlashCommand.DefaultRequiredMemberPermissions = requiredMemberPermissions;
                     localSlashCommand.IsEnabledInPrivateChannels = isEnabledInPrivateChannels;
                     localSlashCommand.IsAgeRestricted = isAgeRestricted;
+
                     localCommands.Add(localSlashCommand);
 
                     // commandCache.Add(command, localSlashCommand);
