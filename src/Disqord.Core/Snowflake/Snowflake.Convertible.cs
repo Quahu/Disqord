@@ -11,57 +11,57 @@ public readonly partial struct Snowflake
 
     bool IConvertible.ToBoolean(IFormatProvider? provider)
     {
-        return Convert.ToBoolean(RawValue, provider);
+        return ((IConvertible) RawValue).ToBoolean(provider);
     }
 
     byte IConvertible.ToByte(IFormatProvider? provider)
     {
-        return Convert.ToByte(RawValue, provider);
+        return ((IConvertible) RawValue).ToByte(provider);
     }
 
     char IConvertible.ToChar(IFormatProvider? provider)
     {
-        return Convert.ToChar(RawValue, provider);
+        return ((IConvertible) RawValue).ToChar(provider);
     }
 
     DateTime IConvertible.ToDateTime(IFormatProvider? provider)
     {
-        return Convert.ToDateTime(RawValue, provider);
+        return ((IConvertible) RawValue).ToDateTime(provider);
     }
 
     decimal IConvertible.ToDecimal(IFormatProvider? provider)
     {
-        return Convert.ToDecimal(RawValue, provider);
+        return ((IConvertible) RawValue).ToDecimal(provider);
     }
 
     double IConvertible.ToDouble(IFormatProvider? provider)
     {
-        return Convert.ToDouble(RawValue, provider);
+        return ((IConvertible) RawValue).ToDouble(provider);
     }
 
     short IConvertible.ToInt16(IFormatProvider? provider)
     {
-        return Convert.ToInt16(RawValue, provider);
+        return ((IConvertible) RawValue).ToInt16(provider);
     }
 
     int IConvertible.ToInt32(IFormatProvider? provider)
     {
-        return Convert.ToInt32(RawValue, provider);
+        return ((IConvertible) RawValue).ToInt32(provider);
     }
 
     long IConvertible.ToInt64(IFormatProvider? provider)
     {
-        return Convert.ToInt64(RawValue, provider);
+        return ((IConvertible) RawValue).ToInt64(provider);
     }
 
     sbyte IConvertible.ToSByte(IFormatProvider? provider)
     {
-        return Convert.ToSByte(RawValue, provider);
+        return ((IConvertible) RawValue).ToSByte(provider);
     }
 
     float IConvertible.ToSingle(IFormatProvider? provider)
     {
-        return Convert.ToSingle(RawValue, provider);
+        return ((IConvertible) RawValue).ToSingle(provider);
     }
 
     string IConvertible.ToString(IFormatProvider? provider)
@@ -76,16 +76,16 @@ public readonly partial struct Snowflake
 
     ushort IConvertible.ToUInt16(IFormatProvider? provider)
     {
-        return Convert.ToUInt16(RawValue, provider);
+        return ((IConvertible) RawValue).ToUInt16(provider);
     }
 
     uint IConvertible.ToUInt32(IFormatProvider? provider)
     {
-        return Convert.ToUInt32(RawValue, provider);
+        return ((IConvertible) RawValue).ToUInt32(provider);
     }
 
     ulong IConvertible.ToUInt64(IFormatProvider? provider)
     {
-        return Convert.ToUInt64(RawValue, provider);
+        return ((IConvertible) RawValue).ToUInt64(provider);
     }
 }
