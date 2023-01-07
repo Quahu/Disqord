@@ -11,5 +11,5 @@ public class VoiceServerUpdateJsonModel : JsonModel
     public Snowflake GuildId;
 
     [JsonProperty("endpoint")]
-    public string Endpoint = null!;
+    public string? Endpoint;
 }

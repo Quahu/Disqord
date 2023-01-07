@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <VersionPrefix>1.0.0-alpha2</VersionPrefix>

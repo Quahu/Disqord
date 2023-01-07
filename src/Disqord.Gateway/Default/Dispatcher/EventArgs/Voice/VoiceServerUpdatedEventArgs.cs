@@ -17,12 +17,15 @@ public class VoiceServerUpdatedEventArgs : EventArgs
     /// <summary>
     ///     Gets the voice server endpoint of this update.
     /// </summary>
-    public string Endpoint { get; }
+    /// <returns>
+    ///     The endpoint or <see langword="null"/> if the voice server is currently being reallocated.
+    /// </returns>
+    public string? Endpoint { get; }
 
     public VoiceServerUpdatedEventArgs(
         Snowflake guildId,
         string token,
-        string endpoint)
+        string? endpoint)
     {
         GuildId = guildId;
         Token = token;

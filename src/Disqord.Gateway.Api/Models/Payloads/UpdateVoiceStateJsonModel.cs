@@ -8,7 +8,7 @@ public class UpdateVoiceStateJsonModel : JsonModel
     public Snowflake GuildId;
 
     [JsonProperty("channel_id")]
-    public Snowflake ChannelId;
+    public Snowflake? ChannelId;
 
     [JsonProperty("self_mute")]
     public bool SelfMute;

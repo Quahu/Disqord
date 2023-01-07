@@ -6,7 +6,7 @@ namespace Disqord.Voice.Api.Models;
 public class SpeakingJsonModel : JsonModel
 {
     [JsonProperty("speaking")]
-    public bool Speaking;
+    public SpeakingFlags Speaking;
 
     [JsonProperty("delay")]
     public int Delay;

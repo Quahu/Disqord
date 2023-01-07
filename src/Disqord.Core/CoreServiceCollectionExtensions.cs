@@ -4,6 +4,8 @@ using Disqord.Http;
 using Disqord.Http.Default;
 using Disqord.Serialization.Json;
 using Disqord.Serialization.Json.Default;
+using Disqord.Udp;
+using Disqord.Udp.Default;
 using Disqord.WebSocket;
 using Disqord.WebSocket.Default;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +29,12 @@ public static class CoreServiceCollectionExtensions
     public static IServiceCollection AddWebSocketClientFactory(this IServiceCollection services)
     {
         services.TryAddSingleton<IWebSocketClientFactory, DefaultWebSocketClientFactory>();
+        return services;
+    }
+
+    public static IServiceCollection AddUdpClientFactory(this IServiceCollection services)
+    {
+        services.AddTransient<IUdpClientFactory, DefaultUdpClientFactory>();
         return services;
     }
 
