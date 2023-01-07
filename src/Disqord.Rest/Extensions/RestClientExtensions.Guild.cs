@@ -186,6 +186,8 @@ public static partial class RestClientExtensions
                     content.AvailableTags = Optional.Convert(forumProperties.Tags, tags => tags.Select(tag => tag.ToModel()).ToArray());
                     content.DefaultReactionEmoji = Optional.Convert(forumProperties.DefaultReactionEmoji, emoji => ForumDefaultReactionJsonModel.FromEmoji(emoji!));
                     content.DefaultThreadRateLimitPerUser = Optional.Convert(forumProperties.DefaultThreadSlowmode, slowmode => (int) slowmode.TotalSeconds);
+                    content.DefaultSortOrder = forumProperties.DefaultSortOrder;
+                    content.DefaultForumLayout = forumProperties.DefaultLayout;
                     break;
                 }
                 default:

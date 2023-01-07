@@ -20,6 +20,10 @@ public sealed class CreateForumChannelActionProperties : CreateNestedChannelActi
 
     public Optional<TimeSpan> DefaultThreadSlowmode { internal get; set; }
 
+    public Optional<ForumSortOrder?> DefaultSortOrder { internal get; set; }
+
+    public Optional<ForumLayout> DefaultLayout { internal get; set; }
+
     /// <summary>
     ///     Sets whether the forum channel requires a tag to be specified for threads created in it.
     /// </summary>

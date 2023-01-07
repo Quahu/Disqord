@@ -34,6 +34,12 @@ public class CachedForumChannel : CachedCategorizableGuildChannel, IForumChannel
     /// <inheritdoc/>
     public TimeSpan DefaultThreadSlowmode { get; private set; }
 
+    /// <inheritdoc/>
+    public ForumSortOrder? DefaultSortOrder { get; private set; }
+
+    /// <inheritdoc/>
+    public ForumLayout DefaultLayout { get; private set; }
+
     public CachedForumChannel(IGatewayClient client, ChannelJsonModel model)
         : base(client, model)
     { }
@@ -84,5 +90,7 @@ public class CachedForumChannel : CachedCategorizableGuildChannel, IForumChannel
             Tags = model.AvailableTags.Value.ToReadOnlyList(model => new TransientForumTag(model));
 
         DefaultThreadSlowmode = TimeSpan.FromSeconds(model.DefaultThreadRateLimitPerUser.GetValueOrDefault(0));
+        DefaultSortOrder = model.DefaultSortOrder.GetValueOrDefault();
+        DefaultLayout = model.DefaultForumLayout.GetValueOrDefault();
     }
 }

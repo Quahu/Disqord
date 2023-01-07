@@ -60,6 +60,12 @@ public class CreateGuildChannelJsonRestRequestContent : JsonModelRestRequestCont
     [JsonProperty("applied_tags")]
     public Optional<Snowflake[]> AppliedTags;
 
+    [JsonProperty("default_sort_order")]
+    public Optional<ForumSortOrder?> DefaultSortOrder;
+
+    [JsonProperty("default_forum_layout")]
+    public Optional<ForumLayout> DefaultForumLayout;
+
     public CreateGuildChannelJsonRestRequestContent(string name)
     {
         Name = name;

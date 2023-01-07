@@ -69,6 +69,12 @@ public class TransientForumChannel : TransientCategorizableGuildChannel, IForumC
     /// <inheritdoc/>
     public TimeSpan DefaultThreadSlowmode => TimeSpan.FromSeconds(Model.DefaultThreadRateLimitPerUser.GetValueOrDefault(0));
 
+    /// <inheritdoc/>
+    public ForumSortOrder? DefaultSortOrder => Model.DefaultSortOrder.GetValueOrDefault();
+
+    /// <inheritdoc/>
+    public ForumLayout DefaultLayout => Model.DefaultForumLayout.GetValueOrDefault();
+
     public TransientForumChannel(IClient client, ChannelJsonModel model)
         : base(client, model)
     { }

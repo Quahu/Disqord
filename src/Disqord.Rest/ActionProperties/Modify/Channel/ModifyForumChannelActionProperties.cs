@@ -18,6 +18,10 @@ public class ModifyForumChannelActionProperties : ModifyMessageGuildChannelActio
 
     public Optional<TimeSpan> DefaultThreadSlowmode { internal get; set; }
 
+    public Optional<ForumSortOrder?> DefaultSortOrder { internal get; set; }
+
+    public Optional<ForumLayout> DefaultLayout { internal get; set; }
+
     internal ModifyForumChannelActionProperties()
     { }
 }

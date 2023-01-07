@@ -104,4 +104,10 @@ public class ChannelJsonModel : JsonModel
     /// </summary>
     [JsonProperty("default_thread_rate_limit_per_user")]
     public Optional<int> DefaultThreadRateLimitPerUser;
+
+    [JsonProperty("default_sort_order")]
+    public Optional<ForumSortOrder?> DefaultSortOrder;
+
+    [JsonProperty("default_forum_layout")]
+    public Optional<ForumLayout> DefaultForumLayout;
 }

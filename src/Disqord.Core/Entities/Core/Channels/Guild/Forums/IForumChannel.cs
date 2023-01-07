@@ -27,4 +27,14 @@ public interface IForumChannel : IThreadParentChannel, ITopicChannel, ISlowmodeC
     ///     Gets the default slowmode applied to threads upon their creation in this channel.
     /// </summary>
     TimeSpan DefaultThreadSlowmode { get; }
+
+    /// <summary>
+    ///     Gets the default sort order of posts in this channel.
+    /// </summary>
+    ForumSortOrder? DefaultSortOrder { get; }
+
+    /// <summary>
+    ///     Gets the default layout of posts in this channel.
+    /// </summary>
+    ForumLayout DefaultLayout { get; }
 }
