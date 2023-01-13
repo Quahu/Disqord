@@ -8,7 +8,7 @@ public class TransientMembersPrunedAuditLog : TransientAuditLog, IMembersPrunedA
     public int Days => Model.Options.Value.DeleteMemberDays.Value;
 
     /// <inheritdoc/>
-    public int Count => Model.Options.Value.Count.Value;
+    public int Count => Model.Options.Value.MembersRemoved.Value;
 
     public TransientMembersPrunedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
