@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace Disqord.Gateway;
 
@@ -134,6 +134,12 @@ public enum GatewayIntents : ulong
         | Webhooks | Invites | VoiceStates | GuildMessages
         | GuildReactions | GuildTyping | DirectMessages | DirectReactions
         | DirectTyping | GuildEvents | AutoModerationConfiguration | AutoModerationExecution,
+
+    /// <summary>
+    ///     Represents all privileged intents,
+    ///     i.e. intents that require bot verification.
+    /// </summary>
+    Privileged = Members | Presences | MessageContent,
 
     /// <summary>
     ///     Represents all intents recommended by the library.
