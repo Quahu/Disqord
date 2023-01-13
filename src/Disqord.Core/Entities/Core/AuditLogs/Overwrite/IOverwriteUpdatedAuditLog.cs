@@ -1,4 +1,4 @@
 ﻿namespace Disqord.AuditLogs;
 
-public interface IOverwriteUpdatedAuditLog : IChangesAuditLog<IOverwriteAuditLogChanges>
+public interface IOverwriteUpdatedAuditLog : IOverwriteAuditLog, IChangesAuditLog<IOverwriteAuditLogChanges>
 { }

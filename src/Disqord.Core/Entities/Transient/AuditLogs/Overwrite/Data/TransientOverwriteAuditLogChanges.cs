@@ -6,12 +6,6 @@ namespace Disqord.AuditLogs;
 public class TransientOverwriteAuditLogChanges : IOverwriteAuditLogChanges
 {
     /// <inheritdoc/>
-    public AuditLogChange<Snowflake> TargetId { get; }
-
-    /// <inheritdoc/>
-    public AuditLogChange<OverwriteTargetType> TargetType { get; }
-
-    /// <inheritdoc/>
     public AuditLogChange<Permissions> Allowed { get; }
 
     /// <inheritdoc/>
@@ -24,16 +18,6 @@ public class TransientOverwriteAuditLogChanges : IOverwriteAuditLogChanges
             var change = model.Changes.Value[i];
             switch (change.Key)
             {
-                case "id":
-                {
-                    TargetId = AuditLogChange<Snowflake>.Convert(change);
-                    break;
-                }
-                case "type":
-                {
-                    TargetType = AuditLogChange<OverwriteTargetType>.Convert(change);
-                    break;
-                }
                 case "allow":
                 {
                     Allowed = AuditLogChange<Permissions>.Convert(change);

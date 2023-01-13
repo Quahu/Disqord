@@ -1,4 +1,4 @@
 ﻿namespace Disqord.AuditLogs;
 
-public interface IOverwriteDeletedAuditLog : IDataAuditLog<IOverwriteAuditLogData>
+public interface IOverwriteDeletedAuditLog : IOverwriteAuditLog, IDataAuditLog<IOverwriteAuditLogData>
 { }
