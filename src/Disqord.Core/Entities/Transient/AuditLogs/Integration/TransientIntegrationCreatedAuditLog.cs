@@ -7,7 +7,7 @@ public class TransientIntegrationCreatedAuditLog : TransientDataAuditLog<IIntegr
     /// <inheritdoc/>
     public override IIntegrationAuditLogData Data { get; }
 
-    public TransientIntegrationCreatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientIntegrationCreatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {
         Data = new TransientIntegrationAuditLogData(client, model, true);

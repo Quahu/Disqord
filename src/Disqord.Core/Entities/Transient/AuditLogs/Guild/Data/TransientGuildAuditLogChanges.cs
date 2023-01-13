@@ -74,7 +74,7 @@ public class TransientGuildAuditLogChanges : IGuildAuditLogChanges
     /// <inheritdoc/>
     public AuditLogChange<Snowflake?> SystemChannelId { get; }
 
-    public TransientGuildAuditLogChanges(IClient client, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientGuildAuditLogChanges(IClient client, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
     {
         for (var i = 0; i < model.Changes.Value.Length; i++)
         {
@@ -115,14 +115,17 @@ public class TransientGuildAuditLogChanges : IGuildAuditLogChanges
                 {
                     OwnerId = AuditLogChange<Snowflake>.Convert(change);
                     IUser? oldOwner = null;
-                    var oldOwnerModel = Array.Find(auditLogJsonModel.Users, x => x.Id == OwnerId.OldValue.Value);
-                    if (oldOwnerModel != null)
-                        oldOwner = new TransientUser(client, oldOwnerModel);
-
                     IUser? newOwner = null;
-                    var newOwnerModel = Array.Find(auditLogJsonModel.Users, x => x.Id == OwnerId.NewValue.Value);
-                    if (newOwnerModel != null)
-                        newOwner = new TransientUser(client, newOwnerModel);
+                    if (auditLogJsonModel != null)
+                    {
+                        var oldOwnerModel = Array.Find(auditLogJsonModel.Users, x => x.Id == OwnerId.OldValue.Value);
+                        if (oldOwnerModel != null)
+                            oldOwner = new TransientUser(client, oldOwnerModel);
+
+                        var newOwnerModel = Array.Find(auditLogJsonModel.Users, x => x.Id == OwnerId.NewValue.Value);
+                        if (newOwnerModel != null)
+                            newOwner = new TransientUser(client, newOwnerModel);
+                    }
 
                     Owner = new AuditLogChange<Optional<IUser>>(Optional.FromNullable(oldOwner), Optional.FromNullable(newOwner));
                     break;

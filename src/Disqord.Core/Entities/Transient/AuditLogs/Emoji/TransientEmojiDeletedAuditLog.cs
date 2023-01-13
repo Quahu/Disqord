@@ -7,7 +7,7 @@ public class TransientEmojiDeletedAuditLog : TransientDataAuditLog<IEmojiAuditLo
     /// <inheritdoc/>
     public override IEmojiAuditLogData Data { get; }
 
-    public TransientEmojiDeletedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientEmojiDeletedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {
         Data = new TransientEmojiAuditLogData(client, model, false);

@@ -20,7 +20,7 @@ public class TransientMemberRolesUpdatedAuditLog : TransientAuditLog, IMemberRol
     {
         get
         {
-            if (_target == null)
+            if (_target == null && AuditLogJsonModel != null)
             {
                 var userModel = Array.Find(AuditLogJsonModel.Users, userModel => userModel.Id == TargetId);
                 if (userModel != null)
@@ -32,7 +32,7 @@ public class TransientMemberRolesUpdatedAuditLog : TransientAuditLog, IMemberRol
     }
     private IUser? _target;
 
-    public TransientMemberRolesUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientMemberRolesUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {
         for (var i = 0; i < model.Changes.Value.Length; i++)

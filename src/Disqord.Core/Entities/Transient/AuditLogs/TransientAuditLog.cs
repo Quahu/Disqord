@@ -23,7 +23,7 @@ public class TransientAuditLog : TransientClientEntity<AuditLogEntryJsonModel>, 
     {
         get
         {
-            if (_actor == null)
+            if (_actor == null && AuditLogJsonModel != null)
             {
                 var userModel = Array.Find(AuditLogJsonModel.Users, userModel => userModel.Id == ActorId);
                 if (userModel != null)
@@ -38,16 +38,16 @@ public class TransientAuditLog : TransientClientEntity<AuditLogEntryJsonModel>, 
     /// <inheritdoc/>
     public string? Reason => Model.Reason.GetValueOrDefault();
 
-    protected readonly AuditLogJsonModel AuditLogJsonModel;
+    protected readonly AuditLogJsonModel? AuditLogJsonModel;
 
-    public TransientAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, model)
     {
         AuditLogJsonModel = auditLogJsonModel;
         GuildId = guildId;
     }
 
-    internal static IAuditLog Create(IClient client, Snowflake guildId, AuditLogJsonModel log, AuditLogEntryJsonModel entry)
+    internal static IAuditLog Create(IClient client, Snowflake guildId, AuditLogJsonModel? log, AuditLogEntryJsonModel entry)
     {
         return entry.ActionType switch
         {

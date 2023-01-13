@@ -101,6 +101,11 @@ public static class GatewayDispatchNames
     public const string GuildDelete = "GUILD_DELETE";
 
     /// <summary>
+    ///     The <c>GUILD_AUDIT_LOG_ENTRY_CREATE</c> dispatch.
+    /// </summary>
+    public const string GuildAuditLogEntryCreate = "GUILD_AUDIT_LOG_ENTRY_CREATE";
+
+    /// <summary>
     ///     The <c>GUILD_BAN_ADD</c> dispatch.
     /// </summary>
     public const string GuildBanAdd = "GUILD_BAN_ADD";

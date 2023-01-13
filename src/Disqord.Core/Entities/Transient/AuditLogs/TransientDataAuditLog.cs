@@ -8,7 +8,7 @@ public abstract class TransientDataAuditLog<T> : TransientAuditLog, IDataAuditLo
     /// <inheritdoc/>
     public abstract T Data { get; }
 
-    protected TransientDataAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    protected TransientDataAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     { }
 }

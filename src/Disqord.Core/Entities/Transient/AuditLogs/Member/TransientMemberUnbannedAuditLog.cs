@@ -10,7 +10,7 @@ public class TransientMemberUnbannedAuditLog : TransientAuditLog, IMemberUnbanne
     {
         get
         {
-            if (_target == null)
+            if (_target == null && AuditLogJsonModel != null)
             {
                 var userModel = Array.Find(AuditLogJsonModel.Users, userModel => userModel.Id == TargetId);
                 if (userModel != null)
@@ -22,7 +22,7 @@ public class TransientMemberUnbannedAuditLog : TransientAuditLog, IMemberUnbanne
     }
     private IUser? _target;
 
-    public TransientMemberUnbannedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientMemberUnbannedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     { }
 }

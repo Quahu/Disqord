@@ -7,7 +7,7 @@ public class TransientOverwriteDeletedAuditLog : TransientDataAuditLog<IOverwrit
     /// <inheritdoc/>
     public override IOverwriteAuditLogData Data { get; }
 
-    public TransientOverwriteDeletedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientOverwriteDeletedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {
         Data = new TransientOverwriteAuditLogData(client, model, false);

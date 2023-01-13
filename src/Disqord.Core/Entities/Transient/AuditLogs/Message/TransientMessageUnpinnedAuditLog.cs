@@ -10,7 +10,7 @@ public class TransientMessageUnpinnedAuditLog : TransientAuditLog, IMessageUnpin
     /// <inheritdoc/>
     public Snowflake MessageId => Model.Options.Value.MessageId.Value;
 
-    public TransientMessageUnpinnedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientMessageUnpinnedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     { }
 }

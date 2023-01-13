@@ -13,7 +13,7 @@ public class TransientWebhookUpdatedAuditLog : TransientChangesAuditLog<IWebhook
     {
         get
         {
-            if (_target == null)
+            if (_target == null && AuditLogJsonModel != null)
             {
                 var webhookModel = Array.Find(AuditLogJsonModel.Webhooks, webhookModel => webhookModel.Id == TargetId);
                 if (webhookModel != null)
@@ -25,7 +25,7 @@ public class TransientWebhookUpdatedAuditLog : TransientChangesAuditLog<IWebhook
     }
     private IWebhook? _target;
 
-    public TransientWebhookUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientWebhookUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {
         Changes = new TransientWebhookAuditLogChanges(client, model);

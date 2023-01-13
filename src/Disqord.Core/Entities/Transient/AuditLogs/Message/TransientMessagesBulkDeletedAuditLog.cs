@@ -10,7 +10,7 @@ public class TransientMessagesBulkDeletedAuditLog : TransientAuditLog, IMessages
     /// <inheritdoc/>
     public int Count => Model.Options.Value.Count.Value;
 
-    public TransientMessagesBulkDeletedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientMessagesBulkDeletedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     { }
 }

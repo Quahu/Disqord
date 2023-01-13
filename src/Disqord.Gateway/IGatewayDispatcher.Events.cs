@@ -44,6 +44,8 @@ public partial interface IGatewayDispatcher
 
     AsynchronousEvent<LeftGuildEventArgs> LeftGuildEvent { get; }
 
+    AsynchronousEvent<AuditLogCreatedEventArgs> AuditLogCreatedEvent { get; }
+
     AsynchronousEvent<BanCreatedEventArgs> BanCreatedEvent { get; }
 
     AsynchronousEvent<BanDeletedEventArgs> BanDeletedEvent { get; }

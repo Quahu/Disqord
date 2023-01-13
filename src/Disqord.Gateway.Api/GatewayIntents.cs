@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Disqord.Gateway;
 
@@ -28,9 +28,15 @@ public enum GatewayIntents : ulong
     Members = 1 << 1,
 
     /// <summary>
+    ///     Allows receiving moderation-related events such as bans or audit log events.
+    /// </summary>
+    Moderation = 1 << 2,
+
+    /// <summary>
     ///     Allows receiving ban-related events.
     /// </summary>
-    Bans = 1 << 2,
+    [Obsolete($"The value has been renamed to {nameof(Moderation)}.")]
+    Bans = Moderation,
 
     /// <summary>
     ///     Allows receiving emoji and sticker related events.
@@ -124,7 +130,7 @@ public enum GatewayIntents : ulong
     ///     Represents all unprivileged intents,
     ///     i.e. intents that never require bot verification.
     /// </summary>
-    Unprivileged = Guilds | Bans | EmojisAndStickers | Integrations
+    Unprivileged = Guilds | Moderation | EmojisAndStickers | Integrations
         | Webhooks | Invites | VoiceStates | GuildMessages
         | GuildReactions | GuildTyping | DirectMessages | DirectReactions
         | DirectTyping | GuildEvents | AutoModerationConfiguration | AutoModerationExecution,
@@ -136,7 +142,7 @@ public enum GatewayIntents : ulong
     ///     Includes <see cref="Members"/> and <see cref="MessageContent"/>
     ///     which are privileged intents.
     /// </remarks>
-    LibraryRecommended = Guilds | Members | Bans | EmojisAndStickers
+    LibraryRecommended = Guilds | Members | Moderation | EmojisAndStickers
         | Integrations | Webhooks | Invites | VoiceStates
         | GuildMessages | GuildReactions | MessageContent | GuildEvents
         | AutoModerationConfiguration | AutoModerationExecution,
@@ -144,7 +150,7 @@ public enum GatewayIntents : ulong
     /// <summary>
     ///     Represents all intents.
     /// </summary>
-    All = Guilds | Members | Bans | EmojisAndStickers
+    All = Guilds | Members | Moderation | EmojisAndStickers
         | Integrations | Webhooks | Invites | VoiceStates
         | Presences | GuildMessages | GuildReactions | GuildTyping
         | DirectMessages | DirectReactions | DirectTyping | MessageContent

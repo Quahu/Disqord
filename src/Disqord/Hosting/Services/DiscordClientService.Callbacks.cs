@@ -86,6 +86,10 @@ public abstract partial class DiscordClientService
         => default;
 
     /// <inheritdoc cref="IGatewayClient.BanCreated"/>
+    protected internal virtual ValueTask OnAuditLogCreated(AuditLogCreatedEventArgs e)
+        => default;
+
+    /// <inheritdoc cref="IGatewayClient.BanCreated"/>
     protected internal virtual ValueTask OnBanCreated(BanCreatedEventArgs e)
         => default;
 

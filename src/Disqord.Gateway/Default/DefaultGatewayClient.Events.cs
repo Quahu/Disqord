@@ -145,6 +145,13 @@ public partial class DefaultGatewayClient
     }
 
     /// <inheritdoc/>
+    public event AsynchronousEventHandler<AuditLogCreatedEventArgs> AuditLogCreated
+    {
+        add => Dispatcher.AuditLogCreatedEvent.Hook(value);
+        remove => Dispatcher.AuditLogCreatedEvent.Unhook(value);
+    }
+
+    /// <inheritdoc/>
     public event AsynchronousEventHandler<BanCreatedEventArgs> BanCreated
     {
         add => Dispatcher.BanCreatedEvent.Hook(value);

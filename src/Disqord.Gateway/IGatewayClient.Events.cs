@@ -116,9 +116,16 @@ public partial interface IGatewayClient
 
     /// <summary>
     ///     Fires when the bot leaves a guild.
-    ///     This also fires when the bot is kicked from a guild.
     /// </summary>
+    /// <remarks>
+    ///     This also fires when the bot is kicked from a guild.
+    /// </remarks>
     event AsynchronousEventHandler<LeftGuildEventArgs> LeftGuild;
+
+    /// <summary>
+    ///     Fires when an audit log is created.
+    /// </summary>
+    event AsynchronousEventHandler<AuditLogCreatedEventArgs> AuditLogCreated;
 
     /// <summary>
     ///     Fires when a guild ban is created.

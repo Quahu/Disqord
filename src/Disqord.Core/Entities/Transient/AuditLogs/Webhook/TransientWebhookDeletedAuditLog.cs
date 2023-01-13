@@ -7,7 +7,7 @@ public class TransientWebhookDeletedAuditLog : TransientDataAuditLog<IWebhookAud
     /// <inheritdoc/>
     public override IWebhookAuditLogData Data { get; }
 
-    public TransientWebhookDeletedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientWebhookDeletedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {
         Data = new TransientWebhookAuditLogData(client, model, false);

@@ -49,6 +49,8 @@ public partial class DiscordClientMasterService
 
     public DiscordClientService[] LeftGuildServices { get; }
 
+    public DiscordClientService[] AuditLogCreatedServices { get; }
+
     public DiscordClientService[] BanCreatedServices { get; }
 
     public DiscordClientService[] BanDeletedServices { get; }
@@ -159,6 +161,7 @@ public partial class DiscordClientMasterService
         GuildUpdatedServices = GetServices<GuildUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildUpdated));
         GuildUnavailableServices = GetServices<GuildUnavailableEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildUnavailable));
         LeftGuildServices = GetServices<LeftGuildEventArgs>(servicesArray, nameof(DiscordClientService.OnLeftGuild));
+        AuditLogCreatedServices = GetServices<AuditLogCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnAuditLogCreated));
         BanCreatedServices = GetServices<BanCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnBanCreated));
         BanDeletedServices = GetServices<BanDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnBanDeleted));
         EmojisUpdatedServices = GetServices<EmojisUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnEmojisUpdated));
@@ -218,6 +221,7 @@ public partial class DiscordClientMasterService
         Client.GuildUpdated += HandleGuildUpdated;
         Client.GuildUnavailable += HandleGuildUnavailable;
         Client.LeftGuild += HandleLeftGuild;
+        Client.AuditLogCreated += HandleAuditLogCreated;
         Client.BanCreated += HandleBanCreated;
         Client.BanDeleted += HandleBanDeleted;
         Client.EmojisUpdated += HandleEmojisUpdated;
@@ -376,6 +380,12 @@ public partial class DiscordClientMasterService
     {
         foreach (var service in LeftGuildServices)
             await ExecuteAsync((service, e) => service.OnLeftGuild(e), service, e).ConfigureAwait(false);
+    }
+
+    public async ValueTask HandleAuditLogCreated(object? sender, AuditLogCreatedEventArgs e)
+    {
+        foreach (var service in AuditLogCreatedServices)
+            await ExecuteAsync((service, e) => service.OnAuditLogCreated(e), service, e).ConfigureAwait(false);
     }
 
     public async ValueTask HandleBanCreated(object? sender, BanCreatedEventArgs e)

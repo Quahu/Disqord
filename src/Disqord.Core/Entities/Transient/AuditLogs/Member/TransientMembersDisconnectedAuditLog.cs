@@ -7,7 +7,7 @@ public class TransientMembersDisconnectedAuditLog : TransientAuditLog, IMembersD
     /// <inheritdoc/>
     public int Count => Model.Options.Value.Count.Value;
 
-    public TransientMembersDisconnectedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientMembersDisconnectedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     { }
 }

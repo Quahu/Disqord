@@ -13,7 +13,7 @@ public class TransientAutoModerationMessageBlockedAuditLog : TransientAuditLog, 
     /// <inheritdoc/>
     public Snowflake ChannelId => Model.Options.Value.ChannelId.Value;
 
-    public TransientAutoModerationMessageBlockedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientAutoModerationMessageBlockedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     { }
 }

@@ -7,7 +7,7 @@ public class TransientRoleDeletedAuditLog : TransientDataAuditLog<IRoleAuditLogD
     /// <inheritdoc/>
     public override IRoleAuditLogData Data { get; }
 
-    public TransientRoleDeletedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientRoleDeletedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {
         Data = new TransientRoleAuditLogData(client, model, false);

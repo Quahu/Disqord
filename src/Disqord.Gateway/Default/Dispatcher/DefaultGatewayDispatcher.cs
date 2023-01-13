@@ -126,6 +126,7 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
             [GatewayDispatchNames.GuildUpdate] = new GuildUpdateDispatchHandler(),
             [GatewayDispatchNames.GuildDelete] = new GuildDeleteDispatchHandler(),
 
+            [GatewayDispatchNames.GuildAuditLogEntryCreate] = new GuildAuditLogEntryCreateDispatchHandler(),
             [GatewayDispatchNames.GuildBanAdd] = new GuildBanAddDispatchHandler(),
             [GatewayDispatchNames.GuildBanRemove] = new GuildBanRemoveDispatchHandler(),
 

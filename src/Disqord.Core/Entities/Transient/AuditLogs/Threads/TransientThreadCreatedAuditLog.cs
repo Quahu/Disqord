@@ -13,7 +13,7 @@ public class TransientThreadCreatedAuditLog : TransientDataAuditLog<IThreadAudit
     {
         get
         {
-            if (_target == null)
+            if (_target == null && AuditLogJsonModel != null)
             {
                 var threadModel = Array.Find(AuditLogJsonModel.Threads, threadModel => threadModel.Id == TargetId);
                 if (threadModel != null)
@@ -25,7 +25,7 @@ public class TransientThreadCreatedAuditLog : TransientDataAuditLog<IThreadAudit
     }
     private IThreadChannel? _target;
 
-    public TransientThreadCreatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientThreadCreatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {
         Data = new TransientThreadAuditLogData(client, model, true);

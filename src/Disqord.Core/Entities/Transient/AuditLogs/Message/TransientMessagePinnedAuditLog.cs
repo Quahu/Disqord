@@ -10,7 +10,7 @@ public class TransientMessagePinnedAuditLog : TransientAuditLog, IMessagePinnedA
     /// <inheritdoc/>
     public Snowflake MessageId => Model.Options.Value.MessageId.Value;
 
-    public TransientMessagePinnedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientMessagePinnedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     { }
 }

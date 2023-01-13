@@ -44,6 +44,8 @@ public partial class DefaultGatewayDispatcher
 
     public AsynchronousEvent<LeftGuildEventArgs> LeftGuildEvent { get; } = new();
 
+    public AsynchronousEvent<AuditLogCreatedEventArgs> AuditLogCreatedEvent { get; } = new();
+
     public AsynchronousEvent<BanCreatedEventArgs> BanCreatedEvent { get; } = new();
 
     public AsynchronousEvent<BanDeletedEventArgs> BanDeletedEvent { get; } = new();

@@ -7,7 +7,7 @@ public class TransientStickerCreatedAuditLog : TransientDataAuditLog<IStickerAud
     /// <inheritdoc/>
     public override IStickerAuditLogData Data { get; }
 
-    public TransientStickerCreatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientStickerCreatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {
         Data = new TransientStickerAuditLogData(client, model, true);

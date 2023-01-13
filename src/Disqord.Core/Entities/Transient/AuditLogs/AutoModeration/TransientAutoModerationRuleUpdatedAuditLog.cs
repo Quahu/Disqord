@@ -13,7 +13,7 @@ public class TransientAutoModerationRuleUpdatedAuditLog : TransientChangesAuditL
     {
         get
         {
-            if (_target == null)
+            if (_target == null && AuditLogJsonModel != null)
             {
                 var ruleModel = Array.Find(AuditLogJsonModel.AutoModerationRules, ruleModel => ruleModel.Id == TargetId);
                 if (ruleModel != null)
@@ -25,7 +25,7 @@ public class TransientAutoModerationRuleUpdatedAuditLog : TransientChangesAuditL
     }
     private IAutoModerationRule? _target;
 
-    public TransientAutoModerationRuleUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientAutoModerationRuleUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {
         Changes = new TransientAutoModerationRuleAuditLogChanges(client, model);

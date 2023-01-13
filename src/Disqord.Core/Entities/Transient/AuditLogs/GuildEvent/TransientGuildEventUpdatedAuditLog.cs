@@ -13,7 +13,7 @@ public class TransientGuildEventUpdatedAuditLog : TransientChangesAuditLog<IGuil
     {
         get
         {
-            if (_target == null)
+            if (_target == null && AuditLogJsonModel != null)
             {
                 var eventModel = Array.Find(AuditLogJsonModel.GuildScheduledEvents, eventModel => eventModel.Id == TargetId);
                 if (eventModel != null)
@@ -25,7 +25,7 @@ public class TransientGuildEventUpdatedAuditLog : TransientChangesAuditLog<IGuil
     }
     private IGuildEvent? _target;
 
-    public TransientGuildEventUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientGuildEventUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {
         Changes = new TransientGuildEventAuditLogChanges(client, model);

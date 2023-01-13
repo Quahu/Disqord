@@ -146,6 +146,13 @@ public abstract partial class DiscordClientBase
     }
 
     /// <inheritdoc/>
+    public event AsynchronousEventHandler<AuditLogCreatedEventArgs> AuditLogCreated
+    {
+        add => GatewayClient.AuditLogCreated += value;
+        remove => GatewayClient.AuditLogCreated -= value;
+    }
+
+    /// <inheritdoc/>
     public event AsynchronousEventHandler<BanCreatedEventArgs> BanCreated
     {
         add => GatewayClient.BanCreated += value;

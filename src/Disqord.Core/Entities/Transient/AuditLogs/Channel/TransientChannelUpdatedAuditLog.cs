@@ -7,7 +7,7 @@ public class TransientChannelUpdatedAuditLog : TransientChangesAuditLog<IChannel
     /// <inheritdoc/>
     public override IChannelAuditLogChanges Changes { get; }
 
-    public TransientChannelUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientChannelUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {
         Changes = new TransientChannelAuditLogChanges(client, model);

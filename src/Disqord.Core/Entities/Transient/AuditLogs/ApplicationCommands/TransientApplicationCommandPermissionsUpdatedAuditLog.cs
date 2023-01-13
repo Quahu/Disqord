@@ -16,7 +16,7 @@ public class TransientApplicationCommandPermissionsUpdatedAuditLog : TransientCh
     {
         get
         {
-            if (_target == null && TargetId != ApplicationId)
+            if (_target == null && AuditLogJsonModel != null && TargetId != ApplicationId)
             {
                 var applicationCommandModel = Array.Find(AuditLogJsonModel.ApplicationCommands, applicationCommandModel => applicationCommandModel.Id == TargetId);
                 if (applicationCommandModel != null)
@@ -28,7 +28,7 @@ public class TransientApplicationCommandPermissionsUpdatedAuditLog : TransientCh
     }
     private IApplicationCommand? _target;
 
-    public TransientApplicationCommandPermissionsUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel auditLogJsonModel, AuditLogEntryJsonModel model)
+    public TransientApplicationCommandPermissionsUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {
         Changes = new TransientApplicationCommandPermissionAuditLogChanges(model);
