@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using Microsoft.Extensions.Options;
 
 namespace Disqord.Http.Default;
@@ -26,7 +25,7 @@ public class DefaultHttpClientFactory : IHttpClientFactory
     {
         var client = new HttpClient(_handler, false)
         {
-            Timeout = Timeout.InfiniteTimeSpan
+            Timeout = TimeSpan.FromMinutes(2)
         };
 
         return new DefaultHttpClient(client);
