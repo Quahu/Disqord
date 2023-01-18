@@ -296,9 +296,9 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                     {
                         token.Complete(ex);
 
-                        if (ex is not OperationCanceledException operationCanceledException)
+                        if (ex is not (OperationCanceledException or TimeoutException))
                         {
-                            Logger.LogError(ex, "Route {0} encountered an exception while processing a request.", request.Route);
+                            Logger.LogError(ex, "Route {0} encountered an exception while processing the request.", request.Route);
                         }
                     }
                 }
