@@ -47,7 +47,9 @@ public class DefaultRestRequester : IRestRequester
 
         var authorization = ApiClient.Token.GetAuthorization();
         if (authorization != null)
+        {
             HttpClient.SetDefaultHeader("Authorization", authorization);
+        }
     }
 
     /// <inheritdoc/>

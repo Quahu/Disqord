@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Disqord.Http;
@@ -23,5 +24,5 @@ public interface IHttpResponse : IHeaders, IDisposable
     ///     Reads the HTTP body content of this response.
     /// </summary>
     /// <returns> The stream representing the body. </returns>
-    Task<Stream> ReadAsync();
+    Task<Stream> ReadAsync(CancellationToken cancellationToken);
 }

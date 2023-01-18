@@ -5,6 +5,7 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Logging;
+using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Qommon;
@@ -25,6 +26,20 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
     ///     before throwing.
     /// </summary>
     public TimeSpan MaximumDelayDuration { get; }
+
+    /// <summary>
+    ///     Gets the date at which the global rate-limit is reset.
+    /// </summary>
+    public DateTimeOffset? GlobalResetsAt
+    {
+        get
+        {
+            lock (this)
+            {
+                return _globalResetsAt;
+            }
+        }
+    }
 
     private DateTimeOffset? _globalResetsAt;
 
@@ -68,11 +83,10 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
     }
 
     /// <inheritdoc/>
-    public ValueTask EnqueueRequestAsync(IRestRequest request)
+    public Task<IRestResponse> ExecuteAsync(IRestRequest request, CancellationToken cancellationToken)
     {
         var bucket = GetBucket(request.Route, true)!;
-        bucket.Post(request);
-        return default;
+        return bucket.Post(request, cancellationToken);
     }
 
     private Bucket? GetBucket(IFormattedRoute route, bool create)
@@ -81,8 +95,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
         {
             var isUnlimited = !_hashes.TryGetValue(route.BaseRoute, out var hash);
             hash ??= $"unlimited+{route}";
-            var parameters = $"{route.Parameters.GetGuildId()}:{route.Parameters.GetChannelId()}:{route.Parameters.GetWebhookId()}";
-            var bucketId = $"{hash}:{parameters}";
+            var bucketId = $"{hash}:{route.Parameters.GetGuildId()}:{route.Parameters.GetChannelId()}:{route.Parameters.GetWebhookId()}";
             if (!_buckets.TryGetValue(bucketId, out var bucket) && create)
             {
                 bucket = new Bucket(this, isUnlimited);
@@ -166,14 +179,14 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
 
         private readonly DefaultRestRateLimiter _rateLimiter;
         private readonly bool _isUnlimited;
-        private readonly Channel<IRestRequest> _requests;
+        private readonly Channel<Token> _tokens;
 
         public Bucket(DefaultRestRateLimiter rateLimiter, bool isUnlimited)
         {
             _rateLimiter = rateLimiter;
             _isUnlimited = isUnlimited;
 
-            _requests = Channel.CreateUnbounded<IRestRequest>(new UnboundedChannelOptions
+            _tokens = Channel.CreateUnbounded<Token>(new UnboundedChannelOptions
             {
                 SingleReader = true,
             });
@@ -181,16 +194,48 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
             _ = RunAsync();
         }
 
-        public void Post(IRestRequest request)
+        private class Token
         {
-            _requests.Writer.TryWrite(request);
+            public IRestRequest Request { get; }
+
+            public CancellationToken CancellationToken { get; }
+
+            public Task<IRestResponse> Task => _tcs.Task;
+
+            private readonly Tcs<IRestResponse> _tcs;
+
+            public Token(IRestRequest request, CancellationToken cancellationToken)
+            {
+                Request = request;
+                CancellationToken = cancellationToken;
+
+                _tcs = new Tcs<IRestResponse>();
+            }
+
+            public void Complete(IRestResponse response)
+            {
+                _tcs.Complete(response);
+            }
+
+            public void Complete(Exception exception)
+            {
+                _tcs.Throw(exception);
+            }
+        }
+
+        public async Task<IRestResponse> Post(IRestRequest request, CancellationToken cancellationToken)
+        {
+            var token = new Token(request, cancellationToken);
+            await _tokens.Writer.WriteAsync(token, cancellationToken).ConfigureAwait(false);
+            return await token.Task.ConfigureAwait(false);
         }
 
         private async Task RunAsync()
         {
-            var reader = _requests.Reader;
-            await foreach (var request in reader.ReadAllAsync().ConfigureAwait(false))
+            var reader = _tokens.Reader;
+            await foreach (var token in reader.ReadAllAsync().ConfigureAwait(false))
             {
+                var request = token.Request;
                 bool retry;
                 do
                 {
@@ -203,13 +248,13 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                             if (bucket != this)
                             {
                                 Logger.LogDebug("Route {0} is moving the request to the limited bucket.", request.Route);
-                                bucket.Post(request);
+                                await _tokens.Writer.WriteAsync(token, token.CancellationToken).ConfigureAwait(false);
                                 break;
                             }
                         }
 
+                        var globalResetsAt = _rateLimiter.GlobalResetsAt;
                         var now = DateTimeOffset.UtcNow;
-                        var globalResetsAt = _rateLimiter._globalResetsAt;
                         var isGloballyRateLimited = globalResetsAt > now;
                         if (Remaining == 0 || isGloballyRateLimited)
                         {
@@ -223,7 +268,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                                 if (maximumDelayDuration != Timeout.InfiniteTimeSpan && delay > maximumDelayDuration)
                                 {
                                     Logger.LogDebug("Route {0} is rate-limited - throwing as the delay {1} exceeds the maximum delay duration.", request.Route, delay);
-                                    request.Complete(new MaximumRateLimitDelayExceededException(request, delay, isGloballyRateLimited));
+                                    token.Complete(new MaximumRateLimitDelayExceededException(request, delay, isGloballyRateLimited));
                                     break;
                                 }
 
@@ -232,11 +277,11 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                                     : LogLevel.Information;
 
                                 Logger.Log(level, "Route {0} is rate-limited - delaying for {1}.", request.Route, delay);
-                                await Task.Delay(delay).ConfigureAwait(false);
+                                await Task.Delay(delay, token.CancellationToken).ConfigureAwait(false);
                             }
                         }
 
-                        var response = await _rateLimiter.ApiClient.Requester.ExecuteAsync(request).ConfigureAwait(false);
+                        var response = await _rateLimiter.ApiClient.Requester.ExecuteAsync(request, token.CancellationToken).ConfigureAwait(false);
                         if (_rateLimiter.UpdateBucket(request.Route, response.HttpResponse))
                         {
                             Logger.LogInformation("Route {0} is retrying the last request due to a hit rate-limit.", request.Route);
@@ -244,14 +289,17 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                         }
                         else
                         {
-                            request.Complete(response);
-                            request.Dispose();
+                            token.Complete(response);
                         }
                     }
                     catch (Exception ex)
                     {
-                        Logger.LogError(ex, "Route {0} encountered an exception while processing a request.", request.Route);
-                        request.Dispose();
+                        token.Complete(ex);
+
+                        if (ex is not OperationCanceledException operationCanceledException)
+                        {
+                            Logger.LogError(ex, "Route {0} encountered an exception while processing a request.", request.Route);
+                        }
                     }
                 }
                 while (retry);

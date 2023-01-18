@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Disqord.Http.Default;
@@ -26,8 +27,10 @@ public class DefaultHttpResponse : HeadersBase, IHttpResponse
     }
 
     /// <inheritdoc/>
-    public Task<Stream> ReadAsync()
-        => _message.Content.ReadAsStreamAsync();
+    public Task<Stream> ReadAsync(CancellationToken cancellationToken)
+    {
+        return _message.Content.ReadAsStreamAsync(cancellationToken);
+    }
 
     /// <inheritdoc/>
     public void Dispose()

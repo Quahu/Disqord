@@ -1,8 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using Disqord.Http;
+﻿using Disqord.Http;
 using Disqord.Serialization.Json;
-using Disqord.Utilities.Threading;
 using Qommon;
 
 namespace Disqord.Rest.Api.Default;
@@ -21,17 +18,16 @@ public class DefaultRestRequest : IRestRequest
 
     protected HttpRequestContent? HttpContent;
 
-    private readonly Tcs<IRestResponse> _tcs;
-
-    public DefaultRestRequest(IFormattedRoute route, IRestRequestContent? content = null, IRestRequestOptions? options = null)
+    public DefaultRestRequest(
+        IFormattedRoute route,
+        IRestRequestContent? content = null,
+        IRestRequestOptions? options = null)
     {
         Guard.IsNotNull(route);
 
         Route = route;
         Content = content;
         Options = options;
-
-        _tcs = new Tcs<IRestResponse>();
     }
 
     public virtual HttpRequestContent? GetOrCreateHttpContent(IJsonSerializer serializer)
@@ -40,28 +36,6 @@ public class DefaultRestRequest : IRestRequest
             HttpContent = Content.CreateHttpContent(serializer, Options);
 
         return HttpContent;
-    }
-
-    /// <inheritdoc/>
-    public Task<IRestResponse> WaitForCompletionAsync()
-    {
-        return _tcs.Task;
-    }
-
-    /// <inheritdoc/>
-    public void Complete(IRestResponse response)
-    {
-        Guard.IsNotNull(response);
-
-        _tcs.Complete(response);
-    }
-
-    /// <inheritdoc/>
-    public void Complete(Exception exception)
-    {
-        Guard.IsNotNull(exception);
-
-        _tcs.Throw(exception);
     }
 
     /// <inheritdoc/>

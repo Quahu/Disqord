@@ -49,7 +49,7 @@ public class DefaultRestApiClient : IRestApiClient
         IRestRequestContent? content = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var stream = await InternalExecuteAsync(route, content, options ?? new DefaultRestRequestOptions()).ConfigureAwait(false);
+        var stream = await InternalExecuteAsync(route, content, options, cancellationToken).ConfigureAwait(false);
         await stream.DisposeAsync().ConfigureAwait(false);
     }
 
@@ -58,7 +58,8 @@ public class DefaultRestApiClient : IRestApiClient
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
         where TModel : class
     {
-        await using (var jsonStream = await InternalExecuteAsync(route, content, options).ConfigureAwait(false))
+        var jsonStream = await InternalExecuteAsync(route, content, options, cancellationToken);
+        try
         {
             if (typeof(TModel) == typeof(string))
             {
@@ -68,47 +69,53 @@ public class DefaultRestApiClient : IRestApiClient
 
             return Serializer.Deserialize<TModel>(jsonStream)!;
         }
+        finally
+        {
+            await jsonStream.DisposeAsync().ConfigureAwait(false);
+        }
     }
 
     private async ValueTask<Stream> InternalExecuteAsync(IFormattedRoute route,
         IRestRequestContent? content,
-        IRestRequestOptions? options)
+        IRestRequestOptions? options,
+        CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         content?.Validate();
 
-        var request = new DefaultRestRequest(route, content, options);
-
-        var defaultOptions = options as DefaultRestRequestOptions;
-        defaultOptions?.RequestAction?.Invoke(request);
-
-        await RateLimiter.EnqueueRequestAsync(request).ConfigureAwait(false);
-
-        var response = await request.WaitForCompletionAsync().ConfigureAwait(false);
-        defaultOptions?.HeadersAction?.Invoke(new DefaultRestResponseHeaders(response.HttpResponse.Headers));
-
-        var responseStream = await response.HttpResponse.ReadAsync().ConfigureAwait(false);
-
-        var statusCode = (int) response.HttpResponse.StatusCode;
-        if (statusCode > 199 && statusCode < 300)
-            return responseStream;
-
-        if (statusCode > 499 && statusCode < 600)
-            throw new RestApiException(response.HttpResponse, response.HttpResponse.ReasonPhrase, null);
-
-        RestApiErrorJsonModel? errorModel = null;
-        try
+        using (var request = new DefaultRestRequest(route, content, options))
         {
-            errorModel = Serializer.Deserialize<RestApiErrorJsonModel>(responseStream);
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, "An exception occurred while attempting to deserialize the error model.");
-        }
-        finally
-        {
-            await responseStream.DisposeAsync().ConfigureAwait(false);
-        }
+            var defaultOptions = options as DefaultRestRequestOptions;
+            defaultOptions?.RequestAction?.Invoke(request);
 
-        throw new RestApiException(response.HttpResponse, response.HttpResponse.ReasonPhrase, errorModel);
+            var response = await RateLimiter.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+            defaultOptions?.HeadersAction?.Invoke(new DefaultRestResponseHeaders(response.HttpResponse.Headers));
+
+            var responseStream = await response.HttpResponse.ReadAsync(cancellationToken).ConfigureAwait(false);
+
+            var statusCode = (int) response.HttpResponse.StatusCode;
+            if (statusCode > 199 && statusCode < 300)
+                return responseStream;
+
+            if (statusCode > 499 && statusCode < 600)
+                throw new RestApiException(response.HttpResponse, response.HttpResponse.ReasonPhrase, null);
+
+            RestApiErrorJsonModel? errorModel = null;
+            try
+            {
+                errorModel = Serializer.Deserialize<RestApiErrorJsonModel>(responseStream);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An exception occurred while attempting to deserialize the error model.");
+            }
+            finally
+            {
+                await responseStream.DisposeAsync().ConfigureAwait(false);
+            }
+
+            throw new RestApiException(response.HttpResponse, response.HttpResponse.ReasonPhrase, errorModel);
+        }
     }
 }

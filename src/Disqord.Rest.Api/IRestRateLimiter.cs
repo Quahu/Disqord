@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Disqord.Logging;
 using Qommon.Binding;
 
@@ -25,9 +26,13 @@ public interface IRestRateLimiter : IBindable<IRestApiClient>, ILogging
     bool IsRateLimited(IFormattedRoute? route = null);
 
     /// <summary>
-    ///     Enqueues the specified request for execution.
+    ///     Executes the specified request while handling rate-limits.
     /// </summary>
-    /// <param name="request"> The request to enqueue. </param>
-    /// <returns></returns>
-    ValueTask EnqueueRequestAsync(IRestRequest request);
+    /// <param name="request"> The request to execute. </param>
+    /// <param name="cancellationToken"> The cancellation token to observe. </param>
+    /// <returns>
+    ///     A <see cref="Task{TResult}"/> representing the work
+    ///     with the result being the REST response.
+    /// </returns>
+    Task<IRestResponse> ExecuteAsync(IRestRequest request, CancellationToken cancellationToken);
 }
