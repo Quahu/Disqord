@@ -125,7 +125,7 @@ public static class BearerClientExtensions
 
     public static async Task<IApplicationCommandGuildPermissions> SetApplicationCommandPermissionsAsync(this IBearerClient client,
         Snowflake applicationId, Snowflake guildId, Snowflake commandId,
-        LocalApplicationCommandPermission[] permissions,
+        IEnumerable<LocalApplicationCommandPermission> permissions,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var content = new SetApplicationCommandPermissionsJsonRestRequestContent
