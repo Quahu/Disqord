@@ -14,47 +14,58 @@ public static partial class RestClientExtensions
 {
     // TODO: AuditLogActionType overload?
     public static IPagedEnumerable<IAuditLog> EnumerateAuditLogs(this IRestClient client,
-        Snowflake guildId, int limit, Snowflake? actorId = null, Snowflake? startFromId = null,
+        Snowflake guildId, int limit, Snowflake? actorId = null,
+        FetchDirection direction = FetchDirection.Before, Snowflake? startFromId = null,
         IRestRequestOptions? options = null)
-        => client.EnumerateAuditLogs<IAuditLog>(guildId, limit, actorId, startFromId, options);
+    {
+        return client.EnumerateAuditLogs<IAuditLog>(guildId, limit, actorId, direction, startFromId, options);
+    }
 
     public static IPagedEnumerable<TAuditLog> EnumerateAuditLogs<TAuditLog>(this IRestClient client,
-        Snowflake guildId, int limit, Snowflake? actorId = null, Snowflake? startFromId = null,
+        Snowflake guildId, int limit, Snowflake? actorId = null,
+        FetchDirection direction = FetchDirection.Before, Snowflake? startFromId = null,
         IRestRequestOptions? options = null)
         where TAuditLog : class, IAuditLog
-        => PagedEnumerable.Create(static (state, cancellationToken) =>
+    {
+        return PagedEnumerable.Create(static (state, cancellationToken) =>
         {
-            var (client, guildId, limit, actorId, startFromId, options) = state;
-            return new FetchAuditLogsPagedEnumerator<TAuditLog>(client, guildId, limit, actorId, startFromId, options, cancellationToken);
-        }, (client, guildId, limit, actorId, startFromId, options));
+            var (client, guildId, limit, actorId, direction, startFromId, options) = state;
+            return new FetchAuditLogsPagedEnumerator<TAuditLog>(client, guildId, limit, actorId, direction, startFromId, options, cancellationToken);
+        }, (client, guildId, limit, actorId, direction, startFromId, options));
+    }
 
     public static Task<IReadOnlyList<IAuditLog>> FetchAuditLogsAsync(this IRestClient client,
-        Snowflake guildId, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? actorId = null, Snowflake? startFromId = null,
+        Snowflake guildId, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? actorId = null,
+        FetchDirection direction = FetchDirection.Before, Snowflake? startFromId = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
-        => client.FetchAuditLogsAsync<IAuditLog>(guildId, limit, actorId, startFromId, options, cancellationToken);
+    {
+        return client.FetchAuditLogsAsync<IAuditLog>(guildId, limit, actorId, direction, startFromId, options, cancellationToken);
+    }
 
     public static Task<IReadOnlyList<TAuditLog>> FetchAuditLogsAsync<TAuditLog>(this IRestClient client,
-        Snowflake guildId, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? actorId = null, Snowflake? startFromId = null,
+        Snowflake guildId, int limit = Discord.Limits.Rest.FetchAuditLogsPageSize, Snowflake? actorId = null,
+        FetchDirection direction = FetchDirection.Before, Snowflake? startFromId = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
         where TAuditLog : class, IAuditLog
     {
         if (limit == 0)
             return Task.FromResult(ReadOnlyList<TAuditLog>.Empty);
 
-        if (limit <= 100)
-            return client.InternalFetchAuditLogsAsync<TAuditLog>(guildId, limit, actorId, startFromId, options, cancellationToken);
+        if (limit <= Discord.Limits.Rest.FetchAuditLogsPageSize)
+            return client.InternalFetchAuditLogsAsync<TAuditLog>(guildId, limit, actorId, direction, startFromId, options, cancellationToken);
 
-        var enumerable = client.EnumerateAuditLogs<TAuditLog>(guildId, limit, actorId, startFromId, options);
+        var enumerable = client.EnumerateAuditLogs<TAuditLog>(guildId, limit, actorId, direction, startFromId, options);
         return enumerable.FlattenAsync(cancellationToken);
     }
 
     internal static async Task<IReadOnlyList<TAuditLog>> InternalFetchAuditLogsAsync<TAuditLog>(this IRestClient client,
-        Snowflake guildId, int limit, Snowflake? actorId, Snowflake? startFromId,
+        Snowflake guildId, int limit, Snowflake? actorId,
+        FetchDirection direction, Snowflake? startFromId,
         IRestRequestOptions? options, CancellationToken cancellationToken)
         where TAuditLog : IAuditLog
     {
         var type = GetAuditLogActionType(typeof(TAuditLog));
-        var model = await client.ApiClient.FetchAuditLogsAsync(guildId, limit, actorId, type, startFromId, options, cancellationToken).ConfigureAwait(false);
+        var model = await client.ApiClient.FetchAuditLogsAsync(guildId, limit, actorId, type, direction, startFromId, options, cancellationToken).ConfigureAwait(false);
         var list = new List<TAuditLog>();
         foreach (var entry in model.AuditLogEntries)
         {

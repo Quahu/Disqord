@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.AuditLogs;
+using Qommon;
 
 namespace Disqord.Rest;
 
@@ -12,16 +13,19 @@ public class FetchAuditLogsPagedEnumerator<TAuditLog> : PagedEnumerator<TAuditLo
 
     private readonly Snowflake _guildId;
     private readonly Snowflake? _actorId;
+    private readonly FetchDirection _direction;
     private readonly Snowflake? _startFromId;
 
     public FetchAuditLogsPagedEnumerator(IRestClient client,
-        Snowflake guildId, int limit, Snowflake? actorId, Snowflake? startFromId,
+        Snowflake guildId, int limit, Snowflake? actorId,
+        FetchDirection direction, Snowflake? startFromId,
         IRestRequestOptions? options,
         CancellationToken cancellationToken)
         : base(client, limit, options, cancellationToken)
     {
         _guildId = guildId;
         _actorId = actorId;
+        _direction = direction;
         _startFromId = startFromId;
     }
 
@@ -30,8 +34,15 @@ public class FetchAuditLogsPagedEnumerator<TAuditLog> : PagedEnumerator<TAuditLo
     {
         var startFromId = _startFromId;
         if (previousPage != null && previousPage.Count > 0)
-            startFromId = previousPage[^1].Id;
+        {
+            startFromId = _direction switch
+            {
+                FetchDirection.Before => previousPage[^1].Id,
+                FetchDirection.After => previousPage[0].Id,
+                _ => Throw.ArgumentOutOfRangeException<Snowflake>("direction"),
+            };
+        }
 
-        return Client.InternalFetchAuditLogsAsync<TAuditLog>(_guildId, NextPageSize, _actorId, startFromId, options, cancellationToken);
+        return Client.InternalFetchAuditLogsAsync<TAuditLog>(_guildId, NextPageSize, _actorId, _direction, startFromId, options, cancellationToken);
     }
 }
