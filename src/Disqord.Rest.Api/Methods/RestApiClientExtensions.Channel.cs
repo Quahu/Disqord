@@ -328,17 +328,33 @@ public static partial class RestApiClientExtensions
 
     public static Task<ThreadMemberJsonModel> FetchThreadMemberAsync(this IRestApiClient client,
         Snowflake threadId, Snowflake memberId,
+        bool withMember = false,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var route = Format(Route.Channel.GetThreadMember, threadId, memberId);
+        var queryParameters = new Dictionary<string, object>
+        {
+            ["with_member"] = withMember
+        };
+
+        var route = Format(Route.Channel.GetThreadMember, queryParameters, threadId, memberId);
         return client.ExecuteAsync<ThreadMemberJsonModel>(route, null, options, cancellationToken);
     }
 
     public static Task<ThreadMemberJsonModel[]> FetchThreadMembersAsync(this IRestApiClient client,
-        Snowflake threadId,
+        Snowflake threadId, int limit = Discord.Limits.Rest.FetchThreadMembersPageSize, Snowflake? startFromId = null,
+        bool withMember = false,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var route = Format(Route.Channel.ListThreadMembers, threadId);
+        var queryParameters = new Dictionary<string, object>
+        {
+            ["limit"] = limit,
+            ["with_member"] = withMember
+        };
+
+        if (startFromId != null)
+            queryParameters["after"] = startFromId;
+
+        var route = Format(Route.Channel.ListThreadMembers, queryParameters, threadId);
         return client.ExecuteAsync<ThreadMemberJsonModel[]>(route, null, options, cancellationToken);
     }
 

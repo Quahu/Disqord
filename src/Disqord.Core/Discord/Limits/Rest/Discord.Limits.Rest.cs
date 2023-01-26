@@ -45,6 +45,11 @@ public static partial class Discord
             public const int FetchGuildsPageSize = 200;
 
             /// <summary>
+            ///     Represents the page size for fetching thread members.
+            /// </summary>
+            public const int FetchThreadMembersPageSize = 100;
+
+            /// <summary>
             ///     Represents the page size for fetching threads.
             /// </summary>
             public const int FetchThreadsPageSize = 100;

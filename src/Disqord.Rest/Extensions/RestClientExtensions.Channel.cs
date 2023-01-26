@@ -708,11 +708,12 @@ public static partial class RestClientExtensions
 
     public static async Task<IThreadMember?> FetchThreadMemberAsync(this IRestClient client,
         Snowflake threadId, Snowflake memberId,
+        bool withMember = false,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         try
         {
-            var model = await client.ApiClient.FetchThreadMemberAsync(threadId, memberId, options, cancellationToken).ConfigureAwait(false);
+            var model = await client.ApiClient.FetchThreadMemberAsync(threadId, memberId, withMember, options, cancellationToken).ConfigureAwait(false);
             return new TransientThreadMember(client, model);
         }
         catch (RestApiException ex) when (ex.StatusCode == HttpResponseStatusCode.NotFound && ex.IsError(RestApiErrorCode.UnknownMember))
@@ -721,12 +722,48 @@ public static partial class RestClientExtensions
         }
     }
 
-    public static async Task<IReadOnlyList<IThreadMember>> FetchThreadMembersAsync(this IRestClient client,
-        Snowflake threadId,
+    public static IPagedEnumerable<IRestThreadMember> EnumerateThreadMembers(this IRestClient client,
+        Snowflake threadId, int limit, Snowflake? startFromId = null,
+        bool withMember = false,
+        IRestRequestOptions? options = null)
+    {
+        Guard.IsGreaterThanOrEqualTo(limit, 0);
+
+        return PagedEnumerable.Create((state, cancellationToken) =>
+        {
+            var (client, threadId, limit, startFromId, withMember, options) = state;
+            return new FetchThreadMembersPagedEnumerator(client, threadId, limit, startFromId, withMember, options, cancellationToken);
+        }, (client, threadId, limit, startFromId, withMember, options));
+    }
+
+    public static Task<IReadOnlyList<IRestThreadMember>> FetchThreadMembersAsync(this IRestClient client,
+        Snowflake threadId, int limit = Discord.Limits.Rest.FetchThreadMembersPageSize, Snowflake? startFromId = null,
+        bool withMember = false,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var models = await client.ApiClient.FetchThreadMembersAsync(threadId, options, cancellationToken).ConfigureAwait(false);
-        return models.ToReadOnlyList(client, (x, client) => new TransientThreadMember(client, x));
+        Guard.IsGreaterThanOrEqualTo(limit, 0);
+
+        if (limit == 0)
+            return Task.FromResult(ReadOnlyList<IRestThreadMember>.Empty);
+
+        if (limit <= Discord.Limits.Rest.FetchThreadMembersPageSize)
+            return client.InternalFetchThreadMembersAsync(threadId, limit, startFromId, withMember, options, cancellationToken);
+
+        var enumerator = client.EnumerateThreadMembers(threadId, limit, startFromId, withMember, options);
+        return enumerator.FlattenAsync(cancellationToken);
+    }
+
+    internal static async Task<IReadOnlyList<IRestThreadMember>> InternalFetchThreadMembersAsync(this IRestClient client,
+        Snowflake threadId, int limit, Snowflake? startFromId,
+        bool withMember,
+        IRestRequestOptions? options, CancellationToken cancellationToken)
+    {
+        var models = await client.ApiClient.FetchThreadMembersAsync(threadId, limit, startFromId, withMember, options, cancellationToken).ConfigureAwait(false);
+        return models.ToReadOnlyList(client, (model, state) =>
+        {
+            var client = state;
+            return new TransientRestThreadMember(client, model);
+        });
     }
 
     public static IPagedEnumerable<IThreadChannel> EnumeratePublicArchivedThreads(this IRestClient client,

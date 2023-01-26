@@ -342,17 +342,29 @@ public static partial class RestEntityExtensions
 
     public static Task<IThreadMember?> FetchMemberAsync(this IThreadChannel thread,
         Snowflake memberId,
+        bool withMember = false,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var client = thread.GetRestClient();
-        return client.FetchThreadMemberAsync(thread.Id, memberId, options, cancellationToken);
+        return client.FetchThreadMemberAsync(thread.Id, memberId, withMember, options, cancellationToken);
     }
 
-    public static Task<IReadOnlyList<IThreadMember>> FetchMembersAsync(this IThreadChannel thread,
+    public static IPagedEnumerable<IRestThreadMember> EnumerateMembers(this IThreadChannel thread,
+        int limit, Snowflake? startFromId = null,
+        bool withMember = false,
+        IRestRequestOptions? options = null)
+    {
+        var client = thread.GetRestClient();
+        return client.EnumerateThreadMembers(thread.Id, limit, startFromId, withMember, options);
+    }
+
+    public static Task<IReadOnlyList<IRestThreadMember>> FetchMembersAsync(this IThreadChannel thread,
+        int limit = Discord.Limits.Rest.FetchThreadMembersPageSize, Snowflake? startFromId = null,
+        bool withMember = false,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var client = thread.GetRestClient();
-        return client.FetchThreadMembersAsync(thread.Id, options, cancellationToken);
+        return client.FetchThreadMembersAsync(thread.Id, limit, startFromId, withMember, options, cancellationToken);
     }
 
     public static IPagedEnumerable<IThreadChannel> EnumeratePublicArchivedThreads(this ITextChannel channel,

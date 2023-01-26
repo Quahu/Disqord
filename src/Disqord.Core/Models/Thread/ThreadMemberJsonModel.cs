@@ -17,4 +17,7 @@ public class ThreadMemberJsonModel : JsonModel
 
     [JsonProperty("flags")]
     public int Flags;
+
+    [JsonProperty("member")]
+    public Optional<MemberJsonModel> Member;
 }
