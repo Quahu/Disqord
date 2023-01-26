@@ -38,6 +38,9 @@ public class TransientMember : TransientUser, IMember, ITransientClientEntity<Me
     public DateTimeOffset? TimedOutUntil => Model.CommunicationDisabledUntil.GetValueOrDefault();
 
     /// <inheritdoc/>
+    public MemberFlags GuildFlags => Model.Flags;
+
+    /// <inheritdoc/>
     public new MemberJsonModel Model { get; }
 
     public TransientMember(IClient client, Snowflake guildId, MemberJsonModel model)

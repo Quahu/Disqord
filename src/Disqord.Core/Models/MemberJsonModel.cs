@@ -39,4 +39,7 @@ public class MemberJsonModel : JsonModel
 
     [JsonProperty("communication_disabled_until")]
     public Optional<DateTimeOffset?> CommunicationDisabledUntil;
+
+    [JsonProperty("flags")]
+    public MemberFlags Flags;
 }

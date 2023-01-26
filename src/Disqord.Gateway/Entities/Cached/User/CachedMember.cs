@@ -38,6 +38,9 @@ public class CachedMember : CachedShareeUser, IMember
     /// <inheritdoc/>
     public DateTimeOffset? TimedOutUntil { get; private set; }
 
+    /// <inheritdoc/>
+    public MemberFlags GuildFlags { get; private set; }
+
     public CachedMember(CachedSharedUser sharedUser, Snowflake guildId, MemberJsonModel model)
         : base(sharedUser)
     {
@@ -75,5 +78,7 @@ public class CachedMember : CachedShareeUser, IMember
 
         if (model.CommunicationDisabledUntil.HasValue)
             TimedOutUntil = model.CommunicationDisabledUntil.Value;
+
+        GuildFlags = model.Flags;
     }
 }

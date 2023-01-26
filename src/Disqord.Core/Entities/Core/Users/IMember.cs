@@ -66,4 +66,9 @@ public interface IMember : IUser, IGuildEntity, IJsonUpdatable<MemberJsonModel>
     ///     When the member is timed out until or <see langword="null"/> if this member has not been timed out.
     /// </returns>
     DateTimeOffset? TimedOutUntil { get; }
+
+    /// <summary>
+    ///     Gets the guild-related flags of this member.
+    /// </summary>
+    MemberFlags GuildFlags { get; }
 }
