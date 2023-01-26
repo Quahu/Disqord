@@ -73,4 +73,9 @@ public interface IApplication : ISnowflakeEntity, INamableEntity, IJsonUpdatable
     ///     Gets the custom authorization URL of this application.
     /// </summary>
     string? CustomAuthorizationUrl { get; }
+
+    /// <summary>
+    ///     Gets the verification URL for role connections of this application.
+    /// </summary>
+    string? RoleConnectionsVerificationUrl { get; }
 }

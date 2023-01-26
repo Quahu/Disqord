@@ -65,4 +65,7 @@ public class ApplicationJsonModel : JsonModel
 
     [JsonProperty("custom_install_url")]
     public Optional<string> CustomInstallUrl;
+
+    [JsonProperty("role_connections_verification_url")]
+    public Optional<string> RoleConnectionsVerificationUrl;
 }

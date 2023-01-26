@@ -89,6 +89,9 @@ public class TransientApplication : TransientClientEntity<ApplicationJsonModel>,
     /// <inheritdoc/>
     public string? CustomAuthorizationUrl => Model.CustomInstallUrl.GetValueOrDefault();
 
+    /// <inheritdoc/>
+    public string? RoleConnectionsVerificationUrl => Model.RoleConnectionsVerificationUrl.GetValueOrDefault();
+
     public TransientApplication(IClient client, ApplicationJsonModel model)
         : base(client, model)
     { }
