@@ -60,7 +60,6 @@ public class AudioPlayerService : DiscordBotService
             if (!_players.TryGetValue(guildId, out var player))
             {
                 var voiceExtension = Bot.GetRequiredExtension<VoiceExtension>();
-                var channelId = voiceChannelId;
                 var voiceConnection = await voiceExtension.ConnectAsync(guildId, voiceChannelId, cancellationToken);
                 _players[guildId] = player = new BasicAudioPlayer(Bot, notificationsChannelId, voiceConnection);
                 player.Start();
