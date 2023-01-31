@@ -109,6 +109,7 @@ public static partial class Discord
             var formatString = format switch
             {
                 StickerFormatType.Lottie => "json",
+                StickerFormatType.Gif => "gif",
                 _ => "png"
             };
 

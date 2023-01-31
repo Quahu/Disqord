@@ -18,5 +18,10 @@ public enum StickerFormatType : byte
     /// <summary>
     ///     The sticker is a Lottie.
     /// </summary>
-    Lottie = 3
+    Lottie = 3,
+
+    /// <summary>
+    ///     The sticker is a GIF.
+    /// </summary>
+    Gif = 4
 }

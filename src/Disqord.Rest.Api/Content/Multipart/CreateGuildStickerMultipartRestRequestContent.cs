@@ -27,6 +27,7 @@ public class CreateGuildStickerMultipartRestRequestContent : MultipartRestReques
         {
             StickerFormatType.Png or StickerFormatType.APng => ("png", "image/png"),
             StickerFormatType.Lottie => ("json", "application/json"),
+            StickerFormatType.Gif => ("gif", "image/gif"),
             _ => Throw.InvalidOperationException<(string, string)>("Invalid sticker format type.")
         };
 
