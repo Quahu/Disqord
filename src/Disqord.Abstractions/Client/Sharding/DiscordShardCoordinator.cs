@@ -1,10 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Gateway;
 using Disqord.Gateway.Api;
-using Disqord.Gateway.Default;
-using Disqord.Gateway.Default.Dispatcher;
 using Disqord.Rest;
 using Microsoft.Extensions.Logging;
 using Qommon.Binding;
