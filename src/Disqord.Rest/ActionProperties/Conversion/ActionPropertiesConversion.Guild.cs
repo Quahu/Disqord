@@ -53,7 +53,8 @@ internal static partial class ActionPropertiesConversion
             ChannelId = properties.VoiceChannelId,
             Mute = properties.Mute,
             Deaf = properties.Deaf,
-            CommunicationDisabledUntil = properties.TimedOutUntil
+            CommunicationDisabledUntil = properties.TimedOutUntil,
+            Flags = properties.Flags
         };
 
         return content;

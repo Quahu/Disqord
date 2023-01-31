@@ -23,4 +23,7 @@ public class ModifyMemberJsonRestRequestContent : JsonModelRestRequestContent
 
     [JsonProperty("communication_disabled_until")]
     public Optional<DateTimeOffset?> CommunicationDisabledUntil;
+
+    [JsonProperty("flags")]
+    public Optional<MemberFlags> Flags;
 }

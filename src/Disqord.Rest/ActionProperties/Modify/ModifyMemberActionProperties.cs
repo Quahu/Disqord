@@ -18,6 +18,5 @@ public sealed class ModifyMemberActionProperties
 
     public Optional<DateTimeOffset?> TimedOutUntil { internal get; set; }
 
-    internal bool HasValues
-        => Nick.HasValue || RoleIds.HasValue || Mute.HasValue || Deaf.HasValue || VoiceChannelId.HasValue || TimedOutUntil.HasValue;
+    public Optional<MemberFlags> Flags { internal get; set; }
 }
