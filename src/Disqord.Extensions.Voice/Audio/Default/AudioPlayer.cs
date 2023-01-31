@@ -41,6 +41,8 @@ public class AudioPlayer : IAsyncDisposable
         }
         set
         {
+            ThrowIfDisposed();
+
             lock (_sourceLock)
             {
                 var oldSource = _source.Task.IsCompletedSuccessfully
@@ -113,6 +115,7 @@ public class AudioPlayer : IAsyncDisposable
 
     private readonly AsyncManualResetEvent _pauseAmre;
     private readonly object _stopLock = new();
+    private bool _isDisposed;
 
     public AudioPlayer(IVoiceConnection connection)
     {
@@ -121,6 +124,12 @@ public class AudioPlayer : IAsyncDisposable
         _sourceCts = new();
         _source = new();
         _pauseAmre = new(true);
+    }
+
+    protected void ThrowIfDisposed()
+    {
+        if (_isDisposed)
+            throw new ObjectDisposedException(GetType().Name);
     }
 
     /// <summary>
@@ -203,6 +212,8 @@ public class AudioPlayer : IAsyncDisposable
     /// </returns>
     public bool TrySetSource(AudioSource source)
     {
+        ThrowIfDisposed();
+
         lock (_sourceLock)
         {
             if (_source.Task.IsCompletedSuccessfully)
@@ -221,6 +232,8 @@ public class AudioPlayer : IAsyncDisposable
     /// </returns>
     public bool Pause()
     {
+        ThrowIfDisposed();
+
         return _pauseAmre.Reset();
     }
 
@@ -232,6 +245,8 @@ public class AudioPlayer : IAsyncDisposable
     /// </returns>
     public bool Resume()
     {
+        ThrowIfDisposed();
+
         return _pauseAmre.Set();
     }
 
@@ -243,6 +258,8 @@ public class AudioPlayer : IAsyncDisposable
     /// </returns>
     public bool Start()
     {
+        ThrowIfDisposed();
+
         lock (_stopLock)
         {
             if (_stopCts == null)
@@ -264,6 +281,8 @@ public class AudioPlayer : IAsyncDisposable
     /// </returns>
     public bool Stop()
     {
+        ThrowIfDisposed();
+
         lock (_stopLock)
         {
             if (_stopCts != null)
@@ -288,6 +307,8 @@ public class AudioPlayer : IAsyncDisposable
     /// </returns>
     public ValueTask SetChannelIdAsync(Snowflake channelId, CancellationToken cancellationToken)
     {
+        ThrowIfDisposed();
+
         return Connection.SetChannelIdAsync(channelId, cancellationToken);
     }
 
@@ -302,7 +323,7 @@ public class AudioPlayer : IAsyncDisposable
 
             for (var i = 0; i < 5; i++)
             {
-                await connection.SendPacketAsync(VoiceConstants.SilencePacket, cancellationToken);
+                await connection.SendPacketAsync(VoiceConstants.SilencePacket, cancellationToken).ConfigureAwait(false);
             }
 
             await pauseTask.ConfigureAwait(false);
@@ -382,7 +403,7 @@ public class AudioPlayer : IAsyncDisposable
         {
             for (var i = 0; i < 5; i++)
             {
-                await connection.SendPacketAsync(VoiceConstants.SilencePacket, stopCancellationToken);
+                await connection.SendPacketAsync(VoiceConstants.SilencePacket, stopCancellationToken).ConfigureAwait(false);
             }
         }
         catch (Exception ex)
@@ -399,11 +420,25 @@ public class AudioPlayer : IAsyncDisposable
     /// <inheritdoc/>
     public ValueTask DisposeAsync()
     {
+        if (_isDisposed)
+            return default;
+
+        _isDisposed = true;
+
         lock (_stopLock)
         {
-            Stop();
+            if (_stopCts != null)
+            {
+                _stopCts.Cancel();
+                _stopCts.Dispose();
+                _stopCts = null;
+            }
 
-            Source = null;
+            lock (_sourceLock)
+            {
+                _sourceCts.Cancel();
+                _sourceCts.Dispose();
+            }
         }
 
         return default;
