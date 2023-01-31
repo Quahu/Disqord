@@ -7,7 +7,8 @@ namespace Disqord.Rest;
 public static partial class RestEntityExtensions
 {
     public static Task<IGuild> FetchGuildAsync(this IMember member,
-        IRestRequestOptions? options = null, bool? withCounts = null, CancellationToken cancellationToken = default)
+        bool? withCounts = null,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var client = member.GetRestClient();
         return client.FetchGuildAsync(member.GuildId, withCounts, options, cancellationToken)!;
