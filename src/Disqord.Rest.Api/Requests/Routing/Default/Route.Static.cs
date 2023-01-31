@@ -8,6 +8,13 @@ namespace Disqord.Rest.Api;
 
 public sealed partial class Route
 {
+    public static class RoleConnection
+    {
+        public static readonly Route GetMetadata = Get("applications/{0:application_id}/role-connections/metadata");
+
+        public static readonly Route SetMetadata = Put("applications/{0:application_id}/role-connections/metadata");
+    }
+
     public static class AuditLog
     {
         public static readonly Route GetAuditLogs = Get("guilds/{0:guild_id}/audit-logs");
@@ -295,6 +302,10 @@ public sealed partial class Route
         public static readonly Route CreateDirectChannel = Post("users/@me/channels");
 
         public static readonly Route GetConnections = Get("users/@me/connections");
+
+        public static readonly Route GetApplicationRoleConnection = Get("users/@me/applications/{0:application_id}/role-connection");
+
+        public static readonly Route SetApplicationRoleConnection = Put("users/@me/applications/{0:application_id}/role-connection");
     }
 
     public static class Voice

@@ -99,4 +99,21 @@ public static partial class RestApiClientExtensions
         var route = Format(Route.User.GetConnections);
         return client.ExecuteAsync<ConnectionJsonModel[]>(route, null, options, cancellationToken);
     }
+
+    public static Task<ApplicationRoleConnectionJsonModel> FetchApplicationRoleConnectionAsync(this IRestApiClient client,
+        Snowflake applicationId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.User.GetApplicationRoleConnection, applicationId);
+        return client.ExecuteAsync<ApplicationRoleConnectionJsonModel>(route, null, options, cancellationToken);
+    }
+
+    public static Task<ApplicationRoleConnectionJsonModel> SetApplicationRoleConnectionAsync(this IRestApiClient client,
+        Snowflake applicationId,
+        SetApplicationRoleConnectionJsonRestRequestContent content,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.User.SetApplicationRoleConnection, applicationId);
+        return client.ExecuteAsync<ApplicationRoleConnectionJsonModel>(route, content, options, cancellationToken);
+    }
 }

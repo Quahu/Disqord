@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Disqord.Rest;
 using Disqord.Rest.Api;
 using Disqord.Rest.Pagination;
+using Qommon;
+using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord.OAuth2;
@@ -135,5 +137,29 @@ public static class BearerClientExtensions
 
         var model = await client.RestClient.ApiClient.SetApplicationCommandPermissionsAsync(applicationId, guildId, commandId, content, options, cancellationToken).ConfigureAwait(false);
         return new TransientApplicationCommandGuildPermissions(client.RestClient, model);
+    }
+
+    public static async Task<IApplicationRoleConnection> FetchApplicationRoleConnectionAsync(this IRestClient client,
+        Snowflake applicationId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var model = await client.ApiClient.FetchApplicationRoleConnectionAsync(applicationId, options, cancellationToken).ConfigureAwait(false);
+        return new TransientApplicationRoleConnection(model);
+    }
+
+    public static async Task<IApplicationRoleConnection> SetApplicationRoleConnectionAsync(this IRestClient client,
+        Snowflake applicationId,
+        LocalApplicationRoleConnection connection,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var content = new SetApplicationRoleConnectionJsonRestRequestContent
+        {
+            PlatformName = connection.PlatformName,
+            PlatformUsername = connection.PlatformUsername,
+            Metadata = Optional.Convert(connection.Metadata, metadata => metadata.ToDictionary())
+        };
+
+        var model = await client.ApiClient.SetApplicationRoleConnectionAsync(applicationId, content, options, cancellationToken).ConfigureAwait(false);
+        return new TransientApplicationRoleConnection(model);
     }
 }

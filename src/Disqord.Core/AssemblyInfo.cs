@@ -13,3 +13,4 @@
 [assembly: InternalsVisibleTo("Disqord.Voice")]
 [assembly: InternalsVisibleTo("Disqord.Voice.Api")]
 [assembly: InternalsVisibleTo("Disqord.Webhook")]
+[assembly: InternalsVisibleTo("Disqord.OAuth2")]
