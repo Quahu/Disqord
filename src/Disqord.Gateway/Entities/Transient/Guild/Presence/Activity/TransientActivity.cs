@@ -32,7 +32,7 @@ public class TransientActivity : TransientClientEntity<ActivityJsonModel>, IActi
             ActivityType.Playing => new TransientActivity(client, model),
             ActivityType.Streaming when model.Url.GetValueOrDefault() == null => new TransientRichActivity(client, model),
             ActivityType.Streaming => new TransientStreamingActivity(client, model),
-            ActivityType.Listening when model.Id.GetValueOrDefault() != null && model.Id.Value.StartsWith("spotify:") => new TransientSpotifyActivity(client, model),
+            ActivityType.Listening when model.Id.GetValueOrDefault() != null && model.Id.Value.StartsWith("spotify:", StringComparison.Ordinal) => new TransientSpotifyActivity(client, model),
             ActivityType.Custom => new TransientCustomActivity(client, model),
             _ => new TransientRichActivity(client, model)
         };

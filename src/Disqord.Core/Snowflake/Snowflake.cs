@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Qommon;
 
 namespace Disqord;
@@ -121,7 +122,7 @@ public readonly partial struct Snowflake : IConvertible, ISpanFormattable, IComp
     /// <inheritdoc/>
     public override string ToString()
     {
-        return RawValue.ToString();
+        return RawValue.ToString(CultureInfo.InvariantCulture);
     }
 
     /// <inheritdoc/>
@@ -189,7 +190,7 @@ public readonly partial struct Snowflake : IConvertible, ISpanFormattable, IComp
 
         try
         {
-            return ulong.Parse(value);
+            return ulong.Parse(value, provider: CultureInfo.InvariantCulture);
         }
         catch (Exception ex)
         {

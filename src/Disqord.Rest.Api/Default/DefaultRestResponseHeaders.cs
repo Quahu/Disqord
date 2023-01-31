@@ -12,7 +12,7 @@ namespace Disqord.Rest.Api.Default;
 public readonly struct DefaultRestResponseHeaders
 {
     /// <inheritdoc cref="RestApiHeaderNames.RetryAfter"/>
-    public Optional<TimeSpan> RetryAfter => GetHeader(RestApiHeaderNames.RetryAfter, value => TimeSpan.FromSeconds(int.Parse(value)));
+    public Optional<TimeSpan> RetryAfter => GetHeader(RestApiHeaderNames.RetryAfter, value => TimeSpan.FromSeconds(int.Parse(value, CultureInfo.InvariantCulture)));
 
     /// <inheritdoc cref="RestApiHeaderNames.RateLimitGlobal"/>
     public Optional<bool> IsGlobal => GetHeader(RestApiHeaderNames.RateLimitGlobal, bool.Parse);

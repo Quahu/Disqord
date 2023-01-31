@@ -70,7 +70,7 @@ public partial class DefaultApplicationCommandLocalizer : IApplicationCommandLoc
             throw new InvalidOperationException($"Failed to create the directory for localizations '{directoryPath}'.", ex);
         }
 
-        var fileWildcard = string.Format(LocaleFileNameFormat, "*");
+        var fileWildcard = string.Format(CultureInfo.InvariantCulture, LocaleFileNameFormat, "*");
         List<(string LocaleName, string LocaleFilePath)> existingLocales;
         var localeNames = Discord.LocaleNames.GetArray();
         try
@@ -161,7 +161,7 @@ public partial class DefaultApplicationCommandLocalizer : IApplicationCommandLoc
 
         foreach (var missingLocaleName in missingLocaleNames)
         {
-            stores.Add(CreateStoreInformation(CultureInfo.GetCultureInfo(missingLocaleName), Path.Join(directoryPath, string.Format(LocaleFileNameFormat, missingLocaleName)), false, new(), new()));
+            stores.Add(CreateStoreInformation(CultureInfo.GetCultureInfo(missingLocaleName), Path.Join(directoryPath, string.Format(CultureInfo.InvariantCulture, LocaleFileNameFormat, missingLocaleName)), false, new(), new()));
         }
 
         foreach (var storeInformation in stores)
@@ -181,7 +181,7 @@ public partial class DefaultApplicationCommandLocalizer : IApplicationCommandLoc
                 {
                     var (@this, storeInformation, cancellationToken) = ((DefaultApplicationCommandLocalizer, StoreInformation, CancellationToken)) state!;
                     var createdTemporaryFile = false;
-                    var temporaryFileName = string.Format(@this.TemporaryFileNameFormat, storeInformation.Locale.Name);
+                    var temporaryFileName = string.Format(CultureInfo.InvariantCulture, @this.TemporaryFileNameFormat, storeInformation.Locale.Name);
                     var temporaryFilePath = Path.Join(@this.DirectoryPath, temporaryFileName);
                     var memoryStream = storeInformation.MemoryStream;
                     @this.Serializer.Serialize(memoryStream, storeInformation.Model, new DefaultJsonSerializerOptions
@@ -223,7 +223,7 @@ public partial class DefaultApplicationCommandLocalizer : IApplicationCommandLoc
                                 await fileStream.DisposeAsync().ConfigureAwait(false);
                             }
 
-                            var backupFilePath = Path.Join(@this.DirectoryPath, string.Format(@this.BackupFileNameFormat, storeInformation.Locale.Name));
+                            var backupFilePath = Path.Join(@this.DirectoryPath, string.Format(CultureInfo.InvariantCulture, @this.BackupFileNameFormat, storeInformation.Locale.Name));
                             for (var i = 0; i < 5; i++)
                             {
                                 if (i > 0)

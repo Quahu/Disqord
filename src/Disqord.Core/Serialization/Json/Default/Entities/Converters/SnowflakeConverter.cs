@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Newtonsoft.Json;
 
 namespace Disqord.Serialization.Json.Default;
@@ -14,7 +15,7 @@ internal sealed class SnowflakeConverter : JsonConverter
     {
         var value = reader.Value;
         return value != null
-            ? new Snowflake(Convert.ToUInt64(value))
+            ? new Snowflake(Convert.ToUInt64(value, CultureInfo.InvariantCulture))
             : null;
     }
 

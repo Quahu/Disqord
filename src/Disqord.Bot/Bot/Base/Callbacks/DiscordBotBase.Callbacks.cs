@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -170,7 +171,7 @@ public abstract partial class DiscordBotBase
                 ? $"[{format}]"
                 : $"<{format}>";
 
-            return string.Format(format, parameter.Name);
+            return string.Format(CultureInfo.InvariantCulture, format, parameter.Name);
         }
 
         var reason = FormatFailureReason(context, result);

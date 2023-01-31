@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Disqord.Gateway;
 using Qommon;
@@ -165,7 +166,7 @@ public class SelectionViewComponent : InteractableViewComponent
                 Emoji = optionAttribute.Emoji is string emojiString
                     ? LocalEmoji.FromString(emojiString)
                     : optionAttribute.Emoji != null
-                        ? LocalEmoji.Custom(Convert.ToUInt64(optionAttribute.Emoji))
+                        ? LocalEmoji.Custom(Convert.ToUInt64(optionAttribute.Emoji, CultureInfo.InvariantCulture))
                         : Optional<LocalEmoji>.Empty,
                 IsDefault = optionAttribute.IsDefault
             });

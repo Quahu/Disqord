@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace Disqord.Rest.Api;
 
@@ -45,6 +46,6 @@ public static class RouteParametersExtensions
         if (Convert.GetTypeCode(value) == TypeCode.Object)
             return (T) value;
 
-        return (T) Convert.ChangeType(value, typeof(T));
+        return (T) Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
     }
 }

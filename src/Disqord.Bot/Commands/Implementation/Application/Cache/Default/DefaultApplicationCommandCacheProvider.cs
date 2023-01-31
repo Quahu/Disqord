@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,9 +34,9 @@ public partial class DefaultApplicationCommandCacheProvider : IApplicationComman
         DirectoryPath = Path.GetFullPath(configuration.DirectoryPath);
         var directoryPath = DirectoryPath;
         var fileName = configuration.FileName;
-        FilePath = Path.Join(directoryPath, string.Format(configuration.FileNameFormat, fileName));
-        TemporaryFilePath = Path.Join(directoryPath, string.Format(configuration.TemporaryFileNameFormat, fileName));
-        BackupFilePath = Path.Join(directoryPath, string.Format(configuration.BackupFileNameFormat, fileName));
+        FilePath = Path.Join(directoryPath, string.Format(CultureInfo.InvariantCulture, configuration.FileNameFormat, fileName));
+        TemporaryFilePath = Path.Join(directoryPath, string.Format(CultureInfo.InvariantCulture, configuration.TemporaryFileNameFormat, fileName));
+        BackupFilePath = Path.Join(directoryPath, string.Format(CultureInfo.InvariantCulture, configuration.BackupFileNameFormat, fileName));
         Logger = logger;
         Serializer = serializer;
     }

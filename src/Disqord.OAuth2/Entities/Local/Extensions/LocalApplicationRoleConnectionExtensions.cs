@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using Qommon;
 
 namespace Disqord.OAuth2;
@@ -25,7 +26,7 @@ public static class LocalApplicationRoleConnectionExtensions
     public static TApplicationRoleConnection AddMetadata<TApplicationRoleConnection>(this TApplicationRoleConnection connection, string key, long value)
         where TApplicationRoleConnection : LocalApplicationRoleConnection
     {
-        return connection.AddMetadata(key, value.ToString());
+        return connection.AddMetadata(key, value.ToString(CultureInfo.InvariantCulture));
     }
 
     public static TApplicationRoleConnection AddMetadata<TApplicationRoleConnection>(this TApplicationRoleConnection connection, string key, DateTimeOffset value)

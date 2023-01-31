@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -22,7 +23,7 @@ public class SnowflakeDictionaryConverter<TValue> : JsonConverter
 
         var dictionary = new Dictionary<Snowflake, TValue>(jObject.Count);
         foreach (var kvp in jObject)
-            dictionary.Add(Convert.ToUInt64(kvp.Key), (kvp.Value != null ? kvp.Value.ToObject<TValue>(serializer) : default)!);
+            dictionary.Add(Convert.ToUInt64(kvp.Key, CultureInfo.InvariantCulture), (kvp.Value != null ? kvp.Value.ToObject<TValue>(serializer) : default)!);
 
         return dictionary;
     }

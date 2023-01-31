@@ -20,7 +20,7 @@ public static partial class Discord
                 SystemMessageType.ChannelNameChanged => $"{message.Author.Name} changed the channel name: {message.RawContent}",
                 SystemMessageType.ChannelIconChanged => $"{message.Author.Name} changed the channel icon.",
                 SystemMessageType.ChannelMessagePinned => $"{message.Author.Name} pinned a message to this channel.",
-                SystemMessageType.MemberJoined => string.Format(MemberJoinFormats[message.Id.CreatedAt.ToUnixTimeMilliseconds() % MemberJoinFormats.Length], message.Author.Name),
+                SystemMessageType.MemberJoined => string.Format(CultureInfo.InvariantCulture, MemberJoinFormats[message.Id.CreatedAt.ToUnixTimeMilliseconds() % MemberJoinFormats.Length], message.Author.Name),
                 SystemMessageType.GuildBoosted => $"{message.Author.Name} just boosted the server!",
                 SystemMessageType.GuildBoostedFirstTier => $"{message.Author.Name} just boosted the server! {guild?.Name ?? "The server"} has achieved **Level 1!**",
                 SystemMessageType.GuildBoostedSecondTier => $"{message.Author.Name} just boosted the server! {guild?.Name ?? "The server"} has achieved **Level 2!**",

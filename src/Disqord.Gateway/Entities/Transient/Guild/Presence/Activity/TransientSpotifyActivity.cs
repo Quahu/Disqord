@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Disqord.Gateway.Api.Models;
 using Qommon;
 using Qommon.Collections.ReadOnly;
@@ -62,10 +63,10 @@ public class TransientSpotifyActivity : TransientActivity, ISpotifyActivity
     private IReadOnlyList<string>? _artists;
 
     /// <inheritdoc/>
-    public DateTimeOffset StartedAt => DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(Model.Timestamps.Value.Start.Value));
+    public DateTimeOffset StartedAt => DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(Model.Timestamps.Value.Start.Value, CultureInfo.InvariantCulture));
 
     /// <inheritdoc/>
-    public DateTimeOffset EndsAt => DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(Model.Timestamps.Value.End.Value));
+    public DateTimeOffset EndsAt => DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(Model.Timestamps.Value.End.Value, CultureInfo.InvariantCulture));
 
     public TransientSpotifyActivity(IClient client, ActivityJsonModel model)
         : base(client, model)

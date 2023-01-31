@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Disqord.Gateway;
 using Qmmands;
@@ -71,7 +72,7 @@ public class GuildChannelTypeParser<TChannel> : DiscordGuildTypeParser<TChannel>
     {
         var type = typeof(TChannel);
         ChannelString = type != typeof(IGuildChannel) && type.IsInterface
-            ? $"{type.Name[1..type.Name.IndexOf("Channel", StringComparison.Ordinal)].Replace("Guild", "").ToLower()} channel"
+            ? $"{type.Name[1..type.Name.IndexOf("Channel", StringComparison.Ordinal)].Replace("Guild", "").ToLower(CultureInfo.InvariantCulture)} channel"
             : "channel";
     }
 }

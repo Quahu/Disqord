@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System.Globalization;
+using Disqord.Models;
 using Qommon;
 
 namespace Disqord;
@@ -12,7 +13,7 @@ public class TransientUser : TransientClientEntity<UserJsonModel>, IUser
     public virtual string Name => Model.Username;
 
     /// <inheritdoc/>
-    public virtual string Discriminator => Model.Discriminator.ToString("0000");
+    public virtual string Discriminator => Model.Discriminator.ToString("0000", CultureInfo.InvariantCulture);
 
     /// <inheritdoc/>
     public virtual string? AvatarHash => Model.Avatar;

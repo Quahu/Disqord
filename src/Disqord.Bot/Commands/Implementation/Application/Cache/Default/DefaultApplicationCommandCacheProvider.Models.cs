@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Disqord.Serialization.Json;
@@ -78,7 +79,7 @@ public partial class DefaultApplicationCommandCacheProvider
                 Options = Optional.Convert(slashCommand.Options, options => options.Select(option => new OptionJsonModel(option)).ToArray());
             }
 
-            RequiredMemberPermissions = Optional.Convert(command.DefaultRequiredMemberPermissions, permissions => (ulong) permissions);
+            RequiredMemberPermissions = Optional.Convert(command.DefaultRequiredMemberPermissions, permissions => (ulong)permissions);
             IsEnabledInPrivateChannels = command.IsEnabledInPrivateChannels;
             IsAgeRestricted = command.IsAgeRestricted;
         }
@@ -95,7 +96,7 @@ public partial class DefaultApplicationCommandCacheProvider
             };
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool Equals(LocalApplicationCommand? command)
         {
             if (command == null)
@@ -114,7 +115,7 @@ public partial class DefaultApplicationCommandCacheProvider
                     return false;
             }
 
-            if (RequiredMemberPermissions != Optional.Convert(command.DefaultRequiredMemberPermissions, permissions => (ulong) permissions)
+            if (RequiredMemberPermissions != Optional.Convert(command.DefaultRequiredMemberPermissions, permissions => (ulong)permissions)
                 || IsEnabledInPrivateChannels != command.IsEnabledInPrivateChannels
                 || IsAgeRestricted != command.IsAgeRestricted)
                 return false;
@@ -184,7 +185,7 @@ public partial class DefaultApplicationCommandCacheProvider
             HasAutoComplete = option.HasAutoComplete;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool Equals(LocalSlashCommandOption? option)
         {
             if (option == null)
@@ -242,14 +243,14 @@ public partial class DefaultApplicationCommandCacheProvider
                 return false;
 
             if (xTypeCode is TypeCode.String && yTypeCode is TypeCode.String)
-                return (x as string)!.Equals(y as string);
+                return (x as string)!.Equals(y as string, StringComparison.Ordinal);
 
             var xValue = xConvertible.ToDouble(null);
             var yValue = yConvertible.ToDouble(null);
             return xValue.Equals(yValue);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool Equals(LocalSlashCommandOptionChoice? choice)
         {
             if (choice == null)

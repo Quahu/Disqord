@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Qommon;
 
 namespace Disqord.Extensions.Interactivity.Menus;
@@ -64,7 +65,7 @@ public class LinkButtonViewComponent : ViewComponent
         _emoji = attribute.Emoji is string emojiString
             ? LocalEmoji.FromString(emojiString)
             : attribute.Emoji != null
-                ? LocalEmoji.Custom(Convert.ToUInt64(attribute.Emoji))
+                ? LocalEmoji.Custom(Convert.ToUInt64(attribute.Emoji, CultureInfo.InvariantCulture))
                 : null;
 
         _isDisabled = attribute.IsDisabled;

@@ -81,7 +81,7 @@ public abstract partial class DiscordBotBase
             }
 
             // If the expected type is a custom made context.
-            if (expectedType.Namespace == null || !expectedType.Namespace.StartsWith(nameof(Disqord)))
+            if (expectedType.Namespace == null || !expectedType.Namespace.StartsWith(nameof(Disqord), StringComparison.Ordinal))
             {
                 message += " If you have not overridden the context creation methods, you must do so and have it return the given context type. " +
                     "Otherwise ensure it returns the correct context types.";

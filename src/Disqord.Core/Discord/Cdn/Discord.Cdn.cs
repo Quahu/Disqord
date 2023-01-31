@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Globalization;
+using System.Runtime.CompilerServices;
 using Qommon;
 
 namespace Disqord;
@@ -52,7 +54,7 @@ public static partial class Discord
         }
 
         public static string GetDefaultAvatarUrl(string discriminator)
-            => GetDefaultAvatarUrl((DefaultAvatarColor) (ushort.Parse(discriminator) % 5));
+            => GetDefaultAvatarUrl((DefaultAvatarColor) (ushort.Parse(discriminator, CultureInfo.InvariantCulture) % 5));
 
         public static string GetDefaultAvatarUrl(DefaultAvatarColor color)
         {
@@ -173,7 +175,7 @@ public static partial class Discord
             if (format != CdnAssetFormat.Automatic)
                 return format;
 
-            return hash.StartsWith("a_") ? CdnAssetFormat.Gif : CdnAssetFormat.Png;
+            return hash.StartsWith("a_", StringComparison.Ordinal) ? CdnAssetFormat.Gif : CdnAssetFormat.Png;
         }
 
         private static string? GetFormatString(CdnAssetFormat format)

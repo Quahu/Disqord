@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Globalization;
 using System.Threading;
 using Disqord.Models;
 using Qommon;
@@ -11,7 +12,7 @@ public class CachedSharedUser : CachedUser, ICachedSharedUser
     public override string Name => _name;
 
     /// <inheritdoc/>
-    public override string Discriminator => _discriminator.ToString("0000");
+    public override string Discriminator => _discriminator.ToString("0000", CultureInfo.InvariantCulture);
 
     /// <inheritdoc/>
     public override string? AvatarHash => _avatarHash;

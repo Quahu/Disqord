@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Disqord.Gateway;
 using Qommon;
@@ -78,7 +79,7 @@ public class ButtonViewComponent : InteractableViewComponent
         _emoji = attribute.Emoji is string emojiString
             ? LocalEmoji.FromString(emojiString)
             : attribute.Emoji != null
-                ? LocalEmoji.Custom(Convert.ToUInt64(attribute.Emoji))
+                ? LocalEmoji.Custom(Convert.ToUInt64(attribute.Emoji, CultureInfo.InvariantCulture))
                 : null;
 
         _isDisabled = attribute.IsDisabled;
