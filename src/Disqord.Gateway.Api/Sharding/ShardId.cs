@@ -108,6 +108,26 @@ public readonly struct ShardId : IEquatable<ShardId>, IComparable<ShardId>
         return !left.Equals(right);
     }
 
+    public static bool operator <(ShardId left, ShardId right)
+    {
+        return left.CompareTo(right) < 0;
+    }
+
+    public static bool operator <=(ShardId left, ShardId right)
+    {
+        return left.CompareTo(right) <= 0;
+    }
+
+    public static bool operator >(ShardId left, ShardId right)
+    {
+        return left.CompareTo(right) > 0;
+    }
+
+    public static bool operator >=(ShardId left, ShardId right)
+    {
+        return left.CompareTo(right) >= 0;
+    }
+
     /// <summary>
     ///     Gets a <see cref="ShardId"/> from just the index alone.
     /// </summary>
