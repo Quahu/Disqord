@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace Disqord.Http.Default;
 
-public class DefaultHttpClientFactory : IHttpClientFactory
+public class DefaultHttpClientFactory : IHttpClientFactory, IDisposable
 {
     private readonly SocketsHttpHandler _handler;
 
@@ -29,5 +29,10 @@ public class DefaultHttpClientFactory : IHttpClientFactory
         };
 
         return new DefaultHttpClient(client);
+    }
+
+    public void Dispose()
+    {
+        _handler.Dispose();
     }
 }
