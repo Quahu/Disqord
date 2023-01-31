@@ -271,7 +271,7 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
         }
 
         if (_handlers["READY"] is not DispatchHandler<ReadyJsonModel, ReadyEventArgs> handler
-            || (handler = GetInnerHandler(handler)) is not ReadyDispatchHandler readyHandler)
+            || GetInnerHandler(handler) is not ReadyDispatchHandler readyHandler)
         {
             Throw.InvalidOperationException($"The {GatewayDispatchNames.Ready} dispatch handler must be an instance of {typeof(ReadyDispatchHandler)}.");
             return null!;

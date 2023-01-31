@@ -30,9 +30,9 @@ public class DefaultVoiceGatewayHeartbeater : IVoiceGatewayHeartbeater
         _binder = new Binder<IVoiceGatewayClient>(this);
     }
 
-    public void Bind(IVoiceGatewayClient client)
+    public void Bind(IVoiceGatewayClient value)
     {
-        _binder.Bind(client);
+        _binder.Bind(value);
     }
 
     public ValueTask StartAsync(TimeSpan interval)

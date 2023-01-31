@@ -200,7 +200,7 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
                         {
                             var model = payload.D!.ToType<SessionDescriptionJsonModel>()!;
                             Logger.LogDebug("The voice gateway sent a session description with mode {0}.", model.Mode);
-                            _sessionDescriptionTcs!.Complete(model);
+                            _sessionDescriptionTcs.Complete(model);
                             break;
                         }
                         case VoiceGatewayPayloadOperation.Speaking:

@@ -38,9 +38,9 @@ public class DefaultGatewayRateLimiter : IGatewayRateLimiter
         _buckets = new Dictionary<GatewayPayloadOperation, Bucket>(2);
     }
 
-    public void Bind(IShard apiClient)
+    public void Bind(IShard value)
     {
-        _binder.Bind(apiClient);
+        _binder.Bind(value);
 
         _buckets[GatewayPayloadOperation.UpdatePresence] = new Bucket(_loggerFactory.CreateLogger("Presence Bucket"), 5, TimeSpan.FromSeconds(60));
     }

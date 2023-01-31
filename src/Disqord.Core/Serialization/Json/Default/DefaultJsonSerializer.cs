@@ -41,11 +41,11 @@ public class DefaultJsonSerializer : IJsonSerializer
     }
 
     /// <inheritdoc/>
-    public virtual object? Deserialize(Stream json, Type type)
+    public virtual object? Deserialize(Stream stream, Type type)
     {
         try
         {
-            using (var textReader = new StreamReader(json, Utf8, leaveOpen: true))
+            using (var textReader = new StreamReader(stream, Utf8, leaveOpen: true))
             using (var jsonReader = new JsonTextReader(textReader))
             {
                 return UnderlyingSerializer.Deserialize(jsonReader, type);
@@ -77,12 +77,12 @@ public class DefaultJsonSerializer : IJsonSerializer
     }
 
     /// <inheritdoc/>
-    public virtual IJsonNode GetJsonNode(object? value)
+    public virtual IJsonNode GetJsonNode(object? obj)
     {
-        if (value == null)
+        if (obj == null)
             return DefaultJsonNode.Create(JValue.CreateNull(), UnderlyingSerializer);
 
-        return DefaultJsonNode.Create(JToken.FromObject(value, UnderlyingSerializer), UnderlyingSerializer);
+        return DefaultJsonNode.Create(JToken.FromObject(obj, UnderlyingSerializer), UnderlyingSerializer);
     }
 
     protected class FormattingJsonWriter : JsonTextWriter

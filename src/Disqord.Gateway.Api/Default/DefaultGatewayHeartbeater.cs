@@ -32,9 +32,9 @@ public class DefaultGatewayHeartbeater : IGatewayHeartbeater
         _binder = new Binder<IShard>(this);
     }
 
-    public void Bind(IShard apiClient)
+    public void Bind(IShard value)
     {
-        _binder.Bind(apiClient);
+        _binder.Bind(value);
     }
 
     public ValueTask StartAsync(TimeSpan interval, CancellationToken stoppingToken)

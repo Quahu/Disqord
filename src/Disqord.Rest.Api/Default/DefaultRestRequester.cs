@@ -41,9 +41,9 @@ public class DefaultRestRequester : IRestRequester
     }
 
     /// <inheritdoc/>
-    public void Bind(IRestApiClient apiClient)
+    public void Bind(IRestApiClient value)
     {
-        _binder.Bind(apiClient);
+        _binder.Bind(value);
 
         var authorization = ApiClient.Token.GetAuthorization();
         if (authorization != null)

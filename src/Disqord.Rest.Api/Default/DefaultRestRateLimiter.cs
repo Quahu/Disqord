@@ -64,9 +64,9 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
         _hitRateLimits = new HashSet<IFormattableRoute>();
     }
 
-    public void Bind(IRestApiClient apiClient)
+    public void Bind(IRestApiClient value)
     {
-        _binder.Bind(apiClient);
+        _binder.Bind(value);
     }
 
     /// <inheritdoc/>
