@@ -48,5 +48,15 @@ public enum MessageFlags
     /// <summary>
     ///     The message is a deferred interaction response.
     /// </summary>
-    Loading = 1 << 7
+    Loading = 1 << 7,
+
+    /// <summary>
+    ///     The message failed to mention some roles and add their members in the thread.
+    /// </summary>
+    FailedToMentionSomeRolesInThread = 1 << 8,
+
+    /// <summary>
+    ///     The message is silent, i.e. does not trigger push and desktop notifications.
+    /// </summary>
+    SuppressedNotifications = 1 << 12
 }
