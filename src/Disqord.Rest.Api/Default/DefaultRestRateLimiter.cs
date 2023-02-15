@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -83,10 +84,13 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
     }
 
     /// <inheritdoc/>
-    public Task<IRestResponse> ExecuteAsync(IRestRequest request, CancellationToken cancellationToken)
+    public async Task<IRestResponse> ExecuteAsync(IRestRequest request, CancellationToken cancellationToken)
     {
         var bucket = GetBucket(request.Route, true)!;
-        return bucket.Post(request, cancellationToken);
+        using (var token = await bucket.PostAsync(request, cancellationToken).ConfigureAwait(false))
+        {
+            return await token.Task.ConfigureAwait(false);
+        }
     }
 
     private Bucket? GetBucket(IFormattedRoute route, bool create)
@@ -194,7 +198,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
             _ = RunAsync();
         }
 
-        private class Token
+        public class Token : IDisposable
         {
             public IRestRequest Request { get; }
 
@@ -202,6 +206,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
 
             public Task<IRestResponse> Task => _tcs.Task;
 
+            private readonly CancellationTokenRegistration _reg;
             private readonly Tcs<IRestResponse> _tcs;
 
             public Token(IRestRequest request, CancellationToken cancellationToken)
@@ -209,6 +214,13 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                 Request = request;
                 CancellationToken = cancellationToken;
 
+                static void CancellationCallback(object? state, CancellationToken cancellationToken)
+                {
+                    var tcs = Unsafe.As<Tcs<IRestResponse>>(state!);
+                    tcs.Cancel(cancellationToken);
+                }
+
+                _reg = cancellationToken.UnsafeRegister(CancellationCallback, _tcs);
                 _tcs = new Tcs<IRestResponse>();
             }
 
@@ -221,13 +233,23 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
             {
                 _tcs.Throw(exception);
             }
+
+            public void Dispose()
+            {
+                _reg.Dispose();
+            }
         }
 
-        public async Task<IRestResponse> Post(IRestRequest request, CancellationToken cancellationToken)
+        public async Task<Token> PostAsync(IRestRequest request, CancellationToken cancellationToken)
         {
             var token = new Token(request, cancellationToken);
             await _tokens.Writer.WriteAsync(token, cancellationToken).ConfigureAwait(false);
-            return await token.Task.ConfigureAwait(false);
+            return token;
+        }
+
+        public ValueTask PostAsync(Token token)
+        {
+            return _tokens.Writer.WriteAsync(token, token.CancellationToken);
         }
 
         private async Task RunAsync()
@@ -235,6 +257,9 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
             var reader = _tokens.Reader;
             await foreach (var token in reader.ReadAllAsync().ConfigureAwait(false))
             {
+                if (token.CancellationToken.IsCancellationRequested)
+                    continue;
+
                 var request = token.Request;
                 bool retry;
                 do
@@ -248,7 +273,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                             if (bucket != this)
                             {
                                 Logger.LogDebug("Route {0} is moving the request to the limited bucket.", request.Route);
-                                await _tokens.Writer.WriteAsync(token, token.CancellationToken).ConfigureAwait(false);
+                                await bucket.PostAsync(token).ConfigureAwait(false);
                                 break;
                             }
                         }
