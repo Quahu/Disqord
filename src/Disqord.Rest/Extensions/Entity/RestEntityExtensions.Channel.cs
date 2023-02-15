@@ -295,7 +295,7 @@ public static partial class RestEntityExtensions
     }
 
     public static Task<IThreadChannel> CreatePrivateThreadAsync(this ITextChannel channel,
-        string name, Action<CreateThreadChannelActionProperties>? action = null,
+        string name, Action<CreatePrivateThreadChannelActionProperties>? action = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var client = channel.GetRestClient();
