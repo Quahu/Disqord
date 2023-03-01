@@ -10,4 +10,7 @@ public class AutoModerationActionMetadataJsonModel : JsonModel
 
     [JsonProperty("duration_seconds")]
     public Optional<int> DurationSeconds;
+
+    [JsonProperty("custom_message")]
+    public Optional<string> CustomMessage;
 }

@@ -15,5 +15,19 @@ public interface IAutoModerationActionMetadata : IPossiblyChannelEntity, IJsonUp
     /// <remarks>
     ///     Used by the <see cref="AutoModerationActionType.Timeout"/> action type.
     /// </remarks>
+    /// <returns>
+    ///     The timeout duration or <see langword="null"/> if not set.
+    /// </returns>
     TimeSpan? TimeoutDuration { get; }
+
+    /// <summary>
+    ///     Gets the custom message that will be shown to members when a message is blocked.
+    /// </summary>
+    /// <remarks>
+    ///     Used by the <see cref="AutoModerationActionType.BlockMessage"/> action type.
+    /// </remarks>
+    /// <returns>
+    ///     The custom message or <see langword="null"/> if not set.
+    /// </returns>
+    string? CustomMessage { get; }
 }

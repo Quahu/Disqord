@@ -11,7 +11,10 @@ public class TransientAutoModerationActionMetadata : TransientEntity<AutoModerat
     public Snowflake? ChannelId => Model.ChannelId.GetValueOrNullable();
 
     /// <inheritdoc/>
-    public TimeSpan? TimeoutDuration => Optional.ConvertOrDefault(Model.DurationSeconds, x => TimeSpan.FromSeconds(x));
+    public TimeSpan? TimeoutDuration => Optional.ConvertOrDefault(Model.DurationSeconds, timeoutDuration => TimeSpan.FromSeconds(timeoutDuration));
+
+    /// <inheritdoc/>
+    public string? CustomMessage => Model.CustomMessage.GetValueOrDefault();
 
     public TransientAutoModerationActionMetadata(AutoModerationActionMetadataJsonModel model)
         : base(model)

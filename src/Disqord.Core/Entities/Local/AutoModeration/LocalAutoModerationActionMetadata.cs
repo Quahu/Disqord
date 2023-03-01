@@ -10,6 +10,8 @@ public class LocalAutoModerationActionMetadata : ILocalConstruct<LocalAutoModera
 
     public Optional<TimeSpan> TimeoutDuration { get; set; }
 
+    public Optional<string> CustomMessage { get; set; }
+
     /// <summary>
     ///     Instantiates a new <see cref="LocalAutoModerationActionMetadata"/>.
     /// </summary>
@@ -24,6 +26,7 @@ public class LocalAutoModerationActionMetadata : ILocalConstruct<LocalAutoModera
     {
         ChannelId = other.ChannelId;
         TimeoutDuration = other.TimeoutDuration;
+        CustomMessage = other.CustomMessage;
     }
 
     /// <inheritdoc/>
@@ -38,7 +41,8 @@ public class LocalAutoModerationActionMetadata : ILocalConstruct<LocalAutoModera
         return new AutoModerationActionMetadataJsonModel
         {
             ChannelId = ChannelId,
-            DurationSeconds = Optional.Convert(TimeoutDuration, x => (int) x.TotalSeconds)
+            DurationSeconds = Optional.Convert(TimeoutDuration, timeoutDuration => (int) timeoutDuration.TotalSeconds),
+            CustomMessage = CustomMessage
         };
     }
 }
