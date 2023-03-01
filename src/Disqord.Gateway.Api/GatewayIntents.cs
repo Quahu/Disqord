@@ -28,7 +28,7 @@ public enum GatewayIntents : ulong
     Members = 1 << 1,
 
     /// <summary>
-    ///     Allows receiving moderation-related events such as bans or audit log events.
+    ///     Allows receiving moderation-related events such as ban or audit log events.
     /// </summary>
     Moderation = 1 << 2,
 
