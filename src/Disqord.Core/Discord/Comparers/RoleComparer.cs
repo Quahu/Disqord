@@ -20,6 +20,6 @@ public class RoleComparer : IdentifiableEntityComparer<IRole>, IComparer<IRole>
         if (positionCompare != 0)
             return positionCompare;
 
-        return x.Id.CompareTo(y.Id);
+        return -x.Id.CompareTo(y.Id);
     }
 }
