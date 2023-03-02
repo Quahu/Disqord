@@ -35,15 +35,19 @@ public abstract class RequireRoleHierarchyBaseAttribute : DiscordGuildParameterC
     public override ValueTask<IResult> CheckAsync(IDiscordGuildCommandContext context, IParameter parameter, object? argument)
     {
         var (targetName, target) = GetTarget(context);
+        var guild = context.Bot.GetGuild(context.GuildId);
+        if (guild != null && target.Id == guild.OwnerId)
+            return Results.Success;
+
         if (argument is IMember memberArgument)
         {
-            if (target.CalculateRoleHierarchy() > memberArgument.CalculateRoleHierarchy())
+            if (Comparers.Roles.Compare(target.GetHighestRole(), memberArgument.GetHighestRole()) > 0)
                 return Results.Success;
         }
         else
         {
             var roleArgument = argument as IRole;
-            if (target.CalculateRoleHierarchy() > roleArgument!.Position)
+            if (Comparers.Roles.Compare(target.GetHighestRole(), roleArgument) > 0)
                 return Results.Success;
         }
 

@@ -92,6 +92,47 @@ public static partial class GatewayEntityExtensions
     }
 
     /// <summary>
+    ///     Gets the highest role of this member,
+    ///     i.e. the role with the highest position in the guild.
+    /// </summary>
+    /// <param name="member"> The member to get the highest role for. </param>
+    /// <returns>
+    ///     The highest role or <see langword="null"/> if no roles are cached.
+    /// </returns>
+    public static IRole? GetHighestRole(this IMember member)
+    {
+        var client = member.GetGatewayClient();
+        if (!client.CacheProvider.TryGetRoles(member.GuildId, out var cache, true))
+            return null;
+
+        var roleIds = member.RoleIds;
+        var roleCount = roleIds.Count;
+        var roles = new List<IRole>(roleCount + 1);
+        if (cache.TryGetValue(member.GuildId, out var everyoneRole))
+        {
+            roles.Add(everyoneRole);
+        }
+
+        for (var i = 0; i < roleCount; i++)
+        {
+            if (cache.TryGetValue(roleIds[i], out var role))
+            {
+                roles.Add(role);
+            }
+        }
+
+        if (roles.Count == 0)
+            return null;
+
+        roles.Sort(Comparers.Roles);
+        return roles[^1];
+    }
+
+    private const string CalculateRoleHierachyWorkaroundMessage = "Due to Discord returning duplicate role positions, this should not be used for role hierarchy checks. "
+        + "For Disqord.Bot, checks implementing RequireRoleHierarchyBaseAttribute should be used instead. "
+        + "For manual checking, GetHighestRole should be used alongside a guild owner check.";
+
+    /// <summary>
     ///     Gets the role hierarchy of this member,
     ///     i.e. the position of this member's highest role in the guild.
     /// </summary>
@@ -99,6 +140,7 @@ public static partial class GatewayEntityExtensions
     /// <returns>
     ///     The highest role's position or <see cref="int.MaxValue"/> if this member is the guild's owner.
     /// </returns>
+    [Obsolete(CalculateRoleHierachyWorkaroundMessage)]
     public static int CalculateRoleHierarchy(this IMember member)
     {
         return member.CalculateRoleHierarchy(member.GetGuild()!);
@@ -113,6 +155,7 @@ public static partial class GatewayEntityExtensions
     /// <returns>
     ///     The highest role's position or <see cref="int.MaxValue"/> if this member is the guild's owner.
     /// </returns>
+    [Obsolete(CalculateRoleHierachyWorkaroundMessage)]
     public static int CalculateRoleHierarchy(this IMember member, IGuild guild)
     {
         if (member.GuildId != guild.Id)
