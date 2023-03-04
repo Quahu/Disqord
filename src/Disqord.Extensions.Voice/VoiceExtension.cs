@@ -6,7 +6,7 @@ using Disqord.Voice;
 using Microsoft.Extensions.Logging;
 using Qommon;
 using Qommon.Collections.ReadOnly;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Extensions.Voice;
 
@@ -16,7 +16,7 @@ public class VoiceExtension : DiscordClientExtension
 
     private readonly IVoiceConnectionFactory _connectionFactory;
 
-    private readonly ISynchronizedDictionary<Snowflake, IVoiceConnection> _connections;
+    private readonly IThreadSafeDictionary<Snowflake, IVoiceConnection> _connections;
 
     public VoiceExtension(
         ILogger<VoiceExtension> logger,
@@ -25,7 +25,7 @@ public class VoiceExtension : DiscordClientExtension
     {
         _connectionFactory = connectionFactory;
 
-        _connections = new SynchronizedDictionary<Snowflake, IVoiceConnection>();
+        _connections = ThreadSafeDictionary.Monitor.Create<Snowflake, IVoiceConnection>();
     }
 
     /// <inheritdoc/>
@@ -37,20 +37,20 @@ public class VoiceExtension : DiscordClientExtension
         return default;
     }
 
-    private ValueTask VoiceServerUpdatedAsync(object? sender, VoiceServerUpdatedEventArgs e)
+    private Task VoiceServerUpdatedAsync(object? sender, VoiceServerUpdatedEventArgs e)
     {
         if (_connections.TryGetValue(e.GuildId, out var connection))
         {
             connection.OnVoiceServerUpdate(e.Token, e.Endpoint);
         }
 
-        return default;
+        return Task.CompletedTask;
     }
 
-    private ValueTask VoiceStateUpdatedAsync(object? sender, VoiceStateUpdatedEventArgs e)
+    private Task VoiceStateUpdatedAsync(object? sender, VoiceStateUpdatedEventArgs e)
     {
         if (Client.CurrentUser.Id != e.NewVoiceState.MemberId)
-            return default;
+            return Task.CompletedTask;
 
         if (_connections.TryGetValue(e.GuildId, out var connection))
         {
@@ -58,7 +58,7 @@ public class VoiceExtension : DiscordClientExtension
             connection.OnVoiceStateUpdate(voiceState.ChannelId, voiceState.SessionId);
         }
 
-        return default;
+        return Task.CompletedTask;
     }
 
     public async ValueTask<IVoiceConnection> ConnectAsync(Snowflake guildId, Snowflake channelId, CancellationToken cancellationToken = default)

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Qommon;
-using Qommon.Collections;
 
 namespace Disqord.Bot.Commands.Application.Default;
 
@@ -139,7 +138,7 @@ public partial class DefaultApplicationCommandCacheProvider
                 : Model.GuildCommands?.GetValueOrDefault(guildId.Value);
 
             var commandIds = commands.ToDictionary(x => x.Name, x => x.Id);
-            var newModelCommands = new FastList<CommandJsonModel>(modelCommands?.Length ?? 0 + fastChanges.CreatedCommands.Count - fastChanges.DeletedCommandIds.Count);
+            var newModelCommands = new List<CommandJsonModel>(modelCommands?.Length ?? 0 + fastChanges.CreatedCommands.Count - fastChanges.DeletedCommandIds.Count);
 
             foreach (var unchangedCommand in fastChanges.UnchangedCommands)
             {

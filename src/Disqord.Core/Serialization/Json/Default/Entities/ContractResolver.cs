@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 using Qommon.Serialization;
 
 namespace Disqord.Serialization.Json.Default;
@@ -15,13 +15,14 @@ namespace Disqord.Serialization.Json.Default;
 internal sealed class ContractResolver : DefaultContractResolver
 {
     private readonly DefaultJsonSerializer _serializer;
+
     // TODO: custom StringEnumConverter
     private readonly StringEnumConverter _stringEnumConverter;
     internal readonly StreamConverter _streamConverter;
     private readonly JsonNodeConverter _jsonNodeConverter;
     private readonly SnowflakeConverter _snowflakeConverter;
-    private readonly ISynchronizedDictionary<Type, JsonConverter> _snowflakeDictionaryConverters;
-    private readonly ISynchronizedDictionary<Type, OptionalConverter> _optionalConverters;
+    private readonly IThreadSafeDictionary<Type, JsonConverter> _snowflakeDictionaryConverters;
+    private readonly IThreadSafeDictionary<Type, OptionalConverter> _optionalConverters;
 
     public ContractResolver(DefaultJsonSerializer serializer)
     {
@@ -30,8 +31,8 @@ internal sealed class ContractResolver : DefaultContractResolver
         _streamConverter = new StreamConverter(serializer);
         _jsonNodeConverter = new JsonNodeConverter();
         _snowflakeConverter = new SnowflakeConverter();
-        _snowflakeDictionaryConverters = new SynchronizedDictionary<Type, JsonConverter>();
-        _optionalConverters = new SynchronizedDictionary<Type, OptionalConverter>();
+        _snowflakeDictionaryConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, JsonConverter>();
+        _optionalConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, OptionalConverter>();
     }
 
     protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)

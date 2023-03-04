@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <VersionPrefix>1.0.0-alpha3</VersionPrefix>
@@ -11,6 +12,6 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1"/>
         <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0"/>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
-        <PackageReference Include="Qommon" Version="3.0.4"/>
+        <PackageReference Include="Qommon" Version="4.0.0"/>
     </ItemGroup>
 </Project>

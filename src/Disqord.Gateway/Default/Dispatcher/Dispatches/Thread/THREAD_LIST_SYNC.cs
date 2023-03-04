@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
@@ -32,7 +32,7 @@ public class ThreadListSyncDispatchHandler : DispatchHandler<ThreadListSyncJsonM
         var threads = threadModelDictionary.ToDictionary(x => x.Key, x => new List<IThreadChannel>(x.Value.Count) as IReadOnlyList<IThreadChannel>);
         var uncachedThreads = new Dictionary<Snowflake, IReadOnlyList<CachedThreadChannel>>();
 
-        static void UncacheThread(ISynchronizedDictionary<Snowflake, CachedGuildChannel> channelCache, Dictionary<Snowflake, IReadOnlyList<CachedThreadChannel>> uncachedThreads, KeyValuePair<Snowflake, List<ChannelJsonModel>> kvp, CachedThreadChannel cachedThreadChannel)
+        static void UncacheThread(IThreadSafeDictionary<Snowflake, CachedGuildChannel> channelCache, Dictionary<Snowflake, IReadOnlyList<CachedThreadChannel>> uncachedThreads, KeyValuePair<Snowflake, List<ChannelJsonModel>> kvp, CachedThreadChannel cachedThreadChannel)
         {
             channelCache.Remove(cachedThreadChannel.Id);
             List<CachedThreadChannel> list;

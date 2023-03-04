@@ -55,5 +55,5 @@ public partial interface IGatewayDispatcher : IBindable<IGatewayClient>, ILoggin
     /// <returns>
     ///     A task representing the work.
     /// </returns>
-    ValueTask HandleDispatchAsync(object? sender, GatewayDispatchReceivedEventArgs e);
+    Task HandleDispatchAsync(object? sender, GatewayDispatchReceivedEventArgs e);
 }

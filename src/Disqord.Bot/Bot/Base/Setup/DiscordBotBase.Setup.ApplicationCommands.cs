@@ -17,7 +17,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Qmmands;
 using Qommon;
-using Qommon.Collections;
 
 namespace Disqord.Bot;
 
@@ -101,16 +100,16 @@ public abstract partial class DiscordBotBase
     protected virtual (IEnumerable<LocalApplicationCommand> GlobalCommands, IReadOnlyDictionary<Snowflake, IEnumerable<LocalApplicationCommand>> GuildCommands)
         ConvertApplicationCommandMap(ApplicationCommandMap map, CancellationToken cancellationToken)
     {
-        var globalCommands = new FastList<LocalApplicationCommand>();
+        var globalCommands = new List<LocalApplicationCommand>();
         var guildCommands = new Dictionary<Snowflake, IEnumerable<LocalApplicationCommand>>();
 
         // var commandCache = new Dictionary<ApplicationCommand, LocalApplicationCommand>();
 
         static void GetCommands( /*Dictionary<ApplicationCommand, LocalApplicationCommand> commandCache,*/
-            ApplicationCommandMap.TopLevelNode topLevelNode, FastList<LocalApplicationCommand> localCommands)
+            ApplicationCommandMap.TopLevelNode topLevelNode, List<LocalApplicationCommand> localCommands)
         {
             static void AddCommand( /*Dictionary<ApplicationCommand, LocalApplicationCommand> commandCache,*/
-                FastList<LocalApplicationCommand> localCommands, ApplicationCommand command)
+                List<LocalApplicationCommand> localCommands, ApplicationCommand command)
             {
                 static void GetPermissions(IReadOnlyList<ICheck> checks, ref Optional<Permissions> requiredMemberPermissions, ref Optional<bool> isEnabledInPrivateChannels)
                 {
@@ -194,7 +193,7 @@ public abstract partial class DiscordBotBase
                     return false;
                 }
 
-                var modules = new FastList<ApplicationModule>();
+                var modules = new List<ApplicationModule>();
                 var module = command.Module;
                 do
                 {
@@ -254,7 +253,7 @@ public abstract partial class DiscordBotBase
                     return;
                 }
 
-                var names = new FastList<(string Alias, string? Description)>();
+                var names = new List<(string Alias, string? Description)>();
                 module = command.Module;
                 names.Add((command.Alias, command.Description));
                 do
@@ -689,7 +688,7 @@ public abstract partial class DiscordBotBase
                 AddCommand( /*commandCache,*/ localCommands, contextMenuCommand);
 
             static void GetCommands( /*Dictionary<ApplicationCommand, LocalApplicationCommand> commandCache,*/
-                ApplicationCommandMap.Node node, FastList<LocalApplicationCommand> commands)
+                ApplicationCommandMap.Node node, List<LocalApplicationCommand> commands)
             {
                 foreach (var slashCommand in node.SlashCommands.Values)
                     AddCommand( /*commandCache,*/ commands, slashCommand);
@@ -708,7 +707,7 @@ public abstract partial class DiscordBotBase
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var list = new FastList<LocalApplicationCommand>();
+            var list = new List<LocalApplicationCommand>();
             guildCommands[guildId] = list;
             GetCommands( /*commandCache,*/ guildNode, list);
         }
@@ -854,8 +853,8 @@ public abstract partial class DiscordBotBase
             };
 
             var applicationId = _applicationId ?? (_currentApplication ??= await this.FetchCurrentApplicationAsync(requestOptions, cancellationToken).ConfigureAwait(false)).Id;
-            var commandChanges = new FastList<(Snowflake?, IApplicationCommandCacheChanges)>();
-            var tasks = new FastList<Task<IReadOnlyList<IApplicationCommand>>>();
+            var commandChanges = new List<(Snowflake?, IApplicationCommandCacheChanges)>();
+            var tasks = new List<Task<IReadOnlyList<IApplicationCommand>>>();
             if (_syncGlobalApplicationCommands)
             {
                 var changes = cache.GetChanges(null, globalCommands);

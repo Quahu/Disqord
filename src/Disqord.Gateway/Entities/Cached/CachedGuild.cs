@@ -4,7 +4,6 @@ using System.Globalization;
 using Disqord.Gateway.Api.Models;
 using Disqord.Models;
 using Qommon;
-using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Gateway;
@@ -56,7 +55,7 @@ public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild,
         get
         {
             if (Client.CacheProvider.TryGetRoles(Id, out var cache, true))
-                return new ReadOnlyUpcastingDictionary<Snowflake, CachedRole, IRole>(cache.ReadOnly());
+                return new UpcastingDictionary<Snowflake, CachedRole, IRole>(cache.ReadOnly());
 
             return ReadOnlyDictionary<Snowflake, IRole>.Empty;
         }
@@ -132,7 +131,7 @@ public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild,
         get
         {
             if (Client.CacheProvider.TryGetMembers(Id, out var cache, true))
-                return new ReadOnlyUpcastingDictionary<Snowflake, CachedMember, IMember>(cache.ReadOnly());
+                return new UpcastingDictionary<Snowflake, CachedMember, IMember>(cache.ReadOnly());
 
             return ReadOnlyDictionary<Snowflake, IMember>.Empty;
         }
@@ -152,7 +151,7 @@ public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild,
         get
         {
             if (Client.CacheProvider.TryGetChannels(Id, out var cache, true))
-                return new ReadOnlyUpcastingDictionary<Snowflake, CachedGuildChannel, IGuildChannel>(cache.ReadOnly());
+                return new UpcastingDictionary<Snowflake, CachedGuildChannel, IGuildChannel>(cache.ReadOnly());
 
             return ReadOnlyDictionary<Snowflake, IGuildChannel>.Empty;
         }
@@ -163,7 +162,7 @@ public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild,
         get
         {
             if (Client.CacheProvider.TryGetVoiceStates(Id, out var cache, true))
-                return new ReadOnlyUpcastingDictionary<Snowflake, CachedVoiceState, IVoiceState>(cache.ReadOnly());
+                return new UpcastingDictionary<Snowflake, CachedVoiceState, IVoiceState>(cache.ReadOnly());
 
             return ReadOnlyDictionary<Snowflake, IVoiceState>.Empty;
         }
@@ -174,7 +173,7 @@ public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild,
         get
         {
             if (Client.CacheProvider.TryGetPresences(Id, out var cache, true))
-                return new ReadOnlyUpcastingDictionary<Snowflake, CachedPresence, IPresence>(cache.ReadOnly());
+                return new UpcastingDictionary<Snowflake, CachedPresence, IPresence>(cache.ReadOnly());
 
             return ReadOnlyDictionary<Snowflake, IPresence>.Empty;
         }
@@ -185,7 +184,7 @@ public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild,
         get
         {
             if (Client.CacheProvider.TryGetStages(Id, out var cache, true))
-                return new ReadOnlyUpcastingDictionary<Snowflake, CachedStage, IStage>(cache.ReadOnly());
+                return new UpcastingDictionary<Snowflake, CachedStage, IStage>(cache.ReadOnly());
 
             return ReadOnlyDictionary<Snowflake, IStage>.Empty;
         }
@@ -196,7 +195,7 @@ public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild,
         get
         {
             if (Client.CacheProvider.TryGetGuildEvents(Id, out var cache, true))
-                return new ReadOnlyUpcastingDictionary<Snowflake, CachedGuildEvent, IGuildEvent>(cache.ReadOnly());
+                return new UpcastingDictionary<Snowflake, CachedGuildEvent, IGuildEvent>(cache.ReadOnly());
 
             return ReadOnlyDictionary<Snowflake, IGuildEvent>.Empty;
         }

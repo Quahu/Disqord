@@ -248,7 +248,7 @@ public class DefaultShard : IShard
                             }
 
                             var e = new GatewayDispatchReceivedEventArgs(payload.T!, payload.D!);
-                            await ApiClient.DispatchReceivedEvent.InvokeAsync(this, e).ConfigureAwait(false);
+                            await ApiClient.DispatchReceivedEvent.InvokeSequential(this, e).ConfigureAwait(false);
                             break;
                         }
                         case GatewayPayloadOperation.Heartbeat:

@@ -1,6 +1,3 @@
-using Disqord.Bot.Commands;
-using Disqord.Bot.Commands.Application;
-
 #if false
 namespace Disqord.Test.Modules.ApplicationCommands
 {

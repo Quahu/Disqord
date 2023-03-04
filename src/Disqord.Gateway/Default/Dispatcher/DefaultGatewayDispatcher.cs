@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Qommon;
 using Qommon.Binding;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Gateway.Default;
 
@@ -84,9 +85,9 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
     }
 
     private bool _loggedUnknownWarning;
-    private readonly SynchronizedHashSet<string> _unknownDispatches = new();
+    private readonly HashSet<string> _unknownDispatches = new();
 
-    private readonly ISynchronizedDictionary<string, DispatchHandler> _handlers;
+    private readonly IThreadSafeDictionary<string, DispatchHandler> _handlers;
     private readonly Binder<IGatewayClient> _binder;
 
     public DefaultGatewayDispatcher(
@@ -98,7 +99,7 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
 
         Logger = logger;
 
-        _handlers = new SynchronizedDictionary<string, DispatchHandler>
+        var handlers = new Dictionary<string, DispatchHandler>
         {
             [GatewayDispatchNames.Ready] = new ReadyDispatchHandler(),
             [GatewayDispatchNames.Resumed] = new ResumedDispatchHandler(),
@@ -188,6 +189,8 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
             [GatewayDispatchNames.WebhooksUpdate] = new WebhooksUpdateDispatchHandler()
         };
 
+        _handlers = ThreadSafeDictionary.ConcurrentDictionary.Create(handlers);
+
         _binder = new Binder<IGatewayClient>(this, allowRebinding: true);
     }
 
@@ -199,7 +202,7 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
 
         if (!isRebind)
         {
-            value.ApiClient.DispatchReceivedEvent.Hook(HandleDispatchAsync);
+            value.ApiClient.DispatchReceivedEvent.Add(HandleDispatchAsync);
 
             // The binding here is used so handler code knows when the handlers collection is populated.
             // E.g. GUILD_CREATE and GUILD_DELETE will notify READY so that it can delay the actual event invocation.
@@ -215,7 +218,7 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
     }
 
     /// <inheritdoc/>
-    public async ValueTask HandleDispatchAsync(object? sender, GatewayDispatchReceivedEventArgs e)
+    public async Task HandleDispatchAsync(object? sender, GatewayDispatchReceivedEventArgs e)
     {
         if (sender is not IShard shard)
             throw new ArgumentException("The sender is expected to be an IGateway instance.", nameof(sender));

@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Extensions.Interactivity.Menus;
 
 public abstract partial class ViewBase
 {
-    private static readonly ISynchronizedDictionary<Type, (ComponentAttribute, MemberInfo)[]> _memberCache;
+    private static readonly IThreadSafeDictionary<Type, (ComponentAttribute, MemberInfo)[]> _memberCache;
 
     static ViewBase()
     {
-        _memberCache = new SynchronizedDictionary<Type, (ComponentAttribute, MemberInfo)[]>();
+        _memberCache = ThreadSafeDictionary.Monitor.Create<Type, (ComponentAttribute, MemberInfo)[]>();
     }
 
     private static ViewComponent[] ReflectComponents(ViewBase view)

@@ -2,7 +2,6 @@
 using Disqord.Gateway.Api;
 using Disqord.Models;
 using Disqord.Serialization.Json;
-using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
@@ -19,7 +18,7 @@ public class ThreadCreateDispatchHandler : DispatchHandler<ChannelJsonModel, Thr
                     var (client, model) = state;
                     return new CachedThreadChannel(client, model);
                 },
-                (_, state, oldThread) =>
+                (_, oldThread, state) =>
                 {
                     var (_, model) = state;
                     oldThread.Update(model);

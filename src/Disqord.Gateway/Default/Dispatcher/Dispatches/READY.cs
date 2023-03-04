@@ -9,15 +9,15 @@ using Disqord.Gateway.Api.Models;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 using Qommon;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 
 public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventArgs>
 {
-    public ISynchronizedDictionary<ShardId, ISynchronizedDictionary<Snowflake, bool>> PendingGuilds { get; }
+    public IThreadSafeDictionary<ShardId, IThreadSafeDictionary<Snowflake, bool>> PendingGuilds { get; }
 
-    private readonly ISynchronizedDictionary<ShardId, DelayToken> _delays;
+    private readonly IThreadSafeDictionary<ShardId, DelayToken> _delays;
 
     private readonly Tcs _readyTcs;
     private int? _pendingReadyShards;
@@ -25,9 +25,9 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
 
     public ReadyDispatchHandler()
     {
-        PendingGuilds = new SynchronizedDictionary<ShardId, ISynchronizedDictionary<Snowflake, bool>>();
+        PendingGuilds = ThreadSafeDictionary.Monitor.Create<ShardId, IThreadSafeDictionary<Snowflake, bool>>();
 
-        _delays = new SynchronizedDictionary<ShardId, DelayToken>();
+        _delays = ThreadSafeDictionary.Monitor.Create<ShardId, DelayToken>();
         _readyTcs = new();
     }
 
@@ -49,7 +49,7 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
         _pendingReadyShards ??= shard.ApiClient.Shards.Count;
 
         CacheProvider.Reset(shard.Id);
-        var pendingGuilds = model.Guilds.ToDictionary(x => x.Id, x => !x.Unavailable.GetValueOrDefault()).Synchronized();
+        var pendingGuilds = ThreadSafeDictionary.Monitor.Wrap(model.Guilds.ToDictionary(x => x.Id, x => !x.Unavailable.GetValueOrDefault()));
         PendingGuilds[shard.Id] = pendingGuilds;
 
         if (Dispatcher.CurrentUser == null)

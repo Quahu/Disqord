@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Qommon.Binding;
 using Disqord.Utilities.Threading;
 using Disqord.Voice.Api.Models;
 using Microsoft.Extensions.Logging;
+using Qommon.Binding;
 
 namespace Disqord.Voice.Api.Default;
 

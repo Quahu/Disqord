@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Gateway;
 using Qommon;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Extensions.Interactivity.Menus;
 
@@ -57,7 +57,7 @@ public abstract partial class ViewBase : IAsyncDisposable
     }
 
     private readonly List<ViewComponent>[] _rows;
-    private readonly ISynchronizedDictionary<string, InteractableViewComponent> _interactables;
+    private readonly IThreadSafeDictionary<string, InteractableViewComponent> _interactables;
     private Action<LocalMessageBase>? _messageTemplate;
 
     /// <summary>
@@ -71,7 +71,7 @@ public abstract partial class ViewBase : IAsyncDisposable
         for (var i = 0; i < 5; i++)
             _rows[i] = new List<ViewComponent>(5);
 
-        _interactables = new SynchronizedDictionary<string, InteractableViewComponent>();
+        _interactables = ThreadSafeDictionary.Monitor.Create<string, InteractableViewComponent>();
 
         foreach (var component in ReflectComponents(this))
             AddComponent(component);

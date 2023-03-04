@@ -8,7 +8,7 @@ using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Qommon;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Extensions.Interactivity;
 
@@ -25,16 +25,16 @@ public class InteractivityExtension : DiscordClientExtension
     public TimeSpan DefaultMenuTimeout { get; }
 
     // ChannelId -> Waiters
-    private readonly ISynchronizedDictionary<Snowflake, LinkedList<Waiter<InteractionReceivedEventArgs>>> _interactionWaiters;
+    private readonly IThreadSafeDictionary<Snowflake, LinkedList<Waiter<InteractionReceivedEventArgs>>> _interactionWaiters;
 
     // ChannelId -> Waiters
-    private readonly ISynchronizedDictionary<Snowflake, LinkedList<Waiter<MessageReceivedEventArgs>>> _messageWaiters;
+    private readonly IThreadSafeDictionary<Snowflake, LinkedList<Waiter<MessageReceivedEventArgs>>> _messageWaiters;
 
     // MessageId -> Waiters
-    private readonly ISynchronizedDictionary<Snowflake, LinkedList<Waiter<ReactionAddedEventArgs>>> _reactionWaiters;
+    private readonly IThreadSafeDictionary<Snowflake, LinkedList<Waiter<ReactionAddedEventArgs>>> _reactionWaiters;
 
     // MessageId -> Menu
-    private readonly ISynchronizedDictionary<Snowflake, MenuBase> _menus;
+    private readonly IThreadSafeDictionary<Snowflake, MenuBase> _menus;
 
     public InteractivityExtension(
         IOptions<InteractivityExtensionConfiguration> options,
@@ -45,10 +45,10 @@ public class InteractivityExtension : DiscordClientExtension
         DefaultWaitTimeout = configuration.DefaultWaitTimeout;
         DefaultMenuTimeout = configuration.DefaultMenuTimeout;
 
-        _interactionWaiters = new SynchronizedDictionary<Snowflake, LinkedList<Waiter<InteractionReceivedEventArgs>>>();
-        _messageWaiters = new SynchronizedDictionary<Snowflake, LinkedList<Waiter<MessageReceivedEventArgs>>>();
-        _reactionWaiters = new SynchronizedDictionary<Snowflake, LinkedList<Waiter<ReactionAddedEventArgs>>>();
-        _menus = new SynchronizedDictionary<Snowflake, MenuBase>();
+        _interactionWaiters = ThreadSafeDictionary.Monitor.Create<Snowflake, LinkedList<Waiter<InteractionReceivedEventArgs>>>();
+        _messageWaiters = ThreadSafeDictionary.Monitor.Create<Snowflake, LinkedList<Waiter<MessageReceivedEventArgs>>>();
+        _reactionWaiters = ThreadSafeDictionary.Monitor.Create<Snowflake, LinkedList<Waiter<ReactionAddedEventArgs>>>();
+        _menus = ThreadSafeDictionary.Monitor.Create<Snowflake, MenuBase>();
     }
 
     /// <inheritdoc/>
@@ -115,7 +115,7 @@ public class InteractivityExtension : DiscordClientExtension
         return WaitForEventAsync(_reactionWaiters, messageId, predicate, timeout, cancellationToken);
     }
 
-    private async Task<TEventArgs?> WaitForEventAsync<TEventArgs>(ISynchronizedDictionary<Snowflake, LinkedList<Waiter<TEventArgs>>> eventWaiters,
+    private async Task<TEventArgs?> WaitForEventAsync<TEventArgs>(IThreadSafeDictionary<Snowflake, LinkedList<Waiter<TEventArgs>>> eventWaiters,
         Snowflake entityId, Predicate<TEventArgs>? predicate,
         TimeSpan timeout, CancellationToken cancellationToken)
         where TEventArgs : EventArgs
@@ -243,7 +243,7 @@ public class InteractivityExtension : DiscordClientExtension
         }
     }
 
-    private async ValueTask InteractionReceivedAsync(object? sender, InteractionReceivedEventArgs e)
+    private async Task InteractionReceivedAsync(object? sender, InteractionReceivedEventArgs e)
     {
         await Task.Yield();
 
@@ -257,19 +257,19 @@ public class InteractivityExtension : DiscordClientExtension
         }
     }
 
-    private async ValueTask MessageReceivedAsync(object? sender, MessageReceivedEventArgs e)
+    private async Task MessageReceivedAsync(object? sender, MessageReceivedEventArgs e)
     {
         await Task.Yield();
         CompleteWaiters(_messageWaiters, e.ChannelId, e);
     }
 
-    private async ValueTask ReactionAddedAsync(object? sender, ReactionAddedEventArgs e)
+    private async Task ReactionAddedAsync(object? sender, ReactionAddedEventArgs e)
     {
         await Task.Yield();
         CompleteWaiters(_reactionWaiters, e.MessageId, e);
     }
 
-    private static void CompleteWaiters<TEventArgs>(ISynchronizedDictionary<Snowflake, LinkedList<Waiter<TEventArgs>>> eventWaiters,
+    private static void CompleteWaiters<TEventArgs>(IThreadSafeDictionary<Snowflake, LinkedList<Waiter<TEventArgs>>> eventWaiters,
         Snowflake entityId, TEventArgs e)
         where TEventArgs : EventArgs
     {

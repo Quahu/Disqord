@@ -7,413 +7,413 @@ public partial class DefaultGatewayClient
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ReadyEventArgs> Ready
     {
-        add => Dispatcher.ReadyEvent.Hook(value);
-        remove => Dispatcher.ReadyEvent.Unhook(value);
+        add => Dispatcher.ReadyEvent.Add(value);
+        remove => Dispatcher.ReadyEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ApplicationCommandPermissionsUpdatedEventArgs> ApplicationCommandPermissionsUpdated
     {
-        add => Dispatcher.ApplicationCommandPermissionsUpdatedEvent.Hook(value);
-        remove => Dispatcher.ApplicationCommandPermissionsUpdatedEvent.Unhook(value);
+        add => Dispatcher.ApplicationCommandPermissionsUpdatedEvent.Add(value);
+        remove => Dispatcher.ApplicationCommandPermissionsUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<AutoModerationRuleCreatedEventArgs> AutoModerationRuleCreated
     {
-        add => Dispatcher.AutoModerationRuleCreatedEvent.Hook(value);
-        remove => Dispatcher.AutoModerationRuleCreatedEvent.Unhook(value);
+        add => Dispatcher.AutoModerationRuleCreatedEvent.Add(value);
+        remove => Dispatcher.AutoModerationRuleCreatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<AutoModerationRuleUpdatedEventArgs> AutoModerationRuleUpdated
     {
-        add => Dispatcher.AutoModerationRuleUpdatedEvent.Hook(value);
-        remove => Dispatcher.AutoModerationRuleUpdatedEvent.Unhook(value);
+        add => Dispatcher.AutoModerationRuleUpdatedEvent.Add(value);
+        remove => Dispatcher.AutoModerationRuleUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<AutoModerationRuleDeletedEventArgs> AutoModerationRuleDeleted
     {
-        add => Dispatcher.AutoModerationRuleDeletedEvent.Hook(value);
-        remove => Dispatcher.AutoModerationRuleDeletedEvent.Unhook(value);
+        add => Dispatcher.AutoModerationRuleDeletedEvent.Add(value);
+        remove => Dispatcher.AutoModerationRuleDeletedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<AutoModerationActionExecutedEventArgs> AutoModerationActionExecuted
     {
-        add => Dispatcher.AutoModerationActionExecutedEvent.Hook(value);
-        remove => Dispatcher.AutoModerationActionExecutedEvent.Unhook(value);
+        add => Dispatcher.AutoModerationActionExecutedEvent.Add(value);
+        remove => Dispatcher.AutoModerationActionExecutedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ChannelCreatedEventArgs> ChannelCreated
     {
-        add => Dispatcher.ChannelCreatedEvent.Hook(value);
-        remove => Dispatcher.ChannelCreatedEvent.Unhook(value);
+        add => Dispatcher.ChannelCreatedEvent.Add(value);
+        remove => Dispatcher.ChannelCreatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ChannelUpdatedEventArgs> ChannelUpdated
     {
-        add => Dispatcher.ChannelUpdatedEvent.Hook(value);
-        remove => Dispatcher.ChannelUpdatedEvent.Unhook(value);
+        add => Dispatcher.ChannelUpdatedEvent.Add(value);
+        remove => Dispatcher.ChannelUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ChannelDeletedEventArgs> ChannelDeleted
     {
-        add => Dispatcher.ChannelDeletedEvent.Hook(value);
-        remove => Dispatcher.ChannelDeletedEvent.Unhook(value);
+        add => Dispatcher.ChannelDeletedEvent.Add(value);
+        remove => Dispatcher.ChannelDeletedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ThreadCreatedEventArgs> ThreadCreated
     {
-        add => Dispatcher.ThreadCreatedEvent.Hook(value);
-        remove => Dispatcher.ThreadCreatedEvent.Unhook(value);
+        add => Dispatcher.ThreadCreatedEvent.Add(value);
+        remove => Dispatcher.ThreadCreatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ThreadUpdatedEventArgs> ThreadUpdated
     {
-        add => Dispatcher.ThreadUpdatedEvent.Hook(value);
-        remove => Dispatcher.ThreadUpdatedEvent.Unhook(value);
+        add => Dispatcher.ThreadUpdatedEvent.Add(value);
+        remove => Dispatcher.ThreadUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ThreadDeletedEventArgs> ThreadDeleted
     {
-        add => Dispatcher.ThreadDeletedEvent.Hook(value);
-        remove => Dispatcher.ThreadDeletedEvent.Unhook(value);
+        add => Dispatcher.ThreadDeletedEvent.Add(value);
+        remove => Dispatcher.ThreadDeletedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ThreadsSynchronizedEventArgs> ThreadsSynchronized
     {
-        add => Dispatcher.ThreadsSynchronizedEvent.Hook(value);
-        remove => Dispatcher.ThreadsSynchronizedEvent.Unhook(value);
+        add => Dispatcher.ThreadsSynchronizedEvent.Add(value);
+        remove => Dispatcher.ThreadsSynchronizedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ThreadMembersUpdatedEventArgs> ThreadMembersUpdated
     {
-        add => Dispatcher.ThreadMembersUpdatedEvent.Hook(value);
-        remove => Dispatcher.ThreadMembersUpdatedEvent.Unhook(value);
+        add => Dispatcher.ThreadMembersUpdatedEvent.Add(value);
+        remove => Dispatcher.ThreadMembersUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ChannelPinsUpdatedEventArgs> ChannelPinsUpdated
     {
-        add => Dispatcher.ChannelPinsUpdatedEvent.Hook(value);
-        remove => Dispatcher.ChannelPinsUpdatedEvent.Unhook(value);
+        add => Dispatcher.ChannelPinsUpdatedEvent.Add(value);
+        remove => Dispatcher.ChannelPinsUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<GuildAvailableEventArgs> GuildAvailable
     {
-        add => Dispatcher.GuildAvailableEvent.Hook(value);
-        remove => Dispatcher.GuildAvailableEvent.Unhook(value);
+        add => Dispatcher.GuildAvailableEvent.Add(value);
+        remove => Dispatcher.GuildAvailableEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<JoinedGuildEventArgs> JoinedGuild
     {
-        add => Dispatcher.JoinedGuildEvent.Hook(value);
-        remove => Dispatcher.JoinedGuildEvent.Unhook(value);
+        add => Dispatcher.JoinedGuildEvent.Add(value);
+        remove => Dispatcher.JoinedGuildEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<GuildUpdatedEventArgs> GuildUpdated
     {
-        add => Dispatcher.GuildUpdatedEvent.Hook(value);
-        remove => Dispatcher.GuildUpdatedEvent.Unhook(value);
+        add => Dispatcher.GuildUpdatedEvent.Add(value);
+        remove => Dispatcher.GuildUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<GuildUnavailableEventArgs> GuildUnavailable
     {
-        add => Dispatcher.GuildUnavailableEvent.Hook(value);
-        remove => Dispatcher.GuildUnavailableEvent.Unhook(value);
+        add => Dispatcher.GuildUnavailableEvent.Add(value);
+        remove => Dispatcher.GuildUnavailableEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<LeftGuildEventArgs> LeftGuild
     {
-        add => Dispatcher.LeftGuildEvent.Hook(value);
-        remove => Dispatcher.LeftGuildEvent.Unhook(value);
+        add => Dispatcher.LeftGuildEvent.Add(value);
+        remove => Dispatcher.LeftGuildEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<AuditLogCreatedEventArgs> AuditLogCreated
     {
-        add => Dispatcher.AuditLogCreatedEvent.Hook(value);
-        remove => Dispatcher.AuditLogCreatedEvent.Unhook(value);
+        add => Dispatcher.AuditLogCreatedEvent.Add(value);
+        remove => Dispatcher.AuditLogCreatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<BanCreatedEventArgs> BanCreated
     {
-        add => Dispatcher.BanCreatedEvent.Hook(value);
-        remove => Dispatcher.BanCreatedEvent.Unhook(value);
+        add => Dispatcher.BanCreatedEvent.Add(value);
+        remove => Dispatcher.BanCreatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<BanDeletedEventArgs> BanDeleted
     {
-        add => Dispatcher.BanDeletedEvent.Hook(value);
-        remove => Dispatcher.BanDeletedEvent.Unhook(value);
+        add => Dispatcher.BanDeletedEvent.Add(value);
+        remove => Dispatcher.BanDeletedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<EmojisUpdatedEventArgs> EmojisUpdated
     {
-        add => Dispatcher.EmojisUpdatedEvent.Hook(value);
-        remove => Dispatcher.EmojisUpdatedEvent.Unhook(value);
+        add => Dispatcher.EmojisUpdatedEvent.Add(value);
+        remove => Dispatcher.EmojisUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<StickersUpdatedEventArgs> StickersUpdated
     {
-        add => Dispatcher.StickersUpdatedEvent.Hook(value);
-        remove => Dispatcher.StickersUpdatedEvent.Unhook(value);
+        add => Dispatcher.StickersUpdatedEvent.Add(value);
+        remove => Dispatcher.StickersUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<IntegrationsUpdatedEventArgs> IntegrationsUpdated
     {
-        add => Dispatcher.IntegrationsUpdatedEvent.Hook(value);
-        remove => Dispatcher.IntegrationsUpdatedEvent.Unhook(value);
+        add => Dispatcher.IntegrationsUpdatedEvent.Add(value);
+        remove => Dispatcher.IntegrationsUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<MemberJoinedEventArgs> MemberJoined
     {
-        add => Dispatcher.MemberJoinedEvent.Hook(value);
-        remove => Dispatcher.MemberJoinedEvent.Unhook(value);
+        add => Dispatcher.MemberJoinedEvent.Add(value);
+        remove => Dispatcher.MemberJoinedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<MemberUpdatedEventArgs> MemberUpdated
     {
-        add => Dispatcher.MemberUpdatedEvent.Hook(value);
-        remove => Dispatcher.MemberUpdatedEvent.Unhook(value);
+        add => Dispatcher.MemberUpdatedEvent.Add(value);
+        remove => Dispatcher.MemberUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<MemberLeftEventArgs> MemberLeft
     {
-        add => Dispatcher.MemberLeftEvent.Hook(value);
-        remove => Dispatcher.MemberLeftEvent.Unhook(value);
+        add => Dispatcher.MemberLeftEvent.Add(value);
+        remove => Dispatcher.MemberLeftEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<RoleCreatedEventArgs> RoleCreated
     {
-        add => Dispatcher.RoleCreatedEvent.Hook(value);
-        remove => Dispatcher.RoleCreatedEvent.Unhook(value);
+        add => Dispatcher.RoleCreatedEvent.Add(value);
+        remove => Dispatcher.RoleCreatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<RoleUpdatedEventArgs> RoleUpdated
     {
-        add => Dispatcher.RoleUpdatedEvent.Hook(value);
-        remove => Dispatcher.RoleUpdatedEvent.Unhook(value);
+        add => Dispatcher.RoleUpdatedEvent.Add(value);
+        remove => Dispatcher.RoleUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<RoleDeletedEventArgs> RoleDeleted
     {
-        add => Dispatcher.RoleDeletedEvent.Hook(value);
-        remove => Dispatcher.RoleDeletedEvent.Unhook(value);
+        add => Dispatcher.RoleDeletedEvent.Add(value);
+        remove => Dispatcher.RoleDeletedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<GuildEventCreatedEventArgs> GuildEventCreated
     {
-        add => Dispatcher.GuildEventCreatedEvent.Hook(value);
-        remove => Dispatcher.GuildEventCreatedEvent.Unhook(value);
+        add => Dispatcher.GuildEventCreatedEvent.Add(value);
+        remove => Dispatcher.GuildEventCreatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<GuildEventUpdatedEventArgs> GuildEventUpdated
     {
-        add => Dispatcher.GuildEventUpdatedEvent.Hook(value);
-        remove => Dispatcher.GuildEventUpdatedEvent.Unhook(value);
+        add => Dispatcher.GuildEventUpdatedEvent.Add(value);
+        remove => Dispatcher.GuildEventUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<GuildEventDeletedEventArgs> GuildEventDeleted
     {
-        add => Dispatcher.GuildEventDeletedEvent.Hook(value);
-        remove => Dispatcher.GuildEventDeletedEvent.Unhook(value);
+        add => Dispatcher.GuildEventDeletedEvent.Add(value);
+        remove => Dispatcher.GuildEventDeletedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<GuildEventMemberAddedEventArgs> GuildEventMemberAdded
     {
-        add => Dispatcher.GuildEventMemberAddedEvent.Hook(value);
-        remove => Dispatcher.GuildEventMemberAddedEvent.Unhook(value);
+        add => Dispatcher.GuildEventMemberAddedEvent.Add(value);
+        remove => Dispatcher.GuildEventMemberAddedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<GuildEventMemberRemovedEventArgs> GuildEventMemberRemoved
     {
-        add => Dispatcher.GuildEventMemberRemovedEvent.Hook(value);
-        remove => Dispatcher.GuildEventMemberRemovedEvent.Unhook(value);
+        add => Dispatcher.GuildEventMemberRemovedEvent.Add(value);
+        remove => Dispatcher.GuildEventMemberRemovedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<IntegrationCreatedEventArgs> IntegrationCreated
     {
-        add => Dispatcher.IntegrationCreatedEvent.Hook(value);
-        remove => Dispatcher.IntegrationCreatedEvent.Unhook(value);
+        add => Dispatcher.IntegrationCreatedEvent.Add(value);
+        remove => Dispatcher.IntegrationCreatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<IntegrationUpdatedEventArgs> IntegrationUpdated
     {
-        add => Dispatcher.IntegrationUpdatedEvent.Hook(value);
-        remove => Dispatcher.IntegrationUpdatedEvent.Unhook(value);
+        add => Dispatcher.IntegrationUpdatedEvent.Add(value);
+        remove => Dispatcher.IntegrationUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<IntegrationDeletedEventArgs> IntegrationDeleted
     {
-        add => Dispatcher.IntegrationDeletedEvent.Hook(value);
-        remove => Dispatcher.IntegrationDeletedEvent.Unhook(value);
+        add => Dispatcher.IntegrationDeletedEvent.Add(value);
+        remove => Dispatcher.IntegrationDeletedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<InteractionReceivedEventArgs> InteractionReceived
     {
-        add => Dispatcher.InteractionReceivedEvent.Hook(value);
-        remove => Dispatcher.InteractionReceivedEvent.Unhook(value);
+        add => Dispatcher.InteractionReceivedEvent.Add(value);
+        remove => Dispatcher.InteractionReceivedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<InviteCreatedEventArgs> InviteCreated
     {
-        add => Dispatcher.InviteCreatedEvent.Hook(value);
-        remove => Dispatcher.InviteCreatedEvent.Unhook(value);
+        add => Dispatcher.InviteCreatedEvent.Add(value);
+        remove => Dispatcher.InviteCreatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<InviteDeletedEventArgs> InviteDeleted
     {
-        add => Dispatcher.InviteDeletedEvent.Hook(value);
-        remove => Dispatcher.InviteDeletedEvent.Unhook(value);
+        add => Dispatcher.InviteDeletedEvent.Add(value);
+        remove => Dispatcher.InviteDeletedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<MessageReceivedEventArgs> MessageReceived
     {
-        add => Dispatcher.MessageReceivedEvent.Hook(value);
-        remove => Dispatcher.MessageReceivedEvent.Unhook(value);
+        add => Dispatcher.MessageReceivedEvent.Add(value);
+        remove => Dispatcher.MessageReceivedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<MessageUpdatedEventArgs> MessageUpdated
     {
-        add => Dispatcher.MessageUpdatedEvent.Hook(value);
-        remove => Dispatcher.MessageUpdatedEvent.Unhook(value);
+        add => Dispatcher.MessageUpdatedEvent.Add(value);
+        remove => Dispatcher.MessageUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<MessageDeletedEventArgs> MessageDeleted
     {
-        add => Dispatcher.MessageDeletedEvent.Hook(value);
-        remove => Dispatcher.MessageDeletedEvent.Unhook(value);
+        add => Dispatcher.MessageDeletedEvent.Add(value);
+        remove => Dispatcher.MessageDeletedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<MessagesDeletedEventArgs> MessagesDeleted
     {
-        add => Dispatcher.MessagesDeletedEvent.Hook(value);
-        remove => Dispatcher.MessagesDeletedEvent.Unhook(value);
+        add => Dispatcher.MessagesDeletedEvent.Add(value);
+        remove => Dispatcher.MessagesDeletedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ReactionAddedEventArgs> ReactionAdded
     {
-        add => Dispatcher.ReactionAddedEvent.Hook(value);
-        remove => Dispatcher.ReactionAddedEvent.Unhook(value);
+        add => Dispatcher.ReactionAddedEvent.Add(value);
+        remove => Dispatcher.ReactionAddedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ReactionRemovedEventArgs> ReactionRemoved
     {
-        add => Dispatcher.ReactionRemovedEvent.Hook(value);
-        remove => Dispatcher.ReactionRemovedEvent.Unhook(value);
+        add => Dispatcher.ReactionRemovedEvent.Add(value);
+        remove => Dispatcher.ReactionRemovedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<ReactionsClearedEventArgs> ReactionsCleared
     {
-        add => Dispatcher.ReactionsClearedEvent.Hook(value);
-        remove => Dispatcher.ReactionsClearedEvent.Unhook(value);
+        add => Dispatcher.ReactionsClearedEvent.Add(value);
+        remove => Dispatcher.ReactionsClearedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<PresenceUpdatedEventArgs> PresenceUpdated
     {
-        add => Dispatcher.PresenceUpdatedEvent.Hook(value);
-        remove => Dispatcher.PresenceUpdatedEvent.Unhook(value);
+        add => Dispatcher.PresenceUpdatedEvent.Add(value);
+        remove => Dispatcher.PresenceUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<StageCreatedEventArgs> StageCreated
     {
-        add => Dispatcher.StageCreatedEvent.Hook(value);
-        remove => Dispatcher.StageCreatedEvent.Unhook(value);
+        add => Dispatcher.StageCreatedEvent.Add(value);
+        remove => Dispatcher.StageCreatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<StageUpdatedEventArgs> StageUpdated
     {
-        add => Dispatcher.StageUpdatedEvent.Hook(value);
-        remove => Dispatcher.StageUpdatedEvent.Unhook(value);
+        add => Dispatcher.StageUpdatedEvent.Add(value);
+        remove => Dispatcher.StageUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<StageDeletedEventArgs> StageDeleted
     {
-        add => Dispatcher.StageDeletedEvent.Hook(value);
-        remove => Dispatcher.StageDeletedEvent.Unhook(value);
+        add => Dispatcher.StageDeletedEvent.Add(value);
+        remove => Dispatcher.StageDeletedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
     {
-        add => Dispatcher.TypingStartedEvent.Hook(value);
-        remove => Dispatcher.TypingStartedEvent.Unhook(value);
+        add => Dispatcher.TypingStartedEvent.Add(value);
+        remove => Dispatcher.TypingStartedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<CurrentUserUpdatedEventArgs> CurrentUserUpdated
     {
-        add => Dispatcher.CurrentUserUpdatedEvent.Hook(value);
-        remove => Dispatcher.CurrentUserUpdatedEvent.Unhook(value);
+        add => Dispatcher.CurrentUserUpdatedEvent.Add(value);
+        remove => Dispatcher.CurrentUserUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<VoiceStateUpdatedEventArgs> VoiceStateUpdated
     {
-        add => Dispatcher.VoiceStateUpdatedEvent.Hook(value);
-        remove => Dispatcher.VoiceStateUpdatedEvent.Unhook(value);
+        add => Dispatcher.VoiceStateUpdatedEvent.Add(value);
+        remove => Dispatcher.VoiceStateUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<VoiceServerUpdatedEventArgs> VoiceServerUpdated
     {
-        add => Dispatcher.VoiceServerUpdatedEvent.Hook(value);
-        remove => Dispatcher.VoiceServerUpdatedEvent.Unhook(value);
+        add => Dispatcher.VoiceServerUpdatedEvent.Add(value);
+        remove => Dispatcher.VoiceServerUpdatedEvent.Remove(value);
     }
 
     /// <inheritdoc/>
     public event AsynchronousEventHandler<WebhooksUpdatedEventArgs> WebhooksUpdated
     {
-        add => Dispatcher.WebhooksUpdatedEvent.Hook(value);
-        remove => Dispatcher.WebhooksUpdatedEvent.Unhook(value);
+        add => Dispatcher.WebhooksUpdatedEvent.Add(value);
+        remove => Dispatcher.WebhooksUpdatedEvent.Remove(value);
     }
 }

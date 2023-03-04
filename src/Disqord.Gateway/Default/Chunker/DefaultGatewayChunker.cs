@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Qommon;
 using Qommon.Binding;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Gateway.Default;
 
@@ -30,7 +30,7 @@ public class DefaultGatewayChunker : IGatewayChunker
     /// </summary>
     public TimeSpan OperationTimeout { get; }
 
-    private readonly ISynchronizedDictionary<string, ChunkOperation> _operations;
+    private readonly IThreadSafeDictionary<string, ChunkOperation> _operations;
 
     private readonly Binder<IGatewayClient> _binder;
 
@@ -48,7 +48,7 @@ public class DefaultGatewayChunker : IGatewayChunker
         OperationTimeout = configuration.OperationTimeout;
         Logger = logger;
 
-        _operations = new SynchronizedDictionary<string, ChunkOperation>();
+        _operations = ThreadSafeDictionary.Monitor.Create<string, ChunkOperation>();
 
         _binder = new Binder<IGatewayClient>(this);
     }
@@ -217,7 +217,7 @@ public class DefaultGatewayChunker : IGatewayChunker
 
         private readonly TimeSpan _timeout;
         private Cts _timeoutCts = null!;
-        private readonly SynchronizedDictionary<Snowflake, IMember>? _members;
+        private readonly Dictionary<Snowflake, IMember>? _members;
         private readonly Tcs<IReadOnlyDictionary<Snowflake, IMember>?> _tcs;
         private readonly CancellationTokenRegistration _reg;
 
@@ -227,7 +227,7 @@ public class DefaultGatewayChunker : IGatewayChunker
             _timeout = timeout;
 
             _members = isQuery
-                ? new SynchronizedDictionary<Snowflake, IMember>()
+                ? new Dictionary<Snowflake, IMember>()
                 : null;
 
             _tcs = new Tcs<IReadOnlyDictionary<Snowflake, IMember>?>();
@@ -265,16 +265,28 @@ public class DefaultGatewayChunker : IGatewayChunker
             if (_members == null)
                 return;
 
-            for (var i = 0; i < members.Count; i++)
+            lock (_members)
             {
-                var member = members[i];
-                _members.Add(member.Id, member);
+                for (var i = 0; i < members.Count; i++)
+                {
+                    var member = members[i];
+                    _members.Add(member.Id, member);
+                }
             }
         }
 
         public void Complete()
         {
-            _tcs.Complete(_members);
+            if (_members == null)
+            {
+                _tcs.Complete(null);
+                return;
+            }
+
+            lock (_members)
+            {
+                _tcs.Complete(_members);
+            }
         }
 
         public void Dispose()

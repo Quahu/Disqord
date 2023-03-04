@@ -81,7 +81,7 @@ public class DiscordBotMasterService : IBindable<DiscordBotBase>
         Bot.MessageReceived += HandleMessageReceived;
     }
 
-    private async ValueTask HandleMessageReceived(object? sender, MessageReceivedEventArgs e)
+    private async Task HandleMessageReceived(object? sender, MessageReceivedEventArgs e)
     {
         BotMessageReceivedEventArgs? args = null;
         if (MessageReceivedServices.Length > 0)

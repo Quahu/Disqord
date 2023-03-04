@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Disqord.Gateway.Api;
 using Qommon.Binding;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Gateway;
 
@@ -27,7 +27,7 @@ public interface IGatewayCacheProvider : IBindable<IGatewayClient>
     /// <returns>
     ///     <see langword="true"/>, if the provider supports caching the type.
     /// </returns>
-    bool TryGetCache<TEntity>([MaybeNullWhen(false)] out ISynchronizedDictionary<Snowflake, TEntity> cache);
+    bool TryGetCache<TEntity>([MaybeNullWhen(false)] out IThreadSafeDictionary<Snowflake, TEntity> cache);
 
     /// <summary>
     ///     Attempts to retrieve a nested cache for the <typeparamref name="TEntity"/> type.
@@ -42,7 +42,7 @@ public interface IGatewayCacheProvider : IBindable<IGatewayClient>
     /// <returns>
     ///     <see langword="true"/>, if the provider supports caching the type.
     /// </returns>
-    bool TryGetCache<TEntity>(Snowflake parentId, [MaybeNullWhen(false)] out ISynchronizedDictionary<Snowflake, TEntity> cache, bool lookupOnly = false);
+    bool TryGetCache<TEntity>(Snowflake parentId, [MaybeNullWhen(false)] out IThreadSafeDictionary<Snowflake, TEntity> cache, bool lookupOnly = false);
 
     /// <summary>
     ///     Attempts to remove a nested cache for the <typeparamref name="TEntity"/> type.
@@ -55,7 +55,7 @@ public interface IGatewayCacheProvider : IBindable<IGatewayClient>
     /// <returns>
     ///     <see langword="true"/>, if the provider supports caching the type and had the cache allocated.
     /// </returns>
-    bool TryRemoveCache<TEntity>(Snowflake parentId, [MaybeNullWhen(false)] out ISynchronizedDictionary<Snowflake, TEntity> cache);
+    bool TryRemoveCache<TEntity>(Snowflake parentId, [MaybeNullWhen(false)] out IThreadSafeDictionary<Snowflake, TEntity> cache);
 
     /// <summary>
     ///     Resets the current cache for the given shard ID.

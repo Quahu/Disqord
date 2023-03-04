@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using Qommon;
-using Qommon.Collections;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Bot.Commands.Components;
 
@@ -15,11 +14,11 @@ public partial class ComponentCommandMap
 
     public class Node
     {
-        public ISynchronizedDictionary<ComponentCommandType, Subnode> Subnodes { get; }
+        public IThreadSafeDictionary<ComponentCommandType, Subnode> Subnodes { get; }
 
         public Node()
         {
-            Subnodes = new SynchronizedDictionary<ComponentCommandType, Subnode>();
+            Subnodes = ThreadSafeDictionary.ConcurrentDictionary.Create<ComponentCommandType, Subnode>();
         }
 
         protected virtual Subnode CreateSubnode()
@@ -52,13 +51,13 @@ public partial class ComponentCommandMap
 
     public class Subnode
     {
-        public FastList<ComponentCommand> Commands { get; }
+        public List<ComponentCommand> Commands { get; }
 
-        protected FastList<PatternMatcher> PatternMatchers;
+        protected List<PatternMatcher> PatternMatchers;
 
         public Subnode()
         {
-            Commands = new FastList<ComponentCommand>();
+            Commands = new List<ComponentCommand>();
 
             PatternMatchers = new(2)
             {
@@ -121,7 +120,7 @@ public partial class ComponentCommandMap
 
     public abstract class PatternMatcher
     {
-        protected FastList<ComponentCommand> Commands;
+        protected List<ComponentCommand> Commands;
 
         protected PatternMatcher()
         {
@@ -209,7 +208,7 @@ public partial class ComponentCommandMap
             public PatternInformation(ReadOnlyMemory<char> pattern)
             {
                 var splitter = new PatternSplitter(pattern);
-                var slices = new FastList<ReadOnlyMemory<char>>(8);
+                var slices = new List<ReadOnlyMemory<char>>(8);
                 while (splitter.MoveNext())
                 {
                     slices.Add(splitter.Current);
@@ -220,7 +219,7 @@ public partial class ComponentCommandMap
             }
         }
 
-        protected FastList<PatternInformation> Patterns { get; }
+        protected List<PatternInformation> Patterns { get; }
 
         public PrimitivePatternMatcher()
         {
@@ -230,8 +229,8 @@ public partial class ComponentCommandMap
         /// <inheritdoc />
         public override bool TryMatch(string customId, [MaybeNullWhen(false)] out ComponentCommand command, out IEnumerable<MultiString>? rawArguments)
         {
-            var slices = new FastList<ReadOnlyMemory<char>>(8);
-            FastList<MultiString>? rawArgumentSlices = null;
+            var slices = new List<ReadOnlyMemory<char>>(8);
+            List<MultiString>? rawArgumentSlices = null;
             var splitter = new PatternSplitter(customId.AsMemory());
             while (splitter.MoveNext())
             {
@@ -308,7 +307,7 @@ public partial class ComponentCommandMap
 
     public class RegexPatternMatcher : PatternMatcher
     {
-        protected FastList<Regex> Regexes { get; }
+        protected List<Regex> Regexes { get; }
 
         public RegexPatternMatcher()
         {

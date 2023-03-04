@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Disqord.Models;
 using Qommon;
-using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
@@ -28,7 +27,7 @@ public class TransientAutoCompleteInteraction : TransientApplicationCommandInter
     {
         get
         {
-            static void FindOptionName(FastList<string> names, ApplicationCommandInteractionDataOptionJsonModel[] options)
+            static void FindOptionName(List<string> names, ApplicationCommandInteractionDataOptionJsonModel[] options)
             {
                 foreach (var option in options)
                 {
@@ -47,7 +46,7 @@ public class TransientAutoCompleteInteraction : TransientApplicationCommandInter
                 }
             }
 
-            var names = new FastList<string>();
+            var names = new List<string>();
             FindOptionName(names, Model.Data.Value.Options.Value);
             var nameCount = names.Count;
             ISlashCommandInteractionOption? option = null;

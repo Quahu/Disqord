@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Qmmands;
 using Qommon;
-using Qommon.Collections;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Bot.Commands.Components;
 
@@ -12,12 +11,12 @@ public partial class ComponentCommandMap : ICommandMap
 {
     public Node GlobalNode { get; }
 
-    public ISynchronizedDictionary<Snowflake, Node> GuildNodes { get; }
+    public IThreadSafeDictionary<Snowflake, Node> GuildNodes { get; }
 
     public ComponentCommandMap()
     {
         GlobalNode = new Node();
-        GuildNodes = new SynchronizedDictionary<Snowflake, Node>(11);
+        GuildNodes = ThreadSafeDictionary.ConcurrentDictionary.Create<Snowflake, Node>();
     }
 
     public virtual bool CanMap(Type moduleType)
@@ -53,7 +52,7 @@ public partial class ComponentCommandMap : ICommandMap
         return GlobalNode.FindCommand(componentType, customId, out rawArguments);
     }
 
-    protected static bool TryGetGuildIds(ComponentCommand command, [MaybeNullWhen(false)] out FastList<Snowflake> guildIds)
+    protected static bool TryGetGuildIds(ComponentCommand command, [MaybeNullWhen(false)] out List<Snowflake> guildIds)
     {
         guildIds = null;
         foreach (var check in CommandUtilities.EnumerateAllChecks(command))

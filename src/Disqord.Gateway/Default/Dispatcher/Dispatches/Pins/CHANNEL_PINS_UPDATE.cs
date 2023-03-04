@@ -2,7 +2,6 @@
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Qommon;
-using Qommon.Collections.Synchronized;
 
 namespace Disqord.Gateway.Default.Dispatcher;
 

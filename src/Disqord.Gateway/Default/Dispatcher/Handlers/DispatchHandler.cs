@@ -7,7 +7,7 @@ using Disqord.Gateway.Api;
 using Disqord.Serialization.Json;
 using Microsoft.Extensions.Logging;
 using Qommon.Binding;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 using Qommon.Events;
 
 namespace Disqord.Gateway.Default.Dispatcher;
@@ -36,7 +36,7 @@ public abstract class DispatchHandler : IBindable<DefaultGatewayDispatcher>
 
     public abstract ValueTask HandleDispatchAsync(IShard shard, IJsonNode data);
 
-    private protected static readonly ISynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>> EventsByDispatcher = new SynchronizedDictionary<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>>(1);
+    private protected static readonly IThreadSafeDictionary<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>> EventsByDispatcher = ThreadSafeDictionary.Monitor.Create<DefaultGatewayDispatcher, Dictionary<Type, IAsynchronousEvent>>(1);
     private protected static readonly PropertyInfo[] EventProperties;
 
     static DispatchHandler()

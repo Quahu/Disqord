@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Qommon.Collections.Synchronized;
 using Qommon.Events;
 
 namespace Disqord.Gateway.Default.Dispatcher;

@@ -2,7 +2,7 @@
 using Disqord.Rest.Api;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Rest.Default;
 
@@ -21,7 +21,9 @@ public class DefaultRestClient : IRestClient
     {
         var configuration = options.Value;
         if (configuration.CachesDirectChannels)
-            DirectChannels = new SynchronizedDictionary<Snowflake, IDirectChannel>();
+        {
+            DirectChannels = ThreadSafeDictionary.Monitor.Create<Snowflake, IDirectChannel>();
+        }
 
         Logger = logger;
         ApiClient = apiClient;

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Disqord.Models;
 using Qommon;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Gateway;
 
@@ -67,7 +67,7 @@ public static class GatewayDispatcherExtensions
     }
 
     public static CachedSharedUser GetOrAddSharedUser(this IGatewayDispatcher dispatcher,
-        ISynchronizedDictionary<Snowflake, CachedSharedUser> userCache, UserJsonModel model)
+        IThreadSafeDictionary<Snowflake, CachedSharedUser> userCache, UserJsonModel model)
     {
         return userCache.GetOrAdd(model.Id, static (_, state) =>
         {
@@ -77,7 +77,7 @@ public static class GatewayDispatcherExtensions
     }
 
     public static CachedMember? GetOrAddMember(this IGatewayDispatcher dispatcher,
-        ISynchronizedDictionary<Snowflake, CachedSharedUser> userCache, ISynchronizedDictionary<Snowflake, CachedMember> memberCache,
+        IThreadSafeDictionary<Snowflake, CachedSharedUser> userCache, IThreadSafeDictionary<Snowflake, CachedMember> memberCache,
         Snowflake guildId, MemberJsonModel memberModel)
     {
         if (!memberModel.User.HasValue)
@@ -96,7 +96,7 @@ public static class GatewayDispatcherExtensions
     }
 
     public static IMember GetOrAddMemberTransient(this IGatewayDispatcher dispatcher,
-        ISynchronizedDictionary<Snowflake, CachedSharedUser> userCache, ISynchronizedDictionary<Snowflake, CachedMember> memberCache,
+        IThreadSafeDictionary<Snowflake, CachedSharedUser> userCache, IThreadSafeDictionary<Snowflake, CachedMember> memberCache,
         Snowflake guildId, MemberJsonModel memberModel)
     {
         OptionalGuard.HasValue(memberModel.User);

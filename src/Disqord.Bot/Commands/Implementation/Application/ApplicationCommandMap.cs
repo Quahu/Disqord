@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Qmmands;
 using Qommon;
-using Qommon.Collections;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Bot.Commands.Application;
 
@@ -12,12 +11,12 @@ public partial class ApplicationCommandMap : ICommandMap
 {
     public TopLevelNode GlobalNode { get; }
 
-    public ISynchronizedDictionary<Snowflake, TopLevelNode> GuildNodes { get; }
+    public IThreadSafeDictionary<Snowflake, TopLevelNode> GuildNodes { get; }
 
     public ApplicationCommandMap()
     {
         GlobalNode = new TopLevelNode(this);
-        GuildNodes = new SynchronizedDictionary<Snowflake, TopLevelNode>(16);
+        GuildNodes = ThreadSafeDictionary.ConcurrentDictionary.Create<Snowflake, TopLevelNode>();
     }
 
     public bool CanMap(Type moduleType)
@@ -38,10 +37,10 @@ public partial class ApplicationCommandMap : ICommandMap
 
         if (interaction is ISlashCommandInteraction or IAutoCompleteInteraction)
         {
-            var aliases = new FastList<string>(4);
+            var aliases = new List<string>(4);
             aliases.Add(interaction.CommandName);
 
-            static void AddAliases(FastList<string> aliases, IReadOnlyDictionary<string, ISlashCommandInteractionOption> options)
+            static void AddAliases(List<string> aliases, IReadOnlyDictionary<string, ISlashCommandInteractionOption> options)
             {
                 foreach (var (name, option) in options)
                 {
@@ -81,7 +80,7 @@ public partial class ApplicationCommandMap : ICommandMap
         return true;
     }
 
-    protected static bool TryGetGuildIds(IReadOnlyList<ICheck> checks, [MaybeNullWhen(false)] out FastList<Snowflake> guildIds)
+    protected static bool TryGetGuildIds(IReadOnlyList<ICheck> checks, [MaybeNullWhen(false)] out List<Snowflake> guildIds)
     {
         guildIds = null;
         var checkCount = checks.Count;
@@ -103,7 +102,7 @@ public partial class ApplicationCommandMap : ICommandMap
     public void MapModule(IModule module)
     {
         var applicationModule = Guard.IsAssignableToType<ApplicationModule>(module);
-        var aliases = new FastList<string>();
+        var aliases = new List<string>();
 
         if (!TryGetGuildIds(module.Checks, out var guildIds))
         {
@@ -119,7 +118,7 @@ public partial class ApplicationCommandMap : ICommandMap
         }
     }
 
-    protected void MapModule(ApplicationModule module, FastList<string> aliases, TopLevelNode parentNode, Snowflake? parentGuildId)
+    protected void MapModule(ApplicationModule module, List<string> aliases, TopLevelNode parentNode, Snowflake? parentGuildId)
     {
         var alias = module.Alias;
         if (alias != null)
@@ -187,7 +186,7 @@ public partial class ApplicationCommandMap : ICommandMap
     public void UnmapModule(IModule module)
     {
         var applicationModule = Guard.IsAssignableToType<ApplicationModule>(module);
-        var aliases = new FastList<string>();
+        var aliases = new List<string>();
 
         if (!TryGetGuildIds(module.Checks, out var guildIds))
         {
@@ -203,7 +202,7 @@ public partial class ApplicationCommandMap : ICommandMap
         }
     }
 
-    protected void UnmapModule(ApplicationModule module, FastList<string> aliases, TopLevelNode parentNode, Snowflake? parentGuildId)
+    protected void UnmapModule(ApplicationModule module, List<string> aliases, TopLevelNode parentNode, Snowflake? parentGuildId)
     {
         var alias = module.Alias;
         if (alias != null)

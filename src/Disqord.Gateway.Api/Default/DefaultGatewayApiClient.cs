@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Qommon;
 using Qommon.Collections.ReadOnly;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 using Qommon.Events;
 
 namespace Disqord.Gateway.Api.Default;
@@ -43,7 +43,7 @@ public class DefaultGatewayApiClient : IGatewayApiClient
     /// <inheritdoc/>
     public AsynchronousEvent<GatewayDispatchReceivedEventArgs> DispatchReceivedEvent { get; }
 
-    private ISynchronizedDictionary<ShardId, IShard>? _shards;
+    private IThreadSafeDictionary<ShardId, IShard>? _shards;
 
     public DefaultGatewayApiClient(
         IOptions<DefaultGatewayApiClientConfiguration> options,
@@ -218,7 +218,7 @@ public class DefaultGatewayApiClient : IGatewayApiClient
             shardQueues[i] = shardQueue.GetEnumerator();
         }
 
-        _shards = new SynchronizedDictionary<ShardId, IShard>(shards);
+        _shards = ThreadSafeDictionary.ConcurrentDictionary.Create(shards);
         return shardQueues;
     }
 }

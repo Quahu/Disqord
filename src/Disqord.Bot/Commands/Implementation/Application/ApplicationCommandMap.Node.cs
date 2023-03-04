@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Qommon;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Bot.Commands.Application;
 
@@ -8,12 +8,12 @@ public partial class ApplicationCommandMap
 {
     public class TopLevelNode : Node
     {
-        public ISynchronizedDictionary<string, ApplicationCommand> ContextMenuCommands { get; }
+        public IThreadSafeDictionary<string, ApplicationCommand> ContextMenuCommands { get; }
 
         public TopLevelNode(ApplicationCommandMap map)
             : base(map)
         {
-            ContextMenuCommands = new SynchronizedDictionary<string, ApplicationCommand>();
+            ContextMenuCommands = ThreadSafeDictionary.ConcurrentDictionary.Create<string, ApplicationCommand>();
         }
 
         public ApplicationCommand? FindSlashCommand(IReadOnlyList<string> aliases)
@@ -75,16 +75,16 @@ public partial class ApplicationCommandMap
     {
         public ApplicationCommandMap Map { get; }
 
-        public ISynchronizedDictionary<string, ApplicationCommand> SlashCommands { get; }
+        public IThreadSafeDictionary<string, ApplicationCommand> SlashCommands { get; }
 
-        public ISynchronizedDictionary<string, Node> Nodes { get; }
+        public IThreadSafeDictionary<string, Node> Nodes { get; }
 
         public Node(ApplicationCommandMap map)
         {
             Map = map;
 
-            SlashCommands = new SynchronizedDictionary<string, ApplicationCommand>();
-            Nodes = new SynchronizedDictionary<string, Node>();
+            SlashCommands = ThreadSafeDictionary.ConcurrentDictionary.Create<string, ApplicationCommand>();
+            Nodes = ThreadSafeDictionary.ConcurrentDictionary.Create<string, Node>();
         }
 
         protected ApplicationCommand? FindSlashCommand(IReadOnlyList<string> aliases, int startIndex)

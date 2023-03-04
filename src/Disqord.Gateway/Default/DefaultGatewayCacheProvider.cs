@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using Disqord.Gateway.Api;
 using Microsoft.Extensions.Options;
+using Qommon;
 using Qommon.Collections.Proxied;
-using Qommon.Collections.Synchronized;
+using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Gateway.Default;
 
@@ -16,7 +18,8 @@ public class DefaultGatewayCacheProvider : IGatewayCacheProvider
     private readonly HashSet<Type> _supportedTypes;
     private readonly HashSet<Type> _supportedNestedTypes;
     private readonly Dictionary<Type, object> _caches;
-    private readonly Dictionary<Type, ISynchronizedDictionary<Snowflake, object>> _nestedCaches;
+    private readonly Dictionary<Type, IThreadSafeDictionary<Snowflake, object>> _nestedCaches;
+    private readonly MethodInfo _createConcurrentDictionaryMethod;
 
     public DefaultGatewayCacheProvider(
         IOptions<DefaultGatewayCacheProviderConfiguration> options)
@@ -25,8 +28,23 @@ public class DefaultGatewayCacheProvider : IGatewayCacheProvider
         MessagesPerChannel = configuration.MessagesPerChannel;
         _supportedTypes = configuration.SupportedTypes.ToHashSet();
         _supportedNestedTypes = configuration.SupportedNestedTypes.ToHashSet();
-        _caches = new Dictionary<Type, object>(_supportedTypes.Count);
-        _nestedCaches = new Dictionary<Type, ISynchronizedDictionary<Snowflake, object>>(_supportedNestedTypes.Count);
+        _caches = new(_supportedTypes.Count);
+        _nestedCaches = new(_supportedNestedTypes.Count);
+
+        var methods = typeof(ThreadSafeDictionary.ConcurrentDictionary)
+            .GetMethods(BindingFlags.Public | BindingFlags.Static);
+
+        foreach (var method in methods)
+        {
+            if (method.Name == nameof(ThreadSafeDictionary.ConcurrentDictionary.Create)
+                && method.GetParameters().Length == 1)
+            {
+                _createConcurrentDictionaryMethod = method;
+                break;
+            }
+        }
+
+        Guard.IsNotNull(_createConcurrentDictionaryMethod);
 
         Reset();
     }
@@ -41,13 +59,13 @@ public class DefaultGatewayCacheProvider : IGatewayCacheProvider
     }
 
     /// <inheritdoc/>
-    public bool TryGetCache<TEntity>([MaybeNullWhen(false)] out ISynchronizedDictionary<Snowflake, TEntity> cache)
+    public bool TryGetCache<TEntity>([MaybeNullWhen(false)] out IThreadSafeDictionary<Snowflake, TEntity> cache)
     {
         lock (this)
         {
             if (_caches.TryGetValue(typeof(TEntity), out var boxedCache))
             {
-                cache = (ISynchronizedDictionary<Snowflake, TEntity>) boxedCache;
+                cache = (IThreadSafeDictionary<Snowflake, TEntity>) boxedCache;
                 return true;
             }
 
@@ -57,7 +75,7 @@ public class DefaultGatewayCacheProvider : IGatewayCacheProvider
     }
 
     /// <inheritdoc/>
-    public bool TryGetCache<TEntity>(Snowflake parentId, [MaybeNullWhen(false)] out ISynchronizedDictionary<Snowflake, TEntity> cache, bool lookupOnly = false)
+    public bool TryGetCache<TEntity>(Snowflake parentId, [MaybeNullWhen(false)] out IThreadSafeDictionary<Snowflake, TEntity> cache, bool lookupOnly = false)
     {
         lock (this)
         {
@@ -69,7 +87,7 @@ public class DefaultGatewayCacheProvider : IGatewayCacheProvider
 
             if (nestedCache.TryGetValue(parentId, out var boxedCache))
             {
-                cache = (ISynchronizedDictionary<Snowflake, TEntity>) boxedCache;
+                cache = (IThreadSafeDictionary<Snowflake, TEntity>) boxedCache;
                 return true;
             }
 
@@ -77,17 +95,17 @@ public class DefaultGatewayCacheProvider : IGatewayCacheProvider
             {
                 if (typeof(TEntity) == typeof(CachedUserMessage))
                 {
-                    var messageCache = new MessageDictionary(MessagesPerChannel).Synchronized();
-                    cache = (ISynchronizedDictionary<Snowflake, TEntity>) messageCache;
+                    var messageCache = ThreadSafeDictionary.Monitor.Wrap(new MessageDictionary(MessagesPerChannel));
+                    cache = (IThreadSafeDictionary<Snowflake, TEntity>) (object) messageCache;
                 }
                 else if (typeof(TEntity) == typeof(CachedMember))
                 {
-                    var memberCache = new MemberDictionary(this).Synchronized();
-                    cache = (ISynchronizedDictionary<Snowflake, TEntity>) memberCache;
+                    var memberCache = ThreadSafeDictionary.Monitor.Wrap(new MemberDictionary(this));
+                    cache = (IThreadSafeDictionary<Snowflake, TEntity>) (object) memberCache;
                 }
                 else
                 {
-                    cache = new SynchronizedDictionary<Snowflake, TEntity>();
+                    cache = ThreadSafeDictionary.Monitor.Create<Snowflake, TEntity>();
                 }
 
                 nestedCache.Add(parentId, cache);
@@ -100,7 +118,7 @@ public class DefaultGatewayCacheProvider : IGatewayCacheProvider
     }
 
     /// <inheritdoc/>
-    public bool TryRemoveCache<TEntity>(Snowflake parentId, [MaybeNullWhen(false)] out ISynchronizedDictionary<Snowflake, TEntity> cache)
+    public bool TryRemoveCache<TEntity>(Snowflake parentId, [MaybeNullWhen(false)] out IThreadSafeDictionary<Snowflake, TEntity> cache)
     {
         lock (this)
         {
@@ -112,7 +130,7 @@ public class DefaultGatewayCacheProvider : IGatewayCacheProvider
 
             if (nestedCache.TryRemove(parentId, out var boxedCache))
             {
-                cache = (ISynchronizedDictionary<Snowflake, TEntity>) boxedCache;
+                cache = (IThreadSafeDictionary<Snowflake, TEntity>) boxedCache;
                 return true;
             }
 
@@ -131,11 +149,11 @@ public class DefaultGatewayCacheProvider : IGatewayCacheProvider
                 _caches.Clear();
                 foreach (var type in _supportedTypes)
                 {
-                    var cacheType = typeof(SynchronizedDictionary<,>).MakeGenericType(typeof(Snowflake), type);
-                    var cache = Activator.CreateInstance(cacheType,
-                        0, // capacity
+                    var genericCreateDictionaryMethod = _createConcurrentDictionaryMethod.MakeGenericMethod(typeof(Snowflake), type);
+                    var cache = genericCreateDictionaryMethod.Invoke(null, new object?[]
+                    {
                         null // comparer
-                    )!;
+                    })!;
 
                     _caches.Add(type, cache);
                 }
@@ -143,13 +161,13 @@ public class DefaultGatewayCacheProvider : IGatewayCacheProvider
                 _nestedCaches.Clear();
                 foreach (var type in _supportedNestedTypes)
                 {
-                    var cache = new SynchronizedDictionary<Snowflake, object>();
+                    var cache = ThreadSafeDictionary.Monitor.Create<Snowflake, object>();
                     _nestedCaches.Add(type, cache);
                 }
             }
             else
             {
-                if (_caches.GetValueOrDefault(typeof(CachedGuild)) is ISynchronizedDictionary<Snowflake, CachedGuild> guildsCache)
+                if (_caches.GetValueOrDefault(typeof(CachedGuild)) is IThreadSafeDictionary<Snowflake, CachedGuild> guildsCache)
                 {
                     lock (guildsCache)
                     {
