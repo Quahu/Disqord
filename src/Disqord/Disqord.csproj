@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <VersionPrefix>1.0.0-alpha3</VersionPrefix>
+        <VersionPrefix>1.0.0-alpha4</VersionPrefix>
     </PropertyGroup>
     <Import Project="../Disqord.targets"/>
     <ItemGroup>
