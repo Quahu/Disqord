@@ -10,9 +10,9 @@ runs:
       run: echo "SOLUTION_PATH=./src/${{ github.event.repository.name }}.sln" >> $Env:GITHUB_ENV
       shell: pwsh
     - name: Set up .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
     - name: Restore
       run: dotnet restore $Env:SOLUTION_PATH
       shell: pwsh
