@@ -12,6 +12,6 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1"/>
         <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0"/>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
-        <PackageReference Include="Qommon" Version="4.0.0"/>
+        <PackageReference Include="Qommon" Version="4.0.1"/>
     </ItemGroup>
 </Project>

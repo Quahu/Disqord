@@ -7,7 +7,7 @@
     <Import Project="../Disqord.targets"/>
     <ItemGroup>
         <ProjectReference Include="..\Disqord\Disqord.csproj"/>
-        <PackageReference Include="Qmmands" Version="6.0.0-alpha7"/>
+        <PackageReference Include="Qmmands" Version="6.0.0-alpha8"/>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Commands\Implementation\Application\Constructs"/>
