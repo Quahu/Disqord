@@ -21,6 +21,31 @@ public class AudioPlayerService : DiscordBotService
     { }
 
     /// <summary>
+    ///     Disposes of the audio players when the service is stopped,
+    ///     i.e. on bot shutdown.
+    /// </summary>
+    public override async Task StopAsync(CancellationToken cancellationToken)
+    {
+        await base.StopAsync(cancellationToken);
+
+        await _semaphore.WaitAsync(cancellationToken);
+        try
+        {
+            foreach (var (_, player) in _players)
+            {
+                player.Stop();
+                await player.DisposeAsync();
+            }
+
+            _players.Clear();
+        }
+        finally
+        {
+            _semaphore.Release();
+        }
+    }
+
+    /// <summary>
     ///     Gets the audio player for the guild with the specified ID.
     /// </summary>
     /// <param name="guildId"> The ID of the guild. </param>
