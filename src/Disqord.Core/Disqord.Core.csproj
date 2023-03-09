@@ -2,7 +2,7 @@
 
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <VersionPrefix>1.0.0-alpha4</VersionPrefix>
+        <VersionPrefix>1.0.0-alpha5</VersionPrefix>
     </PropertyGroup>
     <Import Project="../Disqord.targets"/>
     <PropertyGroup>
