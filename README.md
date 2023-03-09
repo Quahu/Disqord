@@ -20,31 +20,36 @@
 [![Discord](https://img.shields.io/discord/416256456505950215.svg?style=flat-square&label=Discord&logo=discord&color=738ADB)](https://discord.gg/eUMSXGZ)
 </div>
 
-## Documentation
-Documentation is available [here](https://quahu.github.io/Disqord/).
-
 ## Installation
+Stable builds are available on NuGet.  
 Nightly Disqord builds can be pulled as NuGet packages from the MyGet feed: `https://www.myget.org/F/disqord/api/v3/index.json`.
+
+## Documentation
+The Disqord documentation is available on [GitHub Pages](https://quahu.github.io/Disqord/).
+
+## Examples
+Explore examples of the library in the [/examples](https://github.com/Quahu/Disqord/tree/master/examples) folder, all of which are licensed under the MIT license.
 
 ## Minimal Example
 Typing `?ping` or `@YourBot ping` in a channel will make the bot respond with `Pong!`.
 ```cs
-using Disqord.Bot;
+using Disqord.Bot.Commands.Text;
 using Disqord.Bot.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Qmmands;
+using Qmmands.Text;
 
 await new HostBuilder()
-    .ConfigureAppConfiguration(x =>
+    .ConfigureAppConfiguration(configuration =>
     {
         // We will use the environment variable DISQORD_TOKEN for the bot token.
-        x.AddEnvironmentVariables("DISQORD_");
+        configuration.AddEnvironmentVariables("DISQORD_");
     })
-    .ConfigureLogging(x =>
+    .ConfigureLogging(logging =>
     {
-        x.AddSimpleConsole();
+        logging.AddSimpleConsole();
     })
     .ConfigureDiscordBot((context, bot) =>
     {
@@ -53,11 +58,12 @@ await new HostBuilder()
     })
     .RunConsoleAsync();
 
-public class ExampleModule : DiscordModuleBase
+public class ExampleModule : DiscordTextModuleBase
 {
-    [Command("ping")]
-    public DiscordCommandResult Ping()
-        => Response("Pong!");
+    [TextCommand("ping")]
+    public IResult Ping()
+    {
+        return Response("Pong!");
+    }
 }
-
 ```
