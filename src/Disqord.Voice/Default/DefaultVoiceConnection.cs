@@ -173,6 +173,10 @@ public class DefaultVoiceConnection : IVoiceConnection
                 _lastSpeakingFlags = flags;
                 success = true;
             }
+            catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
                 if (ex is VoiceConnectionException)
