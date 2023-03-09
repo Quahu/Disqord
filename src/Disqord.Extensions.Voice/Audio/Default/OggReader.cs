@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -210,7 +210,7 @@ internal class OggReader : IAsyncEnumerable<RentedArray<byte>>
                     {
                         var segmentLength = segmentLengths[i];
                         packetLength += segmentLength;
-                        if (segmentLength >= 255)
+                        if (segmentLength == 255)
                             continue;
 
                         var packet = RentedArray<byte>.Rent(packetLength);

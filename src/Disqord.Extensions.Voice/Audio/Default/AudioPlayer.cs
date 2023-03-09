@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Utilities.Threading;
@@ -153,6 +154,20 @@ public class AudioPlayer : IAsyncDisposable
     ///     A <see cref="ValueTask"/> representing the work.
     /// </returns>
     protected virtual ValueTask OnSourceFinished(AudioSource source, bool forced)
+    {
+        return default;
+    }
+
+    /// <summary>
+    ///     Invoked when an <see cref="AudioSource"/> has errored,
+    ///     i.e. thrown an exception.
+    /// </summary>
+    /// <param name="source"> The <see cref="AudioSource"/> that has errored. </param>
+    /// <param name="exception"> The exception that occurred. </param>
+    /// <returns>
+    ///     A <see cref="ValueTask"/> representing the work.
+    /// </returns>
+    protected virtual ValueTask OnSourceErrored(AudioSource source, Exception exception)
     {
         return default;
     }
@@ -333,6 +348,24 @@ public class AudioPlayer : IAsyncDisposable
         }
     }
 
+    private void ResetSource(AudioSource source)
+    {
+        lock (_sourceLock)
+        {
+            if (_source.Task.IsCompletedSuccessfully && _source.Task.Result == source)
+            {
+                _source = new();
+            }
+        }
+    }
+
+    private async Task HandleSourceErrored(AudioSource source, Exception exception)
+    {
+        ResetSource(source);
+
+        await OnSourceErrored(source, exception).ConfigureAwait(false);
+    }
+
     private protected async Task ExecuteAsync()
     {
         await Task.Yield();
@@ -348,6 +381,7 @@ public class AudioPlayer : IAsyncDisposable
 
         var stopCancellationToken = stopCts.Token;
         Exception? exception = null;
+        AudioSource? source = null;
         var connection = Connection;
         try
         {
@@ -364,32 +398,67 @@ public class AudioPlayer : IAsyncDisposable
                     sourceCancellationToken = _sourceCts.Token;
                 }
 
-                var source = await sourceTask.ConfigureAwait(false);
-                await connection.SetSpeakingFlagsAsync(SpeakingFlags, stopCancellationToken).ConfigureAwait(false);
-
-                await OnSourceStarted(source).ConfigureAwait(false);
-
+                source = await sourceTask.ConfigureAwait(false);
                 using (var linkedCts = Cts.Linked(stopCancellationToken, sourceCancellationToken))
                 {
                     var linkedCancellationToken = linkedCts.Token;
-                    var enumerator = source.GetAsyncEnumerator(linkedCancellationToken);
+                    await connection.SetSpeakingFlagsAsync(SpeakingFlags, linkedCancellationToken).ConfigureAwait(false);
+
+                    await OnSourceStarted(source).ConfigureAwait(false);
+
+                    IAsyncEnumerator<Memory<byte>> enumerator;
                     try
                     {
-                        while (!linkedCancellationToken.IsCancellationRequested && await enumerator.MoveNextAsync().ConfigureAwait(false))
+                        enumerator = source.GetAsyncEnumerator(linkedCancellationToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        await HandleSourceErrored(source, ex).ConfigureAwait(false);
+                        continue;
+                    }
+
+                    try
+                    {
+                        var continueOuter = false;
+                        while (!linkedCancellationToken.IsCancellationRequested)
                         {
+                            try
+                            {
+                                if (!await enumerator.MoveNextAsync().ConfigureAwait(false))
+                                    break;
+                            }
+                            catch (Exception ex)
+                            {
+                                await HandleSourceErrored(source, ex).ConfigureAwait(false);
+                                continueOuter = true;
+                                break;
+                            }
+
                             await WaitIfPausedAsync(linkedCancellationToken).ConfigureAwait(false);
 
-                            await connection.SendPacketAsync(enumerator.Current, linkedCancellationToken).ConfigureAwait(false);
+                            Memory<byte> packet;
+                            try
+                            {
+                                packet = enumerator.Current;
+                            }
+                            catch (Exception ex)
+                            {
+                                await HandleSourceErrored(source, ex).ConfigureAwait(false);
+                                continueOuter = true;
+                                break;
+                            }
+
+                            await connection.SendPacketAsync(packet, linkedCancellationToken).ConfigureAwait(false);
                         }
+
+                        if (continueOuter)
+                            continue;
                     }
                     finally
                     {
-                        await enumerator.DisposeAsync().ConfigureAwait(false);
-                    }
+                        ResetSource(source);
 
-                    lock (_sourceLock)
-                    {
-                        _source = new();
+                        await enumerator.DisposeAsync().ConfigureAwait(false);
                     }
 
                     if (!stopCts.IsCancellationRequested)
@@ -412,8 +481,23 @@ public class AudioPlayer : IAsyncDisposable
         }
         finally
         {
-            Stop();
-            await OnStopped(exception).ConfigureAwait(false);
+            try
+            {
+                if (exception is not VoiceConnectionException)
+                {
+                    if (source != null)
+                    {
+                        ResetSource(source);
+                    }
+
+                    await connection.SetSpeakingFlagsAsync(SpeakingFlags, stopCancellationToken).ConfigureAwait(false);
+                }
+            }
+            finally
+            {
+                Stop();
+                await OnStopped(exception).ConfigureAwait(false);
+            }
         }
     }
 
