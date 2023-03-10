@@ -50,7 +50,7 @@ public class AudioModule : DiscordApplicationGuildModuleBase
         if (file == null)
             return Response("No file found.");
 
-        var source = new FfmpegAudioSource(File.OpenRead(file));
+        var source = new FFmpegAudioSource(File.OpenRead(file));
         var title = Path.GetFileNameWithoutExtension(file);
 
         // This sets a metadata value with the key 'Title'.
