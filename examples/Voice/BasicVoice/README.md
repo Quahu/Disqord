@@ -10,7 +10,7 @@ It showcases the use of the audio player and audio source types and implements a
   Disqord requires the Sodium library for voice packet encryption. You can download pre-built Sodium binaries [here](https://doc.libsodium.org/installation#pre-built-libraries). On Windows, you can ensure the library gets put into the bot's working directory correctly by using
   ```xml
   <ItemGroup>
-      <None Update="sodium.dll">
+      <None Update="libsodium.dll">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
   </ItemGroup>
