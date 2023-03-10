@@ -7,7 +7,7 @@ using Qommon.Pooling;
 
 namespace Disqord.Extensions.Voice;
 
-internal class OggReader : IAsyncEnumerable<RentedArray<byte>>
+internal class OggReader : IAsyncEnumerable<Memory<byte>>
 {
     // 4 magic
     // 1 stream structure version
@@ -30,15 +30,15 @@ internal class OggReader : IAsyncEnumerable<RentedArray<byte>>
 
     private int _offset;
     private int _bytesRead;
-    private readonly RentedArray<byte> _buffer;
+    private readonly byte[] _buffer;
     private bool _returnedEnumerator;
 
-    private ArraySegment<byte> BufferSegment => _buffer.AsArraySegment().Slice(_offset, _bytesRead - _offset);
+    private ArraySegment<byte> BufferSegment => new(_buffer, _offset, _bytesRead - _offset);
 
     public OggReader(Stream stream)
     {
         _stream = stream;
-        _buffer = RentedArray<byte>.Rent(BufferSize);
+        _buffer = new byte[BufferSize];
     }
 
     private async Task<bool> ReadAsync(CancellationToken cancellationToken)
@@ -57,14 +57,15 @@ internal class OggReader : IAsyncEnumerable<RentedArray<byte>>
 
         do
         {
-            for (var i = 0; i < BufferSegment.Count; i++)
+            var bufferSegment = BufferSegment;
+            for (var i = 0; i < bufferSegment.Count; i++)
             {
                 var index = -1;
                 var foundMagic = true;
                 for (int x = 0, j = 0; x < Magic.Length; x++, j++)
                 {
                     index = i + j;
-                    if (index == BufferSegment.Count)
+                    if (index == bufferSegment.Count)
                     {
                         index = 0;
                         j = 0;
@@ -72,9 +73,11 @@ internal class OggReader : IAsyncEnumerable<RentedArray<byte>>
 
                         if (!await ReadAsync(cancellationToken).ConfigureAwait(false))
                             return false;
+
+                        bufferSegment = BufferSegment;
                     }
 
-                    if (BufferSegment[index] != Magic[x])
+                    if (bufferSegment[index] != Magic[x])
                     {
                         foundMagic = false;
                         break;
@@ -104,9 +107,10 @@ internal class OggReader : IAsyncEnumerable<RentedArray<byte>>
         var headerLengthLeft = HeaderSize - Magic.Length;
         do
         {
-            if (BufferSegment.Count < headerLengthLeft)
+            var bufferSegmentCount = BufferSegment.Count;
+            if (bufferSegmentCount < headerLengthLeft)
             {
-                headerLengthLeft -= BufferSegment.Count;
+                headerLengthLeft -= bufferSegmentCount;
             }
             else
             {
@@ -133,14 +137,15 @@ internal class OggReader : IAsyncEnumerable<RentedArray<byte>>
         do
         {
             var offset = segmentLengths.Length - segmentLengthsLeft;
-            if (BufferSegment.Count < segmentLengthsLeft)
+            var bufferSegment = BufferSegment;
+            if (bufferSegment.Count < segmentLengthsLeft)
             {
-                BufferSegment.CopyTo(segmentLengths[offset..]);
-                segmentLengthsLeft -= BufferSegment.Count;
+                bufferSegment.CopyTo(segmentLengths[offset..]);
+                segmentLengthsLeft -= bufferSegment.Count;
             }
             else
             {
-                BufferSegment[..segmentLengthsLeft].CopyTo(segmentLengths[offset..]);
+                bufferSegment[..segmentLengthsLeft].CopyTo(segmentLengths[offset..]);
                 _offset += segmentLengthsLeft;
                 return true;
             }
@@ -162,14 +167,15 @@ internal class OggReader : IAsyncEnumerable<RentedArray<byte>>
         do
         {
             var offset = packet.Length - packetLengthLeft;
-            if (BufferSegment.Count < packetLengthLeft)
+            var bufferSegment = BufferSegment;
+            if (bufferSegment.Count < packetLengthLeft)
             {
-                BufferSegment.CopyTo(packet[offset..]);
-                packetLengthLeft -= BufferSegment.Count;
+                bufferSegment.CopyTo(packet[offset..]);
+                packetLengthLeft -= bufferSegment.Count;
             }
             else
             {
-                BufferSegment[..packetLengthLeft].CopyTo(packet[offset..]);
+                bufferSegment[..packetLengthLeft].CopyTo(packet[offset..]);
                 _offset += packetLengthLeft;
                 return true;
             }
@@ -179,52 +185,43 @@ internal class OggReader : IAsyncEnumerable<RentedArray<byte>>
         return false;
     }
 
-    public async IAsyncEnumerator<RentedArray<byte>> GetAsyncEnumerator(CancellationToken cancellationToken = default)
+    public async IAsyncEnumerator<Memory<byte>> GetAsyncEnumerator(CancellationToken cancellationToken = default)
     {
-        using (_buffer)
+        if (_returnedEnumerator)
+            yield break;
+
+        _returnedEnumerator = true;
+
+        if (!await ReadAsync(cancellationToken).ConfigureAwait(false))
+            yield break;
+
+        while (true)
         {
-            if (_returnedEnumerator)
+            if (!await FindMagicAsync(cancellationToken).ConfigureAwait(false))
                 yield break;
 
-            _returnedEnumerator = true;
-
-            if (!await ReadAsync(cancellationToken).ConfigureAwait(false))
+            if (!await FindSegmentCountAsync(cancellationToken).ConfigureAwait(false))
                 yield break;
 
-            while (true)
+            var segmentCount = BufferSegment[0];
+            using (var segmentLengths = RentedArray<byte>.Rent(segmentCount))
             {
-                if (!await FindMagicAsync(cancellationToken).ConfigureAwait(false))
+                if (!await ReadSegmentLengthsAsync(segmentLengths, cancellationToken).ConfigureAwait(false))
                     yield break;
 
-                if (!await FindSegmentCountAsync(cancellationToken).ConfigureAwait(false))
-                    yield break;
-
-                var segmentCount = BufferSegment[0];
-                using (var segmentLengths = RentedArray<byte>.Rent(segmentCount))
+                var packetLength = 0;
+                for (var i = 0; i < segmentCount; i++)
                 {
-                    if (!await ReadSegmentLengthsAsync(segmentLengths, cancellationToken).ConfigureAwait(false))
-                        yield break;
+                    var segmentLength = segmentLengths[i];
+                    packetLength += segmentLength;
+                    if (segmentLength == 255)
+                        continue;
 
-                    var packetLength = 0;
-                    for (var i = 0; i < segmentCount; i++)
+                    using (var packet = RentedArray<byte>.Rent(packetLength))
                     {
-                        var segmentLength = segmentLengths[i];
-                        packetLength += segmentLength;
-                        if (segmentLength == 255)
-                            continue;
-
-                        var packet = RentedArray<byte>.Rent(packetLength);
-                        try
+                        if (!await ReadPacketAsync(packet, cancellationToken).ConfigureAwait(false))
                         {
-                            if (!await ReadPacketAsync(packet, cancellationToken).ConfigureAwait(false))
-                            {
-                                yield break;
-                            }
-                        }
-                        catch
-                        {
-                            packet.Dispose();
-                            throw;
+                            yield break;
                         }
 
                         packetLength = 0;
