@@ -64,7 +64,7 @@ public class AudioPlayer : IAsyncDisposable
 
                 if (value != null)
                 {
-                    _source.SetResult(value);
+                    _source.Complete(value);
                 }
             }
         }
@@ -112,7 +112,7 @@ public class AudioPlayer : IAsyncDisposable
 
     private readonly object _sourceLock = new();
     private Cts _sourceCts;
-    private TaskCompletionSource<AudioSource> _source;
+    private Tcs<AudioSource> _source;
 
     private readonly AsyncManualResetEvent _pauseAmre;
     private readonly object _stopLock = new();
@@ -149,11 +149,11 @@ public class AudioPlayer : IAsyncDisposable
     ///     Invoked when an <see cref="AudioSource"/> has finished playing.
     /// </summary>
     /// <param name="source"> The <see cref="AudioSource"/> that has finished playing. </param>
-    /// <param name="forced"> <see langword="true"/> if the previous audio source was replaced with a new one. </param>
+    /// <param name="wasReplaced"> <see langword="true"/> if the previous audio source was replaced with a new one. </param>
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the work.
     /// </returns>
-    protected virtual ValueTask OnSourceFinished(AudioSource source, bool forced)
+    protected virtual ValueTask OnSourceFinished(AudioSource source, bool wasReplaced)
     {
         return default;
     }
@@ -234,7 +234,7 @@ public class AudioPlayer : IAsyncDisposable
             if (_source.Task.IsCompletedSuccessfully)
                 return false;
 
-            _source.SetResult(source);
+            _source.Complete(source);
             return true;
         }
     }
@@ -327,6 +327,14 @@ public class AudioPlayer : IAsyncDisposable
         return Connection.SetChannelIdAsync(channelId, cancellationToken);
     }
 
+    private static async Task SendSilenceAsync(IVoiceConnection connection, CancellationToken cancellationToken)
+    {
+        for (var i = 0; i < 5; i++)
+        {
+            await connection.SendPacketAsync(VoiceConstants.SilencePacket, cancellationToken).ConfigureAwait(false);
+        }
+    }
+
     private async Task WaitIfPausedAsync(CancellationToken cancellationToken)
     {
         var connection = Connection;
@@ -336,10 +344,7 @@ public class AudioPlayer : IAsyncDisposable
             await connection.SetSpeakingFlagsAsync(SpeakingFlags.None, cancellationToken).ConfigureAwait(false);
             await OnPaused().ConfigureAwait(false);
 
-            for (var i = 0; i < 5; i++)
-            {
-                await connection.SendPacketAsync(VoiceConstants.SilencePacket, cancellationToken).ConfigureAwait(false);
-            }
+            await SendSilenceAsync(connection, cancellationToken).ConfigureAwait(false);
 
             await pauseTask.ConfigureAwait(false);
 
@@ -348,22 +353,22 @@ public class AudioPlayer : IAsyncDisposable
         }
     }
 
-    private void ResetSource(AudioSource source)
+    private void ResetSource(Tcs<AudioSource> source)
     {
         lock (_sourceLock)
         {
-            if (_source.Task.IsCompletedSuccessfully && _source.Task.Result == source)
+            if (_source == source && _source.Task.IsCompletedSuccessfully)
             {
                 _source = new();
             }
         }
     }
 
-    private async Task HandleSourceErrored(AudioSource source, Exception exception)
+    private async Task HandleSourceErroredAsync(Tcs<AudioSource> source, Exception exception)
     {
         ResetSource(source);
 
-        await OnSourceErrored(source, exception).ConfigureAwait(false);
+        await OnSourceErrored(source.Task.Result, exception).ConfigureAwait(false);
     }
 
     private protected async Task ExecuteAsync()
@@ -381,7 +386,6 @@ public class AudioPlayer : IAsyncDisposable
 
         var stopCancellationToken = stopCts.Token;
         Exception? exception = null;
-        AudioSource? source = null;
         var connection = Connection;
         try
         {
@@ -390,15 +394,17 @@ public class AudioPlayer : IAsyncDisposable
             await connection.WaitUntilReadyAsync(stopCancellationToken).ConfigureAwait(false);
             while (!stopCancellationToken.IsCancellationRequested)
             {
-                Task<AudioSource> sourceTask;
+                await SendSilenceAsync(connection, stopCancellationToken).ConfigureAwait(false);
+
+                Tcs<AudioSource> sourceTask;
                 CancellationToken sourceCancellationToken;
                 lock (_sourceLock)
                 {
-                    sourceTask = _source.Task;
+                    sourceTask = _source;
                     sourceCancellationToken = _sourceCts.Token;
                 }
 
-                source = await sourceTask.ConfigureAwait(false);
+                var source = await sourceTask.Task.ConfigureAwait(false);
                 using (var linkedCts = Cts.Linked(stopCancellationToken, sourceCancellationToken))
                 {
                     var linkedCancellationToken = linkedCts.Token;
@@ -406,19 +412,19 @@ public class AudioPlayer : IAsyncDisposable
 
                     await OnSourceStarted(source).ConfigureAwait(false);
 
-                    IAsyncEnumerator<Memory<byte>> enumerator;
+                    IAsyncEnumerator<Memory<byte>>? enumerator = null;
                     try
                     {
-                        enumerator = source.GetAsyncEnumerator(linkedCancellationToken);
-                    }
-                    catch (Exception ex)
-                    {
-                        await HandleSourceErrored(source, ex).ConfigureAwait(false);
-                        continue;
-                    }
+                        try
+                        {
+                            enumerator = source.GetAsyncEnumerator(linkedCancellationToken);
+                        }
+                        catch (Exception ex) when (ex is not OperationCanceledException)
+                        {
+                            await HandleSourceErroredAsync(sourceTask, ex).ConfigureAwait(false);
+                            continue;
+                        }
 
-                    try
-                    {
                         var continueOuter = false;
                         while (!linkedCancellationToken.IsCancellationRequested)
                         {
@@ -427,9 +433,9 @@ public class AudioPlayer : IAsyncDisposable
                                 if (!await enumerator.MoveNextAsync().ConfigureAwait(false))
                                     break;
                             }
-                            catch (Exception ex)
+                            catch (Exception ex) when (ex is not OperationCanceledException)
                             {
-                                await HandleSourceErrored(source, ex).ConfigureAwait(false);
+                                await HandleSourceErroredAsync(sourceTask, ex).ConfigureAwait(false);
                                 continueOuter = true;
                                 break;
                             }
@@ -441,9 +447,9 @@ public class AudioPlayer : IAsyncDisposable
                             {
                                 packet = enumerator.Current;
                             }
-                            catch (Exception ex)
+                            catch (Exception ex) when (ex is not OperationCanceledException)
                             {
-                                await HandleSourceErrored(source, ex).ConfigureAwait(false);
+                                await HandleSourceErroredAsync(sourceTask, ex).ConfigureAwait(false);
                                 continueOuter = true;
                                 break;
                             }
@@ -454,14 +460,19 @@ public class AudioPlayer : IAsyncDisposable
                         if (continueOuter)
                             continue;
                     }
+                    catch (OperationCanceledException)
+                    { }
                     finally
                     {
-                        ResetSource(source);
+                        ResetSource(sourceTask);
 
-                        await enumerator.DisposeAsync().ConfigureAwait(false);
+                        if (enumerator != null)
+                        {
+                            await enumerator.DisposeAsync().ConfigureAwait(false);
+                        }
                     }
 
-                    if (!stopCts.IsCancellationRequested)
+                    if (!stopCancellationToken.IsCancellationRequested)
                     {
                         await OnSourceFinished(source, sourceCancellationToken.IsCancellationRequested).ConfigureAwait(false);
                     }
@@ -469,12 +480,7 @@ public class AudioPlayer : IAsyncDisposable
             }
         }
         catch (OperationCanceledException)
-        {
-            for (var i = 0; i < 5; i++)
-            {
-                await connection.SendPacketAsync(VoiceConstants.SilencePacket, stopCancellationToken).ConfigureAwait(false);
-            }
-        }
+        { }
         catch (Exception ex)
         {
             exception = ex;
@@ -485,11 +491,6 @@ public class AudioPlayer : IAsyncDisposable
             {
                 if (exception is not VoiceConnectionException)
                 {
-                    if (source != null)
-                    {
-                        ResetSource(source);
-                    }
-
                     await connection.SetSpeakingFlagsAsync(SpeakingFlags, stopCancellationToken).ConfigureAwait(false);
                 }
             }
