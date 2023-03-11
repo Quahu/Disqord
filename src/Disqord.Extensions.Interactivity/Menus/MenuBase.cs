@@ -285,40 +285,38 @@ public abstract class MenuBase : IAsyncDisposable
                 if (responseHelper == null)
                 {
                     // If there's no interaction provided, modify the message normally.
-                    await Client.ModifyMessageAsync(ChannelId, MessageId, x =>
+                    await Client.ModifyMessageAsync(ChannelId, MessageId, message =>
                     {
-                        x.Content = localMessage.Content;
-                        x.Embeds = Optional.Convert(localMessage.Embeds, embeds => embeds as IEnumerable<LocalEmbed>);
-                        x.Components = Optional.Convert(localMessage.Components, components => components as IEnumerable<LocalRowComponent>);
-                        x.AllowedMentions = localMessage.AllowedMentions;
-                    }).ConfigureAwait(false);
+                        message.Content = localMessage.Content;
+                        message.Embeds = Optional.Convert(localMessage.Embeds, embeds => embeds as IEnumerable<LocalEmbed>);
+                        message.Components = Optional.Convert(localMessage.Components, components => components as IEnumerable<LocalRowComponent>);
+                        message.AllowedMentions = localMessage.AllowedMentions;
+                    }, cancellationToken: StoppingToken).ConfigureAwait(false);
                 }
                 else
                 {
                     if (!responseHelper.HasResponded)
                     {
                         // If the user code hasn't responded, respond to the interaction with modifying the message.
-                        await responseHelper.ModifyMessageAsync(localMessage is LocalInteractionMessageResponse interactionMessageResponse
-                            ? interactionMessageResponse
-                            : new LocalInteractionMessageResponse
-                            {
-                                Content = localMessage.Content,
-                                IsTextToSpeech = localMessage.IsTextToSpeech,
-                                Embeds = localMessage.Embeds,
-                                AllowedMentions = localMessage.AllowedMentions,
-                                Components = localMessage.Components
-                            }).ConfigureAwait(false);
+                        await responseHelper.ModifyMessageAsync(localMessage as LocalInteractionMessageResponse ?? new()
+                        {
+                            Content = localMessage.Content,
+                            IsTextToSpeech = localMessage.IsTextToSpeech,
+                            Embeds = localMessage.Embeds,
+                            AllowedMentions = localMessage.AllowedMentions,
+                            Components = localMessage.Components
+                        }, cancellationToken: StoppingToken).ConfigureAwait(false);
                     }
                     else
                     {
                         // If the user code has responded, modify the message via a followup.
-                        await e!.Interaction.Followup().ModifyResponseAsync(x =>
+                        await e!.Interaction.Followup().ModifyAsync(MessageId, message =>
                         {
-                            x.Content = localMessage.Content;
-                            x.Embeds = Optional.Convert(localMessage.Embeds, embeds => embeds as IEnumerable<LocalEmbed>);
-                            x.Components = Optional.Convert(localMessage.Components, components => components as IEnumerable<LocalRowComponent>);
-                            x.AllowedMentions = localMessage.AllowedMentions;
-                        }).ConfigureAwait(false);
+                            message.Content = localMessage.Content;
+                            message.Embeds = Optional.Convert(localMessage.Embeds, embeds => embeds as IEnumerable<LocalEmbed>);
+                            message.Components = Optional.Convert(localMessage.Components, components => components as IEnumerable<LocalRowComponent>);
+                            message.AllowedMentions = localMessage.AllowedMentions;
+                        }, cancellationToken: StoppingToken).ConfigureAwait(false);
                     }
                 }
             }
@@ -331,7 +329,7 @@ public abstract class MenuBase : IAsyncDisposable
         else if (responseHelper != null && !responseHelper.HasResponded)
         {
             // Acknowledge the interaction to prevent it from failing.
-            await responseHelper.DeferAsync().ConfigureAwait(false);
+            await responseHelper.DeferAsync(cancellationToken: StoppingToken).ConfigureAwait(false);
         }
     }
 
