@@ -71,7 +71,15 @@ public class DefaultRestRequester : IRestRequester
         if (httpRequest.Headers.TryGetValue(RestApiHeaderNames.AuditLogReason, out var auditLogReason))
         {
             // URI-encodes the audit log reason to allow for non-ASCII characters.
-            httpRequest.Headers[RestApiHeaderNames.AuditLogReason] = Uri.EscapeDataString(auditLogReason);
+            auditLogReason = Uri.EscapeDataString(auditLogReason);
+
+            if (auditLogReason.Length > Discord.Limits.Rest.MaxAuditLogReasonLength)
+            {
+                // Truncates excess characters.
+                auditLogReason = auditLogReason[..Discord.Limits.Rest.MaxAuditLogReasonLength];
+            }
+
+            httpRequest.Headers[RestApiHeaderNames.AuditLogReason] = auditLogReason;
         }
 
         var response = await HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);

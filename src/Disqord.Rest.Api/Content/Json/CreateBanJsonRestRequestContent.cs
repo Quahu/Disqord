@@ -10,4 +10,9 @@ public class CreateBanJsonRestRequestContent : JsonModelRestRequestContent
 
     [JsonProperty("reason")]
     public Optional<string> Reason;
+
+    protected override void OnValidate()
+    {
+        OptionalGuard.CheckValue(Reason, static reason => Guard.HasSizeLessThanOrEqualTo(reason, Discord.Limits.Rest.MaxAuditLogReasonLength));
+    }
 }

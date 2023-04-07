@@ -10,6 +10,11 @@ public static partial class Discord
         public static class Rest
         {
             /// <summary>
+            ///     Represents the maximum length of the <c>X-Audit-Log-Reason</c> header; used for sending audit log reasons.
+            /// </summary>
+            public const int MaxAuditLogReasonLength = 512;
+
+            /// <summary>
             ///     Represents the page size for fetching audit logs.
             /// </summary>
             public const int FetchAuditLogsPageSize = 100;
