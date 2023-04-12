@@ -167,9 +167,15 @@ public enum Permissions : ulong
     ManageWebhooks = 1ul << 29,
 
     /// <summary>
+    ///     Allows management of emojis, stickers, soundboard sounds etc.
+    /// </summary>
+    ManageExpressions = 1ul << 30,
+
+    /// <summary>
     ///     Allows management of emojis and stickers.
     /// </summary>
-    ManageEmojisAndStickers = 1ul << 30,
+    [Obsolete($"The value has been renamed to {nameof(ManageExpressions)}.")]
+    ManageEmojisAndStickers = ManageExpressions,
 
     /// <summary>
     ///     Allows using application commands, including slash commands and context menu commands.
@@ -226,6 +232,21 @@ public enum Permissions : ulong
     ModerateMembers = 1ul << 40,
 
     /// <summary>
+    ///     Allows viewing monetization analytics.
+    /// </summary>
+    ViewCreatorMonetizationAnalytics = 1ul << 41,
+
+    /// <summary>
+    ///     Allows using the soundboard.
+    /// </summary>
+    UseSoundboard = 1ul << 42,
+
+    /// <summary>
+    ///     Allows using sounds from other guilds.
+    /// </summary>
+    UseExternalSounds = 1ul << 45,
+
+    /// <summary>
     ///     Represents all permissions combined together.
     /// </summary>
     /// <remarks>
@@ -238,8 +259,8 @@ public enum Permissions : ulong
         | ReadMessageHistory | MentionEveryone | UseExternalEmojis | ViewGuildInsights
         | Connect | Speak | MuteMembers | DeafenMembers
         | MoveMembers | UseVoiceActivity | SetNick | ManageNicks
-        | ManageRoles | ManageWebhooks | ManageEmojisAndStickers | UseApplicationCommands
+        | ManageRoles | ManageWebhooks | ManageExpressions | UseApplicationCommands
         | RequestToSpeak | ManageEvents | ManageThreads | CreatePublicThreads
         | CreatePrivateThreads | UseExternalStickers | SendMessagesInThreads | StartActivities
-        | ModerateMembers
+        | ModerateMembers | ViewCreatorMonetizationAnalytics | UseSoundboard | UseExternalSounds
 }
