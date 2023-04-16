@@ -70,14 +70,14 @@ public class DefaultRestRequester : IRestRequester
 
         if (httpRequest.Headers.TryGetValue(RestApiHeaderNames.AuditLogReason, out var auditLogReason))
         {
-            // URI-encodes the audit log reason to allow for non-ASCII characters.
-            auditLogReason = Uri.EscapeDataString(auditLogReason);
-
             if (auditLogReason.Length > Discord.Limits.Rest.MaxAuditLogReasonLength)
             {
                 // Truncates excess characters.
                 auditLogReason = auditLogReason[..Discord.Limits.Rest.MaxAuditLogReasonLength];
             }
+
+            // URI-encodes the audit log reason to allow for non-ASCII characters.
+            auditLogReason = Uri.EscapeDataString(auditLogReason);
 
             httpRequest.Headers[RestApiHeaderNames.AuditLogReason] = auditLogReason;
         }
