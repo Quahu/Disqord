@@ -8,6 +8,11 @@ namespace Disqord;
 public interface IUserInteraction : IInteraction, IPossiblyGuildEntity, IChannelEntity
 {
     /// <summary>
+    ///     Gets the channel of this interaction.
+    /// </summary>
+    IInteractionChannel? Channel { get; }
+
+    /// <summary>
     ///     Gets the user who triggered this interaction.
     /// </summary>
     /// <returns>

@@ -10,7 +10,31 @@ public class TransientUserInteraction : TransientInteraction, IUserInteraction
     public Snowflake? GuildId => Model.GuildId.GetValueOrNullable();
 
     /// <inheritdoc/>
-    public Snowflake ChannelId => Model.ChannelId.Value;
+    public Snowflake ChannelId
+    {
+        get
+        {
+            if (Model.Channel.HasValue)
+            {
+                return Model.Channel.Value.Id;
+            }
+
+            return Model.ChannelId.Value;
+        }
+    }
+
+    /// <inheritdoc/>
+    public IInteractionChannel? Channel
+    {
+        get
+        {
+            if (!Model.Channel.HasValue)
+                return null;
+
+            return _channel ??= new TransientInteractionChannel(Client, Model.Channel.Value);
+        }
+    }
+    private IInteractionChannel? _channel;
 
     /// <inheritdoc/>
     public IUser Author
@@ -36,17 +60,8 @@ public class TransientUserInteraction : TransientInteraction, IUserInteraction
         }
     }
 
-    /// <inheritdoc />
-    public Permissions ApplicationPermissions
-    {
-        get
-        {
-            if (!Model.AppPermissions.HasValue)
-                return Permissions.None;
-
-            return Model.AppPermissions.Value;
-        }
-    }
+    /// <inheritdoc/>
+    public Permissions ApplicationPermissions => Model.AppPermissions.GetValueOrDefault();
 
     /// <inheritdoc/>
     public CultureInfo Locale => Discord.Internal.GetLocale(Model.Locale.Value);

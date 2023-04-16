@@ -20,6 +20,9 @@ public class InteractionJsonModel : JsonModel
     [JsonProperty("guild_id")]
     public Optional<Snowflake> GuildId;
 
+    [JsonProperty("channel")]
+    public Optional<ChannelJsonModel> Channel;
+
     [JsonProperty("channel_id")]
     public Optional<Snowflake> ChannelId;
 
