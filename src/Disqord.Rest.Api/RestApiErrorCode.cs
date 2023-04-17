@@ -102,6 +102,8 @@ public enum RestApiErrorCode
 
     AnnouncementRateLimit = 20022,
 
+    UnderMinimumAge = 20024,
+
     ChannelWriteRateLimit = 20028,
 
     GuildWriteRateLimit = 20029,
@@ -148,6 +150,11 @@ public enum RestApiErrorCode
     MaximumReactionAmountReached = 30010,
 
     /// <summary>
+    ///     The maximum of <c>10</c> channels was reached.
+    /// </summary>
+    MaximumGroupChannelAmountReached = 30011,
+
+    /// <summary>
     ///     The maximum of <c>500</c> channels was reached.
     /// </summary>
     MaximumGuildChannelAmountReached = 30013,
@@ -173,7 +180,14 @@ public enum RestApiErrorCode
 
     GuildAlreadyHasATemplate = 30031,
 
+    MaximumApplicationCommandAmountReached = 30032,
+
     MaximumThreadParticipantAmountReached = 30033,
+
+    /// <summary>
+    ///     The maximum of <c>200</c> daily application command creates was reached.
+    /// </summary>
+    MaximumDailyApplicationCommandCreateAmountReached = 30034,
 
     MaximumNonMemberBanAmountReached = 30035,
 
@@ -199,6 +213,19 @@ public enum RestApiErrorCode
 
     MaximumTagAmountReached = 30048,
 
+    BitrateTooHigh = 30052,
+
+    /// <summary>
+    ///     The maximum number of premium emojis was reached.
+    /// </summary>
+    MaximumPremiumEmojiAmountReached = 30056,
+
+    MaximumWebhookPerGuildAmountReached = 30058,
+
+    MaximumOverwriteAmountReached = 30060,
+
+    TheChannelsForThisGuildAreTooLarge = 30061,
+
     Unauthorized = 40001,
 
     VerifiedAccountRequiredToPerformAction = 40002,
@@ -213,15 +240,27 @@ public enum RestApiErrorCode
 
     UserBanned = 40007,
 
+    ConnectionHasBeenRevoked = 40012,
+
     TargetUserNotConnectedToVoice = 40032,
 
     MessageAlreadyCrossposted = 40033,
 
     ApplicationCommandAlreadyExists = 40041,
 
+    ApplicationInteractionFailedToSend = 40043,
+
+    CannotSendAMessageInAForumChannel = 40058,
+
     InteractionAlreadyAcknowledged = 40060,
 
     TagNameMustBeUnique = 40061,
+
+    ServiceResourceIsBeingRateLimited = 40062,
+
+    ThereAreNoTagsAvailableThatCanBeSetByNonModerators = 40066,
+
+    ATagIsRequiredToCreateAForumPostInThisChannel = 40067,
 
     MissingAccess = 50001,
 
@@ -258,6 +297,8 @@ public enum RestApiErrorCode
     /// </summary>
     InvalidBulkMessageDeletionAmount = 50016,
 
+    InvalidMfaLevel = 50017,
+
     AMessageCanOnlyBePinnedToTheChannelItWasSent = 50019,
 
     InviteCodeIsEitherInvalidOrTaken = 50020,
@@ -282,6 +323,8 @@ public enum RestApiErrorCode
 
     AnInviteWasAcceptedToAGuildTheApplicationsBotIsNotIn = 50036,
 
+    InvalidActivityAction = 50039,
+
     InvalidApiVersion = 50041,
 
     MaximumFileSizeExceeded = 50045,
@@ -292,11 +335,17 @@ public enum RestApiErrorCode
 
     InvalidGuild = 50055,
 
+    InvalidRequestOrigin = 50067,
+
     InvalidMessageType = 50068,
 
     PaymentSourceRequiredToRedeemGift = 50070,
 
+    CannotModifyASystemWebhook = 50073,
+
     CannotDeleteAChannelRequiredForCommunityGuilds = 50074,
+
+    CannotEditStickersWithinAMessage = 50080,
 
     InvalidStickerSent = 50081,
 
@@ -311,6 +360,8 @@ public enum RestApiErrorCode
 
     CommunityChannelsMustBeTextChannels = 50086,
 
+    TheEntityTypeOfTheEventIsDifferentFromTheEntityYouAreTryingToStartTheEventFor = 50091,
+
     GuildNotAvailableInCurrentLocation = 50095,
 
     GuildMonetizationRequiredForAction = 50097,
@@ -319,11 +370,27 @@ public enum RestApiErrorCode
 
     RequestBodyContainsInvalidJson = 50109,
 
+    OwnershipCannotBeTransferredToABotUser = 50132,
+
+    FailedToResizeAssetBelowTheMaximumSize = 50138,
+
+    CannotMixSubscriptionAndNonSubscriptionRolesForAnEmoji = 50144,
+
+    CannotConvertBetweenPremiumEmojiAndNormalEmoji = 50145,
+
+    UploadedFileNotFound = 50146,
+
+    CannotDeleteGuildSubscriptionIntegration = 50163,
+
+    YouDoNotHavePermissionToSendThisSticker = 50600,
+
     TwoFactorRequired = 60003,
 
     NoUsersWithDiscordTagExist = 80004,
 
     ReactionBlocked = 90001,
+
+    ApplicationNotYetAvailableTryAgainLater = 110001,
 
     ResourceOverloaded = 130000,
 
@@ -361,5 +428,19 @@ public enum RestApiErrorCode
 
     CannotUpdateFinishedEvent = 180000,
 
-    FailedToCreateEventStageChannel = 180002
+    FailedToCreateEventStageChannel = 180002,
+
+    MessageWasBlockedByAutomaticModeration = 200000,
+
+    TitleWasBlockedByAutomaticModeration = 200001,
+
+    WebhooksPostedToForumChannelsMustHaveAThreadNameOrThreadId = 220001,
+
+    WebhooksPostedToForumChannelsCannotHaveBothAThreadNameAndThreadId = 220002,
+
+    WebhooksCanOnlyCreateThreadsInForumChannels = 220003,
+
+    WebhookServicesCannotBeUsedInForumChannels = 220004,
+
+    MessageBlockedByHarmfulLinksFilter = 240000,
 }
