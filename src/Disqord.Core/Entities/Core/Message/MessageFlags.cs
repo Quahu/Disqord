@@ -58,5 +58,23 @@ public enum MessageFlags
     /// <summary>
     ///     The message is silent, i.e. does not trigger push and desktop notifications.
     /// </summary>
-    SuppressedNotifications = 1 << 12
+    SuppressedNotifications = 1 << 12,
+
+    /// <summary>
+    ///     The message is a voice message.
+    ///     <para/>
+    ///     Voice messages have the following properties:
+    ///     <list type="bullet">
+    ///         <item>
+    ///             <term> They cannot be edited. </term>
+    ///         </item>
+    ///         <item>
+    ///             <term> Only a single audio attachment is allowed. No content, stickers, etc... </term>
+    ///         </item>
+    ///         <item>
+    ///             <term> The related <see cref="IAttachment"/> has additional properties: <see cref="IAttachment.Duration"/> and <see cref="IAttachment.WaveformBase64"/>. </term>
+    ///         </item>
+    ///     </list>
+    /// </summary>
+    VoiceMessage = 1 << 13
 }

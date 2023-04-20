@@ -28,4 +28,10 @@ public class AttachmentJsonModel : PartialAttachmentJsonModel
 
     [JsonProperty("ephemeral")]
     public Optional<bool> Ephemeral;
+
+    [JsonProperty("duration_secs")]
+    public Optional<float> DurationSecs;
+
+    [JsonProperty("waveform")]
+    public Optional<string> Waveform;
 }

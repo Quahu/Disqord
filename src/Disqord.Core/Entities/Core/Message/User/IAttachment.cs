@@ -1,3 +1,5 @@
+using System;
+
 namespace Disqord;
 
 /// <summary>
@@ -56,4 +58,22 @@ public interface IAttachment : IIdentifiableEntity
     ///     Gets whether this attachment is ephemeral, i.e. whether it is within an ephemeral message.
     /// </summary>
     bool IsEphemeral { get; }
+
+    /// <summary>
+    ///     Gets the duration of this attachment.
+    /// </summary>
+    /// <remarks>
+    ///     Currently as of April 20th 2023 this is only available
+    ///     for messages with the <see cref="MessageFlags.VoiceMessage"/> flag.
+    /// </remarks>
+    TimeSpan? Duration { get; }
+
+    /// <summary>
+    ///     Gets the Base64-encoded bytes representing a sampled waveform of this attachment.
+    /// </summary>
+    /// <remarks>
+    ///     Currently as of April 20th 2023 this is only available
+    ///     for messages with the <see cref="MessageFlags.VoiceMessage"/> flag.
+    /// </remarks>
+    string? WaveformBase64 { get; }
 }

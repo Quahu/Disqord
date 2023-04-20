@@ -247,6 +247,11 @@ public enum Permissions : ulong
     UseExternalSounds = 1ul << 45,
 
     /// <summary>
+    ///     Allows sending voice messages.
+    /// </summary>
+    SendVoiceMessages = 1ul << 46,
+
+    /// <summary>
     ///     Represents all permissions combined together.
     /// </summary>
     /// <remarks>
@@ -263,4 +268,5 @@ public enum Permissions : ulong
         | RequestToSpeak | ManageEvents | ManageThreads | CreatePublicThreads
         | CreatePrivateThreads | UseExternalStickers | SendMessagesInThreads | StartActivities
         | ModerateMembers | ViewCreatorMonetizationAnalytics | UseSoundboard | UseExternalSounds
+        | SendVoiceMessages
 }

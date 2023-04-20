@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 using Qommon;
 
 namespace Disqord;
@@ -34,6 +35,21 @@ public class TransientAttachment : TransientEntity<AttachmentJsonModel>, IAttach
 
     /// <inheritdoc/>
     public bool IsEphemeral => Model.Ephemeral.GetValueOrDefault();
+
+    /// <inheritdoc/>
+    public TimeSpan? Duration
+    {
+        get
+        {
+            if (!Model.DurationSecs.HasValue)
+                return null;
+
+            return TimeSpan.FromSeconds(Model.DurationSecs.Value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public string? WaveformBase64 => Model.Waveform.GetValueOrDefault();
 
     public TransientAttachment(AttachmentJsonModel model)
         : base(model)
