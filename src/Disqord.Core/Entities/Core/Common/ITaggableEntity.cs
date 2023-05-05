@@ -8,7 +8,10 @@
 ///     <list type="bullet">
 ///         <item>
 ///             <term> User </term>
-///             <description> <c>Clyde#0000</c> </description>
+///             <description>
+///                 <c>@clyde</c> or <c>Clyde#0000</c> for users that have not yet migrated to the new name system.
+///                 Use the <see cref="Pomelo.HasMigratedName"/> extension method to check if the user is using the new name system.
+///             </description>
 ///         </item>
 ///         <item>
 ///             <term> Text Channel </term>

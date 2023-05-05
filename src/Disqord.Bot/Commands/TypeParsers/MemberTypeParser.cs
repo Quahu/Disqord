@@ -28,8 +28,8 @@ namespace Disqord.Bot.Commands.Parsers;
 ///             <description> The tag of the member. This is case-sensitive. </description>
 ///         </item>
 ///         <item>
-///             <term> Name / Nick </term>
-///             <description> The name or nick of the member. This is case-sensitive. </description>
+///             <term> Name / Global Name / Nick </term>
+///             <description> The name, global name, or nick of the member. This is case-sensitive. </description>
 ///         </item>
 ///     </list>
 /// </remarks>
@@ -83,13 +83,13 @@ public class MemberTypeParser : DiscordGuildTypeParser<IMember>
                 var hashIndex = valueSpan.LastIndexOf('#');
                 if (hashIndex != -1 && hashIndex + 5 == value.Length)
                 {
-                    // The value is a tag (Name#0000);
+                    // The value is the old name system tag (Name#0000);
                     name = new string(valueSpan.Slice(0, value.Length - 5));
                     discriminator = new string(valueSpan.Slice(hashIndex + 1));
                 }
                 else
                 {
-                    // The value is possibly a name or a nick.
+                    // The value is possibly a name, global name, or nick.
                     name = value.ToString();
                     discriminator = null;
                 }
@@ -97,7 +97,7 @@ public class MemberTypeParser : DiscordGuildTypeParser<IMember>
                 return (name, discriminator);
             }
 
-            // The value is possibly a tag, name, or nick.
+            // The value is possibly a tag, name, global name, or nick.
             // So let's check for a '#', indicating a tag.
             var (name, discriminator) = ParseTag(value);
 
@@ -106,12 +106,25 @@ public class MemberTypeParser : DiscordGuildTypeParser<IMember>
             {
                 if (discriminator != null)
                 {
-                    // Checks for tag, e.g. Clyde#0001.
-                    return members.FirstOrDefault(x => x.Name == name && x.Discriminator == discriminator);
+                    // Checks for the old name system tag, e.g. Clyde#0001.
+                    return members.FirstOrDefault(member =>
+                    {
+                        if (member.HasMigratedName())
+                        {
+                            // The member is using the new name system.
+                            return false;
+                        }
+
+#pragma warning disable CS0618
+                        return member.Name == name && member.Discriminator == discriminator;
+#pragma warning restore CS0618
+                    });
                 }
 
-                // Checks for name and then nick.
-                return members.FirstOrDefault(x => x.Name == name) ?? members.FirstOrDefault(x => x.Nick == name);
+                // Checks for name, global name, and then nick.
+                return members.FirstOrDefault(member => member.Name == name)
+                    ?? members.FirstOrDefault(member => member.GlobalName == name)
+                    ?? members.FirstOrDefault(member => member.Nick == name);
             }
 
             member = FindMember(memberCache.Values, name, discriminator);

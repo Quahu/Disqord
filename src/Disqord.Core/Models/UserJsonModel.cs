@@ -14,6 +14,9 @@ public class UserJsonModel : JsonModel
     [JsonProperty("discriminator")]
     public short Discriminator;
 
+    [JsonProperty("global_name")]
+    public string? GlobalName;
+
     [JsonProperty("avatar")]
     public string? Avatar;
 

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Disqord.Models;
 
 namespace Disqord.Gateway;
@@ -9,7 +10,11 @@ public abstract class CachedUser : CachedSnowflakeEntity, IUser
     public abstract string Name { get; }
 
     /// <inheritdoc/>
+    [Obsolete(Pomelo.DiscriminatorObsoletion)]
     public abstract string Discriminator { get; }
+
+    /// <inheritdoc/>
+    public abstract string? GlobalName { get; }
 
     /// <inheritdoc/>
     public abstract string? AvatarHash { get; }
@@ -24,7 +29,22 @@ public abstract class CachedUser : CachedSnowflakeEntity, IUser
     public string Mention => Disqord.Mention.User(this);
 
     /// <inheritdoc/>
-    public string Tag => $"{Name}#{Discriminator}";
+    public string Tag
+    {
+        get
+        {
+            if (this.HasMigratedName())
+            {
+                // New name system.
+                return $"@{Name}";
+            }
+
+            // Old name system.
+#pragma warning disable CS0618
+            return $"{Name}#{Discriminator}";
+#pragma warning restore CS0618
+        }
+    }
 
     /// <summary>
     ///     Instantiates a new user from the provided client and model.

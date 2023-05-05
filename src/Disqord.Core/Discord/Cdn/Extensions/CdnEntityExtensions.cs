@@ -65,16 +65,28 @@ public static class CdnEntityExtensions
         Guard.IsNotNull(user);
 
         var avatarHash = user.AvatarHash;
-        return avatarHash != null
-            ? Discord.Cdn.GetAvatarUrl(user.Id, avatarHash, format, size)
-            : Discord.Cdn.GetDefaultAvatarUrl(user.Discriminator);
+        if (avatarHash != null)
+        {
+            return Discord.Cdn.GetAvatarUrl(user.Id, avatarHash, format, size);
+        }
+
+        return user.GetDefaultAvatarUrl();
     }
 
     public static string GetDefaultAvatarUrl(this IUser user)
     {
         Guard.IsNotNull(user);
 
+        if (user.HasMigratedName())
+        {
+            // New name system.
+            return Discord.Cdn.GetDefaultAvatarUrl(user.Id);
+        }
+
+        // Old name system.
+#pragma warning disable CS0618
         return Discord.Cdn.GetDefaultAvatarUrl(user.Discriminator);
+#pragma warning restore CS0618
     }
 
     public static string GetGuildAvatarUrl(this IMember member, CdnAssetFormat format = default, int? size = null)

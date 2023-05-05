@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using Disqord.Models;
 
@@ -12,7 +13,11 @@ public abstract class CachedShareeUser : CachedUser
     public override string Name => SharedUser.Name;
 
     /// <inheritdoc/>
+    [Obsolete(Pomelo.DiscriminatorObsoletion)]
     public override string Discriminator => SharedUser.Discriminator;
+
+    /// <inheritdoc/>
+    public override string? GlobalName => SharedUser.GlobalName;
 
     /// <inheritdoc/>
     public override string? AvatarHash => SharedUser.AvatarHash;

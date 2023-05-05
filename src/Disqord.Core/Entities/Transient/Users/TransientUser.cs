@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using Disqord.Models;
 using Qommon;
 
@@ -13,7 +14,11 @@ public class TransientUser : TransientClientEntity<UserJsonModel>, IUser
     public virtual string Name => Model.Username;
 
     /// <inheritdoc/>
+    [Obsolete(Pomelo.DiscriminatorObsoletion)]
     public virtual string Discriminator => Model.Discriminator.ToString("0000", CultureInfo.InvariantCulture);
+
+    /// <inheritdoc/>
+    public virtual string? GlobalName => Model.GlobalName;
 
     /// <inheritdoc/>
     public virtual string? AvatarHash => Model.Avatar;
@@ -28,7 +33,22 @@ public class TransientUser : TransientClientEntity<UserJsonModel>, IUser
     public virtual string Mention => Disqord.Mention.User(this);
 
     /// <inheritdoc/>
-    public virtual string Tag => $"{Name}#{Discriminator}";
+    public virtual string Tag
+    {
+        get
+        {
+            if (this.HasMigratedName())
+            {
+                // New name system.
+                return $"@{Name}";
+            }
+
+            // Old name system.
+#pragma warning disable CS0618
+            return $"{Name}#{Discriminator}";
+#pragma warning restore CS0618
+        }
+    }
 
     public TransientUser(IClient client, UserJsonModel model)
         : base(client, model)

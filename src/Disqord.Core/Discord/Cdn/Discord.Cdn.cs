@@ -53,8 +53,16 @@ public static partial class Discord
             return FormatUrl(path, AutomaticGifFormat(format, bannerHash), size);
         }
 
+        [Obsolete(Pomelo.DiscriminatorObsoletion)]
         public static string GetDefaultAvatarUrl(string discriminator)
-            => GetDefaultAvatarUrl((DefaultAvatarColor) (ushort.Parse(discriminator, CultureInfo.InvariantCulture) % 5));
+        {
+            return GetDefaultAvatarUrl((DefaultAvatarColor) (ushort.Parse(discriminator, CultureInfo.InvariantCulture) % 5));
+        }
+
+        public static string GetDefaultAvatarUrl(Snowflake userId)
+        {
+            return GetDefaultAvatarUrl((DefaultAvatarColor) ((userId.RawValue >> 22) % 5));
+        }
 
         public static string GetDefaultAvatarUrl(DefaultAvatarColor color)
         {

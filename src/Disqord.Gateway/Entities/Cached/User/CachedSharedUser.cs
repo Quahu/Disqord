@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Threading;
 using Disqord.Models;
@@ -12,7 +13,11 @@ public class CachedSharedUser : CachedUser, ICachedSharedUser
     public override string Name => _name;
 
     /// <inheritdoc/>
+    [Obsolete(Pomelo.DiscriminatorObsoletion)]
     public override string Discriminator => _discriminator.ToString("0000", CultureInfo.InvariantCulture);
+
+    /// <inheritdoc/>
+    public override string? GlobalName => _globalName;
 
     /// <inheritdoc/>
     public override string? AvatarHash => _avatarHash;
@@ -27,6 +32,7 @@ public class CachedSharedUser : CachedUser, ICachedSharedUser
     public int ReferenceCount => _referenceCount;
 
     private string _name = null!;
+    private string? _globalName;
     private short _discriminator;
     private string? _avatarHash;
     private readonly bool _isBot;
@@ -51,6 +57,7 @@ public class CachedSharedUser : CachedUser, ICachedSharedUser
     public override void Update(UserJsonModel model)
     {
         _name = model.Username;
+        _globalName = model.GlobalName;
         _discriminator = model.Discriminator;
         _avatarHash = model.Avatar;
 
