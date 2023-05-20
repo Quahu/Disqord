@@ -68,12 +68,13 @@ public abstract class MenuBase : IAsyncDisposable
     public Snowflake MessageId { get; internal set; }
 
     /// <summary>
-    ///     Gets the stopping token. The returned token combines cancellation passed via the extension with this menu's timeout.
+    ///     Gets the stopping token.
+    ///     The returned token combines cancellation passed via the extension with this menu's timeout.
     /// </summary>
     /// <remarks>
-    ///     <inheritdoc cref="Interactivity"/>
+    ///     If the menu is not running, this will return a dummy cancellation token.
     /// </remarks>
-    public CancellationToken StoppingToken => _cts!.Token;
+    public CancellationToken StoppingToken => Volatile.Read(ref _cts)?.Token ?? default;
 
     /// <summary>
     ///     Gets the <see cref="System.Threading.Tasks.Task"/> that completes when this menu is stopped.
