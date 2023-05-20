@@ -40,7 +40,7 @@ public class TransientUser : TransientClientEntity<UserJsonModel>, IUser
             if (this.HasMigratedName())
             {
                 // New name system.
-                return $"@{Name}";
+                return Name;
             }
 
             // Old name system.
