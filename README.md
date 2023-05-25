@@ -1,6 +1,6 @@
 <div align="center">
     <h1> Disqord </h1>
-    <p> An asynchronous Discord API wrapper for .NET 5 that aims to make Discord bot development simple and enjoyable without needless boilerplate. </p>
+    <p> An asynchronous Discord API wrapper for .NET that aims to make Discord bot development simple and enjoyable without needless boilerplate. </p>
     <ul style="list-style-position: inside">
         <li>
             Designed around Microsoft's <a href="https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection">dependency injection</a> abstractions
@@ -14,7 +14,7 @@
     </ul>
 <br>
 
-[![AppVeyor](https://img.shields.io/appveyor/build/Quahu/Disqord/master?style=flat-square&label=AppVeyor&logo=appveyor)](https://ci.appveyor.com/project/Quahu/disqord)
+[![Workflow](https://img.shields.io/github/actions/workflow/status/Quahu/Disqord/myget.yml?branch=master&style=flat-square&label=Workflow&logo=github)](https://github.com/Quahu/Disqord/actions/workflows/nightly.yml?branch=master)
 [![NuGet](https://img.shields.io/nuget/v/Disqord.svg?style=flat-square&label=NuGet&logo=nuget&color=blue)](https://www.nuget.org/packages/Disqord/)
 [![MyGet](https://img.shields.io/myget/disqord/vpre/Disqord.svg?style=flat-square&label=MyGet&logo=nuget&color=darkorchid)](https://www.myget.org/feed/disqord/package/nuget/Disqord)
 [![Discord](https://img.shields.io/discord/416256456505950215.svg?style=flat-square&label=Discord&logo=discord&color=738ADB)](https://discord.gg/eUMSXGZ)
