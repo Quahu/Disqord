@@ -7,7 +7,7 @@ runs:
   using: "composite"
   steps:
     - name: Set SOLUTION_PATH
-      run: echo "SOLUTION_PATH=./src/${{ github.event.repository.name }}.sln" >> $Env:GITHUB_ENV
+      run: echo "SOLUTION_PATH=./${{ github.event.repository.name }}.sln" >> $Env:GITHUB_ENV
       shell: pwsh
     - name: Set up .NET
       uses: actions/setup-dotnet@v3
