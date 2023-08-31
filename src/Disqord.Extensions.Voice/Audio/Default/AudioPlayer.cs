@@ -280,7 +280,7 @@ public class AudioPlayer : IAsyncDisposable
             if (_stopCts == null)
             {
                 _stopCts = new();
-                _ = ExecuteAsync();
+                _ = ExecuteAsync(_stopCts.Token);
                 return true;
             }
 
@@ -371,30 +371,20 @@ public class AudioPlayer : IAsyncDisposable
         await OnSourceErrored(source.Task.Result, exception).ConfigureAwait(false);
     }
 
-    private protected async Task ExecuteAsync()
+    private async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         await Task.Yield();
 
-        Cts? stopCts;
-        lock (_stopLock)
-        {
-            stopCts = _stopCts;
-        }
-
-        if (stopCts == null || stopCts.IsCancellationRequested)
-            return;
-
-        var stopCancellationToken = stopCts.Token;
         Exception? exception = null;
         var connection = Connection;
         try
         {
             await OnStarted().ConfigureAwait(false);
 
-            await connection.WaitUntilReadyAsync(stopCancellationToken).ConfigureAwait(false);
-            while (!stopCancellationToken.IsCancellationRequested)
+            await connection.WaitUntilReadyAsync(cancellationToken).ConfigureAwait(false);
+            while (!cancellationToken.IsCancellationRequested)
             {
-                await SendSilenceAsync(connection, stopCancellationToken).ConfigureAwait(false);
+                await SendSilenceAsync(connection, cancellationToken).ConfigureAwait(false);
 
                 Tcs<AudioSource> sourceTask;
                 CancellationToken sourceCancellationToken;
@@ -405,7 +395,7 @@ public class AudioPlayer : IAsyncDisposable
                 }
 
                 var source = await sourceTask.Task.ConfigureAwait(false);
-                using (var linkedCts = Cts.Linked(stopCancellationToken, sourceCancellationToken))
+                using (var linkedCts = Cts.Linked(cancellationToken, sourceCancellationToken))
                 {
                     var linkedCancellationToken = linkedCts.Token;
                     await connection.SetSpeakingFlagsAsync(SpeakingFlags, linkedCancellationToken).ConfigureAwait(false);
@@ -472,7 +462,7 @@ public class AudioPlayer : IAsyncDisposable
                         }
                     }
 
-                    if (!stopCancellationToken.IsCancellationRequested)
+                    if (!cancellationToken.IsCancellationRequested)
                     {
                         await OnSourceFinished(source, sourceCancellationToken.IsCancellationRequested).ConfigureAwait(false);
                     }
@@ -491,7 +481,7 @@ public class AudioPlayer : IAsyncDisposable
             {
                 if (exception is not VoiceConnectionException)
                 {
-                    await connection.SetSpeakingFlagsAsync(SpeakingFlags, stopCancellationToken).ConfigureAwait(false);
+                    await connection.SetSpeakingFlagsAsync(SpeakingFlags, cancellationToken).ConfigureAwait(false);
                 }
             }
             finally
