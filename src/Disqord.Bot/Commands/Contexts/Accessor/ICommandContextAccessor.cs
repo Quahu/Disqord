@@ -11,5 +11,5 @@ public interface ICommandContextAccessor
     /// <remarks>
     ///     <b>Can be <see langword="null"/> if accessed prior to execution.</b>
     /// </remarks>
-    public IDiscordCommandContext Context { get; set; }
+    IDiscordCommandContext Context { get; set; }
 }
