@@ -1,7 +1,6 @@
 using System;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -15,20 +14,11 @@ namespace Disqord.TestBot
         {
             try
             {
-                new HostBuilder()
-                    .ConfigureHostConfiguration(configuration =>
-                    {
-                        configuration.AddCommandLine(args);
-                    })
-                    .ConfigureAppConfiguration(configuration =>
-                    {
-                        configuration.AddCommandLine(args);
-                        configuration.AddEnvironmentVariables("DISQORD_");
-                    })
+                Host.CreateDefaultBuilder(args)
                     .UseSerilog(CreateSerilogLogger(), dispose: true)
                     .ConfigureDiscordBot<TestBot>((context, bot) =>
                     {
-                        bot.Token = context.Configuration["TOKEN"];
+                        bot.Token = context.Configuration["DISQORD_TOKEN"];
                         bot.UseMentionPrefix = false;
                         bot.Prefixes = new[] { "??" };
                         bot.Intents |= GatewayIntents.DirectMessages | GatewayIntents.DirectReactions;
