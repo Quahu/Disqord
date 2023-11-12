@@ -5,6 +5,7 @@ using Disqord.Gateway;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
 namespace BasicVoice
@@ -15,7 +16,7 @@ namespace BasicVoice
         {
             try
             {
-                using (var host = new HostBuilder()
+                new HostBuilder()
                     .ConfigureHostConfiguration(configuration =>
                     {
                         configuration.AddCommandLine(args);
@@ -25,16 +26,7 @@ namespace BasicVoice
                         configuration.AddCommandLine(args);
                         configuration.AddEnvironmentVariables("DISQORD_");
                     })
-                    .ConfigureLogging(logging =>
-                    {
-                        var logger = new LoggerConfiguration()
-                            .MinimumLevel.Verbose()
-                            .WriteTo.Async(writeTo => writeTo
-                                .Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}", theme: AnsiConsoleTheme.Code))
-                            .CreateLogger();
-
-                        logging.AddSerilog(logger, true);
-                    })
+                    .UseSerilog(CreateSerilogLogger(), dispose: true)
                     .ConfigureServices((context, services) =>
                     {
                         services.AddVoiceExtension();
@@ -55,16 +47,26 @@ namespace BasicVoice
                         provider.ValidateScopes = true;
                         provider.ValidateOnBuild = true;
                     })
-                    .Build())
-                {
-                    host.Run();
-                }
+                    .Build()
+                    .Run();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 Console.ReadLine();
             }
+        }
+
+        private static ILogger CreateSerilogLogger()
+        {
+            return new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .WriteTo.Async(sink =>
+                    sink.Console(
+                        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}",
+                        theme: AnsiConsoleTheme.Code))
+                .CreateLogger();
         }
     }
 }
