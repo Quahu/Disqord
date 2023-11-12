@@ -65,7 +65,7 @@ namespace Disqord.TestBot.Modules.ApplicationCommands
         }
 
         private const string _musicPath = @"Q:\Music\";
-        private static HashSet<string> _artists = new(StringComparer.OrdinalIgnoreCase)
+        private static readonly HashSet<string> _artists = new(StringComparer.OrdinalIgnoreCase)
         {
             "The Lonely Island",
             "Aurelio Voltaire"

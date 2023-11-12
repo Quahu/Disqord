@@ -21,7 +21,7 @@ public class TestTextModule : DiscordTextModuleBase
         return Response($"Arguments:\n{string.Join('\n', Context.RawArguments!.Select(x => $"{x.Key.Name}: {string.Join(", ", x.Value.Select(x => $"'{x}'"))}"))}");
     }
 
-    // Components for component commands.
+    // These commands send components used by the commands in TestComponentModule.
     [TextCommand("button1")]
     public IResult Button1()
     {

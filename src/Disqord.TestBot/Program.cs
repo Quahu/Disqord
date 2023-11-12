@@ -1,11 +1,8 @@
 using System;
-using System.Linq;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -18,30 +15,17 @@ namespace Disqord.TestBot
         {
             try
             {
-                using (var host = new HostBuilder()
-                    .ConfigureHostConfiguration(x =>
+                new HostBuilder()
+                    .ConfigureHostConfiguration(configuration =>
                     {
-                        x.AddCommandLine(args);
+                        configuration.AddCommandLine(args);
                     })
-                    .ConfigureAppConfiguration(x =>
+                    .ConfigureAppConfiguration(configuration =>
                     {
-                        x.AddCommandLine(args);
-                        x.AddEnvironmentVariables("DISQORD_");
+                        configuration.AddCommandLine(args);
+                        configuration.AddEnvironmentVariables("DISQORD_");
                     })
-                    .ConfigureLogging(x =>
-                    {
-                        var logger = new LoggerConfiguration()
-                            .MinimumLevel.Verbose()
-                            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                            .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}", theme: AnsiConsoleTheme.Code)
-                            .WriteTo.File($"logs/log-{DateTime.Now:HH_mm_ss}.txt", restrictedToMinimumLevel: LogEventLevel.Verbose, fileSizeLimitBytes: null, buffered: true)
-                            .CreateLogger();
-
-                        x.AddSerilog(logger, true);
-
-                        x.Services.Remove(x.Services.First(x => x.ServiceType == typeof(ILogger<>)));
-                        x.Services.AddSingleton(typeof(ILogger<>), typeof(TestLogger<>));
-                    })
+                    .UseSerilog(CreateSerilogLogger(), dispose: true)
                     .ConfigureDiscordBot<TestBot>((context, bot) =>
                     {
                         bot.Token = context.Configuration["TOKEN"];
@@ -49,21 +33,37 @@ namespace Disqord.TestBot
                         bot.Prefixes = new[] { "??" };
                         bot.Intents |= GatewayIntents.DirectMessages | GatewayIntents.DirectReactions;
                     })
-                    .UseDefaultServiceProvider(x =>
+                    .UseDefaultServiceProvider(provider =>
                     {
-                        x.ValidateScopes = true;
-                        x.ValidateOnBuild = true;
+                        provider.ValidateScopes = true;
+                        provider.ValidateOnBuild = true;
                     })
-                    .Build())
-                {
-                    host.Run();
-                }
+                    .Build()
+                    .Run();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 Console.ReadLine();
             }
+        }
+
+        private static ILogger CreateSerilogLogger()
+        {
+            return new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .WriteTo.Async(sink =>
+                    sink.Console(
+                        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}",
+                        theme: AnsiConsoleTheme.Code))
+                .WriteTo.Async(sink =>
+                    sink.File(
+                        path: $"logs/log-{DateTime.Now:HH_mm_ss}.txt",
+                        restrictedToMinimumLevel: LogEventLevel.Verbose,
+                        fileSizeLimitBytes: null,
+                        buffered: true))
+                .CreateLogger();
         }
     }
 }
