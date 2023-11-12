@@ -159,7 +159,7 @@ public class DefaultShard : IShard
                 }
 
                 await Gateway.ConnectAsync(uri ?? new Uri(Discord.Gateway.DefaultUrl), stoppingToken).ConfigureAwait(false);
-                return;
+                break;
             }
             catch (OperationCanceledException)
             {
@@ -176,7 +176,6 @@ public class DefaultShard : IShard
             }
         }
 
-        stoppingToken.ThrowIfCancellationRequested();
         Logger.LogInformation("Successfully connected.");
         await SetStateAsync(ShardState.Connected, stoppingToken).ConfigureAwait(false);
     }
