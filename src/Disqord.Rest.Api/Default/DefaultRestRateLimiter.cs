@@ -206,8 +206,8 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
 
             public Task<IRestResponse> Task => _tcs.Task;
 
-            private readonly CancellationTokenRegistration _reg;
             private readonly Tcs<IRestResponse> _tcs;
+            private readonly CancellationTokenRegistration _reg;
 
             public Token(IRestRequest request, CancellationToken cancellationToken)
             {
@@ -220,8 +220,8 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                     tcs.Cancel(cancellationToken);
                 }
 
-                _reg = cancellationToken.UnsafeRegister(CancellationCallback, _tcs);
                 _tcs = new Tcs<IRestResponse>();
+                _reg = cancellationToken.UnsafeRegister(CancellationCallback, _tcs);
             }
 
             public void Complete(IRestResponse response)
