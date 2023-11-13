@@ -2,7 +2,6 @@ using System;
 using Disqord.Bot.Hosting;
 using Disqord.Extensions.Voice;
 using Disqord.Gateway;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -16,16 +15,7 @@ namespace BasicVoice
         {
             try
             {
-                new HostBuilder()
-                    .ConfigureHostConfiguration(configuration =>
-                    {
-                        configuration.AddCommandLine(args);
-                    })
-                    .ConfigureAppConfiguration(configuration =>
-                    {
-                        configuration.AddCommandLine(args);
-                        configuration.AddEnvironmentVariables("DISQORD_");
-                    })
+                Host.CreateDefaultBuilder(args)
                     .UseSerilog(CreateSerilogLogger(), dispose: true)
                     .ConfigureServices((context, services) =>
                     {
@@ -34,7 +24,7 @@ namespace BasicVoice
                     .ConfigureDiscordBot((context, bot) =>
                     {
                         // The token is set using the DISQORD_TOKEN environment variable.
-                        bot.Token = context.Configuration["TOKEN"];
+                        bot.Token = context.Configuration["DISQORD_TOKEN"];
 
                         // We use slash commands; we don't need any privileged intents.
                         bot.Intents &= GatewayIntents.Unprivileged;
