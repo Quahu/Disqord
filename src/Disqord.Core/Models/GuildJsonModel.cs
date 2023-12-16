@@ -125,4 +125,7 @@ public class GuildJsonModel : JsonModel
 
     [JsonProperty("premium_progress_bar_enabled")]
     public bool PremiumProgressBarEnabled;
+
+    [JsonProperty("safety_alerts_channel_id")]
+    public Snowflake? SafetyAlertsChannelId;
 }

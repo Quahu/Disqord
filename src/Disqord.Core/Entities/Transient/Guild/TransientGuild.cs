@@ -140,6 +140,9 @@ public class TransientGuild : TransientClientEntity<GuildJsonModel>, IGuild
     /// <inheritdoc/>
     public bool IsBoostProgressBarEnabled => Model.PremiumProgressBarEnabled;
 
+    /// <inheritdoc/>
+    public Snowflake? SafetyAlertsChannelId => Model.SafetyAlertsChannelId;
+
     public TransientGuild(IClient client, GuildJsonModel model)
         : base(client, model)
     { }

@@ -48,4 +48,6 @@ public interface IGuildAuditLogChanges
     AuditLogChange<Snowflake?> WidgetChannelId { get; }
 
     AuditLogChange<Snowflake?> SystemChannelId { get; }
+
+    AuditLogChange<Snowflake?> SafetyAlertsChannelId { get; }
 }

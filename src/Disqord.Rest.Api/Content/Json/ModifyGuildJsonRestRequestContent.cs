@@ -62,4 +62,7 @@ public class ModifyGuildJsonRestRequestContent : JsonModelRestRequestContent
 
     [JsonProperty("premium_progress_bar_enabled")]
     public Optional<bool> PremiumProgressBarEnabled;
+
+    [JsonProperty("safety_alerts_channel_id")]
+    public Optional<Snowflake?> SafetyAlertsChannelId;
 }

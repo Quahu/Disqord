@@ -107,6 +107,8 @@ public class TransientGatewayGuild : TransientGatewayClientEntity<GatewayGuildJs
 
     public bool IsBoostProgressBarEnabled => Model.PremiumProgressBarEnabled;
 
+    public Snowflake? SafetyAlertsChannelId => Model.SafetyAlertsChannelId;
+
     public DateTimeOffset JoinedAt => Model.JoinedAt;
 
     public bool IsLarge => Model.Large;

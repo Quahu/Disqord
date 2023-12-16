@@ -146,6 +146,9 @@ public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild,
     /// <inheritdoc/>
     public bool IsBoostProgressBarEnabled { get; private set; }
 
+    /// <inheritdoc/>
+    public Snowflake? SafetyAlertsChannelId { get; private set; }
+
     IReadOnlyDictionary<Snowflake, IGuildChannel> IGatewayGuild.Channels
     {
         get
@@ -250,6 +253,7 @@ public class CachedGuild : CachedSnowflakeEntity, IGatewayGuild,
         MaxVideoMemberCount = model.MaxVideoChannelUsers.GetValueOrNullable();
         NsfwLevel = model.NsfwLevel;
         IsBoostProgressBarEnabled = model.PremiumProgressBarEnabled;
+        SafetyAlertsChannelId = model.SafetyAlertsChannelId;
     }
 
     public void Update(GatewayGuildJsonModel model)

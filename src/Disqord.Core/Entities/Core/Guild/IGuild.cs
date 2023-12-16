@@ -173,4 +173,9 @@ public interface IGuild : ISnowflakeEntity, INamableEntity, IJsonUpdatable<Guild
     ///     Gets whether this guild has the boost progress bar enabled.
     /// </summary>
     bool IsBoostProgressBarEnabled { get; }
+
+    /// <summary>
+    ///     Gets the safety alerts channel ID of this guild.
+    /// </summary>
+    Snowflake? SafetyAlertsChannelId { get; }
 }
