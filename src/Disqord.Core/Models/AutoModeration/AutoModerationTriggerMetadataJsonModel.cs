@@ -19,4 +19,7 @@ public class AutoModerationTriggerMetadataJsonModel : JsonModel
 
     [JsonProperty("mention_total_limit")]
     public Optional<int> MentionTotalLimit;
+
+    [JsonProperty("mention_raid_protection_enabled")]
+    public Optional<bool> MentionRaidProtectionEnabled;
 }

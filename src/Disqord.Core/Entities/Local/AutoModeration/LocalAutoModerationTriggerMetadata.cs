@@ -16,6 +16,8 @@ public class LocalAutoModerationTriggerMetadata : ILocalConstruct<LocalAutoModer
 
     public Optional<int> MentionLimit { get; set; }
 
+    public Optional<bool> IsMentionRaidProtectionEnabled { get; set; }
+
     /// <summary>
     ///     Instantiates a new <see cref="LocalAutoModerationTriggerMetadata"/>.
     /// </summary>
@@ -33,6 +35,7 @@ public class LocalAutoModerationTriggerMetadata : ILocalConstruct<LocalAutoModer
         Presets = other.Presets.Clone();
         AllowedSubstrings = other.AllowedSubstrings.Clone();
         MentionLimit = other.MentionLimit;
+        IsMentionRaidProtectionEnabled = other.IsMentionRaidProtectionEnabled;
     }
 
     /// <inheritdoc/>
@@ -50,7 +53,8 @@ public class LocalAutoModerationTriggerMetadata : ILocalConstruct<LocalAutoModer
             RegexPatterns = RegexPatterns.ToArray(),
             Presets = Presets.ToArray(),
             AllowList = AllowedSubstrings.ToArray(),
-            MentionTotalLimit = MentionLimit
+            MentionTotalLimit = MentionLimit,
+            MentionRaidProtectionEnabled = IsMentionRaidProtectionEnabled
         };
     }
 }

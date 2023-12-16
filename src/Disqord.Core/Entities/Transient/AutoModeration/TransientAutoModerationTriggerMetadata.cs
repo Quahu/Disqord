@@ -63,6 +63,9 @@ public class TransientAutoModerationTriggerMetadata : TransientEntity<AutoModera
     /// <inheritdoc/>
     public int? MentionLimit => Model.MentionTotalLimit.GetValueOrNullable();
 
+    /// <inheritdoc/>
+    public bool IsMentionRaidProtectionEnabled => Model.MentionRaidProtectionEnabled.GetValueOrDefault();
+
     public TransientAutoModerationTriggerMetadata(AutoModerationTriggerMetadataJsonModel model)
         : base(model)
     { }
