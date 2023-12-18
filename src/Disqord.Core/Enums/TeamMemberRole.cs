@@ -22,7 +22,7 @@ public enum TeamMemberRole
     Developer,
 
     /// <summary>
-    ///     Represents a read-only team member.
+    ///     Represents a team member with read-only access.
     /// </summary>
     [EnumMember(Value = "read_only")]
     ReadOnly
