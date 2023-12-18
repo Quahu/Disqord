@@ -15,4 +15,7 @@ public class TeamMemberJsonModel : JsonModel
 
     [JsonProperty("user")]
     public UserJsonModel User = null!;
+
+    [JsonProperty("role")]
+    public TeamMemberRole Role;
 }
