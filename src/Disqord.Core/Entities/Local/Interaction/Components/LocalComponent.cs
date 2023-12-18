@@ -113,6 +113,7 @@ public abstract class LocalComponent : ILocalConstruct<LocalComponent>, IJsonCon
             model.Type = (ComponentType) selectionComponent.Type;
             model.ChannelTypes = Optional.Convert(selectionComponent.ChannelTypes, channelTypes => channelTypes?.ToArray())!;
             model.Placeholder = selectionComponent.Placeholder;
+            model.DefaultValues = Optional.Convert(selectionComponent.DefaultValues, defaultValues => defaultValues.Select(defaultValue => defaultValue.ToModel()).ToArray());
             model.MinValues = selectionComponent.MinimumSelectedOptions;
             model.MaxValues = selectionComponent.MaximumSelectedOptions;
             model.Disabled = selectionComponent.IsDisabled;

@@ -39,6 +39,9 @@ public class ComponentJsonModel : JsonModel
     [JsonProperty("placeholder")]
     public Optional<string> Placeholder;
 
+    [JsonProperty("default_values")]
+    public Optional<DefaultValueJsonModel[]> DefaultValues;
+
     [JsonProperty("min_values")]
     public Optional<int> MinValues;
 
