@@ -43,6 +43,7 @@ public abstract class TransientChannel : TransientClientEntity<ChannelJsonModel>
             case ChannelType.Stage:
             case ChannelType.Directory:
             case ChannelType.Forum:
+            case ChannelType.Media:
                 return TransientGuildChannel.Create(client, model);
         }
 
