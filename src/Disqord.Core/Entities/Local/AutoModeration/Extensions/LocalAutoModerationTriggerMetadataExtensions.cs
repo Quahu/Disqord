@@ -111,7 +111,7 @@ public static class LocalAutoModerationTriggerMetadataExtensions
         return metadata;
     }
 
-    public static LocalAutoModerationTriggerMetadata WithIsMentionRaidProtectionEnabled(this LocalAutoModerationTriggerMetadata metadata, bool isEnabled)
+    public static LocalAutoModerationTriggerMetadata WithIsMentionRaidProtectionEnabled(this LocalAutoModerationTriggerMetadata metadata, bool isEnabled = true)
     {
         metadata.IsMentionRaidProtectionEnabled = isEnabled;
         return metadata;
