@@ -143,7 +143,7 @@ public class ComponentJsonModel : JsonModel
 
                 OptionalGuard.CheckValue(DefaultValues, defaultValues =>
                 {
-                    Guard.IsBetween(defaultValues.Length, MinValues.GetValueOrDefault(Discord.Limits.Component.Selection.MinMinimumSelectedOptions), MaxValues.GetValueOrDefault(Discord.Limits.Component.Selection.MaxMaximumSelectedOptions));
+                    Guard.IsBetweenOrEqualTo(defaultValues.Length, MinValues.GetValueOrDefault(Discord.Limits.Component.Selection.MinMinimumSelectedOptions), MaxValues.GetValueOrDefault(Discord.Limits.Component.Selection.MaxMaximumSelectedOptions));
 
                     switch (Type)
                     {
