@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Disqord.Serialization.Json;
 using Qommon;
 
@@ -139,6 +140,27 @@ public class ComponentJsonModel : JsonModel
 
                 if (MinValues.HasValue && MaxValues.HasValue)
                     Guard.IsLessThanOrEqualTo(MinValues.Value, MaxValues.Value);
+
+                OptionalGuard.CheckValue(DefaultValues, defaultValues =>
+                {
+                    Guard.IsBetween(defaultValues.Length, MinValues.GetValueOrDefault(Discord.Limits.Component.Selection.MinMinimumSelectedOptions), MaxValues.GetValueOrDefault(Discord.Limits.Component.Selection.MaxMaximumSelectedOptions));
+
+                    switch (Type)
+                    {
+                        case ComponentType.UserSelection:
+                            Guard.IsTrue(defaultValues.All(x => x.Type == DefaultSelectionValueType.User));
+                            break;
+                        case ComponentType.RoleSelection:
+                            Guard.IsTrue(defaultValues.All(x => x.Type == DefaultSelectionValueType.Role));
+                            break;
+                        case ComponentType.MentionableSelection:
+                            Guard.IsTrue(defaultValues.All(x => x.Type == DefaultSelectionValueType.User || x.Type == DefaultSelectionValueType.Role));
+                            break;
+                        case ComponentType.ChannelSelection:
+                            Guard.IsTrue(defaultValues.All(x => x.Type == DefaultSelectionValueType.Channel));
+                            break;
+                    }
+                });
 
                 break;
             }
