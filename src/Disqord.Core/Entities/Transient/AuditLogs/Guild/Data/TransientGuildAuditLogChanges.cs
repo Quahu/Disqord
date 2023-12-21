@@ -74,6 +74,9 @@ public class TransientGuildAuditLogChanges : IGuildAuditLogChanges
     /// <inheritdoc/>
     public AuditLogChange<Snowflake?> SystemChannelId { get; }
 
+    /// <inheritdoc/>
+    public AuditLogChange<Snowflake?> SafetyAlertsChannelId { get; }
+
     public TransientGuildAuditLogChanges(IClient client, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
     {
         for (var i = 0; i < model.Changes.Value.Length; i++)
@@ -198,6 +201,11 @@ public class TransientGuildAuditLogChanges : IGuildAuditLogChanges
                 case "system_channel_id":
                 {
                     SystemChannelId = AuditLogChange<Snowflake?>.Convert(change);
+                    break;
+                }
+                case "safety_alerts_channel_id":
+                {
+                    SafetyAlertsChannelId = AuditLogChange<Snowflake?>.Convert(change);
                     break;
                 }
                 default:

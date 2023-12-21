@@ -59,7 +59,8 @@ public static partial class RestClientExtensions
             PreferredLocale = Optional.Convert(properties.PreferredLocale, x => x.Name),
             Features = Optional.Convert(properties.Features, x => x.ToArray()),
             Description = properties.Description,
-            PremiumProgressBarEnabled = properties.IsBoostProgressBarEnabled
+            PremiumProgressBarEnabled = properties.IsBoostProgressBarEnabled,
+            SafetyAlertsChannelId = properties.SafetyAlertsChannelId
         };
 
         var model = await client.ApiClient.ModifyGuildAsync(guildId, content, options, cancellationToken).ConfigureAwait(false);

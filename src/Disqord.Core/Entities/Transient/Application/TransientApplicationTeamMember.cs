@@ -16,6 +16,9 @@ public class TransientApplicationTeamMember : TransientUser, IApplicationTeamMem
     public IReadOnlyList<string> Permissions => Model.Permissions;
 
     /// <inheritdoc/>
+    public TeamMemberRole Role => Model.Role;
+
+    /// <inheritdoc/>
     public new TeamMemberJsonModel Model { get; }
 
     public TransientApplicationTeamMember(IClient client, TeamMemberJsonModel model)

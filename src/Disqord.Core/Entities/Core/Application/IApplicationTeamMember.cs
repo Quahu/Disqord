@@ -22,4 +22,9 @@ public interface IApplicationTeamMember : IUser, IJsonUpdatable<TeamMemberJsonMo
     ///     Gets the permissions of this member.
     /// </summary>
     IReadOnlyList<string> Permissions { get; }
+
+    /// <summary>
+    ///     Gets the role of this member.
+    /// </summary>
+    TeamMemberRole Role { get; }
 }

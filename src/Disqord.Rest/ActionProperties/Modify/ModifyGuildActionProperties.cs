@@ -45,6 +45,8 @@ public sealed class ModifyGuildActionProperties
 
     public Optional<bool> IsBoostProgressBarEnabled { internal get; set; }
 
+    public Optional<Snowflake?> SafetyAlertsChannelId { internal get; set; }
+
     internal ModifyGuildActionProperties()
     { }
 }

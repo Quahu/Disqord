@@ -26,6 +26,11 @@ public class LocalActivity : ILocalConstruct<LocalActivity>, IJsonConvertible<Ac
         return new(name, ActivityType.Watching);
     }
 
+    public static LocalActivity Custom(string text)
+    {
+        return new("Custom Status", ActivityType.Custom, text: text);
+    }
+
     public static LocalActivity Competing(string name)
     {
         return new(name, ActivityType.Competing);
@@ -37,6 +42,8 @@ public class LocalActivity : ILocalConstruct<LocalActivity>, IJsonConvertible<Ac
 
     public Optional<ActivityType> Type { get; set; }
 
+    public Optional<string> Text { get; set; }
+
     public LocalActivity()
     { }
 
@@ -45,13 +52,15 @@ public class LocalActivity : ILocalConstruct<LocalActivity>, IJsonConvertible<Ac
         Name = other.Name;
         Url = other.Url;
         Type = other.Type;
+        Text = other.Text;
     }
 
-    public LocalActivity(string name, ActivityType type, string? url = null)
+    public LocalActivity(string name, ActivityType type, string? url = null, string? text = null)
     {
         Name = name;
         Url = Optional.FromNullable(url);
         Type = type;
+        Text = Optional.FromNullable(text);
     }
 
     public LocalActivity(string name, string url)
@@ -76,7 +85,8 @@ public class LocalActivity : ILocalConstruct<LocalActivity>, IJsonConvertible<Ac
         {
             Name = Name.Value,
             Type = Type.Value,
-            Url = Url
+            Url = Url,
+            State = Text
         };
     }
 }

@@ -47,4 +47,12 @@ public interface IAutoModerationTriggerMetadata : IEntity, IJsonUpdatable<AutoMo
     ///     Used by the <see cref="AutoModerationRuleTrigger.MentionSpam"/> trigger type.
     /// </remarks>
     int? MentionLimit { get; }
+
+    /// <summary>
+    ///     Gets whether mention raids should be automatically detected.
+    /// </summary>
+    /// <remarks>
+    ///     Used by the <see cref="AutoModerationRuleTrigger.MentionSpam"/> trigger type.
+    /// </remarks>
+    bool IsMentionRaidProtectionEnabled { get; }
 }

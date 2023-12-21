@@ -110,4 +110,10 @@ public static class LocalAutoModerationTriggerMetadataExtensions
         metadata.MentionLimit = mentionLimit;
         return metadata;
     }
+
+    public static LocalAutoModerationTriggerMetadata WithIsMentionRaidProtectionEnabled(this LocalAutoModerationTriggerMetadata metadata, bool isEnabled = true)
+    {
+        metadata.IsMentionRaidProtectionEnabled = isEnabled;
+        return metadata;
+    }
 }

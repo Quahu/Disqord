@@ -167,7 +167,7 @@ public enum Permissions : ulong
     ManageWebhooks = 1ul << 29,
 
     /// <summary>
-    ///     Allows management of emojis, stickers, soundboard sounds etc.
+    ///     Allows management of emojis, stickers, soundboard sounds, etc.
     /// </summary>
     ManageExpressions = 1ul << 30,
 
@@ -242,6 +242,16 @@ public enum Permissions : ulong
     UseSoundboard = 1ul << 42,
 
     /// <summary>
+    ///     Allows creating emojis, stickers, soundboard sounds, etc.
+    /// </summary>
+    CreateExpressions = 1ul << 43,
+
+    /// <summary>
+    ///     Allows creating guild events.
+    /// </summary>
+    CreateEvents = 1ul << 44,
+
+    /// <summary>
     ///     Allows using sounds from other guilds.
     /// </summary>
     UseExternalSounds = 1ul << 45,
@@ -267,6 +277,6 @@ public enum Permissions : ulong
         | ManageRoles | ManageWebhooks | ManageExpressions | UseApplicationCommands
         | RequestToSpeak | ManageEvents | ManageThreads | CreatePublicThreads
         | CreatePrivateThreads | UseExternalStickers | SendMessagesInThreads | StartActivities
-        | ModerateMembers | ViewCreatorMonetizationAnalytics | UseSoundboard | UseExternalSounds
-        | SendVoiceMessages
+        | ModerateMembers | ViewCreatorMonetizationAnalytics | UseSoundboard | CreateExpressions
+        | CreateEvents | UseExternalSounds | SendVoiceMessages
 }

@@ -61,7 +61,7 @@ public static partial class Discord
 
         public static string GetDefaultAvatarUrl(Snowflake userId)
         {
-            return GetDefaultAvatarUrl((DefaultAvatarColor) ((userId.RawValue >> 22) % 5));
+            return GetDefaultAvatarUrl((DefaultAvatarColor) ((userId.RawValue >> 22) % 6));
         }
 
         public static string GetDefaultAvatarUrl(DefaultAvatarColor color)
