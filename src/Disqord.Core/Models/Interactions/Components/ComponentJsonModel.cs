@@ -145,21 +145,15 @@ public class ComponentJsonModel : JsonModel
                 {
                     Guard.IsBetweenOrEqualTo(defaultValues.Length, MinValues.GetValueOrDefault(Discord.Limits.Component.Selection.MinMinimumSelectedOptions), MaxValues.GetValueOrDefault(Discord.Limits.Component.Selection.MaxMaximumSelectedOptions));
 
-                    switch (Type)
+                    Predicate<DefaultValueJsonModel> predicate = Type switch
                     {
-                        case ComponentType.UserSelection:
-                            Guard.IsTrue(defaultValues.All(x => x.Type == DefaultSelectionValueType.User));
-                            break;
-                        case ComponentType.RoleSelection:
-                            Guard.IsTrue(defaultValues.All(x => x.Type == DefaultSelectionValueType.Role));
-                            break;
-                        case ComponentType.MentionableSelection:
-                            Guard.IsTrue(defaultValues.All(x => x.Type == DefaultSelectionValueType.User || x.Type == DefaultSelectionValueType.Role));
-                            break;
-                        case ComponentType.ChannelSelection:
-                            Guard.IsTrue(defaultValues.All(x => x.Type == DefaultSelectionValueType.Channel));
-                            break;
-                    }
+                        ComponentType.UserSelection => value => value.Type is DefaultSelectionValueType.User,
+                        ComponentType.RoleSelection => value => value.Type is DefaultSelectionValueType.Role,
+                        ComponentType.MentionableSelection => value => value.Type is DefaultSelectionValueType.User or DefaultSelectionValueType.Role,
+                        ComponentType.ChannelSelection => value => value.Type is DefaultSelectionValueType.Channel,
+                    };
+
+                    Guard.IsTrue(Array.TrueForAll(defaultValues, predicate), message: "The types of default selection values must match the type of the component.");
                 });
 
                 break;
