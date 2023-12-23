@@ -151,6 +151,7 @@ public class ComponentJsonModel : JsonModel
                         ComponentType.RoleSelection => value => value.Type is DefaultSelectionValueType.Role,
                         ComponentType.MentionableSelection => value => value.Type is DefaultSelectionValueType.User or DefaultSelectionValueType.Role,
                         ComponentType.ChannelSelection => value => value.Type is DefaultSelectionValueType.Channel,
+                        _ => value => true
                     };
 
                     Guard.IsTrue(Array.TrueForAll(defaultValues, predicate), message: "The types of default selection values must match the type of the component.");
