@@ -27,6 +27,15 @@ public interface ISelectionComponent : IComponent, ICustomIdentifiableEntity
     string? Placeholder { get; }
 
     /// <summary>
+    ///     Gets the default values that auto-populate this selection component.
+    /// </summary>
+    /// <remarks>
+    ///     This is only valid for <see cref="SelectionComponentType.User"/>,
+    ///     <see cref="SelectionComponentType.Role"/>, or <see cref="SelectionComponentType.Channel"/> selections.
+    /// </remarks>
+    IReadOnlyList<IDefaultSelectionValue> DefaultValues { get; }
+
+    /// <summary>
     ///     Gets the minimum amount of options that must be selected at once of this selection component.
     /// </summary>
     int MinimumSelectedOptions { get; }

@@ -49,6 +49,32 @@ public static class LocalSelectionComponentExtensions
         return selection;
     }
 
+    public static TComponent AddDefaultValue<TComponent>(this TComponent selection, LocalDefaultSelectionValue defaultValue)
+        where TComponent : LocalSelectionComponent
+    {
+        if (selection.DefaultValues.Add(defaultValue, out var list))
+            selection.DefaultValues = new(list);
+
+        return selection;
+    }
+
+    public static TComponent WithDefaultValues<TComponent>(this TComponent selection, IEnumerable<LocalDefaultSelectionValue> defaultValues)
+        where TComponent : LocalSelectionComponent
+    {
+        Guard.IsNotNull(defaultValues);
+
+        if (selection.DefaultValues.With(defaultValues, out var list))
+            selection.DefaultValues = new(list);
+
+        return selection;
+    }
+
+    public static TComponent WithDefaultValues<TComponent>(this TComponent selection, params LocalDefaultSelectionValue[] defaultValues)
+        where TComponent : LocalSelectionComponent
+    {
+        return selection.WithDefaultValues(defaultValues as IEnumerable<LocalDefaultSelectionValue>);
+    }
+
     public static TComponent WithMinimumSelectedOptions<TComponent>(this TComponent selection, int minimumSelectedOptions)
         where TComponent : LocalSelectionComponent
     {
