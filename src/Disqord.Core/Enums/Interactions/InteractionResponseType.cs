@@ -17,5 +17,7 @@ public enum InteractionResponseType
 
     ApplicationCommandAutoComplete = 8,
 
-    Modal = 9
+    Modal = 9,
+
+    PremiumRequired = 10
 }

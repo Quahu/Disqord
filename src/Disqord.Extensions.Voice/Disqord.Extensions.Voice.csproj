@@ -4,6 +4,9 @@
     <PropertyGroup>
         <VersionPrefix>1.0.0-alpha5</VersionPrefix>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\net6.0\Disqord.Extensions.Voice.xml</DocumentationFile>
+    </PropertyGroup>
     <Import Project="../Disqord.Voice.targets"/>
     <ItemGroup>
         <ProjectReference Include="..\Disqord.Abstractions\Disqord.Abstractions.csproj"/>

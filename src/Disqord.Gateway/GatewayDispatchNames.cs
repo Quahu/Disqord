@@ -86,6 +86,21 @@ public static class GatewayDispatchNames
     public const string ChannelPinsUpdate = "CHANNEL_PINS_UPDATE";
 
     /// <summary>
+    ///     The <c>ENTITLEMENT_CREATE</c> dispatch.
+    /// </summary>
+    public const string EntitlementCreate = "ENTITLEMENT_CREATE";
+
+    /// <summary>
+    ///     The <c>ENTITLEMENT_UPDATE</c> dispatch.
+    /// </summary>
+    public const string EntitlementUpdate = "ENTITLEMENT_UPDATE";
+
+    /// <summary>
+    ///     The <c>ENTITLEMENT_DELETE</c> dispatch.
+    /// </summary>
+    public const string EntitlementDelete = "ENTITLEMENT_DELETE";
+
+    /// <summary>
     ///     The <c>GUILD_CREATE</c> dispatch.
     /// </summary>
     public const string GuildCreate = "GUILD_CREATE";

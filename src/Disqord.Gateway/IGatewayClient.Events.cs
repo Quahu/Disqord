@@ -95,6 +95,21 @@ public partial interface IGatewayClient
     event AsynchronousEventHandler<ChannelPinsUpdatedEventArgs> ChannelPinsUpdated;
 
     /// <summary>
+    ///     Fires when the pinned messages in a channel are updated.
+    /// </summary>
+    event AsynchronousEventHandler<EntitlementCreatedEventArgs> EntitlementCreated;
+
+    /// <summary>
+    ///     Fires when the pinned messages in a channel are updated.
+    /// </summary>
+    event AsynchronousEventHandler<EntitlementUpdatedEventArgs> EntitlementUpdated;
+
+    /// <summary>
+    ///     Fires when the pinned messages in a channel are updated.
+    /// </summary>
+    event AsynchronousEventHandler<EntitlementDeletedEventArgs> EntitlementDeleted;
+
+    /// <summary>
     ///     Fires when a guild becomes available.
     /// </summary>
     event AsynchronousEventHandler<GuildAvailableEventArgs> GuildAvailable;

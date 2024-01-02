@@ -34,6 +34,12 @@ public partial interface IGatewayDispatcher
 
     AsynchronousEvent<ChannelPinsUpdatedEventArgs> ChannelPinsUpdatedEvent { get; }
 
+    AsynchronousEvent<EntitlementCreatedEventArgs> EntitlementCreatedEvent { get; }
+
+    AsynchronousEvent<EntitlementUpdatedEventArgs> EntitlementUpdatedEvent { get; }
+
+    AsynchronousEvent<EntitlementDeletedEventArgs> EntitlementDeletedEvent { get; }
+
     AsynchronousEvent<GuildAvailableEventArgs> GuildAvailableEvent { get; }
 
     AsynchronousEvent<JoinedGuildEventArgs> JoinedGuildEvent { get; }

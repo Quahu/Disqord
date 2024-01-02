@@ -110,6 +110,27 @@ public partial class DefaultGatewayClient
     }
 
     /// <inheritdoc/>
+    public event AsynchronousEventHandler<EntitlementCreatedEventArgs> EntitlementCreated
+    {
+        add => Dispatcher.EntitlementCreatedEvent.Add(value);
+        remove => Dispatcher.EntitlementCreatedEvent.Remove(value);
+    }
+
+    /// <inheritdoc/>
+    public event AsynchronousEventHandler<EntitlementUpdatedEventArgs> EntitlementUpdated
+    {
+        add => Dispatcher.EntitlementUpdatedEvent.Add(value);
+        remove => Dispatcher.EntitlementUpdatedEvent.Remove(value);
+    }
+
+    /// <inheritdoc/>
+    public event AsynchronousEventHandler<EntitlementDeletedEventArgs> EntitlementDeleted
+    {
+        add => Dispatcher.EntitlementDeletedEvent.Add(value);
+        remove => Dispatcher.EntitlementDeletedEvent.Remove(value);
+    }
+
+    /// <inheritdoc/>
     public event AsynchronousEventHandler<GuildAvailableEventArgs> GuildAvailable
     {
         add => Dispatcher.GuildAvailableEvent.Add(value);

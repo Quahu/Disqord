@@ -4,8 +4,14 @@
     <PropertyGroup>
         <VersionPrefix>1.0.0-alpha5</VersionPrefix>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\net6.0\Disqord.Rest.Api.xml</DocumentationFile>
+    </PropertyGroup>
     <Import Project="../Disqord.targets"/>
     <ItemGroup>
         <ProjectReference Include="..\Disqord.Core\Disqord.Core.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Content\Json\Application\" />
     </ItemGroup>
 </Project>
