@@ -49,4 +49,7 @@ public class InteractionJsonModel : JsonModel
 
     [JsonProperty("guild_locale")]
     public Optional<string> GuildLocale;
+
+    [JsonProperty("entitlements")]
+    public EntitlementJsonModel[] Entitlements = null!;
 }

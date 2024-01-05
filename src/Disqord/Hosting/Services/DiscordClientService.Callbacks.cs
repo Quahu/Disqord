@@ -65,6 +65,18 @@ public abstract partial class DiscordClientService
     protected internal virtual ValueTask OnChannelPinsUpdated(ChannelPinsUpdatedEventArgs e)
         => default;
 
+    /// <inheritdoc cref="IGatewayClient.EntitlementCreated"/>
+    protected internal virtual ValueTask OnEntitlementCreated(EntitlementCreatedEventArgs e)
+        => default;
+
+    /// <inheritdoc cref="IGatewayClient.EntitlementUpdated"/>
+    protected internal virtual ValueTask OnEntitlementUpdated(EntitlementUpdatedEventArgs e)
+        => default;
+
+    /// <inheritdoc cref="IGatewayClient.EntitlementDeleted"/>
+    protected internal virtual ValueTask OnEntitlementDeleted(EntitlementDeletedEventArgs e)
+        => default;
+
     /// <inheritdoc cref="IGatewayClient.GuildAvailable"/>
     protected internal virtual ValueTask OnGuildAvailable(GuildAvailableEventArgs e)
         => default;
