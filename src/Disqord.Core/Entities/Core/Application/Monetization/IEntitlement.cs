@@ -4,7 +4,7 @@ using Disqord.Models;
 namespace Disqord;
 
 /// <summary>
-///     Represents an entitlement that a user or guild has access to a premium offering.
+///     Represents an entitlement of a user or a guild to a premium offering.
 /// </summary>
 public interface IEntitlement: ISnowflakeEntity, IPossiblyGuildEntity, IJsonUpdatable<EntitlementJsonModel>
 {

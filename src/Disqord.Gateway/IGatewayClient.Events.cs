@@ -95,17 +95,17 @@ public partial interface IGatewayClient
     event AsynchronousEventHandler<ChannelPinsUpdatedEventArgs> ChannelPinsUpdated;
 
     /// <summary>
-    ///     Fires when the pinned messages in a channel are updated.
+    ///     Fires when an entitlement is created.
     /// </summary>
     event AsynchronousEventHandler<EntitlementCreatedEventArgs> EntitlementCreated;
 
     /// <summary>
-    ///     Fires when the pinned messages in a channel are updated.
+    ///     Fires when an entitlement is updated.
     /// </summary>
     event AsynchronousEventHandler<EntitlementUpdatedEventArgs> EntitlementUpdated;
 
     /// <summary>
-    ///     Fires when the pinned messages in a channel are updated.
+    ///     Fires when an entitlement is deleted.
     /// </summary>
     event AsynchronousEventHandler<EntitlementDeletedEventArgs> EntitlementDeleted;
 
