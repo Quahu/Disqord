@@ -32,13 +32,13 @@ public static partial class RestApiClientExtensions
 
         if (userId != null)
             queryParameters["user_id"] = userId;
-        
+
         if (skuIds != null)
             queryParameters["sku_ids"] = skuIds;
 
         if (beforeId != null)
             queryParameters["before"] = beforeId;
-        
+
         if (afterId != null)
             queryParameters["after"] = afterId;
 
@@ -47,9 +47,17 @@ public static partial class RestApiClientExtensions
 
         if (excludeEnded)
             queryParameters["exclude_ended"] = excludeEnded;
-        
+
         var route = Format(Route.Montetization.GetEntitlements, queryParameters, applicationId);
         return client.ExecuteAsync<EntitlementJsonModel[]>(route, null, options, cancellationToken);
+    }
+
+    public static Task ConsumeEntitlementAsync(this IRestApiClient client,
+        Snowflake applicationId, Snowflake entitlementId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.Montetization.ConsumeEntitlement, applicationId, entitlementId);
+        return client.ExecuteAsync(route, null, options, cancellationToken);
     }
 
     public static Task<EntitlementJsonModel> CreateTestEntitlementAsync(this IRestApiClient client,

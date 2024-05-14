@@ -34,6 +34,9 @@ public class TransientEntitlement : TransientClientEntity<EntitlementJsonModel>,
     /// <inheritdoc/>
     public DateTimeOffset? EndsAt => Model.StartsAt;
 
+    /// <inheritdoc/>
+    public bool HasBeenConsumed => Model.Consumed.GetValueOrDefault();
+
     public TransientEntitlement(IClient client, EntitlementJsonModel model)
         : base(client, model)
     { }

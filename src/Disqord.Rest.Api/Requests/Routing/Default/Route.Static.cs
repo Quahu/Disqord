@@ -14,6 +14,8 @@ public sealed partial class Route
 
         public static readonly Route GetEntitlements = Get("applications/{0:application_id}/entitlements");
 
+        public static readonly Route ConsumeEntitlement = Post("applications/{0:application_id}/entitlements/{1:entitlement_id}/consume");
+
         public static readonly Route CreateTestEntitlement = Post("applications/{0:application_id}/entitlements");
 
         public static readonly Route DeleteTestEntitlement = Delete("applications/{0:application_id}/entitlements/{1:entitlement_id}");

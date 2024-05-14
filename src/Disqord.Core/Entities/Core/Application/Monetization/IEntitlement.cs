@@ -42,4 +42,9 @@ public interface IEntitlement: ISnowflakeEntity, IPossiblyGuildEntity, IJsonUpda
     ///     Gets the date from which the entitlement is no longer valid.
     /// </summary>
     DateTimeOffset? EndsAt { get; }
+
+    /// <summary>
+    ///     Gets whether this entitlement has been consumed.
+    /// </summary>
+    bool HasBeenConsumed { get; }
 }

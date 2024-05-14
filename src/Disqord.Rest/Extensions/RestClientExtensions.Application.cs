@@ -28,6 +28,13 @@ public static partial class RestClientExtensions
         return models.ToReadOnlyList(client, (model, client) => new TransientEntitlement(client, model));
     }
 
+    public static Task ConsumeEntitlementAsync(this IRestClient client,
+        Snowflake applicationId, Snowflake entitlementId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        return client.ApiClient.ConsumeEntitlementAsync(applicationId, entitlementId, options, cancellationToken);
+    }
+
     public static async Task<IEntitlement> CreateTestEntitlementAsync(this IRestClient client,
         Snowflake applicationId, Snowflake skuId, Snowflake ownerId, EntitlementOwnerType ownerType,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

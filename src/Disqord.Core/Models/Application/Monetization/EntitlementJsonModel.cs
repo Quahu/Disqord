@@ -32,4 +32,7 @@ public class EntitlementJsonModel : JsonModel
 
     [JsonProperty("guild_id")]
     public Optional<Snowflake> GuildId;
+
+    [JsonProperty("consumed")]
+    public Optional<bool> Consumed;
 }

@@ -24,6 +24,14 @@ public static partial class RestEntityExtensions
         return client.FetchEntitlementsAsync(application.Id, limit, userId, skuIds, beforeId, afterId, guildId, excludeEnded, options, cancellationToken);
     }
 
+    public static Task ConsumeEntitlementAsync(this IApplication application,
+        Snowflake entitlementId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var client = application.GetRestClient();
+        return client.ConsumeEntitlementAsync(application.Id, entitlementId, options, cancellationToken);
+    }
+
     public static Task<IEntitlement> CreateTestEntitlementAsync(this IApplication application,
         Snowflake skuId, Snowflake ownerId, EntitlementOwnerType ownerType,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -31,13 +39,20 @@ public static partial class RestEntityExtensions
         var client = application.GetRestClient();
         return client.CreateTestEntitlementAsync(application.Id, skuId, ownerId, ownerType, options, cancellationToken);
     }
-    
+
     public static Task DeleteTestEntitlementAsync(this IApplication application,
         Snowflake entitlementId,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var client = application.GetRestClient();
         return client.DeleteTestEntitlementAsync(application.Id, entitlementId, options, cancellationToken);
+    }
+
+    public static Task ConsumeAsync(this IEntitlement entitlement,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var client = entitlement.GetRestClient();
+        return client.ConsumeEntitlementAsync(entitlement.ApplicationId, entitlement.Id, options, cancellationToken);
     }
 
     public static Task DeleteAsync(this IEntitlement entitlement,
