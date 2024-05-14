@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Rest.Api;
@@ -17,10 +18,13 @@ public static partial class RestClientExtensions
     }
 
     public static async Task<IReadOnlyList<IEntitlement>> FetchEntitlementsAsync(this IRestClient client,
-        Snowflake applicationId,
+        Snowflake applicationId, int limit = Discord.Limits.Rest.FetchEntitlementsPageSize,
+        Snowflake? userId = null, IEnumerable<Snowflake>? skuIds = null,
+        Snowflake? beforeId = null, Snowflake? afterId = null,
+        Snowflake? guildId = null, bool excludeEnded = false,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var models = await client.ApiClient.FetchEntitlementsAsync(applicationId, options, cancellationToken).ConfigureAwait(false);
+        var models = await client.ApiClient.FetchEntitlementsAsync(applicationId, limit, userId, skuIds?.ToArray(), beforeId, afterId, guildId, excludeEnded, options, cancellationToken).ConfigureAwait(false);
         return models.ToReadOnlyList(client, (model, client) => new TransientEntitlement(client, model));
     }
 

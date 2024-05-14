@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Models;
+using Qommon;
 
 namespace Disqord.Rest.Api;
 
@@ -15,10 +17,38 @@ public static partial class RestApiClientExtensions
     }
 
     public static Task<EntitlementJsonModel[]> FetchEntitlementsAsync(this IRestApiClient client,
-        Snowflake applicationId,
+        Snowflake applicationId, int limit = Discord.Limits.Rest.FetchEntitlementsPageSize,
+        Snowflake? userId = null, Snowflake[]? skuIds = null,
+        Snowflake? beforeId = null, Snowflake? afterId = null,
+        Snowflake? guildId = null, bool excludeEnded = false,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var route = Format(Route.Montetization.GetEntitlements, applicationId);
+        Guard.IsBetweenOrEqualTo(limit, 1, Discord.Limits.Rest.FetchEntitlementsPageSize);
+
+        var queryParameters = new Dictionary<string, object>(7)
+        {
+            ["limit"] = limit
+        };
+
+        if (userId != null)
+            queryParameters["user_id"] = userId;
+        
+        if (skuIds != null)
+            queryParameters["sku_ids"] = skuIds;
+
+        if (beforeId != null)
+            queryParameters["before"] = beforeId;
+        
+        if (afterId != null)
+            queryParameters["after"] = afterId;
+
+        if (guildId != null)
+            queryParameters["guild_id"] = guildId;
+
+        if (excludeEnded)
+            queryParameters["exclude_ended"] = excludeEnded;
+        
+        var route = Format(Route.Montetization.GetEntitlements, queryParameters, applicationId);
         return client.ExecuteAsync<EntitlementJsonModel[]>(route, null, options, cancellationToken);
     }
 
