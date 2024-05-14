@@ -8,7 +8,4 @@
     <ItemGroup>
         <ProjectReference Include="..\Disqord.Core\Disqord.Core.csproj"/>
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Content\Json\Application\" />
-    </ItemGroup>
 </Project>
