@@ -111,6 +111,27 @@ public abstract partial class DiscordClientBase
     }
 
     /// <inheritdoc/>
+    public event AsynchronousEventHandler<EntitlementCreatedEventArgs> EntitlementCreated
+    {
+        add => GatewayClient.EntitlementCreated += value;
+        remove => GatewayClient.EntitlementCreated -= value;
+    }
+
+    /// <inheritdoc/>
+    public event AsynchronousEventHandler<EntitlementUpdatedEventArgs> EntitlementUpdated
+    {
+        add => GatewayClient.EntitlementUpdated += value;
+        remove => GatewayClient.EntitlementUpdated -= value;
+    }
+
+    /// <inheritdoc/>
+    public event AsynchronousEventHandler<EntitlementDeletedEventArgs> EntitlementDeleted
+    {
+        add => GatewayClient.EntitlementDeleted += value;
+        remove => GatewayClient.EntitlementDeleted -= value;
+    }
+
+    /// <inheritdoc/>
     public event AsynchronousEventHandler<GuildAvailableEventArgs> GuildAvailable
     {
         add => GatewayClient.GuildAvailable += value;
