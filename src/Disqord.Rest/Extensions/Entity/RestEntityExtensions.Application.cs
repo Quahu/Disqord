@@ -27,6 +27,14 @@ public static partial class RestEntityExtensions
         var client = application.GetRestClient();
         return client.CreateTestEntitlementAsync(application.Id, skuId, ownerId, ownerType, options, cancellationToken);
     }
+    
+    public static Task DeleteTestEntitlementAsync(this IApplication application,
+        Snowflake entitlementId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var client = application.GetRestClient();
+        return client.DeleteTestEntitlementAsync(application.Id, entitlementId, options, cancellationToken);
+    }
 
     public static Task DeleteAsync(this IEntitlement entitlement,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
