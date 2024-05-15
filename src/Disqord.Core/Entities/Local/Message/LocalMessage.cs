@@ -30,7 +30,7 @@ public class LocalMessage : LocalMessageBase, ILocalConstruct<LocalMessage>
     /// </summary>
     /// <remarks>
     ///     If set to true and another message with the same nonce was created by the bot in the past few minutes,
-    ///     that message will be returned.
+    ///     that message will be returned and a new message will not be sent.
     /// </remarks>
     public Optional<bool> ShouldEnforceNonce { get; set; }
 

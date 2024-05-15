@@ -61,17 +61,17 @@ public static class LocalMessageExtensions
     /// </remarks>
     /// <param name="message"> The <see cref="LocalMessage"/> instance. </param>
     /// <param name="nonce"> The nonce. </param>
-    /// <param name="enforceNonce"> Whether the nonce should be enforced. </param>
+    /// <param name="shouldEnforceNonce"> Whether the nonce should be enforced. </param>
     /// <typeparam name="TMessage"> The <see cref="LocalMessage"/> type. </typeparam>
     /// <returns>
     ///     The input instance.
     /// </returns>
     /// <seealso cref="LocalMessage.Nonce"/>
-    public static TMessage WithNonce<TMessage>(this TMessage message, string nonce, bool? enforceNonce = null)
+    public static TMessage WithNonce<TMessage>(this TMessage message, string nonce, bool? shouldEnforceNonce = null)
         where TMessage : LocalMessage
     {
         message.Nonce = nonce;
-        message.ShouldEnforceNonce = Optional.FromNullable(enforceNonce);
+        message.ShouldEnforceNonce = Optional.FromNullable(shouldEnforceNonce);
         return message;
     }
 
@@ -82,16 +82,16 @@ public static class LocalMessageExtensions
     ///     <inheritdoc cref="LocalMessage.ShouldEnforceNonce"/>
     /// </remarks>
     /// <param name="message"> The <see cref="LocalMessage"/> instance. </param>
-    /// <param name="enforceNonce"> Whether the nonce should be enforced. </param>
+    /// <param name="shouldEnforceNonce"> Whether the nonce should be enforced. </param>
     /// <typeparam name="TMessage"> The <see cref="LocalMessage"/> type. </typeparam>
     /// <returns>
     ///     The input instance.
     /// </returns>
     /// <seealso cref="LocalMessage.ShouldEnforceNonce"/>
-    public static TMessage EnforceNonce<TMessage>(this TMessage message, bool enforceNonce)
+    public static TMessage WithShouldEnforceNonce<TMessage>(this TMessage message, bool shouldEnforceNonce)
         where TMessage : LocalMessage
     {
-        message.ShouldEnforceNonce = enforceNonce;
+        message.ShouldEnforceNonce = shouldEnforceNonce;
         return message;
     }
 }
