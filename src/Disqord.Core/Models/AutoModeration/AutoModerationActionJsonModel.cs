@@ -36,10 +36,7 @@ public class AutoModerationActionJsonModel : JsonModel
                 case AutoModerationActionType.Timeout:
                 {
                     OptionalGuard.HasValue(metadata.DurationSeconds);
-                    OptionalGuard.CheckValue(metadata.DurationSeconds, seconds =>
-                    {
-                        Guard.IsBetweenOrEqualTo(seconds, 0, Discord.Limits.AutoModerationRule.ActionMetadata.MaxDurationSeconds);
-                    });
+                    Guard.IsBetweenOrEqualTo(metadata.DurationSeconds.Value, 0, Discord.Limits.AutoModerationRule.ActionMetadata.MaxDurationSeconds);
                     break;
                 }
             }

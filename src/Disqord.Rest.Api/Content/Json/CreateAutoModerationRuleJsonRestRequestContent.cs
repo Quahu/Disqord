@@ -93,10 +93,7 @@ public class CreateAutoModerationRuleJsonRestRequestContent : JsonModelRestReque
                 case AutoModerationRuleTrigger.MentionSpam:
                 {
                     OptionalGuard.HasValue(metadata.MentionTotalLimit);
-                    OptionalGuard.CheckValue(metadata.MentionTotalLimit, limit =>
-                    {
-                        Guard.IsBetweenOrEqualTo(limit, 1, Discord.Limits.AutoModerationRule.TriggerMetadata.MaxMentionLimit);
-                    });
+                    Guard.IsBetweenOrEqualTo(metadata.MentionTotalLimit.Value, 1, Discord.Limits.AutoModerationRule.TriggerMetadata.MaxMentionLimit);
                     break;
                 }
             }
