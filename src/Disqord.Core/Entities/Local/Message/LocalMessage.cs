@@ -26,6 +26,15 @@ public class LocalMessage : LocalMessageBase, ILocalConstruct<LocalMessage>
     public Optional<string> Nonce { get; set; }
 
     /// <summary>
+    ///     Gets or sets whether the uniqueness check of a nonce should be enforced.
+    /// </summary>
+    /// <remarks>
+    ///     If set to true and another message with the same nonce was created by the bot in the past few minutes,
+    ///     that message will be returned.
+    /// </remarks>
+    public Optional<bool> ShouldEnforceNonce { get; set; }
+
+    /// <summary>
     ///     Instantiates a new <see cref="LocalMessage"/>.
     /// </summary>
     public LocalMessage()
@@ -40,6 +49,7 @@ public class LocalMessage : LocalMessageBase, ILocalConstruct<LocalMessage>
     {
         Reference = other.Reference.Clone();
         Nonce = other.Nonce;
+        ShouldEnforceNonce = other.ShouldEnforceNonce;
     }
 
     /// <inheritdoc/>

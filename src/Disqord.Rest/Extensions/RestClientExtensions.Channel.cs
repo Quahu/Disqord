@@ -261,7 +261,8 @@ public static partial class RestClientExtensions
             MessageReference = Optional.Convert(message.Reference, reference => reference.ToModel()),
             Components = Optional.Convert(message.Components, components => components.Select(component => component.ToModel()).ToArray()),
             StickerIds = Optional.Convert(message.StickerIds, stickerIds => stickerIds.ToArray()),
-            Flags = message.Flags
+            Flags = message.Flags,
+            EnforceNonce = message.ShouldEnforceNonce
         };
 
         Task<MessageJsonModel> task;
@@ -649,7 +650,8 @@ public static partial class RestClientExtensions
             MessageReference = Optional.Convert(message.Reference, reference => reference.ToModel()),
             Components = Optional.Convert(message.Components, components => components.Select(component => component.ToModel()).ToArray()),
             StickerIds = Optional.Convert(message.StickerIds, stickerIds => stickerIds.ToArray()),
-            Flags = message.Flags
+            Flags = message.Flags,
+            EnforceNonce = message.ShouldEnforceNonce
         };
 
         var forumContent = new CreateForumThreadJsonRestRequestContent
