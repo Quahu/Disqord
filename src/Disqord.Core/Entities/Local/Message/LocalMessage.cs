@@ -29,8 +29,7 @@ public class LocalMessage : LocalMessageBase, ILocalConstruct<LocalMessage>
     ///     Gets or sets whether the uniqueness check of a nonce should be enforced.
     /// </summary>
     /// <remarks>
-    ///     If set to true and another message with the same nonce was created by the bot in the past few minutes,
-    ///     that message will be returned and a new message will not be sent.
+    ///     If set to true and another message with the same nonce was sent recently, the message will not be sent.
     /// </remarks>
     public Optional<bool> ShouldEnforceNonce { get; set; }
 
