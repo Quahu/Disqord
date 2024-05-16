@@ -67,16 +67,16 @@ public static class LocalMessageExtensions
     ///     The input instance.
     /// </returns>
     /// <seealso cref="LocalMessage.Nonce"/>
-    public static TMessage WithNonce<TMessage>(this TMessage message, string nonce, bool? shouldEnforceNonce = null)
+    public static TMessage WithNonce<TMessage>(this TMessage message, string nonce, bool shouldEnforceNonce = false)
         where TMessage : LocalMessage
     {
         message.Nonce = nonce;
-        message.ShouldEnforceNonce = Optional.FromNullable(shouldEnforceNonce);
+        message.ShouldEnforceNonce = Optional.Conditional(shouldEnforceNonce, true);
         return message;
     }
 
     /// <summary>
-    ///     Sets whether the nonce the uniqueness check of a nonce should be enforced on this message.
+    ///     Sets whether the uniqueness check of a nonce should be enforced on this message.
     /// </summary>
     /// <remarks>
     ///     <inheritdoc cref="LocalMessage.ShouldEnforceNonce"/>
@@ -88,7 +88,7 @@ public static class LocalMessageExtensions
     ///     The input instance.
     /// </returns>
     /// <seealso cref="LocalMessage.ShouldEnforceNonce"/>
-    public static TMessage WithShouldEnforceNonce<TMessage>(this TMessage message, bool shouldEnforceNonce)
+    public static TMessage WithShouldEnforceNonce<TMessage>(this TMessage message, bool shouldEnforceNonce = true)
         where TMessage : LocalMessage
     {
         message.ShouldEnforceNonce = shouldEnforceNonce;
