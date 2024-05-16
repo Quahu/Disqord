@@ -6,12 +6,12 @@ namespace Disqord.Gateway;
 public class MessagesDeletedEventArgs : EventArgs
 {
     /// <summary>
-    ///     Gets the ID of the guild in which the delete occurred.
+    ///     Gets the ID of the guild in which the deletion occurred.
     /// </summary>
     public Snowflake GuildId { get; }
 
     /// <summary>
-    ///     Gets the ID of the channel in which the delete occurred.
+    ///     Gets the ID of the channel in which the deletion occurred.
     /// </summary>
     public Snowflake ChannelId { get; }
 
@@ -21,7 +21,7 @@ public class MessagesDeletedEventArgs : EventArgs
     public IReadOnlyList<Snowflake> MessageIds { get; }
 
     /// <summary>
-    ///     Gets the messages in the state before the delete occurred.
+    ///     Gets the messages in the state before the deletion occurred.
     ///     If any of the messages deleted were not cached, they will
     ///     not be present in the dictionary.
     /// </summary>
