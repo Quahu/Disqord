@@ -64,6 +64,9 @@ public class CachedUserMessage : CachedMessage, IGatewayUserMessage, IJsonUpdata
     /// <inheritdoc/>
     public IReadOnlyList<IMessageSticker> Stickers { get; private set; } = null!;
 
+    /// <inheritdoc/>
+    public IPoll? Poll { get; private set; }
+
     public CachedUserMessage(IGatewayClient client, CachedMember? author, MessageJsonModel model)
         : base(client, author, model)
     {
@@ -92,6 +95,7 @@ public class CachedUserMessage : CachedMessage, IGatewayUserMessage, IJsonUpdata
         Interaction = Optional.ConvertOrDefault(model.Interaction, (model, client) => new TransientMessageInteraction(new TransientUser(client, model.User), model), Client);
         Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => new TransientRowComponent(client, model) as IRowComponent), Client) ?? Array.Empty<IRowComponent>();
         Stickers = Optional.ConvertOrDefault(model.StickerItems, models => models.ToReadOnlyList(model => new TransientMessageSticker(model) as IMessageSticker), Array.Empty<IMessageSticker>());
+        Poll = Optional.ConvertOrDefault(model.Poll, model => new TransientPoll(model));
     }
 
     public void Update(MessageUpdateJsonModel model)
@@ -166,5 +170,8 @@ public class CachedUserMessage : CachedMessage, IGatewayUserMessage, IJsonUpdata
 
         if (model.StickerItems.HasValue)
             Stickers = Optional.ConvertOrDefault(model.StickerItems, models => models.ToReadOnlyList(model => new TransientMessageSticker(model) as IMessageSticker), Array.Empty<IMessageSticker>());
+
+        if (model.Poll.HasValue)
+            Poll = Optional.ConvertOrDefault(model.Poll, model => new TransientPoll(model));
     }
 }

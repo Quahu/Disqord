@@ -147,4 +147,11 @@ public static class LocalMessageBaseExtensions
     {
         return message.WithStickerIds(stickerIds as IEnumerable<Snowflake>);
     }
+
+    public static TMessage WithPoll<TMessage>(this TMessage message, LocalPoll poll)
+        where TMessage : LocalMessageBase
+    {
+        message.Poll = poll;
+        return message;
+    }
 }
