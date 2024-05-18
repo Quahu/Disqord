@@ -32,6 +32,9 @@ public class TransientMemberRolesUpdatedAuditLog : TransientAuditLog, IMemberRol
     }
     private IUser? _target;
 
+    /// <inheritdoc/>
+    public string? IntegrationType => Model.Options.Value.IntegrationType.GetValueOrDefault();
+
     public TransientMemberRolesUpdatedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
     {

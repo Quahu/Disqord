@@ -1,5 +1,6 @@
 ﻿using System;
 using Disqord.Models;
+using Qommon;
 
 namespace Disqord.AuditLogs;
 
@@ -21,6 +22,9 @@ public class TransientMemberKickedAuditLog : TransientAuditLog, IMemberKickedAud
         }
     }
     private IUser? _target;
+
+    /// <inheritdoc/>
+    public string? IntegrationType => Model.Options.Value.IntegrationType.GetValueOrDefault();
 
     public TransientMemberKickedAuditLog(IClient client, Snowflake guildId, AuditLogJsonModel? auditLogJsonModel, AuditLogEntryJsonModel model)
         : base(client, guildId, auditLogJsonModel, model)
