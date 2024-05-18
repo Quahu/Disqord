@@ -16,4 +16,7 @@ public class CreateStageInstanceJsonRestRequestContent : JsonModelRestRequestCon
 
     [JsonProperty("send_start_notification")]
     public Optional<bool> SendStartNotification;
+
+    [JsonProperty("guild_scheduled_event_id")]
+    public Optional<Snowflake> GuildScheduledEventId;
 }
