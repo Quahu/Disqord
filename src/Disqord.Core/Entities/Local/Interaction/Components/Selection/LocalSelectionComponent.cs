@@ -31,6 +31,15 @@ public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableE
     public Optional<string> Placeholder { get; set; }
 
     /// <summary>
+    ///     Gets or sets the default values of this selection.
+    /// </summary>
+    /// <remarks>
+    ///     This is only valid for <see cref="SelectionComponentType.User"/>,
+    ///     <see cref="SelectionComponentType.Role"/>, or <see cref="SelectionComponentType.Channel"/> selections.
+    /// </remarks>
+    public Optional<IList<LocalDefaultSelectionValue>> DefaultValues { get; set; }
+
+    /// <summary>
     ///     Gets or sets the minimum amount of options of this selection.
     /// </summary>
     public Optional<int> MinimumSelectedOptions { get; set; }
@@ -69,6 +78,7 @@ public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableE
         Type = other.Type;
         ChannelTypes = other.ChannelTypes.Clone();
         Placeholder = other.Placeholder;
+        DefaultValues = other.DefaultValues.DeepClone();
         MinimumSelectedOptions = other.MinimumSelectedOptions;
         MaximumSelectedOptions = other.MaximumSelectedOptions;
         Options = other.Options.DeepClone();
@@ -111,6 +121,19 @@ public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableE
             }
 
             selection.Options = localOptions;
+        }
+        else
+        {
+            var defaultValues = selectionComponent.DefaultValues;
+            var defaultValueCount = defaultValues.Count;
+            var localDefaultValues = new List<LocalDefaultSelectionValue>(defaultValueCount);
+            for (var i = 0; i < defaultValueCount; i++)
+            {
+                var defaultValue = defaultValues[i];
+                localDefaultValues.Add(new(defaultValue.Id, defaultValue.Type));
+            }
+
+            selection.DefaultValues = localDefaultValues;
         }
 
         return selection;

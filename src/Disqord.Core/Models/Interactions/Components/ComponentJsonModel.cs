@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Disqord.Serialization.Json;
 using Qommon;
 
@@ -38,6 +39,9 @@ public class ComponentJsonModel : JsonModel
 
     [JsonProperty("placeholder")]
     public Optional<string> Placeholder;
+
+    [JsonProperty("default_values")]
+    public Optional<DefaultValueJsonModel[]> DefaultValues;
 
     [JsonProperty("min_values")]
     public Optional<int> MinValues;
@@ -136,6 +140,22 @@ public class ComponentJsonModel : JsonModel
 
                 if (MinValues.HasValue && MaxValues.HasValue)
                     Guard.IsLessThanOrEqualTo(MinValues.Value, MaxValues.Value);
+
+                OptionalGuard.CheckValue(DefaultValues, defaultValues =>
+                {
+                    Guard.IsBetweenOrEqualTo(defaultValues.Length, MinValues.GetValueOrDefault(Discord.Limits.Component.Selection.MinMinimumSelectedOptions), MaxValues.GetValueOrDefault(Discord.Limits.Component.Selection.MaxMaximumSelectedOptions));
+
+                    Predicate<DefaultValueJsonModel> predicate = Type switch
+                    {
+                        ComponentType.UserSelection => value => value.Type is DefaultSelectionValueType.User,
+                        ComponentType.RoleSelection => value => value.Type is DefaultSelectionValueType.Role,
+                        ComponentType.MentionableSelection => value => value.Type is DefaultSelectionValueType.User or DefaultSelectionValueType.Role,
+                        ComponentType.ChannelSelection => value => value.Type is DefaultSelectionValueType.Channel,
+                        _ => value => true
+                    };
+
+                    Guard.IsTrue(Array.TrueForAll(defaultValues, predicate), message: "The types of default selection values must match the type of the component.");
+                });
 
                 break;
             }
