@@ -37,6 +37,9 @@ public class CreateMessageJsonRestRequestContent : JsonModelRestRequestContent, 
     [JsonProperty("flags")]
     public Optional<MessageFlags> Flags;
 
+    [JsonProperty("enforce_nonce")]
+    public Optional<bool> EnforceNonce;
+
     IList<PartialAttachmentJsonModel> IAttachmentRestRequestContent.Attachments
     {
         set => Attachments = new(value);
