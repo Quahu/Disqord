@@ -262,6 +262,11 @@ public enum Permissions : ulong
     SendVoiceMessages = 1ul << 46,
 
     /// <summary>
+    ///     Allows sending polls.
+    /// </summary>
+    SendPolls = 1ul << 49,
+
+    /// <summary>
     ///     Represents all permissions combined together.
     /// </summary>
     /// <remarks>
@@ -278,5 +283,5 @@ public enum Permissions : ulong
         | RequestToSpeak | ManageEvents | ManageThreads | CreatePublicThreads
         | CreatePrivateThreads | UseExternalStickers | SendMessagesInThreads | StartActivities
         | ModerateMembers | ViewCreatorMonetizationAnalytics | UseSoundboard | CreateExpressions
-        | CreateEvents | UseExternalSounds | SendVoiceMessages
+        | CreateEvents | UseExternalSounds | SendVoiceMessages | SendPolls
 }
