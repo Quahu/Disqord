@@ -6,6 +6,9 @@ namespace Disqord.Models;
 
 public class InviteJsonModel : JsonModel
 {
+    [JsonProperty("type")]
+    public InviteType Type;
+
     [JsonProperty("code")]
     public string Code = null!;
 

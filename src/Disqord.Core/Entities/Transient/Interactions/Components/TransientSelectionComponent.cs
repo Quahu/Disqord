@@ -30,6 +30,11 @@ public class TransientSelectionComponent : TransientComponent, ISelectionCompone
     public string? Placeholder => Model.Placeholder.GetValueOrDefault();
 
     /// <inheritdoc/>
+    public IReadOnlyList<IDefaultSelectionValue> DefaultValues => _defaultValues ??= Model.DefaultValues.Value.ToReadOnlyList(Client, (model, client) => new TransientDefaultSelectionValue(client, model));
+
+    private IReadOnlyList<IDefaultSelectionValue>? _defaultValues;
+
+    /// <inheritdoc/>
     public int MinimumSelectedOptions => Model.MinValues.Value;
 
     /// <inheritdoc/>

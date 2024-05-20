@@ -10,6 +10,9 @@ public class TransientInvite : TransientClientEntity<InviteJsonModel>, IInvite
     public Snowflake? ChannelId => Model.Channel?.Id;
 
     /// <inheritdoc/>
+    public InviteType Type => Model.Type;
+
+    /// <inheritdoc/>
     public string Code => Model.Code;
 
     /// <inheritdoc/>
@@ -50,7 +53,7 @@ public class TransientInvite : TransientClientEntity<InviteJsonModel>, IInvite
 
     public static IInvite Create(IClient client, InviteJsonModel model)
     {
-        return model.Guild.HasValue
+        return model.Type == InviteType.Guild
             ? new TransientGuildInvite(client, model)
             : new TransientInvite(client, model);
     }

@@ -61,15 +61,37 @@ public static class LocalMessageExtensions
     /// </remarks>
     /// <param name="message"> The <see cref="LocalMessage"/> instance. </param>
     /// <param name="nonce"> The nonce. </param>
+    /// <param name="shouldEnforceNonce"> Whether the nonce should be enforced. </param>
     /// <typeparam name="TMessage"> The <see cref="LocalMessage"/> type. </typeparam>
     /// <returns>
     ///     The input instance.
     /// </returns>
     /// <seealso cref="LocalMessage.Nonce"/>
-    public static TMessage WithNonce<TMessage>(this TMessage message, string nonce)
+    public static TMessage WithNonce<TMessage>(this TMessage message, string nonce, bool shouldEnforceNonce = false)
         where TMessage : LocalMessage
     {
         message.Nonce = nonce;
+        message.ShouldEnforceNonce = Optional.Conditional(shouldEnforceNonce, true);
+        return message;
+    }
+
+    /// <summary>
+    ///     Sets whether the uniqueness check of a nonce should be enforced on this message.
+    /// </summary>
+    /// <remarks>
+    ///     <inheritdoc cref="LocalMessage.ShouldEnforceNonce"/>
+    /// </remarks>
+    /// <param name="message"> The <see cref="LocalMessage"/> instance. </param>
+    /// <param name="shouldEnforceNonce"> Whether the nonce should be enforced. </param>
+    /// <typeparam name="TMessage"> The <see cref="LocalMessage"/> type. </typeparam>
+    /// <returns>
+    ///     The input instance.
+    /// </returns>
+    /// <seealso cref="LocalMessage.ShouldEnforceNonce"/>
+    public static TMessage WithShouldEnforceNonce<TMessage>(this TMessage message, bool shouldEnforceNonce = true)
+        where TMessage : LocalMessage
+    {
+        message.ShouldEnforceNonce = shouldEnforceNonce;
         return message;
     }
 }
