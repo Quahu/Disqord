@@ -281,6 +281,16 @@ public static class GatewayDispatchNames
     public const string StageInstanceDelete = "STAGE_INSTANCE_DELETE";
 
     /// <summary>
+    ///     The <c>MESSAGE_POLL_VOTE_ADD</c> dispatch.
+    /// </summary>
+    public const string MessagePollVoteAdd = "MESSAGE_POLL_VOTE_ADD";
+
+    /// <summary>
+    ///     The <c>MESSAGE_POLL_VOTE_REMOVE</c> dispatch.
+    /// </summary>
+    public const string MessagePollVoteRemove = "MESSAGE_POLL_VOTE_REMOVE";
+
+    /// <summary>
     ///     The <c>TYPING_START</c> dispatch.
     /// </summary>
     public const string TypingStart = "TYPING_START";
