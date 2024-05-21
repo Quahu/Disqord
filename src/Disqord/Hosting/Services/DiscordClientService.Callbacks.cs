@@ -221,6 +221,14 @@ public abstract partial class DiscordClientService
     protected internal virtual ValueTask OnStageDeleted(StageDeletedEventArgs e)
         => default;
 
+    /// <inheritdoc cref="IGatewayClient.PollVoteAdded"/>
+    protected internal virtual ValueTask OnPollVoteAdded(PollVoteAddedEventArgs e)
+        => default;
+
+    /// <inheritdoc cref="IGatewayClient.PollVoteRemoved"/>
+    protected internal virtual ValueTask OnPollVoteRemoved(PollVoteRemovedEventArgs e)
+        => default;
+
     /// <inheritdoc cref="IGatewayClient.TypingStarted"/>
     protected internal virtual ValueTask OnTypingStarted(TypingStartedEventArgs e)
         => default;

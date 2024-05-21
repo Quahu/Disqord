@@ -112,6 +112,10 @@ public partial interface IGatewayDispatcher
 
     AsynchronousEvent<StageDeletedEventArgs> StageDeletedEvent { get; }
 
+    AsynchronousEvent<PollVoteAddedEventArgs> PollVoteAddedEvent { get; }
+
+    AsynchronousEvent<PollVoteRemovedEventArgs> PollVoteRemovedEvent { get; }
+
     AsynchronousEvent<TypingStartedEventArgs> TypingStartedEvent { get; }
 
     AsynchronousEvent<CurrentUserUpdatedEventArgs> CurrentUserUpdatedEvent { get; }
