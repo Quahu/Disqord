@@ -9,6 +9,11 @@ namespace Disqord;
 public interface IInvite : IPossiblyChannelEntity, IClientEntity, IJsonUpdatable<InviteJsonModel>
 {
     /// <summary>
+    ///     Gets the type of this invite.
+    /// </summary>
+    InviteType Type { get; }
+
+    /// <summary>
     ///     Gets the code of this invite.
     /// </summary>
     string Code { get; }

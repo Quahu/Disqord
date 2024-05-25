@@ -125,7 +125,13 @@ public class TransientUserMessage : TransientMessage, IUserMessage
             return _stickers ??= Model.StickerItems.Value.ToReadOnlyList(model => new TransientMessageSticker(model));
         }
     }
+
     private IReadOnlyList<IMessageSticker>? _stickers;
+
+    /// <inheritdoc/>
+    public IPoll? Poll => _poll ??= Optional.ConvertOrDefault(Model.Poll, poll => new TransientPoll(poll));
+
+    private IPoll? _poll;
 
     public TransientUserMessage(IClient client, MessageJsonModel model)
         : base(client, model)

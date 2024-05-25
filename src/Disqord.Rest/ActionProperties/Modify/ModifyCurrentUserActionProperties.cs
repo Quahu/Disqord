@@ -9,6 +9,8 @@ public sealed class ModifyCurrentUserActionProperties
 
     public Optional<Stream> Avatar { internal get; set; }
 
+    public Optional<Stream> Banner { internal get; set; }
+
     internal ModifyCurrentUserActionProperties()
     { }
 }

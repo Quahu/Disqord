@@ -257,6 +257,13 @@ public sealed partial class Route
         public static readonly Route DeleteInvite = Delete("invites/{0:invite_code}");
     }
 
+    public static class Poll
+    {
+        public static readonly Route GetAnswerVoters = Get("channels/{0:channel_id}/polls/{1:message_id}/answers/{2:answer_id}");
+
+        public static readonly Route EndPoll = Post("channels/{0:channel_id}/polls/{1:message_id}/expire");
+    }
+
     public static class Stages
     {
         public static readonly Route CreateStage = Post("stage-instances");

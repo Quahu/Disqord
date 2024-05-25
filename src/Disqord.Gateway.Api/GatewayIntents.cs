@@ -127,13 +127,24 @@ public enum GatewayIntents : ulong
     AutoModerationExecution = 1 << 21,
 
     /// <summary>
+    ///     Allows receiving guild message poll events.
+    /// </summary>
+    GuildPolls = 1 << 24,
+
+    /// <summary>
+    ///     Allows receiving message poll events for direct channels.
+    /// </summary>
+    DirectPolls = 1 << 25,
+
+    /// <summary>
     ///     Represents all unprivileged intents,
     ///     i.e. intents that never require bot verification.
     /// </summary>
     Unprivileged = Guilds | Moderation | EmojisAndStickers | Integrations
         | Webhooks | Invites | VoiceStates | GuildMessages
         | GuildReactions | GuildTyping | DirectMessages | DirectReactions
-        | DirectTyping | GuildEvents | AutoModerationConfiguration | AutoModerationExecution,
+        | DirectTyping | GuildEvents | AutoModerationConfiguration | AutoModerationExecution
+        | GuildPolls | DirectPolls,
 
     /// <summary>
     ///     Represents all privileged intents,
@@ -147,11 +158,13 @@ public enum GatewayIntents : ulong
     /// <remarks>
     ///     Includes <see cref="Members"/> and <see cref="MessageContent"/>
     ///     which are privileged intents.
+    ///     <para/>
+    ///     Does not include direct channel intents.
     /// </remarks>
     LibraryRecommended = Guilds | Members | Moderation | EmojisAndStickers
         | Integrations | Webhooks | Invites | VoiceStates
         | GuildMessages | GuildReactions | MessageContent | GuildEvents
-        | AutoModerationConfiguration | AutoModerationExecution,
+        | AutoModerationConfiguration | AutoModerationExecution | GuildPolls,
 
     /// <summary>
     ///     Represents all intents.
@@ -160,5 +173,6 @@ public enum GatewayIntents : ulong
         | Integrations | Webhooks | Invites | VoiceStates
         | Presences | GuildMessages | GuildReactions | GuildTyping
         | DirectMessages | DirectReactions | DirectTyping | MessageContent
-        | GuildEvents | AutoModerationConfiguration | AutoModerationExecution,
+        | GuildEvents | AutoModerationConfiguration | AutoModerationExecution
+        | GuildPolls | DirectPolls,
 }

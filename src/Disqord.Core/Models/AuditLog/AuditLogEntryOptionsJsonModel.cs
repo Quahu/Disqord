@@ -100,4 +100,11 @@ public class AuditLogEntryOptionsJsonModel : JsonModel
     /// </summary>
     [JsonProperty("auto_moderation_rule_trigger_type")]
     public Optional<AutoModerationRuleTrigger> AutoModerationRuleTriggerType;
+
+    /// <summary>
+    ///     <see cref="AuditLogActionType.MemberKicked"/>
+    ///     <para />
+    ///     <see cref="AuditLogActionType.MemberRolesUpdated"/>
+    /// </summary>
+    public Optional<string> IntegrationType;
 }

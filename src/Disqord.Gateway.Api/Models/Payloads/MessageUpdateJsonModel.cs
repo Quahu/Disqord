@@ -89,4 +89,7 @@ public class MessageUpdateJsonModel : JsonModel
 
     [JsonProperty("sticker_items")]
     public Optional<StickerItemJsonModel[]> StickerItems;
+
+    [JsonProperty("poll")]
+    public Optional<PollJsonModel> Poll;
 }
