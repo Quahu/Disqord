@@ -112,6 +112,10 @@ public partial class DefaultGatewayDispatcher
 
     public AsynchronousEvent<StageDeletedEventArgs> StageDeletedEvent { get; } = new();
 
+    public AsynchronousEvent<PollVoteAddedEventArgs> PollVoteAddedEvent { get; } = new();
+
+    public AsynchronousEvent<PollVoteRemovedEventArgs> PollVoteRemovedEvent { get; } = new();
+
     public AsynchronousEvent<TypingStartedEventArgs> TypingStartedEvent { get; } = new();
 
     public AsynchronousEvent<CurrentUserUpdatedEventArgs> CurrentUserUpdatedEvent { get; } = new();

@@ -262,6 +262,7 @@ public static partial class RestClientExtensions
             Components = Optional.Convert(message.Components, components => components.Select(component => component.ToModel()).ToArray()),
             StickerIds = Optional.Convert(message.StickerIds, stickerIds => stickerIds.ToArray()),
             Flags = message.Flags,
+            Poll = Optional.Convert(message.Poll, poll => poll.ToModel()),
             EnforceNonce = message.ShouldEnforceNonce
         };
 
@@ -651,6 +652,7 @@ public static partial class RestClientExtensions
             Components = Optional.Convert(message.Components, components => components.Select(component => component.ToModel()).ToArray()),
             StickerIds = Optional.Convert(message.StickerIds, stickerIds => stickerIds.ToArray()),
             Flags = message.Flags,
+            Poll = Optional.Convert(message.Poll, poll => poll.ToModel()),
             EnforceNonce = message.ShouldEnforceNonce
         };
 

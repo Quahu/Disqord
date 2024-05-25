@@ -443,4 +443,16 @@ public enum RestApiErrorCode
     WebhookServicesCannotBeUsedInForumChannels = 220004,
 
     MessageBlockedByHarmfulLinksFilter = 240000,
+
+    PollVotingBlocked = 520000,
+
+    PollExpired = 520001,
+
+    InvalidChannelTypeForPollCreation = 520002,
+
+    CannotEditAPollMessage = 520003,
+
+    CannotUseAnEmojiIncludedWithThePoll = 520004,
+
+    CannotExpireANonPollMessage = 520006,
 }

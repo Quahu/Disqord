@@ -113,4 +113,9 @@ public interface IUserMessage : IMessage
     ///     Gets the stickers sent with this message.
     /// </summary>
     IReadOnlyList<IMessageSticker> Stickers { get; }
+
+    /// <summary>
+    ///     Gets the poll of this message.
+    /// </summary>
+    IPoll? Poll { get; }
 }

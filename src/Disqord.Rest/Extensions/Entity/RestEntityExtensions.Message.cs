@@ -91,4 +91,30 @@ public static partial class RestEntityExtensions
         var client = message.GetRestClient();
         return client.UnpinMessageAsync(message.ChannelId, message.Id, options, cancellationToken);
     }
+
+    /*
+     * Polls
+     */
+    public static IPagedEnumerable<IUser> EnumeratePollAnswerVoters(this IUserMessage message,
+        int answerId, int limit, Snowflake? startFromId = null,
+        IRestRequestOptions? options = null)
+    {
+        var client = message.GetRestClient();
+        return client.EnumeratePollAnswerVoters(message.ChannelId, message.Id, answerId, limit, startFromId, options);
+    }
+
+    public static Task<IReadOnlyList<IUser>> FetchPollAnswerVotersAsync(this IUserMessage message,
+        int answerId, int limit = Discord.Limits.Rest.FetchPollAnswerVotersPageSize, Snowflake? startFromId = null,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var client = message.GetRestClient();
+        return client.FetchPollAnswerVotersAsync(message.ChannelId, message.Id, answerId, limit, startFromId, options, cancellationToken);
+    }
+
+    public static Task EndPollAsync(this IUserMessage message,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var client = message.GetRestClient();
+        return client.EndPollAsync(message.ChannelId, message.Id, options, cancellationToken);
+    }
 }

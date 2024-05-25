@@ -384,6 +384,20 @@ public abstract partial class DiscordClientBase
     }
 
     /// <inheritdoc/>
+    public event AsynchronousEventHandler<PollVoteAddedEventArgs> PollVoteAdded
+    {
+        add => GatewayClient.PollVoteAdded += value;
+        remove => GatewayClient.PollVoteAdded -= value;
+    }
+
+    /// <inheritdoc/>
+    public event AsynchronousEventHandler<PollVoteRemovedEventArgs> PollVoteRemoved
+    {
+        add => GatewayClient.PollVoteRemoved += value;
+        remove => GatewayClient.PollVoteRemoved -= value;
+    }
+
+    /// <inheritdoc/>
     public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
     {
         add => GatewayClient.TypingStarted += value;
