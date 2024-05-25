@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Disqord.Models;
 using Qommon;
@@ -83,7 +84,21 @@ public class LocalPoll : ILocalConstruct<LocalPoll>, IJsonConvertible<PollJsonMo
     public static LocalPoll CreateFrom(IPoll poll)
     {
         var localPoll = new LocalPoll
-            { };
+        {
+            Question = LocalPollMedia.CreateFrom(poll.Question),
+            Answers = poll.Answers.Select(LocalPollAnswer.CreateFrom).ToList(),
+            AllowMultiselect = poll.AllowMultiselect,
+            LayoutType = poll.LayoutType
+        };
+
+        if (poll.Expiry != null)
+        {
+            var now = DateTimeOffset.UtcNow;
+            if (now < poll.Expiry)
+            {
+                localPoll.Duration = (int) Math.Round((poll.Expiry.Value - now).TotalHours);
+            }
+        }
 
         return localPoll;
     }

@@ -52,7 +52,9 @@ public class LocalPollAnswer : ILocalConstruct<LocalPollAnswer>, IJsonConvertibl
     public static LocalPollAnswer CreateFrom(IPollAnswer pollAnswer)
     {
         var localPoll = new LocalPollAnswer
-            { };
+        {
+            Media = LocalPollMedia.CreateFrom(pollAnswer.Media)
+        };
 
         return localPoll;
     }

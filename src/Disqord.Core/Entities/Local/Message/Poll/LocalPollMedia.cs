@@ -57,7 +57,10 @@ public class LocalPollMedia : ILocalConstruct<LocalPollMedia>, IJsonConvertible<
     public static LocalPollMedia CreateFrom(IPollMedia pollMedia)
     {
         var localPoll = new LocalPollMedia
-            { };
+        {
+            Text = Optional.FromNullable(pollMedia.Text),
+            Emoji = Optional.FromNullable(LocalEmoji.FromEmoji(pollMedia.Emoji))
+        };
 
         return localPoll;
     }
