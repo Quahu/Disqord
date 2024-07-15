@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Disqord.Models;
 using Disqord.Serialization.Json;
 using Qommon;
@@ -33,11 +34,35 @@ public class GatewayGuildJsonModel : GuildJsonModel
     public ChannelJsonModel[] Threads = null!;
 
     [JsonProperty("presences")]
-    public PresenceJsonModel[] Presences = null!;
+    public IJsonNode[] Presences = null!;
 
     [JsonProperty("stage_instances")]
     public StageInstanceJsonModel[] StageInstances = null!;
 
     [JsonProperty("guild_scheduled_events")]
     public GuildScheduledEventJsonModel[] GuildScheduledEvents = null!;
+
+    // Not ideal - handling the deserialization error at the serializer level would be better
+    public IEnumerable<PresenceJsonModel> CreatePresences()
+    {
+        foreach (var node in Presences)
+        {
+            PresenceJsonModel? model = null;
+            try
+            {
+                model = node.ToType<PresenceJsonModel>();
+            }
+            catch
+            {
+                // Ignore bad presence data.
+            }
+
+            if (model == null)
+            {
+                continue;
+            }
+
+            yield return model;
+        }
+    }
 }
