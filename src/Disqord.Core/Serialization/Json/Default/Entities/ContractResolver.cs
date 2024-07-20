@@ -22,7 +22,7 @@ internal sealed class ContractResolver : DefaultContractResolver
     private readonly JsonNodeConverter _jsonNodeConverter;
     private readonly SnowflakeConverter _snowflakeConverter;
     private readonly IThreadSafeDictionary<Type, JsonConverter> _snowflakeDictionaryConverters;
-    private readonly IThreadSafeDictionary<Type, OptionalConverter> _optionalConverters;
+    private readonly IThreadSafeDictionary<Type, JsonConverter> _optionalConverters;
 
     public ContractResolver(DefaultJsonSerializer serializer)
     {
@@ -32,7 +32,7 @@ internal sealed class ContractResolver : DefaultContractResolver
         _jsonNodeConverter = new JsonNodeConverter();
         _snowflakeConverter = new SnowflakeConverter();
         _snowflakeDictionaryConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, JsonConverter>();
-        _optionalConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, OptionalConverter>();
+        _optionalConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, JsonConverter>();
     }
 
     protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
@@ -134,10 +134,15 @@ internal sealed class ContractResolver : DefaultContractResolver
         return contract;
     }
 
-    private OptionalConverter GetOptionalConverter(Type type)
+    private JsonConverter GetOptionalConverter(Type type)
     {
         var optionalType = type.GenericTypeArguments[0];
-        return _optionalConverters.GetOrAdd(optionalType, (x, @this) => OptionalConverter.Create(@this.GetConverter(x)), this);
+        return _optionalConverters.GetOrAdd(optionalType, static (type, @this) =>
+        {
+            var optionalConverterType = typeof(OptionalConverter<>).MakeGenericType(type);
+            var valueConverter = @this.GetConverter(type);
+            return (Activator.CreateInstance(optionalConverterType, valueConverter) as JsonConverter)!;
+        }, this);
     }
 
     private JsonConverter? GetConverter(Type type)
