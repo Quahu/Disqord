@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Qommon;
+using System.Linq;
 
 namespace Disqord.Bot.Commands.Application.Default;
 
@@ -51,6 +52,20 @@ public partial class DefaultApplicationCommandCacheProvider
 
         if (modelCollection.Length != localCollection.Count)
             return false;
+
+        if (localCollection is IList<LocalSlashCommandOption> lc 
+            && lc.Any(x => x.Type.Value is SlashCommandOptionType.Subcommand or SlashCommandOptionType.SubcommandGroup))
+        {
+            foreach (var local in localCollection)
+            {
+                if (modelCollection.Any(x => x is not null && x.Equals(local)))
+                    continue;
+
+                return false;
+            }
+
+            return true;
+        }
 
         for (var i = 0; i < modelCollection.Length; i++)
         {
