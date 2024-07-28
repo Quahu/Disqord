@@ -245,6 +245,14 @@ public static partial class RestApiClientExtensions
         return client.ExecuteAsync(route, null, options, cancellationToken);
     }
 
+    public static Task<GuildBulkBanJsonModel> CreateBansAsync(this IRestApiClient client,
+        Snowflake guildId, CreateBanJsonRestRequestContent content,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.Guild.CreateBans, guildId);
+        return client.ExecuteAsync<GuildBulkBanJsonModel>(route, content, options, cancellationToken);
+    }
+
     public static Task<RoleJsonModel[]> FetchRolesAsync(this IRestApiClient client,
         Snowflake guildId,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

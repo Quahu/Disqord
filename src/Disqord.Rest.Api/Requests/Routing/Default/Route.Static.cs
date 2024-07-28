@@ -188,6 +188,8 @@ public sealed partial class Route
 
         public static readonly Route DeleteBan = Delete("guilds/{0:guild_id}/bans/{1:user_id}");
 
+        public static readonly Route CreateBans = Post("guilds/{0:guild_id}/bulk-ban");
+
         public static readonly Route GetRoles = Get("guilds/{0:guild_id}/roles");
 
         public static readonly Route CreateRole = Post("guilds/{0:guild_id}/roles");
