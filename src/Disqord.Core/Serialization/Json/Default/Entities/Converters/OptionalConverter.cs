@@ -1,18 +1,17 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Qommon;
 using Qommon.Serialization;
 
 namespace Disqord.Serialization.Json.Default;
 
-internal sealed class OptionalConverter : JsonConverter
+internal sealed class OptionalConverter<TValue> : JsonConverter
 {
-    public static readonly OptionalConverter Instance = new(null);
+    private readonly JsonConverter? _valueConverter;
 
-    private readonly JsonConverter? _converter;
-
-    private OptionalConverter(JsonConverter? converter)
+    public OptionalConverter(JsonConverter? valueConverter)
     {
-        _converter = converter;
+        _valueConverter = valueConverter;
     }
 
     public override bool CanConvert(Type objectType)
@@ -22,7 +21,17 @@ internal sealed class OptionalConverter : JsonConverter
 
     public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
     {
-        return objectType.GetConstructors()[0].Invoke(new[] { serializer.Deserialize(reader, objectType.GenericTypeArguments[0]) });
+        TValue? value;
+        if (_valueConverter != null && _valueConverter.CanRead)
+        {
+            value = (TValue?) _valueConverter.ReadJson(reader, typeof(TValue), existingValue, serializer);
+        }
+        else
+        {
+            value = serializer.Deserialize<TValue>(reader);
+        }
+
+        return new Optional<TValue?>(value);
     }
 
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
@@ -34,21 +43,14 @@ internal sealed class OptionalConverter : JsonConverter
         }
         else
         {
-            if (_converter != null)
+            if (_valueConverter != null && _valueConverter.CanWrite)
             {
-                _converter.WriteJson(writer, optionalValue, serializer);
+                _valueConverter.WriteJson(writer, optionalValue, serializer);
             }
             else
             {
                 serializer.Serialize(writer, optionalValue);
             }
         }
-    }
-
-    public static OptionalConverter Create(JsonConverter? converter = null)
-    {
-        return converter != null
-            ? new OptionalConverter(converter)
-            : Instance;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Disqord.Models;
+using Qommon;
 
 namespace Disqord;
 
@@ -21,7 +22,7 @@ public class TransientGuildEmoji : TransientClientEntity<EmojiJsonModel>, IGuild
     public IReadOnlyList<Snowflake> RoleIds => Model.Roles.Value;
 
     /// <inheritdoc/>
-    public IUser Creator => _creator ??= new TransientUser(Client, Model.User.Value);
+    public IUser? Creator => _creator ??= Optional.ConvertOrDefault(Model.User, static (user, client) => new TransientUser(client, user), Client);
 
     private IUser? _creator;
 

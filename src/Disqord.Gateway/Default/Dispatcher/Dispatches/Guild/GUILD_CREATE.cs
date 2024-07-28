@@ -154,7 +154,7 @@ public class GuildCreateDispatchHandler : DispatchHandler<GatewayGuildJsonModel,
 
         if (CacheProvider.TryGetPresences(model.Id, out var presenceCache))
         {
-            foreach (var presenceModel in model.Presences)
+            foreach (var presenceModel in model.CreatePresences())
             {
                 if (isPending)
                 {
