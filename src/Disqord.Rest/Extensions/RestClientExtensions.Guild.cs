@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Models;
 using Disqord.Rest.Api;
-using Disqord.Rest.Entities.Core.Guild;
 using Disqord.Rest.Pagination;
 using Qommon;
-using Qommon.Collections;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Rest;

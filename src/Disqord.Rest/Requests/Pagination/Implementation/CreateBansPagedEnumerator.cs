@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Rest.Entities.Core.Guild;
 
 namespace Disqord.Rest;
 

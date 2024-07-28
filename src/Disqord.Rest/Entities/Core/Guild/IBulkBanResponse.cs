@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Disqord.Rest.Entities.Core.Guild;
+namespace Disqord.Rest;
 
 public interface IBulkBanResponse
 {
