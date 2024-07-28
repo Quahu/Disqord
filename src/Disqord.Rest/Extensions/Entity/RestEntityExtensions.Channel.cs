@@ -40,6 +40,14 @@ public static partial class RestEntityExtensions
         return client.ModifyForumChannelAsync(channel.Id, action, options, cancellationToken);
     }
 
+    public static Task<IMediaChannel> ModifyAsync(this IMediaChannel channel,
+        Action<ModifyMediaChannelActionProperties> action,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var client = channel.GetRestClient();
+        return client.ModifyMediaChannelAsync(channel.Id, action, options, cancellationToken);
+    }
+
     public static Task<ICategoryChannel> ModifyAsync(this ICategoryChannel channel,
         Action<ModifyCategoryChannelActionProperties> action,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

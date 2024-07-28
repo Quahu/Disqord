@@ -4,14 +4,14 @@ using Qommon;
 namespace Disqord;
 
 /// <summary>
-///     Represents a local forum tag to be created within a forum channel.
+///     Represents a local channel tag to be created within a forum or media channel.
 /// </summary>
 /// <remarks>
-///     Note that when updating a forum channel's tags,
+///     Note that when updating a channel's tags,
 ///     you must provide the previous tags with their original values.
 ///     You can use <see cref="CreateFrom"/> for that purpose.
 /// </remarks>
-public class LocalForumTag : ILocalConstruct<LocalForumTag>, IJsonConvertible<ChannelTagJsonModel>
+public class LocalChannelTag : ILocalConstruct<LocalChannelTag>, IJsonConvertible<ChannelTagJsonModel>
 {
     /// <summary>
     ///     Gets or sets the ID of this tag.
@@ -44,16 +44,16 @@ public class LocalForumTag : ILocalConstruct<LocalForumTag>, IJsonConvertible<Ch
     public Optional<LocalEmoji> Emoji { get; set; }
 
     /// <summary>
-    ///     Instantiates a new <see cref="LocalForumTag"/>.
+    ///     Instantiates a new <see cref="LocalChannelTag"/>.
     /// </summary>
-    public LocalForumTag()
+    public LocalChannelTag()
     { }
 
     /// <summary>
-    ///     Instantiates a new <see cref="LocalForumTag"/> with the properties copied from another instance.
+    ///     Instantiates a new <see cref="LocalChannelTag"/> with the properties copied from another instance.
     /// </summary>
     /// <param name="other"> The other instance to copy properties from. </param>
-    protected LocalForumTag(LocalForumTag other)
+    protected LocalChannelTag(LocalChannelTag other)
     {
         Id = other.Id;
         Name = other.Name;
@@ -62,7 +62,7 @@ public class LocalForumTag : ILocalConstruct<LocalForumTag>, IJsonConvertible<Ch
     }
 
     /// <inheritdoc/>
-    public virtual LocalForumTag Clone()
+    public virtual LocalChannelTag Clone()
     {
         return new(this);
     }
@@ -101,15 +101,15 @@ public class LocalForumTag : ILocalConstruct<LocalForumTag>, IJsonConvertible<Ch
     }
 
     /// <summary>
-    ///     Converts the specified forum tag to a <see cref="LocalForumTag"/>.
+    ///     Converts the specified channel tag to a <see cref="LocalChannelTag"/>.
     /// </summary>
-    /// <param name="tag"> The forum tag to convert. </param>
+    /// <param name="tag"> The channel tag to convert. </param>
     /// <returns>
-    ///     The output <see cref="LocalForumTag"/>.
+    ///     The output <see cref="LocalChannelTag"/>.
     /// </returns>
-    public static LocalForumTag CreateFrom(IChannelTag tag)
+    public static LocalChannelTag CreateFrom(IChannelTag tag)
     {
-        return new LocalForumTag
+        return new LocalChannelTag
         {
             Id = tag.Id,
             Name = tag.Name,
