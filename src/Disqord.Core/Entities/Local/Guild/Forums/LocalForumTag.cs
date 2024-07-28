@@ -11,7 +11,7 @@ namespace Disqord;
 ///     you must provide the previous tags with their original values.
 ///     You can use <see cref="CreateFrom"/> for that purpose.
 /// </remarks>
-public class LocalForumTag : ILocalConstruct<LocalForumTag>, IJsonConvertible<ForumTagJsonModel>
+public class LocalForumTag : ILocalConstruct<LocalForumTag>, IJsonConvertible<ChannelTagJsonModel>
 {
     /// <summary>
     ///     Gets or sets the ID of this tag.
@@ -68,11 +68,11 @@ public class LocalForumTag : ILocalConstruct<LocalForumTag>, IJsonConvertible<Fo
     }
 
     /// <inheritdoc/>
-    public ForumTagJsonModel ToModel()
+    public ChannelTagJsonModel ToModel()
     {
         OptionalGuard.HasValue(Name);
 
-        var model = new ForumTagJsonModel
+        var model = new ChannelTagJsonModel
         {
             Id = Id,
             Name = Name.Value,
@@ -107,7 +107,7 @@ public class LocalForumTag : ILocalConstruct<LocalForumTag>, IJsonConvertible<Fo
     /// <returns>
     ///     The output <see cref="LocalForumTag"/>.
     /// </returns>
-    public static LocalForumTag CreateFrom(IForumTag tag)
+    public static LocalForumTag CreateFrom(IChannelTag tag)
     {
         return new LocalForumTag
         {

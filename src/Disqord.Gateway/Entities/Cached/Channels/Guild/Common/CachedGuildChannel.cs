@@ -68,8 +68,10 @@ public abstract class CachedGuildChannel : CachedChannel, IGuildChannel
                 return new CachedStageChannel(client, model);
 
             case ChannelType.Forum:
-            case ChannelType.Media:
                 return new CachedForumChannel(client, model);
+
+            case ChannelType.Media:
+                return new CachedMediaChannel(client, model);
         }
 
         return new CachedUnknownGuildChannel(client, model);

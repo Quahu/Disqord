@@ -6,8 +6,8 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-/// <inheritdoc cref="IForumChannel"/>
-public class TransientForumChannel : TransientCategorizableGuildChannel, IForumChannel
+/// <inheritdoc cref="IMediaChannel"/>
+public class TransientMediaChannel : TransientCategorizableGuildChannel, IMediaChannel
 {
     /// <inheritdoc/>
     public string Topic => Model.Topic.Value;
@@ -25,20 +25,20 @@ public class TransientForumChannel : TransientCategorizableGuildChannel, IForumC
     public Snowflake? LastThreadId => Model.LastMessageId.GetValueOrDefault();
 
     /// <inheritdoc/>
-    public IReadOnlyList<IForumTag> Tags
+    public IReadOnlyList<IChannelTag> Tags
     {
         get
         {
             if (!Model.AvailableTags.HasValue)
-                return ReadOnlyList<IForumTag>.Empty;
+                return ReadOnlyList<IChannelTag>.Empty;
 
             if (_availableTags != null)
                 return _availableTags;
 
-            return _availableTags = Model.AvailableTags.Value.ToReadOnlyList(model => new TransientForumTag(model));
+            return _availableTags = Model.AvailableTags.Value.ToReadOnlyList(model => new TransientChannelTag(model));
         }
     }
-    private IReadOnlyList<IForumTag>? _availableTags;
+    private IReadOnlyList<IChannelTag>? _availableTags;
 
     /// <inheritdoc/>
     public IEmoji? DefaultReactionEmoji
@@ -72,10 +72,7 @@ public class TransientForumChannel : TransientCategorizableGuildChannel, IForumC
     /// <inheritdoc/>
     public ForumSortOrder? DefaultSortOrder => Model.DefaultSortOrder.GetValueOrDefault();
 
-    /// <inheritdoc/>
-    public ForumLayout DefaultLayout => Model.DefaultForumLayout.GetValueOrDefault();
-
-    public TransientForumChannel(IClient client, ChannelJsonModel model)
+    public TransientMediaChannel(IClient client, ChannelJsonModel model)
         : base(client, model)
     { }
 }
