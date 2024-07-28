@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Qommon.Collections.ReadOnly;
 
 namespace Disqord.Rest;
 
@@ -37,6 +39,6 @@ public class CreateBansPagedEnumerator : PagedEnumerator<IBulkBanResponse>
         _offset += amount;
         var response = await Client.InternalCreateBansAsync(_guildId, segment, _reason, _deleteMessagesTime, options,
             cancellationToken);
-        return new []{response};
+        return Enumerable.Repeat(response, PageSize).ToReadOnlyList();
     }
 }

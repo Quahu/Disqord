@@ -486,7 +486,7 @@ public static partial class RestClientExtensions
         }, (client, guildId, userIds.ToArray(), reason, deleteMessageTime, options));
     }
 
-    public static async Task<IReadOnlyList<IBulkBanResponse>> CreateBansAsync(this IRestClient client,
+    public static async Task<IBulkBanResponse> CreateBansAsync(this IRestClient client,
         Snowflake guildId, IEnumerable<Snowflake> userIds, string? reason = null, TimeSpan? deleteMessageTime = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
@@ -497,12 +497,12 @@ public static partial class RestClientExtensions
 
         if (users.Length <= Discord.Limits.Guild.MaxBulkBanUsersAmount)
         {
-            var response = await client.InternalCreateBansAsync(guildId, users, reason, deleteMessageTime, options, cancellationToken).ConfigureAwait(false);
-            return new[] { response };
+            return await client.InternalCreateBansAsync(guildId, users, reason, deleteMessageTime, options, cancellationToken).ConfigureAwait(false);
         }
 
         var enumerable = client.EnumerateBanCreation(guildId, users, reason, deleteMessageTime, options);
-        return await enumerable.FlattenAsync(cancellationToken);
+        var flattened = await enumerable.FlattenAsync(cancellationToken);
+        return new CombinedBulkBanResponse(flattened);
     }
 
     internal static async Task<IBulkBanResponse> InternalCreateBansAsync(this IRestClient client,
