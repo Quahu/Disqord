@@ -12,7 +12,7 @@ public class CreateInitialInteractionResponseJsonRestRequestContent : JsonModelR
     public InteractionResponseType Type;
 
     [JsonProperty("data")]
-    public Optional<JsonModel> Data;
+    public Optional<object> Data;
 
     IList<PartialAttachmentJsonModel> IAttachmentRestRequestContent.Attachments
     {
@@ -49,7 +49,8 @@ public class CreateInitialInteractionResponseJsonRestRequestContent : JsonModelR
         OptionalGuard.CheckValue(Data, data =>
         {
             Guard.IsNotNull(data);
-            data.Validate();
+            var model = Guard.IsAssignableToType<JsonModel>(data);
+            model.Validate();
         });
     }
 }
