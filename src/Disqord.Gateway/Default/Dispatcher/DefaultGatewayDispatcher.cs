@@ -239,7 +239,7 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, "An exception occurred while handling dispatch {0}.\n{1}", e.Name, e.Data?.ToString());
+            Logger.LogError(ex, "An exception occurred while handling dispatch {0}.\n{1}", e.Name, e.Data?.ToJsonString(JsonFormatting.Indented));
         }
     }
 
