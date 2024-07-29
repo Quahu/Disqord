@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using Qommon;
@@ -15,6 +16,7 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
 {
     private static readonly PropertyInfo _ignoreConditionProperty;
 
+    private static readonly ConditionalWeakTable<JsonModel, Dictionary<string, JsonElement>> _extensionDataCache = new();
     private static readonly ConditionalWeakTable<Type, JsonConverter> _optionalConverters = new();
     private static readonly ConditionalWeakTable<Type, JsonConverter> _snowflakeDictionaryConverters = new();
     private static readonly StreamConverter? _streamConverter = new();
@@ -26,7 +28,6 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
     {
         // new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
         var jsonTypeInfo = base.GetTypeInfo(type, options);
-
         var jsonProperties = jsonTypeInfo.Properties;
         var jsonPropertyCount = jsonProperties.Count;
         List<JsonPropertyInfo>? jsonPropertiesToRemove = null;
@@ -36,7 +37,6 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
             var fieldInfo = jsonProperty.AttributeProvider as FieldInfo;
             if (fieldInfo == null)
             {
-                // TODO: IsExtensionData
                 (jsonPropertiesToRemove ??= new()).Add(jsonProperty);
                 continue;
             }
@@ -94,6 +94,29 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
         {
             foreach (var jsonProperty in jsonPropertiesToRemove)
                 jsonTypeInfo.Properties.Remove(jsonProperty);
+        }
+
+        if (type.IsAssignableTo(typeof(JsonModel)))
+        {
+            var extensionData = jsonTypeInfo.CreateJsonPropertyInfo(typeof(IDictionary<string, JsonElement>), "InternalExtensionData");
+            extensionData.IsExtensionData = true;
+
+            extensionData.Get = obj =>
+            {
+                var model = Guard.IsAssignableToType<JsonModel>(obj);
+                return _extensionDataCache.GetValue(model, model =>
+                {
+                    var extensionData = new JsonObject();
+                    foreach (var property in model.ExtensionData)
+                    {
+                        extensionData[property.Key] = property.Value?.ToType<JsonNode>();
+                    }
+
+                    return extensionData.Deserialize<Dictionary<string, JsonElement>>(options)!;
+                });
+            };
+
+            jsonTypeInfo.Properties.Add(extensionData);
         }
 
         return jsonTypeInfo;
