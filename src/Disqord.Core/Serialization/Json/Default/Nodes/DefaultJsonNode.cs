@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Qommon;
 
 namespace Disqord.Serialization.Json.Default;
 
@@ -16,7 +17,10 @@ public class DefaultJsonNode : IJsonNode
     /// </summary>
     public JToken Token { get; }
 
-    private protected readonly JsonSerializer Serializer;
+    /// <summary>
+    ///     Gets the underlying serializer.
+    /// </summary>
+    public JsonSerializer Serializer { get; }
 
     public DefaultJsonNode(JToken token, JsonSerializer serializer)
     {
@@ -37,34 +41,27 @@ public class DefaultJsonNode : IJsonNode
     /// <returns>
     ///     The string representing this node.
     /// </returns>
-    public string ToString(Formatting formatting)
+    public string ToJsonString(JsonFormatting formatting)
     {
-        return Token.ToString(formatting);
-    }
-
-    /// <summary>
-    ///     Formats this node into an indented JSON representation.
-    /// </summary>
-    /// <returns>
-    ///     The string representing this node.
-    /// </returns>
-    public override string ToString()
-    {
-        return Token.ToString(Formatting.Indented);
+        return Token.ToString(formatting switch
+        {
+            JsonFormatting.Indented => Formatting.Indented,
+            _ => Formatting.None
+        });
     }
 
     /// <summary>
     ///     Creates a new <see cref="DefaultJsonNode"/> from the specified object.
     /// </summary>
-    /// <param name="obj"> The object to create the node for. </param>
     /// <param name="serializer"> The default JSON serializer. </param>
+    /// <param name="obj"> The object to create the node for. </param>
     /// <returns>
     ///     A JSON node representing the object.
     /// </returns>
-    public static IJsonNode? Create(object? obj, DefaultJsonSerializer serializer)
+    public static IJsonNode? Create(object? obj, JsonSerializer serializer)
     {
-        var token = obj != null ? JToken.FromObject(obj) : JValue.CreateNull();
-        return Create(token, serializer.UnderlyingSerializer);
+        var token = obj != null ? JToken.FromObject(obj, serializer) : JValue.CreateNull();
+        return Create(token, serializer);
     }
 
     [return: NotNullIfNotNull("token")]
@@ -78,5 +75,13 @@ public class DefaultJsonNode : IJsonNode
             JValue value => new DefaultJsonValue(value, serializer),
             _ => throw new InvalidOperationException("Unknown JSON token type.")
         };
+    }
+
+    [return: NotNullIfNotNull("node")]
+    internal static JToken? GetJToken(IJsonNode? node)
+    {
+        return node != null
+            ? Guard.IsAssignableToType<DefaultJsonNode>(node).Token
+            : null;
     }
 }

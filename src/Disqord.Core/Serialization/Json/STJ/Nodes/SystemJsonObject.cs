@@ -6,30 +6,89 @@ using System.Text.Json.Nodes;
 
 namespace Disqord.Serialization.Json.System;
 
+/// <summary>
+///     Represents a default JSON object node.
+///     Wraps a <see cref="JsonObject"/>.
+/// </summary>
 public class SystemJsonObject : SystemJsonNode, IJsonObject
 {
-    private readonly JsonSerializerOptions _options;
+    /// <inheritdoc cref="SystemJsonNode.Node"/>
+    public new JsonObject Node => (base.Node as JsonObject)!;
 
-    public new JsonObject Token => base.Token.AsObject();
+    /// <inheritdoc/>
+    public int Count => Node.Count;
 
-    public SystemJsonObject(JsonObject node, JsonSerializerOptions options)
-        : base(node, options)
+    /// <inheritdoc/>
+    public ICollection<string> Keys => (Node as IDictionary<string, JsonNode?>).Keys;
+
+    /// <inheritdoc/>
+    public ICollection<IJsonNode?> Values => (Node as IDictionary<string, JsonNode?>).Values.Select(value => Create(value, Options)).ToArray();
+
+    /// <inheritdoc/>
+    public IJsonNode? this[string key]
     {
-        _options = options;
+        get => Create(Node[key], Options);
+        set => Node[key] = GetSystemNode(value);
     }
 
-    public int Count => Token.Count;
+    bool ICollection<KeyValuePair<string, IJsonNode?>>.IsReadOnly => false;
 
+    public SystemJsonObject(JsonObject @object, JsonSerializerOptions options)
+        : base(@object, options)
+    { }
+
+    /// <inheritdoc/>
+    public void Add(KeyValuePair<string, IJsonNode?> item)
+    {
+        Add(item.Key, item.Value);
+    }
+
+    /// <inheritdoc/>
+    public void Clear()
+    {
+        Node.Clear();
+    }
+
+    /// <inheritdoc/>
+    public bool Contains(KeyValuePair<string, IJsonNode?> item)
+    {
+        return TryGetValue(item.Key, out var value) && ReferenceEquals(value, item.Value);
+    }
+
+    /// <inheritdoc/>
+    public void CopyTo(KeyValuePair<string, IJsonNode?>[] array, int arrayIndex)
+    {
+        var index = 0;
+        foreach (var (key, value) in this)
+        {
+            array[arrayIndex + index++] = KeyValuePair.Create(key, value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public bool Remove(KeyValuePair<string, IJsonNode?> item)
+    {
+        return Remove(item.Key);
+    }
+
+    /// <inheritdoc/>
+    public void Add(string key, IJsonNode? value)
+    {
+        Node.Add(key, GetSystemNode(value));
+    }
+
+    /// <inheritdoc/>
     public bool ContainsKey(string key)
     {
-        return Token.ContainsKey(key);
+        return Node.ContainsKey(key);
     }
 
+    /// <inheritdoc/>
     public bool TryGetValue(string key, out IJsonNode? value)
     {
-        if (Token.TryGetPropertyValue(key, out var propertyValue))
+        if (Node.TryGetPropertyValue(key, out var node))
         {
-            value = Create(propertyValue, _options);
+            value = Create(node, Options);
             return true;
         }
 
@@ -37,11 +96,11 @@ public class SystemJsonObject : SystemJsonNode, IJsonObject
         return false;
     }
 
-    public IJsonNode? this[string key] => Create(Token[key], _options);
-
-    public IEnumerable<string> Keys => (Token as IDictionary<string, JsonNode?>).Keys;
-
-    public IEnumerable<IJsonNode?> Values => (Token as IDictionary<string, JsonNode?>).Values.Select(x => Create(x, _options));
+    /// <inheritdoc/>
+    public bool Remove(string key)
+    {
+        return Node.Remove(key);
+    }
 
     private sealed class Enumerator : IEnumerator<KeyValuePair<string, IJsonNode?>>
     {
@@ -68,9 +127,10 @@ public class SystemJsonObject : SystemJsonNode, IJsonObject
             => _enumerator.Dispose();
     }
 
+    /// <inheritdoc/>
     public IEnumerator<KeyValuePair<string, IJsonNode?>> GetEnumerator()
     {
-        return new Enumerator(Token.GetEnumerator(), _options);
+        return new Enumerator(Node.GetEnumerator(), Options);
     }
 
     IEnumerator IEnumerable.GetEnumerator()

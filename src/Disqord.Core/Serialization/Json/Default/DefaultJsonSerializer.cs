@@ -80,7 +80,9 @@ public class DefaultJsonSerializer : IJsonSerializer
     public virtual IJsonNode GetJsonNode(object? obj)
     {
         if (obj == null)
+        {
             return DefaultJsonNode.Create(JValue.CreateNull(), UnderlyingSerializer);
+        }
 
         return DefaultJsonNode.Create(JToken.FromObject(obj, UnderlyingSerializer), UnderlyingSerializer);
     }

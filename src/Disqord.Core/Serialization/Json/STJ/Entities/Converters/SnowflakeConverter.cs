@@ -1,6 +1,13 @@
 ﻿using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using BufferType =
+#if NET8_0_OR_GREATER
+    byte
+#else
+    char
+#endif
+    ;
 
 namespace Disqord.Serialization.Json.System;
 
@@ -11,14 +18,18 @@ internal class SnowflakeConverter : JsonConverter<Snowflake>
 
     public override Snowflake Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var value = reader.GetString()!;
-        return new Snowflake(Snowflake.Parse(value));
+        if (reader.TokenType == JsonTokenType.String)
+        {
+            return reader.ReadUInt64FromString();
+        }
+
+        return reader.GetUInt64();
     }
 
     public override void Write(Utf8JsonWriter writer, Snowflake value, JsonSerializerOptions options)
     {
-        var stringValue = (stackalloc char[20]);
-        value.TryFormat(stringValue, out var charsWritten);
-        writer.WriteStringValue(stringValue[..charsWritten]);
+        var buffer = (stackalloc BufferType[20]);
+        value.RawValue.TryFormat(buffer, out var countWritten);
+        writer.WriteStringValue(buffer[..countWritten]);
     }
 }

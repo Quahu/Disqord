@@ -18,11 +18,69 @@ public class DefaultJsonArray : DefaultJsonNode, IJsonArray
     public int Count => Token.Count;
 
     /// <inheritdoc/>
-    public IJsonNode? this[int index] => Create(Token[index], Serializer);
+    public IJsonNode? this[int index]
+    {
+        get => Create(Token[index], Serializer);
+        set => Token[index] = GetJToken(value)!;
+    }
+
+    bool ICollection<IJsonNode?>.IsReadOnly => false;
 
     public DefaultJsonArray(JArray token, JsonSerializer serializer)
         : base(token, serializer)
     { }
+
+    /// <inheritdoc/>
+    public void Add(IJsonNode? item)
+    {
+        Token.Add(GetJToken(item)!);
+    }
+
+    /// <inheritdoc/>
+    public void Clear()
+    {
+        Token.Clear();
+    }
+
+    /// <inheritdoc/>
+    public bool Contains(IJsonNode? item)
+    {
+        return Token.Contains(GetJToken(item)!);
+    }
+
+    /// <inheritdoc/>
+    public void CopyTo(IJsonNode?[] array, int arrayIndex)
+    {
+        var count = Count;
+        for (var i = 0; i < count; i++)
+        {
+            array[arrayIndex + i] = this[i];
+        }
+    }
+
+    /// <inheritdoc/>
+    public bool Remove(IJsonNode? item)
+    {
+        return Token.Remove(GetJToken(item)!);
+    }
+
+    /// <inheritdoc/>
+    public int IndexOf(IJsonNode? item)
+    {
+        return Token.IndexOf(GetJToken(item)!);
+    }
+
+    /// <inheritdoc/>
+    public void Insert(int index, IJsonNode? item)
+    {
+        Token.Insert(index, GetJToken(item)!);
+    }
+
+    /// <inheritdoc/>
+    public void RemoveAt(int index)
+    {
+        Token.RemoveAt(index);
+    }
 
     /// <inheritdoc/>
     public IEnumerator<IJsonNode?> GetEnumerator()

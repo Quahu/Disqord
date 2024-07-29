@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Default.Dispatcher;
+using Disqord.Serialization.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Qommon;
@@ -250,7 +251,7 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
         shard.Logger.LogWarning(_loggedUnknownWarning
                 ? "Received an unknown dispatch {0}.\n{1}"
                 : "Received an unknown dispatch {0}. This message will only appear once for each unknown dispatch.\n{1}",
-            e.Name, e.Data.ToString());
+            e.Name, e.Data.ToJsonString(JsonFormatting.Indented));
 
         if (!_loggedUnknownWarning)
             _loggedUnknownWarning = true;

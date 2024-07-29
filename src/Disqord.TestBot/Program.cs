@@ -1,6 +1,11 @@
 using System;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
+using Disqord.Gateway.Api.Default;
+using Disqord.Serialization.Json;
+using Disqord.Serialization.Json.System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -22,6 +27,12 @@ namespace Disqord.TestBot
                         bot.UseMentionPrefix = false;
                         bot.Prefixes = new[] { "??" };
                         bot.Intents |= GatewayIntents.DirectMessages | GatewayIntents.DirectReactions;
+                    })
+                    .ConfigureServices(services =>
+                    {
+                        services.Replace(ServiceDescriptor.Singleton<IJsonSerializer, SystemJsonSerializer>());
+
+                        services.Configure<DefaultGatewayConfiguration>(x => x.LogsPayloads = true);
                     })
                     .UseDefaultServiceProvider(provider =>
                     {

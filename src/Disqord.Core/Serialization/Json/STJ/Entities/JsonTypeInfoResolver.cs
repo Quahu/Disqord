@@ -1,52 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using Qommon;
 using Qommon.Serialization;
 
 namespace Disqord.Serialization.Json.System;
 
 internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
 {
-    private static readonly Dictionary<Type, JsonConverter> _optionalConverters = new();
+    private static readonly PropertyInfo _ignoreConditionProperty;
+
+    private static readonly ConditionalWeakTable<Type, JsonConverter> _optionalConverters = new();
+    private static readonly ConditionalWeakTable<Type, JsonConverter> _snowflakeDictionaryConverters = new();
+    private static readonly StreamConverter? _streamConverter = new();
+    private static readonly JsonStringEnumConverter? _stringEnumConverter = new();
+    private static readonly SnowflakeConverter? _snowflakeConverter = new();
+    private static readonly NullableConverter<Snowflake>? _nullableSnowflakeConverter = new(_snowflakeConverter);
 
     public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
     {
+        // new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
         var jsonTypeInfo = base.GetTypeInfo(type, options);
 
-        // TODO: AttributeProvider
         var jsonProperties = jsonTypeInfo.Properties;
         var jsonPropertyCount = jsonProperties.Count;
-        var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
         List<JsonPropertyInfo>? jsonPropertiesToRemove = null;
         for (var i = 0; i < jsonPropertyCount; i++)
         {
             var jsonProperty = jsonProperties[i];
-            FieldInfo? matchingField = null;
-            foreach (var property in fields)
-            {
-                if (jsonProperty.Name == property.Name)
-                {
-                    matchingField = property;
-                    break;
-                }
-            }
-
-            if (matchingField == null)
+            var fieldInfo = jsonProperty.AttributeProvider as FieldInfo;
+            if (fieldInfo == null)
             {
                 // TODO: IsExtensionData
                 (jsonPropertiesToRemove ??= new()).Add(jsonProperty);
-
                 continue;
             }
 
-            // Guard.IsNotNull(matchingField);
-
-            var attributes = matchingField.GetCustomAttributes();
+            var attributes = fieldInfo.GetCustomAttributes();
             JsonPropertyAttribute? jsonPropertyAttribute = null;
             foreach (var attribute in attributes)
             {
@@ -73,27 +68,25 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
 
             jsonProperty.Name = jsonPropertyAttribute.Name;
 
-            // TODO: set options individually, if possible in the future?
-            // TODO: set the currently internal IgnoreCondition instead of duping options?
-            typeof(JsonPropertyInfo).GetProperty("Options")!.SetValue(jsonProperty, new JsonSerializerOptions(jsonProperty.Options));
             if (typeof(IOptional).IsAssignableFrom(jsonProperty.PropertyType))
             {
-                jsonProperty.Options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
-
-                ref var optionalConverter = ref CollectionsMarshal.GetValueRefOrAddDefault(_optionalConverters, jsonProperty.PropertyType, out var exists);
-                if (!exists)
+                if (jsonProperty.PropertyType.GenericTypeArguments.Length == 0)
                 {
-                    var optionalConverterType = typeof(OptionalConverter<>).MakeGenericType(jsonProperty.PropertyType.GenericTypeArguments[0]);
-                    optionalConverter = Unsafe.As<JsonConverter>(Activator.CreateInstance(optionalConverterType));
+                    Throw.InvalidOperationException($"JSON property type {jsonProperty.PropertyType} is not supported.");
                 }
 
-                jsonProperty.CustomConverter = optionalConverter;
+                _ignoreConditionProperty.SetValue(jsonProperty, JsonIgnoreCondition.WhenWritingDefault);
+
+                jsonProperty.CustomConverter = GetOptionalConverter(jsonProperty.PropertyType);
             }
             else
             {
-                jsonProperty.Options.DefaultIgnoreCondition = jsonPropertyAttribute.NullValueHandling == NullValueHandling.Ignore
-                    ? JsonIgnoreCondition.WhenWritingNull
-                    : JsonIgnoreCondition.Never;
+                if (jsonPropertyAttribute.NullValueHandling == NullValueHandling.Ignore)
+                {
+                    _ignoreConditionProperty.SetValue(jsonProperty, JsonIgnoreCondition.WhenWritingNull);
+                }
+
+                jsonProperty.CustomConverter = GetConverter(jsonProperty.PropertyType);
             }
         }
 
@@ -104,5 +97,86 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
         }
 
         return jsonTypeInfo;
+    }
+
+    private static JsonConverter GetOptionalConverter(Type type)
+    {
+        var optionalType = type.GenericTypeArguments[0];
+        return _optionalConverters.GetValue(optionalType, static type =>
+        {
+            var valueConverter = GetConverter(type);
+            if (valueConverter != null)
+            {
+                var optionalConverterType = typeof(OptionalConverterWithValueConverter<>).MakeGenericType(type);
+                return (Activator.CreateInstance(optionalConverterType, valueConverter) as JsonConverter)!;
+            }
+            else
+            {
+                var optionalConverterType = typeof(OptionalConverter<>).MakeGenericType(type);
+                return (Activator.CreateInstance(optionalConverterType) as JsonConverter)!;
+            }
+        });
+    }
+
+    private static JsonConverter? GetConverter(Type type)
+    {
+        if (typeof(Stream).IsAssignableFrom(type))
+        {
+            return _streamConverter;
+        }
+
+        if (typeof(IJsonNode).IsAssignableFrom(type) && !typeof(JsonModel).IsAssignableFrom(type))
+        {
+            return (Activator.CreateInstance(typeof(JsonNodeConverter<>).MakeGenericType(type)) as JsonConverter)!;
+        }
+
+        if (!type.IsClass)
+        {
+            var nullableType = Nullable.GetUnderlyingType(type);
+            if (nullableType != null)
+                type = nullableType;
+
+            if (type.IsEnum)
+            {
+                var stringEnumAttribute = type.GetCustomAttribute<StringEnumAttribute>();
+                if (stringEnumAttribute != null)
+                {
+                    return _stringEnumConverter;
+                }
+            }
+            else if (type == typeof(Snowflake))
+            {
+                if (nullableType != null)
+                {
+                    return _nullableSnowflakeConverter;
+                }
+
+                return _snowflakeConverter;
+            }
+        }
+        else
+        {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
+            {
+                var generics = type.GetGenericArguments();
+                if (generics[0] == typeof(Snowflake))
+                {
+                    return _snowflakeDictionaryConverters.GetValue(generics[1], type => (Activator.CreateInstance(typeof(SnowflakeDictionaryConverter<>).MakeGenericType(type)) as JsonConverter)!);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    static JsonTypeInfoResolver()
+    {
+        var ignoreConditionProperty = typeof(JsonPropertyInfo).GetProperty("IgnoreCondition", BindingFlags.Instance | BindingFlags.NonPublic);
+        if (ignoreConditionProperty == null)
+        {
+            Throw.InvalidOperationException("The System.Text.Json version is not compatible with this resolver.");
+        }
+
+        _ignoreConditionProperty = ignoreConditionProperty;
     }
 }

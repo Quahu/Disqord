@@ -41,10 +41,10 @@ public class VoiceStateUpdateDispatchHandler : DispatchHandler<VoiceStateJsonMod
         newVoiceState ??= new TransientVoiceState(Client, model);
 
         var isLurker = false;
-        if (model.Member.Value.TryGetValue("joined_at", out var joinedAt) && joinedAt is IJsonValue jsonValue && jsonValue.Value == null)
+        if (model.Member.Value.TryGetValue("joined_at", out var joinedAt) && joinedAt is IJsonValue jsonValue && jsonValue.GetValue<object>() == null)
         {
             isLurker = true;
-            jsonValue.Value = DateTimeOffset.UtcNow;
+            model.Member.Value["joined_at"] = shard.Serializer.GetJsonNode(DateTimeOffset.UtcNow);
         }
 
         var memberModel = model.Member.Value.ToType<MemberJsonModel>()!;

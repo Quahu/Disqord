@@ -23,9 +23,11 @@ public class ApplicationCommandOptionChoiceJsonModel : JsonModel
         Guard.HasSizeBetweenOrEqualTo(Name, Discord.Limits.ApplicationCommand.Option.Choice.MinNameLength, Discord.Limits.ApplicationCommand.Option.Choice.MaxNameLength);
 
         Guard.IsNotNull(Value);
-        Guard.IsNotNull(Value.Value);
 
-        var value = Guard.IsAssignableToType<IConvertible>(Value.Value, nameof(Value));
+        var objectValue = Value.GetValue<object>();
+        Guard.IsNotNull(objectValue);
+
+        var value = Guard.IsAssignableToType<IConvertible>(objectValue, nameof(Value));
         switch (value.GetTypeCode())
         {
             case TypeCode.SByte:

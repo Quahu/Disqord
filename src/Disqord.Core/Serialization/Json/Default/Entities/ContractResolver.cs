@@ -114,7 +114,7 @@ internal sealed class ContractResolver : DefaultContractResolver
                 {
                     null => null,
                     JToken jToken => DefaultJsonNode.Create(jToken, _serializer.UnderlyingSerializer),
-                    _ => DefaultJsonNode.Create(JToken.FromObject(value, _serializer.UnderlyingSerializer), _serializer.UnderlyingSerializer)
+                    _ => DefaultJsonNode.Create(value, _serializer.UnderlyingSerializer)
                 };
 
                 model.ExtensionData.Add(key, node);

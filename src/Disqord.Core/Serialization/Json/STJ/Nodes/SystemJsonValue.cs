@@ -4,24 +4,31 @@ using System.Text.Json.Nodes;
 
 namespace Disqord.Serialization.Json.System;
 
-[DebuggerDisplay("{Value}")]
+/// <summary>
+///     Represents a default JSON value node.
+///     Wraps a <see cref="JsonValue"/>.
+/// </summary>
+[DebuggerDisplay($"{nameof(Value)}")]
 public class SystemJsonValue : SystemJsonNode, IJsonValue
 {
-    public new JsonValue Token => base.Token.AsValue();
+    /// <inheritdoc cref="SystemJsonNode.Node"/>
+    public new JsonValue Node => (base.Node as JsonValue)!;
 
-    public SystemJsonValue(JsonValue token, JsonSerializerOptions options)
-        : base(token, options)
+    private object? Value => GetValue<object>();
+
+    public SystemJsonValue(JsonValue value, JsonSerializerOptions options)
+        : base(value, options)
     { }
 
-    // TODO
-    public object? Value
+    /// <inheritdoc/>
+    public T? GetValue<T>()
     {
-        get => Token;
-        set => base.Token = JsonValue.Create(value)!;
+        return Node.Deserialize<T>(Options);
     }
 
+    /// <inheritdoc/>
     public override string ToString()
     {
-        return Token.ToString();
+        return Node.ToString();
     }
 }

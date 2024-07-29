@@ -8,5 +8,6 @@ public interface IJsonValue : IJsonNode
     /// <summary>
     ///     Gets the value of this JSON node.
     /// </summary>
-    object? Value { get; set; }
+    /// <typeparam name="T"> The type of the value. </typeparam>
+    T? GetValue<T>();
 }

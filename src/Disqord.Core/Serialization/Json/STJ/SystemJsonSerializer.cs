@@ -10,21 +10,22 @@ public class SystemJsonSerializer : IJsonSerializer
 {
     public ILogger Logger { get; }
 
-    private readonly JsonSerializerOptions _options;
+    /// <summary>
+    ///     Gets the underlying <see cref="JsonSerializerOptions"/>.
+    /// </summary>
+    public JsonSerializerOptions UnderlyingOptions { get; }
 
     public SystemJsonSerializer(ILogger<SystemJsonSerializer> logger)
     {
         Logger = logger;
-        _options = new JsonSerializerOptions
+        UnderlyingOptions = new JsonSerializerOptions
         {
-            NumberHandling = JsonNumberHandling.AllowReadingFromString,
+            NumberHandling = JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.AllowNamedFloatingPointLiterals,
             IncludeFields = true,
             IgnoreReadOnlyFields = true,
             IgnoreReadOnlyProperties = true,
             TypeInfoResolver = new JsonTypeInfoResolver(),
-
-            // TODO: proper string enum converter
-            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase), new JsonNodeConverter(), new SnowflakeConverter(), new StreamConverter(this) }
+            Converters = { new EnumConverter(), new SnowflakeConverter(), new StreamConverter() }
         };
     }
 
@@ -33,7 +34,7 @@ public class SystemJsonSerializer : IJsonSerializer
     {
         try
         {
-            return JsonSerializer.Deserialize(stream, type, _options);
+            return JsonSerializer.Deserialize(stream, type, UnderlyingOptions);
         }
         catch (Exception ex)
         {
@@ -48,13 +49,13 @@ public class SystemJsonSerializer : IJsonSerializer
         {
             if (options != null && options.Formatting == JsonFormatting.Indented)
             {
-                var serializerOptions = new JsonSerializerOptions(_options);
+                var serializerOptions = new JsonSerializerOptions(UnderlyingOptions);
                 serializerOptions.WriteIndented = true;
                 JsonSerializer.Serialize(stream, obj, serializerOptions);
             }
             else
             {
-                JsonSerializer.Serialize(stream, obj, _options);
+                JsonSerializer.Serialize(stream, obj, UnderlyingOptions);
             }
         }
         catch (Exception ex)
@@ -65,6 +66,6 @@ public class SystemJsonSerializer : IJsonSerializer
 
     public IJsonNode GetJsonNode(object? obj)
     {
-        return SystemJsonNode.Create(obj, _options)!;
+        return SystemJsonNode.Create(obj, UnderlyingOptions)!;
     }
 }

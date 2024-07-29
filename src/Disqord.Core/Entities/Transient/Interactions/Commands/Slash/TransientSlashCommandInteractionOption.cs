@@ -15,7 +15,7 @@ public class TransientSlashCommandInteractionOption : TransientClientEntity<Appl
     public SlashCommandOptionType Type => Model.Type;
 
     /// <inheritdoc/>
-    public object? Value => Model.Value.GetValueOrDefault()?.Value;
+    public object? Value => Model.Value.GetValueOrDefault()?.GetValue<object>();
 
     /// <inheritdoc/>
     public IReadOnlyDictionary<string, ISlashCommandInteractionOption> Options

@@ -21,7 +21,27 @@ internal class OptionalConverter<TValue> : JsonConverter<Optional<TValue?>>
         }
         else
         {
-            JsonSerializer.Serialize(writer, optionalValue, options);
+            JsonSerializer.Serialize(writer, value.Value, options);
         }
+    }
+}
+
+internal class OptionalConverterWithValueConverter<TValue> : JsonConverter<Optional<TValue?>>
+{
+    private readonly JsonConverter<TValue?> _valueConverter;
+
+    public OptionalConverterWithValueConverter(JsonConverter<TValue?> valueConverter)
+    {
+        _valueConverter = valueConverter;
+    }
+
+    public override Optional<TValue?> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        return _valueConverter.Read(ref reader, typeToConvert, options);
+    }
+
+    public override void Write(Utf8JsonWriter writer, Optional<TValue?> value, JsonSerializerOptions options)
+    {
+        _valueConverter.Write(writer, value.Value, options);
     }
 }
