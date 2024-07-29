@@ -31,7 +31,14 @@ public class SystemJsonNode : IJsonNode
     /// <inheritdoc/>
     public T? ToType<T>()
     {
-        return Node.Deserialize<T>(Options);
+        try
+        {
+            return Node.Deserialize<T>(Options);
+        }
+        catch (JsonException ex)
+        {
+            throw new JsonSerializationException(isDeserialize: true, typeof(T), ex);
+        }
     }
 
     /// <inheritdoc/>
@@ -43,18 +50,18 @@ public class SystemJsonNode : IJsonNode
         });
     }
 
-    /// <summary>
-    ///     Creates a new <see cref="SystemJsonNode"/> from the specified object.
-    /// </summary>
-    /// <param name="obj"> The object to create the node for. </param>
-    /// <param name="options"> The JSON serializer options. </param>
-    /// <returns>
-    ///     A JSON node representing the object.
-    /// </returns>
-    public static IJsonNode? Create(object? obj, JsonSerializerOptions options)
+    [return: NotNullIfNotNull("obj")]
+    internal static IJsonNode? Create(object? obj, JsonSerializerOptions options)
     {
-        var node = JsonSerializer.SerializeToNode(obj, options);
-        return Create(node, options);
+        try
+        {
+            var node = JsonSerializer.SerializeToNode(obj, options);
+            return Create(node, options);
+        }
+        catch (JsonException ex)
+        {
+            throw new JsonSerializationException(isDeserialize: false, obj?.GetType() ?? typeof(object), ex);
+        }
     }
 
     [return: NotNullIfNotNull("node")]

@@ -24,7 +24,7 @@ public class ApplicationCommandOptionChoiceJsonModel : JsonModel
 
         Guard.IsNotNull(Value);
 
-        var objectValue = Value.GetValue<object>();
+        var objectValue = Value.ToType<object>();
         Guard.IsNotNull(objectValue);
 
         var value = Guard.IsAssignableToType<IConvertible>(objectValue, nameof(Value));

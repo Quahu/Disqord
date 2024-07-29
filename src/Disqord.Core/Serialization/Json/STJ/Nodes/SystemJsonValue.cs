@@ -14,21 +14,15 @@ public class SystemJsonValue : SystemJsonNode, IJsonValue
     /// <inheritdoc cref="SystemJsonNode.Node"/>
     public new JsonValue Node => (base.Node as JsonValue)!;
 
-    private object? Value => GetValue<object>();
+    private object? Value => ToType<object>();
 
     public SystemJsonValue(JsonValue value, JsonSerializerOptions options)
         : base(value, options)
     { }
 
     /// <inheritdoc/>
-    public T? GetValue<T>()
+    public override string? ToString()
     {
-        return Node.Deserialize<T>(Options);
-    }
-
-    /// <inheritdoc/>
-    public override string ToString()
-    {
-        return Node.ToString();
+        return Value?.ToString();
     }
 }

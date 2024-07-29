@@ -50,15 +50,8 @@ public class DefaultJsonNode : IJsonNode
         });
     }
 
-    /// <summary>
-    ///     Creates a new <see cref="DefaultJsonNode"/> from the specified object.
-    /// </summary>
-    /// <param name="serializer"> The default JSON serializer. </param>
-    /// <param name="obj"> The object to create the node for. </param>
-    /// <returns>
-    ///     A JSON node representing the object.
-    /// </returns>
-    public static IJsonNode? Create(object? obj, JsonSerializer serializer)
+    [return: NotNullIfNotNull("obj")]
+    internal static IJsonNode? Create(object? obj, JsonSerializer serializer)
     {
         var token = obj != null ? JToken.FromObject(obj, serializer) : JValue.CreateNull();
         return Create(token, serializer);

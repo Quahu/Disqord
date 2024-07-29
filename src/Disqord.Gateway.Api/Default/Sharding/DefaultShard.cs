@@ -210,8 +210,8 @@ public class DefaultShard : IShard
 
                                     // LINQ is faster here as we avoid double ToType()ing (later in the dispatch handler).
                                     var d = (payload.D as IJsonObject)!;
-                                    SessionId = (d["session_id"] as IJsonValue)?.GetValue<string>();
-                                    var resumeGatewayUrl = (d["resume_gateway_url"] as IJsonValue)?.GetValue<string>();
+                                    SessionId = (d["session_id"] as IJsonValue)?.ToType<string>();
+                                    var resumeGatewayUrl = (d["resume_gateway_url"] as IJsonValue)?.ToType<string>();
                                     if (resumeGatewayUrl != null)
                                     {
                                         ResumeUri = new Uri(resumeGatewayUrl);
