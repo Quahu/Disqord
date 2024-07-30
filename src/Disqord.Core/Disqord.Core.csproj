@@ -4,7 +4,7 @@
     <PropertyGroup>
         <VersionPrefix>1.0.0-alpha5</VersionPrefix>
     </PropertyGroup>
-    <Import Project="../Disqord.targets" />
+    <Import Project="../Disqord.targets"/>
     <PropertyGroup>
         <RootNamespace>Disqord</RootNamespace>
     </PropertyGroup>
@@ -13,6 +13,13 @@
         <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0"/>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
         <PackageReference Include="Qommon" Version="4.0.1"/>
-        <PackageReference Include="System.Text.Json" Version="9.0.0-preview.6.24327.7" />
+    </ItemGroup>
+    
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+        <Compile Remove="Serialization/Json/STJ/**"/>
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' != 'net6.0' ">
+        <PackageReference Include="System.Text.Json" Version="9.0.0-preview.6.24327.7"/>
     </ItemGroup>
 </Project>
