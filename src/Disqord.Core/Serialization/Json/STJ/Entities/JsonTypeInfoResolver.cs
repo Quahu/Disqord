@@ -16,7 +16,7 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
 {
     private static readonly PropertyInfo _ignoreConditionProperty;
 
-    private static readonly ConditionalWeakTable<JsonModel, Dictionary<string, JsonElement>> _extensionDataCache = new();
+    private static readonly ConditionalWeakTable<JsonModel, Dictionary<string, object?>> _extensionDataCache = new();
     private static readonly ConditionalWeakTable<Type, JsonConverter> _optionalConverters = new();
     private static readonly ConditionalWeakTable<Type, JsonConverter> _snowflakeDictionaryConverters = new();
     private static readonly StreamConverter? _streamConverter = new();
@@ -98,22 +98,44 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
 
         if (type.IsAssignableTo(typeof(JsonModel)))
         {
-            var extensionData = jsonTypeInfo.CreateJsonPropertyInfo(typeof(IDictionary<string, JsonElement>), "InternalExtensionData");
+            var extensionData = jsonTypeInfo.CreateJsonPropertyInfo(typeof(Dictionary<string, object?>), "InternalExtensionData");
             extensionData.IsExtensionData = true;
+
+            // Necessary for STJ to deserialize the extension data.
+            extensionData.Set = static (_, _) => { };
 
             extensionData.Get = obj =>
             {
                 var model = Guard.IsAssignableToType<JsonModel>(obj);
                 return _extensionDataCache.GetValue(model, model =>
                 {
-                    var extensionData = new JsonObject();
+                    var extensionData = new Dictionary<string, object?>();
                     foreach (var property in model.ExtensionData)
                     {
-                        extensionData[property.Key] = property.Value?.ToType<JsonNode>();
+                        extensionData[property.Key] = property.Value is JsonModel modelValue
+                            ? JsonSerializer.SerializeToNode(modelValue, options)
+                            : property.Value?.ToType<JsonNode>();
                     }
 
-                    return extensionData.Deserialize<Dictionary<string, JsonElement>>(options)!;
+                    return extensionData;
                 });
+            };
+
+            // Flush InternalExtensionData to JsonModel.ExtensionData
+            jsonTypeInfo.OnDeserialized += obj =>
+            {
+                var model = Guard.IsAssignableToType<JsonModel>(obj);
+                if (_extensionDataCache.TryGetValue(model, out var extensionData))
+                {
+                    model.ExtensionData.Clear();
+
+                    foreach (var property in extensionData)
+                    {
+                        model.ExtensionData[property.Key] = SystemJsonNode.Create(JsonSerializer.SerializeToNode(property.Value, options), options);
+                    }
+
+                    _extensionDataCache.Remove(model);
+                }
             };
 
             jsonTypeInfo.Properties.Add(extensionData);
