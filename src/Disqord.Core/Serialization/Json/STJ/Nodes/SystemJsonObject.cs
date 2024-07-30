@@ -10,7 +10,7 @@ namespace Disqord.Serialization.Json.System;
 ///     Represents a default JSON object node.
 ///     Wraps a <see cref="JsonObject"/>.
 /// </summary>
-public class SystemJsonObject : SystemJsonNode, IJsonObject
+public sealed class SystemJsonObject : SystemJsonNode, IJsonObject
 {
     /// <inheritdoc cref="SystemJsonNode.Node"/>
     public new JsonObject Node => (base.Node as JsonObject)!;
@@ -33,7 +33,7 @@ public class SystemJsonObject : SystemJsonNode, IJsonObject
 
     bool ICollection<KeyValuePair<string, IJsonNode?>>.IsReadOnly => false;
 
-    public SystemJsonObject(JsonObject @object, JsonSerializerOptions options)
+    internal SystemJsonObject(JsonObject @object, JsonSerializerOptions options)
         : base(@object, options)
     { }
 

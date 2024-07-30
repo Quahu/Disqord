@@ -10,7 +10,7 @@ namespace Disqord.Serialization.Json.System;
 ///     Represents a default JSON node.
 ///     Wraps a <see cref="JsonNode"/>.
 /// </summary>
-public class SystemJsonNode : IJsonNode
+public abstract class SystemJsonNode : IJsonNode
 {
     /// <summary>
     ///     Gets the underlying <see cref="JsonNode"/>.
@@ -22,7 +22,7 @@ public class SystemJsonNode : IJsonNode
     /// </summary>
     public JsonSerializerOptions Options { get; }
 
-    public SystemJsonNode(JsonNode node, JsonSerializerOptions options)
+    private protected SystemJsonNode(JsonNode node, JsonSerializerOptions options)
     {
         Node = node;
         Options = options;
@@ -48,7 +48,8 @@ public class SystemJsonNode : IJsonNode
         }
         catch (JsonException ex)
         {
-            throw new JsonSerializationException(isDeserialize: true, typeof(T), ex);
+            SystemJsonSerializer.ThrowSerializationException(isDeserialize: true, typeof(T), ex);
+            return default;
         }
     }
 
@@ -71,7 +72,8 @@ public class SystemJsonNode : IJsonNode
         }
         catch (JsonException ex)
         {
-            throw new JsonSerializationException(isDeserialize: false, obj?.GetType() ?? typeof(object), ex);
+            SystemJsonSerializer.ThrowSerializationException(isDeserialize: false, obj?.GetType() ?? typeof(object), ex);
+            return null;
         }
     }
 

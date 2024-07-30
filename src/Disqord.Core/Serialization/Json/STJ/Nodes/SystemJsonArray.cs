@@ -10,7 +10,7 @@ namespace Disqord.Serialization.Json.System;
 ///     Represents a default JSON array node.
 ///     Wraps a <see cref="JArray"/>.
 /// </summary>
-public class SystemJsonArray : SystemJsonNode, IJsonArray
+public sealed class SystemJsonArray : SystemJsonNode, IJsonArray
 {
     /// <inheritdoc cref="Token"/>
     public new JsonArray Node => (base.Node as JsonArray)!;
@@ -27,7 +27,7 @@ public class SystemJsonArray : SystemJsonNode, IJsonArray
 
     bool ICollection<IJsonNode?>.IsReadOnly => false;
 
-    public SystemJsonArray(JsonArray node, JsonSerializerOptions options)
+    internal SystemJsonArray(JsonArray node, JsonSerializerOptions options)
         : base(node, options)
     { }
 
