@@ -33,6 +33,17 @@ public class SystemJsonNode : IJsonNode
     {
         try
         {
+            if (Node is JsonValue jsonValue)
+            {
+                if (jsonValue.TryGetValue(out T? value))
+                {
+                    return value;
+                }
+
+                // TODO: not sure if this helps
+                return jsonValue.Deserialize<JsonElement>().Deserialize<T>();
+            }
+
             return Node.Deserialize<T>(Options);
         }
         catch (JsonException ex)

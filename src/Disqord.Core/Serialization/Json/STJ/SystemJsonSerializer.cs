@@ -21,9 +21,13 @@ public class SystemJsonSerializer : IJsonSerializer
             IncludeFields = true,
             IgnoreReadOnlyFields = true,
             IgnoreReadOnlyProperties = true,
+            RespectNullableAnnotations = true,
+            NewLine = "\n",
             TypeInfoResolver = new JsonTypeInfoResolver(),
-            Converters = { new EnumConverter(), new SnowflakeConverter(), new StreamConverter() }
+            Converters = { new EnumConverter(), new StringConverter(), new SnowflakeConverter(), new StreamConverter() }
         };
+
+        UnderlyingOptions.MakeReadOnly();
     }
 
     /// <inheritdoc/>

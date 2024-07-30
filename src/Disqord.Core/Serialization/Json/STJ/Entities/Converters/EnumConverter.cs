@@ -1,6 +1,8 @@
 using System;
 using System.Globalization;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Qommon;
@@ -11,6 +13,7 @@ using BufferType =
     char
 #endif
     ;
+
 namespace Disqord.Serialization.Json.System;
 
 public class EnumConverter : JsonConverterFactory
@@ -22,10 +25,14 @@ public class EnumConverter : JsonConverterFactory
 
     public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
-        return Activator.CreateInstance(typeof(EnumConverterImpl<>).MakeGenericType(typeToConvert)) as JsonConverter;
+        var converterType = typeToConvert.GetCustomAttribute<StringEnumAttribute>() != null
+            ? typeof(StringEnumConverterImpl<>)
+            : typeof(NumberEnumConverterImpl<>);
+
+        return Activator.CreateInstance(converterType.MakeGenericType(typeToConvert)) as JsonConverter;
     }
 
-    private class EnumConverterImpl<TEnum> : JsonConverter<TEnum>
+    private class NumberEnumConverterImpl<TEnum> : JsonConverter<TEnum>
         where TEnum : struct, Enum
     {
         public override TEnum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -47,6 +54,12 @@ public class EnumConverter : JsonConverterFactory
             return Unsafe.As<ulong, TEnum>(ref value);
         }
 
+        public override TEnum ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            var value = reader.ReadUInt64FromString();
+            return Unsafe.As<ulong, TEnum>(ref value);
+        }
+
         public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
         {
             const double maxSafeInteger = 9007199254740991;
@@ -61,6 +74,118 @@ public class EnumConverter : JsonConverterFactory
                 var buffer = (stackalloc BufferType[20]);
                 ulongValue.TryFormat(buffer, out var countWritten);
                 writer.WriteStringValue(buffer[..countWritten]);
+            }
+        }
+
+        public override void WriteAsPropertyName(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
+        {
+            var buffer = (stackalloc BufferType[20]);
+            var ulongValue = ((IConvertible) value).ToUInt64(CultureInfo.InvariantCulture);
+            ulongValue.TryFormat(buffer, out var countWritten);
+            writer.WritePropertyName(buffer[..countWritten]);
+        }
+    }
+
+    private class StringEnumConverterImpl<TEnum> : JsonConverter<TEnum>
+        where TEnum : struct, Enum
+    {
+        private readonly JsonEncodedText[] _names;
+        private readonly TEnum[] _values;
+
+        public StringEnumConverterImpl()
+        {
+            var names = Enum.GetNames<TEnum>();
+            var fields = typeof(TEnum).GetFields(BindingFlags.Public | BindingFlags.Static);
+            foreach (var field in fields)
+            {
+                if (field.GetCustomAttribute<EnumMemberAttribute>() is not EnumMemberAttribute enumMemberAttribute
+                    || enumMemberAttribute.Value == null)
+                {
+                    continue;
+                }
+
+                for (var i = 0; i < names.Length; i++)
+                {
+                    if (field.Name != names[i])
+                    {
+                        continue;
+                    }
+
+                    names[i] = enumMemberAttribute.Value;
+                    break;
+                }
+            }
+
+            _names = Array.ConvertAll(names, name => JsonEncodedText.Encode(name));
+            _values = Enum.GetValues<TEnum>();
+        }
+
+        public override TEnum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            if (reader.TokenType == JsonTokenType.String)
+            {
+                for (var i = 0; i < _names.Length; i++)
+                {
+                    var name = _names[i];
+
+                    // TODO: performance check
+                    if (reader.ValueTextEquals(name.EncodedUtf8Bytes))
+                    {
+                        return _values[i];
+                    }
+                }
+            }
+            else if (reader.TokenType == JsonTokenType.Number)
+            {
+                var numberValue = reader.GetUInt64();
+                return Unsafe.As<ulong, TEnum>(ref numberValue);
+            }
+
+            Throw.InvalidOperationException("Invalid enum value.");
+            return default;
+        }
+
+        public override TEnum ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            TEnum value = default;
+            for (var i = 0; i < _names.Length; i++)
+            {
+                var name = _names[i];
+
+                // TODO: performance check
+                if (reader.ValueTextEquals(name.EncodedUtf8Bytes))
+                {
+                    value = _values[i];
+                    break;
+                }
+            }
+
+            return value;
+        }
+
+        public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
+        {
+            var index = Array.IndexOf(_values, value);
+            if (index != -1)
+            {
+                writer.WriteStringValue(_names[index]);
+            }
+            else
+            {
+                Throw.InvalidOperationException("Invalid enum value.");
+            }
+        }
+
+        public override void WriteAsPropertyName(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
+        {
+            var index = Array.IndexOf(_values, value);
+            if (index != -1)
+            {
+                writer.WritePropertyName(_names[index]);
+            }
+            else
+            {
+                Throw.InvalidOperationException("Invalid enum value.");
             }
         }
     }
