@@ -10,6 +10,10 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+#if NET8_0_OR_GREATER
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Disqord.Serialization.Json.System;
+#endif
 
 namespace Disqord.TestBot
 {
@@ -30,8 +34,9 @@ namespace Disqord.TestBot
                     })
                     .ConfigureServices(services =>
                     {
+#if NET8_0_OR_GREATER
                         services.Replace(ServiceDescriptor.Singleton<IJsonSerializer, SystemJsonSerializer>());
-
+#endif
                         services.Configure<DefaultGatewayConfiguration>(x => x.LogsPayloads = true);
                     })
                     .UseDefaultServiceProvider(provider =>
