@@ -4,8 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Disqord.Serialization.Json.System;
 
-public class StringConverter : JsonConverter<string?>
+internal sealed class StringConverter : JsonConverter<string?>
 {
+    /// <inheritdoc/>
     public override string? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.String)
@@ -31,11 +32,13 @@ public class StringConverter : JsonConverter<string?>
         return null;
     }
 
+    /// <inheritdoc/>
     public override string? ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         return reader.GetString();
     }
 
+    /// <inheritdoc/>
     public override void Write(Utf8JsonWriter writer, string? value, JsonSerializerOptions options)
     {
         if (value == null)
@@ -48,8 +51,9 @@ public class StringConverter : JsonConverter<string?>
         }
     }
 
+    /// <inheritdoc/>
     public override void WriteAsPropertyName(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
     {
-        writer.WritePropertyName(value);
+        writer.WritePropertyName(value.AsSpan());
     }
 }

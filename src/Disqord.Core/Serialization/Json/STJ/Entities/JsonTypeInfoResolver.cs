@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
@@ -17,16 +16,9 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
     private static readonly PropertyInfo _ignoreConditionProperty;
 
     private static readonly ConditionalWeakTable<JsonModel, Dictionary<string, object?>> _extensionDataCache = new();
-    private static readonly ConditionalWeakTable<Type, JsonConverter> _optionalConverters = new();
-    private static readonly ConditionalWeakTable<Type, JsonConverter> _snowflakeDictionaryConverters = new();
-    private static readonly StreamConverter _streamConverter = new();
-    private static readonly EnumConverter _enumConverter = new();
-    private static readonly SnowflakeConverter _snowflakeConverter = new();
-    private static readonly NullableConverter<Snowflake> _nullableSnowflakeConverter = new(_snowflakeConverter);
 
     public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
     {
-        // new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
         var jsonTypeInfo = base.GetTypeInfo(type, options);
         var jsonProperties = jsonTypeInfo.Properties;
         var jsonPropertyCount = jsonProperties.Count;
@@ -76,8 +68,6 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
                 }
 
                 _ignoreConditionProperty.SetValue(jsonProperty, JsonIgnoreCondition.WhenWritingDefault);
-
-                jsonProperty.CustomConverter = GetOptionalConverter(jsonProperty.PropertyType, options);
             }
             else
             {
@@ -85,8 +75,6 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
                 {
                     _ignoreConditionProperty.SetValue(jsonProperty, JsonIgnoreCondition.WhenWritingNull);
                 }
-
-                jsonProperty.CustomConverter = GetConverter(jsonProperty.PropertyType, options);
             }
         }
 
@@ -142,77 +130,6 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
         }
 
         return jsonTypeInfo;
-    }
-
-    private static JsonConverter GetOptionalConverter(Type type, JsonSerializerOptions options)
-    {
-        var optionalType = type.GenericTypeArguments[0];
-        return _optionalConverters.GetValue(optionalType, type =>
-        {
-            var valueConverter = GetConverter(type, options);
-            if (valueConverter != null)
-            {
-                var optionalConverterType = typeof(OptionalConverterWithValueConverter<>).MakeGenericType(type);
-                return (Activator.CreateInstance(optionalConverterType, valueConverter) as JsonConverter)!;
-            }
-            else
-            {
-                var optionalConverterType = typeof(OptionalConverter<>).MakeGenericType(type);
-                return (Activator.CreateInstance(optionalConverterType) as JsonConverter)!;
-            }
-        });
-    }
-
-    private static JsonConverter? GetConverter(Type type, JsonSerializerOptions options)
-    {
-        if (typeof(Stream).IsAssignableFrom(type))
-        {
-            return _streamConverter;
-        }
-
-        if (typeof(IJsonNode).IsAssignableFrom(type) && !typeof(JsonModel).IsAssignableFrom(type))
-        {
-            return (Activator.CreateInstance(typeof(JsonNodeConverter<>).MakeGenericType(type)) as JsonConverter)!;
-        }
-
-        if (!type.IsClass)
-        {
-            var nullableType = Nullable.GetUnderlyingType(type);
-            if (nullableType != null)
-                type = nullableType;
-
-            if (type.IsEnum)
-            {
-                var converter = _enumConverter.CreateConverter(type, options);
-                if (nullableType != null)
-                {
-                    return Activator.CreateInstance(typeof(NullableConverter<>).MakeGenericType(nullableType), converter) as JsonConverter;
-                }
-            }
-
-            if (type == typeof(Snowflake))
-            {
-                if (nullableType != null)
-                {
-                    return _nullableSnowflakeConverter;
-                }
-
-                return _snowflakeConverter;
-            }
-        }
-        else
-        {
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
-            {
-                var generics = type.GetGenericArguments();
-                if (generics[0] == typeof(Snowflake))
-                {
-                    return _snowflakeDictionaryConverters.GetValue(generics[1], type => (Activator.CreateInstance(typeof(SnowflakeDictionaryConverter<>).MakeGenericType(type)) as JsonConverter)!);
-                }
-            }
-        }
-
-        return null;
     }
 
     static JsonTypeInfoResolver()

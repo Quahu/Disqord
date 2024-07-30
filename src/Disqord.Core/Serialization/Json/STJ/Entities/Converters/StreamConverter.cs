@@ -7,7 +7,7 @@ using Qommon;
 
 namespace Disqord.Serialization.Json.System;
 
-internal class StreamConverter : JsonConverter<Stream>
+internal sealed class StreamConverter : JsonConverter<Stream>
 {
     // This header works regardless of the actual type of the attachment.
     public const string Header = "data:image/jpeg;base64,";

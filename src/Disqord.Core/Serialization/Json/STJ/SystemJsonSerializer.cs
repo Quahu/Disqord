@@ -24,7 +24,16 @@ public class SystemJsonSerializer : IJsonSerializer
             RespectNullableAnnotations = true,
             NewLine = "\n",
             TypeInfoResolver = new JsonTypeInfoResolver(),
-            Converters = { new EnumConverter(), new StringConverter(), new SnowflakeConverter(), new StreamConverter() }
+            Converters =
+            {
+                new EnumConverter(),
+                new JsonNodeConverter(),
+                new NullableConverter(),
+                new OptionalConverter(),
+                new StringConverter(),
+                new SnowflakeConverter(),
+                new StreamConverter()
+            }
         };
 
         UnderlyingOptions.MakeReadOnly();
@@ -39,7 +48,8 @@ public class SystemJsonSerializer : IJsonSerializer
         }
         catch (JsonException ex)
         {
-            throw new JsonSerializationException(isDeserialize: true, type, ex);
+            ThrowSerializationException(isDeserialize: true, type, ex);
+            return null;
         }
     }
 
@@ -59,7 +69,7 @@ public class SystemJsonSerializer : IJsonSerializer
         }
         catch (JsonException ex)
         {
-            throw new JsonSerializationException(isDeserialize: false, obj.GetType(), ex);
+            ThrowSerializationException(isDeserialize: false, obj.GetType(), ex);
         }
     }
 
@@ -68,5 +78,10 @@ public class SystemJsonSerializer : IJsonSerializer
     public IJsonNode? GetJsonNode(object? obj)
     {
         return SystemJsonNode.Create(obj, UnderlyingOptions);
+    }
+
+    internal static void ThrowSerializationException(bool isDeserialize, Type type, Exception exception)
+    {
+        throw new JsonSerializationException(isDeserialize, type, exception);
     }
 }

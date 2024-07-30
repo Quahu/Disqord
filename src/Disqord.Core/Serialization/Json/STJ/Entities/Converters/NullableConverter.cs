@@ -4,34 +4,40 @@ using System.Text.Json.Serialization;
 
 namespace Disqord.Serialization.Json.System;
 
-public class NullableConverter<TValue> : JsonConverter<TValue?>
-    where TValue : struct
+internal sealed class NullableConverter : JsonConverterFactory
 {
-    private readonly JsonConverter<TValue> _valueConverter;
-
-    public NullableConverter(JsonConverter<TValue> valueConverter)
+    public override bool CanConvert(Type typeToConvert)
     {
-        _valueConverter = valueConverter;
+        return typeToConvert.IsValueType && Nullable.GetUnderlyingType(typeToConvert) != null;
     }
 
-    public override TValue? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
-        if (reader.TokenType == JsonTokenType.Null)
-        {
-            return null;
-        }
-
-        return _valueConverter.Read(ref reader, typeToConvert, options);
+        return Activator.CreateInstance(typeof(NullableConverterImpl<>).MakeGenericType(Nullable.GetUnderlyingType(typeToConvert)!)) as JsonConverter;
     }
 
-    public override void Write(Utf8JsonWriter writer, TValue? value, JsonSerializerOptions options)
+    private sealed class NullableConverterImpl<TValue> : JsonConverter<TValue?>
+        where TValue : struct
     {
-        if (value == null)
+        public override TValue? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            writer.WriteNullValue();
-            return;
+            if (reader.TokenType == JsonTokenType.Null)
+            {
+                return null;
+            }
+
+            return JsonSerializer.Deserialize<TValue>(ref reader, options);
         }
 
-        _valueConverter.Write(writer, value.Value, options);
+        public override void Write(Utf8JsonWriter writer, TValue? value, JsonSerializerOptions options)
+        {
+            if (value == null)
+            {
+                writer.WriteNullValue();
+                return;
+            }
+
+            JsonSerializer.Serialize(writer, value.Value, options);
+        }
     }
 }

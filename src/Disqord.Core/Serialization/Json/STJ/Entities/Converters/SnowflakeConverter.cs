@@ -11,7 +11,7 @@ using BufferType =
 
 namespace Disqord.Serialization.Json.System;
 
-internal class SnowflakeConverter : JsonConverter<Snowflake>
+internal sealed class SnowflakeConverter : JsonConverter<Snowflake>
 {
     /// <inheritdoc />
     public override bool HandleNull => false;
@@ -26,10 +26,22 @@ internal class SnowflakeConverter : JsonConverter<Snowflake>
         return reader.GetUInt64();
     }
 
+    public override Snowflake ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        return reader.ReadUInt64FromString();
+    }
+
     public override void Write(Utf8JsonWriter writer, Snowflake value, JsonSerializerOptions options)
     {
         var buffer = (stackalloc BufferType[20]);
         value.RawValue.TryFormat(buffer, out var countWritten);
         writer.WriteStringValue(buffer[..countWritten]);
+    }
+
+    public override void WriteAsPropertyName(Utf8JsonWriter writer, Snowflake value, JsonSerializerOptions options)
+    {
+        var buffer = (stackalloc BufferType[20]);
+        value.RawValue.TryFormat(buffer, out var countWritten);
+        writer.WritePropertyName(buffer[..countWritten]);
     }
 }

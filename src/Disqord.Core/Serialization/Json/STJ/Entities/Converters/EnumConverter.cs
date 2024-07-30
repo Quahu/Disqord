@@ -16,7 +16,7 @@ using BufferType =
 
 namespace Disqord.Serialization.Json.System;
 
-public class EnumConverter : JsonConverterFactory
+internal sealed class EnumConverter : JsonConverterFactory
 {
     public override bool CanConvert(Type typeToConvert)
     {

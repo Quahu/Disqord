@@ -2,46 +2,43 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Qommon;
+using Qommon.Serialization;
 
 namespace Disqord.Serialization.Json.System;
 
-internal class OptionalConverter<TValue> : JsonConverter<Optional<TValue?>>
+internal sealed class OptionalConverter : JsonConverterFactory
 {
-    public override Optional<TValue?> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override bool CanConvert(Type typeToConvert)
     {
-        return JsonSerializer.Deserialize<TValue>(ref reader, options);
+        return typeToConvert.IsAssignableTo(typeof(IOptional))
+            && typeToConvert.IsValueType
+            && typeToConvert.IsConstructedGenericType
+            && typeToConvert.GetGenericTypeDefinition() == typeof(Optional<>);
     }
 
-    public override void Write(Utf8JsonWriter writer, Optional<TValue?> value, JsonSerializerOptions options)
+    public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
-        var optionalValue = value.Value;
-        if (optionalValue == null)
+        return Activator.CreateInstance(typeof(OptionalConverterImpl<>).MakeGenericType(typeToConvert.GenericTypeArguments[0])) as JsonConverter;
+    }
+
+    private sealed class OptionalConverterImpl<TValue> : JsonConverter<Optional<TValue?>>
+    {
+        public override Optional<TValue?> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            writer.WriteNullValue();
+            return JsonSerializer.Deserialize<TValue>(ref reader, options);
         }
-        else
+
+        public override void Write(Utf8JsonWriter writer, Optional<TValue?> value, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, value.Value, options);
+            var optionalValue = value.Value;
+            if (optionalValue == null)
+            {
+                writer.WriteNullValue();
+            }
+            else
+            {
+                JsonSerializer.Serialize(writer, value.Value, options);
+            }
         }
-    }
-}
-
-internal class OptionalConverterWithValueConverter<TValue> : JsonConverter<Optional<TValue?>>
-{
-    private readonly JsonConverter<TValue?> _valueConverter;
-
-    public OptionalConverterWithValueConverter(JsonConverter<TValue?> valueConverter)
-    {
-        _valueConverter = valueConverter;
-    }
-
-    public override Optional<TValue?> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        return _valueConverter.Read(ref reader, typeToConvert, options);
-    }
-
-    public override void Write(Utf8JsonWriter writer, Optional<TValue?> value, JsonSerializerOptions options)
-    {
-        _valueConverter.Write(writer, value.Value, options);
     }
 }
