@@ -10,7 +10,7 @@ namespace Disqord.Serialization.Json.System;
 ///     Represents a default JSON object node.
 ///     Wraps a <see cref="JsonObject"/>.
 /// </summary>
-public sealed class SystemJsonObject : SystemJsonNode, IJsonObject
+internal sealed class SystemJsonObject : SystemJsonNode, IJsonObject
 {
     /// <inheritdoc cref="SystemJsonNode.Node"/>
     public new JsonObject Node => (base.Node as JsonObject)!;

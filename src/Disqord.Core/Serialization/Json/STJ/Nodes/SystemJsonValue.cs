@@ -9,7 +9,7 @@ namespace Disqord.Serialization.Json.System;
 ///     Wraps a <see cref="JsonValue"/>.
 /// </summary>
 [DebuggerDisplay($"{nameof(Value)}")]
-public sealed class SystemJsonValue : SystemJsonNode, IJsonValue
+internal sealed class SystemJsonValue : SystemJsonNode, IJsonValue
 {
     /// <inheritdoc cref="SystemJsonNode.Node"/>
     public new JsonValue Node => (base.Node as JsonValue)!;

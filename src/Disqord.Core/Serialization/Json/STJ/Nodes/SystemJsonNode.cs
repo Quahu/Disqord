@@ -10,7 +10,7 @@ namespace Disqord.Serialization.Json.System;
 ///     Represents a default JSON node.
 ///     Wraps a <see cref="JsonNode"/>.
 /// </summary>
-public abstract class SystemJsonNode : IJsonNode
+internal abstract class SystemJsonNode : IJsonNode
 {
     /// <summary>
     ///     Gets the underlying <see cref="JsonNode"/>.

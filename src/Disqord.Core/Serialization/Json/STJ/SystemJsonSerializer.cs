@@ -6,7 +6,10 @@ using System.Text.Json.Serialization;
 
 namespace Disqord.Serialization.Json.System;
 
-public class SystemJsonSerializer : IJsonSerializer
+/// <summary>
+///     Represents a System.Text.Json implementation of <see cref="IJsonSerializer"/>.
+/// </summary>
+public sealed class SystemJsonSerializer : IJsonSerializer
 {
     /// <summary>
     ///     Gets the underlying <see cref="JsonSerializerOptions"/>.
