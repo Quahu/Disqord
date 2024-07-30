@@ -644,7 +644,7 @@ public static partial class RestClientExtensions
         return new TransientThreadChannel(client, model);
     }
 
-    public static async Task<IThreadChannel> CreateForumThreadAsync(this IRestClient client,
+    public static async Task<IThreadChannel> CreateThreadPostAsync(this IRestClient client,
         Snowflake channelId, string name, LocalMessage message, Action<CreateThreadChannelActionProperties>? action = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
@@ -668,7 +668,7 @@ public static partial class RestClientExtensions
             EnforceNonce = message.ShouldEnforceNonce
         };
 
-        var forumContent = new CreateForumThreadJsonRestRequestContent
+        var postContent = new CreateThreadPostJsonRestRequestContent
         {
             Name = name,
             AutoArchiveDuration = Optional.Convert(properties.AutomaticArchiveDuration, x => (int) x.TotalMinutes),
@@ -682,12 +682,12 @@ public static partial class RestClientExtensions
         {
             // If there are attachments, we must send them via multipart HTTP content.
             // Our `messageContent` will be serialized into a "payload_json" form data field.
-            var content = new AttachmentJsonPayloadRestRequestContent<CreateForumThreadJsonRestRequestContent>(forumContent, attachments);
-            task = client.ApiClient.CreateForumThreadAsync(channelId, content, options, cancellationToken);
+            var content = new AttachmentJsonPayloadRestRequestContent<CreateThreadPostJsonRestRequestContent>(postContent, attachments);
+            task = client.ApiClient.CreateThreadPostAsync(channelId, content, options, cancellationToken);
         }
         else
         {
-            task = client.ApiClient.CreateForumThreadAsync(channelId, forumContent, options, cancellationToken);
+            task = client.ApiClient.CreateThreadPostAsync(channelId, postContent, options, cancellationToken);
         }
 
         var model = await task.ConfigureAwait(false);
