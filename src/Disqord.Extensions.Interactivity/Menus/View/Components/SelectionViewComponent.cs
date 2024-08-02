@@ -189,13 +189,17 @@ public class SelectionViewComponent : InteractableViewComponent
             MinimumSelectedOptions = Optional.FromNullable(_minimumSelectedOptions),
             MaximumSelectedOptions = Optional.FromNullable(_maximumSelectedOptions),
             IsDisabled = _isDisabled,
-            Options = _options.ToArray()
         };
 
         if (_type is SelectionComponentType.Channel or SelectionComponentType.Mentionable
             && _channelTypes.Count > 0)
         {
             selection.WithChannelTypes(_channelTypes);
+        }
+
+        if (_type != SelectionComponentType.String)
+        {
+            selection.WithOptions(_options);
         }
 
         return selection;
