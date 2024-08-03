@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +16,7 @@ public class VoiceExtension : DiscordClientExtension
 {
     private readonly IVoiceConnectionFactory _connectionFactory;
 
+    private readonly IThreadSafeDictionary<Snowflake, IVoiceConnection> _pendingConnections;
     private readonly IThreadSafeDictionary<Snowflake, VoiceConnectionInfo> _connections;
 
     public VoiceExtension(
@@ -26,6 +26,7 @@ public class VoiceExtension : DiscordClientExtension
     {
         _connectionFactory = connectionFactory;
 
+        _pendingConnections = ThreadSafeDictionary.Monitor.Create<Snowflake, IVoiceConnection>();
         _connections = ThreadSafeDictionary.Monitor.Create<Snowflake, VoiceConnectionInfo>();
     }
 
@@ -40,7 +41,7 @@ public class VoiceExtension : DiscordClientExtension
 
     private Task VoiceServerUpdatedAsync(object? sender, VoiceServerUpdatedEventArgs e)
     {
-        GetConnection(e.GuildId)?.OnVoiceServerUpdate(e.Token, e.Endpoint);
+        _pendingConnections.GetValueOrDefault(e.GuildId)?.OnVoiceServerUpdate(e.Token, e.Endpoint);
         return Task.CompletedTask;
     }
 
@@ -52,7 +53,7 @@ public class VoiceExtension : DiscordClientExtension
         }
 
         var voiceState = e.NewVoiceState;
-        GetConnection(e.GuildId)?.OnVoiceStateUpdate(voiceState.ChannelId, voiceState.SessionId);
+        _pendingConnections.GetValueOrDefault(e.GuildId)?.OnVoiceStateUpdate(voiceState.ChannelId, voiceState.SessionId);
         return Task.CompletedTask;
     }
 
@@ -106,20 +107,28 @@ public class VoiceExtension : DiscordClientExtension
                 return new(shard.SetVoiceStateAsync(guildId, channelId, false, true, cancellationToken));
             });
 
-        var connectionInfo = new VoiceConnectionInfo(connection, Cts.Linked(Client.StoppingToken));
-        _connections[guildId] = connectionInfo;
-        try
+        _pendingConnections[guildId] = connection;
+        using (var linkedReadyCts = Cts.Linked(cancellationToken, Client.StoppingToken))
         {
-            var readyTask = connection.WaitUntilReadyAsync(cancellationToken);
-            _ = connection.RunAsync(connectionInfo.Cts.Token);
+            var readyTask = connection.WaitUntilReadyAsync(linkedReadyCts.Token);
 
-            await readyTask.ConfigureAwait(false);
-        }
-        catch
-        {
-            _connections.Remove(guildId);
-            await connectionInfo.DisposeAsync();
-            throw;
+            var linkedRunCts = Cts.Linked(Client.StoppingToken);
+            Task runTask;
+            try
+            {
+                runTask = connection.RunAsync(linkedRunCts.Token);
+                await readyTask.ConfigureAwait(false);
+            }
+            catch
+            {
+                _pendingConnections.Remove(guildId);
+                linkedRunCts.Cancel();
+                linkedRunCts.Dispose();
+
+                throw;
+            }
+
+            _connections[guildId] = new VoiceConnectionInfo(connection, runTask, linkedRunCts);
         }
 
         return connection;
@@ -133,33 +142,43 @@ public class VoiceExtension : DiscordClientExtension
     ///     Use <see cref="ConnectAsync"/> to obtain a new connection afterward.
     /// </remarks>
     /// <param name="guildId"> The ID of the guild. </param>
-    public ValueTask DisconnectAsync(Snowflake guildId)
+    public async ValueTask DisconnectAsync(Snowflake guildId)
     {
         if (!_connections.TryRemove(guildId, out var connectionInfo))
         {
-            return default;
+            return;
         }
 
-        return connectionInfo.DisposeAsync();
+        await connectionInfo.StopAsync().ConfigureAwait(false);
     }
 
-    private readonly struct VoiceConnectionInfo : IAsyncDisposable
+    private readonly struct VoiceConnectionInfo
     {
         public IVoiceConnection Connection { get; }
 
+        public Task RunTask { get; }
+
         public Cts Cts { get; }
 
-        public VoiceConnectionInfo(IVoiceConnection connection, Cts cts)
+        public VoiceConnectionInfo(IVoiceConnection connection, Task runTask, Cts cts)
         {
             Connection = connection;
+            RunTask = runTask;
             Cts = cts;
         }
 
-        public async ValueTask DisposeAsync()
+        public async ValueTask StopAsync()
         {
             Cts.Cancel();
+
+            try
+            {
+                await RunTask.ConfigureAwait(false);
+            }
+            catch { }
+
             Cts.Dispose();
-            await Connection.DisposeAsync();
+            await Connection.DisposeAsync().ConfigureAwait(false);
         }
     }
 }

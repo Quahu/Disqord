@@ -344,6 +344,7 @@ public class DefaultVoiceConnection : IVoiceConnection
                     }
                     catch (OperationCanceledException ex) when (ex.CancellationToken == linkedCancellationToken && stoppingToken.IsCancellationRequested)
                     {
+                        await _setVoiceStateDelegate(GuildId, null, default).ConfigureAwait(false);
                         _readyTcs.Cancel(ex.CancellationToken);
                         return;
                     }
@@ -389,6 +390,8 @@ public class DefaultVoiceConnection : IVoiceConnection
         }
         catch (Exception ex)
         {
+            await _setVoiceStateDelegate(GuildId, null, default).ConfigureAwait(false);
+
             lock (_readyTcs)
             {
                 _readyTcs.Throw(ex);
