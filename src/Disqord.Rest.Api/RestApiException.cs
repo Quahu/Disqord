@@ -136,7 +136,7 @@ public class RestApiException : Exception
 
                 // Add the key and the message/code for it.
                 var messages = errorsArray.OfType<IJsonObject>()
-                    .Select(static x => (x.GetValueOrDefault("message") ?? x.GetValueOrDefault("code"))?.ToString());
+                    .Select(static x => (x.TryGetValue("message", out var message) ? message : x.TryGetValue("code", out var code) ? code : null)?.ToString());
 
                 extracted.Add(KeyValuePair.Create(newKey, string.Join("; ", messages)));
             }

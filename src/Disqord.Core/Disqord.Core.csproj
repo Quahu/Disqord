@@ -14,4 +14,12 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
         <PackageReference Include="Qommon" Version="4.0.1"/>
     </ItemGroup>
+    
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+        <Compile Remove="Serialization/Json/STJ/**"/>
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' != 'net6.0' ">
+        <PackageReference Include="System.Text.Json" Version="9.0.0-preview.6.24327.7"/>
+    </ItemGroup>
 </Project>

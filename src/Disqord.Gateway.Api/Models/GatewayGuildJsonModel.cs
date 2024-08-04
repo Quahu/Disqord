@@ -34,7 +34,7 @@ public class GatewayGuildJsonModel : GuildJsonModel
     public ChannelJsonModel[] Threads = null!;
 
     [JsonProperty("presences")]
-    public IJsonNode[] Presences = null!;
+    public IJsonArray Presences = null!;
 
     [JsonProperty("stage_instances")]
     public StageInstanceJsonModel[] StageInstances = null!;
@@ -50,7 +50,7 @@ public class GatewayGuildJsonModel : GuildJsonModel
             PresenceJsonModel? model = null;
             try
             {
-                model = node.ToType<PresenceJsonModel>();
+                model = node?.ToType<PresenceJsonModel>();
             }
             catch
             {
