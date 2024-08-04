@@ -1,11 +1,15 @@
 using System;
-using System.ComponentModel;
 using System.Linq;
+using Disqord.Api;
 using Disqord.DependencyInjection.Extensions;
+using Disqord.Extensions.Interactivity;
+using Disqord.Gateway;
 using Disqord.Gateway.Api.Default;
 using Disqord.Gateway.Api.Models;
 using Disqord.Gateway.Default;
 using Disqord.Http.Default;
+using Disqord.Rest;
+using Disqord.Webhook;
 using Disqord.WebSocket.Default;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,16 +25,37 @@ public static class DiscordClientHostBuilderExtensions
             var discordContext = new DiscordClientHostingContext();
             configure?.Invoke(context, discordContext);
 
-            services.AddDiscordClient();
-            services.AddHostedService<DiscordClientSetupService>();
-            services.ConfigureDiscordClient(context, discordContext);
+            services.AddDiscordClient(discordContext);
         });
 
         return builder;
     }
 
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void ConfigureDiscordClient(this IServiceCollection services, HostBuilderContext context, DiscordClientHostingContext discordContext)
+    public static IServiceCollection AddDiscordClient(this IServiceCollection services, DiscordClientHostingContext context)
+    {
+        services.AddDiscordClient();
+        services.AddHostedService<DiscordClientSetupService>();
+        services.ConfigureDiscordClient(context);
+        return services;
+    }
+
+    internal static IServiceCollection AddDiscordClient(this IServiceCollection services)
+    {
+        if (services.TryAddSingleton<DiscordClient>())
+        {
+            services.TryAddSingleton<DiscordClientBase>(services => services.GetRequiredService<DiscordClient>());
+            services.AddShardCoordinator<LocalDiscordShardCoordinator>();
+        }
+
+        services.AddInteractivityExtension();
+        services.AddGatewayClient();
+        services.AddRestClient();
+        services.AddWebhookClientFactory();
+
+        return services;
+    }
+
+    internal static void ConfigureDiscordClient(this IServiceCollection services, DiscordClientHostingContext discordContext)
     {
         services.Replace(ServiceDescriptor.Singleton<Token>(Token.Bot(discordContext.Token!)));
 
