@@ -91,7 +91,7 @@ public class ChannelJsonModel : JsonModel
     public Optional<GuildChannelFlags> Flags;
 
     [JsonProperty("available_tags")]
-    public Optional<ForumTagJsonModel[]> AvailableTags;
+    public Optional<ChannelTagJsonModel[]> AvailableTags;
 
     [JsonProperty("applied_tags")]
     public Optional<Snowflake[]> AppliedTags;

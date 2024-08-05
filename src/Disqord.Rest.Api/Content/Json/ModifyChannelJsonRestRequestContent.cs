@@ -61,7 +61,7 @@ public class ModifyChannelJsonRestRequestContent : JsonModelRestRequestContent
     public Optional<GuildChannelFlags> Flags;
 
     [JsonProperty("available_tags")]
-    public Optional<ForumTagJsonModel[]> AvailableTags;
+    public Optional<ChannelTagJsonModel[]> AvailableTags;
 
     [JsonProperty("default_reaction_emoji")]
     public Optional<ForumDefaultReactionJsonModel> DefaultReactionEmoji;
