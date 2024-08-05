@@ -6,12 +6,12 @@ namespace Disqord.Rest.Api;
 
 public static partial class RestApiClientExtensions
 {
-    public static Task<EmojiJsonModel[]> FetchApplicationEmojisAsync(this IRestApiClient client,
+    public static Task<ApplicationEmojisJsonModel> FetchApplicationEmojisAsync(this IRestApiClient client,
         Snowflake applicationId,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var route = Format(Route.Emoji.GetApplicationEmojis, applicationId);
-        return client.ExecuteAsync<EmojiJsonModel[]>(route, null, options, cancellationToken);
+        return client.ExecuteAsync<ApplicationEmojisJsonModel>(route, null, options, cancellationToken);
     }
 
     public static Task<EmojiJsonModel> FetchApplicationEmojiAsync(this IRestApiClient client,

@@ -16,8 +16,8 @@ public static partial class RestClientExtensions
         Snowflake applicationId,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var models = await client.ApiClient.FetchApplicationEmojisAsync(applicationId, options, cancellationToken).ConfigureAwait(false);
-        return models.ToReadOnlyList((client, applicationId), static (model, state) =>
+        var model = await client.ApiClient.FetchApplicationEmojisAsync(applicationId, options, cancellationToken).ConfigureAwait(false);
+        return model.Items.ToReadOnlyList((client, applicationId), static (model, state) =>
         {
             var (client, applicationId) = state;
             return new TransientApplicationEmoji(client, applicationId, model);
