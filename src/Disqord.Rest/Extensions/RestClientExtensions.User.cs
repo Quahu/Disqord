@@ -113,7 +113,9 @@ public static partial class RestClientExtensions
         var channel = new TransientDirectChannel(client, model);
 
         if (channels != null && !channels.IsReadOnly)
-            channels.Add(userId, channel);
+        {
+            channels[userId] = channel;
+        }
 
         return channel;
     }
