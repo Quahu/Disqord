@@ -197,7 +197,7 @@ public class SelectionViewComponent : InteractableViewComponent
             selection.WithChannelTypes(_channelTypes);
         }
 
-        if (_type != SelectionComponentType.String)
+        if (_type == SelectionComponentType.String)
         {
             selection.WithOptions(_options);
         }
