@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Disqord.Models;
+using Disqord.Serialization.Json;
 using Qommon;
 using Qommon.Collections.ReadOnly;
 
@@ -15,7 +16,7 @@ public class TransientSlashCommandInteractionOption : TransientClientEntity<Appl
     public SlashCommandOptionType Type => Model.Type;
 
     /// <inheritdoc/>
-    public object? Value => Model.Value.GetValueOrDefault()?.ToType<object>();
+    public IJsonValue? Value => Model.Value.GetValueOrDefault();
 
     /// <inheritdoc/>
     public IReadOnlyDictionary<string, ISlashCommandInteractionOption> Options

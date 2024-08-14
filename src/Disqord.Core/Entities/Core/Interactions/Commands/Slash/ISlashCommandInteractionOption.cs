@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Disqord.Serialization.Json;
 
 namespace Disqord;
 
@@ -23,7 +24,7 @@ public interface ISlashCommandInteractionOption
     /// <remarks>
     ///     <see cref="Value"/> and <see cref="Options"/> are mutually exclusive.
     /// </remarks>
-    object? Value { get; }
+    IJsonValue? Value { get; }
 
     /// <summary>
     ///     Gets the nested options of this option.

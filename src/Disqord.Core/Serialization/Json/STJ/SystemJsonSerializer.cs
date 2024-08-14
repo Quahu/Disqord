@@ -26,6 +26,7 @@ public sealed class SystemJsonSerializer : IJsonSerializer
             IgnoreReadOnlyProperties = true,
             RespectNullableAnnotations = true,
             NewLine = "\n",
+            UnknownTypeHandling = JsonUnknownTypeHandling.JsonNode,
             TypeInfoResolver = new JsonTypeInfoResolver(),
             Converters =
             {
@@ -35,7 +36,7 @@ public sealed class SystemJsonSerializer : IJsonSerializer
                 new OptionalConverter(),
                 new StringConverter(),
                 new SnowflakeConverter(),
-                new StreamConverter()
+                new StreamConverter(),
             }
         };
 
