@@ -5,7 +5,7 @@ namespace Disqord;
 /// <summary>
 ///     Represents a tag that can be applied to threads in a forum or media channel.
 /// </summary>
-public interface IChannelTag : IIdentifiableEntity, INamableEntity, IJsonUpdatable<ChannelTagJsonModel>
+public interface IForumTag : IIdentifiableEntity, INamableEntity, IJsonUpdatable<ForumTagJsonModel>
 {
     /// <summary>
     ///     Gets whether this tag can only be applied to threads

@@ -4,14 +4,14 @@ using Qommon;
 namespace Disqord;
 
 /// <summary>
-///     Represents a local channel tag to be created within a forum or media channel.
+///     Represents a local tag to be created within a forum or media channel.
 /// </summary>
 /// <remarks>
 ///     Note that when updating a channel's tags,
 ///     you must provide the previous tags with their original values.
 ///     You can use <see cref="CreateFrom"/> for that purpose.
 /// </remarks>
-public class LocalChannelTag : ILocalConstruct<LocalChannelTag>, IJsonConvertible<ChannelTagJsonModel>
+public class LocalForumTag : ILocalConstruct<LocalForumTag>, IJsonConvertible<ForumTagJsonModel>
 {
     /// <summary>
     ///     Gets or sets the ID of this tag.
@@ -44,16 +44,16 @@ public class LocalChannelTag : ILocalConstruct<LocalChannelTag>, IJsonConvertibl
     public Optional<LocalEmoji> Emoji { get; set; }
 
     /// <summary>
-    ///     Instantiates a new <see cref="LocalChannelTag"/>.
+    ///     Instantiates a new <see cref="LocalForumTag"/>.
     /// </summary>
-    public LocalChannelTag()
+    public LocalForumTag()
     { }
 
     /// <summary>
-    ///     Instantiates a new <see cref="LocalChannelTag"/> with the properties copied from another instance.
+    ///     Instantiates a new <see cref="LocalForumTag"/> with the properties copied from another instance.
     /// </summary>
     /// <param name="other"> The other instance to copy properties from. </param>
-    protected LocalChannelTag(LocalChannelTag other)
+    protected LocalForumTag(LocalForumTag other)
     {
         Id = other.Id;
         Name = other.Name;
@@ -62,17 +62,17 @@ public class LocalChannelTag : ILocalConstruct<LocalChannelTag>, IJsonConvertibl
     }
 
     /// <inheritdoc/>
-    public virtual LocalChannelTag Clone()
+    public virtual LocalForumTag Clone()
     {
         return new(this);
     }
 
     /// <inheritdoc/>
-    public ChannelTagJsonModel ToModel()
+    public ForumTagJsonModel ToModel()
     {
         OptionalGuard.HasValue(Name);
 
-        var model = new ChannelTagJsonModel
+        var model = new ForumTagJsonModel
         {
             Id = Id,
             Name = Name.Value,
@@ -101,15 +101,15 @@ public class LocalChannelTag : ILocalConstruct<LocalChannelTag>, IJsonConvertibl
     }
 
     /// <summary>
-    ///     Converts the specified channel tag to a <see cref="LocalChannelTag"/>.
+    ///     Converts the specified forum tag to a <see cref="LocalForumTag"/>.
     /// </summary>
-    /// <param name="tag"> The channel tag to convert. </param>
+    /// <param name="tag"> The forum tag to convert. </param>
     /// <returns>
-    ///     The output <see cref="LocalChannelTag"/>.
+    ///     The output <see cref="LocalForumTag"/>.
     /// </returns>
-    public static LocalChannelTag CreateFrom(IChannelTag tag)
+    public static LocalForumTag CreateFrom(IForumTag tag)
     {
-        return new LocalChannelTag
+        return new LocalForumTag
         {
             Id = tag.Id,
             Name = tag.Name,

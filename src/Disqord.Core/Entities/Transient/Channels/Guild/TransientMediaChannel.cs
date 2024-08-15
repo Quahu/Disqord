@@ -25,20 +25,20 @@ public class TransientMediaChannel : TransientCategorizableGuildChannel, IMediaC
     public Snowflake? LastThreadId => Model.LastMessageId.GetValueOrDefault();
 
     /// <inheritdoc/>
-    public IReadOnlyList<IChannelTag> Tags
+    public IReadOnlyList<IForumTag> Tags
     {
         get
         {
             if (!Model.AvailableTags.HasValue)
-                return ReadOnlyList<IChannelTag>.Empty;
+                return ReadOnlyList<IForumTag>.Empty;
 
             if (_availableTags != null)
                 return _availableTags;
 
-            return _availableTags = Model.AvailableTags.Value.ToReadOnlyList(model => new TransientChannelTag(model));
+            return _availableTags = Model.AvailableTags.Value.ToReadOnlyList(model => new TransientForumTag(model));
         }
     }
-    private IReadOnlyList<IChannelTag>? _availableTags;
+    private IReadOnlyList<IForumTag>? _availableTags;
 
     /// <inheritdoc/>
     public IEmoji? DefaultReactionEmoji

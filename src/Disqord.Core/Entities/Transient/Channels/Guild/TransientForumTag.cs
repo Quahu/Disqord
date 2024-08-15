@@ -2,8 +2,8 @@ using Disqord.Models;
 
 namespace Disqord;
 
-/// <inheritdoc cref="IChannelTag"/>
-public class TransientChannelTag : TransientEntity<ChannelTagJsonModel>, IChannelTag
+/// <inheritdoc cref="IForumTag"/>
+public class TransientForumTag : TransientEntity<ForumTagJsonModel>, IForumTag
 {
     /// <inheritdoc/>
     public Snowflake Id => Model.Id.Value;
@@ -32,7 +32,7 @@ public class TransientChannelTag : TransientEntity<ChannelTagJsonModel>, IChanne
 
     private IEmoji? _emoji;
 
-    public TransientChannelTag(ChannelTagJsonModel model)
+    public TransientForumTag(ForumTagJsonModel model)
         : base(model)
     { }
 }

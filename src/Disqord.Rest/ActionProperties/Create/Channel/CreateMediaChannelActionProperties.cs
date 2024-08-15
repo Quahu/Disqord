@@ -14,7 +14,7 @@ public class CreateMediaChannelActionProperties : CreateNestedChannelActionPrope
 
     public Optional<TimeSpan> DefaultAutomaticArchiveDuration { internal get; set; }
 
-    public Optional<IEnumerable<LocalChannelTag>> Tags { internal get; set; }
+    public Optional<IEnumerable<LocalForumTag>> Tags { internal get; set; }
 
     public Optional<LocalEmoji> DefaultReactionEmoji { internal get; set; }
 

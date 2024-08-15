@@ -3,7 +3,7 @@ using Qommon;
 
 namespace Disqord.Models;
 
-public class ChannelTagJsonModel : JsonModel
+public class ForumTagJsonModel : JsonModel
 {
     [JsonProperty("id")]
     public Optional<Snowflake> Id;

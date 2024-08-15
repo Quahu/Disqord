@@ -29,7 +29,7 @@ public class CachedMediaChannel : CachedCategorizableGuildChannel, IMediaChannel
     public IEmoji? DefaultReactionEmoji { get; private set; }
 
     /// <inheritdoc/>
-    public IReadOnlyList<IChannelTag> Tags { get; private set; } = ReadOnlyList<IChannelTag>.Empty;
+    public IReadOnlyList<IForumTag> Tags { get; private set; } = ReadOnlyList<IForumTag>.Empty;
 
     /// <inheritdoc/>
     public TimeSpan DefaultThreadSlowmode { get; private set; }
@@ -84,7 +84,7 @@ public class CachedMediaChannel : CachedCategorizableGuildChannel, IMediaChannel
         }
 
         if (model.AvailableTags.HasValue)
-            Tags = model.AvailableTags.Value.ToReadOnlyList(model => new TransientChannelTag(model));
+            Tags = model.AvailableTags.Value.ToReadOnlyList(model => new TransientForumTag(model));
 
         DefaultThreadSlowmode = TimeSpan.FromSeconds(model.DefaultThreadRateLimitPerUser.GetValueOrDefault(0));
         DefaultSortOrder = model.DefaultSortOrder.GetValueOrDefault();

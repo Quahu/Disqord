@@ -16,7 +16,7 @@ public interface IMediaChannel : IThreadParentChannel, ITopicChannel, ISlowmodeC
     /// <summary>
     ///     Gets the available tags that can be applied to threads in this channel.
     /// </summary>
-    IReadOnlyList<IChannelTag> Tags { get; }
+    IReadOnlyList<IForumTag> Tags { get; }
 
     /// <summary>
     ///     Gets the emoji that can be reacted with by default to threads in this channel.
