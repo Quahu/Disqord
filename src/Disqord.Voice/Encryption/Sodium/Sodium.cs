@@ -12,20 +12,20 @@ public static unsafe partial class Sodium
     /// <summary>
     ///     The amount of key bytes.
     /// </summary>
-    public static readonly int KeyLength;
+    public static readonly int XSalsa20Poly1305KeyLength;
 
     /// <summary>
     ///     The amount of nonce bytes.
     /// </summary>
-    public static readonly int NonceLength;
+    public static readonly int XSalsa20Poly1305NonceLength;
 
     /// <summary>
     ///     The amount of mac bytes.
     /// </summary>
-    public static readonly int MacLength;
+    public static readonly int XSalsa20Poly1305MacLength;
 
     /// <summary>
-    ///     Encrypts the specified span using .
+    ///     Encrypts the specified span.
     /// </summary>
     /// <param name="target"> The span to encrypt the data into. </param>
     /// <param name="source"> The span to encrypt. </param>
@@ -42,8 +42,15 @@ public static unsafe partial class Sodium
         fixed (byte* noncePtr = nonce)
         {
             var result = crypto_secretbox_easy(targetPtr, sourcePtr, (ulong) source.Length, noncePtr, keyPtr);
-            if (result != 0)
-                throw new ExternalException("Sodium failed to encrypt the data.", result);
+            CheckEncryptionResult(result);
+        }
+    }
+
+    public static void CheckEncryptionResult(int result)
+    {
+        if (result != 0)
+        {
+            throw new ExternalException($"Sodium failed to encrypt the data ({result}).", result);
         }
     }
 
@@ -66,7 +73,7 @@ public static unsafe partial class Sodium
         {
             var result = crypto_secretbox_open_easy(targetPtr, sourcePtr, (ulong) source.Length, noncePtr, keyPtr);
             if (result != 0)
-                throw new ExternalException("Sodium failed to decrypt the data.", result);
+                throw new ExternalException($"Sodium failed to decrypt the data  ({result}).", result);
         }
     }
 
@@ -84,8 +91,10 @@ public static unsafe partial class Sodium
 
     static Sodium()
     {
-        KeyLength = crypto_secretbox_xsalsa20poly1305_keybytes();
-        NonceLength = crypto_secretbox_xsalsa20poly1305_noncebytes();
-        MacLength = crypto_secretbox_xsalsa20poly1305_macbytes();
+        _ = sodium_init();
+
+        XSalsa20Poly1305KeyLength = crypto_secretbox_xsalsa20poly1305_keybytes();
+        XSalsa20Poly1305NonceLength = crypto_secretbox_xsalsa20poly1305_noncebytes();
+        XSalsa20Poly1305MacLength = crypto_secretbox_xsalsa20poly1305_macbytes();
     }
 }
