@@ -40,6 +40,14 @@ public static partial class RestEntityExtensions
         return client.ModifyForumChannelAsync(channel.Id, action, options, cancellationToken);
     }
 
+    public static Task<IMediaChannel> ModifyAsync(this IMediaChannel channel,
+        Action<ModifyMediaChannelActionProperties> action,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var client = channel.GetRestClient();
+        return client.ModifyMediaChannelAsync(channel.Id, action, options, cancellationToken);
+    }
+
     public static Task<ICategoryChannel> ModifyAsync(this ICategoryChannel channel,
         Action<ModifyCategoryChannelActionProperties> action,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -302,12 +310,12 @@ public static partial class RestEntityExtensions
         return client.CreatePrivateThreadAsync(channel.Id, name, action, options, cancellationToken);
     }
 
-    public static Task<IThreadChannel> CreateThreadAsync(this IForumChannel channel,
+    public static Task<IThreadChannel> CreateThreadPostAsync(this IMediaChannel channel,
         string name, LocalMessage message, Action<CreateThreadChannelActionProperties>? action = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var client = channel.GetRestClient();
-        return client.CreateForumThreadAsync(channel.Id, name, message, action, options, cancellationToken);
+        return client.CreateThreadPostAsync(channel.Id, name, message, action, options, cancellationToken);
     }
 
     public static Task JoinAsync(this IThreadChannel thread,
