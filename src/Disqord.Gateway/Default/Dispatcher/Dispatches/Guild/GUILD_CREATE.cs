@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
@@ -96,7 +96,7 @@ public class GuildCreateDispatchHandler : DispatchHandler<GatewayGuildJsonModel,
 
         if (CacheProvider.TryGetUsers(out var userCache) && CacheProvider.TryGetMembers(model.Id, out var memberCache))
         {
-            foreach (var memberModel in model.Members)
+            foreach (var memberModel in model.Members.SafelyDeserializeItems<MemberJsonModel>(Logger))
                 Dispatcher.GetOrAddMember(userCache, memberCache, model.Id, memberModel);
         }
 

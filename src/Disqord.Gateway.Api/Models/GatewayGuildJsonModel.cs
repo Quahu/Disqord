@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Disqord.Models;
 using Disqord.Serialization.Json;
@@ -25,7 +25,7 @@ public class GatewayGuildJsonModel : GuildJsonModel
     public VoiceStateJsonModel[] VoiceStates = null!;
 
     [JsonProperty("members")]
-    public MemberJsonModel[] Members = null!;
+    public IJsonArray Members = null!;
 
     [JsonProperty("channels")]
     public ChannelJsonModel[] Channels = null!;
