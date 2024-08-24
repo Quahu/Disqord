@@ -6,6 +6,11 @@
 public interface IJsonNode
 {
     /// <summary>
+    ///     Gets the value kind of this node.
+    /// </summary>
+    JsonValueType Type { get; }
+
+    /// <summary>
     ///     Converts this JSON node to the given type.
     /// </summary>
     /// <typeparam name="T"> The type to convert to. </typeparam>

@@ -11,20 +11,6 @@ namespace Disqord.Serialization.Json.System;
 [DebuggerDisplay($"{nameof(DebuggerDisplay)}")]
 internal sealed class SystemJsonValue : SystemJsonNode, IJsonValue
 {
-    /// <inheritdoc cref="SystemJsonNode.Node"/>
-    public new JsonValue Node => (base.Node as JsonValue)!;
-
-    public JsonValueType Type => Node.GetValueKind() switch
-    {
-        JsonValueKind.Object => JsonValueType.Object,
-        JsonValueKind.Array => JsonValueType.Array,
-        JsonValueKind.String => JsonValueType.String,
-        JsonValueKind.Number => JsonValueType.Number,
-        JsonValueKind.True => JsonValueType.True,
-        JsonValueKind.False => JsonValueType.False,
-        _ => JsonValueType.Null
-    };
-
     internal SystemJsonValue(JsonValue value, JsonSerializerOptions options)
         : base(value, options)
     { }

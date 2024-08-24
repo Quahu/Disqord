@@ -22,6 +22,17 @@ public class DefaultJsonNode : IJsonNode
     /// </summary>
     public JsonSerializer Serializer { get; }
 
+    public JsonValueType Type => Token.Type switch
+    {
+        JTokenType.Object => JsonValueType.Object,
+        JTokenType.Array => JsonValueType.Array,
+        JTokenType.Integer or JTokenType.Float => JsonValueType.Number,
+        JTokenType.String or JTokenType.Date or JTokenType.Raw or JTokenType.Bytes or JTokenType.Guid or JTokenType.Uri or JTokenType.TimeSpan => JsonValueType.String,
+        JTokenType.Boolean when Token.Value<bool>() => JsonValueType.True,
+        JTokenType.Boolean when !Token.Value<bool>() => JsonValueType.False,
+        _ => JsonValueType.Null
+    };
+
     public DefaultJsonNode(JToken token, JsonSerializer serializer)
     {
         Token = token;

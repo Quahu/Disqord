@@ -104,6 +104,8 @@ public class JsonModel : IJsonNode
         return false;
     }
 
+    JsonValueType IJsonNode.Type => JsonValueType.Object;
+
     T IJsonNode.ToType<T>()
     {
         throw new NotSupportedException();

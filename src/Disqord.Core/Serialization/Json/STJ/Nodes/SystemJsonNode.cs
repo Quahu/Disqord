@@ -22,6 +22,18 @@ internal abstract class SystemJsonNode : IJsonNode
     /// </summary>
     public JsonSerializerOptions Options { get; }
 
+    /// <inheritdoc/>
+    public JsonValueType Type => Node.GetValueKind() switch
+    {
+        JsonValueKind.Object => JsonValueType.Object,
+        JsonValueKind.Array => JsonValueType.Array,
+        JsonValueKind.String => JsonValueType.String,
+        JsonValueKind.Number => JsonValueType.Number,
+        JsonValueKind.True => JsonValueType.True,
+        JsonValueKind.False => JsonValueType.False,
+        _ => JsonValueType.Null
+    };
+
     private protected SystemJsonNode(JsonNode node, JsonSerializerOptions options)
     {
         Node = node;
