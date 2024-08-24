@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Disqord.Models;
 using Disqord.Serialization.Json;
@@ -41,28 +41,4 @@ public class GatewayGuildJsonModel : GuildJsonModel
 
     [JsonProperty("guild_scheduled_events")]
     public GuildScheduledEventJsonModel[] GuildScheduledEvents = null!;
-
-    // Not ideal - handling the deserialization error at the serializer level would be better
-    public IEnumerable<PresenceJsonModel> CreatePresences()
-    {
-        foreach (var node in Presences)
-        {
-            PresenceJsonModel? model = null;
-            try
-            {
-                model = node?.ToType<PresenceJsonModel>();
-            }
-            catch
-            {
-                // Ignore bad presence data.
-            }
-
-            if (model == null)
-            {
-                continue;
-            }
-
-            yield return model;
-        }
-    }
 }

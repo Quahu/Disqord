@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
+using Disqord.Models;
 using Disqord.Serialization.Json;
 using Microsoft.Extensions.Logging;
 
@@ -174,7 +175,7 @@ public class GuildCreateDispatchHandler : DispatchHandler<GatewayGuildJsonModel,
 
         if (CacheProvider.TryGetPresences(model.Id, out var presenceCache))
         {
-            foreach (var presenceModel in model.CreatePresences())
+            foreach (var presenceModel in model.Presences.SafelyDeserializeItems<PresenceJsonModel>(Logger))
             {
                 if (isPending)
                 {

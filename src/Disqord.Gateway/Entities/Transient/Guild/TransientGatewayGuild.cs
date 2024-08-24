@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Disqord.Gateway;
@@ -138,7 +138,7 @@ public class TransientGatewayGuild : TransientGatewayClientEntity<GatewayGuildJs
 
     private IReadOnlyDictionary<Snowflake, IGuildChannel>? _channels;
 
-    public IReadOnlyDictionary<Snowflake, IPresence> Presences => _presences ??= Model.CreatePresences().ToReadOnlyDictionary(Client,
+    public IReadOnlyDictionary<Snowflake, IPresence> Presences => _presences ??= Model.Presences.SafelyDeserializeItems<PresenceJsonModel>(Client.Logger).ToReadOnlyDictionary(Client,
         (model, _) => model.User.Id,
         (model, client) => new TransientPresence(client, model) as IPresence);
 
