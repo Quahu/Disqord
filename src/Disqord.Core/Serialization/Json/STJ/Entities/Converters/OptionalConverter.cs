@@ -25,7 +25,15 @@ internal sealed class OptionalConverter : JsonConverterFactory
     {
         public override Optional<TValue?> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return JsonSerializer.Deserialize<TValue>(ref reader, options);
+            try
+            {
+                return JsonSerializer.Deserialize<TValue>(ref reader, options);
+            }
+            catch (JsonException ex)
+            {
+                JsonUtilities.RethrowJsonException(ex);
+                return default;
+            }
         }
 
         public override void Write(Utf8JsonWriter writer, Optional<TValue?> value, JsonSerializerOptions options)
@@ -37,7 +45,14 @@ internal sealed class OptionalConverter : JsonConverterFactory
             }
             else
             {
-                JsonSerializer.Serialize(writer, value.Value, options);
+                try
+                {
+                    JsonSerializer.Serialize(writer, value.Value, options);
+                }
+                catch (JsonException ex)
+                {
+                    JsonUtilities.RethrowJsonException(ex);
+                }
             }
         }
     }

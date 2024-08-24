@@ -26,7 +26,14 @@ internal sealed class JsonNodeConverter : JsonConverter<IJsonNode>
         }
         else
         {
-            JsonSerializer.Serialize(writer, value, value.GetType(), options);
+            try
+            {
+                JsonSerializer.Serialize(writer, value, value.GetType(), options);
+            }
+            catch (JsonException ex)
+            {
+                JsonUtilities.RethrowJsonException(ex);
+            }
         }
     }
 }

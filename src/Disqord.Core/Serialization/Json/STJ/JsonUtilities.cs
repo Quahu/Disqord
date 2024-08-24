@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 #if NET8_0_OR_GREATER
 using System.Buffers;
@@ -29,5 +31,12 @@ internal static class JsonUtilities
         reader.CopyString(buffer);
         return ulong.Parse(buffer);
 #endif
+    }
+
+    [StackTraceHidden]
+    [DoesNotReturn]
+    public static void RethrowJsonException(JsonException ex)
+    {
+        throw new JsonException(null, ex.InnerException);
     }
 }

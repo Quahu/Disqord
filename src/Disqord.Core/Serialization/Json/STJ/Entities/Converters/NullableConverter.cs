@@ -26,7 +26,15 @@ internal sealed class NullableConverter : JsonConverterFactory
                 return null;
             }
 
-            return JsonSerializer.Deserialize<TValue>(ref reader, options);
+            try
+            {
+                return JsonSerializer.Deserialize<TValue>(ref reader, options);
+            }
+            catch (JsonException ex)
+            {
+                JsonUtilities.RethrowJsonException(ex);
+                return default;
+            }
         }
 
         public override void Write(Utf8JsonWriter writer, TValue? value, JsonSerializerOptions options)
@@ -37,7 +45,14 @@ internal sealed class NullableConverter : JsonConverterFactory
                 return;
             }
 
-            JsonSerializer.Serialize(writer, value.Value, options);
+            try
+            {
+                JsonSerializer.Serialize(writer, value.Value, options);
+            }
+            catch (JsonException ex)
+            {
+                JsonUtilities.RethrowJsonException(ex);
+            }
         }
     }
 }
