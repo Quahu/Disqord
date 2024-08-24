@@ -6,6 +6,11 @@
 public interface IJsonNode
 {
     /// <summary>
+    ///     Gets the JSON path of this node.
+    /// </summary>
+    string Path { get; }
+
+    /// <summary>
     ///     Gets the value kind of this node.
     /// </summary>
     JsonValueType Type { get; }

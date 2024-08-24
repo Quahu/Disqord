@@ -22,6 +22,10 @@ public class DefaultJsonNode : IJsonNode
     /// </summary>
     public JsonSerializer Serializer { get; }
 
+    /// <inheritdoc/>
+    public string Path => Token.Path;
+
+    /// <inheritdoc/>
     public JsonValueType Type => Token.Type switch
     {
         JTokenType.Object => JsonValueType.Object,

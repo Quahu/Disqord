@@ -23,6 +23,9 @@ internal abstract class SystemJsonNode : IJsonNode
     public JsonSerializerOptions Options { get; }
 
     /// <inheritdoc/>
+    public string Path => Node.GetPath();
+
+    /// <inheritdoc/>
     public JsonValueType Type => Node.GetValueKind() switch
     {
         JsonValueKind.Object => JsonValueType.Object,
