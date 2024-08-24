@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
+using Disqord.Models;
+using Disqord.Serialization.Json;
 using Microsoft.Extensions.Logging;
 
 namespace Disqord.Gateway.Default.Dispatcher;
@@ -15,6 +17,25 @@ public class GuildCreateDispatchHandler : DispatchHandler<GatewayGuildJsonModel,
         _readyDispatchHandler = (value[GatewayDispatchNames.Ready] as ReadyDispatchHandler)!;
 
         base.Bind(value);
+    }
+
+    public override async ValueTask HandleDispatchAsync(IShard shard, IJsonNode data)
+    {
+        try
+        {
+            await base.HandleDispatchAsync(shard, data).ConfigureAwait(false);
+        }
+        catch (Exception)
+        {
+            // If an exception occurs during deserialization, make sure to still pop the pending guild.
+            if (data is IJsonObject jsonObject && jsonObject.TryGetValue("id", out var guildIdNode) && guildIdNode != null)
+            {
+                var guildId = guildIdNode.ToType<Snowflake>();
+                _readyDispatchHandler.PopPendingGuild(shard.Id, guildId);
+            }
+
+            throw;
+        }
     }
 
     public override async ValueTask<EventArgs?> HandleDispatchAsync(IShard shard, GatewayGuildJsonModel model)
@@ -75,7 +96,7 @@ public class GuildCreateDispatchHandler : DispatchHandler<GatewayGuildJsonModel,
 
         if (CacheProvider.TryGetUsers(out var userCache) && CacheProvider.TryGetMembers(model.Id, out var memberCache))
         {
-            foreach (var memberModel in model.Members)
+            foreach (var memberModel in model.Members.SafelyDeserializeItems<MemberJsonModel>(Logger))
                 Dispatcher.GetOrAddMember(userCache, memberCache, model.Id, memberModel);
         }
 
@@ -154,7 +175,7 @@ public class GuildCreateDispatchHandler : DispatchHandler<GatewayGuildJsonModel,
 
         if (CacheProvider.TryGetPresences(model.Id, out var presenceCache))
         {
-            foreach (var presenceModel in model.CreatePresences())
+            foreach (var presenceModel in model.Presences.SafelyDeserializeItems<PresenceJsonModel>(Logger))
             {
                 if (isPending)
                 {
