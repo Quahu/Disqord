@@ -6,12 +6,22 @@ namespace Disqord;
 
 public class LocalAutoModerationAction : ILocalConstruct<LocalAutoModerationAction>, IJsonConvertible<AutoModerationActionJsonModel>
 {
-    public static LocalAutoModerationAction BlockMessage()
+    public static LocalAutoModerationAction BlockMessage(string? customMessage)
     {
-        return new LocalAutoModerationAction
+        var action = new LocalAutoModerationAction
         {
-            Type = AutoModerationActionType.BlockMessage
+            Type = AutoModerationActionType.BlockMessage,
         };
+
+        if (customMessage != null)
+        {
+            action.Metadata = new LocalAutoModerationActionMetadata
+            {
+                CustomMessage = customMessage
+            };
+        }
+
+        return action;
     }
 
     public static LocalAutoModerationAction SendAlertMessage(Snowflake channelId)
