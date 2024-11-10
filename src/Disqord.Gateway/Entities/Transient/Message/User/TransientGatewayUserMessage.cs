@@ -106,7 +106,7 @@ public class TransientGatewayUserMessage : TransientGatewayMessage, IGatewayUser
 
     private IPoll? _poll;
     
-    public IReadOnlyList<IMessageSnapshot> MessageSnapshots
+    public IReadOnlyList<IMessageSnapshot> Snapshots
     {
         get
         {

@@ -132,7 +132,7 @@ public class TransientUserMessage : TransientMessage, IUserMessage
 
     private IPoll? _poll;
 
-    public IReadOnlyList<IMessageSnapshot> MessageSnapshots
+    public IReadOnlyList<IMessageSnapshot> Snapshots
     {
         get
         {

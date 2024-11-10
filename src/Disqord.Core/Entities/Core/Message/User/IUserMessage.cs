@@ -120,7 +120,7 @@ public interface IUserMessage : IMessage
     IPoll? Poll { get; }
     
     /// <summary>
-    ///     Gets the message snapshots referenced (forwarded) by this message.
+    ///     Gets the message snapshots of this message.
     /// </summary>
-    IReadOnlyList<IMessageSnapshot> MessageSnapshots { get; }
+    IReadOnlyList<IMessageSnapshot> Snapshots { get; }
 }
