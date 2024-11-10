@@ -8,7 +8,7 @@ public enum MessageReferenceType
     /// <summary>
     ///     A standard reference used by replies.
     /// </summary>
-    Reply = 0,
+    Default = 0,
     
     /// <summary>
     ///     A reference used to point to a message at a point in time.
