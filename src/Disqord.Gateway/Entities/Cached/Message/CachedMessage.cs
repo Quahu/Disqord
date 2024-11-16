@@ -53,7 +53,7 @@ public abstract class CachedMessage : CachedSnowflakeEntity, IGatewayMessage,
             }
             else
             {
-                _author = new TransientUser(Client, model.Author);
+                _author = new TransientUser(Client, model.Author.Value);
             }
         }
 
@@ -72,7 +72,7 @@ public abstract class CachedMessage : CachedSnowflakeEntity, IGatewayMessage,
             }
             else
             {
-                _author = new TransientUser(Client, model.Author);
+                _author = new TransientUser(Client, model.Author.Value);
             }
         }
 
