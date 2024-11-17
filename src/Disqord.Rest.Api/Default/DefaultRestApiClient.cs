@@ -99,7 +99,7 @@ public class DefaultRestApiClient : IRestApiClient
                 return responseStream;
 
             if (statusCode > 499 && statusCode < 600)
-                throw new RestApiException(response.HttpResponse, response.HttpResponse.ReasonPhrase, null);
+                throw new RestApiException(route, response.HttpResponse, response.HttpResponse.ReasonPhrase, null);
 
             RestApiErrorJsonModel? errorModel = null;
             try
@@ -115,7 +115,7 @@ public class DefaultRestApiClient : IRestApiClient
                 await responseStream.DisposeAsync().ConfigureAwait(false);
             }
 
-            throw new RestApiException(response.HttpResponse, response.HttpResponse.ReasonPhrase, errorModel);
+            throw new RestApiException(route, response.HttpResponse, response.HttpResponse.ReasonPhrase, errorModel);
         }
     }
 }
