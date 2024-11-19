@@ -19,17 +19,63 @@ public class DefaultJsonObject : DefaultJsonNode, IJsonObject
     public int Count => Token.Count;
 
     /// <inheritdoc/>
-    public IEnumerable<string> Keys => (Token as IDictionary<string, JToken>).Keys;
+    public ICollection<string> Keys => (Token as IDictionary<string, JToken>).Keys;
 
     /// <inheritdoc/>
-    public IEnumerable<IJsonNode?> Values => (Token as IDictionary<string, JToken>).Values.Select(x => Create(x, Serializer));
+    public ICollection<IJsonNode?> Values => (Token as IDictionary<string, JToken>).Values.Select(value => Create(value, Serializer)).ToArray();
 
     /// <inheritdoc/>
-    public IJsonNode? this[string key] => Create(Token[key], Serializer);
+    public IJsonNode? this[string key]
+    {
+        get => Create(Token[key], Serializer);
+        set => Token[key] = GetJToken(value);
+    }
+
+    bool ICollection<KeyValuePair<string, IJsonNode?>>.IsReadOnly => false;
 
     public DefaultJsonObject(JObject token, JsonSerializer serializer)
         : base(token, serializer)
     { }
+
+    /// <inheritdoc/>
+    public void Add(KeyValuePair<string, IJsonNode?> item)
+    {
+        Add(item.Key, item.Value);
+    }
+
+    /// <inheritdoc/>
+    public void Clear()
+    {
+        Token.RemoveAll();
+    }
+
+    /// <inheritdoc/>
+    public bool Contains(KeyValuePair<string, IJsonNode?> item)
+    {
+        return TryGetValue(item.Key, out var value) && ReferenceEquals(value, item.Value);
+    }
+
+    /// <inheritdoc/>
+    public void CopyTo(KeyValuePair<string, IJsonNode?>[] array, int arrayIndex)
+    {
+        var index = 0;
+        foreach (var (key, value) in this)
+        {
+            array[arrayIndex + index++] = KeyValuePair.Create(key, value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public bool Remove(KeyValuePair<string, IJsonNode?> item)
+    {
+        return Remove(item.Key);
+    }
+
+    /// <inheritdoc/>
+    public void Add(string key, IJsonNode? value)
+    {
+        Token.Add(key, GetJToken(value));
+    }
 
     /// <inheritdoc/>
     public bool ContainsKey(string key)
@@ -48,6 +94,12 @@ public class DefaultJsonObject : DefaultJsonNode, IJsonObject
 
         value = null;
         return false;
+    }
+
+    /// <inheritdoc/>
+    public bool Remove(string key)
+    {
+        return Token.Remove(key);
     }
 
     private sealed class Enumerator : IEnumerator<KeyValuePair<string, IJsonNode?>>
