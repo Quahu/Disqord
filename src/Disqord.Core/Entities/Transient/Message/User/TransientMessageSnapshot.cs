@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Disqord.Models;
+using Qommon;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
@@ -12,7 +13,7 @@ public class TransientMessageSnapshot : TransientClientEntity<MessageSnapshotJso
 
     /// <inheritdoc/>
     public string Content => Model.Message.Content;
-    
+
     /// <inheritdoc/>
     public IReadOnlyList<IUser> MentionedUsers => _mentionedUsers ??= Model.Message.Mentions.ToReadOnlyList(Client, (model, client) => new TransientUser(client, model));
 
@@ -20,26 +21,26 @@ public class TransientMessageSnapshot : TransientClientEntity<MessageSnapshotJso
 
     /// <inheritdoc/>
     public IReadOnlyList<Snowflake> MentionedRoleIds => Model.Message.MentionRoles;
-    
+
     /// <inheritdoc/>
     public IReadOnlyList<IAttachment> Attachments => _attachments ??= Model.Message.Attachments.ToReadOnlyList(model => new TransientAttachment(model));
 
     private IReadOnlyList<IAttachment>? _attachments;
-    
+
     /// <inheritdoc/>
     public IReadOnlyList<IEmbed> Embeds => _embeds ??= Model.Message.Embeds.ToReadOnlyList(model => new TransientEmbed(model));
 
     private IReadOnlyList<IEmbed>? _embeds;
-    
+
     /// <inheritdoc/>
-    public DateTimeOffset Timestamp { get; }
-    
+    public DateTimeOffset Timestamp => Model.Message.Timestamp;
+
     /// <inheritdoc/>
-    public DateTimeOffset? EditedAt { get; }
-    
+    public DateTimeOffset? EditedAt => Model.Message.EditedTimestamp;
+
     /// <inheritdoc/>
-    public MessageFlags Flags { get; }
-    
+    public MessageFlags Flags => Model.Message.Flags.GetValueOrDefault();
+
     /// <inheritdoc/>
     public IReadOnlyList<IMessageSticker> Stickers
     {
@@ -53,7 +54,7 @@ public class TransientMessageSnapshot : TransientClientEntity<MessageSnapshotJso
     }
 
     private IReadOnlyList<IMessageSticker>? _stickers;
-    
+
     public IReadOnlyList<IRowComponent> Components
     {
         get
@@ -65,8 +66,8 @@ public class TransientMessageSnapshot : TransientClientEntity<MessageSnapshotJso
         }
     }
     private IReadOnlyList<IRowComponent>? _components;
-    
-    public TransientMessageSnapshot(IClient client, MessageSnapshotJsonModel model) 
+
+    public TransientMessageSnapshot(IClient client, MessageSnapshotJsonModel model)
         : base(client, model)
     { }
 }
