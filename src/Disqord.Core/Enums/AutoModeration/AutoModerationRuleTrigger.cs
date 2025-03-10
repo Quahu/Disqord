@@ -11,11 +11,6 @@ public enum AutoModerationRuleTrigger
     Keyword = 1,
 
     /// <summary>
-    ///     The trigger checks for harmful links.
-    /// </summary>
-    HarmfulLink = 2,
-
-    /// <summary>
     ///     The trigger checks for generic spam.
     /// </summary>
     Spam = 3,
