@@ -10,6 +10,16 @@ public static partial class Discord
         public static class Guild
         {
             /// <summary>
+            ///     The maximum seconds in the past to delete messages for when a user is banned.
+            /// </summary>
+            public const int MaxDeleteMessageSeconds = 604800;
+
+            /// <summary>
+            ///     The maximum amount of users that can be bulk banned.
+            /// </summary>
+            public const int MaxBulkBanUsersAmount = 200;
+
+            /// <summary>
             ///     Represents limits for guild events.
             /// </summary>
             public static class Event

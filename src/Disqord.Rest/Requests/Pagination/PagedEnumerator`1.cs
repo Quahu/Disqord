@@ -82,16 +82,17 @@ public abstract class PagedEnumerator<TEntity> : IPagedEnumerator<TEntity>
             return false;
         }
 
-        if (current.Count < PageSize)
-        {
-            // If Discord returns less entities than the page size,
-            // it means there are no more entities beyond the ones we just received.
-            RemainingCount = 0;
-        }
-        else
-        {
+        // TODO: Rework paged enumerator
+        // if (current.Count < PageSize)
+        // {
+        //     // If Discord returns less entities than the page size,
+        //     // it means there are no more entities beyond the ones we just received.
+        //     RemainingCount = 0;
+        // }
+        // else
+        // {
             RemainingCount -= current.Count;
-        }
+        // }
 
         return true;
     }
