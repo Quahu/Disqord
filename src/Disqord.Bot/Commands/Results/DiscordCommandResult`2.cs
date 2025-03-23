@@ -10,5 +10,10 @@ public abstract class DiscordCommandResult<TContext, TResult> : DiscordCommandRe
         : base(context)
     { }
 
+    public override Task ExecuteAsync(CancellationToken cancellationToken = default)
+    {
+        return ExecuteWithResultAsync(cancellationToken);
+    }
+
     public abstract Task<TResult> ExecuteWithResultAsync(CancellationToken cancellationToken = default);
 }
