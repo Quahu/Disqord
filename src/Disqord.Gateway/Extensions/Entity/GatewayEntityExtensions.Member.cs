@@ -128,7 +128,7 @@ public static partial class GatewayEntityExtensions
         return roles[^1];
     }
 
-    private const string CalculateRoleHierachyWorkaroundMessage = "Due to Discord returning duplicate role positions, this should not be used for role hierarchy checks. "
+    private const string CalculateRoleHierarchyWorkaroundMessage = "Due to Discord returning duplicate role positions, this should not be used for role hierarchy checks. "
         + "For Disqord.Bot, checks implementing RequireRoleHierarchyBaseAttribute should be used instead. "
         + "For manual checking, GetHighestRole should be used alongside a guild owner check.";
 
@@ -140,7 +140,7 @@ public static partial class GatewayEntityExtensions
     /// <returns>
     ///     The highest role's position or <see cref="int.MaxValue"/> if this member is the guild's owner.
     /// </returns>
-    [Obsolete(CalculateRoleHierachyWorkaroundMessage)]
+    [Obsolete(CalculateRoleHierarchyWorkaroundMessage)]
     public static int CalculateRoleHierarchy(this IMember member)
     {
         return member.CalculateRoleHierarchy(member.GetGuild()!);
@@ -155,7 +155,7 @@ public static partial class GatewayEntityExtensions
     /// <returns>
     ///     The highest role's position or <see cref="int.MaxValue"/> if this member is the guild's owner.
     /// </returns>
-    [Obsolete(CalculateRoleHierachyWorkaroundMessage)]
+    [Obsolete(CalculateRoleHierarchyWorkaroundMessage)]
     public static int CalculateRoleHierarchy(this IMember member, IGuild guild)
     {
         if (member.GuildId != guild.Id)

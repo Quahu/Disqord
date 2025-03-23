@@ -17,7 +17,7 @@ public class MessageJsonModel : JsonModel
     public Optional<Snowflake> GuildId;
 
     [JsonProperty("author")]
-    public UserJsonModel Author = null!;
+    public Optional<UserJsonModel> Author;
 
     [JsonProperty("member")]
     public Optional<MemberJsonModel> Member;
@@ -78,6 +78,9 @@ public class MessageJsonModel : JsonModel
 
     [JsonProperty("message_reference")]
     public Optional<MessageReferenceJsonModel> MessageReference;
+
+    [JsonProperty("message_snapshots")]
+    public Optional<MessageSnapshotJsonModel[]> MessageSnapshots;
 
     [JsonProperty("flags")]
     public Optional<MessageFlags> Flags;

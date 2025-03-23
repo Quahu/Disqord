@@ -116,11 +116,28 @@ public class ComponentJsonModel : JsonModel
             }
             case ComponentType.StringSelection or >= ComponentType.UserSelection and <= ComponentType.ChannelSelection:
             {
-                OptionalGuard.HasValue(Options);
-                Guard.IsLessThanOrEqualTo(Options.Value.Length, Discord.Limits.Component.Selection.MaxOptionAmount);
+                if (Type == ComponentType.StringSelection)
+                {
+                    OptionalGuard.HasValue(Options);
+                    Guard.HasSizeLessThanOrEqualTo(Options.Value, Discord.Limits.Component.Selection.MaxOptionAmount);
 
-                for (var i = 0; i < Options.Value.Length; i++)
-                    Options.Value[i].Validate();
+                    for (var i = 0; i < Options.Value.Length; i++)
+                        Options.Value[i].Validate();
+                }
+                else
+                {
+                    OptionalGuard.CheckValue(Options, options =>
+                    {
+                        try
+                        {
+                            Guard.HasSizeEqualTo(options, 0);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new ArgumentException("Options are not supported by entity selection components.", ex);
+                        }
+                    });
+                }
 
                 OptionalGuard.CheckValue(Placeholder, placeholder =>
                 {

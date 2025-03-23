@@ -55,8 +55,6 @@ public class DefaultVoiceUdpClient : IVoiceUdpClient, IValueTaskSource
         IVoiceEncryption encryption,
         IUdpClientFactory udpClientFactory)
     {
-        Guard.HasSizeEqualTo(encryptionKey, Sodium.KeyLength);
-
         Ssrc = ssrc;
         _encryptionKey = encryptionKey;
         HostName = hostName;
@@ -148,7 +146,14 @@ public class DefaultVoiceUdpClient : IVoiceUdpClient, IValueTaskSource
         BinaryPrimitives.WriteUInt32BigEndian(packet[4..], _timestamp);
         BinaryPrimitives.WriteUInt32BigEndian(packet[8..], Ssrc);
 
-        Encryption.Encrypt(packet[..VoiceConstants.RtpHeaderSize], packet[VoiceConstants.RtpHeaderSize..], opus, _encryptionKey);
+        try
+        {
+            Encryption.Encrypt(packet[..VoiceConstants.RtpHeaderSize], packet[VoiceConstants.RtpHeaderSize..], opus, _encryptionKey);
+        }
+        catch (Exception ex)
+        {
+            throw new VoiceEncryptionException("Failed to encrypt the voice packet.", ex);
+        }
     }
 
     public void Dispose()

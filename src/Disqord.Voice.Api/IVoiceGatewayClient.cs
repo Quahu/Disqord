@@ -25,11 +25,6 @@ public interface IVoiceGatewayClient : ILogging, IAsyncDisposable
 
     IJsonSerializer Serializer { get; }
 
-    /// <summary>
-    ///     Gets the last sequence number (<see cref="VoiceGatewayPayloadJsonModel.S"/>) received from the voice gateway.
-    /// </summary>
-    int? Sequence { get; }
-
     Task<ReadyJsonModel> WaitForReadyAsync(CancellationToken cancellationToken);
 
     Task<SessionDescriptionJsonModel> WaitForSessionDescriptionAsync(CancellationToken cancellationToken);

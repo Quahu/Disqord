@@ -105,6 +105,18 @@ public class TransientGatewayUserMessage : TransientGatewayMessage, IGatewayUser
     public IPoll? Poll => _poll ??= Optional.ConvertOrDefault(Model.Poll, poll => new TransientPoll(poll));
 
     private IPoll? _poll;
+    
+    public IReadOnlyList<IMessageSnapshot> Snapshots
+    {
+        get
+        {
+            if (!Model.MessageSnapshots.HasValue)
+                return Array.Empty<IMessageSnapshot>();
+
+            return _messageSnapshots ??= Model.MessageSnapshots.Value.ToReadOnlyList(Client, (model, client) => new TransientMessageSnapshot(client, model));
+        }
+    }
+    private IReadOnlyList<IMessageSnapshot>? _messageSnapshots;
 
     public TransientGatewayUserMessage(IClient client, MessageJsonModel model)
         : base(client, model)

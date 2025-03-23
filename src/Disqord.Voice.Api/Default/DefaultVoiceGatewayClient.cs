@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Serialization.Json;
@@ -29,8 +30,6 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
     public IVoiceGateway Gateway { get; }
 
     public IJsonSerializer Serializer { get; }
-
-    public int? Sequence { get; private set; }
 
     public CancellationToken StoppingToken { get; private set; }
 
@@ -172,7 +171,6 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
                 {
                     var payload = await Gateway.ReceiveAsync(stoppingToken).ConfigureAwait(false);
                     Logger.LogTrace("Received voice payload: {0}.", payload.Op);
-                    Sequence = payload.S;
 
                     switch (payload.Op)
                     {
