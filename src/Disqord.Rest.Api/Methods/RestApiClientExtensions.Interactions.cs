@@ -11,33 +11,33 @@ public static partial class RestApiClientExtensions
 {
     public static Task<InteractionCallbackResponseJsonModel?> CreateInitialInteractionResponseAsync(this IRestApiClient client,
         Snowflake interactionId, string interactionToken, AttachmentJsonPayloadRestRequestContent<CreateInitialInteractionResponseJsonRestRequestContent> content,
-        bool withResponse,
+        bool withCallbackResponse,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        return CreateInitialInteractionResponseCoreAsync(client, interactionId, interactionToken, content, withResponse, options, cancellationToken);
+        return CreateInitialInteractionResponseCoreAsync(client, interactionId, interactionToken, content, withCallbackResponse, options, cancellationToken);
     }
 
     public static Task<InteractionCallbackResponseJsonModel?> CreateInitialInteractionResponseAsync(this IRestApiClient client,
         Snowflake interactionId, string interactionToken, CreateInitialInteractionResponseJsonRestRequestContent content,
-        bool withResponse,
+        bool withCallbackResponse,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        return CreateInitialInteractionResponseCoreAsync(client, interactionId, interactionToken, content, withResponse, options, cancellationToken);
+        return CreateInitialInteractionResponseCoreAsync(client, interactionId, interactionToken, content, withCallbackResponse, options, cancellationToken);
     }
 
     private static async Task<InteractionCallbackResponseJsonModel?> CreateInitialInteractionResponseCoreAsync(IRestApiClient client,
         Snowflake interactionId, string interactionToken, IRestRequestContent content,
-        bool withResponse,
+        bool withCallbackResponse,
         IRestRequestOptions? options, CancellationToken cancellationToken)
     {
-        var route = Format(Route.Interactions.CreateInitialResponse, withResponse
+        var route = Format(Route.Interactions.CreateInitialResponse, withCallbackResponse
             ? new Dictionary<string, object>
             {
                 ["with_response"] = true
             }
             : null, interactionId, interactionToken);
 
-        if (withResponse)
+        if (withCallbackResponse)
         {
             return await client.ExecuteAsync<InteractionCallbackResponseJsonModel>(route, content, options, cancellationToken).ConfigureAwait(false);
         }

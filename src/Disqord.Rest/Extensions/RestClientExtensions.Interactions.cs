@@ -15,7 +15,7 @@ public static partial class RestClientExtensions
 {
     public static async Task<IInteractionCallbackResponse?> CreateInteractionResponseAsync(this IRestClient client,
         Snowflake interactionId, string interactionToken, ILocalInteractionResponse response,
-        bool withResponse,
+        bool withCallbackResponse,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var content = response.ToContent(client.ApiClient.Serializer, out var attachments);
@@ -24,11 +24,11 @@ public static partial class RestClientExtensions
         if (attachments.Count != 0)
         {
             var multipartContent = new AttachmentJsonPayloadRestRequestContent<CreateInitialInteractionResponseJsonRestRequestContent>(content, attachments);
-            task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, multipartContent, withResponse, options, cancellationToken);
+            task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, multipartContent, withCallbackResponse, options, cancellationToken);
         }
         else
         {
-            task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, content, withResponse, options, cancellationToken);
+            task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, content, withCallbackResponse, options, cancellationToken);
         }
 
         var model = await task.ConfigureAwait(false);
