@@ -33,7 +33,7 @@ public static partial class RestApiClientExtensions
         var route = Format(Route.Interactions.CreateInitialResponse, withCallbackResponse
             ? new Dictionary<string, object>
             {
-                ["with_response"] = true
+                ["with_response"] = withCallbackResponse
             }
             : null, interactionId, interactionToken);
 
