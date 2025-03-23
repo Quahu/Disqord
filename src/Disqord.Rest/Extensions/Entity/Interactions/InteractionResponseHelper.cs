@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Qommon;
@@ -76,7 +77,7 @@ public class InteractionResponseHelper
         var response = new LocalInteractionMessageResponse(InteractionResponseType.Pong);
 
         var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken: cancellationToken).ConfigureAwait(false);
+        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, withResponse: false, options, cancellationToken: cancellationToken).ConfigureAwait(false);
 
         SetResponded(InteractionResponseType.Pong);
     }
@@ -115,7 +116,7 @@ public class InteractionResponseHelper
             .WithIsEphemeral(isEphemeral);
 
         var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
+        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, withResponse: false, options, cancellationToken).ConfigureAwait(false);
 
         SetResponded(InteractionResponseType.DeferredChannelMessage);
     }
@@ -157,7 +158,7 @@ public class InteractionResponseHelper
             .WithIsEphemeral(isEphemeral);
 
         var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
+        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, withResponse: false, options, cancellationToken).ConfigureAwait(false);
 
         SetResponded(responseType);
     }
@@ -166,11 +167,6 @@ public class InteractionResponseHelper
     ///     Responds to the interaction by sending an <see cref="InteractionResponseType.ChannelMessage"/>,
     ///     i.e. sends a message in the interaction's channel and allows sending followups.
     /// </summary>
-    /// <remarks>
-    ///     Unlike when sending normal channel message, this request does not
-    ///     return the sent message.
-    ///     Instead it can be retrieved using <see cref="InteractionFollowupHelper.FetchResponseAsync"/>.
-    /// </remarks>
     /// <param name="response"> The message response. </param>
     /// <param name="options"> The request options. </param>
     /// <param name="cancellationToken"> The cancellation token to observe. </param>
@@ -179,7 +175,7 @@ public class InteractionResponseHelper
     /// </returns>
     /// <seealso cref="InteractionFollowupHelper"/>
     /// <seealso cref="InteractionFollowupHelper.FetchResponseAsync"/>
-    public async Task SendMessageAsync(
+    public async Task<IUserMessage> SendMessageAsync(
         LocalInteractionMessageResponse response,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
@@ -190,9 +186,11 @@ public class InteractionResponseHelper
         response.Type = InteractionResponseType.ChannelMessage;
 
         var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
+        var callbackResponse = await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, withResponse: true, options, cancellationToken).ConfigureAwait(false);
 
         SetResponded(InteractionResponseType.ChannelMessage);
+
+        return GetRequiredMessageResource(callbackResponse);
     }
 
     /// <summary>
@@ -205,7 +203,7 @@ public class InteractionResponseHelper
     /// <returns>
     ///     A <see cref="Task"/> representing the request.
     /// </returns>
-    public async Task ModifyMessageAsync(
+    public async Task<IUserMessage> ModifyMessageAsync(
         LocalInteractionMessageResponse response,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
@@ -216,9 +214,21 @@ public class InteractionResponseHelper
         response.Type = InteractionResponseType.MessageUpdate;
 
         var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
+        var callbackResponse = await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, withResponse: true, options, cancellationToken).ConfigureAwait(false);
 
         SetResponded(InteractionResponseType.MessageUpdate);
+
+        return GetRequiredMessageResource(callbackResponse);
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static IUserMessage GetRequiredMessageResource(IInteractionCallbackResponse? response)
+    {
+        Guard.IsNotNull(response);
+        Guard.IsNotNull(response.Resource);
+        Guard.IsNotNull(response.Resource.Message);
+
+        return response.Resource.Message;
     }
 
     /// <summary>
@@ -250,7 +260,7 @@ public class InteractionResponseHelper
             .WithChoices(choices);
 
         var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
+        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, withResponse: false, options, cancellationToken).ConfigureAwait(false);
 
         SetResponded(InteractionResponseType.ApplicationCommandAutoComplete);
     }
@@ -274,7 +284,7 @@ public class InteractionResponseHelper
         Guard.IsNotNull(response);
 
         var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
+        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, withResponse: false, options, cancellationToken).ConfigureAwait(false);
 
         SetResponded(InteractionResponseType.Modal);
     }

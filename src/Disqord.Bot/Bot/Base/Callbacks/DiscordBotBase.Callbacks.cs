@@ -224,7 +224,7 @@ public abstract partial class DiscordBotBase
         {
             if (message is LocalInteractionMessageResponse localInteractionMessageResponse)
             {
-                task = interactionContext.SendMessageAsync(localInteractionMessageResponse, false, cancellationToken: context.CancellationToken);
+                task = interactionContext.SendMessageAsync(localInteractionMessageResponse, cancellationToken: context.CancellationToken);
             }
             else
             {
