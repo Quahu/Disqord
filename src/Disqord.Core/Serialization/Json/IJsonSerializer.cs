@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using Disqord.Logging;
 
 namespace Disqord.Serialization.Json;
 
 /// <summary>
 ///     Represents a JSON (de)serializer.
 /// </summary>
-public interface IJsonSerializer : ILogging
+public interface IJsonSerializer
 {
     /// <summary>
     ///     Deserializes the UTF-8 JSON stream into an object.
@@ -34,5 +34,6 @@ public interface IJsonSerializer : ILogging
     /// <returns>
     ///     A JSON node representing the object.
     /// </returns>
-    IJsonNode GetJsonNode(object? obj);
+    [return: NotNullIfNotNull(nameof(obj))]
+    IJsonNode? GetJsonNode(object? obj);
 }
