@@ -5,7 +5,7 @@ using Qommon;
 
 namespace Disqord.Rest.Api;
 
-public class CreateForumThreadJsonRestRequestContent : CreateThreadJsonRestRequestContent, IAttachmentRestRequestContent
+public class CreateThreadPostJsonRestRequestContent : CreateThreadJsonRestRequestContent, IAttachmentRestRequestContent
 {
     [JsonProperty("message")]
     public CreateMessageJsonRestRequestContent Message = null!;
