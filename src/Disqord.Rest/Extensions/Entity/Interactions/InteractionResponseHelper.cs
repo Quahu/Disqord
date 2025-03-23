@@ -21,12 +21,15 @@ public class InteractionResponseHelper
     /// <summary>
     ///     Gets whether the interaction has been responded to via this helper.
     /// </summary>
-    public bool HasResponded { get; private set; }
+    public bool HasResponded => _hasResponded;
 
     /// <summary>
     ///     Gets the type of the response if <see cref="HasResponded"/> returned <see langword="true"/>.
     /// </summary>
-    public InteractionResponseType ResponseType { get; private set; }
+    public InteractionResponseType ResponseType => _responseType;
+
+    private volatile bool _hasResponded;
+    private volatile InteractionResponseType _responseType;
 
     /// <summary>
     ///     Instantiates a new response helper.
@@ -41,17 +44,21 @@ public class InteractionResponseHelper
 
     private void ThrowIfInvalid()
     {
-        if (HasResponded)
+        if (_hasResponded)
+        {
             Throw.InvalidOperationException("This interaction has already been responded to.");
+        }
 
         if (Interaction.IsResponseExpired())
+        {
             throw new InteractionExpiredException(true);
+        }
     }
 
     private void SetResponded(InteractionResponseType type)
     {
-        HasResponded = true;
-        ResponseType = type;
+        _hasResponded = true;
+        _responseType = type;
     }
 
     /// <summary>
