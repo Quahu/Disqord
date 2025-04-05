@@ -14,7 +14,7 @@ public static class LocalMessageReferenceExtensions
         messageReference.Type = type;
         return messageReference;
     }
-    
+
     /// <summary>
     ///     Sets the ID of the referenced message.
     /// </summary>

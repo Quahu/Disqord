@@ -20,7 +20,7 @@ public static partial class RestEntityExtensions
         var client = emoji.GetRestClient();
         return client.DeleteApplicationEmojiAsync(emoji.ApplicationId, emoji.Id, options, cancellationToken);
     }
-    
+
     public static Task<IGuildEmoji> ModifyAsync(this IGuildEmoji emoji,
         Action<ModifyGuildEmojiActionProperties> action,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

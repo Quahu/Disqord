@@ -7,7 +7,7 @@ public class TransientMessageReference : TransientEntity<MessageReferenceJsonMod
 {
     /// <inheritdoc/>
     public MessageReferenceType Type => Model.Type.GetValueOrNullable() ?? MessageReferenceType.Default;
-    
+
     /// <inheritdoc/>
     public Snowflake? MessageId => Model.MessageId.GetValueOrNullable();
 

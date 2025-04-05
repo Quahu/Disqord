@@ -7,7 +7,7 @@ public class MessageReferenceJsonModel : JsonModel
 {
     [JsonProperty("type")]
     public Optional<MessageReferenceType> Type;
-    
+
     [JsonProperty("message_id")]
     public Optional<Snowflake> MessageId;
 

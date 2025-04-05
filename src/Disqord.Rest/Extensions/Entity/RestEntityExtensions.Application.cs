@@ -22,7 +22,7 @@ public static partial class RestEntityExtensions
         var client = application.GetRestClient();
         return client.FetchApplicationEmojiAsync(application.Id, emojiId, options, cancellationToken);
     }
-    
+
     public static Task<IApplicationEmoji> CreateEmojiAsync(this IApplication application,
         string name, Stream image,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -30,7 +30,7 @@ public static partial class RestEntityExtensions
         var client = application.GetRestClient();
         return client.CreateApplicationEmojiAsync(application.Id, name, image, options, cancellationToken);
     }
-    
+
     public static Task<IApplicationEmoji> ModifyEmojiAsync(this IApplication application,
         Snowflake emojiId, Action<ModifyApplicationEmojiActionProperties> action,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -38,7 +38,7 @@ public static partial class RestEntityExtensions
         var client = application.GetRestClient();
         return client.ModifyApplicationEmojiAsync(application.Id, emojiId, action, options, cancellationToken);
     }
-    
+
     public static Task DeleteEmojiAsync(this IApplication application,
         Snowflake emojiId,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

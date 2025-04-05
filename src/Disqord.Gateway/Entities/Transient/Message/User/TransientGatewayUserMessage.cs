@@ -105,7 +105,7 @@ public class TransientGatewayUserMessage : TransientGatewayMessage, IGatewayUser
     public IPoll? Poll => _poll ??= Optional.ConvertOrDefault(Model.Poll, poll => new TransientPoll(poll));
 
     private IPoll? _poll;
-    
+
     public IReadOnlyList<IMessageSnapshot> Snapshots
     {
         get

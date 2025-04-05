@@ -16,7 +16,7 @@ public class LocalMessageReference : ILocalConstruct<LocalMessageReference>, IJs
     ///     This property defaults to <see cref="MessageReferenceType.Default"/>.
     /// </remarks>
     public Optional<MessageReferenceType> Type { get; set; } = MessageReferenceType.Default;
-    
+
     /// <summary>
     ///     Gets or sets the ID of the referenced message.
     /// </summary>

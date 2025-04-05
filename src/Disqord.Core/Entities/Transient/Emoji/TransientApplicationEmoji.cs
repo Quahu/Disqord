@@ -13,21 +13,21 @@ public class TransientApplicationEmoji : TransientClientEntity<EmojiJsonModel>, 
 
     /// <inheritdoc cref="INamableEntity.Name"/>
     public string Name => Model.Name!;
-    
+
     /// <inheritdoc/>
     public bool IsAnimated => Model.Animated.Value;
-    
+
     /// <inheritdoc/>
     public IUser? Creator => _creator ??= Optional.ConvertOrDefault(Model.User, static (user, client) => new TransientUser(client, user), Client);
-    
+
     private IUser? _creator;
-    
+
     /// <inheritdoc/>
     public bool RequiresColons => Model.RequireColons.Value;
-    
+
     /// <inheritdoc/>
     public bool IsManaged => Model.Managed.Value;
-    
+
     /// <inheritdoc/>
     public string Tag => ToString();
 
@@ -41,12 +41,12 @@ public class TransientApplicationEmoji : TransientClientEntity<EmojiJsonModel>, 
     {
         return Comparers.Emoji.Equals(this, other);
     }
-    
+
     public bool Equals(ICustomEmoji? other)
     {
         return Comparers.Emoji.Equals(this, other);
     }
-    
+
     public override int GetHashCode()
     {
         return Comparers.Emoji.GetHashCode(this);

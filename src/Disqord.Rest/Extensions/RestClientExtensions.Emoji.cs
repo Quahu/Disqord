@@ -31,7 +31,7 @@ public static partial class RestClientExtensions
         var model = await client.ApiClient.FetchApplicationEmojiAsync(applicationId, emojiId, options, cancellationToken).ConfigureAwait(false);
         return new TransientApplicationEmoji(client, applicationId, model);
     }
-    
+
     public static async Task<IApplicationEmoji> CreateApplicationEmojiAsync(this IRestClient client,
         Snowflake applicationId, string name, Stream image,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -41,7 +41,7 @@ public static partial class RestClientExtensions
         var model = await client.ApiClient.CreateApplicationEmojiAsync(applicationId, content, options, cancellationToken).ConfigureAwait(false);
         return new TransientApplicationEmoji(client, applicationId, model);
     }
-    
+
     public static async Task<IApplicationEmoji> ModifyApplicationEmojiAsync(this IRestClient client,
         Snowflake applicationId, Snowflake emojiId, Action<ModifyApplicationEmojiActionProperties> action,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -58,14 +58,14 @@ public static partial class RestClientExtensions
         var model = await client.ApiClient.ModifyApplicationEmojiAsync(applicationId, emojiId, content, options, cancellationToken).ConfigureAwait(false);
         return new TransientApplicationEmoji(client, applicationId, model);
     }
-    
+
     public static Task DeleteApplicationEmojiAsync(this IRestClient client,
         Snowflake applicationId, Snowflake emojiId,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         return client.ApiClient.DeleteApplicationEmojiAsync(applicationId, emojiId, options, cancellationToken);
     }
-    
+
     public static async Task<IReadOnlyList<IGuildEmoji>> FetchGuildEmojisAsync(this IRestClient client,
         Snowflake guildId,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

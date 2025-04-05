@@ -4,6 +4,6 @@ namespace Disqord.Models;
 
 public class ApplicationEmojisJsonModel : JsonModel
 {
-    [JsonProperty("items")] 
+    [JsonProperty("items")]
     public EmojiJsonModel[] Items = null!;
 }
