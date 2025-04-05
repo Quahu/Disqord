@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.Linq;
 using Disqord.DependencyInjection.Extensions;
 using Disqord.Gateway.Api.Default;

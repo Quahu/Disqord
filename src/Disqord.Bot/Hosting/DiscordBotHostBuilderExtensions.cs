@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using Disqord.Bot.Commands.Text;
 using Disqord.DependencyInjection.Extensions;
