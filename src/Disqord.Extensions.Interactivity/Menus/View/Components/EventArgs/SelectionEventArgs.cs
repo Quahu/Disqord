@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Disqord.Gateway;
 using Qommon;
 using Qommon.Collections.ReadOnly;
@@ -58,7 +59,8 @@ public sealed class SelectionEventArgs : ViewComponentEventArgs
                 SelectionComponentType.User => new IUser[selectedValueCount],
                 SelectionComponentType.Role => new IRole[selectedValueCount],
                 SelectionComponentType.Mentionable => new ISnowflakeEntity[selectedValueCount],
-                SelectionComponentType.Channel => new IInteractionChannel[selectedValueCount]
+                SelectionComponentType.Channel => new IInteractionChannel[selectedValueCount],
+                _ => Throw.ArgumentOutOfRangeException<ISnowflakeEntity[]>(nameof(entitySelectionInteraction.ComponentType), entitySelectionInteraction.ComponentType, "Unsupported entity selection type.")
             };
 
             for (var i = 0; i < selectedValueCount; i++)
