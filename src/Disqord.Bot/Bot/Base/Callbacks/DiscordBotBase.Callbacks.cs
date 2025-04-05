@@ -103,10 +103,9 @@ public abstract partial class DiscordBotBase
         if (context is IDiscordInteractionCommandContext interactionContext)
         {
             var response = interactionContext.Interaction.Response();
-            if (response.HasResponded && response.ResponseType is InteractionResponseType.DeferredChannelMessage or InteractionResponseType.DeferredMessageUpdate
-                or InteractionResponseType.MessageUpdate)
+            if (response.HasResponded && response.ResponseType is InteractionResponseType.DeferredMessageUpdate)
             {
-                // Ignore interactions that have been deferred or would modify an existing message.
+                // Ignore interactions that have been deferred and would modify an existing message on followup.
                 return null;
             }
 
