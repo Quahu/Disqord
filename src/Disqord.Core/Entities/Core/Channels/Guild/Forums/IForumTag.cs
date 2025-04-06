@@ -3,7 +3,7 @@ using Disqord.Models;
 namespace Disqord;
 
 /// <summary>
-///     Represents a tag that can be applied to threads in a forum channel.
+///     Represents a tag that can be applied to threads in a forum or media channel.
 /// </summary>
 public interface IForumTag : IIdentifiableEntity, INamableEntity, IJsonUpdatable<ForumTagJsonModel>
 {

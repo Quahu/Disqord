@@ -61,6 +61,9 @@ public abstract class TransientGuildChannel : TransientChannel, IGuildChannel
 
             case ChannelType.Forum:
                 return new TransientForumChannel(client, model);
+
+            case ChannelType.Media:
+                return new TransientMediaChannel(client, model);
         }
 
         return new TransientUnknownGuildChannel(client, model);
