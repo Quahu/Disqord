@@ -67,8 +67,6 @@ public static class DiscordBotHostBuilderExtensions
     internal static void ConfigureDiscordBotServices<TBotConfiguration>(this IServiceCollection services, DiscordBotHostingContext configuration)
         where TBotConfiguration : DiscordBotBaseConfiguration, new()
     {
-        services.ConfigureDiscordClientServices(configuration);
-
         if (configuration.OwnerIds != null || configuration.ApplicationId != null)
         {
             services.Configure<TBotConfiguration>(x =>
@@ -98,5 +96,7 @@ public static class DiscordBotHostBuilderExtensions
         services.AddHostedService<DiscordBotSetupService>();
 
         services.TryAddSingleton<DiscordBotMasterService>();
+
+        services.ConfigureDiscordClientServices(configuration);
     }
 }
