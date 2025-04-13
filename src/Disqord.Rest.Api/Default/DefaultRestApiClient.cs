@@ -58,7 +58,7 @@ public class DefaultRestApiClient : IRestApiClient
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
         where TModel : class
     {
-        var jsonStream = await InternalExecuteAsync(route, content, options, cancellationToken);
+        var jsonStream = await InternalExecuteAsync(route, content, options, cancellationToken).ConfigureAwait(false);
         try
         {
             if (typeof(TModel) == typeof(string))
