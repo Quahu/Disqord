@@ -23,6 +23,7 @@ internal sealed class ContractResolver : DefaultContractResolver
     private readonly JsonNodeConverter _jsonNodeConverter;
     private readonly SnowflakeConverter _snowflakeConverter;
     private readonly JsonConverter _componentConverter;
+    private readonly JsonConverter _unfurledMediaItemConverter;
 
     private readonly IThreadSafeDictionary<Type, JsonConverter> _snowflakeDictionaryConverters;
     private readonly IThreadSafeDictionary<Type, JsonConverter> _optionalConverters;
@@ -35,6 +36,7 @@ internal sealed class ContractResolver : DefaultContractResolver
         _jsonNodeConverter = new JsonNodeConverter();
         _snowflakeConverter = new SnowflakeConverter();
         _componentConverter = new ComponentConverter();
+        _unfurledMediaItemConverter = new UnfurledMediaItemConverter();
         _snowflakeDictionaryConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, JsonConverter>();
         _optionalConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, JsonConverter>();
     }
@@ -159,6 +161,9 @@ internal sealed class ContractResolver : DefaultContractResolver
 
         if (typeof(BaseComponentJsonModel).IsAssignableFrom(type))
             return _componentConverter;
+
+        if (typeof(UnfurledMediaItemJsonModel) == type)
+            return _unfurledMediaItemConverter;
 
         if (!type.IsClass)
         {
