@@ -16,5 +16,20 @@ public enum ComponentType : byte
 
     MentionableSelection = 7,
 
-    ChannelSelection = 8
+    ChannelSelection = 8,
+
+    // Components V2
+    Section = 9,
+
+    TextDisplay = 10,
+
+    Thumbnail = 11,
+
+    MediaGallery = 12,
+
+    File = 13,
+
+    Separator = 14,
+
+    Container = 17
 }

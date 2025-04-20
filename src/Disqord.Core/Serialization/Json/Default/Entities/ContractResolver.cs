@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Disqord.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -21,6 +22,8 @@ internal sealed class ContractResolver : DefaultContractResolver
     internal readonly StreamConverter _streamConverter;
     private readonly JsonNodeConverter _jsonNodeConverter;
     private readonly SnowflakeConverter _snowflakeConverter;
+    private readonly JsonConverter _componentConverter;
+
     private readonly IThreadSafeDictionary<Type, JsonConverter> _snowflakeDictionaryConverters;
     private readonly IThreadSafeDictionary<Type, JsonConverter> _optionalConverters;
 
@@ -31,6 +34,7 @@ internal sealed class ContractResolver : DefaultContractResolver
         _streamConverter = new StreamConverter(serializer);
         _jsonNodeConverter = new JsonNodeConverter();
         _snowflakeConverter = new SnowflakeConverter();
+        _componentConverter = new ComponentConverter();
         _snowflakeDictionaryConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, JsonConverter>();
         _optionalConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, JsonConverter>();
     }
@@ -152,6 +156,9 @@ internal sealed class ContractResolver : DefaultContractResolver
 
         if (typeof(IJsonNode).IsAssignableFrom(type) && !typeof(JsonModel).IsAssignableFrom(type))
             return _jsonNodeConverter;
+
+        if (typeof(BaseComponentJsonModel).IsAssignableFrom(type))
+            return _componentConverter;
 
         if (!type.IsClass)
         {

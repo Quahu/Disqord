@@ -6,7 +6,7 @@ namespace Disqord;
 /// <summary>
 ///     Represents a message base that can be sent.
 /// </summary>
-public abstract class LocalMessageBase : ILocalConstruct<LocalMessageBase>
+public abstract class LocalMessageBase : ILocalComponentContainer, ILocalConstruct<LocalMessageBase>
 {
     /// <summary>
     ///     Gets or sets the content of this message.
@@ -44,7 +44,7 @@ public abstract class LocalMessageBase : ILocalConstruct<LocalMessageBase>
     /// <summary>
     ///     Gets or sets the components of this message.
     /// </summary>
-    public Optional<IList<LocalRowComponent>> Components { get; set; }
+    public Optional<IList<LocalComponent>> Components { get; set; }
 
     /// <summary>
     ///     Gets or sets the IDs of the stickers of this message.

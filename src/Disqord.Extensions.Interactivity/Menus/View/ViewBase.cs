@@ -269,7 +269,7 @@ public abstract partial class ViewBase : IAsyncDisposable
             if (message.AllowedMentions.GetValueOrDefault() == null)
                 message.AllowedMentions = LocalAllowedMentions.None;
 
-            var components = new List<LocalRowComponent>();
+            var components = new List<LocalComponent>();
             foreach (var row in _rows)
             {
                 if (row.Count == 0)

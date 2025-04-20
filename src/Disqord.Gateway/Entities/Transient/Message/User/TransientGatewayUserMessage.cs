@@ -75,17 +75,17 @@ public class TransientGatewayUserMessage : TransientGatewayMessage, IGatewayUser
     public IMessageInteraction? Interaction => Optional.ConvertOrDefault(Model.Interaction, (model, client) => new TransientMessageInteraction(new TransientUser(client, model.User), model), Client);
 
     /// <inheritdoc/>
-    public IReadOnlyList<IRowComponent> Components
+    public IReadOnlyList<IComponent> Components
     {
         get
         {
             if (!Model.Components.HasValue)
-                return Array.Empty<IRowComponent>();
+                return Array.Empty<IComponent>();
 
-            return _components ??= Model.Components.Value.ToReadOnlyList(Client, (model, client) => new TransientRowComponent(client, model));
+            return _components ??= Model.Components.Value.ToReadOnlyList(Client, (model, client) => TransientComponent.Create(client, model));
         }
     }
-    private IReadOnlyList<IRowComponent>? _components;
+    private IReadOnlyList<IComponent>? _components;
 
     /// <inheritdoc/>
     public IReadOnlyList<IMessageSticker> Stickers

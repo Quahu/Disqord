@@ -76,5 +76,31 @@ public enum MessageFlags
     ///         </item>
     ///     </list>
     /// </summary>
-    VoiceMessage = 1 << 13
+    VoiceMessage = 1 << 13,
+
+    /// <summary>
+    ///     The message has a snapshot (via Message Forwarding).
+    /// </summary>
+    HasSnapshot = 1 << 14,
+
+    /// <summary>
+    ///     The message uses the new component system.
+    ///     <para/>
+    ///     As of 20th April 2025 such messages have the following properties:
+    ///     <list type="bullet">
+    ///         <item>
+    ///             <term> <see cref="LocalMessage.Content"/>, <see cref="LocalMessageBase.Embeds"/>, <see cref="LocalMessageBase.StickerIds"/>, or <see cref="LocalMessageBase.Poll"/> cannot be set. </term>
+    ///         </item>
+    ///         <item>
+    ///             URL preview embeds are not supported.
+    ///         </item>
+    ///         <item>
+    ///             Audio files are not supported.
+    ///         </item>
+    ///         <item>
+    ///             Text file previews are not supported.
+    ///         </item>
+    ///     </list>
+    /// </summary>
+    UsesComponentsV2 = 1 << 15,
 }

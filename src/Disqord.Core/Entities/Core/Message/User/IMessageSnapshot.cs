@@ -58,5 +58,5 @@ public interface IMessageSnapshot : IEntity
     /// <summary>
     ///     Gets the components of this message snapshot.
     /// </summary>
-    IReadOnlyList<IRowComponent> Components { get; }
+    IReadOnlyList<IComponent> Components { get; }
 }

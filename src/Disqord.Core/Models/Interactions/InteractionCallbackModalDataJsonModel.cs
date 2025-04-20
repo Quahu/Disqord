@@ -12,7 +12,7 @@ public class InteractionCallbackModalDataJsonModel : JsonModel
     public Optional<string> Title;
 
     [JsonProperty("components")]
-    public Optional<ComponentJsonModel[]> Components;
+    public Optional<BaseComponentJsonModel[]> Components;
 
     protected override void OnValidate()
     {

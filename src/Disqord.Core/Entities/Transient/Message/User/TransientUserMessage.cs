@@ -102,17 +102,17 @@ public class TransientUserMessage : TransientMessage, IUserMessage
     private IMessageInteraction? _interaction;
 
     /// <inheritdoc/>
-    public IReadOnlyList<IRowComponent> Components
+    public IReadOnlyList<IComponent> Components
     {
         get
         {
             if (!Model.Components.HasValue)
-                return Array.Empty<IRowComponent>();
+                return Array.Empty<IComponent>();
 
-            return _components ??= Model.Components.Value.ToReadOnlyList(Client, (model, client) => new TransientRowComponent(client, model));
+            return _components ??= Model.Components.Value.ToReadOnlyList(Client, static (model, client) => TransientComponent.Create(client, model));
         }
     }
-    private IReadOnlyList<IRowComponent>? _components;
+    private IReadOnlyList<IComponent>? _components;
 
     /// <inheritdoc/>
     public IReadOnlyList<IMessageSticker> Stickers

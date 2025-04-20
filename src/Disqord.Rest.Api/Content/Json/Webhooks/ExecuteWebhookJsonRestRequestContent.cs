@@ -26,7 +26,7 @@ public class ExecuteWebhookJsonRestRequestContent : JsonModelRestRequestContent,
     public Optional<AllowedMentionsJsonModel> AllowedMentions;
 
     [JsonProperty("components")]
-    public Optional<ComponentJsonModel[]> Components;
+    public Optional<BaseComponentJsonModel[]> Components;
 
     [JsonProperty("attachments")]
     public Optional<IList<PartialAttachmentJsonModel>> Attachments;

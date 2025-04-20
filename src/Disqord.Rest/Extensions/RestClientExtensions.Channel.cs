@@ -266,6 +266,11 @@ public static partial class RestClientExtensions
             EnforceNonce = message.ShouldEnforceNonce
         };
 
+        if (message.Components.TryGetValue(out var components) && components.Any(static component => component.IsV2Component()))
+        {
+            messageContent.Flags = messageContent.Flags.GetValueOrDefault() | MessageFlags.UsesComponentsV2;
+        }
+
         Task<MessageJsonModel> task;
         if (message.Attachments.TryGetValue(out var attachments) && attachments.Count != 0)
         {
@@ -387,6 +392,11 @@ public static partial class RestClientExtensions
             Components = Optional.Convert(properties.Components, models => models.Select(x => x.ToModel()).ToArray()),
             StickerIds = Optional.Convert(properties.StickerIds, x => x.ToArray())
         };
+
+        if (properties.Components.TryGetValue(out var components) && components.Any(static component => component.IsV2Component()))
+        {
+            messageContent.Flags = messageContent.Flags.GetValueOrDefault() | MessageFlags.UsesComponentsV2;
+        }
 
         Task<MessageJsonModel> task;
         if (properties.Attachments.TryGetFullAttachments(out var attachments))

@@ -13,7 +13,7 @@ public sealed class ModifyWebhookMessageActionProperties
 
     public Optional<IEnumerable<LocalPartialAttachment>> Attachments { internal get; set; }
 
-    public Optional<IEnumerable<LocalRowComponent>> Components { internal get; set; }
+    public Optional<IEnumerable<LocalComponent>> Components { internal get; set; }
 
     internal ModifyWebhookMessageActionProperties()
     { }
