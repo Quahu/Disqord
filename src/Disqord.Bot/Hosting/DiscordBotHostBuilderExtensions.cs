@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using Disqord.Bot.Commands.Text;
 using Disqord.DependencyInjection.Extensions;
@@ -13,18 +12,18 @@ namespace Disqord.Bot.Hosting;
 
 public static class DiscordBotHostBuilderExtensions
 {
-    public static IHostBuilder ConfigureDiscordBot(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext>? configure = null)
+    public static IHostBuilder ConfigureDiscordBot(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext> configure)
     {
         return builder.ConfigureDiscordBot<DiscordBot>(configure);
     }
 
-    public static IHostBuilder ConfigureDiscordBot<TDiscordBot>(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext>? configure = null)
+    public static IHostBuilder ConfigureDiscordBot<TDiscordBot>(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext> configure)
         where TDiscordBot : DiscordBot
     {
         return builder.ConfigureDiscordBot<TDiscordBot, DiscordBotConfiguration>(configure);
     }
 
-    public static IHostBuilder ConfigureDiscordBot<TDiscordBot, TDiscordBotConfiguration>(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext>? configure = null)
+    public static IHostBuilder ConfigureDiscordBot<TDiscordBot, TDiscordBotConfiguration>(this IHostBuilder builder, Action<HostBuilderContext, DiscordBotHostingContext> configure)
         where TDiscordBot : DiscordBot
         where TDiscordBotConfiguration : DiscordBotBaseConfiguration, new()
     {
@@ -33,31 +32,54 @@ public static class DiscordBotHostBuilderExtensions
             var discordContext = new DiscordBotHostingContext();
             configure?.Invoke(context, discordContext);
 
-            services.AddDiscordBot<TDiscordBot>();
-            services.ConfigureDiscordBot<TDiscordBotConfiguration>(context, discordContext);
-            services.ConfigureDiscordClient(context, discordContext);
+            ConfigureDiscordBot<TDiscordBot, TDiscordBotConfiguration>(services, discordContext);
         });
 
         return builder;
     }
 
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void ConfigureDiscordBot<TBotConfiguration>(this IServiceCollection services, HostBuilderContext context, DiscordBotHostingContext discordContext)
+    public static void ConfigureDiscordBot(this IHostApplicationBuilder builder, DiscordBotHostingContext configuration)
+    {
+        builder.ConfigureDiscordBot<DiscordBot>(configuration);
+    }
+
+    public static void ConfigureDiscordBot<TDiscordBot>(this IHostApplicationBuilder builder, DiscordBotHostingContext configuration)
+        where TDiscordBot : DiscordBot
+    {
+        builder.ConfigureDiscordBot<TDiscordBot, DiscordBotConfiguration>(configuration);
+    }
+
+    public static void ConfigureDiscordBot<TDiscordBot, TDiscordBotConfiguration>(this IHostApplicationBuilder builder, DiscordBotHostingContext configuration)
+        where TDiscordBot : DiscordBot
+        where TDiscordBotConfiguration : DiscordBotBaseConfiguration, new()
+    {
+        ConfigureDiscordBot<TDiscordBot, TDiscordBotConfiguration>(builder.Services, configuration);
+    }
+
+    private static void ConfigureDiscordBot<TDiscordBot, TDiscordBotConfiguration>(IServiceCollection services, DiscordBotHostingContext configuration)
+        where TDiscordBot : DiscordBot
+        where TDiscordBotConfiguration : DiscordBotBaseConfiguration, new()
+    {
+        services.AddDiscordBot<TDiscordBot>();
+        services.ConfigureDiscordBotServices<TDiscordBotConfiguration>(configuration);
+    }
+
+    internal static void ConfigureDiscordBotServices<TBotConfiguration>(this IServiceCollection services, DiscordBotHostingContext configuration)
         where TBotConfiguration : DiscordBotBaseConfiguration, new()
     {
-        if (discordContext.OwnerIds != null || discordContext.ApplicationId != null)
+        if (configuration.OwnerIds != null || configuration.ApplicationId != null)
         {
             services.Configure<TBotConfiguration>(x =>
             {
-                x.OwnerIds = discordContext.OwnerIds;
-                x.ApplicationId = discordContext.ApplicationId;
+                x.OwnerIds = configuration.OwnerIds;
+                x.ApplicationId = configuration.ApplicationId;
             });
         }
 
         services.AddSingleton<IConfigureOptions<DefaultPrefixProviderConfiguration>>(services => new ConfigureOptions<DefaultPrefixProviderConfiguration>(x =>
         {
             var prefixes = new List<IPrefix>();
-            if (discordContext.UseMentionPrefix)
+            if (configuration.UseMentionPrefix)
             {
                 if (services.GetService<Token>() is not BotToken botToken)
                     throw new InvalidOperationException("The mention prefix cannot be used without a bot token set.");
@@ -65,8 +87,8 @@ public static class DiscordBotHostBuilderExtensions
                 prefixes.Add(new MentionPrefix(botToken.Id));
             }
 
-            if (discordContext.Prefixes != null)
-                prefixes.AddRange(discordContext.Prefixes.Select(x => new StringPrefix(x)));
+            if (configuration.Prefixes != null)
+                prefixes.AddRange(configuration.Prefixes.Select(x => new StringPrefix(x)));
 
             x.Prefixes = prefixes;
         }));
@@ -74,5 +96,7 @@ public static class DiscordBotHostBuilderExtensions
         services.AddHostedService<DiscordBotSetupService>();
 
         services.TryAddSingleton<DiscordBotMasterService>();
+
+        services.ConfigureDiscordClientServices(configuration);
     }
 }

@@ -116,4 +116,18 @@ public class AudioModule : DiscordApplicationGuildModuleBase
 
         return Response(new LocalInteractionMessageResponse().WithContent("Skipped.").WithIsEphemeral());
     }
+
+    [SlashCommand("stop")]
+    [Description("Stops the playback and disconnects the bot from the voice channel.")]
+    public async Task<IResult> Stop()
+    {
+        var player = await _playerService.GetPlayerAsync(Context.GuildId);
+        if (player == null)
+        {
+            return Response("Not playing.");
+        }
+
+        await _playerService.DisposePlayerAsync(Context.GuildId);
+        return Response("Disconnected.");
+    }
 }

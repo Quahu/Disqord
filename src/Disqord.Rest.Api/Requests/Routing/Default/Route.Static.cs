@@ -112,6 +112,16 @@ public sealed partial class Route
 
     public static class Emoji
     {
+        public static readonly Route GetApplicationEmojis = Get("applications/{0:application_id}/emojis");
+
+        public static readonly Route GetApplicationEmoji = Get("applications/{0:application_id}/emojis/{1:emoji_id}");
+
+        public static readonly Route CreateApplicationEmoji = Post("applications/{0:application_id}/emojis");
+
+        public static readonly Route ModifyApplicationEmoji = Patch("applications/{0:application_id}/emojis/{1:emoji_id}");
+
+        public static readonly Route DeleteApplicationEmoji = Delete("applications/{0:application_id}/emojis/{1:emoji_id}");
+
         public static readonly Route GetGuildEmojis = Get("guilds/{0:guild_id}/emojis");
 
         public static readonly Route GetGuildEmoji = Get("guilds/{0:guild_id}/emojis/{1:emoji_id}");

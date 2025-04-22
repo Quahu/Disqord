@@ -15,7 +15,7 @@ public abstract class TransientMessage : TransientClientEntity<MessageJsonModel>
     public Snowflake ChannelId => Model.ChannelId;
 
     /// <inheritdoc/>
-    public IUser Author => _author ??= new TransientUser(Client, Model.Author);
+    public IUser Author => _author ??= new TransientUser(Client, Model.Author.Value);
 
     private IUser? _author;
 

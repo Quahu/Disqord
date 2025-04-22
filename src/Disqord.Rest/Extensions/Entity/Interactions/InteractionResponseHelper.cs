@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Qommon;
@@ -20,12 +21,15 @@ public class InteractionResponseHelper
     /// <summary>
     ///     Gets whether the interaction has been responded to via this helper.
     /// </summary>
-    public bool HasResponded { get; private set; }
+    public bool HasResponded => _hasResponded;
 
     /// <summary>
     ///     Gets the type of the response if <see cref="HasResponded"/> returned <see langword="true"/>.
     /// </summary>
-    public InteractionResponseType ResponseType { get; private set; }
+    public InteractionResponseType ResponseType => _responseType;
+
+    private volatile bool _hasResponded;
+    private volatile InteractionResponseType _responseType;
 
     /// <summary>
     ///     Instantiates a new response helper.
@@ -40,17 +44,21 @@ public class InteractionResponseHelper
 
     private void ThrowIfInvalid()
     {
-        if (HasResponded)
+        if (_hasResponded)
+        {
             Throw.InvalidOperationException("This interaction has already been responded to.");
+        }
 
         if (Interaction.IsResponseExpired())
+        {
             throw new InteractionExpiredException(true);
+        }
     }
 
     private void SetResponded(InteractionResponseType type)
     {
-        HasResponded = true;
-        ResponseType = type;
+        _hasResponded = true;
+        _responseType = type;
     }
 
     /// <summary>
@@ -71,14 +79,16 @@ public class InteractionResponseHelper
         ThrowIfInvalid();
 
         if (Interaction.Type != InteractionType.Ping)
+        {
             Throw.InvalidOperationException("The interaction must be a ping in order to respond with a pong.");
+        }
 
-        var response = new LocalInteractionMessageResponse(InteractionResponseType.Pong);
+        var response = new LocalInteractionMessageResponse
+        {
+            Type = InteractionResponseType.Pong
+        };
 
-        var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken: cancellationToken).ConfigureAwait(false);
-
-        SetResponded(InteractionResponseType.Pong);
+        await CreateResponseAsync(response, withCallbackResponse: false, options, cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -111,13 +121,13 @@ public class InteractionResponseHelper
 
         ThrowIfInvalid();
 
-        var response = new LocalInteractionMessageResponse(InteractionResponseType.DeferredChannelMessage)
-            .WithIsEphemeral(isEphemeral);
+        var response = new LocalInteractionMessageResponse
+        {
+            Type = InteractionResponseType.DeferredChannelMessage,
+            IsEphemeral = isEphemeral
+        };
 
-        var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
-
-        SetResponded(InteractionResponseType.DeferredChannelMessage);
+        await CreateResponseAsync(response, withCallbackResponse: false, options, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -153,24 +163,19 @@ public class InteractionResponseHelper
             _ => Throw.ArgumentOutOfRangeException<InteractionResponseType>(nameof(deferralType))
         };
 
-        var response = new LocalInteractionMessageResponse(responseType)
-            .WithIsEphemeral(isEphemeral);
+        var response = new LocalInteractionMessageResponse
+        {
+            Type = responseType,
+            IsEphemeral = isEphemeral
+        };
 
-        var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
-
-        SetResponded(responseType);
+        await CreateResponseAsync(response, withCallbackResponse: false, options, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
     ///     Responds to the interaction by sending an <see cref="InteractionResponseType.ChannelMessage"/>,
     ///     i.e. sends a message in the interaction's channel and allows sending followups.
     /// </summary>
-    /// <remarks>
-    ///     Unlike when sending normal channel message, this request does not
-    ///     return the sent message.
-    ///     Instead it can be retrieved using <see cref="InteractionFollowupHelper.FetchResponseAsync"/>.
-    /// </remarks>
     /// <param name="response"> The message response. </param>
     /// <param name="options"> The request options. </param>
     /// <param name="cancellationToken"> The cancellation token to observe. </param>
@@ -179,7 +184,7 @@ public class InteractionResponseHelper
     /// </returns>
     /// <seealso cref="InteractionFollowupHelper"/>
     /// <seealso cref="InteractionFollowupHelper.FetchResponseAsync"/>
-    public async Task SendMessageAsync(
+    public async Task<IUserMessage> SendMessageAsync(
         LocalInteractionMessageResponse response,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
@@ -189,10 +194,8 @@ public class InteractionResponseHelper
 
         response.Type = InteractionResponseType.ChannelMessage;
 
-        var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
-
-        SetResponded(InteractionResponseType.ChannelMessage);
+        var callbackResponse = await CreateResponseAsync(response, withCallbackResponse: true, options, cancellationToken).ConfigureAwait(false);
+        return GetRequiredMessageResource(callbackResponse);
     }
 
     /// <summary>
@@ -205,7 +208,7 @@ public class InteractionResponseHelper
     /// <returns>
     ///     A <see cref="Task"/> representing the request.
     /// </returns>
-    public async Task ModifyMessageAsync(
+    public async Task<IUserMessage> ModifyMessageAsync(
         LocalInteractionMessageResponse response,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
@@ -215,10 +218,18 @@ public class InteractionResponseHelper
 
         response.Type = InteractionResponseType.MessageUpdate;
 
-        var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
+        var callbackResponse = await CreateResponseAsync(response, withCallbackResponse: true, options, cancellationToken).ConfigureAwait(false);
+        return GetRequiredMessageResource(callbackResponse);
+    }
 
-        SetResponded(InteractionResponseType.MessageUpdate);
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static IUserMessage GetRequiredMessageResource(IInteractionCallbackResponse? callbackResponse)
+    {
+        Guard.IsNotNull(callbackResponse);
+        Guard.IsNotNull(callbackResponse.Resource);
+        Guard.IsNotNull(callbackResponse.Resource.Message);
+
+        return callbackResponse.Resource.Message;
     }
 
     /// <summary>
@@ -249,10 +260,7 @@ public class InteractionResponseHelper
         var response = new LocalInteractionAutoCompleteResponse()
             .WithChoices(choices);
 
-        var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
-
-        SetResponded(InteractionResponseType.ApplicationCommandAutoComplete);
+        await CreateResponseAsync(response, withCallbackResponse: false, options, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -271,11 +279,19 @@ public class InteractionResponseHelper
     {
         ThrowIfInvalid();
 
-        Guard.IsNotNull(response);
+        await CreateResponseAsync(response, withCallbackResponse: false, options, cancellationToken).ConfigureAwait(false);
+    }
 
+    private async Task<IInteractionCallbackResponse?> CreateResponseAsync(
+        ILocalInteractionResponse response,
+        bool withCallbackResponse,
+        IRestRequestOptions? options, CancellationToken cancellationToken)
+    {
         var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken).ConfigureAwait(false);
+        var callbackResponse = await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, withCallbackResponse, options, cancellationToken).ConfigureAwait(false);
 
-        SetResponded(InteractionResponseType.Modal);
+        SetResponded(response.Type);
+
+        return callbackResponse;
     }
 }

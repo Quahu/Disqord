@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Extensions.Interactivity.Menus;
@@ -291,5 +292,70 @@ public class InteractivityExtension : DiscordClientExtension
                 current = current.Next;
             }
         }
+    }
+}
+
+internal class Waiter<TEventArgs> : IDisposable
+    where TEventArgs : EventArgs
+{
+    public Task<TEventArgs> Task => _tcs.Task;
+
+    private readonly Predicate<TEventArgs>[]? _predicates;
+    private readonly Tcs<TEventArgs> _tcs;
+
+    private readonly Timer? _timeoutTimer;
+    private readonly CancellationTokenRegistration _reg;
+
+    public Waiter(Predicate<TEventArgs>? predicate, TimeSpan timeout, CancellationToken cancellationToken)
+    {
+        _predicates = Unsafe.As<Predicate<TEventArgs>[]>(predicate?.GetInvocationList());
+        _tcs = new Tcs<TEventArgs>();
+
+        _reg = cancellationToken.UnsafeRegister(CancellationCallback, _tcs);
+
+        if (timeout != Timeout.InfiniteTimeSpan)
+        {
+            _timeoutTimer = new Timer(TimerCallback, _tcs, timeout, Timeout.InfiniteTimeSpan);
+        }
+
+        static void TimerCallback(object? state)
+        {
+            var tcs = Unsafe.As<Tcs<TEventArgs>>(state)!;
+            tcs.Cancel(new CancellationToken(true));
+        }
+
+        static void CancellationCallback(object? state, CancellationToken cancellationToken)
+        {
+            var tcs = Unsafe.As<Tcs<TEventArgs>>(state)!;
+            tcs.Cancel(cancellationToken);
+        }
+    }
+
+    public bool TryComplete(TEventArgs e)
+    {
+        try
+        {
+            if (_predicates != null)
+            {
+                foreach (var predicate in _predicates)
+                {
+                    if (!predicate(e))
+                        return false;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _tcs.Throw(ex);
+            return true;
+        }
+
+        return _tcs.Complete(e);
+    }
+
+    public void Dispose()
+    {
+        _timeoutTimer?.Dispose();
+        _reg.Dispose();
     }
 }

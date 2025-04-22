@@ -1,25 +1,48 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Models;
+using Disqord.Rest.Api.Models;
 
 namespace Disqord.Rest.Api;
 
 public static partial class RestApiClientExtensions
 {
-    public static Task CreateInitialInteractionResponseAsync(this IRestApiClient client,
+    public static Task<InteractionCallbackResponseJsonModel?> CreateInitialInteractionResponseAsync(this IRestApiClient client,
         Snowflake interactionId, string interactionToken, AttachmentJsonPayloadRestRequestContent<CreateInitialInteractionResponseJsonRestRequestContent> content,
+        bool withCallbackResponse,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var route = Format(Route.Interactions.CreateInitialResponse, interactionId, interactionToken);
-        return client.ExecuteAsync(route, content, options, cancellationToken);
+        return CreateInitialInteractionResponseCoreAsync(client, interactionId, interactionToken, content, withCallbackResponse, options, cancellationToken);
     }
 
-    public static Task CreateInitialInteractionResponseAsync(this IRestApiClient client,
+    public static Task<InteractionCallbackResponseJsonModel?> CreateInitialInteractionResponseAsync(this IRestApiClient client,
         Snowflake interactionId, string interactionToken, CreateInitialInteractionResponseJsonRestRequestContent content,
+        bool withCallbackResponse,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var route = Format(Route.Interactions.CreateInitialResponse, interactionId, interactionToken);
-        return client.ExecuteAsync(route, content, options, cancellationToken);
+        return CreateInitialInteractionResponseCoreAsync(client, interactionId, interactionToken, content, withCallbackResponse, options, cancellationToken);
+    }
+
+    private static async Task<InteractionCallbackResponseJsonModel?> CreateInitialInteractionResponseCoreAsync(IRestApiClient client,
+        Snowflake interactionId, string interactionToken, IRestRequestContent content,
+        bool withCallbackResponse,
+        IRestRequestOptions? options, CancellationToken cancellationToken)
+    {
+        var route = Format(Route.Interactions.CreateInitialResponse, withCallbackResponse
+            ? new Dictionary<string, object>
+            {
+                ["with_response"] = withCallbackResponse
+            }
+            : null, interactionId, interactionToken);
+
+        if (withCallbackResponse)
+        {
+            return await client.ExecuteAsync<InteractionCallbackResponseJsonModel>(route, content, options, cancellationToken).ConfigureAwait(false);
+        }
+
+        await client.ExecuteAsync(route, content, options, cancellationToken).ConfigureAwait(false);
+        return null;
     }
 
     public static Task<MessageJsonModel> FetchInitialInteractionResponseAsync(this IRestApiClient client,

@@ -188,16 +188,9 @@ public class DefaultVoiceConnection : IVoiceConnection
         while (!success);
     }
 
-    public async ValueTask SendPacketAsync(ReadOnlyMemory<byte> opus, CancellationToken cancellationToken = default)
+    public ValueTask SendPacketAsync(ReadOnlyMemory<byte> opus, CancellationToken cancellationToken = default)
     {
-        try
-        {
-            await Udp.SendAsync(opus, cancellationToken).ConfigureAwait(false);
-        }
-        catch
-        {
-            await WaitUntilReadyAsync(cancellationToken).ConfigureAwait(false);
-        }
+        return Udp.SendAsync(opus, cancellationToken);
     }
 
     public async Task RunAsync(CancellationToken stoppingToken)
@@ -301,7 +294,7 @@ public class DefaultVoiceConnection : IVoiceConnection
                         var readyModel = await Gateway.WaitForReadyAsync(linkedCancellationToken).ConfigureAwait(false);
 
                         var encryption = _encryptionProvider.GetEncryption(readyModel.Modes);
-                        if (encryption == null)
+                        if (encryption == null || !readyModel.Modes.AsSpan().Contains(encryption.ModeName))
                         {
                             var exception = new VoiceConnectionException($"The encryption provider does not support any of the encryption modes that Discord returned ({string.Join(", ", readyModel.Modes)}).");
                             _readyTcs.Throw(exception);
@@ -344,6 +337,7 @@ public class DefaultVoiceConnection : IVoiceConnection
                     }
                     catch (OperationCanceledException ex) when (ex.CancellationToken == linkedCancellationToken && stoppingToken.IsCancellationRequested)
                     {
+                        await _setVoiceStateDelegate(GuildId, null, default).ConfigureAwait(false);
                         _readyTcs.Cancel(ex.CancellationToken);
                         return;
                     }
@@ -389,6 +383,8 @@ public class DefaultVoiceConnection : IVoiceConnection
         }
         catch (Exception ex)
         {
+            await _setVoiceStateDelegate(GuildId, null, default).ConfigureAwait(false);
+
             lock (_readyTcs)
             {
                 _readyTcs.Throw(ex);

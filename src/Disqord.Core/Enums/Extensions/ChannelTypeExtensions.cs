@@ -17,6 +17,6 @@ public static class ChannelTypeExtensions
     /// </returns>
     public static bool IsThread(this ChannelType type)
     {
-        return type is ChannelType.NewsThread or ChannelType.PublicThread or ChannelType.PublicThread;
+        return type is ChannelType.NewsThread or ChannelType.PublicThread or ChannelType.PrivateThread;
     }
 }

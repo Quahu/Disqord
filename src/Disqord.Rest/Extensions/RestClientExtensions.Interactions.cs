@@ -6,30 +6,35 @@ using System.Threading.Tasks;
 using Disqord.Http;
 using Disqord.Models;
 using Disqord.Rest.Api;
+using Disqord.Rest.Api.Models;
 using Qommon;
 
 namespace Disqord.Rest;
 
 public static partial class RestClientExtensions
 {
-    public static Task CreateInteractionResponseAsync(this IRestClient client,
+    public static async Task<IInteractionCallbackResponse?> CreateInteractionResponseAsync(this IRestClient client,
         Snowflake interactionId, string interactionToken, ILocalInteractionResponse response,
+        bool withCallbackResponse,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var content = response.ToContent(client.ApiClient.Serializer, out var attachments);
 
-        Task task;
+        Task<InteractionCallbackResponseJsonModel?> task;
         if (attachments.Count != 0)
         {
             var multipartContent = new AttachmentJsonPayloadRestRequestContent<CreateInitialInteractionResponseJsonRestRequestContent>(content, attachments);
-            task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, multipartContent, options, cancellationToken);
+            task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, multipartContent, withCallbackResponse, options, cancellationToken);
         }
         else
         {
-            task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, content, options, cancellationToken);
+            task = client.ApiClient.CreateInitialInteractionResponseAsync(interactionId, interactionToken, content, withCallbackResponse, options, cancellationToken);
         }
 
-        return task;
+        var model = await task.ConfigureAwait(false);
+        return model != null
+            ? new TransientInteractionCallbackResponse(client, model)
+            : null;
     }
 
     public static async Task<IUserMessage> FetchInteractionResponseAsync(this IRestClient client,

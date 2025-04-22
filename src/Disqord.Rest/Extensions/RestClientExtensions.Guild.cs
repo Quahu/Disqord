@@ -14,8 +14,6 @@ namespace Disqord.Rest;
 
 public static partial class RestClientExtensions
 {
-    // TODO: create guild?
-
     public static async Task<IGuild?> FetchGuildAsync(this IRestClient client,
         Snowflake guildId, bool? withCounts = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

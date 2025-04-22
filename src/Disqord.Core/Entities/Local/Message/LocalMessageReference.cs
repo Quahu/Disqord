@@ -10,6 +10,14 @@ namespace Disqord;
 public class LocalMessageReference : ILocalConstruct<LocalMessageReference>, IJsonConvertible<MessageReferenceJsonModel>
 {
     /// <summary>
+    ///     Gets or sets the type of way this message will be referenced.
+    /// </summary>
+    /// <remarks>
+    ///     This property defaults to <see cref="MessageReferenceType.Default"/>.
+    /// </remarks>
+    public Optional<MessageReferenceType> Type { get; set; } = MessageReferenceType.Default;
+
+    /// <summary>
     ///     Gets or sets the ID of the referenced message.
     /// </summary>
     /// <remarks>
@@ -65,6 +73,7 @@ public class LocalMessageReference : ILocalConstruct<LocalMessageReference>, IJs
     {
         return new MessageReferenceJsonModel
         {
+            Type = Type,
             MessageId = MessageId,
             ChannelId = ChannelId,
             GuildId = GuildId,
@@ -87,6 +96,7 @@ public class LocalMessageReference : ILocalConstruct<LocalMessageReference>, IJs
     {
         return new LocalMessageReference
         {
+            Type = reference.Type,
             MessageId = Optional.FromNullable(reference.MessageId),
             ChannelId = reference.ChannelId,
             GuildId = Optional.FromNullable(reference.GuildId)

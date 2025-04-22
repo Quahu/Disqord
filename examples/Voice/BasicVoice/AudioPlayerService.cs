@@ -28,13 +28,17 @@ public class AudioPlayerService : DiscordBotService
     {
         await base.StopAsync(cancellationToken);
 
+        var voiceExtension = Bot.GetRequiredExtension<VoiceExtension>();
+
         await _semaphore.WaitAsync(cancellationToken);
         try
         {
-            foreach (var (_, player) in _players)
+            foreach (var (guildID, player) in _players)
             {
                 player.Stop();
                 await player.DisposeAsync();
+
+                await voiceExtension.DisconnectAsync(guildID);
             }
 
             _players.Clear();
@@ -111,6 +115,9 @@ public class AudioPlayerService : DiscordBotService
             {
                 player.Stop();
                 await player.DisposeAsync();
+
+                var voiceExtension = Bot.GetRequiredExtension<VoiceExtension>();
+                await voiceExtension.DisconnectAsync(guildId);
             }
         }
         finally

@@ -8,6 +8,13 @@ namespace Disqord;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalMessageReferenceExtensions
 {
+    public static TMessageReference WithType<TMessageReference>(this TMessageReference messageReference, MessageReferenceType type)
+        where TMessageReference : LocalMessageReference
+    {
+        messageReference.Type = type;
+        return messageReference;
+    }
+
     /// <summary>
     ///     Sets the ID of the referenced message.
     /// </summary>
