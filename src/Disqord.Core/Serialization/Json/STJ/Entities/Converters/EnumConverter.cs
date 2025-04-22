@@ -118,7 +118,9 @@ internal sealed class EnumConverter : JsonConverterFactory
         {
             if (reader.TokenType == JsonTokenType.String)
             {
-                if (reader.ValueSpan[0] is >= 0x30 and <= 0x39)
+                if ((!reader.HasValueSequence
+                    ? reader.ValueSpan
+                    : reader.ValueSequence.FirstSpan)[0] is >= 0x30 and <= 0x39)
                 {
                     // The string value is a number
                     var numberValue = reader.ReadUInt64FromString();
