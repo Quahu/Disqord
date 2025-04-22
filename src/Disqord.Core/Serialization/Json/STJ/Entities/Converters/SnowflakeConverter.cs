@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using BufferType =
-#if NET8_0_OR_GREATER
-    byte
-#else
-    char
-#endif
-    ;
 
 namespace Disqord.Serialization.Json.System;
 
@@ -33,14 +26,14 @@ internal sealed class SnowflakeConverter : JsonConverter<Snowflake>
 
     public override void Write(Utf8JsonWriter writer, Snowflake value, JsonSerializerOptions options)
     {
-        var buffer = (stackalloc BufferType[20]);
+        var buffer = (stackalloc byte[20]);
         value.RawValue.TryFormat(buffer, out var countWritten);
         writer.WriteStringValue(buffer[..countWritten]);
     }
 
     public override void WriteAsPropertyName(Utf8JsonWriter writer, Snowflake value, JsonSerializerOptions options)
     {
-        var buffer = (stackalloc BufferType[20]);
+        var buffer = (stackalloc byte[20]);
         value.RawValue.TryFormat(buffer, out var countWritten);
         writer.WritePropertyName(buffer[..countWritten]);
     }
