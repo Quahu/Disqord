@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Qommon;
@@ -116,7 +117,7 @@ internal sealed class EnumConverter : JsonConverterFactory
                 }
             }
 
-            _names = Array.ConvertAll(names, name => JsonEncodedText.Encode(name));
+            _names = Array.ConvertAll(names, static name => JsonEncodedText.Encode(name));
             _values = Enum.GetValues<TEnum>();
         }
 
@@ -124,6 +125,13 @@ internal sealed class EnumConverter : JsonConverterFactory
         {
             if (reader.TokenType == JsonTokenType.String)
             {
+                if (reader.ValueSpan[0] is >= 0x30 and <= 0x39)
+                {
+                    // The string value is a number
+                    var numberValue = reader.ReadUInt64FromString();
+                    return Unsafe.As<ulong, TEnum>(ref numberValue);
+                }
+
                 for (var i = 0; i < _names.Length; i++)
                 {
                     var name = _names[i];
@@ -141,7 +149,7 @@ internal sealed class EnumConverter : JsonConverterFactory
                 return Unsafe.As<ulong, TEnum>(ref numberValue);
             }
 
-            Throw.InvalidOperationException("Invalid enum value.");
+            Throw.InvalidOperationException($"Invalid enum value {reader.TokenType}: '{Encoding.UTF8.GetString(reader.ValueSpan)}'.");
             return default;
         }
 
