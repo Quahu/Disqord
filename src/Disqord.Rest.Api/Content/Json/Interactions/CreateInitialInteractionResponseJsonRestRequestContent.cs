@@ -32,7 +32,6 @@ public class CreateInitialInteractionResponseJsonRestRequestContent : JsonModelR
 
         switch (Type)
         {
-            // TODO: Confirm behaviour for Premium Required
             case InteractionResponseType.Pong or InteractionResponseType.PremiumRequired:
                 OptionalGuard.HasNoValue(Data);
                 break;
