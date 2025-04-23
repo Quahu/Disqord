@@ -56,10 +56,8 @@ internal sealed class EnumConverter : JsonConverterFactory
 
         public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
         {
-            const double maxSafeInteger = 9007199254740991;
-
             var ulongValue = ((IConvertible) value).ToUInt64(CultureInfo.InvariantCulture);
-            if (ulongValue <= maxSafeInteger)
+            if (ulongValue <= JsonUtilities.MaxSafeInteger)
             {
                 writer.WriteNumberValue(ulongValue);
             }

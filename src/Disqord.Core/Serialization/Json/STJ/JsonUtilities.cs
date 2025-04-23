@@ -7,6 +7,8 @@ namespace Disqord.Serialization.Json.System;
 
 internal static class JsonUtilities
 {
+    public const double MaxSafeInteger = 9007199254740991;
+
     public static ulong ReadUInt64FromString(this ref Utf8JsonReader reader)
     {
         if (!reader.HasValueSequence)
