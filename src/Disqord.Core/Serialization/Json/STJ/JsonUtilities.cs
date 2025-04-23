@@ -28,6 +28,6 @@ internal static class JsonUtilities
     [DoesNotReturn]
     public static void RethrowJsonException(JsonException ex)
     {
-        throw new JsonException(null, ex.InnerException);
+        throw new JsonException(ex.Message, new JsonException(null, ex.InnerException));
     }
 }
