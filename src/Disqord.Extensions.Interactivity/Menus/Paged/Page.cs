@@ -4,7 +4,7 @@ using Qommon;
 namespace Disqord.Extensions.Interactivity.Menus.Paged;
 
 /// <summary>
-///     Represents what essentially is a tuple of <see cref="LocalMessage.Content"/> and <see cref="LocalMessage.Embeds"/> respectively.
+///     Represents what essentially is a tuple of <see cref="LocalMessageBase.Content"/> and <see cref="LocalMessageBase.Embeds"/> respectively.
 /// </summary>
 public class Page : ILocalConstruct<Page>
 {

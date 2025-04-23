@@ -123,6 +123,10 @@ public partial class DiscordClientMasterService
 
     public DiscordClientService[] StageDeletedServices { get; }
 
+    public DiscordClientService[] PollVoteAddedServices { get; }
+
+    public DiscordClientService[] PollVoteRemovedServices { get; }
+
     public DiscordClientService[] TypingStartedServices { get; }
 
     public DiscordClientService[] CurrentUserUpdatedServices { get; }
@@ -203,6 +207,8 @@ public partial class DiscordClientMasterService
         StageCreatedServices = GetServices<StageCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnStageCreated));
         StageUpdatedServices = GetServices<StageUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnStageUpdated));
         StageDeletedServices = GetServices<StageDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnStageDeleted));
+        PollVoteAddedServices = GetServices<PollVoteAddedEventArgs>(servicesArray, nameof(DiscordClientService.OnPollVoteAdded));
+        PollVoteRemovedServices = GetServices<PollVoteRemovedEventArgs>(servicesArray, nameof(DiscordClientService.OnPollVoteRemoved));
         PresenceUpdatedServices = GetServices<PresenceUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnPresenceUpdated));
         TypingStartedServices = GetServices<TypingStartedEventArgs>(servicesArray, nameof(DiscordClientService.OnTypingStarted));
         CurrentUserUpdatedServices = GetServices<CurrentUserUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnCurrentUserUpdated));
@@ -267,6 +273,8 @@ public partial class DiscordClientMasterService
         Client.StageCreated += HandleStageCreated;
         Client.StageUpdated += HandleStageUpdated;
         Client.StageDeleted += HandleStageDeleted;
+        Client.PollVoteAdded += HandlePollVoteAdded;
+        Client.PollVoteRemoved += HandlePollVoteRemoved;
         Client.TypingStarted += HandleTypingStarted;
         Client.CurrentUserUpdated += HandleCurrentUserUpdated;
         Client.VoiceStateUpdated += HandleVoiceStateUpdated;
@@ -614,6 +622,18 @@ public partial class DiscordClientMasterService
     {
         foreach (var service in StageDeletedServices)
             await ExecuteAsync((service, e) => service.OnStageDeleted(e), service, e).ConfigureAwait(false);
+    }
+
+    public async Task HandlePollVoteAdded(object? sender, PollVoteAddedEventArgs e)
+    {
+        foreach (var service in PollVoteAddedServices)
+            await ExecuteAsync((service, e) => service.OnPollVoteAdded(e), service, e).ConfigureAwait(false);
+    }
+
+    public async Task HandlePollVoteRemoved(object? sender, PollVoteRemovedEventArgs e)
+    {
+        foreach (var service in PollVoteRemovedServices)
+            await ExecuteAsync((service, e) => service.OnPollVoteRemoved(e), service, e).ConfigureAwait(false);
     }
 
     public async Task HandleTypingStarted(object? sender, TypingStartedEventArgs e)

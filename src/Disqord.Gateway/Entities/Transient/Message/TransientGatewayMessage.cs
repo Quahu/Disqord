@@ -25,14 +25,14 @@ public abstract class TransientGatewayMessage : TransientGatewayClientEntity<Mes
             var guildId = Model.GuildId;
             if (!guildId.HasValue || !Model.Member.HasValue)
             {
-                var user = Client.GetUser(Model.Author.Id);
+                var user = Client.GetUser(Model.Author.Value.Id);
                 if (user != null)
                     return user;
 
-                return _author ??= new TransientUser(Client, Model.Author);
+                return _author ??= new TransientUser(Client, Model.Author.Value);
             }
 
-            var member = Client.GetMember(guildId.Value, Model.Author.Id);
+            var member = Client.GetMember(guildId.Value, Model.Author.Value.Id);
             if (member != null)
                 return member;
 

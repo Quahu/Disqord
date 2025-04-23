@@ -554,7 +554,7 @@ public class DefaultShard : IShard
         }
         finally
         {
-            await ApiClient.ShardCoordinator.OnShardIdentifySent(Id, stoppingToken);
+            await ApiClient.ShardCoordinator.OnShardIdentifySent(Id, stoppingToken).ConfigureAwait(false);
         }
     }
 

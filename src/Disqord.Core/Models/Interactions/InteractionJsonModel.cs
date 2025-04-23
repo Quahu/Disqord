@@ -52,4 +52,7 @@ public class InteractionJsonModel : JsonModel
 
     [JsonProperty("entitlements")]
     public EntitlementJsonModel[] Entitlements = null!;
+
+    [JsonProperty("attachment_size_limit")]
+    public Optional<int> AttachmentSizeLimit;
 }

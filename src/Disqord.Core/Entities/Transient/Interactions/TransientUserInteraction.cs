@@ -76,6 +76,9 @@ public class TransientUserInteraction : TransientInteraction, IUserInteraction
 
     private IReadOnlyList<IEntitlement>? _entitlements;
 
+    /// <inheritdoc/>
+    public int? AttachmentSizeLimit => Model.AttachmentSizeLimit.GetValueOrNullable();
+
     public TransientUserInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
         : base(client, __receivedAt, model)
     { }

@@ -344,7 +344,14 @@ public class AudioPlayer : IAsyncDisposable
             await connection.SetSpeakingFlagsAsync(SpeakingFlags.None, cancellationToken).ConfigureAwait(false);
             await OnPaused().ConfigureAwait(false);
 
-            await SendSilenceAsync(connection, cancellationToken).ConfigureAwait(false);
+            try
+            {
+                await SendSilenceAsync(connection, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception ex) when (ex is not OperationCanceledException)
+            {
+                // TODO: handle exception
+            }
 
             await pauseTask.ConfigureAwait(false);
 
@@ -444,7 +451,14 @@ public class AudioPlayer : IAsyncDisposable
                                 break;
                             }
 
-                            await connection.SendPacketAsync(packet, linkedCancellationToken).ConfigureAwait(false);
+                            try
+                            {
+                                await connection.SendPacketAsync(packet, linkedCancellationToken).ConfigureAwait(false);
+                            }
+                            catch (Exception ex) when (ex is not OperationCanceledException)
+                            {
+                                // TODO: handle exception
+                            }
                         }
 
                         if (continueOuter)

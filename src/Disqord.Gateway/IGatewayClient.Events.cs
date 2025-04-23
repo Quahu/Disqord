@@ -308,6 +308,16 @@ public partial interface IGatewayClient
     event AsynchronousEventHandler<StageDeletedEventArgs> StageDeleted;
 
     /// <summary>
+    ///     Fires when a reaction is added to a message.
+    /// </summary>
+    event AsynchronousEventHandler<PollVoteAddedEventArgs> PollVoteAdded;
+
+    /// <summary>
+    ///     Fires when a reaction is removed from a message.
+    /// </summary>
+    event AsynchronousEventHandler<PollVoteRemovedEventArgs> PollVoteRemoved;
+
+    /// <summary>
     ///     Fires when a user starts typing in a channel.
     /// </summary>
     event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted;

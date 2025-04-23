@@ -36,7 +36,7 @@ public class MessageReceivedEventArgs : EventArgs
     ///     Gets the cached channel in which the message was received.
     /// </summary>
     /// <returns>
-    ///     The channel or <see langword="null"/> if the channel was not cached of if the message was received outside of a guild.
+    ///     The channel or <see langword="null"/> if the channel was not cached of if the message was received outside a guild.
     /// </returns>
     public CachedMessageGuildChannel? Channel { get; }
 
@@ -47,7 +47,7 @@ public class MessageReceivedEventArgs : EventArgs
     ///     If this returns <see langword="null"/>, retrieve the author from the <see cref="Message"/> instead.
     /// </remarks>
     /// <returns>
-    ///     The member or <see langword="null"/> if the member was not cached or if the message was received outside of a guild.
+    ///     The member or <see langword="null"/> if the member was not cached or if the message was received outside a guild.
     /// </returns>
     public CachedMember? Member { get; }
 

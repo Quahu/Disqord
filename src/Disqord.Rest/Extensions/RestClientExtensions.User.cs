@@ -44,7 +44,8 @@ public static partial class RestClientExtensions
         var content = new ModifyCurrentUserJsonRestRequestContent
         {
             Username = properties.Name,
-            Avatar = properties.Avatar
+            Avatar = properties.Avatar,
+            Banner = properties.Banner
         };
 
         var model = await client.ApiClient.ModifyCurrentUserAsync(content, options, cancellationToken).ConfigureAwait(false);
@@ -112,7 +113,9 @@ public static partial class RestClientExtensions
         var channel = new TransientDirectChannel(client, model);
 
         if (channels != null && !channels.IsReadOnly)
-            channels.Add(userId, channel);
+        {
+            channels[userId] = channel;
+        }
 
         return channel;
     }

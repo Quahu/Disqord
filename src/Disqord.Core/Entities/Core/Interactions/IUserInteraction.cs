@@ -56,4 +56,12 @@ public interface IUserInteraction : IInteraction, IPossiblyGuildEntity, IChannel
     ///     Gets the entitlements of the user who triggered this interaction.
     /// </summary>
     IReadOnlyList<IEntitlement> Entitlements { get; }
+
+    /// <summary>
+    ///     Gets the attachment size limit in bytes.
+    /// </summary>
+    /// <remarks>
+    ///     This limit may be higher than the default attachment size limit, depending on the guild's boost status or the author's Nitro status.
+    /// </remarks>
+    int? AttachmentSizeLimit { get; }
 }

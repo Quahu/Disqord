@@ -20,6 +20,7 @@ public class DefaultVoiceGatewayHeartbeater : IVoiceGatewayHeartbeater
 
     private DateTime? _lastSend;
     private DateTime? _lastAcknowledge;
+    private uint _sequence;
 
     private Cts? _cts;
     private Task? _task;
@@ -40,6 +41,7 @@ public class DefaultVoiceGatewayHeartbeater : IVoiceGatewayHeartbeater
         Interval = interval;
         _lastSend = null;
         _lastAcknowledge = null;
+        _sequence = 0;
         _cts = new Cts();
         _task = Task.Run(InternalRunAsync, _cts.Token);
         return default;
@@ -78,7 +80,7 @@ public class DefaultVoiceGatewayHeartbeater : IVoiceGatewayHeartbeater
         return new()
         {
             Op = VoiceGatewayPayloadOperation.Heartbeat,
-            D = Client.Serializer.GetJsonNode(Client.Sequence)
+            D = Client.Serializer.GetJsonNode(_sequence++)
         };
     }
 

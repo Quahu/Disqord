@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.Linq;
 using Disqord.DependencyInjection.Extensions;
 using Disqord.Gateway.Api.Default;
@@ -21,22 +20,32 @@ public static class DiscordClientHostBuilderExtensions
             var discordContext = new DiscordClientHostingContext();
             configure?.Invoke(context, discordContext);
 
-            services.AddDiscordClient();
-            services.AddHostedService<DiscordClientSetupService>();
-            services.ConfigureDiscordClient(context, discordContext);
+            ConfigureDiscordClient(services, discordContext);
         });
 
         return builder;
     }
 
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void ConfigureDiscordClient(this IServiceCollection services, HostBuilderContext context, DiscordClientHostingContext discordContext)
+    public static void ConfigureDiscordClient(this IHostApplicationBuilder builder, DiscordClientHostingContext configuration)
+    {
+        ConfigureDiscordClient(builder.Services, configuration);
+    }
+
+    private static void ConfigureDiscordClient(IServiceCollection services, DiscordClientHostingContext discordContext)
+    {
+        services.AddDiscordClient();
+        services.ConfigureDiscordClientServices(discordContext);
+    }
+
+    internal static void ConfigureDiscordClientServices(this IServiceCollection services, DiscordClientHostingContext discordContext)
     {
         services.Replace(ServiceDescriptor.Singleton<Token>(Token.Bot(discordContext.Token!)));
 
         services.Configure<DefaultShardConfiguration>(x => x.Intents = discordContext.Intents);
 
         services.Configure<DefaultGatewayDispatcherConfiguration>(x => x.ReadyEventDelayMode = discordContext.ReadyEventDelayMode);
+
+        services.AddHostedService<DiscordClientSetupService>();
 
         services.TryAddSingleton<DiscordClientMasterService>();
         services.AddHostedService(x => x.GetRequiredService<DiscordClientMasterService>());

@@ -12,7 +12,7 @@ runs:
     - name: Set up .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 9.0.x
     - name: Restore
       run: dotnet restore $Env:SOLUTION_PATH
       shell: pwsh
@@ -20,7 +20,7 @@ runs:
       run: dotnet build $Env:SOLUTION_PATH -c Release --no-restore -p:NoWarn=1591
       shell: pwsh
     - name: Test
-      run: dotnet test $Env:SOLUTION_PATH --no-restore --verbosity minimal
+      run: dotnet test $Env:SOLUTION_PATH --no-restore --verbosity minimal --blame-crash
       shell: pwsh
     - name: Pack
       run: | 
@@ -28,7 +28,7 @@ runs:
         if ($LastExitCode -ne 0) { $Host.SetShouldExit($LastExitCode) }
       shell: pwsh
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: artifacts
         path: ./artifacts/

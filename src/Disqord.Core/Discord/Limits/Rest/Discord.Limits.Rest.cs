@@ -68,6 +68,11 @@ public static partial class Discord
             ///     Represents the page size for fetching entitlements.
             /// </summary>
             public const int FetchEntitlementsPageSize = 100;
+
+            /// <summary>
+            ///     Represents the page size for fetching poll answer voters.
+            /// </summary>
+            public const int FetchPollAnswerVotersPageSize = 100;
         }
     }
 }

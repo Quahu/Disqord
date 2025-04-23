@@ -35,28 +35,18 @@ Typing `?ping` or `@YourBot ping` in a channel will make the bot respond with `P
 ```cs
 using Disqord.Bot.Commands.Text;
 using Disqord.Bot.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Qmmands;
 using Qmmands.Text;
 
-await new HostBuilder()
-    .ConfigureAppConfiguration(configuration =>
-    {
-        // We will use the environment variable DISQORD_TOKEN for the bot token.
-        configuration.AddEnvironmentVariables("DISQORD_");
-    })
-    .ConfigureLogging(logging =>
-    {
-        logging.AddSimpleConsole();
-    })
-    .ConfigureDiscordBot((context, bot) =>
-    {
-        bot.Token = context.Configuration["TOKEN"];
-        bot.Prefixes = new[] { "?" };
-    })
-    .RunConsoleAsync();
+var host = Host.CreateApplicationBuilder(args);
+host.ConfigureDiscordBot(new DiscordBotHostingContext
+{
+    Token = host.Configuration["DISQORD_TOKEN"], // e.g. could be an environment variable
+    Prefixes = ["?"]
+});
+
+host.Build().Run();
 
 public class ExampleModule : DiscordTextModuleBase
 {

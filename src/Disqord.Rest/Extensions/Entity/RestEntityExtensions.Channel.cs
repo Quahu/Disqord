@@ -284,8 +284,8 @@ public static partial class RestEntityExtensions
     }
 
     /*
-    * Threads
-    */
+     * Threads
+     */
     public static Task<IThreadChannel> CreatePublicThreadAsync(this ITextChannel channel,
         string name, Snowflake? messageId = null, Action<CreateThreadChannelActionProperties>? action = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -431,5 +431,32 @@ public static partial class RestEntityExtensions
     {
         var client = channel.GetRestClient();
         return client.FetchStageAsync(channel.Id, options, cancellationToken);
+    }
+
+    /*
+     * Polls
+     */
+    public static IPagedEnumerable<IUser> EnumeratePollAnswerVoters(this IMessageChannel channel,
+        Snowflake messageId, int answerId, int limit, Snowflake? startFromId = null,
+        IRestRequestOptions? options = null)
+    {
+        var client = channel.GetRestClient();
+        return client.EnumeratePollAnswerVoters(channel.Id, messageId, answerId, limit, startFromId, options);
+    }
+
+    public static Task<IReadOnlyList<IUser>> FetchPollAnswerVotersAsync(this IMessageChannel channel,
+        Snowflake messageId, int answerId, int limit = Discord.Limits.Rest.FetchPollAnswerVotersPageSize, Snowflake? startFromId = null,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var client = channel.GetRestClient();
+        return client.FetchPollAnswerVotersAsync(channel.Id, messageId, answerId, limit, startFromId, options, cancellationToken);
+    }
+
+    public static Task EndPollAsync(this IMessageChannel channel,
+        Snowflake messageId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var client = channel.GetRestClient();
+        return client.EndPollAsync(channel.Id, messageId, options, cancellationToken);
     }
 }

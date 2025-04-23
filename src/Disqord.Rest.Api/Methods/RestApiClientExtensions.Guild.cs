@@ -9,6 +9,7 @@ namespace Disqord.Rest.Api;
 
 public static partial class RestApiClientExtensions
 {
+    [Obsolete("https://discord.com/developers/docs/change-log#deprecating-guild-creation-by-apps")]
     public static Task<GuildJsonModel> CreateGuildAsync(this IRestApiClient client,
         CreateGuildJsonRestRequestContent content,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

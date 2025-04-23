@@ -404,6 +404,20 @@ public partial class DefaultGatewayClient
     }
 
     /// <inheritdoc/>
+    public event AsynchronousEventHandler<PollVoteAddedEventArgs> PollVoteAdded
+    {
+        add => Dispatcher.PollVoteAddedEvent.Add(value);
+        remove => Dispatcher.PollVoteAddedEvent.Remove(value);
+    }
+
+    /// <inheritdoc/>
+    public event AsynchronousEventHandler<PollVoteRemovedEventArgs> PollVoteRemoved
+    {
+        add => Dispatcher.PollVoteRemovedEvent.Add(value);
+        remove => Dispatcher.PollVoteRemovedEvent.Remove(value);
+    }
+
+    /// <inheritdoc/>
     public event AsynchronousEventHandler<TypingStartedEventArgs> TypingStarted
     {
         add => Dispatcher.TypingStartedEvent.Add(value);

@@ -298,7 +298,11 @@ public partial class DefaultApplicationCommandLocalizer : IApplicationCommandLoc
                 }, (this, storeInformation, cancellationToken), cancellationToken, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default).Unwrap();
             }
 
+#if NET9_0_OR_GREATER
+            await Task.WhenAll(tasks.AsSpan()).ConfigureAwait(false);
+#else
             await Task.WhenAll(tasks).ConfigureAwait(false);
+#endif
         }
     }
 }

@@ -125,6 +125,16 @@ public sealed partial class Route
 
     public static class Emoji
     {
+        public static readonly Route GetApplicationEmojis = Get("applications/{0:application_id}/emojis");
+
+        public static readonly Route GetApplicationEmoji = Get("applications/{0:application_id}/emojis/{1:emoji_id}");
+
+        public static readonly Route CreateApplicationEmoji = Post("applications/{0:application_id}/emojis");
+
+        public static readonly Route ModifyApplicationEmoji = Patch("applications/{0:application_id}/emojis/{1:emoji_id}");
+
+        public static readonly Route DeleteApplicationEmoji = Delete("applications/{0:application_id}/emojis/{1:emoji_id}");
+
         public static readonly Route GetGuildEmojis = Get("guilds/{0:guild_id}/emojis");
 
         public static readonly Route GetGuildEmoji = Get("guilds/{0:guild_id}/emojis/{1:emoji_id}");
@@ -268,6 +278,13 @@ public sealed partial class Route
         public static readonly Route GetInvite = Get("invites/{0:invite_code}");
 
         public static readonly Route DeleteInvite = Delete("invites/{0:invite_code}");
+    }
+
+    public static class Poll
+    {
+        public static readonly Route GetAnswerVoters = Get("channels/{0:channel_id}/polls/{1:message_id}/answers/{2:answer_id}");
+
+        public static readonly Route EndPoll = Post("channels/{0:channel_id}/polls/{1:message_id}/expire");
     }
 
     public static class Stages

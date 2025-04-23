@@ -21,7 +21,8 @@ public static partial class RestClientExtensions
             ChannelId = channelId,
             Topic = topic,
             PrivacyLevel = properties.PrivacyLevel,
-            SendStartNotification = properties.NotifyEveryone
+            SendStartNotification = properties.NotifyEveryone,
+            GuildScheduledEventId = properties.GuildScheduledEventId
         };
 
         var model = await client.ApiClient.CreateStageInstanceAsync(channelId, content, options, cancellationToken).ConfigureAwait(false);

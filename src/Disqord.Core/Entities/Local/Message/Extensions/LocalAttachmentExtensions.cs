@@ -9,13 +9,6 @@ namespace Disqord;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class LocalAttachmentExtensions
 {
-    public static TAttachment WithId<TAttachment>(this TAttachment attachment, Snowflake id)
-        where TAttachment : LocalAttachment
-    {
-        attachment.Id = id;
-        return attachment;
-    }
-
     public static TAttachment WithStream<TAttachment>(this TAttachment attachment, Stream stream)
         where TAttachment : LocalAttachment
     {
@@ -27,13 +20,6 @@ public static class LocalAttachmentExtensions
         where TAttachment : LocalAttachment
     {
         attachment.FileName = fileName;
-        return attachment;
-    }
-
-    public static TAttachment WithDescription<TAttachment>(this TAttachment attachment, string description)
-        where TAttachment : LocalAttachment
-    {
-        attachment.Description = description;
         return attachment;
     }
 

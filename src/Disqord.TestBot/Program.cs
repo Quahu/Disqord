@@ -14,22 +14,19 @@ namespace Disqord.TestBot
         {
             try
             {
-                Host.CreateDefaultBuilder(args)
-                    .UseSerilog(CreateSerilogLogger(), dispose: true)
-                    .ConfigureDiscordBot<TestBot>((context, bot) =>
-                    {
-                        bot.Token = context.Configuration["DISQORD_TOKEN"];
-                        bot.UseMentionPrefix = false;
-                        bot.Prefixes = new[] { "??" };
-                        bot.Intents |= GatewayIntents.DirectMessages | GatewayIntents.DirectReactions;
-                    })
-                    .UseDefaultServiceProvider(provider =>
-                    {
-                        provider.ValidateScopes = true;
-                        provider.ValidateOnBuild = true;
-                    })
-                    .Build()
-                    .Run();
+                var host = Host.CreateApplicationBuilder(args);
+
+                host.Services.AddSerilog(CreateSerilogLogger(), dispose: true);
+
+                host.ConfigureDiscordBot<TestBot>(new DiscordBotHostingContext
+                {
+                    Token = host.Configuration["DISQORD_TOKEN"],
+                    UseMentionPrefix = false,
+                    Prefixes = ["??"],
+                    Intents = GatewayIntents.LibraryRecommended | GatewayIntents.DirectMessages | GatewayIntents.DirectReactions
+                });
+
+                host.Build().Run();
             }
             catch (Exception ex)
             {

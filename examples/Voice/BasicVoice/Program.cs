@@ -15,30 +15,25 @@ namespace BasicVoice
         {
             try
             {
-                Host.CreateDefaultBuilder(args)
-                    .UseSerilog(CreateSerilogLogger(), dispose: true)
-                    .ConfigureServices((context, services) =>
-                    {
-                        services.AddVoiceExtension();
-                    })
-                    .ConfigureDiscordBot((context, bot) =>
-                    {
-                        // The token is set using the DISQORD_TOKEN environment variable.
-                        bot.Token = context.Configuration["DISQORD_TOKEN"];
+                var host = Host.CreateApplicationBuilder(args);
 
-                        // We use slash commands; we don't need any privileged intents.
-                        bot.Intents &= GatewayIntents.Unprivileged;
+                host.Services.AddSerilog(CreateSerilogLogger(), dispose: true);
 
-                        // We don't use text commands, so we disable the default mention prefix.
-                        bot.UseMentionPrefix = false;
-                    })
-                    .UseDefaultServiceProvider(provider =>
-                    {
-                        provider.ValidateScopes = true;
-                        provider.ValidateOnBuild = true;
-                    })
-                    .Build()
-                    .Run();
+                host.Services.AddVoiceExtension();
+
+                host.ConfigureDiscordBot(new DiscordBotHostingContext
+                {
+                    // The token is set using the DISQORD_TOKEN environment variable.
+                    Token = host.Configuration["DISQORD_TOKEN"],
+
+                    // We use slash commands; we don't need any privileged intents.
+                    Intents = GatewayIntents.LibraryRecommended & GatewayIntents.Unprivileged,
+
+                    // We don't use text commands, so we disable the default mention prefix.
+                    UseMentionPrefix = false
+                });
+
+                host.Build().Run();
             }
             catch (Exception ex)
             {

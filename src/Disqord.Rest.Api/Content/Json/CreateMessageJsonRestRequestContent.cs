@@ -37,6 +37,12 @@ public class CreateMessageJsonRestRequestContent : JsonModelRestRequestContent, 
     [JsonProperty("flags")]
     public Optional<MessageFlags> Flags;
 
+    [JsonProperty("enforce_nonce")]
+    public Optional<bool> EnforceNonce;
+
+    [JsonProperty("poll")]
+    public Optional<PollJsonModel> Poll;
+
     IList<PartialAttachmentJsonModel> IAttachmentRestRequestContent.Attachments
     {
         set => Attachments = new(value);
@@ -80,6 +86,11 @@ public class CreateMessageJsonRestRequestContent : JsonModelRestRequestContent, 
         {
             for (var i = 0; i < components.Length; i++)
                 components[i].Validate();
+        });
+
+        OptionalGuard.CheckValue(Poll, pollJsonModel =>
+        {
+            pollJsonModel.Validate();
         });
     }
 }

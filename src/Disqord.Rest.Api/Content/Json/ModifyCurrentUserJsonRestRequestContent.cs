@@ -11,4 +11,7 @@ public class ModifyCurrentUserJsonRestRequestContent : JsonModelRestRequestConte
 
     [JsonProperty("avatar")]
     public Optional<Stream> Avatar;
+
+    [JsonProperty("banner")]
+    public Optional<Stream> Banner;
 }

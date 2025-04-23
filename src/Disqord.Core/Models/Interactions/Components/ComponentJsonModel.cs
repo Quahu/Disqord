@@ -39,6 +39,9 @@ public class ComponentJsonModel : JsonModel
     [JsonProperty("placeholder")]
     public Optional<string> Placeholder;
 
+    [JsonProperty("default_values")]
+    public Optional<DefaultValueJsonModel[]> DefaultValues;
+
     [JsonProperty("min_values")]
     public Optional<int> MinValues;
 
@@ -112,11 +115,28 @@ public class ComponentJsonModel : JsonModel
             }
             case ComponentType.StringSelection or >= ComponentType.UserSelection and <= ComponentType.ChannelSelection:
             {
-                OptionalGuard.HasValue(Options);
-                Guard.IsLessThanOrEqualTo(Options.Value.Length, Discord.Limits.Component.Selection.MaxOptionAmount);
+                if (Type == ComponentType.StringSelection)
+                {
+                    OptionalGuard.HasValue(Options);
+                    Guard.HasSizeLessThanOrEqualTo(Options.Value, Discord.Limits.Component.Selection.MaxOptionAmount);
 
-                for (var i = 0; i < Options.Value.Length; i++)
-                    Options.Value[i].Validate();
+                    for (var i = 0; i < Options.Value.Length; i++)
+                        Options.Value[i].Validate();
+                }
+                else
+                {
+                    OptionalGuard.CheckValue(Options, options =>
+                    {
+                        try
+                        {
+                            Guard.HasSizeEqualTo(options, 0);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new ArgumentException("Options are not supported by entity selection components.", ex);
+                        }
+                    });
+                }
 
                 OptionalGuard.CheckValue(Placeholder, placeholder =>
                 {
@@ -136,6 +156,22 @@ public class ComponentJsonModel : JsonModel
 
                 if (MinValues.HasValue && MaxValues.HasValue)
                     Guard.IsLessThanOrEqualTo(MinValues.Value, MaxValues.Value);
+
+                OptionalGuard.CheckValue(DefaultValues, defaultValues =>
+                {
+                    Guard.IsBetweenOrEqualTo(defaultValues.Length, MinValues.GetValueOrDefault(Discord.Limits.Component.Selection.MinMinimumSelectedOptions), MaxValues.GetValueOrDefault(Discord.Limits.Component.Selection.MaxMaximumSelectedOptions));
+
+                    Predicate<DefaultValueJsonModel> predicate = Type switch
+                    {
+                        ComponentType.UserSelection => value => value.Type is DefaultSelectionValueType.User,
+                        ComponentType.RoleSelection => value => value.Type is DefaultSelectionValueType.Role,
+                        ComponentType.MentionableSelection => value => value.Type is DefaultSelectionValueType.User or DefaultSelectionValueType.Role,
+                        ComponentType.ChannelSelection => value => value.Type is DefaultSelectionValueType.Channel,
+                        _ => value => true
+                    };
+
+                    Guard.IsTrue(Array.TrueForAll(defaultValues, predicate), message: "The types of default selection values must match the type of the component.");
+                });
 
                 break;
             }

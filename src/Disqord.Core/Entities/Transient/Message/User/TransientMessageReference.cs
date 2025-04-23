@@ -6,6 +6,9 @@ namespace Disqord;
 public class TransientMessageReference : TransientEntity<MessageReferenceJsonModel>, IMessageReference
 {
     /// <inheritdoc/>
+    public MessageReferenceType Type => Model.Type.GetValueOrNullable() ?? MessageReferenceType.Default;
+
+    /// <inheritdoc/>
     public Snowflake? MessageId => Model.MessageId.GetValueOrNullable();
 
     /// <inheritdoc/>

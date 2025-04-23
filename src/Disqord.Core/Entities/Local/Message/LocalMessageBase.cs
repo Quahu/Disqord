@@ -52,6 +52,11 @@ public abstract class LocalMessageBase : ILocalConstruct<LocalMessageBase>
     public Optional<IList<Snowflake>> StickerIds { get; set; }
 
     /// <summary>
+    ///     Gets or sets the poll of this message.
+    /// </summary>
+    public Optional<LocalPoll> Poll { get; set; }
+
+    /// <summary>
     ///     Instantiates a new <see cref="LocalMessageBase"/>.
     /// </summary>
     protected LocalMessageBase()
@@ -71,6 +76,7 @@ public abstract class LocalMessageBase : ILocalConstruct<LocalMessageBase>
         Attachments = other.Attachments.DeepClone();
         Components = other.Components.DeepClone();
         StickerIds = other.StickerIds.Clone();
+        Poll = other.Poll.Clone();
     }
 
     public abstract LocalMessageBase Clone();

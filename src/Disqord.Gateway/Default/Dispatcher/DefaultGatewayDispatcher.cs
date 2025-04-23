@@ -182,6 +182,9 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
             [GatewayDispatchNames.StageInstanceUpdate] = new StageUpdateDispatchHandler(),
             [GatewayDispatchNames.StageInstanceDelete] = new StageDeleteDispatchHandler(),
 
+            [GatewayDispatchNames.MessagePollVoteAdd] = new MessagePollVoteAddDispatchHandler(),
+            [GatewayDispatchNames.MessagePollVoteRemove] = new MessagePollVoteRemoveDispatchHandler(),
+
             [GatewayDispatchNames.TypingStart] = new TypingStartDispatchHandler(),
 
             [GatewayDispatchNames.UserUpdate] = new UserUpdateDispatchHandler(),

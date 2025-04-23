@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Qommon;
@@ -10,17 +11,15 @@ public class DiscordInteractionResponseCommandResult : DiscordResponseCommandRes
         : base(context, message)
     { }
 
-    public override Task ExecuteAsync(CancellationToken cancellationToken = default)
+    public new TaskAwaiter<IUserMessage> GetAwaiter()
     {
-        var context = Guard.IsAssignableToType<IDiscordInteractionCommandContext>(Context);
-        var message = Guard.IsAssignableToType<LocalInteractionMessageResponse>(Message);
-        return context.SendMessageAsync(message, false, cancellationToken: cancellationToken);
+        return ExecuteWithResultAsync().GetAwaiter();
     }
 
     public override Task<IUserMessage> ExecuteWithResultAsync(CancellationToken cancellationToken = default)
     {
         var context = Guard.IsAssignableToType<IDiscordInteractionCommandContext>(Context);
         var message = Guard.IsAssignableToType<LocalInteractionMessageResponse>(Message);
-        return Guard.IsAssignableToType<Task<IUserMessage>>(context.SendMessageAsync(message, true, cancellationToken: cancellationToken));
+        return Guard.IsAssignableToType<Task<IUserMessage>>(context.SendMessageAsync(message, cancellationToken: cancellationToken));
     }
 }
