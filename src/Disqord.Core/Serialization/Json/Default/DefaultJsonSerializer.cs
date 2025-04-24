@@ -1,150 +1,91 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Text;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Disqord.Serialization.Json.Default;
 
 /// <summary>
-///     Represents the default <see cref="IJsonSerializer"/>.
-///     Uses Newtonsoft.Json.
+///     Represents a System.Text.Json implementation of <see cref="IJsonSerializer"/>.
 /// </summary>
-public class DefaultJsonSerializer : IJsonSerializer
+public sealed class DefaultJsonSerializer : IJsonSerializer
 {
-    /// <inheritdoc/>
-    public ILogger Logger { get; }
-
     /// <summary>
-    ///     Gets the underlying <see cref="JsonSerializer"/>.
+    ///     Gets the underlying <see cref="JsonSerializerOptions"/>.
     /// </summary>
-    public JsonSerializer UnderlyingSerializer { get; }
+    internal JsonSerializerOptions UnderlyingOptions { get; }
 
-    internal readonly bool ShowHttpStreamsWarning;
-
-    private static readonly Encoding Utf8 = new UTF8Encoding(false);
-
-    public DefaultJsonSerializer(
-        IOptions<DefaultJsonSerializerConfiguration> options,
-        ILogger<DefaultJsonSerializer> logger)
+    public DefaultJsonSerializer()
     {
-        ShowHttpStreamsWarning = options.Value.ShowHttpStreamsWarning;
-        Logger = logger;
-
-        UnderlyingSerializer = new JsonSerializer
+        UnderlyingOptions = new JsonSerializerOptions
         {
-            DateParseHandling = DateParseHandling.None,
-            ContractResolver = new ContractResolver(this)
+            NumberHandling = JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.AllowNamedFloatingPointLiterals,
+            IncludeFields = true,
+            IgnoreReadOnlyFields = true,
+            IgnoreReadOnlyProperties = true,
+            RespectNullableAnnotations = true,
+            NewLine = "\n",
+            UnknownTypeHandling = JsonUnknownTypeHandling.JsonNode,
+            TypeInfoResolver = new JsonTypeInfoResolver(),
+            Converters =
+            {
+                new EnumConverter(),
+                new JsonNodeConverter(),
+                new NullableConverter(),
+                new OptionalConverter(),
+                new StringConverter(),
+                new SnowflakeConverter(),
+                new StreamConverter(),
+            }
         };
+
+        UnderlyingOptions.MakeReadOnly();
     }
 
     /// <inheritdoc/>
-    public virtual object? Deserialize(Stream stream, Type type)
+    public TValue? Deserialize<TValue>(Stream stream)
     {
         try
         {
-            using (var textReader = new StreamReader(stream, Utf8, leaveOpen: true))
-            using (var jsonReader = new JsonTextReader(textReader))
-            {
-                return UnderlyingSerializer.Deserialize(jsonReader, type);
-            }
+            return JsonSerializer.Deserialize<TValue>(stream, UnderlyingOptions);
         }
-        catch (Exception ex)
+        catch (JsonException ex)
         {
-            throw new JsonSerializationException(true, type, ex);
+            ThrowSerializationException(isDeserialize: true, typeof(TValue), ex);
+            return default;
         }
     }
 
     /// <inheritdoc/>
-    public virtual void Serialize(Stream stream, object obj, IJsonSerializerOptions? options = null)
+    public void Serialize(Stream stream, object obj, JsonSerializeOptions? options = null)
     {
         try
         {
-            using (var streamWriter = new StreamWriter(stream, Utf8, leaveOpen: true))
-            using (var jsonWriter = FormattingJsonWriter.Conditional(options, streamWriter))
+            var serializerOptions = UnderlyingOptions;
+            if (options != null && options.Formatting == JsonFormatting.Indented)
             {
-                UnderlyingSerializer.Serialize(jsonWriter, JToken.FromObject(obj, UnderlyingSerializer));
-
-                jsonWriter.Flush();
+                serializerOptions = new JsonSerializerOptions(UnderlyingOptions);
+                serializerOptions.WriteIndented = true;
             }
+
+            JsonSerializer.Serialize(stream, obj, serializerOptions);
         }
-        catch (Exception ex)
+        catch (JsonException ex)
         {
-            throw new JsonSerializationException(false, obj.GetType(), ex);
+            ThrowSerializationException(isDeserialize: false, obj.GetType(), ex);
         }
     }
 
     /// <inheritdoc/>
-    public virtual IJsonNode GetJsonNode(object? obj)
+    [return: NotNullIfNotNull(nameof(obj))]
+    public IJsonNode? GetJsonNode(object? obj)
     {
-        if (obj == null)
-        {
-            return DefaultJsonNode.Create(JValue.CreateNull(), UnderlyingSerializer);
-        }
-
-        return DefaultJsonNode.Create(JToken.FromObject(obj, UnderlyingSerializer), UnderlyingSerializer);
+        return DefaultJsonNode.Create(obj, UnderlyingOptions);
     }
 
-    protected class FormattingJsonWriter : JsonTextWriter
+    internal static void ThrowSerializationException(bool isDeserialize, Type type, Exception exception)
     {
-        private bool _shouldWriteSpace;
-
-        public FormattingJsonWriter(TextWriter textWriter)
-            : base(textWriter)
-        {
-            _shouldWriteSpace = true;
-        }
-
-        protected override void WriteIndentSpace()
-        {
-            if (!_shouldWriteSpace)
-            {
-                _shouldWriteSpace = true;
-                return;
-            }
-
-            base.WriteIndentSpace();
-        }
-
-        public override void WriteStartObject()
-        {
-            if (WriteState is WriteState.Property)
-            {
-                WriteIndent();
-                _shouldWriteSpace = false;
-            }
-
-            base.WriteStartObject();
-        }
-
-        public override void WriteStartArray()
-        {
-            if (WriteState is WriteState.Property)
-            {
-                WriteIndent();
-                _shouldWriteSpace = false;
-            }
-
-            base.WriteStartArray();
-        }
-
-        public static JsonTextWriter Conditional(IJsonSerializerOptions? options, TextWriter writer)
-        {
-            if (options?.Formatting == JsonFormatting.Indented)
-            {
-                var jsonWriter = new FormattingJsonWriter(writer);
-                jsonWriter.Formatting = (Formatting) options.Formatting;
-                if (options.Formatting == JsonFormatting.Indented)
-                {
-                    jsonWriter.Indentation = 4;
-                }
-
-                return jsonWriter;
-            }
-
-            return new JsonTextWriter(writer);
-        }
+        throw new JsonSerializationException(isDeserialize, type, exception);
     }
 }

@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Disqord.Serialization.Json.System;
+namespace Disqord.Serialization.Json.Default;
 
 internal sealed class StringConverter : JsonConverter<string?>
 {

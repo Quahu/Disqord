@@ -1,40 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Nodes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace Disqord.Serialization.Json.System;
+namespace Disqord.Serialization.Json.Newtonsoft;
 
 /// <summary>
 ///     Represents a default JSON object node.
-///     Wraps a <see cref="JsonObject"/>.
+///     Wraps a <see cref="JObject"/>.
 /// </summary>
-internal sealed class SystemJsonObject : SystemJsonNode, IJsonObject
+public class NewtonsoftJsonObject : NewtonsoftJsonNode, IJsonObject
 {
-    /// <inheritdoc cref="SystemJsonNode.Node"/>
-    public new JsonObject Node => (base.Node as JsonObject)!;
+    /// <inheritdoc cref="NewtonsoftJsonNode.Token"/>
+    public new JObject Token => (base.Token as JObject)!;
 
     /// <inheritdoc/>
-    public int Count => Node.Count;
+    public int Count => Token.Count;
 
     /// <inheritdoc/>
-    public ICollection<string> Keys => (Node as IDictionary<string, JsonNode?>).Keys;
+    public ICollection<string> Keys => (Token as IDictionary<string, JToken>).Keys;
 
     /// <inheritdoc/>
-    public ICollection<IJsonNode?> Values => (Node as IDictionary<string, JsonNode?>).Values.Select(value => Create(value, Options)).ToArray();
+    public ICollection<IJsonNode?> Values => (Token as IDictionary<string, JToken>).Values.Select(value => Create(value, Serializer)).ToArray();
 
     /// <inheritdoc/>
     public IJsonNode? this[string key]
     {
-        get => Create(Node[key], Options);
-        set => Node[key] = GetSystemNode(value);
+        get => Create(Token[key], Serializer);
+        set => Token[key] = GetJToken(value);
     }
 
     bool ICollection<KeyValuePair<string, IJsonNode?>>.IsReadOnly => false;
 
-    internal SystemJsonObject(JsonObject @object, JsonSerializerOptions options)
-        : base(@object, options)
+    public NewtonsoftJsonObject(JObject token, JsonSerializer serializer)
+        : base(token, serializer)
     { }
 
     /// <inheritdoc/>
@@ -46,7 +46,7 @@ internal sealed class SystemJsonObject : SystemJsonNode, IJsonObject
     /// <inheritdoc/>
     public void Clear()
     {
-        Node.Clear();
+        Token.RemoveAll();
     }
 
     /// <inheritdoc/>
@@ -74,21 +74,21 @@ internal sealed class SystemJsonObject : SystemJsonNode, IJsonObject
     /// <inheritdoc/>
     public void Add(string key, IJsonNode? value)
     {
-        Node.Add(key, GetSystemNode(value));
+        Token.Add(key, GetJToken(value));
     }
 
     /// <inheritdoc/>
     public bool ContainsKey(string key)
     {
-        return Node.ContainsKey(key);
+        return Token.ContainsKey(key);
     }
 
     /// <inheritdoc/>
     public bool TryGetValue(string key, out IJsonNode? value)
     {
-        if (Node.TryGetPropertyValue(key, out var node))
+        if (Token.TryGetValue(key, out var token))
         {
-            value = Create(node, Options);
+            value = Create(token, Serializer);
             return true;
         }
 
@@ -99,22 +99,22 @@ internal sealed class SystemJsonObject : SystemJsonNode, IJsonObject
     /// <inheritdoc/>
     public bool Remove(string key)
     {
-        return Node.Remove(key);
+        return Token.Remove(key);
     }
 
     private sealed class Enumerator : IEnumerator<KeyValuePair<string, IJsonNode?>>
     {
-        public KeyValuePair<string, IJsonNode?> Current => KeyValuePair.Create(_enumerator.Current.Key, Create(_enumerator.Current.Value, _options));
+        public KeyValuePair<string, IJsonNode?> Current => KeyValuePair.Create(_enumerator.Current.Key, Create(_enumerator.Current.Value, _serializer));
 
         object IEnumerator.Current => Current;
 
-        private readonly IEnumerator<KeyValuePair<string, JsonNode?>> _enumerator;
-        private readonly JsonSerializerOptions _options;
+        private readonly IEnumerator<KeyValuePair<string, JToken?>> _enumerator;
+        private readonly JsonSerializer _serializer;
 
-        internal Enumerator(IEnumerator<KeyValuePair<string, JsonNode?>> enumerator, JsonSerializerOptions options)
+        internal Enumerator(IEnumerator<KeyValuePair<string, JToken?>> enumerator, JsonSerializer serializer)
         {
             _enumerator = enumerator;
-            _options = options;
+            _serializer = serializer;
         }
 
         public bool MoveNext()
@@ -130,7 +130,7 @@ internal sealed class SystemJsonObject : SystemJsonNode, IJsonObject
     /// <inheritdoc/>
     public IEnumerator<KeyValuePair<string, IJsonNode?>> GetEnumerator()
     {
-        return new Enumerator(Node.GetEnumerator(), Options);
+        return new Enumerator(Token.GetEnumerator(), Serializer);
     }
 
     IEnumerator IEnumerable.GetEnumerator()

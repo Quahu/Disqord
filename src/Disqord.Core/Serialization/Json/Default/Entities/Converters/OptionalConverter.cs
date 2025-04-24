@@ -1,55 +1,58 @@
 ﻿using System;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Qommon;
 using Qommon.Serialization;
 
 namespace Disqord.Serialization.Json.Default;
 
-internal sealed class OptionalConverter<TValue> : JsonConverter
+internal sealed class OptionalConverter : JsonConverterFactory
 {
-    private readonly JsonConverter? _valueConverter;
-
-    public OptionalConverter(JsonConverter? valueConverter)
+    public override bool CanConvert(Type typeToConvert)
     {
-        _valueConverter = valueConverter;
+        return typeToConvert.IsAssignableTo(typeof(IOptional))
+            && typeToConvert.IsValueType
+            && typeToConvert.IsConstructedGenericType
+            && typeToConvert.GetGenericTypeDefinition() == typeof(Optional<>);
     }
 
-    public override bool CanConvert(Type objectType)
+    public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
-        return true;
+        return Activator.CreateInstance(typeof(OptionalConverterImpl<>).MakeGenericType(typeToConvert.GenericTypeArguments[0])) as JsonConverter;
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    private sealed class OptionalConverterImpl<TValue> : JsonConverter<Optional<TValue?>>
     {
-        TValue? value;
-        if (_valueConverter != null && _valueConverter.CanRead)
+        public override Optional<TValue?> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            value = (TValue?) _valueConverter.ReadJson(reader, typeof(TValue), existingValue, serializer);
-        }
-        else
-        {
-            value = serializer.Deserialize<TValue>(reader);
-        }
-
-        return new Optional<TValue?>(value);
-    }
-
-    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
-    {
-        var optionalValue = ((IOptional?) value)!.Value;
-        if (optionalValue == null)
-        {
-            writer.WriteNull();
-        }
-        else
-        {
-            if (_valueConverter != null && _valueConverter.CanWrite)
+            try
             {
-                _valueConverter.WriteJson(writer, optionalValue, serializer);
+                return JsonSerializer.Deserialize<TValue>(ref reader, options);
+            }
+            catch (JsonException ex)
+            {
+                JsonUtilities.RethrowJsonException(ex);
+                return default;
+            }
+        }
+
+        public override void Write(Utf8JsonWriter writer, Optional<TValue?> value, JsonSerializerOptions options)
+        {
+            var optionalValue = value.Value;
+            if (optionalValue == null)
+            {
+                writer.WriteNullValue();
             }
             else
             {
-                serializer.Serialize(writer, optionalValue);
+                try
+                {
+                    JsonSerializer.Serialize(writer, value.Value, options);
+                }
+                catch (JsonException ex)
+                {
+                    JsonUtilities.RethrowJsonException(ex);
+                }
             }
         }
     }

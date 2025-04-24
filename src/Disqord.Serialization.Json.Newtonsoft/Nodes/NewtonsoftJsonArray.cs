@@ -1,51 +1,51 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text.Json;
-using System.Text.Json.Nodes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace Disqord.Serialization.Json.System;
+namespace Disqord.Serialization.Json.Newtonsoft;
 
 /// <summary>
 ///     Represents a default JSON array node.
-///     Wraps a <see cref="JsonArray"/>.
+///     Wraps a <see cref="JArray"/>.
 /// </summary>
-internal sealed class SystemJsonArray : SystemJsonNode, IJsonArray
+public class NewtonsoftJsonArray : NewtonsoftJsonNode, IJsonArray
 {
-    /// <inheritdoc cref="Token"/>
-    public new JsonArray Node => (base.Node as JsonArray)!;
+    /// <inheritdoc cref="NewtonsoftJsonNode.Token"/>
+    public new JArray Token => (base.Token as JArray)!;
 
     /// <inheritdoc/>
-    public int Count => Node.Count;
+    public int Count => Token.Count;
 
     /// <inheritdoc/>
     public IJsonNode? this[int index]
     {
-        get => Create(Node[index], Options);
-        set => Node[index] = GetSystemNode(value);
+        get => Create(Token[index], Serializer);
+        set => Token[index] = GetJToken(value)!;
     }
 
     bool ICollection<IJsonNode?>.IsReadOnly => false;
 
-    internal SystemJsonArray(JsonArray node, JsonSerializerOptions options)
-        : base(node, options)
+    public NewtonsoftJsonArray(JArray token, JsonSerializer serializer)
+        : base(token, serializer)
     { }
 
     /// <inheritdoc/>
     public void Add(IJsonNode? item)
     {
-        Node.Add(GetSystemNode(item));
+        Token.Add(GetJToken(item)!);
     }
 
     /// <inheritdoc/>
     public void Clear()
     {
-        Node.Clear();
+        Token.Clear();
     }
 
     /// <inheritdoc/>
     public bool Contains(IJsonNode? item)
     {
-        return Node.Contains(GetSystemNode(item));
+        return Token.Contains(GetJToken(item)!);
     }
 
     /// <inheritdoc/>
@@ -61,25 +61,25 @@ internal sealed class SystemJsonArray : SystemJsonNode, IJsonArray
     /// <inheritdoc/>
     public bool Remove(IJsonNode? item)
     {
-        return Node.Remove(GetSystemNode(item));
+        return Token.Remove(GetJToken(item)!);
     }
 
     /// <inheritdoc/>
     public int IndexOf(IJsonNode? item)
     {
-        return Node.IndexOf(GetSystemNode(item));
+        return Token.IndexOf(GetJToken(item)!);
     }
 
     /// <inheritdoc/>
     public void Insert(int index, IJsonNode? item)
     {
-        Node.Insert(index, GetSystemNode(item));
+        Token.Insert(index, GetJToken(item)!);
     }
 
     /// <inheritdoc/>
     public void RemoveAt(int index)
     {
-        Node.RemoveAt(index);
+        Token.RemoveAt(index);
     }
 
     /// <inheritdoc/>
@@ -95,15 +95,15 @@ internal sealed class SystemJsonArray : SystemJsonNode, IJsonArray
 
     private sealed class Enumerator : IEnumerator<IJsonNode?>
     {
-        public IJsonNode? Current => Create(_current?.Node, _array.Options);
+        public IJsonNode? Current => Create(_current?.Token, _array.Serializer);
 
         object? IEnumerator.Current => Current;
 
-        private readonly SystemJsonArray _array;
+        private readonly NewtonsoftJsonArray _array;
         private int _index;
-        private SystemJsonNode? _current;
+        private NewtonsoftJsonNode? _current;
 
-        internal Enumerator(SystemJsonArray array)
+        internal Enumerator(NewtonsoftJsonArray array)
         {
             _array = array;
         }
@@ -113,7 +113,7 @@ internal sealed class SystemJsonArray : SystemJsonNode, IJsonArray
             var index = _index;
             if (_index++ < _array.Count)
             {
-                _current = (_array[index] as SystemJsonNode)!;
+                _current = (_array[index] as NewtonsoftJsonNode)!;
                 return true;
             }
 

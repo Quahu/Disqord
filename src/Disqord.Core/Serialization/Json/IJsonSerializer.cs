@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace Disqord.Serialization.Json;
@@ -17,7 +16,7 @@ public interface IJsonSerializer
     /// <returns>
     ///     The deserialized instance or <see langword="null"/>.
     /// </returns>
-    object? Deserialize(Stream stream, Type type);
+    TValue? Deserialize<TValue>(Stream stream);
 
     /// <summary>
     ///     Serializes the object into the stream.
@@ -25,7 +24,7 @@ public interface IJsonSerializer
     /// <param name="stream"> The stream to serialize to. </param>
     /// <param name="obj"> The object to serialize. </param>
     /// <param name="options"> The serializer options. </param>
-    void Serialize(Stream stream, object obj, IJsonSerializerOptions? options = null);
+    void Serialize(Stream stream, object obj, JsonSerializeOptions? options = null);
 
     /// <summary>
     ///     Gets a JSON node from the specified argument.

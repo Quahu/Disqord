@@ -2,7 +2,7 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Disqord.Serialization.Json.System;
+namespace Disqord.Serialization.Json.Default;
 
 internal sealed class NullableConverter : JsonConverterFactory
 {
@@ -11,7 +11,7 @@ internal sealed class NullableConverter : JsonConverterFactory
         return typeToConvert.IsValueType && Nullable.GetUnderlyingType(typeToConvert) != null;
     }
 
-    public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
+    public override JsonConverter? CreateConverter(Type typeToConvert, System.Text.Json.JsonSerializerOptions options)
     {
         return Activator.CreateInstance(typeof(NullableConverterImpl<>).MakeGenericType(Nullable.GetUnderlyingType(typeToConvert)!)) as JsonConverter;
     }
@@ -19,7 +19,7 @@ internal sealed class NullableConverter : JsonConverterFactory
     private sealed class NullableConverterImpl<TValue> : JsonConverter<TValue?>
         where TValue : struct
     {
-        public override TValue? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override TValue? Read(ref Utf8JsonReader reader, Type typeToConvert, System.Text.Json.JsonSerializerOptions options)
         {
             if (reader.TokenType == JsonTokenType.Null)
             {
@@ -37,7 +37,7 @@ internal sealed class NullableConverter : JsonConverterFactory
             }
         }
 
-        public override void Write(Utf8JsonWriter writer, TValue? value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, TValue? value, System.Text.Json.JsonSerializerOptions options)
         {
             if (value == null)
             {

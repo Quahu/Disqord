@@ -9,7 +9,7 @@ using System.Text.Json.Serialization.Metadata;
 using Qommon;
 using Qommon.Serialization;
 
-namespace Disqord.Serialization.Json.System;
+namespace Disqord.Serialization.Json.Default;
 
 internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
 {
@@ -119,7 +119,7 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
 
                     foreach (var property in extensionData)
                     {
-                        model.ExtensionData[property.Key] = SystemJsonNode.Create(JsonSerializer.SerializeToNode(property.Value, options), options);
+                        model.ExtensionData[property.Key] = DefaultJsonNode.Create(JsonSerializer.SerializeToNode(property.Value, options), options);
                     }
 
                     _extensionDataCache.Remove(model);

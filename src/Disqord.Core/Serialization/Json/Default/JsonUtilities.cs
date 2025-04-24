@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
-namespace Disqord.Serialization.Json.System;
+namespace Disqord.Serialization.Json.Default;
 
 internal static class JsonUtilities
 {

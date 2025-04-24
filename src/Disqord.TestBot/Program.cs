@@ -1,11 +1,6 @@
 using System;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
-using Disqord.Gateway.Api.Default;
-using Disqord.Serialization.Json;
-using Disqord.Serialization.Json.System;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -22,10 +17,6 @@ namespace Disqord.TestBot
                 var host = Host.CreateApplicationBuilder(args);
 
                 host.Services.AddSerilog(CreateSerilogLogger(), dispose: true);
-
-                host.Services.Replace(ServiceDescriptor.Singleton<IJsonSerializer, SystemJsonSerializer>());
-
-                host.Services.Configure<DefaultGatewayConfiguration>(x => x.LogsPayloads = true);
 
                 host.ConfigureDiscordBot<TestBot>(new DiscordBotHostingContext
                 {

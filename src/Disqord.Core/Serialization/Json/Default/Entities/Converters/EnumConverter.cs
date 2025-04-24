@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Qommon;
 
-namespace Disqord.Serialization.Json.System;
+namespace Disqord.Serialization.Json.Default;
 
 internal sealed class EnumConverter : JsonConverterFactory
 {
@@ -17,7 +17,7 @@ internal sealed class EnumConverter : JsonConverterFactory
         return typeToConvert.IsEnum;
     }
 
-    public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
+    public override JsonConverter? CreateConverter(Type typeToConvert, System.Text.Json.JsonSerializerOptions options)
     {
         var converterType = typeToConvert.GetCustomAttribute<StringEnumAttribute>() != null
             ? typeof(StringEnumConverterImpl<>)
@@ -29,7 +29,7 @@ internal sealed class EnumConverter : JsonConverterFactory
     private class NumberEnumConverterImpl<TEnum> : JsonConverter<TEnum>
         where TEnum : struct, Enum
     {
-        public override TEnum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override TEnum Read(ref Utf8JsonReader reader, Type typeToConvert, System.Text.Json.JsonSerializerOptions options)
         {
             var value = 0ul;
             if (reader.TokenType == JsonTokenType.String)
@@ -48,13 +48,13 @@ internal sealed class EnumConverter : JsonConverterFactory
             return Unsafe.As<ulong, TEnum>(ref value);
         }
 
-        public override TEnum ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override TEnum ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, System.Text.Json.JsonSerializerOptions options)
         {
             var value = reader.ReadUInt64FromString();
             return Unsafe.As<ulong, TEnum>(ref value);
         }
 
-        public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, TEnum value, System.Text.Json.JsonSerializerOptions options)
         {
             var ulongValue = ((IConvertible) value).ToUInt64(CultureInfo.InvariantCulture);
             if (ulongValue <= JsonUtilities.MaxSafeInteger)
@@ -69,7 +69,7 @@ internal sealed class EnumConverter : JsonConverterFactory
             }
         }
 
-        public override void WriteAsPropertyName(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
+        public override void WriteAsPropertyName(Utf8JsonWriter writer, TEnum value, System.Text.Json.JsonSerializerOptions options)
         {
             var buffer = (stackalloc byte[20]);
             var ulongValue = ((IConvertible) value).ToUInt64(CultureInfo.InvariantCulture);
@@ -112,7 +112,7 @@ internal sealed class EnumConverter : JsonConverterFactory
             _values = Enum.GetValues<TEnum>();
         }
 
-        public override TEnum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override TEnum Read(ref Utf8JsonReader reader, Type typeToConvert, System.Text.Json.JsonSerializerOptions options)
         {
             if (reader.TokenType == JsonTokenType.String)
             {
@@ -146,7 +146,7 @@ internal sealed class EnumConverter : JsonConverterFactory
             return default;
         }
 
-        public override TEnum ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override TEnum ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, System.Text.Json.JsonSerializerOptions options)
         {
             TEnum value = default;
             for (var i = 0; i < _names.Length; i++)
@@ -164,7 +164,7 @@ internal sealed class EnumConverter : JsonConverterFactory
             return value;
         }
 
-        public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, TEnum value, System.Text.Json.JsonSerializerOptions options)
         {
             var index = Array.IndexOf(_values, value);
             if (index != -1)
@@ -177,7 +177,7 @@ internal sealed class EnumConverter : JsonConverterFactory
             }
         }
 
-        public override void WriteAsPropertyName(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
+        public override void WriteAsPropertyName(Utf8JsonWriter writer, TEnum value, System.Text.Json.JsonSerializerOptions options)
         {
             var index = Array.IndexOf(_values, value);
             if (index != -1)
