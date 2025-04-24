@@ -25,7 +25,7 @@ public class TransientSlashCommandOptionChoice : TransientClientEntity<Applicati
     }
 
     /// <inheritdoc/>
-    public object Value => Model.Value.Value!;
+    public object Value => Model.Value.ToType<object>()!;
 
     public TransientSlashCommandOptionChoice(IClient client, ApplicationCommandOptionChoiceJsonModel model)
         : base(client, model)

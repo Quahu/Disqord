@@ -1,28 +1,39 @@
 ﻿using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace Disqord.Serialization.Json.Default;
 
-internal sealed class JsonNodeConverter : JsonConverter
+internal sealed class JsonNodeConverter : JsonConverter<IJsonNode>
 {
-    public override bool CanConvert(Type objectType)
+    public override bool CanConvert(Type typeToConvert)
     {
-        return true;
+        return typeToConvert.IsAssignableTo(typeof(IJsonNode)) && !typeToConvert.IsAssignableTo(typeof(JsonModel));
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    public override IJsonNode? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var token = JToken.ReadFrom(reader);
-        return DefaultJsonNode.Create(token, serializer);
+        var node = JsonNode.Parse(ref reader);
+        return DefaultJsonNode.Create(node, options);
     }
 
-    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    public override void Write(Utf8JsonWriter writer, IJsonNode value, JsonSerializerOptions options)
     {
-        var token = value is DefaultJsonNode defaultJsonNode
-            ? defaultJsonNode.Token
-            : JToken.FromObject(value!, serializer);
-
-        serializer.Serialize(writer, token);
+        if (value is DefaultJsonNode systemJsonNode)
+        {
+            systemJsonNode.Node.WriteTo(writer, options);
+        }
+        else
+        {
+            try
+            {
+                JsonSerializer.Serialize(writer, value, value.GetType(), options);
+            }
+            catch (JsonException ex)
+            {
+                JsonUtilities.RethrowJsonException(ex);
+            }
+        }
     }
 }
