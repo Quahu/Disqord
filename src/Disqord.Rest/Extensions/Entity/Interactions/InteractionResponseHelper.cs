@@ -294,32 +294,4 @@ public class InteractionResponseHelper
 
         return callbackResponse;
     }
-
-    /// <summary>
-    ///     Responds to the interaction by sending an <see cref="InteractionResponseType.PremiumRequired"/> response,
-    ///     i.e. informs the user that a premium entitlement is required to access this feature.
-    /// </summary>
-    /// <param name="options"> The request options. </param>
-    /// <param name="cancellationToken"> The cancellation token to observe. </param>
-    /// <exception cref="InvalidOperationException">
-    ///     The interaction type must not be <see cref="InteractionType.Ping"/> or <see cref="InteractionType.ApplicationCommandAutoComplete"/> in order to respond with <see cref="InteractionResponseType.PremiumRequired"/>.
-    /// </exception>
-    /// <returns>
-    ///     A <see cref="Task"/> representing the request.
-    /// </returns>
-    public async Task SendPremiumRequiredAsync(
-        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
-    {
-        ThrowIfInvalid();
-
-        if (Interaction.Type == InteractionType.Ping || Interaction.Type == InteractionType.ApplicationCommandAutoComplete)
-            Throw.InvalidOperationException("The interaction must not be a ping or auto complete in order to respond with premium required.");
-
-        var response = new LocalInteractionMessageResponse(InteractionResponseType.PremiumRequired);
-
-        var client = Interaction.GetRestClient();
-        await client.CreateInteractionResponseAsync(Interaction.Id, Interaction.Token, response, options, cancellationToken: cancellationToken).ConfigureAwait(false);
-
-        SetResponded(InteractionResponseType.PremiumRequired);
-    }
 }
