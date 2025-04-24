@@ -67,6 +67,8 @@ public class CachedUserMessage : CachedMessage, IGatewayUserMessage, IJsonUpdata
     /// <inheritdoc/>
     public IPoll? Poll { get; private set; }
 
+    public IReadOnlyList<IMessageSnapshot> Snapshots { get; private set; } = null!;
+
     public CachedUserMessage(IGatewayClient client, CachedMember? author, MessageJsonModel model)
         : base(client, author, model)
     {
@@ -96,6 +98,7 @@ public class CachedUserMessage : CachedMessage, IGatewayUserMessage, IJsonUpdata
         Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => new TransientRowComponent(client, model) as IRowComponent), Client) ?? Array.Empty<IRowComponent>();
         Stickers = Optional.ConvertOrDefault(model.StickerItems, models => models.ToReadOnlyList(model => new TransientMessageSticker(model) as IMessageSticker), Array.Empty<IMessageSticker>());
         Poll = Optional.ConvertOrDefault(model.Poll, model => new TransientPoll(model));
+        Snapshots = Optional.ConvertOrDefault(model.MessageSnapshots, models => models.ToReadOnlyList(Client, (model, client) => new TransientMessageSnapshot(client, model) as IMessageSnapshot)) ?? Array.Empty<IMessageSnapshot>();
     }
 
     public void Update(MessageUpdateJsonModel model)

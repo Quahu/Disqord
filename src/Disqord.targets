@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
         <LangVersion>preview</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
@@ -30,7 +30,6 @@
             CA2255, <!-- The 'ModuleInitializer' attribute is only intended to be used in application code or advanced source generator scenarios -->
             CS0078, <!-- The 'l' suffix is easily confused with the digit '1' - use 'L' for clarity -->
             CA1401, <!-- P/Invokes should not be visible -->
-            CS8509, <!-- The 'switch' expression does not handle all possible inputs (it is not exhaustive) -->
         </NoWarn>
     </PropertyGroup>
 </Project>

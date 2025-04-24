@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Logging;
@@ -17,7 +18,7 @@ public class DiscordClientSetupService : IHostedService, ILogging
     public ILogger Logger { get; }
 
     /// <summary>
-    ///     Gets the set up client.
+    ///     Gets the set-up client.
     /// </summary>
     public DiscordClientBase Client { get; }
 
@@ -37,7 +38,15 @@ public class DiscordClientSetupService : IHostedService, ILogging
     /// <inheritdoc/>
     public virtual async Task StartAsync(CancellationToken cancellationToken)
     {
-        await Client.InitializeExtensionsAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            await Client.InitializeExtensionsAsync(cancellationToken).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogCritical(ex, "An exception occurred while initializing the client extensions.");
+            throw;
+        }
     }
 
     public virtual Task StopAsync(CancellationToken cancellationToken)

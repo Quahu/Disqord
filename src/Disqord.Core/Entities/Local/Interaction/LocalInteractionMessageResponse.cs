@@ -24,15 +24,6 @@ public class LocalInteractionMessageResponse : LocalInteractionFollowup, ILocalI
         Flags = other.Flags;
     }
 
-    /// <summary>
-    ///     Instantiates a new <see cref="LocalInteractionMessageResponse"/>.
-    /// </summary>
-    /// <param name="type"> The response type. </param>
-    public LocalInteractionMessageResponse(InteractionResponseType type)
-    {
-        Type = type;
-    }
-
     /// <inheritdoc/>
     public override LocalInteractionMessageResponse Clone()
     {

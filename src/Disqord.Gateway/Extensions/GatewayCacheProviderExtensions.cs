@@ -7,7 +7,6 @@ namespace Disqord.Gateway;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class GatewayCacheProviderExtensions
 {
-    // TODO: fix xmldocs
     /// <summary>
     ///     Attempts to get the users cache from this cache provider.
     /// </summary>
@@ -36,6 +35,9 @@ public static class GatewayCacheProviderExtensions
     /// <summary>
     ///     Attempts to get the members cache from this cache provider.
     /// </summary>
+    /// <param name="cacheProvider"> <inheritdoc cref="TryGetUsers"/> </param>
+    /// <param name="guildId"> The ID of the guild to get the cache for. </param>
+    /// <param name="cache"> <inheritdoc cref="TryGetUsers"/> </param>
     /// <param name="lookupOnly"> Whether the intended use of the cache is lookup-only. </param>
     public static bool TryGetMembers(this IGatewayCacheProvider cacheProvider, Snowflake guildId,
         [MaybeNullWhen(false)] out IThreadSafeDictionary<Snowflake, CachedMember> cache, bool lookupOnly = false)

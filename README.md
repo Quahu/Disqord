@@ -39,14 +39,14 @@ using Microsoft.Extensions.Hosting;
 using Qmmands;
 using Qmmands.Text;
 
-await Host.CreateDefaultBuilder()
-    .ConfigureDiscordBot((context, bot) =>
-    {
-        // We will use the configuration variable DISQORD_TOKEN for the bot token.
-        bot.Token = context.Configuration["DISQORD_TOKEN"];
-        bot.Prefixes = new[] { "?" };
-    })
-    .RunConsoleAsync();
+var host = Host.CreateApplicationBuilder(args);
+host.ConfigureDiscordBot(new DiscordBotHostingContext
+{
+    Token = host.Configuration["DISQORD_TOKEN"], // e.g. could be an environment variable
+    Prefixes = ["?"]
+});
+
+host.Build().Run();
 
 public class ExampleModule : DiscordTextModuleBase
 {

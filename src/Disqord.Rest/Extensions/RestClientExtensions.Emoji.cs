@@ -12,6 +12,60 @@ namespace Disqord.Rest;
 
 public static partial class RestClientExtensions
 {
+    public static async Task<IReadOnlyList<IApplicationEmoji>> FetchApplicationEmojisAsync(this IRestClient client,
+        Snowflake applicationId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var model = await client.ApiClient.FetchApplicationEmojisAsync(applicationId, options, cancellationToken).ConfigureAwait(false);
+        return model.Items.ToReadOnlyList((client, applicationId), static (model, state) =>
+        {
+            var (client, applicationId) = state;
+            return new TransientApplicationEmoji(client, applicationId, model);
+        });
+    }
+
+    public static async Task<IApplicationEmoji> FetchApplicationEmojiAsync(this IRestClient client,
+        Snowflake applicationId, Snowflake emojiId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var model = await client.ApiClient.FetchApplicationEmojiAsync(applicationId, emojiId, options, cancellationToken).ConfigureAwait(false);
+        return new TransientApplicationEmoji(client, applicationId, model);
+    }
+
+    public static async Task<IApplicationEmoji> CreateApplicationEmojiAsync(this IRestClient client,
+        Snowflake applicationId, string name, Stream image,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var content = new CreateApplicationEmojiJsonRestRequestContent(name, image);
+
+        var model = await client.ApiClient.CreateApplicationEmojiAsync(applicationId, content, options, cancellationToken).ConfigureAwait(false);
+        return new TransientApplicationEmoji(client, applicationId, model);
+    }
+
+    public static async Task<IApplicationEmoji> ModifyApplicationEmojiAsync(this IRestClient client,
+        Snowflake applicationId, Snowflake emojiId, Action<ModifyApplicationEmojiActionProperties> action,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(action);
+
+        var properties = new ModifyApplicationEmojiActionProperties();
+        action.Invoke(properties);
+        var content = new ModifyApplicationEmojiJsonRestRequestContent()
+        {
+            Name = properties.Name
+        };
+
+        var model = await client.ApiClient.ModifyApplicationEmojiAsync(applicationId, emojiId, content, options, cancellationToken).ConfigureAwait(false);
+        return new TransientApplicationEmoji(client, applicationId, model);
+    }
+
+    public static Task DeleteApplicationEmojiAsync(this IRestClient client,
+        Snowflake applicationId, Snowflake emojiId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        return client.ApiClient.DeleteApplicationEmojiAsync(applicationId, emojiId, options, cancellationToken);
+    }
+
     public static async Task<IReadOnlyList<IGuildEmoji>> FetchGuildEmojisAsync(this IRestClient client,
         Snowflake guildId,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

@@ -50,7 +50,7 @@ public class EmbedJsonModel : JsonModel
     {
         OptionalGuard.CheckValue(Title, title =>
         {
-            
+
         });
     }
 }

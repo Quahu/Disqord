@@ -30,8 +30,6 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
 
     public IJsonSerializer Serializer { get; }
 
-    public int? Sequence { get; private set; }
-
     public CancellationToken StoppingToken { get; private set; }
 
     private readonly object _stateLock = new();
@@ -172,7 +170,6 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
                 {
                     var payload = await Gateway.ReceiveAsync(stoppingToken).ConfigureAwait(false);
                     Logger.LogTrace("Received voice payload: {0}.", payload.Op);
-                    Sequence = payload.S;
 
                     switch (payload.Op)
                     {

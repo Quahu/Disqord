@@ -1,99 +1,79 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using Qommon;
-using Qommon.Collections.ThreadSafe;
 
 namespace Disqord.Bot.Commands.Components;
 
 public partial class ComponentCommandMap
 {
     protected virtual Node CreateNode()
-        => new();
+    {
+        return new Node();
+    }
 
     public class Node
     {
-        public IThreadSafeDictionary<ComponentCommandType, Subnode> Subnodes { get; }
-
-        public Node()
-        {
-            Subnodes = ThreadSafeDictionary.ConcurrentDictionary.Create<ComponentCommandType, Subnode>();
-        }
-
-        protected virtual Subnode CreateSubnode()
-            => new();
+        private readonly Subnode _buttonCommandSubnode = new();
+        private readonly Subnode _selectionCommandSubnode = new();
+        private readonly Subnode _modalCommandSubnode = new();
 
         public virtual ComponentCommand? FindCommand(ComponentCommandType componentType, string customId, out IEnumerable<MultiString>? rawArguments)
         {
-            var subnode = Subnodes.GetValueOrDefault(componentType);
-            if (subnode == null)
-            {
-                rawArguments = null;
-                return null;
-            }
-
+            var subnode = GetSubnode(componentType);
             return subnode.FindCommand(customId, out rawArguments);
         }
 
         public virtual void AddCommand(ComponentCommand command)
         {
-            var subnode = Subnodes.GetOrAdd(command.Type, _ => CreateSubnode());
+            var subnode = GetSubnode(command.Type);
             subnode.AddCommand(command);
         }
 
         public virtual void RemoveCommand(ComponentCommand command)
         {
-            var subnode = Subnodes.GetValueOrDefault(command.Type);
-            subnode?.RemoveCommand(command);
+            var subnode = GetSubnode(command.Type);
+            subnode.RemoveCommand(command);
+        }
+
+        protected virtual Subnode GetSubnode(ComponentCommandType type)
+        {
+            return type switch
+            {
+                ComponentCommandType.Button => _buttonCommandSubnode,
+                ComponentCommandType.Selection => _selectionCommandSubnode,
+                ComponentCommandType.Modal => _modalCommandSubnode,
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
         }
     }
 
     public class Subnode
     {
-        public List<ComponentCommand> Commands { get; }
-
-        protected List<PatternMatcher> PatternMatchers;
-
-        public Subnode()
-        {
-            Commands = new List<ComponentCommand>();
-
-            PatternMatchers = new(2)
-            {
-                new PrimitivePatternMatcher(),
-                new RegexPatternMatcher()
-            };
-        }
+        private readonly PrimitivePatternMatcher _primitivePatternMatcher = new();
+        private readonly RegexPatternMatcher _regexPatternMatcher = new();
 
         public virtual ComponentCommand? FindCommand(string customId, out IEnumerable<MultiString>? rawArguments)
         {
-            lock (PatternMatchers)
-            {
-                var patternMatchers = PatternMatchers;
-                var patternMatcherCount = patternMatchers.Count;
-                for (var i = 0; i < patternMatcherCount; i++)
-                {
-                    var patternMatcher = patternMatchers[i];
-                    if (patternMatcher.TryMatch(customId, out var command, out rawArguments))
-                        return command;
-                }
-            }
+            if (_primitivePatternMatcher.TryMatch(customId, out var command, out rawArguments))
+                return command;
+
+            if (_regexPatternMatcher.TryMatch(customId, out command, out rawArguments))
+                return command;
 
             rawArguments = null;
             return null;
         }
 
-        private PatternMatcher GetPatternMatcher(ComponentCommand command)
+        protected virtual PatternMatcher GetPatternMatcher(ComponentCommand command)
         {
-            var patternMatchers = PatternMatchers;
-            var patternMatcherCount = patternMatchers.Count;
-            for (var i = 0; i < patternMatcherCount; i++)
-            {
-                var patternMatcher = patternMatchers[i];
-                if (patternMatcher.IsValid(command))
-                    return patternMatcher;
-            }
+            if (_primitivePatternMatcher.IsValid(command))
+                return _primitivePatternMatcher;
+
+            if (_regexPatternMatcher.IsValid(command))
+                return _regexPatternMatcher;
 
             Throw.ArgumentException($"No pattern matcher found for component command with pattern '{command.Pattern}'.", nameof(command));
             return null!;
@@ -101,66 +81,215 @@ public partial class ComponentCommandMap
 
         public virtual void AddCommand(ComponentCommand command)
         {
-            lock (PatternMatchers)
-            {
-                var patternMatcher = GetPatternMatcher(command);
-                patternMatcher.AddCommand(command);
-            }
+            var patternMatcher = GetPatternMatcher(command);
+            patternMatcher.AddCommand(command);
         }
 
         public virtual void RemoveCommand(ComponentCommand command)
         {
-            lock (PatternMatchers)
-            {
-                var patternMatcher = GetPatternMatcher(command);
-                patternMatcher.RemoveCommand(command);
-            }
+            var patternMatcher = GetPatternMatcher(command);
+            patternMatcher.RemoveCommand(command);
         }
     }
 
     public abstract class PatternMatcher
     {
-        protected List<ComponentCommand> Commands;
+        public ImmutableArray<ComponentCommand> Commands => _commands;
 
-        protected PatternMatcher()
-        {
-            Commands = new();
-        }
+        private ImmutableArray<ComponentCommand> _commands = ImmutableArray<ComponentCommand>.Empty;
 
         public abstract bool TryMatch(string customId, [MaybeNullWhen(false)] out ComponentCommand command, out IEnumerable<MultiString>? rawArguments);
 
         public abstract bool IsValid(ComponentCommand command);
 
-        protected virtual void OnAddCommand(ComponentCommand command)
-        { }
-
         public void AddCommand(ComponentCommand command)
         {
-            if (Commands.Contains(command))
-                throw new InvalidOperationException("This component command has already been added.");
+            _ = ImmutableInterlocked.Update(ref _commands, static (commands, command) =>
+            {
+                if (commands.Contains(command))
+                {
+                    Throw.InvalidOperationException("This component command has already been added.");
+                }
 
-            Commands.Add(command);
+                return commands.Add(command);
+            }, command);
 
             OnAddCommand(command);
         }
 
-        protected virtual void OnRemoveCommand(ComponentCommand command, int index)
+        protected virtual void OnAddCommand(ComponentCommand command)
         { }
 
         public void RemoveCommand(ComponentCommand command)
         {
-            var index = Commands.IndexOf(command);
-            if (index == -1)
-                throw new InvalidOperationException("This component command has not been added.");
+            _ = ImmutableInterlocked.Update(ref _commands, static (commands, command) =>
+            {
+                var index = commands.IndexOf(command);
+                if (index == -1)
+                {
+                    Throw.InvalidOperationException("This component command has not been added.");
+                }
 
-            Commands.RemoveAt(index);
+                return commands.RemoveAt(index);
+            }, command);
 
-            OnRemoveCommand(command, index);
+            OnRemoveCommand(command);
         }
+
+        protected virtual void OnRemoveCommand(ComponentCommand command)
+        { }
     }
 
-    public class PrimitivePatternMatcher : PatternMatcher
+    public abstract class PerCommandPatternMatcher<TPattern> : PatternMatcher
     {
+        private ImmutableArray<(ComponentCommand Command, TPattern Pattern)> _patterns = ImmutableArray<(ComponentCommand Command, TPattern Pattern)>.Empty;
+
+        protected override void OnAddCommand(ComponentCommand command)
+        {
+            _ = ImmutableInterlocked.Update(ref _patterns, static (regexes, state) =>
+            {
+                var (@this, command) = state;
+                foreach (var (regexCommand, regex) in regexes)
+                {
+                    if (regexCommand == command)
+                    {
+                        Throw.InvalidOperationException("This component command has already been added.");
+                    }
+
+                    // if (regex.ToString() == command.Pattern)
+                    // {
+                    //     Throw.InvalidOperationException($"A component command with the pattern '{command.Pattern}' has already been added.");
+                    // }
+                }
+
+                return regexes.Add((command, @this.GetPattern(command)));
+            }, (this, command));
+        }
+
+        protected override void OnRemoveCommand(ComponentCommand command)
+        {
+            _ = ImmutableInterlocked.Update(ref _patterns, static (regexes, command) =>
+            {
+                var index = -1;
+                var i = 0;
+                foreach (var (regexCommand, _) in regexes)
+                {
+                    if (regexCommand == command)
+                    {
+                        index = i;
+                        break;
+                    }
+
+                    i++;
+                }
+
+                if (index == -1)
+                {
+                    Throw.InvalidOperationException("This component command has not been added.");
+                }
+
+                return regexes.RemoveAt(index);
+            }, command);
+        }
+
+        public override bool TryMatch(string customId, [MaybeNullWhen(false)] out ComponentCommand command, out IEnumerable<MultiString>? rawArguments)
+        {
+            return TryMatch(_patterns, customId, out command, out rawArguments);
+        }
+
+        protected abstract bool TryMatch(ImmutableArray<(ComponentCommand Command, TPattern Pattern)> commandsAndPatterns,
+            string customId, [MaybeNullWhen(false)] out ComponentCommand command, out IEnumerable<MultiString>? rawArguments);
+
+        protected abstract TPattern GetPattern(ComponentCommand command);
+    }
+
+    public class PrimitivePatternMatcher : PerCommandPatternMatcher<PrimitivePatternMatcher.PatternInformation>
+    {
+        public override bool IsValid(ComponentCommand command)
+        {
+            return !command.IsRegexPattern;
+        }
+
+        protected override bool TryMatch(ImmutableArray<(ComponentCommand Command, PatternInformation Pattern)> commandsAndPatterns,
+            string customId, [MaybeNullWhen(false)] out ComponentCommand command, out IEnumerable<MultiString>? rawArguments)
+        {
+            var slices = new List<ReadOnlyMemory<char>>(8);
+            List<MultiString>? rawArgumentSlices = null;
+            var splitter = new PatternSplitter(customId.AsMemory());
+            while (splitter.MoveNext())
+            {
+                slices.Add(splitter.Current);
+            }
+
+            var sliceCount = slices.Count;
+            if (sliceCount == 0)
+            {
+                command = null;
+                rawArguments = null;
+                return false;
+            }
+
+            foreach (var (patternCommand, pattern) in commandsAndPatterns)
+            {
+                command = patternCommand;
+
+                var patternSlices = pattern.Slices;
+                if (patternSlices.Length != sliceCount)
+                    continue;
+
+                var slicesMatch = true;
+                for (var j = 0; j < sliceCount; j++)
+                {
+                    var slice = slices[j];
+                    var patternSlice = patternSlices[j];
+                    if (patternSlice.Length == 1 && patternSlice.Span[0] == '*')
+                    {
+                        (rawArgumentSlices ??= new(8)).Add(slice);
+                        continue;
+                    }
+
+                    if (!slice.Span.Equals(patternSlice.Span, StringComparison.Ordinal))
+                    {
+                        slicesMatch = false;
+                        break;
+                    }
+                }
+
+                if (slicesMatch)
+                {
+                    rawArguments = rawArgumentSlices;
+                    return true;
+                }
+            }
+
+            command = null;
+            rawArguments = null;
+            return false;
+        }
+
+        protected override PatternInformation GetPattern(ComponentCommand command)
+        {
+            return new PatternInformation(command.Pattern.AsMemory());
+        }
+
+        public struct PatternInformation
+        {
+            public ReadOnlyMemory<char>[] Slices { get; }
+
+            public PatternInformation(ReadOnlyMemory<char> pattern)
+            {
+                var splitter = new PatternSplitter(pattern);
+                var slices = new List<ReadOnlyMemory<char>>(8);
+                while (splitter.MoveNext())
+                {
+                    slices.Add(splitter.Current);
+                }
+
+                // TODO: check if there's at least one slice?
+                Slices = slices.ToArray();
+            }
+        }
+
         protected struct PatternSplitter
         {
             public ReadOnlyMemory<char> Current => _current;
@@ -200,146 +329,40 @@ public partial class ComponentCommandMap
                 return true;
             }
         }
-
-        protected struct PatternInformation
-        {
-            public ReadOnlyMemory<char>[] Slices { get; }
-
-            public PatternInformation(ReadOnlyMemory<char> pattern)
-            {
-                var splitter = new PatternSplitter(pattern);
-                var slices = new List<ReadOnlyMemory<char>>(8);
-                while (splitter.MoveNext())
-                {
-                    slices.Add(splitter.Current);
-                }
-
-                // TODO: check if there's at least one slice?
-                Slices = slices.ToArray();
-            }
-        }
-
-        protected List<PatternInformation> Patterns { get; }
-
-        public PrimitivePatternMatcher()
-        {
-            Patterns = new();
-        }
-
-        /// <inheritdoc />
-        public override bool TryMatch(string customId, [MaybeNullWhen(false)] out ComponentCommand command, out IEnumerable<MultiString>? rawArguments)
-        {
-            var slices = new List<ReadOnlyMemory<char>>(8);
-            List<MultiString>? rawArgumentSlices = null;
-            var splitter = new PatternSplitter(customId.AsMemory());
-            while (splitter.MoveNext())
-            {
-                slices.Add(splitter.Current);
-            }
-
-            var sliceCount = slices.Count;
-            if (sliceCount == 0)
-            {
-                command = null;
-                rawArguments = null;
-                return false;
-            }
-
-            var commands = Commands;
-            var commandCount = commands.Count;
-            var patterns = Patterns;
-            for (var i = 0; i < commandCount; i++)
-            {
-                command = commands[i];
-                var pattern = patterns[i];
-                var patternSlices = pattern.Slices;
-                if (patternSlices.Length != sliceCount)
-                    continue;
-
-                var slicesMatch = true;
-                for (var j = 0; j < sliceCount; j++)
-                {
-                    var slice = slices[j];
-                    var patternSlice = patternSlices[j];
-                    if (patternSlice.Length == 1 && patternSlice.Span[0] == '*')
-                    {
-                        (rawArgumentSlices ??= new(8)).Add(slice);
-                        continue;
-                    }
-
-                    if (!slice.Span.Equals(patternSlice.Span, StringComparison.Ordinal))
-                    {
-                        slicesMatch = false;
-                        break;
-                    }
-                }
-
-                if (slicesMatch)
-                {
-                    rawArguments = rawArgumentSlices;
-                    return true;
-                }
-            }
-
-            command = null;
-            rawArguments = null;
-            return false;
-        }
-
-        /// <inheritdoc />
-        public override bool IsValid(ComponentCommand command)
-        {
-            return !command.IsRegexPattern;
-        }
-
-        /// <inheritdoc />
-        protected override void OnAddCommand(ComponentCommand command)
-        {
-            Patterns.Add(new PatternInformation(command.Pattern.AsMemory()));
-        }
-
-        /// <inheritdoc />
-        protected override void OnRemoveCommand(ComponentCommand command, int index)
-        {
-            Patterns.RemoveAt(index);
-        }
     }
 
-    public class RegexPatternMatcher : PatternMatcher
+    public class RegexPatternMatcher : PerCommandPatternMatcher<Regex>
     {
-        protected List<Regex> Regexes { get; }
-
-        public RegexPatternMatcher()
+        public override bool IsValid(ComponentCommand command)
         {
-            Regexes = new();
+            return command.IsRegexPattern;
         }
 
-        /// <inheritdoc />
-        public override bool TryMatch(string customId, [MaybeNullWhen(false)] out ComponentCommand command, out IEnumerable<MultiString>? rawArguments)
+        protected override bool TryMatch(ImmutableArray<(ComponentCommand Command, Regex Pattern)> commandsAndPatterns,
+            string customId, [MaybeNullWhen(false)] out ComponentCommand command, out IEnumerable<MultiString>? rawArguments)
         {
-            var commands = Commands;
-            var commandCount = commands.Count;
-            var regexes = Regexes;
-            for (var i = 0; i < commandCount; i++)
+            foreach (var (regexCommand, regex) in commandsAndPatterns)
             {
-                command = commands[i];
-                var regex = regexes[i];
+                command = regexCommand;
 
                 // TODO: regex allocations
                 var match = regex.Match(customId);
                 if (match.Success)
                 {
                     var groups = match.Groups;
-                    var groupCount = groups.Count;
-                    var array = new MultiString[groupCount];
-                    for (var j = 0; j < groupCount; j++)
+                    var groupCount = groups.Count - 1;
+                    if (groupCount != 0)
                     {
-                        var group = groups[j];
-                        array[j] = customId.AsMemory(group.Index, group.Length);
-                    }
+                        var array = new MultiString[groupCount];
+                        for (var j = 0; j < groupCount; j++)
+                        {
+                            var group = groups[j + 1];
+                            array[j] = customId.AsMemory(group.Index, group.Length);
+                        }
 
-                    rawArguments = array;
-                    return true;
+                        rawArguments = array;
+                        return true;
+                    }
                 }
             }
 
@@ -348,22 +371,9 @@ public partial class ComponentCommandMap
             return false;
         }
 
-        /// <inheritdoc />
-        public override bool IsValid(ComponentCommand command)
+        protected override Regex GetPattern(ComponentCommand command)
         {
-            return command.IsRegexPattern;
-        }
-
-        /// <inheritdoc />
-        protected override void OnAddCommand(ComponentCommand command)
-        {
-            Regexes.Add(new Regex(command.Pattern));
-        }
-
-        /// <inheritdoc />
-        protected override void OnRemoveCommand(ComponentCommand command, int index)
-        {
-            Regexes.RemoveAt(index);
+            return new Regex(command.Pattern);
         }
     }
 }

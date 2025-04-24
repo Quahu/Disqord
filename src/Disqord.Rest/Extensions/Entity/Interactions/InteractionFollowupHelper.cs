@@ -6,7 +6,7 @@ using Qommon;
 namespace Disqord.Rest;
 
 /// <summary>
-///     Represents a helper type used for responding to an interaction.
+///     Represents a helper type used for following up on an interaction.
 /// </summary>
 /// <seealso cref="InteractionResponseHelper"/>
 public class InteractionFollowupHelper
@@ -30,7 +30,9 @@ public class InteractionFollowupHelper
     private void ThrowIfInvalid()
     {
         if (Interaction.IsExpired())
+        {
             throw new InteractionExpiredException(false);
+        }
     }
 
     /// <summary>

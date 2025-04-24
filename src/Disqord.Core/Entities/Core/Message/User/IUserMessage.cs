@@ -118,4 +118,9 @@ public interface IUserMessage : IMessage
     ///     Gets the poll of this message.
     /// </summary>
     IPoll? Poll { get; }
+
+    /// <summary>
+    ///     Gets the message snapshots of this message.
+    /// </summary>
+    IReadOnlyList<IMessageSnapshot> Snapshots { get; }
 }

@@ -69,6 +69,9 @@ public class TransientUserInteraction : TransientInteraction, IUserInteraction
     /// <inheritdoc/>
     public CultureInfo? GuildLocale => Optional.ConvertOrDefault(Model.GuildLocale, Discord.Internal.GetLocale);
 
+    /// <inheritdoc/>
+    public int? AttachmentSizeLimit => Model.AttachmentSizeLimit.GetValueOrNullable();
+
     public TransientUserInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
         : base(client, __receivedAt, model)
     { }

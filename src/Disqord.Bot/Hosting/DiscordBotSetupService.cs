@@ -2,36 +2,55 @@
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
-using Disqord.Hosting;
+using Disqord.Logging;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Disqord.Bot.Hosting;
 
-/// <inheritdoc/>
+/// <summary>
+///     Represents an <see cref="IHostedService"/> that sets up the specified <see cref="DiscordBotBase"/>.
+/// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
-public class DiscordBotSetupService : DiscordClientSetupService
+public class DiscordBotSetupService : IHostedService, ILogging
 {
     /// <inheritdoc/>
+    public ILogger Logger { get; }
+
+    /// <summary>
+    ///     Gets the set-up client.
+    /// </summary>
+    public DiscordBotBase Bot { get; }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="DiscordBotSetupService"/>.
+    /// </summary>
+    /// <param name="logger"> The logger. </param>
+    /// <param name="bot"> The bot to set up. </param>
     public DiscordBotSetupService(
         ILogger<DiscordBotSetupService> logger,
-        DiscordClientBase client)
-        : base(logger, client)
-    { }
+        DiscordBotBase bot)
+    {
+        Logger = logger;
+        Bot = bot;
+    }
 
     /// <inheritdoc/>
-    public override async Task StartAsync(CancellationToken cancellationToken)
+    public virtual async Task StartAsync(CancellationToken cancellationToken)
     {
-        await base.StartAsync(cancellationToken).ConfigureAwait(false);
-
-        var bot = (Client as DiscordBotBase)!;
         try
         {
-            await bot.InitializeAsync(cancellationToken).ConfigureAwait(false);
+            await Bot.InitializeAsync(cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             Logger.LogCritical(ex, "An exception occurred while initializing the bot.");
             throw;
         }
+    }
+
+    public virtual Task StopAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
     }
 }
