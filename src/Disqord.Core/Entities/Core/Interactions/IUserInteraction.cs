@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Disqord;
@@ -50,6 +51,11 @@ public interface IUserInteraction : IInteraction, IPossiblyGuildEntity, IChannel
     ///     The locale of the guild or <see langword="null"/> if this interaction was triggered in a private channel.
     /// </returns>
     CultureInfo? GuildLocale { get; }
+
+    /// <summary>
+    ///     Gets the entitlements of the user who triggered this interaction.
+    /// </summary>
+    IReadOnlyList<IEntitlement> Entitlements { get; }
 
     /// <summary>
     ///     Gets the attachment size limit in bytes.

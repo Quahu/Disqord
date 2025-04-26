@@ -39,6 +39,12 @@ public partial class DiscordClientMasterService
 
     public DiscordClientService[] ChannelPinsUpdatedServices { get; }
 
+    public DiscordClientService[] EntitlementCreatedServices { get; }
+
+    public DiscordClientService[] EntitlementUpdatedServices { get; }
+
+    public DiscordClientService[] EntitlementDeletedServices { get; }
+
     public DiscordClientService[] GuildAvailableServices { get; }
 
     public DiscordClientService[] JoinedGuildServices { get; }
@@ -160,6 +166,9 @@ public partial class DiscordClientMasterService
         ThreadsSynchronizedServices = GetServices<ThreadsSynchronizedEventArgs>(servicesArray, nameof(DiscordClientService.OnThreadsSynchronized));
         ThreadMembersUpdatedServices = GetServices<ThreadMembersUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnThreadMembersUpdated));
         ChannelPinsUpdatedServices = GetServices<ChannelPinsUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnChannelPinsUpdated));
+        EntitlementCreatedServices = GetServices<EntitlementCreatedEventArgs>(servicesArray, nameof(DiscordClientService.OnEntitlementCreated));
+        EntitlementUpdatedServices = GetServices<EntitlementUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnEntitlementUpdated));
+        EntitlementDeletedServices = GetServices<EntitlementDeletedEventArgs>(servicesArray, nameof(DiscordClientService.OnEntitlementDeleted));
         GuildAvailableServices = GetServices<GuildAvailableEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildAvailable));
         JoinedGuildServices = GetServices<JoinedGuildEventArgs>(servicesArray, nameof(DiscordClientService.OnJoinedGuild));
         GuildUpdatedServices = GetServices<GuildUpdatedEventArgs>(servicesArray, nameof(DiscordClientService.OnGuildUpdated));
@@ -222,6 +231,9 @@ public partial class DiscordClientMasterService
         Client.ThreadsSynchronized += HandleThreadsSynchronized;
         Client.ThreadMembersUpdated += HandleThreadMembersUpdated;
         Client.ChannelPinsUpdated += HandleChannelPinsUpdated;
+        Client.EntitlementCreated += HandleEntitlementCreated;
+        Client.EntitlementUpdated += HandleEntitlementUpdated;
+        Client.EntitlementDeleted += HandleEntitlementDeleted;
         Client.GuildAvailable += HandleGuildAvailable;
         Client.JoinedGuild += HandleJoinedGuild;
         Client.GuildUpdated += HandleGuildUpdated;
@@ -358,6 +370,24 @@ public partial class DiscordClientMasterService
     {
         foreach (var service in ChannelPinsUpdatedServices)
             await ExecuteAsync((service, e) => service.OnChannelPinsUpdated(e), service, e).ConfigureAwait(false);
+    }
+
+    public async Task HandleEntitlementCreated(object? sender, EntitlementCreatedEventArgs e)
+    {
+        foreach (var service in EntitlementCreatedServices)
+            await ExecuteAsync((service, e) => service.OnEntitlementCreated(e), service, e).ConfigureAwait(false);
+    }
+
+    public async Task HandleEntitlementUpdated(object? sender, EntitlementUpdatedEventArgs e)
+    {
+        foreach (var service in EntitlementUpdatedServices)
+            await ExecuteAsync((service, e) => service.OnEntitlementUpdated(e), service, e).ConfigureAwait(false);
+    }
+
+    public async Task HandleEntitlementDeleted(object? sender, EntitlementDeletedEventArgs e)
+    {
+        foreach (var service in EntitlementDeletedServices)
+            await ExecuteAsync((service, e) => service.OnEntitlementDeleted(e), service, e).ConfigureAwait(false);
     }
 
     public async Task HandleGuildAvailable(object? sender, GuildAvailableEventArgs e)

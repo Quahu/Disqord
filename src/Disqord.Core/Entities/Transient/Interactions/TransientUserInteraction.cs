@@ -1,6 +1,8 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using Disqord.Models;
 using Qommon;
+using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
@@ -68,6 +70,11 @@ public class TransientUserInteraction : TransientInteraction, IUserInteraction
 
     /// <inheritdoc/>
     public CultureInfo? GuildLocale => Optional.ConvertOrDefault(Model.GuildLocale, Discord.Internal.GetLocale);
+
+    /// <inheritdoc/>
+    public IReadOnlyList<IEntitlement> Entitlements => _entitlements ??= Model.Entitlements.ToReadOnlyList(Client, (model, client) => new TransientEntitlement(client, model));
+
+    private IReadOnlyList<IEntitlement>? _entitlements;
 
     /// <inheritdoc/>
     public int? AttachmentSizeLimit => Model.AttachmentSizeLimit.GetValueOrNullable();

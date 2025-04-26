@@ -32,7 +32,7 @@ public class CreateInitialInteractionResponseJsonRestRequestContent : JsonModelR
 
         switch (Type)
         {
-            case InteractionResponseType.Pong:
+            case InteractionResponseType.Pong or InteractionResponseType.PremiumRequired:
                 OptionalGuard.HasNoValue(Data);
                 break;
             case InteractionResponseType.ApplicationCommandAutoComplete:

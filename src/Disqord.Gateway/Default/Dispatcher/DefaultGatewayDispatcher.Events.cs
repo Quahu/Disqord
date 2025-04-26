@@ -34,6 +34,12 @@ public partial class DefaultGatewayDispatcher
 
     public AsynchronousEvent<ChannelPinsUpdatedEventArgs> ChannelPinsUpdatedEvent { get; } = new();
 
+    public AsynchronousEvent<EntitlementCreatedEventArgs> EntitlementCreatedEvent { get; } = new();
+
+    public AsynchronousEvent<EntitlementUpdatedEventArgs> EntitlementUpdatedEvent { get; } = new();
+
+    public AsynchronousEvent<EntitlementDeletedEventArgs> EntitlementDeletedEvent { get; } = new();
+
     public AsynchronousEvent<GuildAvailableEventArgs> GuildAvailableEvent { get; } = new();
 
     public AsynchronousEvent<JoinedGuildEventArgs> JoinedGuildEvent { get; } = new();
