@@ -16,5 +16,10 @@ public enum GuildChannelFlags
     /// <summary>
     ///     The forum channel requires a tag to be specified for threads created in it.
     /// </summary>
-    RequiresTag = 1 << 4
+    RequiresTag = 1 << 4,
+
+    /// <summary>
+    ///     The media channel hides the embedded media download options for media in the threads created in it.
+    /// </summary>
+    HideMediaDownloadOptions = 1 << 15
 }

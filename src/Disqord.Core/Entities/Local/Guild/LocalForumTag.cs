@@ -4,10 +4,10 @@ using Qommon;
 namespace Disqord;
 
 /// <summary>
-///     Represents a local forum tag to be created within a forum channel.
+///     Represents a local tag to be created within a forum or media channel.
 /// </summary>
 /// <remarks>
-///     Note that when updating a forum channel's tags,
+///     Note that when updating a channel's tags,
 ///     you must provide the previous tags with their original values.
 ///     You can use <see cref="CreateFrom"/> for that purpose.
 /// </remarks>

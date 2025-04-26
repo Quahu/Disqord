@@ -112,6 +112,14 @@ public static partial class RestClientExtensions
         return new TransientForumChannel(client, model);
     }
 
+    public static async Task<IMediaChannel> CreateMediaChannelAsync(this IRestClient client,
+        Snowflake guildId, string name, Action<CreateMediaChannelActionProperties>? action = null,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var model = await client.InternalCreateGuildChannelAsync(guildId, name, action, options, cancellationToken).ConfigureAwait(false);
+        return new TransientMediaChannel(client, model);
+    }
+
     public static async Task<ICategoryChannel> CreateCategoryChannelAsync(this IRestClient client,
         Snowflake guildId, string name, Action<CreateCategoryChannelActionProperties>? action = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -172,21 +180,32 @@ public static partial class RestClientExtensions
                     content.RtcRegion = stageChannelProperties.Region;
                     break;
                 }
-                case CreateForumChannelActionProperties forumProperties:
+                case CreateMediaChannelActionProperties mediaProperties:
                 {
-                    if (forumProperties.Topic.HasValue && forumProperties.Topic.Value != null && forumProperties.Topic.Value.Length > 1024)
-                        throw new ArgumentOutOfRangeException(nameof(CreateForumChannelActionProperties.Topic));
+                    if (mediaProperties is CreateForumChannelActionProperties forumProperties)
+                    {
+                        if (forumProperties.Topic.HasValue && forumProperties.Topic.Value != null && forumProperties.Topic.Value.Length > 1024)
+                            throw new ArgumentOutOfRangeException(nameof(CreateForumChannelActionProperties.Topic));
 
-                    content.Type = ChannelType.Forum;
-                    content.Topic = forumProperties.Topic;
-                    content.RateLimitPerUser = Optional.Convert(forumProperties.Slowmode, x => (int) x.TotalSeconds);
-                    content.Nsfw = forumProperties.IsAgeRestricted;
-                    content.DefaultAutoArchiveDuration = Optional.Convert(forumProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
-                    content.AvailableTags = Optional.Convert(forumProperties.Tags, tags => tags.Select(tag => tag.ToModel()).ToArray());
-                    content.DefaultReactionEmoji = Optional.Convert(forumProperties.DefaultReactionEmoji, emoji => ForumDefaultReactionJsonModel.FromEmoji(emoji!));
-                    content.DefaultThreadRateLimitPerUser = Optional.Convert(forumProperties.DefaultThreadSlowmode, slowmode => (int) slowmode.TotalSeconds);
-                    content.DefaultSortOrder = forumProperties.DefaultSortOrder;
-                    content.DefaultForumLayout = forumProperties.DefaultLayout;
+                        content.Type = ChannelType.Forum;
+                        content.DefaultForumLayout = forumProperties.DefaultLayout;
+                    }
+                    else
+                    {
+                        if (mediaProperties.Topic.HasValue && mediaProperties.Topic.Value != null && mediaProperties.Topic.Value.Length > 1024)
+                            throw new ArgumentOutOfRangeException(nameof(CreateMediaChannelActionProperties.Topic));
+
+                        content.Type = ChannelType.Media;
+                    }
+
+                    content.Topic = mediaProperties.Topic;
+                    content.RateLimitPerUser = Optional.Convert(mediaProperties.Slowmode, x => (int) x.TotalSeconds);
+                    content.Nsfw = mediaProperties.IsAgeRestricted;
+                    content.DefaultAutoArchiveDuration = Optional.Convert(mediaProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
+                    content.AvailableTags = Optional.Convert(mediaProperties.Tags, tags => tags.Select(tag => tag.ToModel()).ToArray());
+                    content.DefaultReactionEmoji = Optional.Convert(mediaProperties.DefaultReactionEmoji, emoji => ForumDefaultReactionJsonModel.FromEmoji(emoji!));
+                    content.DefaultThreadRateLimitPerUser = Optional.Convert(mediaProperties.DefaultThreadSlowmode, slowmode => (int) slowmode.TotalSeconds);
+                    content.DefaultSortOrder = mediaProperties.DefaultSortOrder;
                     break;
                 }
                 default:

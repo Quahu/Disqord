@@ -24,5 +24,7 @@ public enum ChannelType : byte
 
     Directory = 14,
 
-    Forum = 15
+    Forum = 15,
+
+    Media = 16
 }

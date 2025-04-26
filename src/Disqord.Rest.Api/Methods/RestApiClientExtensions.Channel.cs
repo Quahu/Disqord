@@ -278,19 +278,19 @@ public static partial class RestApiClientExtensions
         return client.ExecuteAsync<ChannelJsonModel>(route, content, options, cancellationToken);
     }
 
-    public static Task<ChannelJsonModel> CreateForumThreadAsync(this IRestApiClient client,
-        Snowflake channelId, CreateForumThreadJsonRestRequestContent content,
+    public static Task<ChannelJsonModel> CreateThreadPostAsync(this IRestApiClient client,
+        Snowflake channelId, CreateThreadPostJsonRestRequestContent content,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var route = Format(Route.Channel.StartForumThread, channelId);
+        var route = Format(Route.Channel.CreateThreadPost, channelId);
         return client.ExecuteAsync<ChannelJsonModel>(route, content, options, cancellationToken);
     }
 
-    public static Task<ChannelJsonModel> CreateForumThreadAsync(this IRestApiClient client,
-        Snowflake channelId, AttachmentJsonPayloadRestRequestContent<CreateForumThreadJsonRestRequestContent> content,
+    public static Task<ChannelJsonModel> CreateThreadPostAsync(this IRestApiClient client,
+        Snowflake channelId, AttachmentJsonPayloadRestRequestContent<CreateThreadPostJsonRestRequestContent> content,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var route = Format(Route.Channel.StartForumThread, channelId);
+        var route = Format(Route.Channel.CreateThreadPost, channelId);
         return client.ExecuteAsync<ChannelJsonModel>(route, content, options, cancellationToken);
     }
 
