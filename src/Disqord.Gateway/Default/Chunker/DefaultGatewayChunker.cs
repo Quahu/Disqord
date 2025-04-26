@@ -87,14 +87,23 @@ public class DefaultGatewayChunker : IGatewayChunker
             return default;
 
         var isLastChunk = model.ChunkIndex == model.ChunkCount - 1;
-        var hasOperation = isLastChunk
-            ? _operations.TryRemove(model.Nonce.Value, out var operation)
-            : _operations.TryGetValue(model.Nonce.Value, out operation);
+        ChunkOperation? operation;
+        if (isLastChunk)
+        {
+            if (!_operations.TryRemove(model.Nonce.Value, out operation))
+            {
+                return default;
+            }
+        }
+        else
+        {
+            if (!_operations.TryGetValue(model.Nonce.Value, out operation))
+            {
+                return default;
+            }
+        }
 
-        if (!hasOperation)
-            return default;
-
-        operation!.OnChunk();
+        operation.OnChunk();
         if (operation.IsTimedOut)
         {
             operation.Dispose();
@@ -232,27 +241,28 @@ public class DefaultGatewayChunker : IGatewayChunker
 
             _tcs = new Tcs<IReadOnlyDictionary<Snowflake, IMember>?>();
 
+            _reg = cancellationToken.UnsafeRegister(CancellationCallback, _tcs);
+            return;
+
             static void CancellationCallback(object? state, CancellationToken cancellationToken)
             {
                 var tcs = Unsafe.As<Tcs<IReadOnlyList<IMember>>>(state)!;
                 tcs.Cancel(cancellationToken);
             }
-
-            _reg = cancellationToken.UnsafeRegister(CancellationCallback, _tcs);
         }
 
         public Task<IReadOnlyDictionary<Snowflake, IMember>?> WaitAsync()
         {
             _timeoutCts = new Cts(_timeout);
 
+            _timeoutCts.Token.UnsafeRegister(CancellationCallback, _tcs);
+            return _tcs.Task;
+
             static void CancellationCallback(object? state, CancellationToken cancellationToken)
             {
                 var tcs = Unsafe.As<Tcs<IReadOnlyList<IMember>>>(state)!;
                 tcs.Throw(new TimeoutException());
             }
-
-            _timeoutCts.Token.UnsafeRegister(CancellationCallback, _tcs);
-            return _tcs.Task;
         }
 
         public void OnChunk()
