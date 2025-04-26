@@ -19,7 +19,7 @@ public class InteractionCallbackMessageDataJsonModel : JsonModel
     public Optional<AllowedMentionsJsonModel> AllowedMentions;
 
     [JsonProperty("components")]
-    public Optional<ComponentJsonModel[]> Components;
+    public Optional<BaseComponentJsonModel[]> Components;
 
     [JsonProperty("flags")]
     public Optional<MessageFlags> Flags;

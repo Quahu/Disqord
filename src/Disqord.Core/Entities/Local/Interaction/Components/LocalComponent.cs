@@ -5,76 +5,108 @@ using Qommon;
 
 namespace Disqord;
 
-public abstract class LocalComponent : ILocalConstruct<LocalComponent>, IJsonConvertible<ComponentJsonModel>
+public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, IJsonConvertible<BaseComponentJsonModel>
 {
-    public static LocalRowComponent Row(params LocalComponent[] components)
-    {
-        return new LocalRowComponent
-        {
-            Components = components
-        };
-    }
+    /// <summary>
+    ///     Gets or sets the ID of this component.
+    ///     If not set, Discord will set it based on an incrementing value.
+    /// </summary>
+    public Optional<int> Id { get; set; }
 
-    public static LocalButtonComponent Button(string customId, string label)
-    {
-        return new LocalButtonComponent
-        {
-            CustomId = customId,
-            Label = label
-        };
-    }
+    protected LocalComponent()
+    { }
 
-    public static LocalButtonComponent Button(string customId, LocalEmoji emoji)
+    protected LocalComponent(LocalComponent other)
     {
-        return new LocalButtonComponent
-        {
-            CustomId = customId,
-            Emoji = emoji
-        };
-    }
-
-    public static LocalLinkButtonComponent LinkButton(string url, string label)
-    {
-        return new LocalLinkButtonComponent
-        {
-            Url = url,
-            Label = label
-        };
-    }
-
-    public static LocalLinkButtonComponent LinkButton(string url, LocalEmoji emoji)
-    {
-        return new LocalLinkButtonComponent
-        {
-            Url = url,
-            Emoji = emoji
-        };
-    }
-
-    public static LocalSelectionComponent Selection(string customId, params LocalSelectionComponentOption[] options)
-    {
-        return new LocalSelectionComponent
-        {
-            CustomId = customId,
-            Options = options
-        };
-    }
-
-    public static LocalTextInputComponent TextInput(string customId, string label, TextInputComponentStyle style)
-    {
-        return new LocalTextInputComponent
-        {
-            Style = style,
-            CustomId = customId,
-            Label = label
-        };
+        Id = other.Id;
     }
 
     /// <inheritdoc/>
     public abstract LocalComponent Clone();
 
     /// <inheritdoc/>
-    public virtual ComponentJsonModel ToModel()
+    public virtual BaseComponentJsonModel ToModel()
+    {
+        if (!IsComponentV2())
+        {
+            return CreateComponentJsonModel();
+        }
+
+        BaseComponentJsonModel model;
+        switch (this)
+        {
+            case LocalSectionComponent section:
+                model = new SectionComponentJsonModel
+                {
+                    Components = Optional.ConvertOrDefault(section.Components, static components => components.Select(static component => component.ToModel()).ToArray()) ?? [],
+                    Accessory = Optional.ConvertOrDefault(section.Accessory, static accessory => accessory.ToModel())!
+                };
+
+                break;
+            case LocalTextDisplayComponent textDisplay:
+                OptionalGuard.HasValue(textDisplay.Content);
+
+                model = new TextDisplayComponentJsonModel
+                {
+                    Content = textDisplay.Content.Value
+                };
+
+                break;
+            case LocalThumbnailComponent thumbnail:
+                OptionalGuard.HasValue(thumbnail.Media);
+
+                model = new ThumbnailComponentJsonModel
+                {
+                    Media = thumbnail.Media.Value.ToModel(),
+                    Description = thumbnail.Description,
+                    Spoiler = thumbnail.IsSpoiler
+                };
+
+                break;
+            case LocalMediaGalleryComponent mediaGallery:
+                model = new MediaGalleryComponentJsonModel
+                {
+                    Items = Optional.ConvertOrDefault(mediaGallery.Items, static items => items.Select(static item => item.ToModel()).ToArray()) ?? []
+                };
+
+                break;
+            case LocalFileComponent file:
+                OptionalGuard.HasValue(file.File);
+
+                model = new FileComponentJsonModel
+                {
+                    File = file.File.Value.ToModel(),
+                    Spoiler = file.IsSpoiler
+                };
+
+                break;
+            case LocalSeparatorComponent separator:
+                model = new SeparatorComponentJsonModel
+                {
+                    Divider = separator.IsDivider,
+                    Spacing = separator.SpacingSize
+                };
+
+                break;
+            case LocalContainerComponent container:
+                model = new ContainerComponentJsonModel
+                {
+                    Components = Optional.ConvertOrDefault(container.Components, static components => components.Select(static component => component.ToModel()).ToArray()) ?? [],
+                    AccentColor = Optional.Convert(container.AccentColor, static color => color?.RawValue),
+                    Spoiler = container.IsSpoiler
+                };
+
+                break;
+            default:
+                throw new InvalidOperationException("Unknown local component type.");
+        }
+
+        model.Id = Id;
+
+        return model;
+    }
+
+    private ComponentJsonModel CreateComponentJsonModel()
     {
         // TODO: maybe split this via inheritance
         var model = new ComponentJsonModel();
@@ -154,7 +186,21 @@ public abstract class LocalComponent : ILocalConstruct<LocalComponent>, IJsonCon
             IButtonComponent buttonComponent => LocalButtonComponentBase.CreateFrom(buttonComponent),
             ISelectionComponent selectionComponent => LocalSelectionComponent.CreateFrom(selectionComponent),
             ITextInputComponent textInputComponent => LocalTextInputComponent.CreateFrom(textInputComponent),
-            _ => throw new ArgumentException("Unsupported component type.", nameof(component))
+            ISectionComponent sectionComponent => LocalSectionComponent.CreateFrom(sectionComponent),
+            ITextDisplayComponent textDisplayComponent => LocalTextDisplayComponent.CreateFrom(textDisplayComponent),
+            IThumbnailComponent thumbnailComponent => LocalThumbnailComponent.CreateFrom(thumbnailComponent),
+            IMediaGalleryComponent mediaGalleryComponent => LocalMediaGalleryComponent.CreateFrom(mediaGalleryComponent),
+            IFileComponent => Throw.ArgumentException<LocalComponent>(
+                "Cannot convert file components to local file components as they do not support arbitrary external urls."
+                + "You must use the `attachment://` reference system instead."),
+            ISeparatorComponent separatorComponent => LocalSeparatorComponent.CreateFrom(separatorComponent),
+            IContainerComponent containerComponent => LocalContainerComponent.CreateFrom(containerComponent),
+            _ => Throw.ArgumentException<LocalComponent>("Unsupported component type.", nameof(component))
         };
+    }
+
+    internal bool IsComponentV2()
+    {
+        return this is not (LocalRowComponent or LocalButtonComponentBase or LocalSelectionComponent or LocalTextInputComponent);
     }
 }

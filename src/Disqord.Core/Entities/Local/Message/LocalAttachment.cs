@@ -10,7 +10,7 @@ namespace Disqord;
 /// <remarks>
 ///     Disposing of this type disposes of the <see cref="Stream"/> unless <see cref="LeaveOpen"/> is set to <see langword="true"/>.
 /// </remarks>
-public class LocalAttachment : LocalPartialAttachment, ILocalConstruct<LocalAttachment>, IDisposable
+public class LocalAttachment : LocalPartialAttachment, ILocalSpoilerable, ILocalConstruct<LocalAttachment>, IDisposable
 {
     /// <summary>
     ///     The prefix for spoiler attachments.

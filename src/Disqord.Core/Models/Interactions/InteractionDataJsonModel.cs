@@ -36,5 +36,5 @@ public class InteractionDataJsonModel : JsonModel
     public Optional<Snowflake> TargetId;
 
     [JsonProperty("components")]
-    public Optional<ComponentJsonModel[]> Components;
+    public Optional<BaseComponentJsonModel[]> Components;
 }

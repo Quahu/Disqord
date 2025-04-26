@@ -273,7 +273,7 @@ public static partial class RestClientExtensions
             MessageReference = Optional.Convert(message.Reference, reference => reference.ToModel()),
             Components = Optional.Convert(message.Components, components => components.Select(component => component.ToModel()).ToArray()),
             StickerIds = Optional.Convert(message.StickerIds, stickerIds => stickerIds.ToArray()),
-            Flags = message.Flags,
+            Flags = GetFlagsAdjustedForComponentsV2(message.Flags, message.Components.GetValueOrDefault()),
             Poll = Optional.Convert(message.Poll, poll => poll.ToModel()),
             EnforceNonce = message.ShouldEnforceNonce
         };
@@ -393,7 +393,7 @@ public static partial class RestClientExtensions
         {
             Content = properties.Content,
             Embeds = Optional.Convert(properties.Embeds, models => models.Select(embed => embed.ToModel()).ToArray()),
-            Flags = properties.Flags,
+            Flags = GetFlagsAdjustedForComponentsV2(properties.Flags, properties.Components.GetValueOrDefault()),
             AllowedMentions = Optional.Convert(properties.AllowedMentions, allowedMentions => allowedMentions.ToModel()),
             Attachments = Optional.Convert(properties.Attachments, localAttachments => localAttachments.Select(attachment => attachment.ToModel()).ToArray() as IList<PartialAttachmentJsonModel>),
             Components = Optional.Convert(properties.Components, models => models.Select(x => x.ToModel()).ToArray()),
@@ -908,5 +908,23 @@ public static partial class RestClientExtensions
             var (client, memberModels) = state;
             return new TransientThreadChannel(client, MatchMemberToThread(threadModel, memberModels));
         }));
+    }
+
+    private static Optional<MessageFlags> GetFlagsAdjustedForComponentsV2(Optional<MessageFlags> flags, IEnumerable<LocalComponent>? components)
+    {
+        if (!flags.GetValueOrDefault().HasFlag(MessageFlags.UsesComponentsV2))
+        {
+            if (IsComponentsV2FlagNeeded(components))
+            {
+                return flags.GetValueOrDefault() | MessageFlags.UsesComponentsV2;
+            }
+        }
+
+        return flags;
+    }
+
+    private static bool IsComponentsV2FlagNeeded(IEnumerable<LocalComponent>? components)
+    {
+        return components != null && (components.Any(static component => component.IsComponentV2()) || components.Count() > 5);
     }
 }

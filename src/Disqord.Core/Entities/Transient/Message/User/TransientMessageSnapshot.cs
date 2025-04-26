@@ -55,17 +55,17 @@ public class TransientMessageSnapshot : TransientClientEntity<MessageSnapshotJso
 
     private IReadOnlyList<IMessageSticker>? _stickers;
 
-    public IReadOnlyList<IRowComponent> Components
+    public IReadOnlyList<IComponent> Components
     {
         get
         {
             if (!Model.Message.Components.HasValue)
-                return Array.Empty<IRowComponent>();
+                return Array.Empty<IComponent>();
 
-            return _components ??= Model.Message.Components.Value.ToReadOnlyList(Client, (model, client) => new TransientRowComponent(client, model));
+            return _components ??= Model.Message.Components.Value.ToReadOnlyList(Client, static (model, client) => TransientComponent.Create(client, model));
         }
     }
-    private IReadOnlyList<IRowComponent>? _components;
+    private IReadOnlyList<IComponent>? _components;
 
     public TransientMessageSnapshot(IClient client, MessageSnapshotJsonModel model)
         : base(client, model)

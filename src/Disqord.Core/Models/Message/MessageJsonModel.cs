@@ -96,7 +96,7 @@ public class MessageJsonModel : JsonModel
         : Optional<ChannelJsonModel>.Empty;
 
     [JsonProperty("components")]
-    public Optional<ComponentJsonModel[]> Components;
+    public Optional<BaseComponentJsonModel[]> Components;
 
     [JsonProperty("sticker_items")]
     public Optional<StickerItemJsonModel[]> StickerItems;

@@ -26,7 +26,7 @@ public class CreateMessageJsonRestRequestContent : JsonModelRestRequestContent, 
     public Optional<MessageReferenceJsonModel> MessageReference;
 
     [JsonProperty("components")]
-    public Optional<ComponentJsonModel[]> Components;
+    public Optional<BaseComponentJsonModel[]> Components;
 
     [JsonProperty("sticker_ids")]
     public Optional<Snowflake[]> StickerIds;
