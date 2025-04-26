@@ -27,7 +27,7 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
     /// <inheritdoc/>
     public virtual BaseComponentJsonModel ToModel()
     {
-        if (!IsV2Component())
+        if (!IsComponentV2())
         {
             return CreateComponentJsonModel();
         }
@@ -199,7 +199,7 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
         };
     }
 
-    internal bool IsV2Component()
+    internal bool IsComponentV2()
     {
         return this is not (LocalRowComponent or LocalButtonComponentBase or LocalSelectionComponent or LocalTextInputComponent);
     }
