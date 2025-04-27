@@ -15,6 +15,8 @@ public sealed class ModifyWebhookMessageActionProperties
 
     public Optional<IEnumerable<LocalComponent>> Components { internal get; set; }
 
+    public Optional<MessageFlags> Flags { internal get; set; }
+
     internal ModifyWebhookMessageActionProperties()
     { }
 }

@@ -7,6 +7,7 @@ using Disqord.Http;
 using Disqord.Models;
 using Disqord.Rest.Api;
 using Disqord.Rest.Api.Models;
+using Disqord.Serialization.Json;
 using Qommon;
 
 namespace Disqord.Rest;
@@ -18,7 +19,52 @@ public static partial class RestClientExtensions
         bool withCallbackResponse,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var content = response.ToContent(client.ApiClient.Serializer, out var attachments);
+        Guard.IsNotNull(response);
+
+        var content = new CreateInitialInteractionResponseJsonRestRequestContent
+        {
+            Type = response.Type
+        };
+
+        IList<LocalAttachment> attachments = Array.Empty<LocalAttachment>();
+
+        if (response is LocalInteractionAutoCompleteResponse autoCompleteResponse)
+        {
+            content.Data = new InteractionCallbackAutoCompleteDataJsonModel
+            {
+                Choices = Optional.Convert(autoCompleteResponse.Choices, choices => choices.Select(choice => new ApplicationCommandOptionChoiceJsonModel
+                {
+                    Name = choice.Key,
+                    Value = (client.ApiClient.Serializer.GetJsonNode(choice.Value) as IJsonValue)!
+                }).ToArray())
+            };
+        }
+        else if (response is LocalInteractionMessageResponse messageResponse)
+        {
+            content.Data = new InteractionCallbackMessageDataJsonModel
+            {
+                Tts = messageResponse.IsTextToSpeech,
+                Content = messageResponse.Content,
+                Embeds = Optional.Convert(messageResponse.Embeds, embeds => embeds.Select(embed => embed.ToModel()).ToArray()),
+                AllowedMentions = Optional.Convert(messageResponse.AllowedMentions, allowedMentions => allowedMentions.ToModel()),
+                Components = Optional.Convert(messageResponse.Components, components => components.Select(component => component.ToModel()).ToArray()),
+                Flags = GetFlagsAdjustedForComponentsV2(messageResponse.Flags, messageResponse.Components.GetValueOrDefault())
+            };
+
+            if (messageResponse.Attachments.HasValue)
+            {
+                attachments = messageResponse.Attachments.Value;
+            }
+        }
+        else if (response is LocalInteractionModalResponse modalResponse)
+        {
+            content.Data = new InteractionCallbackModalDataJsonModel
+            {
+                CustomId = modalResponse.CustomId,
+                Title = modalResponse.Title,
+                Components = Optional.Convert(modalResponse.Components, components => components.Select(component => component.ToModel()).ToArray())
+            };
+        }
 
         Task<InteractionCallbackResponseJsonModel?> task;
         if (attachments.Count != 0)
@@ -72,7 +118,7 @@ public static partial class RestClientExtensions
             Embeds = Optional.Convert(followup.Embeds, embeds => embeds.Select(embed => embed.ToModel()).ToArray()),
             AllowedMentions = Optional.Convert(followup.AllowedMentions, allowedMentions => allowedMentions.ToModel()),
             Components = Optional.Convert(followup.Components, components => components.Select(component => component.ToModel()).ToArray()),
-            Flags = followup.Flags
+            Flags = GetFlagsAdjustedForComponentsV2(followup.Flags, followup.Components.GetValueOrDefault())
         };
 
         Task<MessageJsonModel> task;
@@ -126,7 +172,8 @@ public static partial class RestClientExtensions
             Embeds = Optional.Convert(properties.Embeds, embeds => embeds.Select(embed => embed.ToModel()).ToArray()),
             AllowedMentions = Optional.Convert(properties.AllowedMentions, allowedMentions => allowedMentions.ToModel()),
             Attachments = Optional.Convert(properties.Attachments, attachments => attachments.Select(attachment => attachment.ToModel()).ToArray() as IList<PartialAttachmentJsonModel>),
-            Components = Optional.Convert(properties.Components, x => x.Select(x => x.ToModel()).ToArray())
+            Components = Optional.Convert(properties.Components, x => x.Select(x => x.ToModel()).ToArray()),
+            Flags = GetFlagsAdjustedForComponentsV2(properties.Flags, properties.Components.GetValueOrDefault())
         };
 
         Task<MessageJsonModel> task;

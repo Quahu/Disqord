@@ -22,6 +22,9 @@ public class ModifyWebhookMessageJsonRestRequestContent : JsonModelRestRequestCo
     [JsonProperty("attachments")]
     public Optional<IList<PartialAttachmentJsonModel>> Attachments;
 
+    [JsonProperty("flags")]
+    public Optional<MessageFlags> Flags;
+
     IList<PartialAttachmentJsonModel> IAttachmentRestRequestContent.Attachments
     {
         set => Attachments = new(value);
