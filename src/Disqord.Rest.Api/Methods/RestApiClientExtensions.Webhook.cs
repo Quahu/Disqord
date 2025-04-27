@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Models;
+using Qommon;
 
 namespace Disqord.Rest.Api;
 
@@ -69,12 +70,7 @@ public static partial class RestApiClientExtensions
         Snowflake? threadId = null, bool wait = false,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        // TODO: query param utility
-        var queryParameters = new KeyValuePair<string, object>[threadId != null ? 2 : 1];
-        queryParameters[0] = KeyValuePair.Create("wait", (object) wait);
-
-        if (threadId != null)
-            queryParameters[1] = new("thread_id", threadId.Value);
+        var queryParameters = GetExecuteWebhookQueryParameters(wait, threadId, content.Components.GetValueOrDefault());
 
         var route = Format(Route.Webhook.ExecuteWebhook, queryParameters, webhookId, token);
         return client.ExecuteAsync<MessageJsonModel>(route, content, options, cancellationToken)!;
@@ -85,15 +81,29 @@ public static partial class RestApiClientExtensions
         Snowflake? threadId = null, bool wait = false,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        // TODO: query param utility
-        var queryParameters = new KeyValuePair<string, object>[threadId != null ? 2 : 1];
-        queryParameters[0] = KeyValuePair.Create("wait", (object) wait);
-
-        if (threadId != null)
-            queryParameters[1] = new("thread_id", threadId.Value);
+        var queryParameters = GetExecuteWebhookQueryParameters(wait, threadId, content.Payload?.Components.GetValueOrDefault());
 
         var route = Format(Route.Webhook.ExecuteWebhook, queryParameters, webhookId, token);
         return client.ExecuteAsync<MessageJsonModel>(route, content, options, cancellationToken)!;
+    }
+
+    private static List<KeyValuePair<string, object>> GetExecuteWebhookQueryParameters(bool wait, Snowflake? threadId, BaseComponentJsonModel[]? components)
+    {
+        // TODO: query param utility
+        var queryParameters = new List<KeyValuePair<string, object>>(3);
+        queryParameters.Add(new("wait", wait));
+
+        if (threadId != null)
+        {
+            queryParameters.Add(new("thread_id", threadId.Value));
+        }
+
+        if (components is { Length: not 0 })
+        {
+            queryParameters.Add(new("with_components", true));
+        }
+
+        return queryParameters;
     }
 
     public static Task<MessageJsonModel> FetchWebhookMessageAsync(this IRestApiClient client,
@@ -114,10 +124,7 @@ public static partial class RestApiClientExtensions
         Snowflake? threadId = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var queryParameters = threadId != null
-            ? new KeyValuePair<string, object>[] { new("thread_id", threadId.Value) }
-            : null;
-
+        var queryParameters = GetModifyWebhookMessageQueryParameters(threadId, content.Components.GetValueOrDefault());
         var route = Format(Route.Webhook.ModifyWebhookMessage, queryParameters, webhookId, token, messageId);
         return client.ExecuteAsync<MessageJsonModel>(route, content, options, cancellationToken);
     }
@@ -127,12 +134,25 @@ public static partial class RestApiClientExtensions
         Snowflake? threadId = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var queryParameters = threadId != null
-            ? new KeyValuePair<string, object>[] { new("thread_id", threadId.Value) }
-            : null;
-
+        var queryParameters = GetModifyWebhookMessageQueryParameters(threadId, content.Payload?.Components.GetValueOrDefault());
         var route = Format(Route.Webhook.ModifyWebhookMessage, queryParameters, webhookId, token, messageId);
         return client.ExecuteAsync<MessageJsonModel>(route, content, options, cancellationToken);
+    }
+
+    private static List<KeyValuePair<string, object>>? GetModifyWebhookMessageQueryParameters(Snowflake? threadId, BaseComponentJsonModel[]? components)
+    {
+        var queryParameters = new List<KeyValuePair<string, object>>(2);
+        if (threadId != null)
+        {
+            queryParameters.Add(new("thread_id", threadId.Value));
+        }
+
+        if (components is { Length: not 0 })
+        {
+            queryParameters.Add(new("with_components", true));
+        }
+
+        return queryParameters;
     }
 
     public static Task DeleteWebhookMessageAsync(this IRestApiClient client,

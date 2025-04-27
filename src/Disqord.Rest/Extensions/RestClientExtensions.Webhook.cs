@@ -113,7 +113,7 @@ public static partial class RestClientExtensions
             Embeds = Optional.Convert(message.Embeds, embeds => embeds.Select(embed => embed.ToModel()).ToArray()),
             AllowedMentions = Optional.Convert(message.AllowedMentions, allowedMentions => allowedMentions.ToModel()),
             Components = Optional.Convert(message.Components, components => components.Select(component => component.ToModel()).ToArray()),
-            Flags = message.Flags
+            Flags = GetFlagsAdjustedForComponentsV2(message.Flags, message.Components.GetValueOrDefault())
         };
 
         Task<MessageJsonModel?> task;
@@ -165,7 +165,9 @@ public static partial class RestClientExtensions
             Content = properties.Content,
             Embeds = Optional.Convert(properties.Embeds, embeds => embeds.Select(embed => embed.ToModel()).ToArray()),
             AllowedMentions = Optional.Convert(properties.AllowedMentions, allowedMentions => allowedMentions.ToModel()),
-            Attachments = Optional.Convert(properties.Attachments, attachments => attachments.Select(attachment => attachment.ToModel()).ToArray() as IList<PartialAttachmentJsonModel>)
+            Attachments = Optional.Convert(properties.Attachments, attachments => attachments.Select(attachment => attachment.ToModel()).ToArray() as IList<PartialAttachmentJsonModel>),
+            Components = Optional.Convert(properties.Components, components => components.Select(component => component.ToModel()).ToArray()),
+            Flags = GetFlagsAdjustedForComponentsV2(properties.Flags, properties.Components.GetValueOrDefault())
         };
 
         Task<MessageJsonModel> task;
