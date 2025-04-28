@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Disqord.Http;
 using Disqord.Rest.Api;
 using Disqord.Serialization.Json;
@@ -9,6 +10,16 @@ namespace Disqord.Rest;
 
 public class RestApiException : Exception
 {
+    /// <summary>
+    ///     Gets the full API route that failed to execute.
+    /// </summary>
+    /// <remarks>
+    ///     This route may include sensitive information such as webhook tokens and should not be displayed or exposed in public logs.
+    ///     <para/>
+    ///     <see cref="IFormattedRoute.BaseRoute"/> can be utilized instead for public-facing route logging.
+    /// </remarks>
+    public IFormattedRoute Route { get; }
+    
     /// <summary>
     ///     Gets the HTTP failure response.
     /// </summary>
@@ -44,9 +55,10 @@ public class RestApiException : Exception
         }
     }
 
-    public RestApiException(IHttpResponse httpResponse, string? reasonPhrase, RestApiErrorJsonModel? errorModel)
-        : base(GetErrorMessage(httpResponse.StatusCode, reasonPhrase, errorModel))
+    public RestApiException(IFormattedRoute route, IHttpResponse httpResponse, string? reasonPhrase, RestApiErrorJsonModel? errorModel)
+        : base(GetErrorMessage(route.BaseRoute, httpResponse.StatusCode, reasonPhrase, errorModel))
     {
+        Route = route;
         HttpResponse = httpResponse;
         ReasonPhrase = reasonPhrase;
         ErrorModel = errorModel;
@@ -65,14 +77,17 @@ public class RestApiException : Exception
         return errorModel != null && errorModel.Code == code;
     }
 
-    private static string GetErrorMessage(HttpResponseStatusCode statusCode, string? reasonPhrase, RestApiErrorJsonModel? errorModel)
+    private static string GetErrorMessage(IFormattableRoute route, HttpResponseStatusCode statusCode, string? reasonPhrase, RestApiErrorJsonModel? errorModel)
     {
-        var httpMessage = $"HTTP: {(Enum.IsDefined(statusCode) ? $"{(int) statusCode} {statusCode}" : statusCode)}.";
+        var messageBuilder = new StringBuilder($"Failed to execute route {route.Method}|{route.Path}.\n");
+
+        messageBuilder.Append($"HTTP: {(Enum.IsDefined(statusCode) ? $"{(int)statusCode} {statusCode}" : statusCode)}. ");
+
         if (errorModel == null)
-            return $"{httpMessage} Reason phrase: {reasonPhrase}";
+            return messageBuilder.Append($"Reason phrase: {reasonPhrase}").ToString();
 
         // HTTP: 400 BadRequest. Error message: Invalid Form Body
-        var message = $"{httpMessage} Error message: {errorModel.Message}";
+        messageBuilder.Append($"Error message: {errorModel.Message}");
 
         // We check if Discord provided more detailed error messages.
         if (errorModel.ExtensionData.TryGetValue("errors", out var errors) && errors is IJsonObject errorsObject)
@@ -83,7 +98,8 @@ public class RestApiException : Exception
             // We append the errors the message created above, example:
             // embed.fields[0].name: "Must be 256 or fewer in length."
             // embed.fields[1].value: "This field is required"
-            message += $"\n{string.Join('\n', extracted.Select(x => $"{x.Key}: {x.Value ?? "unknown error"}"))}";
+            messageBuilder.AppendJoin('\n', extracted.Select(x => $"{x.Key}: {x.Value}"));
+            //message += $"\n{string.Join('\n', extracted.Select(x => $"{x.Key}: {x.Value ?? "unknown error"}"))}";
         }
 
         /*
@@ -103,8 +119,6 @@ public class RestApiException : Exception
         */
         static IEnumerable<KeyValuePair<string, string>> ExtractErrors(IJsonObject jsonObject, string? key = null)
         {
-            var extracted = new List<KeyValuePair<string, string>>();
-
             // We enumerate the fields in the `errors` JSON object.
             foreach (var (name, value) in jsonObject)
             {
@@ -119,14 +133,18 @@ public class RestApiException : Exception
                 // If the value is not a JSON object, just ToString whatever it is.
                 if (value is not IJsonObject valueObject)
                 {
-                    extracted.Add(KeyValuePair.Create(newKey, value?.ToString() ?? ""));
+                    yield return KeyValuePair.Create(newKey, value?.ToString() ?? "");
                     continue;
                 }
 
                 // If the value has no `_errors` field it means there's more nested data, recurse.
                 if (!valueObject.TryGetValue("_errors", out var errors))
                 {
-                    extracted.AddRange(ExtractErrors(valueObject, newKey));
+                    foreach (var error in ExtractErrors(valueObject, newKey))
+                    {
+                        yield return error;
+                    }
+                    
                     continue;
                 }
 
@@ -138,12 +156,10 @@ public class RestApiException : Exception
                 var messages = errorsArray.OfType<IJsonObject>()
                     .Select(static x => (x.GetValueOrDefault("message") ?? x.GetValueOrDefault("code"))?.ToString());
 
-                extracted.Add(KeyValuePair.Create(newKey, string.Join("; ", messages)));
+                yield return KeyValuePair.Create(newKey, string.Join("; ", messages));
             }
-
-            return extracted;
         }
 
-        return message;
+        return messageBuilder.ToString();
     }
 }
