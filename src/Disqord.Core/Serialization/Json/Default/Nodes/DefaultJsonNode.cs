@@ -73,7 +73,7 @@ internal abstract class DefaultJsonNode : IJsonNode
     }
 
     [return: NotNullIfNotNull("obj")]
-    internal static IJsonNode? Create(object? obj, System.Text.Json.JsonSerializerOptions options)
+    internal static IJsonNode? Create(object? obj, JsonSerializerOptions options)
     {
         try
         {
