@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Qommon;
 
-namespace Disqord.Serialization.Json.Default;
+namespace Disqord.Serialization.Json.Newtonsoft;
 
 internal sealed class ComponentConverter : JsonConverter
 {
