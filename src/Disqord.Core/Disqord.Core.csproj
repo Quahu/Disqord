@@ -11,15 +11,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1"/>
         <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0"/>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
         <PackageReference Include="Qommon" Version="4.0.1"/>
-    </ItemGroup>
-    
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-        <Compile Remove="Serialization/Json/STJ/**"/>
-    </ItemGroup>
-
-    <ItemGroup Condition=" '$(TargetFramework)' != 'net6.0' ">
-        <PackageReference Include="System.Text.Json" Version="9.0.0-preview.7.24405.7"/>
+        <PackageReference Include="System.Text.Json" Version="9.0.0"/>
     </ItemGroup>
 </Project>
