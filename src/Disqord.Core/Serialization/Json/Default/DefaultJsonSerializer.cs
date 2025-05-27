@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text.Json;
@@ -37,10 +38,33 @@ public sealed class DefaultJsonSerializer : IJsonSerializer
                 new StringConverter(),
                 new SnowflakeConverter(),
                 new StreamConverter(),
+                new ComponentConverter(),
+                new UnfurledMediaItemConverter(),
             }
         };
 
         UnderlyingOptions.MakeReadOnly();
+
+        foreach (var converter in UnderlyingOptions.Converters)
+        {
+            if (converter is not IPolymorphicJsonConverter polymorphicConverter)
+            {
+                continue;
+            }
+
+            const int ObjectConverterStrategy = 0x1;
+            converter.SetConverterStrategy(ObjectConverterStrategy);
+
+            var polymorphicOptions = new JsonSerializerOptions(UnderlyingOptions);
+            var converterIndex = polymorphicOptions.Converters.IndexOf(converter);
+            Debug.Assert(converterIndex != -1);
+
+            polymorphicOptions.Converters.RemoveAt(converterIndex);
+            polymorphicOptions.MakeReadOnly();
+
+            // Each polymorphic converter gets its own set of options which don't contain that converter.
+            polymorphicConverter.SetOptionsWithoutSelf(polymorphicOptions);
+        }
     }
 
     /// <inheritdoc/>

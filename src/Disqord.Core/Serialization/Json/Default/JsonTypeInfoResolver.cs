@@ -13,8 +13,6 @@ namespace Disqord.Serialization.Json.Default;
 
 internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
 {
-    private static readonly PropertyInfo _ignoreConditionProperty;
-
     private static readonly ConditionalWeakTable<JsonModel, Dictionary<string, object?>> _extensionDataCache = new();
 
     public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
@@ -67,13 +65,13 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
                     Throw.InvalidOperationException($"JSON property type {jsonProperty.PropertyType} is not supported.");
                 }
 
-                _ignoreConditionProperty.SetValue(jsonProperty, JsonIgnoreCondition.WhenWritingDefault);
+                jsonProperty.SetIgnoreCondition(JsonIgnoreCondition.WhenWritingDefault);
             }
             else
             {
                 if (jsonPropertyAttribute.NullValueHandling == NullValueHandling.Ignore)
                 {
-                    _ignoreConditionProperty.SetValue(jsonProperty, JsonIgnoreCondition.WhenWritingNull);
+                    jsonProperty.SetIgnoreCondition(JsonIgnoreCondition.WhenWritingNull);
                 }
             }
         }
@@ -130,16 +128,5 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
         }
 
         return jsonTypeInfo;
-    }
-
-    static JsonTypeInfoResolver()
-    {
-        var ignoreConditionProperty = typeof(JsonPropertyInfo).GetProperty("IgnoreCondition", BindingFlags.Instance | BindingFlags.NonPublic);
-        if (ignoreConditionProperty == null)
-        {
-            Throw.InvalidOperationException("The System.Text.Json version is not compatible with this resolver.");
-        }
-
-        _ignoreConditionProperty = ignoreConditionProperty;
     }
 }
