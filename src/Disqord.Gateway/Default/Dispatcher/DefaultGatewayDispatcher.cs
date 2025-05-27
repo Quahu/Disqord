@@ -124,6 +124,10 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
 
             [GatewayDispatchNames.ChannelPinsUpdate] = new ChannelPinsUpdateDispatchHandler(),
 
+            [GatewayDispatchNames.EntitlementCreate] = new EntitlementCreateDispatchHandler(),
+            [GatewayDispatchNames.EntitlementUpdate] = new EntitlementUpdateDispatchHandler(),
+            [GatewayDispatchNames.EntitlementDelete] = new EntitlementDeleteDispatchHandler(),
+
             [GatewayDispatchNames.GuildCreate] = new GuildCreateDispatchHandler(),
             [GatewayDispatchNames.GuildUpdate] = new GuildUpdateDispatchHandler(),
             [GatewayDispatchNames.GuildDelete] = new GuildDeleteDispatchHandler(),

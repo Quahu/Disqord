@@ -70,6 +70,16 @@ public static partial class RestClientExtensions
         return new TransientForumChannel(client, model);
     }
 
+    public static async Task<IMediaChannel> ModifyMediaChannelAsync(this IRestClient client,
+        Snowflake channelId, Action<ModifyMediaChannelActionProperties> action,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(action);
+
+        var model = await client.InternalModifyChannelAsync(channelId, action, options, cancellationToken).ConfigureAwait(false);
+        return new TransientMediaChannel(client, model);
+    }
+
     public static async Task<ICategoryChannel> ModifyCategoryChannelAsync(this IRestClient client,
         Snowflake channelId, Action<ModifyCategoryChannelActionProperties> action,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -148,16 +158,18 @@ public static partial class RestClientExtensions
                                 content.AppliedTags = Optional.Convert(threadProperties.TagIds, tagIds => tagIds.ToArray());
                                 break;
                             }
-                            case ModifyForumChannelActionProperties forumProperties:
+                            case ModifyMediaChannelActionProperties mediaProperties:
                             {
-                                content.Topic = forumProperties.Topic;
-                                content.Nsfw = forumProperties.IsAgeRestricted;
-                                content.DefaultAutoArchiveDuration = Optional.Convert(forumProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
-                                content.AvailableTags = Optional.Convert(forumProperties.Tags, tags => tags.Select(tag => tag.ToModel()).ToArray());
-                                content.DefaultReactionEmoji = Optional.Convert(forumProperties.DefaultReactionEmoji, emoji => ForumDefaultReactionJsonModel.FromEmoji(emoji!));
-                                content.DefaultThreadRateLimitPerUser = Optional.Convert(forumProperties.DefaultThreadSlowmode, x => (int) x.TotalSeconds);
-                                content.DefaultSortOrder = forumProperties.DefaultSortOrder;
-                                content.DefaultForumLayout = forumProperties.DefaultLayout;
+                                content.Topic = mediaProperties.Topic;
+                                content.Nsfw = mediaProperties.IsAgeRestricted;
+                                content.DefaultAutoArchiveDuration = Optional.Convert(mediaProperties.DefaultAutomaticArchiveDuration, x => (int) x.TotalMinutes);
+                                content.AvailableTags = Optional.Convert(mediaProperties.Tags, tags => tags.Select(tag => tag.ToModel()).ToArray());
+                                content.DefaultReactionEmoji = Optional.Convert(mediaProperties.DefaultReactionEmoji, emoji => ForumDefaultReactionJsonModel.FromEmoji(emoji!));
+                                content.DefaultThreadRateLimitPerUser = Optional.Convert(mediaProperties.DefaultThreadSlowmode, x => (int) x.TotalSeconds);
+                                content.DefaultSortOrder = mediaProperties.DefaultSortOrder;
+
+                                if (mediaProperties is ModifyForumChannelActionProperties forumProperties)
+                                    content.DefaultForumLayout = forumProperties.DefaultLayout;
                                 break;
                             }
                         }
@@ -261,7 +273,7 @@ public static partial class RestClientExtensions
             MessageReference = Optional.Convert(message.Reference, reference => reference.ToModel()),
             Components = Optional.Convert(message.Components, components => components.Select(component => component.ToModel()).ToArray()),
             StickerIds = Optional.Convert(message.StickerIds, stickerIds => stickerIds.ToArray()),
-            Flags = message.Flags,
+            Flags = GetFlagsAdjustedForComponentsV2(message.Flags, message.Components.GetValueOrDefault()),
             Poll = Optional.Convert(message.Poll, poll => poll.ToModel()),
             EnforceNonce = message.ShouldEnforceNonce
         };
@@ -381,7 +393,7 @@ public static partial class RestClientExtensions
         {
             Content = properties.Content,
             Embeds = Optional.Convert(properties.Embeds, models => models.Select(embed => embed.ToModel()).ToArray()),
-            Flags = properties.Flags,
+            Flags = GetFlagsAdjustedForComponentsV2(properties.Flags, properties.Components.GetValueOrDefault()),
             AllowedMentions = Optional.Convert(properties.AllowedMentions, allowedMentions => allowedMentions.ToModel()),
             Attachments = Optional.Convert(properties.Attachments, localAttachments => localAttachments.Select(attachment => attachment.ToModel()).ToArray() as IList<PartialAttachmentJsonModel>),
             Components = Optional.Convert(properties.Components, models => models.Select(x => x.ToModel()).ToArray()),
@@ -632,7 +644,7 @@ public static partial class RestClientExtensions
         return new TransientThreadChannel(client, model);
     }
 
-    public static async Task<IThreadChannel> CreateForumThreadAsync(this IRestClient client,
+    public static async Task<IThreadChannel> CreateThreadPostAsync(this IRestClient client,
         Snowflake channelId, string name, LocalMessage message, Action<CreateThreadChannelActionProperties>? action = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
@@ -656,7 +668,7 @@ public static partial class RestClientExtensions
             EnforceNonce = message.ShouldEnforceNonce
         };
 
-        var forumContent = new CreateForumThreadJsonRestRequestContent
+        var postContent = new CreateThreadPostJsonRestRequestContent
         {
             Name = name,
             AutoArchiveDuration = Optional.Convert(properties.AutomaticArchiveDuration, x => (int) x.TotalMinutes),
@@ -670,12 +682,12 @@ public static partial class RestClientExtensions
         {
             // If there are attachments, we must send them via multipart HTTP content.
             // Our `messageContent` will be serialized into a "payload_json" form data field.
-            var content = new AttachmentJsonPayloadRestRequestContent<CreateForumThreadJsonRestRequestContent>(forumContent, attachments);
-            task = client.ApiClient.CreateForumThreadAsync(channelId, content, options, cancellationToken);
+            var content = new AttachmentJsonPayloadRestRequestContent<CreateThreadPostJsonRestRequestContent>(postContent, attachments);
+            task = client.ApiClient.CreateThreadPostAsync(channelId, content, options, cancellationToken);
         }
         else
         {
-            task = client.ApiClient.CreateForumThreadAsync(channelId, forumContent, options, cancellationToken);
+            task = client.ApiClient.CreateThreadPostAsync(channelId, postContent, options, cancellationToken);
         }
 
         var model = await task.ConfigureAwait(false);
@@ -896,5 +908,23 @@ public static partial class RestClientExtensions
             var (client, memberModels) = state;
             return new TransientThreadChannel(client, MatchMemberToThread(threadModel, memberModels));
         }));
+    }
+
+    private static Optional<MessageFlags> GetFlagsAdjustedForComponentsV2(Optional<MessageFlags> flags, IEnumerable<LocalComponent>? components)
+    {
+        if (!flags.GetValueOrDefault().HasFlag(MessageFlags.UsesComponentsV2))
+        {
+            if (IsComponentsV2FlagNeeded(components))
+            {
+                return flags.GetValueOrDefault() | MessageFlags.UsesComponentsV2;
+            }
+        }
+
+        return flags;
+    }
+
+    private static bool IsComponentsV2FlagNeeded(IEnumerable<LocalComponent>? components)
+    {
+        return components != null && (components.Any(static component => component.IsComponentV2()) || components.Count() > 5);
     }
 }

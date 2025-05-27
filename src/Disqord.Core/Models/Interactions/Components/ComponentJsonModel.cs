@@ -1,14 +1,13 @@
-﻿using System;
+using System;
+using System.Linq;
+using Disqord.Models;
 using Disqord.Serialization.Json;
 using Qommon;
 
 namespace Disqord.Models;
 
-public class ComponentJsonModel : JsonModel
+public class ComponentJsonModel : BaseComponentJsonModel
 {
-    [JsonProperty("type")]
-    public ComponentType Type;
-
     [JsonProperty("style")]
     public Optional<byte> Style;
 
@@ -28,7 +27,7 @@ public class ComponentJsonModel : JsonModel
     public Optional<bool> Disabled;
 
     [JsonProperty("components")]
-    public Optional<ComponentJsonModel[]> Components;
+    public Optional<BaseComponentJsonModel[]> Components;
 
     [JsonProperty("options")]
     public Optional<SelectOptionJsonModel[]> Options;

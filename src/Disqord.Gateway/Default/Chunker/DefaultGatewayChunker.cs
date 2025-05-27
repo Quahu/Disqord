@@ -63,49 +63,75 @@ public class DefaultGatewayChunker : IGatewayChunker
     public ValueTask OnChunk(GuildMembersChunkJsonModel model)
     {
         var members = new List<IMember>();
-        if (model.Members.Length != 0)
+        try
         {
-            if (Client.CacheProvider.TryGetUsers(out var userCache) && Client.CacheProvider.TryGetMembers(model.GuildId, out var memberCache))
+            if (model.Members.Length != 0)
             {
-                foreach (var memberModel in model.Members)
+                if (Client.CacheProvider.TryGetUsers(out var userCache) && Client.CacheProvider.TryGetMembers(model.GuildId, out var memberCache))
                 {
-                    var member = Client.Dispatcher.GetOrAddMemberTransient(userCache, memberCache, model.GuildId, memberModel);
-                    members.Add(member);
+                    foreach (var memberModel in model.Members)
+                    {
+                        var member = Client.Dispatcher.GetOrAddMemberTransient(userCache, memberCache, model.GuildId, memberModel);
+                        members.Add(member);
+                    }
+                }
+                else
+                {
+                    foreach (var memberModel in model.Members)
+                    {
+                        var member = new TransientMember(Client, model.GuildId, memberModel);
+                        members.Add(member);
+                    }
                 }
             }
-            else
-            {
-                foreach (var memberModel in model.Members)
-                {
-                    var member = new TransientMember(Client, model.GuildId, memberModel);
-                    members.Add(member);
-                }
-            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Failed to create members for received chunk.");
         }
 
         if (!model.Nonce.HasValue)
-            return default;
-
-        var isLastChunk = model.ChunkIndex == model.ChunkCount - 1;
-        var hasOperation = isLastChunk
-            ? _operations.TryRemove(model.Nonce.Value, out var operation)
-            : _operations.TryGetValue(model.Nonce.Value, out operation);
-
-        if (!hasOperation)
-            return default;
-
-        operation!.OnChunk();
-        if (operation.IsTimedOut)
         {
-            operation.Dispose();
+            Logger.LogDebug("Received chunk with no nonce.");
             return default;
         }
 
-        operation.AddMembers(members);
+        var isLastChunk = model.ChunkIndex == model.ChunkCount - 1;
+        ChunkOperation? operation;
         if (isLastChunk)
         {
-            operation.Complete();
-            operation.Dispose();
+            if (!_operations.TryRemove(model.Nonce.Value, out operation))
+            {
+                return default;
+            }
+        }
+        else
+        {
+            if (!_operations.TryGetValue(model.Nonce.Value, out operation))
+            {
+                return default;
+            }
+        }
+
+        try
+        {
+            operation.OnChunk();
+            if (operation.IsTimedOut)
+            {
+                operation.Dispose();
+                return default;
+            }
+
+            operation.AddMembers(members);
+            if (isLastChunk)
+            {
+                operation.Complete();
+                operation.Dispose();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Failed to handle received chunk.");
         }
 
         return default;
@@ -178,7 +204,9 @@ public class DefaultGatewayChunker : IGatewayChunker
             model.Presences = true; // According to the docs should default to false without the presences intent.
             var shard = Client.ApiClient.GetShard(model.GuildId);
             if (shard == null)
-                throw new InvalidOperationException("Failed to get the shard of the guild.");
+            {
+                Throw.InvalidOperationException("Failed to get the shard of the guild.");
+            }
 
             _operations.Add(operation.Nonce, operation);
             try
@@ -232,27 +260,28 @@ public class DefaultGatewayChunker : IGatewayChunker
 
             _tcs = new Tcs<IReadOnlyDictionary<Snowflake, IMember>?>();
 
+            _reg = cancellationToken.UnsafeRegister(CancellationCallback, _tcs);
+            return;
+
             static void CancellationCallback(object? state, CancellationToken cancellationToken)
             {
                 var tcs = Unsafe.As<Tcs<IReadOnlyList<IMember>>>(state)!;
                 tcs.Cancel(cancellationToken);
             }
-
-            _reg = cancellationToken.UnsafeRegister(CancellationCallback, _tcs);
         }
 
         public Task<IReadOnlyDictionary<Snowflake, IMember>?> WaitAsync()
         {
             _timeoutCts = new Cts(_timeout);
 
+            _timeoutCts.Token.UnsafeRegister(CancellationCallback, _tcs);
+            return _tcs.Task;
+
             static void CancellationCallback(object? state, CancellationToken cancellationToken)
             {
                 var tcs = Unsafe.As<Tcs<IReadOnlyList<IMember>>>(state)!;
                 tcs.Throw(new TimeoutException());
             }
-
-            _timeoutCts.Token.UnsafeRegister(CancellationCallback, _tcs);
-            return _tcs.Task;
         }
 
         public void OnChunk()
@@ -262,11 +291,11 @@ public class DefaultGatewayChunker : IGatewayChunker
 
         public void AddMembers(IReadOnlyList<IMember> members)
         {
-            if (_members == null)
-                return;
-
-            lock (_members)
+            lock (this)
             {
+                if (_members == null)
+                    return;
+
                 for (var i = 0; i < members.Count; i++)
                 {
                     var member = members[i];
@@ -277,14 +306,14 @@ public class DefaultGatewayChunker : IGatewayChunker
 
         public void Complete()
         {
-            if (_members == null)
+            lock (this)
             {
-                _tcs.Complete(null);
-                return;
-            }
+                if (_members == null)
+                {
+                    _tcs.Complete(null);
+                    return;
+                }
 
-            lock (_members)
-            {
                 _tcs.Complete(_members);
             }
         }

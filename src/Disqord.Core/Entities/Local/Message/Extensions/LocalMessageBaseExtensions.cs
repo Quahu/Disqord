@@ -94,34 +94,6 @@ public static class LocalMessageBaseExtensions
         return message.WithAttachments(attachments as IEnumerable<LocalAttachment>);
     }
 
-    public static TMessage AddComponent<TMessage>(this TMessage message, LocalRowComponent component)
-        where TMessage : LocalMessageBase
-    {
-        Guard.IsNotNull(component);
-
-        if (message.Components.Add(component, out var list))
-            message.Components = new(list);
-
-        return message;
-    }
-
-    public static TMessage WithComponents<TMessage>(this TMessage message, IEnumerable<LocalRowComponent> components)
-        where TMessage : LocalMessageBase
-    {
-        Guard.IsNotNull(components);
-
-        if (message.Components.With(components, out var list))
-            message.Components = new(list);
-
-        return message;
-    }
-
-    public static TMessage WithComponents<TMessage>(this TMessage message, params LocalRowComponent[] components)
-        where TMessage : LocalMessageBase
-    {
-        return message.WithComponents(components as IEnumerable<LocalRowComponent>);
-    }
-
     public static TMessage AddStickerId<TMessage>(this TMessage message, Snowflake stickerId)
         where TMessage : LocalMessageBase
     {

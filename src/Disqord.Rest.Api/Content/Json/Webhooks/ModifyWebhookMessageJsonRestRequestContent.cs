@@ -17,10 +17,13 @@ public class ModifyWebhookMessageJsonRestRequestContent : JsonModelRestRequestCo
     public Optional<AllowedMentionsJsonModel> AllowedMentions;
 
     [JsonProperty("components")]
-    public Optional<ComponentJsonModel[]> Components;
+    public Optional<BaseComponentJsonModel[]> Components;
 
     [JsonProperty("attachments")]
     public Optional<IList<PartialAttachmentJsonModel>> Attachments;
+
+    [JsonProperty("flags")]
+    public Optional<MessageFlags> Flags;
 
     IList<PartialAttachmentJsonModel> IAttachmentRestRequestContent.Attachments
     {

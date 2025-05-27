@@ -8,6 +8,19 @@ namespace Disqord.Rest.Api;
 
 public sealed partial class Route
 {
+    public static class Montetization
+    {
+        public static readonly Route GetSkus = Get("applications/{0:application_id}/skus");
+
+        public static readonly Route GetEntitlements = Get("applications/{0:application_id}/entitlements");
+
+        public static readonly Route ConsumeEntitlement = Post("applications/{0:application_id}/entitlements/{1:entitlement_id}/consume");
+
+        public static readonly Route CreateTestEntitlement = Post("applications/{0:application_id}/entitlements");
+
+        public static readonly Route DeleteTestEntitlement = Delete("applications/{0:application_id}/entitlements/{1:entitlement_id}");
+    }
+
     public static class RoleConnection
     {
         public static readonly Route GetMetadata = Get("applications/{0:application_id}/role-connections/metadata");
@@ -89,7 +102,7 @@ public sealed partial class Route
 
         public static readonly Route StartThread = Post("channels/{0:channel_id}/threads");
 
-        public static readonly Route StartForumThread = Post("channels/{0:channel_id}/threads");
+        public static readonly Route CreateThreadPost = Post("channels/{0:channel_id}/threads");
 
         public static readonly Route JoinThread = Put("channels/{0:channel_id}/thread-members/@me");
 

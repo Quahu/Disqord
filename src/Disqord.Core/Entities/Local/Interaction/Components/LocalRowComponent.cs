@@ -3,7 +3,7 @@ using Qommon;
 
 namespace Disqord;
 
-public class LocalRowComponent : LocalComponent, ILocalConstruct<LocalRowComponent>
+public class LocalRowComponent : LocalComponent, ILocalComponentContainer, ILocalConstruct<LocalRowComponent>
 {
     /// <summary>
     ///     Gets or sets the components of this row.

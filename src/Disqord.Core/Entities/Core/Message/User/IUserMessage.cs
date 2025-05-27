@@ -107,7 +107,7 @@ public interface IUserMessage : IMessage
     /// <summary>
     ///     Gets the components of this message.
     /// </summary>
-    IReadOnlyList<IRowComponent> Components { get; }
+    IReadOnlyList<IComponent> Components { get; }
 
     /// <summary>
     ///     Gets the stickers sent with this message.

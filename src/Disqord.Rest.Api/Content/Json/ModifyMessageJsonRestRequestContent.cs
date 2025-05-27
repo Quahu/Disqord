@@ -20,7 +20,7 @@ public class ModifyMessageJsonRestRequestContent : JsonModelRestRequestContent, 
     public Optional<AllowedMentionsJsonModel> AllowedMentions;
 
     [JsonProperty("components")]
-    public Optional<ComponentJsonModel[]> Components;
+    public Optional<BaseComponentJsonModel[]> Components;
 
     [JsonProperty("sticker_ids")]
     public Optional<Snowflake[]> StickerIds;
