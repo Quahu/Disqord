@@ -16,7 +16,7 @@ public static class JsonSerializerExtensions
     /// <returns>
     ///     The serialized object.
     /// </returns>
-    public static Memory<byte> Serialize(this IJsonSerializer serializer, object obj, JsonSerializeOptions? options = null)
+    public static Memory<byte> Serialize(this IJsonSerializer serializer, object obj, JsonSerializationOptions? options = null)
     {
         using (var memoryStream = new MemoryStream())
         {

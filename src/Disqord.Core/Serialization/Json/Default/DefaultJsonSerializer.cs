@@ -58,7 +58,7 @@ public sealed class DefaultJsonSerializer : IJsonSerializer
     }
 
     /// <inheritdoc/>
-    public void Serialize(Stream stream, object obj, JsonSerializeOptions? options = null)
+    public void Serialize(Stream stream, object obj, JsonSerializationOptions? options = null)
     {
         try
         {

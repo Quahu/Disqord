@@ -24,7 +24,7 @@ public interface IJsonSerializer
     /// <param name="stream"> The stream to serialize to. </param>
     /// <param name="obj"> The object to serialize. </param>
     /// <param name="options"> The serializer options. </param>
-    void Serialize(Stream stream, object obj, JsonSerializeOptions? options = null);
+    void Serialize(Stream stream, object obj, JsonSerializationOptions? options = null);
 
     /// <summary>
     ///     Gets a JSON node from the specified argument.

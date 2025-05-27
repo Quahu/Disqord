@@ -56,7 +56,7 @@ public class NewtonsoftJsonSerializer : IJsonSerializer
     }
 
     /// <inheritdoc/>
-    public virtual void Serialize(Stream stream, object obj, JsonSerializeOptions? options = null)
+    public virtual void Serialize(Stream stream, object obj, JsonSerializationOptions? options = null)
     {
         try
         {
@@ -128,7 +128,7 @@ public class NewtonsoftJsonSerializer : IJsonSerializer
             base.WriteStartArray();
         }
 
-        public static JsonTextWriter Conditional(JsonSerializeOptions? options, TextWriter writer)
+        public static JsonTextWriter Conditional(JsonSerializationOptions? options, TextWriter writer)
         {
             if (options?.Formatting == JsonFormatting.Indented)
             {
