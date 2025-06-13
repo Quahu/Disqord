@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Disqord.Serialization.Json.Default;
 
@@ -42,6 +43,9 @@ public sealed class DefaultJsonSerializer : IJsonSerializer
                 new UnfurledMediaItemConverter(),
             }
         };
+
+        // byte[] converter to override the brilliant default base64 string behavior
+        UnderlyingOptions.Converters.Add(JsonMetadataServices.CreateArrayInfo<byte>(UnderlyingOptions, new()).Converter);
 
         UnderlyingOptions.MakeReadOnly();
 
