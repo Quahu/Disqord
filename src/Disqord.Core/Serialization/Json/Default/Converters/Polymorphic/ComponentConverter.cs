@@ -24,7 +24,7 @@ internal sealed class ComponentConverter : PolymorphicJsonConverter<BaseComponen
         }
 
         var componentType = GetComponentJsonModelType(type.Deserialize<ComponentType>(options));
-        var component = (BaseComponentJsonModel?) node.Deserialize(componentType, OptionsWithoutSelf);
+        var component = (BaseComponentJsonModel?) node.Deserialize(componentType, OptionsWithPreserve);
         Debug.Assert(component != null);
         return component;
     }
