@@ -44,6 +44,16 @@ public abstract class DiscordTextModuleBase<TContext> : DiscordModuleBase<TConte
     /// </returns>
     protected virtual DiscordTextResponseCommandResult Reply(string content, params LocalEmbed[] embeds)
         => Reply(new LocalMessage().WithContent(content).WithEmbeds(embeds));
+    
+    /// <summary>
+    ///     Returns a result that will reply in the context channel with the specified message components.
+    /// </summary>
+    /// <param name="components"> The message components to reply with. </param>
+    /// <returns>
+    ///     The created command result.
+    /// </returns>
+    protected virtual DiscordTextResponseCommandResult Reply(params LocalComponent[] components)
+        => Response(new LocalMessage().WithComponents(components).WithReply(Context.Message.Id, Context.ChannelId, Context.GuildId));
 
     /// <summary>
     ///     Returns a result that will reply to the context message with the specified message.
@@ -68,7 +78,7 @@ public abstract class DiscordTextModuleBase<TContext> : DiscordModuleBase<TConte
     /// <summary>
     ///     Returns a result that will respond in the context channel with the specified embeds.
     /// </summary>
-    /// <param name="embeds"> The embeds to reply with. </param>
+    /// <param name="embeds"> The embeds to respond with. </param>
     /// <returns>
     ///     The created command result.
     /// </returns>
@@ -78,18 +88,28 @@ public abstract class DiscordTextModuleBase<TContext> : DiscordModuleBase<TConte
     /// <summary>
     ///     Returns a result that will respond in the context channel with the specified content and embeds.
     /// </summary>
-    /// <param name="content"> The content to reply with. </param>
-    /// <param name="embeds"> The embeds to reply with. </param>
+    /// <param name="content"> The content to respond with. </param>
+    /// <param name="embeds"> The embeds to respond with. </param>
     /// <returns>
     ///     The created command result.
     /// </returns>
     protected virtual DiscordTextResponseCommandResult Response(string content, params LocalEmbed[] embeds)
         => Response(new LocalMessage().WithContent(content).WithEmbeds(embeds));
+    
+    /// <summary>
+    ///     Returns a result that will respond in the context channel with the specified message components.
+    /// </summary>
+    /// <param name="components"> The message components to respond with. </param>
+    /// <returns>
+    ///     The created command result.
+    /// </returns>
+    protected virtual DiscordTextResponseCommandResult Response(params LocalComponent[] components)
+        => Response(new LocalMessage().WithComponents(components));
 
     /// <summary>
     ///     Returns a result that will respond in the context channel with the specified message.
     /// </summary>
-    /// <param name="message"> The message to reply with. </param>
+    /// <param name="message"> The message to respond with. </param>
     /// <returns>
     ///     The created command result.
     /// </returns>
