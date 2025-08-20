@@ -56,6 +56,16 @@ public abstract class DiscordInteractionModuleBase<TContext> : DiscordModuleBase
         => Response(new LocalInteractionMessageResponse().WithContent(content).WithEmbeds(embeds));
 
     /// <summary>
+    ///     Returns a result that will respond in the context channel with the specified message components.
+    /// </summary>
+    /// <param name="components"> The message components to respond with. </param>
+    /// <returns>
+    ///     The created command result.
+    /// </returns>
+    protected virtual DiscordInteractionResponseCommandResult Response(params LocalComponent[] components)
+        => Response(new LocalInteractionMessageResponse().WithComponents(components));
+
+    /// <summary>
     ///     Returns a result that will respond in the context channel with the specified message.
     /// </summary>
     /// <param name="message"> The message to respond with. </param>
