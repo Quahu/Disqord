@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -583,12 +584,39 @@ public static partial class RestClientExtensions
         return new TypingRepeater(client, channelId, options, cancellationToken);
     }
 
-    public static async Task<IReadOnlyList<IUserMessage>> FetchPinnedMessagesAsync(this IRestClient client,
-        Snowflake channelId,
+    public static IPagedEnumerable<IRestPinnedUserMessage> EnumeratePinnedMessages(this IRestClient client,
+        Snowflake channelId, int limit, DateTimeOffset? startFromDate = null,
+        IRestRequestOptions? options = null)
+    {
+        Guard.IsGreaterThanOrEqualTo(limit, 0);
+
+        return PagedEnumerable.Create((state, cancellationToken) =>
+        {
+            var (client, channelId, limit, startFromId, options) = state;
+            return new FetchPinnedMessagesPagedEnumerator(client, channelId, limit, startFromId, options, cancellationToken);
+        }, (client, channelId, limit, startFromId: startFromDate, options));
+    }
+
+    public static async Task<IReadOnlyList<IRestPinnedUserMessage>> FetchPinnedMessagesAsync(this IRestClient client,
+        Snowflake channelId, int limit = Discord.Limits.Rest.FetchPinnedMessagesPageSize, DateTimeOffset? startFromDate = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var models = await client.ApiClient.FetchPinnedMessagesAsync(channelId, options, cancellationToken).ConfigureAwait(false);
-        return models.ToReadOnlyList(client, (x, client) => new TransientUserMessage(client, x));
+        if (limit == 0)
+            return ReadOnlyList<IRestPinnedUserMessage>.Empty;
+
+        if (limit <= Discord.Limits.Rest.FetchPinnedMessagesPageSize)
+            return (await client.InternalFetchPinnedMessagesAsync(channelId, limit, startFromDate, options, cancellationToken).ConfigureAwait(false)).Messages;
+
+        var enumerable = client.EnumeratePinnedMessages(channelId, limit, startFromDate, options);
+        return await enumerable.FlattenAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    internal static async Task<(bool HasMore, DateTimeOffset? LastPinnedAt, IReadOnlyList<IRestPinnedUserMessage> Messages)> InternalFetchPinnedMessagesAsync(this IRestClient client,
+        Snowflake channelId, int limit, DateTimeOffset? startFromDate,
+        IRestRequestOptions? options, CancellationToken cancellationToken)
+    {
+        var model = await client.ApiClient.FetchPinnedMessagesAsync(channelId, limit, startFromDate, options, cancellationToken).ConfigureAwait(false);
+        return (model.HasMore, model.Items.Length > 0 ? model.Items[^1].PinnedAt : null, model.Items.ToReadOnlyList(client, static (pin, client) => new TransientRestPinnedUserMessage(client, pin.Message, pin.PinnedAt)));
     }
 
     public static Task PinMessageAsync(this IRestClient client,

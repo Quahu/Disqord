@@ -92,11 +92,11 @@ public sealed partial class Route
 
         public static readonly Route TriggerTyping = Post("channels/{0:channel_id}/typing");
 
-        public static readonly Route GetPinnedMessages = Get("channels/{0:channel_id}/pins");
+        public static readonly Route GetPinnedMessages = Get("channels/{0:channel_id}/messages/pins");
 
-        public static readonly Route PinMessage = Put("channels/{0:channel_id}/pins/{1:message_id}");
+        public static readonly Route PinMessage = Put("channels/{0:channel_id}/messages/pins/{1:message_id}");
 
-        public static readonly Route UnpinMessage = Delete("channels/{0:channel_id}/pins/{1:message_id}");
+        public static readonly Route UnpinMessage = Delete("channels/{0:channel_id}}/messages/pins/{1:message_id}");
 
         public static readonly Route StartThreadFromMessage = Post("channels/{0:channel_id}/messages/{1:message_id}/threads");
 
