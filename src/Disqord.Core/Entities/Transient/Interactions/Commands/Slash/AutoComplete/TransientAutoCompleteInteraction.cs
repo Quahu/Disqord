@@ -1,32 +1,46 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Disqord.Models;
 using Qommon;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-public class TransientAutoCompleteInteraction : TransientApplicationCommandInteraction, IAutoCompleteInteraction
+public class TransientAutoCompleteInteraction(IClient client, long receivedAt, InteractionJsonModel model)
+    : TransientApplicationCommandInteraction(client, receivedAt, model), IAutoCompleteInteraction
 {
     /// <inheritdoc/>
+    [field: MaybeNull]
     public IReadOnlyDictionary<string, ISlashCommandInteractionOption> Options
     {
         get
         {
-            if (!Model.Data.Value.Options.HasValue)
+            if (!Data.Options.HasValue)
                 return ReadOnlyDictionary<string, ISlashCommandInteractionOption>.Empty;
 
-            return _options ??= Model.Data.Value.Options.Value.ToReadOnlyDictionary(Client,
-                (model, _) => model.Name,
-                (model, client) => new TransientSlashCommandInteractionOption(client, model) as ISlashCommandInteractionOption, StringComparer.OrdinalIgnoreCase);
+            return field ??= Data.Options.Value.ToReadOnlyDictionary(Client,
+                static (model, _) => model.Name,
+                static (model, client) => new TransientSlashCommandInteractionOption(client, model) as ISlashCommandInteractionOption, StringComparer.OrdinalIgnoreCase);
         }
     }
-    private IReadOnlyDictionary<string, ISlashCommandInteractionOption>? _options;
 
     public ISlashCommandInteractionOption FocusedOption
     {
         get
         {
+            var names = new List<string>();
+            FindOptionName(names, Data.Options.Value);
+            var nameCount = names.Count;
+            ISlashCommandInteractionOption? option = null;
+            for (var i = 0; i < nameCount; i++)
+            {
+                var name = names[i];
+                option = (option?.Options ?? Options)[name];
+            }
+
+            return option!;
+
             static void FindOptionName(List<string> names, ApplicationCommandInteractionDataOptionJsonModel[] options)
             {
                 foreach (var option in options)
@@ -45,22 +59,6 @@ public class TransientAutoCompleteInteraction : TransientApplicationCommandInter
                     }
                 }
             }
-
-            var names = new List<string>();
-            FindOptionName(names, Model.Data.Value.Options.Value);
-            var nameCount = names.Count;
-            ISlashCommandInteractionOption? option = null;
-            for (var i = 0; i < nameCount; i++)
-            {
-                var name = names[i];
-                option = (option?.Options ?? Options)[name];
-            }
-
-            return option!;
         }
     }
-
-    public TransientAutoCompleteInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
-        : base(client, __receivedAt, model)
-    { }
 }

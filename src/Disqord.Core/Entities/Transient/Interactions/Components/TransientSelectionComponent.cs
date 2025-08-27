@@ -48,6 +48,9 @@ public class TransientSelectionComponent : TransientComponent, ISelectionCompone
     /// <inheritdoc/>
     public bool IsDisabled => Model.Disabled.GetValueOrDefault();
 
+    /// <inheritdoc/>
+    public bool IsRequired => Model.Required.GetValueOrDefault();
+
     public TransientSelectionComponent(IClient client, ComponentJsonModel model)
         : base(client, model)
     { }

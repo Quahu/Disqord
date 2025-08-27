@@ -1,27 +1,26 @@
-﻿using Disqord.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+using Disqord.Models;
 
 namespace Disqord;
 
-public class TransientComponentInteraction : TransientUserInteraction, IComponentInteraction
+public class TransientComponentInteraction(IClient client, long receivedAt, InteractionJsonModel model) 
+    : TransientUserInteraction(client, receivedAt, model), IComponentInteraction
 {
     /// <inheritdoc/>
-    public string CustomId => Model.Data.Value.CustomId.Value;
+    public string CustomId => Data.CustomId;
 
     /// <inheritdoc/>
-    public ComponentType ComponentType => Model.Data.Value.ComponentType.Value;
+    public ComponentType ComponentType => Data.ComponentType;
 
     /// <inheritdoc/>
-    public IUserMessage Message => _message ??= new TransientUserMessage(Client, Model.Message.Value);
+    [field: MaybeNull]
+    public IUserMessage Message => field ??= new TransientUserMessage(Client, Model.Message.Value);
 
-    private IUserMessage? _message;
-
-    public TransientComponentInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
-        : base(client, __receivedAt, model)
-    { }
+    private MessageComponentInteractionDataJsonModel Data => (MessageComponentInteractionDataJsonModel) Model.Data.Value;
 
     public new static IUserInteraction Create(IClient client, long __receivedAt, InteractionJsonModel model)
     {
-        return model.Data.Value.ComponentType.Value switch
+        return ((MessageComponentInteractionDataJsonModel) model.Data.Value).ComponentType switch
         {
             ComponentType.StringSelection or >= ComponentType.UserSelection and <= ComponentType.ChannelSelection
                 => TransientSelectionComponentInteraction.Create(client, __receivedAt, model),

@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 
 namespace Disqord;
@@ -12,6 +13,7 @@ public static class LocalTextInputComponentExtensions
         return textInput;
     }
 
+    [Obsolete(LocalTextInputComponent.LabelObsoletionMessage)]
     public static TComponent WithLabel<TComponent>(this TComponent textInput, string label)
         where TComponent : LocalTextInputComponent
     {

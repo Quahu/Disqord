@@ -2,12 +2,9 @@
 
 namespace Disqord;
 
-public class TransientContextMenuInteraction : TransientApplicationCommandInteraction, IContextMenuInteraction
+public class TransientContextMenuInteraction(IClient client, long receivedAt, InteractionJsonModel model)
+    : TransientApplicationCommandInteraction(client, receivedAt, model), IContextMenuInteraction
 {
     /// <inheritdoc/>
-    public Snowflake TargetId => Model.Data.Value.TargetId.Value;
-
-    public TransientContextMenuInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
-        : base(client, __receivedAt, model)
-    { }
+    public Snowflake TargetId => Data.TargetId.Value;
 }

@@ -10,5 +10,5 @@ public interface IModalSubmitInteraction : IUserInteraction, ICustomIdentifiable
     /// <summary>
     ///     Gets the components of this interaction.
     /// </summary>
-    IReadOnlyList<IComponent> Components { get; }
+    IReadOnlyList<IModalComponent> Components { get; }
 }

@@ -31,5 +31,7 @@ public enum ComponentType : byte
 
     Separator = 14,
 
-    Container = 17
+    Container = 17,
+
+    Label = 18,
 }

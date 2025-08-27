@@ -1,9 +1,12 @@
+using System;
 using Qommon;
 
 namespace Disqord;
 
 public class LocalTextInputComponent : LocalComponent, ILocalCustomIdentifiableEntity, ILocalConstruct<LocalTextInputComponent>
 {
+    internal const string LabelObsoletionMessage = "Discord has deprecated text input labels in favor of label components";
+
     /// <summary>
     ///     Gets or sets the style of this text input.
     /// </summary>
@@ -21,7 +24,8 @@ public class LocalTextInputComponent : LocalComponent, ILocalCustomIdentifiableE
     /// <remarks>
     ///     This property is required.
     /// </remarks>
-    public Optional<string> Label { get; set; }
+    [Obsolete(LabelObsoletionMessage)]
+    public new Optional<string> Label { get; set; }
 
     /// <summary>
     ///     Gets or sets the minimum input length of this text input.
@@ -62,7 +66,11 @@ public class LocalTextInputComponent : LocalComponent, ILocalCustomIdentifiableE
     {
         Style = other.Style;
         CustomId = other.CustomId;
+
+#pragma warning disable CS0618 // Type or member is obsolete
         Label = other.Label;
+#pragma warning restore CS0618 // Type or member is obsolete
+
         MinimumInputLength = other.MinimumInputLength;
         MaximumInputLength = other.MaximumInputLength;
         IsRequired = other.IsRequired;
@@ -89,11 +97,15 @@ public class LocalTextInputComponent : LocalComponent, ILocalCustomIdentifiableE
         {
             Style = textInputComponent.Style,
             CustomId = textInputComponent.CustomId,
+
+#pragma warning disable CS0618 // Type or member is obsolete
             Label = textInputComponent.Label,
+#pragma warning restore CS0618 // Type or member is obsolete
+
             MinimumInputLength = Optional.FromNullable(textInputComponent.MinimumInputLength),
             MaximumInputLength = Optional.FromNullable(textInputComponent.MaximumInputLength),
             IsRequired = textInputComponent.IsRequired,
-            PrefilledValue = Optional.FromNullable(textInputComponent.Value),
+            PrefilledValue = Optional.FromNullable(textInputComponent.PrefilledValue),
             Placeholder = Optional.FromNullable(textInputComponent.Placeholder)
         };
     }

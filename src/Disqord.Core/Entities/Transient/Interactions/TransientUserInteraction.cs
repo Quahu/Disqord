@@ -6,7 +6,8 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-public class TransientUserInteraction : TransientInteraction, IUserInteraction
+public class TransientUserInteraction(IClient client, long receivedAt, InteractionJsonModel model)
+    : TransientInteraction(client, receivedAt, model), IUserInteraction
 {
     /// <inheritdoc/>
     public Snowflake? GuildId => Model.GuildId.GetValueOrNullable();
@@ -79,15 +80,11 @@ public class TransientUserInteraction : TransientInteraction, IUserInteraction
     /// <inheritdoc/>
     public int? AttachmentSizeLimit => Model.AttachmentSizeLimit.GetValueOrNullable();
 
-    public TransientUserInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
-        : base(client, __receivedAt, model)
-    { }
-
     public new static IUserInteraction Create(IClient client, long __receivedAt, InteractionJsonModel model)
     {
         return model.Type switch
         {
-            InteractionType.ApplicationCommand => model.Data.Value.Type.Value switch
+            InteractionType.ApplicationCommand => ((ApplicationCommandInteractionDataJsonModel) model.Data.Value).Type switch
             {
                 ApplicationCommandType.Slash => new TransientSlashCommandInteraction(client, __receivedAt, model),
                 ApplicationCommandType.User or ApplicationCommandType.Message => new TransientContextMenuInteraction(client, __receivedAt, model),

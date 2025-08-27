@@ -5,31 +5,32 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-public class TransientSelectionComponentInteraction : TransientComponentInteraction, ISelectionComponentInteraction
+public class TransientSelectionComponentInteraction(IClient client, long receivedAt, InteractionJsonModel model) 
+    : TransientComponentInteraction(client, receivedAt, model), ISelectionComponentInteraction
 {
     /// <inheritdoc/>
-    public new SelectionComponentType ComponentType => (SelectionComponentType) Model.Data.Value.ComponentType.Value;
+    public new SelectionComponentType ComponentType => (SelectionComponentType) Data.ComponentType;
 
     /// <inheritdoc/>
     public IReadOnlyList<string> SelectedValues
     {
         get
         {
-            if (!Model.Data.Value.Values.TryGetValue(out var values))
+            if (!Data.Values.TryGetValue(out var values))
                 return ReadOnlyList<string>.Empty;
 
             return values;
         }
     }
 
-    public TransientSelectionComponentInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
-        : base(client, __receivedAt, model)
-    { }
+    protected MessageComponentInteractionDataJsonModel Data => (MessageComponentInteractionDataJsonModel) Model.Data.Value;
 
     public new static IUserInteraction Create(IClient client, long __receivedAt, InteractionJsonModel model)
     {
-        if (model.Data.Value.ComponentType.Value is >= Disqord.ComponentType.UserSelection and <= Disqord.ComponentType.ChannelSelection)
+        if (((MessageComponentInteractionDataJsonModel) model.Data.Value).ComponentType is >= Disqord.ComponentType.UserSelection and <= Disqord.ComponentType.ChannelSelection)
+        {
             return new TransientEntitySelectionComponentInteraction(client, __receivedAt, model);
+        }
 
         return new TransientSelectionComponentInteraction(client, __receivedAt, model);
     }
