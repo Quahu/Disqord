@@ -121,4 +121,11 @@ public static class LocalSelectionComponentExtensions
     {
         return selection.WithOptions(options as IEnumerable<LocalSelectionComponentOption>);
     }
+
+    public static TComponent WithIsRequired<TComponent>(this TComponent selection, bool isRequired = true)
+        where TComponent : LocalSelectionComponent
+    {
+        selection.IsRequired = isRequired;
+        return selection;
+    }
 }

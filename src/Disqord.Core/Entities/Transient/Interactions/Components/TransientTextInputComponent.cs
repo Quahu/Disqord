@@ -4,7 +4,7 @@ using Qommon;
 namespace Disqord;
 
 /// <inheritdoc cref="ITextInputComponent"/>
-public class TransientTextInputComponent : TransientComponent, ITextInputComponent
+public class TransientTextInputComponent(IClient client, ComponentJsonModel model) : TransientComponent(client, model), ITextInputComponent
 {
     /// <inheritdoc/>
     public string CustomId => Model.CustomId.Value;
@@ -25,12 +25,8 @@ public class TransientTextInputComponent : TransientComponent, ITextInputCompone
     public bool IsRequired => Model.Required.GetValueOrDefault(true);
 
     /// <inheritdoc/>
-    public string? Value => Model.Value.GetValueOrDefault();
+    public string? PrefilledValue => Model.Value.GetValueOrDefault();
 
     /// <inheritdoc/>
     public string? Placeholder => Model.Placeholder.GetValueOrDefault();
-
-    public TransientTextInputComponent(IClient client, ComponentJsonModel model)
-        : base(client, model)
-    { }
 }

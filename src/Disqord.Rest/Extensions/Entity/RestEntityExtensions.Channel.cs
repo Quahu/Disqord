@@ -250,11 +250,20 @@ public static partial class RestEntityExtensions
         return client.BeginTyping(channel.Id, options, cancellationToken);
     }
 
-    public static Task<IReadOnlyList<IUserMessage>> FetchPinnedMessagesAsync(this IMessageChannel channel,
+    public static IPagedEnumerable<IRestPinnedUserMessage> EnumeratePinnedMessages(this IMessageChannel channel,
+        int limit, FetchDirection direction = FetchDirection.Before, DateTimeOffset? startFromDate = null,
+        IRestRequestOptions? options = null)
+    {
+        var client = channel.GetRestClient();
+        return client.EnumeratePinnedMessages(channel.Id, limit, startFromDate, options);
+    }
+
+    public static Task<IReadOnlyList<IRestPinnedUserMessage>> FetchPinnedMessagesAsync(this IMessageChannel channel,
+        int limit = Discord.Limits.Rest.FetchPinnedMessagesPageSize, DateTimeOffset? startFromDate = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var client = channel.GetRestClient();
-        return client.FetchPinnedMessagesAsync(channel.Id, options, cancellationToken);
+        return client.FetchPinnedMessagesAsync(channel.Id, limit, startFromDate, options, cancellationToken);
     }
 
     public static Task PinMessageAsync(this IMessageChannel channel,

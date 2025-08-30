@@ -63,6 +63,14 @@ public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableE
     public Optional<IList<LocalSelectionComponentOption>> Options { get; set; }
 
     /// <summary>
+    ///     Gets or sets whether this selection is required.
+    /// </summary>
+    /// <remarks>
+    ///     This is only used when the selection component is a part of a modal.
+    /// </remarks>
+    public Optional<bool> IsRequired { get; set; }
+
+    /// <summary>
     ///     Instantiates a new <see cref="LocalSelectionComponent"/>.
     /// </summary>
     public LocalSelectionComponent()
@@ -82,6 +90,7 @@ public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableE
         MinimumSelectedOptions = other.MinimumSelectedOptions;
         MaximumSelectedOptions = other.MaximumSelectedOptions;
         Options = other.Options.DeepClone();
+        IsRequired = other.IsRequired;
     }
 
     /// <inheritdoc/>
@@ -106,7 +115,8 @@ public class LocalSelectionComponent : LocalComponent, ILocalCustomIdentifiableE
             ChannelTypes = selectionComponent.ChannelTypes.ToArray(),
             MinimumSelectedOptions = selectionComponent.MinimumSelectedOptions,
             MaximumSelectedOptions = selectionComponent.MaximumSelectedOptions,
-            IsDisabled = selectionComponent.IsDisabled
+            IsDisabled = selectionComponent.IsDisabled,
+            IsRequired = selectionComponent.IsRequired
         };
 
         if (selectionComponent.Type == SelectionComponentType.String)

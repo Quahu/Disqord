@@ -267,7 +267,22 @@ public enum Permissions : ulong
     SendPolls = 1ul << 49,
 
     /// <summary>
-    ///     Represents all permissions combined together.
+    ///     From the Discord documentation:
+    ///     <para>
+    ///         Allows user-installed apps to send public responses.
+    ///         When disabled, users will still be allowed to use their apps but the responses will be ephemeral.
+    ///         This only applies to apps not also installed to the server.
+    ///     </para>
+    /// </summary>
+    UseExternalApplications = 1ul << 50,
+
+    /// <summary>
+    ///     Allows pinning and unpinning messages.
+    /// </summary>
+    PinMessages = 1ul << 51,
+
+    /// <summary>
+    ///     Represents all permissions combined.
     /// </summary>
     /// <remarks>
     ///     This includes <see cref="Administrator"/>.
@@ -284,4 +299,5 @@ public enum Permissions : ulong
         | CreatePrivateThreads | UseExternalStickers | SendMessagesInThreads | StartActivities
         | ModerateMembers | ViewCreatorMonetizationAnalytics | UseSoundboard | CreateExpressions
         | CreateEvents | UseExternalSounds | SendVoiceMessages | SendPolls
+        | UseExternalApplications | PinMessages
 }

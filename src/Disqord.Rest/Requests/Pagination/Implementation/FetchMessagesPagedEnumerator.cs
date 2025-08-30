@@ -10,18 +10,18 @@ public class FetchMessagesPagedEnumerator : PagedEnumerator<IMessage>
 {
     public override int PageSize => Discord.Limits.Rest.FetchMessagesPageSize;
 
-    private readonly Snowflake _guildId;
+    private readonly Snowflake _channelId;
     private readonly FetchDirection _direction;
     private readonly Snowflake? _startFromId;
 
     public FetchMessagesPagedEnumerator(
         IRestClient client,
-        Snowflake guildId, int limit, FetchDirection direction, Snowflake? startFromId,
+        Snowflake channelId, int limit, FetchDirection direction, Snowflake? startFromId,
         IRestRequestOptions? options,
         CancellationToken cancellationToken)
         : base(client, limit, options, cancellationToken)
     {
-        _guildId = guildId;
+        _channelId = channelId;
         _direction = direction;
         _startFromId = startFromId;
     }
@@ -41,6 +41,6 @@ public class FetchMessagesPagedEnumerator : PagedEnumerator<IMessage>
             };
         }
 
-        return Client.InternalFetchMessagesAsync(_guildId, NextPageSize, _direction, startFromId, options, cancellationToken);
+        return Client.InternalFetchMessagesAsync(_channelId, NextPageSize, _direction, startFromId, options, cancellationToken);
     }
 }

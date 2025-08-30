@@ -14,8 +14,8 @@ public class InteractionJsonModel : JsonModel
     [JsonProperty("type")]
     public InteractionType Type;
 
-    [JsonProperty("data")]
-    public Optional<InteractionDataJsonModel> Data;
+    [JsonIgnore]
+    public Optional<InteractionDataJsonModel> Data; // Polymorphic deserialization in the InteractionJsonModel converter
 
     [JsonProperty("guild_id")]
     public Optional<Snowflake> GuildId;

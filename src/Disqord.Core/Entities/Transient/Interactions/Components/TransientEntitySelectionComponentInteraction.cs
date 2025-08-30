@@ -1,32 +1,29 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Disqord.Models;
 using Qommon;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-public class TransientEntitySelectionComponentInteraction : TransientSelectionComponentInteraction, IEntitySelectionComponentInteraction
+public class TransientEntitySelectionComponentInteraction(IClient client, long receivedAt, InteractionJsonModel model)
+    : TransientSelectionComponentInteraction(client, receivedAt, model), IEntitySelectionComponentInteraction
 {
     /// <inheritdoc/>
+    [field: MaybeNull]
     public new IReadOnlyList<Snowflake> SelectedValues
     {
         get
         {
-            if (!Model.Data.Value.Values.HasValue)
+            if (!Data.Values.HasValue)
                 return ReadOnlyList<Snowflake>.Empty;
 
-            return _selectedValues ??= Model.Data.Value.Values.Value.ToReadOnlyList(Snowflake.Parse);
+            return field ??= Data.Values.Value.ToReadOnlyList(Snowflake.Parse);
         }
     }
-    private IReadOnlyList<Snowflake>? _selectedValues;
 
     /// <inheritdoc/>
-    public IInteractionEntities Entities => _entities ??= new TransientInteractionEntities(Client, GuildId,
-        Model.Data.Value.Resolved.GetValueOrDefault(() => new ApplicationCommandInteractionDataResolvedJsonModel()));
-
-    private IInteractionEntities? _entities;
-
-    public TransientEntitySelectionComponentInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
-        : base(client, __receivedAt, model)
-    { }
+    [field: MaybeNull]
+    public IInteractionEntities Entities => field ??= new TransientInteractionEntities(Client, GuildId,
+        Data.Resolved.GetValueOrDefault(static () => new ApplicationCommandInteractionDataResolvedJsonModel()));
 }

@@ -394,14 +394,19 @@ public class AudioPlayer : IAsyncDisposable
                 await SendSilenceAsync(connection, cancellationToken).ConfigureAwait(false);
 
                 Tcs<AudioSource> sourceTask;
-                CancellationToken sourceCancellationToken;
                 lock (_sourceLock)
                 {
                     sourceTask = _source;
-                    sourceCancellationToken = _sourceCts.Token;
                 }
 
                 var source = await sourceTask.Task.ConfigureAwait(false);
+
+                CancellationToken sourceCancellationToken;
+                lock (_sourceLock)
+                {
+                    sourceCancellationToken = _sourceCts.Token;
+                }
+
                 using (var linkedCts = Cts.Linked(cancellationToken, sourceCancellationToken))
                 {
                     var linkedCancellationToken = linkedCts.Token;

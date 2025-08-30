@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Models;
+using Disqord.Rest.Api.Models;
 using Qommon;
 
 namespace Disqord.Rest.Api;
@@ -243,12 +244,25 @@ public static partial class RestApiClientExtensions
         return client.ExecuteAsync(route, null, options, cancellationToken);
     }
 
-    public static Task<MessageJsonModel[]> FetchPinnedMessagesAsync(this IRestApiClient client,
+    public static Task<MessagePinsResponseJsonModel> FetchPinnedMessagesAsync(this IRestApiClient client,
         Snowflake channelId,
+        int limit = Discord.Limits.Rest.FetchPinnedMessagesPageSize, DateTimeOffset? startFromDate = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var route = Format(Route.Channel.GetPinnedMessages, channelId);
-        return client.ExecuteAsync<MessageJsonModel[]>(route, null, options, cancellationToken);
+        Guard.IsBetweenOrEqualTo(limit, 0, Discord.Limits.Rest.FetchPinnedMessagesPageSize);
+
+        var queryParameters = new Dictionary<string, object>
+        {
+            ["limit"] = limit
+        };
+
+        if (startFromDate != null)
+        {
+            queryParameters.Add("before", startFromDate.Value.ToString("O"));
+        }
+
+        var route = Format(Route.Channel.GetPinnedMessages, queryParameters, channelId);
+        return client.ExecuteAsync<MessagePinsResponseJsonModel>(route, null, options, cancellationToken);
     }
 
     public static Task PinMessageAsync(this IRestApiClient client,

@@ -31,10 +31,9 @@ public interface ITextInputComponent : IComponent, ICustomIdentifiableEntity
     bool IsRequired { get; }
 
     /// <summary>
-    ///     Gets the pre-filled text of this text input component
-    ///     or the submitted value when received in a modal submit interaction.
+    ///     Gets the pre-filled text of this text input component.
     /// </summary>
-    string? Value { get; }
+    string? PrefilledValue { get; }
 
     /// <summary>
     ///     Gets the placeholder text of this text input component.

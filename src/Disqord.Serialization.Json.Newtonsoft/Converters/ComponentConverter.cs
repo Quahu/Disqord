@@ -43,6 +43,7 @@ internal sealed class ComponentConverter : JsonConverter
             ComponentType.File => new FileComponentJsonModel(),
             ComponentType.Separator => new SeparatorComponentJsonModel(),
             ComponentType.Container => new ContainerComponentJsonModel(),
+            ComponentType.Label => new LabelComponentJsonModel(),
             _ => new BaseComponentJsonModel()
         };
     }

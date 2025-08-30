@@ -1,29 +1,28 @@
-﻿using Disqord.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+using Disqord.Models;
 using Qommon;
 
 namespace Disqord;
 
-public class TransientApplicationCommandInteraction : TransientUserInteraction, IApplicationCommandInteraction
+public class TransientApplicationCommandInteraction(IClient client, long receivedAt, InteractionJsonModel model)
+    : TransientUserInteraction(client, receivedAt, model), IApplicationCommandInteraction
 {
     /// <inheritdoc/>
-    public Snowflake CommandId => Model.Data.Value.Id.Value;
+    public Snowflake CommandId => Data.Id;
 
     /// <inheritdoc/>
-    public string CommandName => Model.Data.Value.Name.Value;
+    public string CommandName => Data.Name;
 
     /// <inheritdoc/>
-    public ApplicationCommandType CommandType => Model.Data.Value.Type.Value;
+    public ApplicationCommandType CommandType => Data.Type;
 
     /// <inheritdoc/>
-    public Snowflake? CommandGuildId => Model.Data.Value.GuildId.GetValueOrNullable();
+    public Snowflake? CommandGuildId => Data.GuildId.GetValueOrNullable();
 
     /// <inheritdoc/>
-    public IInteractionEntities Entities => _entities ??= new TransientInteractionEntities(Client, GuildId,
-        Model.Data.Value.Resolved.GetValueOrDefault(() => new ApplicationCommandInteractionDataResolvedJsonModel()));
+    [field: MaybeNull]
+    public IInteractionEntities Entities => field ??= new TransientInteractionEntities(Client, GuildId,
+        Data.Resolved.GetValueOrDefault(static () => new ApplicationCommandInteractionDataResolvedJsonModel()));
 
-    private IInteractionEntities? _entities;
-
-    public TransientApplicationCommandInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
-        : base(client, __receivedAt, model)
-    { }
+    protected ApplicationCommandInteractionDataJsonModel Data => (ApplicationCommandInteractionDataJsonModel) Model.Data.Value;
 }

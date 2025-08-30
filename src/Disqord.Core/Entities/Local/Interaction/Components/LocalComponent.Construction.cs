@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Disqord;
 
@@ -57,6 +58,16 @@ public abstract partial class LocalComponent
         };
     }
 
+    public static LocalTextInputComponent TextInput(string customId, TextInputComponentStyle style = TextInputComponentStyle.Short)
+    {
+        return new LocalTextInputComponent
+        {
+            CustomId = customId,
+            Style = style
+        };
+    }
+
+    [Obsolete(LocalTextInputComponent.LabelObsoletionMessage)]
     public static LocalTextInputComponent TextInput(string customId, string label, TextInputComponentStyle style)
     {
         return new LocalTextInputComponent
@@ -127,5 +138,20 @@ public abstract partial class LocalComponent
     {
         return new LocalContainerComponent()
             .WithComponents(components);
+    }
+
+    public static LocalLabelComponent Label(string label, LocalComponent component)
+    {
+        return new LocalLabelComponent()
+            .WithLabel(label)
+            .WithComponent(component);
+    }
+
+    public static LocalLabelComponent Label(string label, string description, LocalComponent component)
+    {
+        return new LocalLabelComponent()
+            .WithLabel(label)
+            .WithDescription(description)
+            .WithComponent(component);
     }
 }

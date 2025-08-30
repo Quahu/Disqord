@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ public static partial class DefaultComponentExecutionSteps
 
             var command = context.Command;
             var interaction = componentContext.Interaction;
-            var parameterOffset = context.RawArguments?.Count ?? 0;
+            var parameterOffset = context.RawArguments?.Count ?? 0; // TODO: RawArguments is a dictionary, so this is wrong.
             if (interaction is ISelectionComponentInteraction selectionInteraction)
             {
                 var parameter = command.Parameters.ElementAtOrDefault(parameterOffset);
@@ -93,41 +94,95 @@ public static partial class DefaultComponentExecutionSteps
             }
             else if (interaction is IModalSubmitInteraction modalSubmitInteraction)
             {
-                var modalComponents = modalSubmitInteraction.Components;
-                var modalComponentCount = modalComponents.Count;
                 var parameters = command.Parameters;
                 var parameterCount = parameters.Count;
-                for (var i = 0; i < modalComponentCount; i++)
+
+                using var modalComponentsEnumerator = ExtractInnerModalComponents(modalSubmitInteraction.Components).GetEnumerator();
+
+                // TODO: implement custom ID matching? For now, just assign positionally
+                for (var parameterIndex = parameterOffset; parameterIndex < parameterCount && modalComponentsEnumerator.MoveNext(); parameterIndex++)
                 {
-                    if (modalComponents[i] is not IRowComponent rowComponent)
-                        continue;
-
-                    var components = rowComponent.Components;
-                    var componentCount = components.Count;
-                    for (var j = 0; j < componentCount; j++)
+                    var parameter = parameters[parameterIndex];
+                    var modalComponent = modalComponentsEnumerator.Current;
+                    var rawArgument = GetRawArgumentFromModalComponent(modalComponent);
+                    if (rawArgument.Count > 1)
                     {
-                        var component = components[j];
-
-                        // TODO: support selection components after they get documented
-                        if (component is not ITextInputComponent textInputComponent)
-                            continue;
-
-                        for (var k = parameterOffset; k < parameterCount; k++)
+                        var typeInformation = parameter.GetTypeInformation();
+                        if (!typeInformation.IsMultiString && !typeInformation.IsEnumerable)
                         {
-                            var parameter = parameters[k];
-                            if (parameter.Name != textInputComponent.CustomId)
-                                continue;
-
-                            if (!string.IsNullOrEmpty(textInputComponent.Value))
-                                (context.RawArguments ??= new Dictionary<IParameter, MultiString>())[parameter] = textInputComponent.Value;
-
-                            break;
+                            Throw.InvalidOperationException($"Invalid modal multi-string argument for parameter {parameter.Name} ({typeInformation.ActualType}); must not contain multiple strings as the parameter accepts a single value.");
                         }
                     }
+
+                    (context.RawArguments ??= new Dictionary<IParameter, MultiString>())[parameter] = rawArgument;
                 }
             }
 
             return Next.ExecuteAsync(context);
+        }
+
+        private IEnumerable<IModalComponent> ExtractInnerModalComponents(IReadOnlyList<IModalComponent> modalComponents)
+        {
+            var modalComponentCount = modalComponents.Count;
+            for (var i = 0; i < modalComponentCount; i++)
+            {
+                var modalComponent = modalComponents[i];
+                foreach (var innerModalComponent in ExtractInnerModalComponents(modalComponent))
+                {
+                    yield return innerModalComponent;
+                }
+            }
+        }
+
+        protected virtual IEnumerable<IModalComponent> ExtractInnerModalComponents(IModalComponent modalComponent)
+        {
+            if (modalComponent is IModalRowComponent rowComponent)
+            {
+                foreach (var innerComponent in rowComponent.Components)
+                {
+                    yield return innerComponent;
+                }
+            }
+            else if (modalComponent is IModalLabelComponent labelComponent)
+            {
+                yield return labelComponent.Component;
+            }
+            else
+            {
+                ThrowNotImplementedException($"{nameof(BindValues)}.{nameof(ExtractInnerModalComponents)}() does not support the modal component of type: {modalComponent.Type} (ID: {modalComponent.Id}).");
+            }
+        }
+
+        protected virtual MultiString GetRawArgumentFromModalComponent(IModalComponent modalComponent)
+        {
+            switch (modalComponent)
+            {
+                case IModalTextInputComponent textInputComponent:
+                {
+                    return new MultiString(textInputComponent.Value);
+                }
+                case IModalSelectionComponent selectionComponent:
+                {
+                    var rawArgument = MultiString.CreateList(out var list);
+                    foreach (var value in selectionComponent.Values)
+                    {
+                        list.Add(value.AsMemory());
+                    }
+
+                    return rawArgument;
+                }
+                default:
+                {
+                    ThrowNotImplementedException($"{nameof(BindValues)}.{nameof(GetRawArgumentFromModalComponent)}() does not support the modal component of type: {modalComponent.Type} (ID: {modalComponent.Id}).");
+                    return default;
+                }
+            }
+        }
+
+        [DoesNotReturn]
+        private static void ThrowNotImplementedException(string message)
+        {
+            throw new NotImplementedException(message);
         }
     }
 }
