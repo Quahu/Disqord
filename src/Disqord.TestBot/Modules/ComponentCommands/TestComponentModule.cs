@@ -12,12 +12,19 @@ public class TestComponentModule : DiscordComponentModuleBase
     [ButtonCommand("Button1")]
     public Task Button1()
     {
+        var foodOptions = new LocalSelectionComponentOption[]
+        {
+            new("🍕", "pizza"),
+            new("🥩", "steak"),
+            new("🍣", "sushi"),
+        };
+
         var modal = new LocalInteractionModalResponse()
             .WithCustomId(nameof(Modal1))
             .WithTitle("Favorite Food")
             .WithComponents(
-                LocalComponent.Row(LocalComponent.TextInput("name", "Name", TextInputComponentStyle.Short)),
-                LocalComponent.Row(LocalComponent.TextInput("favoriteFood", "Favorite Food", TextInputComponentStyle.Short)));
+                LocalComponent.Label("Name", "Please provide your name.", LocalComponent.TextInput("name")),
+                LocalComponent.Label("Favorite Food", "Choose your favorite food", LocalComponent.Selection("favoriteFood", foodOptions).WithMaximumSelectedOptions(foodOptions.Length)));
 
         return Context.Interaction.Response().SendModalAsync(modal);
     }
@@ -36,10 +43,10 @@ public class TestComponentModule : DiscordComponentModuleBase
     }
 
     [ModalCommand("Modal1")]
-    public IResult Modal1(string name, string favoriteFood)
+    public IResult Modal1(string name, string[] favoriteFood)
     {
         return Response(new LocalInteractionMessageResponse()
-            .WithContent($"Your name is {name} and your favorite food is {favoriteFood}.")
+            .WithContent($"Your name is {name} and your favorite food is: {string.Join(", ", favoriteFood)}.")
             .WithIsEphemeral());
     }
 

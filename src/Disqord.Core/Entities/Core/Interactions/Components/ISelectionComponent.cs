@@ -57,4 +57,12 @@ public interface ISelectionComponent : IComponent, ICustomIdentifiableEntity
     ///     Gets whether this selection component is disabled.
     /// </summary>
     bool IsDisabled { get; }
+
+    /// <summary>
+    ///     Gets whether it is required to choose options from this select component.
+    /// </summary>
+    /// <remarks>
+    ///     This is only used when the selection component is a part of a modal.
+    /// </remarks>
+    bool IsRequired { get; }
 }

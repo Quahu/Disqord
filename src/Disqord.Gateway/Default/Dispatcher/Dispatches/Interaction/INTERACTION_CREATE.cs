@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
@@ -23,20 +24,29 @@ public class InteractionCreateDispatchHandler : DispatchHandler<InteractionJsonM
 
             if (interaction is IEntityInteraction entityInteraction
                 && entityInteraction.Entities is TransientInteractionEntities interactionEntities
-                && model.Data.TryGetValue(out var dataModel) && dataModel.Resolved.TryGetValue(out var dataResolvedModel)
-                && dataResolvedModel.Users.TryGetValue(out var userModels) && dataResolvedModel.Members.TryGetValue(out var memberModels))
+                && model.Data.TryGetValue(out var dataModel) && (dataModel is ApplicationCommandInteractionDataJsonModel or MessageComponentInteractionDataJsonModel))
             {
-                var users = new Dictionary<Snowflake, IUser>(memberModels.Count);
-                foreach (var (id, memberModel) in memberModels)
+                var resolved = dataModel switch
                 {
-                    if (!userModels.TryGetValue(id, out var userModel))
-                        continue;
+                    ApplicationCommandInteractionDataJsonModel applicationCommandInteractionDataModel => applicationCommandInteractionDataModel.Resolved.GetValueOrDefault(),
+                    MessageComponentInteractionDataJsonModel messageComponentInteractionDataModel => messageComponentInteractionDataModel.Resolved.GetValueOrDefault(),
+                    _ => null
+                };
 
-                    memberModel.User = userModel;
-                    users.Add(id, Dispatcher.GetOrAddMemberTransient(model.GuildId.Value, memberModel));
+                if (resolved != null && resolved.Users.TryGetValue(out var userModels) && resolved.Members.TryGetValue(out var memberModels))
+                {
+                    var users = new Dictionary<Snowflake, IUser>(memberModels.Count);
+                    foreach (var (id, memberModel) in memberModels)
+                    {
+                        if (!userModels.TryGetValue(id, out var userModel))
+                            continue;
+
+                        memberModel.User = userModel;
+                        users.Add(id, Dispatcher.GetOrAddMemberTransient(model.GuildId.Value, memberModel));
+                    }
+
+                    interactionEntities._users = users.ReadOnly();
                 }
-
-                interactionEntities._users = users.ReadOnly();
             }
         }
 

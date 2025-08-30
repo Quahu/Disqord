@@ -10,7 +10,7 @@ public abstract class LocalButtonComponentBase : LocalComponent, ILocalConstruct
     /// <remarks>
     ///     This property is required if <see cref="Emoji"/> is not set.
     /// </remarks>
-    public Optional<string> Label { get; set; }
+    public new Optional<string> Label { get; set; }
 
     /// <summary>
     ///     Gets or sets the emoji of this button.

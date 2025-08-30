@@ -97,6 +97,18 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
                 };
 
                 break;
+            case LocalLabelComponent label:
+                OptionalGuard.HasValue(label.Label);
+                OptionalGuard.HasValue(label.Component);
+
+                model = new LabelComponentJsonModel
+                {
+                    Label = label.Label.Value,
+                    Description = label.Description,
+                    Component = label.Component.Value.ToModel()
+                };
+
+                break;
             default:
                 throw new InvalidOperationException("Unknown local component type.");
         }
@@ -150,13 +162,18 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
             model.MaxValues = selectionComponent.MaximumSelectedOptions;
             model.Disabled = selectionComponent.IsDisabled;
             model.Options = Optional.Convert(selectionComponent.Options, options => options.Select(option => option.ToModel()).ToArray());
+            model.Required = selectionComponent.IsRequired;
         }
         else if (this is LocalTextInputComponent textInputComponent)
         {
             model.Type = ComponentType.TextInput;
             model.Style = Optional.Convert(textInputComponent.Style, style => (byte) style);
             model.CustomId = textInputComponent.CustomId;
+
+#pragma warning disable CS0618 // Type or member is obsolete
             model.Label = textInputComponent.Label;
+#pragma warning restore CS0618 // Type or member is obsolete
+
             model.MinLength = textInputComponent.MinimumInputLength;
             model.MaxLength = textInputComponent.MaximumInputLength;
             model.Required = textInputComponent.IsRequired;
@@ -195,6 +212,7 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
                 + "You must use the `attachment://` reference system instead."),
             ISeparatorComponent separatorComponent => LocalSeparatorComponent.CreateFrom(separatorComponent),
             IContainerComponent containerComponent => LocalContainerComponent.CreateFrom(containerComponent),
+            ILabelComponent labelComponent => LocalLabelComponent.CreateFrom(labelComponent),
             _ => Throw.ArgumentException<LocalComponent>("Unsupported component type.", nameof(component))
         };
     }
