@@ -6,6 +6,7 @@ namespace Disqord.Serialization.Json.Default;
 internal abstract class PolymorphicJsonConverter<T> : JsonConverter<T>, IPolymorphicJsonConverter
 {
     public JsonSerializerOptions? OptionsWithoutSelf { get; private set; }
+
     public JsonSerializerOptions? OptionsWithPreserve { get; private set; }
 
     protected JsonSerializerOptions GetPolymorphicOptions(object value, JsonSerializerOptions options)
@@ -19,7 +20,7 @@ internal abstract class PolymorphicJsonConverter<T> : JsonConverter<T>, IPolymor
     {
         OptionsWithoutSelf = options;
     }
-    
+
     public void SetOptionsWithPreserve(JsonSerializerOptions options)
     {
         OptionsWithPreserve = options;

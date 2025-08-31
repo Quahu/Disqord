@@ -40,7 +40,9 @@ public sealed class DefaultJsonSerializer : IJsonSerializer
                 new SnowflakeConverter(),
                 new StreamConverter(),
                 new ComponentConverter(),
+                new ModalComponentConverter(),
                 new UnfurledMediaItemConverter(),
+                new InteractionConverter()
             }
         };
 
@@ -65,12 +67,13 @@ public sealed class DefaultJsonSerializer : IJsonSerializer
 
             polymorphicOptions.Converters.RemoveAt(converterIndex);
             polymorphicOptions.MakeReadOnly();
-            
+
             // Options for deserialization (with ReferenceHandler.Preserve and including the converter)
             var preserveOptions = new JsonSerializerOptions(UnderlyingOptions)
             {
                 ReferenceHandler = ReferenceHandler.Preserve
             };
+
             preserveOptions.MakeReadOnly();
 
             // Each polymorphic converter gets its own set of options which don't contain that converter.
