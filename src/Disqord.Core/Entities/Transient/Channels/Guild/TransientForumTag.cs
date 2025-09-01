@@ -3,7 +3,8 @@ using Disqord.Models;
 namespace Disqord;
 
 /// <inheritdoc cref="IForumTag"/>
-public class TransientForumTag : TransientEntity<ForumTagJsonModel>, IForumTag
+public class TransientForumTag(ForumTagJsonModel model)
+    : TransientEntity<ForumTagJsonModel>(model), IForumTag
 {
     /// <inheritdoc/>
     public Snowflake Id => Model.Id.Value;
@@ -15,24 +16,18 @@ public class TransientForumTag : TransientEntity<ForumTagJsonModel>, IForumTag
     public bool IsModerated => Model.Moderated;
 
     /// <inheritdoc/>
-    public IEmoji Emoji
+    public IEmoji? Emoji
     {
         get
         {
-            if (_emoji != null)
-                return _emoji;
+            if (Model.EmojiId == null && Model.EmojiName == null)
+            {
+                return null;
+            }
 
-            var emoji = Model.EmojiId != null
+            return field ??= Model.EmojiId != null
                 ? new TransientCustomEmoji(Model.EmojiId.Value)
                 : new TransientEmoji(Model.EmojiName!);
-
-            return _emoji = emoji;
         }
     }
-
-    private IEmoji? _emoji;
-
-    public TransientForumTag(ForumTagJsonModel model)
-        : base(model)
-    { }
 }

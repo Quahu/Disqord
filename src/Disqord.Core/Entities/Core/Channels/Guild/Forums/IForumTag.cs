@@ -16,5 +16,5 @@ public interface IForumTag : IIdentifiableEntity, INamableEntity, IJsonUpdatable
     /// <summary>
     ///     Gets the emoji of this tag.
     /// </summary>
-    IEmoji Emoji { get; }
+    IEmoji? Emoji { get; }
 }
