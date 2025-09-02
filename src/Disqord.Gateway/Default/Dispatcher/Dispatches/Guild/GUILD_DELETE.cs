@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
+using Disqord.Serialization.Json;
 using Microsoft.Extensions.Logging;
 
 namespace Disqord.Gateway.Default.Dispatcher;
@@ -15,6 +16,25 @@ public class GuildDeleteDispatchHandler : DispatchHandler<UnavailableGuildJsonMo
         _readyDispatchHandler = (value[GatewayDispatchNames.Ready] as ReadyDispatchHandler)!;
 
         base.Bind(value);
+    }
+
+    public override async ValueTask HandleDispatchAsync(IShard shard, IJsonNode data)
+    {
+        try
+        {
+            await base.HandleDispatchAsync(shard, data).ConfigureAwait(false);
+        }
+        catch (Exception)
+        {
+            // If an exception occurs during deserialization, make sure to still pop the pending guild.
+            if (data is IJsonObject jsonObject && jsonObject.TryGetValue("id", out var guildIdNode) && guildIdNode != null)
+            {
+                var guildId = guildIdNode.ToType<Snowflake>();
+                _readyDispatchHandler.PopPendingGuild(shard.Id, guildId);
+            }
+
+            throw;
+        }
     }
 
     public override async ValueTask<EventArgs?> HandleDispatchAsync(IShard shard, UnavailableGuildJsonModel model)

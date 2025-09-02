@@ -123,7 +123,7 @@ public class TransientGatewayGuild : TransientGatewayClientEntity<GatewayGuildJs
 
     private IReadOnlyDictionary<Snowflake, IVoiceState>? _voiceStates;
 
-    public IReadOnlyDictionary<Snowflake, IMember> Members => _members ??= Model.Members.ToReadOnlyDictionary((Client, Id),
+    public IReadOnlyDictionary<Snowflake, IMember> Members => _members ??= Model.Members.SafelyDeserializeItems<MemberJsonModel>(Client.Logger).ToReadOnlyDictionary((Client, Id),
         (model, _) => model.User.Value.Id, (model, state) =>
         {
             var (client, guildId) = state;
@@ -138,7 +138,7 @@ public class TransientGatewayGuild : TransientGatewayClientEntity<GatewayGuildJs
 
     private IReadOnlyDictionary<Snowflake, IGuildChannel>? _channels;
 
-    public IReadOnlyDictionary<Snowflake, IPresence> Presences => _presences ??= Model.CreatePresences().ToReadOnlyDictionary(Client,
+    public IReadOnlyDictionary<Snowflake, IPresence> Presences => _presences ??= Model.Presences.SafelyDeserializeItems<PresenceJsonModel>(Client.Logger).ToReadOnlyDictionary(Client,
         (model, _) => model.User.Id,
         (model, client) => new TransientPresence(client, model) as IPresence);
 

@@ -1,34 +1,25 @@
 ﻿using System.Diagnostics;
-using System.Globalization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Disqord.Serialization.Json.Default;
 
 /// <summary>
 ///     Represents a default JSON value node.
-///     Wraps a <see cref="JValue"/>.
+///     Wraps a <see cref="JsonValue"/>.
 /// </summary>
-[DebuggerDisplay("{Value}")]
-public class DefaultJsonValue : DefaultJsonNode, IJsonValue
+[DebuggerDisplay($"{nameof(DebuggerDisplay)}")]
+internal sealed class DefaultJsonValue : DefaultJsonNode, IJsonValue
 {
-    /// <inheritdoc cref="DefaultJsonNode.Token"/>
-    public new JValue Token => (base.Token as JValue)!;
-
-    /// <inheritdoc/>
-    public object? Value
-    {
-        get => Token.Value;
-        set => Token.Value = value;
-    }
-
-    public DefaultJsonValue(JValue token, JsonSerializer serializer)
-        : base(token, serializer)
+    internal DefaultJsonValue(JsonValue value, JsonSerializerOptions options)
+        : base(value, options)
     { }
 
+    private string DebuggerDisplay => Node.ToJsonString(Options);
+
     /// <inheritdoc/>
-    public override string ToString()
+    public override string? ToString()
     {
-        return Token.ToString(CultureInfo.InvariantCulture);
+        return Node.ToJsonString(Options);
     }
 }

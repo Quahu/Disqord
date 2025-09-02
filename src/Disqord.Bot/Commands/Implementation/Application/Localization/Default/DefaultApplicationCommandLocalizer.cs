@@ -184,7 +184,7 @@ public partial class DefaultApplicationCommandLocalizer : IApplicationCommandLoc
                     var temporaryFileName = string.Format(CultureInfo.InvariantCulture, @this.TemporaryFileNameFormat, storeInformation.Locale.Name);
                     var temporaryFilePath = Path.Join(@this.DirectoryPath, temporaryFileName);
                     var memoryStream = storeInformation.MemoryStream;
-                    @this.Serializer.Serialize(memoryStream, storeInformation.Model, new DefaultJsonSerializerOptions
+                    @this.Serializer.Serialize(memoryStream, storeInformation.Model, new JsonSerializationOptions
                     {
                         Formatting = JsonFormatting.Indented
                     });
