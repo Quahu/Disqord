@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Disqord.Bot.Commands.Interaction;
 using Qmmands;
 using Qommon;
 
@@ -24,72 +25,9 @@ public static partial class DefaultComponentExecutionSteps
             if (interaction is ISelectionComponentInteraction selectionInteraction)
             {
                 var parameter = command.Parameters.ElementAtOrDefault(parameterOffset);
-                if (parameter != null)
+                if (parameter != null && !PopulateSelectionComponentEntityArguments(componentContext, parameter, selectionInteraction.SelectedValues, selectionInteraction.ComponentType))
                 {
-                    var typeInformation = parameter.GetTypeInformation();
-                    if (typeInformation.IsEnumerable)
-                    {
-                        var useRawArguments = true;
-                        if (interaction is IEntitySelectionComponentInteraction entitySelectionInteraction)
-                        {
-                            var isSnowflake = typeInformation.ActualType == typeof(Snowflake);
-                            var isEntity = typeof(ISnowflakeEntity).IsAssignableFrom(typeInformation.ActualType);
-                            if (isSnowflake || isEntity)
-                            {
-                                var selectedValues = entitySelectionInteraction.SelectedValues;
-                                var selectedValueCount = selectedValues.Count;
-                                object argument;
-                                if (isSnowflake)
-                                {
-                                    var array = new Snowflake[selectedValueCount];
-                                    for (var i = 0; i < selectedValueCount; i++)
-                                    {
-                                        array[i] = selectedValues[i];
-                                    }
-
-                                    argument = array;
-                                }
-                                else
-                                {
-                                    var array = Unsafe.As<ISnowflakeEntity[]>(Array.CreateInstance(typeInformation.ActualType, selectedValueCount));
-                                    for (var i = 0; i < selectedValueCount; i++)
-                                    {
-                                        var entityId = selectedValues[i];
-                                        var entities = entitySelectionInteraction.Entities;
-                                        var entity = entitySelectionInteraction.ComponentType switch
-                                        {
-                                            SelectionComponentType.User => entities.Users[entityId],
-                                            SelectionComponentType.Role => entities.Roles[entityId],
-                                            SelectionComponentType.Mentionable => entities.Users.GetValueOrDefault(entityId)
-                                                ?? entities.Roles.GetValueOrDefault(entityId)
-                                                ?? entities.Channels.GetValueOrDefault(entityId) as ISnowflakeEntity,
-                                            SelectionComponentType.Channel => entities.Channels[entityId],
-                                            _ => Throw.InvalidOperationException<ISnowflakeEntity>("Unsupported entity selection type.")
-                                        };
-
-                                        if (entity != null)
-                                            array[i] = entity;
-                                    }
-
-                                    argument = array;
-                                }
-
-                                (context.Arguments ??= new Dictionary<IParameter, object?>())[parameter] = argument;
-                                useRawArguments = false;
-                            }
-                        }
-
-                        if (useRawArguments)
-                        {
-                            (context.RawArguments ??= new Dictionary<IParameter, MultiString>())[parameter] = MultiString.CreateList(out var list);
-                            var selectedValues = selectionInteraction.SelectedValues;
-                            var selectedValueCount = selectedValues.Count;
-                            for (var i = 0; i < selectedValueCount; i++)
-                            {
-                                list.Add(selectedValues[i].AsMemory());
-                            }
-                        }
-                    }
+                    context.SetRawArgument(parameter, ToMultiString(selectionInteraction.SelectedValues));
                 }
             }
             else if (interaction is IModalSubmitInteraction modalSubmitInteraction)
@@ -97,39 +35,36 @@ public static partial class DefaultComponentExecutionSteps
                 var parameters = command.Parameters;
                 var parameterCount = parameters.Count;
 
-                using var modalComponentsEnumerator = ExtractInnerModalComponents(modalSubmitInteraction.Components).GetEnumerator();
+                using var modalComponentsEnumerator = GetInteractableComponents(modalSubmitInteraction.Components).GetEnumerator();
 
-                // TODO: implement custom ID matching? For now, just assign positionally
+                // TODO: implement custom ID matching. For now, it's just assigning positionally
                 for (var parameterIndex = parameterOffset; parameterIndex < parameterCount && modalComponentsEnumerator.MoveNext(); parameterIndex++)
                 {
                     var parameter = parameters[parameterIndex];
                     var modalComponent = modalComponentsEnumerator.Current;
-                    var rawArgument = GetRawArgumentFromModalComponent(modalComponent);
-                    if (rawArgument.Count > 1)
-                    {
-                        var typeInformation = parameter.GetTypeInformation();
-                        if (!typeInformation.IsMultiString && !typeInformation.IsEnumerable)
-                        {
-                            Throw.InvalidOperationException($"Invalid modal multi-string argument for parameter {parameter.Name} ({typeInformation.ActualType}); must not contain multiple strings as the parameter accepts a single value.");
-                        }
-                    }
 
-                    (context.RawArguments ??= new Dictionary<IParameter, MultiString>())[parameter] = rawArgument;
+                    BindArgumentFromModalComponent(componentContext, parameter, modalComponent);
                 }
             }
 
             return Next.ExecuteAsync(context);
         }
 
-        private IEnumerable<IModalComponent> ExtractInnerModalComponents(IReadOnlyList<IModalComponent> modalComponents)
+        protected virtual IEnumerable<IModalComponent> GetInteractableComponents(IEnumerable<IModalComponent> modalComponents)
         {
-            var modalComponentCount = modalComponents.Count;
-            for (var i = 0; i < modalComponentCount; i++)
+            foreach (var modalComponent in modalComponents)
             {
-                var modalComponent = modalComponents[i];
-                foreach (var innerModalComponent in ExtractInnerModalComponents(modalComponent))
+                if (modalComponent is ICustomIdentifiableEntity)
                 {
-                    yield return innerModalComponent;
+                    yield return modalComponent;
+
+                    continue;
+                }
+
+                var innerModalComponents = ExtractInnerModalComponents(modalComponent);
+                foreach (var innerInteractableComponent in GetInteractableComponents(innerModalComponents))
+                {
+                    yield return innerInteractableComponent;
                 }
             }
         }
@@ -147,10 +82,70 @@ public static partial class DefaultComponentExecutionSteps
             {
                 yield return labelComponent.Component;
             }
-            else
+        }
+
+        protected virtual void BindArgumentFromModalComponent(IDiscordComponentCommandContext context, IParameter parameter, IModalComponent modalComponent)
+        {
+            if (modalComponent is IModalSelectionComponent selectionComponent && PopulateSelectionComponentEntityArguments(context, parameter, selectionComponent.Values, selectionComponent.Type))
             {
-                ThrowNotImplementedException($"{nameof(BindValues)}.{nameof(ExtractInnerModalComponents)}() does not support the modal component of type: {modalComponent.Type} (ID: {modalComponent.Id}).");
+                return;
             }
+
+            var rawArgument = GetRawArgumentFromModalComponent(modalComponent);
+            if (rawArgument.Count > 1)
+            {
+                var typeInformation = parameter.GetTypeInformation();
+                if (!typeInformation.IsMultiString && !typeInformation.IsEnumerable)
+                {
+                    Throw.InvalidOperationException($"Invalid modal multi-string argument for parameter {parameter.Name} ({typeInformation.ActualType}); must not contain multiple strings as the parameter accepts a single value.");
+                }
+            }
+
+            context.SetRawArgument(parameter, rawArgument);
+        }
+
+        // TODO: this is pretty ugly
+        protected static bool PopulateSelectionComponentEntityArguments(IDiscordInteractionCommandContext context, IParameter parameter, IReadOnlyList<string> selectedValues, SelectionComponentType selectionComponentType)
+        {
+            if (selectionComponentType is not (>= SelectionComponentType.User and <= SelectionComponentType.Channel))
+            {
+                return false;
+            }
+
+            var typeInformation = parameter.GetTypeInformation();
+            if (!typeInformation.IsEnumerable)
+            {
+                return false;
+            }
+
+            var selectedValueCount = selectedValues.Count;
+            if (!typeof(ISnowflakeEntity).IsAssignableFrom(typeInformation.ActualType) || context.Interaction is not IEntityInteraction entityInteraction)
+            {
+                return false;
+            }
+
+            var entityArray = Unsafe.As<ISnowflakeEntity[]>(Array.CreateInstance(typeInformation.ActualType, selectedValueCount));
+            var entities = entityInteraction.Entities;
+            for (var i = 0; i < selectedValueCount; i++)
+            {
+                var entityId = Snowflake.Parse(selectedValues[i]);
+                var entity = selectionComponentType switch
+                {
+                    SelectionComponentType.User => entities.Users[entityId],
+                    SelectionComponentType.Role => entities.Roles[entityId],
+                    SelectionComponentType.Mentionable => entities.Users.GetValueOrDefault(entityId)
+                        ?? entities.Roles.GetValueOrDefault(entityId)
+                        ?? entities.Channels[entityId] as ISnowflakeEntity,
+                    SelectionComponentType.Channel => entities.Channels[entityId],
+                    _ => Throw.InvalidOperationException<ISnowflakeEntity>("Unsupported entity selection type.")
+                };
+
+                entityArray[i] = entity;
+            }
+
+            context.SetArgument(parameter, entityArray);
+
+            return true;
         }
 
         protected virtual MultiString GetRawArgumentFromModalComponent(IModalComponent modalComponent)
@@ -163,13 +158,7 @@ public static partial class DefaultComponentExecutionSteps
                 }
                 case IModalSelectionComponent selectionComponent:
                 {
-                    var rawArgument = MultiString.CreateList(out var list);
-                    foreach (var value in selectionComponent.Values)
-                    {
-                        list.Add(value.AsMemory());
-                    }
-
-                    return rawArgument;
+                    return ToMultiString(selectionComponent.Values);
                 }
                 default:
                 {
@@ -183,6 +172,17 @@ public static partial class DefaultComponentExecutionSteps
         private static void ThrowNotImplementedException(string message)
         {
             throw new NotImplementedException(message);
+        }
+
+        private static MultiString ToMultiString(IEnumerable<string> values)
+        {
+            var multiString = MultiString.CreateList(out var list);
+            foreach (var value in values)
+            {
+                list.Add(value.AsMemory());
+            }
+
+            return multiString;
         }
     }
 }

@@ -25,5 +25,5 @@ public class TransientEntitySelectionComponentInteraction(IClient client, long r
     /// <inheritdoc/>
     [field: MaybeNull]
     public IInteractionEntities Entities => field ??= new TransientInteractionEntities(Client, GuildId,
-        Data.Resolved.GetValueOrDefault(static () => new ApplicationCommandInteractionDataResolvedJsonModel()));
+        Data.Resolved.GetValueOrDefault(static () => new ResolvedInteractionDataJsonModel()));
 }

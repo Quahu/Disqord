@@ -3,11 +3,12 @@ using Disqord.Models;
 
 namespace Disqord;
 
-public class TransientInteraction : TransientClientEntity<InteractionJsonModel>, IInteraction
+public class TransientInteraction(IClient client, long receivedAt, InteractionJsonModel model)
+    : TransientClientEntity<InteractionJsonModel>(client, model), IInteraction
 {
     /// <inheritdoc/>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public long __ReceivedAt { get; }
+    public long __ReceivedAt { get; } = receivedAt;
 
     /// <inheritdoc/>
     public Snowflake Id => Model.Id;
@@ -23,12 +24,6 @@ public class TransientInteraction : TransientClientEntity<InteractionJsonModel>,
 
     /// <inheritdoc/>
     public string Token => Model.Token;
-
-    public TransientInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
-        : base(client, model)
-    {
-        __ReceivedAt = __receivedAt;
-    }
 
     public static IInteraction Create(IClient client, long __receivedAt, InteractionJsonModel model)
     {

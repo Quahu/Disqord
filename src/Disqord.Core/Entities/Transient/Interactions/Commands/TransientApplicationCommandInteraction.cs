@@ -22,7 +22,7 @@ public class TransientApplicationCommandInteraction(IClient client, long receive
     /// <inheritdoc/>
     [field: MaybeNull]
     public IInteractionEntities Entities => field ??= new TransientInteractionEntities(Client, GuildId,
-        Data.Resolved.GetValueOrDefault(static () => new ApplicationCommandInteractionDataResolvedJsonModel()));
+        Data.Resolved.GetValueOrDefault(static () => new ResolvedInteractionDataJsonModel()));
 
     protected ApplicationCommandInteractionDataJsonModel Data => (ApplicationCommandInteractionDataJsonModel) Model.Data.Value;
 }

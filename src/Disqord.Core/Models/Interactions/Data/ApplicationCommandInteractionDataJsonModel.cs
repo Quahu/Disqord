@@ -15,7 +15,7 @@ public class ApplicationCommandInteractionDataJsonModel : InteractionDataJsonMod
     public ApplicationCommandType Type;
 
     [JsonProperty("resolved")]
-    public Optional<ApplicationCommandInteractionDataResolvedJsonModel> Resolved;
+    public Optional<ResolvedInteractionDataJsonModel> Resolved;
 
     [JsonProperty("options")]
     public Optional<ApplicationCommandInteractionDataOptionJsonModel[]> Options;

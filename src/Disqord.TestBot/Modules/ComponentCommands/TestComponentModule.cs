@@ -23,8 +23,11 @@ public class TestComponentModule : DiscordComponentModuleBase
             .WithCustomId(nameof(Modal1))
             .WithTitle("Favorite Food")
             .WithComponents(
+                LocalComponent.TextDisplay($"Hello, {Context.Author.Mention}!"),
                 LocalComponent.Label("Name", "Please provide your name.", LocalComponent.TextInput("name")),
-                LocalComponent.Label("Favorite Food", "Choose your favorite food", LocalComponent.Selection("favoriteFood", foodOptions).WithMaximumSelectedOptions(foodOptions.Length)));
+                LocalComponent.Label("Favorite Food", "Choose your favorite food", LocalComponent.Selection("favoriteFood", foodOptions).WithMaximumSelectedOptions(foodOptions.Length)),
+                LocalComponent.Label("Favorite Members", "Choose your favorite members", LocalComponent.Selection("favoriteMembers").WithType(SelectionComponentType.User).WithMaximumSelectedOptions(10).WithMinimumSelectedOptions(2))
+            );
 
         return Context.Interaction.Response().SendModalAsync(modal);
     }
@@ -43,10 +46,10 @@ public class TestComponentModule : DiscordComponentModuleBase
     }
 
     [ModalCommand("Modal1")]
-    public IResult Modal1(string name, string[] favoriteFood)
+    public IResult Modal1(string name, string[] favoriteFood, IMember[] favoriteMembers)
     {
         return Response(new LocalInteractionMessageResponse()
-            .WithContent($"Your name is {name} and your favorite food is: {string.Join(", ", favoriteFood)}.")
+            .WithContent($"Your name is {name} and your favorite food is: {string.Join(", ", favoriteFood)}.\n\nYour favorite members are: {string.Join(", ", favoriteMembers.Select(x => x.Mention))}")
             .WithIsEphemeral());
     }
 

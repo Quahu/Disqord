@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Disqord.Models;
+using Qommon;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-public class TransientModalSubmitInteraction : TransientUserInteraction, IModalSubmitInteraction
+public class TransientModalSubmitInteraction(IClient client, long receivedAt, InteractionJsonModel model)
+    : TransientUserInteraction(client, receivedAt, model), IModalSubmitInteraction
 {
     /// <inheritdoc/>
     public string CustomId => Data.CustomId;
@@ -14,9 +16,10 @@ public class TransientModalSubmitInteraction : TransientUserInteraction, IModalS
     [field: MaybeNull]
     public IReadOnlyList<IModalComponent> Components => field ??= Data.Components.ToReadOnlyList(Client, static (model, client) => TransientModalComponent.Create(client, model));
 
-    private ModalSubmitInteractionDataJsonModel Data => (ModalSubmitInteractionDataJsonModel) Model.Data.Value;
+    /// <inheritdoc/>
+    [field: MaybeNull]
+    public IInteractionEntities Entities => field ??= new TransientInteractionEntities(Client, GuildId,
+        Data.Resolved.GetValueOrDefault(static () => new ResolvedInteractionDataJsonModel()));
 
-    public TransientModalSubmitInteraction(IClient client, long __receivedAt, InteractionJsonModel model)
-        : base(client, __receivedAt, model)
-    { }
+    private ModalSubmitInteractionDataJsonModel Data => (ModalSubmitInteractionDataJsonModel) Model.Data.Value;
 }

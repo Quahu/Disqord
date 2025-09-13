@@ -10,4 +10,5 @@ public class TransientModalSelectionComponent(IClient client, ModalSelectionComp
 
     public IReadOnlyList<string> Values => Model.Values;
 
+    public new SelectionComponentType Type => (SelectionComponentType) Model.Type;
 }

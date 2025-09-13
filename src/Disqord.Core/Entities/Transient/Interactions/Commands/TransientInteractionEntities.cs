@@ -4,7 +4,7 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-public class TransientInteractionEntities : TransientClientEntity<ApplicationCommandInteractionDataResolvedJsonModel>, IInteractionEntities
+public class TransientInteractionEntities : TransientClientEntity<ResolvedInteractionDataJsonModel>, IInteractionEntities
 {
     /// <inheritdoc/>
     public IReadOnlyDictionary<Snowflake, IUser> Users
@@ -106,7 +106,7 @@ public class TransientInteractionEntities : TransientClientEntity<ApplicationCom
 
     private readonly Snowflake? _guildId;
 
-    public TransientInteractionEntities(IClient client, Snowflake? guildId, ApplicationCommandInteractionDataResolvedJsonModel model)
+    public TransientInteractionEntities(IClient client, Snowflake? guildId, ResolvedInteractionDataJsonModel model)
         : base(client, model)
     {
         _guildId = guildId;
