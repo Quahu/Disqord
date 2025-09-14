@@ -2,7 +2,7 @@
 
 namespace Disqord;
 
-public class TransientResolvedUnfurledMediaItem(UnfurledMediaItemJsonModel model)
+public class TransientResolvedUnfurledMediaItem(ResolvedUnfurledMediaItemJsonModel model)
     : TransientUnfurledMediaItem(model), IResolvedUnfurledMediaItem
 {
     public string? ProxyUrl => Model.ProxyUrl;

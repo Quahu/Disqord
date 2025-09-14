@@ -8,7 +8,7 @@ public class TransientFileComponent(IClient client, FileComponentJsonModel model
     : TransientBaseComponent<FileComponentJsonModel>(client, model), IFileComponent
 {
     [field: MaybeNull]
-    public IUnfurledMediaItem File => field ??= new TransientUnfurledMediaItem(Model.File);
+    public IUnfurledMediaItem File => field ??= TransientUnfurledMediaItem.Create(Model.File);
 
     public bool IsSpoiler => Model.Spoiler.GetValueOrDefault();
 }

@@ -8,7 +8,7 @@ public class TransientThumbnailComponent(IClient client, ThumbnailComponentJsonM
     : TransientBaseComponent<ThumbnailComponentJsonModel>(client, model), IThumbnailComponent
 {
     [field: MaybeNull]
-    public IUnfurledMediaItem Media => field ??= new TransientUnfurledMediaItem(Model.Media);
+    public IUnfurledMediaItem Media => field ??= TransientUnfurledMediaItem.Create(Model.Media);
 
     public string? Description => Model.Description.GetValueOrDefault();
 
