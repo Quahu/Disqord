@@ -95,7 +95,7 @@ public class CachedUserMessage : CachedMessage, IGatewayUserMessage, IJsonUpdata
         Reference = Optional.ConvertOrDefault(model.MessageReference, model => new TransientMessageReference(model));
         ReferencedMessage = Optional.Convert(model.ReferencedMessage, model => new TransientUserMessage(Client, model!) as IUserMessage)!;
         Interaction = Optional.ConvertOrDefault(model.Interaction, (model, client) => new TransientMessageInteraction(new TransientUser(client, model.User), model), Client);
-        Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
+        Components = Optional.ConvertOrDefault(model.Components, models => models.ToReadOnlyList(TransientComponent.Create)) ?? Array.Empty<IComponent>();
         Stickers = Optional.ConvertOrDefault(model.StickerItems, models => models.ToReadOnlyList(model => new TransientMessageSticker(model) as IMessageSticker), Array.Empty<IMessageSticker>());
         Poll = Optional.ConvertOrDefault(model.Poll, model => new TransientPoll(model));
         Snapshots = Optional.ConvertOrDefault(model.MessageSnapshots, models => models.ToReadOnlyList(Client, (model, client) => new TransientMessageSnapshot(client, model) as IMessageSnapshot)) ?? Array.Empty<IMessageSnapshot>();
@@ -169,7 +169,7 @@ public class CachedUserMessage : CachedMessage, IGatewayUserMessage, IJsonUpdata
             ReferencedMessage = Optional.Convert(model.ReferencedMessage, x => new TransientUserMessage(Client, x) as IUserMessage)!;
 
         if (model.Components.HasValue)
-            Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(client, (model, client) => TransientComponent.Create(client, model)), Client) ?? Array.Empty<IComponent>();
+            Components = Optional.ConvertOrDefault(model.Components, (models, client) => models.ToReadOnlyList(TransientComponent.Create), Client) ?? Array.Empty<IComponent>();
 
         if (model.StickerItems.HasValue)
             Stickers = Optional.ConvertOrDefault(model.StickerItems, models => models.ToReadOnlyList(model => new TransientMessageSticker(model) as IMessageSticker), Array.Empty<IMessageSticker>());

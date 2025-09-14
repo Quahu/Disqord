@@ -4,8 +4,8 @@ using Qommon;
 
 namespace Disqord;
 
-public class TransientThumbnailComponent(IClient client, ThumbnailComponentJsonModel model)
-    : TransientBaseComponent<ThumbnailComponentJsonModel>(client, model), IThumbnailComponent
+public class TransientThumbnailComponent(ThumbnailComponentJsonModel model)
+    : TransientBaseComponent<ThumbnailComponentJsonModel>(model), IThumbnailComponent
 {
     [field: MaybeNull]
     public IUnfurledMediaItem Media => field ??= TransientUnfurledMediaItem.Create(Model.Media);

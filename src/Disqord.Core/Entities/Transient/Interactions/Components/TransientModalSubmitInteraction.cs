@@ -14,7 +14,7 @@ public class TransientModalSubmitInteraction(IClient client, long receivedAt, In
 
     /// <inheritdoc/>
     [field: MaybeNull]
-    public IReadOnlyList<IModalComponent> Components => field ??= Data.Components.ToReadOnlyList(Client, static (model, client) => TransientModalComponent.Create(client, model));
+    public IReadOnlyList<IModalComponent> Components => field ??= Data.Components.ToReadOnlyList(TransientModalComponent.Create);
 
     /// <inheritdoc/>
     [field: MaybeNull]

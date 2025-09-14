@@ -4,7 +4,8 @@ using Qommon;
 namespace Disqord;
 
 /// <inheritdoc cref="ISelectionComponentOption"/>
-public class TransientSelectionComponentOption : TransientClientEntity<SelectOptionJsonModel>, ISelectionComponentOption
+public class TransientSelectionComponentOption(SelectOptionJsonModel model)
+    : TransientEntity<SelectOptionJsonModel>(model), ISelectionComponentOption
 {
     /// <inheritdoc/>
     public string Label => Model.Label.Value;
@@ -20,8 +21,4 @@ public class TransientSelectionComponentOption : TransientClientEntity<SelectOpt
 
     /// <inheritdoc/>
     public bool IsDefault => Model.Default.GetValueOrDefault();
-
-    public TransientSelectionComponentOption(IClient client, SelectOptionJsonModel model)
-        : base(client, model)
-    { }
 }

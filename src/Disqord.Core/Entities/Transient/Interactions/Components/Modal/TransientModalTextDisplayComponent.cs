@@ -2,6 +2,5 @@
 
 namespace Disqord;
 
-public class TransientModalTextDisplayComponent(IClient client, ModalTextDisplayComponentJsonModel model)
-    : TransientModalComponent<ModalTextDisplayComponentJsonModel>(client, model), IModalTextDisplayComponent
-{ }
+public class TransientModalTextDisplayComponent(ModalTextDisplayComponentJsonModel model)
+    : TransientModalComponent<ModalTextDisplayComponentJsonModel>(model), IModalTextDisplayComponent;

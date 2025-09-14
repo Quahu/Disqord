@@ -62,7 +62,7 @@ public class TransientMessageSnapshot : TransientClientEntity<MessageSnapshotJso
             if (!Model.Message.Components.HasValue)
                 return Array.Empty<IComponent>();
 
-            return _components ??= Model.Message.Components.Value.ToReadOnlyList(Client, static (model, client) => TransientComponent.Create(client, model));
+            return _components ??= Model.Message.Components.Value.ToReadOnlyList(TransientComponent.Create);
         }
     }
     private IReadOnlyList<IComponent>? _components;

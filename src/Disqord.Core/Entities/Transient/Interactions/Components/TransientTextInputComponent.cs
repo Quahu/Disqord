@@ -4,7 +4,8 @@ using Qommon;
 namespace Disqord;
 
 /// <inheritdoc cref="ITextInputComponent"/>
-public class TransientTextInputComponent(IClient client, ComponentJsonModel model) : TransientComponent(client, model), ITextInputComponent
+public class TransientTextInputComponent(ComponentJsonModel model)
+    : TransientComponent(model), ITextInputComponent
 {
     /// <inheritdoc/>
     public string CustomId => Model.CustomId.Value;

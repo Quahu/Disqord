@@ -2,8 +2,8 @@
 
 namespace Disqord;
 
-public class TransientTextDisplayComponent(IClient client, TextDisplayComponentJsonModel model)
-    : TransientBaseComponent<TextDisplayComponentJsonModel>(client, model), ITextDisplayComponent
+public class TransientTextDisplayComponent(TextDisplayComponentJsonModel model)
+    : TransientBaseComponent<TextDisplayComponentJsonModel>(model), ITextDisplayComponent
 {
     public string Content => Model.Content;
 }

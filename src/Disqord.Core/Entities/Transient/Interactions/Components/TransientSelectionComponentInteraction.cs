@@ -5,7 +5,7 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-public class TransientSelectionComponentInteraction(IClient client, long receivedAt, InteractionJsonModel model) 
+public class TransientSelectionComponentInteraction(IClient client, long receivedAt, InteractionJsonModel model)
     : TransientComponentInteraction(client, receivedAt, model), ISelectionComponentInteraction
 {
     /// <inheritdoc/>

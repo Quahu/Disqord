@@ -1,21 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Disqord.Models;
 using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
 /// <inheritdoc cref="IRowComponent"/>
-public class TransientRowComponent : TransientComponent, IRowComponent
+public class TransientRowComponent(ComponentJsonModel model)
+    : TransientComponent(model), IRowComponent
 {
     /// <inheritdoc/>
-    public IReadOnlyList<IComponent> Components => _components ??= Model.Components.Value.ToReadOnlyList(Client, (model, client) => Create(client, model));
-
-    private IReadOnlyList<IComponent>? _components;
-
-    public TransientRowComponent(IClient client, ComponentJsonModel model)
-        : base(client, model)
-    { }
+    [field: MaybeNull]
+    public IReadOnlyList<IComponent> Components => field ??= Model.Components.Value.ToReadOnlyList(Create);
 
     public IEnumerator<IComponent> GetEnumerator()
     {
