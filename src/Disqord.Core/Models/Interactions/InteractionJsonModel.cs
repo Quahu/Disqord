@@ -1,8 +1,10 @@
-﻿using Disqord.Serialization.Json;
+﻿using System.Collections.Generic;
+using Disqord.Serialization.Json;
 using Qommon;
 
 namespace Disqord.Models;
 
+[JsonSkippedProperties("data")]
 public class InteractionJsonModel : JsonModel
 {
     [JsonProperty("id")]
@@ -52,6 +54,12 @@ public class InteractionJsonModel : JsonModel
 
     [JsonProperty("entitlements")]
     public EntitlementJsonModel[] Entitlements = null!;
+
+    [JsonProperty("authorizing_integration_owners")]
+    public Optional<Dictionary<ApplicationIntegrationType, Snowflake>> AuthorizingIntegrationOwners;
+
+    [JsonProperty("context")]
+    public Optional<InteractionContextType> Context;
 
     [JsonProperty("attachment_size_limit")]
     public Optional<int> AttachmentSizeLimit;
