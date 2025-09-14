@@ -72,7 +72,7 @@ public class TransientGatewayUserMessage : TransientGatewayMessage, IGatewayUser
     private Optional<IUserMessage?>? _referencedMessage;
 
     /// <inheritdoc/>
-    public IMessageInteraction? Interaction => Optional.ConvertOrDefault(Model.Interaction, (model, client) => new TransientMessageInteraction(new TransientUser(client, model.User), model), Client);
+    public IMessageInteractionMetadata? InteractionMetadata => Optional.ConvertOrDefault(Model.InteractionMetadata, static (model, client) => TransientMessageInteractionMetadata.Create(client, model), Client);
 
     /// <inheritdoc/>
     public IReadOnlyList<IComponent> Components

@@ -88,8 +88,8 @@ public class MessageJsonModel : JsonModel
     [JsonProperty("referenced_message")]
     public Optional<MessageJsonModel?> ReferencedMessage;
 
-    [JsonProperty("interaction")]
-    public Optional<MessageInteractionJsonModel> Interaction;
+    [JsonProperty("interaction_metadata")]
+    public Optional<MessageInteractionMetadataJsonModel> InteractionMetadata;
 
     public Optional<ChannelJsonModel> Thread => TryGetExtensionData(this, out var extensionData) && extensionData.TryGetValue("thread", out var threadModel)
         ? threadModel!.ToType<ChannelJsonModel>()!

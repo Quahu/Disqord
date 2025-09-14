@@ -71,35 +71,22 @@ public class TransientUserMessage : TransientMessage, IUserMessage
     }
     private Optional<IUserMessage?>? _referencedMessage;
 
-    public IMessageInteraction? Interaction
+    public IMessageInteractionMetadata? InteractionMetadata
     {
         get
         {
-            if (!Model.Interaction.HasValue)
+            if (!Model.InteractionMetadata.HasValue)
                 return null;
 
             if (_interaction == null)
             {
-                var interactionModel = Model.Interaction.Value;
-                IUser author;
-
-                // TODO: test interaction
-                // if (interactionModel.Member.TryGetValue(out var memberModel))
-                // {
-                //     memberModel.User = interactionModel.User;
-                // }
-                // else
-                {
-                    author = new TransientUser(Client, interactionModel.User);
-                }
-
-                _interaction = new TransientMessageInteraction(author, interactionModel);
+                _interaction = TransientMessageInteractionMetadata.Create(Client, Model.InteractionMetadata.Value);
             }
 
             return _interaction;
         }
     }
-    private IMessageInteraction? _interaction;
+    private IMessageInteractionMetadata? _interaction;
 
     /// <inheritdoc/>
     public IReadOnlyList<IComponent> Components
