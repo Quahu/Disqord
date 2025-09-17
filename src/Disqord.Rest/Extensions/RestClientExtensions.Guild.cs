@@ -343,17 +343,7 @@ public static partial class RestClientExtensions
         Snowflake guildId, Snowflake memberId, Action<ModifyMemberActionProperties> action,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var content = action.ToContent(out var nick);
-
-        if (nick.HasValue && client.ApiClient.Token is BotToken botToken)
-        {
-            if (memberId == botToken.Id)
-            {
-                await client.ModifyCurrentMemberAsync(guildId, x => x.Nick = nick, options, cancellationToken).ConfigureAwait(false);
-                content.Nick = Optional<string>.Empty;
-            }
-        }
-
+        var content = action.ToContent();
         var model = await client.ApiClient.ModifyMemberAsync(guildId, memberId, content, options, cancellationToken).ConfigureAwait(false);
         return new TransientMember(client, guildId, model);
     }

@@ -37,14 +37,12 @@ internal static partial class ActionPropertiesConversion
         return content;
     }
 
-    public static ModifyMemberJsonRestRequestContent ToContent(this Action<ModifyMemberActionProperties> action, out Optional<string> nick)
+    public static ModifyMemberJsonRestRequestContent ToContent(this Action<ModifyMemberActionProperties> action)
     {
         Guard.IsNotNull(action);
 
         var properties = new ModifyMemberActionProperties();
         action(properties);
-
-        nick = properties.Nick;
 
         var content = new ModifyMemberJsonRestRequestContent
         {
@@ -69,7 +67,10 @@ internal static partial class ActionPropertiesConversion
 
         var content = new ModifyCurrentMemberJsonRestRequestContent
         {
-            Nick = properties.Nick
+            Nick = properties.Nick,
+            Avatar = properties.Avatar,
+            Banner = properties.Banner,
+            Bio = properties.Bio,
         };
 
         return content;
