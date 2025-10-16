@@ -10,7 +10,6 @@ public sealed class CreateRoleActionProperties
 
     public Optional<Permissions> Permissions { internal get; set; }
 
-    [Obsolete("The legacy role \"Color\" is being replaced with the newer role \"Colors\" object, and may no longer be supported in a future API version.")]
     public Optional<Color?> Color { internal get; set; }
     
     public Optional<RoleColors?> Colors { internal get; set; }

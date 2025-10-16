@@ -13,7 +13,6 @@ public class CachedRole : CachedSnowflakeEntity, IRole
     public string Name { get; private set; } = null!;
 
     /// <inheritdoc/>
-    [Obsolete("The legacy role \"Color\" is being replaced with the newer role \"Colors\" object, and may no longer be supported in a future API version.")]
     public Color? Color { get; private set; }
     
     /// <inheritdoc/>

@@ -19,7 +19,6 @@ public class TransientRole : TransientClientEntity<RoleJsonModel>, IRole
     public string Mention => Disqord.Mention.Role(this);
 
     /// <inheritdoc/>
-    [Obsolete("The legacy role \"Color\" is being replaced with the newer role \"Colors\" object, and may no longer be supported in a future API version.")]
     public Color? Color => Model.Color != 0
         ? Model.Color
         : null;
