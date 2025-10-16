@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 using Qommon;
 
 namespace Disqord;
@@ -20,6 +21,11 @@ public class TransientRole : TransientClientEntity<RoleJsonModel>, IRole
     /// <inheritdoc/>
     public Color? Color => Model.Color != 0
         ? Model.Color
+        : null;
+
+    /// <inheritdoc/>
+    public RoleColors? Colors => Model.Colors.PrimaryColor != 0 || Model.Colors.SecondaryColor.HasValue
+        ? new RoleColors(Model.Colors.PrimaryColor, Model.Colors.SecondaryColor, Model.Colors.TertiaryColor)
         : null;
 
     /// <inheritdoc/>

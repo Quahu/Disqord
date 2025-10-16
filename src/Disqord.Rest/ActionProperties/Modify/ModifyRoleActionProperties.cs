@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Qommon;
 
 namespace Disqord;
@@ -10,6 +11,8 @@ public sealed class ModifyRoleActionProperties
     public Optional<Permissions> Permissions { internal get; set; }
 
     public Optional<Color?> Color { internal get; set; }
+    
+    public Optional<RoleColors?> Colors { internal get; set; }
 
     public Optional<bool> IsHoisted { internal get; set; }
 
@@ -22,5 +25,5 @@ public sealed class ModifyRoleActionProperties
     public Optional<int> Position { internal get; set; }
 
     internal bool HasValues
-        => Name.HasValue || Permissions.HasValue || Color.HasValue || IsHoisted.HasValue || Icon.HasValue || IsMentionable.HasValue || UnicodeEmoji.HasValue || Position.HasValue;
+        => Name.HasValue || Permissions.HasValue || Color.HasValue || Colors.HasValue || IsHoisted.HasValue || Icon.HasValue || IsMentionable.HasValue || UnicodeEmoji.HasValue || Position.HasValue;
 }

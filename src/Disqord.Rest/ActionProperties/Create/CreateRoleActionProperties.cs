@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Qommon;
 
 namespace Disqord;
@@ -10,6 +11,8 @@ public sealed class CreateRoleActionProperties
     public Optional<Permissions> Permissions { internal get; set; }
 
     public Optional<Color?> Color { internal get; set; }
+    
+    public Optional<RoleColors?> Colors { internal get; set; }
 
     public Optional<bool> IsHoisted { internal get; set; }
 
