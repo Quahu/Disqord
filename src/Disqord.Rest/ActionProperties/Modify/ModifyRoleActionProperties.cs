@@ -13,7 +13,7 @@ public sealed class ModifyRoleActionProperties
     [Obsolete("The legacy role \"Color\" is being replaced with the newer role \"Colors\" object, and may no longer be supported in a future API version.")]
     public Optional<Color?> Color { internal get; set; }
     
-    public Optional<LocalRoleColors> Colors { internal get; set; }
+    public Optional<RoleColors?> Colors { internal get; set; }
 
     public Optional<bool> IsHoisted { internal get; set; }
 

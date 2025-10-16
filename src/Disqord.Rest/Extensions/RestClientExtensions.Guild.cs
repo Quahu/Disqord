@@ -494,7 +494,12 @@ public static partial class RestClientExtensions
             Name = properties.Name,
             Permissions = properties.Permissions,
             Color = Optional.Convert(properties.Color, color => color?.RawValue ?? 0),
-            Colors = Optional.Convert(properties.Colors, colors => colors.ToModel()),
+            Colors = Optional.Conditional(properties.Colors.HasValue, new RoleColorsJsonModel
+            {
+                PrimaryColor = properties.Colors.Value.GetValueOrDefault().PrimaryColor,
+                SecondaryColor = properties.Colors.Value.GetValueOrDefault().SecondaryColor,
+                TertiaryColor = properties.Colors.Value.GetValueOrDefault().TertiaryColor
+            }),
             Hoist = properties.IsHoisted,
             Icon = properties.Icon,
             Mentionable = properties.IsMentionable

@@ -17,7 +17,7 @@ public class CachedRole : CachedSnowflakeEntity, IRole
     public Color? Color { get; private set; }
     
     /// <inheritdoc/>
-    public IRoleColors? Colors { get; private set; }
+    public RoleColors? Colors { get; private set; }
 
     /// <inheritdoc/>
     public bool IsHoisted { get; private set; }
@@ -57,7 +57,9 @@ public class CachedRole : CachedSnowflakeEntity, IRole
     {
         Name = model.Name;
         Color = model.Color != 0 ? model.Color : null;
-        Colors = model.Colors.PrimaryColor != 0 ? new TransientRoleColors(model.Colors) : null;
+        Colors = model.Colors.PrimaryColor != 0 || model.Colors.SecondaryColor.HasValue 
+            ? new RoleColors(model.Colors.PrimaryColor, model.Colors.SecondaryColor, model.Colors.TertiaryColor) 
+            : null;
         IsHoisted = model.Hoist;
         IconHash = model.Icon.GetValueOrDefault();
         Position = model.Position;

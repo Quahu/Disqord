@@ -25,8 +25,8 @@ public class TransientRole : TransientClientEntity<RoleJsonModel>, IRole
         : null;
 
     /// <inheritdoc/>
-    public IRoleColors? Colors => Model.Colors.PrimaryColor != 0
-        ? new TransientRoleColors(Model.Colors)
+    public RoleColors? Colors => Model.Colors.PrimaryColor != 0 || Model.Colors.SecondaryColor.HasValue
+        ? new RoleColors(Model.Colors.PrimaryColor, Model.Colors.SecondaryColor, Model.Colors.TertiaryColor)
         : null;
 
     /// <inheritdoc/>

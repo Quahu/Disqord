@@ -14,7 +14,6 @@ public interface IRole : ISnowflakeEntity, IGuildEntity, INamableEntity, IMentio
     /// <returns>
     ///     The color of the role or <see langword="null"/> if the role has the default color.
     /// </returns>
-    [Obsolete("The legacy role \"Color\" is being replaced with the newer role \"Colors\" object, and may no longer be supported in a future API version.")]
     Color? Color { get; }
     
     /// <summary>
@@ -23,7 +22,7 @@ public interface IRole : ISnowflakeEntity, IGuildEntity, INamableEntity, IMentio
     /// <returns>
     ///     The color(s) of the role or <see langword="null"/> if the role has the default color.
     /// </returns>
-    IRoleColors? Colors { get; }
+    RoleColors? Colors { get; }
 
     /// <summary>
     ///     Gets whether this role is hoisted, i.e. whether members of this role
