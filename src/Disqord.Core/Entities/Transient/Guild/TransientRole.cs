@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 using Qommon;
 
 namespace Disqord;
@@ -18,8 +19,14 @@ public class TransientRole : TransientClientEntity<RoleJsonModel>, IRole
     public string Mention => Disqord.Mention.Role(this);
 
     /// <inheritdoc/>
+    [Obsolete("The legacy role \"Color\" is being replaced with the newer role \"Colors\" object, and may no longer be supported in a future API version.")]
     public Color? Color => Model.Color != 0
         ? Model.Color
+        : null;
+
+    /// <inheritdoc/>
+    public IRoleColors? Colors => Model.Colors.PrimaryColor != 0
+        ? new TransientRoleColors(Model.Colors)
         : null;
 
     /// <inheritdoc/>

@@ -18,6 +18,7 @@ internal static partial class ActionPropertiesConversion
             Name = properties.Name,
             Permissions = properties.Permissions,
             Color = Optional.Convert(properties.Color, color => color?.RawValue ?? 0),
+            Colors = Optional.Convert(properties.Colors, colors => colors.ToModel()),
             Hoist = properties.IsHoisted,
             Icon = properties.Icon,
             Mentionable = properties.IsMentionable

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Disqord.Models;
 using Disqord.Serialization.Json;
 using Qommon;
 
@@ -14,6 +15,9 @@ public class CreateRoleJsonRestRequestContent : JsonModelRestRequestContent
 
     [JsonProperty("color")]
     public Optional<int> Color;
+
+    [JsonProperty("colors")]
+    public Optional<RoleColorsJsonModel> Colors;
 
     [JsonProperty("hoist")]
     public Optional<bool> Hoist;
