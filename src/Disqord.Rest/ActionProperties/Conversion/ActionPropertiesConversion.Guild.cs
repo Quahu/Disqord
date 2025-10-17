@@ -19,12 +19,14 @@ internal static partial class ActionPropertiesConversion
             Name = properties.Name,
             Permissions = properties.Permissions,
             Color = Optional.Convert(properties.Color, color => color?.RawValue ?? 0),
-            Colors = Optional.Conditional(properties.Colors.HasValue, new RoleColorsJsonModel
-            {
-                PrimaryColor = properties.Colors.Value.GetValueOrDefault().PrimaryColor,
-                SecondaryColor = properties.Colors.Value.GetValueOrDefault().SecondaryColor,
-                TertiaryColor = properties.Colors.Value.GetValueOrDefault().TertiaryColor
-            }),
+            Colors = Optional.FromNullable(properties.Colors.HasValue && properties.Colors.Value is var colors
+                ? new RoleColorsJsonModel
+                {
+                    PrimaryColor = colors?.PrimaryColor ?? 0,
+                    SecondaryColor = colors?.SecondaryColor,
+                    TertiaryColor = colors?.TertiaryColor
+                }
+                : null),
             Hoist = properties.IsHoisted,
             Icon = properties.Icon,
             Mentionable = properties.IsMentionable
