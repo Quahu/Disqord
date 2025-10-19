@@ -36,6 +36,7 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
         switch (this)
         {
             case LocalSectionComponent section:
+            {
                 model = new SectionComponentJsonModel
                 {
                     Components = Optional.ConvertOrDefault(section.Components, static components => components.Select(static component => component.ToModel()).ToArray()) ?? [],
@@ -43,7 +44,9 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
                 };
 
                 break;
+            }
             case LocalTextDisplayComponent textDisplay:
+            {
                 OptionalGuard.HasValue(textDisplay.Content);
 
                 model = new TextDisplayComponentJsonModel
@@ -52,7 +55,9 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
                 };
 
                 break;
+            }
             case LocalThumbnailComponent thumbnail:
+            {
                 OptionalGuard.HasValue(thumbnail.Media);
 
                 model = new ThumbnailComponentJsonModel
@@ -63,14 +68,18 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
                 };
 
                 break;
+            }
             case LocalMediaGalleryComponent mediaGallery:
+            {
                 model = new MediaGalleryComponentJsonModel
                 {
                     Items = Optional.ConvertOrDefault(mediaGallery.Items, static items => items.Select(static item => item.ToModel()).ToArray()) ?? []
                 };
 
                 break;
+            }
             case LocalFileComponent file:
+            {
                 OptionalGuard.HasValue(file.File);
 
                 model = new FileComponentJsonModel
@@ -80,7 +89,9 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
                 };
 
                 break;
+            }
             case LocalSeparatorComponent separator:
+            {
                 model = new SeparatorComponentJsonModel
                 {
                     Divider = separator.IsDivider,
@@ -88,7 +99,9 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
                 };
 
                 break;
+            }
             case LocalContainerComponent container:
+            {
                 model = new ContainerComponentJsonModel
                 {
                     Components = Optional.ConvertOrDefault(container.Components, static components => components.Select(static component => component.ToModel()).ToArray()) ?? [],
@@ -97,7 +110,9 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
                 };
 
                 break;
+            }
             case LocalLabelComponent label:
+            {
                 OptionalGuard.HasValue(label.Label);
                 OptionalGuard.HasValue(label.Component);
 
@@ -109,8 +124,25 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
                 };
 
                 break;
+            }
+            case LocalFileUploadComponent fileUpload:
+            {
+                OptionalGuard.HasValue(fileUpload.CustomId);
+
+                model = new FileUploadComponentJsonModel
+                {
+                    CustomId = fileUpload.CustomId.Value,
+                    MinValues = fileUpload.MinimumUploadedFiles,
+                    MaxValues = fileUpload.MaximumUploadedFiles,
+                    Required = fileUpload.IsRequired,
+                };
+
+                break;
+            }
             default:
+            {
                 throw new InvalidOperationException("Unknown local component type.");
+            }
         }
 
         model.Id = Id;

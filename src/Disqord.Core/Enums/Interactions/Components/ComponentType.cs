@@ -34,4 +34,6 @@ public enum ComponentType : byte
     Container = 17,
 
     Label = 18,
+
+    FileUpload = 19,
 }

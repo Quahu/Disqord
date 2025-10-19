@@ -14,6 +14,7 @@ public static class TransientModalComponent
             ComponentType.TextInput => new TransientModalTextInputComponent(Guard.IsOfType<ModalTextInputComponentJsonModel>(model)),
             ComponentType.TextDisplay => new TransientModalTextDisplayComponent(Guard.IsOfType<ModalTextDisplayComponentJsonModel>(model)),
             ComponentType.Label => new TransientModalLabelComponent(Guard.IsOfType<ModalLabelComponentJsonModel>(model)),
+            ComponentType.FileUpload => new TransientModalFileUploadComponent(Guard.IsOfType<ModalFileUploadComponentJsonModel>(model)),
             _ => new TransientModalComponent<ModalBaseComponentJsonModel>(model)
         };
     }

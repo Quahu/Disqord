@@ -91,6 +91,32 @@ public static partial class DefaultComponentExecutionSteps
                 return;
             }
 
+            if (modalComponent is IModalFileUploadComponent fileUploadComponent)
+            {
+                var typeInformation = parameter.GetTypeInformation();
+                if (typeof(IAttachment).IsAssignableFrom(typeInformation.ActualType))
+                {
+                    var entityInteraction = Guard.IsAssignableToType<IEntityInteraction>(context.Interaction);
+                    var attachmentIds = fileUploadComponent.AttachmentIds;
+                    if (!typeInformation.IsEnumerable)
+                    {
+                        context.SetArgument(parameter, entityInteraction.Entities.Attachments[attachmentIds[0]]);
+                    }
+                    else
+                    {
+                        var attachments = new IAttachment[attachmentIds.Count];
+                        for (var i = 0; i < attachmentIds.Count; i++)
+                        {
+                            attachments[i] = entityInteraction.Entities.Attachments[attachmentIds[i]];
+                        }
+
+                        context.SetArgument(parameter, attachments);
+                    }
+
+                    return;
+                }
+            }
+
             var rawArgument = GetRawArgumentFromModalComponent(modalComponent);
             if (rawArgument.Count > 1)
             {
@@ -159,6 +185,10 @@ public static partial class DefaultComponentExecutionSteps
                 case IModalSelectionComponent selectionComponent:
                 {
                     return ToMultiString(selectionComponent.Values);
+                }
+                case IModalFileUploadComponent fileUploadComponent:
+                {
+                    return ToMultiString(fileUploadComponent.AttachmentIds.Select(static id => id.ToString()));
                 }
                 default:
                 {

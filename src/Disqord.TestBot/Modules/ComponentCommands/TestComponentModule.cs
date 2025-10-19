@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord.Bot.Commands.Components;
@@ -26,7 +27,8 @@ public class TestComponentModule : DiscordComponentModuleBase
                 LocalComponent.TextDisplay($"Hello, {Context.Author.Mention}!"),
                 LocalComponent.Label("Name", "Please provide your name.", LocalComponent.TextInput("name")),
                 LocalComponent.Label("Favorite Food", "Choose your favorite food", LocalComponent.Selection("favoriteFood", foodOptions).WithMaximumSelectedOptions(foodOptions.Length)),
-                LocalComponent.Label("Favorite Members", "Choose your favorite members", LocalComponent.Selection("favoriteMembers").WithType(SelectionComponentType.User).WithMaximumSelectedOptions(10).WithMinimumSelectedOptions(2))
+                LocalComponent.Label("Favorite Members", "Choose your favorite members", LocalComponent.Selection("favoriteMembers").WithType(SelectionComponentType.User).WithMaximumSelectedOptions(10).WithMinimumSelectedOptions(2)),
+                LocalComponent.Label("Files", "Upload your favorite files", LocalComponent.FileUpload("favoriteFiles").WithMaximumUploadedFiles(1))
             );
 
         return Context.Interaction.Response().SendModalAsync(modal);
@@ -46,10 +48,10 @@ public class TestComponentModule : DiscordComponentModuleBase
     }
 
     [ModalCommand("Modal1")]
-    public IResult Modal1(string name, string[] favoriteFood, IMember[] favoriteMembers)
+    public IResult Modal1(string name, string[] favoriteFood, IMember[] favoriteMembers, IAttachment secretFile)
     {
         return Response(new LocalInteractionMessageResponse()
-            .WithContent($"Your name is {name} and your favorite food is: {string.Join(", ", favoriteFood)}.\n\nYour favorite members are: {string.Join(", ", favoriteMembers.Select(x => x.Mention))}")
+            .WithContent($"Your name is {name} and your favorite food is: {string.Join(", ", favoriteFood)}.\n\nYour favorite members are: {string.Join(", ", favoriteMembers.Select(x => x.Mention))}\n\nI got your secret file: {secretFile.FileName}")
             .WithIsEphemeral());
     }
 

@@ -154,4 +154,10 @@ public abstract partial class LocalComponent
             .WithDescription(description)
             .WithComponent(component);
     }
+
+    public static LocalFileUploadComponent FileUpload(string customId)
+    {
+        return new LocalFileUploadComponent()
+            .WithCustomId(customId);
+    }
 }
