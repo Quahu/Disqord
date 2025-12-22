@@ -847,10 +847,7 @@ public abstract partial class DiscordBotBase
         var cache = await cacheProvider.GetCacheAsync(cancellationToken).ConfigureAwait(false);
         await using (cache.ConfigureAwait(false))
         {
-            var requestOptions = new DefaultRestRequestOptions
-            {
-                MaximumDelayDuration = TimeSpan.Zero
-            };
+            var requestOptions = new DefaultRestRequestOptions();
 
             var applicationId = _applicationId ?? (_currentApplication ??= await this.FetchCurrentApplicationAsync(requestOptions, cancellationToken).ConfigureAwait(false)).Id;
             var commandChanges = new List<(Snowflake?, IApplicationCommandCacheChanges)>();
