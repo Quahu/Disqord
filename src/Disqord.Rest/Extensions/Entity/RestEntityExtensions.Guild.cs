@@ -243,6 +243,7 @@ public static partial class RestEntityExtensions
         return client.FetchBanAsync(guild.Id, userId, options, cancellationToken);
     }
 
+    [Obsolete("Parameter deleteMessageDays is deprecated, use a TimeSpan instead.")]
     public static Task CreateBanAsync(this IGuild guild,
         Snowflake userId, string? reason = null, int? deleteMessageDays = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -251,12 +252,36 @@ public static partial class RestEntityExtensions
         return client.CreateBanAsync(guild.Id, userId, reason, deleteMessageDays, options, cancellationToken);
     }
 
+    public static Task CreateBanAsync(this IGuild guild,
+        Snowflake userId, string? reason = null, TimeSpan? deleteMessageTime = null,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var client = guild.GetRestClient();
+        return client.CreateBanAsync(guild.Id, userId, reason, deleteMessageTime, options, cancellationToken);
+    }
+
     public static Task DeleteBanAsync(this IGuild guild,
         Snowflake userId,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var client = guild.GetRestClient();
         return client.DeleteBanAsync(guild.Id, userId, options, cancellationToken);
+    }
+
+    public static IPagedEnumerable<IBulkBanResponse> EnumerateBanCreation(this IGuild guild,
+        IEnumerable<Snowflake> userIds, string? reason = null, TimeSpan? deleteMessageTime = null,
+        IRestRequestOptions? options = null)
+    {
+        var client = guild.GetRestClient();
+        return client.EnumerateBanCreation(guild.Id, userIds, reason, deleteMessageTime, options);
+    }
+
+    public static Task<IBulkBanResponse> CreateBansAsync(this IGuild guild,
+        IEnumerable<Snowflake> userIds, string? reason = null, TimeSpan? deleteMessageTime = null,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var client = guild.GetRestClient();
+        return client.CreateBansAsync(guild.Id, userIds, reason, deleteMessageTime, options, cancellationToken);
     }
 
     public static Task<IReadOnlyList<IRole>> FetchRolesAsync(this IGuild guild,

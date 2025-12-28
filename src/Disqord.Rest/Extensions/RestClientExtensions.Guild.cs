@@ -450,13 +450,23 @@ public static partial class RestClientExtensions
         }
     }
 
+    [Obsolete("Parameter deleteMessageDays is deprecated, use a TimeSpan instead.")]
     public static Task CreateBanAsync(this IRestClient client,
         Snowflake guildId, Snowflake userId, string? reason = null, int? deleteMessageDays = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
+        return client.CreateBanAsync(guildId, userId, reason,
+            deleteMessageDays.HasValue ? TimeSpan.FromDays(deleteMessageDays.Value) : null,
+            options, cancellationToken);
+    }
+
+    public static Task CreateBanAsync(this IRestClient client,
+        Snowflake guildId, Snowflake userId, string? reason = null, TimeSpan? deleteMessageTime = null,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
         var content = new CreateBanJsonRestRequestContent
         {
-            DeleteMessageDays = Optional.FromNullable(deleteMessageDays),
+            DeleteMessageSeconds = Optional.Convert(Optional.FromNullable(deleteMessageTime), time => (int) time.TotalSeconds),
             Reason = Optional.FromNullable(reason)
         };
 
@@ -468,6 +478,53 @@ public static partial class RestClientExtensions
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         return client.ApiClient.DeleteBanAsync(guildId, userId, options, cancellationToken);
+    }
+
+    public static IPagedEnumerable<IBulkBanResponse> EnumerateBanCreation(this IRestClient client,
+        Snowflake guildId, IEnumerable<Snowflake> userIds, string? reason = null, TimeSpan? deleteMessageTime = null,
+        IRestRequestOptions? options = null)
+    {
+        Guard.IsNotNull(userIds);
+
+        return PagedEnumerable.Create((state, cancellationToken) =>
+        {
+            var (client, guildId, userIds, reason, deleteMessageTime, options) = state;
+            return new CreateBansPagedEnumerator(client, guildId, userIds, reason, deleteMessageTime, options, cancellationToken);
+        }, (client, guildId, userIds.ToArray(), reason, deleteMessageTime, options));
+    }
+
+    public static async Task<IBulkBanResponse> CreateBansAsync(this IRestClient client,
+        Snowflake guildId, IEnumerable<Snowflake> userIds, string? reason = null, TimeSpan? deleteMessageTime = null,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(userIds);
+
+        var users = userIds.ToArray();
+        Guard.IsNotEmpty(users);
+
+        if (users.Length <= Discord.Limits.Guild.MaxBulkBanUsersAmount)
+        {
+            return await client.InternalCreateBansAsync(guildId, users, reason, deleteMessageTime, options, cancellationToken).ConfigureAwait(false);
+        }
+
+        var enumerable = client.EnumerateBanCreation(guildId, users, reason, deleteMessageTime, options);
+        var flattened = await enumerable.FlattenAsync(cancellationToken);
+        return new CombinedBulkBanResponse(flattened);
+    }
+
+    internal static async Task<IBulkBanResponse> InternalCreateBansAsync(this IRestClient client,
+        Snowflake guildId, ArraySegment<Snowflake> userIds, string? reason = null, TimeSpan? deleteMessageTime = null,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var content = new CreateBansJsonRestRequestContent
+        {
+            UserIds = userIds,
+            DeleteMessageSeconds = Optional.Convert(Optional.FromNullable(deleteMessageTime), time => (int) time.TotalSeconds),
+            Reason = Optional.FromNullable(reason)
+        };
+
+        var model = await client.ApiClient.CreateBansAsync(guildId, content, options, cancellationToken);
+        return new TransientBulkBanResponse(model);;
     }
 
     public static async Task<IReadOnlyList<IRole>> FetchRolesAsync(this IRestClient client,
