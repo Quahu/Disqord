@@ -449,7 +449,21 @@ public static partial class RestClientExtensions
             return null;
         }
     }
+    
+    public static Task CreateBanAsync(this IRestClient client,
+        Snowflake guildId, Snowflake userId, string? reason = null, TimeSpan? deleteMessageDuration = null,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var content = new CreateBanJsonRestRequestContent
+        {
+            DeleteMessageSeconds = Optional.FromNullable((int?) deleteMessageDuration?.TotalSeconds),
+            Reason = Optional.FromNullable(reason)
+        };
 
+        return client.ApiClient.CreateBanAsync(guildId, userId, content, options, cancellationToken);
+    }
+
+    [Obsolete("`delete_message_days` has been deprecated by Discord. Prefer the overload of CreateBanAsync that accepts a `TimeSpan?`.")]
     public static Task CreateBanAsync(this IRestClient client,
         Snowflake guildId, Snowflake userId, string? reason = null, int? deleteMessageDays = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
