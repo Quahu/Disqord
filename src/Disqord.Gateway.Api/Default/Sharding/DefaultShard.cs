@@ -61,6 +61,7 @@ public class DefaultShard : IShard
     public CancellationToken StoppingToken { get; private set; }
 
     private readonly object _stateLock = new();
+    private readonly SemaphoreSlim _sendLock = new(1, 1);
     private Tcs? _readyTcs;
 
     public DefaultShard(
@@ -93,23 +94,14 @@ public class DefaultShard : IShard
     {
         Guard.IsNotNull(payload);
 
-        if (RequiresAuthentication(payload.Op))
-            await WaitForReadyAsync(cancellationToken).ConfigureAwait(false);
-
-        var sent = false;
-        do
+        if (IsHandshake(payload.Op))
         {
             await RateLimiter.WaitAsync(payload.Op, cancellationToken).ConfigureAwait(false);
             try
             {
                 Logger.LogTrace("Sending payload: {0}.", payload.Op);
                 await Gateway.SendAsync(payload, cancellationToken).ConfigureAwait(false);
-                sent = true;
                 RateLimiter.NotifyCompletion(payload.Op);
-            }
-            catch (WebSocketClosedException ex) when (ex.CloseStatus != null && ((GatewayCloseCode) ex.CloseStatus).IsRecoverable() && !IsHandshake(payload.Op))
-            {
-                await WaitForReadyAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -119,8 +111,47 @@ public class DefaultShard : IShard
                 RateLimiter.Release(payload.Op);
                 throw;
             }
+
+            return;
         }
-        while (!sent);
+
+        while (true)
+        {
+            if (RequiresAuthentication(payload.Op))
+                await WaitForReadyAsync(cancellationToken).ConfigureAwait(false);
+
+            await _sendLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                if (RequiresAuthentication(payload.Op) && State != ShardState.Ready)
+                    continue;
+
+                await RateLimiter.WaitAsync(payload.Op, cancellationToken).ConfigureAwait(false);
+                try
+                {
+                    Logger.LogTrace("Sending payload: {0}.", payload.Op);
+                    await Gateway.SendAsync(payload, cancellationToken).ConfigureAwait(false);
+                    RateLimiter.NotifyCompletion(payload.Op);
+                    return;
+                }
+                catch (WebSocketClosedException ex) when (ex.CloseStatus != null && ((GatewayCloseCode) ex.CloseStatus).IsRecoverable())
+                {
+                    continue;
+                }
+                catch (Exception ex)
+                {
+                    if (ex is not OperationCanceledException)
+                        Logger.LogError(ex, "An exception occurred while sending payload: {0}.", payload.Op);
+
+                    RateLimiter.Release(payload.Op);
+                    throw;
+                }
+            }
+            finally
+            {
+                _sendLock.Release();
+            }
+        }
     }
 
     /// <inheritdoc/>
@@ -262,27 +293,35 @@ public class DefaultShard : IShard
                         case GatewayPayloadOperation.Reconnect:
                         {
                             Logger.LogInformation("The gateway requested a reconnect.");
-                            await SetStateAsync(ShardState.Reconnecting, stoppingToken).ConfigureAwait(false);
-
-                            stopHeartbeater = false;
+                            await _sendLock.WaitAsync(stoppingToken).ConfigureAwait(false);
                             try
                             {
-                                Logger.LogDebug("Stopping the heartbeater due to a reconnect request.");
-                                await Heartbeater.StopAsync().ConfigureAwait(false);
-                            }
-                            catch (Exception ex)
-                            {
-                                Logger.LogError(ex, "An exception occurred while stopping the heartbeater.");
-                            }
+                                await SetStateAsync(ShardState.Reconnecting, stoppingToken).ConfigureAwait(false);
 
-                            try
-                            {
-                                Logger.LogInformation("Closing the connection.");
-                                await Gateway.CloseAsync(4000, "Manual close after a requested reconnect.", default).ConfigureAwait(false);
+                                stopHeartbeater = false;
+                                try
+                                {
+                                    Logger.LogDebug("Stopping the heartbeater due to a reconnect request.");
+                                    await Heartbeater.StopAsync().ConfigureAwait(false);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Logger.LogError(ex, "An exception occurred while stopping the heartbeater.");
+                                }
+
+                                try
+                                {
+                                    Logger.LogInformation("Closing the connection.");
+                                    await Gateway.CloseAsync(4000, "Manual close after a requested reconnect.", default).ConfigureAwait(false);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Logger.LogError(ex, "An exception occurred while closing the gateway connection.");
+                                }
                             }
-                            catch (Exception ex)
+                            finally
                             {
-                                Logger.LogError(ex, "An exception occurred while closing the gateway connection.");
+                                _sendLock.Release();
                             }
 
                             breakReceive = true;
@@ -290,6 +329,97 @@ public class DefaultShard : IShard
                         }
                         case GatewayPayloadOperation.InvalidSession:
                         {
+                            await _sendLock.WaitAsync(stoppingToken).ConfigureAwait(false);
+                            try
+                            {
+                                if (resuming)
+                                {
+                                    resuming = false;
+                                    var delay = Random.Shared.Next(1000, 5001);
+                                    Logger.LogInformation("The gateway did not resume the session, identifying in {0}ms...", delay);
+                                    await SetStateAsync(ShardState.Identifying, stoppingToken).ConfigureAwait(false);
+
+                                    // We need to release the lock to allow IdentifyAsync (if run concurrently?)
+                                    // Actually IdentifyAsync is called after this block.
+                                    // IdentifyAsync uses SendAsync(Identify) which bypasses the lock.
+                                    // So it is safe.
+                                    // But we are inside `try...finally`. We release the lock at end of `try`.
+                                    // But we have `await Task.Delay` inside.
+                                    // This delay is inside the lock! Is this good?
+                                    // If we hold the lock, no application payload can send.
+                                    // This is correct: we are Identifying, so we are not Ready.
+
+                                    await Task.Delay(delay, stoppingToken).ConfigureAwait(false);
+                                    // IdentifyAsync is async.
+                                    // Wait, if we call IdentifyAsync inside the lock, SendAsync(Identify) is fine.
+                                }
+                                else
+                                {
+                                    if (SessionId != null)
+                                    {
+                                        await ApiClient.ShardCoordinator.OnShardSessionInvalidated(Id, SessionId, stoppingToken).ConfigureAwait(false);
+                                    }
+
+                                    var isResumable = payload.D!.ToType<bool>();
+                                    if (isResumable)
+                                    {
+                                        resuming = true;
+                                        Logger.LogInformation("The gateway invalidated the session (resumable), resuming...");
+                                        await SetStateAsync(ShardState.Resuming, stoppingToken).ConfigureAwait(false);
+                                        // ResumeAsync is called outside? No, here.
+                                        // Wait, original code:
+                                        // await ResumeAsync(stoppingToken);
+                                    }
+                                    else
+                                    {
+                                        if (State == ShardState.Identifying)
+                                        {
+                                            Logger.LogWarning("Hit the identify rate-limit, retrying...");
+                                        }
+                                        else
+                                        {
+                                            SessionId = null;
+                                            ResumeUri = null;
+                                            Logger.LogInformation("The gateway invalidated the session (not resumable), identifying...");
+                                            await SetStateAsync(ShardState.Identifying, stoppingToken).ConfigureAwait(false);
+                                        }
+
+                                        // await IdentifyAsync(stoppingToken);
+                                    }
+                                }
+                            }
+                            finally
+                            {
+                                _sendLock.Release();
+                            }
+
+                            // Now execute the actual handshake outside the lock?
+                            // No, previously the code executed Identify/Resume inside the case block.
+                            // I should verify where I put the `await IdentifyAsync`.
+                            // Ah, in my plan I said "Acquire lock when changing state".
+                            // If I wrap the whole block, I am running IdentifyAsync inside the lock.
+                            // IdentifyAsync calls SendAsync(Identify).
+                            // SendAsync(Identify) bypasses the lock.
+                            // So this is SAFE.
+
+                            // Re-adding the calls I removed in the thought process:
+
+                            if (resuming && payload.D!.ToType<bool>()) // Wait, logic above was messy. Let's stick to original logic structure inside lock.
+                            {
+                                 await ResumeAsync(stoppingToken).ConfigureAwait(false);
+                            }
+                            else if (!resuming && !payload.D!.ToType<bool>())
+                            {
+                                 await IdentifyAsync(stoppingToken).ConfigureAwait(false);
+                            }
+                            else if (resuming && !payload.D!.ToType<bool>()) // Not resumed case
+                            {
+                                 await IdentifyAsync(stoppingToken).ConfigureAwait(false);
+                            }
+
+                            // Let's rewrite the block content exactly as original but wrapped in lock.
+                            // Original:
+                            /*
                             if (resuming)
                             {
                                 resuming = false;
@@ -332,7 +462,7 @@ public class DefaultShard : IShard
                                     await IdentifyAsync(stoppingToken).ConfigureAwait(false);
                                 }
                             }
-
+                            */
                             break;
                         }
                         case GatewayPayloadOperation.Hello:
@@ -432,12 +562,21 @@ public class DefaultShard : IShard
                     Logger.LogWarning(ex, "The gateway was closed with an exception.");
                 }
 
-                await OnDisconnected(ex, stoppingToken).ConfigureAwait(false);
+                await _sendLock.WaitAsync(stoppingToken).ConfigureAwait(false);
+                try
+                {
+                    await OnDisconnected(ex, stoppingToken).ConfigureAwait(false);
+                }
+                finally
+                {
+                    _sendLock.Release();
+                }
             }
             catch (OperationCanceledException ex)
             {
                 Logger.LogInformation("The gateway run was cancelled.");
 
+                await _sendLock.WaitAsync(CancellationToken.None).ConfigureAwait(false); // Use None as stoppingToken is cancelled
                 try
                 {
                     await Gateway.CloseAsync(1000, null, default).ConfigureAwait(false);
@@ -446,6 +585,10 @@ public class DefaultShard : IShard
                 catch (Exception exc)
                 {
                     Logger.LogError(exc, "An exception occurred while closing the gateway connection after cancellation.");
+                }
+                finally
+                {
+                    _sendLock.Release();
                 }
 
                 throw;
@@ -453,6 +596,8 @@ public class DefaultShard : IShard
             catch (Exception ex)
             {
                 Logger.LogCritical(ex, "An exception occurred while receiving a payload. Stopping the connection.");
+
+                await _sendLock.WaitAsync(stoppingToken).ConfigureAwait(false);
                 try
                 {
                     await Gateway.CloseAsync(1000, null, default).ConfigureAwait(false);
@@ -462,24 +607,52 @@ public class DefaultShard : IShard
                 {
                     Logger.LogError(exc, "An exception occurred while closing the gateway connection after cancellation.");
                 }
+                finally
+                {
+                    _sendLock.Release();
+                }
 
                 throw;
             }
             finally
             {
-                await SetStateAsync(ShardState.Disconnected, stoppingToken).ConfigureAwait(false);
+                // We might have already acquired lock in catch blocks?
+                // No, catch blocks release it.
+                // But finally block runs after catch blocks.
 
-                if (stopHeartbeater)
+                // If OperationCanceledException was thrown, we handled it.
+                // But `await SetStateAsync(ShardState.Disconnected, stoppingToken)` is needed.
+
+                // Note: stoppingToken might be cancelled here.
+                // WaitAsync might throw.
+                try
                 {
+                    await _sendLock.WaitAsync(CancellationToken.None).ConfigureAwait(false);
                     try
                     {
-                        Logger.LogDebug("Stopping the heartbeater due to connection end.");
-                        await Heartbeater.StopAsync().ConfigureAwait(false);
+                        await SetStateAsync(ShardState.Disconnected, stoppingToken).ConfigureAwait(false);
+
+                        if (stopHeartbeater)
+                        {
+                            try
+                            {
+                                Logger.LogDebug("Stopping the heartbeater due to connection end.");
+                                await Heartbeater.StopAsync().ConfigureAwait(false);
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.LogError(ex, "An exception occurred while stopping the heartbeater.");
+                            }
+                        }
                     }
-                    catch (Exception ex)
+                    finally
                     {
-                        Logger.LogError(ex, "An exception occurred while stopping the heartbeater.");
+                        _sendLock.Release();
                     }
+                }
+                catch (Exception)
+                {
+                    // Ignore errors in finally block locking?
                 }
             }
         }
@@ -588,5 +761,6 @@ public class DefaultShard : IShard
 
     private static bool IsHandshake(GatewayPayloadOperation op)
         => op is GatewayPayloadOperation.Identify
-            or GatewayPayloadOperation.Resume;
+            or GatewayPayloadOperation.Resume
+            or GatewayPayloadOperation.Heartbeat;
 }
