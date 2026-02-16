@@ -9,7 +9,7 @@ public class RadioGroupComponentJsonModel : BaseComponentJsonModel
     public string CustomId = null!;
 
     [JsonProperty("options")]
-    public RadioGroupOptionJsonModel[] Options = null!;
+    public Optional<RadioGroupOptionJsonModel[]> Options;
 
     [JsonProperty("required")]
     public Optional<bool> Required;

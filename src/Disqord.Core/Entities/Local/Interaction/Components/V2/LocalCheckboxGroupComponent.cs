@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Disqord.Models;
 using Qommon;
 
@@ -9,7 +8,7 @@ public class LocalCheckboxGroupComponent : LocalComponent, ILocalCustomIdentifia
 {
     public Optional<string> CustomId { get; set; }
 
-    public IList<LocalCheckboxGroupOption> Options { get; set; } = new List<LocalCheckboxGroupOption>();
+    public Optional<IList<LocalCheckboxGroupOption>> Options { get; set; }
 
     public Optional<int> MinimumSelectedOptions { get; set; }
 
@@ -25,7 +24,7 @@ public class LocalCheckboxGroupComponent : LocalComponent, ILocalCustomIdentifia
     protected LocalCheckboxGroupComponent(LocalCheckboxGroupComponent other) : base(other)
     {
         CustomId = other.CustomId;
-        Options = other.Options.Select(x => x.Clone()).ToList();
+        Options = other.Options.DeepClone();
         MinimumSelectedOptions = other.MinimumSelectedOptions;
         MaximumSelectedOptions = other.MaximumSelectedOptions;
         IsRequired = other.IsRequired;

@@ -9,7 +9,7 @@ public class CheckboxGroupComponentJsonModel : BaseComponentJsonModel
     public string CustomId = null!;
 
     [JsonProperty("options")]
-    public CheckboxGroupOptionJsonModel[] Options = null!;
+    public Optional<CheckboxGroupOptionJsonModel[]> Options;
 
     [JsonProperty("min_values")]
     public Optional<int> MinValues;

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Disqord.Models;
 using Qommon;
 
@@ -9,7 +8,7 @@ public class LocalRadioGroupComponent : LocalComponent, ILocalCustomIdentifiable
 {
     public Optional<string> CustomId { get; set; }
 
-    public IList<LocalRadioGroupOption> Options { get; set; } = new List<LocalRadioGroupOption>();
+    public Optional<IList<LocalRadioGroupOption>> Options { get; set; }
 
     public Optional<bool> IsRequired { get; set; }
 
@@ -21,7 +20,7 @@ public class LocalRadioGroupComponent : LocalComponent, ILocalCustomIdentifiable
     protected LocalRadioGroupComponent(LocalRadioGroupComponent other) : base(other)
     {
         CustomId = other.CustomId;
-        Options = other.Options.Select(x => x.Clone()).ToList();
+        Options = other.Options.DeepClone();
         IsRequired = other.IsRequired;
         IsDisabled = other.IsDisabled;
     }

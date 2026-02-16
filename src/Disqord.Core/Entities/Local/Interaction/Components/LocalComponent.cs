@@ -146,7 +146,7 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
                 model = new RadioGroupComponentJsonModel
                 {
                     CustomId = radioGroup.CustomId.Value,
-                    Options = radioGroup.Options.Select(static option => option.ToModel()).ToArray(),
+                    Options = Optional.Convert(radioGroup.Options, static options => options.Select(static option => option.ToModel()).ToArray()),
                     Required = radioGroup.IsRequired,
                     Disabled = radioGroup.IsDisabled
                 };
@@ -160,7 +160,7 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
                 model = new CheckboxGroupComponentJsonModel
                 {
                     CustomId = checkboxGroup.CustomId.Value,
-                    Options = checkboxGroup.Options.Select(static option => option.ToModel()).ToArray(),
+                    Options = Optional.Convert(checkboxGroup.Options, static options => options.Select(static option => option.ToModel()).ToArray()),
                     MinValues = checkboxGroup.MinimumSelectedOptions,
                     MaxValues = checkboxGroup.MaximumSelectedOptions,
                     Required = checkboxGroup.IsRequired,
