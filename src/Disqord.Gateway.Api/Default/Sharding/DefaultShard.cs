@@ -339,19 +339,8 @@ public class DefaultShard : IShard
                                     Logger.LogInformation("The gateway did not resume the session, identifying in {0}ms...", delay);
                                     await SetStateAsync(ShardState.Identifying, stoppingToken).ConfigureAwait(false);
 
-                                    // We need to release the lock to allow IdentifyAsync (if run concurrently?)
-                                    // Actually IdentifyAsync is called after this block.
-                                    // IdentifyAsync uses SendAsync(Identify) which bypasses the lock.
-                                    // So it is safe.
-                                    // But we are inside `try...finally`. We release the lock at end of `try`.
-                                    // But we have `await Task.Delay` inside.
-                                    // This delay is inside the lock! Is this good?
-                                    // If we hold the lock, no application payload can send.
-                                    // This is correct: we are Identifying, so we are not Ready.
-
                                     await Task.Delay(delay, stoppingToken).ConfigureAwait(false);
-                                    // IdentifyAsync is async.
-                                    // Wait, if we call IdentifyAsync inside the lock, SendAsync(Identify) is fine.
+                                    await IdentifyAsync(stoppingToken).ConfigureAwait(false);
                                 }
                                 else
                                 {
@@ -366,9 +355,7 @@ public class DefaultShard : IShard
                                         resuming = true;
                                         Logger.LogInformation("The gateway invalidated the session (resumable), resuming...");
                                         await SetStateAsync(ShardState.Resuming, stoppingToken).ConfigureAwait(false);
-                                        // ResumeAsync is called outside? No, here.
-                                        // Wait, original code:
-                                        // await ResumeAsync(stoppingToken);
+                                        await ResumeAsync(stoppingToken).ConfigureAwait(false);
                                     }
                                     else
                                     {
@@ -384,7 +371,7 @@ public class DefaultShard : IShard
                                             await SetStateAsync(ShardState.Identifying, stoppingToken).ConfigureAwait(false);
                                         }
 
-                                        // await IdentifyAsync(stoppingToken);
+                                        await IdentifyAsync(stoppingToken).ConfigureAwait(false);
                                     }
                                 }
                             }
@@ -393,76 +380,6 @@ public class DefaultShard : IShard
                                 _sendLock.Release();
                             }
 
-                            // Now execute the actual handshake outside the lock?
-                            // No, previously the code executed Identify/Resume inside the case block.
-                            // I should verify where I put the `await IdentifyAsync`.
-                            // Ah, in my plan I said "Acquire lock when changing state".
-                            // If I wrap the whole block, I am running IdentifyAsync inside the lock.
-                            // IdentifyAsync calls SendAsync(Identify).
-                            // SendAsync(Identify) bypasses the lock.
-                            // So this is SAFE.
-
-                            // Re-adding the calls I removed in the thought process:
-
-                            if (resuming && payload.D!.ToType<bool>()) // Wait, logic above was messy. Let's stick to original logic structure inside lock.
-                            {
-                                 await ResumeAsync(stoppingToken).ConfigureAwait(false);
-                            }
-                            else if (!resuming && !payload.D!.ToType<bool>())
-                            {
-                                 await IdentifyAsync(stoppingToken).ConfigureAwait(false);
-                            }
-                            else if (resuming && !payload.D!.ToType<bool>()) // Not resumed case
-                            {
-                                 await IdentifyAsync(stoppingToken).ConfigureAwait(false);
-                            }
-
-                            // Let's rewrite the block content exactly as original but wrapped in lock.
-                            // Original:
-                            /*
-                            if (resuming)
-                            {
-                                resuming = false;
-                                var delay = Random.Shared.Next(1000, 5001);
-                                Logger.LogInformation("The gateway did not resume the session, identifying in {0}ms...", delay);
-                                await SetStateAsync(ShardState.Identifying, stoppingToken).ConfigureAwait(false);
-
-                                await Task.Delay(delay, stoppingToken).ConfigureAwait(false);
-                                await IdentifyAsync(stoppingToken).ConfigureAwait(false);
-                            }
-                            else
-                            {
-                                if (SessionId != null)
-                                {
-                                    await ApiClient.ShardCoordinator.OnShardSessionInvalidated(Id, SessionId, stoppingToken).ConfigureAwait(false);
-                                }
-
-                                var isResumable = payload.D!.ToType<bool>();
-                                if (isResumable)
-                                {
-                                    resuming = true;
-                                    Logger.LogInformation("The gateway invalidated the session (resumable), resuming...");
-                                    await SetStateAsync(ShardState.Resuming, stoppingToken).ConfigureAwait(false);
-                                    await ResumeAsync(stoppingToken).ConfigureAwait(false);
-                                }
-                                else
-                                {
-                                    if (State == ShardState.Identifying)
-                                    {
-                                        Logger.LogWarning("Hit the identify rate-limit, retrying...");
-                                    }
-                                    else
-                                    {
-                                        SessionId = null;
-                                        ResumeUri = null;
-                                        Logger.LogInformation("The gateway invalidated the session (not resumable), identifying...");
-                                        await SetStateAsync(ShardState.Identifying, stoppingToken).ConfigureAwait(false);
-                                    }
-
-                                    await IdentifyAsync(stoppingToken).ConfigureAwait(false);
-                                }
-                            }
-                            */
                             break;
                         }
                         case GatewayPayloadOperation.Hello:
@@ -616,15 +533,6 @@ public class DefaultShard : IShard
             }
             finally
             {
-                // We might have already acquired lock in catch blocks?
-                // No, catch blocks release it.
-                // But finally block runs after catch blocks.
-
-                // If OperationCanceledException was thrown, we handled it.
-                // But `await SetStateAsync(ShardState.Disconnected, stoppingToken)` is needed.
-
-                // Note: stoppingToken might be cancelled here.
-                // WaitAsync might throw.
                 try
                 {
                     await _sendLock.WaitAsync(CancellationToken.None).ConfigureAwait(false);
@@ -652,7 +560,7 @@ public class DefaultShard : IShard
                 }
                 catch (Exception)
                 {
-                    // Ignore errors in finally block locking?
+                    // Ignore errors during final lock acquisition
                 }
             }
         }
