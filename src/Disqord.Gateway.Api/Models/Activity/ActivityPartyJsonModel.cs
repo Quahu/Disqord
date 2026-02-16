@@ -9,5 +9,5 @@ public class ActivityPartyJsonModel : JsonModel
     public Optional<string> Id;
 
     [JsonProperty("size")]
-    public Optional<int[]> Size;
+    public Optional<string[]> Size;
 }
