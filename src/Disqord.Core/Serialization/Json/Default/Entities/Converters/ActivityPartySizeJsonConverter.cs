@@ -6,7 +6,7 @@ using Disqord.Serialization.Json;
 using Newtonsoft.Json;
 using Qommon;
 
-namespace Disqord.Gateway.Api.Models;
+namespace Disqord.Serialization.Json.Default;
 
 internal sealed class ActivityPartySizeJsonConverter : JsonConverter<Optional<int[]>>
 {

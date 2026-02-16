@@ -27,6 +27,7 @@ internal sealed class ContractResolver : DefaultContractResolver
     private readonly JsonConverter _messageInteractionMetadataConverter;
     private readonly JsonConverter _modalComponentConverter;
     private readonly JsonConverter _unfurledMediaItemConverter;
+    private readonly JsonConverter _activityPartySizeJsonConverter;
 
     private readonly IThreadSafeDictionary<Type, JsonConverter> _snowflakeDictionaryConverters;
     private readonly IThreadSafeDictionary<Type, JsonConverter> _optionalConverters;
@@ -43,6 +44,7 @@ internal sealed class ContractResolver : DefaultContractResolver
         _messageInteractionMetadataConverter = new MessageInteractionMetadataConverter();
         _modalComponentConverter = new ModalComponentConverter();
         _unfurledMediaItemConverter = new UnfurledMediaItemConverter();
+        _activityPartySizeJsonConverter = new ActivityPartySizeJsonConverter();
         _snowflakeDictionaryConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, JsonConverter>();
         _optionalConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, JsonConverter>();
     }
@@ -70,7 +72,15 @@ internal sealed class ContractResolver : DefaultContractResolver
         if (jsonProperty.PropertyType!.IsGenericType && typeof(IOptional).IsAssignableFrom(jsonProperty.PropertyType))
         {
             jsonProperty.ShouldSerialize = instance => ((IOptional?) jsonProperty.ValueProvider!.GetValue(instance))!.HasValue;
-            jsonProperty.Converter ??= GetOptionalConverter(jsonProperty.PropertyType);
+
+            if (jsonProperty.DeclaringType?.Name == "ActivityPartyJsonModel" && jsonProperty.PropertyName == "size")
+            {
+                jsonProperty.Converter = _activityPartySizeJsonConverter;
+            }
+            else
+            {
+                jsonProperty.Converter = GetOptionalConverter(jsonProperty.PropertyType);
+            }
         }
         else
         {
