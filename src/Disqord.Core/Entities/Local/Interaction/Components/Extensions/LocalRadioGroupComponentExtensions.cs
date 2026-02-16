@@ -5,13 +5,6 @@ namespace Disqord;
 
 public static class LocalRadioGroupComponentExtensions
 {
-    public static TRadioGroupComponent WithCustomId<TRadioGroupComponent>(this TRadioGroupComponent radioGroupComponent, string customId)
-        where TRadioGroupComponent : LocalRadioGroupComponent
-    {
-        radioGroupComponent.CustomId = customId;
-        return radioGroupComponent;
-    }
-
     public static TRadioGroupComponent WithOptions<TRadioGroupComponent>(this TRadioGroupComponent radioGroupComponent, IEnumerable<LocalRadioGroupOption> options)
         where TRadioGroupComponent : LocalRadioGroupComponent
     {

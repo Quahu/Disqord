@@ -5,13 +5,6 @@ namespace Disqord;
 
 public static class LocalCheckboxGroupComponentExtensions
 {
-    public static TCheckboxGroupComponent WithCustomId<TCheckboxGroupComponent>(this TCheckboxGroupComponent checkboxGroupComponent, string customId)
-        where TCheckboxGroupComponent : LocalCheckboxGroupComponent
-    {
-        checkboxGroupComponent.CustomId = customId;
-        return checkboxGroupComponent;
-    }
-
     public static TCheckboxGroupComponent WithOptions<TCheckboxGroupComponent>(this TCheckboxGroupComponent checkboxGroupComponent, IEnumerable<LocalCheckboxGroupOption> options)
         where TCheckboxGroupComponent : LocalCheckboxGroupComponent
     {
