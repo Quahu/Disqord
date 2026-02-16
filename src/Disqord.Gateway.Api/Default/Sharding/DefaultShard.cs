@@ -124,6 +124,22 @@ public class DefaultShard : IShard
                     continue;
                 }
 
+                // Double-check the state immediately before sending to prevent a narrow race condition
+                // where the state changes from Ready to Identifying/Resuming between the CanSendPayload
+                // check and the actual send. This is critical for authenticated payloads because sending
+                // them during handshake (Identify/Resume) causes the gateway to close the connection.
+                if (RequiresAuthentication(payload.Op))
+                {
+                    var stateBeforeSend = State;
+                    if (stateBeforeSend is ShardState.Identifying or ShardState.Resuming)
+                    {
+                        // State changed to handshake state - must not send authenticated payload
+                        RateLimiter.Release(payload.Op);
+                        await WaitForReadyAsync(cancellationToken).ConfigureAwait(false);
+                        continue;
+                    }
+                }
+
                 Logger.LogTrace("Sending payload: {0}.", payload.Op);
                 await Gateway.SendAsync(payload, cancellationToken).ConfigureAwait(false);
                 sent = true;
