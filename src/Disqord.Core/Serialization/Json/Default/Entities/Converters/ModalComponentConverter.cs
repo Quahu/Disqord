@@ -39,6 +39,9 @@ internal sealed class ModalComponentConverter : JsonConverter
             ComponentType.TextDisplay => new ModalTextDisplayComponentJsonModel(),
             ComponentType.Label => new ModalLabelComponentJsonModel(),
             ComponentType.FileUpload => new ModalFileUploadComponentJsonModel(),
+            ComponentType.RadioGroup => new ModalRadioGroupComponentJsonModel(),
+            ComponentType.CheckboxGroup => new ModalCheckboxGroupComponentJsonModel(),
+            ComponentType.Checkbox => new ModalCheckboxComponentJsonModel(),
             _ => new ModalBaseComponentJsonModel()
         };
     }

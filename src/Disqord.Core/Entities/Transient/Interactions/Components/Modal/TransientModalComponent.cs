@@ -15,6 +15,9 @@ public static class TransientModalComponent
             ComponentType.TextDisplay => new TransientModalTextDisplayComponent(Guard.IsOfType<ModalTextDisplayComponentJsonModel>(model)),
             ComponentType.Label => new TransientModalLabelComponent(Guard.IsOfType<ModalLabelComponentJsonModel>(model)),
             ComponentType.FileUpload => new TransientModalFileUploadComponent(Guard.IsOfType<ModalFileUploadComponentJsonModel>(model)),
+            ComponentType.RadioGroup => new TransientModalRadioGroupComponent(Guard.IsOfType<ModalRadioGroupComponentJsonModel>(model)),
+            ComponentType.CheckboxGroup => new TransientModalCheckboxGroupComponent(Guard.IsOfType<ModalCheckboxGroupComponentJsonModel>(model)),
+            ComponentType.Checkbox => new TransientModalCheckboxComponent(Guard.IsOfType<ModalCheckboxComponentJsonModel>(model)),
             _ => new TransientModalComponent<ModalBaseComponentJsonModel>(model)
         };
     }

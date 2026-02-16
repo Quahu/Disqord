@@ -190,6 +190,20 @@ public static partial class DefaultComponentExecutionSteps
                 {
                     return ToMultiString(fileUploadComponent.AttachmentIds.Select(static id => id.ToString()));
                 }
+                case IModalRadioGroupComponent radioGroupComponent:
+                {
+                    return radioGroupComponent.Value != null
+                        ? new MultiString(radioGroupComponent.Value)
+                        : default;
+                }
+                case IModalCheckboxGroupComponent checkboxGroupComponent:
+                {
+                    return ToMultiString(checkboxGroupComponent.Values);
+                }
+                case IModalCheckboxComponent checkboxComponent:
+                {
+                    return new MultiString(checkboxComponent.Value.ToString());
+                }
                 default:
                 {
                     ThrowNotImplementedException($"{nameof(BindValues)}.{nameof(GetRawArgumentFromModalComponent)}() does not support the modal component of type: {modalComponent.Type} (ID: {modalComponent.Id}).");
