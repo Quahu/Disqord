@@ -10,4 +10,36 @@ public class AutoModerationActionJsonModel : JsonModel
 
     [JsonProperty("metadata")]
     public Optional<AutoModerationActionMetadataJsonModel> Metadata;
+
+    protected override void OnValidate()
+    {
+        if (Type != AutoModerationActionType.BlockMessage)
+            OptionalGuard.HasValue(Metadata);
+
+        OptionalGuard.CheckValue(Metadata, metadata =>
+        {
+            switch (Type)
+            {
+                case AutoModerationActionType.BlockMessage:
+                {
+                    OptionalGuard.CheckValue(metadata.CustomMessage, message =>
+                    {
+                        Guard.HasSizeLessThanOrEqualTo(message, Discord.Limits.AutoModerationRule.ActionMetadata.MaxCustomMessageLength);
+                    });
+                    break;
+                }
+                case AutoModerationActionType.SendAlertMessage:
+                {
+                    OptionalGuard.HasValue(metadata.ChannelId);
+                    break;
+                }
+                case AutoModerationActionType.Timeout:
+                {
+                    OptionalGuard.HasValue(metadata.DurationSeconds);
+                    Guard.IsBetweenOrEqualTo(metadata.DurationSeconds.Value, 0, Discord.Limits.AutoModerationRule.ActionMetadata.MaxDurationSeconds);
+                    break;
+                }
+            }
+        });
+    }
 }
