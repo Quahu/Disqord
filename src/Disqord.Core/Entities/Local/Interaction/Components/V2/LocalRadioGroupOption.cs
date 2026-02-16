@@ -5,13 +5,11 @@ namespace Disqord;
 
 public class LocalRadioGroupOption : ILocalConstruct<LocalRadioGroupOption>, IJsonConvertible<RadioGroupOptionJsonModel>
 {
-    public string Label { get; set; }
+    public Optional<string> Label { get; set; }
 
-    public string Value { get; set; }
+    public Optional<string> Value { get; set; }
 
     public Optional<string> Description { get; set; }
-
-    public Optional<LocalEmoji> Emoji { get; set; }
 
     public Optional<bool> IsDefault { get; set; }
 
@@ -21,12 +19,14 @@ public class LocalRadioGroupOption : ILocalConstruct<LocalRadioGroupOption>, IJs
         Value = value;
     }
 
+    public LocalRadioGroupOption()
+    { }
+
     protected LocalRadioGroupOption(LocalRadioGroupOption other)
     {
         Label = other.Label;
         Value = other.Value;
         Description = other.Description;
-        Emoji = other.Emoji;
         IsDefault = other.IsDefault;
     }
 
@@ -37,12 +37,14 @@ public class LocalRadioGroupOption : ILocalConstruct<LocalRadioGroupOption>, IJs
 
     public RadioGroupOptionJsonModel ToModel()
     {
+        OptionalGuard.HasValue(Label);
+        OptionalGuard.HasValue(Value);
+
         return new RadioGroupOptionJsonModel
         {
-            Label = Label,
-            Value = Value,
+            Label = Label.Value,
+            Value = Value.Value,
             Description = Description,
-            Emoji = Optional.Convert(Emoji, static emoji => emoji.ToModel()),
             Default = IsDefault
         };
     }

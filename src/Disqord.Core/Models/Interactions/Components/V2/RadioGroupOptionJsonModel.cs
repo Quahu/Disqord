@@ -14,9 +14,6 @@ public class RadioGroupOptionJsonModel : JsonModel
     [JsonProperty("description")]
     public Optional<string> Description;
 
-    [JsonProperty("emoji")]
-    public Optional<EmojiJsonModel> Emoji;
-
     [JsonProperty("default")]
     public Optional<bool> Default;
 }

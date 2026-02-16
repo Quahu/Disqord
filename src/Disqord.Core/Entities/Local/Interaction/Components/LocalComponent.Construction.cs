@@ -160,4 +160,25 @@ public abstract partial class LocalComponent
         return new LocalFileUploadComponent()
             .WithCustomId(customId);
     }
+
+    public static LocalRadioGroupComponent RadioGroup(string customId, params IEnumerable<LocalRadioGroupOption> options)
+    {
+        return new LocalRadioGroupComponent()
+            .WithCustomId(customId)
+            .WithOptions(options);
+    }
+
+    public static LocalCheckboxGroupComponent CheckboxGroup(string customId, params IEnumerable<LocalCheckboxGroupOption> options)
+    {
+        return new LocalCheckboxGroupComponent()
+            .WithCustomId(customId)
+            .WithOptions(options);
+    }
+
+    public static LocalCheckboxComponent Checkbox(string customId, string label)
+    {
+        return new LocalCheckboxComponent()
+            .WithCustomId(customId)
+            .WithLabel(label);
+    }
 }
