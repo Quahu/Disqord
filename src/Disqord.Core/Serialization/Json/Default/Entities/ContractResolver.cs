@@ -27,7 +27,6 @@ internal sealed class ContractResolver : DefaultContractResolver
     private readonly JsonConverter _messageInteractionMetadataConverter;
     private readonly JsonConverter _modalComponentConverter;
     private readonly JsonConverter _unfurledMediaItemConverter;
-    private readonly JsonConverter _clampingInt32Converter;
 
     private readonly IThreadSafeDictionary<Type, JsonConverter> _snowflakeDictionaryConverters;
     private readonly IThreadSafeDictionary<Type, JsonConverter> _optionalConverters;
@@ -44,7 +43,6 @@ internal sealed class ContractResolver : DefaultContractResolver
         _messageInteractionMetadataConverter = new MessageInteractionMetadataConverter();
         _modalComponentConverter = new ModalComponentConverter();
         _unfurledMediaItemConverter = new UnfurledMediaItemConverter();
-        _clampingInt32Converter = new ClampingInt32Converter();
         _snowflakeDictionaryConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, JsonConverter>();
         _optionalConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, JsonConverter>();
     }
@@ -72,7 +70,7 @@ internal sealed class ContractResolver : DefaultContractResolver
         if (jsonProperty.PropertyType!.IsGenericType && typeof(IOptional).IsAssignableFrom(jsonProperty.PropertyType))
         {
             jsonProperty.ShouldSerialize = instance => ((IOptional?) jsonProperty.ValueProvider!.GetValue(instance))!.HasValue;
-            jsonProperty.Converter = GetOptionalConverter(jsonProperty.PropertyType);
+            jsonProperty.Converter ??= GetOptionalConverter(jsonProperty.PropertyType);
         }
         else
         {
@@ -197,10 +195,6 @@ internal sealed class ContractResolver : DefaultContractResolver
             else if (type == typeof(Snowflake))
             {
                 return _snowflakeConverter;
-            }
-            else if (type == typeof(int))
-            {
-                return _clampingInt32Converter;
             }
         }
         else

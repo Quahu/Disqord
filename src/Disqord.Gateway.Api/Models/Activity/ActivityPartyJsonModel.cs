@@ -1,13 +1,15 @@
-﻿using Disqord.Serialization.Json;
+using Disqord.Serialization.Json;
+using Newtonsoft.Json;
 using Qommon;
 
 namespace Disqord.Gateway.Api.Models;
 
 public class ActivityPartyJsonModel : JsonModel
 {
-    [JsonProperty("id")]
+    [Disqord.Serialization.Json.JsonProperty("id")]
     public Optional<string> Id;
 
-    [JsonProperty("size")]
+    [Disqord.Serialization.Json.JsonProperty("size")]
+    [JsonConverter(typeof(ActivityPartySizeJsonConverter))]
     public Optional<int[]> Size;
 }
