@@ -5,26 +5,43 @@ namespace Disqord;
 
 public static class LocalRadioGroupComponentExtensions
 {
-    public static TRadioGroupComponent WithOptions<TRadioGroupComponent>(this TRadioGroupComponent radioGroupComponent, IEnumerable<LocalRadioGroupOption> options)
+    public static TRadioGroupComponent AddOption<TRadioGroupComponent>(this TRadioGroupComponent component, string label, string value, string? description = null, bool isDefault = false)
         where TRadioGroupComponent : LocalRadioGroupComponent
     {
-        if (radioGroupComponent.Options.HasValue)
+        var option = new LocalRadioGroupOption(label, value)
         {
-            radioGroupComponent.Options.Value.Clear();
-            foreach (var option in options)
-                radioGroupComponent.Options.Value.Add(option);
-        }
-        else
-        {
-            radioGroupComponent.Options = new List<LocalRadioGroupOption>(options);
-        }
+            IsDefault = isDefault
+        };
 
-        return radioGroupComponent;
+        if (description != null)
+            option.Description = description;
+
+        return component.AddOption(option);
     }
 
-    public static TRadioGroupComponent WithOptions<TRadioGroupComponent>(this TRadioGroupComponent radioGroupComponent, params LocalRadioGroupOption[] options)
+    public static TRadioGroupComponent AddOption<TRadioGroupComponent>(this TRadioGroupComponent component, LocalRadioGroupOption option)
         where TRadioGroupComponent : LocalRadioGroupComponent
-        => radioGroupComponent.WithOptions((IEnumerable<LocalRadioGroupOption>) options);
+    {
+        if (component.Options.Add(option, out var list))
+            component.Options = new(list);
+
+        return component;
+    }
+
+    public static TRadioGroupComponent WithOptions<TRadioGroupComponent>(this TRadioGroupComponent component, IEnumerable<LocalRadioGroupOption> options)
+        where TRadioGroupComponent : LocalRadioGroupComponent
+    {
+        Guard.IsNotNull(options);
+
+        if (component.Options.With(options, out var list))
+            component.Options = new(list);
+
+        return component;
+    }
+
+    public static TRadioGroupComponent WithOptions<TRadioGroupComponent>(this TRadioGroupComponent component, params LocalRadioGroupOption[] options)
+        where TRadioGroupComponent : LocalRadioGroupComponent
+        => component.WithOptions((IEnumerable<LocalRadioGroupOption>) options);
 
     public static TRadioGroupComponent WithIsRequired<TRadioGroupComponent>(this TRadioGroupComponent radioGroupComponent, bool isRequired = true)
         where TRadioGroupComponent : LocalRadioGroupComponent

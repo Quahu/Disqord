@@ -175,10 +175,14 @@ public abstract partial class LocalComponent
             .WithOptions(options);
     }
 
-    public static LocalCheckboxComponent Checkbox(string customId, string label)
+    public static LocalCheckboxComponent Checkbox(string customId, string? label = null)
     {
-        return new LocalCheckboxComponent()
-            .WithCustomId(customId)
-            .WithLabel(label);
+        var component = new LocalCheckboxComponent()
+            .WithCustomId(customId);
+
+        if (label != null)
+            component.WithLabel(label);
+
+        return component;
     }
 }

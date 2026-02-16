@@ -5,26 +5,43 @@ namespace Disqord;
 
 public static class LocalCheckboxGroupComponentExtensions
 {
-    public static TCheckboxGroupComponent WithOptions<TCheckboxGroupComponent>(this TCheckboxGroupComponent checkboxGroupComponent, IEnumerable<LocalCheckboxGroupOption> options)
+    public static TCheckboxGroupComponent AddOption<TCheckboxGroupComponent>(this TCheckboxGroupComponent component, string label, string value, string? description = null, bool isDefault = false)
         where TCheckboxGroupComponent : LocalCheckboxGroupComponent
     {
-        if (checkboxGroupComponent.Options.HasValue)
+        var option = new LocalCheckboxGroupOption(label, value)
         {
-            checkboxGroupComponent.Options.Value.Clear();
-            foreach (var option in options)
-                checkboxGroupComponent.Options.Value.Add(option);
-        }
-        else
-        {
-            checkboxGroupComponent.Options = new List<LocalCheckboxGroupOption>(options);
-        }
+            IsDefault = isDefault
+        };
 
-        return checkboxGroupComponent;
+        if (description != null)
+            option.Description = description;
+
+        return component.AddOption(option);
     }
 
-    public static TCheckboxGroupComponent WithOptions<TCheckboxGroupComponent>(this TCheckboxGroupComponent checkboxGroupComponent, params LocalCheckboxGroupOption[] options)
+    public static TCheckboxGroupComponent AddOption<TCheckboxGroupComponent>(this TCheckboxGroupComponent component, LocalCheckboxGroupOption option)
         where TCheckboxGroupComponent : LocalCheckboxGroupComponent
-        => checkboxGroupComponent.WithOptions((IEnumerable<LocalCheckboxGroupOption>) options);
+    {
+        if (component.Options.Add(option, out var list))
+            component.Options = new(list);
+
+        return component;
+    }
+
+    public static TCheckboxGroupComponent WithOptions<TCheckboxGroupComponent>(this TCheckboxGroupComponent component, IEnumerable<LocalCheckboxGroupOption> options)
+        where TCheckboxGroupComponent : LocalCheckboxGroupComponent
+    {
+        Guard.IsNotNull(options);
+
+        if (component.Options.With(options, out var list))
+            component.Options = new(list);
+
+        return component;
+    }
+
+    public static TCheckboxGroupComponent WithOptions<TCheckboxGroupComponent>(this TCheckboxGroupComponent component, params LocalCheckboxGroupOption[] options)
+        where TCheckboxGroupComponent : LocalCheckboxGroupComponent
+        => component.WithOptions((IEnumerable<LocalCheckboxGroupOption>) options);
 
     public static TCheckboxGroupComponent WithMinimumSelectedOptions<TCheckboxGroupComponent>(this TCheckboxGroupComponent checkboxGroupComponent, int minimumSelectedOptions)
         where TCheckboxGroupComponent : LocalCheckboxGroupComponent
