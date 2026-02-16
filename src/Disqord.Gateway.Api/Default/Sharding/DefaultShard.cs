@@ -93,6 +93,13 @@ public class DefaultShard : IShard
     {
         Guard.IsNotNull(payload);
 
+        // Payloads that require authentication must wait for the Ready state before sending.
+        // This prevents sending them during reconnection or before initial authentication completes.
+        if (RequiresAuthentication(payload.Op))
+        {
+            await WaitForReadyAsync(cancellationToken).ConfigureAwait(false);
+        }
+
         var sent = false;
         do
         {
@@ -104,8 +111,11 @@ public class DefaultShard : IShard
                 sent = true;
                 RateLimiter.NotifyCompletion(payload.Op);
             }
-            catch (WebSocketClosedException ex) when (ex.CloseStatus != null && ((GatewayCloseCode) ex.CloseStatus).IsRecoverable())
+            catch (WebSocketClosedException ex) when (ex.CloseStatus != null && ((GatewayCloseCode) ex.CloseStatus).IsRecoverable() && !IsHandshakePayload(payload.Op))
             {
+                // For non-handshake payloads (like UpdatePresence), wait for the gateway to reconnect and become ready again.
+                // Handshake payloads (Identify, Resume) should not retry here as they could deadlock waiting for Ready,
+                // since they are responsible for making the shard Ready in the first place.
                 await WaitForReadyAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -118,6 +128,36 @@ public class DefaultShard : IShard
             }
         }
         while (!sent);
+    }
+
+    /// <summary>
+    ///     Determines whether the specified payload operation requires the shard to be in the Ready state.
+    /// </summary>
+    /// <param name="operation"> The operation to check. </param>
+    /// <returns>
+    ///     <see langword="true"/> if the operation requires authentication (Ready state); otherwise, <see langword="false"/>.
+    /// </returns>
+    private static bool RequiresAuthentication(GatewayPayloadOperation operation)
+    {
+        // These operations can only be sent after the gateway is authenticated and ready.
+        return operation is GatewayPayloadOperation.UpdatePresence
+            or GatewayPayloadOperation.UpdateVoiceState
+            or GatewayPayloadOperation.RequestMembers;
+    }
+
+    /// <summary>
+    ///     Determines whether the specified payload operation is a handshake operation.
+    /// </summary>
+    /// <param name="operation"> The operation to check. </param>
+    /// <returns>
+    ///     <see langword="true"/> if the operation is a handshake operation; otherwise, <see langword="false"/>.
+    /// </returns>
+    private static bool IsHandshakePayload(GatewayPayloadOperation operation)
+    {
+        // Handshake payloads are responsible for establishing or maintaining the gateway connection.
+        // They should not retry on WebSocketClosedException as they could deadlock waiting for Ready state.
+        return operation is GatewayPayloadOperation.Identify
+            or GatewayPayloadOperation.Resume;
     }
 
     /// <inheritdoc/>
