@@ -1,4 +1,4 @@
-﻿namespace Disqord;
+namespace Disqord;
 
 public enum ComponentType : byte
 {
@@ -36,4 +36,10 @@ public enum ComponentType : byte
     Label = 18,
 
     FileUpload = 19,
+
+    RadioGroup = 21,
+
+    CheckboxGroup = 22,
+
+    Checkbox = 23,
 }
