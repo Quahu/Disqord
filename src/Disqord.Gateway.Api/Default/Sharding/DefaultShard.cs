@@ -106,6 +106,24 @@ public class DefaultShard : IShard
             await RateLimiter.WaitAsync(payload.Op, cancellationToken).ConfigureAwait(false);
             try
             {
+                // Verify the state is still valid for this operation right before sending.
+                // This prevents a race condition where the gateway disconnects between
+                // the initial Ready check and the actual send operation.
+                if (!CanSendPayload(payload.Op))
+                {
+                    RateLimiter.Release(payload.Op);
+
+                    // For handshake payloads, fail immediately if we can't send.
+                    // For other payloads, wait for the gateway to become ready again.
+                    if (IsHandshakePayload(payload.Op))
+                    {
+                        throw new InvalidOperationException($"Cannot send {payload.Op} payload in current state {State}.");
+                    }
+
+                    await WaitForReadyAsync(cancellationToken).ConfigureAwait(false);
+                    continue;
+                }
+
                 Logger.LogTrace("Sending payload: {0}.", payload.Op);
                 await Gateway.SendAsync(payload, cancellationToken).ConfigureAwait(false);
                 sent = true;
@@ -158,6 +176,38 @@ public class DefaultShard : IShard
         // They should not retry on WebSocketClosedException as they could deadlock waiting for Ready state.
         return operation is GatewayPayloadOperation.Identify
             or GatewayPayloadOperation.Resume;
+    }
+
+    /// <summary>
+    ///     Determines whether the specified payload operation can be sent in the current shard state.
+    /// </summary>
+    /// <param name="operation"> The operation to check. </param>
+    /// <returns>
+    ///     <see langword="true"/> if the operation can be sent in the current state; otherwise, <see langword="false"/>.
+    /// </returns>
+    private bool CanSendPayload(GatewayPayloadOperation operation)
+    {
+        var currentState = State;
+
+        // Handshake operations (Identify, Resume) can be sent during Identifying/Resuming states
+        if (operation == GatewayPayloadOperation.Identify)
+        {
+            return currentState is ShardState.Connected or ShardState.Identifying;
+        }
+
+        if (operation == GatewayPayloadOperation.Resume)
+        {
+            return currentState is ShardState.Connected or ShardState.Resuming;
+        }
+
+        // Heartbeat can be sent when connected or ready
+        if (operation == GatewayPayloadOperation.Heartbeat)
+        {
+            return currentState is ShardState.Connected or ShardState.Identifying or ShardState.Resuming or ShardState.Ready;
+        }
+
+        // All other operations require the Ready state
+        return currentState == ShardState.Ready;
     }
 
     /// <inheritdoc/>
