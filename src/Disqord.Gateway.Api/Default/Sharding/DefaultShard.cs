@@ -93,6 +93,9 @@ public class DefaultShard : IShard
     {
         Guard.IsNotNull(payload);
 
+        if (RequiresAuthentication(payload.Op))
+            await WaitForReadyAsync(cancellationToken).ConfigureAwait(false);
+
         var sent = false;
         do
         {
@@ -104,7 +107,7 @@ public class DefaultShard : IShard
                 sent = true;
                 RateLimiter.NotifyCompletion(payload.Op);
             }
-            catch (WebSocketClosedException ex) when (ex.CloseStatus != null && ((GatewayCloseCode) ex.CloseStatus).IsRecoverable())
+            catch (WebSocketClosedException ex) when (ex.CloseStatus != null && ((GatewayCloseCode) ex.CloseStatus).IsRecoverable() && !IsHandshake(payload.Op))
             {
                 await WaitForReadyAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -577,4 +580,13 @@ public class DefaultShard : IShard
     {
         return Gateway.DisposeAsync();
     }
+
+    private static bool RequiresAuthentication(GatewayPayloadOperation op)
+        => op is GatewayPayloadOperation.UpdatePresence
+            or GatewayPayloadOperation.UpdateVoiceState
+            or GatewayPayloadOperation.RequestMembers;
+
+    private static bool IsHandshake(GatewayPayloadOperation op)
+        => op is GatewayPayloadOperation.Identify
+            or GatewayPayloadOperation.Resume;
 }
