@@ -449,14 +449,14 @@ public static partial class RestClientExtensions
             return null;
         }
     }
-
+    
     public static Task CreateBanAsync(this IRestClient client,
-        Snowflake guildId, Snowflake userId, string? reason = null, int? deleteMessageDays = null,
+        Snowflake guildId, Snowflake userId, string? reason = null, TimeSpan? deleteMessageDuration = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var content = new CreateBanJsonRestRequestContent
         {
-            DeleteMessageDays = Optional.FromNullable(deleteMessageDays),
+            DeleteMessageSeconds = Optional.FromNullable((int?) deleteMessageDuration?.TotalSeconds),
             Reason = Optional.FromNullable(reason)
         };
 

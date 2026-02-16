@@ -44,13 +44,13 @@ public static partial class RestEntityExtensions
         var client = member.GetRestClient();
         return client.KickMemberAsync(member.GuildId, member.Id, options, cancellationToken);
     }
-
+    
     public static Task BanAsync(this IMember member,
-        string? reason = null, int? deleteMessageDays = null,
+        string? reason = null, TimeSpan? deleteMessageDuration = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var client = member.GetRestClient();
-        return client.CreateBanAsync(member.GuildId, member.Id, reason, deleteMessageDays, options, cancellationToken);
+        return client.CreateBanAsync(member.GuildId, member.Id, reason, deleteMessageDuration, options, cancellationToken);
     }
 
     public static Task UnbanAsync(this IMember member,
