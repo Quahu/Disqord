@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Disqord;
@@ -175,14 +175,9 @@ public abstract partial class LocalComponent
             .WithOptions(options);
     }
 
-    public static LocalCheckboxComponent Checkbox(string customId, string? label = null)
+    public static LocalCheckboxComponent Checkbox(string customId)
     {
-        var component = new LocalCheckboxComponent()
+        return new LocalCheckboxComponent()
             .WithCustomId(customId);
-
-        if (label != null)
-            component.WithLabel(label);
-
-        return component;
     }
 }
