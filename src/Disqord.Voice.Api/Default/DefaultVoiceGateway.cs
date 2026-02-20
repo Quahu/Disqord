@@ -105,11 +105,10 @@ public class DefaultVoiceGateway : IVoiceGateway
         return VoiceGatewayMessage.FromJson(payload);
     }
 
-    private static VoiceGatewayMessage ParseBinaryMessage(Stream stream)
+    private static VoiceGatewayMessage ParseBinaryMessage(MemoryStream stream)
     {
         // Binary format (server → client): [2-byte big-endian seq] [1-byte opcode] [payload]
-        var memoryStream = (MemoryStream) stream;
-        memoryStream.TryGetBuffer(out var buffer);
+        stream.TryGetBuffer(out var buffer);
         var span = buffer.AsSpan();
 
         if (span.Length < 3)
