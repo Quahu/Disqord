@@ -1,5 +1,6 @@
 using System;
 using System.Buffers.Text;
+using System.Diagnostics;
 
 namespace Disqord.Voice;
 
@@ -229,7 +230,8 @@ public sealed unsafe class DaveSession : IDisposable
 
     private static void FormatSnowflake(Snowflake snowflake, byte* destination)
     {
-        Utf8Formatter.TryFormat(snowflake, new Span<byte>(destination, MaxSnowflakeUtf8Length - 1), out var bytesWritten);
+        var isFormatSuccessful = Utf8Formatter.TryFormat(snowflake, new Span<byte>(destination, MaxSnowflakeUtf8Length - 1), out var bytesWritten);
+        Debug.Assert(isFormatSuccessful);
         destination[bytesWritten] = 0;
     }
 

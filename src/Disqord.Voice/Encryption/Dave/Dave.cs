@@ -32,14 +32,14 @@ public static unsafe partial class Dave
         {
             MaxSupportedVersion = MaxSupportedProtocolVersion();
             IsAvailable = true;
-
-            _logSinkCallback = OnNativeLog;
-            SetLogSinkCallback(_logSinkCallback);
         }
         catch (DllNotFoundException)
         {
             IsAvailable = false;
         }
+
+        _logSinkCallback = OnNativeLog;
+        SetLogSinkCallback(_logSinkCallback);
     }
 
     internal static void SetLoggerFactory(ILoggerFactory loggerFactory)

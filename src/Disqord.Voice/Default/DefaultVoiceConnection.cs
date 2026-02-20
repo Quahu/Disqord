@@ -443,6 +443,8 @@ public class DefaultVoiceConnection : IVoiceConnection
             _udp.Dispose();
         }
 
+        _daveHandler?.Dispose();
+
         if (_gateway != null)
         {
             return Gateway.DisposeAsync();
