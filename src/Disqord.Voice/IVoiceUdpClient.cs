@@ -27,6 +27,8 @@ public interface IVoiceUdpClient : IDisposable
 
     uint Timestamp { get; }
 
+    void Initialize(byte[] encryptionKey, DaveEncryptor? daveEncryptor);
+
     void OnSynchronizerTick();
 
     ValueTask ConnectAsync(CancellationToken cancellationToken = default);
