@@ -449,7 +449,7 @@ public static partial class RestClientExtensions
             return null;
         }
     }
-    
+
     public static Task CreateBanAsync(this IRestClient client,
         Snowflake guildId, Snowflake userId, string? reason = null, TimeSpan? deleteMessageDuration = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -480,6 +480,21 @@ public static partial class RestClientExtensions
             var (client, guildId) = state;
             return new TransientRole(client, guildId, x);
         });
+    }
+
+    /// <summary>
+    ///     Fetches the member counts for each role in the guild.
+    /// </summary>
+    /// <returns>
+    ///     A read-only dictionary mapping role IDs to their member counts.
+    ///     Does not include the <c>@everyone</c> role.
+    /// </returns>
+    public static async Task<IReadOnlyDictionary<Snowflake, int>> FetchRoleMemberCountsAsync(this IRestClient client,
+        Snowflake guildId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var result = await client.ApiClient.FetchRoleMemberCountsAsync(guildId, options, cancellationToken).ConfigureAwait(false);
+        return result;
     }
 
     public static async Task<IRole> CreateRoleAsync(this IRestClient client,

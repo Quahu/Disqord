@@ -266,6 +266,13 @@ public static partial class RestEntityExtensions
         return client.FetchRolesAsync(guild.Id, options, cancellationToken);
     }
 
+    public static Task<IReadOnlyDictionary<Snowflake, int>> FetchRoleMemberCountsAsync(this IGuild guild,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var client = guild.GetRestClient();
+        return client.FetchRoleMemberCountsAsync(guild.Id, options, cancellationToken);
+    }
+
     public static Task<IRole> CreateRoleAsync(this IGuild guild,
         Action<CreateRoleActionProperties>? action = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
