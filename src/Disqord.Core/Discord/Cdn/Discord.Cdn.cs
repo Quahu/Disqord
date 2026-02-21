@@ -138,6 +138,12 @@ public static partial class Discord
             return FormatUrl(path, format, size);
         }
 
+        public static string GetClanBadgeUrl(Snowflake guildId, string badgeHash, CdnAssetFormat format = default, int? size = null)
+        {
+            var path = $"clan-badges/{guildId}/{badgeHash}";
+            return FormatUrl(path, format, size);
+        }
+
         private static string FormatUrl(string path, CdnAssetFormat format, int? size)
         {
             Guard.IsDefined(format);

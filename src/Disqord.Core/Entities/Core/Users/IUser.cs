@@ -46,4 +46,12 @@ public interface IUser : ISnowflakeEntity, INamableEntity, IMentionableEntity, I
     ///     Gets the public <see cref="UserFlags"/> of this user.
     /// </summary>
     UserFlags PublicFlags { get; }
+
+    /// <summary>
+    ///     Gets the primary guild (server tag) of this user.
+    /// </summary>
+    /// <returns>
+    ///     The primary guild or <see langword="null"/> if the user has no primary guild set.
+    /// </returns>
+    IUserPrimaryGuild? PrimaryGuild { get; }
 }
