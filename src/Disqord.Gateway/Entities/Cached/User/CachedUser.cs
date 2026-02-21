@@ -26,6 +26,9 @@ public abstract class CachedUser : CachedSnowflakeEntity, IUser
     public abstract UserFlags PublicFlags { get; }
 
     /// <inheritdoc/>
+    public abstract IUserPrimaryGuild? PrimaryGuild { get; }
+
+    /// <inheritdoc/>
     public string Mention => Disqord.Mention.User(this);
 
     /// <inheritdoc/>

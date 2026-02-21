@@ -159,6 +159,17 @@ public static class CdnEntityExtensions
             : null;
     }
 
+    public static string? GetBadgeUrl(this IUserPrimaryGuild primaryGuild, CdnAssetFormat format = default, int? size = null)
+    {
+        Guard.IsNotNull(primaryGuild);
+
+        var guildId = primaryGuild.GuildId;
+        var badgeHash = primaryGuild.BadgeHash;
+        return guildId != null && badgeHash != null
+            ? Discord.Cdn.GetClanBadgeUrl(guildId.Value, badgeHash, format, size)
+            : null;
+    }
+
     public static string GetUrl(this IPartialSticker sticker)
     {
         Guard.IsNotNull(sticker);
