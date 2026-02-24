@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Disqord.Voice.Default;
 
-public class DefaultVoiceUdpClientFactory : IVoiceUdpClientFactory
+public class DefaultVoiceUdpClientFactory(IServiceProvider services) : IVoiceUdpClientFactory
 {
-    private readonly IServiceProvider _services;
-
-    public DefaultVoiceUdpClientFactory(IServiceProvider services)
+    public IVoiceUdpClient Create(uint ssrc, string hostName, int port, ILogger logger, IVoiceEncryption encryption)
     {
-        _services = services;
-    }
-
-    public IVoiceUdpClient Create(uint ssrc, byte[] encryptionKey, string hostName, int port, IVoiceEncryption encryption)
-    {
-        var udp = Factory(_services, new object[] { ssrc, encryptionKey, hostName, port, encryption });
+        var udp = Factory(services, [ssrc, hostName, port, logger, encryption]);
         return Unsafe.As<IVoiceUdpClient>(udp);
     }
 
@@ -24,6 +18,6 @@ public class DefaultVoiceUdpClientFactory : IVoiceUdpClientFactory
     static DefaultVoiceUdpClientFactory()
     {
         Factory = ActivatorUtilities.CreateFactory(typeof(DefaultVoiceUdpClient),
-            new[] { typeof(uint), typeof(byte[]), typeof(string), typeof(int), typeof(IVoiceEncryption) });
+            [typeof(uint), typeof(string), typeof(int), typeof(ILogger), typeof(IVoiceEncryption)]);
     }
 }

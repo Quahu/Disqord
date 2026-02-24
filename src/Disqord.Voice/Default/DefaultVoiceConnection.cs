@@ -37,6 +37,7 @@ public class DefaultVoiceConnection : IVoiceConnection
     public Snowflake CurrentMemberId { get; }
 
     private readonly SetVoiceStateDelegate _setVoiceStateDelegate;
+    private readonly ILoggerFactory _loggerFactory;
     private readonly IVoiceGatewayClientFactory _gatewayFactory;
     private readonly IVoiceUdpClientFactory _udpFactory;
     private readonly IVoiceSynchronizer _synchronizer;
@@ -44,6 +45,7 @@ public class DefaultVoiceConnection : IVoiceConnection
 
     private IVoiceGatewayClient? _gateway;
     private IVoiceUdpClient? _udp;
+    private DaveProtocolHandler? _daveHandler;
     private Snowflake _channelId;
     private SpeakingFlags? _lastSpeakingFlags;
 
@@ -66,6 +68,7 @@ public class DefaultVoiceConnection : IVoiceConnection
         IVoiceEncryptionProvider encryptionProvider)
     {
         Logger = loggerFactory.CreateLogger($"Voice {guildId}");
+        _loggerFactory = loggerFactory;
         _gatewayFactory = gatewayFactory;
         _udpFactory = udpFactory;
         _synchronizer = synchronizer;
@@ -105,7 +108,7 @@ public class DefaultVoiceConnection : IVoiceConnection
             }
             else
             {
-                if (_gateway != null && _udp != null
+                if (_gateway != null
                     && !_stateUpdateCts.IsCancellationRequested)
                 {
                     // Notifies RunAsync we've been disconnected.
@@ -137,7 +140,7 @@ public class DefaultVoiceConnection : IVoiceConnection
                 _voiceServerUpdateTcs.Complete(voiceServer);
             }
 
-            if (_gateway != null && _udp != null
+            if (_gateway != null
                 && !_stateUpdateCts.IsCancellationRequested)
             {
                 // Notifies RunAsync the connection data has changed.
@@ -287,8 +290,9 @@ public class DefaultVoiceConnection : IVoiceConnection
                         var voiceState = voiceStateUpdateTask.Result;
 
                         Logger.LogDebug("Created voice gateway: Session ID: {0}, Token: {1}", voiceState.SessionId, voiceServer.Token);
-                        _gateway = _gatewayFactory.Create(GuildId, CurrentMemberId, voiceState.SessionId, voiceServer.Token, voiceServer.Endpoint, Logger);
+                        _gateway = _gatewayFactory.Create(GuildId, CurrentMemberId, voiceState.SessionId, voiceServer.Token, voiceServer.Endpoint, Dave.IsAvailable ? Dave.MaxSupportedVersion : 0, Logger);
 
+                        Gateway.SuspendAfterSessionDescription();
                         var gatewayRunTask = Gateway.RunAsync(linkedCancellationToken);
 
                         var readyModel = await Gateway.WaitForReadyAsync(linkedCancellationToken).ConfigureAwait(false);
@@ -301,6 +305,9 @@ public class DefaultVoiceConnection : IVoiceConnection
                             return;
                         }
 
+                        _udp = _udpFactory.Create(readyModel.Ssrc, readyModel.Ip, readyModel.Port, Logger, encryption);
+                        await Udp.ConnectAsync(linkedCancellationToken).ConfigureAwait(false);
+
                         await Gateway.SendAsync(new VoiceGatewayPayloadJsonModel
                         {
                             Op = VoiceGatewayPayloadOperation.SelectProtocol,
@@ -309,19 +316,36 @@ public class DefaultVoiceConnection : IVoiceConnection
                                 Protocol = "udp",
                                 Data = new SelectProtocolDataJsonModel
                                 {
-                                    Address = readyModel.Ip,
-                                    Port = readyModel.Port,
+                                    Address = Udp.RemoteHostName!,
+                                    Port = Udp.RemotePort!.Value,
                                     Mode = encryption.ModeName
                                 }
                             }
                         }, linkedCancellationToken).ConfigureAwait(false);
 
                         var sessionDescriptionModel = await Gateway.WaitForSessionDescriptionAsync(linkedCancellationToken).ConfigureAwait(false);
+                        if (sessionDescriptionModel.DaveProtocolVersion is > 0)
+                        {
+                            if (!Dave.IsAvailable)
+                            {
+                                var exception = new VoiceConnectionException(
+                                    $"The voice server requires DAVE end-to-end encryption (protocol version {sessionDescriptionModel.DaveProtocolVersion}), "
+                                    + "but the native 'libdave' library could not be found. "
+                                    + "Ensure the native library is available in the application's search path.");
 
-                        _udp = _udpFactory.Create(readyModel.Ssrc, sessionDescriptionModel.SecretKey, readyModel.Ip, readyModel.Port, encryption);
+                                _readyTcs.Throw(exception);
+                                return;
+                            }
+
+                            _daveHandler = new DaveProtocolHandler(Gateway, (ushort) sessionDescriptionModel.DaveProtocolVersion, GuildId, CurrentMemberId, _loggerFactory);
+                            await _daveHandler.InitializeAsync(linkedCancellationToken).ConfigureAwait(false);
+                        }
+
+                        Gateway.ResumeAfterSessionDescription(_daveHandler != null ? _daveHandler.HandleMessageAsync : null);
+
+                        Udp.Initialize(sessionDescriptionModel.SecretKey, _daveHandler?.Encryptor);
+
                         _synchronizer.Subscribe(_udp);
-
-                        await Udp.ConnectAsync(linkedCancellationToken).ConfigureAwait(false);
 
                         if (_lastSpeakingFlags != null)
                         {
@@ -335,13 +359,13 @@ public class DefaultVoiceConnection : IVoiceConnection
 
                         await gatewayRunTask.ConfigureAwait(false);
                     }
-                    catch (OperationCanceledException ex) when (ex.CancellationToken == linkedCancellationToken && stoppingToken.IsCancellationRequested)
+                    catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
                     {
                         await _setVoiceStateDelegate(GuildId, null, default).ConfigureAwait(false);
-                        _readyTcs.Cancel(ex.CancellationToken);
+                        _readyTcs.Cancel(stoppingToken);
                         return;
                     }
-                    catch (OperationCanceledException ex) when (ex.CancellationToken == linkedCancellationToken && stateCancellationToken.IsCancellationRequested)
+                    catch (OperationCanceledException) when (stateCancellationToken.IsCancellationRequested)
                     {
                         lastCloseCode = VoiceGatewayCloseCode.ForciblyDisconnected;
                     }
@@ -368,6 +392,9 @@ public class DefaultVoiceConnection : IVoiceConnection
                                 _udp.Dispose();
                                 _udp = null;
                             }
+
+                            _daveHandler?.Dispose();
+                            _daveHandler = null;
 
                             if (_readyTcs.Task.IsCompleted)
                             {
@@ -415,6 +442,8 @@ public class DefaultVoiceConnection : IVoiceConnection
             _synchronizer.Unsubscribe(_udp);
             _udp.Dispose();
         }
+
+        _daveHandler?.Dispose();
 
         if (_gateway != null)
         {

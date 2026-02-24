@@ -15,4 +15,7 @@ public class IdentifyJsonModel : JsonModel
 
     [JsonProperty("token")]
     public string Token = null!;
+
+    [JsonProperty("max_dave_protocol_version")]
+    public int? MaxDaveProtocolVersion;
 }

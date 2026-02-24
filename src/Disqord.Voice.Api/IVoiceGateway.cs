@@ -25,5 +25,7 @@ public interface IVoiceGateway : IBindable<IVoiceGatewayClient>, ILogging, IAsyn
 
     ValueTask SendAsync(VoiceGatewayPayloadJsonModel payload, CancellationToken cancellationToken = default);
 
-    ValueTask<VoiceGatewayPayloadJsonModel> ReceiveAsync(CancellationToken cancellationToken = default);
+    ValueTask SendBinaryAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default);
+
+    ValueTask<VoiceGatewayMessage> ReceiveAsync(CancellationToken cancellationToken = default);
 }

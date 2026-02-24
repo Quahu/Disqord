@@ -5,38 +5,31 @@ using Microsoft.Extensions.Logging;
 
 namespace Disqord.Voice.Api.Default;
 
-public class DefaultVoiceGatewayClientFactory : IVoiceGatewayClientFactory
+public class DefaultVoiceGatewayClientFactory(IServiceProvider services) : IVoiceGatewayClientFactory
 {
-    private readonly IServiceProvider _services;
-
-    public DefaultVoiceGatewayClientFactory(IServiceProvider services)
-    {
-        _services = services;
-    }
-
     protected virtual IVoiceGatewayHeartbeater CreateHeartbeater()
     {
-        return Unsafe.As<IVoiceGatewayHeartbeater>(HeartbeaterFactory(_services, null));
+        return Unsafe.As<IVoiceGatewayHeartbeater>(HeartbeaterFactory(services, null));
     }
 
     protected virtual IVoiceGateway CreateGateway()
     {
-        return Unsafe.As<IVoiceGateway>(GatewayFactory(_services, null));
+        return Unsafe.As<IVoiceGateway>(GatewayFactory(services, null));
     }
 
     protected virtual IVoiceGatewayClient CreateClient(Snowflake guildId, Snowflake currentMemberId,
-        string sessionId, string token, string endpoint,
+        string sessionId, string token, string endpoint, int maxDaveProtocolVersion,
         ILogger logger, IVoiceGatewayHeartbeater heartbeater, IVoiceGateway gateway)
     {
-        var apiClient = ClientFactory(_services, new object?[] { guildId, currentMemberId, sessionId, token, endpoint, logger, heartbeater, gateway });
+        var apiClient = ClientFactory(services, [guildId, currentMemberId, sessionId, token, endpoint, maxDaveProtocolVersion, logger, heartbeater, gateway]);
         return Unsafe.As<IVoiceGatewayClient>(apiClient);
     }
 
-    public virtual IVoiceGatewayClient Create(Snowflake guildId, Snowflake currentMemberId, string sessionId, string token, string endpoint, ILogger logger)
+    public virtual IVoiceGatewayClient Create(Snowflake guildId, Snowflake currentMemberId, string sessionId, string token, string endpoint, int maxDaveProtocolVersion, ILogger logger)
     {
         var heartbeater = CreateHeartbeater();
         var gateway = CreateGateway();
-        var shard = CreateClient(guildId, currentMemberId, sessionId, token, endpoint, logger, heartbeater, gateway);
+        var shard = CreateClient(guildId, currentMemberId, sessionId, token, endpoint, maxDaveProtocolVersion, logger, heartbeater, gateway);
         return shard;
     }
 
@@ -46,15 +39,15 @@ public class DefaultVoiceGatewayClientFactory : IVoiceGatewayClientFactory
 
     static DefaultVoiceGatewayClientFactory()
     {
-        HeartbeaterFactory = ActivatorUtilities.CreateFactory(typeof(DefaultVoiceGatewayHeartbeater),
-            Array.Empty<Type>());
+        HeartbeaterFactory = ActivatorUtilities.CreateFactory(typeof(DefaultVoiceGatewayHeartbeater), []);
 
-        GatewayFactory = ActivatorUtilities.CreateFactory(typeof(DefaultVoiceGateway),
-            Array.Empty<Type>());
+        GatewayFactory = ActivatorUtilities.CreateFactory(typeof(DefaultVoiceGateway), []);
 
         ClientFactory = ActivatorUtilities.CreateFactory(typeof(DefaultVoiceGatewayClient),
-            new[] { typeof(Snowflake), typeof(Snowflake),
-                typeof(string), typeof(string), typeof(string),
-                typeof(ILogger), typeof(IVoiceGatewayHeartbeater), typeof(IVoiceGateway) });
+        [
+            typeof(Snowflake), typeof(Snowflake),
+            typeof(string), typeof(string), typeof(string),
+            typeof(int), typeof(ILogger), typeof(IVoiceGatewayHeartbeater), typeof(IVoiceGateway)
+        ]);
     }
 }

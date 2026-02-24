@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers.Binary;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -6,7 +7,6 @@ using System.Threading.Tasks;
 using Disqord.Serialization.Json;
 using Disqord.Voice.Api.Models;
 using Disqord.WebSocket;
-using Disqord.WebSocket.Default.Discord;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Qommon.Binding;
@@ -27,7 +27,7 @@ public class DefaultVoiceGateway : IVoiceGateway
 
     public IWebSocketClientFactory WebSocketClientFactory { get; }
 
-    private DiscordWebSocket _ws = null!;
+    private VoiceWebSocket _ws = null!;
     private readonly Binder<IVoiceGatewayClient> _binder;
 
     public DefaultVoiceGateway(
@@ -48,7 +48,7 @@ public class DefaultVoiceGateway : IVoiceGateway
     {
         _binder.Bind(value);
 
-        _ws = new DiscordWebSocket(Logger, WebSocketClientFactory, false);
+        _ws = new VoiceWebSocket(Logger, WebSocketClientFactory);
     }
 
     public ValueTask ConnectAsync(Uri uri, CancellationToken cancellationToken = default)
@@ -73,22 +73,54 @@ public class DefaultVoiceGateway : IVoiceGateway
         if (json.Length > 4096)
             throw new ArgumentException("Voice cannot send payloads longer than 4096 bytes.", nameof(payload));
 
-        return _ws.SendAsync(json, cancellationToken);
+        return _ws.SendAsync(json, WebSocketMessageType.Text, cancellationToken);
     }
 
-    public async ValueTask<VoiceGatewayPayloadJsonModel> ReceiveAsync(CancellationToken cancellationToken = default)
+    public ValueTask SendBinaryAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default)
     {
-        var jsonStream = await _ws.ReceiveAsync(cancellationToken).ConfigureAwait(false);
-        if (LogsPayloads)
+        if (LogsPayloads && data.Length > 0)
+            Logger.LogTrace("Voice sending binary payload: op {0}, {1} bytes", data.Span[0], data.Length);
+
+        return _ws.SendAsync(data, WebSocketMessageType.Binary, cancellationToken);
+    }
+
+    public async ValueTask<VoiceGatewayMessage> ReceiveAsync(CancellationToken cancellationToken = default)
+    {
+        var (stream, isBinary) = await _ws.ReceiveAsync(cancellationToken).ConfigureAwait(false);
+        if (isBinary)
         {
-            var stream = new MemoryStream();
-            await jsonStream.CopyToAsync(stream, cancellationToken).ConfigureAwait(false);
-            Logger.LogTrace("Voice received payload: {0}", Encoding.UTF8.GetString(stream.GetBuffer()));
-            stream.Position = 0;
-            jsonStream = stream;
+            return ParseBinaryMessage(stream);
         }
 
-        return Serializer.Deserialize<VoiceGatewayPayloadJsonModel>(jsonStream)!;
+        if (LogsPayloads)
+        {
+            var memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
+            Logger.LogTrace("Voice received payload: {0}", Encoding.UTF8.GetString(memoryStream.GetBuffer()));
+            memoryStream.Position = 0;
+            stream = memoryStream;
+        }
+
+        var payload = Serializer.Deserialize<VoiceGatewayPayloadJsonModel>(stream)!;
+        return VoiceGatewayMessage.FromJson(payload);
+    }
+
+    private static VoiceGatewayMessage ParseBinaryMessage(MemoryStream stream)
+    {
+        // Binary format (server → client): [2-byte big-endian seq] [1-byte opcode] [payload]
+        stream.TryGetBuffer(out var buffer);
+        var span = buffer.AsSpan();
+
+        if (span.Length < 3)
+        {
+            throw new InvalidDataException("Binary voice gateway message is too short.");
+        }
+
+        var sequenceNumber = (int) BinaryPrimitives.ReadUInt16BigEndian(span);
+        var op = (VoiceGatewayPayloadOperation) span[2];
+        var payload = buffer.AsMemory(3);
+
+        return VoiceGatewayMessage.FromBinary(op, sequenceNumber, payload);
     }
 
     public ValueTask DisposeAsync()
