@@ -29,6 +29,9 @@ public class CachedSharedUser : CachedUser, ICachedSharedUser
     public override UserFlags PublicFlags => _publicFlags;
 
     /// <inheritdoc/>
+    public override IUserPrimaryGuild? PrimaryGuild => _primaryGuild;
+
+    /// <inheritdoc/>
     public int ReferenceCount => _referenceCount;
 
     private string _name = null!;
@@ -37,6 +40,7 @@ public class CachedSharedUser : CachedUser, ICachedSharedUser
     private string? _avatarHash;
     private readonly bool _isBot;
     private UserFlags _publicFlags;
+    private IUserPrimaryGuild? _primaryGuild;
     private int _referenceCount;
 
     /// <summary>
@@ -63,6 +67,9 @@ public class CachedSharedUser : CachedUser, ICachedSharedUser
 
         if (model.PublicFlags.HasValue)
             _publicFlags = model.PublicFlags.Value;
+
+        if (model.PrimaryGuild.HasValue)
+            _primaryGuild = model.PrimaryGuild.Value != null ? new TransientUserPrimaryGuild(model.PrimaryGuild.Value) : null;
     }
 
     /// <inheritdoc/>

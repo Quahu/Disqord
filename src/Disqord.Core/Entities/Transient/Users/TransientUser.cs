@@ -30,6 +30,19 @@ public class TransientUser : TransientClientEntity<UserJsonModel>, IUser
     public virtual UserFlags PublicFlags => Model.PublicFlags.Value;
 
     /// <inheritdoc/>
+    public virtual IUserPrimaryGuild? PrimaryGuild
+    {
+        get
+        {
+            if (!Model.PrimaryGuild.HasValue || Model.PrimaryGuild.Value == null)
+                return null;
+
+            return _primaryGuild ??= new TransientUserPrimaryGuild(Model.PrimaryGuild.Value);
+        }
+    }
+    private IUserPrimaryGuild? _primaryGuild;
+
+    /// <inheritdoc/>
     public virtual string Mention => Disqord.Mention.User(this);
 
     /// <inheritdoc/>

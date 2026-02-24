@@ -52,4 +52,7 @@ public class UserJsonModel : JsonModel
 
     [JsonProperty("public_flags")]
     public Optional<UserFlags> PublicFlags;
+
+    [JsonProperty("primary_guild")]
+    public Optional<UserPrimaryGuildJsonModel?> PrimaryGuild;
 }
