@@ -13,7 +13,10 @@ public class RoleJsonModel : JsonModel
     public string Name = null!;
 
     [JsonProperty("color")]
-    public int Color;
+    public int Color; // TODO: this field is deprecated
+
+    [JsonProperty("colors")] 
+    public RoleColorsJsonModel Colors = null!;
 
     [JsonProperty("hoist")]
     public bool Hoist;

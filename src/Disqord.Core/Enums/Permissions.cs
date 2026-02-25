@@ -282,6 +282,11 @@ public enum Permissions : ulong
     PinMessages = 1ul << 51,
 
     /// <summary>
+    ///     Allows bypassing slowmode restrictions.
+    /// </summary>
+    BypassSlowmode = 1ul << 52,
+
+    /// <summary>
     ///     Represents all permissions combined.
     /// </summary>
     /// <remarks>
@@ -299,5 +304,5 @@ public enum Permissions : ulong
         | CreatePrivateThreads | UseExternalStickers | SendMessagesInThreads | StartActivities
         | ModerateMembers | ViewCreatorMonetizationAnalytics | UseSoundboard | CreateExpressions
         | CreateEvents | UseExternalSounds | SendVoiceMessages | SendPolls
-        | UseExternalApplications | PinMessages
+        | UseExternalApplications | PinMessages | BypassSlowmode
 }

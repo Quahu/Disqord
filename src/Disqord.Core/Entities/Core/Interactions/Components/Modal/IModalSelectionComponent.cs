@@ -12,4 +12,9 @@ public interface IModalSelectionComponent : IModalComponent, ICustomIdentifiable
     ///     Gets the selected values submitted in the modal.
     /// </summary>
     IReadOnlyList<string> Values { get; }
+
+    /// <summary>
+    ///     Gets the type of this selection component.
+    /// </summary>
+    new SelectionComponentType Type { get; }
 }

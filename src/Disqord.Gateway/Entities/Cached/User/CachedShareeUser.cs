@@ -28,6 +28,9 @@ public abstract class CachedShareeUser : CachedUser
     /// <inheritdoc/>
     public override UserFlags PublicFlags => SharedUser.PublicFlags;
 
+    /// <inheritdoc/>
+    public override IUserPrimaryGuild? PrimaryGuild => SharedUser.PrimaryGuild;
+
     [EditorBrowsable(EditorBrowsableState.Never)]
     public CachedSharedUser SharedUser { get; private set; }
 

@@ -2,8 +2,8 @@
 
 namespace Disqord;
 
-public class TransientModalTextInputComponent(IClient client, ModalTextInputComponentJsonModel model)
-    : TransientModalComponent<ModalTextInputComponentJsonModel>(client, model), IModalTextInputComponent
+public class TransientModalTextInputComponent(ModalTextInputComponentJsonModel model)
+    : TransientModalComponent<ModalTextInputComponentJsonModel>(model), IModalTextInputComponent
 {
     public string CustomId => Model.CustomId;
 

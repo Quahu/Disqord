@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Disqord.Models;
 using Qommon;
 
 namespace Disqord.Rest.Api;
@@ -18,6 +19,14 @@ internal static partial class ActionPropertiesConversion
             Name = properties.Name,
             Permissions = properties.Permissions,
             Color = Optional.Convert(properties.Color, color => color?.RawValue ?? 0),
+            Colors = Optional.FromNullable(properties.Colors.HasValue && properties.Colors.Value is var colors
+                ? new RoleColorsJsonModel
+                {
+                    PrimaryColor = colors?.PrimaryColor ?? 0,
+                    SecondaryColor = colors?.SecondaryColor,
+                    TertiaryColor = colors?.TertiaryColor
+                }
+                : null),
             Hoist = properties.IsHoisted,
             Icon = properties.Icon,
             Mentionable = properties.IsMentionable
@@ -37,14 +46,12 @@ internal static partial class ActionPropertiesConversion
         return content;
     }
 
-    public static ModifyMemberJsonRestRequestContent ToContent(this Action<ModifyMemberActionProperties> action, out Optional<string> nick)
+    public static ModifyMemberJsonRestRequestContent ToContent(this Action<ModifyMemberActionProperties> action)
     {
         Guard.IsNotNull(action);
 
         var properties = new ModifyMemberActionProperties();
         action(properties);
-
-        nick = properties.Nick;
 
         var content = new ModifyMemberJsonRestRequestContent
         {
@@ -69,7 +76,10 @@ internal static partial class ActionPropertiesConversion
 
         var content = new ModifyCurrentMemberJsonRestRequestContent
         {
-            Nick = properties.Nick
+            Nick = properties.Nick,
+            Avatar = properties.Avatar,
+            Banner = properties.Banner,
+            Bio = properties.Bio,
         };
 
         return content;

@@ -254,6 +254,14 @@ public static partial class RestApiClientExtensions
         return client.ExecuteAsync<RoleJsonModel[]>(route, null, options, cancellationToken);
     }
 
+    public static Task<Dictionary<Snowflake, int>> FetchRoleMemberCountsAsync(this IRestApiClient client,
+        Snowflake guildId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.Guild.GetRoleMemberCounts, guildId);
+        return client.ExecuteAsync<Dictionary<Snowflake, int>>(route, null, options, cancellationToken);
+    }
+
     public static Task<RoleJsonModel> CreateRoleAsync(this IRestApiClient client,
         Snowflake guildId, CreateRoleJsonRestRequestContent content,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

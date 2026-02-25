@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 
 namespace Disqord;
 
@@ -14,6 +15,14 @@ public interface IRole : ISnowflakeEntity, IGuildEntity, INamableEntity, IMentio
     ///     The color of the role or <see langword="null"/> if the role has the default color.
     /// </returns>
     Color? Color { get; }
+    
+    /// <summary>
+    ///     Gets the color(s) of this role.
+    /// </summary>
+    /// <returns>
+    ///     The color(s) of the role or <see langword="null"/> if the role has the default color.
+    /// </returns>
+    RoleColors? Colors { get; }
 
     /// <summary>
     ///     Gets whether this role is hoisted, i.e. whether members of this role

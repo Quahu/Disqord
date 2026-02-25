@@ -9,9 +9,4 @@ public class ModalSelectionComponentJsonModel : ModalBaseComponentJsonModel
 
     [JsonProperty("values")]
     public string[] Values = null!;
-
-    public ModalSelectionComponentJsonModel()
-    {
-        Type = ComponentType.StringSelection;
-    }
 }

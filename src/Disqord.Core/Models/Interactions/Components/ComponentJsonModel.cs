@@ -164,7 +164,7 @@ public class ComponentJsonModel : BaseComponentJsonModel
                     {
                         ComponentType.UserSelection => value => value.Type is DefaultSelectionValueType.User,
                         ComponentType.RoleSelection => value => value.Type is DefaultSelectionValueType.Role,
-                        ComponentType.MentionableSelection => value => value.Type is DefaultSelectionValueType.User or DefaultSelectionValueType.Role,
+                        ComponentType.MentionableSelection => value => value.Type is DefaultSelectionValueType.User or DefaultSelectionValueType.Role or DefaultSelectionValueType.Channel,
                         ComponentType.ChannelSelection => value => value.Type is DefaultSelectionValueType.Channel,
                         _ => value => true
                     };

@@ -1,6 +1,8 @@
-﻿namespace Disqord.Voice;
+﻿using Microsoft.Extensions.Logging;
+
+namespace Disqord.Voice;
 
 public interface IVoiceUdpClientFactory
 {
-    IVoiceUdpClient Create(uint ssrc, byte[] encryptionKey, string hostName, int port, IVoiceEncryption encryption);
+    IVoiceUdpClient Create(uint ssrc, string hostName, int port, ILogger logger, IVoiceEncryption encryption);
 }

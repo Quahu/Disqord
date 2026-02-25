@@ -24,6 +24,7 @@ internal sealed class ContractResolver : DefaultContractResolver
     private readonly SnowflakeConverter _snowflakeConverter;
     private readonly JsonConverter _componentConverter;
     private readonly JsonConverter _interactionConverter;
+    private readonly JsonConverter _messageInteractionMetadataConverter;
     private readonly JsonConverter _modalComponentConverter;
     private readonly JsonConverter _unfurledMediaItemConverter;
 
@@ -39,6 +40,7 @@ internal sealed class ContractResolver : DefaultContractResolver
         _snowflakeConverter = new SnowflakeConverter();
         _componentConverter = new ComponentConverter();
         _interactionConverter = new InteractionConverter();
+        _messageInteractionMetadataConverter = new MessageInteractionMetadataConverter();
         _modalComponentConverter = new ModalComponentConverter();
         _unfurledMediaItemConverter = new UnfurledMediaItemConverter();
         _snowflakeDictionaryConverters = ThreadSafeDictionary.ConcurrentDictionary.Create<Type, JsonConverter>();
@@ -174,6 +176,9 @@ internal sealed class ContractResolver : DefaultContractResolver
 
         if (typeof(InteractionJsonModel) == type)
             return _interactionConverter;
+
+        if (typeof(MessageInteractionMetadataJsonModel) == type)
+            return _messageInteractionMetadataConverter;
 
         if (!type.IsClass)
         {

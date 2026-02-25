@@ -127,4 +127,89 @@ public readonly partial struct GuildFeatures
     ///     The guild can set role icons.
     /// </summary>
     public const string RoleIcons = "ROLE_ICONS";
+
+    /// <summary>
+    ///     The guild has access to guild tags.
+    /// </summary>
+    public const string GuildTags = "GUILD_TAGS";
+
+    /// <summary>
+    ///     The guild can set gradient colors on roles.
+    /// </summary>
+    public const string EnhancedRoleColors = "ENHANCED_ROLE_COLORS";
+
+    /// <summary>
+    ///     The guild has access to guest invites.
+    /// </summary>
+    public const string GuestsEnabled = "GUESTS_ENABLED";
+
+    /// <summary>
+    ///     The guild has extra soundboard sound slots.
+    /// </summary>
+    public const string MoreSoundboard = "MORE_SOUNDBOARD";
+
+    /// <summary>
+    ///     The guild has enabled monetization provisionally.
+    /// </summary>
+    public const string CreatorMonetizableProvisional = "CREATOR_MONETIZABLE_PROVISIONAL";
+
+    /// <summary>
+    ///     The guild has enabled the role subscription promo page.
+    /// </summary>
+    public const string CreatorStorePage = "CREATOR_STORE_PAGE";
+
+    /// <summary>
+    ///     The guild has paused invites, preventing new users from joining.
+    /// </summary>
+    public const string InvitesDisabled = "INVITES_DISABLED";
+
+    /// <summary>
+    ///     The guild has disabled alerts for join raids.
+    /// </summary>
+    public const string RaidAlertsDisabled = "RAID_ALERTS_DISABLED";
+
+    /// <summary>
+    ///     The guild is using the old application command permissions behavior.
+    /// </summary>
+    public const string ApplicationCommandPermissionsV2 = "APPLICATION_COMMAND_PERMISSIONS_V2";
+
+    /// <summary>
+    ///     The guild has a directory entry.
+    /// </summary>
+    public const string HasDirectoryEntry = "HAS_DIRECTORY_ENTRY";
+
+    /// <summary>
+    ///     The guild is a Student Hub.
+    /// </summary>
+    public const string Hub = "HUB";
+
+    /// <summary>
+    ///     The guild is linked to a Student Hub.
+    /// </summary>
+    public const string LinkedToHub = "LINKED_TO_HUB";
+
+    /// <summary>
+    ///     The guild has completed the pin permission migration.
+    /// </summary>
+    public const string PinPermissionMigrationComplete = "PIN_PERMISSION_MIGRATION_COMPLETE";
+
+    /// <summary>
+    ///     The guild has relay enabled.
+    /// </summary>
+    public const string RelayEnabled = "RELAY_ENABLED";
+
+    /// <summary>
+    ///     The guild has role subscriptions available for purchase.
+    /// </summary>
+    public const string RoleSubscriptionsAvailableForPurchase = "ROLE_SUBSCRIPTIONS_AVAILABLE_FOR_PURCHASE";
+
+    /// <summary>
+    ///     The guild has role subscriptions enabled.
+    /// </summary>
+    public const string RoleSubscriptionsEnabled = "ROLE_SUBSCRIPTIONS_ENABLED";
+
+    /// <summary>
+    ///     The guild has created soundboard sounds.
+    /// </summary>
+    public const string Soundboard = "SOUNDBOARD";
 }

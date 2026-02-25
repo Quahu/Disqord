@@ -2,8 +2,8 @@
 
 namespace Disqord;
 
-public class TransientModalComponent<TModalComponentModel>(IClient client, ModalBaseComponentJsonModel model)
-    : TransientBaseComponent<TModalComponentModel>(client, model), IModalComponent
+public class TransientModalComponent<TModalComponentModel>(ModalBaseComponentJsonModel model)
+    : TransientBaseComponent<TModalComponentModel>(model), IModalComponent
     where TModalComponentModel : ModalBaseComponentJsonModel
 {
     void IJsonUpdatable<ModalBaseComponentJsonModel>.Update(ModalBaseComponentJsonModel model)

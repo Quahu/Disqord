@@ -4,9 +4,9 @@ using Qommon;
 
 namespace Disqord;
 
-public class TransientModalLabelComponent(IClient client, ModalLabelComponentJsonModel model)
-    : TransientModalComponent<ModalLabelComponentJsonModel>(client, model), IModalLabelComponent
+public class TransientModalLabelComponent(ModalLabelComponentJsonModel model)
+    : TransientModalComponent<ModalLabelComponentJsonModel>(model), IModalLabelComponent
 {
     [field: MaybeNull]
-    public IModalComponent Component => field ??= TransientModalComponent.Create(Client, Model.Component);
+    public IModalComponent Component => field ??= TransientModalComponent.Create(Model.Component);
 }

@@ -5,10 +5,9 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-public class TransientMediaGalleryComponent(IClient client, MediaGalleryComponentJsonModel model)
-    : TransientBaseComponent<MediaGalleryComponentJsonModel>(client, model), IMediaGalleryComponent
+public class TransientMediaGalleryComponent(MediaGalleryComponentJsonModel model)
+    : TransientBaseComponent<MediaGalleryComponentJsonModel>(model), IMediaGalleryComponent
 {
     [field: MaybeNull]
-    public IReadOnlyList<IMediaGalleryItem> Items => field ??= Model.Items.ToReadOnlyList(
-        static model => new TransientMediaGalleryItem(model));
+    public IReadOnlyList<IMediaGalleryItem> Items => field ??= Model.Items.ToReadOnlyList(static model => new TransientMediaGalleryItem(model));
 }

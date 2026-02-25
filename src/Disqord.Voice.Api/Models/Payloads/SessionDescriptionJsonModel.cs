@@ -9,4 +9,7 @@ public class SessionDescriptionJsonModel : JsonModel
 
     [JsonProperty("mode")]
     public string Mode = null!;
+
+    [JsonProperty("dave_protocol_version")]
+    public int? DaveProtocolVersion;
 }

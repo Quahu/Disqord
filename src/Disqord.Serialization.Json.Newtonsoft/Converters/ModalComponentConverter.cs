@@ -34,9 +34,14 @@ internal sealed class ModalComponentConverter : JsonConverter
         return componentType switch
         {
             ComponentType.Row => new ModalRowComponentJsonModel(),
-            ComponentType.StringSelection => new ModalSelectionComponentJsonModel(),
+            ComponentType.StringSelection or (>= ComponentType.UserSelection and <= ComponentType.ChannelSelection) => new ModalSelectionComponentJsonModel(),
             ComponentType.TextInput => new ModalTextInputComponentJsonModel(),
+            ComponentType.TextDisplay => new ModalTextDisplayComponentJsonModel(),
             ComponentType.Label => new ModalLabelComponentJsonModel(),
+            ComponentType.FileUpload => new ModalFileUploadComponentJsonModel(),
+            ComponentType.RadioGroup => new ModalRadioGroupComponentJsonModel(),
+            ComponentType.CheckboxGroup => new ModalCheckboxGroupComponentJsonModel(),
+            ComponentType.Checkbox => new ModalCheckboxComponentJsonModel(),
             _ => new ModalBaseComponentJsonModel()
         };
     }

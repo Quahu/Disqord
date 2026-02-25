@@ -5,9 +5,9 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-public class TransientModalRowComponent(IClient client, ModalBaseComponentJsonModel model)
-    : TransientModalComponent<ModalRowComponentJsonModel>(client, model), IModalRowComponent
+public class TransientModalRowComponent(ModalBaseComponentJsonModel model)
+    : TransientModalComponent<ModalRowComponentJsonModel>(model), IModalRowComponent
 {
     [field: MaybeNull]
-    public IReadOnlyList<IModalComponent> Components => field ??= Model.Components.ToReadOnlyList(Client, static (model, client) => TransientModalComponent.Create(client, model));
+    public IReadOnlyList<IModalComponent> Components => field ??= Model.Components.ToReadOnlyList(TransientModalComponent.Create);
 }

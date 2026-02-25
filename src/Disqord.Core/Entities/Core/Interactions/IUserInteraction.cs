@@ -58,6 +58,17 @@ public interface IUserInteraction : IInteraction, IPossiblyGuildEntity, IChannel
     IReadOnlyList<IEntitlement> Entitlements { get; }
 
     /// <summary>
+    ///     Gets the IDs for installation context(s) of this interaction.
+    ///     See <a href="https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-object-authorizing-integration-owners-object">Discord documentation.</a>
+    /// </summary>
+    IReadOnlyDictionary<ApplicationIntegrationType, Snowflake> AuthorizingIntegrationOwnerIds { get; }
+
+    /// <summary>
+    ///     Gets the context where this interaction was triggered from.
+    /// </summary>
+    InteractionContextType? ContextType { get; }
+
+    /// <summary>
     ///     Gets the attachment size limit in bytes.
     /// </summary>
     /// <remarks>

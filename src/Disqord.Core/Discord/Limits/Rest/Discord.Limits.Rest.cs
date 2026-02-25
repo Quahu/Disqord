@@ -10,6 +10,19 @@ public static partial class Discord
         public static class Rest
         {
             /// <summary>
+            ///     Represents the number of days worth of messages that can be deleted when banning a user.
+            /// </summary>
+            public const int BanDeleteMessageDays = 7;
+            
+            /// <summary>
+            ///     Represents the number of seconds worth of messages that can be deleted when banning a user.
+            /// </summary>
+            /// <remarks>
+            ///     <c>7 * 60 * 60 * 24 = 604800</c>
+            /// </remarks>
+            public const int BanDeleteMessageSeconds = 604800;
+            
+            /// <summary>
             ///     Represents the maximum length of the <c>X-Audit-Log-Reason</c> header; used for sending audit log reasons.
             /// </summary>
             public const int MaxAuditLogReasonLength = 512;

@@ -1,4 +1,5 @@
-﻿using Disqord.Models;
+﻿using System;
+using Disqord.Models;
 using Qommon;
 
 namespace Disqord.Gateway;
@@ -13,6 +14,9 @@ public class CachedRole : CachedSnowflakeEntity, IRole
 
     /// <inheritdoc/>
     public Color? Color { get; private set; }
+    
+    /// <inheritdoc/>
+    public RoleColors? Colors { get; private set; }
 
     /// <inheritdoc/>
     public bool IsHoisted { get; private set; }
@@ -52,6 +56,9 @@ public class CachedRole : CachedSnowflakeEntity, IRole
     {
         Name = model.Name;
         Color = model.Color != 0 ? model.Color : null;
+        Colors = model.Colors.PrimaryColor != 0 || model.Colors.SecondaryColor.HasValue 
+            ? new RoleColors(model.Colors.PrimaryColor, model.Colors.SecondaryColor, model.Colors.TertiaryColor) 
+            : null;
         IsHoisted = model.Hoist;
         IconHash = model.Icon.GetValueOrDefault();
         Position = model.Position;

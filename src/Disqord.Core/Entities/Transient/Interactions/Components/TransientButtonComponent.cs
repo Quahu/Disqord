@@ -4,7 +4,8 @@ using Qommon;
 namespace Disqord;
 
 /// <inheritdoc cref="IButtonComponent"/>
-public class TransientButtonComponent : TransientComponent, IButtonComponent
+public class TransientButtonComponent(ComponentJsonModel model)
+    : TransientComponent(model), IButtonComponent
 {
     /// <inheritdoc/>
     public string CustomId => Model.CustomId.Value;
@@ -23,8 +24,4 @@ public class TransientButtonComponent : TransientComponent, IButtonComponent
 
     /// <inheritdoc/>
     public bool IsDisabled => Model.Disabled.GetValueOrDefault();
-
-    public TransientButtonComponent(IClient client, ComponentJsonModel model)
-        : base(client, model)
-    { }
 }

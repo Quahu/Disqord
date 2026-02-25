@@ -6,14 +6,13 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-public class TransientContainerComponent(IClient client, ContainerComponentJsonModel model)
-    : TransientBaseComponent<ContainerComponentJsonModel>(client, model), IContainerComponent
+public class TransientContainerComponent(ContainerComponentJsonModel model)
+    : TransientBaseComponent<ContainerComponentJsonModel>(model), IContainerComponent
 {
     public Color? AccentColor => Model.AccentColor.GetValueOrDefault();
 
     [field: MaybeNull]
-    public IReadOnlyList<IComponent> Components => field ??= Model.Components.ToReadOnlyList(Client,
-        static (model, client) => TransientComponent.Create(client, model));
+    public IReadOnlyList<IComponent> Components => field ??= Model.Components.ToReadOnlyList(TransientComponent.Create);
 
     public bool IsSpoiler => Model.Spoiler.GetValueOrDefault();
 }

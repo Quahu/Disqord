@@ -8,6 +8,6 @@ public static partial class Library
 
         public const int RestApiVersion = 10;
 
-        public const int VoiceVersion = 4;
+        public const int VoiceVersion = 8;
     }
 }

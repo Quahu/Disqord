@@ -8,7 +8,7 @@ public class TransientMediaGalleryItem(MediaGalleryItemJsonModel model)
     : TransientEntity<MediaGalleryItemJsonModel>(model), IMediaGalleryItem
 {
     [field: MaybeNull]
-    public IUnfurledMediaItem Media => field ??= new TransientUnfurledMediaItem(Model.Media);
+    public IUnfurledMediaItem Media => field ??= TransientUnfurledMediaItem.Create(Model.Media);
 
     public string? Description => Model.Description.GetValueOrDefault();
 

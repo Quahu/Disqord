@@ -142,6 +142,91 @@ public readonly partial struct GuildFeatures : IReadOnlyList<string>
     /// </summary>
     public bool HasRoleIcons => Has(RoleIcons);
 
+    /// <summary>
+    ///     Gets whether the guild has access to guild tags.
+    /// </summary>
+    public bool HasGuildTags => Has(GuildTags);
+
+    /// <summary>
+    ///     Gets whether the guild can set gradient colors on roles.
+    /// </summary>
+    public bool HasEnhancedRoleColors => Has(EnhancedRoleColors);
+
+    /// <summary>
+    ///     Gets whether the guild has access to guest invites.
+    /// </summary>
+    public bool HasGuestsEnabled => Has(GuestsEnabled);
+
+    /// <summary>
+    ///     Gets whether the guild has extra soundboard sound slots.
+    /// </summary>
+    public bool HasMoreSoundboard => Has(MoreSoundboard);
+
+    /// <summary>
+    ///     Gets whether the guild has enabled monetization provisionally.
+    /// </summary>
+    public bool HasCreatorMonetizableProvisional => Has(CreatorMonetizableProvisional);
+
+    /// <summary>
+    ///     Gets whether the guild has enabled the role subscription promo page.
+    /// </summary>
+    public bool HasCreatorStorePage => Has(CreatorStorePage);
+
+    /// <summary>
+    ///     Gets whether the guild has paused invites.
+    /// </summary>
+    public bool HasInvitesDisabled => Has(InvitesDisabled);
+
+    /// <summary>
+    ///     Gets whether the guild has disabled alerts for join raids.
+    /// </summary>
+    public bool HasRaidAlertsDisabled => Has(RaidAlertsDisabled);
+
+    /// <summary>
+    ///     Gets whether the guild is using the old application command permissions behavior.
+    /// </summary>
+    public bool HasApplicationCommandPermissionsV2 => Has(ApplicationCommandPermissionsV2);
+
+    /// <summary>
+    ///     Gets whether the guild has a directory entry.
+    /// </summary>
+    public bool IsDirectoryEntry => Has(HasDirectoryEntry);
+
+    /// <summary>
+    ///     Gets whether the guild is a Student Hub.
+    /// </summary>
+    public bool IsHub => Has(Hub);
+
+    /// <summary>
+    ///     Gets whether the guild is linked to a Student Hub.
+    /// </summary>
+    public bool IsLinkedToHub => Has(LinkedToHub);
+
+    /// <summary>
+    ///     Gets whether the guild has completed the pin permission migration.
+    /// </summary>
+    public bool HasPinPermissionMigrationComplete => Has(PinPermissionMigrationComplete);
+
+    /// <summary>
+    ///     Gets whether the guild has relay enabled.
+    /// </summary>
+    public bool HasRelayEnabled => Has(RelayEnabled);
+
+    /// <summary>
+    ///     Gets whether the guild has role subscriptions available for purchase.
+    /// </summary>
+    public bool HasRoleSubscriptionsAvailableForPurchase => Has(RoleSubscriptionsAvailableForPurchase);
+
+    /// <summary>
+    ///     Gets whether the guild has role subscriptions enabled.
+    /// </summary>
+    public bool HasRoleSubscriptionsEnabled => Has(RoleSubscriptionsEnabled);
+
+    /// <summary>
+    ///     Gets whether the guild has created soundboard sounds.
+    /// </summary>
+    public bool HasSoundboard => Has(Soundboard);
+
     private readonly IReadOnlyList<string>? _features;
 
     public GuildFeatures(IReadOnlyList<string> features)

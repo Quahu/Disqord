@@ -3,11 +3,12 @@ using Disqord.Models;
 
 namespace Disqord;
 
-public class TransientModalSelectionComponent(IClient client, ModalSelectionComponentJsonModel model)
-    : TransientModalComponent<ModalSelectionComponentJsonModel>(client, model), IModalSelectionComponent
+public class TransientModalSelectionComponent(ModalSelectionComponentJsonModel model)
+    : TransientModalComponent<ModalSelectionComponentJsonModel>(model), IModalSelectionComponent
 {
     public string CustomId => Model.CustomId;
 
     public IReadOnlyList<string> Values => Model.Values;
 
+    public new SelectionComponentType Type => (SelectionComponentType) Model.Type;
 }

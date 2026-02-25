@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Disqord.Models;
 using Qommon;
 using Qommon.Collections.ReadOnly;
@@ -6,7 +7,8 @@ using Qommon.Collections.ReadOnly;
 namespace Disqord;
 
 /// <inheritdoc cref="ISelectionComponent"/>
-public class TransientSelectionComponent : TransientComponent, ISelectionComponent
+public class TransientSelectionComponent(ComponentJsonModel model)
+    : TransientComponent(model), ISelectionComponent
 {
     /// <inheritdoc/>
     public string CustomId => Model.CustomId.Value;
@@ -30,9 +32,8 @@ public class TransientSelectionComponent : TransientComponent, ISelectionCompone
     public string? Placeholder => Model.Placeholder.GetValueOrDefault();
 
     /// <inheritdoc/>
-    public IReadOnlyList<IDefaultSelectionValue> DefaultValues => _defaultValues ??= Model.DefaultValues.Value.ToReadOnlyList(Client, (model, client) => new TransientDefaultSelectionValue(client, model));
-
-    private IReadOnlyList<IDefaultSelectionValue>? _defaultValues;
+    [field: MaybeNull]
+    public IReadOnlyList<IDefaultSelectionValue> DefaultValues => field ??= Model.DefaultValues.Value.ToReadOnlyList(static model => new TransientDefaultSelectionValue(model));
 
     /// <inheritdoc/>
     public int MinimumSelectedOptions => Model.MinValues.Value;
@@ -41,7 +42,7 @@ public class TransientSelectionComponent : TransientComponent, ISelectionCompone
     public int MaximumSelectedOptions => Model.MaxValues.Value;
 
     /// <inheritdoc/>
-    public IReadOnlyList<ISelectionComponentOption> Options => _options ??= Model.Options.Value.ToReadOnlyList(Client, (model, client) => new TransientSelectionComponentOption(client, model));
+    public IReadOnlyList<ISelectionComponentOption> Options => _options ??= Model.Options.Value.ToReadOnlyList(static model => new TransientSelectionComponentOption(model));
 
     private IReadOnlyList<ISelectionComponentOption>? _options;
 
@@ -50,8 +51,4 @@ public class TransientSelectionComponent : TransientComponent, ISelectionCompone
 
     /// <inheritdoc/>
     public bool IsRequired => Model.Required.GetValueOrDefault();
-
-    public TransientSelectionComponent(IClient client, ComponentJsonModel model)
-        : base(client, model)
-    { }
 }

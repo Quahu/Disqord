@@ -213,6 +213,8 @@ public sealed partial class Route
 
         public static readonly Route GetRoles = Get("guilds/{0:guild_id}/roles");
 
+        public static readonly Route GetRoleMemberCounts = Get("guilds/{0:guild_id}/roles/member-counts");
+
         public static readonly Route CreateRole = Post("guilds/{0:guild_id}/roles");
 
         public static readonly Route ReorderRoles = Patch("guilds/{0:guild_id}/roles");

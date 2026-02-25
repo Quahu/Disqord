@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Disqord.Models;
 using Qommon;
@@ -34,22 +35,21 @@ public class TransientUserInteraction(IClient client, long receivedAt, Interacti
             if (!Model.Channel.HasValue)
                 return null;
 
-            return _channel ??= new TransientInteractionChannel(Client, Model.Channel.Value);
+            return field ??= new TransientInteractionChannel(Client, Model.Channel.Value);
         }
     }
-    private IInteractionChannel? _channel;
 
     /// <inheritdoc/>
+    [field: MaybeNull]
     public IUser Author
     {
         get
         {
-            return _author ??= Model.Member.HasValue
+            return field ??= Model.Member.HasValue
                 ? new TransientMember(Client, GuildId!.Value, Model.Member.Value)
                 : new TransientUser(Client, Model.User.Value);
         }
     }
-    private IUser? _author;
 
     /// <inheritdoc/>
     public Permissions AuthorPermissions
@@ -73,9 +73,14 @@ public class TransientUserInteraction(IClient client, long receivedAt, Interacti
     public CultureInfo? GuildLocale => Optional.ConvertOrDefault(Model.GuildLocale, Discord.Internal.GetLocale);
 
     /// <inheritdoc/>
-    public IReadOnlyList<IEntitlement> Entitlements => _entitlements ??= Model.Entitlements.ToReadOnlyList(Client, (model, client) => new TransientEntitlement(client, model));
+    [field: MaybeNull]
+    public IReadOnlyList<IEntitlement> Entitlements => field ??= Model.Entitlements.ToReadOnlyList(Client, (model, client) => new TransientEntitlement(client, model));
 
-    private IReadOnlyList<IEntitlement>? _entitlements;
+    /// <inheritdoc/>
+    public IReadOnlyDictionary<ApplicationIntegrationType, Snowflake> AuthorizingIntegrationOwnerIds => Model.AuthorizingIntegrationOwners.GetValueOrDefault() ?? ReadOnlyDictionary<ApplicationIntegrationType, Snowflake>.Empty;
+
+    /// <inheritdoc/>
+    public InteractionContextType? ContextType => Model.Context.GetValueOrNullable();
 
     /// <inheritdoc/>
     public int? AttachmentSizeLimit => Model.AttachmentSizeLimit.GetValueOrNullable();

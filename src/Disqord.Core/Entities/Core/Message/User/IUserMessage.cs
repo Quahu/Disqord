@@ -102,7 +102,7 @@ public interface IUserMessage : IMessage
     /// <summary>
     ///     Gets the interaction tied to this message.
     /// </summary>
-    IMessageInteraction? Interaction { get; }
+    IMessageInteractionMetadata? InteractionMetadata { get; }
 
     /// <summary>
     ///     Gets the components of this message.

@@ -10,4 +10,7 @@ public class ModalSubmitInteractionDataJsonModel : InteractionDataJsonModel
 
     [JsonProperty("components")]
     public ModalBaseComponentJsonModel[] Components = null!;
+
+    [JsonProperty("resolved")]
+    public Optional<ResolvedInteractionDataJsonModel> Resolved;
 }

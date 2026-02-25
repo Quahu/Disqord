@@ -343,17 +343,7 @@ public static partial class RestClientExtensions
         Snowflake guildId, Snowflake memberId, Action<ModifyMemberActionProperties> action,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var content = action.ToContent(out var nick);
-
-        if (nick.HasValue && client.ApiClient.Token is BotToken botToken)
-        {
-            if (memberId == botToken.Id)
-            {
-                await client.ModifyCurrentMemberAsync(guildId, x => x.Nick = nick, options, cancellationToken).ConfigureAwait(false);
-                content.Nick = Optional<string>.Empty;
-            }
-        }
-
+        var content = action.ToContent();
         var model = await client.ApiClient.ModifyMemberAsync(guildId, memberId, content, options, cancellationToken).ConfigureAwait(false);
         return new TransientMember(client, guildId, model);
     }
@@ -461,12 +451,12 @@ public static partial class RestClientExtensions
     }
 
     public static Task CreateBanAsync(this IRestClient client,
-        Snowflake guildId, Snowflake userId, string? reason = null, int? deleteMessageDays = null,
+        Snowflake guildId, Snowflake userId, string? reason = null, TimeSpan? deleteMessageDuration = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var content = new CreateBanJsonRestRequestContent
         {
-            DeleteMessageDays = Optional.FromNullable(deleteMessageDays),
+            DeleteMessageSeconds = Optional.FromNullable((int?) deleteMessageDuration?.TotalSeconds),
             Reason = Optional.FromNullable(reason)
         };
 
@@ -492,6 +482,21 @@ public static partial class RestClientExtensions
         });
     }
 
+    /// <summary>
+    ///     Fetches the member counts for each role in the guild.
+    /// </summary>
+    /// <returns>
+    ///     A read-only dictionary mapping role IDs to their member counts.
+    ///     Does not include the <c>@everyone</c> role.
+    /// </returns>
+    public static async Task<IReadOnlyDictionary<Snowflake, int>> FetchRoleMemberCountsAsync(this IRestClient client,
+        Snowflake guildId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var result = await client.ApiClient.FetchRoleMemberCountsAsync(guildId, options, cancellationToken).ConfigureAwait(false);
+        return result;
+    }
+
     public static async Task<IRole> CreateRoleAsync(this IRestClient client,
         Snowflake guildId, Action<CreateRoleActionProperties>? action = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -504,6 +509,14 @@ public static partial class RestClientExtensions
             Name = properties.Name,
             Permissions = properties.Permissions,
             Color = Optional.Convert(properties.Color, color => color?.RawValue ?? 0),
+            Colors = Optional.FromNullable(properties.Colors.HasValue && properties.Colors.Value is var colors
+                ? new RoleColorsJsonModel
+                {
+                    PrimaryColor = colors?.PrimaryColor ?? 0,
+                    SecondaryColor = colors?.SecondaryColor,
+                    TertiaryColor = colors?.TertiaryColor
+                }
+                : null),
             Hoist = properties.IsHoisted,
             Icon = properties.Icon,
             Mentionable = properties.IsMentionable

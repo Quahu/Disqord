@@ -38,6 +38,8 @@ public enum RestApiErrorCode
 
     UnknownSession = 10020,
 
+    UnknownAsset = 10021,
+
     UnknownBan = 10026,
 
     UnknownSku = 10027,
@@ -68,6 +70,8 @@ public enum RestApiErrorCode
 
     UnknownSticker = 10060,
 
+    UnknownStickerPack = 10061,
+
     UnknownInteraction = 10062,
 
     UnknownApplicationCommand = 10063,
@@ -87,6 +91,12 @@ public enum RestApiErrorCode
     UnknownGuildEventUser = 10071,
 
     UnknownTag = 10087,
+
+    UnknownSound = 10097,
+
+    UnknownInviteTargetUsersJob = 10124,
+
+    UnknownInviteTargetUsers = 10129,
 
     UserOnlyEndpoint = 20001,
 
@@ -204,6 +214,8 @@ public enum RestApiErrorCode
 
     MaximumGuildWidgetSettingsUpdatesReached = 30042,
 
+    MaximumSoundboardSoundsReached = 30045,
+
     /// <summary>
     ///     The maximum number of edits to messages older than 1 hour was reached.
     /// </summary>
@@ -242,6 +254,10 @@ public enum RestApiErrorCode
 
     ConnectionHasBeenRevoked = 40012,
 
+    OnlyConsumableSkusCanBeConsumed = 40018,
+
+    CanOnlyDeleteSandboxEntitlements = 40019,
+
     TargetUserNotConnectedToVoice = 40032,
 
     MessageAlreadyCrossposted = 40033,
@@ -261,6 +277,12 @@ public enum RestApiErrorCode
     ThereAreNoTagsAvailableThatCanBeSetByNonModerators = 40066,
 
     ATagIsRequiredToCreateAForumPostInThisChannel = 40067,
+
+    EntitlementAlreadyGrantedForResource = 40074,
+
+    MaximumFollowUpMessagesReached = 40094,
+
+    CloudflareBlockingRequest = 40333,
 
     MissingAccess = 50001,
 
@@ -335,6 +357,8 @@ public enum RestApiErrorCode
 
     InvalidGuild = 50055,
 
+    InvalidSku = 50057,
+
     InvalidRequestOrigin = 50067,
 
     InvalidMessageType = 50068,
@@ -370,6 +394,14 @@ public enum RestApiErrorCode
 
     RequestBodyContainsInvalidJson = 50109,
 
+    InvalidFileProvided = 50110,
+
+    InvalidFileTypeProvided = 50123,
+
+    FileDurationExceedsMaximum = 50124,
+
+    OwnerCannotBePendingMember = 50131,
+
     OwnershipCannotBeTransferredToABotUser = 50132,
 
     FailedToResizeAssetBelowTheMaximumSize = 50138,
@@ -380,7 +412,23 @@ public enum RestApiErrorCode
 
     UploadedFileNotFound = 50146,
 
+    SpecifiedEmojiIsInvalid = 50151,
+
+    VoiceMessagesDoNotSupportAdditionalContent = 50159,
+
+    VoiceMessagesMustHaveSingleAudioAttachment = 50160,
+
+    VoiceMessagesMustHaveSupportingMetadata = 50161,
+
+    VoiceMessagesCannotBeEdited = 50162,
+
     CannotDeleteGuildSubscriptionIntegration = 50163,
+
+    CannotSendVoiceMessagesInThisChannel = 50173,
+
+    UserAccountMustFirstBeVerified = 50178,
+
+    FileDoesNotHaveValidDuration = 50192,
 
     YouDoNotHavePermissionToSendThisSticker = 50600,
 
@@ -389,6 +437,8 @@ public enum RestApiErrorCode
     NoUsersWithDiscordTagExist = 80004,
 
     ReactionBlocked = 90001,
+
+    UserCannotUseBurstReactions = 90002,
 
     ApplicationNotYetAvailableTryAgainLater = 110001,
 
@@ -444,6 +494,14 @@ public enum RestApiErrorCode
 
     MessageBlockedByHarmfulLinksFilter = 240000,
 
+    CannotEnableOnboardingRequirementsNotMet = 350000,
+
+    CannotUpdateOnboardingWhileBelowRequirements = 350001,
+
+    FileUploadAccessLimitedForGuild = 400001,
+
+    FailedToBanUsers = 500000,
+
     PollVotingBlocked = 520000,
 
     PollExpired = 520001,
@@ -455,4 +513,18 @@ public enum RestApiErrorCode
     CannotUseAnEmojiIncludedWithThePoll = 520004,
 
     CannotExpireANonPollMessage = 520006,
+
+    ProvisionalAccountPermissionNotGranted = 530000,
+
+    IdTokenExpired = 530001,
+
+    IdTokenIssuerMismatch = 530002,
+
+    IdTokenAudienceMismatch = 530003,
+
+    IdTokenIssuedTooLongAgo = 530004,
+
+    FailedToGenerateUniqueUsername = 530006,
+
+    InvalidClientSecret = 530007,
 }

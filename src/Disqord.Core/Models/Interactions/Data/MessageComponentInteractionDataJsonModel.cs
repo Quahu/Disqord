@@ -15,5 +15,5 @@ public class MessageComponentInteractionDataJsonModel : InteractionDataJsonModel
     public Optional<string[]> Values;
 
     [JsonProperty("resolved")]
-    public Optional<ApplicationCommandInteractionDataResolvedJsonModel> Resolved;
+    public Optional<ResolvedInteractionDataJsonModel> Resolved;
 }
