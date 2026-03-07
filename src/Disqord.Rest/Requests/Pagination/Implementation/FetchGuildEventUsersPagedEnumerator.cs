@@ -30,7 +30,7 @@ public class FetchGuildEventUsersPagedEnumerator : PagedEnumerator<IUser>
         _withMember = withMember;
     }
 
-    protected override Task<IReadOnlyList<IUser>> NextPageAsync(
+    protected override Task<IReadOnlyList<IUser>> NextPageCoreAsync(
         IReadOnlyList<IUser>? previousPage, IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var startFromId = _startFromId;

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Qommon;
@@ -23,7 +23,7 @@ public class FetchGuildsPagedEnumerator : PagedEnumerator<IPartialGuild>
         _startFromId = startFromId;
     }
 
-    protected override Task<IReadOnlyList<IPartialGuild>> NextPageAsync(
+    protected override Task<IReadOnlyList<IPartialGuild>> NextPageCoreAsync(
         IReadOnlyList<IPartialGuild>? previousPage, IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var startFromId = _startFromId;

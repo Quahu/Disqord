@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +26,7 @@ public class FetchMessagesPagedEnumerator : PagedEnumerator<IMessage>
         _startFromId = startFromId;
     }
 
-    protected override Task<IReadOnlyList<IMessage>> NextPageAsync(
+    protected override Task<IReadOnlyList<IMessage>> NextPageCoreAsync(
         IReadOnlyList<IMessage>? previousPage, IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var startFromId = _startFromId;

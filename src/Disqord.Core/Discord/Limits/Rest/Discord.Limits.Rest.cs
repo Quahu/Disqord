@@ -13,7 +13,7 @@ public static partial class Discord
             ///     Represents the number of days worth of messages that can be deleted when banning a user.
             /// </summary>
             public const int BanDeleteMessageDays = 7;
-            
+
             /// <summary>
             ///     Represents the number of seconds worth of messages that can be deleted when banning a user.
             /// </summary>
@@ -21,7 +21,7 @@ public static partial class Discord
             ///     <c>7 * 60 * 60 * 24 = 604800</c>
             /// </remarks>
             public const int BanDeleteMessageSeconds = 604800;
-            
+
             /// <summary>
             ///     Represents the maximum length of the <c>X-Audit-Log-Reason</c> header; used for sending audit log reasons.
             /// </summary>
@@ -91,6 +91,16 @@ public static partial class Discord
             ///     Represents the page size for fetching pinned messages.
             /// </summary>
             public const int FetchPinnedMessagesPageSize = 50;
+
+            /// <summary>
+            ///     Represents the maximum page size for searching guild messages.
+            /// </summary>
+            public const int SearchMessagesPageSize = 25;
+
+            /// <summary>
+            ///     Represents the maximum offset for searching guild messages.
+            /// </summary>
+            public const int MaxSearchMessagesOffset = 9975;
         }
     }
 }
