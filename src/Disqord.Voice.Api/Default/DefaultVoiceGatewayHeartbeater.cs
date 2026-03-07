@@ -60,6 +60,8 @@ public class DefaultVoiceGatewayHeartbeater : IVoiceGatewayHeartbeater
         }
         catch (OperationCanceledException)
         { }
+        catch (ObjectDisposedException)
+        { }
         catch (Exception ex)
         {
             Logger.LogError(ex, "An exception occurred while voice heartbeating.");

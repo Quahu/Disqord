@@ -8,7 +8,7 @@ namespace Disqord.Extensions.Voice;
 /// <summary>
 ///     Represents an audio source that can read the Ogg format.
 /// </summary>
-public class OggStreamAudioSource : AudioSource
+public class OggStreamAudioSource : IAudioSource
 {
     private readonly Stream _stream;
 
@@ -22,7 +22,7 @@ public class OggStreamAudioSource : AudioSource
     }
 
     /// <inheritdoc/>
-    public override IAsyncEnumerator<Memory<byte>> GetAsyncEnumerator(CancellationToken cancellationToken)
+    public IAsyncEnumerator<ReadOnlyMemory<byte>> GetAsyncEnumerator(CancellationToken cancellationToken)
     {
         return new OggReader(_stream).GetAsyncEnumerator(cancellationToken);
     }

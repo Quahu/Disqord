@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace Disqord.Voice;
 
@@ -20,7 +21,7 @@ public sealed unsafe class DaveDecryptor : IDisposable
     }
 
     private nint _handle;
-    private bool _isDisposed;
+    private int _disposed;
 
     /// <summary>
     ///     Creates a new DAVE decryptor.
@@ -36,7 +37,7 @@ public sealed unsafe class DaveDecryptor : IDisposable
 
     private void ThrowIfDisposed()
     {
-        ObjectDisposedException.ThrowIf(_isDisposed, this);
+        ObjectDisposedException.ThrowIf(Volatile.Read(ref _disposed) != 0, this);
     }
 
     /// <summary>
@@ -104,10 +105,9 @@ public sealed unsafe class DaveDecryptor : IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
-        if (_isDisposed)
+        if (Interlocked.Exchange(ref _disposed, 1) != 0)
             return;
 
-        _isDisposed = true;
         Dave.DecryptorDestroy(_handle);
         _handle = 0;
     }

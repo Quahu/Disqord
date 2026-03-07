@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ public class VoiceExtension : DiscordClientExtension
 {
     private readonly IVoiceConnectionFactory _connectionFactory;
 
-    private readonly IThreadSafeDictionary<Snowflake, IVoiceConnection> _pendingConnections;
+    private readonly IThreadSafeDictionary<Snowflake, IVoiceConnectionHost> _pendingConnections;
     private readonly IThreadSafeDictionary<Snowflake, VoiceConnectionInfo> _connections;
 
     public VoiceExtension(
@@ -26,7 +27,7 @@ public class VoiceExtension : DiscordClientExtension
     {
         _connectionFactory = connectionFactory;
 
-        _pendingConnections = ThreadSafeDictionary.Monitor.Create<Snowflake, IVoiceConnection>();
+        _pendingConnections = ThreadSafeDictionary.Monitor.Create<Snowflake, IVoiceConnectionHost>();
         _connections = ThreadSafeDictionary.Monitor.Create<Snowflake, VoiceConnectionInfo>();
     }
 
@@ -79,7 +80,7 @@ public class VoiceExtension : DiscordClientExtension
     /// </returns>
     public IReadOnlyDictionary<Snowflake, IVoiceConnection> GetConnections()
     {
-        return _connections.ToDictionary(static kvp => kvp.Key, static kvp => kvp.Value.Connection);
+        return _connections.ToDictionary(static kvp => kvp.Key, static kvp => (IVoiceConnection) kvp.Value.Connection);
     }
 
     /// <summary>
@@ -96,6 +97,26 @@ public class VoiceExtension : DiscordClientExtension
     /// </returns>
     public async ValueTask<IVoiceConnection> ConnectAsync(Snowflake guildId, Snowflake channelId, CancellationToken cancellationToken = default)
     {
+        return await ConnectAsync(guildId, channelId, options: null, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Connects to the channel with the given ID.
+    /// </summary>
+    /// <remarks>
+    ///     To disconnect the voice connection, use <see cref="DisconnectAsync"/>.
+    /// </remarks>
+    /// <param name="guildId"> The ID of the guild the channel is in. </param>
+    /// <param name="channelId"> The ID of the channel. </param>
+    /// <param name="options"> The voice-state behavior options for the connection. </param>
+    /// <param name="cancellationToken"> The cancellation token to observe. This is only used for the initial connection. </param>
+    /// <returns>
+    ///     A <see cref="ValueTask{TResult}"/> with the result being the created voice connection.
+    /// </returns>
+    public async ValueTask<IVoiceConnection> ConnectAsync(Snowflake guildId, Snowflake channelId, VoiceConnectOptions? options, CancellationToken cancellationToken = default)
+    {
+        var connectOptions = options ?? new VoiceConnectOptions();
+
         var connection = _connectionFactory.Create(guildId, channelId, Client.CurrentUser.Id,
             (guildId, channelId, cancellationToken) =>
             {
@@ -104,7 +125,7 @@ public class VoiceExtension : DiscordClientExtension
                     Throw.InvalidOperationException("The guild ID is not handled by any of the shards of the client");
 
                 Logger.LogDebug("Setting voice state for guild ID: {GuildId} to channel ID: {ChannelId}", guildId, channelId);
-                return new(shard.SetVoiceStateAsync(guildId, channelId, false, true, cancellationToken));
+                return new(shard.SetVoiceStateAsync(guildId, channelId, connectOptions.SelfMute, connectOptions.SelfDeafen, cancellationToken));
             });
 
         _pendingConnections[guildId] = connection;
@@ -154,13 +175,13 @@ public class VoiceExtension : DiscordClientExtension
 
     private readonly struct VoiceConnectionInfo
     {
-        public IVoiceConnection Connection { get; }
+        public IVoiceConnectionHost Connection { get; }
 
         public Task RunTask { get; }
 
         public Cts Cts { get; }
 
-        public VoiceConnectionInfo(IVoiceConnection connection, Task runTask, Cts cts)
+        public VoiceConnectionInfo(IVoiceConnectionHost connection, Task runTask, Cts cts)
         {
             Connection = connection;
             RunTask = runTask;

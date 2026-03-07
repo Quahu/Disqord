@@ -27,9 +27,26 @@ public interface IVoiceGatewayClient : ILogging, IAsyncDisposable
     IJsonSerializer Serializer { get; }
 
     /// <summary>
-    ///     Gets the set of currently connected user IDs in the voice session.
+    ///     Gets a snapshot of the currently connected user IDs in the voice session.
     /// </summary>
     IReadOnlySet<Snowflake> ConnectedUserIds { get; }
+
+    /// <summary>
+    ///     Gets or sets the callback invoked when a user connects to the voice session.
+    ///     Invoked on the gateway dispatch thread, after <see cref="ConnectedUserIds"/> has been updated.
+    /// </summary>
+    Action<Snowflake>? UserConnected { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the callback invoked when a user disconnects from the voice session.
+    ///     Invoked on the gateway dispatch thread, after <see cref="ConnectedUserIds"/> has been updated.
+    /// </summary>
+    Action<Snowflake>? UserDisconnected { get; set; }
+
+    /// <summary>
+    ///     Tries to resolve a user ID by SSRC.
+    /// </summary>
+    bool TryGetUserId(uint ssrc, out Snowflake userId);
 
     /// <summary>
     ///     Gets the sequence number of the last numbered message received from the gateway.

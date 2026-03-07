@@ -18,11 +18,26 @@ public sealed class XSalsa20Poly1305Encryption : IVoiceEncryption
     }
 
     /// <inheritdoc/>
+    public int GetDecryptedLength(int length)
+    {
+        return length - Sodium.XSalsa20Poly1305MacLength;
+    }
+
+    /// <inheritdoc/>
     public void Encrypt(ReadOnlySpan<byte> rtpHeader, Span<byte> encryptedAudio, ReadOnlySpan<byte> audio, ReadOnlySpan<byte> key)
     {
         var nonce = (stackalloc byte[Sodium.XSalsa20Poly1305NonceLength]);
         rtpHeader.CopyTo(nonce);
 
         Sodium.Encrypt(encryptedAudio, audio, nonce, key);
+    }
+
+    /// <inheritdoc/>
+    public void Decrypt(ReadOnlySpan<byte> rtpHeader, Span<byte> audio, ReadOnlySpan<byte> encryptedAudio, ReadOnlySpan<byte> key)
+    {
+        var nonce = (stackalloc byte[Sodium.XSalsa20Poly1305NonceLength]);
+        rtpHeader.CopyTo(nonce);
+
+        Sodium.Decrypt(audio, encryptedAudio, nonce, key);
     }
 }

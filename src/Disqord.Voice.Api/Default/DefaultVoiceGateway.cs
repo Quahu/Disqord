@@ -107,7 +107,7 @@ public class DefaultVoiceGateway : IVoiceGateway
 
     private static VoiceGatewayMessage ParseBinaryMessage(MemoryStream stream)
     {
-        // Binary format (server → client): [2-byte big-endian seq] [1-byte opcode] [payload]
+        // Binary format (server -> client): [2-byte big-endian seq] [1-byte opcode] [payload]
         stream.TryGetBuffer(out var buffer);
         var span = buffer.AsSpan();
 
