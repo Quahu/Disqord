@@ -31,7 +31,7 @@ public class AudioPlayer : IAsyncDisposable
     /// <summary>
     ///     Gets or sets the audio source currently being played by this audio player.
     /// </summary>
-    public AudioSource? Source
+    public IAudioSource? Source
     {
         get
         {
@@ -112,7 +112,7 @@ public class AudioPlayer : IAsyncDisposable
 
     private readonly object _sourceLock = new();
     private Cts _sourceCts;
-    private Tcs<AudioSource> _source;
+    private Tcs<IAudioSource> _source;
 
     private readonly AsyncManualResetEvent _pauseAmre;
     private readonly object _stopLock = new();
@@ -134,40 +134,54 @@ public class AudioPlayer : IAsyncDisposable
     }
 
     /// <summary>
-    ///     Invoked when an <see cref="AudioSource"/> has started playing.
+    ///     Invoked when an audio source has started playing.
     /// </summary>
-    /// <param name="source"> The <see cref="AudioSource"/> that has started playing. </param>
+    /// <param name="source"> The audio source that has started playing. </param>
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the work.
     /// </returns>
-    protected virtual ValueTask OnSourceStarted(AudioSource source)
+    protected virtual ValueTask OnSourceStarted(IAudioSource source)
     {
         return default;
     }
 
     /// <summary>
-    ///     Invoked when an <see cref="AudioSource"/> has finished playing.
+    ///     Invoked when an audio source has finished playing.
     /// </summary>
-    /// <param name="source"> The <see cref="AudioSource"/> that has finished playing. </param>
+    /// <param name="source"> The audio source that has finished playing. </param>
     /// <param name="wasReplaced"> <see langword="true"/> if the previous audio source was replaced with a new one. </param>
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the work.
     /// </returns>
-    protected virtual ValueTask OnSourceFinished(AudioSource source, bool wasReplaced)
+    protected virtual ValueTask OnSourceFinished(IAudioSource source, bool wasReplaced)
     {
         return default;
     }
 
     /// <summary>
-    ///     Invoked when an <see cref="AudioSource"/> has errored,
+    ///     Invoked when an audio source has errored,
     ///     i.e. thrown an exception.
     /// </summary>
-    /// <param name="source"> The <see cref="AudioSource"/> that has errored. </param>
+    /// <param name="source"> The audio source that has errored. </param>
     /// <param name="exception"> The exception that occurred. </param>
     /// <returns>
     ///     A <see cref="ValueTask"/> representing the work.
     /// </returns>
-    protected virtual ValueTask OnSourceErrored(AudioSource source, Exception exception)
+    protected virtual ValueTask OnSourceErrored(IAudioSource source, Exception exception)
+    {
+        return default;
+    }
+
+    /// <summary>
+    ///     Invoked when an audio packet has been sent to the voice connection.
+    ///     This is called on the player loop for every 20ms packet, so implementations
+    ///     should avoid heavy or async work to prevent playback delays.
+    /// </summary>
+    /// <param name="source"> The audio source the packet was read from. </param>
+    /// <returns>
+    ///     A <see cref="ValueTask"/> representing the work.
+    /// </returns>
+    protected virtual ValueTask OnSourcePacketSent(IAudioSource source)
     {
         return default;
     }
@@ -225,7 +239,7 @@ public class AudioPlayer : IAsyncDisposable
     /// <returns>
     ///     <see langword="true"/> if the source was set.
     /// </returns>
-    public bool TrySetSource(AudioSource source)
+    public bool TrySetSource(IAudioSource source)
     {
         ThrowIfDisposed();
 
@@ -312,21 +326,6 @@ public class AudioPlayer : IAsyncDisposable
         }
     }
 
-    /// <summary>
-    ///     Moves this audio player to a different channel within the guild.
-    /// </summary>
-    /// <param name="channelId"> The ID of the channel to move to. </param>
-    /// <param name="cancellationToken"> The cancellation token to observe. </param>
-    /// <returns>
-    ///     A <see cref="ValueTask"/> representing the work.
-    /// </returns>
-    public ValueTask SetChannelIdAsync(Snowflake channelId, CancellationToken cancellationToken)
-    {
-        ThrowIfDisposed();
-
-        return Connection.SetChannelIdAsync(channelId, cancellationToken);
-    }
-
     private static async Task SendSilenceAsync(IVoiceConnection connection, CancellationToken cancellationToken)
     {
         for (var i = 0; i < 5; i++)
@@ -350,7 +349,8 @@ public class AudioPlayer : IAsyncDisposable
             }
             catch (Exception ex) when (ex is not OperationCanceledException)
             {
-                // TODO: handle exception
+                // Silence is cosmetic; failure doesn't affect pause correctness.
+                // On resume, speaking flags are re-sent.
             }
 
             await pauseTask.ConfigureAwait(false);
@@ -360,7 +360,7 @@ public class AudioPlayer : IAsyncDisposable
         }
     }
 
-    private void ResetSource(Tcs<AudioSource> source)
+    private void ResetSource(Tcs<IAudioSource> source)
     {
         lock (_sourceLock)
         {
@@ -371,7 +371,7 @@ public class AudioPlayer : IAsyncDisposable
         }
     }
 
-    private async Task HandleSourceErroredAsync(Tcs<AudioSource> source, Exception exception)
+    private async Task HandleSourceErroredAsync(Tcs<IAudioSource> source, Exception exception)
     {
         ResetSource(source);
 
@@ -388,12 +388,11 @@ public class AudioPlayer : IAsyncDisposable
         {
             await OnStarted().ConfigureAwait(false);
 
-            await connection.WaitUntilReadyAsync(cancellationToken).ConfigureAwait(false);
             while (!cancellationToken.IsCancellationRequested)
             {
                 await SendSilenceAsync(connection, cancellationToken).ConfigureAwait(false);
 
-                Tcs<AudioSource> sourceTask;
+                Tcs<IAudioSource> sourceTask;
                 lock (_sourceLock)
                 {
                     sourceTask = _source;
@@ -410,11 +409,18 @@ public class AudioPlayer : IAsyncDisposable
                 using (var linkedCts = Cts.Linked(cancellationToken, sourceCancellationToken))
                 {
                     var linkedCancellationToken = linkedCts.Token;
-                    await connection.SetSpeakingFlagsAsync(SpeakingFlags, linkedCancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        await connection.SetSpeakingFlagsAsync(SpeakingFlags, linkedCancellationToken).ConfigureAwait(false);
 
-                    await OnSourceStarted(source).ConfigureAwait(false);
+                        await OnSourceStarted(source).ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        continue;
+                    }
 
-                    IAsyncEnumerator<Memory<byte>>? enumerator = null;
+                    IAsyncEnumerator<ReadOnlyMemory<byte>>? enumerator = null;
                     try
                     {
                         try
@@ -444,7 +450,7 @@ public class AudioPlayer : IAsyncDisposable
 
                             await WaitIfPausedAsync(linkedCancellationToken).ConfigureAwait(false);
 
-                            Memory<byte> packet;
+                            ReadOnlyMemory<byte> packet;
                             try
                             {
                                 packet = enumerator.Current;
@@ -459,10 +465,13 @@ public class AudioPlayer : IAsyncDisposable
                             try
                             {
                                 await connection.SendPacketAsync(packet, linkedCancellationToken).ConfigureAwait(false);
+                                await OnSourcePacketSent(source).ConfigureAwait(false);
                             }
-                            catch (Exception ex) when (ex is not OperationCanceledException)
+                            catch (Exception ex) when (ex is not OperationCanceledException and not VoiceConnectionException)
                             {
-                                // TODO: handle exception
+                                // Transient send failures (e.g. DAVE key rotation) self-recover on the
+                                // next packet. The synchronizer tick naturally throttles the loop.
+                                // VoiceConnectionException is not caught here - it stops the player.
                             }
                         }
 
@@ -500,7 +509,7 @@ public class AudioPlayer : IAsyncDisposable
             {
                 if (exception is not VoiceConnectionException)
                 {
-                    await connection.SetSpeakingFlagsAsync(SpeakingFlags, cancellationToken).ConfigureAwait(false);
+                    await connection.SetSpeakingFlagsAsync(SpeakingFlags.None, default).ConfigureAwait(false);
                 }
             }
             finally
@@ -512,13 +521,24 @@ public class AudioPlayer : IAsyncDisposable
     }
 
     /// <inheritdoc/>
-    public ValueTask DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         if (_isDisposed)
-            return default;
+            return;
 
         _isDisposed = true;
 
+        await DisposeAsyncCore().ConfigureAwait(false);
+
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    ///     Performs the async cleanup. Override this in derived classes to dispose additional resources.
+    ///     Always call <c>base.DisposeAsyncCore()</c> to ensure the player is stopped.
+    /// </summary>
+    protected virtual ValueTask DisposeAsyncCore()
+    {
         lock (_stopLock)
         {
             if (_stopCts != null)

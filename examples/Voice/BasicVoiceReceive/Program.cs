@@ -12,7 +12,6 @@ try
     var host = Host.CreateApplicationBuilder(args);
 
     host.Services.AddSerilog(CreateSerilogLogger(), dispose: true);
-
     host.Services.AddVoiceExtension();
 
     host.ConfigureDiscordBot(new DiscordBotHostingContext
