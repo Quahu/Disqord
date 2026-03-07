@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,7 +22,7 @@ public class FetchMembersPagedEnumerator : PagedEnumerator<IMember>
         _startFromId = startFromId;
     }
 
-    protected override Task<IReadOnlyList<IMember>> NextPageAsync(
+    protected override Task<IReadOnlyList<IMember>> NextPageCoreAsync(
         IReadOnlyList<IMember>? previousPage, IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var startFromId = _startFromId;

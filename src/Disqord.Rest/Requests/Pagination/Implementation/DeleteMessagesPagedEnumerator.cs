@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,7 +25,7 @@ public class DeleteMessagesPagedEnumerator : PagedEnumerator<Snowflake>
         _messageIds = messageIds;
     }
 
-    protected override async Task<IReadOnlyList<Snowflake>> NextPageAsync(
+    protected override async Task<IReadOnlyList<Snowflake>> NextPageCoreAsync(
         IReadOnlyList<Snowflake>? previousPage, IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var amount = NextPageSize;

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.AuditLogs;
@@ -29,7 +29,7 @@ public class FetchAuditLogsPagedEnumerator<TAuditLog> : PagedEnumerator<TAuditLo
         _startFromId = startFromId;
     }
 
-    protected override Task<IReadOnlyList<TAuditLog>> NextPageAsync(
+    protected override Task<IReadOnlyList<TAuditLog>> NextPageCoreAsync(
         IReadOnlyList<TAuditLog>? previousPage, IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var startFromId = _startFromId;

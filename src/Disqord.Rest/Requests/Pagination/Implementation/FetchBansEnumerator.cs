@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Qommon;
@@ -26,7 +26,7 @@ public class FetchBansEnumerator : PagedEnumerator<IBan>
         _startFromId = startFromId;
     }
 
-    protected override Task<IReadOnlyList<IBan>> NextPageAsync(
+    protected override Task<IReadOnlyList<IBan>> NextPageCoreAsync(
         IReadOnlyList<IBan>? previousPage, IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var startFromId = _startFromId;

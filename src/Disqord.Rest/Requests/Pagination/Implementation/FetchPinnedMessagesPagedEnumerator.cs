@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,7 +23,7 @@ public class FetchPinnedMessagesPagedEnumerator : PagedEnumerator<IRestPinnedUse
         _startFromDate = startFromDate;
     }
 
-    protected override async Task<IReadOnlyList<IRestPinnedUserMessage>> NextPageAsync(
+    protected override async Task<IReadOnlyList<IRestPinnedUserMessage>> NextPageCoreAsync(
         IReadOnlyList<IRestPinnedUserMessage>? previousPage, IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var response = await Client.InternalFetchPinnedMessagesAsync(_channelId, NextPageSize, _startFromDate, options, cancellationToken).ConfigureAwait(false);
