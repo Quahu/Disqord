@@ -14,8 +14,8 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\src\Disqord.Rest\Disqord.Rest.csproj" />
-        <ProjectReference Include="..\src\Disqord.Rest.Api\Disqord.Rest.Api.csproj" />
-        <ProjectReference Include="..\src\Disqord.Core\Disqord.Core.csproj" />
+        <ProjectReference Include="..\..\src\Disqord.Rest\Disqord.Rest.csproj" />
+        <ProjectReference Include="..\..\src\Disqord.Rest.Api\Disqord.Rest.Api.csproj" />
+        <ProjectReference Include="..\..\src\Disqord.Core\Disqord.Core.csproj" />
     </ItemGroup>
 </Project>

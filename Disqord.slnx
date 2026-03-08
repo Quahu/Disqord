@@ -1,0 +1,50 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Source/" />
+  <Folder Name="/Source/Core/">
+    <Project Path="src/Disqord.Core/Disqord.Core.csproj" />
+  </Folder>
+  <Folder Name="/Source/Core/Gateway/">
+    <Project Path="src/Disqord.Gateway.Api/Disqord.Gateway.Api.csproj" />
+    <Project Path="src/Disqord.Gateway/Disqord.Gateway.csproj" />
+  </Folder>
+  <Folder Name="/Source/Core/OAuth2/">
+    <Project Path="src/Disqord.OAuth2/Disqord.OAuth2.csproj" />
+  </Folder>
+  <Folder Name="/Source/Core/Rest/">
+    <Project Path="src/Disqord.Rest.Api/Disqord.Rest.Api.csproj" />
+    <Project Path="src/Disqord.Rest/Disqord.Rest.csproj" />
+  </Folder>
+  <Folder Name="/Source/Core/Voice/">
+    <Project Path="src/Disqord.Voice.Api/Disqord.Voice.Api.csproj" />
+    <Project Path="src/Disqord.Voice/Disqord.Voice.csproj" />
+  </Folder>
+  <Folder Name="/Source/Core/Webhook/">
+    <Project Path="src/Disqord.Webhook/Disqord.Webhook.csproj" />
+  </Folder>
+  <Folder Name="/Source/Examples/" />
+  <Folder Name="/Source/Examples/Voice/">
+    <Project Path="examples/Voice/BasicVoice/BasicVoice.csproj" />
+    <Project Path="examples/Voice/BasicVoiceReceive/BasicVoiceReceive.csproj" />
+  </Folder>
+  <Folder Name="/Source/Main/">
+    <Project Path="src/Disqord.Abstractions/Disqord.Abstractions.csproj" />
+    <Project Path="src/Disqord/Disqord.csproj" />
+  </Folder>
+  <Folder Name="/Source/Main/Bot/">
+    <Project Path="src/Disqord.Bot/Disqord.Bot.csproj" />
+  </Folder>
+  <Folder Name="/Source/Main/Extensions/">
+    <Project Path="src/Disqord.Extensions.Interactivity/Disqord.Extensions.Interactivity.csproj" />
+    <Project Path="src/Disqord.Extensions.Voice/Disqord.Extensions.Voice.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="tests/Disqord.TestBot/Disqord.TestBot.csproj" />
+    <Project Path="tests/Disqord.Tests/Disqord.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tools/" />
+</Solution>
