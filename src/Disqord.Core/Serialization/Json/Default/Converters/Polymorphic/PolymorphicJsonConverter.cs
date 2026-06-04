@@ -3,26 +3,24 @@ using System.Text.Json.Serialization;
 
 namespace Disqord.Serialization.Json.Default;
 
+internal interface IPolymorphicJsonConverter
+{
+    void SetOptionsWithoutSelf(JsonSerializerOptions options);
+}
+
 internal abstract class PolymorphicJsonConverter<T> : JsonConverter<T>, IPolymorphicJsonConverter
 {
-    public JsonSerializerOptions? OptionsWithoutSelf { get; private set; }
+    protected JsonSerializerOptions OptionsWithoutSelf { get; private set; } = null!;
 
-    public JsonSerializerOptions? OptionsWithPreserve { get; private set; }
-
-    protected JsonSerializerOptions GetPolymorphicOptions(object value, JsonSerializerOptions options)
+    protected void WritePolymorphic(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        return CanConvert(value.GetType())
-            ? OptionsWithoutSelf ?? options
-            : options;
+        var runtimeType = value!.GetType();
+        var serializeOptions = runtimeType == typeof(T) ? OptionsWithoutSelf : options;
+        JsonSerializer.Serialize(writer, value, runtimeType, serializeOptions);
     }
 
-    public void SetOptionsWithoutSelf(JsonSerializerOptions options)
+    void IPolymorphicJsonConverter.SetOptionsWithoutSelf(JsonSerializerOptions options)
     {
         OptionsWithoutSelf = options;
-    }
-
-    public void SetOptionsWithPreserve(JsonSerializerOptions options)
-    {
-        OptionsWithPreserve = options;
     }
 }

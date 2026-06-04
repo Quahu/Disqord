@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Disqord.Models;
@@ -17,16 +16,15 @@ internal sealed class ComponentConverter : PolymorphicJsonConverter<BaseComponen
             Throw.InvalidOperationException("Invalid component node.");
         }
 
-        var type = node?["type"];
+        var type = node["type"];
         if (type == null)
         {
             Throw.InvalidOperationException("Missing component type.");
         }
 
         var componentType = GetComponentJsonModelType(type.Deserialize<ComponentType>(options));
-        var component = (BaseComponentJsonModel?) node.Deserialize(componentType, OptionsWithPreserve);
-        Debug.Assert(component != null);
-        return component;
+        var deserializeOptions = componentType == typeof(BaseComponentJsonModel) ? OptionsWithoutSelf : options;
+        return (BaseComponentJsonModel?) node.Deserialize(componentType, deserializeOptions);
     }
 
     private static Type GetComponentJsonModelType(ComponentType componentType)
@@ -44,12 +42,17 @@ internal sealed class ComponentConverter : PolymorphicJsonConverter<BaseComponen
             ComponentType.File => typeof(FileComponentJsonModel),
             ComponentType.Separator => typeof(SeparatorComponentJsonModel),
             ComponentType.Container => typeof(ContainerComponentJsonModel),
+            ComponentType.Label => typeof(LabelComponentJsonModel),
+            ComponentType.FileUpload => typeof(FileUploadComponentJsonModel),
+            ComponentType.RadioGroup => typeof(RadioGroupComponentJsonModel),
+            ComponentType.CheckboxGroup => typeof(CheckboxGroupComponentJsonModel),
+            ComponentType.Checkbox => typeof(CheckboxComponentJsonModel),
             _ => typeof(BaseComponentJsonModel)
         };
     }
 
     public override void Write(Utf8JsonWriter writer, BaseComponentJsonModel value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, typeof(object), GetPolymorphicOptions(value, options));
+        WritePolymorphic(writer, value, options);
     }
 }

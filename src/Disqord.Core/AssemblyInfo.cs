@@ -9,6 +9,7 @@
 [assembly: InternalsVisibleTo("Disqord.Rest.Api")]
 [assembly: InternalsVisibleTo("Disqord.Gateway")]
 [assembly: InternalsVisibleTo("Disqord.Gateway.Api")]
+[assembly: InternalsVisibleTo("Disqord.Tests")]
 [assembly: InternalsVisibleTo("Disqord.TestBot")]
 [assembly: InternalsVisibleTo("Disqord.Voice")]
 [assembly: InternalsVisibleTo("Disqord.Voice.Api")]

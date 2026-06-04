@@ -18,6 +18,7 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
     public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
     {
         var jsonTypeInfo = base.GetTypeInfo(type, options);
+
         var jsonProperties = jsonTypeInfo.Properties;
         var jsonPropertyCount = jsonProperties.Count;
         List<JsonPropertyInfo>? jsonPropertiesToRemove = null;
@@ -87,7 +88,7 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
             var extensionData = jsonTypeInfo.CreateJsonPropertyInfo(typeof(Dictionary<string, object?>), "InternalExtensionData");
             extensionData.IsExtensionData = true;
 
-            // Necessary for STJ to deserialize the extension data.
+            // Necessary for STJ to deserialize extension data.
             extensionData.Set = static (_, _) => { };
 
             extensionData.Get = obj =>
@@ -107,6 +108,8 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
                 });
             };
 
+            var skippedProperties = GetSkippedProperties(type);
+
             // Flush InternalExtensionData to JsonModel.ExtensionData
             jsonTypeInfo.OnDeserialized += obj =>
             {
@@ -117,6 +120,9 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
 
                     foreach (var property in extensionData)
                     {
+                        if (skippedProperties != null && Array.IndexOf(skippedProperties, property.Key) != -1)
+                            continue;
+
                         model.ExtensionData[property.Key] = DefaultJsonNode.Create(JsonSerializer.SerializeToNode(property.Value, options), options);
                     }
 
@@ -128,5 +134,20 @@ internal class JsonTypeInfoResolver : DefaultJsonTypeInfoResolver
         }
 
         return jsonTypeInfo;
+    }
+
+    private static string[]? GetSkippedProperties(Type type)
+    {
+        var attributes = type.GetCustomAttributes<JsonSkippedPropertiesAttribute>();
+        List<string>? skipped = null;
+        foreach (var attribute in attributes)
+        {
+            foreach (var property in attribute.Properties)
+            {
+                (skipped ??= new()).Add(property);
+            }
+        }
+
+        return skipped?.ToArray();
     }
 }

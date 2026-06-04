@@ -42,11 +42,12 @@ public sealed class DefaultJsonSerializer : IJsonSerializer
                 new ComponentConverter(),
                 new ModalComponentConverter(),
                 new UnfurledMediaItemConverter(),
-                new InteractionConverter()
+                new InteractionConverter(),
+                new MessageInteractionMetadataConverter()
             }
         };
 
-        // byte[] converter to override the brilliant default base64 string behavior
+        // byte[] converter to override the default base64 string behavior
         UnderlyingOptions.Converters.Add(JsonMetadataServices.CreateArrayInfo<byte>(UnderlyingOptions, new()).Converter);
 
         UnderlyingOptions.MakeReadOnly();
@@ -61,24 +62,14 @@ public sealed class DefaultJsonSerializer : IJsonSerializer
             const int ObjectConverterStrategy = 0x1;
             converter.SetConverterStrategy(ObjectConverterStrategy);
 
-            var polymorphicOptions = new JsonSerializerOptions(UnderlyingOptions);
-            var converterIndex = polymorphicOptions.Converters.IndexOf(converter);
+            var optionsWithoutSelf = new JsonSerializerOptions(UnderlyingOptions);
+            var converterIndex = optionsWithoutSelf.Converters.IndexOf(converter);
             Debug.Assert(converterIndex != -1);
 
-            polymorphicOptions.Converters.RemoveAt(converterIndex);
-            polymorphicOptions.MakeReadOnly();
+            optionsWithoutSelf.Converters.RemoveAt(converterIndex);
+            optionsWithoutSelf.MakeReadOnly();
 
-            // Options for deserialization (with ReferenceHandler.Preserve and including the converter)
-            var preserveOptions = new JsonSerializerOptions(UnderlyingOptions)
-            {
-                ReferenceHandler = ReferenceHandler.Preserve
-            };
-
-            preserveOptions.MakeReadOnly();
-
-            // Each polymorphic converter gets its own set of options which don't contain that converter.
-            polymorphicConverter.SetOptionsWithoutSelf(polymorphicOptions);
-            polymorphicConverter.SetOptionsWithPreserve(preserveOptions);
+            polymorphicConverter.SetOptionsWithoutSelf(optionsWithoutSelf);
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Disqord.Models;
@@ -24,8 +23,12 @@ internal sealed class InteractionConverter : PolymorphicJsonConverter<Interactio
         }
 
         var type = typeNode.Deserialize<InteractionType>(options);
+
         var interaction = node.Deserialize<InteractionJsonModel>(OptionsWithoutSelf);
-        Debug.Assert(interaction != null);
+        if (interaction == null)
+        {
+            Throw.InvalidOperationException("Failed to deserialize interaction.");
+        }
 
         var dataType = GetInteractionDataJsonModelType(type);
         InteractionDataJsonModel? data = null;
@@ -38,7 +41,6 @@ internal sealed class InteractionConverter : PolymorphicJsonConverter<Interactio
             }
 
             data = (InteractionDataJsonModel?) dataToken.Deserialize(dataType, options);
-            Debug.Assert(data != null);
         }
 
         interaction.Data = Optional.FromNullable(data);
@@ -60,6 +62,6 @@ internal sealed class InteractionConverter : PolymorphicJsonConverter<Interactio
 
     public override void Write(Utf8JsonWriter writer, InteractionJsonModel value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, OptionsWithoutSelf);
+        WritePolymorphic(writer, value, options);
     }
 }

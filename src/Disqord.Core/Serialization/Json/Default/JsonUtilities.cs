@@ -60,7 +60,7 @@ internal static class JsonUtilities
     {
         var ignoreConditionProperty = typeof(JsonPropertyInfo).GetProperty("IgnoreCondition", BindingFlags.Instance | BindingFlags.NonPublic);
         var converterStrategyProperty = typeof(JsonConverter).GetProperty("ConverterStrategy", BindingFlags.Instance | BindingFlags.NonPublic);
-        if (converterStrategyProperty == null || ignoreConditionProperty == null)
+        if (ignoreConditionProperty == null || converterStrategyProperty == null)
         {
             Throw.InvalidOperationException("The System.Text.Json version is not compatible with this resolver.");
         }
