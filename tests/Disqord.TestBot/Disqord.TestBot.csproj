@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="../Disqord.targets"/>
+    <Import Project="../../src/Disqord.targets"/>
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <IsPackable>false</IsPackable>
@@ -16,12 +16,12 @@
         <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Disqord.Bot\Disqord.Bot.csproj"/>
-        <ProjectReference Include="..\Disqord.Core\Disqord.Core.csproj"/>
-        <ProjectReference Include="..\Disqord.Gateway.Api\Disqord.Gateway.Api.csproj"/>
-        <ProjectReference Include="..\Disqord.Gateway\Disqord.Gateway.csproj"/>
-        <ProjectReference Include="..\Disqord.Rest.Api\Disqord.Rest.Api.csproj"/>
-        <ProjectReference Include="..\Disqord.Rest\Disqord.Rest.csproj"/>
-        <ProjectReference Include="..\Disqord\Disqord.csproj"/>
+        <ProjectReference Include="..\..\src\Disqord.Bot\Disqord.Bot.csproj"/>
+        <ProjectReference Include="..\..\src\Disqord.Core\Disqord.Core.csproj"/>
+        <ProjectReference Include="..\..\src\Disqord.Gateway.Api\Disqord.Gateway.Api.csproj"/>
+        <ProjectReference Include="..\..\src\Disqord.Gateway\Disqord.Gateway.csproj"/>
+        <ProjectReference Include="..\..\src\Disqord.Rest.Api\Disqord.Rest.Api.csproj"/>
+        <ProjectReference Include="..\..\src\Disqord.Rest\Disqord.Rest.csproj"/>
+        <ProjectReference Include="..\..\src\Disqord\Disqord.csproj"/>
     </ItemGroup>
 </Project>

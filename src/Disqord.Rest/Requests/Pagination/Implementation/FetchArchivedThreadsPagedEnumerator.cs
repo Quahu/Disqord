@@ -25,7 +25,7 @@ public class FetchArchivedThreadsPagedEnumerator : PagedEnumerator<IThreadChanne
         _enumeratePublicThreads = enumeratePublicThreads;
     }
 
-    protected override async Task<IReadOnlyList<IThreadChannel>> NextPageAsync(
+    protected override async Task<IReadOnlyList<IThreadChannel>> NextPageCoreAsync(
         IReadOnlyList<IThreadChannel>? previousPage, IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var startFromTime = _startFromTime;

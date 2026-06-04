@@ -23,8 +23,10 @@ public static unsafe partial class Dave
     /// </summary>
     public static ushort MaxSupportedVersion { get; }
 
-    private static readonly LogSinkCallback? _logSinkCallback;
+    private static readonly LogSinkCallback? _noOpLogSinkCallback;
+    private static LogSinkCallback? _forwardingLogSinkCallback;
     private static ILogger? _nativeLogger;
+    private static volatile bool _nativeLoggingEnabled;
 
     static Dave()
     {
@@ -38,36 +40,88 @@ public static unsafe partial class Dave
             IsAvailable = false;
         }
 
-        _logSinkCallback = OnNativeLog;
-        SetLogSinkCallback(_logSinkCallback);
+        if (IsAvailable)
+        {
+            // Suppress the default stdout logging in libdave. By default, native logs are disabled
+            // and only forwarded to the ILogger when EnableNativeLogging is called.
+            _noOpLogSinkCallback = static (_, _, _, _) => { };
+            SetLogSinkCallback(_noOpLogSinkCallback);
+        }
+    }
+
+    /// <summary>
+    ///     Enables or disables native DAVE library logging.
+    ///     When enabled, native logs are forwarded to the <see cref="ILoggerFactory"/>
+    ///     under the <c>"Voice DAVE"</c> category at <see cref="LogLevel.Debug"/> and <see cref="LogLevel.Trace"/> levels.
+    /// </summary>
+    public static bool IsNativeLoggingEnabled
+    {
+        get => _nativeLoggingEnabled;
+        set
+        {
+            _nativeLoggingEnabled = value;
+
+            if (!IsAvailable)
+            {
+                return;
+            }
+
+            if (value && _forwardingLogSinkCallback != null)
+            {
+                SetLogSinkCallback(_forwardingLogSinkCallback);
+            }
+            else
+            {
+                SetLogSinkCallback(_noOpLogSinkCallback!);
+            }
+        }
     }
 
     internal static void SetLoggerFactory(ILoggerFactory loggerFactory)
     {
         if (Volatile.Read(ref _nativeLogger) != null)
+        {
             return;
+        }
 
         var logger = loggerFactory.CreateLogger("Voice DAVE");
-        Interlocked.CompareExchange(ref _nativeLogger, logger, null);
+        if (Interlocked.CompareExchange(ref _nativeLogger, logger, null) != null)
+        {
+            return;
+        }
+
+        _forwardingLogSinkCallback = OnNativeLog;
+
+        if (_nativeLoggingEnabled)
+        {
+            SetLogSinkCallback(_forwardingLogSinkCallback);
+        }
     }
 
     private static void OnNativeLog(LoggingSeverity severity, byte* file, int line, byte* message)
     {
         var logger = _nativeLogger;
         if (logger == null)
+        {
             return;
+        }
 
+        // Downgrade all native log levels. The native library logs protocol-level
+        // issues (e.g., "unexpected group", "Decrypt failed") at Error/Warning, but these are
+        // expected during DAVE transitions and handled by our C# protocol handler.
         var logLevel = severity switch
         {
-            LoggingSeverity.Verbose => LogLevel.Trace,
+            LoggingSeverity.Error => LogLevel.Debug,
+            LoggingSeverity.Warning => LogLevel.Debug,
             LoggingSeverity.Info => LogLevel.Debug,
-            LoggingSeverity.Warning => LogLevel.Warning,
-            LoggingSeverity.Error => LogLevel.Error,
+            LoggingSeverity.Verbose => LogLevel.Trace,
             _ => LogLevel.None
         };
 
         if (!logger.IsEnabled(logLevel))
+        {
             return;
+        }
 
         var messageStr = Marshal.PtrToStringUTF8((nint) message);
         logger.Log(logLevel, "{Message}", messageStr);

@@ -36,4 +36,6 @@ public interface IVoiceUdpClient : IDisposable
     ValueTask CloseAsync(CancellationToken cancellationToken = default);
 
     ValueTask SendAsync(ReadOnlyMemory<byte> opus, CancellationToken cancellationToken = default);
+
+    ValueTask<VoiceReceivePacket?> ReceiveAsync(CancellationToken cancellationToken = default);
 }

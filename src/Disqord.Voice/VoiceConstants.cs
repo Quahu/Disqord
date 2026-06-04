@@ -4,7 +4,9 @@ namespace Disqord.Voice;
 
 public static class VoiceConstants
 {
-    public static ReadOnlyMemory<byte> SilencePacket => new byte[] { 0xF8, 0xFF, 0xFE };
+    public static ReadOnlyMemory<byte> SilencePacket => _silencePacket;
+
+    private static readonly ReadOnlyMemory<byte> _silencePacket = new byte[] { 0xF8, 0xFF, 0xFE };
 
     public const int DurationMilliseconds = 20;
 

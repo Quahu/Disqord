@@ -2,5 +2,5 @@
 
 public interface IVoiceConnectionFactory
 {
-    IVoiceConnection Create(Snowflake guildId, Snowflake channelId, Snowflake currentMemberId, SetVoiceStateDelegate setVoiceStateDelegate);
+    IVoiceConnectionHost Create(Snowflake guildId, Snowflake channelId, Snowflake currentMemberId, SetVoiceStateDelegate setVoiceStateDelegate);
 }

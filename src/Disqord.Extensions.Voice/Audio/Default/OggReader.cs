@@ -7,7 +7,7 @@ using Qommon.Pooling;
 
 namespace Disqord.Extensions.Voice;
 
-internal class OggReader : IAsyncEnumerable<Memory<byte>>
+internal class OggReader : IAsyncEnumerable<ReadOnlyMemory<byte>>
 {
     // 4 magic
     // 1 stream structure version
@@ -185,7 +185,7 @@ internal class OggReader : IAsyncEnumerable<Memory<byte>>
         return false;
     }
 
-    public async IAsyncEnumerator<Memory<byte>> GetAsyncEnumerator(CancellationToken cancellationToken = default)
+    public async IAsyncEnumerator<ReadOnlyMemory<byte>> GetAsyncEnumerator(CancellationToken cancellationToken = default)
     {
         if (_returnedEnumerator)
             yield break;

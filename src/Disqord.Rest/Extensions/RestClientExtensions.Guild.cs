@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Http;
@@ -734,5 +735,442 @@ public static partial class RestClientExtensions
         };
 
         return client.ApiClient.ModifyMemberVoiceStateAsync(guildId, memberId, content, options, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Enumerates message search results matching the specified search criteria in the guild.
+    /// </summary>
+    /// <remarks>
+    ///     Each iteration yields a single page of search results as an <see cref="IMessageSearchResponse"/>.
+    ///     The maximum number of messages that can be retrieved is <c>10000</c>,
+    ///     constrained by Discord's maximum offset of <see cref="Discord.Limits.Rest.MaxSearchMessagesOffset"/>.
+    /// </remarks>
+    /// <param name="client"> The REST client. </param>
+    /// <param name="guildId"> The ID of the guild to search in. </param>
+    /// <param name="search"> The search criteria. </param>
+    /// <param name="limit"> The total number of messages to retrieve across all pages. </param>
+    /// <param name="sortBy"> The field to sort results by. Defaults to <see cref="MessageSearchSortMode.Timestamp"/>. </param>
+    /// <param name="sortOrder"> The sort direction. Defaults to <see cref="MessageSearchSortOrder.Descending"/>. </param>
+    /// <param name="afterId"> If specified, only includes results with IDs greater than this snowflake. Maps to Discord's <c>min_id</c>. </param>
+    /// <param name="beforeId"> If specified, only includes results with IDs less than this snowflake. Maps to Discord's <c>max_id</c>. </param>
+    /// <param name="waitUntilIndexReady"> Whether to wait for the search index to be ready before returning results. </param>
+    /// <param name="options"> The optional request options. </param>
+    /// <returns> An async enumerable yielding one <see cref="IMessageSearchResponse"/> per page. </returns>
+    public static IAsyncEnumerable<IMessageSearchResponse> EnumerateMessageSearches(this IRestClient client,
+        Snowflake guildId, LocalMessageSearch search, int limit,
+        MessageSearchSortMode sortBy = MessageSearchSortMode.Timestamp,
+        MessageSearchSortOrder sortOrder = MessageSearchSortOrder.Descending,
+        Snowflake? afterId = null, Snowflake? beforeId = null,
+        bool waitUntilIndexReady = false,
+        IRestRequestOptions? options = null)
+    {
+        Guard.IsNotNull(search);
+        Guard.IsGreaterThanOrEqualTo(limit, 0);
+
+        return Core();
+
+        async IAsyncEnumerable<IMessageSearchResponse> Core([EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            var enumerator = new SearchMessagesPagedEnumerator(client, guildId, search, limit, sortBy, sortOrder,
+                afterId, beforeId, waitUntilIndexReady, options, cancellationToken);
+
+            await using (enumerator.ConfigureAwait(false))
+            {
+                while (await enumerator.MoveNextAsync().ConfigureAwait(false))
+                {
+                    yield return enumerator.CurrentPage!;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Searches for messages matching the specified search criteria in the guild.
+    /// </summary>
+    /// <remarks>
+    ///     Returns a combined <see cref="IMessageSearchResponse"/> aggregated from all pages.
+    ///     If <paramref name="limit"/> exceeds the page size, multiple API requests will be made transparently.
+    ///     The maximum number of messages that can be retrieved is <c>10000</c>,
+    ///     constrained by Discord's maximum offset of <see cref="Discord.Limits.Rest.MaxSearchMessagesOffset"/>.
+    /// </remarks>
+    /// <param name="client"> The REST client. </param>
+    /// <param name="guildId"> The ID of the guild to search in. </param>
+    /// <param name="search"> The search criteria. </param>
+    /// <param name="limit"> The maximum number of messages to return. Defaults to <see cref="Discord.Limits.Rest.SearchMessagesPageSize"/>. </param>
+    /// <param name="sortBy"> The field to sort results by. Defaults to <see cref="MessageSearchSortMode.Timestamp"/>. </param>
+    /// <param name="sortOrder"> The sort direction. Defaults to <see cref="MessageSearchSortOrder.Descending"/>. </param>
+    /// <param name="afterId"> If specified, only includes results with IDs greater than this snowflake. Maps to Discord's <c>min_id</c>. </param>
+    /// <param name="beforeId"> If specified, only includes results with IDs less than this snowflake. Maps to Discord's <c>max_id</c>. </param>
+    /// <param name="waitUntilIndexReady"> Whether to wait for the search index to be ready before returning results. </param>
+    /// <param name="options"> The optional request options. </param>
+    /// <param name="cancellationToken"> The cancellation token to observe. </param>
+    /// <returns> The combined search response containing all matched messages and metadata. </returns>
+    public static async Task<IMessageSearchResponse> SearchMessagesAsync(this IRestClient client,
+        Snowflake guildId, LocalMessageSearch search,
+        int limit = Discord.Limits.Rest.SearchMessagesPageSize,
+        MessageSearchSortMode sortBy = MessageSearchSortMode.Timestamp,
+        MessageSearchSortOrder sortOrder = MessageSearchSortOrder.Descending,
+        Snowflake? afterId = null, Snowflake? beforeId = null,
+        bool waitUntilIndexReady = false,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        if (limit == 0)
+        {
+            return new AggregatedMessageSearchResponse(0, [], [], false, null);
+        }
+
+        if (limit <= Discord.Limits.Rest.SearchMessagesPageSize)
+        {
+            return await client.InternalSearchMessagesAsync(guildId, search, limit, sortBy, sortOrder,
+                offset: null, minId: afterId, maxId: beforeId,
+                waitUntilIndexReady, options, cancellationToken).ConfigureAwait(false);
+        }
+
+        var messagesById = new Dictionary<Snowflake, IMessage>();
+        var foundMessagesById = new Dictionary<Snowflake, IMessageSearchFoundMessage>();
+        var foundMessageIds = new List<Snowflake>();
+        var threadsById = new Dictionary<Snowflake, IChannel>();
+        var threadIds = new List<Snowflake>();
+        var totalResultCount = 0;
+        var isDoingDeepHistoricalIndex = false;
+        int? documentsIndexed = null;
+
+        var offset = 0;
+        var remaining = limit;
+        while (remaining > 0)
+        {
+            if (offset > Discord.Limits.Rest.MaxSearchMessagesOffset)
+            {
+                break;
+            }
+
+            var pageSize = Math.Min(remaining, Discord.Limits.Rest.SearchMessagesPageSize);
+            var page = await client.InternalSearchMessagesAsync(guildId, search, pageSize, sortBy, sortOrder,
+                offset: offset, minId: afterId, maxId: beforeId,
+                waitUntilIndexReady, options, cancellationToken).ConfigureAwait(false);
+
+            totalResultCount = page.TotalResultCount;
+            isDoingDeepHistoricalIndex = page.IsDoingDeepHistoricalIndex;
+            documentsIndexed = page.DocumentsIndexed;
+
+            foreach (var foundMessage in page.FoundMessages)
+            {
+                var sharedMessage = GetOrAddMessage(messagesById, foundMessage.Message);
+                var sharedMessagesWithContext = new List<IMessage>(foundMessage.MessageWithContext.Count);
+                foreach (var contextMessage in foundMessage.MessageWithContext)
+                {
+                    sharedMessagesWithContext.Add(GetOrAddMessage(messagesById, contextMessage));
+                }
+
+                if (foundMessagesById.TryAdd(sharedMessage.Id, new MessageSearchFoundMessage(sharedMessage, sharedMessagesWithContext)))
+                {
+                    foundMessageIds.Add(sharedMessage.Id);
+                }
+            }
+
+            foreach (var thread in page.Threads)
+            {
+                if (threadsById.TryAdd(thread.Id, thread))
+                {
+                    threadIds.Add(thread.Id);
+                }
+            }
+
+            var count = page.FoundMessages.Count;
+            if (count == 0 || count < pageSize)
+            {
+                break;
+            }
+
+            offset += count;
+            remaining -= count;
+        }
+
+        var foundMessages = new List<IMessageSearchFoundMessage>(foundMessageIds.Count);
+        foreach (var messageId in foundMessageIds)
+        {
+            foundMessages.Add(foundMessagesById[messageId]);
+        }
+
+        var threads = new List<IChannel>(threadIds.Count);
+        foreach (var threadId in threadIds)
+        {
+            threads.Add(threadsById[threadId]);
+        }
+
+        return new AggregatedMessageSearchResponse(totalResultCount, foundMessages, threads, isDoingDeepHistoricalIndex, documentsIndexed);
+
+        static IMessage GetOrAddMessage(Dictionary<Snowflake, IMessage> messagesById, IMessage message)
+        {
+            if (messagesById.TryGetValue(message.Id, out var cachedMessage))
+            {
+                return cachedMessage;
+            }
+
+            messagesById.Add(message.Id, message);
+            return message;
+        }
+    }
+
+    internal static async Task<IMessageSearchResponse> InternalSearchMessagesAsync(this IRestClient client,
+        Snowflake guildId, LocalMessageSearch search,
+        int limit, MessageSearchSortMode sortBy, MessageSearchSortOrder sortOrder,
+        int? offset, Snowflake? minId, Snowflake? maxId,
+        bool waitUntilIndexReady,
+        IRestRequestOptions? options, CancellationToken cancellationToken)
+    {
+        Guard.IsNotNull(search);
+        Guard.IsBetweenOrEqualTo(limit, 1, Discord.Limits.Rest.SearchMessagesPageSize);
+
+        var queryParameters = new Dictionary<string, object>
+        {
+            ["limit"] = limit,
+            ["sort_by"] = ToApiValue(sortBy),
+            ["sort_order"] = ToApiValue(sortOrder)
+        };
+
+        if (offset != null)
+        {
+            queryParameters["offset"] = offset.Value;
+        }
+
+        if (minId != null)
+        {
+            queryParameters["min_id"] = minId.Value;
+        }
+
+        if (maxId != null)
+        {
+            queryParameters["max_id"] = maxId.Value;
+        }
+
+        PopulateSearchQueryParameters(search, queryParameters);
+
+        MessageSearchResponseJsonModel model;
+        if (waitUntilIndexReady)
+        {
+            var delay = TimeSpan.FromSeconds(1);
+            while (true)
+            {
+                model = await client.ApiClient.SearchMessagesAsync(guildId, queryParameters, options, cancellationToken).ConfigureAwait(false);
+                if (!model.DoingDeepHistoricalIndex)
+                {
+                    break;
+                }
+
+                await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
+                delay = TimeSpan.FromTicks(Math.Min(delay.Ticks * 2, TimeSpan.FromSeconds(5).Ticks));
+            }
+        }
+        else
+        {
+            model = await client.ApiClient.SearchMessagesAsync(guildId, queryParameters, options, cancellationToken).ConfigureAwait(false);
+        }
+
+        return new TransientMessageSearchResponse(client, model);
+    }
+
+    private static void PopulateSearchQueryParameters(LocalMessageSearch search, Dictionary<string, object> queryParameters)
+    {
+        if (search.Contents.TryGetValue(out var contents))
+        {
+            if (contents.Count == 1)
+            {
+                queryParameters["content"] = contents[0];
+            }
+            else
+            {
+                queryParameters["content"] = contents;
+            }
+        }
+
+        if (search.WordProximity.TryGetValue(out var slop))
+        {
+            queryParameters["slop"] = slop; // Thanks... for sloppin' by.
+        }
+
+        if (search.AuthorIds.TryGetValue(out var authorIds))
+        {
+            queryParameters["author_id"] = authorIds;
+        }
+
+        if (search.IncludedAuthorTypes.TryGetValue(out var includedAuthorTypes)
+            | search.ExcludedAuthorTypes.TryGetValue(out var excludedAuthorTypes))
+        {
+            var authorTypeValues = new List<string>();
+            if (includedAuthorTypes != null)
+            {
+                foreach (var authorType in includedAuthorTypes)
+                {
+                    authorTypeValues.Add(ToApiValue(authorType));
+                }
+            }
+
+            if (excludedAuthorTypes != null)
+            {
+                foreach (var authorType in excludedAuthorTypes)
+                {
+                    authorTypeValues.Add("-" + ToApiValue(authorType));
+                }
+            }
+
+            if (authorTypeValues.Count > 0)
+            {
+                queryParameters["author_type"] = authorTypeValues;
+            }
+        }
+
+        if (search.MentionedUserIds.TryGetValue(out var mentions))
+        {
+            queryParameters["mentions"] = mentions;
+        }
+
+        if (search.MentionsEveryone.TryGetValue(out var mentionEveryone))
+        {
+            queryParameters["mention_everyone"] = mentionEveryone;
+        }
+
+        if (search.IncludedFilters.TryGetValue(out var includedFilters)
+            | search.ExcludedFilters.TryGetValue(out var excludedFilters))
+        {
+            var hasValues = new List<string>();
+            if (includedFilters != null)
+            {
+                foreach (var filter in includedFilters)
+                {
+                    hasValues.Add(ToApiValue(filter));
+                }
+            }
+
+            if (excludedFilters != null)
+            {
+                foreach (var filter in excludedFilters)
+                {
+                    hasValues.Add("-" + ToApiValue(filter));
+                }
+            }
+
+            if (hasValues.Count > 0)
+            {
+                queryParameters["has"] = hasValues;
+            }
+        }
+
+        if (search.LinkHostNames.TryGetValue(out var linkHostnames))
+        {
+            queryParameters["link_hostname"] = linkHostnames;
+        }
+
+        if (search.EmbedProviders.TryGetValue(out var embedProviders))
+        {
+            queryParameters["embed_provider"] = embedProviders;
+        }
+
+        if (search.EmbedTypes.TryGetValue(out var embedTypes))
+        {
+            var embedTypeValues = new List<string>(embedTypes.Count);
+            foreach (var embedType in embedTypes)
+            {
+                embedTypeValues.Add(ToApiValue(embedType));
+            }
+
+            queryParameters["embed_type"] = embedTypeValues;
+        }
+
+        if (search.AttachmentExtensions.TryGetValue(out var attachmentExtensions))
+        {
+            queryParameters["attachment_extension"] = attachmentExtensions;
+        }
+
+        if (search.AttachmentFileNames.TryGetValue(out var attachmentFilenames))
+        {
+            queryParameters["attachment_filename"] = attachmentFilenames;
+        }
+
+        if (search.IsPinned.TryGetValue(out var pinned))
+        {
+            queryParameters["pinned"] = pinned;
+        }
+
+        if (search.CommandId.TryGetValue(out var commandId))
+        {
+            queryParameters["command_id"] = commandId;
+        }
+
+        if (search.CommandName.TryGetValue(out var commandName))
+        {
+            queryParameters["command_name"] = commandName;
+        }
+
+        if (search.IncludesAgeRestrictedChannels.TryGetValue(out var includeNsfw))
+        {
+            queryParameters["include_nsfw"] = includeNsfw;
+        }
+
+        if (search.ChannelIds.TryGetValue(out var channelIds))
+        {
+            queryParameters["channel_id"] = channelIds;
+        }
+    }
+
+    private static string ToApiValue(MessageSearchAuthorType value)
+    {
+        return value switch
+        {
+            MessageSearchAuthorType.User => "user",
+            MessageSearchAuthorType.Bot => "bot",
+            MessageSearchAuthorType.Webhook => "webhook",
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+        };
+    }
+
+    private static string ToApiValue(MessageSearchFilter value)
+    {
+        return value switch
+        {
+            MessageSearchFilter.Link => "link",
+            MessageSearchFilter.Embed => "embed",
+            MessageSearchFilter.File => "file",
+            MessageSearchFilter.Image => "image",
+            MessageSearchFilter.Video => "video",
+            MessageSearchFilter.Sound => "sound",
+            MessageSearchFilter.Sticker => "sticker",
+            MessageSearchFilter.Poll => "poll",
+            MessageSearchFilter.Forward => "snapshot",
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+        };
+    }
+
+    private static string ToApiValue(MessageSearchEmbedType value)
+    {
+        return value switch
+        {
+            MessageSearchEmbedType.Image => "image",
+            MessageSearchEmbedType.Video => "video",
+            MessageSearchEmbedType.Gif => "gif",
+            MessageSearchEmbedType.Sound => "sound",
+            MessageSearchEmbedType.Article => "article",
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+        };
+    }
+
+    private static string ToApiValue(MessageSearchSortMode value)
+    {
+        return value switch
+        {
+            MessageSearchSortMode.Relevance => "relevance",
+            MessageSearchSortMode.Timestamp => "timestamp",
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+        };
+    }
+
+    private static string ToApiValue(MessageSearchSortOrder value)
+    {
+        return value switch
+        {
+            MessageSearchSortOrder.Ascending => "asc",
+            MessageSearchSortOrder.Descending => "desc",
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+        };
     }
 }

@@ -13,6 +13,8 @@ namespace Disqord.Voice.Api.Default;
 
 public class DefaultVoiceGatewayClient : IVoiceGatewayClient
 {
+    private static readonly IReadOnlySet<Snowflake> EmptyUserIds = new HashSet<Snowflake>();
+
     public Snowflake GuildId { get; }
 
     public Snowflake CurrentMemberId { get; }
@@ -34,7 +36,24 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
     public CancellationToken StoppingToken { get; private set; }
 
     /// <inheritdoc/>
-    public IReadOnlySet<Snowflake> ConnectedUserIds => _connectedUserIds;
+    public IReadOnlySet<Snowflake> ConnectedUserIds
+    {
+        get
+        {
+            lock (_stateLock)
+            {
+                return _connectedUserIds.Count == 0
+                    ? EmptyUserIds
+                    : new HashSet<Snowflake>(_connectedUserIds);
+            }
+        }
+    }
+
+    /// <inheritdoc/>
+    public Action<Snowflake>? UserConnected { get; set; }
+
+    /// <inheritdoc/>
+    public Action<Snowflake>? UserDisconnected { get; set; }
 
     /// <inheritdoc/>
     public int LastSequenceNumber { get; private set; }
@@ -50,6 +69,7 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
     private Tcs? _postSessionDescriptionTcs;
 
     private readonly HashSet<Snowflake> _connectedUserIds = [];
+    private readonly Dictionary<uint, Snowflake> _ssrcUserIds = [];
 
     public DefaultVoiceGatewayClient(
         Snowflake guildId,
@@ -106,30 +126,33 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
     }
 
     /// <inheritdoc/>
+    public bool TryGetUserId(uint ssrc, out Snowflake userId)
+    {
+        lock (_stateLock)
+        {
+            return _ssrcUserIds.TryGetValue(ssrc, out userId);
+        }
+    }
+
+    /// <inheritdoc/>
     public async Task SendAsync(VoiceGatewayPayloadJsonModel payload, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(payload);
 
-        bool sent;
-        do
+        try
         {
-            try
-            {
-                Logger.LogTrace("Sending voice payload: {0}.", payload.Op);
-                await Gateway.SendAsync(payload, cancellationToken).ConfigureAwait(false);
-                sent = true;
-            }
-            catch (Exception ex)
-            {
-                if (ex is not OperationCanceledException)
-                {
-                    Logger.LogError(ex, "An exception occurred while sending voice payload: {0}.", payload.Op);
-                }
-
-                throw;
-            }
+            Logger.LogTrace("Sending voice payload: {0}.", payload.Op);
+            await Gateway.SendAsync(payload, cancellationToken).ConfigureAwait(false);
         }
-        while (!sent);
+        catch (Exception ex)
+        {
+            if (ex is not OperationCanceledException and not ObjectDisposedException)
+            {
+                Logger.LogError(ex, "An exception occurred while sending voice payload: {0}.", payload.Op);
+            }
+
+            throw;
+        }
     }
 
     /// <inheritdoc/>
@@ -144,7 +167,7 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
         }
         catch (Exception ex)
         {
-            if (ex is not OperationCanceledException)
+            if (ex is not OperationCanceledException and not ObjectDisposedException)
                 Logger.LogError(ex, "An exception occurred while sending binary voice payload.");
 
             throw;
@@ -239,6 +262,8 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
 
                             lock (_stateLock)
                             {
+                                _connectedUserIds.Clear();
+                                _ssrcUserIds.Clear();
                                 _readyTcs.Complete(model);
                             }
 
@@ -266,7 +291,18 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
                         }
                         case VoiceGatewayPayloadOperation.Speaking:
                         {
-                            // TODO: speaking, but it's bugged, after initial connect it fires once per user, after a reconnect it fires constantly
+                            var model = message.JsonPayload!.D!.ToType<SpeakingJsonModel>()!;
+                            if (model.UserId.TryGetValue(out var userId))
+                            {
+                                if (TryAddConnectedUser(userId))
+                                    UserConnected?.Invoke(userId);
+
+                                lock (_stateLock)
+                                {
+                                    MapSsrcToUser(model.Ssrc, userId);
+                                }
+                            }
+
                             break;
                         }
                         case VoiceGatewayPayloadOperation.HeartbeatAcknowledged:
@@ -318,12 +354,30 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
                         case VoiceGatewayPayloadOperation.ClientConnect:
                         {
                             var model = message.JsonPayload!.D!.ToType<ClientConnectJsonModel>()!;
-                            foreach (var userId in model.UserIds)
+                            if (model.UserIds != null)
                             {
-                                _connectedUserIds.Add(userId);
+                                foreach (var userId in model.UserIds)
+                                {
+                                    if (TryAddConnectedUser(userId))
+                                        UserConnected?.Invoke(userId);
+                                }
                             }
 
-                            Logger.LogTrace("Client connect: {0} user(s).", model.UserIds.Length);
+                            if (model.UserId.TryGetValue(out var singleUserId))
+                            {
+                                if (TryAddConnectedUser(singleUserId))
+                                    UserConnected?.Invoke(singleUserId);
+
+                                if (model.AudioSsrc.TryGetValue(out var audioSsrc))
+                                {
+                                    lock (_stateLock)
+                                    {
+                                        MapSsrcToUser(audioSsrc, singleUserId);
+                                    }
+                                }
+                            }
+
+                            Logger.LogTrace("Client connect: {0} user(s).", model.UserIds?.Length ?? 0);
 
                             if (_daveMessageHandler != null)
                             {
@@ -335,7 +389,28 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
                         case VoiceGatewayPayloadOperation.ClientDisconnect:
                         {
                             var model = message.JsonPayload!.D!.ToType<ClientDisconnectJsonModel>()!;
-                            _connectedUserIds.Remove(model.UserId);
+                            var wasRemoved = TryRemoveConnectedUser(model.UserId);
+                            lock (_stateLock)
+                            {
+                                var disconnectUserId = model.UserId;
+                                var ssrcs = new List<uint>();
+                                foreach (var pair in _ssrcUserIds)
+                                {
+                                    if (pair.Value == disconnectUserId)
+                                    {
+                                        ssrcs.Add(pair.Key);
+                                    }
+                                }
+
+                                foreach (var ssrc in ssrcs)
+                                {
+                                    _ssrcUserIds.Remove(ssrc);
+                                }
+                            }
+
+                            if (wasRemoved)
+                                UserDisconnected?.Invoke(model.UserId);
+
                             Logger.LogTrace("Client disconnect: {0}.", model.UserId);
 
                             if (_daveMessageHandler != null)
@@ -347,7 +422,6 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
                         case VoiceGatewayPayloadOperation.DaveProtocolExecuteTransition:
                         case VoiceGatewayPayloadOperation.DaveProtocolPrepareEpoch:
                         {
-                            Logger.LogTrace("Received DAVE opcode {0}.", message.Op);
                             if (_daveMessageHandler != null)
                             {
                                 await _daveMessageHandler(message, stoppingToken).ConfigureAwait(false);
@@ -360,7 +434,6 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
                         case VoiceGatewayPayloadOperation.DaveMlsAnnounceCommitTransition:
                         case VoiceGatewayPayloadOperation.DaveMlsWelcome:
                         {
-                            Logger.LogTrace("Received DAVE binary opcode {0} ({1} bytes).", message.Op, message.BinaryPayload.Length);
                             if (_daveMessageHandler != null)
                             {
                                 await _daveMessageHandler(message, stoppingToken).ConfigureAwait(false);
@@ -397,7 +470,7 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
                         if (stoppingToken.IsCancellationRequested)
                         {
                             // The connection is already being stopped (e.g. due to a VOICE_SERVER_UPDATE).
-                            // The non-recoverable close code is expected — treat it as a cancellation.
+                            // The non-recoverable close code is expected - treat it as a cancellation.
                             Logger.LogDebug("The voice gateway was closed with code {0} while already stopping.", closeCode);
                             throw new OperationCanceledException(stoppingToken);
                         }
@@ -427,7 +500,7 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
                 }
                 catch (ObjectDisposedException)
                 {
-                    // Expected during shutdown — the WebSocket may already be disposed.
+                    // Expected during shutdown - the WebSocket may already be disposed.
                 }
                 catch (Exception exc)
                 {
@@ -447,7 +520,7 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
                 }
                 catch (ObjectDisposedException)
                 {
-                    // Expected during shutdown — the WebSocket may already be disposed.
+                    // Expected during shutdown - the WebSocket may already be disposed.
                 }
                 catch (Exception exc)
                 {
@@ -506,5 +579,40 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
     public ValueTask DisposeAsync()
     {
         return Gateway.DisposeAsync();
+    }
+
+    private void MapSsrcToUser(uint ssrc, Snowflake userId)
+    {
+        var staleSsrcs = new List<uint>();
+        foreach (var pair in _ssrcUserIds)
+        {
+            if (pair.Value == userId && pair.Key != ssrc)
+            {
+                staleSsrcs.Add(pair.Key);
+            }
+        }
+
+        foreach (var staleSsrc in staleSsrcs)
+        {
+            _ssrcUserIds.Remove(staleSsrc);
+        }
+
+        _ssrcUserIds[ssrc] = userId;
+    }
+
+    private bool TryAddConnectedUser(Snowflake userId)
+    {
+        lock (_stateLock)
+        {
+            return _connectedUserIds.Add(userId);
+        }
+    }
+
+    private bool TryRemoveConnectedUser(Snowflake userId)
+    {
+        lock (_stateLock)
+        {
+            return _connectedUserIds.Remove(userId);
+        }
     }
 }

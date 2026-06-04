@@ -22,7 +22,7 @@ public class FetchJoinedPrivateArchivedThreadsPagedEnumerator : PagedEnumerator<
         _startFromId = startFromId;
     }
 
-    protected override async Task<IReadOnlyList<IThreadChannel>> NextPageAsync(
+    protected override async Task<IReadOnlyList<IThreadChannel>> NextPageCoreAsync(
         IReadOnlyList<IThreadChannel>? previousPage, IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var startFromId = _startFromId;

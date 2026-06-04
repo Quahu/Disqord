@@ -251,6 +251,8 @@ public sealed partial class Route
 
         public static readonly Route GetWidgetImage = Get("guilds/{0:guild_id}/widget.png");
 
+        public static readonly Route SearchMessages = Get("guilds/{0:guild_id}/messages/search");
+
         public static readonly Route GetWelcomeScreen = Get("guilds/{0:guild_id}/welcome-screen");
 
         public static readonly Route ModifyWelcomeScreen = Patch("guilds/{0:guild_id}/welcome-screen");

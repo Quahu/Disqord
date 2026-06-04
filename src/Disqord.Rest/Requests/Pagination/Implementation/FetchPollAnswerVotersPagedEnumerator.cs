@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,7 +26,7 @@ public class FetchPollAnswerVotersPagedEnumerator : PagedEnumerator<IUser>
         _startFromId = startFromId;
     }
 
-    protected override Task<IReadOnlyList<IUser>> NextPageAsync(
+    protected override Task<IReadOnlyList<IUser>> NextPageCoreAsync(
         IReadOnlyList<IUser>? previousPage, IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var startFromId = _startFromId;

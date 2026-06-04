@@ -13,10 +13,10 @@ public class DefaultVoiceConnectionFactory : IVoiceConnectionFactory
         _services = services;
     }
 
-    public IVoiceConnection Create(Snowflake guildId, Snowflake channelId, Snowflake currentMemberId, SetVoiceStateDelegate setVoiceStateDelegate)
+    public IVoiceConnectionHost Create(Snowflake guildId, Snowflake channelId, Snowflake currentMemberId, SetVoiceStateDelegate setVoiceStateDelegate)
     {
         var connection = Factory(_services, new object[] { guildId, channelId, currentMemberId, setVoiceStateDelegate });
-        return Unsafe.As<IVoiceConnection>(connection);
+        return Unsafe.As<IVoiceConnectionHost>(connection);
     }
 
     private static readonly ObjectFactory Factory;

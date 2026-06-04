@@ -9,6 +9,6 @@
         <ProjectReference Include="..\Disqord.Voice.Api\Disqord.Voice.Api.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Disqord.Voice.Natives" Version="1.0.0" PrivateAssets="analyzers;build"/>
+        <PackageReference Include="Disqord.Voice.Natives" Version="1.0.1" PrivateAssets="analyzers;build" />
     </ItemGroup>
 </Project>

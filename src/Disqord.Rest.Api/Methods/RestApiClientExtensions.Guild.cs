@@ -438,4 +438,12 @@ public static partial class RestApiClientExtensions
         var route = Format(Route.Guild.ModifyMemberVoiceState, guildId, memberId);
         return client.ExecuteAsync(route, content, options, cancellationToken);
     }
+
+    public static Task<MessageSearchResponseJsonModel> SearchMessagesAsync(this IRestApiClient client,
+        Snowflake guildId, IEnumerable<KeyValuePair<string, object>> queryParameters,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.Guild.SearchMessages, queryParameters, guildId);
+        return client.ExecuteAsync<MessageSearchResponseJsonModel>(route, null, options, cancellationToken);
+    }
 }

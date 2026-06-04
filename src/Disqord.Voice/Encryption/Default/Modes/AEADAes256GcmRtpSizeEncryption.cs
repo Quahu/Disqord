@@ -34,6 +34,12 @@ public sealed class AEADAes256GcmRtpSizeEncryption : IVoiceEncryption
     }
 
     /// <inheritdoc/>
+    public int GetDecryptedLength(int length)
+    {
+        return length - _abytes - 4;
+    }
+
+    /// <inheritdoc/>
     public unsafe void Encrypt(ReadOnlySpan<byte> rtpHeader, Span<byte> encryptedAudio, ReadOnlySpan<byte> audio, ReadOnlySpan<byte> key)
     {
         var nonce = (stackalloc byte[_npubbytes]);
@@ -58,5 +64,30 @@ public sealed class AEADAes256GcmRtpSizeEncryption : IVoiceEncryption
         }
 
         _nonceValue++;
+    }
+
+    /// <inheritdoc/>
+    public unsafe void Decrypt(ReadOnlySpan<byte> rtpHeader, Span<byte> audio, ReadOnlySpan<byte> encryptedAudio, ReadOnlySpan<byte> key)
+    {
+        var nonce = (stackalloc byte[_npubbytes]);
+        encryptedAudio[^4..].CopyTo(nonce);
+
+        var ciphertext = encryptedAudio[..^4];
+        fixed (byte* audioPtr = audio)
+        fixed (byte* rtpHeaderPtr = rtpHeader)
+        fixed (byte* ciphertextPtr = ciphertext)
+        fixed (byte* noncePtr = nonce)
+        fixed (byte* keyPtr = key)
+        {
+            var result = Sodium.crypto_aead_aes256gcm_decrypt(m: audioPtr, mlen_p: null,
+                nsec: null, c: ciphertextPtr, clen: (ulong) ciphertext.Length,
+                ad: rtpHeaderPtr, adlen: (ulong) rtpHeader.Length,
+                npub: noncePtr, k: keyPtr);
+
+            if (result != 0)
+            {
+                throw new VoiceEncryptionException($"Failed to decrypt with '{ModeName}' ({result}).");
+            }
+        }
     }
 }
