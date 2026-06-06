@@ -19,6 +19,10 @@
     <Project Path="src/Disqord.Rest.Api/Disqord.Rest.Api.csproj" />
     <Project Path="src/Disqord.Rest/Disqord.Rest.csproj" />
   </Folder>
+  <Folder Name="/Source/Core/Serialization/" />
+  <Folder Name="/Source/Core/Serialization/Json/">
+    <Project Path="src/Disqord.Serialization.Json.Newtonsoft/Disqord.Serialization.Json.Newtonsoft.csproj" />
+  </Folder>
   <Folder Name="/Source/Core/Voice/">
     <Project Path="src/Disqord.Voice.Api/Disqord.Voice.Api.csproj" />
     <Project Path="src/Disqord.Voice/Disqord.Voice.csproj" />

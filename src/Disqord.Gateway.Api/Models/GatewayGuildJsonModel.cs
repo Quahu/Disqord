@@ -25,7 +25,7 @@ public class GatewayGuildJsonModel : GuildJsonModel
     public VoiceStateJsonModel[] VoiceStates = null!;
 
     [JsonProperty("members")]
-    public MemberJsonModel[] Members = null!;
+    public IJsonArray Members = null!;
 
     [JsonProperty("channels")]
     public ChannelJsonModel[] Channels = null!;
@@ -34,35 +34,11 @@ public class GatewayGuildJsonModel : GuildJsonModel
     public ChannelJsonModel[] Threads = null!;
 
     [JsonProperty("presences")]
-    public IJsonNode[] Presences = null!;
+    public IJsonArray Presences = null!;
 
     [JsonProperty("stage_instances")]
     public StageInstanceJsonModel[] StageInstances = null!;
 
     [JsonProperty("guild_scheduled_events")]
     public GuildScheduledEventJsonModel[] GuildScheduledEvents = null!;
-
-    // Not ideal - handling the deserialization error at the serializer level would be better
-    public IEnumerable<PresenceJsonModel> CreatePresences()
-    {
-        foreach (var node in Presences)
-        {
-            PresenceJsonModel? model = null;
-            try
-            {
-                model = node.ToType<PresenceJsonModel>();
-            }
-            catch
-            {
-                // Ignore bad presence data.
-            }
-
-            if (model == null)
-            {
-                continue;
-            }
-
-            yield return model;
-        }
-    }
 }

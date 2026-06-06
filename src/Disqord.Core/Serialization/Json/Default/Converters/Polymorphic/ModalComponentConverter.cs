@@ -1,0 +1,51 @@
+﻿using System;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using Disqord.Models;
+using Qommon;
+
+namespace Disqord.Serialization.Json.Default;
+
+internal sealed class ModalComponentConverter : PolymorphicJsonConverter<ModalBaseComponentJsonModel>
+{
+    public override ModalBaseComponentJsonModel? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var node = JsonSerializer.Deserialize<JsonNode>(ref reader, options);
+        if (node == null)
+        {
+            Throw.InvalidOperationException("Invalid component node.");
+        }
+
+        var type = node["type"];
+        if (type == null)
+        {
+            Throw.InvalidOperationException("Missing component type.");
+        }
+
+        var componentType = GetComponentJsonModelType(type.Deserialize<ComponentType>(options));
+        var deserializeOptions = componentType == typeof(ModalBaseComponentJsonModel) ? OptionsWithoutSelf : options;
+        return (ModalBaseComponentJsonModel?) node.Deserialize(componentType, deserializeOptions);
+    }
+
+    private static Type GetComponentJsonModelType(ComponentType componentType)
+    {
+        return componentType switch
+        {
+            ComponentType.Row => typeof(ModalRowComponentJsonModel),
+            ComponentType.StringSelection or (>= ComponentType.UserSelection and <= ComponentType.ChannelSelection) => typeof(ModalSelectionComponentJsonModel),
+            ComponentType.TextInput => typeof(ModalTextInputComponentJsonModel),
+            ComponentType.TextDisplay => typeof(ModalTextDisplayComponentJsonModel),
+            ComponentType.Label => typeof(ModalLabelComponentJsonModel),
+            ComponentType.FileUpload => typeof(ModalFileUploadComponentJsonModel),
+            ComponentType.RadioGroup => typeof(ModalRadioGroupComponentJsonModel),
+            ComponentType.CheckboxGroup => typeof(ModalCheckboxGroupComponentJsonModel),
+            ComponentType.Checkbox => typeof(ModalCheckboxComponentJsonModel),
+            _ => typeof(ModalBaseComponentJsonModel)
+        };
+    }
+
+    public override void Write(Utf8JsonWriter writer, ModalBaseComponentJsonModel value, JsonSerializerOptions options)
+    {
+        WritePolymorphic(writer, value, options);
+    }
+}

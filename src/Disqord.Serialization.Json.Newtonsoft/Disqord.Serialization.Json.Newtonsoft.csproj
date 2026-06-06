@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <VersionPrefix>1.0.0-alpha5</VersionPrefix>
+    </PropertyGroup>
+    <Import Project="../Disqord.targets"/>
+    <PropertyGroup>
+        <Description>The legacy Newtonsoft.Json serializer for Disqord.</Description>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Disqord.Core\Disqord.Core.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+    </ItemGroup>
+</Project>

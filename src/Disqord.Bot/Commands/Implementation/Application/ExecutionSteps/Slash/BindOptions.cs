@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Disqord.Serialization.Json;
 using Qmmands;
 using Qommon;
 
@@ -84,15 +85,17 @@ public static partial class DefaultApplicationExecutionSteps
                         continue;
                     }
 
-                    if (option.Value is not string stringValue)
+                    if (option.Value.Type != JsonValueType.String)
                     {
+                        var value = GetOptionValue(option);
                         arguments[parameter] = actualType.IsEnum
-                            ? Enum.ToObject(actualType, option.Value)
-                            : Convert.ChangeType(option.Value, actualType, context.Locale);
+                            ? Enum.ToObject(actualType, value)
+                            : Convert.ChangeType(value, actualType, context.Locale);
 
                         continue;
                     }
 
+                    var stringValue = option.Value.ToType<string>()!;
                     if (interaction is IAutoCompleteInteraction)
                     {
                         // Treat string values as arguments for auto-complete.
@@ -105,7 +108,7 @@ public static partial class DefaultApplicationExecutionSteps
                     {
                         // If the option is just a string, pass it through to type parsing.
                         var rawArguments = context.RawArguments ??= new Dictionary<IParameter, MultiString>();
-                        rawArguments[parameter] = option.Value as string;
+                        rawArguments[parameter] = stringValue;
                         continue;
                     }
 
@@ -133,6 +136,31 @@ public static partial class DefaultApplicationExecutionSteps
             }
 
             return Next.ExecuteAsync(context);
+        }
+
+        private static object GetOptionValue(ISlashCommandInteractionOption option)
+        {
+            var value = option.Value!;
+            switch (option.Type)
+            {
+                case SlashCommandOptionType.Integer:
+                {
+                    return value.ToType<long>();
+                }
+                case SlashCommandOptionType.Boolean:
+                {
+                    return value.ToType<bool>();
+                }
+                case SlashCommandOptionType.Number:
+                {
+                    return value.ToType<double>();
+                }
+                default:
+                {
+                    Throw.ArgumentOutOfRangeException(nameof(option));
+                    return default;
+                }
+            }
         }
     }
 }

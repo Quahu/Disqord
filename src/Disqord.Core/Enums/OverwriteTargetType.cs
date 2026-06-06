@@ -13,11 +13,11 @@ public enum OverwriteTargetType : byte
     ///     The overwrite targets a role.
     /// </summary>
     [EnumMember(Value = "role")]
-    Role,
+    Role = 0,
 
     /// <summary>
     ///     The overwrite targets a member.
     /// </summary>
     [EnumMember(Value = "member")]
-    Member
+    Member = 1
 }

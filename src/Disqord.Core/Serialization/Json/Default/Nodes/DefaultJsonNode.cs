@@ -1,82 +1,110 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using Qommon;
 
 namespace Disqord.Serialization.Json.Default;
 
 /// <summary>
 ///     Represents a default JSON node.
-///     Wraps a <see cref="JToken"/>.
+///     Wraps a <see cref="JsonNode"/>.
 /// </summary>
-public class DefaultJsonNode : IJsonNode
+internal abstract class DefaultJsonNode : IJsonNode
 {
     /// <summary>
-    ///     Gets the underlying <see cref="JToken"/>.
+    ///     Gets the underlying <see cref="JsonNode"/>.
     /// </summary>
-    public JToken Token { get; }
+    public JsonNode Node { get; }
 
-    private protected readonly JsonSerializer Serializer;
+    /// <summary>
+    ///     Gets the underlying serializer options.
+    /// </summary>
+    public JsonSerializerOptions Options { get; }
 
-    public DefaultJsonNode(JToken token, JsonSerializer serializer)
+    /// <inheritdoc/>
+    public string Path => Node.GetPath();
+
+    /// <inheritdoc/>
+    public JsonValueType Type => Node.GetValueKind() switch
     {
-        Token = token;
-        Serializer = serializer;
+        JsonValueKind.Object => JsonValueType.Object,
+        JsonValueKind.Array => JsonValueType.Array,
+        JsonValueKind.String => JsonValueType.String,
+        JsonValueKind.Number => JsonValueType.Number,
+        JsonValueKind.True => JsonValueType.True,
+        JsonValueKind.False => JsonValueType.False,
+        _ => JsonValueType.Null
+    };
+
+    private protected DefaultJsonNode(JsonNode node, JsonSerializerOptions options)
+    {
+        Node = node;
+        Options = options;
     }
 
     /// <inheritdoc/>
     public T? ToType<T>()
     {
-        return Token.ToObject<T>(Serializer);
+        try
+        {
+            var value = Node.Deserialize<T>(Options);
+            if (typeof(T) != typeof(JsonElement) && value is JsonElement)
+            {
+                Throw.ArgumentException($"Cannot convert the value to type {typeof(T)}.");
+            }
+
+            return value;
+        }
+        catch (JsonException ex)
+        {
+            DefaultJsonSerializer.ThrowSerializationException(isDeserialize: true, typeof(T), ex);
+            return default;
+        }
     }
 
-    /// <summary>
-    ///     Formats this node into a JSON representation with the specified formatting.
-    /// </summary>
-    /// <param name="formatting"> The formatting to use. </param>
-    /// <returns>
-    ///     The string representing this node.
-    /// </returns>
-    public string ToString(Formatting formatting)
+    /// <inheritdoc/>
+    public string ToJsonString(JsonFormatting formatting)
     {
-        return Token.ToString(formatting);
+        return Node.ToJsonString(new JsonSerializerOptions(Options)
+        {
+            WriteIndented = formatting == JsonFormatting.Indented
+        });
     }
 
-    /// <summary>
-    ///     Formats this node into an indented JSON representation.
-    /// </summary>
-    /// <returns>
-    ///     The string representing this node.
-    /// </returns>
-    public override string ToString()
+    [return: NotNullIfNotNull("obj")]
+    internal static IJsonNode? Create(object? obj, JsonSerializerOptions options)
     {
-        return Token.ToString(Formatting.Indented);
+        try
+        {
+            var node = JsonSerializer.SerializeToNode(obj, options);
+            return Create(node, options);
+        }
+        catch (JsonException ex)
+        {
+            DefaultJsonSerializer.ThrowSerializationException(isDeserialize: false, obj?.GetType() ?? typeof(object), ex);
+            return null;
+        }
     }
 
-    /// <summary>
-    ///     Creates a new <see cref="DefaultJsonNode"/> from the specified object.
-    /// </summary>
-    /// <param name="obj"> The object to create the node for. </param>
-    /// <param name="serializer"> The default JSON serializer. </param>
-    /// <returns>
-    ///     A JSON node representing the object.
-    /// </returns>
-    public static IJsonNode? Create(object? obj, DefaultJsonSerializer serializer)
+    [return: NotNullIfNotNull("node")]
+    internal static IJsonNode? Create(JsonNode? node, JsonSerializerOptions options)
     {
-        var token = obj != null ? JToken.FromObject(obj) : JValue.CreateNull();
-        return Create(token, serializer.UnderlyingSerializer);
-    }
-
-    [return: NotNullIfNotNull("token")]
-    internal static IJsonNode? Create(JToken? token, JsonSerializer serializer)
-    {
-        return token switch
+        return node switch
         {
             null => null,
-            JObject @object => new DefaultJsonObject(@object, serializer),
-            JArray array => new DefaultJsonArray(array, serializer),
-            JValue value => new DefaultJsonValue(value, serializer),
-            _ => throw new InvalidOperationException("Unknown JSON token type.")
+            JsonObject @object => new DefaultJsonObject(@object, options),
+            JsonArray array => new DefaultJsonArray(array, options),
+            JsonValue value => new DefaultJsonValue(value, options),
+            _ => throw new InvalidOperationException("Unknown JSON node type.")
         };
+    }
+
+    [return: NotNullIfNotNull("node")]
+    internal static JsonNode? GetSystemNode(IJsonNode? node)
+    {
+        return node != null
+            ? Guard.IsAssignableToType<DefaultJsonNode>(node).Node
+            : null;
     }
 }
