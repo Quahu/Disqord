@@ -44,6 +44,10 @@ internal sealed class ComponentConverter : JsonConverter
             ComponentType.Separator => new SeparatorComponentJsonModel(),
             ComponentType.Container => new ContainerComponentJsonModel(),
             ComponentType.Label => new LabelComponentJsonModel(),
+            ComponentType.FileUpload => new FileUploadComponentJsonModel(),
+            ComponentType.RadioGroup => new RadioGroupComponentJsonModel(),
+            ComponentType.CheckboxGroup => new CheckboxGroupComponentJsonModel(),
+            ComponentType.Checkbox => new CheckboxComponentJsonModel(),
             _ => new BaseComponentJsonModel()
         };
     }
