@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -56,12 +56,12 @@ public partial class DefaultApplicationCommandCacheProvider
         public CommandJsonModel()
         { }
 
-        public CommandJsonModel(LocalApplicationCommand command)
+        public CommandJsonModel(LocalApplicationCommand command, IJsonSerializer serializer)
         {
-            Populate(command);
+            Populate(command, serializer);
         }
 
-        public void Populate(LocalApplicationCommand command)
+        public void Populate(LocalApplicationCommand command, IJsonSerializer serializer)
         {
             OptionalGuard.HasValue(command.Name);
 
@@ -75,12 +75,23 @@ public partial class DefaultApplicationCommandCacheProvider
 
                 Description = slashCommand.Description;
                 DescriptionLocalizations = Optional.Convert(slashCommand.DescriptionLocalizations, localizations => localizations.ToDictionary(x => x.Key.Name, x => x.Value));
-                Options = Optional.Convert(slashCommand.Options, options => options.Select(option => new OptionJsonModel(option)).ToArray());
+                Options = Optional.Convert(slashCommand.Options, options => options.Select(option => new OptionJsonModel(option, serializer)).ToArray());
             }
 
-            RequiredMemberPermissions = Optional.Convert(command.DefaultRequiredMemberPermissions, permissions => (ulong)permissions);
+            RequiredMemberPermissions = Optional.Convert(command.DefaultRequiredMemberPermissions, permissions => (ulong) permissions);
             IsEnabledInPrivateChannels = command.IsEnabledInPrivateChannels;
             IsAgeRestricted = command.IsAgeRestricted;
+        }
+
+        public void SetSerializer(IJsonSerializer serializer)
+        {
+            if (Options.HasValue)
+            {
+                foreach (var option in Options.Value)
+                {
+                    option.SetSerializer(serializer);
+                }
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -114,7 +125,7 @@ public partial class DefaultApplicationCommandCacheProvider
                     return false;
             }
 
-            if (RequiredMemberPermissions != Optional.Convert(command.DefaultRequiredMemberPermissions, permissions => (ulong)permissions)
+            if (RequiredMemberPermissions != Optional.Convert(command.DefaultRequiredMemberPermissions, permissions => (ulong) permissions)
                 || IsEnabledInPrivateChannels != command.IsEnabledInPrivateChannels
                 || IsAgeRestricted != command.IsAgeRestricted)
                 return false;
@@ -164,7 +175,7 @@ public partial class DefaultApplicationCommandCacheProvider
         public OptionJsonModel()
         { }
 
-        public OptionJsonModel(LocalSlashCommandOption option)
+        public OptionJsonModel(LocalSlashCommandOption option, IJsonSerializer serializer)
         {
             OptionalGuard.HasValue(option.Type);
             OptionalGuard.HasValue(option.Name);
@@ -176,12 +187,31 @@ public partial class DefaultApplicationCommandCacheProvider
             Description = option.Description.Value;
             DescriptionLocalizations = Optional.Convert(option.DescriptionLocalizations, localizations => localizations.ToDictionary(x => x.Key.Name, x => x.Value));
             IsRequired = option.IsRequired;
-            Choices = Optional.Convert(option.Choices, choices => choices.Select(choice => new ChoiceJsonModel(choice)).ToArray());
-            Options = Optional.Convert(option.Options, options => options.Select(option => new OptionJsonModel(option)).ToArray());
+            Choices = Optional.Convert(option.Choices, choices => choices.Select(choice => new ChoiceJsonModel(choice, serializer)).ToArray());
+            Options = Optional.Convert(option.Options, options => options.Select(option => new OptionJsonModel(option, serializer)).ToArray());
             ChannelTypes = Optional.Convert(option.ChannelTypes, channelTypes => channelTypes.ToArray());
             MinimumValue = option.MinimumValue;
             MaximumValue = option.MaximumValue;
             HasAutoComplete = option.HasAutoComplete;
+        }
+
+        public void SetSerializer(IJsonSerializer serializer)
+        {
+            if (Choices.HasValue)
+            {
+                foreach (var choice in Choices.Value)
+                {
+                    choice.SetSerializer(serializer);
+                }
+            }
+
+            if (Options.HasValue)
+            {
+                foreach (var option in Options.Value)
+                {
+                    option.SetSerializer(serializer);
+                }
+            }
         }
 
         /// <inheritdoc/>
@@ -217,36 +247,27 @@ public partial class DefaultApplicationCommandCacheProvider
         public Optional<Dictionary<string, string>> NameLocalizations;
 
         [JsonProperty("v")]
-        public object Value = null!;
+        public IJsonValue Value = null!;
+
+        private IJsonSerializer? _serializer;
 
         public ChoiceJsonModel()
         { }
 
-        public ChoiceJsonModel(LocalSlashCommandOptionChoice choice)
+        public ChoiceJsonModel(LocalSlashCommandOptionChoice choice, IJsonSerializer serializer)
         {
             OptionalGuard.HasValue(choice.Name);
             OptionalGuard.HasValue(choice.Value);
 
             Name = choice.Name.Value;
             NameLocalizations = Optional.Convert(choice.NameLocalizations, localizations => localizations.ToDictionary(x => x.Key.Name, x => x.Value));
-            Value = choice.Value.Value;
+            Value = Guard.IsAssignableToType<IJsonValue>(serializer.GetJsonNode(choice.Value.Value));
+            _serializer = serializer;
         }
 
-        private static bool AreValuesEqual(object x, object y)
+        public void SetSerializer(IJsonSerializer serializer)
         {
-            var xConvertible = Guard.IsAssignableToType<IConvertible>(x);
-            var yConvertible = Guard.IsAssignableToType<IConvertible>(y);
-            var xTypeCode = xConvertible.GetTypeCode();
-            var yTypeCode = yConvertible.GetTypeCode();
-            if ((xTypeCode == TypeCode.String || yTypeCode == TypeCode.String) && xTypeCode != yTypeCode)
-                return false;
-
-            if (xTypeCode is TypeCode.String && yTypeCode is TypeCode.String)
-                return (x as string)!.Equals(y as string, StringComparison.Ordinal);
-
-            var xValue = xConvertible.ToDouble(null);
-            var yValue = yConvertible.ToDouble(null);
-            return xValue.Equals(yValue);
+            _serializer = serializer;
         }
 
         /// <inheritdoc/>
@@ -256,8 +277,11 @@ public partial class DefaultApplicationCommandCacheProvider
                 return false;
 
             if (Name != choice.Name
-                || !AreLocalizationsEquivalent(NameLocalizations, choice.NameLocalizations)
-                || !AreValuesEqual(Value, choice.Value.Value))
+                || !AreLocalizationsEquivalent(NameLocalizations, choice.NameLocalizations))
+                return false;
+
+            var choiceValueNode = _serializer!.GetJsonNode(choice.Value.Value);
+            if (!Value.DeepEquals(choiceValueNode))
                 return false;
 
             return true;

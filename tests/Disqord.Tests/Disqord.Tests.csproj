@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Disqord.Core\Disqord.Core.csproj" />
     <ProjectReference Include="..\..\src\Disqord.Rest\Disqord.Rest.csproj" />
+    <ProjectReference Include="..\..\src\Disqord.Bot\Disqord.Bot.csproj" />
     <ProjectReference Include="..\..\src\Disqord.Rest.Api\Disqord.Rest.Api.csproj" />
     <ProjectReference Include="..\..\src\Disqord.Serialization.Json.Newtonsoft\Disqord.Serialization.Json.Newtonsoft.csproj" />
   </ItemGroup>

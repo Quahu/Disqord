@@ -117,4 +117,9 @@ public class JsonModel : IJsonNode
     {
         throw new NotSupportedException();
     }
+
+    bool IJsonNode.DeepEquals(IJsonNode? other)
+    {
+        return false;
+    }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -444,6 +444,14 @@ public abstract partial class DiscordBotBase
                                     option.Type = SlashCommandOptionType.Integer;
                                     option.MinimumValue = uint.MinValue;
                                     option.MaximumValue = uint.MaxValue;
+                                }
+                                else if (actualType == typeof(long))
+                                {
+                                    option.Type = SlashCommandOptionType.Integer;
+                                }
+                                else if (actualType == typeof(ulong))
+                                {
+                                    option.Type = SlashCommandOptionType.Integer;
                                 }
                                 else if (actualType == typeof(Half))
                                 {

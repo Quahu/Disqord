@@ -49,6 +49,17 @@ public class NewtonsoftJsonNode : IJsonNode
         return Token.ToObject<T>(Serializer);
     }
 
+    /// <inheritdoc/>
+    public bool DeepEquals(IJsonNode? other)
+    {
+        if (other is not NewtonsoftJsonNode otherNode)
+        {
+            return false;
+        }
+
+        return JToken.DeepEquals(Token, otherNode.Token);
+    }
+
     /// <summary>
     ///     Formats this node into a JSON representation with the specified formatting.
     /// </summary>

@@ -49,9 +49,19 @@ internal abstract class DefaultJsonNode : IJsonNode
         try
         {
             var value = Node.Deserialize<T>(Options);
-            if (typeof(T) != typeof(JsonElement) && value is JsonElement)
+            if (value is JsonElement element && typeof(T) != typeof(JsonElement))
             {
-                Throw.ArgumentException($"Cannot convert the value to type {typeof(T)}.");
+                return (T) GetClrValue(element);
+            }
+
+            if (value is JsonValue jsonValue && typeof(T) != typeof(JsonNode) && typeof(T) != typeof(JsonValue))
+            {
+                if (typeof(T) == typeof(object))
+                {
+                    return (T) GetClrValue(jsonValue.GetValue<JsonElement>());
+                }
+
+                return jsonValue.GetValue<T>();
             }
 
             return value;
@@ -63,6 +73,22 @@ internal abstract class DefaultJsonNode : IJsonNode
         }
     }
 
+    private static object GetClrValue(JsonElement element)
+    {
+        return element.ValueKind switch
+        {
+            JsonValueKind.String => element.GetString()!,
+            JsonValueKind.True => true,
+            JsonValueKind.False => false,
+            JsonValueKind.Null => null!,
+            JsonValueKind.Number when element.TryGetInt32(out var i) => i,
+            JsonValueKind.Number when element.TryGetInt64(out var l) => l,
+            JsonValueKind.Number when element.TryGetDouble(out var d) => d,
+            JsonValueKind.Number when element.TryGetDecimal(out var m) => m,
+            _ => element
+        };
+    }
+
     /// <inheritdoc/>
     public string ToJsonString(JsonFormatting formatting)
     {
@@ -70,6 +96,17 @@ internal abstract class DefaultJsonNode : IJsonNode
         {
             WriteIndented = formatting == JsonFormatting.Indented
         });
+    }
+
+    /// <inheritdoc/>
+    public bool DeepEquals(IJsonNode? other)
+    {
+        if (other is not DefaultJsonNode otherNode)
+        {
+            return false;
+        }
+
+        return JsonNode.DeepEquals(Node, otherNode.Node);
     }
 
     [return: NotNullIfNotNull("obj")]

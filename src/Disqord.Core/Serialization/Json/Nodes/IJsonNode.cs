@@ -32,4 +32,13 @@ public interface IJsonNode
     ///     The JSON string representation of this node.
     /// </returns>
     string ToJsonString(JsonFormatting formatting);
+
+    /// <summary>
+    ///     Performs a deep structural comparison of this node against another node.
+    /// </summary>
+    /// <param name="other"> The node to compare against, or <see langword="null"/>. </param>
+    /// <returns>
+    ///     <see langword="true"/> if the nodes are structurally equal, otherwise <see langword="false"/>.
+    /// </returns>
+    bool DeepEquals(IJsonNode? other);
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -86,6 +86,11 @@ public partial class DefaultApplicationCommandCacheProvider
             }
 
             var deletedCommandModels = new List<CommandJsonModel>(modelCommands);
+            foreach (var modelCommand in modelCommands)
+            {
+                modelCommand.SetSerializer(Provider.Serializer);
+            }
+
             foreach (var command in commands)
             {
                 CommandJsonModel? matchingModelCommand = null;
@@ -173,13 +178,13 @@ public partial class DefaultApplicationCommandCacheProvider
                     }
                 }
 
-                existingModelCommand.Populate(modifiedCommand);
+                existingModelCommand.Populate(modifiedCommand, Provider.Serializer);
                 newModelCommands.Add(existingModelCommand);
             }
 
             foreach (var createdCommand in fastChanges.CreatedCommands)
             {
-                var newModelCommand = new CommandJsonModel(createdCommand);
+                var newModelCommand = new CommandJsonModel(createdCommand, Provider.Serializer);
                 newModelCommand.Id = commandIds[createdCommand.Name.Value];
                 newModelCommands.Add(newModelCommand);
             }
