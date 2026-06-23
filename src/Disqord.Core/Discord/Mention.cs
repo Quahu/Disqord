@@ -151,7 +151,7 @@ public static class Mention
 
     public static IEnumerable<Snowflake> ParseRoles(string content)
     {
-        var matches = Regex.Matches(content, "<@&([0-9])+>");
+        var matches = Regex.Matches(content, "<@&([0-9]+)>");
         for (var i = 0; i < matches.Count; i++)
         {
             var match = matches[i];
