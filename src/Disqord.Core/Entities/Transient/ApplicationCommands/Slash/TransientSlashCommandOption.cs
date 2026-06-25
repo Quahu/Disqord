@@ -85,6 +85,18 @@ public class TransientSlashCommandOption : TransientClientEntity<ApplicationComm
     }
 
     /// <inheritdoc/>
+    public IReadOnlyList<string> FileTypes
+    {
+        get
+        {
+            if (!Model.FileTypes.HasValue)
+                return ReadOnlyList<string>.Empty;
+
+            return Model.FileTypes.Value.ReadOnly();
+        }
+    }
+
+    /// <inheritdoc/>
     public double? MinimumValue => Model.MinValue.GetValueOrNullable();
 
     /// <inheritdoc/>

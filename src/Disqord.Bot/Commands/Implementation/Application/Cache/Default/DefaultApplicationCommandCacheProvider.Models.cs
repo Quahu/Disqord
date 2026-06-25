@@ -163,6 +163,9 @@ public partial class DefaultApplicationCommandCacheProvider
         [JsonProperty("ct")]
         public Optional<ChannelType[]> ChannelTypes;
 
+        [JsonProperty("ft")]
+        public Optional<string[]> FileTypes;
+
         [JsonProperty("mn")]
         public Optional<double> MinimumValue;
 
@@ -190,6 +193,7 @@ public partial class DefaultApplicationCommandCacheProvider
             Choices = Optional.Convert(option.Choices, choices => choices.Select(choice => new ChoiceJsonModel(choice, serializer)).ToArray());
             Options = Optional.Convert(option.Options, options => options.Select(option => new OptionJsonModel(option, serializer)).ToArray());
             ChannelTypes = Optional.Convert(option.ChannelTypes, channelTypes => channelTypes.ToArray());
+            FileTypes = Optional.Convert(option.FileTypes, fileTypes => fileTypes.ToArray());
             MinimumValue = option.MinimumValue;
             MaximumValue = option.MaximumValue;
             HasAutoComplete = option.HasAutoComplete;
@@ -229,6 +233,7 @@ public partial class DefaultApplicationCommandCacheProvider
                 || !AreEqual(Choices, option.Choices)
                 || !AreEqual(Options, option.Options)
                 || !AreEquivalent(ChannelTypes, option.ChannelTypes)
+                || !AreEquivalent(FileTypes, option.FileTypes)
                 || MinimumValue != option.MinimumValue
                 || MaximumValue != option.MaximumValue
                 || HasAutoComplete != option.HasAutoComplete)

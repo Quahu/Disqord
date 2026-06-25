@@ -1,4 +1,5 @@
-﻿using Qommon;
+﻿using System.Collections.Generic;
+using Qommon;
 
 namespace Disqord;
 
@@ -20,9 +21,19 @@ public class LocalFileUploadComponent : LocalComponent, ILocalConstruct<LocalFil
     public Optional<int> MaximumUploadedFiles { get; set; }
 
     /// <summary>
-    ///     Gets or sets whether 
+    ///     Gets or sets whether
     /// </summary>
     public Optional<bool> IsRequired { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the file types allowed to be uploaded.
+    /// </summary>
+    /// <remarks>
+    ///     The supported values are <c>image</c>, <c>video</c>, <c>audio</c>,
+    ///     or any dot-prefixed file extension such as <c>.pdf</c>.
+    ///     Discord only validates the extension of the file name, not its contents.
+    /// </remarks>
+    public Optional<IList<string>> FileTypes { get; set; }
 
     /// <summary>
     ///     Instantiates a new <see cref="LocalFileUploadComponent"/>.
@@ -40,6 +51,7 @@ public class LocalFileUploadComponent : LocalComponent, ILocalConstruct<LocalFil
         MinimumUploadedFiles = other.MinimumUploadedFiles;
         MaximumUploadedFiles = other.MaximumUploadedFiles;
         IsRequired = other.IsRequired;
+        FileTypes = other.FileTypes.Clone();
     }
 
     /// <inheritdoc/>

@@ -494,6 +494,21 @@ public abstract partial class DiscordBotBase
                                     option.Type = SlashCommandOptionType.String;
                                 }
 
+                                if (option.Type.Value is SlashCommandOptionType.Attachment)
+                                {
+                                    var customAttributes = parameter.CustomAttributes;
+                                    var customAttributeCount = customAttributes.Count;
+                                    for (var i = 0; i < customAttributeCount; i++)
+                                    {
+                                        var customAttribute = customAttributes[i];
+                                        if (customAttribute is not FileTypesAttribute requireFileTypesAttribute)
+                                            continue;
+
+                                        option.FileTypes = requireFileTypesAttribute.FileTypes;
+                                        break;
+                                    }
+                                }
+
                                 if (option.Type.Value is SlashCommandOptionType.Channel or SlashCommandOptionType.Mentionable)
                                 {
                                     if (option.Type.Value is SlashCommandOptionType.Channel)

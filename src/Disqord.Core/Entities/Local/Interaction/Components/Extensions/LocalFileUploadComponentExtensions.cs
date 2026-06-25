@@ -1,4 +1,7 @@
-﻿namespace Disqord;
+﻿using System.Collections.Generic;
+using Qommon;
+
+namespace Disqord;
 
 public static class LocalFileUploadComponentExtensions
 {
@@ -28,5 +31,37 @@ public static class LocalFileUploadComponentExtensions
     {
         fileUploadComponent.IsRequired = isRequired;
         return fileUploadComponent;
+    }
+
+    public static TFileUploadComponent AddFileType<TFileUploadComponent>(this TFileUploadComponent fileUploadComponent, string fileType)
+        where TFileUploadComponent : LocalFileUploadComponent
+    {
+        Guard.IsNotNullOrWhiteSpace(fileType);
+
+        if (fileUploadComponent.FileTypes.Add(fileType, out var list))
+        {
+            fileUploadComponent.FileTypes = new(list);
+        }
+
+        return fileUploadComponent;
+    }
+
+    public static TFileUploadComponent WithFileTypes<TFileUploadComponent>(this TFileUploadComponent fileUploadComponent, IEnumerable<string> fileTypes)
+        where TFileUploadComponent : LocalFileUploadComponent
+    {
+        Guard.IsNotNull(fileTypes);
+
+        if (fileUploadComponent.FileTypes.With(fileTypes, out var list))
+        {
+            fileUploadComponent.FileTypes = new(list);
+        }
+
+        return fileUploadComponent;
+    }
+
+    public static TFileUploadComponent WithFileTypes<TFileUploadComponent>(this TFileUploadComponent fileUploadComponent, params string[] fileTypes)
+        where TFileUploadComponent : LocalFileUploadComponent
+    {
+        return fileUploadComponent.WithFileTypes(fileTypes as IEnumerable<string>);
     }
 }

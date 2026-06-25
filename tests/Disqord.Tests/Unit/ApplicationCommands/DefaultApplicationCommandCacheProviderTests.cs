@@ -1,6 +1,6 @@
 ﻿using Disqord.Bot.Commands.Application.Default;
-using Disqord.Serialization.Json;
 using Disqord.Models;
+using Disqord.Serialization.Json;
 using Disqord.Tests.Serialization;
 
 namespace Disqord.Tests.Unit.ApplicationCommands;
@@ -56,6 +56,58 @@ public class DefaultApplicationCommandCacheProviderTests : SerializationTestBase
 
         // Assert
         Assert.That(equal, Is.True);
+    }
+
+    [Test]
+    public void OptionFileTypes_ReorderedAndCompared_AreEqual()
+    {
+        // Arrange
+        var option = new LocalSlashCommandOption
+        {
+            Type = SlashCommandOptionType.Attachment,
+            Name = "file",
+            Description = "A file",
+        }.WithFileTypes("image", ".pdf");
+
+        var model = new DefaultApplicationCommandCacheProvider.OptionJsonModel(option, Serializer);
+        var reorderedOption = new LocalSlashCommandOption
+        {
+            Type = SlashCommandOptionType.Attachment,
+            Name = "file",
+            Description = "A file",
+        }.WithFileTypes(".pdf", "image");
+
+        // Act
+        var equal = model.Equals(reorderedOption);
+
+        // Assert
+        Assert.That(equal, Is.True);
+    }
+
+    [Test]
+    public void OptionFileTypes_Changed_AreNotEqual()
+    {
+        // Arrange
+        var option = new LocalSlashCommandOption
+        {
+            Type = SlashCommandOptionType.Attachment,
+            Name = "file",
+            Description = "A file",
+        }.WithFileTypes("image");
+
+        var model = new DefaultApplicationCommandCacheProvider.OptionJsonModel(option, Serializer);
+        var changedOption = new LocalSlashCommandOption
+        {
+            Type = SlashCommandOptionType.Attachment,
+            Name = "file",
+            Description = "A file",
+        }.WithFileTypes("video");
+
+        // Act
+        var equal = model.Equals(changedOption);
+
+        // Assert
+        Assert.That(equal, Is.False);
     }
 
     private DefaultApplicationCommandCacheProvider.ChoiceJsonModel RoundTripChoice(LocalSlashCommandOptionChoice choice)

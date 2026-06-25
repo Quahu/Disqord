@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Qommon;
@@ -82,16 +82,17 @@ public partial class DefaultApplicationCommandCacheProvider
         equalityComparer ??= EqualityComparer<T>.Default;
         comparer ??= Comparer<T>.Default;
 
-        Array.Sort(modelCollection, comparer);
+        var modelArray = new T[modelCollection.Length];
+        Array.Copy(modelCollection, modelArray, modelCollection.Length);
+        Array.Sort(modelArray, comparer);
 
-        var localCollectionArray = new T[localCollection.Count];
-        Array.Sort(localCollectionArray, comparer);
+        var localArray = new T[localCollection.Count];
+        localCollection.CopyTo(localArray, 0);
+        Array.Sort(localArray, comparer);
 
-        for (var i = 0; i < modelCollection.Length; i++)
+        for (var i = 0; i < modelArray.Length; i++)
         {
-            var modelValue = modelCollection[i];
-            var localValue = localCollection[i];
-            if (!equalityComparer.Equals(localValue, modelValue))
+            if (!equalityComparer.Equals(localArray[i], modelArray[i]))
                 return false;
         }
 

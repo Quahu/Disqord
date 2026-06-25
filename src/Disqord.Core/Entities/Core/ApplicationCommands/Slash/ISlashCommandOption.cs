@@ -56,6 +56,11 @@ public interface ISlashCommandOption : INamableEntity, IJsonUpdatable<Applicatio
     IReadOnlyList<ChannelType> ChannelTypes { get; }
 
     /// <summary>
+    ///     Gets the file types this attachment option is restricted to.
+    /// </summary>
+    IReadOnlyList<string> FileTypes { get; }
+
+    /// <summary>
     ///     Gets the minimum integer/number value this option allows.
     /// </summary>
     double? MinimumValue { get; }

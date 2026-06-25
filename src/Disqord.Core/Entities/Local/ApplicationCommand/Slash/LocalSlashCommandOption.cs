@@ -64,6 +64,16 @@ public class LocalSlashCommandOption : ILocalConstruct<LocalSlashCommandOption>
     public Optional<IList<ChannelType>> ChannelTypes { get; set; }
 
     /// <summary>
+    ///     Gets or sets the file types this attachment option allows.
+    /// </summary>
+    /// <remarks>
+    ///     The supported values are <c>image</c>, <c>video</c>, <c>audio</c>,
+    ///     or any dot-prefixed file extension such as <c>.pdf</c>.
+    ///     Discord only validates the extension of the file name, not its contents.
+    /// </remarks>
+    public Optional<IList<string>> FileTypes { get; set; }
+
+    /// <summary>
     ///     Gets or sets the minimum integer/number value this option allows.
     /// </summary>
     public Optional<double> MinimumValue { get; set; }
@@ -109,6 +119,7 @@ public class LocalSlashCommandOption : ILocalConstruct<LocalSlashCommandOption>
         Choices = other.Choices.DeepClone();
         Options = other.Options.DeepClone();
         ChannelTypes = other.ChannelTypes.Clone();
+        FileTypes = other.FileTypes.Clone();
         MinimumValue = other.MinimumValue;
         MaximumValue = other.MaximumValue;
         MinimumLength = other.MinimumLength;

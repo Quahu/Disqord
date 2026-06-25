@@ -17,6 +17,9 @@ public class FileUploadComponentJsonModel : BaseComponentJsonModel
     [JsonProperty("required")]
     public Optional<bool> Required;
 
+    [JsonProperty("file_types")]
+    public Optional<string[]> FileTypes;
+
     public FileUploadComponentJsonModel()
     {
         Type = ComponentType.FileUpload;

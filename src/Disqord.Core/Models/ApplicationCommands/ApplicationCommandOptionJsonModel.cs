@@ -48,6 +48,9 @@ public class ApplicationCommandOptionJsonModel : JsonModel
     [JsonProperty("autocomplete")]
     public Optional<bool> AutoComplete;
 
+    [JsonProperty("file_types")]
+    public Optional<string[]> FileTypes;
+
     protected override void OnValidate()
     {
         Guard.IsDefined(Type);
@@ -68,6 +71,9 @@ public class ApplicationCommandOptionJsonModel : JsonModel
 
         if (Type is not SlashCommandOptionType.Subcommand and not SlashCommandOptionType.SubcommandGroup)
             OptionalGuard.HasNoValue(Options, "Nested options can only be specified for subcommands and subcommand groups.");
+
+        if (Type is not SlashCommandOptionType.Attachment)
+            OptionalGuard.HasNoValue(FileTypes, "File types can only be specified for attachment options.");
 
         if (AutoComplete.HasValue && AutoComplete.Value)
             OptionalGuard.HasNoValue(Choices, "Choices cannot be present when auto-complete is enabled.");
@@ -102,6 +108,15 @@ public class ApplicationCommandOptionJsonModel : JsonModel
 
             foreach (var channelType in value)
                 Guard.IsDefined(channelType);
+        });
+
+        OptionalGuard.CheckValue(FileTypes, value =>
+        {
+            Guard.IsNotNull(value);
+            Guard.HasSizeLessThanOrEqualTo(value, Discord.Limits.ApplicationCommand.Option.MaxFileTypeAmount);
+
+            foreach (var fileType in value)
+                Guard.IsNotNullOrWhiteSpace(fileType);
         });
     }
 }

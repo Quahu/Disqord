@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using Disqord.Models;
 using Qommon;
@@ -135,6 +135,7 @@ public abstract partial class LocalComponent : ILocalConstruct<LocalComponent>, 
                     MinValues = fileUpload.MinimumUploadedFiles,
                     MaxValues = fileUpload.MaximumUploadedFiles,
                     Required = fileUpload.IsRequired,
+                    FileTypes = Optional.Convert(fileUpload.FileTypes, static fileTypes => fileTypes?.ToArray())!,
                 };
 
                 break;

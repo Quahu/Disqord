@@ -172,4 +172,32 @@ public static class LocalSlashCommandOptionExtensions
     {
         return @this.WithChannelTypes(channelTypes as IEnumerable<ChannelType>);
     }
+
+    public static TSlashCommandOption AddFileType<TSlashCommandOption>(this TSlashCommandOption @this, string fileType)
+        where TSlashCommandOption : LocalSlashCommandOption
+    {
+        Guard.IsNotNullOrWhiteSpace(fileType);
+
+        if (@this.FileTypes.Add(fileType, out var list))
+            @this.FileTypes = new(list);
+
+        return @this;
+    }
+
+    public static TSlashCommandOption WithFileTypes<TSlashCommandOption>(this TSlashCommandOption @this, IEnumerable<string> fileTypes)
+        where TSlashCommandOption : LocalSlashCommandOption
+    {
+        Guard.IsNotNull(fileTypes);
+
+        if (@this.FileTypes.With(fileTypes, out var list))
+            @this.FileTypes = new(list);
+
+        return @this;
+    }
+
+    public static TSlashCommandOption WithFileTypes<TSlashCommandOption>(this TSlashCommandOption @this, params string[] fileTypes)
+        where TSlashCommandOption : LocalSlashCommandOption
+    {
+        return @this.WithFileTypes(fileTypes as IEnumerable<string>);
+    }
 }

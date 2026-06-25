@@ -1,4 +1,4 @@
-namespace Disqord;
+﻿namespace Disqord;
 
 public static partial class Discord
 {
@@ -63,6 +63,11 @@ public static partial class Discord
                 ///     The maximum amount of choices.
                 /// </summary>
                 public const int MaxChoiceAmount = 25;
+
+                /// <summary>
+                ///     The maximum amount of file types of attachment options.
+                /// </summary>
+                public const int MaxFileTypeAmount = 10;
 
                 /// <summary>
                 ///     Represents limits for application command option choices.

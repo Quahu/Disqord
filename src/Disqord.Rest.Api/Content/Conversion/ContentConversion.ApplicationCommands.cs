@@ -83,6 +83,7 @@ internal static partial class ContentConversion
             Choices = Optional.Convert(option.Choices, choices => choices?.Select(choice => choice?.ToModel(serializer)).ToArray())!,
             Options = Optional.Convert(option.Options, options => options?.Select(option => option?.ToModel(serializer)).ToArray())!,
             ChannelTypes = Optional.Convert(option.ChannelTypes, channelTypes => channelTypes?.ToArray())!,
+            FileTypes = Optional.Convert(option.FileTypes, fileTypes => fileTypes?.ToArray())!,
             MinValue = option.MinimumValue,
             MaxValue = option.MaximumValue,
             MinLength = option.MinimumLength,
