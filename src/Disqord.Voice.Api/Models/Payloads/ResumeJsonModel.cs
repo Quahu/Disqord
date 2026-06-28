@@ -12,4 +12,7 @@ public class ResumeJsonModel : JsonModel
 
     [JsonProperty("token")]
     public string Token = null!;
+
+    [JsonProperty("seq_ack")]
+    public int SeqAck;
 }

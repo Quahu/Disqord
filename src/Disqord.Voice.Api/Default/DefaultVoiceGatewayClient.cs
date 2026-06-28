@@ -571,7 +571,8 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
             {
                 ServerId = GuildId,
                 SessionId = SessionId,
-                Token = Token
+                Token = Token,
+                SeqAck = LastSequenceNumber,
             }
         }, cancellationToken);
     }
