@@ -329,4 +329,9 @@ public static class GatewayDispatchNames
     ///     The <c>WEBHOOKS_UPDATE</c> dispatch.
     /// </summary>
     public const string WebhooksUpdate = "WEBHOOKS_UPDATE";
+
+    /// <summary>
+    ///     The <c>RATE_LIMITED</c> dispatch.
+    /// </summary>
+    public const string RateLimited = "RATE_LIMITED";
 }

@@ -131,4 +131,6 @@ public partial interface IGatewayDispatcher
     AsynchronousEvent<VoiceServerUpdatedEventArgs> VoiceServerUpdatedEvent { get; }
 
     AsynchronousEvent<WebhooksUpdatedEventArgs> WebhooksUpdatedEvent { get; }
+
+    AsynchronousEvent<GatewayRateLimitedEventArgs> GatewayRateLimitedEvent { get; }
 }

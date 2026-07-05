@@ -194,7 +194,9 @@ public partial class DefaultGatewayDispatcher : IGatewayDispatcher
 
             [GatewayDispatchNames.VoiceServerUpdate] = new VoiceServerUpdateDispatchHandler(),
 
-            [GatewayDispatchNames.WebhooksUpdate] = new WebhooksUpdateDispatchHandler()
+            [GatewayDispatchNames.WebhooksUpdate] = new WebhooksUpdateDispatchHandler(),
+
+            [GatewayDispatchNames.RateLimited] = new RateLimitedDispatchHandler(),
         };
 
         _handlers = ThreadSafeDictionary.ConcurrentDictionary.Create(handlers);

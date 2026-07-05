@@ -57,6 +57,30 @@ public class DefaultGatewayChunker : IGatewayChunker
     public void Bind(IGatewayClient value)
     {
         _binder.Bind(value);
+
+        value.Dispatcher.GatewayRateLimitedEvent.Add(HandleRateLimited);
+    }
+
+    private Task HandleRateLimited(object? sender, GatewayRateLimitedEventArgs e)
+    {
+        if (e.Operation != GatewayPayloadOperation.RequestMembers)
+        {
+            return Task.CompletedTask;
+        }
+
+        var nonce = e.Metadata?["nonce"]?.ToType<string>();
+        if (string.IsNullOrEmpty(nonce))
+        {
+            Logger.LogDebug("Received RATE_LIMITED with no nonce.");
+            return Task.CompletedTask;
+        }
+
+        if (_operations.TryRemove(nonce, out var operation))
+        {
+            operation.Throw(new GatewayChunkerRateLimitedException(e.RetryAfter, e.Metadata));
+        }
+
+        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>
@@ -315,6 +339,14 @@ public class DefaultGatewayChunker : IGatewayChunker
                 }
 
                 _tcs.Complete(_members);
+            }
+        }
+
+        public void Throw(Exception exception)
+        {
+            lock (this)
+            {
+                _tcs.Throw(exception);
             }
         }
 

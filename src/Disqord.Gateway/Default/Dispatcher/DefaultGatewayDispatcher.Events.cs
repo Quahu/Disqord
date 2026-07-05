@@ -131,4 +131,6 @@ public partial class DefaultGatewayDispatcher
     public AsynchronousEvent<VoiceServerUpdatedEventArgs> VoiceServerUpdatedEvent { get; } = new();
 
     public AsynchronousEvent<WebhooksUpdatedEventArgs> WebhooksUpdatedEvent { get; } = new();
+
+    public AsynchronousEvent<GatewayRateLimitedEventArgs> GatewayRateLimitedEvent { get; } = new();
 }

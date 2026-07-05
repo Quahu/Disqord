@@ -36,10 +36,10 @@ public partial class DefaultGatewayClient : IGatewayClient
         ApiClient = apiClient;
         CacheProvider = cacheProvider;
         CacheProvider.Bind(this);
-        Chunker = chunker;
-        Chunker.Bind(this);
         Dispatcher = dispatcher;
         Dispatcher.Bind(this);
+        Chunker = chunker;
+        Chunker.Bind(this);
     }
 
     /// <inheritdoc/>
