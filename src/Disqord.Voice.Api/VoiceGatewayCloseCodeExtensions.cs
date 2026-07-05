@@ -1,27 +1,23 @@
-namespace Disqord.Voice.Api;
+﻿namespace Disqord.Voice.Api;
 
 public static class VoiceGatewayCloseCodeExtensions
 {
     /// <summary>
-    ///     Checks if the close code indicates a recoverable voice gateway connection.
+    ///     Checks if the close code indicates that the voice gateway session can be resumed.
     /// </summary>
     /// <param name="code"> The code to check. </param>
     /// <returns>
-    ///     <see langword="true"/> if the connection is recoverable.
+    ///     <see langword="true"/> if the session can be resumed.
     /// </returns>
-    public static bool IsRecoverable(this VoiceGatewayCloseCode code)
+    public static bool IsResumable(this VoiceGatewayCloseCode code)
     {
         return code is not
-            (VoiceGatewayCloseCode.UnknownOperation or
-            VoiceGatewayCloseCode.DecodeError or
-            VoiceGatewayCloseCode.NotAuthenticated or
-            VoiceGatewayCloseCode.AuthenticationFailed or
-            VoiceGatewayCloseCode.AlreadyAuthenticated or
+            (VoiceGatewayCloseCode.AuthenticationFailed or
             VoiceGatewayCloseCode.InvalidSession or
-            VoiceGatewayCloseCode.SessionTimedOut or
             VoiceGatewayCloseCode.ServerNotFound or
-            VoiceGatewayCloseCode.UnknownProtocol or
+            VoiceGatewayCloseCode.ServerCrashed or
+            VoiceGatewayCloseCode.RateLimited or
             VoiceGatewayCloseCode.ForciblyDisconnected or
-            VoiceGatewayCloseCode.UnknownEncryption);
+            VoiceGatewayCloseCode.CallTerminated);
     }
 }

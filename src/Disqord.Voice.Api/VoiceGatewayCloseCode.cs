@@ -60,5 +60,25 @@ public enum VoiceGatewayCloseCode
     /// <summary>
     ///     The encryption specified was not recognized.
     /// </summary>
-    UnknownEncryption = 4016
+    UnknownEncryption = 4016,
+
+    /// <summary>
+    ///     The voice channel requires end-to-end encryption via the DAVE protocol.
+    /// </summary>
+    DaveProtocolRequired = 4017,
+
+    /// <summary>
+    ///     A malformed request was sent.
+    /// </summary>
+    BadRequest = 4020,
+
+    /// <summary>
+    ///     The connection was disconnected because it was rate limited.
+    /// </summary>
+    RateLimited = 4021,
+
+    /// <summary>
+    ///     The connection was disconnected because the call was terminated.
+    /// </summary>
+    CallTerminated = 4022
 }

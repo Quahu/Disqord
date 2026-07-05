@@ -461,7 +461,7 @@ public class DefaultVoiceGatewayClient : IVoiceGatewayClient
                 if (ex.CloseStatus != null)
                 {
                     var closeCode = (VoiceGatewayCloseCode) ex.CloseStatus.Value;
-                    if (closeCode.IsRecoverable())
+                    if (closeCode.IsResumable())
                     {
                         Logger.LogInformation("The voice gateway was closed with code {0} and reason '{1}'.", closeCode, ex.CloseMessage);
                     }

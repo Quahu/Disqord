@@ -546,7 +546,7 @@ public class DefaultVoiceConnection : IVoiceConnectionHost
                     var linkedCancellationToken = linkedCts.Token;
                     while (true)
                     {
-                        if (lastCloseCode != VoiceGatewayCloseCode.ForciblyDisconnected)
+                        if (lastCloseCode is not (VoiceGatewayCloseCode.ForciblyDisconnected or VoiceGatewayCloseCode.CallTerminated))
                         {
                             await _setVoiceStateDelegate(GuildId, ChannelId, linkedCancellationToken).ConfigureAwait(false);
                         }
