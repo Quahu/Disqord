@@ -442,6 +442,8 @@ public enum RestApiErrorCode
 
     ApplicationNotYetAvailableTryAgainLater = 110001,
 
+    SearchMessagesError = 110000,
+
     ResourceOverloaded = 130000,
 
     StageAlreadyOpen = 150006,
@@ -455,6 +457,8 @@ public enum RestApiErrorCode
     MaximumActiveThreadAmountReached = 160006,
 
     MaximumActiveAnnouncementThreadAmountReached = 160007,
+
+    MessageForwardingRequiresMessageContent = 160014,
 
     InvalidLottieFile = 170001,
 
