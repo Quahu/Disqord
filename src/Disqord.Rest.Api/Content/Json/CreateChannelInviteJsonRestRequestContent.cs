@@ -22,4 +22,7 @@ public class CreateChannelInviteJsonRestRequestContent : JsonModelRestRequestCon
 
     [JsonProperty("target_user_type")]
     public Optional<int> TargetUserType;
+
+    [JsonProperty("role_ids")]
+    public Optional<Snowflake[]> RoleIds;
 }

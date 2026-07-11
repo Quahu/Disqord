@@ -236,6 +236,14 @@ public static partial class RestApiClientExtensions
         return client.ExecuteAsync<InviteJsonModel>(route, content, options, cancellationToken);
     }
 
+    public static Task<InviteJsonModel> CreateChannelInviteAsync(this IRestApiClient client,
+        Snowflake channelId, CreateChannelInviteMultipartRestRequestContent content,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.Channel.CreateInvite, channelId);
+        return client.ExecuteAsync<InviteJsonModel>(route, content, options, cancellationToken);
+    }
+
     public static Task<FollowedChannelJsonModel> FollowNewsChannelAsync(this IRestApiClient client,
         Snowflake channelId, FollowNewsChannelJsonRestRequestContent content,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

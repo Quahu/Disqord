@@ -1,5 +1,8 @@
+﻿using System;
+using System.Collections.Generic;
 using Disqord.Models;
 using Qommon;
+using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
@@ -83,6 +86,22 @@ public class TransientGuildInvite : TransientInvite, IGuildInvite
         }
     }
     private IInviteMetadata? _metadata;
+
+    /// <inheritdoc/>
+    public IReadOnlyList<IRole> Roles
+    {
+        get
+        {
+            if (!Model.Roles.HasValue || !Model.Guild.HasValue)
+            {
+                return Array.Empty<IRole>();
+            }
+
+            return _roles ??= Model.Roles.Value.ToReadOnlyList(model => new TransientRole(Client, GuildId, model) as IRole);
+        }
+    }
+
+    private IReadOnlyList<IRole>? _roles;
 
     public TransientGuildInvite(IClient client, InviteJsonModel model)
         : base(client, model)

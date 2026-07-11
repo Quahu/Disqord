@@ -42,4 +42,7 @@ public class InviteCreateJsonModel : JsonModel
 
     [JsonProperty("uses")]
     public int Uses;
+
+    [JsonProperty("role_ids")]
+    public Optional<Snowflake[]> RoleIds;
 }

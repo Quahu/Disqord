@@ -284,6 +284,12 @@ public sealed partial class Route
         public static readonly Route GetInvite = Get("invites/{0:invite_code}");
 
         public static readonly Route DeleteInvite = Delete("invites/{0:invite_code}");
+
+        public static readonly Route GetTargetUsers = Get("invites/{0:invite_code}/target-users");
+
+        public static readonly Route UpdateTargetUsers = Put("invites/{0:invite_code}/target-users");
+
+        public static readonly Route GetTargetUsersJobStatus = Get("invites/{0:invite_code}/target-users/job-status");
     }
 
     public static class Poll

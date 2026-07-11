@@ -42,4 +42,28 @@ public static partial class RestApiClientExtensions
         var route = Format(Route.Invite.DeleteInvite, code);
         return client.ExecuteAsync(route, null, options, cancellationToken);
     }
+
+    public static Task<string> FetchInviteTargetUsersAsync(this IRestApiClient client,
+        string code,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.Invite.GetTargetUsers, code);
+        return client.ExecuteAsync<string>(route, null, options, cancellationToken);
+    }
+
+    public static Task UpdateInviteTargetUsersAsync(this IRestApiClient client,
+        string code, UpdateInviteTargetUsersMultipartRestRequestContent content,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.Invite.UpdateTargetUsers, code);
+        return client.ExecuteAsync(route, content, options, cancellationToken);
+    }
+
+    public static Task<InviteTargetUsersJobStatusJsonModel> FetchInviteTargetUsersJobStatusAsync(this IRestApiClient client,
+        string code,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.Invite.GetTargetUsersJobStatus, code);
+        return client.ExecuteAsync<InviteTargetUsersJobStatusJsonModel>(route, null, options, cancellationToken);
+    }
 }

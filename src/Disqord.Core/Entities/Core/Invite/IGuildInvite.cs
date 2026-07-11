@@ -1,3 +1,5 @@
+﻿using System.Collections.Generic;
+
 namespace Disqord;
 
 /// <summary>
@@ -68,4 +70,13 @@ public interface IGuildInvite : IInvite, IGuildEntity
     ///     Gets the optional metadata of this invite.
     /// </summary>
     IInviteMetadata? Metadata { get; }
+
+    /// <summary>
+    ///     Gets the roles assigned to users upon accepting this invite.
+    /// </summary>
+    /// <remarks>
+    ///     Populated only when the invite payload includes the guild object required to resolve these roles;
+    ///     otherwise this returns an empty list.
+    /// </remarks>
+    IReadOnlyList<IRole> Roles { get; }
 }

@@ -45,6 +45,9 @@ public class InviteJsonModel : JsonModel
     [JsonProperty("guild_scheduled_event")]
     public Optional<GuildScheduledEventJsonModel> GuildScheduledEvent;
 
+    [JsonProperty("roles")]
+    public Optional<RoleJsonModel[]> Roles;
+
     // Metadata
     [JsonProperty("uses")]
     public Optional<int> Uses;

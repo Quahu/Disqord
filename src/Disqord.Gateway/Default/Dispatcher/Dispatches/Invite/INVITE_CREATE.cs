@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Disqord.Gateway.Api;
 using Disqord.Gateway.Api.Models;
 using Qommon;
@@ -12,8 +13,9 @@ public class InviteCreateDispatchHandler : DispatchHandler<InviteCreateJsonModel
         var inviter = Optional.ConvertOrDefault(model.Inviter, x => new TransientUser(Client, x)) as IUser;
         var targetUser = Optional.ConvertOrDefault(model.TargetUser, x => new TransientUser(Client, x)) as IUser;
         var targetApplication = Optional.ConvertOrDefault(model.TargetApplication, x => new TransientApplication(Client, x)) as IApplication;
+        var roleIds = model.RoleIds.GetValueOrDefault(Array.Empty<Snowflake>());
         var e = new InviteCreatedEventArgs(model.GuildId.GetValueOrNullable(), model.ChannelId, model.Code, model.CreatedAt,
-            inviter, model.MaxAge, model.MaxUses, model.TargetType.GetValueOrNullable(), targetUser, targetApplication, model.Temporary, model.Uses);
+            inviter, model.MaxAge, model.MaxUses, model.TargetType.GetValueOrNullable(), targetUser, targetApplication, model.Temporary, model.Uses, roleIds);
         return new(e);
     }
 }

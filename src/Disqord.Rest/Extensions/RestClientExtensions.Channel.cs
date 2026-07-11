@@ -535,11 +535,13 @@ public static partial class RestClientExtensions
     /// <param name="maxUses"></param>
     /// <param name="isTemporaryMembership"></param>
     /// <param name="isUnique"></param>
+    /// <param name="roleIds"> The IDs of the roles to assign to users upon accepting the invite. </param>
+    /// <param name="targetUsers"> The IDs of the users able to accept the invite. </param>
     /// <param name="options"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public static async Task<IInvite> CreateInviteAsync(this IRestClient client,
-        Snowflake channelId, TimeSpan maxAge = default, int maxUses = 0, bool isTemporaryMembership = false, bool isUnique = false,
+        Snowflake channelId, TimeSpan maxAge = default, int maxUses = 0, bool isTemporaryMembership = false, bool isUnique = false, IEnumerable<Snowflake>? roleIds = null, IEnumerable<Snowflake>? targetUsers = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var content = new CreateChannelInviteJsonRestRequestContent
@@ -554,7 +556,27 @@ public static partial class RestClientExtensions
             Unique = isUnique
         };
 
-        var model = await client.ApiClient.CreateChannelInviteAsync(channelId, content, options, cancellationToken).ConfigureAwait(false);
+        if (roleIds != null)
+        {
+            content.RoleIds = roleIds.ToArray();
+        }
+
+        InviteJsonModel model;
+        if (targetUsers != null)
+        {
+            var multipartContent = new CreateChannelInviteMultipartRestRequestContent
+            {
+                Payload = content,
+                TargetUsersFile = CreateTargetUsersFile(targetUsers)
+            };
+
+            model = await client.ApiClient.CreateChannelInviteAsync(channelId, multipartContent, options, cancellationToken).ConfigureAwait(false);
+        }
+        else
+        {
+            model = await client.ApiClient.CreateChannelInviteAsync(channelId, content, options, cancellationToken).ConfigureAwait(false);
+        }
+
         return TransientInvite.Create(client, model);
     }
 

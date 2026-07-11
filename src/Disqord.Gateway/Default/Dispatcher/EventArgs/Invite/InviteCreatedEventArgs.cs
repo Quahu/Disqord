@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Disqord.Gateway;
 
@@ -68,6 +69,11 @@ public class InviteCreatedEventArgs : EventArgs
     /// </summary>
     public int Uses { get; }
 
+    /// <summary>
+    ///     Gets the IDs of the roles granted to users accepting the invite.
+    /// </summary>
+    public IReadOnlyList<Snowflake> RoleIds { get; }
+
     public InviteCreatedEventArgs(
         Snowflake? guildId,
         Snowflake channelId,
@@ -80,7 +86,8 @@ public class InviteCreatedEventArgs : EventArgs
         IUser? targetUser,
         IApplication? targetApplication,
         bool isTemporaryMembership,
-        int uses)
+        int uses,
+        IReadOnlyList<Snowflake> roleIds)
     {
         GuildId = guildId;
         ChannelId = channelId;
@@ -94,5 +101,6 @@ public class InviteCreatedEventArgs : EventArgs
         TargetApplication = targetApplication;
         IsTemporaryMembership = isTemporaryMembership;
         Uses = uses;
+        RoleIds = roleIds;
     }
 }
