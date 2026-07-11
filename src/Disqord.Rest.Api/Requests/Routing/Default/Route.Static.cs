@@ -52,6 +52,8 @@ public sealed partial class Route
 
         public static readonly Route ModifyChannel = Patch("channels/{0:channel_id}");
 
+        public static readonly Route SetVoiceChannelStatus = Put("channels/{0:channel_id}/voice-status");
+
         public static readonly Route DeleteChannel = Delete("channels/{0:channel_id}");
 
         public static readonly Route GetMessages = Get("channels/{0:channel_id}/messages");

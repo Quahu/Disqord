@@ -262,6 +262,11 @@ public enum Permissions : ulong
     SendVoiceMessages = 1ul << 46,
 
     /// <summary>
+    ///     Allows setting the status of voice channels.
+    /// </summary>
+    SetVoiceChannelStatus = 1ul << 48,
+
+    /// <summary>
     ///     Allows sending polls.
     /// </summary>
     SendPolls = 1ul << 49,
@@ -303,6 +308,6 @@ public enum Permissions : ulong
         | RequestToSpeak | ManageEvents | ManageThreads | CreatePublicThreads
         | CreatePrivateThreads | UseExternalStickers | SendMessagesInThreads | StartActivities
         | ModerateMembers | ViewCreatorMonetizationAnalytics | UseSoundboard | CreateExpressions
-        | CreateEvents | UseExternalSounds | SendVoiceMessages | SendPolls
-        | UseExternalApplications | PinMessages | BypassSlowmode
+        | CreateEvents | UseExternalSounds | SendVoiceMessages | SetVoiceChannelStatus
+        | SendPolls | UseExternalApplications | PinMessages | BypassSlowmode
 }

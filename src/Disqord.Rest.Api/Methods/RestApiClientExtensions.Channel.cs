@@ -26,6 +26,14 @@ public static partial class RestApiClientExtensions
         return client.ExecuteAsync<ChannelJsonModel>(route, content, options, cancellationToken);
     }
 
+    public static Task SetVoiceChannelStatusAsync(this IRestApiClient client,
+        Snowflake channelId, SetVoiceChannelStatusJsonRestRequestContent content,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.Channel.SetVoiceChannelStatus, channelId);
+        return client.ExecuteAsync(route, content, options, cancellationToken);
+    }
+
     public static Task<ChannelJsonModel> DeleteChannelAsync(this IRestApiClient client,
         Snowflake channelId,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

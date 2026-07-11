@@ -32,6 +32,14 @@ public static partial class RestEntityExtensions
         return client.ModifyStageChannelAsync(channel.Id, action, options, cancellationToken);
     }
 
+    public static Task SetStatusAsync(this IVoiceChannel channel,
+        string? status,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var client = channel.GetRestClient();
+        return client.SetVoiceChannelStatusAsync(channel.Id, status, options, cancellationToken);
+    }
+
     public static Task<IForumChannel> ModifyAsync(this IForumChannel channel,
         Action<ModifyForumChannelActionProperties> action,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

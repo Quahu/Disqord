@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -206,6 +206,18 @@ public static partial class RestClientExtensions
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         return client.ApiClient.DeleteChannelAsync(channelId, options, cancellationToken);
+    }
+
+    public static Task SetVoiceChannelStatusAsync(this IRestClient client,
+        Snowflake channelId, string? status,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var content = new SetVoiceChannelStatusJsonRestRequestContent
+        {
+            Status = status
+        };
+
+        return client.ApiClient.SetVoiceChannelStatusAsync(channelId, content, options, cancellationToken);
     }
 
     public static IPagedEnumerable<IMessage> EnumerateMessages(this IRestClient client,
