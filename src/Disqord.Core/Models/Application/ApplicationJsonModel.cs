@@ -3,7 +3,7 @@ using Qommon;
 
 namespace Disqord.Models;
 
-[JsonSkippedProperties("summary")]
+[JsonSkippedProperties("summary", "flags")]
 public class ApplicationJsonModel : JsonModel
 {
     [JsonProperty("id")]
@@ -54,7 +54,7 @@ public class ApplicationJsonModel : JsonModel
     [JsonProperty("cover_image")]
     public Optional<string> CoverImage;
 
-    [JsonProperty("flags")]
+    [JsonProperty("flags_new")]
     public Optional<ApplicationFlags> Flags;
 
     [JsonProperty("tags")]
