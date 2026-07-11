@@ -25,6 +25,11 @@ public class LocalPartialAttachment : ILocalConstruct<LocalPartialAttachment>, I
     public Optional<string> Description { get; set; }
 
     /// <summary>
+    ///     Gets or sets whether this attachment is marked as a spoiler.
+    /// </summary>
+    public Optional<bool> IsSpoiler { get; set; }
+
+    /// <summary>
     ///     Instantiates a new <see cref="LocalPartialAttachment"/>.
     /// </summary>
     public LocalPartialAttachment()
@@ -38,6 +43,7 @@ public class LocalPartialAttachment : ILocalConstruct<LocalPartialAttachment>, I
     {
         Id = other.Id;
         Description = other.Description;
+        IsSpoiler = other.IsSpoiler;
     }
 
     /// <summary>
@@ -61,7 +67,8 @@ public class LocalPartialAttachment : ILocalConstruct<LocalPartialAttachment>, I
         return new AttachmentJsonModel
         {
             Id = Id.Value,
-            Description = Description
+            Description = Description,
+            Spoiler = IsSpoiler
         };
     }
 }

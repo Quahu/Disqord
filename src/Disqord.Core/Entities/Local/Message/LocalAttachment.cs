@@ -79,11 +79,6 @@ public class LocalAttachment : LocalPartialAttachment, ILocalSpoilerable, ILocal
     public Optional<string> FileName { get; set; }
 
     /// <summary>
-    ///     Gets or sets whether this attachment should be sent as a spoiler.
-    /// </summary>
-    public Optional<bool> IsSpoiler { get; set; }
-
-    /// <summary>
     ///     Gets or sets whether this attachment should not dispose <see cref="Stream"/> when <see cref="Dispose"/> is called.
     /// </summary>
     public bool LeaveOpen { get; set; }
@@ -103,7 +98,6 @@ public class LocalAttachment : LocalPartialAttachment, ILocalSpoilerable, ILocal
     {
         Stream = other.Stream;
         FileName = other.FileName;
-        IsSpoiler = other.IsSpoiler;
         LeaveOpen = other.LeaveOpen;
     }
 

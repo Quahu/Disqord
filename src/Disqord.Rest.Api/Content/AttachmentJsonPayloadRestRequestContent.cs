@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Disqord.Http;
 using Disqord.Http.Default;
@@ -41,13 +41,15 @@ public class AttachmentJsonPayloadRestRequestContent<T> : MultipartRestRequestCo
                 ? string.Concat(LocalAttachment.SpoilerPrefix, attachment.FileName.Value)
                 : attachment.FileName.Value;
 
-            if (attachment.Description.TryGetValue(out var description) && !string.IsNullOrWhiteSpace(description))
+            if (attachment.Description.TryGetValue(out var description) && !string.IsNullOrWhiteSpace(description)
+                || attachment.IsSpoiler.GetValueOrDefault())
             {
                 attachmentModels ??= new List<PartialAttachmentJsonModel>();
                 attachmentModels.Add(new PartialAttachmentJsonModel
                 {
                     Id = new((ulong) i),
-                    Description = description
+                    Description = description!,
+                    Spoiler = attachment.IsSpoiler
                 });
             }
 

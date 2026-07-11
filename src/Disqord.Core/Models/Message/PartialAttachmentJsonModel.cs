@@ -10,4 +10,7 @@ public class PartialAttachmentJsonModel : JsonModel
 
     [JsonProperty("description")]
     public Optional<string> Description;
+
+    [JsonProperty("is_spoiler")]
+    public Optional<bool> Spoiler;
 }
