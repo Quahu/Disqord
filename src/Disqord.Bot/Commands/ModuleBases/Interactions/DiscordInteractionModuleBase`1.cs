@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using Disqord.Extensions.Interactivity.Menus;
 using Qommon;
 
@@ -78,6 +79,38 @@ public abstract class DiscordInteractionModuleBase<TContext> : DiscordModuleBase
             message.AllowedMentions = LocalAllowedMentions.None;
 
         return new(Context, message);
+    }
+
+    /// <summary>
+    ///     Returns a result that will respond to the interaction with a modal
+    ///     containing the specified components.
+    /// </summary>
+    /// <param name="customId"> The custom ID of the modal. </param>
+    /// <param name="title"> The title of the modal. </param>
+    /// <param name="components"> The components of the modal. </param>
+    /// <returns>
+    ///     The created command result.
+    /// </returns>
+    protected virtual DiscordInteractionModalCommandResult Modal(string customId, string title, params LocalComponent[] components)
+    {
+        return Modal(new LocalInteractionModalResponse
+        {
+            CustomId = customId,
+            Title = title,
+            Components = new List<LocalComponent>(components)
+        });
+    }
+
+    /// <summary>
+    ///     Returns a result that will respond to the interaction with the specified modal.
+    /// </summary>
+    /// <param name="modal"> The modal to respond with. </param>
+    /// <returns>
+    ///     The created command result.
+    /// </returns>
+    protected virtual DiscordInteractionModalCommandResult Modal(LocalInteractionModalResponse modal)
+    {
+        return new(Context, modal);
     }
 
     /// <inheritdoc/>
