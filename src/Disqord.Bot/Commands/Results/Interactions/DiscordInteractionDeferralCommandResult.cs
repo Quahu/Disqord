@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Rest;
 
@@ -6,7 +6,10 @@ namespace Disqord.Bot.Commands.Interaction;
 
 public class DiscordInteractionDeferralCommandResult : DiscordCommandResult<IDiscordInteractionCommandContext>
 {
-    public bool IsEphemeral { get; }
+    /// <summary>
+    ///     Gets or sets whether the followups to this deferral should be ephemeral.
+    /// </summary>
+    public bool IsEphemeral { get; set; }
 
     public DiscordInteractionDeferralCommandResult(IDiscordInteractionCommandContext context, bool isEphemeral)
         : base(context)
