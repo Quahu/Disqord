@@ -129,6 +129,58 @@ public abstract class MenuBase : IAsyncDisposable
     }
     private ViewBase? _view;
 
+    /// <summary>
+    ///     Gets or sets the timeout of this menu.
+    /// </summary>
+    public TimeSpan Timeout
+    {
+        get => _timeout;
+        set
+        {
+            if (_timeout == value)
+            {
+                if (value == System.Threading.Timeout.InfiniteTimeSpan)
+                {
+                    return;
+                }
+
+                RefreshTimeout();
+            }
+            else
+            {
+                lock (_disposeLock)
+                {
+                    _timeout = value;
+                    if (value == System.Threading.Timeout.InfiniteTimeSpan)
+                    {
+                        _timeoutTimer?.Dispose();
+                        return;
+                    }
+
+                    _timeoutTimer = new Timer(TimerCallback, this, value, System.Threading.Timeout.InfiniteTimeSpan);
+                    return;
+
+                    static void TimerCallback(object? state)
+                    {
+                        var menu = Unsafe.As<MenuBase>(state)!;
+                        lock (menu._disposeLock)
+                        {
+                            if (!menu.IsRunning)
+                                return;
+
+                            var cts = menu._cts;
+                            if (cts == null)
+                                return;
+
+                            cts.Cancel();
+                            menu._tcs!.Cancel(cts.Token);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private Tcs? _tcs;
     private Cts? _cts;
     private TimeSpan _timeout;
@@ -168,14 +220,14 @@ public abstract class MenuBase : IAsyncDisposable
     ///     Refreshes the timeout of this menu.
     ///     By default, is called by <see cref="HandleInteractionAsync"/>.
     /// </summary>
-    protected void RefreshTimeout()
+    public void RefreshTimeout()
     {
         if (!IsRunning)
             return;
 
         lock (_disposeLock)
         {
-            _timeoutTimer?.Change(_timeout, Timeout.InfiniteTimeSpan);
+            _timeoutTimer?.Change(_timeout, System.Threading.Timeout.InfiniteTimeSpan);
         }
     }
 
@@ -367,38 +419,16 @@ public abstract class MenuBase : IAsyncDisposable
         _tcs = new Tcs();
         _cts = Cts.Linked(Client.StoppingToken, cancellationToken);
 
+        _cts.Token.UnsafeRegister(CancellationCallback, _tcs);
+
+        Timeout = timeout;
+        return;
+
         static void CancellationCallback(object? state, CancellationToken cancellationToken)
         {
             var tcs = Unsafe.As<Tcs>(state)!;
             tcs.Cancel(cancellationToken);
         }
-
-        _cts.Token.UnsafeRegister(CancellationCallback, _tcs);
-
-        if (timeout == Timeout.InfiniteTimeSpan)
-            return;
-
-        // We store the timeout so it can be refreshed when a button is triggered in HandleInteractionAsync.
-        _timeout = timeout;
-
-        static void TimerCallback(object? state)
-        {
-            var menu = Unsafe.As<MenuBase>(state)!;
-            lock (menu._disposeLock)
-            {
-                if (!menu.IsRunning)
-                    return;
-
-                var cts = menu._cts;
-                if (cts == null)
-                    return;
-
-                cts.Cancel();
-                menu._tcs!.Cancel(cts.Token);
-            }
-        }
-
-        _timeoutTimer = new Timer(TimerCallback, this, timeout, Timeout.InfiniteTimeSpan);
     }
 
     /// <summary>
