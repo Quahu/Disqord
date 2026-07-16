@@ -21,7 +21,19 @@ public static partial class DefaultComponentExecutionSteps
 
             var command = context.Command;
             var interaction = componentContext.Interaction;
-            var parameterOffset = context.RawArguments?.Count ?? 0; // TODO: RawArguments is a dictionary, so this is wrong.
+            var parameterOffset = 0;
+            if (context.RawArguments != null)
+            {
+                var parameters = command.Parameters;
+                var parameterCount = parameters.Count;
+                for (var i = 0; i < parameterCount; i++)
+                {
+                    if (context.RawArguments.ContainsKey(parameters[i]))
+                        parameterOffset = i + 1;
+                    else
+                        break;
+                }
+            }
             if (interaction is ISelectionComponentInteraction selectionInteraction)
             {
                 var parameter = command.Parameters.ElementAtOrDefault(parameterOffset);

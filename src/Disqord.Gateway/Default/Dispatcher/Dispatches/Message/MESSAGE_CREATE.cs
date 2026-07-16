@@ -41,7 +41,7 @@ public class MessageCreateDispatchHandler : DispatchHandler<MessageJsonModel, Me
         {
             channel = channelCache.GetValueOrDefault(model.ChannelId) as CachedMessageGuildChannel;
             if (channel != null)
-                channel.LastMessageId = model.Id;
+                channel.UpdateLastMessageId(model.Id);
         }
 
         var e = new MessageReceivedEventArgs(message, channel, author);

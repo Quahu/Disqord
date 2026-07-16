@@ -12,11 +12,10 @@ public static partial class Library
     /// </summary>
     public static readonly Version Version = typeof(Library).Assembly.GetName().Version!;
 
-    // TODO: set at compile-time
-    ///// <summary>
-    /////     Disqord build's date.
-    ///// </summary>
-    //public static readonly DateTimeOffset BuiltAt;
+    /// <summary>
+    ///     Disqord build's date.
+    /// </summary>
+    public static readonly DateTimeOffset BuiltAt = DateTimeOffset.UtcNow;
 
     /// <summary>
     ///     Disqord's repository url.

@@ -345,7 +345,6 @@ public partial class ComponentCommandMap
             {
                 command = regexCommand;
 
-                // TODO: regex allocations
                 var match = regex.Match(customId);
                 if (match.Success)
                 {
@@ -373,7 +372,7 @@ public partial class ComponentCommandMap
 
         protected override Regex GetPattern(ComponentCommand command)
         {
-            return new Regex(command.Pattern);
+            return new Regex(command.Pattern, RegexOptions.Compiled);
         }
     }
 }

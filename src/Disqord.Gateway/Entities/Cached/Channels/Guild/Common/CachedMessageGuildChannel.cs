@@ -13,8 +13,7 @@ public abstract class CachedMessageGuildChannel : CachedCategorizableGuildChanne
     public TimeSpan Slowmode { get; private set; }
 
     /// <inheritdoc/>
-    // TODO: proper update instead of a public setter?
-    public Snowflake? LastMessageId { get; set; }
+    public Snowflake? LastMessageId { get; private set; }
 
     /// <inheritdoc/>
     public DateTimeOffset? LastPinTimestamp { get; private set; }
@@ -45,5 +44,11 @@ public abstract class CachedMessageGuildChannel : CachedCategorizableGuildChanne
     public void Update(ChannelPinsUpdateJsonModel model)
     {
         LastPinTimestamp = model.LastPinTimestamp.GetValueOrDefault();
+    }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public void UpdateLastMessageId(Snowflake messageId)
+    {
+        LastMessageId = messageId;
     }
 }

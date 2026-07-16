@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using Disqord.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Qommon.Collections.ThreadSafe;
@@ -17,8 +16,7 @@ internal sealed class ContractResolver : DefaultContractResolver
 {
     private readonly NewtonsoftJsonSerializer _serializer;
 
-    // TODO: custom StringEnumConverter
-    private readonly StringEnumConverter _stringEnumConverter;
+    private readonly CustomStringEnumConverter _stringEnumConverter;
     internal readonly StreamConverter _streamConverter;
     private readonly JsonNodeConverter _jsonNodeConverter;
     private readonly SnowflakeConverter _snowflakeConverter;
@@ -34,7 +32,7 @@ internal sealed class ContractResolver : DefaultContractResolver
     public ContractResolver(NewtonsoftJsonSerializer serializer)
     {
         _serializer = serializer;
-        _stringEnumConverter = new StringEnumConverter();
+        _stringEnumConverter = new CustomStringEnumConverter();
         _streamConverter = new StreamConverter(serializer);
         _jsonNodeConverter = new JsonNodeConverter();
         _snowflakeConverter = new SnowflakeConverter();

@@ -10,7 +10,7 @@ runs:
       run: echo "SOLUTION_PATH=./Disqord.slnx" >> $Env:GITHUB_ENV
       shell: pwsh
     - name: Set up .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
     - name: Restore

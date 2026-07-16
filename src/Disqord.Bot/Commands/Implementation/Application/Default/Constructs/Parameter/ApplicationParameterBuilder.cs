@@ -29,36 +29,11 @@ public class ApplicationParameterBuilder : IParameterBuilder
     ICommandBuilder IParameterBuilder.Command => Command;
 
     public ApplicationParameterBuilder(ApplicationCommandBuilder command, Type reflectedType)
-    {
-        Command = command;
-        ReflectedType = reflectedType;
-
-        // TODO: the member check doesn't account for optionals
-        if (typeof(IMember).IsAssignableFrom(reflectedType))
-        {
-            var commandChecks = command.Checks;
-            var commandCheckCount = commandChecks.Count;
-            var needsGuildCheck = true;
-            for (var i = 0; i < commandCheckCount; i++)
-            {
-                var commandCheck = commandChecks[i];
-                if (commandCheck is RequireGuildAttribute)
-                {
-                    needsGuildCheck = false;
-                    break;
-                }
-            }
-
-            if (needsGuildCheck)
-                Command.Checks.Add(new RequireGuildAttribute());
-
-            // Ensures the user instances are members.
-            Checks.Add(MemberParameterCheck.Instance);
-        }
-    }
+        : this(command, reflectedType, isRequired: true)
+    { }
 
     public ApplicationParameterBuilder(ApplicationCommandBuilder command, ParameterInfo parameterInfo)
-        : this(command, parameterInfo.ParameterType)
+        : this(command, parameterInfo.ParameterType, !parameterInfo.HasDefaultValue)
     {
         ParameterInfo = parameterInfo;
 
@@ -66,6 +41,36 @@ public class ApplicationParameterBuilder : IParameterBuilder
 
         if (parameterInfo.HasDefaultValue)
             DefaultValue = parameterInfo.DefaultValue;
+    }
+
+    private ApplicationParameterBuilder(ApplicationCommandBuilder command, Type reflectedType, bool isRequired)
+    {
+        Command = command;
+        ReflectedType = reflectedType;
+
+        if (typeof(IMember).IsAssignableFrom(reflectedType))
+        {
+            if (isRequired)
+            {
+                var commandChecks = command.Checks;
+                var commandCheckCount = commandChecks.Count;
+                var needsGuildCheck = true;
+                for (var i = 0; i < commandCheckCount; i++)
+                {
+                    var commandCheck = commandChecks[i];
+                    if (commandCheck is RequireGuildAttribute)
+                    {
+                        needsGuildCheck = false;
+                        break;
+                    }
+                }
+
+                if (needsGuildCheck)
+                    Command.Checks.Add(new RequireGuildAttribute());
+            }
+
+            Checks.Add(MemberParameterCheck.Instance);
+        }
     }
 
     public ApplicationParameter Build(ApplicationCommand command)

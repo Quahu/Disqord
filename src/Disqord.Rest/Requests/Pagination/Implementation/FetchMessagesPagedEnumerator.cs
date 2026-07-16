@@ -13,6 +13,7 @@ public class FetchMessagesPagedEnumerator : PagedEnumerator<IMessage>
     private readonly Snowflake _channelId;
     private readonly FetchDirection _direction;
     private readonly Snowflake? _startFromId;
+    private bool _isFirstPage = true;
 
     public FetchMessagesPagedEnumerator(
         IRestClient client,
@@ -30,17 +31,37 @@ public class FetchMessagesPagedEnumerator : PagedEnumerator<IMessage>
         IReadOnlyList<IMessage>? previousPage, IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var startFromId = _startFromId;
+        var direction = _direction;
+
         if (previousPage != null && previousPage.Count > 0)
         {
-            startFromId = _direction switch
+            if (_direction == FetchDirection.Around)
             {
-                FetchDirection.Before => previousPage[^1].Id,
-                FetchDirection.After => previousPage[0].Id,
-                FetchDirection.Around => throw new NotImplementedException(),
-                _ => Throw.ArgumentOutOfRangeException<Snowflake>("direction"),
-            };
+                if (_isFirstPage)
+                {
+                    startFromId = previousPage[^1].Id;
+                    direction = FetchDirection.After;
+                }
+                else
+                {
+                    startFromId = previousPage[^1].Id;
+                    direction = FetchDirection.After;
+                }
+            }
+            else
+            {
+                startFromId = _direction switch
+                {
+                    FetchDirection.Before => previousPage[^1].Id,
+                    FetchDirection.After => previousPage[0].Id,
+                    _ => Throw.ArgumentOutOfRangeException<Snowflake>("direction"),
+                };
+            }
         }
 
-        return Client.InternalFetchMessagesAsync(_channelId, NextPageSize, _direction, startFromId, options, cancellationToken);
+        if (_isFirstPage)
+            _isFirstPage = false;
+
+        return Client.InternalFetchMessagesAsync(_channelId, NextPageSize, direction, startFromId, options, cancellationToken);
     }
 }

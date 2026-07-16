@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Disqord.Models;
 using Qommon;
@@ -6,7 +7,8 @@ namespace Disqord.Rest.Api;
 
 public static partial class RestContentValidation
 {
-    // TODO: validate localizations
+    private static readonly HashSet<string> SupportedLocales = new(Discord.LocaleNames);
+
     public static class ApplicationCommands
     {
         public static void ValidateName(string name, [CallerArgumentExpression("name")] string? argumentExpression = null)
@@ -42,6 +44,42 @@ public static partial class RestContentValidation
 
                     isRequired = option.Required.GetValueOrDefault();
                     option.Validate();
+                }
+            }, argumentExpression);
+        }
+
+        public static void ValidateNameLocalizations(Optional<Dictionary<string, string>?> nameLocalizations, [CallerArgumentExpression("nameLocalizations")] string? argumentExpression = null)
+        {
+            OptionalGuard.CheckValue(nameLocalizations, localizations =>
+            {
+                if (localizations == null)
+                    return;
+
+                foreach (var (locale, value) in localizations)
+                {
+                    if (!SupportedLocales.Contains(locale))
+                        Throw.ArgumentException($"Unsupported locale '{locale}'.", argumentExpression);
+
+                    Guard.IsNotNullOrWhiteSpace(value);
+                    Guard.HasSizeBetweenOrEqualTo(value, Discord.Limits.ApplicationCommand.MinNameLength, Discord.Limits.ApplicationCommand.MaxNameLength);
+                }
+            }, argumentExpression);
+        }
+
+        public static void ValidateDescriptionLocalizations(Optional<Dictionary<string, string>?> descriptionLocalizations, [CallerArgumentExpression("descriptionLocalizations")] string? argumentExpression = null)
+        {
+            OptionalGuard.CheckValue(descriptionLocalizations, localizations =>
+            {
+                if (localizations == null)
+                    return;
+
+                foreach (var (locale, value) in localizations)
+                {
+                    if (!SupportedLocales.Contains(locale))
+                        Throw.ArgumentException($"Unsupported locale '{locale}'.", argumentExpression);
+
+                    Guard.IsNotNullOrWhiteSpace(value);
+                    Guard.HasSizeBetweenOrEqualTo(value, Discord.Limits.ApplicationCommand.MinDescriptionLength, Discord.Limits.ApplicationCommand.MaxDescriptionLength);
                 }
             }, argumentExpression);
         }
