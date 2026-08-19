@@ -60,6 +60,76 @@ public static class CdnEntityExtensions
             : null;
     }
 
+    public static string? GetIconUrl(this IPartialGuild guild, CdnAssetFormat format = default, int? size = null)
+    {
+        Guard.IsNotNull(guild);
+
+        var iconHash = guild.IconHash;
+        return iconHash != null
+            ? Discord.Cdn.GetGuildIconUrl(guild.Id, iconHash, format, size)
+            : null;
+    }
+
+    public static string? GetIconUrl(this IGuildPreview guildPreview, CdnAssetFormat format = default, int? size = null)
+    {
+        Guard.IsNotNull(guildPreview);
+
+        var iconHash = guildPreview.IconHash;
+        return iconHash != null
+            ? Discord.Cdn.GetGuildIconUrl(guildPreview.GuildId, iconHash, format, size)
+            : null;
+    }
+
+    public static string? GetSplashUrl(this IGuildPreview guildPreview, CdnAssetFormat format = default, int? size = null)
+    {
+        Guard.IsNotNull(guildPreview);
+
+        var splashHash = guildPreview.SplashHash;
+        return splashHash != null
+            ? Discord.Cdn.GetGuildSplashUrl(guildPreview.GuildId, splashHash, format, size)
+            : null;
+    }
+
+    public static string? GetDiscoverySplashUrl(this IGuildPreview guildPreview, CdnAssetFormat format = default, int? size = null)
+    {
+        Guard.IsNotNull(guildPreview);
+
+        var discoverySplashHash = guildPreview.DiscoverySplashHash;
+        return discoverySplashHash != null
+            ? Discord.Cdn.GetGuildDiscoverySplashUrl(guildPreview.GuildId, discoverySplashHash, format, size)
+            : null;
+    }
+
+    public static string? GetIconUrl(this IInviteGuild guild, CdnAssetFormat format = default, int? size = null)
+    {
+        Guard.IsNotNull(guild);
+
+        var iconHash = guild.IconHash;
+        return iconHash != null
+            ? Discord.Cdn.GetGuildIconUrl(guild.Id, iconHash, format, size)
+            : null;
+    }
+
+    public static string? GetSplashUrl(this IInviteGuild guild, CdnAssetFormat format = default, int? size = null)
+    {
+        Guard.IsNotNull(guild);
+
+        var splashHash = guild.SplashHash;
+        return splashHash != null
+            ? Discord.Cdn.GetGuildSplashUrl(guild.Id, splashHash, format, size)
+            : null;
+    }
+
+    public static string? GetBannerUrl(this IInviteGuild guild, CdnAssetFormat format = default, int? size = null)
+    {
+        Guard.IsNotNull(guild);
+
+        var bannerHash = guild.BannerHash;
+        return bannerHash != null
+            ? Discord.Cdn.GetGuildBannerUrl(guild.Id, bannerHash, format, size)
+            : null;
+    }
+
     public static string GetAvatarUrl(this IUser user, CdnAssetFormat format = default, int? size = null)
     {
         Guard.IsNotNull(user);
@@ -119,6 +189,53 @@ public static class CdnEntityExtensions
             : null;
     }
 
+    public static string? GetIconUrl(this IIntegrationApplication application, CdnAssetFormat format = default, int? size = null)
+    {
+        Guard.IsNotNull(application);
+
+        var iconHash = application.IconHash;
+        return iconHash != null
+            ? Discord.Cdn.GetApplicationIconUrl(application.Id, iconHash, format, size)
+            : null;
+    }
+
+    public static string? GetIconUrl(this IMessageApplication application, CdnAssetFormat format = default, int? size = null)
+    {
+        Guard.IsNotNull(application);
+
+        var iconHash = application.IconHash;
+        return iconHash != null
+            ? Discord.Cdn.GetApplicationIconUrl(application.Id, iconHash, format, size)
+            : null;
+    }
+
+    public static string? GetCoverUrl(this IMessageApplication application, CdnAssetFormat format = default, int? size = null)
+    {
+        Guard.IsNotNull(application);
+
+        var coverImageHash = application.CoverImageHash;
+        return coverImageHash != null
+            ? Discord.Cdn.GetApplicationCoverUrl(application.Id, coverImageHash, format, size)
+            : null;
+    }
+
+    public static string? GetAvatarUrl(this IWebhook webhook, CdnAssetFormat format = default, int? size = null)
+    {
+        Guard.IsNotNull(webhook);
+
+        var avatarHash = webhook.AvatarHash;
+        return avatarHash != null
+            ? Discord.Cdn.GetAvatarUrl(webhook.Id, avatarHash, format, size)
+            : null;
+    }
+
+    public static string GetUrl(this IAvatarDecoration avatarDecoration, int? size = null)
+    {
+        Guard.IsNotNull(avatarDecoration);
+
+        return Discord.Cdn.GetAvatarDecorationUrl(avatarDecoration.AssetHash, size);
+    }
+
     public static string? GetBannerUrl(this IStickerPack stickerPack, CdnAssetFormat format = default, int? size = null)
     {
         Guard.IsNotNull(stickerPack);
@@ -166,7 +283,7 @@ public static class CdnEntityExtensions
         var guildId = primaryGuild.GuildId;
         var badgeHash = primaryGuild.BadgeHash;
         return guildId != null && badgeHash != null
-            ? Discord.Cdn.GetClanBadgeUrl(guildId.Value, badgeHash, format, size)
+            ? Discord.Cdn.GetGuildTagBadgeUrl(guildId.Value, badgeHash, format, size)
             : null;
     }
 

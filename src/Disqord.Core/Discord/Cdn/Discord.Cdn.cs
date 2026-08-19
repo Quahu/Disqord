@@ -82,6 +82,18 @@ public static partial class Discord
             return FormatUrl(path, AutomaticGifFormat(format, avatarHash), size);
         }
 
+        public static string GetGuildMemberBannerUrl(Snowflake guildId, Snowflake memberId, string bannerHash, CdnAssetFormat format = default, int? size = null)
+        {
+            var path = $"guilds/{guildId}/users/{memberId}/banners/{bannerHash}";
+            return FormatUrl(path, AutomaticGifFormat(format, bannerHash), size);
+        }
+
+        public static string GetAvatarDecorationUrl(string assetHash, int? size = null)
+        {
+            var path = $"avatar-decoration-presets/{assetHash}";
+            return FormatUrl(path, CdnAssetFormat.Png, size);
+        }
+
         public static string GetApplicationIconUrl(Snowflake applicationId, string iconHash, CdnAssetFormat format = default, int? size = null)
         {
             var path = $"app-icons/{applicationId}/{iconHash}";
@@ -138,10 +150,16 @@ public static partial class Discord
             return FormatUrl(path, format, size);
         }
 
+        public static string GetGuildTagBadgeUrl(Snowflake guildId, string badgeHash, CdnAssetFormat format = default, int? size = null)
+        {
+            var path = $"guild-tag-badges/{guildId}/{badgeHash}";
+            return FormatUrl(path, format, size);
+        }
+
+        [Obsolete($"Use {nameof(GetGuildTagBadgeUrl)}() instead.")]
         public static string GetClanBadgeUrl(Snowflake guildId, string badgeHash, CdnAssetFormat format = default, int? size = null)
         {
-            var path = $"clan-badges/{guildId}/{badgeHash}";
-            return FormatUrl(path, format, size);
+            return GetGuildTagBadgeUrl(guildId, badgeHash, format, size);
         }
 
         private static string FormatUrl(string path, CdnAssetFormat format, int? size)

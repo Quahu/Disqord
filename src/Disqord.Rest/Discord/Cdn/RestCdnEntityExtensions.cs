@@ -9,4 +9,12 @@ public static class RestCdnEntityExtensions
             ? Discord.Cdn.GetUserBannerUrl(user.Id, bannerHash, format, size)
             : null;
     }
+
+    public static string? GetGuildBannerUrl(this IRestMember member, CdnAssetFormat format = default, int? size = null)
+    {
+        var guildBannerHash = member.GuildBannerHash;
+        return guildBannerHash != null
+            ? Discord.Cdn.GetGuildMemberBannerUrl(member.GuildId, member.Id, guildBannerHash, format, size)
+            : null;
+    }
 }
