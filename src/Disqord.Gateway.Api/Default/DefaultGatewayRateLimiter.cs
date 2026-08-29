@@ -11,7 +11,9 @@ namespace Disqord.Gateway.Api.Default;
 
 public class DefaultGatewayRateLimiter : IGatewayRateLimiter
 {
-    private const int HeartbeatCount = 2;
+    private const int PayloadLimit = 120;
+
+    private const int ReservedPayloadCount = 5;
 
     /// <inheritdoc/>
     public ILogger Logger => Shard.Logger;
@@ -34,7 +36,7 @@ public class DefaultGatewayRateLimiter : IGatewayRateLimiter
 
         _binder = new Binder<IShard>(this);
 
-        _masterBucket = new Bucket(_loggerFactory.CreateLogger("Master Bucket"), 120 - HeartbeatCount, TimeSpan.FromSeconds(60));
+        _masterBucket = new Bucket(_loggerFactory.CreateLogger("Master Bucket"), PayloadLimit - ReservedPayloadCount, TimeSpan.FromSeconds(60));
         _buckets = new Dictionary<GatewayPayloadOperation, Bucket>(2);
     }
 
@@ -84,7 +86,6 @@ public class DefaultGatewayRateLimiter : IGatewayRateLimiter
             if (bucket != null)
                 await bucket.WaitAsync(cancellationToken).ConfigureAwait(false);
 
-            // TODO verify: identify payloads don't count towards the master limit.
             if (operation.Value == GatewayPayloadOperation.Identify)
                 return;
         }
@@ -111,7 +112,6 @@ public class DefaultGatewayRateLimiter : IGatewayRateLimiter
             var bucket = _buckets.GetValueOrDefault(operation.Value);
             bucket?.NotifyCompletion();
 
-            // TODO verify: identify payloads don't count towards the master limit.
             if (operation.Value == GatewayPayloadOperation.Identify)
                 return;
         }
@@ -130,7 +130,6 @@ public class DefaultGatewayRateLimiter : IGatewayRateLimiter
             var bucket = _buckets.GetValueOrDefault(operation.Value);
             bucket?.Release();
 
-            // TODO verify: identify payloads don't count towards the master limit.
             if (operation.Value == GatewayPayloadOperation.Identify)
                 return;
         }

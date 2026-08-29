@@ -301,6 +301,10 @@ public class DefaultShard : IShard
         }
 
         Logger.LogInformation("Successfully connected.");
+
+        // Discord resets the rate-limit on reconnection
+        RateLimiter.Reset();
+
         await SetStateAsync(ShardState.Connected, stoppingToken).ConfigureAwait(false);
     }
 
@@ -328,7 +332,6 @@ public class DefaultShard : IShard
                                 case "READY":
                                 {
                                     Logger.LogInformation("Successfully identified. The gateway is ready.");
-                                    RateLimiter.Reset();
 
                                     // LINQ is faster here as we avoid double ToType()ing (later in the dispatch handler).
                                     var d = (payload.D as IJsonObject)!;
