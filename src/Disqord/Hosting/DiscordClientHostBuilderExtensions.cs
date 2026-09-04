@@ -45,6 +45,8 @@ public static class DiscordClientHostBuilderExtensions
 
         services.Configure<DefaultGatewayDispatcherConfiguration>(x => x.ReadyEventDelayMode = discordContext.ReadyEventDelayMode);
 
+        services.Configure<DefaultGatewayChunkerConfiguration>(x => x.AutomaticMemberChunking = discordContext.AutomaticMemberChunking);
+
         services.AddHostedService<DiscordClientSetupService>();
 
         services.TryAddSingleton<DiscordClientMasterService>();

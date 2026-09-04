@@ -57,6 +57,8 @@ public class GuildCreateDispatchHandler : DispatchHandler<GatewayGuildJsonModel,
 
                 shard.Logger.Log(logLevel, message, guild.Name, guild.Id.RawValue);
 
+                (Client.Chunker as IAutomaticGatewayMemberChunker)?.OnGuildAvailable(shard, guild, isPending);
+
                 //  Invoke the event and possibly invoke ready afterwards.
                 await InvokeEventAsync(new GuildAvailableEventArgs(guild)).ConfigureAwait(false);
             }
@@ -71,6 +73,7 @@ public class GuildCreateDispatchHandler : DispatchHandler<GatewayGuildJsonModel,
 
         guild = UpdateCache(model, true);
         shard.Logger.LogInformation("Joined guild {0} ({1}).", guild.Name, guild.Id.RawValue);
+        (Client.Chunker as IAutomaticGatewayMemberChunker)?.OnGuildAvailable(shard, guild, isPending: false);
         return new JoinedGuildEventArgs(guild);
     }
 

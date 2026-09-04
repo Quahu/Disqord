@@ -14,7 +14,15 @@ public static class GatewayServiceCollectionExtensions
         services.TryAddSingleton<IGatewayClient, DefaultGatewayClient>();
         services.TryAddSingleton<IGatewayCacheProvider, DefaultGatewayCacheProvider>();
         services.TryAddSingleton<IGatewayChunker, DefaultGatewayChunker>();
+        services.TryAddSingleton<IAutomaticGatewayMemberChunkingSelector, DefaultAutomaticGatewayMemberChunkingSelector>();
         services.TryAddSingleton<IGatewayDispatcher, DefaultGatewayDispatcher>();
+        return services;
+    }
+
+    public static IServiceCollection AddAutomaticMemberChunkingSelector<TSelector>(this IServiceCollection services)
+        where TSelector : class, IAutomaticGatewayMemberChunkingSelector
+    {
+        services.Replace(ServiceDescriptor.Singleton<IAutomaticGatewayMemberChunkingSelector, TSelector>());
         return services;
     }
 }

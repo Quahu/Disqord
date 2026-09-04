@@ -52,6 +52,9 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
         var pendingGuilds = ThreadSafeDictionary.Monitor.Wrap(model.Guilds.ToDictionary(x => x.Id, x => !x.Unavailable.GetValueOrDefault()));
         PendingGuilds[shard.Id] = pendingGuilds;
 
+        var guildIds = pendingGuilds.Keys;
+        var chunkingTask = (Client.Chunker as IAutomaticGatewayMemberChunker)?.OnReady(shard, guildIds) ?? Task.CompletedTask;
+
         if (Dispatcher.CurrentUser == null)
         {
             // The shared user for the bot is always going to be referenced.
@@ -71,7 +74,6 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
         Dispatcher.CurrentApplicationId = model.Application.Id;
         Dispatcher.CurrentApplicationFlags = model.Application.Flags;
 
-        var guildIds = pendingGuilds.Keys;
         var e = new ReadyEventArgs(shard.Id, guildIds, Dispatcher.CurrentUser, Dispatcher.CurrentApplicationId.Value, Dispatcher.CurrentApplicationFlags.Value);
         var delayMode = Dispatcher.ReadyEventDelayMode;
         if (delayMode == ReadyEventDelayMode.None || guildIds.Length == 0)
@@ -83,7 +85,7 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
         }
 
         shard.Logger.LogInformation("Identified as {0} with {1} pending guilds. Ready delay mode: {2}.", Dispatcher.CurrentUser.Tag, guildIds.Length, Dispatcher.ReadyEventDelayMode);
-        _ = DelayReadyAsync(shard, e);
+        _ = DelayReadyAsync(shard, e, chunkingTask);
         return null;
     }
 
@@ -100,18 +102,28 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
 
     public void PopPendingGuild(ShardId shardId, Snowflake guildId)
     {
-        if (PendingGuilds.TryGetValue(shardId, out var guilds) && guilds.TryRemove(guildId, out _))
+        if (!PendingGuilds.TryGetValue(shardId, out var guilds) || !guilds.TryRemove(guildId, out _))
         {
-            if (guilds.Count == 0 && _delays.TryGetValue(shardId, out var delay))
-            {
-                // Received all pending guilds, complete the delay.
-                PendingGuilds.Remove(shardId);
-                delay.Tcs.Complete();
-            }
+            return;
+        }
+
+        if (guilds.Count != 0)
+        {
+            return;
+        }
+
+        PendingGuilds.Remove(shardId);
+
+        // Started before the delay is completed, so that a delay waiting on the chunking sees it in progress
+        (Client.Chunker as IAutomaticGatewayMemberChunker)?.OnPendingGuildsReceived(shardId);
+
+        if (_delays.TryRemove(shardId, out var delay))
+        {
+            delay.Tcs.Complete();
         }
     }
 
-    private async Task DelayReadyAsync(IShard shard, ReadyEventArgs e)
+    private async Task DelayReadyAsync(IShard shard, ReadyEventArgs e, Task chunkingTask)
     {
         if (_delays.TryGetValue(shard.Id, out var delay))
         {
@@ -129,19 +141,21 @@ public class ReadyDispatchHandler : DispatchHandler<ReadyJsonModel, ReadyEventAr
                 await delay.Tcs.Task.ConfigureAwait(false);
 
                 // The task finished meaning all pending guilds were received.
-                // Now depending on the mode we either fire ready straight away or do chunking.
-                _delays.Remove(shard.Id);
-                switch (Dispatcher.ReadyEventDelayMode)
+                if (Dispatcher.ReadyEventDelayMode == ReadyEventDelayMode.Members && Client.Chunker is IAutomaticGatewayMemberChunker { IsEnabled: true })
                 {
-                    case ReadyEventDelayMode.Guilds:
-                    {
-                        shard.Logger.LogInformation("Ready. Received all pending guilds in {0}ms.", sw.ElapsedMilliseconds);
-                        await InvokeEventAsync(e).ConfigureAwait(false);
-                        break;
-                    }
+                    shard.Logger.LogInformation("Received all pending guilds in {0}ms. Waiting for member chunking...", sw.ElapsedMilliseconds);
 
-                    // TODO: some chunking design...?
+                    sw.Restart();
+                    await chunkingTask.WaitAsync(shard.StoppingToken).ConfigureAwait(false);
+
+                    shard.Logger.LogInformation("Ready. Finished member chunking in {0}ms.", sw.ElapsedMilliseconds);
                 }
+                else
+                {
+                    shard.Logger.LogInformation("Ready. Received all pending guilds in {0}ms.", sw.ElapsedMilliseconds);
+                }
+
+                await InvokeEventAsync(e).ConfigureAwait(false);
 
                 NotifyShardReady();
             }

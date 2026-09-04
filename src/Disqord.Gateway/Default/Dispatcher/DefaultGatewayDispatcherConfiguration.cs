@@ -4,7 +4,7 @@ public class DefaultGatewayDispatcherConfiguration
 {
     /// <summary>
     ///     Gets or sets whether the <see cref="DefaultGatewayDispatcher.ReadyEvent"/> should be delayed.
-    ///     Defaults to <see cref="Disqord.ReadyEventDelayMode.Guilds"/>.
+    ///     Defaults to <see cref="Disqord.ReadyEventDelayMode.Members"/>.
     /// </summary>
-    public virtual ReadyEventDelayMode ReadyEventDelayMode { get; set; } = ReadyEventDelayMode.Guilds;
+    public virtual ReadyEventDelayMode ReadyEventDelayMode { get; set; } = ReadyEventDelayMode.Members;
 }

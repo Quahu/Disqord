@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Disqord.Gateway.Api;
+using Disqord.Gateway.Api.Default;
 using Disqord.Gateway.Api.Models;
 using Disqord.Utilities.Threading;
 using Microsoft.Extensions.Logging;
@@ -16,7 +17,7 @@ using Qommon.Collections.ThreadSafe;
 namespace Disqord.Gateway.Default;
 
 /// <inheritdoc cref="IGatewayChunker"/>
-public class DefaultGatewayChunker : IGatewayChunker
+public partial class DefaultGatewayChunker : IGatewayChunker, IAutomaticGatewayMemberChunker
 {
     /// <inheritdoc/>
     public ILogger Logger { get; }
@@ -30,6 +31,11 @@ public class DefaultGatewayChunker : IGatewayChunker
     /// </summary>
     public TimeSpan OperationTimeout { get; }
 
+    /// <summary>
+    ///     Gets the maximum number of times a chunk operation is attempted before it is abandoned after repeatedly timing out.
+    /// </summary>
+    public int? MaxOperationAttempts { get; }
+
     private readonly IThreadSafeDictionary<string, ChunkOperation> _operations;
 
     private readonly Binder<IGatewayClient> _binder;
@@ -38,15 +44,42 @@ public class DefaultGatewayChunker : IGatewayChunker
     ///     Instantiates a new <see cref="DefaultGatewayChunker"/>.
     /// </summary>
     /// <param name="options"> The chunker options. </param>
+    /// <param name="shardOptions"> The shard options. </param>
+    /// <param name="automaticChunkingSelector"> The automatic chunking guild selector. </param>
     /// <param name="logger"> The logger. </param>
     public DefaultGatewayChunker(
         IOptions<DefaultGatewayChunkerConfiguration> options,
+        IOptions<DefaultShardConfiguration> shardOptions,
+        IAutomaticGatewayMemberChunkingSelector automaticChunkingSelector,
         ILogger<DefaultGatewayChunker> logger)
     {
         var configuration = options.Value;
         Guard.IsGreaterThan(configuration.OperationTimeout, TimeSpan.Zero);
+
+        if (configuration.MaxOperationAttempts is { } maxOperationAttempts)
+        {
+            Guard.IsGreaterThanOrEqualTo(maxOperationAttempts, 1);
+        }
+
+        var automaticChunking = configuration.AutomaticMemberChunking;
+        if (automaticChunking.MaxConcurrentGuilds is { } maxConcurrentGuilds)
+        {
+            Guard.IsGreaterThanOrEqualTo(maxConcurrentGuilds, 1);
+        }
+
+        if (automaticChunking.IsEnabled && !shardOptions.Value.Intents.HasFlag(GatewayIntents.Members))
+        {
+            Throw.InvalidOperationException($"Automatic member chunking requires the {nameof(GatewayIntents.Members)} intent.");
+        }
+
         OperationTimeout = configuration.OperationTimeout;
+        MaxOperationAttempts = configuration.MaxOperationAttempts;
         Logger = logger;
+
+        _isAutomaticChunkingEnabled = automaticChunking.IsEnabled;
+        _chunkingStrategy = automaticChunking.Strategy;
+        _chunkingSelector = automaticChunkingSelector;
+        _maxConcurrentGuilds = automaticChunking.MaxConcurrentGuilds;
 
         _operations = ThreadSafeDictionary.Monitor.Create<string, ChunkOperation>();
 
@@ -161,15 +194,26 @@ public class DefaultGatewayChunker : IGatewayChunker
     }
 
     /// <inheritdoc/>
-    public async ValueTask<bool> ChunkAsync(IGatewayGuild guild, CancellationToken cancellationToken = default)
+    public ValueTask<bool> ChunkAsync(IGatewayGuild guild, CancellationToken cancellationToken = default)
+    {
+        return ChunkAsync(guild, null, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask<bool> ChunkAsync(IGatewayGuild guild, GatewayMemberChunkOptions? options, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(guild);
+        ValidateOptions(options);
 
         if (!Client.CacheProvider.TryGetUsers(out _) || !Client.CacheProvider.TryGetMembers(guild.Id, out var memberCache))
+        {
             return false;
+        }
 
-        if (memberCache.Count == guild.MemberCount)
+        if (memberCache.Count >= guild.MemberCount)
+        {
             return false;
+        }
 
         var model = new RequestMembersJsonModel
         {
@@ -178,15 +222,22 @@ public class DefaultGatewayChunker : IGatewayChunker
             Limit = 0
         };
 
-        await InternalOperationAsync(model, false, cancellationToken).ConfigureAwait(false);
+        await InternalOperationAsync(model, false, options?.MaxAttempts, cancellationToken).ConfigureAwait(false);
         return true;
     }
 
     /// <inheritdoc/>
     public ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, string query, int limit = Discord.Limits.Gateway.QueryMembersLimit, CancellationToken cancellationToken = default)
     {
+        return QueryAsync(guildId, query, limit, null, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, string query, int limit, GatewayMemberChunkOptions? options, CancellationToken cancellationToken = default)
+    {
         Guard.IsNotNull(query);
         Guard.IsBetweenOrEqualTo(limit, 0, Discord.Limits.Gateway.QueryMembersLimit);
+        ValidateOptions(options);
 
         var model = new RequestMembersJsonModel
         {
@@ -195,15 +246,22 @@ public class DefaultGatewayChunker : IGatewayChunker
             Limit = limit
         };
 
-        return InternalOperationAsync(model, true, cancellationToken)!;
+        return InternalOperationAsync(model, true, options?.MaxAttempts, cancellationToken)!;
     }
 
     /// <inheritdoc/>
     public ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, IEnumerable<Snowflake> memberIds, CancellationToken cancellationToken = default)
     {
+        return QueryAsync(guildId, memberIds, null, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, IEnumerable<Snowflake> memberIds, GatewayMemberChunkOptions? options, CancellationToken cancellationToken = default)
+    {
         var ids = memberIds.ToArray();
         Guard.HasSizeGreaterThanOrEqualTo(ids, 1, nameof(memberIds));
         Guard.HasSizeLessThanOrEqualTo(ids, Discord.Limits.Gateway.QueryMembersLimit, nameof(memberIds));
+        ValidateOptions(options);
 
         var model = new RequestMembersJsonModel
         {
@@ -215,11 +273,21 @@ public class DefaultGatewayChunker : IGatewayChunker
             UserIds = ids
         };
 
-        return InternalOperationAsync(model, true, cancellationToken)!;
+        return InternalOperationAsync(model, true, options?.MaxAttempts, cancellationToken)!;
     }
 
-    private async ValueTask<IReadOnlyDictionary<Snowflake, IMember>?> InternalOperationAsync(RequestMembersJsonModel model, bool isQuery, CancellationToken cancellationToken)
+    private static void ValidateOptions(GatewayMemberChunkOptions? options)
     {
+        if (options?.MaxAttempts is { } maxAttempts)
+        {
+            Guard.IsGreaterThanOrEqualTo(maxAttempts, 1);
+        }
+    }
+
+    private async ValueTask<IReadOnlyDictionary<Snowflake, IMember>?> InternalOperationAsync(RequestMembersJsonModel model, bool isQuery, int? maxAttempts, CancellationToken cancellationToken)
+    {
+        var maxOperationAttempts = maxAttempts ?? MaxOperationAttempts;
+        var attempt = 0;
         while (true)
         {
             var operation = new ChunkOperation(OperationTimeout, isQuery, cancellationToken);
@@ -246,7 +314,14 @@ public class DefaultGatewayChunker : IGatewayChunker
             catch (Exception ex)
             {
                 if (ex is TimeoutException)
-                    continue;
+                {
+                    attempt++;
+                    if (maxOperationAttempts == null || attempt < maxOperationAttempts)
+                    {
+                        shard.Logger.LogWarning("The chunk operation for guild {0} timed out after {1}ms. Retrying...", model.GuildId.RawValue, (int) OperationTimeout.TotalMilliseconds);
+                        continue;
+                    }
+                }
 
                 throw;
             }
@@ -275,7 +350,7 @@ public class DefaultGatewayChunker : IGatewayChunker
         {
             Nonce = Guid.NewGuid().ToString("N");
             _timeout = timeout;
-            _timeoutCts = new Cts(timeout);
+            _timeoutCts = new Cts();
 
             _members = isQuery
                 ? new Dictionary<Snowflake, IMember>()
@@ -289,19 +364,20 @@ public class DefaultGatewayChunker : IGatewayChunker
 
             static void CancellationCallback(object? state, CancellationToken cancellationToken)
             {
-                var tcs = Unsafe.As<Tcs<IReadOnlyList<IMember>>>(state)!;
+                var tcs = Unsafe.As<Tcs<IReadOnlyDictionary<Snowflake, IMember>?>>(state)!;
                 tcs.Cancel(cancellationToken);
             }
 
             static void TimeoutCallback(object? state, CancellationToken cancellationToken)
             {
-                var tcs = Unsafe.As<Tcs<IReadOnlyList<IMember>>>(state)!;
+                var tcs = Unsafe.As<Tcs<IReadOnlyDictionary<Snowflake, IMember>?>>(state)!;
                 tcs.Throw(new TimeoutException());
             }
         }
 
         public Task<IReadOnlyDictionary<Snowflake, IMember>?> WaitAsync()
         {
+            _timeoutCts.CancelAfter(_timeout);
             return _tcs.Task;
         }
 

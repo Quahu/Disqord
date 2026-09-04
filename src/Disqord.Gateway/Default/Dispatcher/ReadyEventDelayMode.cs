@@ -1,4 +1,5 @@
-﻿using Disqord.Gateway.Default;
+﻿using Disqord.Gateway;
+using Disqord.Gateway.Default;
 
 namespace Disqord;
 
@@ -19,9 +20,11 @@ public enum ReadyEventDelayMode : byte
     /// </summary>
     Guilds = 1,
 
-    ///// <summary>
-    /////     The event is delayed until all guilds are chunked.
-    /////     For more information see <see cref="IGatewayChunker"/>.
-    ///// </summary>
-    //Members = 2
+    /// <summary>
+    ///     The event is delayed until all guilds are received and, if automatic member chunking is enabled, chunked.
+    ///     Behaves identically to <see cref="Guilds"/> when automatic member chunking is disabled.
+    /// </summary>
+    /// <seealso cref="AutomaticMemberChunkingConfiguration"/>
+    /// <seealso cref="IGatewayChunker"/>
+    Members = 2,
 }

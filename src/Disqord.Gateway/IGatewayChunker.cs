@@ -41,6 +41,19 @@ public interface IGatewayChunker : IBindable<IGatewayClient>, ILogging
     ValueTask<bool> ChunkAsync(IGatewayGuild guild, CancellationToken cancellationToken = default);
 
     /// <summary>
+    ///     Chunks the specified guild using the given options,
+    ///     i.e. queries all members of the guild.
+    /// </summary>
+    /// <param name="guild"> The guild to chunk. </param>
+    /// <param name="options"> The options for the operation, or <see langword="null"/> for the defaults. </param>
+    /// <param name="cancellationToken"> The cancellation token to observe. </param>
+    /// <returns>
+    ///     A <see cref="ValueTask{TResult}"/> representing the operation
+    ///     with the result indicating whether the operation was actually performed.
+    /// </returns>
+    ValueTask<bool> ChunkAsync(IGatewayGuild guild, GatewayMemberChunkOptions? options, CancellationToken cancellationToken = default);
+
+    /// <summary>
     ///     Queries up to <see cref="Discord.Limits.Gateway.QueryMembersLimit"/> members in the guild with the given ID.
     /// </summary>
     /// <param name="guildId"> The ID of the guild to query the members in. </param>
@@ -54,6 +67,20 @@ public interface IGatewayChunker : IBindable<IGatewayClient>, ILogging
     ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, string query, int limit = Discord.Limits.Gateway.QueryMembersLimit, CancellationToken cancellationToken = default);
 
     /// <summary>
+    ///     Queries up to <see cref="Discord.Limits.Gateway.QueryMembersLimit"/> members in the guild with the given ID using the given options.
+    /// </summary>
+    /// <param name="guildId"> The ID of the guild to query the members in. </param>
+    /// <param name="query"> The text that the names of the members should start with. </param>
+    /// <param name="limit"> The amount of matching members to be returned. </param>
+    /// <param name="options"> The options for the operation, or <see langword="null"/> for the defaults. </param>
+    /// <param name="cancellationToken"> The cancellation token to observe. </param>
+    /// <returns>
+    ///     A <see cref="ValueTask"/> representing the operation
+    ///     with the result being the queried members keyed by their IDs.
+    /// </returns>
+    ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, string query, int limit, GatewayMemberChunkOptions? options, CancellationToken cancellationToken = default);
+
+    /// <summary>
     ///     Queries up to <see cref="Discord.Limits.Gateway.QueryMembersLimit"/> members in the guild with the given ID.
     /// </summary>
     /// <param name="guildId"> The ID of the guild to query the members in. </param>
@@ -64,4 +91,17 @@ public interface IGatewayChunker : IBindable<IGatewayClient>, ILogging
     ///     with the result being the queried members keyed by their IDs.
     /// </returns>
     ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, IEnumerable<Snowflake> memberIds, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Queries up to <see cref="Discord.Limits.Gateway.QueryMembersLimit"/> members in the guild with the given ID using the given options.
+    /// </summary>
+    /// <param name="guildId"> The ID of the guild to query the members in. </param>
+    /// <param name="memberIds"> The IDs of the members to query. </param>
+    /// <param name="options"> The options for the operation, or <see langword="null"/> for the defaults. </param>
+    /// <param name="cancellationToken"> The cancellation token to observe. </param>
+    /// <returns>
+    ///     A <see cref="ValueTask"/> representing the operation
+    ///     with the result being the queried members keyed by their IDs.
+    /// </returns>
+    ValueTask<IReadOnlyDictionary<Snowflake, IMember>> QueryAsync(Snowflake guildId, IEnumerable<Snowflake> memberIds, GatewayMemberChunkOptions? options, CancellationToken cancellationToken = default);
 }

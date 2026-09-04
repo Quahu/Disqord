@@ -23,7 +23,11 @@ namespace Disqord.TestBot
                     Token = host.Configuration["DISQORD_TOKEN"],
                     UseMentionPrefix = false,
                     Prefixes = ["??"],
-                    Intents = GatewayIntents.LibraryRecommended | GatewayIntents.DirectMessages | GatewayIntents.DirectReactions
+                    Intents = GatewayIntents.LibraryRecommended | GatewayIntents.DirectMessages | GatewayIntents.DirectReactions,
+                    AutomaticMemberChunking = new AutomaticMemberChunkingConfiguration
+                    {
+                        IsEnabled = true,
+                    },
                 });
 
                 host.Build().Run();

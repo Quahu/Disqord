@@ -34,9 +34,17 @@ public class DiscordClientHostingContext
     ///     Gets or sets the mode of delaying and firing the <see cref="DiscordClientBase.Ready"/> event.
     /// </summary>
     /// <remarks>
-    ///     Defaults to <see cref="Disqord.ReadyEventDelayMode.Guilds"/>.
+    ///     Defaults to <see cref="Disqord.ReadyEventDelayMode.Members"/>.
     /// </remarks>
-    public ReadyEventDelayMode ReadyEventDelayMode { get; set; } = ReadyEventDelayMode.Guilds;
+    public ReadyEventDelayMode ReadyEventDelayMode { get; set; } = ReadyEventDelayMode.Members;
+
+    /// <inheritdoc cref="AutomaticMemberChunkingConfiguration"/>
+    /// <summary>
+    ///     Gets or sets the configuration of automatic member chunking,
+    ///     i.e. populating the member cache of guilds over the gateway as they become available.
+    /// </summary>
+    /// <seealso cref="ReadyEventDelayMode"/>
+    public AutomaticMemberChunkingConfiguration AutomaticMemberChunking { get; set; } = new();
 
     /// <summary>
     ///     Gets or sets the custom shard set that should
