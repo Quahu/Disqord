@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Disqord.Http;
 using Disqord.Serialization.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -94,11 +95,10 @@ public class DefaultRestApiClient : IRestApiClient
 
             var responseStream = await response.HttpResponse.ReadAsync(cancellationToken).ConfigureAwait(false);
 
-            var statusCode = (int) response.HttpResponse.StatusCode;
-            if (statusCode > 199 && statusCode < 300)
+            if (response.HttpResponse.StatusCode.IsSuccess())
                 return responseStream;
 
-            if (statusCode > 499 && statusCode < 600)
+            if (response.HttpResponse.StatusCode.IsServerError())
                 throw new RestApiException(response.HttpResponse, response.HttpResponse.ReasonPhrase, null);
 
             RestApiErrorJsonModel? errorModel = null;

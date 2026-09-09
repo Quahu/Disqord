@@ -5,15 +5,24 @@ namespace Disqord.Http.Default;
 
 public sealed partial class DefaultHttpClient
 {
-    public static HttpMethod GetHttpMethod(HttpRequestMethod method) => method switch
-    {
-        HttpRequestMethod.Get => HttpMethod.Get,
-        HttpRequestMethod.Post => HttpMethod.Post,
-        HttpRequestMethod.Patch => HttpMethod.Patch,
-        HttpRequestMethod.Put => HttpMethod.Put,
-        HttpRequestMethod.Delete => HttpMethod.Delete,
-        _ => throw new ArgumentOutOfRangeException(nameof(method)),
-    };
+    public static HttpMethod GetHttpMethod(HttpRequestMethod method)
+        => method switch
+        {
+            HttpRequestMethod.Get => HttpMethod.Get,
+            HttpRequestMethod.Post => HttpMethod.Post,
+            HttpRequestMethod.Patch => HttpMethod.Patch,
+            HttpRequestMethod.Put => HttpMethod.Put,
+            HttpRequestMethod.Delete => HttpMethod.Delete,
+            _ => throw new ArgumentOutOfRangeException(nameof(method)),
+        };
+
+    public static HttpCompletionOption GetHttpCompletionOption(HttpCompletionMode completionMode)
+        => completionMode switch
+        {
+            HttpCompletionMode.ContentRead => HttpCompletionOption.ResponseContentRead,
+            HttpCompletionMode.HeadersRead => HttpCompletionOption.ResponseHeadersRead,
+            _ => throw new ArgumentOutOfRangeException(nameof(completionMode))
+        };
 
     public static HttpContent GetHttpContent(HttpRequestContent content)
     {

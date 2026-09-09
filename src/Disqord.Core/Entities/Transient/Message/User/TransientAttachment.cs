@@ -4,7 +4,8 @@ using Qommon;
 
 namespace Disqord;
 
-public class TransientAttachment : TransientEntity<AttachmentJsonModel>, IAttachment
+public class TransientAttachment(IClient client, AttachmentJsonModel model)
+    : TransientClientEntity<AttachmentJsonModel>(client, model), IAttachment
 {
     /// <inheritdoc/>
     public Snowflake Id => Model.Id.Value;
@@ -53,10 +54,6 @@ public class TransientAttachment : TransientEntity<AttachmentJsonModel>, IAttach
 
     /// <inheritdoc/>
     public string? WaveformBase64 => Model.Waveform.GetValueOrDefault();
-
-    public TransientAttachment(AttachmentJsonModel model)
-        : base(model)
-    { }
 
     public override string ToString()
     {

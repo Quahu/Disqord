@@ -21,4 +21,9 @@ public interface IHttpRequest : IHeaders, IDisposable
     ///     Gets the request content of this request.
     /// </summary>
     HttpRequestContent? Content { get; }
+
+    /// <summary>
+    ///     Gets when the response to this request is returned relative to reading its content.
+    /// </summary>
+    HttpCompletionMode CompletionMode { get; }
 }

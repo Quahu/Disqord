@@ -3,6 +3,7 @@ using Disqord.Models;
 using Disqord.Rest;
 using Disqord.Rest.Api;
 using Disqord.Serialization.Json;
+using Disqord.Tests.Fakes;
 using Microsoft.Extensions.Logging;
 using Qommon;
 
@@ -344,7 +345,13 @@ public class BulkBanChunkingTests
             Message = "Failed to ban users"
         };
 
-        return new RestApiException(new FakeHttpResponse(), "Bad Request", errorModel);
+        var httpResponse = new FakeHttpResponse
+        {
+            StatusCode = HttpResponseStatusCode.BadRequest,
+            ReasonPhrase = "Bad Request"
+        };
+
+        return new RestApiException(httpResponse, "Bad Request", errorModel);
     }
 
     private sealed class RecordingBulkBanApiClient : IRestApiClient
@@ -388,38 +395,5 @@ public class BulkBanChunkingTests
             var model = RespondWith(chunk);
             return Task.FromResult((TModel) (object) model);
         }
-    }
-
-    private sealed class FakeRestClient : IRestClient
-    {
-        private readonly IRestApiClient _apiClient;
-
-        public FakeRestClient(IRestApiClient apiClient)
-        {
-            _apiClient = apiClient;
-        }
-
-        public IDictionary<Snowflake, IDirectChannel>? DirectChannels => null;
-
-        public IRestApiClient ApiClient => _apiClient;
-
-        public ILogger Logger => throw new NotSupportedException();
-    }
-
-    private sealed class FakeHttpResponse : IHttpResponse
-    {
-        public HttpResponseStatusCode StatusCode => HttpResponseStatusCode.BadRequest;
-
-        public string? ReasonPhrase => "Bad Request";
-
-        public IDictionary<string, string> Headers => throw new NotSupportedException();
-
-        public Task<Stream> ReadAsync(CancellationToken cancellationToken)
-        {
-            throw new NotSupportedException();
-        }
-
-        public void Dispose()
-        { }
     }
 }

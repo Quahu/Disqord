@@ -88,7 +88,7 @@ public class CachedUserMessage : CachedMessage, IGatewayUserMessage, IJsonUpdata
         IsPinned = model.Pinned;
         MentionsEveryone = model.MentionEveryone;
         MentionedRoleIds = model.MentionRoles.ReadOnly();
-        Attachments = model.Attachments.ToReadOnlyList(model => new TransientAttachment(model));
+        Attachments = model.Attachments.ToReadOnlyList(Client, static (model, client) => new TransientAttachment(client, model));
         Embeds = model.Embeds.ToReadOnlyList(model => new TransientEmbed(model));
         Activity = Optional.ConvertOrDefault(model.Activity, model => new TransientMessageActivity(model));
         Application = Optional.ConvertOrDefault(model.Application, model => new TransientMessageApplication(model));
@@ -148,7 +148,7 @@ public class CachedUserMessage : CachedMessage, IGatewayUserMessage, IJsonUpdata
             MentionedRoleIds = model.MentionRoles.Value.ReadOnly();
 
         if (model.Attachments.HasValue)
-            Attachments = model.Attachments.Value.ToReadOnlyList(model => new TransientAttachment(model));
+            Attachments = model.Attachments.Value.ToReadOnlyList(Client, static (model, client) => new TransientAttachment(client, model));
 
         if (model.Embeds.HasValue)
             Embeds = model.Embeds.Value.ToReadOnlyList(model => new TransientEmbed(model));

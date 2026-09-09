@@ -24,6 +24,7 @@ public class DefaultRestRequester : IRestRequester
     /// <inheritdoc/>
     public IRestApiClient ApiClient => _binder.Value;
 
+    private readonly IHttpClient _auxiliaryHttpClient;
     private readonly Binder<IRestApiClient> _binder;
 
     public DefaultRestRequester(
@@ -36,6 +37,9 @@ public class DefaultRestRequester : IRestRequester
         HttpClient = httpClientFactory.CreateClient();
         HttpClient.BaseUri = new Uri($"https://discord.com/api/v{Version}/");
         HttpClient.SetDefaultHeader("User-Agent", Library.UserAgent);
+
+        _auxiliaryHttpClient = httpClientFactory.CreateClient();
+        _auxiliaryHttpClient.SetDefaultHeader("User-Agent", Library.UserAgent);
 
         _binder = new Binder<IRestApiClient>(this);
     }
@@ -89,5 +93,14 @@ public class DefaultRestRequester : IRestRequester
 
         var response = await HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
         return new DefaultRestResponse(response);
+    }
+
+    /// <inheritdoc/>
+    public Task<IHttpResponse> ExecuteAuxiliaryAsync(IHttpRequest request, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(request);
+        Guard.IsTrue(request.Uri.IsAbsoluteUri, nameof(request), "The URI of the request must be absolute.");
+
+        return _auxiliaryHttpClient.SendAsync(request, cancellationToken);
     }
 }

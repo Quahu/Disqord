@@ -342,6 +342,8 @@ public sealed class ModalFileUploadEmptyAttachmentsReproTests
     {
         public Snowflake Id => default;
 
+        public IClient Client => throw new NotSupportedException();
+
         public string FileName => throw new NotSupportedException();
 
         public string? Description => throw new NotSupportedException();

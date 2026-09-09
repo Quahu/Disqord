@@ -4,7 +4,8 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-public class TransientInteractionEntities : TransientClientEntity<ResolvedInteractionDataJsonModel>, IInteractionEntities
+public class TransientInteractionEntities(IClient client, Snowflake? guildId, ResolvedInteractionDataJsonModel model)
+    : TransientClientEntity<ResolvedInteractionDataJsonModel>(client, model), IInteractionEntities
 {
     /// <inheritdoc/>
     public IReadOnlyDictionary<Snowflake, IUser> Users
@@ -26,7 +27,7 @@ public class TransientInteractionEntities : TransientClientEntity<ResolvedIntera
                         continue;
 
                     memberModel.User = userModel;
-                    users.Add(id, new TransientMember(Client, _guildId!.Value, memberModel));
+                    users.Add(id, new TransientMember(Client, guildId!.Value, memberModel));
                 }
             }
             else
@@ -48,7 +49,7 @@ public class TransientInteractionEntities : TransientClientEntity<ResolvedIntera
             if (!Model.Roles.HasValue)
                 return ReadOnlyDictionary<Snowflake, IRole>.Empty;
 
-            return _roles ??= Model.Roles.Value.ToReadOnlyDictionary((Client, _guildId!.Value),
+            return _roles ??= Model.Roles.Value.ToReadOnlyDictionary((Client, guildId!.Value),
                 (kvp, _) => kvp.Key,
                 (kvp, state) =>
                 {
@@ -97,18 +98,9 @@ public class TransientInteractionEntities : TransientClientEntity<ResolvedIntera
             if (!Model.Attachments.HasValue)
                 return ReadOnlyDictionary<Snowflake, IAttachment>.Empty;
 
-            return _attachments ??= Model.Attachments.Value.ToReadOnlyDictionary(
-                kvp => kvp.Key,
-                kvp => new TransientAttachment(kvp.Value) as IAttachment);
+            return field ??= Model.Attachments.Value.ToReadOnlyDictionary(Client,
+                static (kvp, _) => kvp.Key,
+                static IAttachment (kvp, client) => new TransientAttachment(client, kvp.Value));
         }
-    }
-    private IReadOnlyDictionary<Snowflake, IAttachment>? _attachments;
-
-    private readonly Snowflake? _guildId;
-
-    public TransientInteractionEntities(IClient client, Snowflake? guildId, ResolvedInteractionDataJsonModel model)
-        : base(client, model)
-    {
-        _guildId = guildId;
     }
 }

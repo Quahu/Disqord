@@ -5,7 +5,7 @@ namespace Disqord;
 /// <summary>
 ///     Represents a file attached to a message.
 /// </summary>
-public interface IAttachment : IIdentifiableEntity
+public interface IAttachment : ISnowflakeEntity
 {
     /// <summary>
     ///     Gets the file name of this attachment.

@@ -7,7 +7,8 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-public class TransientGatewayUserMessage : TransientGatewayMessage, IGatewayUserMessage
+public class TransientGatewayUserMessage(IClient client, MessageJsonModel model)
+    : TransientGatewayMessage(client, model), IGatewayUserMessage
 {
     /// <inheritdoc/>
     public UserMessageType Type => Model.Type;
@@ -34,9 +35,7 @@ public class TransientGatewayUserMessage : TransientGatewayMessage, IGatewayUser
     public IReadOnlyList<Snowflake> MentionedRoleIds => Model.MentionRoles;
 
     /// <inheritdoc/>
-    public IReadOnlyList<IAttachment> Attachments => _attachments ??= Model.Attachments.ToReadOnlyList(model => new TransientAttachment(model));
-
-    private IReadOnlyList<IAttachment>? _attachments;
+    public IReadOnlyList<IAttachment> Attachments => field ??= Model.Attachments.ToReadOnlyList(Client, static (model, client) => new TransientAttachment(client, model));
 
     /// <inheritdoc/>
     public IReadOnlyList<IEmbed> Embeds => _embeds ??= Model.Embeds.ToReadOnlyList(model => new TransientEmbed(model));
@@ -117,8 +116,4 @@ public class TransientGatewayUserMessage : TransientGatewayMessage, IGatewayUser
         }
     }
     private IReadOnlyList<IMessageSnapshot>? _messageSnapshots;
-
-    public TransientGatewayUserMessage(IClient client, MessageJsonModel model)
-        : base(client, model)
-    { }
 }

@@ -33,16 +33,9 @@ public class RestApiException : Exception
     public RestApiErrorJsonModel? ErrorModel { get; }
 
     /// <summary>
-    ///     Gets whether Discord failed to fulfill the request, i.e. Discord is the one at fault and returned a <c>5xx</c> status code..
+    ///     Gets whether Discord failed to fulfill the request, i.e. Discord is the one at fault and returned a <c>5xx</c> status code.
     /// </summary>
-    public bool IsServerError
-    {
-        get
-        {
-            var statusCode = (int) StatusCode;
-            return statusCode > 499 && statusCode < 600;
-        }
-    }
+    public bool IsServerError => StatusCode.IsServerError();
 
     public RestApiException(IHttpResponse httpResponse, string? reasonPhrase, RestApiErrorJsonModel? errorModel)
         : base(GetErrorMessage(httpResponse.StatusCode, reasonPhrase, errorModel))

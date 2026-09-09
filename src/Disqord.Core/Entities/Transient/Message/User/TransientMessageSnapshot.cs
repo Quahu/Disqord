@@ -6,7 +6,8 @@ using Qommon.Collections.ReadOnly;
 
 namespace Disqord;
 
-public class TransientMessageSnapshot : TransientClientEntity<MessageSnapshotJsonModel>, IMessageSnapshot
+public class TransientMessageSnapshot(IClient client, MessageSnapshotJsonModel model)
+    : TransientClientEntity<MessageSnapshotJsonModel>(client, model), IMessageSnapshot
 {
     /// <inheritdoc/>
     public UserMessageType Type => Model.Message.Type;
@@ -23,9 +24,7 @@ public class TransientMessageSnapshot : TransientClientEntity<MessageSnapshotJso
     public IReadOnlyList<Snowflake> MentionedRoleIds => Model.Message.MentionRoles;
 
     /// <inheritdoc/>
-    public IReadOnlyList<IAttachment> Attachments => _attachments ??= Model.Message.Attachments.ToReadOnlyList(model => new TransientAttachment(model));
-
-    private IReadOnlyList<IAttachment>? _attachments;
+    public IReadOnlyList<IAttachment> Attachments => field ??= Model.Message.Attachments.ToReadOnlyList(Client, static (model, client) => new TransientAttachment(client, model));
 
     /// <inheritdoc/>
     public IReadOnlyList<IEmbed> Embeds => _embeds ??= Model.Message.Embeds.ToReadOnlyList(model => new TransientEmbed(model));
@@ -66,8 +65,4 @@ public class TransientMessageSnapshot : TransientClientEntity<MessageSnapshotJso
         }
     }
     private IReadOnlyList<IComponent>? _components;
-
-    public TransientMessageSnapshot(IClient client, MessageSnapshotJsonModel model)
-        : base(client, model)
-    { }
 }
