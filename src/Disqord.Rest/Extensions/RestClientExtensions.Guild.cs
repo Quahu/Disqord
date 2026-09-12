@@ -320,7 +320,14 @@ public static partial class RestClientExtensions
         });
     }
 
-    public static async Task<IRestMember> AddMemberAsync(this IRestClient client,
+    /// <summary>
+    ///     Adds the user to the guild using the given OAuth2 bearer token.
+    /// </summary>
+    /// <returns>
+    ///     A <see cref="Task{TResult}"/> representing the request with the result being the added member
+    ///     or <see langword="null"/> if the user is already a member of the guild.
+    /// </returns>
+    public static async Task<IRestMember?> AddMemberAsync(this IRestClient client,
         Snowflake guildId, Snowflake userId, BearerToken token,
         Action<AddMemberActionProperties>? action = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
@@ -337,6 +344,11 @@ public static partial class RestClientExtensions
         }
 
         var model = await client.ApiClient.AddMemberAsync(guildId, userId, content, options, cancellationToken).ConfigureAwait(false);
+        if (model == null)
+        {
+            return null;
+        }
+
         return new TransientRestMember(client, guildId, model);
     }
 

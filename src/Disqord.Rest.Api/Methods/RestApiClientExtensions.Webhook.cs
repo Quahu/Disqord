@@ -165,6 +165,6 @@ public static partial class RestApiClientExtensions
             : null;
 
         var route = Format(Route.Webhook.DeleteWebhookMessage, queryParameters, webhookId, token, messageId);
-        return client.ExecuteAsync<MessageJsonModel>(route, null, options, cancellationToken);
+        return client.ExecuteAsync(route, null, options, cancellationToken);
     }
 }

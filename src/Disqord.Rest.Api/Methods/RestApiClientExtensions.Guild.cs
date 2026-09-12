@@ -128,12 +128,12 @@ public static partial class RestApiClientExtensions
         return client.ExecuteAsync<MemberJsonModel[]>(route, null, options, cancellationToken);
     }
 
-    public static Task<MemberJsonModel> AddMemberAsync(this IRestApiClient client,
+    public static Task<MemberJsonModel?> AddMemberAsync(this IRestApiClient client,
         Snowflake guildId, Snowflake userId, AddMemberJsonRestRequestContent content,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var route = Format(Route.Guild.AddMember, guildId, userId);
-        return client.ExecuteAsync<MemberJsonModel>(route, content, options, cancellationToken);
+        return client.ExecuteAsync<MemberJsonModel>(route, content, options, cancellationToken)!;
     }
 
     public static Task<MemberJsonModel> ModifyMemberAsync(this IRestApiClient client,

@@ -43,7 +43,7 @@ public static partial class RestApiClientExtensions
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var route = Format(Route.Emoji.DeleteApplicationEmoji, applicationId, emojiId);
-        return client.ExecuteAsync<EmojiJsonModel>(route, null, options, cancellationToken);
+        return client.ExecuteAsync(route, null, options, cancellationToken);
     }
 
     public static Task<EmojiJsonModel[]> FetchGuildEmojisAsync(this IRestApiClient client,

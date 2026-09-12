@@ -68,11 +68,11 @@ public static partial class RestApiClientExtensions
         return client.ExecuteAsync<EntitlementJsonModel>(route, content, options, cancellationToken);
     }
 
-    public static Task<EntitlementJsonModel> DeleteTestEntitlementAsync(this IRestApiClient client,
+    public static Task DeleteTestEntitlementAsync(this IRestApiClient client,
         Snowflake applicationId, Snowflake entitlementId,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var route = Format(Route.Montetization.DeleteTestEntitlement, applicationId, entitlementId);
-        return client.ExecuteAsync<EntitlementJsonModel>(route, null, options, cancellationToken);
+        return client.ExecuteAsync(route, null, options, cancellationToken);
     }
 }
