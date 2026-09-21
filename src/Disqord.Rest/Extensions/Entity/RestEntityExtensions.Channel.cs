@@ -228,10 +228,11 @@ public static partial class RestEntityExtensions
 
     public static Task<IInvite> CreateInviteAsync(this IGuildChannel channel,
         TimeSpan maxAge = default, int maxUses = 0, bool isTemporaryMembership = false, bool isUnique = false, IEnumerable<Snowflake>? roleIds = null, IEnumerable<Snowflake>? targetUsers = null,
+        Snowflake? targetStreamUserId = null, Snowflake? targetApplicationId = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         var client = channel.GetRestClient();
-        return client.CreateInviteAsync(channel.Id, maxAge, maxUses, isTemporaryMembership, isUnique, roleIds, targetUsers, options, cancellationToken);
+        return client.CreateInviteAsync(channel.Id, maxAge, maxUses, isTemporaryMembership, isUnique, roleIds, targetUsers, targetStreamUserId, targetApplicationId, options, cancellationToken);
     }
 
     public static Task<IFollowedChannel> FollowAsync(this ITextChannel channel,

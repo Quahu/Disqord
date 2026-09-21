@@ -17,12 +17,23 @@ public class CreateChannelInviteJsonRestRequestContent : JsonModelRestRequestCon
     [JsonProperty("unique")]
     public bool Unique;
 
-    [JsonProperty("target_user")]
-    public Optional<Snowflake> TargetUser;
+    [JsonProperty("target_type")]
+    public Optional<InviteTargetType> TargetType;
 
-    [JsonProperty("target_user_type")]
-    public Optional<int> TargetUserType;
+    [JsonProperty("target_user_id")]
+    public Optional<Snowflake> TargetUserId;
+
+    [JsonProperty("target_application_id")]
+    public Optional<Snowflake> TargetApplicationId;
+
+    [JsonProperty("target_user_ids")]
+    public Optional<Snowflake[]> TargetUserIds;
 
     [JsonProperty("role_ids")]
     public Optional<Snowflake[]> RoleIds;
+
+    protected override void OnValidate()
+    {
+        OptionalGuard.CheckValue(TargetUserIds, static targetUserIds => Guard.HasSizeLessThanOrEqualTo(targetUserIds, Discord.Limits.Rest.MaxInviteTargetUserAmount));
+    }
 }

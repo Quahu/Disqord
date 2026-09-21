@@ -238,6 +238,11 @@ public enum RestApiErrorCode
 
     TheChannelsForThisGuildAreTooLarge = 30061,
 
+    /// <summary>
+    ///     The maximum number of invite target users for the guild was reached.
+    /// </summary>
+    MaximumInviteTargetUsersReached = 30084,
+
     Unauthorized = 40001,
 
     VerifiedAccountRequiredToPerformAction = 40002,
@@ -281,6 +286,10 @@ public enum RestApiErrorCode
     EntitlementAlreadyGrantedForResource = 40074,
 
     MaximumFollowUpMessagesReached = 40094,
+
+    InviteTargetUsersAlreadyBeingProcessed = 40114,
+
+    InviteTargetUsersFileNotProcessed = 40115,
 
     CloudflareBlockingRequest = 40333,
 

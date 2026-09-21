@@ -63,6 +63,11 @@ public static partial class Discord
             public const int BulkBanUsersPageSize = 200;
 
             /// <summary>
+            ///     Represents the maximum amount of invite target user IDs per request.
+            /// </summary>
+            public const int MaxInviteTargetUserAmount = 1000;
+
+            /// <summary>
             ///     Represents the page size for fetching guilds.
             /// </summary>
             public const int FetchGuildsPageSize = 200;

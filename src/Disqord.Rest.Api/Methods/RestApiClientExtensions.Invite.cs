@@ -59,6 +59,38 @@ public static partial class RestApiClientExtensions
         return client.ExecuteAsync(route, content, options, cancellationToken);
     }
 
+    public static Task AddInviteTargetUserAsync(this IRestApiClient client,
+        string code, Snowflake userId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.Invite.AddTargetUser, code, userId);
+        return client.ExecuteAsync(route, null, options, cancellationToken);
+    }
+
+    public static Task RemoveInviteTargetUserAsync(this IRestApiClient client,
+        string code, Snowflake userId,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.Invite.RemoveTargetUser, code, userId);
+        return client.ExecuteAsync(route, null, options, cancellationToken);
+    }
+
+    public static Task AddInviteTargetUsersAsync(this IRestApiClient client,
+        string code, InviteTargetUsersJsonRestRequestContent content,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.Invite.AddTargetUsers, code);
+        return client.ExecuteAsync(route, content, options, cancellationToken);
+    }
+
+    public static Task RemoveInviteTargetUsersAsync(this IRestApiClient client,
+        string code, InviteTargetUsersJsonRestRequestContent content,
+        IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        var route = Format(Route.Invite.RemoveTargetUsers, code);
+        return client.ExecuteAsync(route, content, options, cancellationToken);
+    }
+
     public static Task<InviteTargetUsersJobStatusJsonModel> FetchInviteTargetUsersJobStatusAsync(this IRestApiClient client,
         string code,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)

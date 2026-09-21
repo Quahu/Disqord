@@ -291,6 +291,14 @@ public sealed partial class Route
 
         public static readonly Route UpdateTargetUsers = Put("invites/{0:invite_code}/target-users");
 
+        public static readonly Route AddTargetUser = Put("invites/{0:invite_code}/target-users/{1:user_id}");
+
+        public static readonly Route RemoveTargetUser = Delete("invites/{0:invite_code}/target-users/{1:user_id}");
+
+        public static readonly Route AddTargetUsers = Post("invites/{0:invite_code}/target-users/bulk-add");
+
+        public static readonly Route RemoveTargetUsers = Post("invites/{0:invite_code}/target-users/bulk-delete");
+
         public static readonly Route GetTargetUsersJobStatus = Get("invites/{0:invite_code}/target-users/job-status");
     }
 

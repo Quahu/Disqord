@@ -537,13 +537,21 @@ public static partial class RestClientExtensions
     /// <param name="isUnique"></param>
     /// <param name="roleIds"> The IDs of the roles to assign to users upon accepting the invite. </param>
     /// <param name="targetUsers"> The IDs of the users able to accept the invite. </param>
+    /// <param name="targetStreamUserId"> The ID of the user whose stream the voice channel invite displays. The user must be streaming in the channel. </param>
+    /// <param name="targetApplicationId"> The ID of the embedded application the voice channel invite opens. Cannot be combined with <paramref name="targetStreamUserId"/>. </param>
     /// <param name="options"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public static async Task<IInvite> CreateInviteAsync(this IRestClient client,
         Snowflake channelId, TimeSpan maxAge = default, int maxUses = 0, bool isTemporaryMembership = false, bool isUnique = false, IEnumerable<Snowflake>? roleIds = null, IEnumerable<Snowflake>? targetUsers = null,
+        Snowflake? targetStreamUserId = null, Snowflake? targetApplicationId = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
+        if (targetStreamUserId != null && targetApplicationId != null)
+        {
+            Throw.ArgumentException("An invite cannot target both a stream and an embedded application.", nameof(targetApplicationId));
+        }
+
         var content = new CreateChannelInviteJsonRestRequestContent
         {
             MaxAge = maxAge != default
@@ -559,6 +567,17 @@ public static partial class RestClientExtensions
         if (roleIds != null)
         {
             content.RoleIds = roleIds.ToArray();
+        }
+
+        if (targetStreamUserId != null)
+        {
+            content.TargetType = InviteTargetType.Stream;
+            content.TargetUserId = targetStreamUserId.Value;
+        }
+        else if (targetApplicationId != null)
+        {
+            content.TargetType = InviteTargetType.EmbeddedApplication;
+            content.TargetApplicationId = targetApplicationId.Value;
         }
 
         InviteJsonModel model;

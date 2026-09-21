@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Disqord.Http;
 using Disqord.Serialization.Json;
+using Qommon;
 
 namespace Disqord.Rest.Api;
 
@@ -17,5 +18,13 @@ public class CreateChannelInviteMultipartRestRequestContent : MultipartRestReque
         content.Headers["Content-Type"] = "text/csv";
         FormData.Insert(0, (Payload.CreateHttpContent(serializer, options), "payload_json", null));
         return base.CreateHttpContent(serializer, options);
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        base.Validate();
+
+        OptionalGuard.HasNoValue(Payload.TargetUserIds);
     }
 }
