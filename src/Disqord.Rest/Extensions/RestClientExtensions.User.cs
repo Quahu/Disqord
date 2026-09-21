@@ -52,21 +52,49 @@ public static partial class RestClientExtensions
         return new TransientCurrentUser(client, model);
     }
 
+    /// <summary>
+    ///     Enumerates the guilds of the current user.
+    /// </summary>
+    /// <param name="client"> The REST client. </param>
+    /// <param name="limit"> The amount of guilds to enumerate. </param>
+    /// <param name="direction"> The direction to enumerate the guilds in. </param>
+    /// <param name="startFromId"> The ID of the guild to start enumerating from. </param>
+    /// <param name="shard"> The shard to enumerate the guilds of, from <c>0</c> to <see cref="IBotGatewaySessionData.MaxConcurrency"/> minus one as returned by <see cref="FetchBotGatewayDataAsync"/>; not a gateway shard index. Required for bots using large bot sharding, which must enumerate each shard separately. </param>
+    /// <param name="options"> The optional request options. </param>
+    /// <returns>
+    ///     A paged enumerable yielding the requested guilds.
+    /// </returns>
     public static IPagedEnumerable<IPartialGuild> EnumerateGuilds(this IRestClient client,
         int limit, FetchDirection direction = FetchDirection.After, Snowflake? startFromId = null,
+        int? shard = null,
         IRestRequestOptions? options = null)
     {
         Guard.IsGreaterThanOrEqualTo(limit, 0);
 
         return PagedEnumerable.Create((state, cancellationToken) =>
         {
-            var (client, limit, direction, startFromId, options) = state;
-            return new FetchGuildsPagedEnumerator(client, limit, direction, startFromId, options, cancellationToken);
-        }, (client, limit, direction, startFromId, options));
+            var (client, limit, direction, startFromId, shard, options) = state;
+            return new FetchGuildsPagedEnumerator(client, limit, direction, startFromId, shard, options, cancellationToken);
+        }, (client, limit, direction, startFromId, shard, options));
     }
 
+    /// <summary>
+    ///     Fetches the guilds of the current user.
+    /// </summary>
+    /// <param name="client"> The REST client. </param>
+    /// <param name="limit"> The amount of guilds to fetch. </param>
+    /// <param name="direction"> The direction to fetch the guilds in. </param>
+    /// <param name="startFromId"> The ID of the guild to start fetching from. </param>
+    /// <param name="shard"> The shard to fetch the guilds of, from <c>0</c> to <see cref="IBotGatewaySessionData.MaxConcurrency"/> minus one as returned by <see cref="FetchBotGatewayDataAsync"/>; not a gateway shard index. Required for bots using large bot sharding, which must fetch each shard separately. </param>
+    /// <param name="options"> The optional request options. </param>
+    /// <param name="cancellationToken"> The cancellation token to observe. </param>
+    /// <returns>
+    ///     A <see cref="Task{TResult}"/> representing the request
+    ///     that wraps the returned <see cref="IReadOnlyList{T}"/> of <see cref="IPartialGuild"/>.
+    /// </returns>
     public static Task<IReadOnlyList<IPartialGuild>> FetchGuildsAsync(this IRestClient client,
         int limit = Discord.Limits.Rest.FetchGuildsPageSize, FetchDirection direction = FetchDirection.After, Snowflake? startFromId = null,
+        int? shard = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         Guard.IsGreaterThanOrEqualTo(limit, 0);
@@ -75,17 +103,17 @@ public static partial class RestClientExtensions
             return Task.FromResult(ReadOnlyList<IPartialGuild>.Empty);
 
         if (limit <= Discord.Limits.Rest.FetchGuildsPageSize)
-            return client.InternalFetchGuildsAsync(limit, direction, startFromId, options, cancellationToken);
+            return client.InternalFetchGuildsAsync(limit, direction, startFromId, shard, options, cancellationToken);
 
-        var enumerable = client.EnumerateGuilds(limit, direction, startFromId, options);
+        var enumerable = client.EnumerateGuilds(limit, direction, startFromId, shard, options);
         return enumerable.FlattenAsync(cancellationToken);
     }
 
     internal static async Task<IReadOnlyList<IPartialGuild>> InternalFetchGuildsAsync(this IRestClient client,
-        int limit, FetchDirection direction, Snowflake? startFromId,
+        int limit, FetchDirection direction, Snowflake? startFromId, int? shard,
         IRestRequestOptions? options, CancellationToken cancellationToken)
     {
-        var models = await client.ApiClient.FetchGuildsAsync(limit, direction, startFromId, options, cancellationToken).ConfigureAwait(false);
+        var models = await client.ApiClient.FetchGuildsAsync(limit, direction, startFromId, shard, options, cancellationToken).ConfigureAwait(false);
         return models.ToReadOnlyList(client, (model, client) => new TransientPartialGuild(client, model));
     }
 

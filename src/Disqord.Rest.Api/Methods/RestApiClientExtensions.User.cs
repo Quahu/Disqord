@@ -34,11 +34,12 @@ public static partial class RestApiClientExtensions
 
     public static Task<GuildJsonModel[]> FetchGuildsAsync(this IRestApiClient client,
         int limit = Discord.Limits.Rest.FetchGuildsPageSize, FetchDirection direction = FetchDirection.After, Snowflake? startFromId = null,
+        int? shard = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
         Guard.IsBetweenOrEqualTo(limit, 0, Discord.Limits.Rest.FetchGuildsPageSize);
 
-        var queryParameters = new Dictionary<string, object>(startFromId != null ? 2 : 1)
+        var queryParameters = new Dictionary<string, object>
         {
             ["limit"] = limit
         };
@@ -63,6 +64,12 @@ public static partial class RestApiClientExtensions
             {
                 throw new ArgumentOutOfRangeException(nameof(direction), "Invalid guild fetch direction.");
             }
+        }
+
+        if (shard != null)
+        {
+            Guard.IsGreaterThanOrEqualTo(shard.Value, 0);
+            queryParameters["shard"] = shard.Value;
         }
 
         var route = Format(Route.User.GetGuilds, queryParameters);

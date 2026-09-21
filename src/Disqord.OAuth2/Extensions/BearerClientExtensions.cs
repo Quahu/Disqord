@@ -65,7 +65,7 @@ public static class BearerClientExtensions
         int limit, FetchDirection fetchDirection = FetchDirection.After, Snowflake? startFromId = null,
         IRestRequestOptions? options = null)
     {
-        return client.RestClient.EnumerateGuilds(limit, fetchDirection, startFromId, options);
+        return client.RestClient.EnumerateGuilds(limit, fetchDirection, startFromId, options: options);
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ public static class BearerClientExtensions
         int limit = Discord.Limits.Rest.FetchGuildsPageSize, FetchDirection fetchDirection = FetchDirection.Before, Snowflake? startFromId = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
     {
-        return client.RestClient.FetchGuildsAsync(limit, fetchDirection, startFromId, options, cancellationToken);
+        return client.RestClient.FetchGuildsAsync(limit, fetchDirection, startFromId, options: options, cancellationToken: cancellationToken);
     }
 
     /// <summary>

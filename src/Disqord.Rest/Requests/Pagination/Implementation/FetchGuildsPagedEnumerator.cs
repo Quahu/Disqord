@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Qommon;
@@ -11,16 +11,18 @@ public class FetchGuildsPagedEnumerator : PagedEnumerator<IPartialGuild>
 
     private readonly FetchDirection _direction;
     private readonly Snowflake? _startFromId;
+    private readonly int? _shard;
 
     public FetchGuildsPagedEnumerator(
         IRestClient client,
-        int limit, FetchDirection direction, Snowflake? startFromId,
+        int limit, FetchDirection direction, Snowflake? startFromId, int? shard,
         IRestRequestOptions? options,
         CancellationToken cancellationToken)
         : base(client, limit, options, cancellationToken)
     {
         _direction = direction;
         _startFromId = startFromId;
+        _shard = shard;
     }
 
     protected override Task<IReadOnlyList<IPartialGuild>> NextPageCoreAsync(
@@ -37,6 +39,6 @@ public class FetchGuildsPagedEnumerator : PagedEnumerator<IPartialGuild>
             };
         }
 
-        return Client.InternalFetchGuildsAsync(NextPageSize, _direction, startFromId, options, cancellationToken);
+        return Client.InternalFetchGuildsAsync(NextPageSize, _direction, startFromId, _shard, options, cancellationToken);
     }
 }
