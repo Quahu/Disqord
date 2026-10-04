@@ -12,6 +12,8 @@ namespace Disqord.Rest.Api;
 /// </summary>
 public class RouteFormatter : IFormatProvider, ICustomFormatter
 {
+    private static readonly string[] SecretParameterNames = ["webhook_token", "interaction_token"];
+
     /// <summary>
     ///     The parameters parsed so far.
     /// </summary>
@@ -37,10 +39,13 @@ public class RouteFormatter : IFormatProvider, ICustomFormatter
     public virtual IFormattedRoute Format(IFormattableRoute route,
         object[]? arguments = null, IEnumerable<KeyValuePair<string, object>>? queryParameters = null)
     {
+        arguments ??= Array.Empty<object>();
         var builder = new StringBuilder();
 
         // We use the formatter with string.Format() and it'll collect all encountered parameters with their names.
-        builder.AppendFormat(this, route.Path, arguments ?? Array.Empty<object>());
+        builder.AppendFormat(this, route.Path, arguments);
+        var pathLength = builder.Length;
+        var redactedBuilder = new StringBuilder().AppendFormat(RedactingFormatter.Instance, route.Path, arguments);
 
         if (queryParameters != null)
         {
@@ -70,7 +75,8 @@ public class RouteFormatter : IFormatProvider, ICustomFormatter
             }
         }
 
-        return new FormattedRoute(route, builder.ToString(), new RouteParameters(Parameters));
+        redactedBuilder.Append(builder, pathLength, builder.Length - pathLength);
+        return new FormattedRoute(route, builder.ToString(), redactedBuilder.ToString(), new RouteParameters(Parameters));
     }
 
     object? IFormatProvider.GetFormat(Type? formatType)
@@ -96,5 +102,24 @@ public class RouteFormatter : IFormatProvider, ICustomFormatter
             Throw.FormatException("The format argument must not return a null or whitespace string.");
 
         return Uri.EscapeDataString(argString);
+    }
+
+    private sealed class RedactingFormatter : IFormatProvider, ICustomFormatter
+    {
+        public static readonly RedactingFormatter Instance = new();
+
+        public object? GetFormat(Type? formatType)
+        {
+            return formatType == typeof(ICustomFormatter)
+                ? this
+                : null;
+        }
+
+        public string Format(string? format, object? arg, IFormatProvider? formatProvider)
+        {
+            return Array.IndexOf(SecretParameterNames, format) == -1
+                ? Uri.EscapeDataString(arg!.ToString()!)
+                : $"{{{format}}}";
+        }
     }
 }

@@ -28,14 +28,26 @@ public class FormattedRoute : IFormattedRoute
     /// </summary>
     public IRouteParameters Parameters { get; }
 
+    /// <inheritdoc/>
+    public string RedactedPath { get; }
+
+    /// <summary>
+    ///     Instantiates a new <see cref="FormattedRoute"/> whose <see cref="RedactedPath"/> is the unformatted path of the base route.
+    /// </summary>
     public FormattedRoute(IFormattableRoute baseRoute, string path, IRouteParameters parameters)
+        : this(baseRoute, path, baseRoute?.Path!, parameters)
+    { }
+
+    public FormattedRoute(IFormattableRoute baseRoute, string path, string redactedPath, IRouteParameters parameters)
     {
         Guard.IsNotNull(baseRoute);
         Guard.IsNotNull(path);
+        Guard.IsNotNull(redactedPath);
         Guard.IsNotNull(parameters);
 
         BaseRoute = baseRoute;
         Path = path;
+        RedactedPath = redactedPath;
         Parameters = parameters;
     }
 

@@ -32,6 +32,16 @@ public static class RouteParametersExtensions
     }
 
     /// <summary>
+    ///     Gets the major parameter <c>interaction_token</c> or <see langword="null"/>.
+    /// </summary>
+    public static string? GetInteractionToken(this IRouteParameters parameters)
+    {
+        return parameters.TryGetValue("interaction_token", out var value)
+            ? value.ToString()
+            : null;
+    }
+
+    /// <summary>
     ///     Retrieves a parameter with the given name and converts it or retrieves the default value for its type.
     /// </summary>
     /// <typeparam name="T"> The type of the parameter. </typeparam>

@@ -9,4 +9,9 @@ public interface IFormattedRoute : IRoute
     IFormattableRoute BaseRoute { get; }
 
     IRouteParameters Parameters { get; }
+
+    /// <summary>
+    ///     Gets the path of this route with its tokens replaced by their parameter names, for logging.
+    /// </summary>
+    string RedactedPath { get; }
 }

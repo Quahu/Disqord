@@ -9,6 +9,7 @@ internal sealed class FakeRestApiClient : IRestApiClient
 {
     private readonly IRestRequester? _requester;
     private readonly Token? _token;
+    private readonly IJsonSerializer? _serializer;
 
     public IRestRequester Requester
     {
@@ -26,7 +27,11 @@ internal sealed class FakeRestApiClient : IRestApiClient
 
     public IRestRateLimiter RateLimiter => throw new NotSupportedException();
 
-    public IJsonSerializer Serializer => throw new NotSupportedException();
+    public IJsonSerializer Serializer
+    {
+        get => _serializer ?? throw new NotSupportedException();
+        init => _serializer = value;
+    }
 
     public Task ExecuteAsync(IFormattedRoute route, IRestRequestContent? content = null,
         IRestRequestOptions? options = null, CancellationToken cancellationToken = default)
