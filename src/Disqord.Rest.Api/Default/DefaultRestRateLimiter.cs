@@ -87,9 +87,9 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
     public async Task<IRestResponse> ExecuteAsync(IRestRequest request, CancellationToken cancellationToken)
     {
         var bucket = GetBucket(request.Route, true)!;
-        using (var token = await bucket.PostAsync(request, cancellationToken).ConfigureAwait(false))
+        using (var pendingRequest = await bucket.PostAsync(request, cancellationToken).ConfigureAwait(false))
         {
-            return await token.Task.ConfigureAwait(false);
+            return await pendingRequest.Task.ConfigureAwait(false);
         }
     }
 
@@ -183,14 +183,14 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
 
         private readonly DefaultRestRateLimiter _rateLimiter;
         private readonly bool _isUnlimited;
-        private readonly Channel<Token> _tokens;
+        private readonly Channel<PendingRequest> _pendingRequests;
 
         public Bucket(DefaultRestRateLimiter rateLimiter, bool isUnlimited)
         {
             _rateLimiter = rateLimiter;
             _isUnlimited = isUnlimited;
 
-            _tokens = Channel.CreateUnbounded<Token>(new UnboundedChannelOptions
+            _pendingRequests = Channel.CreateUnbounded<PendingRequest>(new UnboundedChannelOptions
             {
                 SingleReader = true,
             });
@@ -198,7 +198,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
             _ = RunAsync();
         }
 
-        public class Token : IDisposable
+        public class PendingRequest : IDisposable
         {
             public IRestRequest Request { get; }
 
@@ -209,7 +209,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
             private readonly Tcs<IRestResponse> _tcs;
             private readonly CancellationTokenRegistration _reg;
 
-            public Token(IRestRequest request, CancellationToken cancellationToken)
+            public PendingRequest(IRestRequest request, CancellationToken cancellationToken)
             {
                 Request = request;
                 CancellationToken = cancellationToken;
@@ -240,27 +240,27 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
             }
         }
 
-        public async Task<Token> PostAsync(IRestRequest request, CancellationToken cancellationToken)
+        public async Task<PendingRequest> PostAsync(IRestRequest request, CancellationToken cancellationToken)
         {
-            var token = new Token(request, cancellationToken);
-            await _tokens.Writer.WriteAsync(token, cancellationToken).ConfigureAwait(false);
-            return token;
+            var pendingRequest = new PendingRequest(request, cancellationToken);
+            await _pendingRequests.Writer.WriteAsync(pendingRequest, cancellationToken).ConfigureAwait(false);
+            return pendingRequest;
         }
 
-        public ValueTask PostAsync(Token token)
+        public ValueTask PostAsync(PendingRequest pendingRequest)
         {
-            return _tokens.Writer.WriteAsync(token, token.CancellationToken);
+            return _pendingRequests.Writer.WriteAsync(pendingRequest, pendingRequest.CancellationToken);
         }
 
         private async Task RunAsync()
         {
-            var reader = _tokens.Reader;
-            await foreach (var token in reader.ReadAllAsync().ConfigureAwait(false))
+            var reader = _pendingRequests.Reader;
+            await foreach (var pendingRequest in reader.ReadAllAsync().ConfigureAwait(false))
             {
-                if (token.CancellationToken.IsCancellationRequested)
+                if (pendingRequest.CancellationToken.IsCancellationRequested)
                     continue;
 
-                var request = token.Request;
+                var request = pendingRequest.Request;
                 bool retry;
                 do
                 {
@@ -273,7 +273,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                             if (bucket != this)
                             {
                                 Logger.LogDebug("Route {0} is moving the request to the limited bucket.", request.Route);
-                                await bucket.PostAsync(token).ConfigureAwait(false);
+                                await bucket.PostAsync(pendingRequest).ConfigureAwait(false);
                                 break;
                             }
                         }
@@ -293,7 +293,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                                 if (maximumDelayDuration != Timeout.InfiniteTimeSpan && delay > maximumDelayDuration)
                                 {
                                     Logger.LogDebug("Route {0} is rate-limited - throwing as the delay {1} exceeds the maximum delay duration.", request.Route, delay);
-                                    token.Complete(new MaximumRateLimitDelayExceededException(request, delay, isGloballyRateLimited));
+                                    pendingRequest.Complete(new MaximumRateLimitDelayExceededException(request, delay, isGloballyRateLimited));
                                     break;
                                 }
 
@@ -302,11 +302,11 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                                     : LogLevel.Information;
 
                                 Logger.Log(level, "Route {0} is rate-limited - delaying for {1}.", request.Route, delay);
-                                await Task.Delay(delay, token.CancellationToken).ConfigureAwait(false);
+                                await Task.Delay(delay, pendingRequest.CancellationToken).ConfigureAwait(false);
                             }
                         }
 
-                        var response = await _rateLimiter.ApiClient.Requester.ExecuteAsync(request, token.CancellationToken).ConfigureAwait(false);
+                        var response = await _rateLimiter.ApiClient.Requester.ExecuteAsync(request, pendingRequest.CancellationToken).ConfigureAwait(false);
                         if (_rateLimiter.UpdateBucket(request.Route, response.HttpResponse))
                         {
                             Logger.LogInformation("Route {0} is retrying the last request due to a hit rate-limit.", request.Route);
@@ -314,12 +314,12 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                         }
                         else
                         {
-                            token.Complete(response);
+                            pendingRequest.Complete(response);
                         }
                     }
                     catch (Exception ex)
                     {
-                        token.Complete(ex);
+                        pendingRequest.Complete(ex);
 
                         if (ex is not (OperationCanceledException or TimeoutException))
                         {
