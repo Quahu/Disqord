@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Disqord.Rest;
 
 namespace Disqord.OAuth2;
@@ -6,7 +7,7 @@ namespace Disqord.OAuth2;
 /// <summary>
 ///     Represents a REST client wrapper for a specific bearer token.
 /// </summary>
-public interface IBearerClient
+public interface IBearerClient : IDisposable
 {
     /// <summary>
     ///     Gets the underlying REST client.

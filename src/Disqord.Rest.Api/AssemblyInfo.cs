@@ -2,3 +2,4 @@
 
 [assembly: InternalsVisibleTo("Disqord.Rest")]
 [assembly: InternalsVisibleTo("Disqord.TestBot")]
+[assembly: InternalsVisibleTo("Disqord.Tests")]

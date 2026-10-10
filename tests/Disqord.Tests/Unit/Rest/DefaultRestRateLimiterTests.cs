@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Disqord.Http;
 using Disqord.Rest;
@@ -29,6 +30,8 @@ public class DefaultRestRateLimiterTests
     private static readonly TimeSpan HangTimeout = TimeSpan.FromSeconds(5);
 
     private static readonly TimeSpan ConcurrentWriteTimeout = TimeSpan.FromSeconds(1);
+
+    private static readonly TimeSpan BucketCleanupInterval = TimeSpan.FromMinutes(10);
 
     [Test]
     public async Task ExecuteAsync_BucketHashLearnedFromAnotherChannelWhileRequestQueued_CompletesQueuedRequest()
@@ -857,6 +860,370 @@ public class DefaultRestRateLimiterTests
         Assert.That(waitDuration, Is.GreaterThanOrEqualTo(TimeSpan.FromSeconds(1) - halfMillisecond));
     }
 
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedAfterBucketsReset_IsZero()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(resetAfter: 5));
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiter.BucketCount, Is.Zero);
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedAfterRequestWithoutBucketHeaders_IsZero()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, new FakeHttpResponse());
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiter.BucketCount, Is.Zero);
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedAgainAfterNewRequest_IsZero()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), new FakeHttpResponse());
+        timeProvider.Advance(BucketCleanupInterval);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([SecondChannelId]), new FakeHttpResponse());
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiter.BucketCount, Is.Zero);
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedBeforeLimitedBucketResets_KeepsOnlyLimitedBucket()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 900));
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiter.BucketCount, Is.EqualTo(1));
+        Assert.That(rateLimiter.IsRateLimited(route), Is.True);
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedWhileRequestInFlightOnUnlimitedBucket_KeepsBucket()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        var exchange = requester.Script(route);
+
+        using var request = new DefaultRestRequest(route);
+        var task = rateLimiter.ExecuteAsync(request, CancellationToken.None);
+        await exchange.Sent.WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+        var bucketCount = rateLimiter.BucketCount;
+
+        exchange.Respond(new FakeHttpResponse());
+        var response = await task.WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(bucketCount, Is.EqualTo(1));
+        Assert.That(response.HttpResponse.StatusCode, Is.EqualTo(HttpResponseStatusCode.OK));
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedWhileRequestInFlightOnLimitedBucket_KeepsBucket()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(resetAfter: 5));
+        var exchange = requester.Script(route);
+
+        using var request = new DefaultRestRequest(route);
+        var task = rateLimiter.ExecuteAsync(request, CancellationToken.None);
+        await exchange.Sent.WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+        var bucketCount = rateLimiter.BucketCount;
+
+        exchange.Respond(CreateBucketResponse());
+        var response = await task.WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(bucketCount, Is.EqualTo(1));
+        Assert.That(response.HttpResponse.StatusCode, Is.EqualTo(HttpResponseStatusCode.OK));
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedAfterMovedRequestCompletes_IsZero()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        var hashTeachingExchange = requester.Script(route);
+        var movedExchange = requester.Script(route);
+
+        using var hashTeachingRequest = new DefaultRestRequest(route);
+        using var movedRequest = new DefaultRestRequest(route);
+        var hashTeachingTask = rateLimiter.ExecuteAsync(hashTeachingRequest, CancellationToken.None);
+        var movedTask = rateLimiter.ExecuteAsync(movedRequest, CancellationToken.None);
+        await hashTeachingExchange.Sent.WaitAsync(HangTimeout);
+        hashTeachingExchange.Respond(CreateBucketResponse(resetAfter: 5));
+        await hashTeachingTask.WaitAsync(HangTimeout);
+
+        await movedExchange.Sent.WaitAsync(HangTimeout);
+        movedExchange.Respond(CreateBucketResponse(resetAfter: 5));
+        await movedTask.WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiter.BucketCount, Is.Zero);
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedAfterQueuedRequestCancelled_IsZero()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        var firstExchange = requester.Script(route);
+        var lastExchange = requester.Script(route);
+
+        using var cancellationTokenSource = new CancellationTokenSource();
+        using var firstRequest = new DefaultRestRequest(route);
+        using var cancelledRequest = new DefaultRestRequest(route);
+        using var lastRequest = new DefaultRestRequest(route);
+        var firstTask = rateLimiter.ExecuteAsync(firstRequest, CancellationToken.None);
+        var cancelledTask = rateLimiter.ExecuteAsync(cancelledRequest, cancellationTokenSource.Token);
+        var lastTask = rateLimiter.ExecuteAsync(lastRequest, CancellationToken.None);
+        await firstExchange.Sent.WaitAsync(HangTimeout);
+
+        await cancellationTokenSource.CancelAsync();
+        firstExchange.Respond(new FakeHttpResponse());
+        await firstTask.WaitAsync(HangTimeout);
+
+        await lastExchange.Sent.WaitAsync(HangTimeout);
+        lastExchange.Respond(new FakeHttpResponse());
+        await lastTask.WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(async () => await cancelledTask.WaitAsync(HangTimeout), Throws.InstanceOf<OperationCanceledException>());
+        Assert.That(rateLimiter.BucketCount, Is.Zero);
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedAfterRequestFailed_IsZero()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        var exchange = requester.Script(route);
+
+        using var request = new DefaultRestRequest(route);
+        var task = rateLimiter.ExecuteAsync(request, CancellationToken.None);
+        await exchange.Sent.WaitAsync(HangTimeout);
+        exchange.Fail(new HttpRequestException("Connection reset."));
+        await task.ContinueWith(static _ => { }, TaskScheduler.Default).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiter.BucketCount, Is.Zero);
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedAfterRequestExceededMaximumDelay_IsZero()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 5));
+
+        var options = new DefaultRestRequestOptions
+        {
+            MaximumDelayDuration = TimeSpan.FromSeconds(1)
+        };
+
+        using var request = new DefaultRestRequest(route, options: options);
+        var task = rateLimiter.ExecuteAsync(request, CancellationToken.None);
+        await task.ContinueWith(static _ => { }, TaskScheduler.Default).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiter.BucketCount, Is.Zero);
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedBeforeUnlimitedBucketRateLimitResets_KeepsBucket()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        var exchange = requester.Script(route);
+
+        using var request = new DefaultRestRequest(route);
+        var task = rateLimiter.ExecuteAsync(request, CancellationToken.None);
+        await exchange.Sent.WaitAsync(HangTimeout);
+        exchange.Respond(CreateRateLimitedResponse("user", isGlobal: false, bodyRetryAfter: 900, headerRetryAfter: 900));
+        await task.ContinueWith(static _ => { }, TaskScheduler.Default).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiter.BucketCount, Is.EqualTo(1));
+        Assert.That(rateLimiter.IsRateLimited(route), Is.True);
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedBeforeInteractionGlobalRateLimitResets_KeepsBucket()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        var route = Route.Interactions.CreateFollowupResponse.Format([ApplicationId, "first-token"]);
+        var exchange = requester.Script(route);
+
+        using var request = new DefaultRestRequest(route);
+        var task = rateLimiter.ExecuteAsync(request, CancellationToken.None);
+        await exchange.Sent.WaitAsync(HangTimeout);
+        exchange.Respond(CreateRateLimitedResponse("global", isGlobal: true, bodyRetryAfter: 900, headerRetryAfter: 900));
+        await task.ContinueWith(static _ => { }, TaskScheduler.Default).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiter.BucketCount, Is.EqualTo(1));
+    }
+
+    [TestCase(0)]
+    [TestCase(-1000)]
+    public void Constructor_NonPositiveBucketCleanupInterval_Throws(int bucketCleanupIntervalMilliseconds)
+    {
+        // Act & Assert
+        Assert.That(() => CreateRateLimiter(new ScriptedRestRequester(), new ManualTimeProvider(), bucketCleanupInterval: TimeSpan.FromMilliseconds(bucketCleanupIntervalMilliseconds)),
+            Throws.InstanceOf<ArgumentOutOfRangeException>());
+    }
+
+    [Test]
+    public void Constructor_BucketCleanupIntervalBelowOneMillisecond_SchedulesCleanupEveryMillisecond()
+    {
+        // Arrange
+        var timeProvider = new ManualTimeProvider();
+        using var rateLimiter = CreateRateLimiter(new ScriptedRestRequester(), timeProvider, bucketCleanupInterval: TimeSpan.FromTicks(TimeSpan.TicksPerMillisecond / 2));
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromMilliseconds(1));
+
+        // Assert
+        Assert.That(timeProvider.TimeUntilNextTimer, Is.EqualTo(TimeSpan.FromMilliseconds(1)));
+    }
+
+    [Test]
+    public void RateLimiter_UnreferencedWithoutDispose_IsCollectedAndStopsCleanupTimer()
+    {
+        // Arrange
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiterReference = CreateUnreferencedRateLimiter(timeProvider);
+
+        // Act
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiterReference.TryGetTarget(out _), Is.False);
+        Assert.That(timeProvider.PendingTimerCount, Is.Zero);
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedAfterDispose_KeepsBuckets()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, new FakeHttpResponse());
+        rateLimiter.Dispose();
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiter.BucketCount, Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task ExecuteAsync_BucketRemovedByCleanup_SendsRequest()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(resetAfter: 5));
+        timeProvider.Advance(BucketCleanupInterval);
+        var bucketCountBeforeRequest = rateLimiter.BucketCount;
+
+        // Act
+        var response = await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse());
+
+        // Assert
+        Assert.That(bucketCountBeforeRequest, Is.Zero);
+        Assert.That(response.HttpResponse.StatusCode, Is.EqualTo(HttpResponseStatusCode.OK));
+    }
+
     [TestCase(4999, true)]
     [TestCase(5000, false)]
     public async Task IsRateLimited_ExhaustedBucket_ReturnsTrueUntilReset(int elapsedMilliseconds, bool expected)
@@ -945,6 +1312,12 @@ public class DefaultRestRateLimiterTests
         Assert.That(() => rateLimiter.IsRateLimited(route), Throws.Nothing);
     }
 
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static WeakReference<DefaultRestRateLimiter> CreateUnreferencedRateLimiter(ManualTimeProvider timeProvider)
+    {
+        return new WeakReference<DefaultRestRateLimiter>(CreateRateLimiter(new ScriptedRestRequester(), timeProvider, bucketCleanupInterval: BucketCleanupInterval));
+    }
+
     private static (ScriptedExchange Exchange, Task<IRestResponse> Task) ExecuteScriptedRequest(ScriptedRestRequester requester, DefaultRestRateLimiter rateLimiter,
         IFormattedRoute route)
     {
@@ -1012,10 +1385,15 @@ public class DefaultRestRateLimiterTests
     }
 
     private static DefaultRestRateLimiter CreateRateLimiter(ScriptedRestRequester requester, TimeProvider timeProvider,
-        ILogger<DefaultRestRateLimiter>? logger = null)
+        ILogger<DefaultRestRateLimiter>? logger = null, TimeSpan? bucketCleanupInterval = null)
     {
+        var configuration = new DefaultRestRateLimiterConfiguration
+        {
+            BucketCleanupInterval = bucketCleanupInterval ?? Timeout.InfiniteTimeSpan
+        };
+
         var rateLimiter = new DefaultRestRateLimiter(
-            Options.Create(new DefaultRestRateLimiterConfiguration()),
+            Options.Create(configuration),
             logger ?? NullLogger<DefaultRestRateLimiter>.Instance,
             timeProvider);
 

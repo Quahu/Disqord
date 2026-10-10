@@ -26,10 +26,11 @@ public class DefaultBearerClientFactory : IBearerClientFactory
     {
         Guard.IsNotNull(token);
 
+        var rateLimiter = ActivatorUtilities.CreateInstance<DefaultRestRateLimiter>(_services);
         var restApiClient = (_restApiClientFactory(_services, new object[]
         {
             token,
-            ActivatorUtilities.CreateInstance<DefaultRestRateLimiter>(_services),
+            rateLimiter,
             ActivatorUtilities.CreateInstance<DefaultRestRequester>(_services)
         }) as IRestApiClient)!;
 
@@ -42,7 +43,7 @@ public class DefaultBearerClientFactory : IBearerClientFactory
             restApiClient
         }) as IRestClient)!;
 
-        return new DefaultBearerClient(restClient);
+        return new DefaultBearerClient(restClient, rateLimiter);
     }
 
     private static readonly ObjectFactory _restApiClientFactory;

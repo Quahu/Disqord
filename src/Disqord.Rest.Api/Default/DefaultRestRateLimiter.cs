@@ -15,7 +15,7 @@ using Qommon.Binding;
 
 namespace Disqord.Rest.Api.Default;
 
-public sealed class DefaultRestRateLimiter : IRestRateLimiter
+public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
 {
     /// <inheritdoc/>
     public ILogger Logger { get; }
@@ -57,6 +57,17 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
         }
     }
 
+    internal int BucketCount
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _buckets.Count;
+            }
+        }
+    }
+
     private DateTimeOffset? _globalResetsAt;
     private DateTimeOffset? _cloudflareResetsAt;
 
@@ -67,6 +78,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
     private readonly Dictionary<IFormattableRoute, string> _hashes;
     private readonly Dictionary<string, Bucket> _buckets;
     private readonly HashSet<IFormattableRoute> _hitRateLimits;
+    private readonly BucketCleanupTimer _bucketCleanupTimer;
 
     public DefaultRestRateLimiter(
         IOptions<DefaultRestRateLimiterConfiguration> options,
@@ -93,6 +105,14 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
         _hashes = new Dictionary<IFormattableRoute, string>();
         _buckets = new Dictionary<string, Bucket>();
         _hitRateLimits = new HashSet<IFormattableRoute>();
+
+        var bucketCleanupInterval = configuration.BucketCleanupInterval;
+        if (bucketCleanupInterval != Timeout.InfiniteTimeSpan)
+        {
+            Guard.IsGreaterThan(bucketCleanupInterval, TimeSpan.Zero);
+        }
+
+        _bucketCleanupTimer = new BucketCleanupTimer(this, timeProvider, bucketCleanupInterval);
     }
 
     public void Bind(IRestApiClient value)
@@ -125,9 +145,18 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
     {
         using (var pendingRequest = new Bucket.PendingRequest(request, cancellationToken))
         {
-            GetBucket(request.Route, create: true)!.Post(pendingRequest);
+            lock (_lock)
+            {
+                GetBucket(request.Route, create: true)!.Post(pendingRequest);
+            }
+
             return await pendingRequest.Task.ConfigureAwait(false);
         }
+    }
+
+    public void Dispose()
+    {
+        _bucketCleanupTimer.Dispose();
     }
 
     private Bucket? GetBucket(IFormattedRoute route, bool create)
@@ -145,6 +174,31 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
             }
 
             return bucket;
+        }
+    }
+
+    private void RemoveExpiredBuckets()
+    {
+        lock (_lock)
+        {
+            var now = _timeProvider.GetUtcNow();
+            var removedBucketCount = 0;
+            foreach (var (bucketId, bucket) in _buckets)
+            {
+                if (!bucket.CanBeRemoved(now))
+                {
+                    continue;
+                }
+
+                _buckets.Remove(bucketId);
+                bucket.Close();
+                removedBucketCount++;
+            }
+
+            if (removedBucketCount > 0)
+            {
+                Logger.LogDebug("Removed {0} expired buckets.", removedBucketCount);
+            }
         }
     }
 
@@ -309,6 +363,47 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
         }
     }
 
+    private sealed class BucketCleanupTimer : IDisposable
+    {
+        private readonly WeakReference<DefaultRestRateLimiter> _rateLimiter;
+        private readonly ITimer _timer;
+
+        public BucketCleanupTimer(DefaultRestRateLimiter rateLimiter, TimeProvider timeProvider, TimeSpan interval)
+        {
+            _rateLimiter = new WeakReference<DefaultRestRateLimiter>(rateLimiter);
+
+            var roundedUpInterval = TimeSpan.FromMilliseconds(Math.Ceiling(interval.TotalMilliseconds));
+            _timer = timeProvider.CreateTimer(static state => ((BucketCleanupTimer) state!).Tick(), this, roundedUpInterval, roundedUpInterval);
+        }
+
+        public void Dispose()
+        {
+            _timer.Dispose();
+        }
+
+        private void Tick()
+        {
+            if (!_rateLimiter.TryGetTarget(out var rateLimiter))
+            {
+                _timer.Dispose();
+                return;
+            }
+
+            try
+            {
+                rateLimiter.RemoveExpiredBuckets();
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    rateLimiter.Logger.LogError(ex, "An exception occurred while removing expired buckets.");
+                }
+                catch { }
+            }
+        }
+    }
+
     private class Bucket : ILogging
     {
         public int Limit { get; private set; } = 1;
@@ -322,6 +417,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
         private readonly DefaultRestRateLimiter _rateLimiter;
         private readonly bool _isUnlimited;
         private readonly Channel<PendingRequest> _pendingRequests;
+        private int _pendingRequestCount;
 
         public Bucket(DefaultRestRateLimiter rateLimiter, bool isUnlimited)
         {
@@ -380,6 +476,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
 
         public void Post(PendingRequest pendingRequest)
         {
+            _pendingRequestCount++;
             var isWritten = _pendingRequests.Writer.TryWrite(pendingRequest);
             Debug.Assert(isWritten);
         }
@@ -410,12 +507,23 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
             ResetsAt = resetsAt;
         }
 
+        public bool CanBeRemoved(DateTimeOffset now)
+        {
+            return _pendingRequestCount == 0 && ResetsAt <= now;
+        }
+
+        public void Close()
+        {
+            _pendingRequests.Writer.Complete();
+        }
+
         private async Task RunAsync()
         {
             await foreach (var pendingRequest in _pendingRequests.Reader.ReadAllAsync().ConfigureAwait(false))
             {
                 if (pendingRequest.CancellationToken.IsCancellationRequested)
                 {
+                    Release();
                     continue;
                 }
 
@@ -437,7 +545,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                     var response = await _rateLimiter.ApiClient.Requester.ExecuteAsync(pendingRequest.Request, pendingRequest.CancellationToken).ConfigureAwait(false);
                     if (!await _rateLimiter.HandleResponseAsync(pendingRequest, response).ConfigureAwait(false))
                     {
-                        pendingRequest.Complete(response);
+                        Complete(pendingRequest, response);
                         return;
                     }
                 }
@@ -472,7 +580,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
                     if (Exceeds(delay, maximumDelayDuration))
                     {
                         Logger.LogDebug("Route {0} is rate-limited - throwing as the delay {1} exceeds the maximum delay duration.", new LoggedRoute(request.Route), delay);
-                        pendingRequest.Complete(new MaximumRateLimitDelayExceededException(request, delay, isGloballyRateLimited));
+                        Complete(pendingRequest, new MaximumRateLimitDelayExceededException(request, delay, isGloballyRateLimited));
                         return false;
                     }
 
@@ -501,24 +609,48 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter
 
         private bool TryMoveRequest(PendingRequest pendingRequest)
         {
-            var bucket = _rateLimiter.GetBucket(pendingRequest.Request.Route, create: true)!;
-            if (bucket == this)
+            lock (_rateLimiter._lock)
             {
-                return false;
-            }
+                var bucket = _rateLimiter.GetBucket(pendingRequest.Request.Route, create: true)!;
+                if (bucket == this)
+                {
+                    return false;
+                }
 
-            Logger.LogDebug("Route {0} is moving the request to the limited bucket.", new LoggedRoute(pendingRequest.Request.Route));
-            bucket.Post(pendingRequest);
-            return true;
+                Logger.LogDebug("Route {0} is moving the request to the limited bucket.", new LoggedRoute(pendingRequest.Request.Route));
+                bucket.Post(pendingRequest);
+                _pendingRequestCount--;
+                return true;
+            }
+        }
+
+        private void Complete(PendingRequest pendingRequest, IRestResponse response)
+        {
+            Release();
+            pendingRequest.Complete(response);
+        }
+
+        private void Complete(PendingRequest pendingRequest, Exception exception)
+        {
+            Release();
+            pendingRequest.Complete(exception);
         }
 
         private void Fail(PendingRequest pendingRequest, Exception exception)
         {
-            pendingRequest.Complete(exception);
+            Complete(pendingRequest, exception);
 
             if (exception is not (OperationCanceledException or TimeoutException))
             {
                 Logger.LogError(exception, "Route {0} encountered an exception while processing the request.", new LoggedRoute(pendingRequest.Request.Route));
+            }
+        }
+
+        private void Release()
+        {
+            lock (_rateLimiter._lock)
+            {
+                _pendingRequestCount--;
             }
         }
 

@@ -17,6 +17,20 @@ internal sealed class ManualTimeProvider : TimeProvider
     }
 
     /// <summary>
+    ///     Gets the amount of timers that are scheduled to fire.
+    /// </summary>
+    public int PendingTimerCount
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _timers.Count;
+            }
+        }
+    }
+
+    /// <summary>
     ///     Gets the time left until the earliest scheduled timer fires, or <see langword="null"/> if none is scheduled.
     /// </summary>
     public TimeSpan? TimeUntilNextTimer
@@ -74,7 +88,7 @@ internal sealed class ManualTimeProvider : TimeProvider
     }
 
     /// <summary>
-    ///     Moves the clock forward and fires every timer that became due.
+    ///     Moves the clock forward and fires every timer that became due, periodic timers at most once.
     /// </summary>
     public void Advance(TimeSpan duration)
     {
@@ -93,7 +107,14 @@ internal sealed class ManualTimeProvider : TimeProvider
 
             foreach (var dueTimer in dueTimers)
             {
-                _timers.Remove(dueTimer);
+                if (dueTimer.IsPeriodic)
+                {
+                    dueTimer.DueAt += dueTimer.Period;
+                }
+                else
+                {
+                    _timers.Remove(dueTimer);
+                }
             }
 
             ResetTimerScheduledIfEmpty();
@@ -154,8 +175,13 @@ internal sealed class ManualTimeProvider : TimeProvider
     {
         public TimeSpan DueAt { get; set; }
 
+        public TimeSpan Period { get; private set; }
+
+        public bool IsPeriodic => Period != Timeout.InfiniteTimeSpan && Period != TimeSpan.Zero;
+
         public bool Change(TimeSpan dueTime, TimeSpan period)
         {
+            Period = period;
             timeProvider.Schedule(this, dueTime);
             return true;
         }

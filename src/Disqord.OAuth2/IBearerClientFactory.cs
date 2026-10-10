@@ -10,7 +10,7 @@ public interface IBearerClientFactory
     /// </summary>
     /// <param name="token"> The bearer token of the user. </param>
     /// <returns>
-    ///     An <see cref="IBearerClient"/>.
+    ///     An <see cref="IBearerClient"/>, which the caller is responsible for disposing.
     /// </returns>
     IBearerClient CreateClient(BearerToken token);
 }

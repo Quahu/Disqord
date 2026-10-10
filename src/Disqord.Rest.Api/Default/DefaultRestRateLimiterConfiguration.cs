@@ -9,4 +9,11 @@ public class DefaultRestRateLimiterConfiguration
     ///     Defaults to <c>10</c> seconds.
     /// </summary>
     public virtual TimeSpan MaximumDelayDuration { get; set; } = TimeSpan.FromSeconds(10);
+
+    /// <summary>
+    ///     Gets or sets the interval at which idle buckets whose rate-limits have reset are removed.
+    ///     Set to <see cref="System.Threading.Timeout.InfiniteTimeSpan"/> to disable the removal.
+    ///     Defaults to <c>10</c> minutes.
+    /// </summary>
+    public virtual TimeSpan BucketCleanupInterval { get; set; } = TimeSpan.FromMinutes(10);
 }
