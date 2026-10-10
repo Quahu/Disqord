@@ -46,6 +46,8 @@ internal sealed class ManualTimeProvider : TimeProvider
         }
     }
 
+    public override long TimestampFrequency => TimeSpan.TicksPerSecond;
+
     private readonly object _lock = new();
     private readonly List<ManualTimer> _timers = [];
     private readonly List<(int ScheduledTimerCount, TaskCompletionSource Source)> _scheduledTimerCountWaiters = [];
@@ -59,6 +61,14 @@ internal sealed class ManualTimeProvider : TimeProvider
         lock (_lock)
         {
             return _utcNow;
+        }
+    }
+
+    public override long GetTimestamp()
+    {
+        lock (_lock)
+        {
+            return _elapsed.Ticks;
         }
     }
 
@@ -88,7 +98,7 @@ internal sealed class ManualTimeProvider : TimeProvider
     }
 
     /// <summary>
-    ///     Moves the clock forward and fires every timer that became due, periodic timers at most once.
+    ///     Moves the wall clock and the monotonic clock forward and fires every timer that became due, periodic timers at most once.
     /// </summary>
     public void Advance(TimeSpan duration)
     {
@@ -123,6 +133,17 @@ internal sealed class ManualTimeProvider : TimeProvider
         foreach (var dueTimer in dueTimers)
         {
             dueTimer.Fire();
+        }
+    }
+
+    /// <summary>
+    ///     Moves only the wall clock, as a system clock adjustment would.
+    /// </summary>
+    public void AdjustWallClock(TimeSpan offset)
+    {
+        lock (_lock)
+        {
+            _utcNow += offset;
         }
     }
 

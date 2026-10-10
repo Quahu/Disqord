@@ -22,4 +22,10 @@ public class DefaultRestRateLimiterConfiguration
     ///     Defaults to <see langword="false"/>.
     /// </summary>
     public virtual bool SendsSameBucketRequestsConcurrently { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the maximum amount of requests sent per second, not counting interaction responses and follow-ups.
+    ///     Defaults to <c>50</c>; <see langword="null"/> disables the limit.
+    /// </summary>
+    public virtual int? GlobalRequestsPerSecond { get; set; } = 50;
 }

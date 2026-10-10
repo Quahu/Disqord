@@ -11,6 +11,7 @@ using Disqord.Tests.Fakes;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
+using Qommon;
 using Qommon.Binding;
 
 namespace Disqord.Tests.Unit.Rest;
@@ -22,6 +23,8 @@ public class DefaultRestRateLimiterTests
     private static readonly Snowflake FirstChannelId = 1;
 
     private static readonly Snowflake SecondChannelId = 2;
+
+    private static readonly Snowflake ThirdChannelId = 5;
 
     private static readonly Snowflake ApplicationId = 3;
 
@@ -864,6 +867,385 @@ public class DefaultRestRateLimiterTests
     }
 
     [Test]
+    public async Task ExecuteAsync_GlobalRequestsPerSecondReached_DelaysNextRequestUntilWindowFrees()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, globalRequestsPerSecond: 2);
+        var first = ExecuteScriptedRequest(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]));
+        var second = ExecuteScriptedRequest(requester, rateLimiter, Route.Channel.CreateMessage.Format([SecondChannelId]));
+        await Task.WhenAll(first.Exchange.Sent, second.Exchange.Sent).WaitAsync(HangTimeout);
+
+        var third = ExecuteScriptedRequest(requester, rateLimiter, Route.Channel.CreateMessage.Format([ThirdChannelId]));
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        var waitDuration = timeProvider.TimeUntilNextTimer;
+        timeProvider.Advance(TimeSpan.FromSeconds(1) + TimeSpan.FromTicks(1));
+
+        // Assert
+        Assert.That(waitDuration, Is.EqualTo(TimeSpan.FromSeconds(1)));
+        Assert.That(async () => await third.Exchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentGlobalRequestsPerSecondReached_DelaysNextRequestUntilWindowFrees()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true, globalRequestsPerSecond: 2);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse());
+
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var third = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await second.Exchange.Sent.WaitAsync(HangTimeout);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        var waitDuration = timeProvider.TimeUntilNextTimer;
+        timeProvider.Advance(TimeSpan.FromSeconds(1) + TimeSpan.FromTicks(1));
+
+        // Assert
+        Assert.That(waitDuration, Is.EqualTo(TimeSpan.FromSeconds(1)));
+        Assert.That(async () => await third.Exchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_OneSecondAfterGlobalWindowFilled_SendsRequest()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, globalRequestsPerSecond: 1);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), new FakeHttpResponse());
+        timeProvider.Advance(TimeSpan.FromSeconds(1));
+
+        // Act
+        var next = ExecuteScriptedRequest(requester, rateLimiter, Route.Channel.CreateMessage.Format([SecondChannelId]));
+        await Task.WhenAny(next.Exchange.Sent, timeProvider.WaitForScheduledTimerCountAsync(1)).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(next.Exchange.Sent.IsCompleted, Is.True);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_TwoRequestsOneSecondAfterGlobalWindowFilled_SendsOneRequest()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, globalRequestsPerSecond: 1);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), new FakeHttpResponse());
+        timeProvider.Advance(TimeSpan.FromSeconds(1));
+
+        // Act
+        var second = ExecuteScriptedRequest(requester, rateLimiter, Route.Channel.CreateMessage.Format([SecondChannelId]));
+        var third = ExecuteScriptedRequest(requester, rateLimiter, Route.Channel.CreateMessage.Format([ThirdChannelId]));
+        await Task.WhenAny(second.Exchange.Sent, third.Exchange.Sent).WaitAsync(HangTimeout);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(new[] { second.Exchange.Sent, third.Exchange.Sent }.Count(static sent => sent.IsCompleted), Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task ExecuteAsync_GlobalWindowFilledOverTime_DelaysNextRequestUntilOldestRequestLeavesWindow()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, globalRequestsPerSecond: 2);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), new FakeHttpResponse());
+        timeProvider.Advance(TimeSpan.FromMilliseconds(400));
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([SecondChannelId]), new FakeHttpResponse());
+
+        // Act
+        ExecuteScriptedRequest(requester, rateLimiter, Route.Channel.CreateMessage.Format([ThirdChannelId]));
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(timeProvider.TimeUntilNextTimer, Is.EqualTo(TimeSpan.FromMilliseconds(600)));
+    }
+
+    [Test]
+    public async Task ExecuteAsync_GlobalWindowWaitEndsWithSubMillisecondRemainder_DoesNotSendBeforeWindowFrees()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, globalRequestsPerSecond: 1);
+        var firstRoute = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        var secondRoute = Route.Channel.CreateMessage.Format([SecondChannelId]);
+
+        requester.Script(firstRoute).Respond(new FakeHttpResponse());
+        var secondExchange = requester.Script(secondRoute);
+        secondExchange.Respond(new FakeHttpResponse());
+
+        using var firstRequest = new DefaultRestRequest(firstRoute);
+        using var secondRequest = new DefaultRestRequest(secondRoute);
+        await rateLimiter.ExecuteAsync(firstRequest, CancellationToken.None).WaitAsync(HangTimeout);
+        var subMillisecond = TimeSpan.FromTicks(TimeSpan.TicksPerMillisecond / 2);
+        timeProvider.Advance(subMillisecond);
+
+        _ = rateLimiter.ExecuteAsync(secondRequest, CancellationToken.None);
+        await timeProvider.TimerScheduled.WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(1) - subMillisecond - TimeSpan.FromTicks(1));
+        var hasWaitEndedBeforeWindowFrees = timeProvider.PendingTimerCount == 0;
+        var delayMillisecondGranularity = TimeSpan.FromMilliseconds(1);
+        timeProvider.Advance(delayMillisecondGranularity);
+
+        // Assert
+        Assert.That(hasWaitEndedBeforeWindowFrees, Is.False);
+        Assert.That(async () => await secondExchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_WallClockSteppedBackWhileGlobalWindowFull_SendsNextRequestOnceWindowFrees()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, globalRequestsPerSecond: 1);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), new FakeHttpResponse());
+        timeProvider.AdjustWallClock(TimeSpan.FromHours(-1));
+
+        var next = ExecuteScriptedRequest(requester, rateLimiter, Route.Channel.CreateMessage.Format([SecondChannelId]));
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(1) + TimeSpan.FromTicks(1));
+
+        // Assert
+        Assert.That(async () => await next.Exchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_GlobalRateLimitHitWhileWaitingForGlobalWindow_WaitsForGlobalReset()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, globalRequestsPerSecond: 1);
+        var firstRoute = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        var globalRateLimited = ExecuteScriptedRequest(requester, rateLimiter, firstRoute);
+        requester.Script(firstRoute);
+        await globalRateLimited.Exchange.Sent.WaitAsync(HangTimeout);
+
+        var waiting = ExecuteScriptedRequest(requester, rateLimiter, Route.Channel.CreateMessage.Format([SecondChannelId]));
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+        globalRateLimited.Exchange.Respond(CreateRateLimitedResponse("global", isGlobal: true, bodyRetryAfter: 5, headerRetryAfter: 5));
+        await timeProvider.WaitForScheduledTimerCountAsync(2).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(1));
+        await Task.WhenAny(waiting.Exchange.Sent, timeProvider.WaitForScheduledTimerCountAsync(3)).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(waiting.Exchange.Sent.IsCompleted, Is.False);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_RequestWaitingForBucketReset_DoesNotTakeGlobalWindowSlot()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, globalRequestsPerSecond: 2);
+        var exhaustedRoute = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, exhaustedRoute, CreateBucketResponse(remaining: 0, resetAfter: 5));
+        _ = ExecuteScriptedRequest(requester, rateLimiter, exhaustedRoute);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        var other = ExecuteScriptedRequest(requester, rateLimiter, Route.Channel.CreateMessage.Format([SecondChannelId]));
+        await Task.WhenAny(other.Exchange.Sent, timeProvider.WaitForScheduledTimerCountAsync(2)).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(other.Exchange.Sent.IsCompleted, Is.True);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_BucketExhaustedWhileWaitingForGlobalWindow_WaitsForBucketReset()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, globalRequestsPerSecond: 1);
+        var firstChannelRoute = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        var secondChannelRoute = Route.Channel.CreateMessage.Format([SecondChannelId]);
+
+        var inFlightExchange = requester.Script(firstChannelRoute);
+        var waitingExchange = requester.Script(firstChannelRoute);
+        waitingExchange.Respond(new FakeHttpResponse());
+        var hashTeachingExchange = requester.Script(secondChannelRoute);
+        hashTeachingExchange.Respond(CreateBucketResponse());
+
+        using var inFlightRequest = new DefaultRestRequest(firstChannelRoute);
+        using var hashTeachingRequest = new DefaultRestRequest(secondChannelRoute);
+        using var waitingRequest = new DefaultRestRequest(firstChannelRoute);
+
+        var inFlightTask = rateLimiter.ExecuteAsync(inFlightRequest, CancellationToken.None);
+        await inFlightExchange.Sent.WaitAsync(HangTimeout);
+
+        var hashTeachingTask = rateLimiter.ExecuteAsync(hashTeachingRequest, CancellationToken.None);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(1));
+        await hashTeachingTask.WaitAsync(HangTimeout);
+
+        _ = rateLimiter.ExecuteAsync(waitingRequest, CancellationToken.None);
+        await timeProvider.WaitForScheduledTimerCountAsync(2).WaitAsync(HangTimeout);
+
+        inFlightExchange.Respond(CreateBucketResponse(remaining: 0));
+        await inFlightTask.WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(1));
+        await Task.WhenAny(waitingExchange.Sent, timeProvider.WaitForScheduledTimerCountAsync(3)).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(waitingExchange.Sent.IsCompleted, Is.False);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_GlobalWindowWaitExceedsMaximumDelay_ThrowsGlobalRateLimit()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var rateLimiter = CreateRateLimiter(requester, new ManualTimeProvider(), globalRequestsPerSecond: 1);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), new FakeHttpResponse());
+
+        var options = new DefaultRestRequestOptions
+        {
+            MaximumDelayDuration = TimeSpan.FromMilliseconds(500)
+        };
+
+        var route = Route.Channel.CreateMessage.Format([SecondChannelId]);
+        requester.Script(route);
+        using var request = new DefaultRestRequest(route, options: options);
+
+        // Act
+        var task = rateLimiter.ExecuteAsync(request, CancellationToken.None);
+
+        // Assert
+        Assert.That(async () => await task.WaitAsync(HangTimeout), Throws.TypeOf<MaximumRateLimitDelayExceededException>()
+            .With.Property(nameof(MaximumRateLimitDelayExceededException.Delay)).EqualTo(TimeSpan.FromSeconds(1))
+            .And.Property(nameof(MaximumRateLimitDelayExceededException.IsGlobalRateLimit)).True);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_NegativeMaximumDelayDurationWithFreeGlobalWindow_SendsRequest()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var rateLimiter = CreateRateLimiter(requester, new ManualTimeProvider());
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        requester.Script(route).Respond(new FakeHttpResponse());
+
+        var options = new DefaultRestRequestOptions
+        {
+            MaximumDelayDuration = TimeSpan.FromSeconds(-1)
+        };
+
+        using var request = new DefaultRestRequest(route, options: options);
+
+        // Act & Assert
+        Assert.That(async () => await rateLimiter.ExecuteAsync(request, CancellationToken.None).WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_InteractionRouteWithGlobalRequestsPerSecondReached_SendsImmediately()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, globalRequestsPerSecond: 1);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), new FakeHttpResponse());
+
+        // Act
+        var followup = ExecuteScriptedRequest(requester, rateLimiter, Route.Interactions.CreateFollowupResponse.Format([ApplicationId, "first-token"]));
+        await Task.WhenAny(followup.Exchange.Sent, timeProvider.WaitForScheduledTimerCountAsync(1)).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(followup.Exchange.Sent.IsCompleted, Is.True);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_InteractionRouteSent_DoesNotTakeGlobalWindowSlot()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, globalRequestsPerSecond: 1);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Interactions.CreateFollowupResponse.Format([ApplicationId, "first-token"]), new FakeHttpResponse());
+
+        // Act
+        var next = ExecuteScriptedRequest(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]));
+        await Task.WhenAny(next.Exchange.Sent, timeProvider.WaitForScheduledTimerCountAsync(1)).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(next.Exchange.Sent.IsCompleted, Is.True);
+    }
+
+    [Test]
+    public void ExecuteAsync_GlobalRequestsPerSecondNull_DoesNotDelayRequests()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var rateLimiter = CreateRateLimiter(requester, new ManualTimeProvider(), globalRequestsPerSecond: null);
+        var requestCount = new DefaultRestRateLimiterConfiguration().GlobalRequestsPerSecond!.Value + 1;
+        var sentTasks = new List<Task>();
+
+        // Act
+        for (var channelId = 1; channelId <= requestCount; channelId++)
+        {
+            var route = Route.Channel.CreateMessage.Format([(Snowflake) (ulong) channelId]);
+            sentTasks.Add(ExecuteScriptedRequest(requester, rateLimiter, route).Exchange.Sent);
+        }
+
+        // Assert
+        Assert.That(async () => await Task.WhenAll(sentTasks).WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [TestCase(TokenRouteKind.Webhook, true)]
+    [TestCase(TokenRouteKind.Interaction, false)]
+    public async Task IsRateLimited_RouteWhileGlobalWindowFull_ReturnsWhetherRequestWouldWait(TokenRouteKind tokenRouteKind, bool expected)
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var rateLimiter = CreateRateLimiter(requester, new ManualTimeProvider(), globalRequestsPerSecond: 1);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), new FakeHttpResponse());
+        var route = tokenRouteKind == TokenRouteKind.Webhook
+            ? Route.Webhook.ExecuteWebhook.Format([WebhookId, "webhook-token"])
+            : Route.Interactions.CreateFollowupResponse.Format([ApplicationId, "interaction-token"]);
+
+        // Act
+        var isRateLimited = rateLimiter.IsRateLimited(route);
+
+        // Assert
+        Assert.That(isRateLimited, Is.EqualTo(expected));
+    }
+
+    [Test]
+    public async Task IsRateLimited_NoRouteWhileGlobalWindowFull_ReturnsTrue()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var rateLimiter = CreateRateLimiter(requester, new ManualTimeProvider(), globalRequestsPerSecond: 1);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), new FakeHttpResponse());
+
+        // Act
+        var isRateLimited = rateLimiter.IsRateLimited();
+
+        // Assert
+        Assert.That(isRateLimited, Is.True);
+    }
+
+    [Test]
     public async Task BucketCount_CleanupIntervalElapsedAfterBucketsReset_IsZero()
     {
         // Arrange
@@ -1154,6 +1536,15 @@ public class DefaultRestRateLimiterTests
     {
         // Act & Assert
         Assert.That(() => CreateRateLimiter(new ScriptedRestRequester(), new ManualTimeProvider(), bucketCleanupInterval: TimeSpan.FromMilliseconds(bucketCleanupIntervalMilliseconds)),
+            Throws.InstanceOf<ArgumentOutOfRangeException>());
+    }
+
+    [TestCase(0)]
+    [TestCase(-1)]
+    public void Constructor_NonPositiveGlobalRequestsPerSecond_Throws(int globalRequestsPerSecond)
+    {
+        // Act & Assert
+        Assert.That(() => CreateRateLimiter(new ScriptedRestRequester(), new ManualTimeProvider(), globalRequestsPerSecond: globalRequestsPerSecond),
             Throws.InstanceOf<ArgumentOutOfRangeException>());
     }
 
@@ -2164,7 +2555,8 @@ public class DefaultRestRateLimiterTests
     }
 
     private static DefaultRestRateLimiter CreateRateLimiter(ScriptedRestRequester requester, TimeProvider timeProvider,
-        ILogger<DefaultRestRateLimiter>? logger = null, TimeSpan? bucketCleanupInterval = null, bool? sendsSameBucketRequestsConcurrently = null)
+        ILogger<DefaultRestRateLimiter>? logger = null, TimeSpan? bucketCleanupInterval = null, bool? sendsSameBucketRequestsConcurrently = null,
+        Optional<int?> globalRequestsPerSecond = default)
     {
         var configuration = new DefaultRestRateLimiterConfiguration
         {
@@ -2174,6 +2566,11 @@ public class DefaultRestRateLimiterTests
         if (sendsSameBucketRequestsConcurrently != null)
         {
             configuration.SendsSameBucketRequestsConcurrently = sendsSameBucketRequestsConcurrently.Value;
+        }
+
+        if (globalRequestsPerSecond.HasValue)
+        {
+            configuration.GlobalRequestsPerSecond = globalRequestsPerSecond.Value;
         }
 
         var rateLimiter = new DefaultRestRateLimiter(
@@ -2279,6 +2676,8 @@ public class DefaultRestRateLimiterTests
     {
         public Task Blocked => _blocked.Task;
 
+        public override long TimestampFrequency => timeProvider.TimestampFrequency;
+
         private readonly TaskCompletionSource _blocked = new(TaskCreationOptions.RunContinuationsAsynchronously);
         private readonly TaskCompletionSource _released = new(TaskCreationOptions.RunContinuationsAsynchronously);
         private int _isArmed;
@@ -2305,6 +2704,11 @@ public class DefaultRestRateLimiterTests
             }
 
             return timeProvider.GetUtcNow();
+        }
+
+        public override long GetTimestamp()
+        {
+            return timeProvider.GetTimestamp();
         }
 
         public override ITimer CreateTimer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period)

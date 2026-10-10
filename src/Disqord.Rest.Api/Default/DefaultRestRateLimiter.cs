@@ -68,17 +68,21 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
         }
     }
 
+    private static readonly TimeSpan GlobalRequestWindow = TimeSpan.FromSeconds(1);
+
     private DateTimeOffset? _globalResetsAt;
     private DateTimeOffset? _cloudflareResetsAt;
 
     private readonly Binder<IRestApiClient> _binder;
     private readonly TimeProvider _timeProvider;
     private readonly bool _sendsConcurrently;
+    private readonly int? _globalRequestsPerSecond;
     private readonly object _lock = new();
 
     private readonly Dictionary<IFormattableRoute, string> _hashes;
     private readonly Dictionary<string, Bucket> _buckets;
     private readonly HashSet<IFormattableRoute> _hitRateLimits;
+    private readonly Queue<long> _globalRequestTimestamps;
     private readonly BucketCleanupTimer _bucketCleanupTimer;
 
     public DefaultRestRateLimiter(
@@ -105,9 +109,18 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
 
         _sendsConcurrently = configuration.SendsSameBucketRequestsConcurrently;
 
+        var globalRequestsPerSecond = configuration.GlobalRequestsPerSecond;
+        if (globalRequestsPerSecond != null)
+        {
+            Guard.IsPositive(globalRequestsPerSecond.Value);
+        }
+
+        _globalRequestsPerSecond = globalRequestsPerSecond;
+
         _hashes = new Dictionary<IFormattableRoute, string>();
         _buckets = new Dictionary<string, Bucket>();
         _hitRateLimits = new HashSet<IFormattableRoute>();
+        _globalRequestTimestamps = new Queue<long>();
 
         var bucketCleanupInterval = configuration.BucketCleanupInterval;
         if (bucketCleanupInterval != Timeout.InfiniteTimeSpan)
@@ -131,7 +144,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
             var now = _timeProvider.GetUtcNow();
             if (route == null)
             {
-                return _globalResetsAt > now || _cloudflareResetsAt > now;
+                return _globalResetsAt > now || _cloudflareResetsAt > now || GetGlobalWindowDelay() > TimeSpan.Zero;
             }
 
             var bucket = GetBucket(route, create: false);
@@ -213,7 +226,37 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
             return GetDelayUntil(_cloudflareResetsAt, now);
         }
 
-        return GetDelayUntil(Later(_globalResetsAt, _cloudflareResetsAt), now);
+        var resetDelay = GetDelayUntil(Later(_globalResetsAt, _cloudflareResetsAt), now);
+        var windowDelay = GetGlobalWindowDelay();
+        return resetDelay > windowDelay
+            ? resetDelay
+            : windowDelay;
+    }
+
+    private TimeSpan GetGlobalWindowDelay()
+    {
+        if (_globalRequestsPerSecond == null)
+        {
+            return TimeSpan.Zero;
+        }
+
+        var now = _timeProvider.GetTimestamp();
+        while (_globalRequestTimestamps.TryPeek(out var oldestTimestamp) && _timeProvider.GetElapsedTime(oldestTimestamp, now) >= GlobalRequestWindow)
+        {
+            _globalRequestTimestamps.Dequeue();
+        }
+
+        return _globalRequestTimestamps.Count < _globalRequestsPerSecond
+            ? TimeSpan.Zero
+            : GlobalRequestWindow - _timeProvider.GetElapsedTime(_globalRequestTimestamps.Peek(), now);
+    }
+
+    private void RecordGlobalRequest(IFormattedRoute route)
+    {
+        if (_globalRequestsPerSecond != null && IsBoundToGlobalRateLimit(route))
+        {
+            _globalRequestTimestamps.Enqueue(_timeProvider.GetTimestamp());
+        }
     }
 
     private async Task<bool> HandleResponseAsync(Bucket.PendingRequest pendingRequest, IRestResponse response)
@@ -690,6 +733,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
                     _inFlightRequests.Add(pendingRequest);
                 }
 
+                _rateLimiter.RecordGlobalRequest(route);
                 return true;
             }
         }
