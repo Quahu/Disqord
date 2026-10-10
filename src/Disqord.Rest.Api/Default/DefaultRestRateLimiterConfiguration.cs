@@ -16,4 +16,10 @@ public class DefaultRestRateLimiterConfiguration
     ///     Defaults to <c>10</c> minutes.
     /// </summary>
     public virtual TimeSpan BucketCleanupInterval { get; set; } = TimeSpan.FromMinutes(10);
+
+    /// <summary>
+    ///     Gets or sets whether a bucket sends as many requests at once as its rate-limit allows, which may then reach Discord out of order.
+    ///     Defaults to <see langword="false"/>.
+    /// </summary>
+    public virtual bool SendsSameBucketRequestsConcurrently { get; set; }
 }

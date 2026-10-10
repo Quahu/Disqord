@@ -1,6 +1,8 @@
 using System;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
+using Disqord.Rest.Api.Default;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -29,6 +31,8 @@ namespace Disqord.TestBot
                         IsEnabled = true,
                     },
                 });
+
+                host.Services.Configure<DefaultRestRateLimiterConfiguration>(static restRateLimiter => restRateLimiter.SendsSameBucketRequestsConcurrently = true);
 
                 host.Build().Run();
             }

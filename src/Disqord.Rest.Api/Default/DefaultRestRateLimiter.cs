@@ -73,6 +73,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
 
     private readonly Binder<IRestApiClient> _binder;
     private readonly TimeProvider _timeProvider;
+    private readonly bool _sendsConcurrently;
     private readonly object _lock = new();
 
     private readonly Dictionary<IFormattableRoute, string> _hashes;
@@ -101,6 +102,8 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
         {
             Logger.LogWarning("Rate-limiting with the time provider {0}. A fake or test time provider will break rate-limit delays.", timeProvider.GetType());
         }
+
+        _sendsConcurrently = configuration.SendsSameBucketRequestsConcurrently;
 
         _hashes = new Dictionary<IFormattableRoute, string>();
         _buckets = new Dictionary<string, Bucket>();
@@ -136,7 +139,8 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
                 ? bucket.GetDelay(route, now, out _)
                 : GetGlobalDelay(route, now);
 
-            return delay > TimeSpan.Zero;
+            var mustWaitForResponse = bucket != null && bucket.MustWaitForResponse(now);
+            return delay > TimeSpan.Zero || mustWaitForResponse;
         }
     }
 
@@ -229,7 +233,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
             }
         }
 
-        if (!UpdateBucket(pendingRequest.Request.Route, httpResponse, bodyRetryAfter))
+        if (!UpdateBucket(pendingRequest, httpResponse, bodyRetryAfter))
         {
             return false;
         }
@@ -264,8 +268,9 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
         return null;
     }
 
-    private bool UpdateBucket(IFormattedRoute route, IHttpResponse response, TimeSpan? bodyRetryAfter)
+    private bool UpdateBucket(Bucket.PendingRequest pendingRequest, IHttpResponse response, TimeSpan? bodyRetryAfter)
     {
+        var route = pendingRequest.Request.Route;
         lock (_lock)
         {
             try
@@ -323,7 +328,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
                 if (!headers.Bucket.HasValue)
                     return false;
 
-                bucket.Update(headers.Limit.Value, headers.Remaining.Value, now + headers.ResetsAfter.Value);
+                bucket.Update(pendingRequest, headers.Limit.Value, headers.Remaining.Value, now + headers.ResetsAfter.Value, now);
                 Logger.LogDebug("Updated the bucket for route {0} to ({1}/{2}, {3})", new LoggedRoute(route), bucket.Remaining, bucket.Limit, bucket.ResetsAt - now);
                 return false;
             }
@@ -351,6 +356,13 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
     private static DateTimeOffset? Later(DateTimeOffset? first, DateTimeOffset? second)
     {
         return second == null || first > second
+            ? first
+            : second;
+    }
+
+    private static DateTimeOffset Later(DateTimeOffset first, DateTimeOffset second)
+    {
+        return first > second
             ? first
             : second;
     }
@@ -416,18 +428,25 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
 
         private readonly DefaultRestRateLimiter _rateLimiter;
         private readonly bool _isUnlimited;
+        private readonly bool _sendsConcurrently;
         private readonly Channel<PendingRequest> _pendingRequests;
+        private readonly HashSet<PendingRequest> _inFlightRequests;
         private int _pendingRequestCount;
+        private int _heldRequestCount;
+        private Tcs? _availabilityChanged;
 
         public Bucket(DefaultRestRateLimiter rateLimiter, bool isUnlimited)
         {
             _rateLimiter = rateLimiter;
             _isUnlimited = isUnlimited;
+            _sendsConcurrently = rateLimiter._sendsConcurrently && !isUnlimited;
 
             _pendingRequests = Channel.CreateUnbounded<PendingRequest>(new UnboundedChannelOptions
             {
                 SingleReader = true,
             });
+
+            _inFlightRequests = new HashSet<PendingRequest>();
 
             _ = RunAsync();
         }
@@ -494,17 +513,45 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
                 : bucketDelay;
         }
 
-        public void Update(int limit, int remaining, DateTimeOffset resetsAt)
+        public bool MustWaitForResponse(DateTimeOffset now)
         {
+            return ResetsAt <= now && _inFlightRequests.Count > 0 && _inFlightRequests.Count + _heldRequestCount >= Limit;
+        }
+
+        public void Update(PendingRequest pendingRequest, int limit, int remaining, DateTimeOffset resetsAt, DateTimeOffset now)
+        {
+            _inFlightRequests.Remove(pendingRequest);
             Limit = limit;
-            Remaining = remaining;
-            ResetsAt = resetsAt;
+            if (!_sendsConcurrently)
+            {
+                Remaining = remaining;
+                ResetsAt = resetsAt;
+                return;
+            }
+
+            _heldRequestCount = 0;
+            var remainingAfterInFlightRequests = Math.Max(remaining - _inFlightRequests.Count, 0);
+            if (ResetsAt > now)
+            {
+                Remaining = Math.Min(Remaining, remainingAfterInFlightRequests);
+                ResetsAt = Later(ResetsAt, resetsAt);
+            }
+            else
+            {
+                Remaining = remainingAfterInFlightRequests;
+                ResetsAt = resetsAt;
+            }
+
+            NotifyAvailabilityChanged();
         }
 
         public void SetRateLimited(DateTimeOffset resetsAt)
         {
+            _heldRequestCount = 0;
             Remaining = 0;
-            ResetsAt = resetsAt;
+            ResetsAt = _sendsConcurrently
+                ? Later(ResetsAt, resetsAt)
+                : resetsAt;
         }
 
         public bool CanBeRemoved(DateTimeOffset now)
@@ -523,7 +570,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
             {
                 if (pendingRequest.CancellationToken.IsCancellationRequested)
                 {
-                    Release();
+                    Release(pendingRequest);
                     continue;
                 }
 
@@ -532,7 +579,11 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
                     continue;
                 }
 
-                await SendAsync(pendingRequest).ConfigureAwait(false);
+                var sending = SendAsync(pendingRequest);
+                if (!_sendsConcurrently)
+                {
+                    await sending.ConfigureAwait(false);
+                }
             }
         }
 
@@ -547,6 +598,11 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
                     {
                         Complete(pendingRequest, response);
                         return;
+                    }
+
+                    lock (_rateLimiter._lock)
+                    {
+                        EndSending(pendingRequest);
                     }
                 }
                 while (await TryWaitToSendAsync(pendingRequest).ConfigureAwait(false));
@@ -572,9 +628,14 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
             var request = pendingRequest.Request;
             try
             {
-                TimeSpan delay;
-                while ((delay = GetDelay(request.Route, out var isGloballyRateLimited)) > TimeSpan.Zero)
+                while (!TryStartSending(pendingRequest, out var delay, out var isGloballyRateLimited, out var availabilityChanged))
                 {
+                    if (availabilityChanged != null)
+                    {
+                        await availabilityChanged.WaitAsync(pendingRequest.CancellationToken).ConfigureAwait(false);
+                        continue;
+                    }
+
                     var options = request.Options as DefaultRestRequestOptions;
                     var maximumDelayDuration = options?.MaximumDelayDuration ?? _rateLimiter.MaximumDelayDuration;
                     if (Exceeds(delay, maximumDelayDuration))
@@ -599,11 +660,37 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
             }
         }
 
-        private TimeSpan GetDelay(IFormattedRoute route, out bool isGloballyRateLimited)
+        private bool TryStartSending(PendingRequest pendingRequest, out TimeSpan delay, out bool isGloballyRateLimited, out Task? availabilityChanged)
         {
             lock (_rateLimiter._lock)
             {
-                return GetDelay(route, _rateLimiter._timeProvider.GetUtcNow(), out isGloballyRateLimited);
+                var route = pendingRequest.Request.Route;
+                var now = _rateLimiter._timeProvider.GetUtcNow();
+                availabilityChanged = null;
+                delay = GetDelay(route, now, out isGloballyRateLimited);
+                if (delay > TimeSpan.Zero)
+                {
+                    return false;
+                }
+
+                if (_sendsConcurrently)
+                {
+                    if (MustWaitForResponse(now))
+                    {
+                        _availabilityChanged ??= new Tcs();
+                        availabilityChanged = _availabilityChanged.Task;
+                        return false;
+                    }
+
+                    if (ResetsAt > now)
+                    {
+                        Remaining--;
+                    }
+
+                    _inFlightRequests.Add(pendingRequest);
+                }
+
+                return true;
             }
         }
 
@@ -626,13 +713,13 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
 
         private void Complete(PendingRequest pendingRequest, IRestResponse response)
         {
-            Release();
+            Release(pendingRequest);
             pendingRequest.Complete(response);
         }
 
         private void Complete(PendingRequest pendingRequest, Exception exception)
         {
-            Release();
+            Release(pendingRequest);
             pendingRequest.Complete(exception);
         }
 
@@ -646,12 +733,38 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
             }
         }
 
-        private void Release()
+        private void Release(PendingRequest pendingRequest)
         {
             lock (_rateLimiter._lock)
             {
+                EndSending(pendingRequest);
                 _pendingRequestCount--;
             }
+        }
+
+        private void EndSending(PendingRequest pendingRequest)
+        {
+            if (!_inFlightRequests.Remove(pendingRequest))
+            {
+                return;
+            }
+
+            if (_inFlightRequests.Count == 0)
+            {
+                _heldRequestCount = 0;
+            }
+            else if (ResetsAt <= _rateLimiter._timeProvider.GetUtcNow())
+            {
+                _heldRequestCount++;
+            }
+
+            NotifyAvailabilityChanged();
+        }
+
+        private void NotifyAvailabilityChanged()
+        {
+            _availabilityChanged?.Complete();
+            _availabilityChanged = null;
         }
 
         private static bool Exceeds(TimeSpan delay, TimeSpan maximumDelay)

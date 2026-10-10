@@ -770,13 +770,14 @@ public class DefaultRestRateLimiterTests
             .And.Property(nameof(MaximumRateLimitDelayExceededException.IsGlobalRateLimit)).True);
     }
 
-    [Test]
-    public async Task ExecuteAsync_GlobalRateLimitStartsWhileWaitingForBucketReset_WaitsForGlobalReset()
+    [TestCase(false)]
+    [TestCase(true)]
+    public async Task ExecuteAsync_GlobalRateLimitStartsWhileWaitingForBucketReset_WaitsForGlobalReset(bool sendsSameBucketRequestsConcurrently)
     {
         // Arrange
         var requester = new ScriptedRestRequester();
         var timeProvider = new ManualTimeProvider();
-        var rateLimiter = CreateRateLimiter(requester, timeProvider);
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: sendsSameBucketRequestsConcurrently);
         var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
         await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 5));
         var queued = ExecuteScriptedRequest(requester, rateLimiter, route);
@@ -800,13 +801,14 @@ public class DefaultRestRateLimiterTests
         Assert.That(isSentBeforeGlobalReset, Is.False);
     }
 
-    [Test]
-    public async Task ExecuteAsync_SuccessiveWaitsEachWithinMaximumDelay_SendsRequest()
+    [TestCase(false)]
+    [TestCase(true)]
+    public async Task ExecuteAsync_SuccessiveWaitsEachWithinMaximumDelay_SendsRequest(bool sendsSameBucketRequestsConcurrently)
     {
         // Arrange
         var requester = new ScriptedRestRequester();
         var timeProvider = new ManualTimeProvider();
-        var rateLimiter = CreateRateLimiter(requester, timeProvider);
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: sendsSameBucketRequestsConcurrently);
         var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
         await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 5));
 
@@ -838,13 +840,14 @@ public class DefaultRestRateLimiterTests
         Assert.That(response.HttpResponse.StatusCode, Is.EqualTo(HttpResponseStatusCode.OK));
     }
 
-    [Test]
-    public async Task ExecuteAsync_BucketResetNotWholeMillisecondsAway_KeepsWaitingUntilReset()
+    [TestCase(false)]
+    [TestCase(true)]
+    public async Task ExecuteAsync_BucketResetNotWholeMillisecondsAway_KeepsWaitingUntilReset(bool sendsSameBucketRequestsConcurrently)
     {
         // Arrange
         var requester = new ScriptedRestRequester();
         var timeProvider = new ManualTimeProvider();
-        var rateLimiter = CreateRateLimiter(requester, timeProvider);
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: sendsSameBucketRequestsConcurrently);
         var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
         await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 1));
         var halfMillisecond = TimeSpan.FromTicks(TimeSpan.TicksPerMillisecond / 2);
@@ -1224,6 +1227,760 @@ public class DefaultRestRateLimiterTests
         Assert.That(response.HttpResponse.StatusCode, Is.EqualTo(HttpResponseStatusCode.OK));
     }
 
+    [Test]
+    public async Task ExecuteAsync_DefaultConfigurationWithSlotsRemaining_DoesNotSendNextRequestBeforeResponse()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 4));
+        var first = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await first.Exchange.Sent.WaitAsync(HangTimeout);
+
+        // Act
+        first.Exchange.Respond(CreateBucketResponse(remaining: 0));
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(second.Exchange.Sent.IsCompleted, Is.False);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentRequestsWithSlotsRemaining_SendsRequestsBeforeResponses()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 4));
+
+        // Act
+        var first = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var third = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var fourth = ExecuteScriptedRequest(requester, rateLimiter, route);
+
+        // Assert
+        Assert.That(async () => await Task.WhenAll(first.Exchange.Sent, second.Exchange.Sent, third.Exchange.Sent, fourth.Exchange.Sent).WaitAsync(HangTimeout),
+            Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentRequestsBeyondRemaining_SendsExcessRequestAtReset()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 2, resetAfter: 5));
+        var first = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var third = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await Task.WhenAll(first.Exchange.Sent, second.Exchange.Sent).WaitAsync(HangTimeout);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(5) - TimeSpan.FromTicks(1));
+        var isSentBeforeReset = third.Exchange.Sent.IsCompleted;
+
+        timeProvider.Advance(TimeSpan.FromTicks(1));
+        await third.Exchange.Sent.WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(isSentBeforeReset, Is.False);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentLateResponseWithHigherRemaining_DoesNotSendMoreThanDiscordAllows()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 4));
+        var first = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await Task.WhenAll(first.Exchange.Sent, second.Exchange.Sent).WaitAsync(HangTimeout);
+
+        second.Exchange.Respond(CreateBucketResponse(remaining: 2));
+        await second.Task.WaitAsync(HangTimeout);
+        first.Exchange.Respond(CreateBucketResponse(remaining: 3));
+        await first.Task.WaitAsync(HangTimeout);
+
+        // Act
+        var third = ExecuteScriptedRequest(requester, rateLimiter, route);
+        ExecuteScriptedRequest(requester, rateLimiter, route);
+        var fifth = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await third.Exchange.Sent.WaitAsync(HangTimeout);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(fifth.Exchange.Sent.IsCompleted, Is.False);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ResponseWithEarlierResetThanBucket_SendsNextRequestAtResponseReset()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 1, resetAfter: 10));
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 2));
+        var next = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(2));
+
+        // Assert
+        Assert.That(async () => await next.Exchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_RateLimitHitBeforeBucketReset_RetriesAfterRetryAfter()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 1, resetAfter: 10));
+        var rateLimited = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var retriedExchange = requester.Script(route);
+        await rateLimited.Exchange.Sent.WaitAsync(HangTimeout);
+        rateLimited.Exchange.Respond(CreateRateLimitedResponse("user", isGlobal: false, bodyRetryAfter: 2, headerRetryAfter: 2));
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(2));
+
+        // Assert
+        Assert.That(async () => await retriedExchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentLateResponseWithEarlierReset_WaitsForLaterReset()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 2, resetAfter: 5));
+        var first = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await Task.WhenAll(first.Exchange.Sent, second.Exchange.Sent).WaitAsync(HangTimeout);
+
+        second.Exchange.Respond(CreateBucketResponse(remaining: 0, resetAfter: 10));
+        await second.Task.WaitAsync(HangTimeout);
+        first.Exchange.Respond(CreateBucketResponse(remaining: 1, resetAfter: 5));
+        await first.Task.WaitAsync(HangTimeout);
+
+        var third = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(10) - TimeSpan.FromTicks(1));
+        var isSentBeforeLaterReset = third.Exchange.Sent.IsCompleted;
+
+        timeProvider.Advance(TimeSpan.FromTicks(1));
+        await third.Exchange.Sent.WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(isSentBeforeLaterReset, Is.False);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentLateRateLimitWithEarlierRetry_RetriesAtLaterReset()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 2, resetAfter: 5));
+        var rateLimited = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var retriedExchange = requester.Script(route);
+        await Task.WhenAll(rateLimited.Exchange.Sent, second.Exchange.Sent).WaitAsync(HangTimeout);
+
+        second.Exchange.Respond(CreateBucketResponse(remaining: 0, resetAfter: 10));
+        await second.Task.WaitAsync(HangTimeout);
+        rateLimited.Exchange.Respond(CreateRateLimitedResponse("user", isGlobal: false, bodyRetryAfter: 3, headerRetryAfter: 3));
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(10) - TimeSpan.FromTicks(1));
+        var isRetriedBeforeLaterReset = retriedExchange.Sent.IsCompleted;
+
+        timeProvider.Advance(TimeSpan.FromTicks(1));
+        await retriedExchange.Sent.WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(isRetriedBeforeLaterReset, Is.False);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentResetPassesWithRequestsInFlight_CountsInFlightRequestsAgainstNewWindow()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 1, resetAfter: 5));
+        var first = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await first.Exchange.Sent.WaitAsync(HangTimeout);
+
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        ExecuteScriptedRequest(requester, rateLimiter, route);
+        ExecuteScriptedRequest(requester, rateLimiter, route);
+        var fifth = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var sixth = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(5));
+        await fifth.Exchange.Sent.WaitAsync(HangTimeout);
+
+        second.Exchange.Respond(CreateBucketResponse(remaining: 4, resetAfter: 5));
+        await timeProvider.WaitForScheduledTimerCountAsync(2).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(sixth.Exchange.Sent.IsCompleted, Is.False);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentRequestsBeforeBucketHashKnown_SendsOneAtATime()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        var first = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await first.Exchange.Sent.WaitAsync(HangTimeout);
+
+        // Act
+        first.Exchange.Respond(CreateBucketResponse(remaining: 0));
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(second.Exchange.Sent.IsCompleted, Is.False);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentRequestsOnNewBucket_SendsOneUntilLimitKnown()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), CreateBucketResponse(remaining: 4));
+        var route = Route.Channel.CreateMessage.Format([SecondChannelId]);
+        var first = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await first.Exchange.Sent.WaitAsync(HangTimeout);
+
+        // Act
+        first.Exchange.Respond(CreateBucketResponse(remaining: 0));
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(second.Exchange.Sent.IsCompleted, Is.False);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentRequestFailsBeforeBucketLimitKnown_SendsNextRequest()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), CreateBucketResponse(remaining: 4));
+        var route = Route.Channel.CreateMessage.Format([SecondChannelId]);
+        var first = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await first.Exchange.Sent.WaitAsync(HangTimeout);
+
+        // Act
+        first.Exchange.Fail(new HttpRequestException("Connection reset."));
+
+        // Assert
+        Assert.That(async () => await second.Exchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentRequestRateLimited_RetriesAfterRetryAfter()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 4, resetAfter: 5));
+        var rateLimited = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var retriedExchange = requester.Script(route);
+        await rateLimited.Exchange.Sent.WaitAsync(HangTimeout);
+        rateLimited.Exchange.Respond(CreateRateLimitedResponse("user", isGlobal: false, bodyRetryAfter: 8, headerRetryAfter: 8));
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(8) - TimeSpan.FromTicks(1));
+        var isRetriedEarly = retriedExchange.Sent.IsCompleted;
+
+        timeProvider.Advance(TimeSpan.FromTicks(1));
+        await retriedExchange.Sent.WaitAsync(HangTimeout);
+        retriedExchange.Respond(new FakeHttpResponse());
+        var response = await rateLimited.Task.WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(isRetriedEarly, Is.False);
+        Assert.That(response.HttpResponse.StatusCode, Is.EqualTo(HttpResponseStatusCode.OK));
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentRequestFailsAfterResetWithRequestsInFlight_HoldsItsSlotUntilNextResponse()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 5));
+        var failed = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var responded = ExecuteScriptedRequest(requester, rateLimiter, route);
+        ExecuteScriptedRequest(requester, rateLimiter, route);
+        ExecuteScriptedRequest(requester, rateLimiter, route);
+        var fifth = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var sixth = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(5));
+        await fifth.Exchange.Sent.WaitAsync(HangTimeout);
+
+        // Act
+        failed.Exchange.Fail(new HttpRequestException("Connection reset."));
+        await failed.Task.ContinueWith(static _ => { }, TaskScheduler.Default).WaitAsync(HangTimeout);
+        responded.Exchange.Respond(CreateBucketResponse(remaining: 1, resetAfter: 5));
+        await timeProvider.WaitForScheduledTimerCountAsync(2).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(sixth.Exchange.Sent.IsCompleted, Is.False);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentResponseAfterFailedRequest_ReleasesHeldSlot()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 5, limit: 3));
+        var failed = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var responded = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var third = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(5));
+        await third.Exchange.Sent.WaitAsync(HangTimeout);
+
+        failed.Exchange.Fail(new HttpRequestException("Connection reset."));
+        await failed.Task.ContinueWith(static _ => { }, TaskScheduler.Default).WaitAsync(HangTimeout);
+        responded.Exchange.Respond(CreateBucketResponse(remaining: 1, resetAfter: 5, limit: 3));
+        await responded.Task.WaitAsync(HangTimeout);
+
+        ExecuteScriptedRequest(requester, rateLimiter, route);
+        var fifth = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(2).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(5));
+
+        // Assert
+        Assert.That(async () => await fifth.Exchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentRateLimitAfterFailedRequest_ReleasesHeldSlot()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 5, limit: 3));
+        var failed = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var rateLimited = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var third = ExecuteScriptedRequest(requester, rateLimiter, route);
+        requester.Script(route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(5));
+        await third.Exchange.Sent.WaitAsync(HangTimeout);
+
+        failed.Exchange.Fail(new HttpRequestException("Connection reset."));
+        await failed.Task.ContinueWith(static _ => { }, TaskScheduler.Default).WaitAsync(HangTimeout);
+        rateLimited.Exchange.Respond(CreateRateLimitedResponse("user", isGlobal: false, bodyRetryAfter: 2, headerRetryAfter: 2));
+        await timeProvider.WaitForScheduledTimerCountAsync(2).WaitAsync(HangTimeout);
+        var fourth = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(3).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(2));
+
+        // Assert
+        Assert.That(async () => await fourth.Exchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentOnlyInFlightRequestFailsAfterReset_DoesNotHoldItsSlot()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 5, limit: 2));
+        var failed = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(5));
+        await failed.Exchange.Sent.WaitAsync(HangTimeout);
+
+        failed.Exchange.Fail(new HttpRequestException("Connection reset."));
+        await failed.Task.ContinueWith(static _ => { }, TaskScheduler.Default).WaitAsync(HangTimeout);
+
+        // Act
+        ExecuteScriptedRequest(requester, rateLimiter, route);
+        var third = ExecuteScriptedRequest(requester, rateLimiter, route);
+
+        // Assert
+        Assert.That(async () => await third.Exchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentAllInFlightRequestsFailAfterReset_ReleasesHeldSlots()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 5, limit: 2));
+        var firstFailed = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var secondFailed = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(5));
+        await Task.WhenAll(firstFailed.Exchange.Sent, secondFailed.Exchange.Sent).WaitAsync(HangTimeout);
+
+        firstFailed.Exchange.Fail(new HttpRequestException("Connection reset."));
+        await firstFailed.Task.ContinueWith(static _ => { }, TaskScheduler.Default).WaitAsync(HangTimeout);
+        secondFailed.Exchange.Fail(new HttpRequestException("Connection reset."));
+        await secondFailed.Task.ContinueWith(static _ => { }, TaskScheduler.Default).WaitAsync(HangTimeout);
+
+        // Act
+        ExecuteScriptedRequest(requester, rateLimiter, route);
+        var fourth = ExecuteScriptedRequest(requester, rateLimiter, route);
+
+        // Assert
+        Assert.That(async () => await fourth.Exchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentRequestFailsBeforeReset_DoesNotHoldItsSlotAfterReset()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 2, resetAfter: 5, limit: 3));
+        var failed = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await Task.WhenAll(failed.Exchange.Sent, second.Exchange.Sent).WaitAsync(HangTimeout);
+
+        failed.Exchange.Fail(new HttpRequestException("Connection reset."));
+        await failed.Task.ContinueWith(static _ => { }, TaskScheduler.Default).WaitAsync(HangTimeout);
+
+        ExecuteScriptedRequest(requester, rateLimiter, route);
+        var fourth = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(5));
+
+        // Assert
+        Assert.That(async () => await fourth.Exchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentBucketWithZeroLimitAfterReset_SendsRequest()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 1, limit: 0));
+        var request = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(1));
+
+        // Assert
+        Assert.That(async () => await request.Exchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [TestCase(RateLimitKind.Global)]
+    [TestCase(RateLimitKind.Cloudflare)]
+    public async Task ExecuteAsync_ConcurrentRequestGloballyRateLimited_RetriesAfterRetryAfter(RateLimitKind rateLimitKind)
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), CreateBucketResponse(remaining: 4));
+        var route = Route.Channel.CreateMessage.Format([SecondChannelId]);
+        var rateLimited = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var retriedExchange = requester.Script(route);
+        await rateLimited.Exchange.Sent.WaitAsync(HangTimeout);
+        rateLimited.Exchange.Respond(CreateRateLimitedResponse(rateLimitKind));
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(1) - TimeSpan.FromTicks(1));
+        var isRetriedEarly = retriedExchange.Sent.IsCompleted;
+
+        timeProvider.Advance(TimeSpan.FromTicks(1));
+        await retriedExchange.Sent.WaitAsync(HangTimeout);
+        retriedExchange.Respond(new FakeHttpResponse());
+        var response = await rateLimited.Task.WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(isRetriedEarly, Is.False);
+        Assert.That(response.HttpResponse.StatusCode, Is.EqualTo(HttpResponseStatusCode.OK));
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentResponseWithRequestsStillInFlight_SubtractsThemFromRemaining()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 4));
+        var first = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await Task.WhenAll(first.Exchange.Sent, second.Exchange.Sent).WaitAsync(HangTimeout);
+
+        first.Exchange.Respond(CreateBucketResponse(remaining: 1));
+        await first.Task.WaitAsync(HangTimeout);
+
+        // Act
+        var third = ExecuteScriptedRequest(requester, rateLimiter, route);
+        ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(third.Exchange.Sent.IsCompleted, Is.False);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentRequestCancelledWhileWaitingForSlot_DoesNotTakeNextRequestsTurn()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new GatedTimeProvider(new ManualTimeProvider());
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), CreateBucketResponse(remaining: 4));
+        var route = Route.Channel.CreateMessage.Format([SecondChannelId]);
+        var first = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await first.Exchange.Sent.WaitAsync(HangTimeout);
+
+        using var cancellationTokenSource = new CancellationTokenSource();
+        using var cancelledRequest = new DefaultRestRequest(route);
+        timeProvider.Arm();
+        var cancelledTask = rateLimiter.ExecuteAsync(cancelledRequest, cancellationTokenSource.Token);
+        await timeProvider.Blocked.WaitAsync(HangTimeout);
+        await cancellationTokenSource.CancelAsync();
+        timeProvider.Release();
+
+        var last = ExecuteScriptedRequest(requester, rateLimiter, route);
+
+        // Act
+        first.Exchange.Respond(CreateBucketResponse(remaining: 4));
+        await last.Exchange.Sent.WaitAsync(HangTimeout);
+        last.Exchange.Respond(new FakeHttpResponse());
+
+        // Assert
+        Assert.That(async () => await cancelledTask.WaitAsync(HangTimeout), Throws.InstanceOf<OperationCanceledException>());
+        Assert.That(async () => await last.Task.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentRequestWaitingForSlotWhenEarlierResponseRaisesLimit_SendsRequest()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new GatedTimeProvider(new ManualTimeProvider());
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([SecondChannelId]);
+        var sentBeforeHashKnown = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await sentBeforeHashKnown.Exchange.Sent.WaitAsync(HangTimeout);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), CreateBucketResponse(remaining: 4));
+
+        var inFlight = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await inFlight.Exchange.Sent.WaitAsync(HangTimeout);
+
+        timeProvider.Arm();
+        var waiting = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.Blocked.WaitAsync(HangTimeout);
+        timeProvider.Release();
+
+        // Act
+        sentBeforeHashKnown.Exchange.Respond(CreateBucketResponse(remaining: 3));
+
+        // Assert
+        Assert.That(async () => await waiting.Exchange.Sent.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_ConcurrentBucketResetExceedsMaximumDelay_Throws()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 5));
+
+        var options = new DefaultRestRequestOptions
+        {
+            MaximumDelayDuration = TimeSpan.FromSeconds(1)
+        };
+
+        using var request = new DefaultRestRequest(route, options: options);
+
+        // Act
+        var task = rateLimiter.ExecuteAsync(request, CancellationToken.None);
+
+        // Assert
+        Assert.That(async () => await task.WaitAsync(HangTimeout), Throws.TypeOf<MaximumRateLimitDelayExceededException>());
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedAfterConcurrentRequestsComplete_IsZero()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 4, resetAfter: 5));
+        var first = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await Task.WhenAll(first.Exchange.Sent, second.Exchange.Sent).WaitAsync(HangTimeout);
+
+        first.Exchange.Respond(CreateBucketResponse(remaining: 3, resetAfter: 5));
+        second.Exchange.Respond(CreateBucketResponse(remaining: 2, resetAfter: 5));
+        await Task.WhenAll(first.Task, second.Task).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiter.BucketCount, Is.Zero);
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedAfterConcurrentRequestFailed_IsZero()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 4, resetAfter: 5));
+        var failed = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await failed.Exchange.Sent.WaitAsync(HangTimeout);
+
+        failed.Exchange.Fail(new HttpRequestException("Connection reset."));
+        await failed.Task.ContinueWith(static _ => { }, TaskScheduler.Default).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiter.BucketCount, Is.Zero);
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedAfterConcurrentRequestRetried_IsZero()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 4, resetAfter: 5));
+        var rateLimited = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var retriedExchange = requester.Script(route);
+        await rateLimited.Exchange.Sent.WaitAsync(HangTimeout);
+
+        rateLimited.Exchange.Respond(CreateRateLimitedResponse("user", isGlobal: false, bodyRetryAfter: 8, headerRetryAfter: 8));
+        await timeProvider.WaitForScheduledTimerCountAsync(2).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(8));
+        await retriedExchange.Sent.WaitAsync(HangTimeout);
+        retriedExchange.Respond(new FakeHttpResponse());
+        await rateLimited.Task.WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(rateLimiter.BucketCount, Is.Zero);
+    }
+
+    [Test]
+    public async Task BucketCount_CleanupIntervalElapsedAfterConcurrentRequestCancelledWhileWaiting_IsZero()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, bucketCleanupInterval: BucketCleanupInterval, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 5));
+
+        using var cancellationTokenSource = new CancellationTokenSource();
+        using var cancelledRequest = new DefaultRestRequest(route);
+        var cancelledTask = rateLimiter.ExecuteAsync(cancelledRequest, cancellationTokenSource.Token);
+        var last = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(2).WaitAsync(HangTimeout);
+
+        await cancellationTokenSource.CancelAsync();
+        await timeProvider.WaitForScheduledTimerCountAsync(3).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(5));
+        await last.Exchange.Sent.WaitAsync(HangTimeout);
+        last.Exchange.Respond(new FakeHttpResponse());
+        await last.Task.WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(BucketCleanupInterval);
+
+        // Assert
+        Assert.That(async () => await cancelledTask.WaitAsync(HangTimeout), Throws.InstanceOf<OperationCanceledException>());
+        Assert.That(rateLimiter.BucketCount, Is.Zero);
+    }
+
     [TestCase(4999, true)]
     [TestCase(5000, false)]
     public async Task IsRateLimited_ExhaustedBucket_ReturnsTrueUntilReset(int elapsedMilliseconds, bool expected)
@@ -1248,6 +2005,28 @@ public class DefaultRestRateLimiterTests
 
         // Assert
         Assert.That(isRateLimited, Is.EqualTo(expected));
+    }
+
+    [Test]
+    public async Task IsRateLimited_ConcurrentSlotsAllInFlightAfterReset_ReturnsTrue()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: true);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 5, limit: 2));
+        var first = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var second = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(5));
+        await Task.WhenAll(first.Exchange.Sent, second.Exchange.Sent).WaitAsync(HangTimeout);
+
+        // Act
+        var isRateLimited = rateLimiter.IsRateLimited(route);
+
+        // Assert
+        Assert.That(isRateLimited, Is.True);
     }
 
     [Test]
@@ -1385,12 +2164,17 @@ public class DefaultRestRateLimiterTests
     }
 
     private static DefaultRestRateLimiter CreateRateLimiter(ScriptedRestRequester requester, TimeProvider timeProvider,
-        ILogger<DefaultRestRateLimiter>? logger = null, TimeSpan? bucketCleanupInterval = null)
+        ILogger<DefaultRestRateLimiter>? logger = null, TimeSpan? bucketCleanupInterval = null, bool? sendsSameBucketRequestsConcurrently = null)
     {
         var configuration = new DefaultRestRateLimiterConfiguration
         {
             BucketCleanupInterval = bucketCleanupInterval ?? Timeout.InfiniteTimeSpan
         };
+
+        if (sendsSameBucketRequestsConcurrently != null)
+        {
+            configuration.SendsSameBucketRequestsConcurrently = sendsSameBucketRequestsConcurrently.Value;
+        }
 
         var rateLimiter = new DefaultRestRateLimiter(
             Options.Create(configuration),
