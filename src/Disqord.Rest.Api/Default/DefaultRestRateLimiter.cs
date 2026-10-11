@@ -86,7 +86,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
     private readonly object _lock = new();
 
     private readonly Dictionary<IFormattableRoute, string> _hashes;
-    private readonly Dictionary<string, Bucket> _buckets;
+    private readonly Dictionary<BucketId, Bucket> _buckets;
     private readonly HashSet<IFormattableRoute> _hitRateLimits;
     private readonly Queue<long> _globalRequestTimestamps;
     private readonly BucketCleanupTimer _bucketCleanupTimer;
@@ -125,7 +125,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
         _globalRequestsPerSecond = globalRequestsPerSecond;
 
         _hashes = new Dictionary<IFormattableRoute, string>();
-        _buckets = new Dictionary<string, Bucket>();
+        _buckets = new Dictionary<BucketId, Bucket>();
         _hitRateLimits = new HashSet<IFormattableRoute>();
         _globalRequestTimestamps = new Queue<long>();
 
@@ -190,7 +190,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
             var isUnlimited = !_hashes.TryGetValue(route.BaseRoute, out var hash);
             hash ??= $"unlimited+{route}";
             var parameters = route.Parameters;
-            var bucketId = $"{hash}:{parameters.GetGuildId()}:{parameters.GetChannelId()}:{parameters.GetWebhookId()}:{parameters.GetInteractionToken()}";
+            var bucketId = new BucketId(hash, parameters.GetGuildId(), parameters.GetChannelId(), parameters.GetWebhookId(), parameters.GetInteractionToken());
             if (!_buckets.TryGetValue(bucketId, out var bucket) && create)
             {
                 bucket = new Bucket(this, isUnlimited);
@@ -327,11 +327,12 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
             {
                 var now = _timeProvider.GetUtcNow();
                 var headers = new DefaultRestResponseHeaders(response.Headers);
-                if (headers.Bucket.HasValue)
+                var bucketHash = headers.Bucket;
+                if (bucketHash.HasValue)
                 {
-                    if (_hashes.TryAdd(route.BaseRoute, headers.Bucket.Value))
+                    if (_hashes.TryAdd(route.BaseRoute, bucketHash.Value))
                     {
-                        Logger.LogTrace("Cached bucket hash {0} -> {1}.", new LoggedRoute(route), headers.Bucket.Value);
+                        Logger.LogTrace("Cached bucket hash {0} -> {1}.", new LoggedRoute(route), bucketHash.Value);
                     }
                 }
 
@@ -375,11 +376,15 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
                     return true;
                 }
 
-                if (!headers.Bucket.HasValue)
+                if (!bucketHash.HasValue)
                     return false;
 
                 bucket.Update(pendingRequest, headers.Limit.Value, headers.Remaining.Value, now + headers.ResetsAfter.Value, now);
-                Logger.LogDebug("Updated the bucket for route {0} to ({1}/{2}, {3})", new LoggedRoute(route), bucket.Remaining, bucket.Limit, bucket.ResetsAt - now);
+                if (Logger.IsEnabled(LogLevel.Debug))
+                {
+                    Logger.LogDebug("Updated the bucket for route {0} to ({1}/{2}, {3})", new LoggedRoute(route), bucket.Remaining, bucket.Limit, bucket.ResetsAt - now);
+                }
+
                 return false;
             }
             catch (Exception ex)
@@ -416,6 +421,8 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
             ? first
             : second;
     }
+
+    private readonly record struct BucketId(string Hash, ulong GuildId, ulong ChannelId, ulong WebhookId, string? InteractionToken);
 
     private readonly struct LoggedRoute(IFormattedRoute route)
     {

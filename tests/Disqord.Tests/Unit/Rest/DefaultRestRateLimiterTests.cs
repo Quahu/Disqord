@@ -26,9 +26,15 @@ public class DefaultRestRateLimiterTests
 
     private static readonly Snowflake ThirdChannelId = 5;
 
+    private static readonly Snowflake FirstGuildId = 6;
+
+    private static readonly Snowflake SecondGuildId = 7;
+
     private static readonly Snowflake ApplicationId = 3;
 
     private static readonly Snowflake WebhookId = 4;
+
+    private static readonly Snowflake SecondWebhookId = 8;
 
     private static readonly TimeSpan HangTimeout = TimeSpan.FromSeconds(5);
 
@@ -556,6 +562,26 @@ public class DefaultRestRateLimiterTests
             .Select(static entry => entry.Level);
 
         Assert.That(rateLimitLevels, Is.EqualTo(new[] { LogLevel.Information }));
+    }
+
+    [Test]
+    public async Task ExecuteAsync_BucketResponse_LogsBucketUpdateAtDebug()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var logger = new RecordingLogger();
+        var rateLimiter = CreateRateLimiter(requester, new ManualTimeProvider(), logger);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+
+        // Act
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse());
+
+        // Assert
+        var bucketUpdateLevels = logger.Entries
+            .Where(static entry => entry.Message.StartsWith("Updated the bucket for route"))
+            .Select(static entry => entry.Level);
+
+        Assert.That(bucketUpdateLevels, Is.EqualTo(new[] { LogLevel.Debug }));
     }
 
     [Test]
@@ -2494,6 +2520,57 @@ public class DefaultRestRateLimiterTests
         // Assert
         Assert.That(async () => await cancelledTask.WaitAsync(HangTimeout), Throws.InstanceOf<OperationCanceledException>());
         Assert.That(rateLimiter.BucketCount, Is.Zero);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_SameChannelIdAsUlongAndSnowflake_SharesBucket()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), CreateBucketResponse(remaining: 0, resetAfter: 5));
+
+        // Act
+        var next = ExecuteScriptedRequest(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId.RawValue]));
+        await Task.WhenAny(next.Exchange.Sent, timeProvider.WaitForScheduledTimerCountAsync(1)).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(next.Exchange.Sent.IsCompleted, Is.False);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_BucketExhaustedForOtherGuild_SendsRequest()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Guild.GetRoles.Format([FirstGuildId]), CreateBucketResponse(remaining: 0, resetAfter: 5));
+
+        // Act
+        var next = ExecuteScriptedRequest(requester, rateLimiter, Route.Guild.GetRoles.Format([SecondGuildId]));
+        await Task.WhenAny(next.Exchange.Sent, timeProvider.WaitForScheduledTimerCountAsync(1)).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(next.Exchange.Sent.IsCompleted, Is.True);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_BucketExhaustedForOtherWebhook_SendsRequest()
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Webhook.GetWebhookWithToken.Format([WebhookId, "first-token"]), CreateBucketResponse(remaining: 0, resetAfter: 5));
+
+        // Act
+        var next = ExecuteScriptedRequest(requester, rateLimiter, Route.Webhook.GetWebhookWithToken.Format([SecondWebhookId, "second-token"]));
+        await Task.WhenAny(next.Exchange.Sent, timeProvider.WaitForScheduledTimerCountAsync(1)).WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(next.Exchange.Sent.IsCompleted, Is.True);
     }
 
     [TestCase(4999, true)]

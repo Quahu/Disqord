@@ -12,7 +12,7 @@ public static class RouteParametersExtensions
     /// </summary>
     public static ulong GetGuildId(this IRouteParameters parameters)
     {
-        return parameters.GetValueOrDefault<ulong>("guild_id");
+        return GetIdOrDefault(parameters, "guild_id");
     }
 
     /// <summary>
@@ -20,7 +20,7 @@ public static class RouteParametersExtensions
     /// </summary>
     public static ulong GetChannelId(this IRouteParameters parameters)
     {
-        return parameters.GetValueOrDefault<ulong>("channel_id");
+        return GetIdOrDefault(parameters, "channel_id");
     }
 
     /// <summary>
@@ -28,7 +28,7 @@ public static class RouteParametersExtensions
     /// </summary>
     public static ulong GetWebhookId(this IRouteParameters parameters)
     {
-        return parameters.GetValueOrDefault<ulong>("webhook_id");
+        return GetIdOrDefault(parameters, "webhook_id");
     }
 
     /// <summary>
@@ -53,8 +53,27 @@ public static class RouteParametersExtensions
         if (!parameters.TryGetValue(name, out var value))
             return default;
 
+        return ConvertValue<T>(value);
+    }
+
+    private static ulong GetIdOrDefault(IRouteParameters parameters, string name)
+    {
+        if (!parameters.TryGetValue(name, out var value))
+        {
+            return 0;
+        }
+
+        return value is Snowflake snowflake
+            ? snowflake.RawValue
+            : ConvertValue<ulong>(value);
+    }
+
+    private static T ConvertValue<T>(object value)
+    {
         if (Convert.GetTypeCode(value) == TypeCode.Object)
+        {
             return (T) value;
+        }
 
         return (T) Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
     }
