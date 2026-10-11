@@ -30,6 +30,12 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
     public TimeSpan MaximumDelayDuration { get; }
 
     /// <summary>
+    ///     Gets the maximum combined delay duration the rate-limiter will delay a request for
+    ///     before throwing.
+    /// </summary>
+    public TimeSpan MaximumTotalDelayDuration { get; }
+
+    /// <summary>
     ///     Gets the date at which the global rate-limit is reset.
     /// </summary>
     public DateTimeOffset? GlobalResetsAt
@@ -99,6 +105,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
         var configuration = options.Value;
         Logger = logger;
         MaximumDelayDuration = configuration.MaximumDelayDuration;
+        MaximumTotalDelayDuration = configuration.MaximumTotalDelayDuration;
 
         _binder = new Binder<IRestApiClient>(this);
         _timeProvider = timeProvider;
@@ -502,6 +509,8 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
 
             public Task<IRestResponse> Task => _tcs.Task;
 
+            public TimeSpan TotalDelay { get; set; }
+
             private readonly Tcs<IRestResponse> _tcs;
             private readonly CancellationTokenRegistration _reg;
 
@@ -688,6 +697,16 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
                         return false;
                     }
 
+                    var maximumTotalDelayDuration = options?.MaximumTotalDelayDuration ?? _rateLimiter.MaximumTotalDelayDuration;
+                    var totalDelay = pendingRequest.TotalDelay + delay;
+                    if (Exceeds(totalDelay, maximumTotalDelayDuration))
+                    {
+                        Logger.LogDebug("Route {0} is rate-limited - throwing as the total delay {1} exceeds the maximum total delay duration.", new LoggedRoute(request.Route), totalDelay);
+                        Complete(pendingRequest, new MaximumRateLimitDelayExceededException(request, delay, totalDelay, isGloballyRateLimited));
+                        return false;
+                    }
+
+                    pendingRequest.TotalDelay = totalDelay;
                     Logger.LogDebug("Route {0} is rate-limited - delaying for {1}.", new LoggedRoute(request.Route), delay);
 
                     var roundedUpDelay = TimeSpan.FromMilliseconds(Math.Ceiling(delay.TotalMilliseconds));

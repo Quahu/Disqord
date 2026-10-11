@@ -845,6 +845,130 @@ public class DefaultRestRateLimiterTests
 
     [TestCase(false)]
     [TestCase(true)]
+    public async Task ExecuteAsync_WaitsExceedMaximumTotalDelay_ThrowsWithTotalDelay(bool sendsSameBucketRequestsConcurrently)
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: sendsSameBucketRequestsConcurrently,
+            maximumTotalDelayDuration: TimeSpan.FromSeconds(5));
+
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 3));
+
+        var rateLimited = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(3));
+        await rateLimited.Exchange.Sent.WaitAsync(HangTimeout);
+
+        // Act
+        rateLimited.Exchange.Respond(CreateRateLimitedResponse("user", isGlobal: false, bodyRetryAfter: 3, headerRetryAfter: 3));
+
+        // Assert
+        Assert.That(async () => await rateLimited.Task.WaitAsync(HangTimeout), Throws.TypeOf<MaximumRateLimitDelayExceededException>()
+            .With.Property(nameof(MaximumRateLimitDelayExceededException.Delay)).EqualTo(TimeSpan.FromSeconds(3))
+            .And.Property(nameof(MaximumRateLimitDelayExceededException.TotalDelay)).EqualTo(TimeSpan.FromSeconds(6))
+            .And.Property(nameof(MaximumRateLimitDelayExceededException.IsTotalDelayExceeded)).True);
+    }
+
+    [TestCase(false)]
+    [TestCase(true)]
+    public async Task ExecuteAsync_WaitsWithinRequestMaximumTotalDelay_SendsRequest(bool sendsSameBucketRequestsConcurrently)
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: sendsSameBucketRequestsConcurrently,
+            maximumTotalDelayDuration: TimeSpan.FromSeconds(5));
+
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 3));
+
+        var options = new DefaultRestRequestOptions
+        {
+            MaximumTotalDelayDuration = TimeSpan.FromSeconds(6)
+        };
+
+        var rateLimitedExchange = requester.Script(route);
+        var retriedExchange = requester.Script(route);
+        using var request = new DefaultRestRequest(route, options: options);
+        var task = rateLimiter.ExecuteAsync(request, CancellationToken.None);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(3));
+        await rateLimitedExchange.Sent.WaitAsync(HangTimeout);
+        rateLimitedExchange.Respond(CreateRateLimitedResponse("user", isGlobal: false, bodyRetryAfter: 3, headerRetryAfter: 3));
+        await timeProvider.WaitForScheduledTimerCountAsync(2).WaitAsync(HangTimeout);
+
+        // Act
+        timeProvider.Advance(TimeSpan.FromSeconds(3));
+        await retriedExchange.Sent.WaitAsync(HangTimeout);
+        retriedExchange.Respond(new FakeHttpResponse());
+        var response = await task.WaitAsync(HangTimeout);
+
+        // Assert
+        Assert.That(response.HttpResponse.StatusCode, Is.EqualTo(HttpResponseStatusCode.OK));
+    }
+
+    [TestCase(false)]
+    [TestCase(true)]
+    public async Task ExecuteAsync_ThreeWaitsExceedMaximumTotalDelay_ThrowsWithTotalDelay(bool sendsSameBucketRequestsConcurrently)
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: sendsSameBucketRequestsConcurrently,
+            maximumTotalDelayDuration: TimeSpan.FromSeconds(5));
+
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 2));
+
+        var rateLimited = ExecuteScriptedRequest(requester, rateLimiter, route);
+        var retriedExchange = requester.Script(route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(2));
+        await rateLimited.Exchange.Sent.WaitAsync(HangTimeout);
+        rateLimited.Exchange.Respond(CreateRateLimitedResponse("user", isGlobal: false, bodyRetryAfter: 2, headerRetryAfter: 2));
+        await timeProvider.WaitForScheduledTimerCountAsync(2).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(2));
+        await retriedExchange.Sent.WaitAsync(HangTimeout);
+
+        // Act
+        retriedExchange.Respond(CreateRateLimitedResponse("user", isGlobal: false, bodyRetryAfter: 2, headerRetryAfter: 2));
+
+        // Assert
+        Assert.That(async () => await rateLimited.Task.WaitAsync(HangTimeout), Throws.TypeOf<MaximumRateLimitDelayExceededException>()
+            .With.Property(nameof(MaximumRateLimitDelayExceededException.Delay)).EqualTo(TimeSpan.FromSeconds(2))
+            .And.Property(nameof(MaximumRateLimitDelayExceededException.TotalDelay)).EqualTo(TimeSpan.FromSeconds(6)));
+    }
+
+    [TestCase(false)]
+    [TestCase(true)]
+    public async Task ExecuteAsync_DelayExceedsMaximumAfterEarlierWait_ThrowsWithDelayAsTotalDelay(bool sendsSameBucketRequestsConcurrently)
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new ManualTimeProvider();
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: sendsSameBucketRequestsConcurrently);
+        var route = Route.Channel.CreateMessage.Format([FirstChannelId]);
+        await ExecuteWithResponseAsync(requester, rateLimiter, route, CreateBucketResponse(remaining: 0, resetAfter: 3));
+
+        var rateLimited = ExecuteScriptedRequest(requester, rateLimiter, route);
+        await timeProvider.WaitForScheduledTimerCountAsync(1).WaitAsync(HangTimeout);
+        timeProvider.Advance(TimeSpan.FromSeconds(3));
+        await rateLimited.Exchange.Sent.WaitAsync(HangTimeout);
+
+        // Act
+        rateLimited.Exchange.Respond(CreateRateLimitedResponse("user", isGlobal: false, bodyRetryAfter: 20, headerRetryAfter: 20));
+
+        // Assert
+        Assert.That(async () => await rateLimited.Task.WaitAsync(HangTimeout), Throws.TypeOf<MaximumRateLimitDelayExceededException>()
+            .With.Property(nameof(MaximumRateLimitDelayExceededException.Delay)).EqualTo(TimeSpan.FromSeconds(20))
+            .And.Property(nameof(MaximumRateLimitDelayExceededException.TotalDelay)).EqualTo(TimeSpan.FromSeconds(20))
+            .And.Property(nameof(MaximumRateLimitDelayExceededException.IsTotalDelayExceeded)).False);
+    }
+
+    [TestCase(false)]
+    [TestCase(true)]
     public async Task ExecuteAsync_BucketResetNotWholeMillisecondsAway_KeepsWaitingUntilReset(bool sendsSameBucketRequestsConcurrently)
     {
         // Arrange
@@ -2556,12 +2680,17 @@ public class DefaultRestRateLimiterTests
 
     private static DefaultRestRateLimiter CreateRateLimiter(ScriptedRestRequester requester, TimeProvider timeProvider,
         ILogger<DefaultRestRateLimiter>? logger = null, TimeSpan? bucketCleanupInterval = null, bool? sendsSameBucketRequestsConcurrently = null,
-        Optional<int?> globalRequestsPerSecond = default)
+        Optional<int?> globalRequestsPerSecond = default, TimeSpan? maximumTotalDelayDuration = null)
     {
         var configuration = new DefaultRestRateLimiterConfiguration
         {
             BucketCleanupInterval = bucketCleanupInterval ?? Timeout.InfiniteTimeSpan
         };
+
+        if (maximumTotalDelayDuration != null)
+        {
+            configuration.MaximumTotalDelayDuration = maximumTotalDelayDuration.Value;
+        }
 
         if (sendsSameBucketRequestsConcurrently != null)
         {

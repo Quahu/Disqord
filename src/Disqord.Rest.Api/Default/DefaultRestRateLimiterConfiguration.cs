@@ -11,6 +11,12 @@ public class DefaultRestRateLimiterConfiguration
     public virtual TimeSpan MaximumDelayDuration { get; set; } = TimeSpan.FromSeconds(10);
 
     /// <summary>
+    ///     Gets or sets the maximum combined rate-limit delay of a request allowed before throwing an exception.
+    ///     Defaults to <see cref="System.Threading.Timeout.InfiniteTimeSpan"/>, which does not limit it.
+    /// </summary>
+    public virtual TimeSpan MaximumTotalDelayDuration { get; set; } = System.Threading.Timeout.InfiniteTimeSpan;
+
+    /// <summary>
     ///     Gets or sets the interval at which idle buckets whose rate-limits have reset are removed.
     ///     Set to <see cref="System.Threading.Timeout.InfiniteTimeSpan"/> to disable the removal.
     ///     Defaults to <c>10</c> minutes.

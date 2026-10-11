@@ -72,4 +72,12 @@ public class DefaultRestRequestOptions : IRestRequestOptions
     ///     If set, this overrides the <see cref="DefaultRestRateLimiter.MaximumDelayDuration"/>.
     /// </remarks>
     public TimeSpan? MaximumDelayDuration { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the maximum combined rate-limit delay allowed before throwing an exception.
+    /// </summary>
+    /// <remarks>
+    ///     If set, this overrides the <see cref="DefaultRestRateLimiter.MaximumTotalDelayDuration"/>.
+    /// </remarks>
+    public TimeSpan? MaximumTotalDelayDuration { get; set; }
 }
