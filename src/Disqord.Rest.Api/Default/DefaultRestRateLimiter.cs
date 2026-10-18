@@ -742,6 +742,7 @@ public sealed class DefaultRestRateLimiter : IRestRateLimiter, IDisposable
                     return false;
                 }
 
+                pendingRequest.CancellationToken.ThrowIfCancellationRequested();
                 if (_sendsConcurrently)
                 {
                     if (MustWaitForResponse(now))

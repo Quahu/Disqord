@@ -2367,6 +2367,38 @@ public class DefaultRestRateLimiterTests
         Assert.That(async () => await last.Task.WaitAsync(HangTimeout), Throws.Nothing);
     }
 
+    [TestCase(false)]
+    [TestCase(true)]
+    public async Task ExecuteAsync_RequestCancelledWhileTakingFreeSlot_DoesNotTakeNextRequestsTurn(bool sendsSameBucketRequestsConcurrently)
+    {
+        // Arrange
+        var requester = new ScriptedRestRequester();
+        var timeProvider = new GatedTimeProvider(new ManualTimeProvider());
+        var rateLimiter = CreateRateLimiter(requester, timeProvider, sendsSameBucketRequestsConcurrently: sendsSameBucketRequestsConcurrently);
+        await ExecuteWithResponseAsync(requester, rateLimiter, Route.Channel.CreateMessage.Format([FirstChannelId]), CreateBucketResponse(remaining: 4));
+        var route = Route.Channel.CreateMessage.Format([SecondChannelId]);
+        var nextExchange = requester.Script(route);
+
+        using var cancellationTokenSource = new CancellationTokenSource();
+        using var cancelledRequest = new DefaultRestRequest(route);
+        timeProvider.Arm();
+        var cancelledTask = rateLimiter.ExecuteAsync(cancelledRequest, cancellationTokenSource.Token);
+        await timeProvider.Blocked.WaitAsync(HangTimeout);
+        await cancellationTokenSource.CancelAsync();
+        timeProvider.Release();
+
+        using var nextRequest = new DefaultRestRequest(route);
+        var nextTask = rateLimiter.ExecuteAsync(nextRequest, CancellationToken.None);
+
+        // Act
+        await nextExchange.Sent.WaitAsync(HangTimeout);
+        nextExchange.Respond(new FakeHttpResponse());
+
+        // Assert
+        Assert.That(async () => await cancelledTask.WaitAsync(HangTimeout), Throws.InstanceOf<OperationCanceledException>());
+        Assert.That(async () => await nextTask.WaitAsync(HangTimeout), Throws.Nothing);
+    }
+
     [Test]
     public async Task ExecuteAsync_ConcurrentRequestWaitingForSlotWhenEarlierResponseRaisesLimit_SendsRequest()
     {
