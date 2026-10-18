@@ -28,13 +28,14 @@ public class DefaultGatewayRateLimiterTests
 
         var presenceBefore = rateLimiter.GetRemainingRequests(GatewayPayloadOperation.UpdatePresence);
 
-        using var cts = new CancellationTokenSource();
-        cts.CancelAfter(TimeSpan.FromMilliseconds(50));
+        using var cancellationTokenSource = new CancellationTokenSource();
+        var waitTask = rateLimiter.WaitAsync(GatewayPayloadOperation.UpdatePresence, cancellationTokenSource.Token);
 
         // Act
-        Assert.That(async () => await rateLimiter.WaitAsync(GatewayPayloadOperation.UpdatePresence, cts.Token), Throws.InstanceOf<OperationCanceledException>());
+        await cancellationTokenSource.CancelAsync();
 
         // Assert
+        Assert.That(async () => await waitTask, Throws.InstanceOf<OperationCanceledException>());
         Assert.That(rateLimiter.GetRemainingRequests(GatewayPayloadOperation.UpdatePresence), Is.EqualTo(presenceBefore));
     }
 
